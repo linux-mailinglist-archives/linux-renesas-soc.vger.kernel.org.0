@@ -2,441 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA1A6901FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 09:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 285D4690248
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 09:38:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjBIIRw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 03:17:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
+        id S229674AbjBIIiD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 03:38:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjBIIRt (ORCPT
+        with ESMTP id S229569AbjBIIh6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 03:17:49 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C24E38B54;
-        Thu,  9 Feb 2023 00:17:47 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.97,283,1669042800"; 
-   d="scan'208";a="152222923"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Feb 2023 17:17:43 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8FC2140134F8;
-        Thu,  9 Feb 2023 17:17:43 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v3 4/4] net: renesas: rswitch: Improve TX timestamp accuracy
-Date:   Thu,  9 Feb 2023 17:17:41 +0900
-Message-Id: <20230209081741.2536034-5-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230209081741.2536034-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230209081741.2536034-1-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 9 Feb 2023 03:37:58 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7A3518D3;
+        Thu,  9 Feb 2023 00:37:46 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 30095100004;
+        Thu,  9 Feb 2023 08:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1675931865;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=z/E4jLCbMGwWDkGl/b6D6gDfcru5J7/41TQ0OJTd3bw=;
+        b=eA19dv1Vh9kq+EWGy1aBxcb8E6dEv11+UTZmUbY7ZLiHexxq6g9F08BJVzMtCLsTn9kZ7H
+        LfyOpaZqaGRe4rVuhMp+PkYFpRZjPpGuZ+tu24q2U1ig2g7b3QqQUH67tB4ULePJPsTIWT
+        3cZIikv86LaaP2d1VJP5ToeRBRF3C/Dr6Jb8wt1iYAqsEQROt3TJuI/jw7ikXOYzZKgts2
+        hAVr9pZfS3egQjeVaC31wofKCl1ll1bXSJfWEmvgfd+M8NwGKk6UBYEWdEGD3WFgGvYQ0j
+        bwKyJSYdkIDj57QFzsF4lJZQYwJstdwwTiTTUnwmeZ8ewvIUNWt1MTpzxAeCsQ==
+Date:   Thu, 9 Feb 2023 09:40:06 +0100
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/3] net: dsa: rzn1-a5psw: use
+ a5psw_reg_rmw() to modify flooding resolution
+Message-ID: <20230209094006.66ce1409@fixe.home>
+In-Reply-To: <20230208213757.iyofbkmvww6r4luy@skbuf>
+References: <20230208161749.331965-1-clement.leger@bootlin.com>
+        <20230208161749.331965-2-clement.leger@bootlin.com>
+        <20230208213757.iyofbkmvww6r4luy@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In the previous code, TX timestamp accuracy was bad because the irq
-handler got the timestamp from the timestamp register at that time.
+Le Wed, 8 Feb 2023 23:37:57 +0200,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-This hardware has "Timestamp capture" feature which can store
-each TX timestamp into the timestamp descriptors. To improve
-TX timestamp accuracy, implement timestamp descriptors' handling.
+> On Wed, Feb 08, 2023 at 05:17:47PM +0100, Cl=C3=A9ment L=C3=A9ger wrote:
+> > .port_bridge_flags will be added and allows to modify the flood mask
+> > independently for each port. Keeping the existing bridged_ports write
+> > in a5psw_flooding_set_resolution() would potentially messed up this.
+> > Use a read-modify-write to set that value and move bridged_ports
+> > handling in bridge_port_join/leave.
+> >=20
+> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+> > ---
+> >  drivers/net/dsa/rzn1_a5psw.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
+> > index 919027cf2012..8b7d4a371f8b 100644
+> > --- a/drivers/net/dsa/rzn1_a5psw.c
+> > +++ b/drivers/net/dsa/rzn1_a5psw.c
+> > @@ -299,13 +299,9 @@ static void a5psw_flooding_set_resolution(struct a=
+5psw *a5psw, int port,
+> >  			A5PSW_MCAST_DEF_MASK};
+> >  	int i;
+> > =20
+> > -	if (set)
+> > -		a5psw->bridged_ports |=3D BIT(port);
+> > -	else
+> > -		a5psw->bridged_ports &=3D ~BIT(port);
+> > -
+> >  	for (i =3D 0; i < ARRAY_SIZE(offsets); i++)
+> > -		a5psw_reg_writel(a5psw, offsets[i], a5psw->bridged_ports);
+> > +		a5psw_reg_rmw(a5psw, offsets[i], BIT(port),
+> > +			      set ? BIT(port) : 0);
+> >  }
+> > =20
+> >  static int a5psw_port_bridge_join(struct dsa_switch *ds, int port,
+> > @@ -326,6 +322,8 @@ static int a5psw_port_bridge_join(struct dsa_switch=
+ *ds, int port,
+> >  	a5psw_flooding_set_resolution(a5psw, port, true);
+> >  	a5psw_port_mgmtfwd_set(a5psw, port, false);
+> > =20
+> > +	a5psw->bridged_ports |=3D BIT(port);
+> > +
+> >  	return 0;
+> >  }
+> > =20
+> > @@ -334,6 +332,8 @@ static void a5psw_port_bridge_leave(struct dsa_swit=
+ch *ds, int port,
+> >  {
+> >  	struct a5psw *a5psw =3D ds->priv;
+> > =20
+> > +	a5psw->bridged_ports &=3D ~BIT(port);
+> > +
+> >  	a5psw_flooding_set_resolution(a5psw, port, false);
+> >  	a5psw_port_mgmtfwd_set(a5psw, port, true);
+> > =20
+> > --=20
+> > 2.39.0
+> >  =20
+>=20
+> What about the a5psw_flooding_set_resolution() call for the CPU port, fro=
+m a5psw_setup()?
+> Isn't this an undocumented change? Does this logic in a5psw_port_bridge_l=
+eave() still work,
+> now that bridged_ports will no longer contain BIT(A5PSW_CPU_PORT)?
+>=20
+> 	/* No more ports bridged */
+> 	if (a5psw->bridged_ports =3D=3D BIT(A5PSW_CPU_PORT))
+> 		a5psw->br_dev =3D NULL;
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 166 ++++++++++++++++++++++---
- drivers/net/ethernet/renesas/rswitch.h |  35 +++++-
- 2 files changed, 179 insertions(+), 22 deletions(-)
+You are right, this actually disallow to create a bridge multiple
+times. I'll fix that.
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index e408d10184e8..853394e5bb8b 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -123,13 +123,6 @@ static void rswitch_fwd_init(struct rswitch_private *priv)
- 	iowrite32(GENMASK(RSWITCH_NUM_PORTS - 1, 0), priv->addr + FWPBFC(priv->gwca.index));
- }
- 
--/* gPTP timer (gPTP) */
--static void rswitch_get_timestamp(struct rswitch_private *priv,
--				  struct timespec64 *ts)
--{
--	priv->ptp_priv->info.gettime64(&priv->ptp_priv->info, ts);
--}
--
- /* Gateway CPU agent block (GWCA) */
- static int rswitch_gwca_change_mode(struct rswitch_private *priv,
- 				    enum rswitch_gwca_mode mode)
-@@ -299,6 +292,16 @@ static void rswitch_gwca_queue_free(struct net_device *ndev,
- 	gq->skbs = NULL;
- }
- 
-+static void rswitch_gwca_ts_queue_free(struct rswitch_private *priv)
-+{
-+	struct rswitch_gwca_queue *gq = &priv->gwca.ts_queue;
-+
-+	dma_free_coherent(&priv->pdev->dev,
-+			  sizeof(struct rswitch_ts_desc) * (gq->ring_size + 1),
-+			  gq->ts_ring, gq->ring_dma);
-+	gq->ts_ring = NULL;
-+}
-+
- static int rswitch_gwca_queue_alloc(struct net_device *ndev,
- 				    struct rswitch_private *priv,
- 				    struct rswitch_gwca_queue *gq,
-@@ -344,6 +347,17 @@ static int rswitch_gwca_queue_alloc(struct net_device *ndev,
- 	return -ENOMEM;
- }
- 
-+static int rswitch_gwca_ts_queue_alloc(struct rswitch_private *priv)
-+{
-+	struct rswitch_gwca_queue *gq = &priv->gwca.ts_queue;
-+
-+	gq->ring_size = TS_RING_SIZE;
-+	gq->ts_ring = dma_alloc_coherent(&priv->pdev->dev,
-+					 sizeof(struct rswitch_ts_desc) *
-+					 (gq->ring_size + 1), &gq->ring_dma, GFP_KERNEL);
-+	return !gq->ts_ring ? -ENOMEM : 0;
-+}
-+
- static void rswitch_desc_set_dptr(struct rswitch_desc *desc, dma_addr_t addr)
- {
- 	desc->dptrl = cpu_to_le32(lower_32_bits(addr));
-@@ -405,6 +419,20 @@ static int rswitch_gwca_queue_format(struct net_device *ndev,
- 	return -ENOMEM;
- }
- 
-+static void rswitch_gwca_ts_queue_fill(struct rswitch_private *priv,
-+				       int start_index, int num)
-+{
-+	struct rswitch_gwca_queue *gq = &priv->gwca.ts_queue;
-+	struct rswitch_ts_desc *desc;
-+	int i, index;
-+
-+	for (i = 0; i < num; i++) {
-+		index = (i + start_index) % gq->ring_size;
-+		desc = &gq->ts_ring[index];
-+		desc->desc.die_dt = DT_FEMPTY_ND | DIE;
-+	}
-+}
-+
- static int rswitch_gwca_queue_ext_ts_fill(struct net_device *ndev,
- 					  struct rswitch_gwca_queue *gq,
- 					  int start_index, int num)
-@@ -618,6 +646,9 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- 	iowrite32(0, priv->addr + GWTTFC);
- 	iowrite32(lower_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC1);
- 	iowrite32(upper_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC0);
-+	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC10);
-+	iowrite32(upper_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC00);
-+	iowrite32(GWCA_TS_IRQ_BIT, priv->addr + GWTSDCC0);
- 	rswitch_gwca_set_rate_limit(priv, priv->gwca.speed);
- 
- 	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
-@@ -744,15 +775,6 @@ static int rswitch_tx_free(struct net_device *ndev, bool free_txed_only)
- 		size = le16_to_cpu(desc->desc.info_ds) & TX_DS;
- 		skb = gq->skbs[gq->dirty];
- 		if (skb) {
--			if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
--				struct skb_shared_hwtstamps shhwtstamps;
--				struct timespec64 ts;
--
--				rswitch_get_timestamp(rdev->priv, &ts);
--				memset(&shhwtstamps, 0, sizeof(shhwtstamps));
--				shhwtstamps.hwtstamp = timespec64_to_ktime(ts);
--				skb_tstamp_tx(skb, &shhwtstamps);
--			}
- 			dma_addr = rswitch_desc_get_dptr(&desc->desc);
- 			dma_unmap_single(ndev->dev.parent, dma_addr,
- 					 size, DMA_TO_DEVICE);
-@@ -878,6 +900,73 @@ static int rswitch_gwca_request_irqs(struct rswitch_private *priv)
- 	return 0;
- }
- 
-+static void rswitch_ts(struct rswitch_private *priv)
-+{
-+	struct rswitch_gwca_queue *gq = &priv->gwca.ts_queue;
-+	struct rswitch_gwca_ts_info *ts_info, *ts_info2;
-+	struct skb_shared_hwtstamps shhwtstamps;
-+	struct rswitch_ts_desc *desc;
-+	struct timespec64 ts;
-+	u32 tag, port;
-+	int num;
-+
-+	desc = &gq->ts_ring[gq->cur];
-+	while ((desc->desc.die_dt & DT_MASK) != DT_FEMPTY_ND) {
-+		dma_rmb();
-+
-+		port = TS_DESC_DPN(__le32_to_cpu(desc->desc.dptrl));
-+		tag = TS_DESC_TSUN(__le32_to_cpu(desc->desc.dptrl));
-+
-+		list_for_each_entry_safe(ts_info, ts_info2, &priv->gwca.ts_info_list, list) {
-+			if (!(ts_info->port == port && ts_info->tag == tag))
-+				continue;
-+
-+			memset(&shhwtstamps, 0, sizeof(shhwtstamps));
-+			ts.tv_sec = __le32_to_cpu(desc->ts_sec);
-+			ts.tv_nsec = __le32_to_cpu(desc->ts_nsec & cpu_to_le32(0x3fffffff));
-+			shhwtstamps.hwtstamp = timespec64_to_ktime(ts);
-+			skb_tstamp_tx(ts_info->skb, &shhwtstamps);
-+			dev_consume_skb_irq(ts_info->skb);
-+			list_del(&ts_info->list);
-+			kfree(ts_info);
-+			break;
-+		}
-+
-+		gq->cur = rswitch_next_queue_index(gq, true, 1);
-+		desc = &gq->ts_ring[gq->cur];
-+	}
-+
-+	num = rswitch_get_num_cur_queues(gq);
-+	rswitch_gwca_ts_queue_fill(priv, gq->dirty, num);
-+	gq->dirty = rswitch_next_queue_index(gq, false, num);
-+}
-+
-+static irqreturn_t rswitch_gwca_ts_irq(int irq, void *dev_id)
-+{
-+	struct rswitch_private *priv = dev_id;
-+
-+	if (ioread32(priv->addr + GWTSDIS) & GWCA_TS_IRQ_BIT) {
-+		iowrite32(GWCA_TS_IRQ_BIT, priv->addr + GWTSDIS);
-+		rswitch_ts(priv);
-+
-+		return IRQ_HANDLED;
-+	}
-+
-+	return IRQ_NONE;
-+}
-+
-+static int rswitch_gwca_ts_request_irqs(struct rswitch_private *priv)
-+{
-+	int irq;
-+
-+	irq = platform_get_irq_byname(priv->pdev, GWCA_TS_IRQ_RESOURCE_NAME);
-+	if (irq < 0)
-+		return irq;
-+
-+	return devm_request_irq(&priv->pdev->dev, irq, rswitch_gwca_ts_irq,
-+				0, GWCA_TS_IRQ_NAME, priv);
-+}
-+
- /* Ethernet TSN Agent block (ETHA) and Ethernet MAC IP block (RMAC) */
- static int rswitch_etha_change_mode(struct rswitch_etha *etha,
- 				    enum rswitch_etha_mode mode)
-@@ -1348,15 +1437,28 @@ static int rswitch_open(struct net_device *ndev)
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, true);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, true);
- 
-+	iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDIE);
-+
- 	return 0;
- };
- 
- static int rswitch_stop(struct net_device *ndev)
- {
- 	struct rswitch_device *rdev = netdev_priv(ndev);
-+	struct rswitch_gwca_ts_info *ts_info, *ts_info2;
- 
- 	netif_tx_stop_all_queues(ndev);
- 
-+	iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDID);
-+
-+	list_for_each_entry_safe(ts_info, ts_info2, &rdev->priv->gwca.ts_info_list, list) {
-+		if (ts_info->port != rdev->port)
-+			continue;
-+		dev_kfree_skb_irq(ts_info->skb);
-+		list_del(&ts_info->list);
-+		kfree(ts_info);
-+	}
-+
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, false);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, false);
- 
-@@ -1395,11 +1497,25 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
- 
- 	desc->info1 = cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) | INFO1_FMT);
- 	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
-+		struct rswitch_gwca_ts_info *ts_info;
-+
-+		ts_info = kzalloc(sizeof(*ts_info), GFP_ATOMIC);
-+		if (!ts_info) {
-+			dma_unmap_single(ndev->dev.parent, dma_addr, skb->len, DMA_TO_DEVICE);
-+			return -ENOMEM;
-+		}
-+
- 		skb_shinfo(skb)->tx_flags |= SKBTX_IN_PROGRESS;
- 		rdev->ts_tag++;
- 		desc->info1 |= cpu_to_le64(INFO1_TSUN(rdev->ts_tag) | INFO1_TXC);
-+
-+		ts_info->skb = skb_get(skb);
-+		ts_info->port = rdev->port;
-+		ts_info->tag = rdev->ts_tag;
-+		list_add_tail(&ts_info->list, &rdev->priv->gwca.ts_info_list);
-+
-+		skb_tx_timestamp(skb);
- 	}
--	skb_tx_timestamp(skb);
- 
- 	dma_wmb();
- 
-@@ -1653,6 +1769,13 @@ static int rswitch_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		return -ENOMEM;
- 
-+	err = rswitch_gwca_ts_queue_alloc(priv);
-+	if (err < 0)
-+		goto err_ts_queue_alloc;
-+
-+	rswitch_gwca_ts_queue_fill(priv, 0, TS_RING_SIZE);
-+	INIT_LIST_HEAD(&priv->gwca.ts_info_list);
-+
- 	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
- 		err = rswitch_device_alloc(priv, i);
- 		if (err < 0) {
-@@ -1673,6 +1796,10 @@ static int rswitch_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		goto err_gwca_request_irq;
- 
-+	err = rswitch_gwca_ts_request_irqs(priv);
-+	if (err < 0)
-+		goto err_gwca_ts_request_irq;
-+
- 	err = rswitch_gwca_hw_init(priv);
- 	if (err < 0)
- 		goto err_gwca_hw_init;
-@@ -1703,6 +1830,7 @@ static int rswitch_init(struct rswitch_private *priv)
- 	rswitch_gwca_hw_deinit(priv);
- 
- err_gwca_hw_init:
-+err_gwca_ts_request_irq:
- err_gwca_request_irq:
- 	rcar_gen4_ptp_unregister(priv->ptp_priv);
- 
-@@ -1711,6 +1839,9 @@ static int rswitch_init(struct rswitch_private *priv)
- 		rswitch_device_free(priv, i);
- 
- err_device_alloc:
-+	rswitch_gwca_ts_queue_free(priv);
-+
-+err_ts_queue_alloc:
- 	rswitch_gwca_linkfix_free(priv);
- 
- 	return err;
-@@ -1790,6 +1921,7 @@ static void rswitch_deinit(struct rswitch_private *priv)
- 		rswitch_device_free(priv, i);
- 	}
- 
-+	rswitch_gwca_ts_queue_free(priv);
- 	rswitch_gwca_linkfix_free(priv);
- 
- 	rswitch_clock_disable(priv);
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index ee36e8e896d2..27d3d38c055f 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -27,6 +27,7 @@
- 
- #define TX_RING_SIZE		1024
- #define RX_RING_SIZE		1024
-+#define TS_RING_SIZE		(TX_RING_SIZE * RSWITCH_NUM_PORTS)
- 
- #define PKT_BUF_SZ		1584
- #define RSWITCH_ALIGN		128
-@@ -49,6 +50,10 @@
- #define AGENT_INDEX_GWCA	3
- #define GWRO			RSWITCH_GWCA0_OFFSET
- 
-+#define GWCA_TS_IRQ_RESOURCE_NAME	"gwca0_rxts0"
-+#define GWCA_TS_IRQ_NAME		"rswitch: gwca0_rxts0"
-+#define GWCA_TS_IRQ_BIT			BIT(0)
-+
- #define FWRO	0
- #define TPRO	RSWITCH_TOP_OFFSET
- #define CARO	RSWITCH_COMA_OFFSET
-@@ -831,7 +836,7 @@ enum DIE_DT {
- 	DT_FSINGLE	= 0x80,
- 	DT_FSTART	= 0x90,
- 	DT_FMID		= 0xa0,
--	DT_FEND		= 0xb8,
-+	DT_FEND		= 0xb0,
- 
- 	/* Chain control */
- 	DT_LEMPTY	= 0xc0,
-@@ -843,7 +848,7 @@ enum DIE_DT {
- 	DT_FEMPTY	= 0x40,
- 	DT_FEMPTY_IS	= 0x10,
- 	DT_FEMPTY_IC	= 0x20,
--	DT_FEMPTY_ND	= 0x38,
-+	DT_FEMPTY_ND	= 0x30,
- 	DT_FEMPTY_START	= 0x50,
- 	DT_FEMPTY_MID	= 0x60,
- 	DT_FEMPTY_END	= 0x70,
-@@ -865,6 +870,12 @@ enum DIE_DT {
- /* For reception */
- #define INFO1_SPN(port)		((u64)(port) << 36ULL)
- 
-+/* For timestamp descriptor in dptrl (Byte 4 to 7) */
-+#define TS_DESC_TSUN(dptrl)	((dptrl) & GENMASK(7, 0))
-+#define TS_DESC_SPN(dptrl)	(((dptrl) & GENMASK(10, 8)) >> 8)
-+#define TS_DESC_DPN(dptrl)	(((dptrl) & GENMASK(17, 16)) >> 16)
-+#define TS_DESC_TN(dptrl)	((dptrl) & BIT(24))
-+
- struct rswitch_desc {
- 	__le16 info_ds;	/* Descriptor size */
- 	u8 die_dt;	/* Descriptor interrupt enable and type */
-@@ -911,21 +922,33 @@ struct rswitch_etha {
-  * name, this driver calls "queue".
-  */
- struct rswitch_gwca_queue {
--	int index;
--	bool dir_tx;
- 	union {
- 		struct rswitch_ext_desc *tx_ring;
- 		struct rswitch_ext_ts_desc *rx_ring;
-+		struct rswitch_ts_desc *ts_ring;
- 	};
-+
-+	/* Common */
- 	dma_addr_t ring_dma;
- 	int ring_size;
- 	int cur;
- 	int dirty;
--	struct sk_buff **skbs;
- 
-+	/* For [rt]_ring */
-+	int index;
-+	bool dir_tx;
-+	struct sk_buff **skbs;
- 	struct net_device *ndev;	/* queue to ndev for irq */
- };
- 
-+struct rswitch_gwca_ts_info {
-+	struct sk_buff *skb;
-+	struct list_head list;
-+
-+	int port;
-+	u8 tag;
-+};
-+
- #define RSWITCH_NUM_IRQ_REGS	(RSWITCH_MAX_NUM_QUEUES / BITS_PER_TYPE(u32))
- struct rswitch_gwca {
- 	int index;
-@@ -934,6 +957,8 @@ struct rswitch_gwca {
- 	u32 linkfix_table_size;
- 	struct rswitch_gwca_queue *queues;
- 	int num_queues;
-+	struct rswitch_gwca_queue ts_queue;
-+	struct list_head ts_info_list;
- 	DECLARE_BITMAP(used, RSWITCH_MAX_NUM_QUEUES);
- 	u32 tx_irq_bits[RSWITCH_NUM_IRQ_REGS];
- 	u32 rx_irq_bits[RSWITCH_NUM_IRQ_REGS];
--- 
-2.25.1
-
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
