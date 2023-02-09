@@ -2,118 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE806690270
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 09:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EE2B690298
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 09:56:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbjBIIsZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 03:48:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57790 "EHLO
+        id S229642AbjBII4V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 03:56:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjBIIsZ (ORCPT
+        with ESMTP id S229817AbjBII4S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 03:48:25 -0500
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D2D47436;
-        Thu,  9 Feb 2023 00:48:23 -0800 (PST)
-Received: by mail-qt1-f179.google.com with SMTP id w3so1145552qts.7;
-        Thu, 09 Feb 2023 00:48:23 -0800 (PST)
+        Thu, 9 Feb 2023 03:56:18 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F820552AC
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Feb 2023 00:56:13 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id d14so1002068wrr.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Feb 2023 00:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vHXX9qLhodXXJcCyIc4Vb3hchdgHIWSikItEAmQCVMQ=;
+        b=g2Tfj7rKtBD1AuogPIrMy5aMbYbFNiM++NPZVSP0TI1bU+NHwBROucFRpRHScfM2e4
+         BLoraHq/ID3W7xW/xQRcHr7F+/mXzcmnP+m0adgIEZ3mLLn5UEu6bOVBPsAH48CIl789
+         Jahr/klPPCXsU2jDrL2Elz/hogFAX/dDqpOeH6NgVycdWprmDSTqNxZRdiv8TKhgCgiS
+         ZqRv/+KHPODXGI+x3dv04BHntUEoq8fzvX0ClbaecaHpA0wu5DEF1D4qkJfFbpRktKZo
+         bhtXdwmHnmo4aQSyRww0HCirCFY8wUUvBCI60Dinb/B6IG9Y1AEYaFbAGSe6ywkkUY7G
+         pLyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qRakTzAhZgdoRP04VGp/CF8zi2ym1rVkoURybx362LI=;
-        b=K89vUrlk8n3XLJHbZzwvoDX2m4Y635vA0qXgrNk4KvA0Bm85LpaAOEp6GD3AkVsWTK
-         j90KjWPVHWjDCsBaOZiGpFAMoJpMa6qiXYVfeifStJ3pWrIrLMes0/fxOy+iQHxH1jb9
-         lZkayRySfaJuCRFLchMmgFSGw9hfawzdtY7YzWgBtDPIezeLo0nOipK+4ZJeg/8o661t
-         kNU7Z94jr9wtNrEYbcgqBwpwmHXjL8T7XTe3YVTlsllN6Eml5ia+u5dPsJ1BUS8bDCus
-         QZDD+tyaQ82ERMY8UpEMD01MkRBfZbg0Teo/cuKYX2B/LwNsQzy8zKAxCC/5EHpM6nrY
-         qZeQ==
-X-Gm-Message-State: AO0yUKU3K5/t7A2XdghyIKgwXZ7xQSQt4VTKZchM1QQiIPhCSpBxe1nY
-        HQ6o5GeC16iyQKKGVa15aHt36zgofZVLBQ==
-X-Google-Smtp-Source: AK7set9dHhWZn0eA+TCM2kNsefSZOGTM50enzjkapGNVc/T8PrmmDUx4DvUAFi/W1o1ir27Q4jL8pg==
-X-Received: by 2002:ac8:5cce:0:b0:3b9:a777:3d9a with SMTP id s14-20020ac85cce000000b003b9a7773d9amr18616575qta.44.1675932502689;
-        Thu, 09 Feb 2023 00:48:22 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id m3-20020ac807c3000000b003b848759ed8sm854371qth.47.2023.02.09.00.48.22
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vHXX9qLhodXXJcCyIc4Vb3hchdgHIWSikItEAmQCVMQ=;
+        b=J9MeREPk9POV82hLtXFwF0dkHIAX6ndbAGwdOMO0AZTbO7dvxLqvSq419f36zIvNvO
+         pEG7MmC0FUQoP2FKni8F2DnY7a6TvLUK+isAvzeSwT/NTLOh9fHqjGrxdtG2/RiFDVnw
+         0gUyxQcfhOKeufo3bg/4vkyn9Ebj3xjkAOa7FoL5vQwKGomBJzTDFWXsSmesfWWgA+7o
+         RWTLnDU0dGbOrgl7qGbKx3ccoOHy/aO/b3Ta1zYIvCtXDkqAJu5EGuwiDhvRI27QL7op
+         7uPmJ0UIZ3ff/45v37227pWbGcjqvTnA+G43AB7FMClYeh3OsuuUBtfg3/ZVbWAzzMyT
+         dDSQ==
+X-Gm-Message-State: AO0yUKV/XQx/5QWBlDg4cNQ/TjRH1bkb9UgqzxpBUtloYTuKlGfPwSAl
+        c5UABgQ4amfu4RHSiZZRUymFYw==
+X-Google-Smtp-Source: AK7set95IUJycacSsfuYlNaj8SvE/JO9E7p9MGBwzi5qVRVbawo9mppg1aUUqxY0a9BTuH9/G4LRJA==
+X-Received: by 2002:a05:6000:1003:b0:2c4:745:13b8 with SMTP id a3-20020a056000100300b002c4074513b8mr2640568wrx.42.1675932972215;
+        Thu, 09 Feb 2023 00:56:12 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id t2-20020adfe102000000b002c3f280bdc7sm711008wrz.96.2023.02.09.00.56.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Feb 2023 00:48:22 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id 184so1499146ybw.5;
-        Thu, 09 Feb 2023 00:48:22 -0800 (PST)
-X-Received: by 2002:a05:6902:1c2:b0:89c:b633:73a6 with SMTP id
- u2-20020a05690201c200b0089cb63373a6mr1044164ybh.365.1675932501823; Thu, 09
- Feb 2023 00:48:21 -0800 (PST)
+        Thu, 09 Feb 2023 00:56:11 -0800 (PST)
+Message-ID: <e2587e59-c735-0328-2695-96048ad77836@linaro.org>
+Date:   Thu, 9 Feb 2023 09:56:10 +0100
 MIME-Version: 1.0
-References: <20230207145444.166950-1-clement.leger@bootlin.com> <20230207145444.166950-2-clement.leger@bootlin.com>
-In-Reply-To: <20230207145444.166950-2-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Feb 2023 09:48:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVL1YGnX4X2R_O1tMhRt07R8XUD2eWeFFgTcm7ShZrdcg@mail.gmail.com>
-Message-ID: <CAMuHMdVL1YGnX4X2R_O1tMhRt07R8XUD2eWeFFgTcm7ShZrdcg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: soc: renesas: renesas.yaml: add
- renesas,rzn1d400-eb compatible
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/2] ARM: dts: r9a06g032: add EB board device-tree
+Content-Language: en-US
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20230207145444.166950-1-clement.leger@bootlin.com>
+ <20230207145444.166950-3-clement.leger@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230207145444.166950-3-clement.leger@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
-
-On Tue, Feb 7, 2023 at 3:52 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> Add "renesas,rzn1d400-eb" which target the RZ/N1 EB board when a RZ/N1D-DB
-> daughter board is plugged on it.
->
+On 07/02/2023 15:54, Clément Léger wrote:
+> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
+> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
+> It adds support for the 2 additional switch ports (port C and D) that are
+> available on that board.
+> 
 > Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -431,6 +431,12 @@ properties:
->                - renesas,rzn1d400-db # RZN1D-DB (RZ/N1D Demo Board for the RZ/N1D 400 pins package)
->            - const: renesas,r9a06g032
->
-> +      - description: RZ/N1{D,S} EB
-> +        items:
-> +          - enum:
-> +              - renesas,rzn1d400-eb # RZN1D-EB (Expansion Board when using a RZN1D-DB)
-> +          - const: renesas,r9a06g032
-
-Don't you want to have "renesas,rzn1d400-db", too, in between the two
-other values?
-
+> ---
+>  arch/arm/boot/dts/Makefile                  |  1 +
+>  arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts | 92 +++++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
+> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index d08a3c450ce7..8938db01e939 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1123,6 +1123,7 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
+>  	r8a7794-alt.dtb \
+>  	r8a7794-silk.dtb \
+>  	r9a06g032-rzn1d400-db.dtb \
+> +	r9a06g032-rzn1d400-eb.dtb \
+>  	sh73a0-kzm9g.dtb
+>  dtb-$(CONFIG_ARCH_ROCKCHIP) += \
+>  	rv1108-elgin-r1.dtb \
+> diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
+> new file mode 100644
+> index 000000000000..e986b6d2fd6f
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
+> @@ -0,0 +1,92 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the RZN1D-EB Board
+> + *
+> + * Copyright (C) 2023 Schneider-Electric
+> + *
+> + */
 > +
->        - description: RZ/Five and RZ/G2UL (R9A07G043)
->          items:
->            - enum:
+> +#include "r9a06g032-rzn1d400-db.dts"
+> +
+> +/ {
+> +	model = "RZN1D-EB Board";
+> +	compatible = "renesas,rzn1d400-eb", "renesas,r9a06g032";
+> +};
+> +
+> +&mii_conv2 {
+> +	renesas,miic-input = <MIIC_SWITCH_PORTD>;
+> +	status = "okay";
+> +};
+> +
+> +&mii_conv3 {
+> +	renesas,miic-input = <MIIC_SWITCH_PORTC>;
+> +	status = "okay";
+> +};
+> +
+> +&pinctrl{
+> +	pins_eth1: pins_eth1 {
 
-Gr{oetje,eeting}s,
+No underscores in node names, unless you override existing node with
+such underscore.
 
-                        Geert
+Best regards,
+Krzysztof
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
