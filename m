@@ -2,129 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 118D169061D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 12:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9777A69095B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 13:57:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbjBILIw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 06:08:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
+        id S229868AbjBIM5I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 07:57:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbjBILIv (ORCPT
+        with ESMTP id S229869AbjBIM5H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 06:08:51 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC4631207B;
-        Thu,  9 Feb 2023 03:08:47 -0800 (PST)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E5FD51BF218;
-        Thu,  9 Feb 2023 11:08:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1675940926;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EjPV6q9CtcMZIOnJ1euD00Dni4pwlunZAv2O8QKIdu4=;
-        b=e2LJ1YEolCmgZ5fAvjkPlhcQhsw/VEg90JkC2QRPXy82n9VBbbHJnCLioaM2/Nmo/CuICA
-        0qrxCbocoHv3ofoRud3Qeh1uXEDk9pZpkfj/Ll33kL49/w0UNbazqVzKY/BVq5RLOay8B1
-        DQnePBKprEOr7meZmzRmiLQj62j03WSyFjcs0EEuEx8Z4OK7tdCVJe2l5wg4mCttXCdQWe
-        YjZ8LYDt8OYAhaBcCUUHK6hgMwz6XEFe1DmpZG9qx+3bh4Ie+zH7jbHZoogK6ktKJ+9Sc9
-        0Dse3azOey0oIvYihWk9C0J1+PBIJC+b+ZAmQHaEyJ+WAy91YtndNxby6tfQsA==
-Date:   Thu, 9 Feb 2023 12:11:07 +0100
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Simon Horman <simon.horman@corigine.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] net: dsa: rzn1-a5psw: add vlan support
-Message-ID: <20230209121107.1ea4128f@fixe.home>
-In-Reply-To: <Y+TNDFovmcjy+ctb@corigine.com>
-References: <20230208160453.325783-1-clement.leger@bootlin.com>
-        <20230208160453.325783-4-clement.leger@bootlin.com>
-        <Y+TNDFovmcjy+ctb@corigine.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Thu, 9 Feb 2023 07:57:07 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0DD383EF;
+        Thu,  9 Feb 2023 04:57:04 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.97,283,1669042800"; 
+   d="scan'208";a="149037931"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 09 Feb 2023 21:57:03 +0900
+Received: from localhost.localdomain (unknown [10.226.92.132])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 13F1543191A6;
+        Thu,  9 Feb 2023 21:56:59 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v4 0/4] Add RZ/V2{M, MA} PWM driver support
+Date:   Thu,  9 Feb 2023 12:56:52 +0000
+Message-Id: <20230209125656.191905-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Thu, 9 Feb 2023 11:38:04 +0100,
-Simon Horman <simon.horman@corigine.com> a =C3=A9crit :
+The RZ/V2{M, MA} PWM Timer (PWM) is composed of 16 channels. Linux is only
+allowed access to channels 8 to 14 on RZ/V2M, while there is no restriction
+for RZ/V2MA.
 
-> On Wed, Feb 08, 2023 at 05:04:53PM +0100, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add support for vlan operation (add, del, filtering) on the RZN1
-> > driver. The a5psw switch supports up to 32 VLAN IDs with filtering,
-> > tagged/untagged VLANs and PVID for each ports.
-> >=20
-> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > ---
-> >  drivers/net/dsa/rzn1_a5psw.c | 167 +++++++++++++++++++++++++++++++++++
-> >  drivers/net/dsa/rzn1_a5psw.h |   8 +-
-> >  2 files changed, 172 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-> > index 0ce3948952db..de6b18ec647d 100644
-> > --- a/drivers/net/dsa/rzn1_a5psw.c
-> > +++ b/drivers/net/dsa/rzn1_a5psw.c
-> > @@ -583,6 +583,147 @@ static int a5psw_port_fdb_dump(struct dsa_switch =
-*ds, int port,
-> >  	return ret;
-> >  }
-> > =20
-> > +static int a5psw_port_vlan_filtering(struct dsa_switch *ds, int port,
-> > +				     bool vlan_filtering,
-> > +				     struct netlink_ext_ack *extack)
-> > +{
-> > +	u32 mask =3D BIT(port + A5PSW_VLAN_VERI_SHIFT) |
-> > +		   BIT(port + A5PSW_VLAN_DISC_SHIFT);
-> > +	struct a5psw *a5psw =3D ds->priv;
-> > +	u32 val =3D 0;
-> > +
-> > +	if (vlan_filtering)
-> > +		val =3D BIT(port + A5PSW_VLAN_VERI_SHIFT) |
-> > +		      BIT(port + A5PSW_VLAN_DISC_SHIFT); =20
->=20
-> nit: could this be expressed as follows?
->=20
-> 	val =3D vlan_filtering ? mask : 0 ?
+The RZ/V2{M, MA} PWM Timer (PWM) supports the following functions:
+ * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
+ * The frequency division ratio for internal counter operation is selectable
+    as PWM_CLK divided by 1, 16, 256, or 2048.
+ * The period as well as the duty cycle is adjustable.
+ * The low-level and high-level order of the PWM signals can be inverted.
+ * The duty cycle of the PWM signal is selectable in the range from 0 to 100%.
+ * The minimum resolution is 20.83 ns.
+ * Three interrupt sources: Rising and falling edges of the PWM signal and
+   clearing of the counter
+ * Counter operation and the bus interface are asynchronous and both can
+   operate independently of the magnitude relationship of the respective
+   clock periods.
 
-Yes clearly looks more concise.
+v3->v4:
+ * Documented the hardware properties in "Limitations" section
+ * Dropped the macros F2CYCLE_NSEC, U24_MASK and U24_MAX.
+ * Added RZV2M_PWMCYC_PERIOD macro for U24_MAX
+ * Dropped rzv2m_pwm_freq_div variable and started using 1 << (4 * i) for
+   calculating divider as it is power of 16.
+ * Reordered the functions to have rzv2m_pwm_config() directly before
+   rzv2m_pwm_apply().
+ * Improved the logic for calculating period and duty cycle in config()
+ * Merged multiple RZV2M_PWMCTR register writes to a single write in config()
+ * replaced pwm_is_enabled()->pwm->state.enabled
+ * Avoided assigning bit value as enum pwm_polarity instead used enum constant.
+ * Fixed various issues in probe error path.
+ * Updated the logic for PWM cycle setting register
+ * A 100% duty cycle is only possible with PWMLOW > PWMCYC. So restricting
+   PWMCYC values < 0xffffff  
+ * The native polarity of the hardware is inverted (i.e. it starts with the
+ * low part). So switched the inversion bit handling.
+v2->v3:
+ * Removed clock patch#1 as it is queued for 6.3 renesas-clk
+ * Added Rb tag from Geert for bindings and dt patches
+ * Added return code for rzv2m_pwm_get_state()
+ * Added comment in rzv2m_pwm_reset_assert_pm_disable()
+v1->v2:
+ * Updated commit description
+ * Replaced pwm8_15_pclk->cperi_grpf
+ * Added reset entry R9A09G011_PWM_GPF_PRESETN
+ * Added Rb tag from Krzysztof for bindings and the keep the Rb tag as 
+   the below changes are trivial
+ * Updated the description for APB clock
+ * Added resets required property
+ * Updated the example with resets property
+ * Replaced devm_reset_control_get_optional_shared->devm_reset_control_get_shared
+ * Added resets property in pwm nodes.
 
-Thanks,
+Note:
+ Hardware manual for this IP can be found here
+ https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardware?language=en
 
->=20
-> > +
-> > +	a5psw_reg_rmw(a5psw, A5PSW_VLAN_VERIFY, mask, val);
-> > +
-> > +	return 0;
-> > +} =20
->=20
-> ...
+Biju Das (4):
+  dt-bindings: pwm: Add RZ/V2M PWM binding
+  pwm: Add support for RZ/V2M PWM driver
+  arm64: dts: renesas: r9a09g011: Add pwm nodes
+  arm64: dts: renesas: rzv2m evk: Enable pwm
 
+ .../bindings/pwm/renesas,rzv2m-pwm.yaml       |  90 ++++
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  70 +++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  98 ++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzv2m.c                       | 436 ++++++++++++++++++
+ 6 files changed, 706 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-rzv2m.c
 
+-- 
+2.25.1
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
