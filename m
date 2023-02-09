@@ -2,100 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8289690E59
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 17:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35648690E7D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 17:40:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbjBIQaz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 11:30:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
+        id S229574AbjBIQkY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 11:40:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjBIQay (ORCPT
+        with ESMTP id S229447AbjBIQkX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 11:30:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8520C2ED5A
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Feb 2023 08:30:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3920AB82224
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Feb 2023 16:30:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A35C433D2;
-        Thu,  9 Feb 2023 16:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675960250;
-        bh=Efm74hCax7nbL9eCglLZObLpMtWIWpJm+nR1NX3jWlc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pfMV55tqr/8fEbQEOSG9pkO9BQueYUPaeL0YgIDyJHJhaT2v8FjHjmN5qsUBqfOeR
-         bK0d74po3UOkZ3rOUcjiUxixqBuGuM5w3es9mqbk/Tkzw+10p+FIAmM3H1LCiTc+pd
-         hF+SnJUfjHG2nMeQHlZgYKOB14GTAj6YtO6LHB1Jnpn1LHWvv8sOwkSy0dYP0Dr09m
-         RZJwZFEroVT/J8vmQ5qXSUdLFW6bvBs/AUdz/KC0PvBzkjZkHPgCItl/IxEXdp+tNH
-         QwRydHD0vZXuPZEYU5N6N3biL5wbvobmgkvUW94wTTtsIUEP1HyoKLiRov7DhNF4yG
-         QP0I1X4J+UCBA==
-Date:   Thu, 9 Feb 2023 17:30:48 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779g0: Add thermal nodes
-Message-ID: <Y+UfuIN59JeLC2Jt@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Thu, 9 Feb 2023 11:40:23 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 386E05D1CD;
+        Thu,  9 Feb 2023 08:40:22 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.97,284,1669042800"; 
+   d="scan'208";a="152269612"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Feb 2023 01:40:21 +0900
+Received: from localhost.localdomain (unknown [10.226.92.132])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1D5E24002C2D;
+        Fri, 10 Feb 2023 01:40:18 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <b92a1a28afb9f75f24f0137af9f77e95d7ebaec3.1675959327.git.geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzg2ul-smarc-som: Enable serial NOR flash
+Date:   Thu,  9 Feb 2023 16:40:16 +0000
+Message-Id: <20230209164016.645399-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HiOmkCSWE+nhAHbF"
-Content-Disposition: inline
-In-Reply-To: <b92a1a28afb9f75f24f0137af9f77e95d7ebaec3.1675959327.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Enable Renesas at25ql128a flash connected to QSPI0. Also disable
+the node from rzfive-smarc-som as it is untested.
 
---HiOmkCSWE+nhAHbF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+logs:
+root@smarc-rzg2ul:~# modprobe spi-rpc-if
+[  105.775964] spi-nor spi1.0: spi-nor-generic (16384 Kbytes)
+[  105.823268] 2 fixed-partitions partitions found on MTD device spi1.0
+[  105.829767] Creating 2 MTD partitions on "spi1.0":
+[  105.835867] 0x000000000000-0x000000200000 : "boot"
+[  105.849639] 0x000000200000-0x000001000000 : "user"
 
-On Thu, Feb 09, 2023 at 05:23:30PM +0100, Geert Uytterhoeven wrote:
-> Add device nodes for the Thermal Sensor/Chip Internal Voltage
-> Monitor/Core Voltage Monitor (THS/CIVM/CVM) and the various thermal
-> zones on the Renesas R-Car V4H (R8A779G0) SoC.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+# cat /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/jedec_id
+1f42181f4218
+# cat /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/partname
+spi-nor-generic
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Read/Write test
+root@smarc-rzg2ul:/cip-test-scripts# ./rpcif_t_001.sh
 
+EXIT|PASS|rpcif_t_001.sh|[00:03:25] ||
+---
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    | 44 +++++++++++++++++++
+ .../boot/dts/renesas/rzfive-smarc-som.dtsi    |  4 ++
+ 2 files changed, 48 insertions(+)
 
---HiOmkCSWE+nhAHbF
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+index 49ecd33aeeb8..d1a00f1d1b8c 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+@@ -179,6 +179,18 @@ eth1_pins: eth1 {
+ 			 <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
+ 	};
+ 
++	qspi0_pins: qspi0 {
++		qspi0-data {
++			pins = "QSPI0_IO0", "QSPI0_IO1", "QSPI0_IO2", "QSPI0_IO3";
++			power-source = <1800>;
++		};
++
++		qspi0-ctrl {
++			pins = "QSPI0_SPCLK", "QSPI0_SSL";
++			power-source = <1800>;
++		};
++	};
++
+ 	sdhi0_emmc_pins: sd0emmc {
+ 		sd0_emmc_data {
+ 			pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
+@@ -230,6 +242,38 @@ sd0_mux_uhs {
+ 	};
+ };
+ 
++&sbc {
++	pinctrl-0 = <&qspi0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0>;
++		spi-max-frequency = <50000000>;
++		spi-tx-bus-width = <1>;
++		spi-rx-bus-width = <4>;
++
++		spi-cpol;
++		spi-cpha;
++		m25p,fast-read;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			boot@0 {
++				reg = <0x00000000 0x200000>;
++				read-only;
++			};
++			user@200000 {
++				reg = <0x200000 0xE00000>;
++			};
++		};
++	};
++};
++
+ #if (SW_SW0_DEV_SEL)
+ &sdhi0 {
+ 	pinctrl-0 = <&sdhi0_emmc_pins>;
+diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+index d6f18754eb5d..56a907180485 100644
+--- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
++++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+@@ -40,6 +40,10 @@ phy1: ethernet-phy@7 {
+ 	};
+ };
+ 
++&sbc {
++	status = "disabled";
++};
++
+ &sdhi0 {
+ 	status = "disabled";
+ };
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPlH7cACgkQFA3kzBSg
-KbZfgBAAkebkIQa4E1ly2wIRHZfYmpTeQqYDEs0/IFmeCcfwxiaMiMOgxJ0DK+ej
-Uat4eostF8yJ58wXHj294hVv2BS9VHV8zKWJwETtrIhSK3WoRQjAV4sgNIQFQPMo
-qykklZmfRonQ+Zz7/w+Af7LKDvK6/FaAt+5tjpvwhj04Zb15q5CiTZLq3XLlM86h
-nf97r+YXSpotl97L+v0Gn9EvOKHvcCT6ALZp/sre1zdy6AFlRbiHIbUJaLTZUr1F
-PQr4J78zEKR5WVL04dmJHQI0EZYW7tKdd5a1ffj/PMjl+laJVTKR4tJWNJ4Ce2Mg
-XccXEhe9VAD/jkR4KxX1M9czIoAU1yEJJxaeV/ZNUEDXwNuQlDs1bTzbjDcBSNgT
-YHrsuvINhC7eiO5SfgcwcXhw66LMuRF9uurLdIJudhloaq0joIhMn9HPTzRVhmOo
-V+V48XNnARYXCzQGuNAxhmFNww6aBLY4QH0uXjXNPXu3KK+o4KqTx/wn01JSGc1x
-C6lgydXJfIJZxuPCuUlujg5DwtADPQYQHp/0zs4dSr4ytIiCQDbD4cmO0YOaSfzd
-CyQrrBjnAQLPkv/Vv0YSjL2Txi7Um8ZJ3kbFP/ToOFHOjDZOTXoRxGA7vot2ty1y
-4UEszVsp6d++Nt5J+Xj2YssoDNU/QtyjAjaZON+3OtdsVpm/fRI=
-=0edo
------END PGP SIGNATURE-----
-
---HiOmkCSWE+nhAHbF--
