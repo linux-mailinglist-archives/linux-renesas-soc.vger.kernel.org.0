@@ -2,137 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C40CC690C4A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 15:58:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D02690C90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 16:14:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230198AbjBIO6e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 09:58:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44438 "EHLO
+        id S229852AbjBIPOT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 10:14:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjBIO6d (ORCPT
+        with ESMTP id S229909AbjBIPOS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 09:58:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA5218148;
-        Thu,  9 Feb 2023 06:58:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 03BC06195F;
-        Thu,  9 Feb 2023 14:58:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A49C4339C;
-        Thu,  9 Feb 2023 14:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675954711;
-        bh=z55Z15V+CQEJDIFpDIm04fxW/YoatBzH7nL2KTvHqug=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LYg3s2QQTC/1+6kv8dJ+hsnLh+HbA20xHdd4dQENmF0IFBqFxjihR1Qx7AUS7FLCU
-         u3YIT3bNimg4HJfYkaLW56KtMeuTGgua1pfX+X44VKdmSXsR+Sr3xg77mTlc0KVR0O
-         IBFdAjx6mn97e4XaN0E2mE6z4kAlXBtsd3fa0zc14OovEhVaSuvwVuqoUAkAhwNFjX
-         cwX0b5iADax4Aj+NrU90hPmGl703AcKmrSnr67EHne7h2vbP63hxiL+sxkL+TCi18G
-         6WdBle1tg1sD5SqcidqNhrLvnCN1lM0FEwHvP34hBWjGGDWJBqlEbs2U05a1TKSY75
-         2SL7Q2l1pCtdg==
-Received: by mail-vs1-f50.google.com with SMTP id g3so2361476vsr.10;
-        Thu, 09 Feb 2023 06:58:31 -0800 (PST)
-X-Gm-Message-State: AO0yUKXUwRyPAuwvYM9nkpRFMb8VOJZDRAOsPax4xX44KZtIeCRXO9UD
-        NPypz4wLJYuXBhKY0JTWYoTk+oGgnhN1dY/axw==
-X-Google-Smtp-Source: AK7set+HJeqQpQRfwEH6w65YjZaLZ7/GDWpyIiWZQnfEO/3GLEv0iy0VjpE++EwGkj1tfHqgesRjmbtufiAC/XSf4Mw=
-X-Received: by 2002:a67:cc1d:0:b0:3f3:5ce0:85ab with SMTP id
- q29-20020a67cc1d000000b003f35ce085abmr3164858vsl.26.1675954710303; Thu, 09
- Feb 2023 06:58:30 -0800 (PST)
+        Thu, 9 Feb 2023 10:14:18 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01B232523;
+        Thu,  9 Feb 2023 07:14:16 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5DDF2100004;
+        Thu,  9 Feb 2023 15:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1675955654;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=YVOvYQa9qOIWTUDpJqNiGlDU/+I5voPK1qjEvEaieaY=;
+        b=Y7+wp6Xw0fNNsld9rdLaqiHWFAYyK3efTcjSVW0j0yaKHFk0EUmpSzre8SqIgEh+tj1fkn
+        l/v9rbwzPUv6+Gxtgim0bKbjjnIh5RVRU1E8kJeg8f4wrieipoJ75fp8bn9vsB0yIDELL2
+        I71Vqc9nU5nT1l+XCNJp9aWBhsSlqJLr6yyaLKQLP4YeA4TyfFZDuyQUuP9xCAjyJyRNyB
+        j2Mn0YerZl36xgXbgHPKAgfbYO7BxvSyWfQ+z5aPbqIvHzV1LKOyQTAc0Xaxm+HUJzW/sw
+        QXbzZYm/3yGpm1l7rz4cFRQotcY6+TuxU8VGDMH9HMXKFRXvngjvcvLMexvjrA==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Wong Vee Khee <veekhee@apple.com>,
+        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH net-next v3 0/6] net: stmmac: add renesas,rzn1-gmac support
+Date:   Thu,  9 Feb 2023 16:16:26 +0100
+Message-Id: <20230209151632.275883-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230209133440.2643228-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 9 Feb 2023 08:58:18 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+DaUFSWd-4EEm=CJZg4-KtY8xnbmD4+0-vn6njG_yHXw@mail.gmail.com>
-Message-ID: <CAL_Jsq+DaUFSWd-4EEm=CJZg4-KtY8xnbmD4+0-vn6njG_yHXw@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: iommu: renesas,ipmmu-vmsa: Update for
- R-Car Gen4
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-        krzysztof.kozlowski+dt@linaro.org, iommu@lists.linux.dev,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 9, 2023 at 7:34 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> Since R-Car Gen4 doens't have the main IPMMU IMSSTR register, update
-> the renesas,ipmmu-main property which sets maxItems as 1.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
-> Changes from v2:
-> https://lore.kernel.org/all/20230127140446.1728102-1-yoshihiro.shimoda.uh@renesas.com/
->  - Set maxItems to renesas,ipmmu-main if R-Car Gen4.
->
-> Changes from v1:
-> https://lore.kernel.org/all/20230123012940.1250879-1-yoshihiro.shimoda.uh@renesas.com/
->  - Change number of argument for R-Car Gen4 instead of "module id".
->    On the discussion, using 'minItems' is a solution. But, it causes
->    "too short" errors on dtbs_check. So, using "oneOf" instead.
->
->  .../bindings/iommu/renesas,ipmmu-vmsa.yaml    | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-> index 72308a4c14e7..cc81bce44f3f 100644
-> --- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-> @@ -74,11 +74,10 @@ properties:
->    renesas,ipmmu-main:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
->      items:
-> -      - items:
-> -          - description: phandle to main IPMMU
-> -          - description: the interrupt bit number associated with the particular
-> -              cache IPMMU device. The interrupt bit number needs to match the main
-> -              IPMMU IMSSTR register. Only used by cache IPMMU instances.
-> +      - description: phandle to main IPMMU
-> +      - description: the interrupt bit number associated with the particular
-> +          cache IPMMU device. The interrupt bit number needs to match the main
-> +          IPMMU IMSSTR register. Only used by cache IPMMU instances.
+The rzn1-gmac instance is connected to a PCS (MIIC). In order to use
+this pcs, add support in the sttmac driver to set a generic phylink pcs
+device instead of the xpcs only. Moreover, it adds support to provide
+a phylink pcs device from the stmmac platform data and use it with the
+driver. It also adds the bindings and the new rzn1-gmac driver that
+retrieve this pcs from the device-tree.
 
-This is wrong. phandle-array is really a matrix. What you need is:
+---
+V3:
+ - Sort out the bindings compatible
 
-items:
-  - minItems: 1
-    items:
-      - description: ...
-      - description: ...
+V2:
+ - Remove patch that moves phylink_start() earlier in init
+ - Add miic_early_qsetup()  which allows initializing some miic port
+   earlier to provide a RX clock to stmmac IP
+ - Call miic_early_setup() in rzn1 stmmac driver
+ - Fix bindings
 
->      description:
->        Reference to the main IPMMU phandle plus 1 cell. The cell is
->        the interrupt bit number associated with the particular cache IPMMU
-> @@ -109,6 +108,16 @@ allOf:
->        required:
->          - power-domains
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,rcar-gen4-ipmmu-vmsa
-> +    then:
-> +      properties:
-> +        renesas,ipmmu-main:
-> +          maxItems: 1
+Clément Léger (6):
+  net: pcs: rzn1-miic: add pcs_early_setup() function
+  net: stmmac: add support to use a generic phylink_pcs as PCS
+  net: stmmac: add support to provide pcs from platform data
+  dt-bindings: net: renesas,rzn1-gmac: Document RZ/N1 GMAC support
+  net: stmmac: add support for RZ/N1 GMAC
+  ARM: dts: r9a06g032: describe GMAC1
 
-With the above, this is then:
+ .../bindings/net/renesas,rzn1-gmac.yaml       |  67 ++++++++++
+ arch/arm/boot/dts/r9a06g032.dtsi              |  18 +++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |  11 ++
+ drivers/net/ethernet/stmicro/stmmac/Makefile  |   1 +
+ drivers/net/ethernet/stmicro/stmmac/common.h  |   2 +
+ .../net/ethernet/stmicro/stmmac/dwmac-rzn1.c  | 120 ++++++++++++++++++
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   8 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_mdio.c |   1 +
+ drivers/net/pcs/pcs-rzn1-miic.c               |  12 ++
+ include/linux/pcs-rzn1-miic.h                 |   3 +
+ include/linux/stmmac.h                        |   1 +
+ 11 files changed, 240 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
+ create mode 100644 drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c
 
-items:
-  - maxItems: 1
+-- 
+2.39.0
 
-Then an else with:
-
-items:
-  - minItems: 2
