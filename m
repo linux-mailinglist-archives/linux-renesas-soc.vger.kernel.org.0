@@ -2,151 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EE2B690298
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 09:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 685AF690317
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Feb 2023 10:16:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbjBII4V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Feb 2023 03:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
+        id S229985AbjBIJQP convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Feb 2023 04:16:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbjBII4S (ORCPT
+        with ESMTP id S229567AbjBIJQM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Feb 2023 03:56:18 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F820552AC
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Feb 2023 00:56:13 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id d14so1002068wrr.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Feb 2023 00:56:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vHXX9qLhodXXJcCyIc4Vb3hchdgHIWSikItEAmQCVMQ=;
-        b=g2Tfj7rKtBD1AuogPIrMy5aMbYbFNiM++NPZVSP0TI1bU+NHwBROucFRpRHScfM2e4
-         BLoraHq/ID3W7xW/xQRcHr7F+/mXzcmnP+m0adgIEZ3mLLn5UEu6bOVBPsAH48CIl789
-         Jahr/klPPCXsU2jDrL2Elz/hogFAX/dDqpOeH6NgVycdWprmDSTqNxZRdiv8TKhgCgiS
-         ZqRv/+KHPODXGI+x3dv04BHntUEoq8fzvX0ClbaecaHpA0wu5DEF1D4qkJfFbpRktKZo
-         bhtXdwmHnmo4aQSyRww0HCirCFY8wUUvBCI60Dinb/B6IG9Y1AEYaFbAGSe6ywkkUY7G
-         pLyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vHXX9qLhodXXJcCyIc4Vb3hchdgHIWSikItEAmQCVMQ=;
-        b=J9MeREPk9POV82hLtXFwF0dkHIAX6ndbAGwdOMO0AZTbO7dvxLqvSq419f36zIvNvO
-         pEG7MmC0FUQoP2FKni8F2DnY7a6TvLUK+isAvzeSwT/NTLOh9fHqjGrxdtG2/RiFDVnw
-         0gUyxQcfhOKeufo3bg/4vkyn9Ebj3xjkAOa7FoL5vQwKGomBJzTDFWXsSmesfWWgA+7o
-         RWTLnDU0dGbOrgl7qGbKx3ccoOHy/aO/b3Ta1zYIvCtXDkqAJu5EGuwiDhvRI27QL7op
-         7uPmJ0UIZ3ff/45v37227pWbGcjqvTnA+G43AB7FMClYeh3OsuuUBtfg3/ZVbWAzzMyT
-         dDSQ==
-X-Gm-Message-State: AO0yUKV/XQx/5QWBlDg4cNQ/TjRH1bkb9UgqzxpBUtloYTuKlGfPwSAl
-        c5UABgQ4amfu4RHSiZZRUymFYw==
-X-Google-Smtp-Source: AK7set95IUJycacSsfuYlNaj8SvE/JO9E7p9MGBwzi5qVRVbawo9mppg1aUUqxY0a9BTuH9/G4LRJA==
-X-Received: by 2002:a05:6000:1003:b0:2c4:745:13b8 with SMTP id a3-20020a056000100300b002c4074513b8mr2640568wrx.42.1675932972215;
-        Thu, 09 Feb 2023 00:56:12 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id t2-20020adfe102000000b002c3f280bdc7sm711008wrz.96.2023.02.09.00.56.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Feb 2023 00:56:11 -0800 (PST)
-Message-ID: <e2587e59-c735-0328-2695-96048ad77836@linaro.org>
-Date:   Thu, 9 Feb 2023 09:56:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] ARM: dts: r9a06g032: add EB board device-tree
-Content-Language: en-US
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Thu, 9 Feb 2023 04:16:12 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558EB5B92;
+        Thu,  9 Feb 2023 01:16:10 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pQ323-003ncL-Bt; Thu, 09 Feb 2023 10:15:55 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pQ323-0012H8-3k; Thu, 09 Feb 2023 10:15:55 +0100
+Message-ID: <ed4a36508c3d047f9e9a882475388be18b790b76.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Rob Landley <rob@landley.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230207145444.166950-1-clement.leger@bootlin.com>
- <20230207145444.166950-3-clement.leger@bootlin.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230207145444.166950-3-clement.leger@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Date:   Thu, 09 Feb 2023 10:15:52 +0100
+In-Reply-To: <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+References: <20230113062339.1909087-1-hch@lst.de>
+         <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+         <20230116071306.GA15848@lst.de>
+         <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+         <20230203071423.GA24833@lst.de>
+         <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+         <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
+         <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
+         <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.3 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07/02/2023 15:54, Clément Léger wrote:
-> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
-> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
-> It adds support for the 2 additional switch ports (port C and D) that are
-> available on that board.
+On Wed, 2023-02-08 at 21:09 -0600, Rob Landley wrote:
+> > Geert has suggested to wait with adding a tree source to the entry until I get my
+> > own kernel.org account. I have enough GPG signatures from multiple kernel developers
+> > on my GPG key, so I think it shouldn't be too difficult to qualify for an account.
 > 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
->  arch/arm/boot/dts/Makefile                  |  1 +
->  arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts | 92 +++++++++++++++++++++
->  2 files changed, 93 insertions(+)
->  create mode 100644 arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index d08a3c450ce7..8938db01e939 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1123,6 +1123,7 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
->  	r8a7794-alt.dtb \
->  	r8a7794-silk.dtb \
->  	r9a06g032-rzn1d400-db.dtb \
-> +	r9a06g032-rzn1d400-eb.dtb \
->  	sh73a0-kzm9g.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += \
->  	rv1108-elgin-r1.dtb \
-> diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
-> new file mode 100644
-> index 000000000000..e986b6d2fd6f
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
-> @@ -0,0 +1,92 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the RZN1D-EB Board
-> + *
-> + * Copyright (C) 2023 Schneider-Electric
-> + *
-> + */
-> +
-> +#include "r9a06g032-rzn1d400-db.dts"
-> +
-> +/ {
-> +	model = "RZN1D-EB Board";
-> +	compatible = "renesas,rzn1d400-eb", "renesas,r9a06g032";
-> +};
-> +
-> +&mii_conv2 {
-> +	renesas,miic-input = <MIIC_SWITCH_PORTD>;
-> +	status = "okay";
-> +};
-> +
-> +&mii_conv3 {
-> +	renesas,miic-input = <MIIC_SWITCH_PORTC>;
-> +	status = "okay";
-> +};
-> +
-> +&pinctrl{
-> +	pins_eth1: pins_eth1 {
+> So you're not planning to use https://lk.j-core.org/J-Core-Developers/sh-linux
+> but push to kernel.org and ask Linus to pull from there?
 
-No underscores in node names, unless you override existing node with
-such underscore.
+Yes, that's what Geert recommended.
 
-Best regards,
-Krzysztof
+Adrian
 
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
