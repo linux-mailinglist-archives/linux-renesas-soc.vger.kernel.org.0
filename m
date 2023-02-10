@@ -2,171 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72486692637
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 20:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30D35692646
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 20:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233077AbjBJTUj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 14:20:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
+        id S232057AbjBJT1u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 14:27:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233216AbjBJTUh (ORCPT
+        with ESMTP id S232801AbjBJT1u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 14:20:37 -0500
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2121.outbound.protection.outlook.com [40.107.117.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08E17DD25;
-        Fri, 10 Feb 2023 11:20:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TT3qgOacLdPJGcWbLt9DgP8XF98T3L//HQdbC4+VEwpe5lUxJ8UIFlO4jn70cjecsaovBVVLaHcGoi0MYsXwfsUkIz/fIlX4CGrniX94GMfuCz9nmQ18XBKPJZYc2JivOCgd3LqVmlFquJzL36UYBfA5kDsukw56z86bGQXAx0qE2tSDm8XV1wGaDjWw3hEmiTXsNo66Vr7nFBoP9Jp3y/H9G9NgtZ6kJW/VL30nnG/9BR+Zr+DWaZLwillSu6cHOg0z/eY9lT7X2AX3mn1G8KmsJSDVJRR4WoNSFxGbvZUVEkYZV8pOD4YVnehkvnoUSY7KpzwLh5DwbYF7YSekHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lr1uqF8dk9GC0ybk7uPELDF7nxAvVDb9sXGuf4Bi8z0=;
- b=dH8BEntuoKNIYSF0BZV3l1SbmGXxvf2omV31s4qvE0NpoVDPwg9aTAlKHVK1ed/AHHprO6egr0x/w2y1h3oLKb/z9AtbbEaLFljMkIw3/njod13CNd7KECQUYCHrmmdsy0ODGkrLgNhfNckb8hSi6FytQDlao2KoUjqpy2F7kJehSfcRDQTyFcBpcMnINxpQgtI+qLiw3BOpk+U4mlQVRGWIYY71oS27Nv3SW+P13F7ym+osoz+2hHKsAIvPlczSd0NbpJziztpG+a2tuswMF7MXaYOvSnS5LFtVP24W2ERb/RsqN+SBmfU0BkEch0dLW6xe1iWtGXX2op6+pkE56w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lr1uqF8dk9GC0ybk7uPELDF7nxAvVDb9sXGuf4Bi8z0=;
- b=RQmOTP3shyB2aATwzihMenNZc6hWXLk3Xc0Ppi3c+pG0lEVOnRq6hxdsu3kB57uQ8fiutfdfUwPICarMlKRic4ipS3d/G5jwU+taepyihd7zfNgV0MhvVNHL6Tpe5B/ZuaSVPC0FtUUYR0GxDeMSGtFtLPtG4o+zyMKB0nJ0gYw=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB9307.jpnprd01.prod.outlook.com (2603:1096:400:198::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.21; Fri, 10 Feb
- 2023 19:20:27 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::343d:7339:78e5:a46e%8]) with mapi id 15.20.6086.021; Fri, 10 Feb 2023
- 19:20:27 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 2/3] serial: 8250_em: Update RZ/V2M port type as
- PORT_16750
-Thread-Topic: [PATCH v2 2/3] serial: 8250_em: Update RZ/V2M port type as
- PORT_16750
-Thread-Index: AQHZPWYzeQsp1F3f9kS2usAbL+gOlq7IZHeAgAAp4jA=
-Date:   Fri, 10 Feb 2023 19:20:27 +0000
-Message-ID: <OS0PR01MB5922524FE840E83E791B3F9C86DE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230210154140.338352-1-biju.das.jz@bp.renesas.com>
- <20230210154140.338352-3-biju.das.jz@bp.renesas.com>
- <Y+Z1lWnUNWC0IJFz@smile.fi.intel.com>
-In-Reply-To: <Y+Z1lWnUNWC0IJFz@smile.fi.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB9307:EE_
-x-ms-office365-filtering-correlation-id: 0e480c2f-88ca-4cf7-7cfd-08db0b9bde18
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yYNRUeqBki6h8FkZ5WF1ym66lp9/Ej6n4lsHhQElRc91sbS0eAmyK6EsGMY2ZQRK62wndHZ63clWR6XgixngcR4gIzYd2LmVS/1aWw85h7oy0Y/M6ORlOevNapRJzAbfY3xnoIFsoimjtbu9zYxnRcej4wONggpJsMJaD0tFatOZW3X2pR/zAhWl8YhdyW6NM7+ISODaZ71mqtf5MmcD+3joFpF7YF/fxp3Rn+/2+27RusrEnIcwzsqYdY0WeSaXsnHD6DvFrf8lcm7d9h4UpJUaHsevP/yAjdgmvpg+vHs8ESmxId+jASfndMYQKG1Ai8J+5we8AepJZUOBd3gy0lXW/0gQvD1DFE1z0egXn6CWeBZ2K6IjMpG6/zLTyb50a9aUCWaBbh3hENIp7axtNRczrwID2oTbPpKrnXpFCVnjVYpl2sVIDohIwa/69iTyPGx651fe3NJ6o3uTUO3NHeV24f+UvQOzahKpZyu+CpZc9aC/4NgYTsgIFneBvYBks8610TRy5vYHLG/eGxBlnlATz+NTAUOxX+eEX+g7XxQUX5s3rBL0LGTf+NAnqCjgS6AIw74EjhfHiyRubbUDtXiDBIHzAbJHHnHkB+nAyOUC3i7lwYMvnddLzwA8Tlf0USA9QApXUaNBdP03NcKcbwt8P8EhH8gmdUotPeLs3BEOVzrwYShA3AQDZOOrlX7V1Hx6UE3mWxQoRtAmoDnNBg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(346002)(136003)(396003)(39860400002)(376002)(451199018)(76116006)(7696005)(71200400001)(33656002)(478600001)(83380400001)(316002)(38070700005)(15650500001)(55016003)(186003)(4744005)(41300700001)(38100700002)(52536014)(5660300002)(122000001)(8936002)(6916009)(4326008)(53546011)(6506007)(9686003)(66446008)(66476007)(66556008)(66946007)(64756008)(8676002)(86362001)(2906002)(26005)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nPJeL0Zla31ouSBIz5k1VmoRANvpYVCebxxIqPjdrIfnwrL4XJJOIRoNvWy7?=
- =?us-ascii?Q?6cUqTbBDA3dfT23v8uZccBivUUliSZkZJkpxXPUUHdusy0oFC5BKupCBKOpd?=
- =?us-ascii?Q?Ep0SHJDwfrudCryD4i4/er4Bmw7gqLvohFWfx+UmJqJcxkgG1+mxOLz71cGN?=
- =?us-ascii?Q?vIFIdiMRN+IDbUd4HeXTDinmabsBzK/lp6Sitvgc/t+MagJgoXC0RhMVFKFp?=
- =?us-ascii?Q?/gn3nln7hb97l513ykpC/MgUr4yVO+vhcsh9EYmTEAtGLgiozCDR8XuZfVo2?=
- =?us-ascii?Q?OXvF7hF/UQ2BLo5IdIhEd0Zj73VdO+Zrn132vhed/IRUFbBWwsAH9QhlmiEs?=
- =?us-ascii?Q?DI2voiy7YlXTfQzj/3ppvKVMIrdiqTDx37xNTgc3xHrGc+G5X7kh49F0omUf?=
- =?us-ascii?Q?xVls8cJ6c/1y/FFHGB9pH7JFNsXU4r9ds0OYsdMdOB6UaQ1rBI0yZsSpbmbM?=
- =?us-ascii?Q?FRUt+iQACmsGwq/ig6LK0tClAOIeP0QSqG/4M2OHzOlxZrtIMJBEsKM05dzT?=
- =?us-ascii?Q?lV/VDRDgw1B9oDkM6Ox3iQtleIs4t30Fya734zbt9IqrXeAnCd85i0pOm+ef?=
- =?us-ascii?Q?kxdMgEEpRfml9kG0QcqlXLwtpOifsIjtPRVnPztyP0IZGLfOr7gjhxFEycRE?=
- =?us-ascii?Q?1M7Hoy+zHl8/C3adTgYD8EPYYyb4xlrEJbKUZxmbpp8uzX3wcqmG27w920tc?=
- =?us-ascii?Q?O8wEEVIWE/3NlMAcer2WvDZsyaPqMwhFspobjSDyeshyYuhA90r2mrPNi0X4?=
- =?us-ascii?Q?BvXz7DYym/zraeNL/A7W8rVo8PSXTmBaK5XsCJzW/lbQvuJKifb1XLisQCGu?=
- =?us-ascii?Q?sFJPia5bXNQWO4QrRESVCIhcveq5lsRx6m8KPZ3o9IIROohY/jps3YycVunE?=
- =?us-ascii?Q?Hn7+1OfjAuX+IxqOLnHHkJQ780GdtHM+yNj+cNGBbpWDwswDOYvzRmfXTplq?=
- =?us-ascii?Q?MaH95HPVTw0TmfOpdiaHopspt/i0II1CsbJyhq7HQLEvB8QnMlA1nlreUFUD?=
- =?us-ascii?Q?MylXPRvPR/d/gqV15rPC4jQZlUvuQ4purM9pOEjoylfN8a56Fj8T80rpg0dO?=
- =?us-ascii?Q?AyS5j1m5BaTOPInbNtw/XcJsnNpBk5hEvxayTishOnRqHjmcrZfHxoCb4A/o?=
- =?us-ascii?Q?rq80ZQrsy3KsGogNebZHqfh6X3smBfTtCEPV3H3B1fZE9LfOlq6L19N85+mQ?=
- =?us-ascii?Q?vRDNG9NYMFU+FUfgWoJes5BMSpVln9WTjfsZw/KZPBH0bdshV9p+wSDmEHOA?=
- =?us-ascii?Q?QQO/kwVO7ES8FeX0f9IK6b6SmYaAeokTJ2+5KXclIN/RQ1SztZxsIERbdl3Z?=
- =?us-ascii?Q?2wk5r3OLIqNoI0ccWX7UysHpUSo2+XGiPv7E9sn/Q+2nnPZBpr0v6yyX9yRl?=
- =?us-ascii?Q?HVGT6dD1fw4vrp9i38Xl9rxnui+V/8M/XI3S4qUm0kbMWIK+e9aJ9P66KEkR?=
- =?us-ascii?Q?gyHAf209vvaUVgIksSMhLA6dePJh3CJlU8LO7yVqun6HvYZq1a1xNTBIStdt?=
- =?us-ascii?Q?kWAQ1qj1ihE0xzL7aJJ3TYmveT2oxRt4FxIfTUGOzFuJb18SvKnnBGMWikmg?=
- =?us-ascii?Q?qNljs8NkcDETqWQBTjzmz8QXYZxS/XvxEXfFnaMhThy8UBmdQu3StlzqDKok?=
- =?us-ascii?Q?ZQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 10 Feb 2023 14:27:50 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C335570CCE
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 11:27:48 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id v23so7526249plo.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 11:27:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZwrUc84I/sw9tW3rFINcSrPClBVAQXnQCQkcXqCJwLw=;
+        b=hQAxFU0UWDL+c15mTPMopFsa+DtSgaC7lA9lDiZRF+/FBqEeZ1Sy6LFHOtrrmF7Sd2
+         v3IQ4IcAubIN0sr/1IcMzervGsBGnx/9uVGBupdYwT7CYjSfUyh2ey92RUSzoBbbgpYn
+         0yrTbvmX6Y5z5uGK5Fr3w7qB8YcpBQwxPf068+nJTDp3fMtnUOry570Pkrgu+Z0vJX0T
+         /oD0wDMz7A461CTNkbVBFXvkA3x1tdf1xcy/8c23ZzOgsoyCkwyAxKek0E8ib8LB8umD
+         JbVUcVsa0e4608OvA+Dgszfc0dcvb4K/Bn/gnpXg2T2gMtByW8tFjWx/0j/YrIp98Bph
+         Jh+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZwrUc84I/sw9tW3rFINcSrPClBVAQXnQCQkcXqCJwLw=;
+        b=GW19pwtWpZeOrjkZw2TstyePRKQrMZIclABZjlOXk/T2oBPggahOC3pdpEI8IfYsBa
+         +HRHm1225hflUplBxkEeC/ZYgverJly1toMoyVRP8CRPmbJ2d+Cnrim2CK6m6+6ptv0K
+         UgrcQl7q39vTC1+ONZSowx0/XD/11CB13GXDj5jGlsxfe3Rrhnx/cYxsCwd8UA1T026U
+         ooc08q8iok0lH3WpKctj/nYJc3A/710IiKrVZGjiCjLfKa5D9ZPir1mDds9CzxzgSRuQ
+         AcAvKOnWEkb9TyKl29ScV1FmZzRkgu0b5hq40sJLZoi/YIRALmyBkzXZvQTxw6kInpdg
+         vkeg==
+X-Gm-Message-State: AO0yUKVMpuf0hSYEtL/han6MOpIkUF5pfhwXI5PR59B8LABNtu0rqz9v
+        39GKbx3HUHJakN5jTEpOktpJBXHeUaQYUjjDc0tvnA==
+X-Google-Smtp-Source: AK7set8YqUGIKC41zQQA+imGuckADHerNWZeukO+5tCxdqLGYKK3iW3D9WDbQqKroQBsftoX1HY4I+fjcAkwH4jn0w0=
+X-Received: by 2002:a17:90a:f018:b0:230:9e2a:ebd8 with SMTP id
+ bt24-20020a17090af01800b002309e2aebd8mr2796418pjb.48.1676057267896; Fri, 10
+ Feb 2023 11:27:47 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e480c2f-88ca-4cf7-7cfd-08db0b9bde18
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2023 19:20:27.6728
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZcviNC+Lbq5zhw9vsYelE8KIQXdxWYpnUdjbeaiXrgKN9HE9xB+KjTEOG7u5itIHl1R0iqDUn/IKTi96zNnO0JgJA0vsv4aI3x/ZurVi2cc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9307
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230207014207.1678715-1-saravanak@google.com> <20230210101333.h2e7hcl3ylsoh6fy@skbuf>
+In-Reply-To: <20230210101333.h2e7hcl3ylsoh6fy@skbuf>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 10 Feb 2023 11:27:11 -0800
+Message-ID: <CAGETcx_SQJ1q_f8r+zKATF-EEb0P-T_ot15AQ1x1Vc_3h=XfCw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] fw_devlink improvements
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy Shevchenko,
+On Fri, Feb 10, 2023 at 2:13 AM Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+>
+> Hi Saravana,
+>
+> On Mon, Feb 06, 2023 at 05:41:52PM -0800, Saravana Kannan wrote:
+> > Vladimir,
+> >
+> > Ccing you because DSA's and fw_devlink have known/existing problems
+> > (still in my TODOs to fix). But I want to make sure this series doesn't
+> > cause additional problems for DSA.
+> >
+> > All,
+> >
+> > This patch series improves fw_devlink in the following ways:
+> >
+> > 1. It no longer cares about a fwnode having a "compatible" property. It
+> >    figures this out more dynamically. The only expectation is that
+> >    fwnodes that are converted to devices actually get probed by a driver
+> >    for the dependencies to be enforced correctly.
+> >
+> > 2. Finer grained dependency tracking. fw_devlink will now create device
+> >    links from the consumer to the actual resource's device (if it has one,
+> >    Eg: gpio_device) instead of the parent supplier device. This improves
+> >    things like async suspend/resume ordering, potentially remove the need
+> >    for frameworks to create device links, more parallelized async probing,
+> >    and better sync_state() tracking.
+> >
+> > 3. Handle hardware/software quirks where a child firmware node gets
+> >    populated as a device before its parent firmware node AND actually
+> >    supplies a non-optional resource to the parent firmware node's
+> >    device.
+> >
+> > 4. Way more robust at cycle handling (see patch for the insane cases).
+> >
+> > 5. Stops depending on OF_POPULATED to figure out some corner cases.
+> >
+> > 6. Simplifies the work that needs to be done by the firmware specific
+> >    code.
+> >
+> > The v3 series has gone through my usual testing on my end and looks good
+> > to me.
+>
+> Booted on an NXP LS1028A (arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dts)
+> and a Turris MOX (arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts)
+> with no observed regressions.
 
-Thanks for the feedback.
+Thanks for testing Vladimir!
 
-> -----Original Message-----
-> From: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Sent: Friday, February 10, 2023 4:49 PM
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Jiri Slaby
-> <jirislaby@kernel.org>; Geert Uytterhoeven <geert+renesas@glider.be>; lin=
-ux-
-> serial@vger.kernel.org; Fabrizio Castro <fabrizio.castro.jz@renesas.com>;
-> linux-renesas-soc@vger.kernel.org
-> Subject: Re: [PATCH v2 2/3] serial: 8250_em: Update RZ/V2M port type as
-> PORT_16750
->=20
-> On Fri, Feb 10, 2023 at 03:41:39PM +0000, Biju Das wrote:
-> > The UART IP found on RZ/V2M SoC is Register-compatible with the
-> > general-purpose 16750 UART chip. This patch updates RZ/V2M port type
-> > from 16550A->16750 and also enables 64-bytes fifo support.
->=20
-> ...
->=20
-> > +#include <linux/of_device.h>
->=20
-> property.h
-OK.
->=20
-> ...
->=20
-> > +	priv->info =3D of_device_get_match_data(dev);
->=20
-> device_get_match_data()
+> Is there something specific you would like
+> me to test?
 
-OK.
 
->=20
-> ...
->=20
-> With Ilpo's comment addressed this looks good!
+Not really, I just want to make sure the common DSA architectures
+don't hit any regression. In the hardware you tested, are there cases
+of PHYs where the supplier is the parent MDIO? I remember that being
+the only case where I needed special casing
+(FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_ADD) in fw_devlink -- so it'll be
+good to make sure I didn't accidentally break anything there.
 
-Will send next version with above addressed.
 
-Cheers,
-Biju
+-Saravana
