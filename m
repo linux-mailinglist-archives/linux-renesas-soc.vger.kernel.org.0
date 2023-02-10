@@ -2,170 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01FEE691D69
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 11:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D6A691D87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 12:04:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231167AbjBJK7M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 05:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
+        id S232163AbjBJLEL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 06:04:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbjBJK7L (ORCPT
+        with ESMTP id S231429AbjBJLEK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 05:59:11 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAC95ACC8;
-        Fri, 10 Feb 2023 02:59:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676026750; x=1707562750;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=O8bXsQb4w/Skhkys3z7+5CKQ+oX3S7PWShzRskTWV+g=;
-  b=luBHg+ZJro08p634hYJQgAgpIFGxSa2g/dYbLcyo3WlIeBQnfpea/0NL
-   N9RfSaDOx/qCQSyUU0EKMihMM7uL4zqhYUV8tVy87ddK22HeFKi2Q0H4u
-   9QdBZ7orz2F8zvJXQrjJQ/P7mdKkjdo9aWszFaxkZt2xKtH0Y+URnQTyY
-   dFPz+da/FGI6qEgxp7+X3L8n7m58RRtQAe6c819GcWxn5459PFv2+3Jf0
-   QrkTC+QDO3Q7B9DzdrefXcylpJZMJYOb0fF+iCAcuymx9uZsB3YH0Pjoi
-   txzJC9SGHZHQfK3Lb5RDuA7KAdmvcgL33Lt1FiLV8v/kT/VgbTMs8M9if
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="392794602"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
-   d="scan'208";a="392794602"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 02:59:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="661375161"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
-   d="scan'208";a="661375161"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 10 Feb 2023 02:59:05 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pQR7O-0050yn-33;
-        Fri, 10 Feb 2023 12:59:02 +0200
-Date:   Fri, 10 Feb 2023 12:59:02 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        linux-serial <linux-serial@vger.kernel.org>,
+        Fri, 10 Feb 2023 06:04:10 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F196D71647;
+        Fri, 10 Feb 2023 03:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=OiSEzv9rtDSTvo2Zi5fGTIDoz35QzbSPZrOm1laNUMM=; b=q31jFGPkY6EPYOhhEOFeBuqgBW
+        9DYtv8WXHGxMdfHJ/89KrDHm9dh9XGlQwu2RZR+kcob86Cka/SdhvlV23IZiQJwxArdcvGBNIn9bA
+        6YQ0s3K1bsHI04vVpdhl0vpALG0d4hNE5lhaNc+U6ZRbwUC3PEhLGhqyWY+XFq3SA8T7C++E8jiK4
+        vzufbQ1BC3MoOt4TSNpJ+IeGTpno75pw8TBo5MF0EBC6lzKQILQCGUBT6dnNA3RRk0bIlrajPTdKG
+        3VxSbk4OXtnWvxaFZvyhf5wayWduKUrImf8HixkA/QfMx6UX3UH08sIMjHSy2OECuJqcz0ZL9xt8X
+        BH16j7Xw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36512)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pQRBu-0001MT-Sf; Fri, 10 Feb 2023 11:03:42 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pQRBm-0005WD-Us; Fri, 10 Feb 2023 11:03:34 +0000
+Date:   Fri, 10 Feb 2023 11:03:34 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+        Clark Wang <xiaoning.wang@nxp.com>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] serial: 8250: Identify Renesas RZ/V2M 16750 UART
-Message-ID: <Y+YjdghwT2msRriZ@smile.fi.intel.com>
-References: <20230209132630.194947-1-biju.das.jz@bp.renesas.com>
- <20230209132630.194947-2-biju.das.jz@bp.renesas.com>
- <4470e054-ebe6-b3ca-ffd7-1c7c3ae09f1a@linux.intel.com>
- <OS0PR01MB5922AC5FF10FFF5F8590B8AA86D99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y+VrOGR+7LbBMahz@smile.fi.intel.com>
- <OS0PR01MB5922C55E79014C84C742AE0886DE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 3/6] net: stmmac: start phylink before setting
+ up hardware
+Message-ID: <Y+YkhjyaL+hNGW+7@shell.armlinux.org.uk>
+References: <20230116103926.276869-1-clement.leger@bootlin.com>
+ <20230116103926.276869-4-clement.leger@bootlin.com>
+ <Y8UsvREsKOR2ejzT@shell.armlinux.org.uk>
+ <20230207154135.6f0e59f8@fixe.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <OS0PR01MB5922C55E79014C84C742AE0886DE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230207154135.6f0e59f8@fixe.home>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 07:14:54AM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH 1/3] serial: 8250: Identify Renesas RZ/V2M 16750 UART
-> > On Thu, Feb 09, 2023 at 02:28:55PM +0000, Biju Das wrote:
-> > > > From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > > > Sent: Thursday, February 9, 2023 2:09 PM On Thu, 9 Feb 2023, Biju
-> > > > Das wrote:
-
-...
-
-> > > > > +	[PORT_16750] = {
-> > > > > +		.name		= "Renesas RZ/V2M 16750",
-> > > > > +		.fifo_size	= 64,
-> > > > > +		.tx_loadsz	= 64,
-> > > > > +		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_10 |
-> > > > > +				  UART_FCR7_64BYTE,
-> > > > > +		.rxtrig_bytes	= {1, 16, 32, 56},
-> > > > > +		.flags		= UART_CAP_FIFO | UART_CAP_AFE,
-> > > > > +	},
-> > > >
-> > > > Eh, how can you reuse [PORT_16750] again in the initializer like that?
-> > >
-> > > Oops. Missed it. Is it ok to introduce PORT_RENESAS_16750_F64 instead
-> > > as PORT_16750 is used by TI16750?
+On Tue, Feb 07, 2023 at 03:41:35PM +0100, Clément Léger wrote:
+> Le Mon, 16 Jan 2023 10:53:49 +0000,
+> "Russell King (Oracle)" <linux@armlinux.org.uk> a écrit :
+> 
+> > On Mon, Jan 16, 2023 at 11:39:23AM +0100, Clément Léger wrote:
+> > > diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > index f2247b8cf0a3..88c941003855 100644
+> > > --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > @@ -3818,6 +3818,12 @@ static int __stmmac_open(struct net_device *dev,
+> > >  		}
+> > >  	}
+> > >  
+> > > +	/* We need to setup the phy & PCS before accessing the stmmac registers
+> > > +	 * because in some cases (RZ/N1), if the stmmac IP is not clocked by the
+> > > +	 * PCS, hardware init will fail because it lacks a RGMII RX clock.
+> > > +	 */
+> > > +	phylink_start(priv->phylink);  
 > > 
-> > What the difference to the 16750 from TI that prevents you from using it?
+> > So what happens if you end up with the mac_link_up method being called
+> > at this point in the driver, before the hardware has been setup ?
+> > 
+> > If you use a fixed-link, that's a real possibility.
 > 
-> Mostly it is identical.
+> I actually have this setup. On the board, one GMAC is connected to a
+> DSA switch using a fixed-link and the other using the PCS such as added
+> by this series.
 > 
-> The main difference is detection method, and we don't have UART_IERX_SLEEP bit in IER.
+> From what I see, indeed, the mac_link_up() function is called before
+> stmmac_hw_setup(). This does not seems to have any effect on my setup
+> (except making it working of course) but I agree this is clearly not
+> ideal.
 > 
-> On TI, it sets bit 5 of the IIR when 64-byte FIFO mode is enabled when DLAB is set.
-> 
-> Whereas in our case DLAB does n't have any role for Identification, 
-> 
-> It set bit 5 of the IIR when 64 byte FIFO mode is enabled.
-> and it clears bit 5 of the IIR when 64 byte FIFO mode is disabled.
+> What I could do is adding a function in the miic pcs driver that could
+> be called from my rzn1 stmmac probe function to actually configure the
+> PCS at probe time based on the detected "phy-mode". Does that seems
+> better to you ?
 
-So the question here is do these minor deviations affect the actual functionality?
+I think Clark Wang is also working on addressing a very similar problem
+with stmmac. Please can you check out his work first, he's adding a new
+function to phylink to bring the PHY up early in the resume path.
 
-Note, on Intel hardware we use directly TI16750 while we have no sleep
-functionality available IIRC. Ilpo may correct me if I'm wrong.
-
-> Other than that, when I use PORT_16750 type and capabilities in 8250_em driver and 
-> add identification method for Renesas UART in 8250_port driver,
-> 
-> It detected as PORT_16750 UART, but I get below prints during autoconf which is confusing for the end user
-> 
-> [    0.214926] serial8250-em a4040000.serial: detected caps 00000900 should be 00000d00
-> [    0.214975] a4040000.serial: ttyS0 at MMIO 0xa4040000 (irq = 24, base_baud = 3000000) is a TI16750
-> 
-> 
-> Modification in 8250_em driver
-> 
-> +		    up.port.type = PORT_16750;
-> +               up.port.name            = "Renesas RZ/V2M 16750";
-> +               up.port.fifosize        = 64;
-> +               up.tx_loadsz = 64;
-> +               up.capabilities = UART_CAP_FIFO | UART_CAP_AFE;
-> 
-> Identification method in 8250_port.c driver
-> 
-> +       /*
-> +        * No EFR.  Try to detect a Renesas RZ/V2M 16750, which only sets bit 5
-> +        * of the IIR when 64 byte FIFO mode is enabled.
-> +        * Try setting/clear bit5 of FCR.
-> +        */
-> +       serial_out(up, UART_FCR, UART_FCR_ENABLE_FIFO);
-> +       status1 = serial_in(up, UART_IIR) & (UART_IIR_64BYTE_FIFO | UART_IIR_FIFO_ENABLED);
-> +
-> +       serial_out(up, UART_FCR, UART_FCR_ENABLE_FIFO | UART_FCR7_64BYTE);
-> +       status2 = serial_in(up, UART_IIR) & (UART_IIR_64BYTE_FIFO | UART_IIR_FIFO_ENABLED);
-> +
-> +       if (status1 == UART_IIR_FIFO_ENABLED_16550A &&
-> +           status2 == (UART_IIR_64BYTE_FIFO | UART_IIR_FIFO_ENABLED_16550A)) {
-> +               up->port.type = PORT_16750;
-> +               up->capabilities |= UART_CAP_AFE;
-> +               return;
-> +       }
-
-What I don't like is increasing quirks in the 8250_port. Can't you simply use FIXED_PORT facility?
-Again, look how 8250_mid is written.
+I would like you both to work together to address what seems to be the
+same issue.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
