@@ -2,187 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56EFE691F0F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 13:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A613F691F41
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 13:46:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231684AbjBJM1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 07:27:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46186 "EHLO
+        id S231654AbjBJMqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 07:46:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjBJM1G (ORCPT
+        with ESMTP id S231626AbjBJMqT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 07:27:06 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB26020077;
-        Fri, 10 Feb 2023 04:27:04 -0800 (PST)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id B9FD6C0005;
-        Fri, 10 Feb 2023 12:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1676032023;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=onC4uvSvom/UzAuHfG54ufV5S11DPr9PwQEDZQSvD/8=;
-        b=D17I3QpQS2PBGfHhv5YdbROETUA+7fAsoT6dg4Br3BNDYs78m2tMntxVZ4/F4ORHBm3MsM
-        PIxxe/dJ5MIrm7A7GSeYLl86oQ1yY8FGQNrFQwYK/8psH5xalF7vexhDY3Ng4kw5Ytg/m7
-        HHEFHly7quw+bfnMAu9Mt9duRki+Zl3+gbq7slWurMCNlLQIWNOgcGP1uV13SmIf4YY+ks
-        WDZtzKrqM1zSksFoZFCSRkukqAPo0gNjir4+3putED9OScnNes0Qh2HFOHI4yocR6HATB6
-        udOEiLkIiwedm2twRteLedmCkJerZ3qruz6KSSwKAgrhAeWvN3vWwMFVtYLYtg==
-Date:   Fri, 10 Feb 2023 13:29:21 +0100
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Wong Vee Khee <veekhee@apple.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Revanth Kumar Uppala <ruppala@nvidia.com>,
-        Tan Tee Min <tee.min.tan@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 4/6] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
-Message-ID: <20230210132921.2d6ab6a0@fixe.home>
-In-Reply-To: <f894aa27-0f14-5bc9-2eae-114fae7ef3b0@linaro.org>
-References: <20230209151632.275883-1-clement.leger@bootlin.com>
-        <20230209151632.275883-5-clement.leger@bootlin.com>
-        <f894aa27-0f14-5bc9-2eae-114fae7ef3b0@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Fri, 10 Feb 2023 07:46:19 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D5486CC65
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:46:18 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id g8so5455214qtq.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:46:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=43Gc372fWMl6nuDXEwFRB1KG3iHD/fB+3hPl41PCVpU=;
+        b=WTS8Svum4Sw7MfA0tYvs8OnKpkHbmQXGPpvwt41Ebh9NlPw13Nbmf2dF30Dj7UqG5s
+         TWBH5nF1qHs5FRRxFzE0ZEK2YWjEDiK7cd7lrE1JcZFyLFhcrWwcem/gnQQrFhZYTxPn
+         ptIE4scMe6+PL0L1A/Lp49yeP+sUlPia9nKCfLMvwf74zn0ASc/0a5oRksQinjph/ZsG
+         W0QXN1YwGOwbpICdUTNNOYcdTXKoeiwV9ghJ35QDPxu7UhGF8/nSNwgLp/H+KIx9PCeT
+         wdXGEIgi7/gcgqS/9fuskizIrr2mXjBVyvv0Qdl+3DoHd1Fjvoholl+Kxq++R0XFpTh+
+         qEWw==
+X-Gm-Message-State: AO0yUKWIzIBwjJpAeLCdhXyaxEZy1pUZIr+Nztp/PWw/nMN+Zk3+mydl
+        szRlKGmLLS/33SRwT7daQ5Gmli+caxSxZ9dt
+X-Google-Smtp-Source: AK7set+q4JS6h0oSQoybP8fRLL4/e7qFLS27ts6by6GjFA7nNEGlLv7L+Z1s6v9SBEzBapfQ7eBFAA==
+X-Received: by 2002:a05:622a:1393:b0:3b6:30b6:b894 with SMTP id o19-20020a05622a139300b003b630b6b894mr23002316qtk.20.1676033177546;
+        Fri, 10 Feb 2023 04:46:17 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id y16-20020ac85f50000000b003ba1ccba523sm3302991qta.93.2023.02.10.04.46.17
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 04:46:17 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-52ec329dc01so46561907b3.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:46:17 -0800 (PST)
+X-Received: by 2002:a0d:db96:0:b0:52e:c7a1:7439 with SMTP id
+ d144-20020a0ddb96000000b0052ec7a17439mr343106ywe.384.1676033176962; Fri, 10
+ Feb 2023 04:46:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com> <87cz6sanga.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87cz6sanga.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 10 Feb 2023 13:46:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVF=S8zmSPAwt8_Hu3+0WS4=UihL7aiwtMg3yvAGPQGow@mail.gmail.com>
+Message-ID: <CAMuHMdVF=S8zmSPAwt8_Hu3+0WS4=UihL7aiwtMg3yvAGPQGow@mail.gmail.com>
+Subject: Re: [PATCH 1/9] pinctrl: renesas: r8a779g0: Add Audio Clock support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Fri, 10 Feb 2023 13:01:01 +0100,
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> a =C3=A9crit :
+On Thu, Feb 2, 2023 at 2:03 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Linh Phung <linh.phung.jy@renesas.com>
+>
+> This patch adds Audio Clock pins, groups, and functions
+> to r8a779g0 SoC.
+>
+> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-> On 09/02/2023 16:16, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add "renesas,rzn1-gmac" binding documentation which is compatible with
-> > "snps,dwmac" compatible driver but uses a custom PCS to communicate
-> > with the phy.
-> >=20
-> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > ---
-> >  .../bindings/net/renesas,rzn1-gmac.yaml       | 67 +++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/net/renesas,rzn1-=
-gmac.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.ya=
-ml b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> > new file mode 100644
-> > index 000000000000..029ce758a29c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-> > @@ -0,0 +1,67 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/net/renesas,rzn1-gmac.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas GMAC
-> > +
-> > +maintainers:
-> > +  - Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > +
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        enum:
-> > +          - renesas,r9a06g032-gmac
-> > +          - renesas,rzn1-gmac
-> > +  required:
-> > +    - compatible
-> > +
-> > +allOf:
-> > +  - $ref: snps,dwmac.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,r9a06g032-gmac
-> > +      - const: renesas,rzn1-gmac
-> > +      - const: snps,dwmac =20
->=20
-> Thanks, looks good now.
->=20
-> > +
-> > +  pcs-handle:
-> > +    description:
-> > +      phandle pointing to a PCS sub-node compatible with
-> > +      renesas,rzn1-miic.yaml#
-> > +    $ref: /schemas/types.yaml#/definitions/phandle =20
->=20
-> you do not need ref here - it is coming from ethernet-controller.yaml
-> via snps,dwmac.yaml. You actually could drop entire property, but it can
-> also stay for the description.
+My
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+on v1 is still valid, i.e. will queue in renesas-pinctrl-for-v6.4.
 
-Ok thanks for the tip. I will drop it since there will be a v4.
+Gr{oetje,eeting}s,
 
->=20
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    ethernet@44000000 {
-> > +      compatible =3D "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "s=
-nps,dwmac";
-> > +      reg =3D <0x44000000 0x2000>;
-> > +      interrupt-parent =3D <&gic>;
-> > +      interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-> > +             <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>, =20
->=20
-> Please align with previous <
->=20
->=20
-> Best regards,
-> Krzysztof
->=20
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
