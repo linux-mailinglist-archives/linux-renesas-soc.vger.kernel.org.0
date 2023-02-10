@@ -2,61 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 307EA69257C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 19:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAF37692591
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 19:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbjBJSj4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 13:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33548 "EHLO
+        id S233017AbjBJSn7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 13:43:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232575AbjBJSj4 (ORCPT
+        with ESMTP id S232616AbjBJSn6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 13:39:56 -0500
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD8D722A23;
-        Fri, 10 Feb 2023 10:39:54 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id q13so6868340qtx.2;
-        Fri, 10 Feb 2023 10:39:54 -0800 (PST)
+        Fri, 10 Feb 2023 13:43:58 -0500
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3034C2CFCB;
+        Fri, 10 Feb 2023 10:43:43 -0800 (PST)
+Received: by mail-qt1-f179.google.com with SMTP id g8so6814839qtq.13;
+        Fri, 10 Feb 2023 10:43:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h0YSePjb0L3KZWyxU8wMeNkMM7neyI5evs0/4kJAdso=;
-        b=OgIdas6PrWi559bJ5F639I83FgWd5EqtAyRkICMgcDWp/TWAJ2LidaVqJxsJbEzVBA
-         2gkGOJao2FkWzxUh7aO1P74YuCl7zkcM2ymrcPqdPsZicNYDsFJ7kmeihTm6LGtJVlkz
-         4ghbIfv2h68jC43gkygEDegYrggReTBK3oQfUBOFqlhIMANaRcqHbGZDrPCTDhWO/DEg
-         cNd4IOulWC2idubtn9vUIZMTW6hDcq/aCnez1wRx1ot01feRyZUaVMjcPR0xm6apq6NQ
-         WiwHkS3VdrepSREupJdHh1l+zuzg3fAMh19P8pSv76HNGXGG6V7+DMhr+FqaNJPZBj4Q
-         Q57Q==
-X-Gm-Message-State: AO0yUKUbMB56P19HNV/RKMkErWU7YVE1Q3svsvK7aoqNsnXIZIjR3vql
-        oENaa9CnFpTNPZHCStAjO13eAu0LGucZTg==
-X-Google-Smtp-Source: AK7set/RCV9vkV+xX0Je4abKQV1HhLxmnI0Su/8Qkj7Jhoz5wrGhBuRTc3grH/H0emuopaOxklfC+g==
-X-Received: by 2002:a05:622a:1386:b0:3b8:58d0:b4d5 with SMTP id o6-20020a05622a138600b003b858d0b4d5mr26559939qtk.0.1676054393803;
-        Fri, 10 Feb 2023 10:39:53 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id t3-20020a379103000000b0070617deb4b7sm3986682qkd.134.2023.02.10.10.39.53
+        bh=l6d5G6T5AsnuA8VHKXHNQd/P4qQ8UiIvgO4UrJudu4s=;
+        b=fbhzzY6eOhaVTkb75G/yjL8qbphGuApRWIwg86aM1anOhm6nnoJsNsB8LE45dzQYCp
+         TyykADFPqi9TbawjnBLlCVhDLfE/olIrM00m5/vm14pXZ12v8vNfnQtGd/5tKeiOfI2j
+         9fTfNGJ5z0N4R6Ik1Z4QQbwBWxRN8IMpouaoKbHcwdWd4b0IkoGojFegJfjVcAW4rx9U
+         //2VdqUwMNOAOajFhuFfq99UzGWLuZcZwS5TFAUhXZXxIdJiFQSnZHbu6Gs5GuVuNtDf
+         qvZJRxCzGPfnhaD8B4dnPfWOsMw9qeMDmQDsSAasCswBpGhV05Z5KYRVokWFf7Tuy802
+         JFag==
+X-Gm-Message-State: AO0yUKWyl1miDFFMyb0VK2roMOwrCfSqb488TcoKnDxCWM9omSu34IN2
+        AhP19Qr6rtV+srcFYyHdx15LEZ62bLBuIQ==
+X-Google-Smtp-Source: AK7set+9jpgVGgutC5pDxNsLsYlz6qnpE7T2mdb6oZWgy2EIvhu9uTDABN0aktLPA21H8zgrQf11CQ==
+X-Received: by 2002:ac8:580f:0:b0:3b8:4b00:575e with SMTP id g15-20020ac8580f000000b003b84b00575emr26668702qtg.35.1676054621900;
+        Fri, 10 Feb 2023 10:43:41 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id r18-20020ac87ef2000000b003b86b088755sm3825053qtc.15.2023.02.10.10.43.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 10:39:53 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-52ec329dc01so60127407b3.10;
-        Fri, 10 Feb 2023 10:39:53 -0800 (PST)
-X-Received: by 2002:a0d:e28f:0:b0:52b:f563:2da3 with SMTP id
- l137-20020a0de28f000000b0052bf5632da3mr957207ywe.235.1676054392940; Fri, 10
- Feb 2023 10:39:52 -0800 (PST)
+        Fri, 10 Feb 2023 10:43:41 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id o66so1541548ybc.0;
+        Fri, 10 Feb 2023 10:43:41 -0800 (PST)
+X-Received: by 2002:a25:f202:0:b0:880:3ca9:736b with SMTP id
+ i2-20020a25f202000000b008803ca9736bmr2118281ybe.464.1676054621188; Fri, 10
+ Feb 2023 10:43:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230210154140.338352-1-biju.das.jz@bp.renesas.com> <20230210154140.338352-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230210154140.338352-2-biju.das.jz@bp.renesas.com>
+References: <20230210154140.338352-1-biju.das.jz@bp.renesas.com>
+ <20230210154140.338352-4-biju.das.jz@bp.renesas.com> <954bb490-b516-6624-5bb9-e82434fc95f0@linux.intel.com>
+ <OS0PR01MB592222F997B7CB5976B7618186DE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592222F997B7CB5976B7618186DE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Feb 2023 19:39:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUhzBj88AkZ_DR5mzbPKYX2eRH7wvFAn8zF_nq2ytCaJQ@mail.gmail.com>
-Message-ID: <CAMuHMdUhzBj88AkZ_DR5mzbPKYX2eRH7wvFAn8zF_nq2ytCaJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] serial: 8250_em: Use dev_err_probe()
-To:     biju.das.jz@bp.renesas.com
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Date:   Fri, 10 Feb 2023 19:43:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVMiMhNXRUDDS1XsKVF--p7F42t1LXNokJi0sDhvpeSig@mail.gmail.com>
+Message-ID: <CAMuHMdVMiMhNXRUDDS1XsKVF--p7F42t1LXNokJi0sDhvpeSig@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] serial: 8250_em: Add serial_out() to struct serial8250_em_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org,
+        linux-serial <linux-serial@vger.kernel.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -70,49 +74,69 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Fri, Feb 10, 2023 at 4:41 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This patch simplifies probe() function by using dev_err_probe()
-> instead of dev_err in probe().
->
-> While at it, remove the unused header file slab.h and added a
-> local variable 'dev' to replace '&pdev->dev' in probe().
->
-> Also replace devm_clk_get->devm_clk_get_enabled and updated the
-> clk handling in probe().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v1->v2:
->  * replaced devm_clk_get->devm_clk_get_enabled() and updated clk
->    handling in probe().
->  * Added Rb tag from Geert.
+On Fri, Feb 10, 2023 at 5:01 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > On Fri, 10 Feb 2023, Biju Das wrote:
+> > > As per HW manual section 40.6.1, we need to perform FIFO reset + SW
+> > > reset before updating the below registers.
+> > >
+> > > FCR[7:5], FCR[3:0], LCR[7][5:0], MCR[6:4], DLL[7:0], DLM[7:0] and
+> > > HCR0[6:5][3:2].
+> > >
+> > > This patch adds serial_out() to struct serial8250_em_hw_info to handle
+> > > this difference between emma mobile and rz/v2m.
+> > >
+> > > DLL/DLM register can be updated only by setting LCR[7]. So the
+> > > updation of LCR[7] will perform reset for DLL/DLM register changes.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for the update!
-
-> --- a/drivers/tty/serial/8250/8250_em.c
-> +++ b/drivers/tty/serial/8250/8250_em.c
-
-> @@ -121,11 +116,8 @@ static int serial8250_em_probe(struct platform_device *pdev)
->         up.dl_write = serial8250_em_serial_dl_write;
+> > > --- a/drivers/tty/serial/8250/8250_em.c
+> > > +++ b/drivers/tty/serial/8250/8250_em.c
+> > > @@ -31,6 +35,40 @@ struct serial8250_em_priv {
+> > >     const struct serial8250_em_hw_info *info;  };
+> > >
+> > > +static void serial8250_rzv2m_reg_update(struct uart_port *p, int off,
+> > > +int value) {
+> > > +   unsigned int ier, fcr, lcr, mcr, hcr0;
+> > > +
+> > > +   ier = readl(p->membase + (UART_IER << 2));
+> > > +   hcr0 = readl(p->membase + (UART_HCR0 << 2));
+> > > +   fcr = readl(p->membase + ((UART_FCR + 1) << 2));
+> > > +   lcr = readl(p->membase + ((UART_LCR + 1) << 2));
+> > > +   mcr = readl(p->membase + ((UART_MCR + 1) << 2));
+> > > +
+> > > +   writel(fcr | UART_FCR_CLEAR_RCVR | UART_FCR_CLEAR_XMIT,
+> > > +          p->membase + ((UART_FCR + 1) << 2));
+> > > +   writel(hcr0 | UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
+> > > +   writel(hcr0 & ~UART_HCR0_SW_RESET, p->membase + (UART_HCR0 << 2));
+> > > +
+> > > +   switch (off) {
+> > > +   case UART_FCR:
+> > > +           fcr = value;
+> > > +           break;
+> > > +   case UART_LCR:
+> > > +           lcr = value;
+> > > +           break;
+> > > +   case UART_MCR:
+> > > +           mcr = value;
+> > > +           break;
+> > > +   }
+> > > +
+> > > +   writel(ier, p->membase + (UART_IER << 2));
+> > > +   writel(fcr, p->membase + ((UART_FCR + 1) << 2));
+> > > +   writel(mcr, p->membase + ((UART_MCR + 1) << 2));
+> > > +   writel(lcr, p->membase + ((UART_LCR + 1) << 2));
+> > > +   writel(hcr0, p->membase + (UART_HCR0 << 2));
+> >
+> > Perhaps it would make sense to instead of using readl/writel() directly to
+> > call serial8250_em_serial_in/out() so all the offset trickery wouldn't need
+> > to be duplicated inside this function?
 >
->         ret = serial8250_register_8250_port(&up);
-> -       if (ret < 0) {
-> -               dev_err(&pdev->dev, "unable to register 8250 port\n");
-> -               clk_disable_unprepare(priv->sclk);
+> HCR0 register is not available for emma mobile. Is it ok if I just do readl/writel for
+> that register and rest will use serial8250_em_serial_in/out()??
 
-You forgot to remove the call to clk_disable_unprepare()
-in serial8250_em_remove().
-After that, there is no longer a need to store the clock pointer
-in priv->sclk.
-
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               return dev_err_probe(dev, ret, "unable to register 8250 port\n");
->
->         priv->line = ret;
->         platform_set_drvdata(pdev, priv);
+According to R19UH0040EJ0400 Rev.4.00 it is available on EMEV2,
+and the layout looks identical to RZ/V2M.
 
 Gr{oetje,eeting}s,
 
