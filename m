@@ -2,112 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E47F691DB3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 12:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62F13691E0D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 12:18:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232351AbjBJLKh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 06:10:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        id S232351AbjBJLSe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 06:18:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232323AbjBJLK2 (ORCPT
+        with ESMTP id S232381AbjBJLS0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 06:10:28 -0500
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA1B71014;
-        Fri, 10 Feb 2023 03:10:19 -0800 (PST)
-Received: by mail-qv1-f43.google.com with SMTP id o42so853356qvo.13;
-        Fri, 10 Feb 2023 03:10:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wpyfNMsIf7u2o4EXgAx33Jd/nnkTR0WPsrSKRqooKc8=;
-        b=Qx5OQ6pWRZE+5bpapzGgKMYRHckAqDhnCCETUwVGuCl2QZ+9Wa2zg3hrPi+JGRDYF+
-         6mLE6HdPRhF/MXt49oitQE1uz9H3SOhHVICzgpM3VBpQrDc3TnwxqiElUam395cMBJFT
-         1HXcH5Z73bVNIA511pf3K3X6/WNtlK07jBa2ZBxsYGxZfkhqlpX/RPsf9gJW5NiUkcV2
-         6sbeDsfBElZ3ZCjHMRft7mU9DW4u77dlaGwR/IRRwifmOf/IfFGojxLtg2zeTlSSqopX
-         kxweW/7ve+e5hfeGdZvNdiVwMsH2bxYFJrH6oaHr6KlzIOpYMt1Fy5JIzMankrJ+RshH
-         vFow==
-X-Gm-Message-State: AO0yUKXcbJhANQEz2+xVMXR+BBKLnkW1GUNdlYwYP1JPOajHomrPvKIn
-        5sZKv/ws790unaAGnYP1Comw7QukFfpkNnAi
-X-Google-Smtp-Source: AK7set8Bl93dMMA44zVRXTfNjmAQZ4kWE/Tx+Wbw/esI5vUsOtjm3Dt6WDyoG4SR4rAfXlRb2lFWzg==
-X-Received: by 2002:a05:6214:4104:b0:56b:eb9d:4342 with SMTP id kc4-20020a056214410400b0056beb9d4342mr25437340qvb.49.1676027418739;
-        Fri, 10 Feb 2023 03:10:18 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id v129-20020a37dc87000000b0071df8b60681sm3452600qki.94.2023.02.10.03.10.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 03:10:18 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-520dad0a7d2so63208417b3.5;
-        Fri, 10 Feb 2023 03:10:17 -0800 (PST)
-X-Received: by 2002:a0d:e9c1:0:b0:514:a90f:10ea with SMTP id
- s184-20020a0de9c1000000b00514a90f10eamr1412958ywe.316.1676027417617; Fri, 10
- Feb 2023 03:10:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20230206002136.29401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230206002136.29401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Feb 2023 12:10:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUXXrYPcNiD3M_ONjX2Jn16KKXdY=4JMqJbm9F=9GMBvA@mail.gmail.com>
-Message-ID: <CAMuHMdUXXrYPcNiD3M_ONjX2Jn16KKXdY=4JMqJbm9F=9GMBvA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Drop specifying the
- GIC_CPU_MASK_SIMPLE() for GICv3 systems
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Fri, 10 Feb 2023 06:18:26 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC23F72BD;
+        Fri, 10 Feb 2023 03:18:22 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 34740FF805;
+        Fri, 10 Feb 2023 11:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1676027900;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SGwyNDweKOny7cUymOWAbYX6Mq3MlF6z2NnyCm7S6IA=;
+        b=ZeKttHtFULihjZv3XE4iLc9Cm3nSL2XmbzdizN7jbSGDFC1iB33AJM+e2ZsNiHfJegAtWX
+        ejNzXUYLtRWGaHrF9WuFx/5GwolTjyYhJquXnkSlQq0d0WaIVfvWOmNE3PijJRBUC0md+Z
+        YfM4VsLWfBjiwy7Qu/fo7KnbE25sSsuh8nbEir+rwYNT3LyDxikKvRrPFE5FXQstUbiq7X
+        xL0XZZW0k4B3GbXhr3Jo3IDUmR4bwEbn2AgGFS+ll3wHyiZo45+gvXtk5YJE8eflzSj9ax
+        zl/lUwq+1ZaBY3thoSN8FcKWWYalgmZxmv93xUCRo3fML+jcUka5DBTMzqungg==
+Date:   Fri, 10 Feb 2023 12:20:38 +0100
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc:     Clark Wang <xiaoning.wang@nxp.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 3/6] net: stmmac: start phylink before setting
+ up hardware
+Message-ID: <20230210122038.20fab507@fixe.home>
+In-Reply-To: <Y+YkhjyaL+hNGW+7@shell.armlinux.org.uk>
+References: <20230116103926.276869-1-clement.leger@bootlin.com>
+        <20230116103926.276869-4-clement.leger@bootlin.com>
+        <Y8UsvREsKOR2ejzT@shell.armlinux.org.uk>
+        <20230207154135.6f0e59f8@fixe.home>
+        <Y+YkhjyaL+hNGW+7@shell.armlinux.org.uk>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Le Fri, 10 Feb 2023 11:03:34 +0000,
+"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
 
-On Mon, Feb 6, 2023 at 1:28 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> The GICv3 interrupts binding does not have a cpumask. The CPU mask only
-> applies to pre-GICv3. So just drop using them from GICv3 systems.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Tue, Feb 07, 2023 at 03:41:35PM +0100, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Le Mon, 16 Jan 2023 10:53:49 +0000,
+> > "Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
+> >  =20
+> > > On Mon, Jan 16, 2023 at 11:39:23AM +0100, Cl=C3=A9ment L=C3=A9ger wro=
+te: =20
+> > > > diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/dr=
+ivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > > index f2247b8cf0a3..88c941003855 100644
+> > > > --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > > +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> > > > @@ -3818,6 +3818,12 @@ static int __stmmac_open(struct net_device *=
+dev,
+> > > >  		}
+> > > >  	}
+> > > > =20
+> > > > +	/* We need to setup the phy & PCS before accessing the stmmac reg=
+isters
+> > > > +	 * because in some cases (RZ/N1), if the stmmac IP is not clocked=
+ by the
+> > > > +	 * PCS, hardware init will fail because it lacks a RGMII RX clock.
+> > > > +	 */
+> > > > +	phylink_start(priv->phylink);   =20
+> > >=20
+> > > So what happens if you end up with the mac_link_up method being called
+> > > at this point in the driver, before the hardware has been setup ?
+> > >=20
+> > > If you use a fixed-link, that's a real possibility. =20
+> >=20
+> > I actually have this setup. On the board, one GMAC is connected to a
+> > DSA switch using a fixed-link and the other using the PCS such as added
+> > by this series.
+> >=20
+> > From what I see, indeed, the mac_link_up() function is called before
+> > stmmac_hw_setup(). This does not seems to have any effect on my setup
+> > (except making it working of course) but I agree this is clearly not
+> > ideal.
+> >=20
+> > What I could do is adding a function in the miic pcs driver that could
+> > be called from my rzn1 stmmac probe function to actually configure the
+> > PCS at probe time based on the detected "phy-mode". Does that seems
+> > better to you ? =20
+>=20
+> I think Clark Wang is also working on addressing a very similar problem
+> with stmmac. Please can you check out his work first, he's adding a new
+> function to phylink to bring the PHY up early in the resume path.
+>=20
+> I would like you both to work together to address what seems to be the
+> same issue.
+>=20
 
-Thanks for your patch!
+Acked
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.4...
-
-> ---
-> Note, this patch applies on top of [0]
->
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-As this patch is a fix, I think it makes sense to drop that dependency.
-
-So I'll do
-
-    git show -- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | sed -e
-'s/044/054/g' | patch -p1 && git commit -a --amend
-
-while applying.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
