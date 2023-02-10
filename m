@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05822691F43
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 13:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 393B2691F4A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 13:47:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbjBJMrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 07:47:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
+        id S231400AbjBJMrq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 07:47:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbjBJMrO (ORCPT
+        with ESMTP id S231873AbjBJMrp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 07:47:14 -0500
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330503CE3C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:14 -0800 (PST)
-Received: by mail-qt1-f169.google.com with SMTP id ch10so4380711qtb.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:14 -0800 (PST)
+        Fri, 10 Feb 2023 07:47:45 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB1B6CC6F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:44 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id h24so5578366qtr.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w2Vp4HjiS3H8O7F9PA9E5TvI5pi+xfaNzgD0qjmIqBw=;
-        b=nEnbNnhOI7cO5ProP3moE5rgXyGAUFWV5rMvowhfK8wu/4iv1Qwj6tm9nMRkPfqoEl
-         dmr1DHY0f0kaCqekUjF5lc7foDjDtayjIjaAkZajxOGs5RBIMhRd58+pi1QCGqNc2Vfz
-         B1Ibt4NIcpdq7nDFfB0rhCtUBhnLu+UhBEYtByEy8gwEKNEz30y/z4t48F+rWOEOMFJV
-         hAQV5X31ncr242yS2jBbj8hHAOwLi/0c+7lg91GRWutZO435JwE3qxby3DEfMs/O+9g4
-         VbEpwxXWMNMTE4m7hxKe1MB0yxecuPoGEXr+4nyDzFJgTj0hKBWgD9WUfz8CiFY+X8rA
-         i2BA==
-X-Gm-Message-State: AO0yUKXCXFiO7Iozc5qqkej7zg1b7INttj3TZ9RMc38OL6ieU5aBzjX0
-        Xmvfkn3nmtwqP38EmSLltriFmRWzWKCg1AuE
-X-Google-Smtp-Source: AK7set+d1ao6tNkvKmOT3PlB3XnunYuAgP2MBr9fY4y9mNVjhtFToptCNKciX9hcUibbb0cNzHkoww==
-X-Received: by 2002:ac8:7f4c:0:b0:3a5:ff6e:d43e with SMTP id g12-20020ac87f4c000000b003a5ff6ed43emr29493078qtk.2.1676033233147;
-        Fri, 10 Feb 2023 04:47:13 -0800 (PST)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id i23-20020ac87657000000b003b86b962030sm3278304qtr.72.2023.02.10.04.47.12
+        bh=Yo8HAW/2I9qqLBb0C8Q04jemdvn4umc13vAZeV+rIME=;
+        b=NzG1iyOYn4HBL0pAgPErDM5auqQfO16OvNx/6rLzH58dzszweM7K+j3zTI5lfVQvg/
+         Mz5jF54y+YP3sjmFV5Rmau1YFGactpGmE4V7/eCa1ns1ulTkf9NPkJ4pPgvh85wSJ/O+
+         W7so2DgFCPSgIlt+Y9NuOqlnfz7Au8/qhcSzck6eJHhDM9tMXkdy7y6Za3LO5tA+Ov3H
+         lM2AlXKMc1T5lG/0cW/ccMWTmWfu3ULHWfV7x4jxD+Kh8BMUTLG10wW+VIxiSX/ZAYdd
+         xqhNZRmLqH+58ciE2rNCH6n6DRnWCDKyGhnon/VvBaHuEXea/xnWXoNVeDXfEU130cLt
+         BNpw==
+X-Gm-Message-State: AO0yUKUVmvZREoHtlPcvBzhQvAEt4RD9TpZJHFHJTJQZMP0TtNBoVgGt
+        qt3oUhAujSsyX66feBoBi8cIiQDCsYn64ku0
+X-Google-Smtp-Source: AK7set99i9W5fM53xswxib/vYHfveZH935zOOF25uneWEHGKB931ElnsT9QcZLC4AYFxmWQVsVLu0g==
+X-Received: by 2002:ac8:6d0:0:b0:3b9:bc8c:c206 with SMTP id j16-20020ac806d0000000b003b9bc8cc206mr8067341qth.17.1676033263532;
+        Fri, 10 Feb 2023 04:47:43 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id u124-20020a376082000000b00702d1c6e7bbsm3405970qkb.130.2023.02.10.04.47.42
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 04:47:12 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5258f66721bso66434257b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:12 -0800 (PST)
-X-Received: by 2002:a0d:e9c1:0:b0:514:a90f:10ea with SMTP id
- s184-20020a0de9c1000000b00514a90f10eamr1444217ywe.316.1676033232508; Fri, 10
- Feb 2023 04:47:12 -0800 (PST)
+        Fri, 10 Feb 2023 04:47:43 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id x71so5297949ybg.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 04:47:42 -0800 (PST)
+X-Received: by 2002:a25:928e:0:b0:8a0:2a4:a96c with SMTP id
+ y14-20020a25928e000000b008a002a4a96cmr1408463ybl.380.1676033262738; Fri, 10
+ Feb 2023 04:47:42 -0800 (PST)
 MIME-Version: 1.0
-References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com> <87bkmcang2.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87bkmcang2.wl-kuninori.morimoto.gx@renesas.com>
+References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com> <87a61wanfx.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87a61wanfx.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Feb 2023 13:46:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUpVTnC7K-8A4MRE_2Xtr9mbZAkGa5ax7X6kQrvzkTKAw@mail.gmail.com>
-Message-ID: <CAMuHMdUpVTnC7K-8A4MRE_2Xtr9mbZAkGa5ax7X6kQrvzkTKAw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] pinctrl: renesas: r8a779g0: Add Audio SSI support
+Date:   Fri, 10 Feb 2023 13:47:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVtskw=zr-bKO5KZgMZ5ni6AapfBsy6Kyg_NB=rNCALZw@mail.gmail.com>
+Message-ID: <CAMuHMdVtskw=zr-bKO5KZgMZ5ni6AapfBsy6Kyg_NB=rNCALZw@mail.gmail.com>
+Subject: Re: [PATCH 3/9] clk: renesas: cpg-mssr: Fix MSSR register range for V4H
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,17 +67,17 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Feb 2, 2023 at 2:03 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
-> From: Linh Phung <linh.phung.jy@renesas.com>
+> From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
 >
-> This patch adds Audio SSI pins, groups, and functions
-> to r8a779g0 SoC.
+> The SRCR, SRSTCLR, MSTPCR and MSTPSR registers for R-Car V4H (R8A779G0)
+> each have registers up to offset 0x74.
+> This patch update it.
 >
-> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-My
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-on v1 is still valid, i.e. will queue in renesas-pinctrl-for-v6.4.
+i.e. will queue in renesas-clk-for-v6.4.
 
 Gr{oetje,eeting}s,
 
