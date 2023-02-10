@@ -2,191 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA52691FC7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 14:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39EC1691FCA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Feb 2023 14:34:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbjBJNd0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 08:33:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52560 "EHLO
+        id S232042AbjBJNd6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 08:33:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbjBJNd0 (ORCPT
+        with ESMTP id S231960AbjBJNd5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 08:33:26 -0500
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2FB735A1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 05:33:25 -0800 (PST)
-Received: by mail-qv1-f53.google.com with SMTP id nd22so917121qvb.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 05:33:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pG2/LsTJqp91aFWrxoBqAZChmyV62Z3Up81nJrbFgIo=;
-        b=39bVMRQlYwhJQ0x5UHTTBduOD3jXs3uP+Eh+USIasmUDm+lqIgrNfTMwOIxTGZtCKd
-         LO077y3h83iAIhp8j5iF5T+ehe3gWbaDF10rNX0vSkjFvQgASTyGvNzghTf3yz/kJbU5
-         LabcSiNM7NUMdTi1R8JIzfSGml/Ils/5qHWA8N1Xw/lKf98Z7krw8l1gd7SBg1LY2mAZ
-         jK+22F9xh+aIGsBeSZaU8NzJdWi8rYoDXf41BQ1FlN8djikHu6m1TxLNIJ3sb3EMms0E
-         IDfSnm/1GnGy0Wh1sVt3jCUPupi07piTcLXRqiUv+aQadOsvZAdegGt0bfsa+XwuN6Fr
-         nkzQ==
-X-Gm-Message-State: AO0yUKWUzSC6hjZsyWFFvVWt1wdm1M3BakLKuSEqenhudgKnkiSw8Bk+
-        jOV0h6gQ7HNKQhJVb0vLvg+yfJQvyo6UqTFh
-X-Google-Smtp-Source: AK7set80vGiVwsIZpcN9Aw8kMuGq9H9X8EC+qxHXXi/fZjwrTcwcR2kzBPubFIBtOvIbpl7xPfLMxw==
-X-Received: by 2002:a05:6214:248d:b0:56e:912c:1b3a with SMTP id gi13-20020a056214248d00b0056e912c1b3amr5851510qvb.47.1676036003806;
-        Fri, 10 Feb 2023 05:33:23 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id m2-20020a378a02000000b007090cad77c1sm3510463qkd.3.2023.02.10.05.33.23
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 05:33:23 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-4a263c4ddbaso68359087b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 05:33:23 -0800 (PST)
-X-Received: by 2002:a0d:ca03:0:b0:506:6b5d:523c with SMTP id
- m3-20020a0dca03000000b005066b5d523cmr1214998ywd.283.1676036003187; Fri, 10
- Feb 2023 05:33:23 -0800 (PST)
+        Fri, 10 Feb 2023 08:33:57 -0500
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2098.outbound.protection.outlook.com [40.107.255.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9FE1F92C;
+        Fri, 10 Feb 2023 05:33:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wc5CEMmwbaRETWqfefzpUVYm7bcKea+rewwqfotrUk6GEwL9KNxE4KxsuWsDgojT4SqpHV3OE1F/XFIy69m620AdSGh//dNw2kEUqEMQrEVPyYVRm4im3W7j8tMvrPyaT1F+DWyOHTQHSWO88g1PNNm+Qh0B6dqdGxCBgZlI6+c7otn+TXQWOCPtp+BnZDQxvW40A38au1d2Y9swTfTqhjj0P/jnsi/DSMS6MBovYUYi6SZE+l9F+9pp0dwSFkti7+XybozsBmhIROkeehic9LU7VBdfwjRhzJNEi24yeGMHwBdc9Ckvv+wiWcC0pjSCutQYVgE/370aDHhsTE55Dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A4/SfP98gXRjd6ra4ZCUhQ0MtwCpnfuKkxWXtTRT0N0=;
+ b=fOcYk1hLdjvSvhGBWultaiIjnv82AGelCjR99YtLyEN3w5RhVQ7PuUffQN9tUf9oYu0AKnTk74CEC/8Wz/5XQLEJJLXDaXoKXJiKV3S6t7bUuCMwiQsLHn2qXRDPhN6JA2AHTGb9bTXIS9XjiEPw5Vnh3oSVGEwIIUKdSQYrCIIhUpR3MxSPrbdG0z2pGZi1MmNsk+ufmTy4Z8w0h4xL79ISuQiAOTnjAop+juoGYd9HaWjVE7bOWQzw+pUaN6uZbMUnVISOLsjx8Jvgv5yzbbYN9d9EX8CZjJ1JU3S6MxGXTxIzmrxRomivr7VMn7u9yWrFEYK+iUkkmLEGkWApYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A4/SfP98gXRjd6ra4ZCUhQ0MtwCpnfuKkxWXtTRT0N0=;
+ b=Yp0AHOG5nnu8S2gX+PW8rWgaC7Gw0tRnQNnb+TdDvbF+SPzlyw1bc/LKkxeBToIjBWxM96cWVa95aIfbM6zXCEWGgT/xdm+BSjpzqeB/99TB8n5AmpWxJRm0saoBK8YTr85IxrposZXdXw4xQu6VtSSt/g1bGP0C9gw7xmId6Qk=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYTPR01MB10920.jpnprd01.prod.outlook.com
+ (2603:1096:400:39f::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Fri, 10 Feb
+ 2023 13:33:51 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5f2:5ff1:7301:3ff1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5f2:5ff1:7301:3ff1%4]) with mapi id 15.20.6086.019; Fri, 10 Feb 2023
+ 13:33:51 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>
+CC:     "Sergey.Semin@baikalelectronics.ru" 
+        <Sergey.Semin@baikalelectronics.ru>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v8 0/6] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Thread-Topic: [PATCH v8 0/6] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Thread-Index: AQHZNVoyWX2OgSk9CUucrPIPgMQ3Ra7IPZYw
+Date:   Fri, 10 Feb 2023 13:33:50 +0000
+Message-ID: <TYBPR01MB53414B184A69E800288710A8D8DE9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20230131095543.1831875-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230131095543.1831875-1-yoshihiro.shimoda.uh@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYTPR01MB10920:EE_
+x-ms-office365-filtering-correlation-id: 0dde3d6f-e10c-4f9b-3f0f-08db0b6b724b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RUvhh3x/XLCHMPjRcuRPp1LV7xN9Mws2566L6DpuYgusjPEwi8ump4UWvTJjqJ6t6ZzvSipV6qwngFbZO33Zj7hAOS/ENPdisse6fR6IRlg5FQY7qytSumF3qT5w1PXCHK7GgmStfQkqNiOanFpEjbH4EzBwSTDhRTCjwDJgWu6EjHn24+q57e+43hGcoXWVF71Ah1Osvltv0bpH15TqmQZPS+Enae8NhJyUf9ILq0tZ2LRcAXpn73zCZ0BUfWBYaAuBR8nBpE1+Je6V0gZ+jhhKjgAoBelSyJfkwSA4psTaLGW3wGCmlSXDFdrk+iacSZuqkhrf2Y/g1osLExkOedS2gy+lVfsV8CrNXlq84NU/OYDX5DUuMTg3xUIeOm9f+AHcm51tJM0LrSyFM+Juz3e85eeIzjVRA7e8JuLECUodjIMUIsWsYP/qp6En+CMmwYeWrviQf92WL3cOhYg7vX3YLiTuk10pjJxa96cQRDx9Li0rMOfH891+gMtzGVmZyAYrpIUDbLusvqkic9WJfajebg14ccXNQOhVXOAisxFfwz7gcPPEadDewVh2AFvvORLLN3du4DehlqWGcDJI/UrjmvDd/94vEjNxIAjNvBUvTT/T1O7OwEgO4cz5bQQjAab4KMG0XtZvTJXIxVGKp1kS/+8hEFQkr2U9wuojGOEZIG3rvViLL8E+YHXyn1L/mLJNwvyu+pxwlIg+Ot/Siw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(39860400002)(366004)(136003)(346002)(451199018)(38070700005)(38100700002)(83380400001)(7696005)(71200400001)(33656002)(6506007)(41300700001)(9686003)(478600001)(122000001)(76116006)(55016003)(52536014)(2906002)(186003)(26005)(8936002)(110136005)(4326008)(7416002)(86362001)(54906003)(64756008)(4744005)(316002)(66556008)(5660300002)(66446008)(66946007)(66476007)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?vAGoypR6jD+dqy2igOKFtYX2hHE1pMsGM/tlhn0hpGPN+96rCvpLjMtAoiHB?=
+ =?us-ascii?Q?wBDMaEYafTKqv5FmHCS9SAcl/d+BQR81NmmZ+oUbqmj2GVrMBF8KzX/56rYH?=
+ =?us-ascii?Q?jxVAi70CbLJ6GSDcGU45JAEqEoZjjd1X3n6LFqdaEXuF38dBJ8klqrOcYEEu?=
+ =?us-ascii?Q?FXXnROqTEvgACQDvfPqMcGm9RleZUp5gFswe0S5Q03tDGAHhRvaxF+EVip0o?=
+ =?us-ascii?Q?/EFur7nL8Z4OF/jPliNQJTYJif/JFt2+47u7plsFT+FLFA0I3+uP0IrZjLSt?=
+ =?us-ascii?Q?KI09vRgZXuiqINNKG2neYCmsa5bXcou+ZWvRw/433VplcoseOAxIuSI1SGgr?=
+ =?us-ascii?Q?elXJogUcQzzO/xajQpIwtdZS5oPHEEZYlZ3fcNSs/bji7zGiiC9Krc6hEooE?=
+ =?us-ascii?Q?e3zc0tSJnT2vol51nKs1ZOwXSfr33owQk1ptwRYH+9OecfASwjOysf1UMg4T?=
+ =?us-ascii?Q?SBgaCeO+/dq3/JBkkmF/uEX2hxV5P00d5FPF+BUg6BwZW3udGgFWjppX3GTN?=
+ =?us-ascii?Q?dTTVQMXaUsw0HyzrULS1PSwro1/9QmIfdnDKz1SNwZL6lDKwXLzrYKUqfd6O?=
+ =?us-ascii?Q?QOMzQFYZcXzJ8XNWrY3IDgoaZqVQmvSC0BETHl5n8Dtl7/B3sQnGvU1GREMz?=
+ =?us-ascii?Q?Lgh4VnVFPPammv36Q9bxBNKDWWxeHq5OPEb4PQDm69ClLXMXR+fEbphZRA8v?=
+ =?us-ascii?Q?Se7ryg1qx2KZoeoLeWgY8Mbu+4rK3Oip3ENriurftM0HoQQsFyTMxQizR/ta?=
+ =?us-ascii?Q?zdP3RnwoMgqnNAIAzgnifqAdtUz5EhJbT5Ih8yQQOqRsBnyJKcC7HVWa3aWe?=
+ =?us-ascii?Q?Z7VIsKc77VPN8kp5dMA8xa1ZXM014zcavUUjTfDs/mj2VZuKGb3mYFBAryXV?=
+ =?us-ascii?Q?09dTBKLWq6GT7liEhmBfy0AstVhC/7BYgVRNGcGUOHnOgSXD/OKM3vsnG0dd?=
+ =?us-ascii?Q?ADhp62qT8tdJl2Al7Spbi9kk/DW+83uuQ3FghmlL4SpSUc1sJdE3Q/Mn/KUx?=
+ =?us-ascii?Q?nrrsJUFtyJ0LRZSdyuJF0iommNY24EV7vSL4Ce+01tLZPDf/R7zhxsJMcSNb?=
+ =?us-ascii?Q?oE2g2aoMCHWdBqiDq5TWKAm8Mb/A44eYpBbDNZ81RRYcEyv+7lpwSFJh5HVt?=
+ =?us-ascii?Q?6Ed1vvc/VWP5412Quoh6/LQ++yEvA723/Z49EtoknEsdnwYR8rxeWq9I9dm8?=
+ =?us-ascii?Q?yq0SS59Nnle5boiBWX6qHv2EKRfiGwEfWyDB0cIHr7VD/f9K7lBD0gGKQS1j?=
+ =?us-ascii?Q?lB4QPGCzW/W3j5tCLRNOUNtEhH99xjiJwcZ+oTqK7B8Kb8nP1QOaqw74KOXm?=
+ =?us-ascii?Q?Vj8RArIfzZKiZmykudAkgk7pwisZTOPjlwORFmWRmYoZ/5B3f+mVgOG9twqh?=
+ =?us-ascii?Q?rI+ueiJohM5vjhferLApMSiFMPhRb9j0U3m3GfhzvnE5Bez8TztRzAzWemnE?=
+ =?us-ascii?Q?kCEwFzXn0OtqaioSN7ixAeTi83svOgztFdTUWm/nG5TeYT+OUhjpxXHyoJLg?=
+ =?us-ascii?Q?pwCvDTfAmaasSVszeleX39RUSTjFCd2AgXHlHYS+1PRxzYDyeoJGA15Qtn3p?=
+ =?us-ascii?Q?oEJuOypaMStFkoSfRR2AplxUIaHXthjNvGw+omtLUgX6+WJGD0Ff8uG25mGg?=
+ =?us-ascii?Q?zQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com> <875yckands.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <875yckands.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Feb 2023 14:33:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXF8Udi7vk1oCNJN4bXh8fSxGB7N6NYAmzUKuT02MWCEg@mail.gmail.com>
-Message-ID: <CAMuHMdXF8Udi7vk1oCNJN4bXh8fSxGB7N6NYAmzUKuT02MWCEg@mail.gmail.com>
-Subject: Re: [PATCH 7/9] arm64: dts: renesas: r8a779g0: whitehawk: Add R-Car
- Sound support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0dde3d6f-e10c-4f9b-3f0f-08db0b6b724b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2023 13:33:50.9684
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NLJpcu0Uj+HJp9J4bLD/6Q5b3SBv4Ewb4EbqjiSynwhkey37lOnKlAFiLI3Xw3iZUkoBlkj3ZeChb4cgmMd9BlAjNiDdH6cSB6Qcg7da5uiPQ1qNrtuE3rxu7Pw6xd1c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTPR01MB10920
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi,
 
-On Thu, Feb 2, 2023 at 2:04 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> These adds R-Car Sound support for WhiteHawk board using ARD-AUDIO-DA7212
-> external audio board.
->
-> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> From: Yoshihiro Shimoda, Sent: Tuesday, January 31, 2023 6:56 PM
+>=20
+> Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+> To support them, modify PCIe DesignWare common codes.
+>=20
+<snip>
+>=20
+> Yoshihiro Shimoda (6):
+>   PCI: Add PCI_EXP_LNKCAP_MLW macros
+>   PCI: designware-ep: Expose dw_pcie_ep_exit() to module
+>   PCI: dwc: Add support for triggering legacy IRQs
+>   PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+>   PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+>   MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
 
-Thanks for your patch!
+I completely forgot to include dt-bindings patches on v8.
+So, I'll submit v9 patch soon.
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ard-audio-da7212.dts
-> @@ -0,0 +1,194 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the White Hawk boards with R-Car V4H + ARD-AUDIO-DA7212 Board
-> + *
-> + * You can find and buy "ARD-AUDIO-DA7212" at Digi-Key
-> + *
-> + *     https://www.digikey.jp/en/products/detail/ARD-AUDIO-DA7212/1564-1021-ND/5456357?curr=usd&utm_campaign=buynow&utm_medium=aggregator&utm_source=octopart
+Best regards,
+Yoshihiro Shimoda
 
-Please drop the question mark and everything after it from the URL.
-
-> + * [Connection]
-> + *
-> + * White Hawk                          ARD-AUDIO-DA7212
-> + * +----------------------------+
-> + * |CPU board                  |
-> + * |                           |
-> + * |CN40 (IO PIN HEADER)       |
-> + * |   AUDIO_CLKIN_V     pin1  |<--\   +---------------+
-> + * |(*) GP1_25/SL_SW2_V          pin2  |<--/   |J2             |
-> + * |   AUDIO_CLKOUT_V    pin5  |<----->| pin7  MCLK    |
-> + * |   SSI_SCK_V         pin9  |<----->| pin1  BCLK    |
-> + * |   SSI_WS_V          pin13 |<----->| pin3  WCLK    |
-> + * |   SSI_SD_V          pin15 |<----->| pin5  DATIN   | (@)
-> + * |                           |   \-->| pin15 DATOUT  | [CAPTURE]
-> + * +----------------------------+      +---------------+
-> + * (*) GP1_25/SL_SW2_V is used as TPU
-> + * (@) Connect to pin5 (DATIN = playback) or pin15 (DATOUT = capture)
-> + *
-> + * +----------------------------+
-> + * |Breakout board             |
-> + * |                           |       +---------------+
-> + * |CN34 (I2C CN)              |       |J1             |
-> + * |   I2C0_SCL           pin3 |<----->| pin20 SCL     |
-> + * |   I2C0_SDA           pin5 |<----->| pin18 SDA     |
-> + * +----------------------------+  +--->| pin14 GND    |
-> + *                                |    +---------------+
-> + * +----------------------------+  |
-> + * |Switch Board               |  |
-> + * |                           |  |    +---------------+
-> + * |CN5                            GND |<-+    |J7             |
-
-Probably it would be more logical to wire GND to pin 14 of J7 (which
-is the power connector) instead?
-Doesn't matter much though, as all GND signals are connected to
-each other.
-
-> + * |                       3v3 |<----->| pin8  (+3.3v) |
-
-Do you need the Switch Board?
-GND and SPI_D1.8V/3.3V and I2C_D1.8V/3.3V  (which are 3.3V by default)
-are available on CN40 and CN34 above, too.
-
-> +/dts-v1/;
-> +#include "r8a779g0-white-hawk.dts"
-
-Please do not include "r8a779g0-white-hawk.dts", but make this file
-a .dtso (DTS overlay) instead, cfr. salvator-panel-aa104xd12.dtso.
-
-> +&i2c0 {
-> +       da7212: codec@1a {
-> +               compatible = "dlg,da7212";
-> +
-> +               #sound-dai-cells = <0>;
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +
-> +               reg = <0x1a>;
-> +
-> +               clocks = <&rcar_sound>;
-> +               clock-names = "mclk";
-> +
-> +               dlg,micbias1-lvl = <2500>;
-> +               dlg,micbias2-lvl = <2500>;
-> +               dlg,dmic-data-sel = "lrise_rfall";
-> +               dlg,dmic-samplephase = "between_clkedge";
-> +               dlg,dmic-clkrate = <3000000>;
-> +
-> +               VDDA-supply   = <&reg_1p8v>;
-> +               VDDSP-supply  = <&reg_5p0v>;
-
-As the wiring above does not provide VDD_SP (which is fine if the
-speaker is not connected), you can drop VDDSP-supply, and [PATCH 6/9]
-providing reg_5p0v.
-
-FTR, "VDDSP-supply" is not documented in the DA7212 DT bindings.
-
-> +               VDDMIC-supply = <&reg_3p3v>;
-> +               VDDIO-supply  = <&reg_3p3v>;
-> +
-> +               port@0 {
-> +                       da7212_endpoint: endpoint {
-> +                               remote-endpoint = <&rsnd_endpoint>;
-> +                       };
-> +               };
-> +       };
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
