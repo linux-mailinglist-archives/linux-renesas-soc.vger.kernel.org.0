@@ -2,182 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F988692BC0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 01:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF8A692CB3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 03:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbjBKAJr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Feb 2023 19:09:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38834 "EHLO
+        id S229476AbjBKCAl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Feb 2023 21:00:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjBKAJq (ORCPT
+        with ESMTP id S229437AbjBKCAk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Feb 2023 19:09:46 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 981415EA08
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 16:09:44 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id p26so19762771ejx.13
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Feb 2023 16:09:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=x7mMb77558/GOa2tdSKEAjGehFCYaUFofxy3eaCoOPs=;
-        b=bmqdY2XVdR97O+Gg+fo1zWuZif0OftD7uSEd4tTqcN2nMWViEr95M+aQ5z56z3Ixb0
-         zyToSoJeSRhoh1NN6nuJPlUzD4ffmt0DMkr/y3aQv0zGxW8pW0DjtzS6YxbTKQcBLRbl
-         dmDTGAzkW99YoaweR4xRS7hLNSKdFbh4MKsgVDsbgz0kP2ACyOI55BfDu6gXxmgm9hXc
-         AtSEBSnxLA5QMYHezqhFvC8iODFLx6/D2UNz7LVxr3Lg8z0EXFPtE+NohxxB7h2btwLf
-         pN3eqDi/PBAIRUnwHf/weIdGArouqaGX6NpGzsospFh8vzI+kY1stES63zeeM1w9JnwK
-         8d/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x7mMb77558/GOa2tdSKEAjGehFCYaUFofxy3eaCoOPs=;
-        b=Wq/zjoj8FjircO+2s874EJZ1l8bI+/il6gM1kj4IyB1Xy/adaXOYq/EXd1nLGweyAn
-         LUkr9UzhUQ78/5YufO5lQOgNkoakNhC33hWWS8xAWtVqJ7TSuhMUinP5Pw+r4kjieS/6
-         h3H+e58+CIXa0iDu9hKRLKSnv5NJkEgXklVeDwmW7bpICECOWXo7lGm/BIYhk/XIfZgB
-         i9/2g48DeyfNFbGQeynhQl4DvGgQxgX0sv9A9wjyUl3DKKRUpwR7GqnXQQPNrK2As1Kf
-         Bo0M3E+FcUEOEledgRHqShQOll2EEwXIWiMryTwMLj7+ubr+dYfhRMuNhEa9g8q1s3IQ
-         IaBQ==
-X-Gm-Message-State: AO0yUKUzXgGXPRe95spFxfwhcgJmE0EwEyoXwa51Tu0RkraQUrU0PGhi
-        mmwcqAIyeeBr5nRX6UEmdmix5Q==
-X-Google-Smtp-Source: AK7set/v03pmyEIL8majewMjwUBdx8AmLaZjc9pwXrZDINkJlDAxy0jBTUYhIf17FVSFb1cf7uuLBw==
-X-Received: by 2002:a17:907:8a03:b0:7c1:458b:a946 with SMTP id sc3-20020a1709078a0300b007c1458ba946mr23456568ejc.0.1676074183101;
-        Fri, 10 Feb 2023 16:09:43 -0800 (PST)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id f15-20020a170906560f00b007add62dafbasm3055025ejq.157.2023.02.10.16.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 16:09:42 -0800 (PST)
-Date:   Sat, 11 Feb 2023 01:09:41 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH/RFC] arm64: dts: renesas: draak: Add overlay for HDMI
- input
-Message-ID: <Y+bcxWyB3iALkMyM@oden.dyn.berto.se>
-References: <20230210211551.18106-1-laurent.pinchart+renesas@ideasonboard.com>
- <Y+bAL06bDx83PHv2@oden.dyn.berto.se>
- <Y+bDFZrXtKnm3y1Q@pendragon.ideasonboard.com>
+        Fri, 10 Feb 2023 21:00:40 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9533E6C7C3;
+        Fri, 10 Feb 2023 18:00:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676080839; x=1707616839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UNTQVZa9rFmKAuptNI32rM4R7o0DY7N5tapDS1Jes9s=;
+  b=WeB+nvrXKgxPJcKTwWXfE8mRGi/uF9Ltp6qTRorbB6f7RdK83DGPv5Wf
+   SMN/VQWEnkh9rj8x7l94JIyXbOMJWtvRKg5xwevogUjEJQ/PdML8k0QfP
+   91cTiXiZqlNWr1DEt7CHGrXq/cb0aP/Wvm8H+tV4ZrWKQ3Var6mlTmaU+
+   nYikcCzFKUs2MYPgNOKKdfKkviVxU+GF8sxzpIZzKJgyQSihhSpMtoXoL
+   IesNLx/wPmNLyF7q2z5/5T06VTiB0XNVCJPOO9VHiA1/91dPel7z5iwnK
+   /cDEOallPh9RxfgbWpNlMbROYIIQAOnrIastoTXM0JaVnQeRlr94ibqPF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="310202506"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="310202506"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 18:00:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="792161170"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="792161170"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga004.jf.intel.com with ESMTP; 10 Feb 2023 18:00:37 -0800
+Date:   Fri, 10 Feb 2023 18:10:23 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     rafael.j.wysocki@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
+        <linux-amlogic@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:SAMSUNG THERMAL DRIVER" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
+Message-ID: <20230211021023.GA13306@ranerica-svr.sc.intel.com>
+References: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+bDFZrXtKnm3y1Q@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Mon, Feb 06, 2023 at 04:34:29PM +0100, Daniel Lezcano wrote:
+> As the name states "thermal_core.h" is the header file for the core
+> components of the thermal framework.
+> 
+> Too many drivers are including it. Hopefully the recent cleanups
+> helped to self encapsulate the code a bit more and prevented the
+> drivers to need this header.
+> 
+> Remove this inclusion in every place where it is possible.
+> 
+> Some other drivers did a confusion with the core header and the one
+> exported in linux/thermal.h. They include the former instead of the
+> latter. The changes also fix this.
+> 
+> The tegra/soctherm driver still remains as it uses an internal
+> function which need to be replaced.
+> 
+> The Intel HFI driver uses the netlink internal framework core and
+> should be changed to prevent to deal with the internals.
 
-On 2023-02-11 00:20:05 +0200, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> On Fri, Feb 10, 2023 at 11:07:43PM +0100, Niklas Söderlund wrote:
-> > Hi Laurent,
-> > 
-> > Thanks for your patch.
-> > 
-> > On 2023-02-10 23:15:51 +0200, Laurent Pinchart wrote:
-> > > The Draak board has an ADV7180 CVBS decoder and an ADV7612 HDMI decoder,
-> > > both connected to the same VIN input. DIP switches are used to select
-> > > one of the two devices, with the CVBS decoder being the default. Add an
-> > > overlay that selects the HDMI decoder.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > > 
-> > > Niklas, would this be an acceptable way to handle the DIP switches on
-> > > the Draak board ?
-> > 
-> > I think this is a perfect way to handle DIP switch settings. I have a 
-> > similar patch for Eagle I wish to upstream one of these days.
-> > 
-> > For this patch, however correct it is, I have a comment. As part of the 
-> > ongoing rebasing of BSP patches I'm preparing to submit a patch which 
-> > makes the HDMI the default input for Draak. The BSP team have requested 
-> > this as they wish to align all Gen3 boards to have HDMI as the default 
-> > input.
-> > 
-> > Hence, this patch is awesome, but should be reversed to overlay RCA 
-> > entablement :-)
-> 
-> Works for me. Would you mind taking this in your tree and reversing it
-> on top of the patch that switches to HDMI by default ?
+I don't see any of the thermal netlink functionality exposed. Is
+there any work in progress?
 
-Will do.
-
-> 
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/Makefile          |  1 +
-> > >  .../boot/dts/renesas/draak-hdmi-input.dtso    | 33 +++++++++++++++++++
-> > >  2 files changed, 34 insertions(+)
-> > >  create mode 100644 arch/arm64/boot/dts/renesas/draak-hdmi-input.dtso
-> > > 
-> > > diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> > > index 0699b51c1247..de4170af611e 100644
-> > > --- a/arch/arm64/boot/dts/renesas/Makefile
-> > > +++ b/arch/arm64/boot/dts/renesas/Makefile
-> > > @@ -88,4 +88,5 @@ dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
-> > >  dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
-> > >  
-> > >  dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
-> > > +dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-hdmi-input.dtbo
-> > >  dtb-$(CONFIG_ARCH_RCAR_GEN3) += salvator-panel-aa104xd12.dtbo
-> > > diff --git a/arch/arm64/boot/dts/renesas/draak-hdmi-input.dtso b/arch/arm64/boot/dts/renesas/draak-hdmi-input.dtso
-> > > new file mode 100644
-> > > index 000000000000..e0d671f0cab3
-> > > --- /dev/null
-> > > +++ b/arch/arm64/boot/dts/renesas/draak-hdmi-input.dtso
-> > > @@ -0,0 +1,33 @@
-> > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > +/*
-> > > + * Copyright 2023 Ideas on Board Oy
-> > > + *
-> > > + * Device tree overlay for the Draak board, to enable HDMI input. This requires
-> > > + * setting DIP switches SW49, SW50, SW51 and SW52 to ON, and SW53 and SW54 to
-> > > + * OFF.
-> > > + */
-> > > +
-> > > +/dts-v1/;
-> > > +/plugin/;
-> > > +
-> > > +&adv7612_out {
-> > > +	remote-endpoint = <&vin4_in>;
-> > > +};
-> > > +
-> > > +&i2c0 {
-> > > +	composite-in@20 {
-> > > +		ports {
-> > > +			port@3 {
-> > > +				/delete-node/ endpoint;
-> > > +			};
-> > > +		};
-> > > +	};
-> > > +};
-> > > +
-> > > +&vin4_in {
-> > > +	remote-endpoint = <&adv7612_out>;
-> > > +};
-> > > +
-> > > +&vin4_pins_cvbs {
-> > > +	groups = "vin4_data24", "vin4_sync", "vin4_clk";
-> > > +};
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
--- 
-Kind Regards,
-Niklas Söderlund
+FWIW, Acked-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
