@@ -2,63 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B9D6933D4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 21:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E02B6933D6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 21:55:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjBKUzD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 15:55:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59876 "EHLO
+        id S229513AbjBKUzE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 15:55:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjBKUzC (ORCPT
+        with ESMTP id S229677AbjBKUzD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 15:55:02 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AC9126F4
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:55:01 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id m14so8557479wrg.13
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:55:01 -0800 (PST)
+        Sat, 11 Feb 2023 15:55:03 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721C314492
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:55:02 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id r2so8572322wrv.7
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZWPCCehMySTWDztB7agLe09Qbsz9UHsF2BXhr7G+Z70=;
-        b=ZjjidkLGgu/HB6isSKpdWyQixyK7UWv50GMPVLd8jJ+ORaJRk8YlN1OezZLy9v8yvO
-         wLBIutEy7+TGaraNtvn4bTck90adECB0ewxMFhQqOFSg3S3sZUN2ey/PTnmVW7rZvTqp
-         fzravZ2InDsQK8E8xT9fATdhqiyTPz8SdnwxhnxKhTs2FR3D9kfXfUvuFEefysjaUnzL
-         6AYhBsyVaLTw3NwxzyAiwNfnUUzDEX+b/OH7Zf6k2fUSlCiyyA0gBr3OcxytPdn3tiw4
-         56KmXeFvj9gcwK1ZJ/KKt58YOPHjPVkAd7pvkaZti5dq6T8zmP6RDSUlRlGMQ63u+q06
-         GzFQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DYlxwB+2dIIFaYeb6W4/G/F7mYnyq57RNQAaa+ab3RY=;
+        b=TXqR8ihihKPfYSdqm3+VnbBjYp4AFUntljh7vTiWF2vr8uUGi4cKRr/PuJMRDKF2nE
+         AE0eaaCbw4+/dbHkw0VwHZHzDJvWFEB9LSS6iy4aUu+2MLcffvifFS600KUflho2gmeK
+         2TDjz1Un2rfGdY1DAOPTd8UZib2lg2NuCdufLM9IWrqAaS7IWDm5WoYJkyD8CwZ20dnD
+         lKPtzqS9OQJXpmyteQZPsM9EcfF/9VmuF/5BVEvYGpC8B68083P1eF+MHpUmvUPBB0Lt
+         3fRAHpAO6lOJxxPhIBS/0+sqbmMom3yBrNN93xGb260cpghawuvZWpA2L3WVDgzRhJm4
+         /4Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZWPCCehMySTWDztB7agLe09Qbsz9UHsF2BXhr7G+Z70=;
-        b=fJstP5KCO1QfsdkxtCtKROnnidvPgkT/EImk43uJeVtNgagJNXUqGiV+66PZN50Gd+
-         zG3OIaIle1YK1ArwyyHvG2MkZAKVpCxJlMQCFiE2PIoAfj4JbGiqaOECEyPCd83RixXj
-         h6+5crwX2idb9qLAfsDw1vqsVBUlxsLDOi2Ef8o31wmOWwue3GbEFgg9tEYt5fkXR+gi
-         hP1C403VYdbj/nzqgiG9L2kU6H7UBPhrLDl3ABErWHe0/CFHg4Ef420Aps2RAWo+ZNKI
-         MhD1P+JOVohRIFgYL4dxR42kv58rBsZybrq6b5sywIVlVK1L9IRxvt/u3dyO6jJh5cPo
-         JUXA==
-X-Gm-Message-State: AO0yUKVx462QR4A1k7izK2AFQZGhCS+mJiuwMPHKhImTPDIafpqMOTqp
-        gXzEL/ZUj8JYGerDeqXJtJwEGQ==
-X-Google-Smtp-Source: AK7set/wHl6/xhjWfjVXfK8rlZdfhexe22UPBfLWpG+LF/98tQ1DfVi5PtJCZIXK5Ji9IJNjTAvwrg==
-X-Received: by 2002:a05:6000:c8:b0:2c3:db98:3e87 with SMTP id q8-20020a05600000c800b002c3db983e87mr15787994wrx.20.1676148900116;
-        Sat, 11 Feb 2023 12:55:00 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DYlxwB+2dIIFaYeb6W4/G/F7mYnyq57RNQAaa+ab3RY=;
+        b=wfqaTYxUr8gGm62JwHYepQGjTkcBcm+hM9zcm0E8Hg+A7HTDBqUIGZ+wf0171oqKRj
+         F10xc+hDb2pCV3+FQx7dJ+LHfu7XJgxuiAOAMmKbkm/jUSZg7h5FKVYXp26X9+Rd3+yw
+         xOgTEaoMi4q2DUmfKFUPDppraezkqQzZzThTxZfwHjK0pZAKifWKHJFrj/kGryOWCi9j
+         aY4o718om1s9JYq09AO95MmNQr4E+rsx4tThGrAOt4IWa34Zh356GlJnY3vdvMrVJyk8
+         Pme3xRaWC/uF7hjNEWxZzbo0flBKg9agPt0TXHGJ30qWTwg1h9Fg1qaRuqWYKTbZ6kaz
+         8ptA==
+X-Gm-Message-State: AO0yUKUxsw/WLtV/SrisjznF1qssRHpRoUmsonWB+NQBVjAKl+2AkPf5
+        Abwgs/rK4D3zqXuTe2e0qSC+GA==
+X-Google-Smtp-Source: AK7set/6Dy7dWZa2AFGHa5pS99q/OkSJXEZ+caNDpDjIedejlhqYVwR6GZEASZPg5ILmCZThtpFG8Q==
+X-Received: by 2002:adf:fd02:0:b0:2c5:4c7f:c91 with SMTP id e2-20020adffd02000000b002c54c7f0c91mr4134363wrr.66.1676148901022;
+        Sat, 11 Feb 2023 12:55:01 -0800 (PST)
 Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id q4-20020a05600000c400b002c54737e908sm5095531wrx.91.2023.02.11.12.54.59
+        by smtp.googlemail.com with ESMTPSA id q4-20020a05600000c400b002c54737e908sm5095531wrx.91.2023.02.11.12.55.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 12:54:59 -0800 (PST)
+        Sat, 11 Feb 2023 12:55:00 -0800 (PST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 0/2] media: rcar-vin: Fix issues with NV12 on Gen3
-Date:   Sat, 11 Feb 2023 21:54:30 +0100
-Message-Id: <20230211205432.493102-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 1/2] media: rcar-vin: Gen3 can not scale NV12
+Date:   Sat, 11 Feb 2023 21:54:31 +0100
+Message-Id: <20230211205432.493102-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230211205432.493102-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20230211205432.493102-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,21 +74,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+The VIN modules on Gen3 can not scale NV12, fail format validation if
+the user tries. Currently no frames are produced if this is attempted.
 
-This series fixes two small issues around NV12. Patch 1/2 forbids the 
-use of the scaler on Gen3 if the output format is NV12. While patch 2/2 
-fixes the size alignment for NV12.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Work tested on both Gen2 and Gen3 without regressions.
-
-Niklas Söderlund (2):
-  media: rcar-vin: Gen3 can not scale NV12
-  media: rcar-vin: Fix NV12 size alignment
-
- .../media/platform/renesas/rcar-vin/rcar-dma.c  | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 98bfd445a649..cc6b59e5621a 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -1312,6 +1312,11 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+ 	}
+ 
+ 	if (rvin_scaler_needed(vin)) {
++		/* Gen3 can't scale NV12 */
++		if (vin->info->model == RCAR_GEN3 &&
++		    vin->format.pixelformat == V4L2_PIX_FMT_NV12)
++			return -EPIPE;
++
+ 		if (!vin->scaler)
+ 			return -EPIPE;
+ 	} else {
 -- 
 2.39.1
 
