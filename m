@@ -2,45 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B82D1693414
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 22:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E813E693423
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 23:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbjBKVq2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 16:46:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48188 "EHLO
+        id S229501AbjBKWIj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 17:08:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjBKVq0 (ORCPT
+        with ESMTP id S229447AbjBKWIi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 16:46:26 -0500
+        Sat, 11 Feb 2023 17:08:38 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C62F196BC;
-        Sat, 11 Feb 2023 13:46:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEE312872;
+        Sat, 11 Feb 2023 14:08:36 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC4CC6CF;
-        Sat, 11 Feb 2023 22:46:22 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77E5E4B0;
+        Sat, 11 Feb 2023 23:08:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676151983;
-        bh=Frqc/jloOE2B8ZOlenDaykqeDLjVteoRjD7sSILoOkI=;
+        s=mail; t=1676153315;
+        bh=R4uwL53SzuJAkJqq7hXZNUxVcgQwwntqJb7XBontHjc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hKMkNe5S3nwi4k2DzzgokvS8qg6FHSgQd8pKR0HtUesPazXEKjkcrBtzGZ/H0dhJ1
-         8GH9MvafQyud76XWpGPOcENWsgiOZHPSTqmgsHXq1vnjftU04nqwmZ+b/aMKUgqDOk
-         pQ6bI1hoAoLriapeyDzUGIYNVWCT7Kz/ulNBH0Kg=
-Date:   Sat, 11 Feb 2023 23:46:21 +0200
+        b=dJYHSopwXSViplVRTk2vwjbPsgT30PCh5tKUdJA3RjaYM6ABGV4ueq4/WamJ7VPqo
+         dn1WrOfPa8qSjn/DGdpUBc97c9EBVm8BieegZnyzYRLYNWwDywD+6OkBzdaq88P4AK
+         5gpMRVyczTiFsRKkvGy7/gM3NOtz98+oUCllmiag=
+Date:   Sun, 12 Feb 2023 00:08:34 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: draak: Make HDMI the default
- video input
-Message-ID: <Y+gMrZX59YaDeSV/@pendragon.ideasonboard.com>
-References: <20230211165715.4024992-1-niklas.soderlund+renesas@ragnatech.se>
- <20230211165715.4024992-2-niklas.soderlund+renesas@ragnatech.se>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] configure.ac: Add option to disable compilation of
+ v4l2-tracer
+Message-ID: <Y+gR4soeDPQQulce@pendragon.ideasonboard.com>
+References: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211165715.4024992-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -54,102 +52,104 @@ Hi Niklas,
 
 Thank you for the patch.
 
-On Sat, Feb 11, 2023 at 05:57:14PM +0100, Niklas Söderlund wrote:
-> Most Gen3 R-Car devices have HDMI as the default video input source,
-> align Draak with them and make HDMI the default. While at it move the
-> bus properties to the VIN node where they can be consumed correctly by
-> the driver.
-
-I'm fine with the idea, but I'm wondering if this matches the default
-DIP switches configuration that boards are shipped with. This being
-said, when I check the switches on my board to test HDMI input a few
-days ago, I realized they were set to a hybrid configuration, so maybe
-we should just roll our eyes and merge this :-)
-
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  arch/arm64/boot/dts/renesas/draak.dtsi | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
+On Sat, Feb 11, 2023 at 11:12:31AM +0100, Niklas Söderlund wrote:
+> Add a configuration time option to disable compilation of the
+> v4l2-tracer utility.
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/draak.dtsi b/arch/arm64/boot/dts/renesas/draak.dtsi
-> index ef3bb835d5c0..e248866c7871 100644
-> --- a/arch/arm64/boot/dts/renesas/draak.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/draak.dtsi
-> @@ -356,11 +356,10 @@ port@3 {
->  				 * CVBS and HDMI inputs through SW[49-53]
->  				 * switches.
->  				 *
-> -				 * CVBS is the default selection, link it to
-> -				 * VIN4 here.
-> +				 * HDMI is the default selection, leave CVBS
-> +				 * not connected here.
->  				 */
->  				adv7180_out: endpoint {
-> -					remote-endpoint = <&vin4_in>;
->  				};
+> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 
-Endpoints are required to have a remote-endpoint property, so you should
-drop the endpoint completely. This will require a change in patch 2/2 as
-you'll have to create the endpoint there.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  			};
->  		};
-> @@ -423,13 +422,11 @@ port@2 {
->  				 * CVBS and HDMI inputs through SW[49-53]
->  				 * switches.
->  				 *
-> -				 * CVBS is the default selection, leave HDMI
-> -				 * not connected here.
-> +				 * HDMI is the default selection, link it to
-> +				 * VIN4 here.
->  				 */
->  				adv7612_out: endpoint {
-> -					pclk-sample = <0>;
-> -					hsync-active = <0>;
-> -					vsync-active = <0>;
+with my limited autotools knowledge.
 
-This will cause the bus type to change from parallel to BT656. Is that
-desired ? If not, I'd set the bus-type property explicitly. Actually,
-I'd set it explicitly in any case.
+I'll add the same option to meson support :-)
 
-This change is worth being split to a separate patch.
-
-> +					remote-endpoint = <&vin4_in>;
->  				};
->  			};
->  		};
-> @@ -580,8 +577,8 @@ usb0_pins: usb0 {
->  		function = "usb0";
->  	};
+> ---
+> 
+> Hi Hans,
+> 
+> The v4l2-tracer fails to build on arm32. While I'm sure that can be
+> fixed, this is an utility I don't use and building on target any thing I
+> can disable in the build saves me time.
+> 
+> From completes, the classes of errors I see are around v4l2_fourcc(),
+> _IOR() and _IOWR().
+> 
+> ../../include/linux/videodev2.h:81:66: error: narrowing conversion of '3039908417' from '__u32' {aka 'unsigned int'} to 'long int' [-Wnarrowing]
+>    81 | #define v4l2_fourcc_be(a, b, c, d)      (v4l2_fourcc(a, b, c, d) | (1U << 31))
+> 
+> ../../include/linux/videodev2.h:2528:34: error: narrowing conversion of '2154321408' from 'unsigned int' to 'long int' [-Wnarrowing]
+>  2528 | #define VIDIOC_QUERYCAP          _IOR('V',  0, struct v4l2_capability)
+> 
+> ../../include/linux/videodev2.h:2529:33: error: narrowing conversion of '3225441794' from 'unsigned int' to 'long int' [-Wnarrowing]
+>  2529 | #define VIDIOC_ENUM_FMT         _IOWR('V',  2, struct v4l2_fmtdesc)
+> 
+> I'm building on target with gcc 12.1.0, nothing fancy,
+> 
+>     $ ./bootstrap.sh && ./configure && make
+> 
+> Kind Regards
+> Niklas
+> ---
+>  configure.ac      | 11 +++++++++++
+>  utils/Makefile.am |  2 +-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure.ac b/configure.ac
+> index dc9c4af71c45..46ddc7a8b404 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -497,6 +497,14 @@ AC_ARG_ENABLE(v4l2-compliance-32,
+>     esac]
+>  )
 >  
-> -	vin4_pins_cvbs: vin4 {
-> -		groups = "vin4_data8", "vin4_sync", "vin4_clk";
-> +	vin4_pins: vin4 {
-> +		groups = "vin4_data24", "vin4_sync", "vin4_clk";
->  		function = "vin4";
->  	};
->  };
-> @@ -729,7 +726,7 @@ &usb2_phy0 {
->  };
+> +AC_ARG_ENABLE(v4l2-tracer,
+> +  AS_HELP_STRING([--disable-v4l2-tracer], [disable v4l2-tracer compilation]),
+> +  [case "${enableval}" in
+> +     yes | no ) ;;
+> +     *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2-tracer) ;;
+> +   esac]
+> +)
+> +
+>  AC_ARG_ENABLE(v4l2-ctl-libv4l,
+>    AS_HELP_STRING([--disable-v4l2-ctl-libv4l], [disable use of libv4l in v4l2-ctl]),
+>    [case "${enableval}" in
+> @@ -578,6 +586,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
+> +AM_CONDITIONAL([WITH_V4L2_TRACER], [test x$jsonc_pkgconfig = xyes -a x$enable_v4l2_tracer != xno])
+>  PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
+>  AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
 >  
->  &vin4 {
-> -	pinctrl-0 = <&vin4_pins_cvbs>;
-> +	pinctrl-0 = <&vin4_pins>;
->  	pinctrl-names = "default";
+> @@ -628,6 +637,7 @@ AM_COND_IF([WITH_V4L2_CTL_32], [USE_V4L2_CTL_32="yes"], [USE_V4L2_CTL_32="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE], [USE_V4L2_COMPLIANCE="yes"], [USE_V4L2_COMPLIANCE="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE_LIBV4L], [USE_V4L2_COMPLIANCE_LIBV4L="yes"], [USE_V4L2_COMPLIANCE_LIBV4L="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE_32], [USE_V4L2_COMPLIANCE_32="yes"], [USE_V4L2_COMPLIANCE_32="no"])
+> +AM_COND_IF([WITH_V4L2_TRACER], [USE_V4L2_TRACER="yes"], [USE_V4L2_TRACER="no"])
+>  AM_COND_IF([WITH_BPF],         [USE_BPF="yes"
+>                                  AC_DEFINE([HAVE_BPF], [1], [BPF IR decoder support enabled])],
+>  				[USE_BPF="no"])
+> @@ -679,5 +689,6 @@ compile time options summary
+>      v4l2-compliance            : $USE_V4L2_COMPLIANCE
+>      v4l2-compliance uses libv4l: $USE_V4L2_COMPLIANCE_LIBV4L
+>      v4l2-compliance-32         : $USE_V4L2_COMPLIANCE_32
+> +    v4l2-tracer                : $USE_V4L2_TRACER
+>      BPF IR Decoders:           : $USE_BPF
+>  EOF
+> diff --git a/utils/Makefile.am b/utils/Makefile.am
+> index 6f59515ef29d..b2a6ac211473 100644
+> --- a/utils/Makefile.am
+> +++ b/utils/Makefile.am
+> @@ -15,7 +15,7 @@ SUBDIRS = \
+>  	cec-follower \
+>  	rds-ctl
 >  
->  	status = "okay";
-> @@ -737,7 +734,10 @@ &vin4 {
->  	ports {
->  		port {
->  			vin4_in: endpoint {
-> -				remote-endpoint = <&adv7180_out>;
-> +				pclk-sample = <0>;
-> +				hsync-active = <0>;
-> +				vsync-active = <0>;
-> +				remote-endpoint = <&adv7612_out>;
->  			};
->  		};
->  	};
+> -if HAVE_JSONC
+> +if WITH_V4L2_TRACER
+>  SUBDIRS += \
+>  	v4l2-tracer
+>  endif
 
 -- 
 Regards,
