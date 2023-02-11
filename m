@@ -2,74 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B7C692FAD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 10:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D61692FEA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 11:13:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbjBKJL2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 04:11:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53200 "EHLO
+        id S229523AbjBKKND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 05:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjBKJL1 (ORCPT
+        with ESMTP id S229477AbjBKKNC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 04:11:27 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E6C6FEB7;
-        Sat, 11 Feb 2023 01:11:21 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id b13so9038047ljf.8;
-        Sat, 11 Feb 2023 01:11:21 -0800 (PST)
+        Sat, 11 Feb 2023 05:13:02 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939BA5B775
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 02:13:00 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so5743917wmb.5
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 02:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oyJN2jBDM0ZQ9e4AvGNxG2V2mglnEJ80cu8rJwEXHYA=;
-        b=LPUo/RnI68TUc4H/+2vxdGf1usrKLVjkGCbX2FzNvCx9IMbfxTb6sdAlmr9t4JPWNf
-         uEIapbF2H7+IiRh7uXiranYqs+mqQe8IcXude768YRMxQlzSBUApDxN9i9PKjiF2wSKb
-         readvC5EYyubZ+z+bYRsU3AJOXBPETFE+6LtltkJqWMSTmHSHKkGr1ke7Np1+oN+V9t3
-         riE/6yDyvbboa0+fQD+7r5zrK5SntFx+LeuMLMUyitHzYwnwR1ynwwvvloOMW3F43Mro
-         9pM5n6cvzHexk3JMYFO+HVRerwWTo/n/QHGPeILdFr136XaeWJ4FyaU0XcDVjNbECuiF
-         Iviw==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqe3s5e3wt4DSHIGbrhfklUFbKKerT+A7ba6t19+OIA=;
+        b=40j1ow/yT/+Vcqk9Bq3cr59FnSqC1WJqOLsnnpX6J9WZVWzkcb2/GGa4cBdVTr2Uv1
+         bjUekv3NRGP2qiuSzPtHvm1BR/TM4EoSkMsZz2IxhiFgFYkn+pD0ZolfSbHLAQ2OiCL6
+         aBThCwn62qdu/udtT2E7NBk00Mcjj9wB/z6ug549U4PZ9urk97Nd2WKDQaq95hzBqnrA
+         DzV9yPWa21uGNnXzXYyHiDvnsG+fPPX/ycX9DmzP4QbpM77nyJab+yiAO6xMpoQWjqr5
+         oAsUIJA7tblDPyj+YSxquJlQzaVn7H3trHy285BwblSBD4HrwEl9jPKgX7dd+CQqnwHF
+         7faQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oyJN2jBDM0ZQ9e4AvGNxG2V2mglnEJ80cu8rJwEXHYA=;
-        b=IvyvRodI1SNHR7QGybGhC6dqfcvmUwwv7ZTp+S/cLr3Aq+3+A7BdS2BEUWBn0tFvK0
-         Fbj4IA2Wxhw24t3+3ibzY/38zVKOWxCmuS4FHuyIxelB4R6WDZ1iN7Gn0AGeGkG6v97m
-         H9QL94XHEBKfdVSCdNdQrQIhJpKGI0V0iL+21y+zkU8qM8OZfVNxdcwdrgy6OliTK9bJ
-         Rx9DWuADybg+5w+kp/bykU3iTbuT1wn+jq+HFt67jxPUcrkYGTFMfXamx6VXlYVIiwk7
-         qd7RP+30EO300JjyN0YFLQEWzUUHmiWymHLAhaXMW3F3WGWrpCVeLijpqLhsjZUajJbT
-         A6XQ==
-X-Gm-Message-State: AO0yUKWqNNzMLgHWqCULK8GSDCL++T0jNwv5bhcVM2W7kd6capDlU8ND
-        WBwyhYfWtC/Q70lLapYlv5OnoSUwGig=
-X-Google-Smtp-Source: AK7set80SoVou0TAiVnDQJmizMnt+SgefTjT/MF106Yswsdo/3D8u4waLuu067yBBYITz8Wdul4BDA==
-X-Received: by 2002:a2e:8805:0:b0:293:2b97:c983 with SMTP id x5-20020a2e8805000000b002932b97c983mr4418505ljh.38.1676106679788;
-        Sat, 11 Feb 2023 01:11:19 -0800 (PST)
-Received: from [192.168.1.103] ([178.176.78.148])
-        by smtp.gmail.com with ESMTPSA id y26-20020a2e9d5a000000b0029335c12997sm641060ljj.58.2023.02.11.01.11.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Feb 2023 01:11:19 -0800 (PST)
-Subject: Re: [PATCH 2/2] media: i2c: adv7604: Fix range of hue control
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kqe3s5e3wt4DSHIGbrhfklUFbKKerT+A7ba6t19+OIA=;
+        b=bDiM5dAcET61QHLR0xw+SdlvSNhKwyMdtVIhi2bLygnoVH26xMwOnAk+aUQTGWvRI6
+         xUZeauv5z76Py/5/6t9f4Y3B8FpJhlwmYAkTbvLbfs7wDRFxZpLJCO96OF4zWUi2dW9d
+         mZGBq+OVtHI5nDPbLu6Hx8xIFRtqAoTd50s7iVhEQgGmwBXXqPs4dsGdxv+XnPS241T6
+         1r2Qch/JiG6HnzEAGNtcWH0Uqkui5INCR4n48W44oXmPyRLwmwsp2HtojhvtBb1KqRC5
+         liq8kWCP3SK3uvwzQTjnON7QSW4rqhxY8mYRlTkNO7UeALfffXdymal9pTzKF87x09Al
+         R6ig==
+X-Gm-Message-State: AO0yUKWMzlZOwevjRFSu+5pgumZ/uAvcOec5Ehflvq1icMMyNhrb+jzt
+        mIIdqyc7FclVdzJQqya1V/IizQ==
+X-Google-Smtp-Source: AK7set+AQZmGztz9WZtrt2GB6yP4aY9Q8iPyEnXDKxDFZwhKnBPGIvoSjZwg146vQVd6VUYbrFhjOQ==
+X-Received: by 2002:a05:600c:4a9a:b0:3dc:f24:f2de with SMTP id b26-20020a05600c4a9a00b003dc0f24f2demr14730373wmp.12.1676110379108;
+        Sat, 11 Feb 2023 02:12:59 -0800 (PST)
+Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
+        by smtp.googlemail.com with ESMTPSA id a1-20020a05600c348100b003db0ee277b2sm11041841wmq.5.2023.02.11.02.12.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Feb 2023 02:12:58 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <e2f92695-c681-616d-a565-89d348f00a3b@gmail.com>
-Date:   Sat, 11 Feb 2023 12:11:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: [PATCH] configure.ac: Add option to disable compilation of v4l2-tracer
+Date:   Sat, 11 Feb 2023 11:12:31 +0100
+Message-Id: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-In-Reply-To: <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,47 +69,96 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Add a configuration time option to disable compilation of the
+v4l2-tracer utility.
 
-On 2/11/23 1:56 AM, Laurent Pinchart wrote:
+Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+---
 
-> The ADV7604, ADV7611 and ADV7612 software manuals different the CP_HUE
+Hi Hans,
 
-   s/different/document/?
+The v4l2-tracer fails to build on arm32. While I'm sure that can be
+fixed, this is an utility I don't use and building on target any thing I
+can disable in the build saves me time.
 
-> value differently:
-> 
-> - For ADV7604 and ADV7611, the hue is specified as an unsigned 8-bit
->   value, and calculated as
-> 
->   (CP_HUE[7:0] * 180) / 256 - 90
-> 
->   with the range set to [-90°, 90°]. Additionally, the values 0x00, 0x0f
->   and 0xff are documented as corresponding to -90°, 0° and 90°
->   respectively.
-> 
-> - For ADV7612, the hue is specified as a signed 8-bit value in the range
->   [0°, 360°[ without any formula. Additionally, the value 0x00 is
->   documented as corresponding to 0°.
-> 
-> The ADV7604 and ADV7611 documentation is clearly wrong as the example
-> values don't correspond to the formula. Furthermore, the [-90°, 90°]
-> range seems incorrect as it would cover only half of the hue space.
-> 
-> The ADV7612 documentation is better, although the range should likely be
-> [-180°, 180°[ if the value is signed. Given that the values wrap around,
-> this makes no difference in practice.
-> 
-> The hue values have been verified on ADV7612 to follow the
-> documentation. There is a high chance they do as well on ADV7604 and
-> ADV7611.
-> 
-> In any case, all software manuals document the register as 8-bit, so the
-> current range of the V4L2 hue control [0, 128] is not correct. Expand it
-> to cover the full 8-bit space, using unsigned values to avoid breaking
-> any application that may rely on 128 being a valid value.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-[...]
+From completes, the classes of errors I see are around v4l2_fourcc(),
+_IOR() and _IOWR().
 
-MBR, Sergey
+../../include/linux/videodev2.h:81:66: error: narrowing conversion of '3039908417' from '__u32' {aka 'unsigned int'} to 'long int' [-Wnarrowing]
+   81 | #define v4l2_fourcc_be(a, b, c, d)      (v4l2_fourcc(a, b, c, d) | (1U << 31))
+
+../../include/linux/videodev2.h:2528:34: error: narrowing conversion of '2154321408' from 'unsigned int' to 'long int' [-Wnarrowing]
+ 2528 | #define VIDIOC_QUERYCAP          _IOR('V',  0, struct v4l2_capability)
+
+../../include/linux/videodev2.h:2529:33: error: narrowing conversion of '3225441794' from 'unsigned int' to 'long int' [-Wnarrowing]
+ 2529 | #define VIDIOC_ENUM_FMT         _IOWR('V',  2, struct v4l2_fmtdesc)
+
+I'm building on target with gcc 12.1.0, nothing fancy,
+
+    $ ./bootstrap.sh && ./configure && make
+
+Kind Regards
+Niklas
+---
+ configure.ac      | 11 +++++++++++
+ utils/Makefile.am |  2 +-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index dc9c4af71c45..46ddc7a8b404 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -497,6 +497,14 @@ AC_ARG_ENABLE(v4l2-compliance-32,
+    esac]
+ )
+ 
++AC_ARG_ENABLE(v4l2-tracer,
++  AS_HELP_STRING([--disable-v4l2-tracer], [disable v4l2-tracer compilation]),
++  [case "${enableval}" in
++     yes | no ) ;;
++     *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2-tracer) ;;
++   esac]
++)
++
+ AC_ARG_ENABLE(v4l2-ctl-libv4l,
+   AS_HELP_STRING([--disable-v4l2-ctl-libv4l], [disable use of libv4l in v4l2-ctl]),
+   [case "${enableval}" in
+@@ -578,6 +586,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+ AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
++AM_CONDITIONAL([WITH_V4L2_TRACER], [test x$jsonc_pkgconfig = xyes -a x$enable_v4l2_tracer != xno])
+ PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
+ AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
+ 
+@@ -628,6 +637,7 @@ AM_COND_IF([WITH_V4L2_CTL_32], [USE_V4L2_CTL_32="yes"], [USE_V4L2_CTL_32="no"])
+ AM_COND_IF([WITH_V4L2_COMPLIANCE], [USE_V4L2_COMPLIANCE="yes"], [USE_V4L2_COMPLIANCE="no"])
+ AM_COND_IF([WITH_V4L2_COMPLIANCE_LIBV4L], [USE_V4L2_COMPLIANCE_LIBV4L="yes"], [USE_V4L2_COMPLIANCE_LIBV4L="no"])
+ AM_COND_IF([WITH_V4L2_COMPLIANCE_32], [USE_V4L2_COMPLIANCE_32="yes"], [USE_V4L2_COMPLIANCE_32="no"])
++AM_COND_IF([WITH_V4L2_TRACER], [USE_V4L2_TRACER="yes"], [USE_V4L2_TRACER="no"])
+ AM_COND_IF([WITH_BPF],         [USE_BPF="yes"
+                                 AC_DEFINE([HAVE_BPF], [1], [BPF IR decoder support enabled])],
+ 				[USE_BPF="no"])
+@@ -679,5 +689,6 @@ compile time options summary
+     v4l2-compliance            : $USE_V4L2_COMPLIANCE
+     v4l2-compliance uses libv4l: $USE_V4L2_COMPLIANCE_LIBV4L
+     v4l2-compliance-32         : $USE_V4L2_COMPLIANCE_32
++    v4l2-tracer                : $USE_V4L2_TRACER
+     BPF IR Decoders:           : $USE_BPF
+ EOF
+diff --git a/utils/Makefile.am b/utils/Makefile.am
+index 6f59515ef29d..b2a6ac211473 100644
+--- a/utils/Makefile.am
++++ b/utils/Makefile.am
+@@ -15,7 +15,7 @@ SUBDIRS = \
+ 	cec-follower \
+ 	rds-ctl
+ 
+-if HAVE_JSONC
++if WITH_V4L2_TRACER
+ SUBDIRS += \
+ 	v4l2-tracer
+ endif
+-- 
+2.39.1
+
