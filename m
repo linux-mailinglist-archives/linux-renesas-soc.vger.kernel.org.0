@@ -2,199 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 137006933DD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 21:57:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3D069340A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 22:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjBKU5k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 15:57:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32934 "EHLO
+        id S229664AbjBKVh0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 16:37:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjBKU5j (ORCPT
+        with ESMTP id S229518AbjBKVhZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 15:57:39 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ADFC1448C
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:57:38 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so6366746wmb.5
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 12:57:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1dUEr9eXoMzbYbCBQ2hq4AC5F7Kd/oMpb0hpij4vvQM=;
-        b=a0JQo3aYXVyztb7HQZ98PLUwN4ku+afRvomMN5g+LOmC66BiC4Bkq7gY2/5LaZPCwV
-         qqBLgTbKoKdaxl91S8vBUEmCJ+/T9lH0/l6h6c+aOkxoePFkP3kIOx/E41/ZfP+Bquon
-         /cGXkVYoiadSqzVSS6mNIRsdhbvgvNQF0S59i9PwADyJlyqsJbEYHvYlpWIne5FJeQNi
-         RdL6rJf3WI9eu3S7XjaPJhgHYCUk4KRd9v+UhDCesiQBqesBUMtZ0aqqjwnpCCk500dy
-         GuHji54KHmnt71bFsp+BAwsTRP7vfm7jUdxYx3PJlT8YpMljuyfZCOQgCWCfloko5PPk
-         o/3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1dUEr9eXoMzbYbCBQ2hq4AC5F7Kd/oMpb0hpij4vvQM=;
-        b=ynC6p+jRU02QuoxS0vpe0l3XO/+1tq5ZziGWSyoApwVzRzjZG2gQvFKb6m9UJ8ztWb
-         ONw5Ipfik4Pv+yssIdEvtFklYi3NpRxFwXFK25wB8017L/5ZgML11F0/rPnflZt7a2eQ
-         i1T13gfZRbI3LxuHtndDVlIs873VywdKuHd6Hqp4bLc0qsbtbH0fLI7y7luEtV9OpJWi
-         OlEolOYvutDJ9aCC9CFhmuV93VWamULornO7n6Q1XUWXAUKf4xjyDxv2zE50rytEj6j6
-         Ew1iHw5lNbkMOSMy65TvBh8p7o2pGPsICG6HO1RTkBDAFNzEpS+52XwfsH4wkdgii1Xw
-         WKBw==
-X-Gm-Message-State: AO0yUKXv2nclmRdB9YZfOojrlTvYwHb9zidTcRasUGEZ5feeblOx0xTf
-        g1cnIVSHyLQLWq/KHS1JAzv5Dw/kMbHYl1Ife4U=
-X-Google-Smtp-Source: AK7set/OFb7Gf2/iCgzjEdsyOMm1Hu7JXruMNd/x3hTEETALA+SFIL6aby+oKNHlZYqb/8BcyGkD4w==
-X-Received: by 2002:a05:600c:a68f:b0:3da:db4:6105 with SMTP id ip15-20020a05600ca68f00b003da0db46105mr15970788wmb.37.1676149056868;
-        Sat, 11 Feb 2023 12:57:36 -0800 (PST)
-Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id n6-20020a7bcbc6000000b003dfe57f6f61sm8438522wmi.33.2023.02.11.12.57.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 12:57:36 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Sat, 11 Feb 2023 16:37:25 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9875B13507;
+        Sat, 11 Feb 2023 13:37:22 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A8156CF;
+        Sat, 11 Feb 2023 22:37:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676151441;
+        bh=E3bT0YbxJalZObxsC5r7YDqg+FtHfQT0lEJdH2IlaFk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VmT2aCEmY66aUaEIA79CSgQL6TopZgMfNODb4zLQCc97gp67xryM0T4Lay1ZEpTbV
+         jPpY95jFnl+j3rloJpMKxWInE8q3BHLsIN2aQ3DpAzwBww/fR08VScX5OG1+tXHObn
+         6qNEwAndfqKhHPxr2ZXzw4aaSwTy1tNLa+YfBFpU=
+Date:   Sat, 11 Feb 2023 23:37:19 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     linux-media@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [RFT/PATCH] media: rcar-vin: Add support for RAW10 on V3U
-Date:   Sat, 11 Feb 2023 21:57:14 +0100
-Message-Id: <20230211205714.494998-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.39.1
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: draak: Add overlay for CVBS
+ input
+Message-ID: <Y+gKj7vp+C/gPUPO@pendragon.ideasonboard.com>
+References: <20230211165715.4024992-1-niklas.soderlund+renesas@ragnatech.se>
+ <20230211165715.4024992-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230211165715.4024992-3-niklas.soderlund+renesas@ragnatech.se>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Car V3U SoC is capable of capturing RAW10. Add support for it
-using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
-format to express RAW10 unpacked to users.
+Hi Niklas,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
+Thank you for the patch.
 
-Hi Renesas BSP team,
+On Sat, Feb 11, 2023 at 05:57:15PM +0100, Niklas Söderlund wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> The Draak board has an ADV7180 CVBS decoder and an ADV7612 HDMI decoder,
+> both connected to the same VIN input. DIP switches are used to select
+> one of the two devices, with the HDMI decoder being the default. Add an
+> overlay that selects the CVBS decoder.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> [Niklas: Inverted it from HDMI to CVBS]
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-I don't have a RAW10 capable device, could you please test this patch
-and provide a Tested-by tag?
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Kind Regards
-Niklas
----
- drivers/media/platform/renesas/rcar-vin/rcar-core.c |  1 +
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 12 ++++++++++++
- drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c |  8 ++++++++
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h  |  2 ++
- 4 files changed, 23 insertions(+)
+> ---
+>  arch/arm64/boot/dts/renesas/Makefile          |  1 +
+>  .../boot/dts/renesas/draak-cvbs-input.dtso    | 33 +++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/renesas/draak-cvbs-input.dtso
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+> index 0699b51c1247..f5df37253184 100644
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -87,5 +87,6 @@ dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
+>  
+>  dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
+>  
+> +dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-cvbs-input.dtbo
+>  dtb-$(CONFIG_ARCH_RCAR_GEN3) += draak-ebisu-panel-aa104xd12.dtbo
+>  dtb-$(CONFIG_ARCH_RCAR_GEN3) += salvator-panel-aa104xd12.dtbo
+> diff --git a/arch/arm64/boot/dts/renesas/draak-cvbs-input.dtso b/arch/arm64/boot/dts/renesas/draak-cvbs-input.dtso
+> new file mode 100644
+> index 000000000000..b833c58c2029
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/draak-cvbs-input.dtso
+> @@ -0,0 +1,33 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2023 Ideas on Board Oy
+> + *
+> + * Device tree overlay for the Draak board, to enable CVBS input. This requires
+> + * setting DIP switches SW49, SW50, SW51 and SW52 to OFF, and SW53 and SW54 to
+> + * ON.
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +&adv7180_out {
+> +	remote-endpoint = <&vin4_in>;
+> +};
+> +
+> +&i2c0 {
+> +	hdmi-decoder@4c {
+> +		ports {
+> +			port@2 {
+> +				/delete-node/ endpoint;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&vin4_in {
+> +	remote-endpoint = <&adv7180_out>;
+> +};
+> +
+> +&vin4_pins {
+> +	groups = "vin4_data8", "vin4_sync", "vin4_clk";
+> +};
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 5e53d6b7036c..061e83578d5d 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1299,6 +1299,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
- 	.use_mc = true,
- 	.use_isp = true,
- 	.nv12 = true,
-+	.raw10 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
- };
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 2a77353f10b5..4935dbecc68d 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -123,7 +123,9 @@
- /* Video n Data Mode Register bits */
- #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
- #define VNDMR_A8BIT_MASK	(0xff << 24)
-+#define VNDMR_RMODE_RAW10	(2 << 19)
- #define VNDMR_YMODE_Y8		(1 << 12)
-+#define VNDMR_YC_THR		(1 << 11)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
- #define VNDMR_ABIT		(1 << 2)
-@@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case MEDIA_BUS_FMT_Y8_1X8:
- 		vnmc |= VNMC_INF_RAW8;
- 		break;
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+		vnmc |= VNMC_INF_RGB666;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -888,6 +893,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 			dmr = 0;
- 		}
- 		break;
-+	case V4L2_PIX_FMT_Y10:
-+		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1270,6 +1278,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
- 			return -EPIPE;
- 		break;
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_Y10)
-+			return -EPIPE;
-+		break;
- 	default:
- 		return -EPIPE;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 073f70c6ac68..c9be192cb4e5 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -86,6 +86,10 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_GREY,
- 		.bpp			= 1,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_Y10,
-+		.bpp			= 4,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-@@ -106,6 +110,10 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
- 		if (!vin->info->nv12 || !(BIT(vin->id) & 0x3333))
- 			return NULL;
- 		break;
-+	case V4L2_PIX_FMT_Y10:
-+		if (!vin->info->raw10)
-+			return NULL;
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index cb206d3976dd..921e35d9dfe0 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -152,6 +152,7 @@ struct rvin_group_route {
-  * @use_mc:		use media controller instead of controlling subdevice
-  * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-  * @nv12:		support outputing NV12 pixel format
-+ * @raw10:		support outputing RAW10 pixel format
-  * @max_width:		max input width the VIN supports
-  * @max_height:		max input height the VIN supports
-  * @routes:		list of possible routes from the CSI-2 recivers to
-@@ -163,6 +164,7 @@ struct rvin_info {
- 	bool use_mc;
- 	bool use_isp;
- 	bool nv12;
-+	bool raw10;
- 
- 	unsigned int max_width;
- 	unsigned int max_height;
 -- 
-2.39.1
+Regards,
 
+Laurent Pinchart
