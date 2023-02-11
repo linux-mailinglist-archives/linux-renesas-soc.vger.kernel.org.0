@@ -2,163 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D61692FEA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 11:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B1C693141
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 14:31:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjBKKND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 05:13:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
+        id S229627AbjBKNa7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 08:30:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjBKKNC (ORCPT
+        with ESMTP id S229520AbjBKNa6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 05:13:02 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939BA5B775
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 02:13:00 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so5743917wmb.5
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 02:13:00 -0800 (PST)
+        Sat, 11 Feb 2023 08:30:58 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAE32A6F1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 05:30:55 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id by3so6510220wrb.10
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Feb 2023 05:30:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kqe3s5e3wt4DSHIGbrhfklUFbKKerT+A7ba6t19+OIA=;
-        b=40j1ow/yT/+Vcqk9Bq3cr59FnSqC1WJqOLsnnpX6J9WZVWzkcb2/GGa4cBdVTr2Uv1
-         bjUekv3NRGP2qiuSzPtHvm1BR/TM4EoSkMsZz2IxhiFgFYkn+pD0ZolfSbHLAQ2OiCL6
-         aBThCwn62qdu/udtT2E7NBk00Mcjj9wB/z6ug549U4PZ9urk97Nd2WKDQaq95hzBqnrA
-         DzV9yPWa21uGNnXzXYyHiDvnsG+fPPX/ycX9DmzP4QbpM77nyJab+yiAO6xMpoQWjqr5
-         oAsUIJA7tblDPyj+YSxquJlQzaVn7H3trHy285BwblSBD4HrwEl9jPKgX7dd+CQqnwHF
-         7faQ==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rNl2Kd1xQruZWeNwQkjy47mqA/czch1BygI7D1oDIGk=;
+        b=NypymiZ55VkZtxkoH5z/U4OGmKZ77cRJCJ2ARcdXUJKWbFxkFwylG8nqccGwz66Ldy
+         QaybUIN3PItTTTc9NaWDcIT38O+s1HMOqNofIm9eIEKXHqDiTTeLD35LnwuEK27n1SFR
+         votELwEjqB6upTfl2OLtl7biccV1V6PZfJENzQxPX0q2C1vqlLFu4DavAeY6MKcaiEeI
+         9V/N+N9pNMD/l0R3PTH4DCffY9GQ19CjGxLtDi2zTr4Hg5CMW6mi7CCH569pEbIsBNk4
+         c8lIqKZCmCSpDlDUikJPHBsupK+RqBiOnL7W7iI8jVqSO+TZqnXSW8nPifHAmn5HQjGl
+         r/iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kqe3s5e3wt4DSHIGbrhfklUFbKKerT+A7ba6t19+OIA=;
-        b=bDiM5dAcET61QHLR0xw+SdlvSNhKwyMdtVIhi2bLygnoVH26xMwOnAk+aUQTGWvRI6
-         xUZeauv5z76Py/5/6t9f4Y3B8FpJhlwmYAkTbvLbfs7wDRFxZpLJCO96OF4zWUi2dW9d
-         mZGBq+OVtHI5nDPbLu6Hx8xIFRtqAoTd50s7iVhEQgGmwBXXqPs4dsGdxv+XnPS241T6
-         1r2Qch/JiG6HnzEAGNtcWH0Uqkui5INCR4n48W44oXmPyRLwmwsp2HtojhvtBb1KqRC5
-         liq8kWCP3SK3uvwzQTjnON7QSW4rqhxY8mYRlTkNO7UeALfffXdymal9pTzKF87x09Al
-         R6ig==
-X-Gm-Message-State: AO0yUKWMzlZOwevjRFSu+5pgumZ/uAvcOec5Ehflvq1icMMyNhrb+jzt
-        mIIdqyc7FclVdzJQqya1V/IizQ==
-X-Google-Smtp-Source: AK7set+AQZmGztz9WZtrt2GB6yP4aY9Q8iPyEnXDKxDFZwhKnBPGIvoSjZwg146vQVd6VUYbrFhjOQ==
-X-Received: by 2002:a05:600c:4a9a:b0:3dc:f24:f2de with SMTP id b26-20020a05600c4a9a00b003dc0f24f2demr14730373wmp.12.1676110379108;
-        Sat, 11 Feb 2023 02:12:59 -0800 (PST)
-Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id a1-20020a05600c348100b003db0ee277b2sm11041841wmq.5.2023.02.11.02.12.58
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rNl2Kd1xQruZWeNwQkjy47mqA/czch1BygI7D1oDIGk=;
+        b=N/OWZSMj44bpUOEyyJihXEn0UouWBQqsImojtsw/3iLqFKj2cEygcf1D7mKmvswWjo
+         PaY4kj0uJ2VuWyIGFgCW7A/Jvgypy0u+qToz1lZJaEBIoM3dFtfFhnC70moZPHu1Qu54
+         jYsznP5SlWJV/kNur5Mpk86nJ73ZIxf6xU+tPGzIYf8P4vt0UcUNUtFvfmuuv1vfArX4
+         AnIteizjRTYPtl1xzdNZpQ3lmzbuFgKiTRKljah0AVXkAWfI56ILLKjC/sXC2a3cErin
+         +/+RjLJyBbukLk2u8M1+x67iIR5UGNSCDktx1/e5gtXrqMb+RRawRv70BBFRfRWfgJsh
+         ppOw==
+X-Gm-Message-State: AO0yUKUwyIDy+7F0ppft6rOtFyeKXD/hjnuNY4tpPz7CJ0MwshAea9TW
+        HcrRu24iD4API/xqCH04lXxYVQ==
+X-Google-Smtp-Source: AK7set/EDcByCs1uVWSz5m9jpWdpI2meYZnoN7/eY1avQr4Ngzd1UY5TyU84+RvEAJp/o+j0yJSBAA==
+X-Received: by 2002:a05:6000:1811:b0:2c5:4b17:166 with SMTP id m17-20020a056000181100b002c54b170166mr4066156wrh.48.1676122254511;
+        Sat, 11 Feb 2023 05:30:54 -0800 (PST)
+Received: from localhost (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
+        by smtp.gmail.com with ESMTPSA id t14-20020a05600c198e00b003dff870ce0esm12335853wmq.2.2023.02.11.05.30.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 02:12:58 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+        Sat, 11 Feb 2023 05:30:53 -0800 (PST)
+Date:   Sat, 11 Feb 2023 14:30:52 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: [PATCH] configure.ac: Add option to disable compilation of v4l2-tracer
-Date:   Sat, 11 Feb 2023 11:12:31 +0100
-Message-Id: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
-X-Mailer: git-send-email 2.39.1
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH RFT 0/3] drivers/thermal/rcar_gen3_thermal: add Gen4 fuse
+ support
+Message-ID: <Y+eYjJIITr2rgz7e@sleipner.dyn.berto.se>
+References: <20230211084728.27832-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230211084728.27832-1-wsa+renesas@sang-engineering.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a configuration time option to disable compilation of the
-v4l2-tracer utility.
+Hi Wolfram,
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
----
+Thanks for your work.
 
-Hi Hans,
+On 2023-02-11 09:47:24 +0100, Wolfram Sang wrote:
+> R-Car Gen4 has the fuse registers at different locations and with
+> different names, but with the same purpose. So, first refactor IP core
+> differences into a 'info' struct, then add the fuse_read callback to it.
+> 
+> Patches are based on top of:
+> 
+> [PATCH v2 0/3] drivers/thermal/rcar_gen3_thermal: Fix device initialization
+> [PATCH 0/2] thermal: Add support for R-Car V4H
+> 
+> They have been tested on R-Car H3 ES2.0 and M3-N against regressions.
+> Actual testing of the new fuses on S4-8 still needs to be done because I
+> don't have access to such HW.
+> 
+> @Shimoda-san: maybe the BSP team or Test team can test these patches?
+> 
+> Looking forward to other review comments, too, of course.
 
-The v4l2-tracer fails to build on arm32. While I'm sure that can be
-fixed, this is an utility I don't use and building on target any thing I
-can disable in the build saves me time.
+For the whole series,
 
-From completes, the classes of errors I see are around v4l2_fourcc(),
-_IOR() and _IOWR().
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-../../include/linux/videodev2.h:81:66: error: narrowing conversion of '3039908417' from '__u32' {aka 'unsigned int'} to 'long int' [-Wnarrowing]
-   81 | #define v4l2_fourcc_be(a, b, c, d)      (v4l2_fourcc(a, b, c, d) | (1U << 31))
+I boot tested this on V4H, but on that board the fuses where not set so 
+the driver fall-back to the default values. We had a similar situation 
+when we enabled fuses for Gen3. IIRC the BSP team helped out testing 
+that on a board that had the fuses set.
 
-../../include/linux/videodev2.h:2528:34: error: narrowing conversion of '2154321408' from 'unsigned int' to 'long int' [-Wnarrowing]
- 2528 | #define VIDIOC_QUERYCAP          _IOR('V',  0, struct v4l2_capability)
+> 
+> Happy hacking,
+> 
+>    Wolfram
+> 
+> 
+> Wolfram Sang (3):
+>   drivers/thermal/rcar_gen3_thermal: introduce 'info' structure
+>   drivers/thermal/rcar_gen3_thermal: refactor reading fuses into
+>     seprarate function
+>   drivers/thermal/rcar_gen3_thermal: add reading fuses for Gen4
+> 
+>  drivers/thermal/rcar_gen3_thermal.c | 141 ++++++++++++++++++++--------
+>  1 file changed, 102 insertions(+), 39 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
 
-../../include/linux/videodev2.h:2529:33: error: narrowing conversion of '3225441794' from 'unsigned int' to 'long int' [-Wnarrowing]
- 2529 | #define VIDIOC_ENUM_FMT         _IOWR('V',  2, struct v4l2_fmtdesc)
-
-I'm building on target with gcc 12.1.0, nothing fancy,
-
-    $ ./bootstrap.sh && ./configure && make
-
-Kind Regards
-Niklas
----
- configure.ac      | 11 +++++++++++
- utils/Makefile.am |  2 +-
- 2 files changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/configure.ac b/configure.ac
-index dc9c4af71c45..46ddc7a8b404 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -497,6 +497,14 @@ AC_ARG_ENABLE(v4l2-compliance-32,
-    esac]
- )
- 
-+AC_ARG_ENABLE(v4l2-tracer,
-+  AS_HELP_STRING([--disable-v4l2-tracer], [disable v4l2-tracer compilation]),
-+  [case "${enableval}" in
-+     yes | no ) ;;
-+     *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2-tracer) ;;
-+   esac]
-+)
-+
- AC_ARG_ENABLE(v4l2-ctl-libv4l,
-   AS_HELP_STRING([--disable-v4l2-ctl-libv4l], [disable use of libv4l in v4l2-ctl]),
-   [case "${enableval}" in
-@@ -578,6 +586,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
- AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
- AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
- AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
-+AM_CONDITIONAL([WITH_V4L2_TRACER], [test x$jsonc_pkgconfig = xyes -a x$enable_v4l2_tracer != xno])
- PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
- AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
- 
-@@ -628,6 +637,7 @@ AM_COND_IF([WITH_V4L2_CTL_32], [USE_V4L2_CTL_32="yes"], [USE_V4L2_CTL_32="no"])
- AM_COND_IF([WITH_V4L2_COMPLIANCE], [USE_V4L2_COMPLIANCE="yes"], [USE_V4L2_COMPLIANCE="no"])
- AM_COND_IF([WITH_V4L2_COMPLIANCE_LIBV4L], [USE_V4L2_COMPLIANCE_LIBV4L="yes"], [USE_V4L2_COMPLIANCE_LIBV4L="no"])
- AM_COND_IF([WITH_V4L2_COMPLIANCE_32], [USE_V4L2_COMPLIANCE_32="yes"], [USE_V4L2_COMPLIANCE_32="no"])
-+AM_COND_IF([WITH_V4L2_TRACER], [USE_V4L2_TRACER="yes"], [USE_V4L2_TRACER="no"])
- AM_COND_IF([WITH_BPF],         [USE_BPF="yes"
-                                 AC_DEFINE([HAVE_BPF], [1], [BPF IR decoder support enabled])],
- 				[USE_BPF="no"])
-@@ -679,5 +689,6 @@ compile time options summary
-     v4l2-compliance            : $USE_V4L2_COMPLIANCE
-     v4l2-compliance uses libv4l: $USE_V4L2_COMPLIANCE_LIBV4L
-     v4l2-compliance-32         : $USE_V4L2_COMPLIANCE_32
-+    v4l2-tracer                : $USE_V4L2_TRACER
-     BPF IR Decoders:           : $USE_BPF
- EOF
-diff --git a/utils/Makefile.am b/utils/Makefile.am
-index 6f59515ef29d..b2a6ac211473 100644
---- a/utils/Makefile.am
-+++ b/utils/Makefile.am
-@@ -15,7 +15,7 @@ SUBDIRS = \
- 	cec-follower \
- 	rds-ctl
- 
--if HAVE_JSONC
-+if WITH_V4L2_TRACER
- SUBDIRS += \
- 	v4l2-tracer
- endif
 -- 
-2.39.1
-
+Kind Regards,
+Niklas Söderlund
