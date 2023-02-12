@@ -2,164 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ABEF6935C4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Feb 2023 04:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50B386936F0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Feb 2023 12:03:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjBLDOA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 22:14:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
+        id S229649AbjBLLC7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 Feb 2023 06:02:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjBLDN7 (ORCPT
+        with ESMTP id S229457AbjBLLC6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 22:13:59 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80AC315C8A;
-        Sat, 11 Feb 2023 19:13:58 -0800 (PST)
+        Sun, 12 Feb 2023 06:02:58 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D577F10E7;
+        Sun, 12 Feb 2023 03:02:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676171638; x=1707707638;
+  t=1676199777; x=1707735777;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=8Ee53bw0HTAKCWMxXPAJRBW6Y+YE/qZmXr9sA0iMSzM=;
-  b=nTUw4M66NTXzklVY0e9u965pPREEaq4R/zwK1rf5gCpdWQMzG2HdsDCU
-   6GezG+wPjra26EHS2ckJRzBmsUG01clclvPGt8k5QmSkjaTTl+ogZv5m5
-   DOsvEPyT/9ACmmRVgCsBcyQxP6CZ3NpUnIlcg8TDy0iZrl8j1K0gTzMQ1
-   ryLp9c6bk2ocaWRISpjwU9ObhJcP0nUubtHSqK+d9+Qe7PAO+Ui4BMZsD
-   GS79gAnxVCskp1SjM3Axa+cMj8FZtL7m9fnuGAGHOIm6JcFVILidsI5/P
-   aujrpTvVA2wk4coiRefhAliRGQlr8uLrzP8II74Oyt8kpH3VzZytWHMfv
+  bh=YNjknh09RNMSAxmoN0WU44REvp3kR42Rx9R6FHV9/lg=;
+  b=QpxOu0OZa+Hd44NXWlerRm0jLdqnapMGnMjcnS1kFAJKQfPpYFq/1Omc
+   8Q8iy/lYmDJSHgaoL7yL7Gp9eUzHLSwDiQLbrWWnYeAtYtQPrgBo7vbbh
+   UgOmxI75Z0VAlleWfT44lG4M/gMZJIevh//+ncnXaKDuwye0jiggaQg1r
+   VJyHkMPlQLH6wc5cJ4nNXCCM82Hr3Dgn+/35C0p3tYdR+WkRk2kE91R16
+   j7wrBkxiZc3BKWh/Z/wdY3xGDlPrPzjsen2q7Cnc50/zMb2KjMLn9qqmj
+   H2UYqoAE01VYuwbprINMy05Fp+6ptBsSyfInBMmBlotwdEgerMm5XcnB+
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="332824343"
-X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="332824343"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="314349675"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="314349675"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 19:13:57 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 03:02:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="842406476"
-X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
-   d="scan'208";a="842406476"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orsmga005.jf.intel.com with ESMTP; 11 Feb 2023 19:13:56 -0800
-Date:   Sat, 11 Feb 2023 19:23:45 -0800
-From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        rafael.j.wysocki@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Haowen Bai <baihaowen@meizu.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
-        <linux-amlogic@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:SAMSUNG THERMAL DRIVER" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
-Message-ID: <20230212032345.GA17062@ranerica-svr.sc.intel.com>
-References: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
- <20230211021023.GA13306@ranerica-svr.sc.intel.com>
- <9a121d43-b6d9-fe99-1e4c-498dac2e6b17@linaro.org>
- <258dedb542d4dcb73e9ec903d205ba64639c9f0a.camel@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="842476310"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="842476310"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 12 Feb 2023 03:02:54 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pRA8C-005pqO-1w;
+        Sun, 12 Feb 2023 13:02:52 +0200
+Date:   Sun, 12 Feb 2023 13:02:52 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-serial@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH v3 2/3] serial: 8250_em: Update RZ/V2M port type as
+ PORT_16750
+Message-ID: <Y+jHXKGlIs1Fnj3x@smile.fi.intel.com>
+References: <20230210203439.174913-1-biju.das.jz@bp.renesas.com>
+ <20230210203439.174913-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <258dedb542d4dcb73e9ec903d205ba64639c9f0a.camel@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230210203439.174913-3-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Feb 11, 2023 at 08:32:48AM -0800, srinivas pandruvada wrote:
-> On Sat, 2023-02-11 at 08:53 +0100, Daniel Lezcano wrote:
-> > On 11/02/2023 03:10, Ricardo Neri wrote:
-> > > On Mon, Feb 06, 2023 at 04:34:29PM +0100, Daniel Lezcano wrote:
-> > > > As the name states "thermal_core.h" is the header file for the
-> > > > core
-> > > > components of the thermal framework.
-> > > > 
-> > > > Too many drivers are including it. Hopefully the recent cleanups
-> > > > helped to self encapsulate the code a bit more and prevented the
-> > > > drivers to need this header.
-> > > > 
-> > > > Remove this inclusion in every place where it is possible.
-> > > > 
-> > > > Some other drivers did a confusion with the core header and the
-> > > > one
-> > > > exported in linux/thermal.h. They include the former instead of
-> > > > the
-> > > > latter. The changes also fix this.
-> > > > 
-> > > > The tegra/soctherm driver still remains as it uses an internal
-> > > > function which need to be replaced.
-> > > > 
-> > > > The Intel HFI driver uses the netlink internal framework core and
-> > > > should be changed to prevent to deal with the internals.
-> > > 
-> > > I don't see any of the thermal netlink functionality exposed. Is
-> > > there any work in progress?
-> > 
-> > commit bd30cdfd9bd73b68e4977ce7c5540aa7b14c25cd
-> > Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > 
-> >      thermal: intel: hfi: Notify user space for HFI events
-> > 
-> This is already exposed and we use it in user space.
-> thermal_genl_cpu_capability_event() is called from intel_hfi driver to
-> send the cpu capabilities.
-> 
-> Not sure what do you mean by  "don't see netlink functionality
-> exposed"?
-> 
-> thermal_genl_cpu_caps struct and thermal_genl_cpu_capability_event()
-> are defined in drivers/thermal/thermal_netlink.h.
+On Fri, Feb 10, 2023 at 08:34:38PM +0000, Biju Das wrote:
+> The UART IP found on RZ/V2M SoC is Register-compatible with the
+> general-purpose 16750 UART chip. This patch updates RZ/V2M
+> port type from 16550A->16750 and also enables 64-bytes fifo support.
 
-Yes, I mean exactly this. The HFI code uses this functionality, but it is
-declared in "../thermal_netlink.h". I just wondered if that is OK or also
-needs to be declared somewhere in include/linux/
+LGTM,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Thanks and BR,
-Ricardo
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+> v2->v3:
+>  * Replaced of_device_get_match_data()->device_get_match_data().
+>  * Replaced of_device.h->property.h
+>  * Dropped struct serial8250_em_hw_info *info from priv and started
+>    using a local variable info in probe().
+>  * Retained Rb tag from Ilpo as changes are trivial.
+> v2:
+>  * New patch
+> ---
+>  drivers/tty/serial/8250/8250_em.c | 28 ++++++++++++++++++++++++----
+>  1 file changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/tty/serial/8250/8250_em.c b/drivers/tty/serial/8250/8250_em.c
+> index 9781bf73ed0c..69cd3b611501 100644
+> --- a/drivers/tty/serial/8250/8250_em.c
+> +++ b/drivers/tty/serial/8250/8250_em.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/mod_devicetable.h>
+> +#include <linux/property.h>
+>  #include <linux/serial_8250.h>
+>  #include <linux/serial_reg.h>
+>  #include <linux/platform_device.h>
+> @@ -19,6 +20,11 @@
+>  #define UART_DLL_EM 9
+>  #define UART_DLM_EM 10
+>  
+> +struct serial8250_em_hw_info {
+> +	unsigned int type;
+> +	upf_t flags;
+> +};
+> +
+>  struct serial8250_em_priv {
+>  	int line;
+>  };
+> @@ -76,6 +82,7 @@ static void serial8250_em_serial_dl_write(struct uart_8250_port *up, int value)
+>  
+>  static int serial8250_em_probe(struct platform_device *pdev)
+>  {
+> +	const struct serial8250_em_hw_info *info;
+>  	struct serial8250_em_priv *priv;
+>  	struct device *dev = &pdev->dev;
+>  	struct uart_8250_port up;
+> @@ -83,6 +90,8 @@ static int serial8250_em_probe(struct platform_device *pdev)
+>  	struct clk *sclk;
+>  	int irq, ret;
+>  
+> +	info = device_get_match_data(dev);
+> +
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0)
+>  		return irq;
+> @@ -102,8 +111,8 @@ static int serial8250_em_probe(struct platform_device *pdev)
+>  	memset(&up, 0, sizeof(up));
+>  	up.port.mapbase = regs->start;
+>  	up.port.irq = irq;
+> -	up.port.type = PORT_UNKNOWN;
+> -	up.port.flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_IOREMAP;
+> +	up.port.type = info->type;
+> +	up.port.flags = info->flags;
+>  	up.port.dev = dev;
+>  	up.port.private_data = priv;
+>  
+> @@ -132,9 +141,20 @@ static int serial8250_em_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct serial8250_em_hw_info emma_mobile_uart_hw_info = {
+> +	.type = PORT_UNKNOWN,
+> +	.flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_IOREMAP,
+> +};
+> +
+> +static const struct serial8250_em_hw_info rzv2m_uart_hw_info = {
+> +	.type = PORT_16750,
+> +	.flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_IOREMAP | UPF_FIXED_TYPE,
+> +};
+> +
+>  static const struct of_device_id serial8250_em_dt_ids[] = {
+> -	{ .compatible = "renesas,em-uart", },
+> -	{},
+> +	{ .compatible = "renesas,r9a09g011-uart", .data = &rzv2m_uart_hw_info },
+> +	{ .compatible = "renesas,em-uart", .data = &emma_mobile_uart_hw_info },
+> +	{ /* Sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, serial8250_em_dt_ids);
+>  
+> -- 
+> 2.25.1
+> 
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
