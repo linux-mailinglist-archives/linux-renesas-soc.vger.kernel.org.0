@@ -2,156 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E813E693423
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Feb 2023 23:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ABEF6935C4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Feb 2023 04:14:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjBKWIj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Feb 2023 17:08:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53432 "EHLO
+        id S229568AbjBLDOA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Feb 2023 22:14:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjBKWIi (ORCPT
+        with ESMTP id S229560AbjBLDN7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Feb 2023 17:08:38 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEE312872;
-        Sat, 11 Feb 2023 14:08:36 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77E5E4B0;
-        Sat, 11 Feb 2023 23:08:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676153315;
-        bh=R4uwL53SzuJAkJqq7hXZNUxVcgQwwntqJb7XBontHjc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dJYHSopwXSViplVRTk2vwjbPsgT30PCh5tKUdJA3RjaYM6ABGV4ueq4/WamJ7VPqo
-         dn1WrOfPa8qSjn/DGdpUBc97c9EBVm8BieegZnyzYRLYNWwDywD+6OkBzdaq88P4AK
-         5gpMRVyczTiFsRKkvGy7/gM3NOtz98+oUCllmiag=
-Date:   Sun, 12 Feb 2023 00:08:34 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] configure.ac: Add option to disable compilation of
- v4l2-tracer
-Message-ID: <Y+gR4soeDPQQulce@pendragon.ideasonboard.com>
-References: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
+        Sat, 11 Feb 2023 22:13:59 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80AC315C8A;
+        Sat, 11 Feb 2023 19:13:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676171638; x=1707707638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8Ee53bw0HTAKCWMxXPAJRBW6Y+YE/qZmXr9sA0iMSzM=;
+  b=nTUw4M66NTXzklVY0e9u965pPREEaq4R/zwK1rf5gCpdWQMzG2HdsDCU
+   6GezG+wPjra26EHS2ckJRzBmsUG01clclvPGt8k5QmSkjaTTl+ogZv5m5
+   DOsvEPyT/9ACmmRVgCsBcyQxP6CZ3NpUnIlcg8TDy0iZrl8j1K0gTzMQ1
+   ryLp9c6bk2ocaWRISpjwU9ObhJcP0nUubtHSqK+d9+Qe7PAO+Ui4BMZsD
+   GS79gAnxVCskp1SjM3Axa+cMj8FZtL7m9fnuGAGHOIm6JcFVILidsI5/P
+   aujrpTvVA2wk4coiRefhAliRGQlr8uLrzP8II74Oyt8kpH3VzZytWHMfv
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="332824343"
+X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
+   d="scan'208";a="332824343"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 19:13:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="842406476"
+X-IronPort-AV: E=Sophos;i="5.97,290,1669104000"; 
+   d="scan'208";a="842406476"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga005.jf.intel.com with ESMTP; 11 Feb 2023 19:13:56 -0800
+Date:   Sat, 11 Feb 2023 19:23:45 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        rafael.j.wysocki@intel.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
+        <linux-amlogic@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:SAMSUNG THERMAL DRIVER" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
+Message-ID: <20230212032345.GA17062@ranerica-svr.sc.intel.com>
+References: <20230206153432.1017282-1-daniel.lezcano@linaro.org>
+ <20230211021023.GA13306@ranerica-svr.sc.intel.com>
+ <9a121d43-b6d9-fe99-1e4c-498dac2e6b17@linaro.org>
+ <258dedb542d4dcb73e9ec903d205ba64639c9f0a.camel@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <258dedb542d4dcb73e9ec903d205ba64639c9f0a.camel@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On Sat, Feb 11, 2023 at 08:32:48AM -0800, srinivas pandruvada wrote:
+> On Sat, 2023-02-11 at 08:53 +0100, Daniel Lezcano wrote:
+> > On 11/02/2023 03:10, Ricardo Neri wrote:
+> > > On Mon, Feb 06, 2023 at 04:34:29PM +0100, Daniel Lezcano wrote:
+> > > > As the name states "thermal_core.h" is the header file for the
+> > > > core
+> > > > components of the thermal framework.
+> > > > 
+> > > > Too many drivers are including it. Hopefully the recent cleanups
+> > > > helped to self encapsulate the code a bit more and prevented the
+> > > > drivers to need this header.
+> > > > 
+> > > > Remove this inclusion in every place where it is possible.
+> > > > 
+> > > > Some other drivers did a confusion with the core header and the
+> > > > one
+> > > > exported in linux/thermal.h. They include the former instead of
+> > > > the
+> > > > latter. The changes also fix this.
+> > > > 
+> > > > The tegra/soctherm driver still remains as it uses an internal
+> > > > function which need to be replaced.
+> > > > 
+> > > > The Intel HFI driver uses the netlink internal framework core and
+> > > > should be changed to prevent to deal with the internals.
+> > > 
+> > > I don't see any of the thermal netlink functionality exposed. Is
+> > > there any work in progress?
+> > 
+> > commit bd30cdfd9bd73b68e4977ce7c5540aa7b14c25cd
+> > Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > 
+> >      thermal: intel: hfi: Notify user space for HFI events
+> > 
+> This is already exposed and we use it in user space.
+> thermal_genl_cpu_capability_event() is called from intel_hfi driver to
+> send the cpu capabilities.
+> 
+> Not sure what do you mean by  "don't see netlink functionality
+> exposed"?
+> 
+> thermal_genl_cpu_caps struct and thermal_genl_cpu_capability_event()
+> are defined in drivers/thermal/thermal_netlink.h.
 
-Thank you for the patch.
+Yes, I mean exactly this. The HFI code uses this functionality, but it is
+declared in "../thermal_netlink.h". I just wondered if that is OK or also
+needs to be declared somewhere in include/linux/
 
-On Sat, Feb 11, 2023 at 11:12:31AM +0100, Niklas SÃ¶derlund wrote:
-> Add a configuration time option to disable compilation of the
-> v4l2-tracer utility.
-> 
-> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-with my limited autotools knowledge.
-
-I'll add the same option to meson support :-)
-
-> ---
-> 
-> Hi Hans,
-> 
-> The v4l2-tracer fails to build on arm32. While I'm sure that can be
-> fixed, this is an utility I don't use and building on target any thing I
-> can disable in the build saves me time.
-> 
-> From completes, the classes of errors I see are around v4l2_fourcc(),
-> _IOR() and _IOWR().
-> 
-> ../../include/linux/videodev2.h:81:66: error: narrowing conversion of '3039908417' from '__u32' {aka 'unsigned int'} to 'long int' [-Wnarrowing]
->    81 | #define v4l2_fourcc_be(a, b, c, d)      (v4l2_fourcc(a, b, c, d) | (1U << 31))
-> 
-> ../../include/linux/videodev2.h:2528:34: error: narrowing conversion of '2154321408' from 'unsigned int' to 'long int' [-Wnarrowing]
->  2528 | #define VIDIOC_QUERYCAP          _IOR('V',  0, struct v4l2_capability)
-> 
-> ../../include/linux/videodev2.h:2529:33: error: narrowing conversion of '3225441794' from 'unsigned int' to 'long int' [-Wnarrowing]
->  2529 | #define VIDIOC_ENUM_FMT         _IOWR('V',  2, struct v4l2_fmtdesc)
-> 
-> I'm building on target with gcc 12.1.0, nothing fancy,
-> 
->     $ ./bootstrap.sh && ./configure && make
-> 
-> Kind Regards
-> Niklas
-> ---
->  configure.ac      | 11 +++++++++++
->  utils/Makefile.am |  2 +-
->  2 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/configure.ac b/configure.ac
-> index dc9c4af71c45..46ddc7a8b404 100644
-> --- a/configure.ac
-> +++ b/configure.ac
-> @@ -497,6 +497,14 @@ AC_ARG_ENABLE(v4l2-compliance-32,
->     esac]
->  )
->  
-> +AC_ARG_ENABLE(v4l2-tracer,
-> +  AS_HELP_STRING([--disable-v4l2-tracer], [disable v4l2-tracer compilation]),
-> +  [case "${enableval}" in
-> +     yes | no ) ;;
-> +     *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2-tracer) ;;
-> +   esac]
-> +)
-> +
->  AC_ARG_ENABLE(v4l2-ctl-libv4l,
->    AS_HELP_STRING([--disable-v4l2-ctl-libv4l], [disable use of libv4l in v4l2-ctl]),
->    [case "${enableval}" in
-> @@ -578,6 +586,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
->  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
->  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
->  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
-> +AM_CONDITIONAL([WITH_V4L2_TRACER], [test x$jsonc_pkgconfig = xyes -a x$enable_v4l2_tracer != xno])
->  PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
->  AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
->  
-> @@ -628,6 +637,7 @@ AM_COND_IF([WITH_V4L2_CTL_32], [USE_V4L2_CTL_32="yes"], [USE_V4L2_CTL_32="no"])
->  AM_COND_IF([WITH_V4L2_COMPLIANCE], [USE_V4L2_COMPLIANCE="yes"], [USE_V4L2_COMPLIANCE="no"])
->  AM_COND_IF([WITH_V4L2_COMPLIANCE_LIBV4L], [USE_V4L2_COMPLIANCE_LIBV4L="yes"], [USE_V4L2_COMPLIANCE_LIBV4L="no"])
->  AM_COND_IF([WITH_V4L2_COMPLIANCE_32], [USE_V4L2_COMPLIANCE_32="yes"], [USE_V4L2_COMPLIANCE_32="no"])
-> +AM_COND_IF([WITH_V4L2_TRACER], [USE_V4L2_TRACER="yes"], [USE_V4L2_TRACER="no"])
->  AM_COND_IF([WITH_BPF],         [USE_BPF="yes"
->                                  AC_DEFINE([HAVE_BPF], [1], [BPF IR decoder support enabled])],
->  				[USE_BPF="no"])
-> @@ -679,5 +689,6 @@ compile time options summary
->      v4l2-compliance            : $USE_V4L2_COMPLIANCE
->      v4l2-compliance uses libv4l: $USE_V4L2_COMPLIANCE_LIBV4L
->      v4l2-compliance-32         : $USE_V4L2_COMPLIANCE_32
-> +    v4l2-tracer                : $USE_V4L2_TRACER
->      BPF IR Decoders:           : $USE_BPF
->  EOF
-> diff --git a/utils/Makefile.am b/utils/Makefile.am
-> index 6f59515ef29d..b2a6ac211473 100644
-> --- a/utils/Makefile.am
-> +++ b/utils/Makefile.am
-> @@ -15,7 +15,7 @@ SUBDIRS = \
->  	cec-follower \
->  	rds-ctl
->  
-> -if HAVE_JSONC
-> +if WITH_V4L2_TRACER
->  SUBDIRS += \
->  	v4l2-tracer
->  endif
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks and BR,
+Ricardo
