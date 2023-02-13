@@ -2,135 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57AD5694B54
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 16:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21581694B6B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 16:41:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbjBMPid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 10:38:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52018 "EHLO
+        id S230043AbjBMPlg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 10:41:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229896AbjBMPic (ORCPT
+        with ESMTP id S229711AbjBMPlg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 10:38:32 -0500
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A5A193EC;
-        Mon, 13 Feb 2023 07:38:30 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id u21so13495240edv.3;
-        Mon, 13 Feb 2023 07:38:30 -0800 (PST)
+        Mon, 13 Feb 2023 10:41:36 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7E2193C7;
+        Mon, 13 Feb 2023 07:41:35 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id c2so14146521qtw.5;
+        Mon, 13 Feb 2023 07:41:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/87Mt+OfWS54SLniYHSHhoF1OzMVcQInuz6lOAm1ITI=;
-        b=12PeChOFvadL61YN+kpNPivvcI+AupHwBRLOyFGuRGU9WPRrmJfLbCrUIqvcAtydQn
-         nni504tZApnMh1JEAq16k6PMcJ3OngZPjKAFhbrzA/bmE10YKzHVXAWUlcIkDdQVQi35
-         Jo6cOkyJrvALCSFb2QcZz5r9APvgkV1FSk2IeaeY5hlSWf5O0fHP0J4aR+GsIEfkm06J
-         f1spg7De5BBvXyXKFalB5iDV8XyeaX0snOvq5l9BbqoRVRpiUxzmgQDGVIukIFhbDTDP
-         deEHz9xf+2tk7gJCn7zHasHUomZK7NsNyC+def3Mas1fBYaHF5howDm2R+V3oLUs6MFR
-         Fwig==
-X-Gm-Message-State: AO0yUKXVNIdUt6/RVekPN69YXjtX5DAIYaS2AuDaYKInMI8BgVav5EEv
-        s1hAc3z1ebzj4w5xr+izMy4oNWQvL9no4YUnPtk=
-X-Google-Smtp-Source: AK7set/gPlIC2eOAY2XqGE6GdihDj9jHSedBktD5q34/c7R5wMsZ0nx0m0yQIbiWvGC7F0L1/Il/JyPSJjgkmU9F/oY=
-X-Received: by 2002:a50:baab:0:b0:4ac:cdd9:1c97 with SMTP id
- x40-20020a50baab000000b004accdd91c97mr1078170ede.6.1676302708989; Mon, 13 Feb
- 2023 07:38:28 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QAXl0un9Q75Hp5vYsfngXt1vjexWRaO3bIl6QHN6dhQ=;
+        b=CtyBNAPb/aVzyzJE9QIIQRPo/5li9D13/vs2W2u37S8gz07GtnY0Bg1I73+hwwEbnP
+         98ERlnrmTh4YKGzn8brT3sEm60oSLAUEC69LQhZGOK59FbDqT4NHKHtI3aMnqARi8BGk
+         hVT0N5W4bfd55dHo1sk0su1f9Izfo9caxYHbIvJQ4gc3qSTgDnMeuM+XRjOhm6hUYP/z
+         HfdyRq1KhYMSe+HMGAs/k5Uuyswo+unIGAHaLlRsoI7Oxr89fRpX/dLbBMmPeXd28xRq
+         Ek1yTAqmm6FyrgrcTEwz65PSwtIpzP0fjnijYRXmy5/PRx/3Zn+dr6fgxi2mAsvZAU2I
+         UrdA==
+X-Gm-Message-State: AO0yUKUbhzVvmXwUU8DVjskwyplrxMAsDAECPPthin63URnbbqIfnUWy
+        /TGzzDqlRMBRbjScFcfmVfLk+HLLcB3jfw==
+X-Google-Smtp-Source: AK7set/lH2B1Onh4YsXSAFn2tupnap8TM0NQ9baIKg3kl8ForQaB0jD9M6PXNV4c0uUXKzf++LS82w==
+X-Received: by 2002:a05:622a:14ca:b0:3b6:3260:fa1d with SMTP id u10-20020a05622a14ca00b003b63260fa1dmr46855795qtx.45.1676302894526;
+        Mon, 13 Feb 2023 07:41:34 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id n68-20020a374047000000b0073b4a55a2d1sm1112198qka.124.2023.02.13.07.41.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Feb 2023 07:41:34 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-52bed2ce9bdso168095727b3.13;
+        Mon, 13 Feb 2023 07:41:34 -0800 (PST)
+X-Received: by 2002:a0d:f846:0:b0:4fc:962d:7dc1 with SMTP id
+ i67-20020a0df846000000b004fc962d7dc1mr2312501ywf.301.1676302893846; Mon, 13
+ Feb 2023 07:41:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20230206153432.1017282-1-daniel.lezcano@linaro.org> <20230210094056.GC175687@linaro.org>
-In-Reply-To: <20230210094056.GC175687@linaro.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 13 Feb 2023 16:38:17 +0100
-Message-ID: <CAJZ5v0iEYtFJAh94w+K-T90PXLRDzyUgvb_OPL9aOvphTH2CGg@mail.gmail.com>
-Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     rafael.j.wysocki@intel.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Haowen Bai <baihaowen@meizu.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
-        <linux-amlogic@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:SAMSUNG THERMAL DRIVER" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+References: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se> <20230211145310.3819989-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230211145310.3819989-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Feb 2023 16:41:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXrBmWzkwm-m2uiNzZn4cXm=_T0pYD6Sp+1WfWMgbuZgw@mail.gmail.com>
+Message-ID: <CAMuHMdXrBmWzkwm-m2uiNzZn4cXm=_T0pYD6Sp+1WfWMgbuZgw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: rcar-csi2: Prepare for Gen4 support
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 10:41 AM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
-> Hi Rafael,
->
-> On Mon, Feb 06, 2023 at 04:34:29PM +0100, Daniel Lezcano wrote:
-> > As the name states "thermal_core.h" is the header file for the core
-> > components of the thermal framework.
-> >
-> > Too many drivers are including it. Hopefully the recent cleanups
-> > helped to self encapsulate the code a bit more and prevented the
-> > drivers to need this header.
-> >
-> > Remove this inclusion in every place where it is possible.
-> >
-> > Some other drivers did a confusion with the core header and the one
-> > exported in linux/thermal.h. They include the former instead of the
-> > latter. The changes also fix this.
-> >
-> > The tegra/soctherm driver still remains as it uses an internal
-> > function which need to be replaced.
-> >
-> > The Intel HFI driver uses the netlink internal framework core and
-> > should be changed to prevent to deal with the internals.
-> >
-> > No functional changes
->
-> Are you ok if I take this patch ?
+Hi Niklas,
 
-Well, you've already done that.
+On Sat, Feb 11, 2023 at 4:05 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Prepare the driver for supporting R-Car Gen4. The starting of the
+> receiver and how to enter standby differs between Gen3 and Gen4,
+> create function pointers in the device info structure to control the
+> different behavior.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Thanks for your patch!
+
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+
+> @@ -1416,11 +1441,15 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
+>         .init_phtw = rcsi2_init_phtw_v3m_e3,
+>         .phy_post_init = rcsi2_phy_post_init_v3m_e3,
+> +       .start_receiver = rcsi2_start_receiver_gen3,
+> +       .enter_standby = rcsi2_enter_standby_gen3,
+>         .num_channels = 2,
+>  };
+>
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
+>         .init_phtw = rcsi2_init_phtw_v3u,
+> +       .start_receiver = rcsi2_start_receiver_gen3,
+> +       .enter_standby = rcsi2_enter_standby_gen3,
+
+This part means R-Car V3U is still treated like other R-Car Gen3 SoCs,
+not like R-Car Gen4.  Just double-checking if that is intentional?
+
+>         .hsfreqrange = hsfreqrange_v3u,
+>         .csi0clkfreqrange = 0x20,
+>         .clear_ulps = true,
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
