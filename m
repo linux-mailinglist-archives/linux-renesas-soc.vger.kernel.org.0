@@ -2,92 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EBD8694D4C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 17:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93E62695290
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 22:01:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbjBMQvJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 11:51:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
+        id S229554AbjBMVBs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 16:01:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjBMQvI (ORCPT
+        with ESMTP id S230084AbjBMVBo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 11:51:08 -0500
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDE66A46;
-        Mon, 13 Feb 2023 08:51:08 -0800 (PST)
-Received: by mail-qt1-f179.google.com with SMTP id ch10so13305112qtb.11;
-        Mon, 13 Feb 2023 08:51:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=81BoQ2T1CR+/whXjUJUBFbGfIbD8zAA5srmANKhgLXY=;
-        b=jzUywvDTCaJ2Yape5if7m96DhjXmKJezR5Z1nhDHFj94rTRFZrcToZdUV/0eZw1Vdd
-         ERkYCX87eZkMnLghhLu6uunxdJ32KbmmkNAO8a3+OTobedH1pCZR8bdUjUcXKZzNTxGX
-         G8V9Wn7JJJ2KpfubJUHr440hcOFcJIHMuveQD4aPE3ta6gsuSoLF68LzZrjrzOaSKVIM
-         4wAPzfF8QlTlKXJzyxlfrBVY/XxpxTEE52XQm+d6/Vu4TPCDyQQ/FFC8Qx9zha5N2q1p
-         7Tqw6HUd3taBzfNCPX8MO6ExERHIv/STJr+1aw0ZcLmSgBmIhp74Wzyp61x58zXxKrhz
-         lIEw==
-X-Gm-Message-State: AO0yUKV2KUTMr1/wfZM4vj+YrpMWP2nGY8j5zr12pcdJru9jz2wCc1Ur
-        4GbE2/l4hBwRZ7aTVvXpyxcSIhBDEZ5Vkw==
-X-Google-Smtp-Source: AK7set/+cDHwgqxglS4jlxonc9ZMLEjetZ06nvbqc+5H95dvwaHpFiH0a1J9xTBiI8Mp8OW+dcJjQw==
-X-Received: by 2002:ac8:5850:0:b0:3b6:3494:174 with SMTP id h16-20020ac85850000000b003b634940174mr47390406qth.52.1676307067043;
-        Mon, 13 Feb 2023 08:51:07 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id o190-20020a375ac7000000b0073b45004754sm1951062qkb.34.2023.02.13.08.51.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 08:51:06 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-52f0001ff8eso72083797b3.4;
-        Mon, 13 Feb 2023 08:51:06 -0800 (PST)
-X-Received: by 2002:a0d:f846:0:b0:4fc:962d:7dc1 with SMTP id
- i67-20020a0df846000000b004fc962d7dc1mr2336293ywf.301.1676307066536; Mon, 13
- Feb 2023 08:51:06 -0800 (PST)
+        Mon, 13 Feb 2023 16:01:44 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB1E26AE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 13:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676322096; x=1707858096;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Izgrnu0C3KSmiJCm0PMMtYI7PESBqNTHThuZtxcmtyc=;
+  b=Yt1BRcD3+QsTfQivDAFXgdCefTAhgsdqQJVc2oFWN8oGz/EeCZOI+2/a
+   fCy/TkxmDCreW3pm0Ax3Hp5HpFuJw1YUhpjWSKHlRtVvWW0H/q8irG1av
+   R0CGXgpbJCCs2IZhbc5gsrnTjWoyceP9+zOwn4gCh2bLhyeIzSRha93ax
+   6a4IRoSd0ZOZDG17a2keZhO80DcGwoBlHyduxgAqQnC/qtL+BACMjwf9D
+   yQh6q9KKc/iNtA4warJY9vYviAK2+8DgAA694sLVHrTmEfgQWznvOqKwQ
+   3NARzvMOSv6Q3g01p8KWbrZAAUV8N4PQsOa6TTd8dtbZUHcTNZW+7cCb6
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="395615093"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="395615093"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 13:01:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="842909788"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="842909788"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 13 Feb 2023 13:01:34 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pRfx7-00080h-2W;
+        Mon, 13 Feb 2023 21:01:33 +0000
+Date:   Tue, 14 Feb 2023 05:01:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 1114d4a0bbbebed7e53c9c2279c0c7adab6ca959
+Message-ID: <63eaa515.qtqTRKDli812PtZg%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20230211153026.3898491-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20230211153026.3898491-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Feb 2023 17:50:55 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVTs1uYuFACOJUdpshSNbSeU6WGb_49chu4UNhWMvgrhg@mail.gmail.com>
-Message-ID: <CAMuHMdVTs1uYuFACOJUdpshSNbSeU6WGb_49chu4UNhWMvgrhg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a77980: Add VIN clocks
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LONGWORDS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 1114d4a0bbbebed7e53c9c2279c0c7adab6ca959  Merge tag 'v6.2-rc8' into renesas-devel
 
-On Sat, Feb 11, 2023 at 4:30 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add the VIN module clocks, which are used by the VIN modules on the
-> Renesas R-Car Condor (R8A77980) SoC.
+elapsed time: 720m
 
-s/Condor/V3H/
+configs tested: 79
+configs skipped: 3
 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.4 with the above fixed.
+gcc tested configs:
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arc                  randconfig-r043-20230212
+arc                  randconfig-r043-20230213
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm                  randconfig-r046-20230212
+arm64                            allyesconfig
+arm64                               defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                                defconfig
+i386                 randconfig-a011-20230213
+i386                 randconfig-a012-20230213
+i386                 randconfig-a013-20230213
+i386                 randconfig-a014-20230213
+i386                 randconfig-a015-20230213
+i386                 randconfig-a016-20230213
+ia64                             allmodconfig
+ia64                                defconfig
+loongarch                        allmodconfig
+loongarch                         allnoconfig
+loongarch                           defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                randconfig-r042-20230213
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+s390                 randconfig-r044-20230213
+sh                               allmodconfig
+sparc                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                            allnoconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64               randconfig-a011-20230213
+x86_64               randconfig-a012-20230213
+x86_64               randconfig-a013-20230213
+x86_64               randconfig-a014-20230213
+x86_64               randconfig-a015-20230213
+x86_64               randconfig-a016-20230213
+x86_64                               rhel-8.3
 
-Gr{oetje,eeting}s,
-
-                        Geert
+clang tested configs:
+arm                  randconfig-r046-20230213
+hexagon              randconfig-r041-20230212
+hexagon              randconfig-r041-20230213
+hexagon              randconfig-r045-20230212
+hexagon              randconfig-r045-20230213
+i386                 randconfig-a001-20230213
+i386                 randconfig-a002-20230213
+i386                 randconfig-a003-20230213
+i386                 randconfig-a004-20230213
+i386                 randconfig-a005-20230213
+i386                 randconfig-a006-20230213
+riscv                randconfig-r042-20230212
+s390                 randconfig-r044-20230212
+x86_64               randconfig-a001-20230213
+x86_64               randconfig-a002-20230213
+x86_64               randconfig-a003-20230213
+x86_64               randconfig-a004-20230213
+x86_64               randconfig-a005-20230213
+x86_64               randconfig-a006-20230213
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
