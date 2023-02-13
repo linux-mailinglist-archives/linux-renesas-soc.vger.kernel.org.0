@@ -2,127 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A6E6948A9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 15:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57AD5694B54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 16:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbjBMOvs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 09:51:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45296 "EHLO
+        id S230049AbjBMPid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 10:38:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230366AbjBMOvp (ORCPT
+        with ESMTP id S229896AbjBMPic (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 09:51:45 -0500
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767401C5A1;
-        Mon, 13 Feb 2023 06:51:30 -0800 (PST)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-52bfa3dfd95so165970557b3.9;
-        Mon, 13 Feb 2023 06:51:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/dOuMvcM1NQm8lVIrIbaxwgFwDZX70A1J7X1KjVaE0=;
-        b=q7MwCKZLDcxq968XQrEAjkRBrJ8usj6WFVYNbin4ZnqYZ5D5gbQwSslMWLj1yOSVfm
-         KuEVIssnIWcfsftsWswHoOQQTx+ux0ycqNj7oFSOv9ncGSlbER9buQv8ug008+v33UJk
-         Q1TVG1mDm71Wq5Db9UxEAn1JgHBmNUjNxddAKo4dl0D4ag+eXDgjGqKm/rvpgIk/Hh36
-         atpSyDOYxxc+un73jWshyIJG0QNBK9gM3cvLeQ7/NSqHVS2PmDNRwY6PO6tZqUdSCKz5
-         nUKB4u/sO6d5JTH/+cTVWAy2ILkD+oXN4VtwFbVcr2LkqinrAfUmYlDzh5CD7v8IIatC
-         dx/w==
+        Mon, 13 Feb 2023 10:38:32 -0500
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A5A193EC;
+        Mon, 13 Feb 2023 07:38:30 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id u21so13495240edv.3;
+        Mon, 13 Feb 2023 07:38:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z/dOuMvcM1NQm8lVIrIbaxwgFwDZX70A1J7X1KjVaE0=;
-        b=L+bWwy9pqzZy5pDnrjbQOXrh/5Nc74E4lkbvtIoQrweVNqBqmcePl6PNLml1qEaLMp
-         o5uOAH2ha3vCNZEz1fht8ggaya3hNVCJbAwlDsN13O/oHRzEbdm0AHWpmcqSS6jUAnCm
-         83E7tOFrxU0NQPcy90UcKCeez8jDiMuU5AFQNY/CcxtzOVTYbYWFvTu5PelVB4SysyNn
-         Kh+Qy1SWh+yJz3WAh2J4dgiUr9zoPn/diyX/c8IMx7nKOKQ8+dJfHQ92KovH2w/ctC8P
-         puXB1wbUOhACXFEHC2gJgnkwWlZ2G77DrWZ3y2iX4wVKMxOWi7f5V21msUFGOR07DPxS
-         B9nQ==
-X-Gm-Message-State: AO0yUKXVMkXKOQKqHASduRE8qKOTQdhH5L6VJoRIH9HDMXSK3brcPtmH
-        ooMdcihP04GZCzncShN/gHGKlbQQm7SLJfP6XpM=
-X-Google-Smtp-Source: AK7set+lQ1JXxMZgz0LbLG6h2CJDhcSTWEzXSB+Z5785PYiJe06L+oySm8rA9DhIrgd2gLwektTzTdk2ScUsWlAp3P8=
-X-Received: by 2002:a0d:ff45:0:b0:52e:e6ed:30a8 with SMTP id
- p66-20020a0dff45000000b0052ee6ed30a8mr1052026ywf.552.1676299889631; Mon, 13
- Feb 2023 06:51:29 -0800 (PST)
+        bh=/87Mt+OfWS54SLniYHSHhoF1OzMVcQInuz6lOAm1ITI=;
+        b=12PeChOFvadL61YN+kpNPivvcI+AupHwBRLOyFGuRGU9WPRrmJfLbCrUIqvcAtydQn
+         nni504tZApnMh1JEAq16k6PMcJ3OngZPjKAFhbrzA/bmE10YKzHVXAWUlcIkDdQVQi35
+         Jo6cOkyJrvALCSFb2QcZz5r9APvgkV1FSk2IeaeY5hlSWf5O0fHP0J4aR+GsIEfkm06J
+         f1spg7De5BBvXyXKFalB5iDV8XyeaX0snOvq5l9BbqoRVRpiUxzmgQDGVIukIFhbDTDP
+         deEHz9xf+2tk7gJCn7zHasHUomZK7NsNyC+def3Mas1fBYaHF5howDm2R+V3oLUs6MFR
+         Fwig==
+X-Gm-Message-State: AO0yUKXVNIdUt6/RVekPN69YXjtX5DAIYaS2AuDaYKInMI8BgVav5EEv
+        s1hAc3z1ebzj4w5xr+izMy4oNWQvL9no4YUnPtk=
+X-Google-Smtp-Source: AK7set/gPlIC2eOAY2XqGE6GdihDj9jHSedBktD5q34/c7R5wMsZ0nx0m0yQIbiWvGC7F0L1/Il/JyPSJjgkmU9F/oY=
+X-Received: by 2002:a50:baab:0:b0:4ac:cdd9:1c97 with SMTP id
+ x40-20020a50baab000000b004accdd91c97mr1078170ede.6.1676302708989; Mon, 13 Feb
+ 2023 07:38:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230131223529.11905-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUszsaQDOT-eZz8+BvFGsFuBbhif+-gHDEZa_oMZUG7ng@mail.gmail.com>
-In-Reply-To: <CAMuHMdUszsaQDOT-eZz8+BvFGsFuBbhif+-gHDEZa_oMZUG7ng@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 13 Feb 2023 14:51:03 +0000
-Message-ID: <CA+V-a8v_+afFfzjyTSJr9-YKhOum=7kyVX6hXCBDY-UZqu=egg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r9a07g044: Use SoC specific
- macro for CPG and RESET
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+References: <20230206153432.1017282-1-daniel.lezcano@linaro.org> <20230210094056.GC175687@linaro.org>
+In-Reply-To: <20230210094056.GC175687@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 13 Feb 2023 16:38:17 +0100
+Message-ID: <CAJZ5v0iEYtFJAh94w+K-T90PXLRDzyUgvb_OPL9aOvphTH2CGg@mail.gmail.com>
+Subject: Re: [PATCH] thermal: Remove core header inclusion from drivers
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     rafael.j.wysocki@intel.com, linux-pm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Guillaume La Roque <glaroque@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        "open list:THERMAL DRIVER FOR AMLOGIC SOCS" 
+        <linux-amlogic@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:SAMSUNG THERMAL DRIVER" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thank you for the review.
-
-On Mon, Feb 13, 2023 at 2:09 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Feb 10, 2023 at 10:41 AM Daniel Lezcano
+<daniel.lezcano@linaro.org> wrote:
 >
-> Hi Prabhakar,
+> Hi Rafael,
 >
-> On Tue, Jan 31, 2023 at 11:42 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Mon, Feb 06, 2023 at 04:34:29PM +0100, Daniel Lezcano wrote:
+> > As the name states "thermal_core.h" is the header file for the core
+> > components of the thermal framework.
 > >
-> > Use a SoC specific macro for CPG and RESET so that we can re-use the
-> > RZ/G2L SoC DTSI for RZ/V2L SoC by just updating the SoC specific macro.
+> > Too many drivers are including it. Hopefully the recent cleanups
+> > helped to self encapsulate the code a bit more and prevented the
+> > drivers to need this header.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * No change
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > @@ -1,12 +1,16 @@
-> >  // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >  /*
-> > - * Device Tree Source for the RZ/G2L and RZ/G2LC common SoC parts
-> > + * Device Tree Source for the RZ/G2L, RZ/G2LC and RZ/V2L common SoC parts
-> >   *
-> >   * Copyright (C) 2021 Renesas Electronics Corp.
-> >   */
+> > Remove this inclusion in every place where it is possible.
 > >
-> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +#ifndef SOC_CPG_PREFIX
-> >  #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +#define SOC_CPG_PREFIX(X)      R9A07G044_ ## X
+> > Some other drivers did a confusion with the core header and the one
+> > exported in linux/thermal.h. They include the former instead of the
+> > latter. The changes also fix this.
+> >
+> > The tegra/soctherm driver still remains as it uses an internal
+> > function which need to be replaced.
+> >
+> > The Intel HFI driver uses the netlink internal framework core and
+> > should be changed to prevent to deal with the internals.
+> >
+> > No functional changes
 >
-> As we're setting a precedent, this might as well be just SOC_PREFIX(X).
-> Some SoCs have multiple sets of definitions.
-Agreed.
+> Are you ok if I take this patch ?
 
-> I can make that change myself while/if applying.
->
-Thank you.
-
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > +#endif
->
-Cheers,
-Prabhakar
+Well, you've already done that.
