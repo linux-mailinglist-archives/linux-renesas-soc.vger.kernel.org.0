@@ -2,327 +2,178 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 849EC693DA4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 05:55:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF64693E0F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 07:09:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbjBMEzy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 12 Feb 2023 23:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
+        id S229477AbjBMGJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 01:09:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjBMEzY (ORCPT
+        with ESMTP id S229472AbjBMGJa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 12 Feb 2023 23:55:24 -0500
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2071c.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::71c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D82113CE;
-        Sun, 12 Feb 2023 20:54:57 -0800 (PST)
+        Mon, 13 Feb 2023 01:09:30 -0500
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2093.outbound.protection.outlook.com [40.107.117.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD614490
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 12 Feb 2023 22:09:29 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jifmEz4bfYyJMInFcOrTSpuaxqp91JiEfr7Zhqve2HMqWz8NTaPyYFLhS3UWtguQ89E31/QWMOTKTWo3QWsSYxHG3d6cEc1GEMYE2DD7tnt8NS32J0IbfYwBcNzJJ4Pm5hs1ztbqTW/dE0yrPPE6z2Eh4CRcTq7FSpUon+Us4RhdXNGs3yKMM6xxKIOrVWvEzX8ElqxmriEf1yA9euA6bcCd8VdeHSE9db3Y0LUzY2EXHGUG4ekkIr1gaYguKqyZdeMNV41CW74mtLUGgMXZGIeV79RujDmAtWigjCHoPfKkHsXx8/lAk7iQ/q0DYOKRgVbnFwumgF3XBGm3+/JNxA==
+ b=chThwhAhmLVKKSOwoDr43HJSG6WaWwBxbv9CoebWBLCl2yDpEXV+0lqT7gOfvBfd0lWG9Oa944qzGZ9xLdHSeFv8xFDnIX5g8pPf5N76HgUfhcArFQQFmPRDCBMLw14PfD8ccRZeqTvJpfMzamrlwNFEQ/KuW8Zcw6/10KS21DXB5B2JSM0VBk8qI3nALkzO14/6r5DDRlNzCgp0TEUgOAf+0q9eiXNzqbSEzrgkKgo7Hhmbe2kX+PsZhFuiZkTdazcWjLRNn2bYxeEEfQ4eFwXuNmlj1vBZSbsdgRCag9CSh/Trf8ocCyQ9ZXgkjqQiJPWVsBpMltnHBJgSZzcrmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nfcjSCSRraldDOb/uClX4rF7oTrJIli0pNcHgDYWg4I=;
- b=V2OLNv0A8T7orf/TaViydaqgGMY9hH1bhWrBQADaEjitw3BU9YjKlOeSLNk4woTtL3EcfkhX/l+xeT8neXrGtkPb+X9jqjV/HP3eT7c3if4g2873rsMuhAXLt8hzhXE5Ztk7lAMQCpG/q+eFE2WLO+/5l4q1R8E/hf2Vdd9mnVLGqZPXFXyVpvi4PL62ZoKCBjjvBJHIsrLwdywiZ3CZNPGGs4tdpBKXDXdFBoXOub0hIFnvQNecLXrGCckUTD6iSsYui8SdMNf460+aP/MMwXcibUfNX5+DxxhY0/8xK+2lZuHqzztYDkGqnycDoBxW+zaU4BVUmxw6CDB1cZ67oA==
+ bh=6RXXp2acCrLKhY/lTsWMmAVi77YAlX0Xn6WgvwBDF8I=;
+ b=M6PD3tjIymb8JkW1coAgD+zA9GTEJIXSIee5uGoLbubf3f1nbxxZP2otHpSfM6Chwb+9o+UsMz95vG3fpvovWFQUpJM0e4IN5+4OMf0VJ2xjV8ZiO7RiCojvaE92n0GdtLLLEQ8defcRL7oUjAYpkZje6MboZVte1BON6uf59bbfui6CnwA+olmJG3K8p6wDpsrSLRUkjNzcjnEyWByszSSqeTxerUVkY3rFGDBa/DV1ZNvHlokcR+dG2Rl7cRn3SJJHjiTEGse3SubL0Tudu6KL3EfwSXzXUWJtj6mMIaCyHCof6SAJ0xBr+TNek3z0s/W7KBOoJ/qLS6MTDBh66A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfcjSCSRraldDOb/uClX4rF7oTrJIli0pNcHgDYWg4I=;
- b=Oolb3xoamnu7JEPFcD+uPxko3TWgmu4G81alCmZzP48ELBaN5yxG4jA4tY+2JCy4AwvUh9pO5+kIxtGdgiVd5CldNjkW0wxRTjVJV0BOYQdysSi4vw4ahlBZcfSVVQB8Z1/2FnUN+WGGIwIxHnut/EYYDqTjJ6Lm9wVVFQGd0oQ=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OS0PR01MB6164.jpnprd01.prod.outlook.com
- (2603:1096:604:c8::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Mon, 13 Feb
- 2023 04:54:41 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1%4]) with mapi id 15.20.6086.023; Mon, 13 Feb 2023
- 04:54:40 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Serge Semin <fancer.lancer@gmail.com>
-CC:     "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "Sergey.Semin@baikalelectronics.ru" 
-        <Sergey.Semin@baikalelectronics.ru>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh@kernel.org>
-Subject: RE: [PATCH v9 2/8] dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe
- Endpoint
-Thread-Topic: [PATCH v9 2/8] dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe
- Endpoint
-Thread-Index: AQHZPVZ93ndppJ2KrkyhoqFLN5HBBq7L0mCAgAB/rGA=
-Date:   Mon, 13 Feb 2023 04:54:40 +0000
-Message-ID: <TYBPR01MB5341EDA293115F5DB2B836DBD8DD9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230210134917.2909314-1-yoshihiro.shimoda.uh@renesas.com>
- <20230210134917.2909314-3-yoshihiro.shimoda.uh@renesas.com>
- <20230212211109.jsegwlqjru56ypq4@mobilestation>
-In-Reply-To: <20230212211109.jsegwlqjru56ypq4@mobilestation>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+ bh=6RXXp2acCrLKhY/lTsWMmAVi77YAlX0Xn6WgvwBDF8I=;
+ b=LKdYJDpnT2F5aUuJvSfmEokuM9XMYjtj67ErUlzLTTz8ptL05xDLrQpNZf2kYn2xMNGqIQKPQb1RwFbyWoR//St+sgU9rh7nt7azllGYB0eVsO/3x7MRyNJor7cEnjsHj8qEMeWYlTDFvRZj4xABq64g/VCXbu43OwL8C5hAe1E=
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OS0PR01MB6164:EE_
-x-ms-office365-filtering-correlation-id: 3962308a-5d26-48da-55d5-08db0d7e6aa0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yeA+kqEQXOX5CyKXr0NsQ0+Rz8s0Is5ERTK9PVflNxU4EmSVqqhlO9Xe8gAaaMXVIrRZCaaKklm3T9b3w1LHX0Djo2Ys4ICik3Snki9Vi1eoYJ9LMNpeZpyHRr2gIKErRs5saGBYpJTp1IU/jCbj/TQH03yTz5Ua2qn7Wq0YxSHcIW5h7X4MB4BxxL69O48sCSdCxd/Gi22xpyzTMWLavB/e+Vx4rMnPNNf76tN5XNZaLUHADTb/NEIfUHNfM75VQlz2OiSMl41wpdfGPDzC1cEZvAN8eHGIJIZtssqlyDNqpeqa0ACJJhZDdRgWK48eE6YpqkqAeETc+ZEPmjKaLSDBSGmsu0oqpnTsJkZRPR8LpK0Tytp9iqlTbo+cyEipa7T4SUPzAv0YgiitVFKbs072//63C/3zxq+LgmFGzvvlqUOy2fe4ZD0k9A7eJzQgMnP30g3GypTjq3ngD86ma3V7jNoPPFY0Ll7DYwY1TqGkC5um9yVr5LMIO9EjlTvL+f87Zjmbj6g1+6akUkHB72Ivk6ZtxySeO6lDiN2/gxhlRUybg0h3cqXGxK6T2iot9CDFtu7iqp0H5pkN+SWarFKey5jh9A76WB/B3A6rHM0/Ah+kWWGlF4ObKzmAajRtJD6Z3C0k6sebZI/O//hT6/1b/d4DWVJGtQ6VQ4x7wk3qQuvCTaCvyMM9WUjrRBd7JHyzsNaFCGAlby8kamKabw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(451199018)(7416002)(83380400001)(5660300002)(41300700001)(8936002)(52536014)(38100700002)(122000001)(38070700005)(33656002)(86362001)(55016003)(2906002)(7696005)(316002)(6506007)(54906003)(186003)(9686003)(71200400001)(6916009)(4326008)(478600001)(66446008)(8676002)(66476007)(64756008)(66556008)(76116006)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2/XxWgLNMURgkzOO9VdCo6iGD9bXqlvlDmTNm3SJsTDS+tlHNPnePSwN6BqL?=
- =?us-ascii?Q?uA63JULQza2EVWYAdmulty52sEjuO1rBpJWMPSFA15LcvTUxbkvYAARc24Rc?=
- =?us-ascii?Q?+NEMyKCcN20/Gop7fj5oFFGim8ErLu8pMseNOe267uaoRAsIDHzgDr+C2o58?=
- =?us-ascii?Q?18upyzYzC6pbWQxmeHndFO8Z0mpR8PdSk0NcOwTBcAjcXbfeSdZHbRlooG5i?=
- =?us-ascii?Q?aOit2ddHr7Ya+HHr0qp/TWnEAy3GNEnOL2DEaFDJko/rNJkngNPriUqtoEYB?=
- =?us-ascii?Q?e6errWPZkHqbJgTC2pO8hJPy6PGuR3v5K9iNGD3/Ff3yhABceOMGBNz0MD+g?=
- =?us-ascii?Q?pW1hCPq1BVLfGJjj9iYh8WedWabxqKeZPcK1qTaZHR0rnNarSvdXmp40NbYG?=
- =?us-ascii?Q?qcTg6IABXI4RFqAzZr9Iy5PxUj9La50WwP7Wc80sNHPsw3mSpI1uNhC916u6?=
- =?us-ascii?Q?vzrzUspSMrAuV4S/kdMquZbTiWI30989D5YJAReYyH0lr+Nl3ibSJvYcJiF+?=
- =?us-ascii?Q?RvkyROX8yWXAiOn9C1m07zMuJ8eq6WAGHv4v/1+nXSzo4ZYeJR6LiZgFunxY?=
- =?us-ascii?Q?JZuV050lmSE2dnu1mUMiHLRRYRs8HoomaOlEZCmkxVg6RFy2uv7SQjADLZ44?=
- =?us-ascii?Q?/KvjtXPLwJ9CIK8WR3HW56NfBD5vE4MOD1rPT/CqKYfi/DG2oKm7+xzkmxbO?=
- =?us-ascii?Q?X+Mv9W3a4A6ubxqfbAqT/yH2vFQ+UKFE+sTfB4mX46wBkmrZlTKeLaKiALbK?=
- =?us-ascii?Q?Hrnv9r3+C0oxHMVk+LA5PupWi8pSuHCCbSDNiQ4BRZz5LLBymace0DRxcHiB?=
- =?us-ascii?Q?Qe4e9uR0jrnQpY2PcJC/RqaxT+5QiIN2+YlvFcwzRNyrqfyZos2PGduSyW5H?=
- =?us-ascii?Q?DGvW56LF+NlQtnTuPut015GUZh7JEAHGA4uVhcJni59vaOVSsjGqaUFRAC6A?=
- =?us-ascii?Q?AQIydK8vZQWBahIU9q+li2XXFrpIVep/QneybMEIw8biHzwzrVOUSygVcBUJ?=
- =?us-ascii?Q?H5SgZo4jzWOtyYkm4qkkddMa7dI0NxGxt3dfwKlNeTCLHhdpWko9bHJv1soz?=
- =?us-ascii?Q?qZF+kD68KkKYvt4f+ds5tUZc5lNmW52IIQvlYxbHIsVIf9zJMrA2Q217KXgN?=
- =?us-ascii?Q?WQsT9clZnLN3dQHVy5c49qL7chzxf2F3OoMQCL+nkn7pW8WnpVzUuT9O44w8?=
- =?us-ascii?Q?N8ydNreh0EDEBVmenhMlk7Vreri+Hf7ueepWTLXhLs2i2H2cx98k6Zt+TwYr?=
- =?us-ascii?Q?Jx3M82n5O9oCnYY1kqa1rlUSRWjUKsklexE3szq0FsLTaZWKFkr+eOZtdbZH?=
- =?us-ascii?Q?O0VL1Fjn41uOcLFVSsDqp6+0BHzPSf+dSMLElCCmEkaUOlQchPpQk8a51m1D?=
- =?us-ascii?Q?IGF3bWTVJbHrPkgQoRUyYMonMvLZd9Ut7syaj+GPbcVdMbFvPfEmrQMRMUI4?=
- =?us-ascii?Q?Sz3g/pd8i1drMsDT9tiIx1yIn7Ja6mojB57KDoYYnc2Oe4JEy8EFRAxMg/+O?=
- =?us-ascii?Q?dR52kpqEfXhLCoxSKDop0rHVkPWZkEqFWRux6IAsHJIQikxqkYLsC7LJi6Md?=
- =?us-ascii?Q?0Afy6Oe8JEYF03/QK6cO1y5hT2LWtBNoHvEMxATEepQ3m5SobCfX+2qhOGl1?=
- =?us-ascii?Q?MFDKFZuZGqwEqn1dH6ID8eQXS9E29mR2szN2uaDocS4vt1v/guViRU84GRhs?=
- =?us-ascii?Q?o3wOgA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TYCPR01MB10746.jpnprd01.prod.outlook.com (2603:1096:400:296::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.23; Mon, 13 Feb
+ 2023 06:09:27 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::4b75:8d8e:d89a:7860]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::4b75:8d8e:d89a:7860%2]) with mapi id 15.20.6086.024; Mon, 13 Feb 2023
+ 06:09:27 +0000
+Message-ID: <87o7py85bd.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 7/9] arm64: dts: renesas: r8a779g0: whitehawk: Add R-Car Sound support
+In-Reply-To: <CAMuHMdXF8Udi7vk1oCNJN4bXh8fSxGB7N6NYAmzUKuT02MWCEg@mail.gmail.com>
+References: <87edr8angv.wl-kuninori.morimoto.gx@renesas.com>
+        <875yckands.wl-kuninori.morimoto.gx@renesas.com>
+        <CAMuHMdXF8Udi7vk1oCNJN4bXh8fSxGB7N6NYAmzUKuT02MWCEg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date:   Mon, 13 Feb 2023 06:09:26 +0000
+X-ClientProxiedBy: TY2PR04CA0021.apcprd04.prod.outlook.com
+ (2603:1096:404:f6::33) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYCPR01MB10746:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8400ec7c-b116-4ffe-5d04-08db0d88dc7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VC/4KuBo2iLfBcfVkFqabLgxSRaXEIjVafAWenwrXpb0jo0z0Vm6UfsqaKRo2ZVFYOPYMyS9Zqp0cGY6vwxhzqjKFUciXPb+v2bTreq2tC0+W+Ta7Mcx0YPlCcWX44iZBrnp8No+0vYpp6v6Ue7BegFqFY0GJtKfVktBJXc5iMooZKBfiaTXIRhqiJmNo3unvO61toAvMDSCwosGXqDpLEzUza1Xlbd93/Ohz+XrfJxsj0hh7fYWELAjEfhTD3PLI0BuxLwQ9Rpsa0NfVKbEMXqlc9JqMvtJcU1xvzyz+33g9l1DuyGWAy/wlWqy5GOqgWxEvRtgeiKjGn11IEZS0MwSbX5Yjla0lyHB9Sg4FTKaf8N0q6pY2juR1a5jquLQv+633RChVU0sMp8RCpFkY0jO/vBRH8GB936EAR75ird95YZ299C4n8qecV2sZXoUyYs4mU5XzI40PodSBEOeaZM72BckrvvEtN5gygPJZuKhgtgF6ht+ivqdrFrwcdNJRlTXOcqbscN0uGI/7q1rM1bg7uzrdcY84Hgp6foLmKVKJg66TB1tVaqGWZdVv+OADezopkVNco1lCYky0Ofom1Qdm0RkTh0vmS7iGgoHx9mBoqyK4p+lWpOsUx4GK02JpIGEW0iOcL6y3jEom5Zs0M6GC06N0qjUwdBcCd7TnAWk6yPnizQLQ7SEduxkadJUNI4yN8xPMDQt1iVOJipYCWUUbMlq8gIye5egqO8BKW8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(451199018)(36756003)(86362001)(38350700002)(38100700002)(8676002)(41300700001)(5660300002)(8936002)(6916009)(4326008)(316002)(66946007)(66476007)(66556008)(2906002)(2616005)(6486002)(83380400001)(52116002)(966005)(6506007)(45080400002)(478600001)(6512007)(186003)(26005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0tdfT7kR9xZQgo2/4vx6XMevI/HhIjG30fSiARfgz1NYXVbdlb33Vo3aWTpz?=
+ =?us-ascii?Q?fI97b1YYBq9lNuBSxaLBYLsfAakhqi6FIpGFtsEHoMK3ZjKSCZamTLIhuES9?=
+ =?us-ascii?Q?6F0wRf5Tkf7h1uqwKZAYG9cXxMfJjefG2PBCu059nTwp4z7+CH9xG0vl+N6P?=
+ =?us-ascii?Q?r+R3nmqnyvIgDAjoQHSoVPMwgLgJ7Acjs9ULPLqeSNXrFPyi/eR8kFAmhVvZ?=
+ =?us-ascii?Q?svJ4LJu5vRARAZuxh1hbdNUAuBtNAA3yg7eu82HXPu7FEjVhXi1f1gTKnuq0?=
+ =?us-ascii?Q?OHaYBeXC7yH+B12ZMHScOf4DZMqHJFiQqldXQGbPHf+cB9nD8hVLn2SpO0dr?=
+ =?us-ascii?Q?vWS0PGsDNZLZ40JSbNtA7M3ykYA72zuMaqovBQdPug+cB1d9vMcjgFU2vdQo?=
+ =?us-ascii?Q?eyuZNJwOlIwRBs6o1eZsmZDIbSbhqogrnxFLb86NNtyNeUNvFnaNK9zTzlTT?=
+ =?us-ascii?Q?cqkwCj+JcL/Vol6DMJzP1B7rOQsc1b1wY/9/h/wLH8O1wZkQL645nFFuH1yz?=
+ =?us-ascii?Q?5gAz1S/DlSepHZQC0ID3/6EYwCyhZnqXyOZvk/pbXJiVHCUpcKpkR5HG26xv?=
+ =?us-ascii?Q?XkaVZsCVRtSY0mR12LL0jh52Wl79EWcxqf+CKIYnOQcBN1vyZsovoHl+KuZ1?=
+ =?us-ascii?Q?mLfyBrAHa6SfL2aQiHvd2w0aBMtnWcxR3mWYl5BH0hEc3YWpmh6GFdyg5IpR?=
+ =?us-ascii?Q?j2exaIkN/4z5YiGvHgkmsHupPzjutA20jPVIlnvDcSv3+7BjXSthh7oqKEsl?=
+ =?us-ascii?Q?0xrIVbebpIlcNA/UvV+oTH71JBxD6X1fFDN4wdbtELKEn9N0NX9rYn6n0GDv?=
+ =?us-ascii?Q?fEkGlcnz98yspRs44Fh8HRIl4Yw5gGbFnUuXlZ/ZwUhLWwITmPg+evjBQY1Y?=
+ =?us-ascii?Q?Q4zYwbuOyzy3lw5Dbym+M9su6adSO6kQFMGvrMZw9JkDhruG0AAt9uSdQmho?=
+ =?us-ascii?Q?FcpTvTa1NLzV1gV8VWsofxlMEO6Mkz+Xi1ZXg2fe9WovP2evz5uRIpxHj+n/?=
+ =?us-ascii?Q?16LohJYH/AAd01/7ZvypqYpZvSPMLoGqYF1nGF7+ALbvGupxn9NNv4/mvZIb?=
+ =?us-ascii?Q?JVZFrfeWI9p8+0AuFSQipatA13i9Z2VxU6ZVCJeSPv6FUikGLT6p93kzqOzC?=
+ =?us-ascii?Q?YS1ZLLRGgUlP5DlNCOn3dJYqYAxE7QESofJATWAuJDS0X0igJSVyTZTF1MsF?=
+ =?us-ascii?Q?MUX5rQj2+himZQre7GvgoSHE4/m3x80IrIY0CaPIH/mb88x4X2R9bIAwCGVh?=
+ =?us-ascii?Q?RiOuq/GNpkkh637uV0WAiTLy/EkTHTtsVjyoUVq/W54yjJKPTVvbxEkzRB0O?=
+ =?us-ascii?Q?OmfyE41lPdqXkRJw9AhJqU8/v41OikwMABEsC5wFlvY+zLVNj86o6LgXvPbg?=
+ =?us-ascii?Q?OvPWqs851wpzoljuYOIFQjU2nR8dHWsjHMN+fRGeHgq0WPvwm58ZYkBZ78A4?=
+ =?us-ascii?Q?Emyk8riVrYaE5Uwfc2Hc9mUmYh85v01H4b5lMk5YTa21lEayew6TyfX/sR9E?=
+ =?us-ascii?Q?vkYZd8qJC+gsU3o9Fwix5XF0xiTvSU5C1H9zkvBb9vgDFCd3WlKo7en+MJdW?=
+ =?us-ascii?Q?Gab4C1A04JM34z5vHyy/BcFHNcJ9ZISSvZKecxJCLElXZrMa7ex0T/eLXqVi?=
+ =?us-ascii?Q?xdQNlgTIxAzS9tsApv/mGBQ=3D?=
 X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8400ec7c-b116-4ffe-5d04-08db0d88dc7b
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3962308a-5d26-48da-55d5-08db0d7e6aa0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2023 04:54:40.8677
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 06:09:26.9995
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gbjSY0mzRfzxPbbMckh5oPhFoG2QeYbciqXhbLNvM5ZFEx1zMwpnJj6jbUjwKAOaODRAdHdVAKQwNQQ32Zkn2wl/TNQzBTgGrS10KGrncR3XCdPnKVpZOOhvTmYUXCFG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6164
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: orgrpDbrKjK0d6ictG4FxMPTHB2AOr90iAZTQw/z3QWXZPf74rgVd6e5kWBDRZ9hwY9riVKbhBO3X2rCI1poYO6mfps2NM6MI61mnz3OY+ap3NBQuy2uJoZj1aDtFF8U
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10746
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Serge,
 
-> From: Serge Semin, Sent: Monday, February 13, 2023 6:11 AM
->=20
-> On Fri, Feb 10, 2023 at 10:49:11PM +0900, Yoshihiro Shimoda wrote:
-> > Document bindings for Renesas R-Car Gen4 and R-Car S4-8 (R8A779F0)
-> > PCIe endpoint module.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../bindings/pci/rcar-gen4-pci-ep.yaml        | 90 +++++++++++++++++++
-> >  1 file changed, 90 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci=
--ep.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yam=
-l
-> b/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
-> > new file mode 100644
-> > index 000000000000..4b10d67e4336
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
-> > @@ -0,0 +1,90 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +# Copyright (C) 2022 Renesas Electronics Corp.
-> > +%YAML 1.2
-> > +---
-> > +$id:
-<snip URL>
-> > +$schema:
-<snip URL>
-> > +
-> > +title: Renesas R-Car Gen4 PCIe Endpoint
-> > +
-> > +maintainers:
-> > +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > +
-> > +allOf:
-> > +  - $ref: snps,dw-pcie-ep.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: renesas,r8a779f0-pcie-ep   # R-Car S4-8
-> > +      - const: renesas,rcar-gen4-pcie-ep  # R-Car Gen4
-> > +
-> > +  reg:
-> > +    maxItems: 4
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: dbi
-> > +      - const: atu
->=20
-> > +      - const: appl
->=20
-> Please, use "elbi" or "app" instead. No need in using the
-> vendor-specific names if there is the generic ones.
-> (* @Rob, that's why I was insisting in failing the DT-bindings
-> evaluation for such cases...)
-> See Documentation/devicetree/bindings/pci/snps,dw-pcie-ep.yaml:98
+Hi Geert
 
-I got it. I'll fix it.
+> > + * You can find and buy "ARD-AUDIO-DA7212" at Digi-Key
+> > + *
+> > + *     https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.digikey.jp%2Fen%2Fproducts%2Fdetail%2FARD-AUDIO-DA7212%2F1564-1021-ND%2F5456357%3Fcurr%3Dusd%26utm_campaign%3Dbuynow%26utm_medium%3Daggregator%26utm_source%3Doctopart&data=05%7C01%7Ckuninori.morimoto.gx%40renesas.com%7C809b5824f9e74675c42708db0b6b633c%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C638116328075928235%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=LuhLL%2BL0O5NaBHeocnJ%2FHDVEZ1PC8FYyY1gNErCrDEA%3D&reserved=0
+> 
+> Please drop the question mark and everything after it from the URL.
 
-> > +      - const: addr_space
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
-> > +
-> > +  interrupt-names:
-> > +    items:
->=20
-> > +      - const: dma
->=20
-> Are you sure there is a single IRQ line for all eDMA channels?
+Thank you pointing it !
+Will do in v2
 
-Yes.
+> > + * +----------------------------+  |
+> > + * |Switch Board               |  |
+> > + * |                           |  |    +---------------+
+> > + * |CN5                            GND |<-+    |J7             |
+> 
+> Probably it would be more logical to wire GND to pin 14 of J7 (which
+> is the power connector) instead?
+> Doesn't matter much though, as all GND signals are connected to
+> each other.
+> 
+> > + * |                       3v3 |<----->| pin8  (+3.3v) |
+> 
+> Do you need the Switch Board?
+> GND and SPI_D1.8V/3.3V and I2C_D1.8V/3.3V  (which are 3.3V by default)
+> are available on CN40 and CN34 above, too.
 
-> Judging by the DW PCIe HW manual the eDMA events are signaled by the
-> wires: edma_int[((CC_NUM_DMA_RD_CHAN+CC_NUM_DMA_WR_CHAN)-1):0]. If you
-> have a single signal then they must have been combined on the way to
-> the GIC though...
+I double checked around here, and noticed some miss on it.
+Thank you for pointing it. I will fixup in v2.
+About power, indeed we can find many 3v3 / GND pins on WhiteHawk.
+But to keep simple Image I will use similar style,
+but will add small explanation for it on v2.
 
-I think so.
-The drivers/dma/dw-edma/dw-edma-core.c seems to support nr_irqs =3D=3D 1.
+> > +/dts-v1/;
+> > +#include "r8a779g0-white-hawk.dts"
+> 
+> Please do not include "r8a779g0-white-hawk.dts", but make this file
+> a .dtso (DTS overlay) instead, cfr. salvator-panel-aa104xd12.dtso.
 
-> > +      - const: sft_ce
-> > +      - const: app
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
->=20
-> > +  max-link-speed: true
->=20
-> This prop is determined by the CX_MAX_PCIE_SPEED IP-core synthesize
-> parameter.
->=20
-> > +
-> > +  num-lanes: true
->=20
-> This is determined by the CX_NL IP-core synthesize parameter.
->=20
-> Thus you can provide at least the 'maximum' constraint for
-> the properties above.
+OK, I see.
+Will do in v2
 
-I'll add 'maximum' to each property.
+> > +               VDDA-supply   = <&reg_1p8v>;
+> > +               VDDSP-supply  = <&reg_5p0v>;
+> 
+> As the wiring above does not provide VDD_SP (which is fine if the
+> speaker is not connected), you can drop VDDSP-supply, and [PATCH 6/9]
+> providing reg_5p0v.
+> 
+> FTR, "VDDSP-supply" is not documented in the DA7212 DT bindings.
 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - reg-names
-> > +  - interrupts
-> > +  - resets
-> > +  - power-domains
-> > +  - clocks
-> > +
-> > +additionalProperties: false
->=20
-> Are you sure that none of the next properties will be ever used in
-> the R-Car PCIe End-point DT-nodes?
-> max-functions
-> max-virtual-functions
-> phys
-> phy-names
-> reset-gpios
-> snps,enable-cdm-check
-> dma-coherent
-> * etc
->=20
-> I am pretty much sure that the reset-gpios (platform-specific),
-> max-{virtual-}functions (determined by the CX_NFUNC IP-core synthesize
-> parameter), phys/phy-names (you had a PHYs CSR space in the
-> DT-bindings example) and dma-coherent properties are relevant for your
-> device. At the very least the 'max-functions' prop constraint could be
-> explicitly added to your DT-bindings file. You must be aware of how
-> many functions the R-Car PCIe EP support, right?
+Thank you for pointing it.
+I didn't noticed about it, will fix in v2.
+And as you mentioned, we can remove [6/9] patch.
 
-The R-Car PCIe EP supports two functions. So, I'll add 'max-functions'
-property with 'maximum: 2'.
 
-> The rest of the
-> properties could be implicitly evaluated by replacing the
-> "additionalProperties: false" flag with the "unevaluatedProperties:
-> false" statement.
+Thank you for your help !!
 
-I got it. I'll change "additionalProperties: false" to=20
-"unevaluatedProperties: false".
-
-Best regards,
-Yoshihiro Shimoda
-
-> -Serge(y)
->=20
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/power/r8a779f0-sysc.h>
-> > +
-> > +    soc {
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        pcie0_ep: pcie-ep@e65d0000 {
-> > +            compatible =3D "renesas,r8a779f0-pcie-ep", "renesas,rcar-g=
-en4-pcie-ep";
-> > +            reg =3D <0 0xe65d0000 0 0x1000>, <0 0xe65d1000 0 0x1000>,
-> > +                  <0 0xe65d3000 0 0x2000>, <0 0xfe000000 0 0x400000>;
-> > +            reg-names =3D "dbi", "atu", "appl", "addr_space";
-> > +            interrupts =3D <GIC_SPI 417 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 418 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>;
-> > +            interrupt-names =3D "dma", "sft_ce", "app";
-> > +            clocks =3D <&cpg CPG_MOD 624>;
-> > +            power-domains =3D <&sysc R8A779F0_PD_ALWAYS_ON>;
-> > +            resets =3D <&cpg 624>;
-> > +            num-lanes =3D <2>;
-> > +            max-link-speed =3D <2>;
-> > +        };
-> > +    };
-> > --
-> > 2.25.1
-> >
-> >
+Best regards
+---
+Kuninori Morimoto
