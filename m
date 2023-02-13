@@ -2,151 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87304694C0F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 17:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2297694C4C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 17:19:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjBMQLB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 11:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57152 "EHLO
+        id S230412AbjBMQTW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 11:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbjBMQLA (ORCPT
+        with ESMTP id S230372AbjBMQTF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 11:11:00 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A821F480
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 08:10:59 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id sb24so9171488ejb.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 08:10:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zDVfwvFSS8VJ1hXNKdD4Fk6lUNif8eaxpztOBA00pq8=;
-        b=UzMY9Jb6/w+2sI+xuELNwlp0VLzvhyo00S1kY/JgKVTeRXd0g+NKkV2peL3XAdFdxy
-         Qb4ULglTrGW1/BCDTIdHkekJ8s6VLVhnG2XOwngOEJB7z5N87vK8ONdhqnQxvMArjT2u
-         a3BhsuA+hsLJnEjU/k3uKuEYuHRid9vZO5bEBZ4pYHv3n6JYgSbaC8mStHvZrMqTodMJ
-         wKkiB3ZH+eyySkjg5O9Gv1Gnn7Afpd6SEeLIu5RiuwEg4oyBmesxjAX8AoI5nEZ/VeUP
-         jEuQtYRWZYH3bypiBiI7aHhpnt+7jPvx+TSaclP26HlkWbzgw9qMBD6jxBXqGXl6cYs3
-         OTKw==
+        Mon, 13 Feb 2023 11:19:05 -0500
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914F51E2A2;
+        Mon, 13 Feb 2023 08:19:00 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id h24so14367987qtr.0;
+        Mon, 13 Feb 2023 08:19:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDVfwvFSS8VJ1hXNKdD4Fk6lUNif8eaxpztOBA00pq8=;
-        b=nG/Q87gNJAYxPbXc2MBhovr7WDOU9Zoxr2spC0KsMod7zpxoTi6nvzEHuxk0FwEar9
-         Y2q07acpYO35K2IcWWp1td9JCPi782YswDMMpOBFcp7MvuCSttjM4Zo2j+SNWHB7HgGe
-         xVOujh9vwmBq6MfR3vFr6PKIKJQyJt5D9QqwMfW36X3922rvVKp6uwsuFz2FrGhuonXJ
-         d9KWVJMqdoy4o1++a0Q+gS2hR8wtRz+5a7b8+zfy2jSvmWtysblJTrbvoDH0pZp2u0Dd
-         hriyZsDyBinbO2ORFhSGC1odfHbpQ3beJa3e+Kt2kLGvhrZUasiufOBfOanE9hVqiRBx
-         oXlw==
-X-Gm-Message-State: AO0yUKWg2Cg/JYmVB7tnrAc5+/pl2HU+41xjJfoa/r0eUzawaaCQTJbW
-        GS4wgLZdA/YvEG4rlzI1Kf41uw==
-X-Google-Smtp-Source: AK7set/33YBrEtdyXyOpC22woKTcLm3Q0MFElqVoHN9LjkLAGhZfTDQ88py0bNCJCKfL/ziABy0/dg==
-X-Received: by 2002:a17:907:d28:b0:8af:433d:5383 with SMTP id gn40-20020a1709070d2800b008af433d5383mr19717523ejc.9.1676304657722;
-        Mon, 13 Feb 2023 08:10:57 -0800 (PST)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id m10-20020a170906580a00b0086f4b8f9e42sm6906326ejq.65.2023.02.13.08.10.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 08:10:57 -0800 (PST)
-Date:   Mon, 13 Feb 2023 17:10:56 +0100
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
-Message-ID: <Y+phEOUAVMsWadOG@oden.dyn.berto.se>
-References: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
- <20230211145310.3819989-4-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdW4A9zx6SMFUZUz9EBCedRpiB3aJsXv+5V2ggx_09NbbQ@mail.gmail.com>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZWx8ZwfXpULN6D+/6e9VXzLYc5EL57Ok1IH7lc8/M6Q=;
+        b=LpgDd7yLgxxzttTl6HmB3anNl3CIvepC9Naq0lL4Utg/FtOspBToU5XW7Mh+gGNL7R
+         +BBGimaFyBgaUDGJ6ALsrfJb17zR+nobxSSBKun9MEsCN0QdxxD0X4/jQy+yjWe8Lem+
+         6uYkCL4XwEdSLtogIZjJyaP5YCRFvGCE0OJ6uhG9eis88i7UJIyoy6gMUhG6/KVjzfqy
+         NgML1Pccb/fJpjhUvaAu736Z6nEdpgKbYiYx8rFlUTVb8gTTjIdjJyz4xDs1Rl1FxK2c
+         Pyia5Cw9j1kXq3OhlGWOeAdMiuKKeT/v/GH2mCDq8gcY8HLRSCs2Q8lB4AtCQWsrcjou
+         qQeg==
+X-Gm-Message-State: AO0yUKV798lKKGYGEua+QENXbc7ZuG9VHiPsfeF9sUkMf4bn6X+qe/g8
+        a6TMAS0f9RzqrdjFZAI1f2AtVG5RJezUfQ==
+X-Google-Smtp-Source: AK7set9D1mdUEBoWInIMKd25+ooxPr9z3PpK3JwaMa0T1IKwPwkX38NXjcnNfHCACLnJ3R9dglUxdQ==
+X-Received: by 2002:ac8:5aca:0:b0:3b8:2ea9:a08d with SMTP id d10-20020ac85aca000000b003b82ea9a08dmr47518108qtd.52.1676305139473;
+        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id x21-20020ac87a95000000b003b869f71eedsm9382138qtr.66.2023.02.13.08.18.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id x4so15041265ybp.1;
+        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
+X-Received: by 2002:a25:9348:0:b0:8ba:81cd:a7b7 with SMTP id
+ g8-20020a259348000000b008ba81cda7b7mr1482738ybo.270.1676305139081; Mon, 13
+ Feb 2023 08:18:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW4A9zx6SMFUZUz9EBCedRpiB3aJsXv+5V2ggx_09NbbQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230211143655.3809756-1-niklas.soderlund+renesas@ragnatech.se> <20230211143655.3809756-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230211143655.3809756-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Feb 2023 17:18:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU71MMWt5nvS+h8n_6TYs-EBDMQYn=oqj428F+VMkEOQQ@mail.gmail.com>
+Message-ID: <CAMuHMdU71MMWt5nvS+h8n_6TYs-EBDMQYn=oqj428F+VMkEOQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: r8a779g0: Add CSI-2 clocks
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Niklas,
 
-Thanks for your feedback.
+On Sat, Feb 11, 2023 at 3:37 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Add the CSI core clock and the CSI40 and CSI41 module clocks, which are
+> used by the CSI-2 Interfaces on the Renesas R-Car V4H (R8A779G0) SoC.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On 2023-02-13 16:45:18 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Sat, Feb 11, 2023 at 4:06 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
-> > and C-PHY this patch only adds support for the C-PHY mode due to lack of
-> > documentation and hardware to test on.
-> >
-> > The V4H is the first Gen4 device that is enabled in the rcar-csi2
-> > driver. There is much overlap with the Gen3 driver, the primary
-> > difference is in how the receiver is started. The V4H have a much larger
-> > register space and some addresses overlap with Gen3.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> 
-> > @@ -1503,6 +1781,12 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
-> >         .support_dphy = true,
-> >  };
-> >
-> > +static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
-> > +       .start_receiver = rcsi2_start_receiver_v4h,
-> 
-> The description of "[PATCH 1/3] media: rcar-csi2: Prepare for Gen4
-> support" suggests you also need a different procedure for
-> .enter_standby()?  But perhaps not doing the procedure is just the right
-> thing to do?
+Thanks for your patch!
 
-They are indeed different, but doing nothing in enter_standby() for V4H 
-is the correct thing.
+> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> @@ -146,6 +146,7 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
+>         DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
+>         DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
+>         DEF_DIV6P1("canfd",     R8A779G0_CLK_CANFD,     CLK_PLL5_DIV4,  0x878),
+> +       DEF_DIV6P1("csi",       R8A779G0_CLK_CSI,       CLK_PLL5_DIV4,  0x880),
+>         DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
+>         DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
+>
+> @@ -164,7 +165,9 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+>         DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
+>         DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
+>         DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
+> +       DEF_MOD("csi40",        331,    R8A779G0_CLK_CSI),
 
-Maybe the function enter_standby(), could have been better named as 
-enter_standby_extra() or pre_enter_standby(). As for both on Gen3 and 
-V4H after enter_standby(), if present, have been called the rest 
-controller is asserted and the module is powers off.
+I will move this one one line down while applying, to preserve sort order.
 
-Only that on Gen3 which have more documentation an extra step to poke 
-some registers before asserting the reset controller is documented, so 
-this is what happens in rcsi2_enter_standby_gen3(). I would not be 
-surprised as we get more documentation for V4H we will add a 
-rcsi2_enter_standby_gen4() to match updates in the datasheet.
+>         DEF_MOD("canfd0",       328,    R8A779G0_CLK_SASYNCPERD2),
+> +       DEF_MOD("csi41",        400,    R8A779G0_CLK_CSI),
+>         DEF_MOD("dis0",         411,    R8A779G0_CLK_VIOBUSD2),
+>         DEF_MOD("dsitxlink0",   415,    R8A779G0_CLK_VIOBUSD2),
+>         DEF_MOD("dsitxlink1",   416,    R8A779G0_CLK_VIOBUSD2),
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.4.
 
-> 
-> > +       .use_isp = true,
-> > +       .support_cphy = true,
-> > +};
-> > +
-> >  static const struct of_device_id rcar_csi2_of_table[] = {
-> >         {
-> >                 .compatible = "renesas,r8a774a1-csi2",
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
