@@ -2,116 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2297694C4C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 17:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A24F4694CD4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Feb 2023 17:31:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230412AbjBMQTW convert rfc822-to-8bit (ORCPT
+        id S230377AbjBMQbC convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 11:19:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
+        Mon, 13 Feb 2023 11:31:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbjBMQTF (ORCPT
+        with ESMTP id S229815AbjBMQbA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 11:19:05 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914F51E2A2;
-        Mon, 13 Feb 2023 08:19:00 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id h24so14367987qtr.0;
-        Mon, 13 Feb 2023 08:19:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZWx8ZwfXpULN6D+/6e9VXzLYc5EL57Ok1IH7lc8/M6Q=;
-        b=LpgDd7yLgxxzttTl6HmB3anNl3CIvepC9Naq0lL4Utg/FtOspBToU5XW7Mh+gGNL7R
-         +BBGimaFyBgaUDGJ6ALsrfJb17zR+nobxSSBKun9MEsCN0QdxxD0X4/jQy+yjWe8Lem+
-         6uYkCL4XwEdSLtogIZjJyaP5YCRFvGCE0OJ6uhG9eis88i7UJIyoy6gMUhG6/KVjzfqy
-         NgML1Pccb/fJpjhUvaAu736Z6nEdpgKbYiYx8rFlUTVb8gTTjIdjJyz4xDs1Rl1FxK2c
-         Pyia5Cw9j1kXq3OhlGWOeAdMiuKKeT/v/GH2mCDq8gcY8HLRSCs2Q8lB4AtCQWsrcjou
-         qQeg==
-X-Gm-Message-State: AO0yUKV798lKKGYGEua+QENXbc7ZuG9VHiPsfeF9sUkMf4bn6X+qe/g8
-        a6TMAS0f9RzqrdjFZAI1f2AtVG5RJezUfQ==
-X-Google-Smtp-Source: AK7set9D1mdUEBoWInIMKd25+ooxPr9z3PpK3JwaMa0T1IKwPwkX38NXjcnNfHCACLnJ3R9dglUxdQ==
-X-Received: by 2002:ac8:5aca:0:b0:3b8:2ea9:a08d with SMTP id d10-20020ac85aca000000b003b82ea9a08dmr47518108qtd.52.1676305139473;
-        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id x21-20020ac87a95000000b003b869f71eedsm9382138qtr.66.2023.02.13.08.18.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id x4so15041265ybp.1;
-        Mon, 13 Feb 2023 08:18:59 -0800 (PST)
-X-Received: by 2002:a25:9348:0:b0:8ba:81cd:a7b7 with SMTP id
- g8-20020a259348000000b008ba81cda7b7mr1482738ybo.270.1676305139081; Mon, 13
- Feb 2023 08:18:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20230211143655.3809756-1-niklas.soderlund+renesas@ragnatech.se> <20230211143655.3809756-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20230211143655.3809756-2-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Feb 2023 17:18:47 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU71MMWt5nvS+h8n_6TYs-EBDMQYn=oqj428F+VMkEOQQ@mail.gmail.com>
-Message-ID: <CAMuHMdU71MMWt5nvS+h8n_6TYs-EBDMQYn=oqj428F+VMkEOQQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] clk: renesas: r8a779g0: Add CSI-2 clocks
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        Mon, 13 Feb 2023 11:31:00 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97041CA3E;
+        Mon, 13 Feb 2023 08:30:58 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pRbiw-0043kT-S2; Mon, 13 Feb 2023 17:30:38 +0100
+Received: from p5b13aa49.dip0.t-ipconnect.de ([91.19.170.73] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pRbiw-0046cc-HY; Mon, 13 Feb 2023 17:30:38 +0100
+Message-ID: <dbda1f6e1c280c13d963ad6e7f68a853a7741199.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Date:   Mon, 13 Feb 2023 17:30:36 +0100
+In-Reply-To: <20230206100856.603a0f8f@canb.auug.org.au>
+References: <20230113062339.1909087-1-hch@lst.de>
+         <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+         <20230116071306.GA15848@lst.de>
+         <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+         <20230203071423.GA24833@lst.de>
+         <afd056a95d21944db1dc0c9708f692dd1f7bb757.camel@physik.fu-berlin.de>
+         <20230203083037.GA30738@lst.de> <20230206100856.603a0f8f@canb.auug.org.au>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.46.4 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 91.19.170.73
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Steve!
 
-On Sat, Feb 11, 2023 at 3:37 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add the CSI core clock and the CSI40 and CSI41 module clocks, which are
-> used by the CSI-2 Interfaces on the Renesas R-Car V4H (R8A779G0) SoC.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Mon, 2023-02-06 at 10:08 +1100, Stephen Rothwell wrote:
+> Hi,
+> 
+> On Fri, 3 Feb 2023 09:30:37 +0100 Christoph Hellwig <hch@lst.de> wrote:
+> > 
+> > On Fri, Feb 03, 2023 at 09:24:46AM +0100, John Paul Adrian Glaubitz wrote:
+> > > Since this is my very first time stepping up as a kernel maintainer, I was hoping
+> > > to get some pointers on what to do to make this happen.
+> > > 
+> > > So far, we have set up a new kernel tree and I have set up a local development and
+> > > test environment for SH kernels using my SH7785LCR board as the target platform.
+> > > 
+> > > Do I just need to send a patch asking to change the corresponding entry in the
+> > > MAINTAINERS file?  
+> > 
+> > I'm not sure a there is a document, but:
+> > 
+> >  - add the MAINTAINERS change to your tree
+> >  - ask Stephen to get your tree included in linux-next
+> 
+> And by "Stephen", Christoph means me.  When you are ready, please send
+> me a request to include your tree/branch in linux-next (usually the
+> branch is called something like "for-next" or just "next") telling me
+> the git URL, and the contacts I should send email to if there are
+> conflicts/build issues with the branch.  I will then fetch the branch
+> every time I create a new linux-next release (most work days), so all
+> you need to do is update that branch each time you are ready to publish
+> more commits.
 
-Thanks for your patch!
+I'm in the MAINTAINERS now in Linus' tree. I have requested a kernel.org
+account now and will hopefully have my trees set up later this week.
 
-> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> @@ -146,6 +146,7 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
->         DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
->         DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
->         DEF_DIV6P1("canfd",     R8A779G0_CLK_CANFD,     CLK_PLL5_DIV4,  0x878),
-> +       DEF_DIV6P1("csi",       R8A779G0_CLK_CSI,       CLK_PLL5_DIV4,  0x880),
->         DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
->         DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
->
-> @@ -164,7 +165,9 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->         DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
->         DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
->         DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
-> +       DEF_MOD("csi40",        331,    R8A779G0_CLK_CSI),
+I'll let you know about the URLs as soon as possible.
 
-I will move this one one line down while applying, to preserve sort order.
-
->         DEF_MOD("canfd0",       328,    R8A779G0_CLK_SASYNCPERD2),
-> +       DEF_MOD("csi41",        400,    R8A779G0_CLK_CSI),
->         DEF_MOD("dis0",         411,    R8A779G0_CLK_VIOBUSD2),
->         DEF_MOD("dsitxlink0",   415,    R8A779G0_CLK_VIOBUSD2),
->         DEF_MOD("dsitxlink1",   416,    R8A779G0_CLK_VIOBUSD2),
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.4.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Adrian
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
