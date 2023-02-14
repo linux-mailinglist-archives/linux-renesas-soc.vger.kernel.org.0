@@ -2,123 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4AE697024
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 22:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA441697085
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 23:15:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbjBNVyS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Feb 2023 16:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45716 "EHLO
+        id S230263AbjBNWPn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Feb 2023 17:15:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232418AbjBNVyP (ORCPT
+        with ESMTP id S232458AbjBNWPn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Feb 2023 16:54:15 -0500
-X-Greylist: delayed 1200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Feb 2023 13:54:12 PST
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C4B10A;
-        Tue, 14 Feb 2023 13:54:12 -0800 (PST)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 53CD71884412;
-        Tue, 14 Feb 2023 21:16:59 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 48AD725002E1;
-        Tue, 14 Feb 2023 21:16:59 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 407DC9B403E3; Tue, 14 Feb 2023 21:16:59 +0000 (UTC)
-X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
-Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
-        by smtp.gigahost.dk (Postfix) with ESMTPSA id 8F0F391201E3;
-        Tue, 14 Feb 2023 21:16:58 +0000 (UTC)
-From:   Hans Schultz <netdev@kapio-technology.com>
-To:     Simon Horman <simon.horman@corigine.com>
-Cc:     Vladimir Oltean <olteanv@gmail.com>, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
- dynamic ATU entries
-In-Reply-To: <Y+EkiAyexZrPoCpP@corigine.com>
-References: <20230130173429.3577450-1-netdev@kapio-technology.com>
- <20230130173429.3577450-6-netdev@kapio-technology.com>
- <Y9lkXlyXg1d1D0j3@corigine.com>
- <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
- <Y9zDxlwSn1EfCTba@corigine.com> <20230203204422.4wrhyathxfhj6hdt@skbuf>
- <Y94TebdRQRHMMj/c@corigine.com>
- <4abbe32d007240b9c3aea9c8ca936fa3@kapio-technology.com>
- <Y+EkiAyexZrPoCpP@corigine.com>
-Date:   Tue, 14 Feb 2023 22:14:55 +0100
-Message-ID: <87fsb83q5s.fsf@kapio-technology.com>
+        Tue, 14 Feb 2023 17:15:43 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0F3311EB;
+        Tue, 14 Feb 2023 14:15:06 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B1F63D7;
+        Tue, 14 Feb 2023 23:15:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676412904;
+        bh=J1heIFgOfnBY9Ez2Tc0IIwkTkEEqRtgyWxmHRaB+i2M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Mv6TvQ9rSZZk1SP1kZjeCETgtu2j8bTQr0KwJ//bDCfqcX3dG+3AfLsXyFaABK8Ba
+         S9fct5l+FZilUTNNJXK1ahLz62NZwePbd7ehEbp9kwPhvuetP67Keb8AewdnNEhERN
+         Yh9OanliD/Eu8crq2BR+RAWMEeLTNl4v0CS3TBMc=
+Date:   Wed, 15 Feb 2023 00:15:03 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] media: renesas: vsp1: Add underrun debug print
+Message-ID: <Y+wH59GVBf1J5u8X@pendragon.ideasonboard.com>
+References: <20230214164223.184920-1-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230214164223.184920-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 17:02, Simon Horman <simon.horman@corigine.com> wrote:
->
-> Just to clarify my suggestion one last time, it would be along the lines
-> of the following (completely untested!). I feel that it robustly covers
-> all cases for fdb_flags. And as a bonus doesn't need to be modified
-> if other (unsupported) flags are added in future.
->
-> 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
-> 		return -EOPNOTSUPP;
->
-> 	is_dynamic = !!(fdb_flags & DSA_FDB_FLAG_DYNAMIC)
-> 	if (is_dynamic)
-> 		state = MV88E6XXX_G1_ATU_DATA_STATE_UC_AGE_7_NEWEST;
->
->
-> And perhaps for other drivers:
->
-> 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
-> 		return -EOPNOTSUPP;
-> 	if (fdb_flags)
-> 		return 0;
->
-> Perhaps a helper would be warranted for the above.
+Hi Tomi,
 
-How would such a helper look? Inline function is not clean.
+Thank you for the patch.
 
->
-> But in writing this I think that, perhaps drivers could return -EOPNOTSUPP
-> for the DSA_FDB_FLAG_DYNAMIC case and the caller can handle, rather tha
-> propagate, -EOPNOTSUPP.
+On Tue, Feb 14, 2023 at 06:42:23PM +0200, Tomi Valkeinen wrote:
+> Print underrun interrupts with ratelimited print.
+> 
+> Note that we don't enable the underrun interrupt. If we have underruns,
+> we don't want to get flooded with interrupts about them. It's enough to
+> see that an underrun happened at the end of a frame.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+> 
+> Changes in v3:
+> - Reset underrun counter when enabling VSP
+> 
+> I have to say I'm not familiar enough with the VSP driver to say if
+> these are the correct places where to reset the counters.
 
-I looked at that, but changing the caller is also a bit ugly.
+It's fine. We could factor it out to a clear function, but it's not
+worth it if there's nothing else to factor out. It could be done later.
 
->
-> Returning -EOPNOTSUPP is the normal way to drivers to respond to requests
-> for unsupported hardware offloads. Sticking to that may be clearner
-> in the long run. That said, I do agree your current patch is correct
-> given the flag that is defined (by your patchset).
+> There's also a
+> possibility of a race, but my assumption is that we cannot get underrun
+> interrupts for the WPF we are currently enabling.
+
+It should be fine.
+
+> Also, I realized the underrun counter could be moved to struct
+> vsp1_rwpf, but as that's used also for RPF, I didn't do that change.
+
+Another option would be to store it in the pipeline structure, as a
+pipeline has one and only one WPF. What do you think ?
+
+>  drivers/media/platform/renesas/vsp1/vsp1.h       |  2 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c   |  3 +++
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c   | 11 ++++++++++-
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_video.c |  3 +++
+>  5 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+> index 2f6f0c6ae555..9eb023f4fee8 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+> @@ -107,6 +107,8 @@ struct vsp1_device {
+>  	struct media_entity_operations media_ops;
+>  
+>  	struct vsp1_drm *drm;
+> +
+> +	u32 underrun_count[VSP1_MAX_WPF];
+>  };
+>  
+>  int vsp1_device_get(struct vsp1_device *vsp1);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index c6f25200982c..e3b4e993787c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -710,6 +710,9 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+>  		return 0;
+>  	}
+>  
+> +	/* Reset the underrun counter */
+> +	vsp1->underrun_count[pipe->output->entity.index] = 0;
+> +
+>  	drm_pipe->width = cfg->width;
+>  	drm_pipe->height = cfg->height;
+>  	pipe->interlaced = cfg->interlaced;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 5710152d6511..f9be0fda1659 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -45,7 +45,8 @@
+>  
+>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  {
+> -	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> +		   VI6_WPF_IRQ_STA_UND;
+>  	struct vsp1_device *vsp1 = data;
+>  	irqreturn_t ret = IRQ_NONE;
+>  	unsigned int i;
+> @@ -60,6 +61,14 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+>  
+> +		if (status & VI6_WPF_IRQ_STA_UND) {
+> +			vsp1->underrun_count[i]++;
+> +
+> +			dev_warn_ratelimited(vsp1->dev,
+> +				"Underrun occurred at WPF%u (total underruns %u)\n",
+> +				i, vsp1->underrun_count[i]);
+> +		}
+> +
+>  		if (status & VI6_WPF_IRQ_STA_DFE) {
+>  			vsp1_pipeline_frame_end(wpf->entity.pipe);
+>  			ret = IRQ_HANDLED;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index d94343ae57a1..7eca82e0ba7e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -32,10 +32,12 @@
+>  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+>  
+>  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
+> +#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+>  #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+>  #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+>  
+>  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
+> +#define VI6_WPF_IRQ_STA_UND		BIT(16)
+>  #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+>  #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+>  
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 544012fd1fe9..6eca2b9c8dee 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -1062,6 +1062,9 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	if (ret < 0)
+>  		goto err_stop;
+>  
+> +	/* Reset the underrun counter */
+> +	video->vsp1->underrun_count[pipe->output->entity.index] = 0;
+> +
+>  	/* Start the queue. */
+>  	ret = vb2_streamon(&video->queue, type);
+>  	if (ret < 0)
+
+-- 
+Regards,
+
+Laurent Pinchart
