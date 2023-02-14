@@ -2,130 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86777696889
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 16:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5970A6968B0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 17:00:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231781AbjBNP4n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Feb 2023 10:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38710 "EHLO
+        id S230162AbjBNQAI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Feb 2023 11:00:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231448AbjBNP4n (ORCPT
+        with ESMTP id S233325AbjBNP7x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Feb 2023 10:56:43 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49AF2252BD;
-        Tue, 14 Feb 2023 07:56:41 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 8F2A52000A;
-        Tue, 14 Feb 2023 15:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1676390200;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vNKGSGMg8f++uU4wWjyIvzgyGnDvNR/WlS+2/U80G8U=;
-        b=Ejr7sNtEtXRqpXUU+WCTcDwLrHnimWJPzCRHYgSteerTTDCqasSDuy0z7imGZIbDP+qrap
-        03llLZoGdnzSzOHE75z7OC7a/uDELmhZLByqKufP6q1JsgmEOwjEdxwYGPd+MEybsI2m9y
-        1CUSy9Y+2T3mqLk6EOCqlBP1/piLzDIm8LqCb9fQKPpCtJyBgG/ixmugcsvrFRcUwqzmg8
-        8tKYN704Yar6jK56J2RuNaBe8hCSt1cU8mrEDGvoDD2LhK64AuS9IIOMi4C4VKcFMq8BfD
-        uV07gry0AztsNvAV7VPn8IgSQpXyCjIqh/gd8W3PrBDTlybL5KdfFfFFWNYUVQ==
-Date:   Tue, 14 Feb 2023 16:56:37 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mtd: jedec,spi-nor: Document CPOL/CPHA
- support
-Message-ID: <20230214165637.56102b18@xps-13>
-In-Reply-To: <CAMuHMdVK7vOTNMF53SvHn8LtiHX7MSN-Fp80jngSsosYBhhrHQ@mail.gmail.com>
-References: <afe470603028db9374930b0c57464b1f6d52bdd3.1676384304.git.geert+renesas@glider.be>
-        <20230214154433.6a421c51@xps-13>
-        <CAMuHMdVK7vOTNMF53SvHn8LtiHX7MSN-Fp80jngSsosYBhhrHQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Tue, 14 Feb 2023 10:59:53 -0500
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4689213A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Feb 2023 07:59:33 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id g18so17959390qtb.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Feb 2023 07:59:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T17JKqdhVqtAg8TAg4LrRQbjDIgJQfHMsURmnXUTLK4=;
+        b=UuxFTgBoyJ3YTJSnyw6TR0DgGUsvfZzMlkv6Bn+xoRgukmjBDAY7W+d6lhmbFxFd40
+         74R62u4Gu8OieZyhhvzOmS+9EDQu5ZBEKMpE/MmofgR8knAwOz0lEWE7OWdZpTTLafzh
+         lQgQ4S+hfrKdlDf91AW+9mWaraeY3PSDyZTNZbgMSnhJutWrZBf/yF3H2LGiB7N2iHDO
+         Z87cKJi9KvlCweS2Wse7VZOVbsnsHxr82b7Yda/uQ6rhipz518stsojs80t7MdoIM5n6
+         GBpmSwxMvxWbAY1CRY7AkNEYNMQCeYEWSeHAyPRe9VWHZhP8PLf11WBjgUpRM50kaQtx
+         Bb9Q==
+X-Gm-Message-State: AO0yUKU/lY1TCn1WaNY89mV9r3OVXptC8Hw3ZaD7MnYHI3XjopERB6AG
+        rcs/prEGx5OqLcloqrCv4YNZkeS+bMIol6TE
+X-Google-Smtp-Source: AK7set/AFEJF4tG5wKCKiHB7sp0YsJpeV5bHJWtUGSS3bz9nZs086rddCa8EYPtrUd6iYg3D1ytLZA==
+X-Received: by 2002:ac8:5b15:0:b0:3b8:1743:89dc with SMTP id m21-20020ac85b15000000b003b8174389dcmr3957527qtw.2.1676390372792;
+        Tue, 14 Feb 2023 07:59:32 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id a20-20020ac81094000000b003b9ba2cf068sm11424120qtj.56.2023.02.14.07.59.32
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Feb 2023 07:59:32 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id x4so18742538ybp.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Feb 2023 07:59:32 -0800 (PST)
+X-Received: by 2002:a25:f30f:0:b0:8c2:240e:bd05 with SMTP id
+ c15-20020a25f30f000000b008c2240ebd05mr361866ybs.359.1676390372208; Tue, 14
+ Feb 2023 07:59:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230211150012.3824154-1-niklas.soderlund+renesas@ragnatech.se> <20230211150012.3824154-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230211150012.3824154-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Feb 2023 16:59:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXqC-i1abuiZ2Z3oRVom59PWhdiKS-x3s+Bsu32TF-DEQ@mail.gmail.com>
+Message-ID: <CAMuHMdXqC-i1abuiZ2Z3oRVom59PWhdiKS-x3s+Bsu32TF-DEQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779g0: Add and connect all
+ CSI-2, ISP and VIN nodes
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Niklas,
 
-geert@linux-m68k.org wrote on Tue, 14 Feb 2023 16:22:15 +0100:
+On Sat, Feb 11, 2023 at 4:00 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The V4H have 16 VIN, 2 CSI-2 and 2 ISP nodes that interact with each
+> other for video capture. Add all nodes and record how they are
+> interconnected.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> Hi Miquel,
->=20
-> On Tue, Feb 14, 2023 at 3:44 PM Miquel Raynal <miquel.raynal@bootlin.com>=
- wrote:
-> > geert+renesas@glider.be wrote on Tue, 14 Feb 2023 15:26:43 +0100: =20
-> > > SPI EEPROMs typically support both SPI Mode 0 (CPOL=3DCPHA=3D0) and M=
-ode 3
-> > > (CPOL=3DCPHA=3D1).  However, using the latter is currently flagged as=
- an
-> > > error by "make dtbs_check", e.g.:
-> > >
-> > >     arch/arm/boot/dts/r8a7791-koelsch.dtb: flash@0: Unevaluated prope=
-rties are not allowed ('spi-cpha', 'spi-cpol' were unexpected)
-> > >           From schema: Documentation/devicetree/bindings/mtd/jedec,sp=
-i-nor.yaml
-> > >
-> > > Fix this by documenting support for CPOL=3DCPHA=3D1.
-> > >
-> > > Fixes: 233363aba72ac638 ("spi/panel: dt-bindings: drop CPHA and CPOL =
-from common properties")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > >  Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml=
- b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-> > > index f86255ce13af0871..bb62ac4585822982 100644
-> > > --- a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-> > > +++ b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-> > > @@ -76,6 +76,13 @@ properties:
-> > >        If "broken-flash-reset" is present then having this property d=
-oes not
-> > >        make any difference.
-> > >
-> > > +  spi-cpol: true
-> > > +  spi-cpha: true =20
-> >
-> > I see that spi-cpol and spi-cpha are described in spi-controller.yaml
-> > which references spi-peripheral-props.yaml, but jedec,spi-nor.yaml
-> > only references spi-peripheral-props.yaml leading to spi-cpol and
-> > spi-cpha not being recognized as valid properties.
-> >
-> > Wouldn't it be cleaner to to have these two properties defined in
-> > spi-peripheral-props.yaml instead? =20
->=20
-> They were moved out of that file by the commit referenced in the
-> Fixes: tag above, because they are not supported by all SPI targets.
-> It's the responsibility of the SPI target bindings to list what is suppor=
-ted.
+Thanks for your patch!
 
-Oops, I overlooked that line.
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
 
-I actually see no point in constraining device trees on that regard,
-but, well, Krzysztof is the author, I believe he knows his stuff, so
-let's go for it.
+> @@ -1304,6 +1752,58 @@ vspd1: vsp@fea28000 {
+>                         renesas,fcp = <&fcpvd1>;
+>                 };
+>
+> +               csi40: csi2@fe500000 {
 
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+I'll move these up while applying, to preserve sort order (by unit
+address).
 
-Thanks,
-Miqu=C3=A8l
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.4.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
