@@ -2,368 +2,419 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42BCD69556E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 01:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F62695590
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 01:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230342AbjBNAhp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Feb 2023 19:37:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48488 "EHLO
+        id S229649AbjBNAuf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Feb 2023 19:50:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbjBNAhp (ORCPT
+        with ESMTP id S229795AbjBNAud (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Feb 2023 19:37:45 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4C31A49B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 16:37:43 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 194FB3D7;
-        Tue, 14 Feb 2023 01:37:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676335062;
-        bh=6P5t4s1EwSRu/HMKbiO2w1pauCdw8QdMPyjpn0A36A8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m3HYHoIq8LA11K1UPCAVS8MuerkpMY6DLFmTiNJbDtG0UumWhm+li89lomPljDNvC
-         a7MjzVCfDxURXsQHJEM+WvzSryT1rXq3m+5Lf8mI8oC0uXjlnismyEIez0Kj8vbUkh
-         CEVC8jxkuOeiXR4d5rT0WvmjVxW4elphRU4CrERE=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH 3/3] drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
-Date:   Tue, 14 Feb 2023 02:37:36 +0200
-Message-Id: <20230214003736.18871-4-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
+        Mon, 13 Feb 2023 19:50:33 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA57EFBC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 16:50:32 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id ja21so7803807plb.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Feb 2023 16:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=RiHNR2OqC7auE9ho9crCQY0XLIcG+g8Q2fTyQDPmP3U=;
+        b=JvdqXVxCQfHvQE/hznoVAdz5w9Gd2HxpDGnLPRXCp1xC4IcJPW2ZR7/kQiUnj81qZR
+         mD8KYXVguLv0Gd6RQzAInKZzvtLAG9MkXmIGNUbjAYSjCMzGUfQ3hTbfF3SJA5vrBLOj
+         Y2ZFSUz9JIC0Zw5SMLmqXuhwmJUvH9kICuLdxx+jCOGyU3mJHm3N8FMOdx++Ox8aZTdb
+         MzzN9sWGWnA6UDKjYdKMAk/ZZIgUBBc+Je2t0efKK07O+WUPImNn3LKGYUcsNjs7m8op
+         Q4m3aJyP9jSWTMMliLJsWqDn9yP0nR2/IWUW8Rey6q4WV5CxbAwK6/X8BK3+Zy9pKIH+
+         UXMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RiHNR2OqC7auE9ho9crCQY0XLIcG+g8Q2fTyQDPmP3U=;
+        b=RWzpwShA2m198nqwISmrN57L0m2Hy2Q0Ut6X8m6ayeBj1gQFsUPDYsPX6XxEYzAleY
+         5xZKBUlpGFlt45qJGyvKFaC+u9gnrUzNnhQEkHRYt4/GCpQ7fDCNWOfzQPcWjSF+U4Rm
+         BO2XYWVqpWcci+xH7PJ1ttva2ZbdxOq5lrCergTLYYww+N7REa1yoALf4MANtqPI4FCg
+         6fbHzilzS0MXS0f9J9fh2tr3287qNn9oFJYq4omfpAPOBlUPnX+qpTK0aMpiZ2yID6FE
+         04WEgbRXaUlHDtgfrT8Sa+tliljhITchteKt6H9Clckd3od+tsJvhqNXzXmlvqHiw1i0
+         Ic6Q==
+X-Gm-Message-State: AO0yUKXVnYvpvrG4ahbwQEz/j64U16yNfGwcmJJRl76WyZA78FOiNQkK
+        ZXElZKBnXbtf9Kk7aMyzDEpIXZzo7vTbfmOxtGQ=
+X-Google-Smtp-Source: AK7set/li00iFnA/wHXlK1gN1AV9RjnfZza/1l6R/yECAUtVhABinlm3F2rwvDN47iCY9BIKhTiJSw==
+X-Received: by 2002:a17:90b:3b44:b0:230:c87e:2b2d with SMTP id ot4-20020a17090b3b4400b00230c87e2b2dmr327007pjb.40.1676335831464;
+        Mon, 13 Feb 2023 16:50:31 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id cl14-20020a17090af68e00b00230ab56a1f3sm4226951pjb.51.2023.02.13.16.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 16:50:31 -0800 (PST)
+Message-ID: <63eadad7.170a0220.e49ba.6ffd@mx.google.com>
+Date:   Mon, 13 Feb 2023 16:50:31 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-02-13-v6.2-rc8
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline-nfs: 185 runs,
+ 8 regressions (renesas-devel-2023-02-13-v6.2-rc8)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On R-Car D3 and E3, the LVDS encoder provides the dot (pixel) clock to
-the DU, regardless of whether the LVDS output is used or not. When using
-the DPAD (RGB) output, the DU driver thus enables and disables the LVDS
-PLL manually, while when using the LVDS output, it lets the LVDS bridge
-driver handle the PLL configuration internally as part of the atomic
-enable and disable operations.
+renesas/master baseline-nfs: 185 runs, 8 regressions (renesas-devel-2023-02=
+-13-v6.2-rc8)
 
-This causes an issue when using the LVDS output. As bridges are disabled
-before CRTCs, the current implementation violates the enable/disable
-sequences documented in the hardware datasheet, which requires the dot
-clock to be enabled before the CRTC is started and disabled after it
-gets stopped.
+Regressions Summary
+-------------------
 
-Fix the problem by enabling/disabling the LVDS PLL manually from the DU
-regardless of which output is used, and skipping the PLL handling in the
-LVDS bridge atomic enable and disable operations.
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fc...CONFIG_SMP=3Dn | 1          =
 
-This is however not enough. Disabling the LVDS encoder while leaving the
-PLL on still results in a vertical blanking wait timeout when disabling
-the DU. Investigation showed that the culprit is the LVEN bit. For an
-unclear reason, clearing the bit when disabling the LVDS encoder blocks
-vertical blanking interrupts. We thus have to delay disabling the whole
-LVDS encoder, not just disabling the PLL, until the DU is disabled.
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fc...MB2_KERNEL=3Dy | 1          =
 
-We could split the LVDS disable sequence by clearing the LVRES bit in
-the LVDS bridge atomic disable handler, and delaying the rest of the
-operations, in order to disable the LVDS output at bridge atomic disable
-time, before stopping the CRTC. This would make the code more complex,
-without a clear benefit, so keep the implementation simple(r).
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fconfig+crypto    | 1          =
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  18 ++--
- drivers/gpu/drm/rcar-du/rcar_lvds.c    | 114 +++++++++++++++----------
- drivers/gpu/drm/rcar-du/rcar_lvds.h    |  12 ++-
- 3 files changed, 86 insertions(+), 58 deletions(-)
+imx6dl-udoo              | arm   | lab-broonie     | gcc-10   | imx_v6_v7_d=
+efconfig          | 1          =
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 008e172ed43b..71e7fbace38d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -749,16 +749,17 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 
- 	/*
- 	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
--	 * the DU channel. We need to enable its clock output explicitly if
--	 * the LVDS output is disabled.
-+	 * the DU channel. We need to enable its clock output explicitly before
-+	 * starting the CRTC, as the bridge hasn't been enabled by the atomic
-+	 * helpers yet.
- 	 */
--	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
--	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
-+	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
-+		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
- 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
- 		const struct drm_display_mode *mode =
- 			&crtc->state->adjusted_mode;
- 
--		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
-+		rcar_lvds_pclk_enable(bridge, mode->clock * 1000, dot_clk_only);
- 	}
- 
- 	/*
-@@ -795,15 +796,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 	rcar_du_crtc_stop(rcrtc);
- 	rcar_du_crtc_put(rcrtc);
- 
--	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
--	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
-+	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
-+		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
- 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
- 
- 		/*
- 		 * Disable the LVDS clock output, see
- 		 * rcar_du_crtc_atomic_enable().
- 		 */
--		rcar_lvds_pclk_disable(bridge);
-+		rcar_lvds_pclk_disable(bridge, dot_clk_only);
- 	}
- 
- 	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-@@ -815,7 +816,6 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 		 * Disable the DSI clock output, see
- 		 * rcar_du_crtc_atomic_enable().
- 		 */
--
- 		rcar_mipi_dsi_pclk_disable(bridge);
- 	}
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 70cdd5ec64d5..ca215b588fd7 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -269,8 +269,8 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
- 		pll->pll_m, pll->pll_n, pll->pll_e, pll->div);
- }
- 
--static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
--					unsigned int freq, bool dot_clock_only)
-+static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
-+				      unsigned int freq, bool dot_clock_only)
- {
- 	struct pll_info pll = { .diff = (unsigned long)-1 };
- 	u32 lvdpllcr;
-@@ -305,11 +305,6 @@ static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
- 		rcar_lvds_write(lvds, LVDDIV, 0);
- }
- 
--static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds, unsigned int freq)
--{
--	__rcar_lvds_pll_setup_d3_e3(lvds, freq, false);
--}
--
- /* -----------------------------------------------------------------------------
-  * Enable/disable
-  */
-@@ -425,8 +420,12 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
- 	/*
- 	 * PLL clock configuration on all instances but the companion in
- 	 * dual-link mode.
-+	 *
-+	 * The extended PLL has been turned on by an explicit call to
-+	 * rcar_lvds_pclk_enable() from the DU driver.
- 	 */
--	if (lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) {
-+	if ((lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) &&
-+	    !(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
- 		const struct drm_crtc_state *crtc_state =
- 			drm_atomic_get_new_crtc_state(state, crtc);
- 		const struct drm_display_mode *mode =
-@@ -491,11 +490,56 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
- 	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
- }
- 
-+static void rcar_lvds_disable(struct drm_bridge *bridge)
-+{
-+	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-+	u32 lvdcr0;
-+
-+	/*
-+	 * Clear the LVDCR0 bits in the order specified by the hardware
-+	 * documentation, ending with a write of 0 to the full register to
-+	 * clear all remaining bits.
-+	 */
-+	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
-+
-+	lvdcr0 &= ~LVDCR0_LVRES;
-+	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
-+		lvdcr0 &= ~LVDCR0_LVEN;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
-+		lvdcr0 &= ~LVDCR0_PWD;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
-+		lvdcr0 &= ~LVDCR0_PLLON;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	rcar_lvds_write(lvds, LVDCR0, 0);
-+	rcar_lvds_write(lvds, LVDCR1, 0);
-+
-+	/* The extended PLL is turned off in rcar_lvds_pclk_disable(). */
-+	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL))
-+		rcar_lvds_write(lvds, LVDPLLCR, 0);
-+
-+	/* Disable the companion LVDS encoder in dual-link mode. */
-+	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
-+		rcar_lvds_disable(lvds->companion);
-+
-+	pm_runtime_put_sync(lvds->dev);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Clock - D3/E3 only
-  */
- 
--int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
-+			  bool dot_clk_only)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 	int ret;
-@@ -509,13 +553,13 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
- 	if (ret)
- 		return ret;
- 
--	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
-+	rcar_lvds_pll_setup_d3_e3(lvds, freq, dot_clk_only);
- 
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(rcar_lvds_pclk_enable);
- 
--void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
-@@ -524,6 +568,9 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
- 
- 	dev_dbg(lvds->dev, "disabling LVDS PLL\n");
- 
-+	if (!dot_clk_only)
-+		rcar_lvds_disable(bridge);
-+
- 	rcar_lvds_write(lvds, LVDPLLCR, 0);
- 
- 	pm_runtime_put_sync(lvds->dev);
-@@ -552,42 +599,21 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
--	u32 lvdcr0;
- 
- 	/*
--	 * Clear the LVDCR0 bits in the order specified by the hardware
--	 * documentation, ending with a write of 0 to the full register to
--	 * clear all remaining bits.
-+	 * For D3 and E3, disabling the LVDS encoder before the DU would stall
-+	 * the DU, causing a vblank wait timeout when stopping the DU. This has
-+	 * been traced to clearing the LVEN bit, but the exact reason is
-+	 * unknown. Keep the encoder enabled, it will be disabled by an explicit
-+	 * call to rcar_lvds_pclk_disable() from the DU driver.
-+	 *
-+	 * We could clear the LVRES bit already to disable the LVDS output, but
-+	 * that's likely pointless.
- 	 */
--	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-+		return;
- 
--	lvdcr0 &= ~LVDCR0_LVRES;
--	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--
--	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
--		lvdcr0 &= ~LVDCR0_LVEN;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
--		lvdcr0 &= ~LVDCR0_PWD;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
--		lvdcr0 &= ~LVDCR0_PLLON;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	rcar_lvds_write(lvds, LVDCR0, 0);
--	rcar_lvds_write(lvds, LVDCR1, 0);
--	rcar_lvds_write(lvds, LVDPLLCR, 0);
--
--	/* Disable the companion LVDS encoder in dual-link mode. */
--	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
--		rcar_lvds_atomic_disable(lvds->companion, old_bridge_state);
--
--	pm_runtime_put_sync(lvds->dev);
-+	rcar_lvds_disable(bridge);
- }
- 
- static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-@@ -924,14 +950,12 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77990_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_EXT_PLL
- 		| RCAR_LVDS_QUIRK_DUAL_LINK,
--	.pll_setup = rcar_lvds_pll_setup_d3_e3,
- };
- 
- static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_PWD
- 		| RCAR_LVDS_QUIRK_EXT_PLL | RCAR_LVDS_QUIRK_DUAL_LINK,
--	.pll_setup = rcar_lvds_pll_setup_d3_e3,
- };
- 
- static const struct of_device_id rcar_lvds_of_table[] = {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-index bee7033b60d6..887c63500000 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-@@ -13,17 +13,21 @@
- struct drm_bridge;
- 
- #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
--int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq);
--void rcar_lvds_pclk_disable(struct drm_bridge *bridge);
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
-+			  bool dot_clk_only);
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only);
- bool rcar_lvds_dual_link(struct drm_bridge *bridge);
- bool rcar_lvds_is_connected(struct drm_bridge *bridge);
- #else
- static inline int rcar_lvds_pclk_enable(struct drm_bridge *bridge,
--					unsigned long freq)
-+					unsigned long freq, bool dot_clk_only)
- {
- 	return -ENOSYS;
- }
--static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge) { }
-+static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge,
-+					  bool dot_clock_only)
-+{
-+}
- static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
- {
- 	return false;
--- 
-Regards,
+imx6q-udoo               | arm   | lab-broonie     | gcc-10   | imx_v6_v7_d=
+efconfig          | 1          =
 
-Laurent Pinchart
+kontron-pitx-imx8m       | arm64 | lab-kontron     | gcc-10   | defconfig+v=
+ideodec           | 2          =
 
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip         | gcc-10   | renesas_def=
+config            | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-02-13-v6.2-rc8/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-02-13-v6.2-rc8
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      1114d4a0bbbebed7e53c9c2279c0c7adab6ca959 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fc...CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab4d619fd79a8208c8640
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
+onix/baseline-nfs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
+onix/baseline-nfs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/63eab4d619fd79a8208c8649
+        failing since 14 days (last pass: renesas-devel-2023-01-26-v6.2-rc5=
+, first fail: renesas-devel-2023-01-30-v6.2-rc6)
+
+    2023-02-13T22:08:16.225824  + set[   26.594591] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 904872_1.6.2.3.1>
+    2023-02-13T22:08:16.226002   +x
+    2023-02-13T22:08:16.337873  #
+    2023-02-13T22:08:16.439865  / # #export SHELL=3D/bin/sh
+    2023-02-13T22:08:16.440274  =
+
+    2023-02-13T22:08:16.541437  / # export SHELL=3D/bin/sh. /lava-904872/en=
+vironment
+    2023-02-13T22:08:16.541851  =
+
+    2023-02-13T22:08:16.643072  / # . /lava-904872/environment/lava-904872/=
+bin/lava-test-runner /lava-904872/1
+    2023-02-13T22:08:16.643620  =
+
+    2023-02-13T22:08:16.646789  / # /lava-904872/bin/lava-test-runner /lava=
+-904872/1 =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab6528cb98e6ab48c864d
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-pengutronix/baseline-nfs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-pengutronix/baseline-nfs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/63eab6528cb98e6ab48c8655
+        new failure (last pass: renesas-devel-2023-02-06-v6.2-rc7)
+
+    2023-02-13T22:14:34.788375  + set[   27.256967] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 904889_1.6.2.3.1>
+    2023-02-13T22:14:34.788595   +x
+    2023-02-13T22:14:34.901418  / # #
+    2023-02-13T22:14:35.002848  export SHELL=3D/bin/sh
+    2023-02-13T22:14:35.003148  #
+    2023-02-13T22:14:35.104298  / # export SHELL=3D/bin/sh. /lava-904889/en=
+vironment
+    2023-02-13T22:14:35.104609  =
+
+    2023-02-13T22:14:35.205784  / # . /lava-904889/environment/lava-904889/=
+bin/lava-test-runner /lava-904889/1
+    2023-02-13T22:14:35.206248  =
+
+    2023-02-13T22:14:35.209153  / # /lava-904889/bin/lava-test-runner /lava=
+-904889/1 =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6dl-riotboard         | arm   | lab-pengutronix | gcc-10   | multi_v7_de=
+fconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab706583fdeeed68c862f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
+eline-nfs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
+eline-nfs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/63eab706583fdeeed=
+68c8630
+        new failure (last pass: renesas-devel-2023-02-06-v6.2-rc7) =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6dl-udoo              | arm   | lab-broonie     | gcc-10   | imx_v6_v7_d=
+efconfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab626a423d9274a8c8679
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-=
+imx6dl-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-=
+imx6dl-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/63eab626a423d9274=
+a8c867a
+        failing since 7 days (last pass: renesas-devel-2023-01-30-v6.2-rc6,=
+ first fail: renesas-devel-2023-02-06-v6.2-rc7) =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+imx6q-udoo               | arm   | lab-broonie     | gcc-10   | imx_v6_v7_d=
+efconfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab689338b8d7f138c8644
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-=
+imx6q-udoo.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm/imx_v6_v7_defconfig/gcc-10/lab-broonie/baseline-nfs-=
+imx6q-udoo.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/63eab689338b8d7f1=
+38c8645
+        failing since 7 days (last pass: renesas-devel-2023-01-30-v6.2-rc6,=
+ first fail: renesas-devel-2023-02-06-v6.2-rc7) =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+kontron-pitx-imx8m       | arm64 | lab-kontron     | gcc-10   | defconfig+v=
+ideodec           | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63eab51abafae470a78c8630
+
+  Results:     50 PASS, 2 FAIL, 1 SKIP
+  Full config: defconfig+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm64/defconfig+videodec/gcc-10/lab-kontron/baseline-nfs=
+-kontron-pitx-imx8m.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm64/defconfig+videodec/gcc-10/lab-kontron/baseline-nfs=
+-kontron-pitx-imx8m.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/63eab51abafae470a78c8637
+        new failure (last pass: renesas-devel-2023-02-06-v6.2-rc7)
+
+    2023-02-13T22:09:06.937998  / # #
+    2023-02-13T22:09:07.039973  export SHELL=3D/bin/sh
+    2023-02-13T22:09:07.040414  #
+    2023-02-13T22:09:07.141978  / # export SHELL=3D/bin/sh. /lava-274066/en=
+vironment
+    2023-02-13T22:09:07.142462  =
+
+    2023-02-13T22:09:07.243867  / # . /lava-274066/environment/lava-274066/=
+bin/lava-test-runner /lava-274066/1
+    2023-02-13T22:09:07.244594  =
+
+    2023-02-13T22:09:07.249433  / # /lava-274066/bin/lava-test-runner /lava=
+-274066/1
+    2023-02-13T22:09:07.501286  + export TESTRUN_ID=3D1_bootrr
+    2023-02-13T22:09:07.504389  + cd /lava-274066/1/tests/1_bootrr =
+
+    ... (12 line(s) more)  =
+
+
+  * baseline-nfs.bootrr.dwc3-usb1-probed: https://kernelci.org/test/case/id=
+/63eab51abafae470a78c8647
+        new failure (last pass: renesas-devel-2023-02-06-v6.2-rc7)
+
+    2023-02-13T22:09:11.638851  /lava-274066/1/../bin/lava-test-case
+    2023-02-13T22:09:11.700920  <8>[   23.197377] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Ddwc3-usb1-probed RESULT=3Dfail>   =
+
+ =
+
+
+
+platform                 | arch  | lab             | compiler | defconfig  =
+                  | regressions
+-------------------------+-------+-----------------+----------+------------=
+------------------+------------
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip         | gcc-10   | renesas_def=
+config            | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/63ea9f0c8669bb33788c8647
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: renesas_defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-nfs-r8a7=
+74a1-hihope-rzg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-02-13-v6.2-rc8/arm64/renesas_defconfig/gcc-10/lab-cip/baseline-nfs-r8a7=
+74a1-hihope-rzg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230211.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/63ea9f0c8669bb337=
+88c8648
+        new failure (last pass: renesas-devel-2023-02-06-v6.2-rc7) =
+
+ =20
