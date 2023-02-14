@@ -2,211 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DB1169696D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 17:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE6E6969F6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 17:42:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbjBNQ0N convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Feb 2023 11:26:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42866 "EHLO
+        id S231710AbjBNQms (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Feb 2023 11:42:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjBNQ0M (ORCPT
+        with ESMTP id S232446AbjBNQmq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Feb 2023 11:26:12 -0500
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09041CF43;
-        Tue, 14 Feb 2023 08:25:46 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id nd22so8205617qvb.1;
-        Tue, 14 Feb 2023 08:25:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HjQ0CpBgeW3VIFOUjvZsQvtKtZR2pIvObv825jLtQY0=;
-        b=lN0z/Qf1RCvUzxlQFpx0+DOhslR+UZZqV3IO7aP6c4H5YCs5BaxcvD9X9UH/ZbYm4F
-         4scw91dKJOeCzkwRi2CL6yERHQm3i8MUDzsiw2EajWraksaa3eVur7VxxmM1EWkjSMcA
-         v+GBrnMOajBk88WBwC2wCZgFNsv2UJJ5r/zDnrbdu5B+zKiizdEZz17CAxLRneye5f+f
-         FU+F7H+mQLsdQHPRtmB8wS9k8NWPbCGNU6OPff+R9+Mey0MLpOH8miV6iAZkbATDgoCz
-         Vmd7pWtIOFCX7qRBY/a4HzA2raZgFI1k/WRC1z3liA5Ds5mNySvG4oPhI0P6VjsvEJeL
-         iW2Q==
-X-Gm-Message-State: AO0yUKU5cwnwli8j1xikx1fKyrS2bUh/3FyOib/94gJxZkADGRzKJauj
-        KVlW5PrtiHtQyw39x91ErOcYPHIOcPZFOGyd
-X-Google-Smtp-Source: AK7set/fxB011dHVaFsoTZdaiVdF//J9WTRdVGTfxRXQ6LMGD1B+sZ6sZB5bqRUXmVKCXC/P5A8DkA==
-X-Received: by 2002:a05:6214:21ea:b0:56e:a6bb:47ae with SMTP id p10-20020a05621421ea00b0056ea6bb47aemr4878289qvj.12.1676391927049;
-        Tue, 14 Feb 2023 08:25:27 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id x133-20020a37638b000000b006e07228ed53sm12227587qkb.18.2023.02.14.08.25.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Feb 2023 08:25:26 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-52f1b1d08c2so88946317b3.5;
-        Tue, 14 Feb 2023 08:25:26 -0800 (PST)
-X-Received: by 2002:a05:690c:ea2:b0:4fc:962d:7dc1 with SMTP id
- cr2-20020a05690c0ea200b004fc962d7dc1mr262523ywb.301.1676391925902; Tue, 14
- Feb 2023 08:25:25 -0800 (PST)
+        Tue, 14 Feb 2023 11:42:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FC826CED;
+        Tue, 14 Feb 2023 08:42:30 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E679F3D7;
+        Tue, 14 Feb 2023 17:42:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676392948;
+        bh=oGQ9C374e9M8rLPkAAf7KKNHwc2fIZq4DrPLiTr4H9I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YQL9LQK58501SipjGknGPZOSM6BsK7HFWBHzDi3N0CvvL6Yt5ms7gpWF63kNLvK4S
+         cm4admm2Fh1RJXAub0XpRq4nygQ/Aaeozu7pTz7ds9DXYbmKgiftBPIpKQ0nxEhF9/
+         rHcxLJXMPXNEijcu+o3cSkhrB8LndJf9xnGt4wso=
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v3] media: renesas: vsp1: Add underrun debug print
+Date:   Tue, 14 Feb 2023 18:42:23 +0200
+Message-Id: <20230214164223.184920-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230209133507.150571-1-clement.leger@bootlin.com> <20230209133507.150571-3-clement.leger@bootlin.com>
-In-Reply-To: <20230209133507.150571-3-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Feb 2023 17:25:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWUorkDYXZvsd-9rjwEkeJYC_FMfexZHaGYHDry=9Yjdg@mail.gmail.com>
-Message-ID: <CAMuHMdWUorkDYXZvsd-9rjwEkeJYC_FMfexZHaGYHDry=9Yjdg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb
- board device-tree
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Print underrun interrupts with ratelimited print.
 
-CC Gareth
+Note that we don't enable the underrun interrupt. If we have underruns,
+we don't want to get flooded with interrupts about them. It's enough to
+see that an underrun happened at the end of a frame.
 
-On Thu, Feb 9, 2023 at 2:32 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since this
-> configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400-eb.
-> It adds support for the 2 additional switch ports (port C and D) that are
-> available on that board.
->
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
 
-Thanks for your patch!
+Changes in v3:
+- Reset underrun counter when enabling VSP
 
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
-> @@ -0,0 +1,94 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the RZN1D-EB Board
-> + *
-> + * Copyright (C) 2023 Schneider-Electric
-> + *
-> + */
-> +
-> +#include "r9a06g032-rzn1d400-db.dts"
-> +
-> +/ {
-> +       model = "RZN1D-EB Board";
-> +       compatible = "renesas,rzn1d400-eb", "renesas,rzn1d400-db",
-> +                    "renesas,r9a06g032";
-> +};
-> +
-> +&mii_conv2 {
-> +       renesas,miic-input = <MIIC_SWITCH_PORTD>;
-> +       status = "okay";
-> +};
-> +
-> +&mii_conv3 {
-> +       renesas,miic-input = <MIIC_SWITCH_PORTC>;
-> +       status = "okay";
-> +};
-> +
-> +&pinctrl{
-> +       pins_eth1: pins-eth1 {
-> +               pinmux = <RZN1_PINMUX(12, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(13, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(14, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(15, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(16, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(17, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(18, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(19, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(20, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(21, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(22, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(23, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
-> +               drive-strength = <6>;
-> +               bias-disable;
-> +       };
-> +
-> +       pins_eth2: pins-eth2 {
-> +               pinmux = <RZN1_PINMUX(24, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(25, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(26, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(27, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(28, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(29, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(30, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(31, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(32, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(33, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(34, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-> +                        <RZN1_PINMUX(35, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>;
-> +               drive-strength = <6>;
-> +               bias-disable;
-> +       };
-> +};
-> +
-> +&switch {
-> +       pinctrl-names = "default";
+I have to say I'm not familiar enough with the VSP driver to say if
+these are the correct places where to reset the counters. There's also a
+possibility of a race, but my assumption is that we cannot get underrun
+interrupts for the WPF we are currently enabling.
 
-No need to specify pinctrl-names, as it is inherited from
-r9a06g032-rzn1d400-db.dts.
+Also, I realized the underrun counter could be moved to struct
+vsp1_rwpf, but as that's used also for RPF, I didn't do that change.
 
-> +       pinctrl-0 = <&pins_eth1>, <&pins_eth2>, <&pins_eth3>, <&pins_eth4>,
-> +                   <&pins_mdio1>;
-> +
-> +       mdio {
-> +               /* CN15 and CN16 switches must be configured in MDIO2 mode */
-> +               switch0phy1: ethernet-phy@1 {
-> +                       reg = <1>;
-> +                       marvell,reg-init = <3 16 0 0x1010>;
+ drivers/media/platform/renesas/vsp1/vsp1.h       |  2 ++
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c   |  3 +++
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c   | 11 ++++++++++-
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 ++
+ drivers/media/platform/renesas/vsp1/vsp1_video.c |  3 +++
+ 5 files changed, 20 insertions(+), 1 deletion(-)
 
-marvell,reg-init is not documented in any DT bindings document?
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+index 2f6f0c6ae555..9eb023f4fee8 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+@@ -107,6 +107,8 @@ struct vsp1_device {
+ 	struct media_entity_operations media_ops;
+ 
+ 	struct vsp1_drm *drm;
++
++	u32 underrun_count[VSP1_MAX_WPF];
+ };
+ 
+ int vsp1_device_get(struct vsp1_device *vsp1);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index c6f25200982c..e3b4e993787c 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -710,6 +710,9 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		return 0;
+ 	}
+ 
++	/* Reset the underrun counter */
++	vsp1->underrun_count[pipe->output->entity.index] = 0;
++
+ 	drm_pipe->width = cfg->width;
+ 	drm_pipe->height = cfg->height;
+ 	pipe->interlaced = cfg->interlaced;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+index 5710152d6511..f9be0fda1659 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+@@ -45,7 +45,8 @@
+ 
+ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ {
+-	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
++	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
++		   VI6_WPF_IRQ_STA_UND;
+ 	struct vsp1_device *vsp1 = data;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	unsigned int i;
+@@ -60,6 +61,14 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ 		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+ 		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+ 
++		if (status & VI6_WPF_IRQ_STA_UND) {
++			vsp1->underrun_count[i]++;
++
++			dev_warn_ratelimited(vsp1->dev,
++				"Underrun occurred at WPF%u (total underruns %u)\n",
++				i, vsp1->underrun_count[i]);
++		}
++
+ 		if (status & VI6_WPF_IRQ_STA_DFE) {
+ 			vsp1_pipeline_frame_end(wpf->entity.pipe);
+ 			ret = IRQ_HANDLED;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+index d94343ae57a1..7eca82e0ba7e 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+@@ -32,10 +32,12 @@
+ #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+ 
+ #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
++#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+ #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+ #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+ 
+ #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
++#define VI6_WPF_IRQ_STA_UND		BIT(16)
+ #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+ #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+ 
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 544012fd1fe9..6eca2b9c8dee 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -1062,6 +1062,9 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	if (ret < 0)
+ 		goto err_stop;
+ 
++	/* Reset the underrun counter */
++	video->vsp1->underrun_count[pipe->output->entity.index] = 0;
++
+ 	/* Start the queue. */
+ 	ret = vb2_streamon(&video->queue, type);
+ 	if (ret < 0)
+-- 
+2.34.1
 
-> +               };
-> +
-> +               switch0phy10: ethernet-phy@10 {
-> +                       reg = <10>;
-> +                       marvell,reg-init = <3 16 0 0x1010>;
-> +               };
-> +       };
-> +};
-> +
-> +&switch_port2 {
-> +       label = "lan2";
-> +       phy-mode = "rgmii-id";
-> +       phy-handle = <&switch0phy10>;
-> +       status = "okay";
-> +};
-> +
-> +&switch_port3 {
-> +       label = "lan3";
-> +       phy-mode = "rgmii-id";
-> +       phy-handle = <&switch0phy1>;
-> +       status = "okay";
-> +};
-
-The rest LGTM (as far as I can understand ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
