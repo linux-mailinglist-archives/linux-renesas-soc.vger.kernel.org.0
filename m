@@ -2,114 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E16B46962AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 12:49:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38706696494
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Feb 2023 14:23:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231162AbjBNLtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Feb 2023 06:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49398 "EHLO
+        id S232382AbjBNNXj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Feb 2023 08:23:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbjBNLtM (ORCPT
+        with ESMTP id S231827AbjBNNXj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Feb 2023 06:49:12 -0500
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D796323849;
-        Tue, 14 Feb 2023 03:49:10 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id j5so8018560qvi.3;
-        Tue, 14 Feb 2023 03:49:10 -0800 (PST)
+        Tue, 14 Feb 2023 08:23:39 -0500
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0EF11C;
+        Tue, 14 Feb 2023 05:23:38 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id w3so17286477qts.7;
+        Tue, 14 Feb 2023 05:23:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w8o+V62iNadVynv0wmjLeHQllkaxUHndiQdcgv2rq9I=;
-        b=zlo7Nb2jOqAVZTLCKV5Vwy24nYm6ew3YY1tAWT9kpLVpRF3xrNZDuPTtpjgKVTsgzc
-         qN6cQc0cSXobhmhccnry5T1XfRy8UhgZzRoAvSNk/Sn4icFg3PnuhGBFnM/jfyH/I5Zb
-         PpPg8LwynNvc9FRTaotakNv69kRILUTFcQ+0H++KfthAPfFda7l/bA/MWsLI9gAw8bp5
-         DxlrTUlb64+J71q5Oc0mDf5YHVuiBsFWB2goDdfvYmdFLulKOTpv3UdeP7LMsz4Q5ihg
-         YLatTqCWzurzKMJ4OHYkwbGIkQNt0ta9UydA+Ij/uQFFfk73AVKNYxx7rINGaeYXUJWk
-         WxCQ==
-X-Gm-Message-State: AO0yUKWTHHU6MyHbVmIViP6+dxWk1ZHPjYojP834ST3QpVqMEDdTCQOW
-        Asl7BER0geQIBxPpbnzTT+KSWdJDZavrZ1Gk
-X-Google-Smtp-Source: AK7set+vnjtZpYChSQqPL/m2PDeo5t6vdFw9rHu/QMb60KkUwaf2rH18ypWUWGCDYrulFw4AVnw6/A==
-X-Received: by 2002:ad4:5dcb:0:b0:56e:a07b:f4db with SMTP id m11-20020ad45dcb000000b0056ea07bf4dbmr5071213qvh.24.1676375349736;
-        Tue, 14 Feb 2023 03:49:09 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id x188-20020a3795c5000000b00721299cfffesm11700756qkd.39.2023.02.14.03.49.08
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4d/IW4N4wxgQvgkiL75RXQZp2sQYcrN7W4VVjwtQeMs=;
+        b=yrsD0B7eQdObgEyJDsdrOf9rwaUs8079M3UyK2E2LHP6ROQO0rRQeXbxK1kgSDfFow
+         kEcqxFUxOubvOgQnugiiCm9LcElp9ReB8ku7KN5vwCQIr2NiJbVSNW7q4L+opFuHnUlJ
+         xx7NniSGYbHgLqUdC9wfwIuSJq3rsnKt7FsNjdepehUqhnt08+nghANuFHVD6Z0NskPE
+         BXqzL/e0bMq1b/2KicJ0zbdTd/+d7pBDZlcLO1vJ7cTMuh3oYLtkNsfV6ybuJd8XZ1/2
+         OGEK1AwloyJuFqkBPJkGoJNtxKlPsb6kI13ELHTdUXcquJw45ZM17BiMILAIJ0pUFw5N
+         AnHA==
+X-Gm-Message-State: AO0yUKUsc7kB3j39yq4smA6W/H/BV4VsHD5WMXX4bwwDh42LNaPGcLGU
+        rHd57pWBfxW1yThZlKvUGzTWAAVl4M4EdTiI
+X-Google-Smtp-Source: AK7set+GZjcSjigTsXi0AbuGWMH3MZfG8SAaFewuani7bIXtfV/tNrA8dB0sT+yxFVQXrj1CaX9+yQ==
+X-Received: by 2002:a05:622a:1ba2:b0:3b9:b70c:9697 with SMTP id bp34-20020a05622a1ba200b003b9b70c9697mr3344291qtb.5.1676381017395;
+        Tue, 14 Feb 2023 05:23:37 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id u123-20020a379281000000b0073b4d9e2e8dsm2611494qkd.43.2023.02.14.05.23.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Feb 2023 03:49:09 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-52f0001ff8eso103759237b3.4;
-        Tue, 14 Feb 2023 03:49:08 -0800 (PST)
-X-Received: by 2002:a81:4f11:0:b0:52f:972:e6a1 with SMTP id
- d17-20020a814f11000000b0052f0972e6a1mr227619ywb.235.1676375348561; Tue, 14
- Feb 2023 03:49:08 -0800 (PST)
+        Tue, 14 Feb 2023 05:23:37 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-52ecd867d89so157739377b3.8;
+        Tue, 14 Feb 2023 05:23:37 -0800 (PST)
+X-Received: by 2002:a05:690c:ea2:b0:4fc:962d:7dc1 with SMTP id
+ cr2-20020a05690c0ea200b004fc962d7dc1mr197860ywb.301.1676380647699; Tue, 14
+ Feb 2023 05:17:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20230130191152.182826-1-fabrizio.castro.jz@renesas.com> <24bac8be-c301-8efd-4392-e10db00d17f7@linaro.org>
-In-Reply-To: <24bac8be-c301-8efd-4392-e10db00d17f7@linaro.org>
+References: <20230209151632.275883-1-clement.leger@bootlin.com> <20230209151632.275883-7-clement.leger@bootlin.com>
+In-Reply-To: <20230209151632.275883-7-clement.leger@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Feb 2023 12:48:57 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW+RZ73iPJMk-omC4egqBMGPJFeMoUkvcowkO51rN2oGQ@mail.gmail.com>
-Message-ID: <CAMuHMdW+RZ73iPJMk-omC4egqBMGPJFeMoUkvcowkO51rN2oGQ@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: v2mevk2: Add uSD card and eMMC support
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+Date:   Tue, 14 Feb 2023 14:17:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVpkX=_GBacD7i2+fCkTuMoGS+Y0Gh1U2fWZ2RDj6aX1g@mail.gmail.com>
+Message-ID: <CAMuHMdVpkX=_GBacD7i2+fCkTuMoGS+Y0Gh1U2fWZ2RDj6aX1g@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 6/6] ARM: dts: r9a06g032: describe GMAC1
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Wong Vee Khee <veekhee@apple.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Revanth Kumar Uppala <ruppala@nvidia.com>,
+        Tan Tee Min <tee.min.tan@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Mohammad Athari Bin Ismail <mohammad.athari.ismail@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 2, 2023 at 9:48 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 30/01/2023 20:11, Fabrizio Castro wrote:
-> > The RZ/V2M EVK comes with a slot for a uSD card, and an eMMC.
-> > Add support for the both of them.
-> >
-> > Please note that the pinctrl driver for RZ/V2M doesn't support
-> > interrupts yet, therefore the card detect pin has been connected
-> > to the SDHI IP directly in this patch.
-> > We'll connect the card detect pin to its corresponding GPIO when
-> > we'll have driver support for interrupts in the RZ/V2M pinctrl
-> > driver.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
->
-> > +
-> > +
->
-> Just one blank line
+Hi Clément,
 
-Fixing...
-
-> >  &extal_clk {
-> >       clock-frequency = <48000000>;
-> >  };
-> > @@ -69,6 +118,26 @@ &i2c2 {
-> >  };
-> >
-> >  &pinctrl {
-> > +     emmc_pins: emmc {
-> > +             emmc_pins_data {
+On Thu, Feb 9, 2023 at 4:14 PM Clément Léger <clement.leger@bootlin.com> wrote:
+> RZ/N1 SoC includes two MAC named GMACx that are compatible with the
+> "snps,dwmac" driver. GMAC1 is connected directly to the MII converter
+> port 1. Since this MII converter is represented using a PCS driver, it
+> uses the renesas specific compatible driver which uses this PCS.
 >
-> No underscores in node names.
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 
-... and renaming to "data" etc. while queuing in renesas-devel for v6.4.
+Thanks for your patch!
+
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -304,6 +304,24 @@ dma1: dma-controller@40105000 {
+>                         data-width = <8>;
+>                 };
+>
+> +               gmac1: ethernet@44000000 {
+> +                       compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
+> +                       reg = <0x44000000 0x2000>;
+> +                       interrupt-parent = <&gic>;
+> +                       interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+> +                       interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
+> +                       clock-names = "stmmaceth";
+
+Please move clock-names below clocks, like in all other nodes.
+
+> +                       clocks = <&sysctrl R9A06G032_HCLK_GMAC0>;
+
+Missing power-domains property.
+
+> +                       snps,multicast-filter-bins = <256>;
+> +                       snps,perfect-filter-entries = <128>;
+> +                       tx-fifo-depth = <2048>;
+> +                       rx-fifo-depth = <4096>;
+> +                       pcs-handle = <&mii_conv1>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 gmac2: ethernet@44002000 {
+>                         compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
+>                         reg = <0x44002000 0x2000>;
 
 Gr{oetje,eeting}s,
 
