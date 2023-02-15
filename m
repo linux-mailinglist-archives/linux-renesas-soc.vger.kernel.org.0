@@ -2,93 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A9DE697779
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 08:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C606977BE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 09:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233631AbjBOHjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Feb 2023 02:39:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
+        id S233794AbjBOIDE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Feb 2023 03:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjBOHjj (ORCPT
+        with ESMTP id S233612AbjBOIDE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Feb 2023 02:39:39 -0500
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D950431E37;
-        Tue, 14 Feb 2023 23:39:38 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 30C2680CD;
-        Wed, 15 Feb 2023 07:39:38 +0000 (UTC)
-Date:   Wed, 15 Feb 2023 09:39:36 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v3 00/12] fw_devlink improvements
-Message-ID: <Y+yMOIxM+2Pl5i4z@atomide.com>
-References: <20230207014207.1678715-1-saravanak@google.com>
+        Wed, 15 Feb 2023 03:03:04 -0500
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C50A17CD0;
+        Wed, 15 Feb 2023 00:03:01 -0800 (PST)
+Received: by mail-qt1-f176.google.com with SMTP id g18so20942864qtb.6;
+        Wed, 15 Feb 2023 00:03:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cNxqpv7kCLuATv+HCdURPo1681kgwVFn50TSKFoQ90s=;
+        b=rVvvtjMTEF4M6XnDjI/QdFk3b31BNKuRPc8z+aYXm7iZ90dwTRb+YexcsyoUZATCgK
+         s4GBSzuyMEYG/C80HiqAxqGrxC9NyfZhERHMIfKjOhUiPr1XbPaEifcJ0g2/Jf+6BTl+
+         CfAzoBAZWkcrDQAytLVZbhDz1hToF0isXcXgEwY/yLeJFDIG/oU6n3eAFvLuGteeSmw7
+         R6xPfEmkAz9TuVDnb7/gy1Trej6Yl5rB5Qr3dOlEI0G9dVd/kwQ8VVvDtdReRIHiMRPP
+         HCxSx5W/0UgxoV6go9j1mn1qVPGIvu0/KgTYt22yc3QNcDMO7cyPCjEi9QcKrRM5p4Qk
+         Altg==
+X-Gm-Message-State: AO0yUKXlherXpbb064+Qy1owwhqfBoE6cZso10Ebwy6gi7sygWmkX+jK
+        m/wVuC2wOeo/Ge36hCfqeOihrIA4u2IIFuW2
+X-Google-Smtp-Source: AK7set+M09TTn9nLtx/1Qq/cl+qhJw4V0nuArAfVlirVI99/DWU+Oz22gWtT89awjVyoT1lLPqu+7A==
+X-Received: by 2002:a05:622a:1b9f:b0:3b8:385f:d72e with SMTP id bp31-20020a05622a1b9f00b003b8385fd72emr2053893qtb.48.1676448180235;
+        Wed, 15 Feb 2023 00:03:00 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id t22-20020a05622a149600b003b323387c1asm12887218qtx.18.2023.02.15.00.02.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Feb 2023 00:03:00 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-501c3a414acso248889207b3.7;
+        Wed, 15 Feb 2023 00:02:59 -0800 (PST)
+X-Received: by 2002:a5b:491:0:b0:86e:1225:b335 with SMTP id
+ n17-20020a5b0491000000b0086e1225b335mr183907ybp.455.1676448179541; Wed, 15
+ Feb 2023 00:02:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230207014207.1678715-1-saravanak@google.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUnUf+ZTRTBSmjz1_61CpWvaO=fyDv7ExT+FnQi=ujFXw@mail.gmail.com>
+ <Y9J6+uoXxUIs4Bkk@ninjato> <CAMuHMdXRBYhR+_+r+akZ5nKYPgpVKMNEHB5KCP_pnPJYtHvU=A@mail.gmail.com>
+ <Y9KC4Pu/AnnXOLhI@ninjato>
+In-Reply-To: <Y9KC4Pu/AnnXOLhI@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Feb 2023 09:02:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVuyQtXbmVdD4F-FPjzriXirb_ZPoFhpWDg4piyzTVNvA@mail.gmail.com>
+Message-ID: <CAMuHMdVuyQtXbmVdD4F-FPjzriXirb_ZPoFhpWDg4piyzTVNvA@mail.gmail.com>
+Subject: Re: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Wolfram,
 
-* Saravana Kannan <saravanak@google.com> [230207 01:42]:
-> Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
-> Jean-Philippe,
-> 
-> Can I get your Tested-by's for this v3 series please?
+On Thu, Jan 26, 2023 at 2:40 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > > I have to disagree here. The docs say that other values are prohibited.
+> > > IMO the driver should take care of valid values then. We should not rely
+> > > on user provided input.
+> >
+> > Then we should make sure the user cannot override to an invalid value
+> > through "renesas,dtdl" either?
+>
+> We do. The new flag is checked after sh_msiof_spi_parse_dt(), so any
+> user input will be overwritten with the only value allowed.
 
-Just FYI, the patches in next-20230215 behave for me.
+OK.
 
-Regards,
+> > To be clarified with Renesas?
+>
+> Frankly, I don't think it is worth the hazzle and just stick to the
+> latest docs. Yes, they may be inaccurate for ES2.0 but what is the
+> downside? Will it break things or is this just a little overhead?
 
-Tony
+Given the recent clarification from Renesas that this applies to all
+revisions of R-Car H3 (ES1.0, ES2.0 and ES3.0):
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
