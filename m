@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9E63697965
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 11:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74D826979B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 11:19:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbjBOKAl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Feb 2023 05:00:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60612 "EHLO
+        id S229829AbjBOKTm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Feb 2023 05:19:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234032AbjBOKAh (ORCPT
+        with ESMTP id S233949AbjBOKTk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Feb 2023 05:00:37 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DBE34C33;
-        Wed, 15 Feb 2023 02:00:31 -0800 (PST)
+        Wed, 15 Feb 2023 05:19:40 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971E634C33
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Feb 2023 02:19:38 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9505127C;
-        Wed, 15 Feb 2023 11:00:28 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0121827C;
+        Wed, 15 Feb 2023 11:19:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676455228;
-        bh=89Y6oAav16plO04q43b1Sjx6xdkCz4cT7RMAskEPqDA=;
+        s=mail; t=1676456377;
+        bh=q25GRWgDe20t7+kIGr1n8EloFprO379as99aEYupkyA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FbpoQ92ZLzkdpx5F9l/2xspll2u8ZPa0aVFPiEim6DdrXajiJEPW2T+8eD4ecPzGS
-         KMOEDVQm4C8qpg0/NY0OOumdI4Rnw6S6qA/Luz5YA52RmqBi6RSh6x0j4XTbsXClm8
-         FGrm7IF4Vq/e4kPT4GEfXJi9aZd7b6AGkpBKffI8=
-Date:   Wed, 15 Feb 2023 12:00:28 +0200
+        b=FIK0wH1TFJTRw5XNBvzHU+QAejPaYSdzeU+MRPQLX+xjacjbnFA7vzh5FGaXHowF+
+         /iDzx/o+P6HLapL/ZjZbTbpvNMlcxHI8crooVZdBN13fW5SbI6exAiSMWPcXJYfWye
+         pnWc3JCcYO5QiPBusEADsSj/07/5hWsRf6g4ZiyI=
+Date:   Wed, 15 Feb 2023 12:19:36 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] media: renesas: vsp1: Add underrun debug print
-Message-ID: <Y+ytPMZyjTELkiw2@pendragon.ideasonboard.com>
-References: <20230214164223.184920-1-tomi.valkeinen+renesas@ideasonboard.com>
- <Y+wH59GVBf1J5u8X@pendragon.ideasonboard.com>
- <48dfcbb3-a281-b05e-f665-df76bee7e9f3@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 3/3] drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
+Message-ID: <Y+yxuL4tVuA1bdJN@pendragon.ideasonboard.com>
+References: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20230214003736.18871-4-laurent.pinchart+renesas@ideasonboard.com>
+ <d910efcb-e910-d506-88e0-08186d3ab3f2@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <48dfcbb3-a281-b05e-f665-df76bee7e9f3@ideasonboard.com>
+In-Reply-To: <d910efcb-e910-d506-88e0-08186d3ab3f2@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -49,71 +50,350 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Tomi,
 
-On Wed, Feb 15, 2023 at 08:52:02AM +0200, Tomi Valkeinen wrote:
-> On 15/02/2023 00:15, Laurent Pinchart wrote:
-> > On Tue, Feb 14, 2023 at 06:42:23PM +0200, Tomi Valkeinen wrote:
-> >> Print underrun interrupts with ratelimited print.
-> >>
-> >> Note that we don't enable the underrun interrupt. If we have underruns,
-> >> we don't want to get flooded with interrupts about them. It's enough to
-> >> see that an underrun happened at the end of a frame.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>
-> >> Changes in v3:
-> >> - Reset underrun counter when enabling VSP
-> >>
-> >> I have to say I'm not familiar enough with the VSP driver to say if
-> >> these are the correct places where to reset the counters.
+On Wed, Feb 15, 2023 at 08:29:47AM +0200, Tomi Valkeinen wrote:
+> On 14/02/2023 02:37, Laurent Pinchart wrote:
+> > On R-Car D3 and E3, the LVDS encoder provides the dot (pixel) clock to
+> > the DU, regardless of whether the LVDS output is used or not. When using
+> > the DPAD (RGB) output, the DU driver thus enables and disables the LVDS
+> > PLL manually, while when using the LVDS output, it lets the LVDS bridge
+> > driver handle the PLL configuration internally as part of the atomic
+> > enable and disable operations.
 > > 
-> > It's fine. We could factor it out to a clear function, but it's not
-> > worth it if there's nothing else to factor out. It could be done later.
+> > This causes an issue when using the LVDS output. As bridges are disabled
+> > before CRTCs, the current implementation violates the enable/disable
+> > sequences documented in the hardware datasheet, which requires the dot
+> > clock to be enabled before the CRTC is started and disabled after it
+> > gets stopped.
 > > 
-> >> There's also a
-> >> possibility of a race, but my assumption is that we cannot get underrun
-> >> interrupts for the WPF we are currently enabling.
+> > Fix the problem by enabling/disabling the LVDS PLL manually from the DU
+> > regardless of which output is used, and skipping the PLL handling in the
+> > LVDS bridge atomic enable and disable operations.
 > > 
-> > It should be fine.
+> > This is however not enough. Disabling the LVDS encoder while leaving the
+> > PLL on still results in a vertical blanking wait timeout when disabling
+> > the DU. Investigation showed that the culprit is the LVEN bit. For an
+> > unclear reason, clearing the bit when disabling the LVDS encoder blocks
+> > vertical blanking interrupts. We thus have to delay disabling the whole
+> > LVDS encoder, not just disabling the PLL, until the DU is disabled.
 > > 
-> >> Also, I realized the underrun counter could be moved to struct
-> >> vsp1_rwpf, but as that's used also for RPF, I didn't do that change.
-> > 
-> > Another option would be to store it in the pipeline structure, as a
-> > pipeline has one and only one WPF. What do you think ?
+> > We could split the LVDS disable sequence by clearing the LVRES bit in
+> > the LVDS bridge atomic disable handler, and delaying the rest of the
+> > operations, in order to disable the LVDS output at bridge atomic disable
+> > time, before stopping the CRTC. This would make the code more complex,
+> > without a clear benefit, so keep the implementation simple(r).
 > 
-> Hmm, the pipe is allocated and assigned as needed, isn't it? So in the 
-> irq handler we might get an underflow with !pipe. We could skip the 
-> print in that case, of course.
+> The asymmetry of all this makes me grit my teeth, but SW has to do what 
+> SW has to do...
 
-For display pipelines, the pipeline is embedded in the vsp1_drm_pipeline
-structure, itself embedded in the vsp1_drm structure, so it won't come
-and go. The WPF's pipe pointer (in the vsp1_entity structure) is set in
-vsp1_drm_init() and never reset.
+I have the same feeling :-( It would be nice if the DU and LVDS were
+better partitioned. And if we knew exactly what the hardware
+requirements are regarding the start and stop sequences. Maybe we're
+spoiled, we're not happy when we can get datasheets, and dream of
+getting the RTL. Of course it may well turn into a nightmare if we
+actually had access to that.
 
-For memory-to-memory pipelines, yes, the pipeline is allocated
-dynamically.
+> Just a minor comment below, other than that:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >   drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  18 ++--
+> >   drivers/gpu/drm/rcar-du/rcar_lvds.c    | 114 +++++++++++++++----------
+> >   drivers/gpu/drm/rcar-du/rcar_lvds.h    |  12 ++-
+> >   3 files changed, 86 insertions(+), 58 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > index 008e172ed43b..71e7fbace38d 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > @@ -749,16 +749,17 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+> >   
+> >   	/*
+> >   	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
+> > -	 * the DU channel. We need to enable its clock output explicitly if
+> > -	 * the LVDS output is disabled.
+> > +	 * the DU channel. We need to enable its clock output explicitly before
+> > +	 * starting the CRTC, as the bridge hasn't been enabled by the atomic
+> > +	 * helpers yet.
+> >   	 */
+> > -	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+> > -	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+> > +	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
+> > +		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
+> >   		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
+> >   		const struct drm_display_mode *mode =
+> >   			&crtc->state->adjusted_mode;
+> >   
+> > -		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
+> > +		rcar_lvds_pclk_enable(bridge, mode->clock * 1000, dot_clk_only);
+> >   	}
+> >   
+> >   	/*
+> > @@ -795,15 +796,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+> >   	rcar_du_crtc_stop(rcrtc);
+> >   	rcar_du_crtc_put(rcrtc);
+> >   
+> > -	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+> > -	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+> > +	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
+> > +		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
+> >   		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
+> >   
+> >   		/*
+> >   		 * Disable the LVDS clock output, see
+> >   		 * rcar_du_crtc_atomic_enable().
+> >   		 */
+> 
+> This could mention that when LVDS output is used, also the LVDS output 
+> is disabled here.
 
-Interrupts are not supposed to occur when the pipeline is stopped, but
-of course there's real life and race conditions. Underrun notifications
-are likely useless in that case so we could indeed skip them.
+I'll write
 
-> Is a pipe allocated every time VSP is started? Or does the allocation 
-> normally happen only once? If the former, then if the counter was stored 
-> in the pipe, that would handle clearing the counter automatically.
+   		/*
+   		 * Disable the LVDS clock output, see
+   		 * rcar_du_crtc_atomic_enable(). When the LVDS output is used,
+		 * this also disables the LVDS encoder.
+   		 */
 
-For memory-to-memory pipelines, the allocation happens when the user
-calls VIDIOC_STREAMON the first time on any video node in the pipeline
-(a pipeline has one or more RPFs and exactly one WPF), and the pipeline
-is freed when the last video node is stopped with VIDIOC_STREAMOFF. It
-is thus possible to stop and restart the pipeline without the
-vsp1_pipeline structure being freed, but in that case, I'd say we don't
-have to actually reset the counter. If the user keeps some video nodes
-streaming, I think it's acceptable to keep the underrun counter going.
-
-For display pipelines, you'll have to reset the counter manually in
-vsp1_du_setup_lif(). It could be done at stop time instead of start time
-if desired.
+> > -		rcar_lvds_pclk_disable(bridge);
+> > +		rcar_lvds_pclk_disable(bridge, dot_clk_only);
+> >   	}
+> >   
+> >   	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
+> > @@ -815,7 +816,6 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+> >   		 * Disable the DSI clock output, see
+> >   		 * rcar_du_crtc_atomic_enable().
+> >   		 */
+> > -
+> >   		rcar_mipi_dsi_pclk_disable(bridge);
+> >   	}
+> >   
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > index 70cdd5ec64d5..ca215b588fd7 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > @@ -269,8 +269,8 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
+> >   		pll->pll_m, pll->pll_n, pll->pll_e, pll->div);
+> >   }
+> >   
+> > -static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> > -					unsigned int freq, bool dot_clock_only)
+> > +static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> > +				      unsigned int freq, bool dot_clock_only)
+> >   {
+> >   	struct pll_info pll = { .diff = (unsigned long)-1 };
+> >   	u32 lvdpllcr;
+> > @@ -305,11 +305,6 @@ static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> >   		rcar_lvds_write(lvds, LVDDIV, 0);
+> >   }
+> >   
+> > -static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds, unsigned int freq)
+> > -{
+> > -	__rcar_lvds_pll_setup_d3_e3(lvds, freq, false);
+> > -}
+> > -
+> >   /* -----------------------------------------------------------------------------
+> >    * Enable/disable
+> >    */
+> > @@ -425,8 +420,12 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
+> >   	/*
+> >   	 * PLL clock configuration on all instances but the companion in
+> >   	 * dual-link mode.
+> > +	 *
+> > +	 * The extended PLL has been turned on by an explicit call to
+> > +	 * rcar_lvds_pclk_enable() from the DU driver.
+> >   	 */
+> > -	if (lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) {
+> > +	if ((lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) &&
+> > +	    !(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> >   		const struct drm_crtc_state *crtc_state =
+> >   			drm_atomic_get_new_crtc_state(state, crtc);
+> >   		const struct drm_display_mode *mode =
+> > @@ -491,11 +490,56 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
+> >   	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >   }
+> >   
+> > +static void rcar_lvds_disable(struct drm_bridge *bridge)
+> > +{
+> > +	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> > +	u32 lvdcr0;
+> > +
+> > +	/*
+> > +	 * Clear the LVDCR0 bits in the order specified by the hardware
+> > +	 * documentation, ending with a write of 0 to the full register to
+> > +	 * clear all remaining bits.
+> > +	 */
+> > +	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> > +
+> > +	lvdcr0 &= ~LVDCR0_LVRES;
+> > +	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> > +		lvdcr0 &= ~LVDCR0_LVEN;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> > +		lvdcr0 &= ~LVDCR0_PWD;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> > +		lvdcr0 &= ~LVDCR0_PLLON;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	rcar_lvds_write(lvds, LVDCR0, 0);
+> > +	rcar_lvds_write(lvds, LVDCR1, 0);
+> > +
+> > +	/* The extended PLL is turned off in rcar_lvds_pclk_disable(). */
+> > +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL))
+> > +		rcar_lvds_write(lvds, LVDPLLCR, 0);
+> > +
+> > +	/* Disable the companion LVDS encoder in dual-link mode. */
+> > +	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
+> > +		rcar_lvds_disable(lvds->companion);
+> > +
+> > +	pm_runtime_put_sync(lvds->dev);
+> > +}
+> > +
+> >   /* -----------------------------------------------------------------------------
+> >    * Clock - D3/E3 only
+> >    */
+> >   
+> > -int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+> > +int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
+> > +			  bool dot_clk_only)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >   	int ret;
+> > @@ -509,13 +553,13 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+> >   	if (ret)
+> >   		return ret;
+> >   
+> > -	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
+> > +	rcar_lvds_pll_setup_d3_e3(lvds, freq, dot_clk_only);
+> >   
+> >   	return 0;
+> >   }
+> >   EXPORT_SYMBOL_GPL(rcar_lvds_pclk_enable);
+> >   
+> > -void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+> > +void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >   
+> > @@ -524,6 +568,9 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+> >   
+> >   	dev_dbg(lvds->dev, "disabling LVDS PLL\n");
+> >   
+> > +	if (!dot_clk_only)
+> > +		rcar_lvds_disable(bridge);
+> > +
+> >   	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> >   
+> >   	pm_runtime_put_sync(lvds->dev);
+> > @@ -552,42 +599,21 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> >   				     struct drm_bridge_state *old_bridge_state)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> > -	u32 lvdcr0;
+> >   
+> >   	/*
+> > -	 * Clear the LVDCR0 bits in the order specified by the hardware
+> > -	 * documentation, ending with a write of 0 to the full register to
+> > -	 * clear all remaining bits.
+> > +	 * For D3 and E3, disabling the LVDS encoder before the DU would stall
+> > +	 * the DU, causing a vblank wait timeout when stopping the DU. This has
+> > +	 * been traced to clearing the LVEN bit, but the exact reason is
+> > +	 * unknown. Keep the encoder enabled, it will be disabled by an explicit
+> > +	 * call to rcar_lvds_pclk_disable() from the DU driver.
+> > +	 *
+> > +	 * We could clear the LVRES bit already to disable the LVDS output, but
+> > +	 * that's likely pointless.
+> >   	 */
+> > -	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
+> > +		return;
+> >   
+> > -	lvdcr0 &= ~LVDCR0_LVRES;
+> > -	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -
+> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> > -		lvdcr0 &= ~LVDCR0_LVEN;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> > -		lvdcr0 &= ~LVDCR0_PWD;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> > -		lvdcr0 &= ~LVDCR0_PLLON;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	rcar_lvds_write(lvds, LVDCR0, 0);
+> > -	rcar_lvds_write(lvds, LVDCR1, 0);
+> > -	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> > -
+> > -	/* Disable the companion LVDS encoder in dual-link mode. */
+> > -	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
+> > -		rcar_lvds_atomic_disable(lvds->companion, old_bridge_state);
+> > -
+> > -	pm_runtime_put_sync(lvds->dev);
+> > +	rcar_lvds_disable(bridge);
+> >   }
+> >   
+> >   static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+> > @@ -924,14 +950,12 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77990_info = {
+> >   	.gen = 3,
+> >   	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_EXT_PLL
+> >   		| RCAR_LVDS_QUIRK_DUAL_LINK,
+> > -	.pll_setup = rcar_lvds_pll_setup_d3_e3,
+> >   };
+> >   
+> >   static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
+> >   	.gen = 3,
+> >   	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_PWD
+> >   		| RCAR_LVDS_QUIRK_EXT_PLL | RCAR_LVDS_QUIRK_DUAL_LINK,
+> > -	.pll_setup = rcar_lvds_pll_setup_d3_e3,
+> >   };
+> >   
+> >   static const struct of_device_id rcar_lvds_of_table[] = {
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > index bee7033b60d6..887c63500000 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > @@ -13,17 +13,21 @@
+> >   struct drm_bridge;
+> >   
+> >   #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
+> > -int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq);
+> > -void rcar_lvds_pclk_disable(struct drm_bridge *bridge);
+> > +int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
+> > +			  bool dot_clk_only);
+> > +void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only);
+> >   bool rcar_lvds_dual_link(struct drm_bridge *bridge);
+> >   bool rcar_lvds_is_connected(struct drm_bridge *bridge);
+> >   #else
+> >   static inline int rcar_lvds_pclk_enable(struct drm_bridge *bridge,
+> > -					unsigned long freq)
+> > +					unsigned long freq, bool dot_clk_only)
+> >   {
+> >   	return -ENOSYS;
+> >   }
+> > -static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge) { }
+> > +static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge,
+> > +					  bool dot_clock_only)
+> > +{
+> > +}
+> >   static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+> >   {
+> >   	return false;
+> 
 
 -- 
 Regards,
