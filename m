@@ -2,221 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED51697A39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 11:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B83697A49
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Feb 2023 11:57:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233482AbjBOKwS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Feb 2023 05:52:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40278 "EHLO
+        id S230053AbjBOK5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Feb 2023 05:57:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbjBOKwQ (ORCPT
+        with ESMTP id S233452AbjBOK5r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Feb 2023 05:52:16 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194E520D13;
-        Wed, 15 Feb 2023 02:52:14 -0800 (PST)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id D048F1BF205;
-        Wed, 15 Feb 2023 10:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1676458333;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hb2se20acyhll/dfbhOm4RHwsJa673hBX+v8MxUBBL4=;
-        b=iu5pUOqFNCvo1BTqFUMPc2RT9O408/qSQnskYDM9y6IEHt3h81EhIpAhPS/7YxvnskVDid
-        RS15A2zYW7dD+wxTvneV7v6SSy5ZFb0/4NKFzFuXGyP9Nx7y3q3so3lhRKQMYazWzFORca
-        WrnSYpGEhLiEvS6MgQBh8djTef4UqxDqKCf+bSGL/s+H0yeV3Wh7iRtFO3djceMQbXxXKf
-        SwLo1HRDCVdrZvu1/Vn34dQgIBZHp3szmnXT78sMTvjDyVE88eTAiVvrzto+gnJYZKogzb
-        cZabCi2KUq3vIVv5Lw2keOoHGPE8FBO/nfA7X49PaiJRQIxDz4NaySeeo+DWKQ==
-Date:   Wed, 15 Feb 2023 11:54:41 +0100
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Subject: Re: [PATCH v2 2/2] ARM: dts: r9a06g032: add r9a06g032-rzn1d400-eb
- board device-tree
-Message-ID: <20230215115441.361aed53@fixe.home>
-In-Reply-To: <20230215092933.2f71ece0@fixe.home>
-References: <20230209133507.150571-1-clement.leger@bootlin.com>
-        <20230209133507.150571-3-clement.leger@bootlin.com>
-        <CAMuHMdWUorkDYXZvsd-9rjwEkeJYC_FMfexZHaGYHDry=9Yjdg@mail.gmail.com>
-        <20230215092933.2f71ece0@fixe.home>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Wed, 15 Feb 2023 05:57:47 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC1B265BE
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Feb 2023 02:57:46 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pSFTi-0005Hn-FB; Wed, 15 Feb 2023 11:57:34 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pSFTe-0055WA-TP; Wed, 15 Feb 2023 11:57:32 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pSFTf-003j7E-9m; Wed, 15 Feb 2023 11:57:31 +0100
+Date:   Wed, 15 Feb 2023 11:57:31 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v12 6/6] pwm: Add Renesas RZ/G2L MTU3a PWM driver
+Message-ID: <20230215105731.4yhwgdbux7mogf4j@pengutronix.de>
+References: <20230202165732.305650-1-biju.das.jz@bp.renesas.com>
+ <20230202165732.305650-7-biju.das.jz@bp.renesas.com>
+ <20230215083037.ivlmqhp4xngnexca@pengutronix.de>
+ <OS0PR01MB59227E0E659C292D775474BF86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="b4ly3tz3y5q36lp7"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59227E0E659C292D775474BF86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Wed, 15 Feb 2023 09:29:33 +0100,
-Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> a =C3=A9crit :
 
-> Le Tue, 14 Feb 2023 17:25:14 +0100,
-> Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
->=20
-> > Hi Cl=C3=A9ment,
-> >=20
-> > CC Gareth
-> >=20
-> > On Thu, Feb 9, 2023 at 2:32 PM Cl=C3=A9ment L=C3=A9ger <clement.leger@b=
-ootlin.com> wrote: =20
-> > > The EB board (Expansion board) supports both RZ/N1D and RZ-N1S. Since=
- this
-> > > configuration targets only the RZ/N1D, it is named r9a06g032-rzn1d400=
--eb.
-> > > It adds support for the 2 additional switch ports (port C and D) that=
- are
-> > > available on that board.
+--b4ly3tz3y5q36lp7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Biju,
+
+On Wed, Feb 15, 2023 at 10:31:20AM +0000, Biju Das wrote:
+> > On Thu, Feb 02, 2023 at 04:57:32PM +0000, Biju Das wrote:
+> > > Add support for RZ/G2L MTU3a PWM driver. The IP supports following PWM
+> > > modes
 > > >
-> > > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>   =
-=20
+> > > 1) PWM mode{1,2}
+> > > 2) Reset-synchronized PWM mode
+> > > 3) Complementary PWM mode{1,2,3}
 > >=20
-> > Thanks for your patch!
-> >  =20
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-eb.dts
-> > > @@ -0,0 +1,94 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Device Tree Source for the RZN1D-EB Board
-> > > + *
-> > > + * Copyright (C) 2023 Schneider-Electric
-> > > + *
-> > > + */
-> > > +
-> > > +#include "r9a06g032-rzn1d400-db.dts"
-> > > +
-> > > +/ {
-> > > +       model =3D "RZN1D-EB Board";
-> > > +       compatible =3D "renesas,rzn1d400-eb", "renesas,rzn1d400-db",
-> > > +                    "renesas,r9a06g032";
-> > > +};
-> > > +
-> > > +&mii_conv2 {
-> > > +       renesas,miic-input =3D <MIIC_SWITCH_PORTD>;
-> > > +       status =3D "okay";
-> > > +};
-> > > +
-> > > +&mii_conv3 {
-> > > +       renesas,miic-input =3D <MIIC_SWITCH_PORTC>;
-> > > +       status =3D "okay";
-> > > +};
-> > > +
-> > > +&pinctrl{
-> > > +       pins_eth1: pins-eth1 {
-> > > +               pinmux =3D <RZN1_PINMUX(12, RZN1_FUNC_CLK_ETH_MII_RGM=
-II_RMII)>,
-> > > +                        <RZN1_PINMUX(13, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(14, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(15, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(16, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(17, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(18, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(19, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(20, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(21, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(22, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(23, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>;
-> > > +               drive-strength =3D <6>;
-> > > +               bias-disable;
-> > > +       };
-> > > +
-> > > +       pins_eth2: pins-eth2 {
-> > > +               pinmux =3D <RZN1_PINMUX(24, RZN1_FUNC_CLK_ETH_MII_RGM=
-II_RMII)>,
-> > > +                        <RZN1_PINMUX(25, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(26, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(27, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(28, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(29, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(30, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(31, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(32, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(33, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(34, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>,
-> > > +                        <RZN1_PINMUX(35, RZN1_FUNC_CLK_ETH_MII_RGMII=
-_RMII)>;
-> > > +               drive-strength =3D <6>;
-> > > +               bias-disable;
-> > > +       };
-> > > +};
-> > > +
-> > > +&switch {
-> > > +       pinctrl-names =3D "default";   =20
-> >=20
-> > No need to specify pinctrl-names, as it is inherited from
-> > r9a06g032-rzn1d400-db.dts. =20
+> > It's unclear to me what "PWM mode1" and the other modes are. I suspect =
+this
+> > is some chip specific naming that isn't understandable for outsiders? W=
+ould
+> > be great to explain that a bit more.
 >=20
-> Acked.
+> I will give some details about PWM modes mentioned in the HW manual here.
+> I will respond to other comments later.
 >=20
-> >  =20
-> > > +       pinctrl-0 =3D <&pins_eth1>, <&pins_eth2>, <&pins_eth3>, <&pin=
-s_eth4>,
-> > > +                   <&pins_mdio1>;
-> > > +
-> > > +       mdio {
-> > > +               /* CN15 and CN16 switches must be configured in MDIO2=
- mode */
-> > > +               switch0phy1: ethernet-phy@1 {
-> > > +                       reg =3D <1>;
-> > > +                       marvell,reg-init =3D <3 16 0 0x1010>;   =20
-> >=20
-> > marvell,reg-init is not documented in any DT bindings document? =20
+> PWM Mode 1
+> ------------
+> n =3D {0,1,2,3,4,6,7}
+> MTIOC0A:-MTU0 TGRA input capture input/output compare output/PWM output p=
+in
+> TGRA: Timer General Register A
+> TIOR: Timer I/O control register
+> In PWM mode 1, PWM waveforms in up to 12 phases can be output
 >=20
-> Indeed, this is not somethiong that should be made available here. It's
-> only inverting the LED polarity but supported by some internal patch.
-> I'll remove that.
+> PWM waveforms are output from the MTIOCnA and MTIOCnC pins by pairing TGRA
+> with TGRB and TGRC with TGRD. The levels specified by the TIOR.IOA[3:0] a=
+nd
+> IOC[3:0] bits are output from the MTIOCnA and MTIOCnC pins at compare mat=
+ches
+> A and C, and the level specified by the TIOR.IOB[3:0] and IOD[3:0] bits a=
+re
+> output at compare matches B and D (n =3D 0 to 4, 6, 7). The initial outpu=
+t value
+> is set in TGRA or TGRC. If the values set in paired TGRs are identical, t=
+he
+> output value does not change even when a compare match occurs.
 >=20
+> PWM Mode 2
+> ----------
+> n =3D {0,1,2}
+>=20
+> PWM waveform output is generated using one TGR as the cycle register and =
+the
+> others as duty registers. The level specified in TIOR is output at compar=
+e matches.
+> Upon counter clearing by a cycle register compare match, the initial valu=
+e set
+> in TIOR is output from each pin. If the values set in the cycle and duty =
+registers
+> are identical, the output value does not change even when a compare match=
+ occurs.
+>=20
+> In PWM mode 2, up to eight phases of PWM waveforms can be output when syn=
+chronous
+> clearing is used as synchronous operation in the channels that cannot be =
+placed in
+> PWM mode 2.
 
-Hi Geert,
+Why is PWM Mode 1 about two outputs? These could be abstracted as two
+individual PWMs, couldn't they? In this mode you could implement a phase
+shift, but the period is limited to the overflow time of the timers.
 
-I actually was confused by a property I added in another device-tree but
-marvell,reg-init exists, is handled by the marvell phy driver and used
-in a few device-trees. Strangely, it is not documented anywhere. So I
-can either remove that (and the LED won't work properly) or let it live
-depending on what you prefer.
+In Mode 2 the period is more flexible, but no phase shift is possible
+(apart from inversed polarity).
+
+Did I get this right?
+
+> Reset-Synchronized PWM Mode:
+> ---------------------------
+> In the reset-synchronized PWM mode, three phases of positive and negative=
+ PWM
+> waveforms (six phases in total) that share a common wave transition point=
+ can
+> be output by combining MTU3 and MTU4 and MTU6 and MTU7.
+>=20
+> When set for reset-synchronized PWM mode, the MTIOC3B, MTIOC3D, MTIOC4A, =
+MTIOC4C,
+> MTIOC4B, MTIOC4D, MTIOC6B, MTIOC6D, MTIOC7A, MTIOC7C, MTIOC7B, and MTIOC7=
+D pins
+> function as PWM output pins and timer counters 6 and 12 (MTU3.TCNT and MT=
+U6.TCNT)
+> functions as an up-counter
+>=20
+>=20
+> Complementary PWM Mode:
+> ----------------------
+>=20
+> In complementary PWM mode, dead time can be set for PWM waveforms to be o=
+utput.
+> The dead time is the period during which the upper and lower arm transist=
+ors are
+> set to the inactive level in order to prevent short-circuiting of the arm=
+s.
+> Six positive-phase and six negative-phase PWM waveforms (12 phases in tot=
+al)=20
+> with dead time can be output by combining MTU3/ MTU4 and MTU6/MTU7. PWM w=
+aveforms
+> without dead time can also be output.
+>=20
+> In complementary PWM mode, nine registers (compare registers, buffer regi=
+sters,
+> and temporary registers) are used to control the duty ratio for the PWM o=
+utput.
+>=20
+> Complementary PWM mode 1 (transfer at crest)
+> Complementary PWM mode 2 (transfer at trough)
+> Complementary PWM mode 3 (transfer at crest and trough)
+
+These two modes are more general than the PWM framework supports. There
+was a series some time ago to implement settings with two outputs, but
+we didn't agree on an abstraction and the effort died. So for now these
+are out of scope, right?
+
+Best regards
+Uwe
 
 --=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--b4ly3tz3y5q36lp7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPsupcACgkQwfwUeK3K
+7AmbVwf9EQPzyfcDCH93ywofZkSk35/TNZC9n4BbiLbpE7va5/m1ytts9QMYsbYw
+T6Tbt0q3E2TJzVGd1+a4gfAWm76Fc3dx8mOVQnqzkwK1ws87qB2vYbUKOqvrhJ5d
+A9jjSsZrqIhi2FD08sIiaKBDI/jvLzjh2XeoU8JnmEVN69KEz8GZCuP/9gYD+qsx
+DRcP8HrpkrJa9+gfhbPKd045AO3WRLuT5ykbVqWmkRAqB5J0uYoWRo4zJ4IsiS5B
+psLpxCGWTeVSjSb0sbFS5HgPFFIPzfnWHZKHvu+LvYObo/YL+MYoMvJ1t8PnQPeE
+z7zs34qX5aCNXZWEm6CalqfvMp4sQg==
+=/XXg
+-----END PGP SIGNATURE-----
+
+--b4ly3tz3y5q36lp7--
