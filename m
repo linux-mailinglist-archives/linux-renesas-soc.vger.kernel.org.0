@@ -2,92 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 939E46998A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 16:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7543E6998A9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 16:20:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjBPPUb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Feb 2023 10:20:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53680 "EHLO
+        id S229587AbjBPPUc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Feb 2023 10:20:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjBPPUa (ORCPT
+        with ESMTP id S229612AbjBPPUb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Feb 2023 10:20:30 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE7F6183
+        Thu, 16 Feb 2023 10:20:31 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DC755FE0
         for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Feb 2023 07:20:28 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4605:3635:9491:c6bc])
-        by xavier.telenet-ops.be with bizsmtp
-        id MrLR2900J3wKl5501rLRBu; Thu, 16 Feb 2023 16:20:25 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id MrLR290043wKl5506rLRJi; Thu, 16 Feb 2023 16:20:25 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pSg3F-009BUr-T8;
+        id 1pSg3F-009BUq-T8;
         Thu, 16 Feb 2023 16:20:24 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pSg3c-005tX6-Jw;
+        id 1pSg3c-005tX9-L1;
         Thu, 16 Feb 2023 16:20:24 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/2] clk: renesas: R-Car V3M/V3H: Add Z2 clocks
-Date:   Thu, 16 Feb 2023 16:20:17 +0100
-Message-Id: <cover.1676560357.git.geert+renesas@glider.be>
+Subject: [PATCH 1/2] clk: renesas: r8a77970: Add Z2 clock
+Date:   Thu, 16 Feb 2023 16:20:18 +0100
+Message-Id: <6a9169e5bc92c2b9549292769a0814e04b9147cf.1676560357.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1676560357.git.geert+renesas@glider.be>
+References: <cover.1676560357.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi all,
+Add support for the Z2 (Cortex-A53 System CPU) clock on R-Car V3M, which
+uses a fixed SYS-CPU divider.
 
-This patch series adds support for the Z2 (Cortex-A53 System CPU) clocks
-on the Renesas R-Car V3M and V3H SoCs.  These clocks use a fixed SYS-CPU
-divider.
-
-Note that the BSP went to great lengths to describe them as programmable
-Z clocks, like on most other R-Car Gen3 SoCs, but add quirks to the Z
-clock driver to use a fixed divider when running on R-Car V3M or V3H.
-I chose the simpler way...
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Note that the BSP went to great lengths to describe this clock as a
+programmable Z clock, like on most other R-Car Gen3 SoCs, but add a
+quirk to the Z clock driver to use a fixed divider when running on
+R-Car V3M.
 
 According to R-Car Series, 3rd Generation Hardware User’s Manual Rev.
-2.30 and earlier, the SYS-CPU dividers on R-Car V3M and V3H are fixed
-dividers.  Furthermore, the Frequency control register C, which is used
-on other SoCs to control the SYS-CPU divider, is documented not to exist
-on these SoCs (but empirical evidence shows that it does exist, and that
-the Z2FC field works as expected (tested on Eagle and Condor)).
-
-I intend to queue this series in renesas-clk-for-v6.4.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (2):
-  clk: renesas: r8a77970: Add Z2 clock
-  clk: renesas: r8a77980: Add Z2 clock
-
+2.30 and earlier, the SYS-CPU divider on R-Car V3M is a fixed divider.
+Furthermore, the Frequency control register C, which is used on other
+SoCs to control the SYS-CPU divider, is documented not to exist (but
+empirical evidence shows that it does exist, and that the Z2FC field
+works as expected).
+---
  drivers/clk/renesas/r8a77970-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a77980-cpg-mssr.c | 1 +
- 2 files changed, 2 insertions(+)
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/clk/renesas/r8a77970-cpg-mssr.c b/drivers/clk/renesas/r8a77970-cpg-mssr.c
+index 0f59c84229a8b8ce..7e90e94c4b68821b 100644
+--- a/drivers/clk/renesas/r8a77970-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77970-cpg-mssr.c
+@@ -76,6 +76,7 @@ static const struct cpg_core_clk r8a77970_core_clks[] __initconst = {
+ 	DEF_FIXED(".pll1_div4",	CLK_PLL1_DIV4,	CLK_PLL1_DIV2,	2, 1),
+ 
+ 	/* Core Clock Outputs */
++	DEF_FIXED("z2",		R8A77970_CLK_Z2,    CLK_PLL1_DIV4,  1, 1),
+ 	DEF_FIXED("ztr",	R8A77970_CLK_ZTR,   CLK_PLL1_DIV2,  6, 1),
+ 	DEF_FIXED("ztrd2",	R8A77970_CLK_ZTRD2, CLK_PLL1_DIV2, 12, 1),
+ 	DEF_FIXED("zt",		R8A77970_CLK_ZT,    CLK_PLL1_DIV2,  4, 1),
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
