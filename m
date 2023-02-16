@@ -2,213 +2,267 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90436698AC6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 03:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2ED1698B03
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 04:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229485AbjBPC7S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Feb 2023 21:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55890 "EHLO
+        id S229694AbjBPDMY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Feb 2023 22:12:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjBPC7R (ORCPT
+        with ESMTP id S229680AbjBPDMX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Feb 2023 21:59:17 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2116.outbound.protection.outlook.com [40.107.113.116])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BCB1E297;
-        Wed, 15 Feb 2023 18:59:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jwI8SJb9kPY04DFgnpVxEYyN/+KIKbyBNXy+aXXhaWjOvTjv5DKXwmcRwPzyzJEKR0XtkhKQAEpQwSq39I5dHvlmm2N0qBezD7DJKNRxe+rP+VvJyUdGmD/2ZbiiwydARk4tlL1Glmwhs+Edhg8UgVP9deOWrRGQsEYTYha3X5dpwAwFuGpLzvUQxcPm+qiOBhvXJpciTMdhhF41VSPWJRq9pkBNtzevO6KmoJzVSWN7+piT2xjTRsN9ZJ1TcM/iyfkpFqMdsbTPMqcDAz4UW/DojGLLIOZWoU51bPKhCr7g6OE/7jknMAbKnLJqRNUANCieNwkP6UXub/+xptoVTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tqvWNxbqdw29PCojD3iHx6rUMcr0IWR+GXnoZDqiAJM=;
- b=FI2XqhXKfYFuObbc86DmmvBAPqs838hFwU93gik29WVe6eQj75LrcxY77HR4OmJ2cb99RsYYqvsst3au8TWc4ZjH6SG6dy7+L50HNRiwMMjkGbsKbpAzQUC83PFCuM4HUlM8wbay3C9x1WegOoa+9SBzTHpkMncpnlL7CtaHnxN+l5RgTTJITR7x4v0493tA7Qk0V5FWmSWJVLwCBhD4sosr9f9RzxLU6+tuftsAI5eykCB5cOJNfzH2r/vkyGdSzoEcNiUO6EtyJlqKYWSeiF/Li/MG2vzvRa8ohZnj9x71BtUu3uIPAeTqQnHCMFftAqEP6mKv4qfF1ykoba9yJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tqvWNxbqdw29PCojD3iHx6rUMcr0IWR+GXnoZDqiAJM=;
- b=OtuCltu8M651N9p9SV45H6lXu6J67Zi6hUjXfJycUHYWgckOxw58x3HYZ0ml8cMyekJEZPHDfbU/E94OkvvvjkylkPwfQmCUle1FhrDS1LoWSPhZ3Oo+eI6YiFE35tVukjujaIt4aJOh9q0vpLA9pjUbdsxTSup9zIiEhl0mhoo=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYWPR01MB10853.jpnprd01.prod.outlook.com
- (2603:1096:400:2a9::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
- 2023 02:59:13 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5f2:5ff1:7301:3ff1%4]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
- 02:59:13 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: RE: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
-Thread-Topic: [PATCH] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
-Thread-Index: AQHZL8gXKp3JZtRDpEmbwmYHk3J1bK7RBMaw
-Date:   Thu, 16 Feb 2023 02:59:13 +0000
-Message-ID: <TYBPR01MB534179AA91204D6C52725ABDD8A09@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230124074706.13383-1-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYWPR01MB10853:EE_
-x-ms-office365-filtering-correlation-id: 7d5db608-4cbb-475d-07df-08db0fc9c8ac
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Vn2zvb1U0dQf6IVmqGipO7WQQkGVhXNsBFmMESzl7PtwR/NggT8zjQtGkky5EukWoAcw5yGJkzq55hrBeBjAmMo/oLdjbwHBYHaqAWt1V2hFevsEFjc5ekfwbn62xf/Ao7uL0+rueRGI16Jiyu7qQlBwlukj4VwUDU/sv/5fiBrla7aaxxaU0Nd/yG7zI/kS1PyVTUPhWcVDpvw9JHuT614oHvwLommVRKB/qty5+9ruQYfF2U8SLr7xatTWNcD7gisPxPtBMzikUiwjWwwBL3Aca3eWaJD3cMJNmQQLbhHuf5gv7nz03AUoOvVS6IsVY1kmUZMUfVMqm3iI7iSRNzciXjR+UPQ178y926nUWOsNY/dN99jYrkbFJkQpDftvC+dm3iqbHfJXlXJZaPA+JpUOtESNjkrTU1RhqdPV/jDH36PjFgw6i3nCIWjSPYKAku2zqcYD3aM56XAv95BQLIJbFWruC9rUbxQXLDj8YeoUcsLJCLbu4dNZwkE8zR51D76Qj7M6X1EOfMMG3S1y/dWCYpEUjXH4ATLZ5h/0fypyod/HwPsJEHl8Tw6l7TRWErPP0YmxXK0ew5LI6SZWCuK8IpFhY25G3nV+ZXct0FrLYLuK5CaeM9WpH2eIvGLIxK/z/eS41TB/W4lPxwPjCyQgf/8GPu6UE8c9u1HduQDu+2+kXWHcatin3eY6NQEtyGP66Nq0iQwCaBRd2QRIQg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(396003)(39860400002)(366004)(376002)(451199018)(5660300002)(41300700001)(52536014)(2906002)(4326008)(76116006)(54906003)(316002)(110136005)(66556008)(66476007)(66446008)(8676002)(64756008)(66946007)(7696005)(71200400001)(478600001)(6506007)(9686003)(186003)(8936002)(33656002)(86362001)(122000001)(55016003)(38070700005)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zaEBnALnatT2JhoLNGhobijBm1z3ZMh6vumHbtCFbnhgcO2KvWt4Pn2jCwdJ?=
- =?us-ascii?Q?HqpJ07b7WylPrPEqERaXYxu1dToN29y1JObqKkTxP50s0lNBAHTNa3TqZykG?=
- =?us-ascii?Q?AIg1m0ojhkm3nutA7/+zrpmoTUBy1x7YeoRuWa5/m41tUkJm4KZth01qDsWv?=
- =?us-ascii?Q?rqpBoOT0snqp1Ad1QZZohpXJY2D1T+XEKqiX6698EDXzkYAtpaMy6Gpu6dz4?=
- =?us-ascii?Q?b40T5yygAmOLAmgqUXnFHyT7J5U+xwzRj3BiB/3NkJPUe934el7j3XQ9vDoy?=
- =?us-ascii?Q?BTTs/26hEwfvlNBIT7A4SNf1YcNp9ADvNbIl8yWdUMW3caVrwMmzTcXgddST?=
- =?us-ascii?Q?Y/D6OnO35rWmeP5hd+jyAJAM4z2lOBhZaIOxOleGTgGdnuH7CeXqeRTbOy47?=
- =?us-ascii?Q?aakGgTFxFzjG97PVgIK9ffi9/MbUalXIrcXw4QGiQBm+hXAcxFZjEKRYJ6hp?=
- =?us-ascii?Q?cKeaxJvlu9649jkzJmUOkxasEsq7n/Q3UzS2pSBEvfTHYEG89syU2uQEa3I2?=
- =?us-ascii?Q?d4Es2f1YnyrxkxzqRR/D1Vt+TaxCVJXrjG3AjXNu76GruDFgu8QyXQM6owD0?=
- =?us-ascii?Q?1GyVPrevtSCxm9uQ3XohK49WacP0yE7oZgnyoZnwY1ijjz/s9SP4lQ37jrEm?=
- =?us-ascii?Q?PuLJfF7m4zz02I+uBqDPdsnZ30bvd5twvSOcXh08IHO7PWj/bCQMjehKMLo6?=
- =?us-ascii?Q?tI41qdK2OcMCBMcgGP+F0cX6nShBS9HlrD1LZRol5M3CNOnz7P43bwA4Yw8a?=
- =?us-ascii?Q?nEJkjuC/PfrSPNw1aenoWNO0c/bwX/UGOzooOH934MN9KsJ5YOKunFmarNh7?=
- =?us-ascii?Q?KyTcAdvIPDZWgwqZqYytj2eRL37Zpo74n122g7P8oru5AcVx506Y1Qang8sz?=
- =?us-ascii?Q?thg8P+zI5gmuvxtGIIBg9+hWxHw6a3m8Ne8APMcWJ7JarLZZLhLUU2byPQIq?=
- =?us-ascii?Q?C763rNskRyVtqtqaolMVRmVRAtl4aCedCgV6csDrh1D+9fBX34cqf+I4jMlG?=
- =?us-ascii?Q?N4Ms8xZXN5z/VhnZXq8OAnxHM/KqVXXZsVsJoP8tvGfV9itNbPqcUcT8azlS?=
- =?us-ascii?Q?TtR8yj/gVveaWvpMgAjoeFON9ig3jQ8hI8AHxhCQ2tG3kpU9wN/vqDHAm0Rp?=
- =?us-ascii?Q?jOSMT/V7Kq0uS8DGAW0OXAwzALvwb6FLyau7df5RB//KVtY8aAxOZ/Yofl5F?=
- =?us-ascii?Q?vxYTBngtLpcYsyIQDgwFGxiETrtWglNgWeaY+ETpLL+8EJZbJ3Iid2qWt+qc?=
- =?us-ascii?Q?BMN9TPyoxpSiAi9fFlNXyXF7Yf87sXmM99KLHNLibV00VUsITVetJxxgaEZd?=
- =?us-ascii?Q?QS9iiuZCB186LHUUSq11JGL4GrnD9WP7T3sZMGLFS6cChwHd6o4WTH/LqCX2?=
- =?us-ascii?Q?sLQ5J259595I4GsFGRqIyRBl4U8Bc1XMxi9/mhgtwjJjzxpBrzCX9+MpJc1d?=
- =?us-ascii?Q?Gax/f1KSdzVBYOjQ7ozWXlJ4IBWU5EizeBwtpI66G60yVKmscsHNiAQHqEsZ?=
- =?us-ascii?Q?2zJFXQhIkFS+WQsTnlGYBamDXZYQa3J/PB2Mb2gD7G+T3WBZAotM088gd7BA?=
- =?us-ascii?Q?j6NCU56Djh9zASmBUrtu1JOo4NqVeNcpWgmLSQa3EXd3BTp+y4uCD9B6CTDX?=
- =?us-ascii?Q?DBTf20RXxWpdTpLZARiUwYrWyVPGc7fVSZHMGr4YlxsxU7XbYx3/dICARxiW?=
- =?us-ascii?Q?JNH4ZQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 15 Feb 2023 22:12:23 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4A641089
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Feb 2023 19:12:21 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id x71so696839ybg.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Feb 2023 19:12:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6Qh8gzOowZwynkUDIeTrWbdl9HaKmQIH+IY+oQdDQU=;
+        b=GxTRfbOsOkLv43UR0CUz7x1DiDyiTVJvIdGXeffaF8FFQkvbj9D0x+wQE5kOHkRmSa
+         o5Ze293BSs4uqy1H1gqCW5XGhgDkX37RsbQ7x0aWqWlmMcdaJUs+BGyiplS9rxwrqXiv
+         K6bKMbWPfIUUmKofh3l39j9SUiIfd1cXN9dxpgAsz4qKncGv3ycwCt+kUEETE074rAuo
+         D+c72FaIo9XCNvkZw7tPOlfU/eTZJCgkzA/o8HErGsataZ/yZEuoJeygab6+mNSkonm7
+         I9+PbCjImVYosZjQsUHQKITYEhXY1hO5y3dKwogaHLW6tVRgprrNxpzAG070BcL/9jFJ
+         kkbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a6Qh8gzOowZwynkUDIeTrWbdl9HaKmQIH+IY+oQdDQU=;
+        b=Qb8lxy2RHhmLLZCzcHJo02GzGIpCxxtk44pZVoqiXr2G9YBje/pIYDbatofvaJGxqP
+         8ae1BxA19QsmS5/QP7iKAiPkelJvLEhM6ijd3HlXLBnw11Q9XsQpIIDOT8DuGpDihAiZ
+         Zfl5dAamnpbNYRGXcb8CY59o2tGnoLbdSmpx9QYYHs5bRxqNSVLsAcO23no59aP9tN2K
+         a1gWuVdw7tTJnrtEi1lWtCBd48GpHPkaymcWs2Ev9D7Oq+oS1y92muvzt1HL95UKXKwB
+         XOBxKMt9O4KHYj2mxINIDmAVhyCxDRi8dCBBIU66z+7UD8dFo7FkwZ5q8yuEs42MaF59
+         YllA==
+X-Gm-Message-State: AO0yUKWHho2F8aHbeR4FR2CMDPCxcrfLl6ok/BzTtYGF9Qu+/7SY+1/W
+        kMp2pvt+jZXVaLykeLSeGYZ19Nl85pMB90zQNuvVzg==
+X-Google-Smtp-Source: AK7set+6eIj7MPs4FgpkrHNNRtmcV0fLlWPPAZXRVRf0yyJfRs4rZclaJlYKoRf3mhlsfkcIPq9+D/6ElO/HE/qRcIw=
+X-Received: by 2002:a25:f50c:0:b0:90a:8ba9:3ac3 with SMTP id
+ a12-20020a25f50c000000b0090a8ba93ac3mr511192ybe.333.1676517140908; Wed, 15
+ Feb 2023 19:12:20 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d5db608-4cbb-475d-07df-08db0fc9c8ac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2023 02:59:13.2305
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t9HAPPGJWw0kFcJO6L5sQKiSgtGNx9dU2Ag3SKkTuJYCmCHTn/EE4y2HV3IGNE1JdvtvuZk49sP4KY5ISkstzXQpNNa1F0xuAnP2IyjjbSL/i0llitpQyRb0VSe2ssbJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10853
+References: <20230207014207.1678715-1-saravanak@google.com>
+In-Reply-To: <20230207014207.1678715-1-saravanak@google.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Thu, 16 Feb 2023 05:12:09 +0200
+Message-ID: <CAA8EJprMMh3udsKKwtGJW9kBLfMv=_OXFnnPGobK=dK-raX5ew@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] fw_devlink improvements
+To:     Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Cc:     Abel Vesa <abel.vesa@linaro.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        John Stultz <jstultz@google.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Maxim Kiselev <bigunclemax@gmail.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Colin Foster <colin.foster@in-advantage.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Jean-Philippe Brucker <jpb@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Wolfram-san,
+On 07/02/2023 03:41, Saravana Kannan wrote:
+> Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
+> Jean-Philippe,
+>
+> Can I get your Tested-by's for this v3 series please?
+>
+> Vladimir,
+>
+> Ccing you because DSA's and fw_devlink have known/existing problems
+> (still in my TODOs to fix). But I want to make sure this series doesn't
+> cause additional problems for DSA.
+>
+> All,
+>
+> This patch series improves fw_devlink in the following ways:
+>
+> 1. It no longer cares about a fwnode having a "compatible" property. It
+>     figures this out more dynamically. The only expectation is that
+>     fwnodes that are converted to devices actually get probed by a driver
+>     for the dependencies to be enforced correctly.
+>
+> 2. Finer grained dependency tracking. fw_devlink will now create device
+>     links from the consumer to the actual resource's device (if it has one,
+>     Eg: gpio_device) instead of the parent supplier device. This improves
+>     things like async suspend/resume ordering, potentially remove the need
+>     for frameworks to create device links, more parallelized async probing,
+>     and better sync_state() tracking.
+>
+> 3. Handle hardware/software quirks where a child firmware node gets
+>     populated as a device before its parent firmware node AND actually
+>     supplies a non-optional resource to the parent firmware node's
+>     device.
+>
+> 4. Way more robust at cycle handling (see patch for the insane cases).
+>
+> 5. Stops depending on OF_POPULATED to figure out some corner cases.
+>
+> 6. Simplifies the work that needs to be done by the firmware specific
+>     code.
+>
+> The v3 series has gone through my usual testing on my end and looks good
+> to me.
 
-> From: Wolfram Sang, Sent: Tuesday, January 24, 2023 4:47 PM
->=20
-> Documentation says only DTDL of 200 is allowed for this SoC.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Saravana,
 
-Thank you for the patch!
+Please excuse me, I was completely overwhelmed with my regular work and
+had no time to properly test the series, while doing just the light
+test would defeat the purpose of testing.
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # Qualcomm RB3
 
-Best regards,
-Yoshihiro Shimoda
+Thanks a lot for going through all the troubles and hunting all the issues!
 
-> ---
->=20
-> Tested with MSIOF0 on a Salvator-XS with R-Car H3 ES2.0 by creating a
-> loopback with a wire.
->=20
->  drivers/spi/spi-sh-msiof.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->=20
-> diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-> index 9bca3d076f05..609f48ec84dd 100644
-> --- a/drivers/spi/spi-sh-msiof.c
-> +++ b/drivers/spi/spi-sh-msiof.c
-> @@ -30,12 +30,15 @@
->=20
->  #include <asm/unaligned.h>
->=20
-> +#define SH_MSIOF_FLAG_FIXED_DTDL_200 	BIT(0)
-> +
->  struct sh_msiof_chipdata {
->  	u32 bits_per_word_mask;
->  	u16 tx_fifo_size;
->  	u16 rx_fifo_size;
->  	u16 ctlr_flags;
->  	u16 min_div_pow;
-> +	u32 flags;
->  };
->=20
->  struct sh_msiof_spi_priv {
-> @@ -1073,6 +1076,16 @@ static const struct sh_msiof_chipdata rcar_gen3_da=
-ta =3D {
->  	.min_div_pow =3D 1,
->  };
->=20
-> +static const struct sh_msiof_chipdata rcar_r8a7795_data =3D {
-> +	.bits_per_word_mask =3D SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
-> +			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
-> +	.tx_fifo_size =3D 64,
-> +	.rx_fifo_size =3D 64,
-> +	.ctlr_flags =3D SPI_CONTROLLER_MUST_TX,
-> +	.min_div_pow =3D 1,
-> +	.flags =3D SH_MSIOF_FLAG_FIXED_DTDL_200,
-> +};
-> +
->  static const struct of_device_id sh_msiof_match[] =3D {
->  	{ .compatible =3D "renesas,sh-mobile-msiof", .data =3D &sh_data },
->  	{ .compatible =3D "renesas,msiof-r8a7743",   .data =3D &rcar_gen2_data =
-},
-> @@ -1083,6 +1096,7 @@ static const struct of_device_id sh_msiof_match[] =
-=3D {
->  	{ .compatible =3D "renesas,msiof-r8a7793",   .data =3D &rcar_gen2_data =
-},
->  	{ .compatible =3D "renesas,msiof-r8a7794",   .data =3D &rcar_gen2_data =
-},
->  	{ .compatible =3D "renesas,rcar-gen2-msiof", .data =3D &rcar_gen2_data =
-},
-> +	{ .compatible =3D "renesas,msiof-r8a7795",   .data =3D &rcar_r8a7795_da=
-ta },
->  	{ .compatible =3D "renesas,msiof-r8a7796",   .data =3D &rcar_gen3_data =
-},
->  	{ .compatible =3D "renesas,rcar-gen3-msiof", .data =3D &rcar_gen3_data =
-},
->  	{ .compatible =3D "renesas,rcar-gen4-msiof", .data =3D &rcar_gen3_data =
-},
-> @@ -1280,6 +1294,9 @@ static int sh_msiof_spi_probe(struct platform_devic=
-e *pdev)
->  		return -ENXIO;
->  	}
->=20
-> +	if (chipdata->flags & SH_MSIOF_FLAG_FIXED_DTDL_200)
-> +		info->dtdl =3D 200;
-> +
->  	if (info->mode =3D=3D MSIOF_SPI_SLAVE)
->  		ctlr =3D spi_alloc_slave(&pdev->dev,
->  				       sizeof(struct sh_msiof_spi_priv));
-> --
-> 2.30.2
+Just a note: on an RB3 device (arm64 qcom/sdm845-db845c.dtsi) extended
+with the patch at [3] I got the following messages in dmesg:
 
+[    1.051325] platform ae00000.mdss: Failed to create device link
+with ae00000.mdss
+[    1.059368] platform ae00000.mdss: Failed to create device link
+with ae00000.mdss
+[    1.067174] platform ae00000.mdss: Failed to create device link
+with ae00000.mdss
+[    1.088322] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    1.096019] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    1.103707] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    1.111400] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    1.119141] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    1.126825] platform c440000.spmi: Failed to create device link
+with c440000.spmi
+[    2.024763] qcom-lab-ibb-regulator c440000.spmi:pmic@3:labibb:
+Failed to create device link with c440000.spmi
+[    2.035026] qcom-lab-ibb-regulator c440000.spmi:pmic@3:labibb:
+Failed to create device link with c440000.spmi
+
+They look to be harmless, but it might be good to filter some of them
+out? Especially the ones which tell about creating a device link
+pointing back to the same device.
+
+[3] https://lore.kernel.org/linux-arm-msm/20230118082048.2198715-1-dmitry.baryshkov@linaro.org/
+
+>
+> Thanks,
+> Saravana
+>
+> [1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
+> [2] - https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com/
+>
+> v1 -> v2:
+> - Fixed Patch 1 to handle a corner case discussed in [2].
+> - New patch 10 to handle "fsl,imx8mq-gpc" being initialized by 2 drivers.
+> - New patch 11 to add fw_devlink support for SCMI devices.
+>
+> v2 -> v3:
+> - Addressed most of Andy's comments in v2
+> - Added Colin and Sudeep's Tested-by for the series (except the imx and
+>    renesas patches)
+> - Added Sudeep's Acked-by for the scmi patch.
+> - Added Geert's Reviewed-by for the renesas patch.
+> - Fixed gpiolib crash reported by Naresh.
+> - Patch 6: Fix __fwnode_links_move_consumers() to preserve fwnode link flags.
+> - New Patch 12 to fix nvmem-cells issue reported by Maxim(s)/Miquel.
+> - Deleted some stale function doc in Patch 8
+>
+> Cc: Abel Vesa <abel.vesa@linaro.org>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Tony Lindgren <tony@atomide.com>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Maxim Kiselev <bigunclemax@gmail.com>
+> Cc: Maxim Kochetkov <fido_max@inbox.ru>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Luca Weiss <luca.weiss@fairphone.com>
+> Cc: Colin Foster <colin.foster@in-advantage.com>
+> Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Cc: Jean-Philippe Brucker <jpb@kernel.org>
+> Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+>
+> Saravana Kannan (12):
+>    driver core: fw_devlink: Don't purge child fwnode's consumer links
+>    driver core: fw_devlink: Improve check for fwnode with no
+>      device/driver
+>    soc: renesas: Move away from using OF_POPULATED for fw_devlink
+>    gpiolib: Clear the gpio_device's fwnode initialized flag before adding
+>    driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
+>    driver core: fw_devlink: Allow marking a fwnode link as being part of
+>      a cycle
+>    driver core: fw_devlink: Consolidate device link flag computation
+>    driver core: fw_devlink: Make cycle detection more robust
+>    of: property: Simplify of_link_to_phandle()
+>    irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
+>    firmware: arm_scmi: Set fwnode for the scmi_device
+>    mtd: mtdpart: Don't create platform device that'll never probe
+>
+>   drivers/base/core.c             | 449 +++++++++++++++++++++-----------
+>   drivers/firmware/arm_scmi/bus.c |   3 +-
+>   drivers/gpio/gpiolib.c          |   7 +
+>   drivers/irqchip/irq-imx-gpcv2.c |   1 +
+>   drivers/mtd/mtdpart.c           |  10 +
+>   drivers/of/property.c           |  84 +-----
+>   drivers/soc/imx/gpcv2.c         |   2 +-
+>   drivers/soc/renesas/rcar-sysc.c |   2 +-
+>   include/linux/device.h          |   1 +
+>   include/linux/fwnode.h          |  12 +-
+>   10 files changed, 344 insertions(+), 227 deletions(-)
+>
+
+--
+With best wishes
+
+Dmitry
