@@ -2,171 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 354A5698EE4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 09:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF55369903D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 10:42:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbjBPIk1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Feb 2023 03:40:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33954 "EHLO
+        id S230117AbjBPJmo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Feb 2023 04:42:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbjBPIk0 (ORCPT
+        with ESMTP id S229990AbjBPJm3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Feb 2023 03:40:26 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B9B39B85
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Feb 2023 00:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676536825; x=1708072825;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1BwEOcrqf+9WS+0SLPgOHFmCXu6HTdn1kRLRmro73X4=;
-  b=fQLpvdltaWX5LqvmkodQknqJnWVDUB+gIkPQBRXPVJEGO+noFZQLAe4U
-   jPMRfMj338MDHuu8MVSK9V7QFeeTuWKVFukKt81EMXxV3whckANQFaIvi
-   j6KwiODFtGQ4CPzALyR423dhwGYqTwH5/a2uv2Iku8pIBVUNIDXKDvV8H
-   JQ5LJZfnNp6sP8wD7GFidXI7A2L7r711TEqmfVGq7jcsHTBWil1GiyXR0
-   N3ihxclFqFlKEZI1YjzManD1JwIOMAyqpnwKR4+5hOdM7ZPoF1sltzehm
-   oha64UzHgsy+YS8aUOouegxnsJGSKQsn5iKATLLIvMCTsheQ34xaE0nWv
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="396303400"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="396303400"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 00:40:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="670044645"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="670044645"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Feb 2023 00:40:22 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pSZoT-000A9J-2v;
-        Thu, 16 Feb 2023 08:40:21 +0000
-Date:   Thu, 16 Feb 2023 16:39:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.4] BUILD SUCCESS
- 5fc2a7f14e3c29aff5336f141b8c58906e7193cb
-Message-ID: <63edebd4.Il8LS4HsfKWWH5kn%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 16 Feb 2023 04:42:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76B441097;
+        Thu, 16 Feb 2023 01:41:38 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72DF910B;
+        Thu, 16 Feb 2023 10:41:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676540496;
+        bh=Q0S64d9vQMYDFO/7cgnm2yubJSea0v1pDF/7puW+XZQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DOnSDXfAZqT2dzuEMocGAS8JBQ5Y5A+AZiGN3DWHv2Bw9OV2fZFY+PV81Ej4I4Uum
+         MtXerWTXqNH94KBb/k6Bli2lOSHyRHERF79mqucxAMq7kxQu2/S7AP+OhnnY5vOVda
+         9vRCQHVnvQOBCj3iB2GXRJZolr9JwWy2fuTpEjqo=
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v4] media: renesas: vsp1: Add underrun debug print
+Date:   Thu, 16 Feb 2023 11:41:15 +0200
+Message-Id: <20230216094115.151189-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LONGWORDS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.4
-branch HEAD: 5fc2a7f14e3c29aff5336f141b8c58906e7193cb  pinctrl: renesas: r8a779g0: Add Audio SSI pins, groups, and functions
+Print underrun interrupts with ratelimited print.
 
-elapsed time: 1094m
+Note that we don't enable the underrun interrupt. If we have underruns,
+we don't want to get flooded with interrupts about them. It's enough to
+see that an underrun happened at the end of a frame.
 
-configs tested: 88
-configs skipped: 3
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Changes in v4:
+- Store underrun count in pipe
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c  |  3 +++
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 11 ++++++++++-
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h |  2 ++
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h |  2 ++
+ 4 files changed, 17 insertions(+), 1 deletion(-)
 
-gcc tested configs:
-alpha                            allyesconfig
-alpha                               defconfig
-arc                              allyesconfig
-arc                                 defconfig
-arc                        nsimosci_defconfig
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm                          lpd270_defconfig
-arm                           tegra_defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-csky                                defconfig
-i386                             allyesconfig
-i386                              debian-10.3
-i386                                defconfig
-i386                 randconfig-a011-20230213
-i386                 randconfig-a012-20230213
-i386                 randconfig-a013-20230213
-i386                 randconfig-a014-20230213
-i386                 randconfig-a015-20230213
-i386                 randconfig-a016-20230213
-i386                          randconfig-c001
-ia64                             allmodconfig
-ia64                                defconfig
-loongarch                        allmodconfig
-loongarch                         allnoconfig
-loongarch                           defconfig
-m68k                             allmodconfig
-m68k                                defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-nios2                               defconfig
-openrisc                         alldefconfig
-parisc                              defconfig
-parisc64                            defconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                               allmodconfig
-sparc                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                            allnoconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64               randconfig-a011-20230213
-x86_64               randconfig-a012-20230213
-x86_64               randconfig-a013-20230213
-x86_64               randconfig-a014-20230213
-x86_64               randconfig-a015-20230213
-x86_64               randconfig-a016-20230213
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-bpf
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-
-clang tested configs:
-arm                  randconfig-r046-20230213
-hexagon              randconfig-r041-20230212
-hexagon              randconfig-r041-20230213
-hexagon              randconfig-r045-20230212
-hexagon              randconfig-r045-20230213
-i386                 randconfig-a001-20230213
-i386                 randconfig-a002-20230213
-i386                 randconfig-a003-20230213
-i386                 randconfig-a004-20230213
-i386                 randconfig-a005-20230213
-i386                 randconfig-a006-20230213
-mips                     cu1830-neo_defconfig
-mips                      pic32mzda_defconfig
-powerpc                       ebony_defconfig
-powerpc                 mpc8272_ads_defconfig
-riscv                randconfig-r042-20230212
-s390                 randconfig-r044-20230212
-x86_64               randconfig-a001-20230213
-x86_64               randconfig-a002-20230213
-x86_64               randconfig-a003-20230213
-x86_64               randconfig-a004-20230213
-x86_64               randconfig-a005-20230213
-x86_64               randconfig-a006-20230213
-x86_64                        randconfig-k001
-
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index c6f25200982c..5da1bc991750 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -710,6 +710,9 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		return 0;
+ 	}
+ 
++	/* Reset the underrun counter */
++	pipe->underrun_count = 0;
++
+ 	drm_pipe->width = cfg->width;
+ 	drm_pipe->height = cfg->height;
+ 	pipe->interlaced = cfg->interlaced;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+index 5710152d6511..ab8209e5b07a 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+@@ -45,7 +45,8 @@
+ 
+ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ {
+-	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
++	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
++		   VI6_WPF_IRQ_STA_UND;
+ 	struct vsp1_device *vsp1 = data;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	unsigned int i;
+@@ -60,6 +61,14 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ 		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+ 		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+ 
++		if ((status & VI6_WPF_IRQ_STA_UND) && wpf->entity.pipe) {
++			wpf->entity.pipe->underrun_count++;
++
++			dev_warn_ratelimited(vsp1->dev,
++				"Underrun occurred at WPF%u (total underruns %u)\n",
++				i, wpf->entity.pipe->underrun_count);
++		}
++
+ 		if (status & VI6_WPF_IRQ_STA_DFE) {
+ 			vsp1_pipeline_frame_end(wpf->entity.pipe);
+ 			ret = IRQ_HANDLED;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+index ae646c9ef337..674b5748d929 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+@@ -148,6 +148,8 @@ struct vsp1_pipeline {
+ 	unsigned int partitions;
+ 	struct vsp1_partition *partition;
+ 	struct vsp1_partition *part_table;
++
++	u32 underrun_count;
+ };
+ 
+ void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+index d94343ae57a1..7eca82e0ba7e 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+@@ -32,10 +32,12 @@
+ #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+ 
+ #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
++#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+ #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+ #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+ 
+ #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
++#define VI6_WPF_IRQ_STA_UND		BIT(16)
+ #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+ #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
