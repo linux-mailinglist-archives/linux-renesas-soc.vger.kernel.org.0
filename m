@@ -2,92 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C7269977E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 15:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 939E46998A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Feb 2023 16:20:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjBPOdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Feb 2023 09:33:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43550 "EHLO
+        id S229724AbjBPPUb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Feb 2023 10:20:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbjBPOdD (ORCPT
+        with ESMTP id S229587AbjBPPUa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Feb 2023 09:33:03 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8416735247
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Feb 2023 06:33:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 203F960EC0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Feb 2023 14:33:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CB3C433D2;
-        Thu, 16 Feb 2023 14:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676557980;
-        bh=QqmQt/krC6S5uww76juPUBb0WAImXoL3KsjKZXWfA/0=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=ADjwh5iLY63HLuZVMYO4D5VbvkVzcEIiH36I7s2fBoYZDw0WSjgdWOEWLRTH/UrJf
-         F83j9PoLNzjS8YK74bYntQ0jIk89Ae6Cd0cGkMRCOMq57jLgthe7x7XzsKtG1GumYW
-         pnxgQl66eeekB6B9eQXjE5AkQaXXQ0mGAELuo+Xutnol8o3198y/BR+hefq0QFft6a
-         CB3ZQaRdzA/XO70ucrrGXLyrHZ0QbgVND6b9qra0Czc0SHgQimWIRxNbTgVEEr//5n
-         09osxMH5cJ1w9xYh54aCgjM5MzmC57qzp6MUVbMBdvFIsSnTqPVlTRUbQveGnfZiaZ
-         RVgae3W4elUJw==
-From:   Mark Brown <broonie@kernel.org>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
+        Thu, 16 Feb 2023 10:20:30 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE7F6183
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Feb 2023 07:20:28 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:4605:3635:9491:c6bc])
+        by xavier.telenet-ops.be with bizsmtp
+        id MrLR2900J3wKl5501rLRBu; Thu, 16 Feb 2023 16:20:25 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pSg3F-009BUr-T8;
+        Thu, 16 Feb 2023 16:20:24 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pSg3c-005tX6-Jw;
+        Thu, 16 Feb 2023 16:20:24 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <ac6365c17861d71fbc89d823089db4aafdb763ed.1676470202.git.geert+renesas@glider.be>
-References: <ac6365c17861d71fbc89d823089db4aafdb763ed.1676470202.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: rsnd: adg: Fix BRG typos
-Message-Id: <167655797866.4030382.9723735853907637449.b4-ty@kernel.org>
-Date:   Thu, 16 Feb 2023 14:32:58 +0000
+Subject: [PATCH 0/2] clk: renesas: R-Car V3M/V3H: Add Z2 clocks
+Date:   Thu, 16 Feb 2023 16:20:17 +0100
+Message-Id: <cover.1676560357.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 15 Feb 2023 15:17:41 +0100, Geert Uytterhoeven wrote:
-> "BRG" stands for "Baud Rate Generator", but is frequently misspelled as
-> "RBG".
-> 
-> 
+	Hi all,
 
-Applied to
+This patch series adds support for the Z2 (Cortex-A53 System CPU) clocks
+on the Renesas R-Car V3M and V3H SoCs.  These clocks use a fixed SYS-CPU
+divider.
 
-   broonie/sound.git for-next
+Note that the BSP went to great lengths to describe them as programmable
+Z clocks, like on most other R-Car Gen3 SoCs, but add quirks to the Z
+clock driver to use a fixed divider when running on R-Car V3M or V3H.
+I chose the simpler way...
 
-Thanks!
+According to R-Car Series, 3rd Generation Hardware User’s Manual Rev.
+2.30 and earlier, the SYS-CPU dividers on R-Car V3M and V3H are fixed
+dividers.  Furthermore, the Frequency control register C, which is used
+on other SoCs to control the SYS-CPU divider, is documented not to exist
+on these SoCs (but empirical evidence shows that it does exist, and that
+the Z2FC field works as expected (tested on Eagle and Condor)).
 
-[1/1] ASoC: rsnd: adg: Fix BRG typos
-      commit: 4932b1fa61322b737dc3615a298aafdc42f97f79
+I intend to queue this series in renesas-clk-for-v6.4.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Thanks for your comments!
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Geert Uytterhoeven (2):
+  clk: renesas: r8a77970: Add Z2 clock
+  clk: renesas: r8a77980: Add Z2 clock
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ drivers/clk/renesas/r8a77970-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77980-cpg-mssr.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-- 
+2.34.1
 
-Thanks,
-Mark
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
