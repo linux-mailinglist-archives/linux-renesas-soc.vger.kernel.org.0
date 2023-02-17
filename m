@@ -2,79 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36C3C69B2A3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Feb 2023 19:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 327E469B674
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Feb 2023 00:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbjBQSxX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Feb 2023 13:53:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
+        id S229728AbjBQX1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Feb 2023 18:27:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjBQSxI (ORCPT
+        with ESMTP id S229623AbjBQX1H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Feb 2023 13:53:08 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1948B5A39A;
-        Fri, 17 Feb 2023 10:53:02 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id w13so1860757wrl.13;
-        Fri, 17 Feb 2023 10:53:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cuYdi9JDEfUk3bSVOxhib3+XS2kP3hKiS/trU9amA0Y=;
-        b=jBbUGhXuPutU68xy8v1/tTsH0FNkiWcyXEw0HRthPl4z3nkGFqNw+kj5VJ7Wh9Q584
-         CIu6EA9SF2weK+TuPLhmITSGD3rWzVwFmy7XYY3YGKls9yoDKsBPPLv/VFcFViTGQ/ig
-         KCFgVY4rEeesYCejYw+zVbjhqijsiAohmzZeKk+1VKP9eXTPzaYvsHGH8y8XVbVikxrj
-         GLED2JiK1fhLGqY2ujnZyPnMkH+kzM7Bnt6RuCmxKBM/Mg9s3l3yqKcFB9Hga2l5ICR1
-         P+T8w0OicRCBtXvTBGvWuGpzL0W7dpN5artCkgvfoQD2s11ogxjcxPnazs4at/hr60V9
-         dCnA==
+        Fri, 17 Feb 2023 18:27:07 -0500
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE20460BE;
+        Fri, 17 Feb 2023 15:27:04 -0800 (PST)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1718a49f834so2724692fac.8;
+        Fri, 17 Feb 2023 15:27:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cuYdi9JDEfUk3bSVOxhib3+XS2kP3hKiS/trU9amA0Y=;
-        b=URe9rRqqQHXeFLTZu1CNo38fL9RUdlZKdyK7cQjN7PIHKIEJkcPETSwORWxXVxQBc2
-         b9YLWCtTzvWadI00lzF1bxr68UBAOm+O8x2Zbwh8kWlxS7uQi41n4GBwMHUxakom5Hup
-         lxpj1APWoohaSYDmZ/GVhmC1J9IuBR1/4WYCCgq36yBjO0ee9/zHcexOxiTxT40vzCMw
-         lWBbnfBPn6MXyu/h7qMLUm5pukKHnngAPWpdLrjFbmsrLvslnoCfJdv5pBmEqDSTh1jA
-         La2AHdyi6AldUjcX4YX4kzw+sStWEzUxj8PI/JkoVYqMR0IHGvg5ZKiUGKAUIDkIpxUV
-         TjwQ==
-X-Gm-Message-State: AO0yUKWwYJV+TJ9HsqrZG1gQ7cRGz3yTJK9qyFTLnBL198wZ/aIICFSV
-        qzZeoM42MVTpKB31MsbUY+bYmNflyqL/CQ==
-X-Google-Smtp-Source: AK7set8PNytjo88R/CSuQUpQ6yNfiv2mI4cAeSeVkEQxv9w+c+gUg8tywgNqdnVB1ce+k+fDvDn5Tg==
-X-Received: by 2002:adf:f646:0:b0:2c6:e87f:f19 with SMTP id x6-20020adff646000000b002c6e87f0f19mr2032734wrp.57.1676659980387;
-        Fri, 17 Feb 2023 10:53:00 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:d8bd:e692:c27f:c09d])
-        by smtp.gmail.com with ESMTPSA id l37-20020a05600c1d2500b003db0ad636d1sm2964514wms.28.2023.02.17.10.52.59
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LKUc5pbw1yazGVhBpNKjeMy/4FeHfZzgptlXZ0pQics=;
+        b=sZM34XTQS+7Kp96zIzNUHm572rCcUUbxxsYYN/+nBR79O8g8Z6RGHjPLGz6obIqDoh
+         62PN3PKPDNKnS/YkWpluv8QJmqr3ItBbUNH4XvoTxmiZ3E/eQ7JJT4B7rEcwPrNcn1wy
+         OloUn+A6Yz686cm9YJ02R1TwfKnzNvMSzqS4V6CaBaUpT6B2RKVXOWPYjNl/aZZWXkoa
+         MmesgOO2iczagrAzgEewzR87pFbJ7rIFPEKIme6JXrwhGaiPcTnWbY9W4AykoAvLIbki
+         +nhtTiJY7Gwc+bjQUEOAb6JGes5IK8Bqeuh8zKm4m1gHfoO4ES6HOnf7lQMULQEG33WI
+         UGyg==
+X-Gm-Message-State: AO0yUKVK7YBBKZ/5RviQvLOXs0FJ1z+l/XMGjbSvOI62EhZMGhWhOlrP
+        aEH6yoBH2u4pEsd6NEfwRA==
+X-Google-Smtp-Source: AK7set+mj3tCBmniQ4Vc/uuMNYw3VzuxafpQVmLbG/0nKq0jLJoNNkhvc7DvBjP86Zs2XAxRPe2WTA==
+X-Received: by 2002:a05:6870:b150:b0:169:dcba:1ec9 with SMTP id a16-20020a056870b15000b00169dcba1ec9mr1615221oal.41.1676676423521;
+        Fri, 17 Feb 2023 15:27:03 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id v1-20020a056870e28100b0015f4d1b195bsm2194520oad.36.2023.02.17.15.27.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Feb 2023 10:52:59 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Fri, 17 Feb 2023 15:27:03 -0800 (PST)
+Received: (nullmailer pid 2260551 invoked by uid 1000);
+        Fri, 17 Feb 2023 23:27:02 -0000
+Date:   Fri, 17 Feb 2023 17:27:02 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Pratyush Yadav <pratyush@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] arm64: dts: renesas: r9a07g043: Update IRQ numbers for SSI channels
-Date:   Fri, 17 Feb 2023 18:52:25 +0000
-Message-Id: <20230217185225.43310-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: mtd: jedec,spi-nor: Document CPOL/CPHA
+ support
+Message-ID: <20230217232702.GA2257281-robh@kernel.org>
+References: <afe470603028db9374930b0c57464b1f6d52bdd3.1676384304.git.geert+renesas@glider.be>
+ <20230214154433.6a421c51@xps-13>
+ <CAMuHMdVK7vOTNMF53SvHn8LtiHX7MSN-Fp80jngSsosYBhhrHQ@mail.gmail.com>
+ <20230214165637.56102b18@xps-13>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230214165637.56102b18@xps-13>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,78 +74,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Feb 14, 2023 at 04:56:37PM +0100, Miquel Raynal wrote:
+> Hi Geert,
+> 
+> geert@linux-m68k.org wrote on Tue, 14 Feb 2023 16:22:15 +0100:
+> 
+> > Hi Miquel,
+> > 
+> > On Tue, Feb 14, 2023 at 3:44 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> > > geert+renesas@glider.be wrote on Tue, 14 Feb 2023 15:26:43 +0100:  
+> > > > SPI EEPROMs typically support both SPI Mode 0 (CPOL=CPHA=0) and Mode 3
+> > > > (CPOL=CPHA=1).  However, using the latter is currently flagged as an
+> > > > error by "make dtbs_check", e.g.:
+> > > >
+> > > >     arch/arm/boot/dts/r8a7791-koelsch.dtb: flash@0: Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were unexpected)
+> > > >           From schema: Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
+> > > >
+> > > > Fix this by documenting support for CPOL=CPHA=1.
+> > > >
+> > > > Fixes: 233363aba72ac638 ("spi/panel: dt-bindings: drop CPHA and CPOL from common properties")
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml | 7 +++++++
+> > > >  1 file changed, 7 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
+> > > > index f86255ce13af0871..bb62ac4585822982 100644
+> > > > --- a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
+> > > > +++ b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
+> > > > @@ -76,6 +76,13 @@ properties:
+> > > >        If "broken-flash-reset" is present then having this property does not
+> > > >        make any difference.
+> > > >
+> > > > +  spi-cpol: true
+> > > > +  spi-cpha: true  
+> > >
+> > > I see that spi-cpol and spi-cpha are described in spi-controller.yaml
+> > > which references spi-peripheral-props.yaml, but jedec,spi-nor.yaml
+> > > only references spi-peripheral-props.yaml leading to spi-cpol and
+> > > spi-cpha not being recognized as valid properties.
+> > >
+> > > Wouldn't it be cleaner to to have these two properties defined in
+> > > spi-peripheral-props.yaml instead?  
+> > 
+> > They were moved out of that file by the commit referenced in the
+> > Fixes: tag above, because they are not supported by all SPI targets.
+> > It's the responsibility of the SPI target bindings to list what is supported.
+> 
+> Oops, I overlooked that line.
+> 
+> I actually see no point in constraining device trees on that regard,
+> but, well, Krzysztof is the author, I believe he knows his stuff, so
+> let's go for it.
 
-From R01UH0968EJ0100 Rev.1.00 HW manual the interrupt numbers for SSI
-channels have been updated,
+It's a feature of the specific device as to what modes it supports. For 
+most cases where there is only one choice it should be implied from the 
+compatible, but there's some exceptions like this one. 
 
-SPI 329 - SSIF0 is now marked as reserved
-SPI 333 - SSIF1 is now marked as reserved
-SPI 335 - SSIF2 is now marked as reserved
-SPI 336 - SSIF2 is now marked as reserved
-SPI 341 - SSIF3 is now marked as reserved
-
-This patch drops the above IRQs from SoC DTSI.
-
-Fixes: 559f2b0708c70 ("arm64: dts: renesas: r9a07g043: Add SSI{1,2,3} nodes and fillup the SSI0 stub node")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index c8a83e42c4f3..a9700654b421 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -80,9 +80,8 @@ ssi0: ssi@10049c00 {
- 			reg = <0 0x10049c00 0 0x400>;
- 			interrupts = <SOC_PERIPHERAL_IRQ(326) IRQ_TYPE_LEVEL_HIGH>,
- 				     <SOC_PERIPHERAL_IRQ(327) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(328) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(329) IRQ_TYPE_EDGE_RISING>;
--			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+				     <SOC_PERIPHERAL_IRQ(328) IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx";
- 			clocks = <&cpg CPG_MOD R9A07G043_SSI0_PCLK2>,
- 				 <&cpg CPG_MOD R9A07G043_SSI0_PCLK_SFR>,
- 				 <&audio_clk1>, <&audio_clk2>;
-@@ -101,9 +100,8 @@ ssi1: ssi@1004a000 {
- 			reg = <0 0x1004a000 0 0x400>;
- 			interrupts = <SOC_PERIPHERAL_IRQ(330) IRQ_TYPE_LEVEL_HIGH>,
- 				     <SOC_PERIPHERAL_IRQ(331) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(332) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(333) IRQ_TYPE_EDGE_RISING>;
--			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+				     <SOC_PERIPHERAL_IRQ(332) IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx";
- 			clocks = <&cpg CPG_MOD R9A07G043_SSI1_PCLK2>,
- 				 <&cpg CPG_MOD R9A07G043_SSI1_PCLK_SFR>,
- 				 <&audio_clk1>, <&audio_clk2>;
-@@ -121,10 +119,8 @@ ssi2: ssi@1004a400 {
- 				     "renesas,rz-ssi";
- 			reg = <0 0x1004a400 0 0x400>;
- 			interrupts = <SOC_PERIPHERAL_IRQ(334) IRQ_TYPE_LEVEL_HIGH>,
--				     <SOC_PERIPHERAL_IRQ(335) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(336) IRQ_TYPE_EDGE_RISING>,
- 				     <SOC_PERIPHERAL_IRQ(337) IRQ_TYPE_EDGE_RISING>;
--			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+			interrupt-names = "int_req", "dma_rt";
- 			clocks = <&cpg CPG_MOD R9A07G043_SSI2_PCLK2>,
- 				 <&cpg CPG_MOD R9A07G043_SSI2_PCLK_SFR>,
- 				 <&audio_clk1>, <&audio_clk2>;
-@@ -143,9 +139,8 @@ ssi3: ssi@1004a800 {
- 			reg = <0 0x1004a800 0 0x400>;
- 			interrupts = <SOC_PERIPHERAL_IRQ(338) IRQ_TYPE_LEVEL_HIGH>,
- 				     <SOC_PERIPHERAL_IRQ(339) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(340) IRQ_TYPE_EDGE_RISING>,
--				     <SOC_PERIPHERAL_IRQ(341) IRQ_TYPE_EDGE_RISING>;
--			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+				     <SOC_PERIPHERAL_IRQ(340) IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx";
- 			clocks = <&cpg CPG_MOD R9A07G043_SSI3_PCLK2>,
- 				 <&cpg CPG_MOD R9A07G043_SSI3_PCLK_SFR>,
- 				 <&audio_clk1>, <&audio_clk2>;
--- 
-2.25.1
-
+Rob
