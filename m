@@ -2,104 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0388269B1F6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Feb 2023 18:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36BCC69B297
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Feb 2023 19:53:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjBQRoi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Feb 2023 12:44:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
+        id S229506AbjBQSxB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Feb 2023 13:53:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjBQRoh (ORCPT
+        with ESMTP id S229682AbjBQSxA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Feb 2023 12:44:37 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311DD70940;
-        Fri, 17 Feb 2023 09:44:36 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id 4-20020a05600c22c400b003dc4fd6e61dso1500087wmg.5;
-        Fri, 17 Feb 2023 09:44:36 -0800 (PST)
+        Fri, 17 Feb 2023 13:53:00 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E1D11E93;
+        Fri, 17 Feb 2023 10:52:58 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id a11-20020a05600c224b00b003e1f6dff952so1584155wmm.1;
+        Fri, 17 Feb 2023 10:52:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=auVrVbOSTA9pQeJfPXz91TlriegzpUKwC2EMUID2gPE=;
-        b=kPts36a0DOfrWbE5EDMVM8XUTfPhcct1+Wh6iYrEUNULUaJQQ940e2QgPodOvnNQ3O
-         PYVdDfrIzrIPE0Vc2g/vfe89g2tIAWRInxGmIeY2ABwKLrTGnwzSZXS4/ClMgmErrlyZ
-         2VJyFiXyf6FXfFu8h4TAk5sbo9ObWj2hpaMsr5iTHYK0yLpQeXx/71BXJmUTcn6Wvk9c
-         PmQQIK6oRsnk/d8C/SuDJEsTzFKhOVo3Uq5HnXasc+0Bv5iNajhahka3DZoCuSzV0nXu
-         U1ZgVBV32o0fJltdnu8cEis7bX2g96yWawZ5DbL8oya33c0Sw88227zU/BpoJxCJOwQD
-         DEAg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZHDnEinTRmd4SoQ9dH9rKDosnOXl5ELjM68bNY773ck=;
+        b=ZGTIKXW15RTh+6YdP9JSTUqLZXDje6luzloNlmWCiiNhBBlavbWtSIvnZMKHdaxo/B
+         1A3VxyC1BuknxTlALkbhI6IQQbuQvy9BESbaR89ijyJVg+Hv2FIGcNZ9AsGYeJrCE4nD
+         xnPA1boK5QEOWiiBm2cXZja4NgIuMRIaDlCeq//OlcroxQzGZ6i6q+ahbvVMqYPfEcKJ
+         KRQrGfGKtXJRUWe1zzjKj2L0XlW5g+n0oSeuqSrNdVVFOnvZXpllG4wHf7THpEhJpSkR
+         WBrO6BRyWUpiukCUfwDyggImfL0Cs2NksPc9QyLkNchs3IDQJXwFZKYJJkSwxNS17PSh
+         csCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=auVrVbOSTA9pQeJfPXz91TlriegzpUKwC2EMUID2gPE=;
-        b=zhR1inJqGY8yG2qKKs9jUFCHLGNNcYodvO+Gttq9qnflp4+yhjX3jBLcGTZ/uJEsKB
-         JbpQ2SJysQId/lrk101SKxenFsery1IpFEwNRHSpeZUYxfAUpWb/KnLBDlODQAL115aa
-         kKADHUqy3arQJnObYxtuDOV0ks7u9Lfue53bMEr7KZDIRNR0H3dKn9yt9Ki+I5hVbLS/
-         WPIiCElH8IwRDOOMRfg0PMRRjHIWeXeoWTcnn27VpUCumQipcBiOfyZoMuxkYMNzzI+O
-         li5PGj1qQO+89N4zmm3OqwroPlqiJP/THgtJJmZF8JmyYb7Ml8B309ZXY7R+8Tff9RBx
-         oNHw==
-X-Gm-Message-State: AO0yUKXVqSjHKUby8f4xewJC/5inYIYvNtRVLFLErsegTv6jqLq8BRFN
-        jxBIngbcl8P9ZVoFrdX4cB4=
-X-Google-Smtp-Source: AK7set/fy/Eb7Sue92rcdrDm3lCCSH8M5LFbef1BLFLsabLm+s8mqQPhJsjPKF5bbxALYzTFXwfvuA==
-X-Received: by 2002:a05:600c:30ca:b0:3d5:365b:773e with SMTP id h10-20020a05600c30ca00b003d5365b773emr1835463wmn.39.1676655874493;
-        Fri, 17 Feb 2023 09:44:34 -0800 (PST)
-Received: from skbuf ([188.25.231.176])
-        by smtp.gmail.com with ESMTPSA id x14-20020a1c7c0e000000b003e20970175dsm6651711wmc.32.2023.02.17.09.44.32
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZHDnEinTRmd4SoQ9dH9rKDosnOXl5ELjM68bNY773ck=;
+        b=mVzoKMXIoFbtmocmppc9Sa50A+hnummJTI99WcP95A4hD92a0jhDHjxT5Xsn1eGRNq
+         kIluMN4W8zCtZmlZT8j/Toq4bVKnZOBrNyjOXmgYDVbQhnstzu6tP2nYHtcQPaPjwO2D
+         M2CaM/YKWhlu+y6oHNnEi6jUwboaIA2WHMRTZyKJ+RGMNsVtn2GnVv19RhlWFvLV3GnL
+         oD5iKreY7qHw+6TdunDcRzjsc8pce7uXPoLft/ZWIJc2M9HVJOcFf3SHR4SD+meRHvrX
+         duR0IR8p9eLROhXrO8fQafrrprkkMmnldNf0jKlfvK9MCru18Bn6xahxlv9wRHGXTMQ7
+         +vCg==
+X-Gm-Message-State: AO0yUKWrgMTJEnDw/rtgq8UAZND5uaegjHwFeYHGtcZ0Jv294TPG8sKl
+        w7b7u56jT0ZdHVkfG3vMGz/vlqcVsyRTIQ==
+X-Google-Smtp-Source: AK7set9XnLnmKIlm6nCz1Hs+VH2mjKrxq3W6ZQ1AmK9c7R9ar4hKJKKl+c9m/V5wh9omNS+GlIEuCA==
+X-Received: by 2002:a05:600c:4494:b0:3e1:f8af:8da4 with SMTP id e20-20020a05600c449400b003e1f8af8da4mr806854wmo.1.1676659976455;
+        Fri, 17 Feb 2023 10:52:56 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2501:c701:d8bd:e692:c27f:c09d])
+        by smtp.gmail.com with ESMTPSA id l37-20020a05600c1d2500b003db0ad636d1sm2964514wms.28.2023.02.17.10.52.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Feb 2023 09:44:34 -0800 (PST)
-Date:   Fri, 17 Feb 2023 19:44:31 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Hans Schultz <netdev@kapio-technology.com>
-Cc:     Simon Horman <simon.horman@corigine.com>, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
-Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
- dynamic ATU entries
-Message-ID: <20230217174431.bkkvfmtno56mfh5a@skbuf>
-References: <20230130173429.3577450-1-netdev@kapio-technology.com>
- <20230130173429.3577450-6-netdev@kapio-technology.com>
- <Y9lkXlyXg1d1D0j3@corigine.com>
- <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
- <Y9zDxlwSn1EfCTba@corigine.com>
- <20230203204422.4wrhyathxfhj6hdt@skbuf>
- <Y94TebdRQRHMMj/c@corigine.com>
- <4abbe32d007240b9c3aea9c8ca936fa3@kapio-technology.com>
- <Y+EkiAyexZrPoCpP@corigine.com>
- <87fsb83q5s.fsf@kapio-technology.com>
+        Fri, 17 Feb 2023 10:52:55 -0800 (PST)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/4] RZ/G2L SSI: Update interrupt numbers
+Date:   Fri, 17 Feb 2023 18:52:21 +0000
+Message-Id: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fsb83q5s.fsf@kapio-technology.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -110,75 +79,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 14, 2023 at 10:14:55PM +0100, Hans Schultz wrote:
-> On Mon, Feb 06, 2023 at 17:02, Simon Horman <simon.horman@corigine.com> wrote:
-> >
-> > Just to clarify my suggestion one last time, it would be along the lines
-> > of the following (completely untested!). I feel that it robustly covers
-> > all cases for fdb_flags. And as a bonus doesn't need to be modified
-> > if other (unsupported) flags are added in future.
-> >
-> > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
-> > 		return -EOPNOTSUPP;
-> >
-> > 	is_dynamic = !!(fdb_flags & DSA_FDB_FLAG_DYNAMIC)
-> > 	if (is_dynamic)
-> > 		state = MV88E6XXX_G1_ATU_DATA_STATE_UC_AGE_7_NEWEST;
-> >
-> >
-> > And perhaps for other drivers:
-> >
-> > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
-> > 		return -EOPNOTSUPP;
-> > 	if (fdb_flags)
-> > 		return 0;
-> >
-> > Perhaps a helper would be warranted for the above.
-> 
-> How would such a helper look? Inline function is not clean.
-> 
-> >
-> > But in writing this I think that, perhaps drivers could return -EOPNOTSUPP
-> > for the DSA_FDB_FLAG_DYNAMIC case and the caller can handle, rather tha
-> > propagate, -EOPNOTSUPP.
-> 
-> I looked at that, but changing the caller is also a bit ugly.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Answering on behalf of Simon, and hoping he will agree.
+Hi All,
 
-You are missing a big opportunity to make the kernel avoid doing useless work.
-The dsa_slave_fdb_event() function runs in atomic switchdev notifier context,
-and schedules a deferred workqueue item - dsa_schedule_work() - to get sleepable
-context to program hardware.
+This patch series aims to fix interrupt numbers for SSI channels and updates
+the DT binding and the driver accordingly.
 
-Only that scheduling a deferred work item is not exactly cheap, so we try to
-avoid doing that unless we know that we'll end up doing something with that
-FDB entry once the deferred work does get scheduled:
+Note, this patch series applies on top of [0].
 
-	/* Check early that we're not doing work in vain.
-	 * Host addresses on LAG ports still require regular FDB ops,
-	 * since the CPU port isn't in a LAG.
-	 */
-	if (dp->lag && !host_addr) {
-		if (!ds->ops->lag_fdb_add || !ds->ops->lag_fdb_del)
-			return -EOPNOTSUPP;
-	} else {
-		if (!ds->ops->port_fdb_add || !ds->ops->port_fdb_del)
-			return -EOPNOTSUPP;
-	}
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-What you should be doing is you should be using the pahole tool to find
-a good place for a new unsigned long field in struct dsa_switch, and add
-a new field ds->supported_fdb_flags. You should extend the early checking
-from dsa_slave_fdb_event() and exit without doing anything if the
-(fdb->flags & ~ds->supported_fdb_flags) expression is non-zero.
+Cheers,
+Prabhakar
 
-This way you would kill 2 birds with 1 stone, since individual drivers
-would no longer need to check the flags; DSA would guarantee not calling
-them with unsupported flags.
+Lad Prabhakar (4):
+  ASoC: dt-bindings: renesas,rz-ssi: Update interrupts and
+    interrupt-names properties
+  ASoC: sh: rz-ssi: Update interrupt handling for half duplex channels
+  arm64: dts: renesas: r9a07g044: Update IRQ numbers for SSI channels
+  arm64: dts: renesas: r9a07g043: Update IRQ numbers for SSI channels
 
-It would be also very good to reach an agreement with switchdev
-maintainers regarding the naming of the is_static/is_dyn field.
+ .../bindings/sound/renesas,rz-ssi.yaml        | 21 ++++---
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    | 19 +++---
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 19 +++---
+ sound/soc/sh/rz-ssi.c                         | 63 +++++++++++++------
+ 4 files changed, 70 insertions(+), 52 deletions(-)
 
-It would also be excellent if you could rename "fdb_flags" to just
-"flags" within DSA.
+-- 
+2.25.1
+
