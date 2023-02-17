@@ -2,126 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1CF569AF6E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Feb 2023 16:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0388269B1F6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Feb 2023 18:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjBQPYu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Feb 2023 10:24:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55202 "EHLO
+        id S229521AbjBQRoi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Feb 2023 12:44:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjBQPYt (ORCPT
+        with ESMTP id S229510AbjBQRoh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Feb 2023 10:24:49 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2071e.outbound.protection.outlook.com [IPv6:2a01:111:f403:7010::71e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DEF96CA39;
-        Fri, 17 Feb 2023 07:24:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cCM5Xnmbn87SBiNZuQxyN4nHCT+m5b0woe+XEIAL7I/AN2TTgqWKRwGw0fMYPniirdS1FYTHGoyT08P4PKePjrFqnKigt6itEpFOJhOPFuUxQ7LhDsEyeJ4RzDBP8HD/Jz18DHYZjvP88IVOAb6bpiPoSRYJ2ep2h3YIKCz0755G8D6yjhpXq89EyDCASbQTDQ1HMq7TNtUFyfGipw+aNQrjxbHiheu9WTuCxNjjb6G78rWNT+ZLZn1p+BF+Fzhdxj1vpjH0ipcN0GD6DZpM8bLNbEPo/+i2rc0EWAPuQSsFyHBnfCS7fMKA6R6pah3kJ0+Inku/XiSy4sZ9MWpzDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vU9xOQKbQOWAco4A3lhHkGb4KPVYT55PP11Qo+ntSZM=;
- b=VwAK5EEONHLNJjY3n8u3d4FIQSuVlRXLH0FINJqFOw+1c0QlJelEEM1PqP/6YYJ5/trJ5tEhRv0yQ5pnOHyfLf8NSaRrq2Mx+f0YyvczvrzUSScY3e3nF3aqvEbZMWIn11y1/bqsRAkT8AR7HpYo/uDmqPAnqXAWxKab6hISTqXwdImXyv0AH0IcDbYxp0FzDOllsIgMUcx2tP8cd+0NDo2x88GkGHmcALAZWu+LTcc64ZYrwsrq0Ya5YohDg9LmFM1tmVOXpxlHPCo+pXZrxwF+uf+wzFCiQwreiLJnhF1XwtYf+RmQCYpF8CDJCMf5lvpM/P3at5wZItsU1LpFkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vU9xOQKbQOWAco4A3lhHkGb4KPVYT55PP11Qo+ntSZM=;
- b=iV3tlVs+q7DDs/Q3QBAa4PMOaIPFiNjWCO9yUV3ywLB+Ek0ELMigYzKuhfRZ2Afo8Go1GhbIBLlSm7IbaKD6Opc1udD3j2Pxc9F7gDYZKlVnFZQqgspqQ70e5a30eoZH/dQnQdDWSRjkQWD1+F/yzRUX13z73Aj6kxhXnzlagDM=
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by OS0PR01MB6065.jpnprd01.prod.outlook.com (2603:1096:604:c8::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17; Fri, 17 Feb
- 2023 15:24:44 +0000
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::9eb:3c9a:c2bc:af06]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::9eb:3c9a:c2bc:af06%6]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
- 15:24:44 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?iso-8859-1?Q?Niklas_S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v4 6/6] serial: 8250_em: Add
- serial8250_em_{reg_update(),out_helper()}
-Thread-Topic: [PATCH v4 6/6] serial: 8250_em: Add
- serial8250_em_{reg_update(),out_helper()}
-Thread-Index: AQHZQsULLWkrxmHF5Eim51yNEnh8Oq7TLqCAgAAFCsCAAAwAAIAAAnHg
-Date:   Fri, 17 Feb 2023 15:24:44 +0000
-Message-ID: <TYCPR01MB59334480E01178A7F280FC1D86A19@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-References: <20230217114255.226517-1-biju.das.jz@bp.renesas.com>
- <20230217114255.226517-7-biju.das.jz@bp.renesas.com>
- <Y++LqQIHuO8BGTm2@smile.fi.intel.com>
- <OS0PR01MB5922982DB09B8F1DFD70602186A19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <Y++Z9G/ouZQE/BTM@smile.fi.intel.com>
-In-Reply-To: <Y++Z9G/ouZQE/BTM@smile.fi.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB5933:EE_|OS0PR01MB6065:EE_
-x-ms-office365-filtering-correlation-id: 4a41cc13-9a44-4abf-39bd-08db10fb18e9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MFlh/JlxfseXgCYWvGg0W+biSi7wvZ1vEf6mjkQrlRko5J4xNdLRzCW0C0TryZjR8kwPXEdnFUoijOoLidOk//yFOQVdn7rKbi1vNiDjef85N1LJhQ/d5Rq9EdjNhhvCJAQQtNLlHQK4Y91ITs5vjGywZHocp5iovl2H4/+BMG5NWsEq55qQGgZGAwThMqtwhRI+4Mj+2i0g+L4tyhJhBwMgTuKQ+mWYsPZMWg35Odcndbnkcf+iAt7FXMx919Bq6Kizwx3fK+m3tRUJmqJpaJriwIKH1iIgMkcbHr8sWpbQKz550XcZLrJPYDPX2LLiIgXKmIJSPNpzRrry9Yn54RhXr1tVXEkCH32IsCbXKydVKwUEVt3jx5BngSJkhfO+tlehBYDlZ9VwXU6qe3p7/wBqGl+vZ0SdIjycHk/ACN2aG1c9lOaqzUH73xvecpTGu17yA7S7RzV9IM2/rqPFlH/dR14n0H/Y511VDA+B9oVYHTZ7Eu7peEPhEVJTrK10HH8WQNXHcSCDv+6Cfokj6zv+jxwoNzEiu6nqL9miAOp8mkMEYhMSEyoh1C3FM3lgD9MSlhO06S1bAKulyINqZfH/bPFyoukLmCD7UYLrYPMngX74p+x3LNfbdvLh6emk4JJGmHkkdKWZh5aGmQCgjVioDZ+qKCD8x30cVob2uhspogUv4u6kmrhgvVL2/Zxf
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(346002)(366004)(39860400002)(376002)(451199018)(4744005)(86362001)(38070700005)(2906002)(38100700002)(122000001)(71200400001)(7696005)(6506007)(54906003)(26005)(186003)(478600001)(33656002)(55016003)(76116006)(66946007)(83380400001)(6916009)(8676002)(64756008)(66556008)(66446008)(66476007)(316002)(9686003)(41300700001)(52536014)(4326008)(8936002)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bMz7Kiv3Q/79iYSUE3QvOMzGJw8QVmod+VOqqLvhTqajPF3biD3njspR+B?=
- =?iso-8859-1?Q?ZVbXRcWRKaFti60hkmmwtloutwyHJe5/qu7sxuPb5owTAuR29D8PpUVF65?=
- =?iso-8859-1?Q?8nhYs4i3kQAQWicdMzCSTnXFMBfUYZTD9jsLau3BPgS16lIH1BsXcUkLcA?=
- =?iso-8859-1?Q?V0vYsp6stkPIS6pjH8ji+32OJkrVzI5m697DtfqO/siYUD4o032wYtZrr9?=
- =?iso-8859-1?Q?4vr/NpIBZLOX924CdHiAI1A2SLhjgU6nORJoL6Uo94Fr7KhPQSR0rWhqyU?=
- =?iso-8859-1?Q?xDlcMnsDddup2To6wImDqs0OOxp4VI7KoAtIEEq2CSjwsMY14GUnykD4bL?=
- =?iso-8859-1?Q?vETuEHHsch00QcZ8uZ4HihV06edA0diRLxTxZ1oh+raWd/1jRQRFM0k9/z?=
- =?iso-8859-1?Q?bnw9qi8qdKq3SyszpFo87DizGkVqRXo1boJ+Ujsb2fDySoW+kBkgVjep8Y?=
- =?iso-8859-1?Q?Wor8oz1FOtxiEBsxBs1BorfboSIW0k/a8bDOrjlG15vYVDReQn72nkLr8K?=
- =?iso-8859-1?Q?dB56F1hpSizbX1KdM7KMmFp+0rHgybW/ALLgqvaSIjjzZ3K+fyudSMF29u?=
- =?iso-8859-1?Q?NmppdEOJ9gnowof9HweKUqdZWKKcwnK9di8Xi71+raFwuiV4GjpSnZDsjV?=
- =?iso-8859-1?Q?tzHEZOkSgUawfPyGKYAmRKOYhVhD7q3e1MDRn31y9KZfbO9OgqRhiPZSlu?=
- =?iso-8859-1?Q?mPx7f8eZDNtOuIG6Vo35GfsM5DuKlsdDOzTLTPnmzgvyEPcVY8uUicOTXO?=
- =?iso-8859-1?Q?TvYiZlKLL470Qxx5rtB3hCCwVSZR2s8lCHiZGmtgrJxnrMEFRQMn09j4DQ?=
- =?iso-8859-1?Q?w+Oh6smuunA9ElrKHk7cTTYXUKLbzkqcAf+5qZvDseZ/LSq5XF8UDpWl09?=
- =?iso-8859-1?Q?dBWXc6T2DvfeWDGqzwcD8HNfgin/sa9VKDf3OpGsgKFsrxuB4whdmLtLaa?=
- =?iso-8859-1?Q?2ONm5ubOpeKrqwkA9wp0fhlwhS+uAPY/iBbcnepsya9DeEysY+0WKVS6J+?=
- =?iso-8859-1?Q?24/AojNQqsj2oLhnePwugbClysCZaWyavlPWKmXZZi8C82npHgQyd15bmU?=
- =?iso-8859-1?Q?sc/disrqzjSloDyhwd3YrSdKia0Ggd/9g129V+Fh2FZ867uYonKAz/JWDb?=
- =?iso-8859-1?Q?zvAMDFdPk/OI+CccVHHaICy42+mByi6z7lezSKtL3OjE5jwkxE0m5mQQ75?=
- =?iso-8859-1?Q?rT+qg+mp3SdOIC6rynJalpNteDiQo5i5l1nU2wRnUHMO1j76vEvMEizRom?=
- =?iso-8859-1?Q?BKKfk7NSpNBKohjMQACAIOKDXOv936GYfydUOXwIkvhD9Gr/nnyqkMKCYu?=
- =?iso-8859-1?Q?skYnND0o9Jt2JkpEFnGvlLIkZ5slmrzjymW3ByQ5YLNGwRck70bUo/LseO?=
- =?iso-8859-1?Q?vEBiVwmhWYz9ZXUh/sveRCVcsIU0H4qCD183E2BXYygjsFMtxf64r8FLpZ?=
- =?iso-8859-1?Q?y89D9h7EPl6QsJh92tUfi+G6D0AfWkax3JGGWyDpxzQMNt+3dLf1HRoEbb?=
- =?iso-8859-1?Q?ptlAyfSLZdyIM7TpjweLauVCkGUWmMIiUXOwxMbtXvTkjPp51ynF3W8SxR?=
- =?iso-8859-1?Q?NI/AukHR4VZFLMg1y3DCtpBkHNfv3kykZpPWoAMappO0vqu4oSdDGt3hlX?=
- =?iso-8859-1?Q?efeLc0xaxZWPTowuVAc0uNXQZ6TvErin2Eh1ylrbm1r3CX9a3RAjWgSw?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 17 Feb 2023 12:44:37 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311DD70940;
+        Fri, 17 Feb 2023 09:44:36 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id 4-20020a05600c22c400b003dc4fd6e61dso1500087wmg.5;
+        Fri, 17 Feb 2023 09:44:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=auVrVbOSTA9pQeJfPXz91TlriegzpUKwC2EMUID2gPE=;
+        b=kPts36a0DOfrWbE5EDMVM8XUTfPhcct1+Wh6iYrEUNULUaJQQ940e2QgPodOvnNQ3O
+         PYVdDfrIzrIPE0Vc2g/vfe89g2tIAWRInxGmIeY2ABwKLrTGnwzSZXS4/ClMgmErrlyZ
+         2VJyFiXyf6FXfFu8h4TAk5sbo9ObWj2hpaMsr5iTHYK0yLpQeXx/71BXJmUTcn6Wvk9c
+         PmQQIK6oRsnk/d8C/SuDJEsTzFKhOVo3Uq5HnXasc+0Bv5iNajhahka3DZoCuSzV0nXu
+         U1ZgVBV32o0fJltdnu8cEis7bX2g96yWawZ5DbL8oya33c0Sw88227zU/BpoJxCJOwQD
+         DEAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=auVrVbOSTA9pQeJfPXz91TlriegzpUKwC2EMUID2gPE=;
+        b=zhR1inJqGY8yG2qKKs9jUFCHLGNNcYodvO+Gttq9qnflp4+yhjX3jBLcGTZ/uJEsKB
+         JbpQ2SJysQId/lrk101SKxenFsery1IpFEwNRHSpeZUYxfAUpWb/KnLBDlODQAL115aa
+         kKADHUqy3arQJnObYxtuDOV0ks7u9Lfue53bMEr7KZDIRNR0H3dKn9yt9Ki+I5hVbLS/
+         WPIiCElH8IwRDOOMRfg0PMRRjHIWeXeoWTcnn27VpUCumQipcBiOfyZoMuxkYMNzzI+O
+         li5PGj1qQO+89N4zmm3OqwroPlqiJP/THgtJJmZF8JmyYb7Ml8B309ZXY7R+8Tff9RBx
+         oNHw==
+X-Gm-Message-State: AO0yUKXVqSjHKUby8f4xewJC/5inYIYvNtRVLFLErsegTv6jqLq8BRFN
+        jxBIngbcl8P9ZVoFrdX4cB4=
+X-Google-Smtp-Source: AK7set/fy/Eb7Sue92rcdrDm3lCCSH8M5LFbef1BLFLsabLm+s8mqQPhJsjPKF5bbxALYzTFXwfvuA==
+X-Received: by 2002:a05:600c:30ca:b0:3d5:365b:773e with SMTP id h10-20020a05600c30ca00b003d5365b773emr1835463wmn.39.1676655874493;
+        Fri, 17 Feb 2023 09:44:34 -0800 (PST)
+Received: from skbuf ([188.25.231.176])
+        by smtp.gmail.com with ESMTPSA id x14-20020a1c7c0e000000b003e20970175dsm6651711wmc.32.2023.02.17.09.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 09:44:34 -0800 (PST)
+Date:   Fri, 17 Feb 2023 19:44:31 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Hans Schultz <netdev@kapio-technology.com>
+Cc:     Simon Horman <simon.horman@corigine.com>, davem@davemloft.net,
+        kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
+Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
+ dynamic ATU entries
+Message-ID: <20230217174431.bkkvfmtno56mfh5a@skbuf>
+References: <20230130173429.3577450-1-netdev@kapio-technology.com>
+ <20230130173429.3577450-6-netdev@kapio-technology.com>
+ <Y9lkXlyXg1d1D0j3@corigine.com>
+ <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
+ <Y9zDxlwSn1EfCTba@corigine.com>
+ <20230203204422.4wrhyathxfhj6hdt@skbuf>
+ <Y94TebdRQRHMMj/c@corigine.com>
+ <4abbe32d007240b9c3aea9c8ca936fa3@kapio-technology.com>
+ <Y+EkiAyexZrPoCpP@corigine.com>
+ <87fsb83q5s.fsf@kapio-technology.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a41cc13-9a44-4abf-39bd-08db10fb18e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2023 15:24:44.3205
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /Xo6xjpImRPwOpErx7/0GuEgPCzQSaiNVUpRIZu0byLmYS/dJYvts/0X2fPvChvNzkZ/Dfc8e4wBzigDy0qaGcdnTmGuq8MwVl2/0TqThd4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6065
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fsb83q5s.fsf@kapio-technology.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -129,41 +110,75 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
-
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v4 6/6] serial: 8250_em: Add
-> serial8250_em_{reg_update(),out_helper()}
->=20
-> On Fri, Feb 17, 2023 at 02:35:16PM +0000, Biju Das wrote:
-> > Hi Andy,
-> > > Subject: Re: [PATCH v4 6/6] serial: 8250_em: Add
-> > > serial8250_em_{reg_update(),out_helper()}
-> > > On Fri, Feb 17, 2023 at 11:42:55AM +0000, Biju Das wrote:
->=20
-> ...
->=20
-> > > > +	switch (off) {
-> > > > +	case UART_FCR_EM:
-> > > > +		fcr =3D value;
-> > > > +		break;
-> > > > +	case UART_LCR:
-> > > > +		lcr =3D value;
-> > > > +		break;
-> > > > +	case UART_MCR:
-> > > > +		mcr =3D value;
-> > >
-> > > Missing break; statement.
+On Tue, Feb 14, 2023 at 10:14:55PM +0100, Hans Schultz wrote:
+> On Mon, Feb 06, 2023 at 17:02, Simon Horman <simon.horman@corigine.com> wrote:
 > >
-> > OK, will fix this in next version.
+> > Just to clarify my suggestion one last time, it would be along the lines
+> > of the following (completely untested!). I feel that it robustly covers
+> > all cases for fdb_flags. And as a bonus doesn't need to be modified
+> > if other (unsupported) flags are added in future.
 > >
-> > The original driver has some missing breaks[1].
-> > So for consistency I dropped this. same for below.
->=20
-> I see. Perhaps you can add another patch that adds them there first?
+> > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
+> > 		return -EOPNOTSUPP;
+> >
+> > 	is_dynamic = !!(fdb_flags & DSA_FDB_FLAG_DYNAMIC)
+> > 	if (is_dynamic)
+> > 		state = MV88E6XXX_G1_ATU_DATA_STATE_UC_AGE_7_NEWEST;
+> >
+> >
+> > And perhaps for other drivers:
+> >
+> > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
+> > 		return -EOPNOTSUPP;
+> > 	if (fdb_flags)
+> > 		return 0;
+> >
+> > Perhaps a helper would be warranted for the above.
+> 
+> How would such a helper look? Inline function is not clean.
+> 
+> >
+> > But in writing this I think that, perhaps drivers could return -EOPNOTSUPP
+> > for the DSA_FDB_FLAG_DYNAMIC case and the caller can handle, rather tha
+> > propagate, -EOPNOTSUPP.
+> 
+> I looked at that, but changing the caller is also a bit ugly.
 
-OK, will add separate patch for adding them first.
+Answering on behalf of Simon, and hoping he will agree.
 
-Cheers,
-Biju
+You are missing a big opportunity to make the kernel avoid doing useless work.
+The dsa_slave_fdb_event() function runs in atomic switchdev notifier context,
+and schedules a deferred workqueue item - dsa_schedule_work() - to get sleepable
+context to program hardware.
+
+Only that scheduling a deferred work item is not exactly cheap, so we try to
+avoid doing that unless we know that we'll end up doing something with that
+FDB entry once the deferred work does get scheduled:
+
+	/* Check early that we're not doing work in vain.
+	 * Host addresses on LAG ports still require regular FDB ops,
+	 * since the CPU port isn't in a LAG.
+	 */
+	if (dp->lag && !host_addr) {
+		if (!ds->ops->lag_fdb_add || !ds->ops->lag_fdb_del)
+			return -EOPNOTSUPP;
+	} else {
+		if (!ds->ops->port_fdb_add || !ds->ops->port_fdb_del)
+			return -EOPNOTSUPP;
+	}
+
+What you should be doing is you should be using the pahole tool to find
+a good place for a new unsigned long field in struct dsa_switch, and add
+a new field ds->supported_fdb_flags. You should extend the early checking
+from dsa_slave_fdb_event() and exit without doing anything if the
+(fdb->flags & ~ds->supported_fdb_flags) expression is non-zero.
+
+This way you would kill 2 birds with 1 stone, since individual drivers
+would no longer need to check the flags; DSA would guarantee not calling
+them with unsupported flags.
+
+It would be also very good to reach an agreement with switchdev
+maintainers regarding the naming of the is_static/is_dyn field.
+
+It would also be excellent if you could rename "fdb_flags" to just
+"flags" within DSA.
