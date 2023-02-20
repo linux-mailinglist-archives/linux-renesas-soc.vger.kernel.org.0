@@ -2,155 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D852569CBFB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Feb 2023 14:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3369A69CF18
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Feb 2023 15:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbjBTNXg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Feb 2023 08:23:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35650 "EHLO
+        id S230377AbjBTOMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Feb 2023 09:12:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbjBTNXc (ORCPT
+        with ESMTP id S229479AbjBTOMW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Feb 2023 08:23:32 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230097EC6;
-        Mon, 20 Feb 2023 05:23:30 -0800 (PST)
-Received: from mercury (dyndsl-095-033-158-068.ewe-ip-backbone.de [95.33.158.68])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id DCA126602161;
-        Mon, 20 Feb 2023 13:23:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1676899408;
-        bh=EpofNz6MD/mPoCdRuSgO8/RJyETCbQR5Uv8NTsFxb3M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iBi51yqn4jM/lciw1DbbnBma1n0Mje98qEA4nparqS0AovBX2Z312SVd0ATM8aMoK
-         NHcPWSIEJYTfa1uIldlewrSL01WfA0qFizBwyDJbW5zvgYjBMxZEKA2YQA0iMEx+nP
-         G7703Hja/yfjXuVbXFRvp9Q+F7MPRSQvMmCRyb8hZVUuSwYzyX/Ix9X5IiwvpBDzSi
-         vwyUvQ7OXQ2r3AxmokbSeSMxi18CQ+wb0CE+bvjXceTu82JgfAAEmxDh5eKE9tDNoP
-         mngHYZtCTl8JjVegYl8wsW5VvB40j1AYZAP6fYk5zYdf4CvfnaXOgpTXbf2f63JkZN
-         PPU+qn9bBJv6w==
-Received: by mercury (Postfix, from userid 1000)
-        id C04E310603FE; Mon, 20 Feb 2023 14:23:25 +0100 (CET)
-Date:   Mon, 20 Feb 2023 14:23:25 +0100
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     rafael@kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
-        Len Brown <lenb@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Gregory Greenman <gregory.greenman@intel.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
+        Mon, 20 Feb 2023 09:12:22 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2118.outbound.protection.outlook.com [40.107.243.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C3D1F939;
+        Mon, 20 Feb 2023 06:11:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gtVtYWvGP+TGvg4/nkj6EFQCedBsF/VDR+EjhBvTuM92V+tQZlKXEPvnnQhxJ1yIto1mmS9+YvyuL0yQ7TgalAi5254xEtrpw/BVppBjYlqSwWGJtQ3rTYoVJTVArh2fexMnqCpGvkk3cEXYHQzvsHUz6JIA8UPZ4sVbOimOi/sreZzNj+nmD59r+csRBZ3MimWHGL5fP8F2Ia0oQMbOBCeUSh6bVusM2iAK8vw9bfKEy0UN6r7pCmvB3epka4sMF5jGpiWaqaV2G42hKqLTTcNDioGxtqQYFgSG7cs52nquzy771LXwENTOhsWHvLrUwEmo3Yg3uSj2FepplLu8+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FKVGHeb22qzfhzH0WK8BTep6YXmUCvDuCjosBg2TlME=;
+ b=LHuCUCNwWcViUXIBokj8zvxDJAPvQ9Mpiy1T2T/0YtKAGgnGryubKMl030/00PXhYXgbqScCScI0lCL7GpMugoWqfGZyql81Bhlp3sZsTVAUAKg9n9EYktQleptwqNdoNPqERpi2lbnY7uZdfXsWFY6kfqOAP4kxw/YXWIl9cS9OeTEaDKCUhRFqHEHu0FNOc6ZO9aWnvuLSdDIlECqKnGut4TA9afKplejDV8k5/Fb+/yBzRaEYplrqxkho/9g9/DQYG59OBocXLtDReBV1tJRYGAGoWrU8vpdF4XnhnDI/3nOUX1749QbgmF/WTCm6nLse5fAQaXTCchQpMyXwsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FKVGHeb22qzfhzH0WK8BTep6YXmUCvDuCjosBg2TlME=;
+ b=k1g+GkDzccdzfKSIT/dygh80YJRCc31I/6xqX09BwfCf33Deb4MU1wi4kawYFLkmFLeTXEpkkKvUfeyEdlY99Vt3pvZOj3GzgAf9/ZnYo5/Jc+ajG3DJlYI4OvHHnxp2R9qVayXIf2tZpjk2edxhWY6ucJhV73L1qqVDOe88VXE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by BN0PR13MB5166.namprd13.prod.outlook.com (2603:10b6:408:151::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Mon, 20 Feb
+ 2023 14:11:29 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::85f5:bdb:fb9e:294c]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::85f5:bdb:fb9e:294c%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
+ 14:11:29 +0000
+Date:   Mon, 20 Feb 2023 15:11:19 +0100
+From:   Simon Horman <simon.horman@corigine.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Hans Schultz <netdev@kapio-technology.com>, davem@davemloft.net,
+        kuba@kernel.org, netdev@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Talel Shenhar <talel@amazon.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Tim Zimmermann <tim@linux4.de>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Jiang Jian <jiangjian@cdjrlc.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Balsam CHIHI <bchihi@baylibre.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        "open list:ARM/Allwinner sunXi SoC support" 
-        <linux-sunxi@lists.linux.dev>,
-        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
-        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
-        <linux-wireless@vger.kernel.org>,
-        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC support" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:SAMSUNG THERMAL DRIVER" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        "open list:TI BANDGAP AND THERMAL DRIVER" 
-        <linux-omap@vger.kernel.org>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
         "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata'
- accessor
-Message-ID: <20230220132325.ksmho3p54zr2hm4a@mercury.elektranox.org>
-References: <20230219143657.241542-1-daniel.lezcano@linaro.org>
- <20230219143657.241542-2-daniel.lezcano@linaro.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="amobsqjguregida6"
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>
+Subject: Re: [PATCH net-next 5/5] net: dsa: mv88e6xxx: implementation of
+ dynamic ATU entries
+Message-ID: <Y/N/h5WMRzl0i2IT@corigine.com>
+References: <20230130173429.3577450-6-netdev@kapio-technology.com>
+ <Y9lkXlyXg1d1D0j3@corigine.com>
+ <9b12275969a204739ccfab972d90f20f@kapio-technology.com>
+ <Y9zDxlwSn1EfCTba@corigine.com>
+ <20230203204422.4wrhyathxfhj6hdt@skbuf>
+ <Y94TebdRQRHMMj/c@corigine.com>
+ <4abbe32d007240b9c3aea9c8ca936fa3@kapio-technology.com>
+ <Y+EkiAyexZrPoCpP@corigine.com>
+ <87fsb83q5s.fsf@kapio-technology.com>
+ <20230217174431.bkkvfmtno56mfh5a@skbuf>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230219143657.241542-2-daniel.lezcano@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <20230217174431.bkkvfmtno56mfh5a@skbuf>
+X-ClientProxiedBy: AM0PR06CA0142.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::47) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|BN0PR13MB5166:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8712852b-fd81-445c-4f90-08db134c5c26
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6g04yy3J9c4cfPtgAnaatdb8wmLwtOOMnt2hhMRRYyqlO1xQp1+vJXbK6EzRyy/pDaZTRrSwdpTMOYYzhXlbFMTWQW+XqlzVCxXJycVKnQbn/SPI0aZrKgM6qprdmBxLN93lpLGJjMhB8UhYPzb918PiZpSrkWXqo5L/xshdrftEwuT8w++7WBwxA905VwszK7Stc9DohCDG18ozlPfLkjSvgCr4bKRsLWe5CqBgxgJu9A0tJk00M4fJG+oyhjSi1nrNLUM4HbiAYTWlgr40xDZHGDefzirFZi6s3ZjbrId5W8GhcVhTMixodfUV8XcxkXDmnP4UwsEopuUsxT70geBYfcqlibuIYT1c1blP+FsZ3VsqH5o4gBZNAi3CBFWZ1CC3gd9726I31kIoUxOAy3ZRoD4aJ0Hzr/nTgWe5jaa4WwpO00sn5WR1htuuhrk86UbcO1z49+C5O2AELGyr10Gf1GKptBM11fCdGDXOhXUlwoPwjFd1V7mdhxj1amOdH8PiUcj+H7ToYyMWi+r6JDDrbp8wv5LtKHKZH/qLas0meRzn8DRV8D4CVoA2//0yslJ2D4vXqMQ9UqjnvNGgcyzJdlPWKHzEURjkTD1saGK0JqkLuZdherPy6uKnfAPdMapos3ZE43r8FIWC/08bDjpgo/asBphe+vBqDSTXkychX5Gl+i07GF98vHnbo1n8
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(346002)(39840400004)(366004)(136003)(451199018)(38100700002)(36756003)(6512007)(6666004)(186003)(6486002)(6506007)(4326008)(478600001)(2616005)(54906003)(53546011)(316002)(2906002)(8676002)(6916009)(66556008)(66476007)(66946007)(83380400001)(5660300002)(7406005)(8936002)(44832011)(86362001)(7416002)(41300700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UTVQ42flIc2Awj0c8J/5DpjVeajT1b7SgjNgg0VcIX3Ahz7EYAzY9tpVJyzW?=
+ =?us-ascii?Q?bNEXEWTYwsMrKLpy/demHii5+Cw3j6pw1ifv21OLxOIMOLZ0dutXVbQMsiMd?=
+ =?us-ascii?Q?NaGsFDPIMuQes0lqtY9hnpAk01sIbOZE/ooSM2Dn4N7s5+SyqJ3tyZv8JzA1?=
+ =?us-ascii?Q?nZu2KpNWNYwaNtbeT4RcLefISSvSuZOa8e0zDfprPRuiGn2JCOKajHU7LCIJ?=
+ =?us-ascii?Q?tyhYR4b2XsY8DdqLCVgKzlF3FY35xH/gjyhGJC0eUyVfON0CAte4+dE13R5f?=
+ =?us-ascii?Q?xLoNN8oRAQgTXfkbzXg7jHu1UOTUdBTl2sB/ilBi6w1IZ/27aCgS7rlybwGk?=
+ =?us-ascii?Q?zoujVoL/SLhWXLiPKhQxlTufozTF0LaQtLTfy1Gy2NVV1nBMeTjiri2uwihG?=
+ =?us-ascii?Q?hGPbMwxgKcFNncbDrHTPF/yKnGdp6wLnLYajISXDFOTSUw4yvevposTDvZpN?=
+ =?us-ascii?Q?DtFo+hrQNqaXRm5hR1MVakLjP5po/OJ7ZIQNxPsD7gv1KP6RFxGg1lAziY3d?=
+ =?us-ascii?Q?DjGPuqnKP4rT68w46Nid2opStOWFFr/e1zw6lXEJ/lN0HXTcuhP9i+q4FxxA?=
+ =?us-ascii?Q?itXcW9EiMjiSd+ypG+qRCVtmyCyn5r150UbtHJ0lbjdvUsLyUELDZWFzQFBb?=
+ =?us-ascii?Q?S+2DDr7lxXapUf+AuryNTNsa2KYo53B5cjry8YAw0lyW5sX3CwG6R2Gn94xD?=
+ =?us-ascii?Q?toowigEssTV/ka7nvqZbQ+AC/UemI/bZnUnxssiFmMovmlNDsmlTdWrO7Zaq?=
+ =?us-ascii?Q?l0XgOOtXGDyyeDkRNQmkHbJJUxNyIM4eBpbQDE+3umXrDeWZPV3NfSYOAFBK?=
+ =?us-ascii?Q?ulMJdRrg/yN2DqhLgRkRnmjT+QsY5uwnV2F5AKKYs+OCMqG5S/OPvtlDY5Fl?=
+ =?us-ascii?Q?hRU7DsDTdPjrtUXF16gLddN468gToKmL5PCGcRBTb8WH5ofADHTV9TCFNj9+?=
+ =?us-ascii?Q?oCGSfQMFVwSJ7pxxwOl3vYkXx+P975qibT0J4+VPCXvfPvDkXfLhh27dTDS6?=
+ =?us-ascii?Q?ksSY4huIACcKWB2tPLjY9MWKym5Uzks1JdSG8cDqVDq5HMJbczuGPEnaPtwS?=
+ =?us-ascii?Q?Yd476TV8Q1/V8blzJK++Lg6Fn0+Qh5Zy8++E/51NfQ8iiLU3rr9r9Kh70t+o?=
+ =?us-ascii?Q?36GYPXeDM1Q3xxbdTm3WF573SWdOQ31X85h8JL7W7gLMHpEm/yT+ocYclw1T?=
+ =?us-ascii?Q?VZmA71lqD/mbt6uocgTPE0igpy/AzaGsmd6596tBLUbjVj3EQfH9hGAgoahQ?=
+ =?us-ascii?Q?n10Bmy010B75kc4+Je+UYZmY6tzRnRTO1snAONozJNDOotDnMI7jxIr//QFc?=
+ =?us-ascii?Q?UZpgf33RaJnW09HSDfTYWbiOgnmVQ2VtBc2BkxNKzEwJqbx+mMzS2Vd11JPp?=
+ =?us-ascii?Q?rgGOAfqSaDt4pT7I+jekUi9YWzPSyLV0CT2HmYO7iBfkYPAMUjUaK1tD49e3?=
+ =?us-ascii?Q?aBFnhbIqATnhlBt2Hya11i1kRpkuOb00/27r217wgBmcYecy1nPkwwn86SNA?=
+ =?us-ascii?Q?tIvyCLe1cNIEYjZlksmY+Fm81z9SSb+jNDX9qTzSymUBsD3HoIXUg0o8iUJW?=
+ =?us-ascii?Q?5Ovep+vw8arF7wljNeShG5uds97pckWyw0vxPFihFkhDb0GKXg+QEKp87ZIj?=
+ =?us-ascii?Q?Fb7pSILMaOIzIfbMW1dd16OIzFOS26xqMnXtYAsYMjE+oi0oltoccYjJtAeD?=
+ =?us-ascii?Q?T+TSsQ=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8712852b-fd81-445c-4f90-08db134c5c26
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 14:11:29.0794
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fGsXtC+/y+dSteseq3KP/V/fO+rmX+lCjadVp2SJ29Ld11Mdze0hiinTSsnUVZOjc/0i5PfLBCrnu71VTrxFx6jqbxk0WWxt/J8PCTPfq88=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR13MB5166
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -158,75 +153,81 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Feb 17, 2023 at 07:44:31PM +0200, Vladimir Oltean wrote:
+> On Tue, Feb 14, 2023 at 10:14:55PM +0100, Hans Schultz wrote:
+> > On Mon, Feb 06, 2023 at 17:02, Simon Horman <simon.horman@corigine.com> wrote:
+> > >
+> > > Just to clarify my suggestion one last time, it would be along the lines
+> > > of the following (completely untested!). I feel that it robustly covers
+> > > all cases for fdb_flags. And as a bonus doesn't need to be modified
+> > > if other (unsupported) flags are added in future.
+> > >
+> > > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
+> > > 		return -EOPNOTSUPP;
+> > >
+> > > 	is_dynamic = !!(fdb_flags & DSA_FDB_FLAG_DYNAMIC)
+> > > 	if (is_dynamic)
+> > > 		state = MV88E6XXX_G1_ATU_DATA_STATE_UC_AGE_7_NEWEST;
+> > >
+> > >
+> > > And perhaps for other drivers:
+> > >
+> > > 	if (fdb_flags & ~(DSA_FDB_FLAG_DYNAMIC))
+> > > 		return -EOPNOTSUPP;
+> > > 	if (fdb_flags)
+> > > 		return 0;
+> > >
+> > > Perhaps a helper would be warranted for the above.
+> > 
+> > How would such a helper look? Inline function is not clean.
+> > 
+> > >
+> > > But in writing this I think that, perhaps drivers could return -EOPNOTSUPP
+> > > for the DSA_FDB_FLAG_DYNAMIC case and the caller can handle, rather tha
+> > > propagate, -EOPNOTSUPP.
+> > 
+> > I looked at that, but changing the caller is also a bit ugly.
+> 
+> Answering on behalf of Simon, and hoping he will agree.
 
---amobsqjguregida6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry for not responding earlier - I was on vacation last week.
 
-Hi,
+TBH my idea was not nearly as well developed as the one you describe below.
+But yes, I agree this is an interesting approach.
 
-On Sun, Feb 19, 2023 at 03:36:41PM +0100, Daniel Lezcano wrote:
-> The thermal zone device structure is exposed to the different drivers
-> and obviously they access the internals while that should be
-> restricted to the core thermal code.
->=20
-> In order to self-encapsulate the thermal core code, we need to prevent
-> the drivers accessing directly the thermal zone structure and provide
-> accessor functions to deal with.
->=20
-> Provide an accessor to the 'devdata' structure and make use of it in
-> the different drivers.
->=20
-> No functional changes intended.
->=20
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> ---
-
-=2E..
-
->  drivers/power/supply/power_supply_core.c         |  2 +-
-
-=2E..
-
-> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/sup=
-ply/power_supply_core.c
-> index 7c790c41e2fe..166f0aacc797 100644
-> --- a/drivers/power/supply/power_supply_core.c
-> +++ b/drivers/power/supply/power_supply_core.c
-> @@ -1142,7 +1142,7 @@ static int power_supply_read_temp(struct thermal_zo=
-ne_device *tzd,
->  	int ret;
-> =20
->  	WARN_ON(tzd =3D=3D NULL);
-> -	psy =3D tzd->devdata;
-> +	psy =3D thermal_zone_device_get_data(tzd);
->  	ret =3D power_supply_get_property(psy, POWER_SUPPLY_PROP_TEMP, &val);
->  	if (ret)
->  		return ret;
-
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
--- Sebastian
-
---amobsqjguregida6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmPzdEUACgkQ2O7X88g7
-+pqrPhAAkn4PMww+rZzWWUIzn70JDaIM3pB6g/TwmnMJQSvxVt5bbeRkHs1Hr5p1
-wJGp1GJhv3odUIaoBVctwLzVrbnN6+o9V1WGAb73ZzZF86thow7pq49z46JaGsVU
-lmYF3cu7le+yv8hs1kdRFs8NQ8C3dJ5dodlCZMJIsIelJhyQciziF5Mkq395HKtm
-6xu/xCNssRmZhqy3yJYazBjGrqAneN9LelyMQQ4/MqeK64xdYgcz4tJ4kZ8WYrmz
-SC0Jc2aCHnm8YCTIgZHNdpRMeLAiMfQm/htrcXbwMzdfmu+K2eAb8TzI6cOS/4dF
-usYhuvr3S8YXKhyzxrZC/E1p0s0QdDQsZFBq9+2Dc84uKmAXfaGCr1IEWnXW2X39
-eqskyqWCteRO6EDM30xlV4joURLzlk5mb4f76dW9tfr7poEn+I99L+zkL/ghvStP
-sJ7cISSMIbfAHqBUaICaiZ0A51GyhTlfwdvVBxbZKRuDLYOhO4YKlI57Cl+qiMEp
-lVUJ1jcN0HiyOHfDkchkbPC1XYBfoPkxeQxAIJy5WCSg4vMs8Moa2PTuZHaovfUr
-Q8iJpfdk10e7gSUWSFPAogdiUi5gFlJs4ZiJ9Nim7l9FY7txWceX3pBzB3AbaVOn
-Sl1m3OJVy+tYn/RDEZa3Ofwu/HPOwxWEO/X0pZb/q/yk9/4c/Xs=
-=Z9fm
------END PGP SIGNATURE-----
-
---amobsqjguregida6--
+> You are missing a big opportunity to make the kernel avoid doing useless work.
+> The dsa_slave_fdb_event() function runs in atomic switchdev notifier context,
+> and schedules a deferred workqueue item - dsa_schedule_work() - to get sleepable
+> context to program hardware.
+> 
+> Only that scheduling a deferred work item is not exactly cheap, so we try to
+> avoid doing that unless we know that we'll end up doing something with that
+> FDB entry once the deferred work does get scheduled:
+> 
+> 	/* Check early that we're not doing work in vain.
+> 	 * Host addresses on LAG ports still require regular FDB ops,
+> 	 * since the CPU port isn't in a LAG.
+> 	 */
+> 	if (dp->lag && !host_addr) {
+> 		if (!ds->ops->lag_fdb_add || !ds->ops->lag_fdb_del)
+> 			return -EOPNOTSUPP;
+> 	} else {
+> 		if (!ds->ops->port_fdb_add || !ds->ops->port_fdb_del)
+> 			return -EOPNOTSUPP;
+> 	}
+> 
+> What you should be doing is you should be using the pahole tool to find
+> a good place for a new unsigned long field in struct dsa_switch, and add
+> a new field ds->supported_fdb_flags. You should extend the early checking
+> from dsa_slave_fdb_event() and exit without doing anything if the
+> (fdb->flags & ~ds->supported_fdb_flags) expression is non-zero.
+> 
+> This way you would kill 2 birds with 1 stone, since individual drivers
+> would no longer need to check the flags; DSA would guarantee not calling
+> them with unsupported flags.
+> 
+> It would be also very good to reach an agreement with switchdev
+> maintainers regarding the naming of the is_static/is_dyn field.
+> 
+> It would also be excellent if you could rename "fdb_flags" to just
+> "flags" within DSA.
