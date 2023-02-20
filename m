@@ -2,33 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E14769D511
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Feb 2023 21:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FA5269D62F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Feb 2023 23:12:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232834AbjBTUjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Feb 2023 15:39:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
+        id S232022AbjBTWM4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Feb 2023 17:12:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjBTUjj (ORCPT
+        with ESMTP id S231806AbjBTWMz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Feb 2023 15:39:39 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC46FD51B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Feb 2023 12:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=Zc1xSTwlC0td84fUFHfJvVQmMqS
-        m9cAxruIKWttGvQ4=; b=ai1+PCJwGMKaHT8aULK8P5md1EtoCkiYxhOT4RvBDSk
-        kRu8FEfYd+nNRIt+Gpf2E7ZOm/9TKmC91Pa2EGj/rqxCQtF1T3DltQ2g02JqERYV
-        awMpkVHgtELknYZD2q4PMnPG/W7V2Qr0sKeCJtJl00hl+Z2th5lzV6c9+Dd4s+40
-        =
-Received: (qmail 1409209 invoked from network); 20 Feb 2023 21:39:33 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Feb 2023 21:39:33 +0100
-X-UD-Smtp-Session: l3s3148p1@yDYVqSf1BOAujntl
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        Mon, 20 Feb 2023 17:12:55 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E21C3583;
+        Mon, 20 Feb 2023 14:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=sHT69Pcxg42yL1CYvz0YQD+Q5YjZ9X6LjI+IheSRHKA=; b=OBP5jB/Ti491wRbqAdiq3B4+dw
+        MYo8n185Qawan5IoHGFD+/8KntEpZjNOq5ViFut1p4bdyXlDuySmR8StvQk0dVKnQFHhgnXAQwT6P
+        3I0kn7WFGCl1mKE8UwHXEF1Z89KtwXcNh68KaA4XFAQbXraLhM6GDX3s0mcYx3Zt7ODw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pUEOp-005XYT-F9; Mon, 20 Feb 2023 23:12:43 +0100
+Date:   Mon, 20 Feb 2023 23:12:43 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
         "David S. Miller" <davem@davemloft.net>,
@@ -36,49 +37,39 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] net: phy: micrel: drop superfluous use of temp variable
-Date:   Mon, 20 Feb 2023 21:39:30 +0100
-Message-Id: <20230220203930.31989-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [PATCH] net: phy: micrel: drop superfluous use of temp variable
+Message-ID: <Y/PwWzO6HVkf/whr@lunn.ch>
+References: <20230220203930.31989-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220203930.31989-1-wsa+renesas@sang-engineering.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-'temp' was used before commit c0c99d0cd107 ("net: phy: micrel: remove
-the use of .ack_interrupt()") refactored the code. Now, we can simplify
-it a little.
+On Mon, Feb 20, 2023 at 09:39:30PM +0100, Wolfram Sang wrote:
+> 'temp' was used before commit c0c99d0cd107 ("net: phy: micrel: remove
+> the use of .ack_interrupt()") refactored the code. Now, we can simplify
+> it a little.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/net/phy/micrel.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Hi Wolfram
 
-diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
-index 54a17b576eac..82bbda820a33 100644
---- a/drivers/net/phy/micrel.c
-+++ b/drivers/net/phy/micrel.c
-@@ -412,11 +412,9 @@ static int kszphy_config_intr(struct phy_device *phydev)
- 		if (err)
- 			return err;
- 
--		temp = KSZPHY_INTCS_ALL;
--		err = phy_write(phydev, MII_KSZPHY_INTCS, temp);
-+		err = phy_write(phydev, MII_KSZPHY_INTCS, KSZPHY_INTCS_ALL);
- 	} else {
--		temp = 0;
--		err = phy_write(phydev, MII_KSZPHY_INTCS, temp);
-+		err = phy_write(phydev, MII_KSZPHY_INTCS, 0);
- 		if (err)
- 			return err;
- 
--- 
-2.30.2
+netdev has a few process things which other subsystems do not
+have. Take a look at
 
+https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+
+This should be for net-next. It could be that tree is already closed
+for the merge window.
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
