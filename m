@@ -2,72 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 821BA69DC73
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Feb 2023 10:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8F769DCD9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Feb 2023 10:25:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233624AbjBUJAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Feb 2023 04:00:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45178 "EHLO
+        id S233921AbjBUJZS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Feb 2023 04:25:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbjBUJAV (ORCPT
+        with ESMTP id S233935AbjBUJZR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Feb 2023 04:00:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C42A1BAEE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 01:00:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A01D1B80D5D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 419F9C4339B
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676970018;
-        bh=leOSp2MB59fcr14NXuixmtmpc7dHnQE+eaetnbfskIU=;
-        h=Subject:From:Date:To:From;
-        b=H8bO1Rj1JdWqtLqQ2oh8WwhpG31UMmiRAubnyBP7qFpp6WYbSpAw85VR1lhClhNUV
-         VWV+ZUu+cdY78NFR9WmOxnYcxUk4N5leUxTiIIXLIzs9M85nRgcczkZ23Nu3EpPGMX
-         B/XvM6EyBngUZkcETx79hsJ50D/irdvMMADBEHTM7CnU4dyQmpbJ3PNS9rEVAzJ0U9
-         3Mi1LimHd9SYMpa76PsZNsrJV/dHuADUoYYcRl8y6t3crHSUGa2zwhiFxny2v2yEbe
-         pVSJz5CmI9JqbcpN9uvb6gRCB10cmjICp6qixWN8O+ne5PBJGSvzzKSDR7/b4+OPbB
-         HbmFhu17qtrgw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 27A61C43158
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 21 Feb 2023 04:25:17 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292DA222ED;
+        Tue, 21 Feb 2023 01:24:59 -0800 (PST)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 99E6BC0007;
+        Tue, 21 Feb 2023 09:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1676971498;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=sF6cTrmRbsTNZI9mfS1d6w4kuvwM4DluVhRpiXiPKYg=;
+        b=JOJfyebbXafvS+9Jf24BLnzMwI6Vm+P8p48Cwb5cP9cbkReOmVz42FK5n2btKD4tGtKN+4
+        3nRmRAnlBAg1K7vN8+9rVO79ZEfWku+WkRzc0qr4Ng5ORFmss2ewR7hyVFh69w6BmkbhiA
+        gT4MoFiSZsBiOl3rbJao18x+YVmVxgn22lajMe5TcYWAzREyhWqlxZb6EDj5bT+hVBDtbS
+        LaAk2SBNYFAioGDoMoV0AWKbchDwxnyDZZ2iYOwbqYFKbJeZZLkK27onxCYJWYkJTHcU+r
+        EAFT2WefHXNZ38+fbP8MuMC65nMr8JRNXFcOHhqajPRtoYq4TLBsjMM/0GhIwg==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v4 0/3] net: dsa: rzn1-a5psw: add support for vlan and .port_bridge_flags
+Date:   Tue, 21 Feb 2023 10:26:23 +0100
+Message-Id: <20230221092626.57019-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167697001809.2324.11073975728139674760.git-patchwork-summary@kernel.org>
-Date:   Tue, 21 Feb 2023 09:00:18 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+While adding support for VLAN, bridge_vlan_unaware.sh and
+bridge_vlan_aware.sh were executed and requires .port_bridge_flags
+to disable flooding on some specific port. Thus, this series adds
+both vlan support and .port_bridge_flags.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+----
+V4:
+ - Fix missing CPU port bit in a5psw->bridged_ports
+ - Use unsigned int for vlan_res_id parameters
+ - Rename a5psw_get_vlan_res_entry() to a5psw_new_vlan_res_entry()
+ - In a5psw_port_vlan_add(), return -ENOSPC when no VLAN entry is found
+ - In a5psw_port_vlan_filtering(), compute "val" from "mask"
 
-Patch: arm64: dts: renesas: r8a779g0: Add thermal nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=720411
-  Lore link: https://lore.kernel.org/r/b92a1a28afb9f75f24f0137af9f77e95d7ebaec3.1675959327.git.geert+renesas@glider.be
+V3:
+ - Target net-next tree and correct version...
 
+V2:
+ - Fixed a few formatting errors
+ - Add .port_bridge_flags implementation
 
-Total patches: 1
+Clément Léger (3):
+  net: dsa: rzn1-a5psw: use a5psw_reg_rmw() to modify flooding
+    resolution
+  net: dsa: rzn1-a5psw: add support for .port_bridge_flags
+  net: dsa: rzn1-a5psw: add vlan support
+
+ drivers/net/dsa/rzn1_a5psw.c | 223 ++++++++++++++++++++++++++++++++++-
+ drivers/net/dsa/rzn1_a5psw.h |   8 +-
+ 2 files changed, 222 insertions(+), 9 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.0
 
