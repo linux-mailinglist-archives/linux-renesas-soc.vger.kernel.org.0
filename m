@@ -2,92 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8D3C69DB77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Feb 2023 08:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 821BA69DC73
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Feb 2023 10:00:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232324AbjBUHvm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Feb 2023 02:51:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44920 "EHLO
+        id S233624AbjBUJAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Feb 2023 04:00:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjBUHvl (ORCPT
+        with ESMTP id S231546AbjBUJAV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Feb 2023 02:51:41 -0500
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1451D901;
-        Mon, 20 Feb 2023 23:51:40 -0800 (PST)
-Received: by mail-qv1-f53.google.com with SMTP id y3so3821345qvn.4;
-        Mon, 20 Feb 2023 23:51:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ElMbLGKmVMgSLnKZdcPK6XbfUDqiTuYOu6y4Wvjfe/w=;
-        b=zZlw7l2a9HfMIqnFAPt31jP30R/UZVL7qmk19ZKU1noTBUxUJfd0tjwOQWBhtGzQXa
-         aAbH3XbVC4CNVIypK+5x5uBcLR/1ZHrxhqNCgqLHoMP9Aa1AVEvomG1rJVZwiL0ReEiy
-         NMGW1ZWFqb79rGfB7rzWY0FnPGXvhnaolYNONTLQCRVmY7itUp5flfjtZcYnpVEip0Ny
-         40x8ITdg6GPsWQozyKt13SojV+IEIWKbzPkH2+xAnY887wH+k3PqZ3Si83gCAQtRsJS0
-         cfZvrEFw8792s+Xpwb+775Pn/4t+PBFPvQrwqErX4KuCu+qxYr8hLI3lMLiZcF8H6I9s
-         lYEQ==
-X-Gm-Message-State: AO0yUKWhV8HRnVjOn21T+/dH+EknI4HezuFNmcZTWejC1eCSd7KRulo3
-        jfK7IyRCejglvXtGusl4CHw+PUbTEYfiAQ==
-X-Google-Smtp-Source: AK7set94hpergGioyCzCUH64dMgr2S5Z+QPs4dZGIfQoMy1DurZG9CIUboxmcQX03+bfM00Lg0jB8A==
-X-Received: by 2002:a05:6214:f2a:b0:56e:8a00:f3a with SMTP id iw10-20020a0562140f2a00b0056e8a000f3amr6630960qvb.32.1676965899505;
-        Mon, 20 Feb 2023 23:51:39 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id t84-20020a374657000000b007203bbbbb31sm1546141qka.47.2023.02.20.23.51.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 23:51:39 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id i7so4295201ybu.6;
-        Mon, 20 Feb 2023 23:51:38 -0800 (PST)
-X-Received: by 2002:a05:6902:2d0:b0:920:2b79:84b4 with SMTP id
- w16-20020a05690202d000b009202b7984b4mr1007187ybh.386.1676965898708; Mon, 20
- Feb 2023 23:51:38 -0800 (PST)
+        Tue, 21 Feb 2023 04:00:21 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C42A1BAEE
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 01:00:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A01D1B80D5D
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 419F9C4339B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676970018;
+        bh=leOSp2MB59fcr14NXuixmtmpc7dHnQE+eaetnbfskIU=;
+        h=Subject:From:Date:To:From;
+        b=H8bO1Rj1JdWqtLqQ2oh8WwhpG31UMmiRAubnyBP7qFpp6WYbSpAw85VR1lhClhNUV
+         VWV+ZUu+cdY78NFR9WmOxnYcxUk4N5leUxTiIIXLIzs9M85nRgcczkZ23Nu3EpPGMX
+         B/XvM6EyBngUZkcETx79hsJ50D/irdvMMADBEHTM7CnU4dyQmpbJ3PNS9rEVAzJ0U9
+         3Mi1LimHd9SYMpa76PsZNsrJV/dHuADUoYYcRl8y6t3crHSUGa2zwhiFxny2v2yEbe
+         pVSJz5CmI9JqbcpN9uvb6gRCB10cmjICp6qixWN8O+ne5PBJGSvzzKSDR7/b4+OPbB
+         HbmFhu17qtrgw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 27A61C43158
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Feb 2023 09:00:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230220203930.31989-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230220203930.31989-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Feb 2023 08:51:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVqZR5C3kz36D0iUxqEiFoWJ3=o0vtMCWGJ7DNHT9zWsA@mail.gmail.com>
-Message-ID: <CAMuHMdVqZR5C3kz36D0iUxqEiFoWJ3=o0vtMCWGJ7DNHT9zWsA@mail.gmail.com>
-Subject: Re: [PATCH] net: phy: micrel: drop superfluous use of temp variable
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <167697001809.2324.11073975728139674760.git-patchwork-summary@kernel.org>
+Date:   Tue, 21 Feb 2023 09:00:18 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 9:44 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> 'temp' was used before commit c0c99d0cd107 ("net: phy: micrel: remove
-> the use of .ack_interrupt()") refactored the code. Now, we can simplify
-> it a little.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: arm64: dts: renesas: r8a779g0: Add thermal nodes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=720411
+  Lore link: https://lore.kernel.org/r/b92a1a28afb9f75f24f0137af9f77e95d7ebaec3.1675959327.git.geert+renesas@glider.be
 
-                        Geert
+
+Total patches: 1
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
