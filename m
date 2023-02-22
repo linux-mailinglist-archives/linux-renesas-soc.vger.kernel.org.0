@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CEE969FF84
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Feb 2023 00:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C0B69FFB1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Feb 2023 00:42:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbjBVXbV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Feb 2023 18:31:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45462 "EHLO
+        id S229854AbjBVXmQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Feb 2023 18:42:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjBVXbU (ORCPT
+        with ESMTP id S229567AbjBVXmQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Feb 2023 18:31:20 -0500
+        Wed, 22 Feb 2023 18:42:16 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3400947435
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Feb 2023 15:31:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB09376B8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Feb 2023 15:42:15 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4332A25;
-        Thu, 23 Feb 2023 00:31:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C25BA25;
+        Thu, 23 Feb 2023 00:42:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677108677;
-        bh=ll0dCdMfig4EdfwuYaFy0YTdw2/zakHYXS2N1zzzjSM=;
+        s=mail; t=1677109334;
+        bh=gCMAwIH0zLLLlggmNKPdgNSuCPZbcYroWdm2MwM5M+0=;
         h=From:To:Cc:Subject:Date:From;
-        b=CASDbla24DIvfbNd2Vc5qlJj7q0t+nxVFgq31GsBRIt13lzaZfYB2bhNsfPDEICRA
-         HQS4pkhPn6lumMTy+uBDEGUURmwkQvg03HI0VaSDvrJdPNKzqgjlk1v0v9KNMV1ctj
-         JNTLBhlnODYSjcDiFu7O+RwIijzZmWlT9fcoh4Wg=
+        b=PXgz8eq8xi05svtYBl3hfiDYPpPFC+DzPzHcoHe6iOh26PSU3deltF20GOjFpC0QC
+         4mhiR2FaLZlNgNRjH67BjB6w47NvgG7XwS4ITBaG8wcuBcN85//XnAVLWi52iO3xkk
+         XA1wZ6BbJX8NnmCN4ingvWevH0F6TyKrqLzj89eM=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] drm: rcar-du: Write correct values in DORCR reserved fields
-Date:   Thu, 23 Feb 2023 01:31:13 +0200
-Message-Id: <20230222233113.4737-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 0/2] drm: rcar-du: Fix more invalid register writes
+Date:   Thu, 23 Feb 2023 01:42:10 +0200
+Message-Id: <20230222234212.5461-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,58 +45,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The DORCR register controls the routing of clocks and data between DU
-channels within a group. For groups that contain a single channel,
-there's no routing option to control, and some fields of the register
-are then reserved. On Gen2 those reserved fields are documented as
-required to be set to 0, while on Gen3 and newer the PG1T, DK1S and PG1D
-reserved fields must be set to 1.
+Hello,
 
-The DU driver initializes the DORCR register in rcar_du_group_setup(),
-where it ignores the PG1T, DK1S and PG1D, and then configures those
-fields to the correct value in rcar_du_group_set_routing(). This hasn't
-been shown to cause any issue, but prevents certifying that the driver
-complies with the documentation in safety-critical use cases.
+Following the "[PATCH 0/2] drm: rcar-du: Avoid writing reserved register
+fields" series ([1]), this series addresses more invalid register
+writes in the R-Car DU driver. Patch 1/2 first renames some register
+field macros to increase readability, and patch 2/2 fixes the invalid
+writes.
 
-As there is no reasonable change that the documentation will be updated
-to clarify that those reserved fields can be written to 0 temporarily
-before starting the hardware, make sure that the registers are always
-set to valid values.
+The rationale is the same as for the previous series: the current
+implementation is likely fine, but doesn't pass the functional safety
+requirements as it doesn't match the documentation.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_group.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+The series supersedes the patch "[PATCH] drm: rcar-du: Write correct
+values in DORCR reserved fields" ([2]) that I have just sent, which was
+messing the 1/2 dependency. Patch 2/2 is otherwise identical to [2].
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-index b5950749d68a..2ccd2581f544 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-@@ -138,6 +138,7 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
- 	u32 defr7 = DEFR7_CODE;
-+	u32 dorcr;
- 
- 	/* Enable extended features */
- 	rcar_du_group_write(rgrp, DEFR, DEFR_CODE | DEFR_DEFE);
-@@ -174,8 +175,15 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- 	/*
- 	 * Use DS1PR and DS2PR to configure planes priorities and connects the
- 	 * superposition 0 to DU0 pins. DU1 pins will be configured dynamically.
-+	 *
-+	 * Groups that have a single channel have a hardcoded configuration. On
-+	 * Gen3 and newer, the documentation requires PG1T, DK1S and PG1D_DS1 to
-+	 * always be set in this case.
- 	 */
--	rcar_du_group_write(rgrp, DORCR, DORCR_PG0D_DS0 | DORCR_DPRS);
-+	dorcr = DORCR_PG0D_DS0 | DORCR_DPRS;
-+	if (rcdu->info->gen >= 3 && rgrp->num_crtcs == 1)
-+		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
-+	rcar_du_group_write(rgrp, DORCR, dorcr);
- 
- 	/* Apply planes to CRTCs association. */
- 	mutex_lock(&rgrp->lock);
+[1] https://lore.kernel.org/dri-devel/20230222050623.29080-1-laurent.pinchart+renesas@ideasonboard.com/T/#t
+[2] https://lore.kernel.org/dri-devel/20230222233113.4737-1-laurent.pinchart+renesas@ideasonboard.com/T/#u
+
+Laurent Pinchart (2):
+  drm: rcar-du: Rename DORCR fields to make them 0-based
+  drm: rcar-du: Write correct values in DORCR reserved fields
+
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 16 +++++++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h  | 26 ++++++++++++-------------
+ 2 files changed, 25 insertions(+), 17 deletions(-)
+
 -- 
 Regards,
 
