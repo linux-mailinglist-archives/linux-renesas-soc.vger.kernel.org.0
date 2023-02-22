@@ -2,102 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F2BD69EFE5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Feb 2023 09:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88CC269F03D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Feb 2023 09:31:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbjBVIHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Feb 2023 03:07:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
+        id S230374AbjBVIbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Feb 2023 03:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjBVIHQ (ORCPT
+        with ESMTP id S229755AbjBVIbW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Feb 2023 03:07:16 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611CF28222
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Feb 2023 00:07:15 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 202494E1;
-        Wed, 22 Feb 2023 09:07:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677053233;
-        bh=d7GOIS+Ej2KfXope9MuGbfcUaN48P7nxpib4yMiTsKE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jMjyCRA2VF561lAYOHh5lxtmsYU2PZY2BEXL+H2pyjqVmanUEtYlQmIJtUAhiHZ2K
-         ImLg69/XkQhN0Fz/OvWFeMCcfRDBWkF7BomngVqjuCkIbnD4uOvNiF7CMhh6NLMaAC
-         02N8K8zFsrnwuiSAl6F954li2D9INKKQIZbTp/rE=
-Message-ID: <43324903-96e2-29ef-5a38-01cee2d4b0f0@ideasonboard.com>
-Date:   Wed, 22 Feb 2023 10:07:10 +0200
+        Wed, 22 Feb 2023 03:31:22 -0500
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F4B30B11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Feb 2023 00:31:21 -0800 (PST)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+        id 36115A4232; Wed, 22 Feb 2023 08:31:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+        t=1677054685; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+        h=Date:From:To:Subject:From;
+        b=IW850tOcVJ8ZHoqnlw3lcj9i9flrXjYutE6T/GAjT+xOVieeANAHmikuQAgQGFzBQ
+         J7YHvJqtTwGfRe31h8HBiK6kkuog6AMYhL4lm7GKLJdVG8msXQ09xI9B+SFkkLQbUN
+         M6Ipw87o2D+P5E7L6lhaeT2X7AzLLif/cktH/Kl5slUK+HKRYYUkzoRAex+HeLJi/N
+         dc3BcZuiKVeFtj+DpcqWDnzQPBdBsO4yFzD4X4CydtW91Aw1GpXxqd/4ADa+gaYwnP
+         VVlRoh4ADJQUr+HZXZTN7s5UpIX4BbBkTtaYKf04STdXPrLONbAkebOJT0PNVrSlcO
+         mBEuYPO6EDpAw==
+Received: by mail.corrib.pl for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Feb 2023 08:30:41 GMT
+Message-ID: <20230222074502-0.1.5n.fidp.0.ew42tint7l@corrib.pl>
+Date:   Wed, 22 Feb 2023 08:30:41 GMT
+From:   =?UTF-8?Q? "Szczepan_Kie=C5=82basa" ?= 
+        <szczepan.kielbasa@corrib.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] drm: rcar-du: Don't write unimplemented ESCR and OTAR
- registers on Gen3
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20230222050623.29080-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/02/2023 07:06, Laurent Pinchart wrote:
-> The ESCR and OTAR registers are not present in all DU channels on Gen3
-> SoCs. ESCR only exists in channels that can be routed to an LVDS or
-> DPAD, and OTAR in channels that can be routed to a DPAD. Skip writing
-> those registers for other channels. This replaces the DU gen check, as
-> Gen4 doesn't have LVDS or DPAD outputs.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->   drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 17 +++++++++++++++--
->   1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 5e552b326162..d6d29be6b4f4 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -298,12 +298,25 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->   		escr = params.escr;
->   	}
->   
-> -	if (rcdu->info->gen < 4) {
-> +	/*
-> +	 * The ESCR register only exists in DU channels that can output to an
-> +	 * LVDS or DPAT, and the OTAR register in DU channels that can output
-> +	 * to a DPAD.
-> +	 */
-> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS1].possible_crtcs) &
-> +	    BIT(rcrtc->index)) {
->   		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
->   
->   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
-> +	}
-> +
-> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs) &
-> +	    BIT(rcrtc->index))
->   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
-> -	}
->   
->   	/* Signal polarities */
->   	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
+Dzie=C5=84 dobry,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-  Tomi
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
+
+Pozdrawiam
+Szczepan Kie=C5=82basa
