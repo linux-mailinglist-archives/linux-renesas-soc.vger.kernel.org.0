@@ -2,108 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B996A0642
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Feb 2023 11:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B33D6A09EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Feb 2023 14:11:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233792AbjBWKaA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Feb 2023 05:30:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35860 "EHLO
+        id S234429AbjBWNLQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Feb 2023 08:11:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233705AbjBWK34 (ORCPT
+        with ESMTP id S234417AbjBWNLQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Feb 2023 05:29:56 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9FE497FD
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Feb 2023 02:29:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=qP1lk9slP6spetwfnNzelgnbPMU/
-        UDdBf8vESAlYVE8=; b=OjJm45iiKTQq3XEmfZeyq3V0hF/ep5jLABrvU4Ta2wEr
-        i2us02y/e6ZKMDWHk3/oK5y69qPFHkbrhWnfU8GwmU+Gm3hl5bKqW4/92xBc7my3
-        CbAA1oOfAq0593OqV66mZHpCTX2re3yDqKk5a2ZFfTf6Rwg+hO6ec5L58uAPKZs=
-Received: (qmail 885260 invoked from network); 23 Feb 2023 11:29:51 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Feb 2023 11:29:51 +0100
-X-UD-Smtp-Session: l3s3148p1@PRoCflv1QJFehh92
-Date:   Thu, 23 Feb 2023 11:29:47 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION PATCH RFC] net: phy: don't resume PHY via MDIO when
- iface is not up
-Message-ID: <Y/dAG8aJEmQREuKR@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230223070519.2211-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVzzzztNU6dNFN30k4h4FheD2-439vaiY4AnGJz4EuwoQ@mail.gmail.com>
+        Thu, 23 Feb 2023 08:11:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 890D5567B8;
+        Thu, 23 Feb 2023 05:10:54 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2DE52E4;
+        Thu, 23 Feb 2023 14:10:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677157852;
+        bh=WYy+JIwjACK0ewwdjromDn+ooNvg12hqZ611KgIZSg4=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=DAYm/15WuaNLA/s+g6H/W878t69F1Wig+J58dDyvzoEWL26lQLsmwQ8ZG/vf32NzZ
+         Qa1FAXZot+Yyc1o6MzOc14UDNNFtx4v2ltkZgFsAET9UCkT4bghaa4zjc0NA/65CW0
+         MemuTKzhEFi9YV7HF3uI/PRrQ5Jl0L69TSJadiz0=
+Message-ID: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+Date:   Thu, 23 Feb 2023 15:10:48 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="quG3KrzwVuVHDyF+"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVzzzztNU6dNFN30k4h4FheD2-439vaiY4AnGJz4EuwoQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ming Qian <ming.qian@nxp.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
+ <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi,
 
---quG3KrzwVuVHDyF+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 22/02/2023 17:28, Nicolas Dufresne wrote:
+> Hi Tomi,
+> 
+> Le mercredi 21 décembre 2022 à 11:24 +0200, Tomi Valkeinen a écrit :
+>> Add Y210, Y212 and Y216 formats.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++++-
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
+>>   include/uapi/linux/videodev2.h                |  8 +++
+>>   3 files changed, 58 insertions(+), 2 deletions(-)
+> 
+> It seems you omitted to update v4l2-common.c, Ming Qian had made a suplicated
+> commit for this, I'll ask him if he can keep the -common changes you forgot.
 
-Hi Geert,
+Ah, I wasn't aware of the format list in that file.
 
-> > TLDR; Commit 96fb2077a517 ("net: phy: consider that suspend2ram may cut
-> > off PHY power") caused regressions for us when resuming an interface
->=20
-> That is actually an LTS commit.  Upstream is commit 4c0d2e96ba055bd8
-> ("net: phy: consider that suspend2ram may cut off PHY power") in
-> v5.12-rc1.
+I think you refer to the "media: imx-jpeg: Add support for 12 bit 
+extended jpeg" series. Yes, I'm fine if he can add the -common changes 
+there, but I can also send a separate patch. In fact, maybe a separate 
+fix patch is better, so that we can have it merged in the early 6.3 rcs.
 
-Oh, thank you for correcting me!
+  Tomi
 
-All the best,
-
-   Wolfram
-
-
---quG3KrzwVuVHDyF+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmP3QBcACgkQFA3kzBSg
-KbZadw//eZeHoqtatcfoxTTnniDmRrudmUAV79sYIHXf2BelftolojiuaYjlgPUe
-WjJxt8TV/kkXS2MExCfTZTbORHAZY618Ocwu9XTJ21HWiCcoDOORcPXG3jxnvtqp
-w70t9W5eMsgcMztILHbtN2pEQIZ/ltZyEo2DOf0hrZ8NvdT40Biwp1bBQ7eJJF+f
-bHuK7WbAARkYv9YW36TdCHXLm2WZvsjQvHeazfSBKn304ru7WOfovHErG826fP2J
-nY3sauTR86rFAIWz7fifulFhNZ1Xd0DLlJ5/xudce2zfAd+XtcD0VNdfek76dEN2
-mRSKTIhSI5J38Xwy4tUfPl2PBlVUqq38b6554kBfsLpphV7ayJldnKhWyC6Q/ppA
-o2LMflW2SmiHkTe/1z1WRBqVuYwp2XiVQmbOLyi23T+Dr7+AvRkbbt6p5NJUkRhD
-4vMgtGIFzHzb6rTr47OHufidQ4MEIwp1M+yrfXyh5kKCsddcTHTPb6b4l1ykO2Cz
-m+jceMNmIBgwzwVnlfENfY6OAJQTd2EenotB8DTTu7TlLBAy0JTNLm8ADlIJcVVE
-L/XAZ9azQqG0zACTOqq589XB2VWXmiLcB7sHqOpSF+Ia3hpMU38+M6b0V8pHxvwc
-Wxro5hOiaC72TnU6z3tvnorPFXXhi1LJgs5EP7e7Y16fJpLBn+s=
-=gpeL
------END PGP SIGNATURE-----
-
---quG3KrzwVuVHDyF+--
