@@ -2,202 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF436A131F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Feb 2023 23:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C453D6A1DB7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Feb 2023 15:47:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjBWW44 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Feb 2023 17:56:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54430 "EHLO
+        id S230032AbjBXOrN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Feb 2023 09:47:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjBWW4z (ORCPT
+        with ESMTP id S229999AbjBXOrM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Feb 2023 17:56:55 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBBF5C16E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Feb 2023 14:56:51 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id p26so10212699wmc.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Feb 2023 14:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cikNiAl3CsaUVzCtk0AInA3PwE1/TMQnMlzjF1gGdG0=;
-        b=DRN7VfySjUL0rYZq24bKTqYo1a7eMqo07ygSwMFUqHzuTKP65b9sTMEH8VZt0hxwu1
-         dmHGRYaPf3ggH9KZmEyIo+flPWm4zpT9CAN4fb3bb2UwUttx3rmo4vx8zo6F2tPiEUOK
-         kQWqn6QOgf2ZhhgOZ653j1GAMDb6AMca6ljq3tiMi06NSCiMzWp0EPnd6Uvs6JK9LOIe
-         r43kHvJdLLA9VFyPJO6M+KZDTGdMEFaMKztCR+nTATohFgvC9r80+cCMQ12KHZsj+SUY
-         jwwZvlnmtS9kLRvR3sEhulVIN5kRwRQDmQ/AX297OlmgtRWEUsWG1kh7J/OLhfLYqjHy
-         599w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cikNiAl3CsaUVzCtk0AInA3PwE1/TMQnMlzjF1gGdG0=;
-        b=gyw54TU0hWubMAM7nlU36CNdJ6CLQ5R0pUzeooDImMpabW5SYCCc97f1fM4nzZM5r9
-         eH7zTzi4c393tLJDhTWGIKPm5i+RxW4ZQsZPVH28hwA63o04UY3Xl+CkItIPOxfV0PEv
-         n4Io+uvWCkyz00SPWOUV7JzVvMyjqEh8EL1aZoSuPWTMxm7vB0x1TZHKcg0XZqpvH2gL
-         jo4qXewXpVdISn6if9vJ5KcTG+AJK4R0EyIx8CrfNY3Qq9G2/gXT7eZazxU1GxDZrfWd
-         A6m277YAdUGubo1rhe3gHpJgAfhIXTm5BX9RAwaHRH06fkrffMpH0+KacggIDeJpL4ah
-         ON9A==
-X-Gm-Message-State: AO0yUKWHcz9RFTFVJWUw5VT1jIFf8A86uq7H3GL4Nc5b6khofNxSIiTw
-        inFm700zF0Buf9zVBZMR8DX66A==
-X-Google-Smtp-Source: AK7set9Z52yxWv52zRMDow6DF+DTZQX7KbVMepo+DRQCwOeMkXAXaJBNJ2zYwaSnuLVGEj/k1hBdjw==
-X-Received: by 2002:a05:600c:a695:b0:3e2:2f9:b8e2 with SMTP id ip21-20020a05600ca69500b003e202f9b8e2mr10908094wmb.35.1677193009641;
-        Thu, 23 Feb 2023 14:56:49 -0800 (PST)
-Received: from ?IPV6:2a05:6e02:1041:c10:3e6f:e90a:1fc9:3708? ([2a05:6e02:1041:c10:3e6f:e90a:1fc9:3708])
-        by smtp.googlemail.com with ESMTPSA id d21-20020a1c7315000000b003b47b80cec3sm662936wmb.42.2023.02.23.14.56.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 14:56:49 -0800 (PST)
-Message-ID: <37b3b835-e992-0090-56e5-bd4d58e547a7@linaro.org>
-Date:   Thu, 23 Feb 2023 23:56:44 +0100
+        Fri, 24 Feb 2023 09:47:12 -0500
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4E71969B;
+        Fri, 24 Feb 2023 06:47:10 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 508C31BF216;
+        Fri, 24 Feb 2023 14:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1677250028;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aWv+kfdyaYpBlMRNF5wJ4HLH0v6plsoypADEcu849B4=;
+        b=MsVKKP9jVxY3uQ2Q4aPuN/MSe1VNw9S1geSWLq6uAvHXcaj6yRNCoib09WYlqSMMsSb4eJ
+        n2sFVJ0bUy9n42i0ISeG+QBIzGHa3qM2J/vGQ7DqyAz2OVnmSddtgLOF4pWz3kCki+e6U8
+        uQshrcJ29UmYb2M19bjxie2Opbyd1dVdB3gFjOOc6M2TNJGJxZOG5cRNCgW27KpVms9Dj9
+        TdrcDobJk2iGCnTSKLGvFiZ0akXSraFd/cxQUirnD/UuWwMngz6fFlaAJGTirL3iEIpWY8
+        DWNTxlqDnm2HtxR6G+xU7bwU0Eua8rDt/fMl3S1uiu4dM2DD08RmWLjmCbJsAg==
+Date:   Fri, 24 Feb 2023 15:46:59 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Maxim Kiselev <bigunclemax@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        abel.vesa@linaro.org, alexander.stein@ew.tq-group.com,
+        andriy.shevchenko@linux.intel.com, brgl@bgdev.pl,
+        colin.foster@in-advantage.com, cristian.marussi@arm.com,
+        devicetree@vger.kernel.org, dianders@chromium.org,
+        djrscally@gmail.com, dmitry.baryshkov@linaro.org,
+        festevam@gmail.com, fido_max@inbox.ru, frowand.list@gmail.com,
+        geert+renesas@glider.be, geert@linux-m68k.org,
+        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
+        jpb@kernel.org, jstultz@google.com, kernel-team@android.com,
+        kernel@pengutronix.de, lenb@kernel.org, linus.walleij@linaro.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux@roeck-us.net, lkft@linaro.org, luca.weiss@fairphone.com,
+        magnus.damm@gmail.com, martin.kepplinger@puri.sm, maz@kernel.org,
+        rafael@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        sakari.ailus@linux.intel.com, shawnguo@kernel.org,
+        tglx@linutronix.de, tony@atomide.com,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH v2 00/11] fw_devlink improvements
+Message-ID: <20230224154659.432a4d4c@xps-13>
+In-Reply-To: <CAGETcx-0VboaAeoa+_AqDtrDj6v6ZytFj6pU-FVyAu-pk-hG6A@mail.gmail.com>
+References: <20230127001141.407071-1-saravanak@google.com>
+        <20230130085542.38546-1-naresh.kamboju@linaro.org>
+        <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
+        <20230131101813.goaoy32qvrowvyyb@bogus>
+        <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
+        <CAGETcx_UvW819m1Y-QU_ySB1nG_RegKKT06=YjkK=C_qjbAySw@mail.gmail.com>
+        <CALHCpMha_1nXt4rUe+A184XSWpyNk0_PkYjWZ+tUN7BJWqENLA@mail.gmail.com>
+        <CAGETcx_uri6exkv1Jkzmc4PyEam9yjuH2H1zrq4LYNtJ+XDMWw@mail.gmail.com>
+        <20230206103912.7db5ed72@xps-13>
+        <CAGETcx-0VboaAeoa+_AqDtrDj6v6ZytFj6pU-FVyAu-pk-hG6A@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 00/17] Self-encapsulate the thermal zone device
- structure
-Content-Language: en-US
-To:     rafael@kernel.org
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Gregory Greenman <gregory.greenman@intel.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Talel Shenhar <talel@amazon.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Balsam CHIHI <bchihi@baylibre.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230223224844.3491251-1-daniel.lezcano@linaro.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20230223224844.3491251-1-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/02/2023 23:48, Daniel Lezcano wrote:
-> The exported thermal headers expose the thermal core structure while those
-> should be private to the framework. The initial idea was the thermal sensor
-> drivers use the thermal zone device structure pointer to pass it around from
-> the ops to the thermal framework API like a handler.
-> 
-> Unfortunately, different drivers are using and abusing the internals of this
-> structure to hook the associated struct device, read the internals values, take
-> the lock, etc ...
-> 
-> rn order to fix this situation, let's encapsulate the structure leaking the
-> more in the different drivers: the thermal_zone_device structure.
-> 
-> This series revisit the existing drivers using the thermal zone private
-> structure internals to change the access to something else. For instance, the
-> get_temp() ops is using the tz->dev to write a debug trace. Despite the trace
-> is not helpful, we can check the return value for the get_temp() ops in the
-> call site and show the message in this place.
-> 
-> With this set of changes, the thermal_zone_device is almost self-encapsulated.
-> As usual, the acpi driver needs a more complex changes, so that will come in a
-> separate series along with the structure moved the private core headers.
-> 
-> Changelog:
-> 	- V3:
-> 	   - Collected more tags
-> 	   - Added missing changes for ->devdata in some drivers
-> 	   - Added a 'type' accessor
-> 	   - Replaced the 'type' to 'id' changes by the 'type' accessor
-> 	   - Used the 'type' accessor in the drivers
-> 	- V2:
-> 	   - Collected tags
-> 	   - Added missing changes for ->devdata for the tsens driver
-> 	   - Renamed thermal_zone_device_get_data() to thermal_zone_priv()
-> 	   - Added stubs when CONFIG_THERMAL is not set
-> 	   - Dropped hwmon change where we remove the tz->lock usage
-> 
-> Thank you all for your comments
+Hi Saravana,
 
-The series has been blocked by gsmtp because the next patch has too many 
-Cc. I'll sort out this and resend.
+> > > > > So, can you please retest config 1 with all pr_debug and dev_dbg =
+in
+> > > > > drivers/core/base.c changed to the _info variants? And then share=
+ the
+> > > > > kernel log from the beginning of boot? Maybe attach it to the ema=
+il so
+> > > > > it doesn't get word wrapped by your email client. And please poin=
+t me
+> > > > > to the .dts that corresponds to your board. Without that, I can't
+> > > > > debug much. =20
+> > > >
+> > > > Ok, I retested config 1 with all _debug logs changed to the _info. I
+> > > > added the kernel log and the dts file to the attachment of this ema=
+il. =20
+> > >
+> > > Ah, so your device is not supported/present upstream? Even though it's
+> > > not upstream, I'll help fix this because it should fix what I believe
+> > > are unreported issues in upstream.
+> > >
+> > > Ok I know why configs 1 - 4 behaved the way they did and why my test
+> > > patch didn't help.
+> > >
+> > > After staring at mtd/nvmem code for a few hours I think mtd/nvmem
+> > > interaction is kind of a mess. =20
+> >
+> > nvmem is a recent subsystem but mtd carries a lot of legacy stuff we
+> > cannot really re-wire without breaking users, so nvmem on top of mtd
+> > of course inherit from the fragile designs in place. =20
+>=20
+> Thanks for the context. Yeah, I figured. That's why I explicitly
+> limited my comment to "interaction". Although, I'd love to see the MTD
+> parsers all be converted to proper drivers that probe. MTD is
+> essentially repeating the driver matching logic. I think it can be
+> cleaned up to move to proper drivers and still not break backward
+> compatibility. Not saying it'll be trivial, but it should be possible.
+> Ironically MTD uses mtd_class but has real drivers that work on the
+> device (compared to nvmem_bus below).
+>=20
+> > > mtd core creates "partition" platform
+> > > devices (including for nvmem-cells) that are probed by drivers in
+> > > drivers/nvmem. However, there's no driver for "nvmem-cells" partition
+> > > platform device. However, the nvmem core creates nvmem_device when
+> > > nvmem_register() is called by MTD or these partition platform devices
+> > > created by MTD. But these nvmem_devices are added to a nvmem_bus but
+> > > the bus has no means to even register a driver (it should really be a
+> > > nvmem_class and not nvmem_bus). =20
+> >
+> > Srinivas, do you think we could change this? =20
+>=20
+> Yeah, this part gets a bit tricky. It depends on whether the sysfs
+> files for nvmem devices is considered an ABI. Changing from bus to
+> class would change the sysfs path for nvmem devices from:
+> /sys/class/nvmem to /sys/bus/nvmem
 
+Ok, so this is a no :)
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> > > And the nvmem_device sometimes points
+> > > to the DT node of the MTD device or sometimes the partition platform
+> > > devices or maybe no DT node at all. =20
+> >
+> > I guess this comes from the fact that this is not strongly defined in
+> > mtd and depends on the situation (not mentioning 20 years of history
+> > there as well). "mtd" is a bit inconsistent on what it means. Older
+> > designs mixed: controllers, ECC engines when relevant and memories;
+> > while these three components are completely separated. Hence
+> > sometimes the mtd device ends up being the top level controller,
+> > sometimes it's just one partition...
+> >
+> > But I'm surprised not all of them point to a DT node. Could you show us
+> > an example? Because that might likely be unexpected (or perhaps I am
+> > missing something). =20
+>=20
+> Well, the logic that sets the DT node for nvmem_device is like so:
+>=20
+>         if (config->of_node)
+>                 nvmem->dev.of_node =3D config->of_node;
+>         else if (!config->no_of_node)
+>                 nvmem->dev.of_node =3D config->dev->of_node;
+>=20
+> So there's definitely a path (where both if's could be false) where
+> the DT node will not get set. I don't know if that path is possible
+> with the existing users of nvmem_register(), but it's definitely
+> possible.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+It's an actual path. I just checked more in details, this is the change
+from 2018 which uses the no_of_node flag:
+c4dfa25ab307 ("mtd: add support for reading MTD devices via the nvmem API")
 
+It basically allows any mtd device to be accessible (read-only) through
+nvmem. So mtd partitions or such which are not described in the DT may
+just be accessed through nvmem (that is my current understanding).
+
+There was later a patch in 2021 which prevented this flag to be
+automatically set, so that if partitions (well, mtd devices in general)
+were described in the DT, they would provide a valid of_node in order
+to be used as cell providers (again, my understanding):
+658c4448bbbf ("mtd: core: add nvmem-cells compatible to parse mtd as nvmem =
+cells")
+
+But I guess the major problem comes from the nvmem-cell compatible. I
+am wondering if it would make sense to kind of transpose the meaning of
+this compatible into a property. But, well, backward compatibility
+would still be a problem I guess...
+
+> > > So it's a mess of multiple devices pointing to the same DT node with
+> > > no clear way to identify which ones will point to a DT node and which
+> > > ones will probe and which ones won't. In the future, we shouldn't
+> > > allow adding new compatible strings for partitions for which we don't
+> > > plan on adding nvmem drivers.
+> > >
+> > > Can you give the patch at the end of the email a shot? It should fix
+> > > the issue with this series and without this series. It just avoids
+> > > this whole mess by not creating useless platform device for
+> > > nvmem-cells compatible DT nodes. =20
+> >
+> > Thanks a lot for your help. =20
+>=20
+> No problem. I want fw_devlink to work for everyone.
+>=20
+
+Thanks,
+Miqu=C3=A8l
