@@ -2,80 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C453D6A1DB7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Feb 2023 15:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EC1E6A211C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Feb 2023 19:04:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjBXOrN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Feb 2023 09:47:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
+        id S229456AbjBXSE0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Feb 2023 13:04:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbjBXOrM (ORCPT
+        with ESMTP id S229515AbjBXSE0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Feb 2023 09:47:12 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4E71969B;
-        Fri, 24 Feb 2023 06:47:10 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 508C31BF216;
-        Fri, 24 Feb 2023 14:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1677250028;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aWv+kfdyaYpBlMRNF5wJ4HLH0v6plsoypADEcu849B4=;
-        b=MsVKKP9jVxY3uQ2Q4aPuN/MSe1VNw9S1geSWLq6uAvHXcaj6yRNCoib09WYlqSMMsSb4eJ
-        n2sFVJ0bUy9n42i0ISeG+QBIzGHa3qM2J/vGQ7DqyAz2OVnmSddtgLOF4pWz3kCki+e6U8
-        uQshrcJ29UmYb2M19bjxie2Opbyd1dVdB3gFjOOc6M2TNJGJxZOG5cRNCgW27KpVms9Dj9
-        TdrcDobJk2iGCnTSKLGvFiZ0akXSraFd/cxQUirnD/UuWwMngz6fFlaAJGTirL3iEIpWY8
-        DWNTxlqDnm2HtxR6G+xU7bwU0Eua8rDt/fMl3S1uiu4dM2DD08RmWLjmCbJsAg==
-Date:   Fri, 24 Feb 2023 15:46:59 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Maxim Kiselev <bigunclemax@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        abel.vesa@linaro.org, alexander.stein@ew.tq-group.com,
-        andriy.shevchenko@linux.intel.com, brgl@bgdev.pl,
-        colin.foster@in-advantage.com, cristian.marussi@arm.com,
-        devicetree@vger.kernel.org, dianders@chromium.org,
-        djrscally@gmail.com, dmitry.baryshkov@linaro.org,
-        festevam@gmail.com, fido_max@inbox.ru, frowand.list@gmail.com,
-        geert+renesas@glider.be, geert@linux-m68k.org,
-        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
-        jpb@kernel.org, jstultz@google.com, kernel-team@android.com,
-        kernel@pengutronix.de, lenb@kernel.org, linus.walleij@linaro.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux@roeck-us.net, lkft@linaro.org, luca.weiss@fairphone.com,
-        magnus.damm@gmail.com, martin.kepplinger@puri.sm, maz@kernel.org,
-        rafael@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        sakari.ailus@linux.intel.com, shawnguo@kernel.org,
-        tglx@linutronix.de, tony@atomide.com,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH v2 00/11] fw_devlink improvements
-Message-ID: <20230224154659.432a4d4c@xps-13>
-In-Reply-To: <CAGETcx-0VboaAeoa+_AqDtrDj6v6ZytFj6pU-FVyAu-pk-hG6A@mail.gmail.com>
-References: <20230127001141.407071-1-saravanak@google.com>
-        <20230130085542.38546-1-naresh.kamboju@linaro.org>
-        <CAGETcx_411fVxsM-ZMK7j2Bvkmi2TKPbzSuD+03M3cb7WKHfJw@mail.gmail.com>
-        <20230131101813.goaoy32qvrowvyyb@bogus>
-        <CALHCpMijXAgQx2qq8g8zdq=6AHwP+g5WVBjjry=v+dKEq9KDLw@mail.gmail.com>
-        <CAGETcx_UvW819m1Y-QU_ySB1nG_RegKKT06=YjkK=C_qjbAySw@mail.gmail.com>
-        <CALHCpMha_1nXt4rUe+A184XSWpyNk0_PkYjWZ+tUN7BJWqENLA@mail.gmail.com>
-        <CAGETcx_uri6exkv1Jkzmc4PyEam9yjuH2H1zrq4LYNtJ+XDMWw@mail.gmail.com>
-        <20230206103912.7db5ed72@xps-13>
-        <CAGETcx-0VboaAeoa+_AqDtrDj6v6ZytFj6pU-FVyAu-pk-hG6A@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Fri, 24 Feb 2023 13:04:26 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32B2628877
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id h19so251341qtk.7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
+        b=utHnK7ViPP8IIEMHObTiU24gYW/MdqOknk0TZGMMqe+MBZkuxxrPwWGvEQOQ3WKiXl
+         1ecUu88H5F0OMaoNuQE7mMfPSTGxvhmmUgxY/+2FDoEsa+rr2At1AgdWG+DkFkxCfOGI
+         kOxKKkb9TKqyfCRMHWj8d1CLflc+R4Pd+Qd6YLmhJVM15PLw447nfz6jmmPH1ILsk7B6
+         6vlteR2wbCnMpkF87b3Hbub4MN27ew2LIZoD0+DGaJ/uGTSxCi414BU7HfltKntrXx5U
+         Qh9VadxG2t1xlCRTzAZhjIJTZw6yG0w5yIgzLztWMadyo/azZBavhFPA0vfJ5pp7cdO9
+         xbKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
+        b=fvNW6xd09ZUy9O/VNdJatpUVjQ5kfd/JWbXPfXzR7QktNn5bKDdT0rhL4H9yC0VcdF
+         HK301zwA0mGezjZfHgBT7qsFaEj+NTV1yq5rlKlBAvlNsHXPIVFzPvYP8EedpNkbHiK1
+         AGTEuEPQxdHZwXkNksWz3gkh3if2o3RiZaiWeMQCjiZA0m95velKPhZodAkr2zAyBmty
+         +iyN1CS74J6TGW8sQuTiTrwn8/mBB9FJaDnjX8VLVWqtsV62wWbo5QzM9R7zxeh65mUg
+         CTJxhS79LH4zh7MuMwazrpQMdK2cN0xOLAmC6wES/nkLlfr52H2CVsM2f3BTIh4ZQnPA
+         NX7Q==
+X-Gm-Message-State: AO0yUKWPRK4uAnmmMYR3Qmr8d1/o7Pjf4+e4tdM0nKfHMzSzN9oR+25J
+        0StQn3XR2CeHVFxWGG0TXmfdPg==
+X-Google-Smtp-Source: AK7set+TXLmLNmj6/nIcApT0F8hLwTPkJ+w+ozZOWX5Ybz7cB63TJJ5jCW2UtLCAXLfgr82GUPX+Yw==
+X-Received: by 2002:a05:622a:410:b0:3bf:b950:f684 with SMTP id n16-20020a05622a041000b003bfb950f684mr6552067qtx.53.1677261861259;
+        Fri, 24 Feb 2023 10:04:21 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id t41-20020a05622a182900b003bfad864e81sm4791266qtc.69.2023.02.24.10.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 10:04:20 -0800 (PST)
+Message-ID: <f4becff94466ca364dc1408f7491de131a36f0c3.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ming Qian <ming.qian@nxp.com>
+Date:   Fri, 24 Feb 2023 13:04:19 -0500
+In-Reply-To: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+         <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
+         <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+         <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,127 +79,54 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
-
-> > > > > So, can you please retest config 1 with all pr_debug and dev_dbg =
-in
-> > > > > drivers/core/base.c changed to the _info variants? And then share=
- the
-> > > > > kernel log from the beginning of boot? Maybe attach it to the ema=
-il so
-> > > > > it doesn't get word wrapped by your email client. And please poin=
-t me
-> > > > > to the .dts that corresponds to your board. Without that, I can't
-> > > > > debug much. =20
-> > > >
-> > > > Ok, I retested config 1 with all _debug logs changed to the _info. I
-> > > > added the kernel log and the dts file to the attachment of this ema=
-il. =20
-> > >
-> > > Ah, so your device is not supported/present upstream? Even though it's
-> > > not upstream, I'll help fix this because it should fix what I believe
-> > > are unreported issues in upstream.
-> > >
-> > > Ok I know why configs 1 - 4 behaved the way they did and why my test
-> > > patch didn't help.
-> > >
-> > > After staring at mtd/nvmem code for a few hours I think mtd/nvmem
-> > > interaction is kind of a mess. =20
-> >
-> > nvmem is a recent subsystem but mtd carries a lot of legacy stuff we
-> > cannot really re-wire without breaking users, so nvmem on top of mtd
-> > of course inherit from the fragile designs in place. =20
+Le jeudi 23 f=C3=A9vrier 2023 =C3=A0 15:10 +0200, Tomi Valkeinen a =C3=A9cr=
+it=C2=A0:
+> Hi,
 >=20
-> Thanks for the context. Yeah, I figured. That's why I explicitly
-> limited my comment to "interaction". Although, I'd love to see the MTD
-> parsers all be converted to proper drivers that probe. MTD is
-> essentially repeating the driver matching logic. I think it can be
-> cleaned up to move to proper drivers and still not break backward
-> compatibility. Not saying it'll be trivial, but it should be possible.
-> Ironically MTD uses mtd_class but has real drivers that work on the
-> device (compared to nvmem_bus below).
+> On 22/02/2023 17:28, Nicolas Dufresne wrote:
+> > Hi Tomi,
+> >=20
+> > Le mercredi 21 d=C3=A9cembre 2022 =C3=A0 11:24 +0200, Tomi Valkeinen a =
+=C3=A9crit=C2=A0:
+> > > Add Y210, Y212 and Y216 formats.
+> > >=20
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.co=
+m>
+> > > ---
+> > >   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++=
+++-
+> > >   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
+> > >   include/uapi/linux/videodev2.h                |  8 +++
+> > >   3 files changed, 58 insertions(+), 2 deletions(-)
+> >=20
+> > It seems you omitted to update v4l2-common.c, Ming Qian had made a supl=
+icated
+> > commit for this, I'll ask him if he can keep the -common changes you fo=
+rgot.
 >=20
-> > > mtd core creates "partition" platform
-> > > devices (including for nvmem-cells) that are probed by drivers in
-> > > drivers/nvmem. However, there's no driver for "nvmem-cells" partition
-> > > platform device. However, the nvmem core creates nvmem_device when
-> > > nvmem_register() is called by MTD or these partition platform devices
-> > > created by MTD. But these nvmem_devices are added to a nvmem_bus but
-> > > the bus has no means to even register a driver (it should really be a
-> > > nvmem_class and not nvmem_bus). =20
-> >
-> > Srinivas, do you think we could change this? =20
+> Ah, I wasn't aware of the format list in that file.
 >=20
-> Yeah, this part gets a bit tricky. It depends on whether the sysfs
-> files for nvmem devices is considered an ABI. Changing from bus to
-> class would change the sysfs path for nvmem devices from:
-> /sys/class/nvmem to /sys/bus/nvmem
+> I think you refer to the "media: imx-jpeg: Add support for 12 bit=20
+> extended jpeg" series. Yes, I'm fine if he can add the -common changes=
+=20
+> there, but I can also send a separate patch. In fact, maybe a separate=
+=20
+> fix patch is better, so that we can have it merged in the early 6.3 rcs.
 
-Ok, so this is a no :)
+I don't think we need to worry about backporting this though. I simply care=
+ that
+we keep updating -common and encourage using it. The goal of this lib is to
+provide a common set of helpers to do calculate format related information.=
+ You
+don't have to use it at any cost. Allocation is often the cause of memory
+corruption issues, and is a very recurrent thing we have to debug and fix.
 
-> > > And the nvmem_device sometimes points
-> > > to the DT node of the MTD device or sometimes the partition platform
-> > > devices or maybe no DT node at all. =20
-> >
-> > I guess this comes from the fact that this is not strongly defined in
-> > mtd and depends on the situation (not mentioning 20 years of history
-> > there as well). "mtd" is a bit inconsistent on what it means. Older
-> > designs mixed: controllers, ECC engines when relevant and memories;
-> > while these three components are completely separated. Hence
-> > sometimes the mtd device ends up being the top level controller,
-> > sometimes it's just one partition...
-> >
-> > But I'm surprised not all of them point to a DT node. Could you show us
-> > an example? Because that might likely be unexpected (or perhaps I am
-> > missing something). =20
->=20
-> Well, the logic that sets the DT node for nvmem_device is like so:
->=20
->         if (config->of_node)
->                 nvmem->dev.of_node =3D config->of_node;
->         else if (!config->no_of_node)
->                 nvmem->dev.of_node =3D config->dev->of_node;
->=20
-> So there's definitely a path (where both if's could be false) where
-> the DT node will not get set. I don't know if that path is possible
-> with the existing users of nvmem_register(), but it's definitely
-> possible.
+This was also discussed on IRC yesterday, for Renesas driver, "just porting=
+ it"
+to use that could mean duplicating the lookup, as Renesas driver also needs=
+ its
+own map to get the HW specific formats and other information. This looks li=
+ke a
+valid use case to me, and is definitely something -common could improve on.
 
-It's an actual path. I just checked more in details, this is the change
-from 2018 which uses the no_of_node flag:
-c4dfa25ab307 ("mtd: add support for reading MTD devices via the nvmem API")
-
-It basically allows any mtd device to be accessible (read-only) through
-nvmem. So mtd partitions or such which are not described in the DT may
-just be accessed through nvmem (that is my current understanding).
-
-There was later a patch in 2021 which prevented this flag to be
-automatically set, so that if partitions (well, mtd devices in general)
-were described in the DT, they would provide a valid of_node in order
-to be used as cell providers (again, my understanding):
-658c4448bbbf ("mtd: core: add nvmem-cells compatible to parse mtd as nvmem =
-cells")
-
-But I guess the major problem comes from the nvmem-cell compatible. I
-am wondering if it would make sense to kind of transpose the meaning of
-this compatible into a property. But, well, backward compatibility
-would still be a problem I guess...
-
-> > > So it's a mess of multiple devices pointing to the same DT node with
-> > > no clear way to identify which ones will point to a DT node and which
-> > > ones will probe and which ones won't. In the future, we shouldn't
-> > > allow adding new compatible strings for partitions for which we don't
-> > > plan on adding nvmem drivers.
-> > >
-> > > Can you give the patch at the end of the email a shot? It should fix
-> > > the issue with this series and without this series. It just avoids
-> > > this whole mess by not creating useless platform device for
-> > > nvmem-cells compatible DT nodes. =20
-> >
-> > Thanks a lot for your help. =20
->=20
-> No problem. I want fw_devlink to work for everyone.
->=20
-
-Thanks,
-Miqu=C3=A8l
+Nicolas
