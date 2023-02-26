@@ -2,293 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEEB56A2782
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Feb 2023 07:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C966A32DF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Feb 2023 17:42:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjBYGZl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Feb 2023 01:25:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55880 "EHLO
+        id S229572AbjBZQmV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 26 Feb 2023 11:42:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjBYGZk (ORCPT
+        with ESMTP id S229562AbjBZQmU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Feb 2023 01:25:40 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCFF2B2AD
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Feb 2023 22:25:37 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id c23so1201266pjo.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Feb 2023 22:25:37 -0800 (PST)
+        Sun, 26 Feb 2023 11:42:20 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1378410AA6;
+        Sun, 26 Feb 2023 08:42:19 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id s26so16386867edw.11;
+        Sun, 26 Feb 2023 08:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4QPCIfZpunPpGQRjZ0CLzZgvh1bMrAOlRsJYurE9VOI=;
-        b=i2OnX+qtVkxWkVFcUUUtHoMVo58k8kPteFOU3yRJoch4UrZVjVtoKgQCILPsSIH2IM
-         9SuCn3vu72nb3n2gCsoCb9MQcwZbuXYf5jgyHDO34s/gR8M5CxRU5gV0+YnHw+9V/jL3
-         UereLqEbLRdif9+wLl1Wv9EJQ5zwKS3GE8nA8qUJSHw1j151949EZ1cDEtx0EJ19hLV9
-         2i4mG+2eo1p0BSS1qZavXyXOVwVlLf24HyC12nbm1kz7x2IzYuc7LLP1/1i2knyLhN87
-         asicV45YD46sfQWagebPdNnXBrCMp8DyEYimgDowgWuBomRC1Gc2M0hNTbO7Evf7ew4Y
-         cwsQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GFVrRwJiceJX6p3MtGyVAnzQ7b5nsJUgQ+NNlDERCOI=;
+        b=bXW6FnwAz+6fEyfqxdgUnQr8YdiYse615NWFGzlE8V8nVqJWXk6GYZ6lt10PQftFRQ
+         WSw3kLEowuQkCi9PJMs6IK7dcForHdLc0hS+K8C7btNGIUU7SexsDTgvj5ltPl6qZzpV
+         3/jELW/vAKSDnqwn6BeyswI/ONmlKejt9hZyIRF8asmG1PxU3ccNzSk5jk1KnqQa1kEX
+         PAkRjWlMmnjnrWItLUtv5d2UIC7IzBwCsa/6a+Y6iMOBz+DaTBdBfCrTLKLXikhPELET
+         Syds8pdOhjKGuci4X46c0Os4xk3a6y2vhYAre0w3PzGPJi1ovEjEuEdHI6EfNoBtarlq
+         ddMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4QPCIfZpunPpGQRjZ0CLzZgvh1bMrAOlRsJYurE9VOI=;
-        b=GQUZrJl5LXOuu8eWU0uclhhqs9EC2XMEk+x+zPl/Hxn0fIpjpTZAOoz4419I77T5mk
-         IycBO8lwAYiqcUk5iE2f1upITiJfAvS04ZCXLSYfFK/E7dGT6DV+3WR0yL91uZDrWcao
-         mIa8aSAyL51M7yLsJmvALxJO8cRLabqZTvEsAO7gynu5fhKKcLW++yZ120uDusEiQ05k
-         Jpgr2WL1Spm4GKNpGgfiRFh7eWcPXm/0/RsEdGJ3XlNkY6ebCuTVChv1wir8L2weXnET
-         TbLSxPb1eiiMa7G++Xsvsef4nkXcl+MokOjBJNWFSaZF+8pPQWbPVdetRMUCklmYkYwu
-         ZglA==
-X-Gm-Message-State: AO0yUKVtrNlAJowbN3o94tBhQhaJu5nFT5Qv/vHdTjCfThVGj/ZPL7Uq
-        H3MYMC4ClpkC/si5bOf8jZgCAUQqynzsTKWFZ1ysQQ==
-X-Google-Smtp-Source: AK7set/k/0eO1pGMhcQMet0YU6e3h9+c98wFu1JipuFF0QZYfLgw6WY/Kw7NUyUCthebeNVAXRQmnWBsB84kG+im0+I=
-X-Received: by 2002:a17:903:2402:b0:19c:a7a7:7072 with SMTP id
- e2-20020a170903240200b0019ca7a77072mr3005999plo.10.1677306336589; Fri, 24 Feb
- 2023 22:25:36 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GFVrRwJiceJX6p3MtGyVAnzQ7b5nsJUgQ+NNlDERCOI=;
+        b=VFeOSav7uPWu0X7PsyZxObyphdtA2DODapjqJop77si+NzO2ppsYaD16g2Amu08O40
+         oLnpzlNORJ8Fmx7krO09zpaGzJnzVXKa8UFP0xbFK1OkQ0ZBZ0hX7Z1tEb4NJluhCea4
+         aklarKVeRMVK6Ism6zhl67wctDHnU+xEq1dv4NPCYBxBxRXfqH5J/L6hXXLvLHJMhmC5
+         rZzOPk+R/V/ni8PKquQ7Xdyx3mMFGqW5pg47bpBZWTOyp9ejWwnMJMwCTL34l/8Crhhq
+         tcP0jsWTaOPQ5x6HslFLLyFT0bTphqG3Sq0anzLL+mBKhAVHCaGCaQloeM6iVhfNLSyF
+         bMJQ==
+X-Gm-Message-State: AO0yUKWd2Ei34L1dElCd76uqhjEqcZXvYyYnMYMUu4bTSJxSTRThZUVX
+        jeDNVvUowhp1VvEpTwqEQ9o=
+X-Google-Smtp-Source: AK7set+b/aldD90B2+Z55MQrbjcjojOBwZ9aZPldbarWWGd6jE2Zyr+ZF9BmaBnuJyyNniUIqipPmw==
+X-Received: by 2002:a05:6402:35cb:b0:4aa:a280:55b5 with SMTP id z11-20020a05640235cb00b004aaa28055b5mr6184728edc.20.1677429736560;
+        Sun, 26 Feb 2023 08:42:16 -0800 (PST)
+Received: from ?IPV6:2a01:c22:7af0:2200:c0b0:beb3:eda8:5ddf? (dynamic-2a01-0c22-7af0-2200-c0b0-beb3-eda8-5ddf.c22.pool.telefonica.de. [2a01:c22:7af0:2200:c0b0:beb3:eda8:5ddf])
+        by smtp.googlemail.com with ESMTPSA id g10-20020a50d0ca000000b004acc123cd94sm2135809edf.30.2023.02.26.08.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Feb 2023 08:42:16 -0800 (PST)
+Message-ID: <92332a2e-8e87-567d-7b4c-6ca779c866aa@gmail.com>
+Date:   Sun, 26 Feb 2023 17:42:10 +0100
 MIME-Version: 1.0
-References: <20230207014207.1678715-1-saravanak@google.com> <CAA8EJprMMh3udsKKwtGJW9kBLfMv=_OXFnnPGobK=dK-raX5ew@mail.gmail.com>
-In-Reply-To: <CAA8EJprMMh3udsKKwtGJW9kBLfMv=_OXFnnPGobK=dK-raX5ew@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 24 Feb 2023 22:24:59 -0800
-Message-ID: <CAGETcx8iR20dtrKMu+5VdqqTG8xYY7PFjLnkgUfvMNV2bmfhkw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/12] fw_devlink improvements
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        John Stultz <jstultz@google.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Maxim Kiselev <bigunclemax@gmail.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Jean-Philippe Brucker <jpb@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        kernel-team@android.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Andrew Lunn <andrew@lunn.ch>, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230223070519.2211-1-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [REGRESSION PATCH RFC] net: phy: don't resume PHY via MDIO when
+ iface is not up
+In-Reply-To: <20230223070519.2211-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 15, 2023 at 7:12 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 07/02/2023 03:41, Saravana Kannan wrote:
-> > Naresh, Tony, Abel, Geert, Dmitry, Maxim(s), Miquel, Luca, Doug, Martin,
-> > Jean-Philippe,
-> >
-> > Can I get your Tested-by's for this v3 series please?
-> >
-> > Vladimir,
-> >
-> > Ccing you because DSA's and fw_devlink have known/existing problems
-> > (still in my TODOs to fix). But I want to make sure this series doesn't
-> > cause additional problems for DSA.
-> >
-> > All,
-> >
-> > This patch series improves fw_devlink in the following ways:
-> >
-> > 1. It no longer cares about a fwnode having a "compatible" property. It
-> >     figures this out more dynamically. The only expectation is that
-> >     fwnodes that are converted to devices actually get probed by a driver
-> >     for the dependencies to be enforced correctly.
-> >
-> > 2. Finer grained dependency tracking. fw_devlink will now create device
-> >     links from the consumer to the actual resource's device (if it has one,
-> >     Eg: gpio_device) instead of the parent supplier device. This improves
-> >     things like async suspend/resume ordering, potentially remove the need
-> >     for frameworks to create device links, more parallelized async probing,
-> >     and better sync_state() tracking.
-> >
-> > 3. Handle hardware/software quirks where a child firmware node gets
-> >     populated as a device before its parent firmware node AND actually
-> >     supplies a non-optional resource to the parent firmware node's
-> >     device.
-> >
-> > 4. Way more robust at cycle handling (see patch for the insane cases).
-> >
-> > 5. Stops depending on OF_POPULATED to figure out some corner cases.
-> >
-> > 6. Simplifies the work that needs to be done by the firmware specific
-> >     code.
-> >
-> > The v3 series has gone through my usual testing on my end and looks good
-> > to me.
->
-> Saravana,
->
-> Please excuse me, I was completely overwhelmed with my regular work and
-> had no time to properly test the series, while doing just the light
-> test would defeat the purpose of testing.
->
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # Qualcomm RB3
->
-> Thanks a lot for going through all the troubles and hunting all the issues!
+On 23.02.2023 08:05, Wolfram Sang wrote:
+> TLDR; Commit 96fb2077a517 ("net: phy: consider that suspend2ram may cut
+> off PHY power") caused regressions for us when resuming an interface
+> which is not up. It turns out the problem is another one, the above
+> commit only makes it visible. The attached patch is probably not the
+> right fix, but at least is proving my assumptions AFAICS.
+> 
+> Setup: I used Renesas boards for my tests, namely Salvator-XS and Ebisu.
+> They both use RAVB driver (drivers/net/ethernet/renesas/ravb_main.c) and
+> a Micrel KSZ9031 PHY (drivers/net/phy/micrel.c). I think the problems
+> are generic, though.
+> 
+> Long text: After the above commit, we could see various resume failures
+> on our boards, like timeouts when resetting the MDIO bus, or warning
+> about skew values in non-RGMII mode, although RGMII was used. All of
+> these happened, because phy_init_hw() was now called in
+> mdio_bus_phy_resume() which wasn't the case before. But the interface
+> was not up yet, e.g. phydev->interface was still the default and not
+> RGMII, so the initialization didn't work properly. phy_attach_direct()
+> pays attention to this:
+> 
+> 1504         /* Do initial configuration here, now that
+> 1505          * we have certain key parameters
+> 1506          * (dev_flags and interface)
+> 1507          */
+> 1508         err = phy_init_hw(phydev);
+> 
+> But phy_init_hw() doesn't if the interface is not up, AFAICS.
+> 
+> This may be a problem in itself, but I then wondered why
+> mdio_bus_phy_resume() gets called anyhow because the RAVB driver sets
+> 'phydev->mac_managed_pm = true' so once the interface is up
+> mdio_bus_phy_resume() never gets called. But again, the interface was
+> not up yet, so mac_managed_pm was not set yet.
+> 
+Setting phydev->mac_managed_pm in the open() callback is too late.
+It should be set as soon as the phydev is created. That's in
+ravb_mdio_init() after the call to of_mdiobus_register().
 
-You are welcome! Thanks for testing it.
-
-> Just a note: on an RB3 device (arm64 qcom/sdm845-db845c.dtsi) extended
-> with the patch at [3] I got the following messages in dmesg:
->
-> [    1.051325] platform ae00000.mdss: Failed to create device link
-> with ae00000.mdss
-> [    1.059368] platform ae00000.mdss: Failed to create device link
-> with ae00000.mdss
-> [    1.067174] platform ae00000.mdss: Failed to create device link
-> with ae00000.mdss
-> [    1.088322] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    1.096019] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    1.103707] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    1.111400] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    1.119141] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    1.126825] platform c440000.spmi: Failed to create device link
-> with c440000.spmi
-> [    2.024763] qcom-lab-ibb-regulator c440000.spmi:pmic@3:labibb:
-> Failed to create device link with c440000.spmi
-> [    2.035026] qcom-lab-ibb-regulator c440000.spmi:pmic@3:labibb:
-> Failed to create device link with c440000.spmi
->
-> They look to be harmless, but it might be good to filter some of them
-> out? Especially the ones which tell about creating a device link
-> pointing back to the same device.
-
-I'm sure it's harmless when the supplier == consumer. Agreed on
-filtering these out.
-
-I looked at [3], but it's not obvious to me how this is happening for
-your specific case. There are a couple of  ways I can think of:
-1. A SYNC_STATE_ONLY link being created as a proxy link (I don't do as
-many checks here because it can't break anything)
-2. __fw_devlink_pickup_dangling_consumers() causing the consumer and
-supplier to be the same.
-
-But I want to understand which one is happening in your case. Can you
-add a WARN_ON(1) after the error message and give me the list of stack
-dumps that are unique?
-
-Thanks,
-Saravana
+It should be possible to get the phydev with:
+pn = of_parse_phandle(np, "phy-handle", 0);
+phy = of_phy_find_device(pn);
 
 
->
-> [3] https://lore.kernel.org/linux-arm-msm/20230118082048.2198715-1-dmitry.baryshkov@linaro.org/
->
-> >
-> > Thanks,
-> > Saravana
-> >
-> > [1] - https://lore.kernel.org/lkml/20220810060040.321697-1-saravanak@google.com/
-> > [2] - https://lore.kernel.org/lkml/CAGETcx-JUV1nj8wBJrTPfyvM7=Mre5j_vkVmZojeiumUGG6QZQ@mail.gmail.com/
-> >
-> > v1 -> v2:
-> > - Fixed Patch 1 to handle a corner case discussed in [2].
-> > - New patch 10 to handle "fsl,imx8mq-gpc" being initialized by 2 drivers.
-> > - New patch 11 to add fw_devlink support for SCMI devices.
-> >
-> > v2 -> v3:
-> > - Addressed most of Andy's comments in v2
-> > - Added Colin and Sudeep's Tested-by for the series (except the imx and
-> >    renesas patches)
-> > - Added Sudeep's Acked-by for the scmi patch.
-> > - Added Geert's Reviewed-by for the renesas patch.
-> > - Fixed gpiolib crash reported by Naresh.
-> > - Patch 6: Fix __fwnode_links_move_consumers() to preserve fwnode link flags.
-> > - New Patch 12 to fix nvmem-cells issue reported by Maxim(s)/Miquel.
-> > - Deleted some stale function doc in Patch 8
-> >
-> > Cc: Abel Vesa <abel.vesa@linaro.org>
-> > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Cc: Tony Lindgren <tony@atomide.com>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Cc: John Stultz <jstultz@google.com>
-> > Cc: Doug Anderson <dianders@chromium.org>
-> > Cc: Guenter Roeck <linux@roeck-us.net>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Maxim Kiselev <bigunclemax@gmail.com>
-> > Cc: Maxim Kochetkov <fido_max@inbox.ru>
-> > Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> > Cc: Luca Weiss <luca.weiss@fairphone.com>
-> > Cc: Colin Foster <colin.foster@in-advantage.com>
-> > Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > Cc: Jean-Philippe Brucker <jpb@kernel.org>
-> > Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
-> >
-> > Saravana Kannan (12):
-> >    driver core: fw_devlink: Don't purge child fwnode's consumer links
-> >    driver core: fw_devlink: Improve check for fwnode with no
-> >      device/driver
-> >    soc: renesas: Move away from using OF_POPULATED for fw_devlink
-> >    gpiolib: Clear the gpio_device's fwnode initialized flag before adding
-> >    driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
-> >    driver core: fw_devlink: Allow marking a fwnode link as being part of
-> >      a cycle
-> >    driver core: fw_devlink: Consolidate device link flag computation
-> >    driver core: fw_devlink: Make cycle detection more robust
-> >    of: property: Simplify of_link_to_phandle()
-> >    irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
-> >    firmware: arm_scmi: Set fwnode for the scmi_device
-> >    mtd: mtdpart: Don't create platform device that'll never probe
-> >
-> >   drivers/base/core.c             | 449 +++++++++++++++++++++-----------
-> >   drivers/firmware/arm_scmi/bus.c |   3 +-
-> >   drivers/gpio/gpiolib.c          |   7 +
-> >   drivers/irqchip/irq-imx-gpcv2.c |   1 +
-> >   drivers/mtd/mtdpart.c           |  10 +
-> >   drivers/of/property.c           |  84 +-----
-> >   drivers/soc/imx/gpcv2.c         |   2 +-
-> >   drivers/soc/renesas/rcar-sysc.c |   2 +-
-> >   include/linux/device.h          |   1 +
-> >   include/linux/fwnode.h          |  12 +-
-> >   10 files changed, 344 insertions(+), 227 deletions(-)
-> >
->
-> --
-> With best wishes
->
-> Dmitry
+> So, in my quest to avoid mdio_bus_phy_resume() being called, I tried
+> this patch declaring the PHY being in suspend state when being probed.
+> The KSZ9031 has a soft_reset() callback, so phy_init_hw() will reset the
+> suspended flag when the PHY is attached. It works for me(tm),
+> suspend/resume now works independently of the interface being up or not.
+> 
+> I don't think this is the proper solution, though. It will e.g. fail if
+> some PHY is not using the soft_reset() callback. And I am missing the
+> experience in this subsystem to decide if we can clear the resume flag
+> in phy_init_hw() unconditionally. My gut feeling is that we can't.
+> 
+> So, this patch mostly demonstrates the issues we have and the things I
+> found out. I'd be happy if someone could point me to a proper solution,
+> or more information that I am missing here. Thank you in advance and
+> happy hacking!
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/net/phy/phy_device.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+> index 8cff61dbc4b5..5cbb471700a8 100644
+> --- a/drivers/net/phy/phy_device.c
+> +++ b/drivers/net/phy/phy_device.c
+> @@ -3108,6 +3108,7 @@ static int phy_probe(struct device *dev)
+>  
+>  	/* Set the state to READY by default */
+>  	phydev->state = PHY_READY;
+> +	phydev->suspended = 1;
+>  
+>  out:
+>  	/* Assert the reset signal */
+
