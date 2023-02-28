@@ -2,63 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17CCD6A5683
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Feb 2023 11:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F236A574C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Feb 2023 11:58:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230000AbjB1KXJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Feb 2023 05:23:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35762 "EHLO
+        id S229528AbjB1K6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Feb 2023 05:58:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229986AbjB1KXI (ORCPT
+        with ESMTP id S230116AbjB1K5n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Feb 2023 05:23:08 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B591117D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Feb 2023 02:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Mcb71SBLKJKo9n9XevXq87y2BbJN
-        cVOghzuFyCgc96Y=; b=ZGJtnlb9Jw+qbvg28NF5dWPt62fo75S5TLrLQ76zOy/Y
-        rpLfSFs9XW9G3p0kVxSlDNdTfu5RLmszoqIuvd5T29q7dfDU/597OMV6K9oX/iub
-        g6Z4v8F3jvvlH/pFgD25Vc9XSInlWx3I/3rX0HYsurwLeDrMnmBt3L0A/EvJimE=
-Received: (qmail 2424783 invoked from network); 28 Feb 2023 11:23:03 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Feb 2023 11:23:03 +0100
-X-UD-Smtp-Session: l3s3148p1@QusL+7/1kLZehh92
-Date:   Tue, 28 Feb 2023 11:23:02 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: renesas: vsp1: blacklist r8a7795 ES1.*
-Message-ID: <Y/3WBpRUYfLCTsvy@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230118122003.132905-1-wsa+renesas@sang-engineering.com>
- <Y8fpg/WkR4OMrpOu@pendragon.ideasonboard.com>
- <CAMuHMdUegruzCdP_+_qNuhVvFWp-_8zvdYw=v3kmt6zDU8=w5Q@mail.gmail.com>
- <Y8f2elExwiwxK2n+@pendragon.ideasonboard.com>
- <CAMuHMdXYsCN+evJB8idRFQ-v2B4bJ6vi+DSF=Zg6+QSiu+Op5Q@mail.gmail.com>
- <Y8f88dw/fWfVij/d@pendragon.ideasonboard.com>
- <Y/3UNv4a9xmAR+54@duo.ucw.cz>
+        Tue, 28 Feb 2023 05:57:43 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31936302BB;
+        Tue, 28 Feb 2023 02:57:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BD272B80DFF;
+        Tue, 28 Feb 2023 10:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B13C433D2;
+        Tue, 28 Feb 2023 10:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677581825;
+        bh=D2iUAMCdIQFGE46K3Uak4YjRzsHqOT4rcmVgoAEo6O0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Jis5BtzV8MosCQobg4QszUhhb39t1rzLG0VGviohElDNqh5GoyP6KuZlWTCfq2LZi
+         yU+/nWL8swju5Gps8ItiqQv7PW95MCbbIPxdtl171FLocmpo91MRZ8me+mxlnfBXfV
+         /aZXQTaaOSiSq+1ILvwoLqn2u289yGlAsoXV9vKw7Fk3wSUjmX3PHyhrJbghKwJg4R
+         BoouyN1uoY2l7HU+2iCPxkyCuXRVd8Cj5cVf1zjVNj728psroVqJOKCEviC1h7hYj+
+         mELGCbLaGmvLGKdE2WCrLw1B+bMtdSgcXC9Ny8+lRs/fJCdcj1pf77ER4QUIqP35Jw
+         xmdb2bmiIl84w==
+Date:   Tue, 28 Feb 2023 11:57:02 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] driver core: bus: Handle early calls to bus_to_subsys()
+Message-ID: <Y/3d/sfipoe130Hu@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <0a92979f6e790737544638e8a4c19b0564e660a2.1676983596.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nPQgwykiPRC2cvTf"
+        protocol="application/pgp-signature"; boundary="bf7Dv4zlfrDlY6f9"
 Content-Disposition: inline
-In-Reply-To: <Y/3UNv4a9xmAR+54@duo.ucw.cz>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <0a92979f6e790737544638e8a4c19b0564e660a2.1676983596.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -66,45 +63,62 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---nPQgwykiPRC2cvTf
+--bf7Dv4zlfrDlY6f9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pavel,
+On Tue, Feb 21, 2023 at 01:53:51PM +0100, Geert Uytterhoeven wrote:
+> When calling soc_device_match() from early_initcall(), bus_kset is still
+> NULL, causing a crash:
+>=20
+>     Unable to handle kernel NULL pointer dereference at virtual address 0=
+000000000000028
+>     ...
+>     Call trace:
+>      __lock_acquire+0x530/0x20f0
+>      lock_acquire.part.0+0xc8/0x210
+>      lock_acquire+0x64/0x80
+>      _raw_spin_lock+0x4c/0x60
+>      bus_to_subsys+0x24/0xac
+>      bus_for_each_dev+0x30/0xcc
+>      soc_device_match+0x4c/0xe0
+>      r8a7795_sysc_init+0x18/0x60
+>      rcar_sysc_pd_init+0xb0/0x33c
+>      do_one_initcall+0x128/0x2bc
+>=20
+> Before, bus_for_each_dev() handled this gracefully by checking that
+> the back-pointer to the private structure was valid.
+>=20
+> Fix this by adding a NULL check for bus_kset to bus_to_subsys().
+>=20
+> Fixes: 83b9148df2c95e23 ("driver core: bus: bus iterator cleanups")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> There's some agreement that DTBs are an ABI, and that they should work
-> with old and new kernels. Disabling it in the driver seems like right
-> solution.
+Current top-of-head doesn't boot my Salvator-XS board, this patch fixed
+it.
 
-We agreed to remove support for this specific SoC entirely from the
-kernel. With this merge window, it won't boot anymore. It was for
-internal development only anyhow. So, instead of adding new quirks for
-it, I will remove all existing ones once rc1 is released. So, this patch
-can be dropped.
-
-Thank you for your review,
-
-   Wolfram
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---nPQgwykiPRC2cvTf
+--bf7Dv4zlfrDlY6f9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmP91gMACgkQFA3kzBSg
-KbZX2g/8CRdgZEghA+jOxG+dED3Yed4LejY50XrC8Meia645ecmev9Tk0D9teR9z
-uBBw9DwG8Hy3IGZEMM2gvhRsyWG4nNH7bzS6J8+djwCcMru34uWxrhXZY4Yq3eyy
-peR8+XrMv8mnEmof8o3nYmhPFUeLSlAqS6P52reA+TzaA3AwHfopOpvmZhdncZnb
-IJSscvXRlK65igGwWYfdOSdppoCUojH3Qp7taeShjb3GAmCGpORhdIpWem08uhJy
-t4xrHJJ9/W42MNqaN3wk7EnuJhO/AprtE2pmUGjIuhtNxdtprwqHK6g7ld5p7P+i
-rg4Somtted4vC6/69AyZvBhaYxcoYuA48fiTlGuvFmp9fh7Jn1S3pOq73qt+J/wF
-ZKO9J+wnsg+ZZzexpC2HsM+Y2GljV76ETxmOXssES0+JKv5uumw6m2wNq3IL2Hey
-AtgixoYJrVZN3pRtIHEahGevzNkEk1239NKCIfRW78TrYuTStdjt9OePRIT9VQFh
-dDBwXJ9krNyGMCJkXYUcbDD9JfRUFF9VDSjc4y/q9K9TMRPhnN/gz1qmtMwnWmEM
-bNyFwHJbobAOpen223/gMdRKd14roJlyHHzKDXV4aSeE94E1dpF8PpfWSKGvojc6
-YRyKMHHVj38f/SM5LpT/niU4NQsOTU9KdrDier2ePO3TRq8ogYw=
-=JMpQ
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmP93foACgkQFA3kzBSg
+KbYprA//bHXhMY/B10i601BEs44685UB6WrlQPpGni9zRW/aZNZlVx27QSSz/kCO
+7dU5Ft6MN1nKPFbcFzEFn3OQOb4n5eWIV5L6ciAsPf55NS6zJ4gOdKzBFVkwA4QE
+U645S92mrW7RTLyekaZC6XHeL1a3CQNuje//Gr2C4quOwrAxaUriJoSxZ6LeFzgU
+hc/RUuNaa3O2fq+AQIuaPY9TRFwtzcW0pAvs9szV5YJv+pbL4KQwKc/xRgQhXMQ4
+cB5eSwEom5UQJdicRX3ZlC1xtjPH2NIymT9Mn0meCV0O+btBjk1+nFYZq98XDmT2
+ZpcerbD5HWjA8m6DFb7mr922SeAPwgNg3+NUqCr3cpbCi99sIraYihFNm/G2Oh2D
+whZghWvYa5UgoIrZ8oqBXqIN2RSFf841Q4u68V2/OpdIiL71qaQ3bP54vbCMmwj9
+HCRGz3rpX0tx8619JBsRW0SGqyHai6bz28yEQ7lql8zQkbWZa8LaKdxqBG4WOs3e
+8q3PQGQIw53bxCc6r0U1rEG6YsHFiwMdDCntRA5Q7NVzWZGXXQ42wmHUmwRXiy0O
+7SlOJkt8lZW5lnYDB8fbuyTRP4OPhIX4xRM0n4ob5fR2uC8m3r3bmVEy1WZUFsBD
++5qPk2upFcOi/42z9cqk19Dj/TFDAW3a5cXF36zCqTNP3pkTPXs=
+=cSSB
 -----END PGP SIGNATURE-----
 
---nPQgwykiPRC2cvTf--
+--bf7Dv4zlfrDlY6f9--
