@@ -2,60 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C0B6A4B58
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Feb 2023 20:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8B66A5670
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Feb 2023 11:15:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjB0TnZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Feb 2023 14:43:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52856 "EHLO
+        id S229980AbjB1KPW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Feb 2023 05:15:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbjB0TnY (ORCPT
+        with ESMTP id S229686AbjB1KPV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Feb 2023 14:43:24 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8673E83E0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Feb 2023 11:43:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=a13gqsEzI3PRaBTQkWFrQwmDyoVa
-        8dcFCLJhmS1nKaU=; b=RdWYRcfmdCwDcwSZmwpSdL6+K3jabmJzTQoCufcZb3Wk
-        ZU21UzTIbQpgENvFnKBw1sbQqSPj5BAOnKZWCrlXnLp3/fAhaRA8fRwZ3FcpMls+
-        1DteXl6d4pfbuH65eep/+uOiu+7Aehq7Yxc+YhMuiFGRv3OD2ce8TrDFwIHJE8E=
-Received: (qmail 2227943 invoked from network); 27 Feb 2023 20:43:16 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Feb 2023 20:43:16 +0100
-X-UD-Smtp-Session: l3s3148p1@zMSIsLP1qKVehh92
-Date:   Mon, 27 Feb 2023 20:43:12 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION PATCH RFC] net: phy: don't resume PHY via MDIO when
- iface is not up
-Message-ID: <Y/0H0DOC4sl0kVo+@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230223070519.2211-1-wsa+renesas@sang-engineering.com>
- <92332a2e-8e87-567d-7b4c-6ca779c866aa@gmail.com>
+        Tue, 28 Feb 2023 05:15:21 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F8510255;
+        Tue, 28 Feb 2023 02:15:20 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4C2BD1C0AB2; Tue, 28 Feb 2023 11:15:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1677579319;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pIobWVcWKOMktloTIZSETcSZg4B7IPXuWeejBjATNZw=;
+        b=HDheuxhc1hRmJvYXsUf3ccCpxIb68CvBYyMb5YuLB7JYRl5v/lcNUnBKH6syYWIcr5c/8t
+        LrivujR+7M1OybIyrP8N1jrU0g3z1UEwvnDwkIQtadKMUrl+kedPPblUaL9vR75UlsxUHW
+        +oLnbUQSmABMhL2ag1R4GQE0ZE+gb0A=
+Date:   Tue, 28 Feb 2023 11:15:18 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: vsp1: blacklist r8a7795 ES1.*
+Message-ID: <Y/3UNv4a9xmAR+54@duo.ucw.cz>
+References: <20230118122003.132905-1-wsa+renesas@sang-engineering.com>
+ <Y8fpg/WkR4OMrpOu@pendragon.ideasonboard.com>
+ <CAMuHMdUegruzCdP_+_qNuhVvFWp-_8zvdYw=v3kmt6zDU8=w5Q@mail.gmail.com>
+ <Y8f2elExwiwxK2n+@pendragon.ideasonboard.com>
+ <CAMuHMdXYsCN+evJB8idRFQ-v2B4bJ6vi+DSF=Zg6+QSiu+Op5Q@mail.gmail.com>
+ <Y8f88dw/fWfVij/d@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9iKReve//AbKBJYz"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="C8mDkYo+HW8Czfre"
 Content-Disposition: inline
-In-Reply-To: <92332a2e-8e87-567d-7b4c-6ca779c866aa@gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <Y8f88dw/fWfVij/d@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -63,56 +58,37 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---9iKReve//AbKBJYz
+--C8mDkYo+HW8Czfre
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Heiner,
+Hi!
 
-> > This may be a problem in itself, but I then wondered why
-> > mdio_bus_phy_resume() gets called anyhow because the RAVB driver sets
-> > 'phydev->mac_managed_pm =3D true' so once the interface is up
-> > mdio_bus_phy_resume() never gets called. But again, the interface was
-> > not up yet, so mac_managed_pm was not set yet.
-> >=20
-> Setting phydev->mac_managed_pm in the open() callback is too late.
-> It should be set as soon as the phydev is created. That's in
-> ravb_mdio_init() after the call to of_mdiobus_register().
+> > I prefer blacklisting in the driver, as dropping them from r8a77950.dtsi
+> > wouldn't disable them when used with an older or out-of-tree DTB.
 >=20
-> It should be possible to get the phydev with:
-> pn =3D of_parse_phandle(np, "phy-handle", 0);
-> phy =3D of_phy_find_device(pn);
+> Is that really a use case we need to care about ? Who will run a recent
+> kernel with an old DTB on a H3 ES1.x, without an easy way to update to a
+> mainline device tree ? It's not like those devices went into production.
 
-Awesome, thank you very much for the pointer. I applied setting
-'mac_managed_pm' at probe time, and now I can resume successfully.
-Sadly, this is only the first part of the problem. I still can't get the
-interface up after resuming, but I still need to debug this further.
-At least, the problem with mdiobus_resume getting called is fixed now.
+There's some agreement that DTBs are an ABI, and that they should work
+with old and new kernels. Disabling it in the driver seems like right
+solution.
 
-Thank you for your help!
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-   Wolfram
-
-
---9iKReve//AbKBJYz
+--C8mDkYo+HW8Czfre
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmP9B8wACgkQFA3kzBSg
-KbbUBQ/7Bixpff3a8TawjAUPPSCFhhd+N+P//9fj7QxcqW7G0va/r10irlc5vW/+
-mZbPWDRd5FcOsKngWIIVmtDjQQ9/ej0wpnv3E2zSyAQtk5xez/uGJa3UGmzVFweq
-NVv1XQmETUGDnlHwXe8d4iJRwjICiJnqLhrkMHivC6aKfbXS1nLTLLZOetZzaMIu
-z9bBJEAUk7bIk7vxEosvUC7Sc9z0fTPcNmP0IcKvB+qazqzEQd8+lsfh8ddUFXLQ
-Ym0RiZAP8LM/VMPdXVXqJ0DsUytsE66sfMCXyNoqsH2qaqGa+bBdc8dSjDF7z6Es
-/SgNmIUPo/1on9keXthMYOPlWgs3+0ndsm/veKP0Esr0PXAPE9dpwVEahxD6pBGj
-g+Az0EPpctPZTQeO23G9AmyoLKSPR6HCRizwnb7j5JcJ/fbn6jRpLsOibqHGd2ny
-uRtciJFXQa6C3pfRwti9aZh8hkCPQbBBNc/6MQkt1PivQvWT4fbfPWy4qeKo/T+H
-E+IjykKmwscn00J46c/W04JPSUAfYuBVgNwurrgrGNaqPFI1FpJ41Y8xncgJz8G0
-rBEEwBhoX2S/h0XjpOnKbecwR7sXtfv0l+PNutuoFZzYZW1yTbhmmKq2firB2bqR
-xr23Gb0r7LYg68VuTH5BUfWBlQiPN6P32fGGL6x6kWldcFCzU9E=
-=dyvs
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/3UNgAKCRAw5/Bqldv6
+8r5yAKCQhsFBOLk2Za5sOjz+PmJh6YjMrQCfctyb4Gw+Q2kmG1nPpaeCp7xkYU8=
+=Vgwo
 -----END PGP SIGNATURE-----
 
---9iKReve//AbKBJYz--
+--C8mDkYo+HW8Czfre--
