@@ -2,197 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D16F6A74F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Mar 2023 21:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D072A6A75C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Mar 2023 22:01:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229942AbjCAUPx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Mar 2023 15:15:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51018 "EHLO
+        id S229806AbjCAVBE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Mar 2023 16:01:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjCAUPt (ORCPT
+        with ESMTP id S229563AbjCAVBC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Mar 2023 15:15:49 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC67A4FAB8
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Mar 2023 12:15:28 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id g3so5627683wri.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Mar 2023 12:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677701727;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/7e8N8b7gEax6Mp/tnE3jBK1MXlLnukXxRJZ25cEfk=;
-        b=MDUIOAJCbxOoRoUdpykbKUJ/DLqedw98V6ULDsqSCrVv2DyQoKsOfFo1yWSFUMyGAH
-         61NLVJ3VtYPMta1yqM/+iLb07kdsrakUTAyOLkEEU/a5vc5/jnXoTNRP6EHQks2G1cYK
-         O7H4ybns27pUTUFLhFFuX98xGnbRConr+RkP0qe2eKL5lKoqM6X29VmtxVtQ0JH8IcLG
-         eHvacZ50yVh2fLHdZZBuivopsteFdk48clomNw6d1E8G6lW5O5HK+zqhoPZOzgRgjlxq
-         SqVEnpRGIULjdyG+opdX3sBaoqH/nj9vxXHhbWgoHSUUEHEUxp5aw0lD2j2HfRFxWdGJ
-         lupw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677701727;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l/7e8N8b7gEax6Mp/tnE3jBK1MXlLnukXxRJZ25cEfk=;
-        b=yz3pYVRGbH17KTQhnIwSNTKtV7H+hW1P8BbOtMUCPC1T4O4UeoOdtZz60N3rQ4jZem
-         z5FxCAmd1YvoaV3Z/u1DwBjaO+a6q7LuJXOWxoin+skEiafLs5uj2LnMkoAonyc++4O7
-         nILNiEH9a1TPHWOcsFCqsm0JxMRENjYesRRvvpzzPmXi0/x/Dcj4gNoj3vCi1cYy2YUo
-         uWREgj2aLD0g4WubOlJaoerHwfjR04NriI6JYQDhpn9WXbBFPAI6B1ShC6JM4sNhTXzY
-         YRLGYNkam8EG+CfHzTp3VUan4o2qb+Tx9NRSSDK62FF4uH7R6BZFFZIt1jnZWKg5eruN
-         HPRw==
-X-Gm-Message-State: AO0yUKWZnn6sLpJLJ+FaiS1hBrsv3hW+5h9Ew4qAl+Py5ixtNPsHLw/a
-        ecOF/wO18YukQkj276Lp3ilsOA==
-X-Google-Smtp-Source: AK7set9TfCp/BeD5OZI1vQMbiQ8UL9u+JNMs3gnfhvFgF02HRwETSmUApdZ7SbXWMRKNCbHrm/8nBg==
-X-Received: by 2002:a05:6000:1362:b0:2c7:a9ec:3 with SMTP id q2-20020a056000136200b002c7a9ec0003mr5544569wrz.65.1677701727394;
-        Wed, 01 Mar 2023 12:15:27 -0800 (PST)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:6ffe:ce4f:bd31:1e6d])
-        by smtp.gmail.com with ESMTPSA id x16-20020a1c7c10000000b003e70a7c1b73sm576546wmc.16.2023.03.01.12.15.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 12:15:27 -0800 (PST)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     rafael@kernel.org, daniel.lezcano@linaro.org
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Dhruva Gole <d-gole@ti.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Mark Brown <broonie@kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
-        BCM2711/BCM2835 ARM ARCHITECTURE),
-        linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM
-        BCM2711/BCM2835 ARM ARCHITECTURE),
-        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
-        DRIVERS),
-        linux-rockchip@lists.infradead.org (open list:ARM/Rockchip SoC support)
-Subject: [PATCH v5 07/18] thermal/hwmon: Do not set no_hwmon before calling thermal_add_hwmon_sysfs()
-Date:   Wed,  1 Mar 2023 21:14:35 +0100
-Message-Id: <20230301201446.3713334-8-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
-References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+        Wed, 1 Mar 2023 16:01:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12EDD521CD;
+        Wed,  1 Mar 2023 13:01:01 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BD885B80EE1;
+        Wed,  1 Mar 2023 21:00:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742DBC4339E;
+        Wed,  1 Mar 2023 21:00:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677704458;
+        bh=Ijy28NfIAolHq1kijXKPv1A9Prn6Z4PgPnz0SF2ZvmE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qwnNOgDopWNiUb4dKzA0Y6sT0gASegFoNl0l1oHhxaeFwidRVACqKvo9Zw4Lq2uLa
+         DkRPAf51+Vr8EEyQ7IwC/Bj5H1tJVAjANsJyJLagfb6dQBIR+9OsGjhNPWRat2SOtH
+         5jiteysKnyeBDdmsXExcQfoBUuLwKJRarM2/PpsDCzlFSlDaYiuiIN6Yn50f7C1yat
+         Kl5hMVdu4kXvgesUhxebkvb/oOudYsbAKXyirkpGD3xB/LvTXAtTlhB/h40wU7a9WI
+         X+6tPt1WSw58XL3OkDSeUjRPC3OEETL51n26pr7wfG3C7UJmYklBJjZHN6oNtzMzrG
+         H1pgP6Xi9fu0w==
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-53852143afcso389451967b3.3;
+        Wed, 01 Mar 2023 13:00:58 -0800 (PST)
+X-Gm-Message-State: AO0yUKUkNco2rq4K5o5XxG7Qrs1MolodYnCt0+yadl9+JyNaMT4qDo7m
+        2DczIbGS4CB2Hvw33a1Rv2MKLhdYuXOfAeUKqg==
+X-Google-Smtp-Source: AK7set/B7w4SIUVUY+fuTrfn39/aDxu+LSL+nDi5aDHHQnm81UFIS2ScAXvxaj+SUvgnwt845OQ2PIVb1st0BjISJs0=
+X-Received: by 2002:a05:6102:3ca9:b0:41e:bccf:5669 with SMTP id
+ c41-20020a0561023ca900b0041ebccf5669mr6637793vsv.2.1677704437053; Wed, 01 Mar
+ 2023 13:00:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230301185209.274134-1-jjhiblot@traphandler.com> <20230301185209.274134-4-jjhiblot@traphandler.com>
+In-Reply-To: <20230301185209.274134-4-jjhiblot@traphandler.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 1 Mar 2023 15:00:25 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJvYnBtaOwaRbNo5Eqp51yxhJpnSYQWEGfKjtZKjm7R4g@mail.gmail.com>
+Message-ID: <CAL_JsqJvYnBtaOwaRbNo5Eqp51yxhJpnSYQWEGfKjtZKjm7R4g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] of: irq: release the node after looking up for "interrupts-extended"
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     saravanak@google.com, clement.leger@bootlin.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        zajec5@gmail.com, Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Marc Zyngier <maz@kernel.org>, afaerber@suse.de,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Nishanth Menon <nm@ti.com>, ssantosh@kernel.org,
+        mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-wireless@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The thermal->tzp->no_hwmon parameter is only used when calling
-thermal_zone_device_register().
+On Wed, Mar 1, 2023 at 12:53=E2=80=AFPM Jean-Jacques Hiblot
+<jjhiblot@traphandler.com> wrote:
+>
+> When of_parse_phandle_with_args() succeeds, a get() is performed on
+> out_irq->np. And another get() is performed in of_irq_parse_raw(),
+> resulting in the refcount being incremented twice.
+> Fixing this by calling put() after of_irq_parse_raw().
 
-Setting it to 'false' before calling thermal_add_hwmon_sysfs() has no
-effect.
+This looks like a band-aid to me. It only makes sense that the caller
+of of_irq_parse_raw() already holds a ref to out_irq->np. So the first
+of_node_get() in it looks wrong. It looks like the refcounting was
+originally balanced, but commit 2f53a713c4b6 ("of/irq: Fix device_node
+refcount in of_irq_parse_raw()") dropped the put on exit after 'got
+it!'. I'm not sure if just adding it back would be correct or not
+though.
 
-Remove the call and again prevent the drivers to access the thermal
-internals.
+All this needs some test cases to be sure we get things right...
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
----
- drivers/thermal/broadcom/bcm2711_thermal.c | 1 -
- drivers/thermal/broadcom/bcm2835_thermal.c | 1 -
- drivers/thermal/rcar_gen3_thermal.c        | 1 -
- drivers/thermal/rcar_thermal.c             | 5 -----
- drivers/thermal/rockchip_thermal.c         | 1 -
- drivers/thermal/rzg2l_thermal.c            | 1 -
- 6 files changed, 10 deletions(-)
-
-diff --git a/drivers/thermal/broadcom/bcm2711_thermal.c b/drivers/thermal/broadcom/bcm2711_thermal.c
-index fcfcbbf044a4..c243a76a3471 100644
---- a/drivers/thermal/broadcom/bcm2711_thermal.c
-+++ b/drivers/thermal/broadcom/bcm2711_thermal.c
-@@ -98,7 +98,6 @@ static int bcm2711_thermal_probe(struct platform_device *pdev)
- 
- 	priv->thermal = thermal;
- 
--	thermal->tzp->no_hwmon = false;
- 	return thermal_add_hwmon_sysfs(thermal);
- }
- 
-diff --git a/drivers/thermal/broadcom/bcm2835_thermal.c b/drivers/thermal/broadcom/bcm2835_thermal.c
-index 86aaf459de37..a217d832f24e 100644
---- a/drivers/thermal/broadcom/bcm2835_thermal.c
-+++ b/drivers/thermal/broadcom/bcm2835_thermal.c
-@@ -267,7 +267,6 @@ static int bcm2835_thermal_probe(struct platform_device *pdev)
- 	 * Thermal_zone doesn't enable hwmon as default,
- 	 * enable it here
- 	 */
--	tz->tzp->no_hwmon = false;
- 	err = thermal_add_hwmon_sysfs(tz);
- 	if (err)
- 		goto err_tz;
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 2b7537ef141d..3df00c9d55ab 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -527,7 +527,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		}
- 		tsc->zone = zone;
- 
--		tsc->zone->tzp->no_hwmon = false;
- 		ret = thermal_add_hwmon_sysfs(tsc->zone);
- 		if (ret)
- 			goto error_unregister;
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index e0440f63ae77..b8571f7090aa 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -509,11 +509,6 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 		}
- 
- 		if (chip->use_of_thermal) {
--			/*
--			 * thermal_zone doesn't enable hwmon as default,
--			 * but, enable it here to keep compatible
--			 */
--			priv->zone->tzp->no_hwmon = false;
- 			ret = thermal_add_hwmon_sysfs(priv->zone);
- 			if (ret)
- 				goto error_unregister;
-diff --git a/drivers/thermal/rockchip_thermal.c b/drivers/thermal/rockchip_thermal.c
-index 71e533df563a..bb254bdff043 100644
---- a/drivers/thermal/rockchip_thermal.c
-+++ b/drivers/thermal/rockchip_thermal.c
-@@ -1451,7 +1451,6 @@ static int rockchip_thermal_probe(struct platform_device *pdev)
- 
- 	for (i = 0; i < thermal->chip->chn_num; i++) {
- 		rockchip_thermal_toggle_sensor(&thermal->sensors[i], true);
--		thermal->sensors[i].tzd->tzp->no_hwmon = false;
- 		error = thermal_add_hwmon_sysfs(thermal->sensors[i].tzd);
- 		if (error)
- 			dev_warn(&pdev->dev,
-diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_thermal.c
-index 7631430ce8a9..b56981f85306 100644
---- a/drivers/thermal/rzg2l_thermal.c
-+++ b/drivers/thermal/rzg2l_thermal.c
-@@ -216,7 +216,6 @@ static int rzg2l_thermal_probe(struct platform_device *pdev)
- 	}
- 
- 	priv->zone = zone;
--	priv->zone->tzp->no_hwmon = false;
- 	ret = thermal_add_hwmon_sysfs(priv->zone);
- 	if (ret)
- 		goto err;
--- 
-2.34.1
-
+Rob
