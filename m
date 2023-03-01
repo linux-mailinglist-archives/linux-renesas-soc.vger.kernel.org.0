@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57C796A767C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Mar 2023 22:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7FD6A767E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Mar 2023 22:56:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbjCAV4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Mar 2023 16:56:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49442 "EHLO
+        id S229579AbjCAV4R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Mar 2023 16:56:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjCAV4O (ORCPT
+        with ESMTP id S229498AbjCAV4Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Mar 2023 16:56:14 -0500
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E7F303F9
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Mar 2023 13:56:13 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id k17so760746iob.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Mar 2023 13:56:13 -0800 (PST)
+        Wed, 1 Mar 2023 16:56:16 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A9DD34332
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Mar 2023 13:56:15 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id v10so5988992iox.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Mar 2023 13:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677707773;
+        d=linaro.org; s=google; t=1677707775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zbhrfl0XFHsaPCWnllNF/3ngXJV3MSheXBmaeeDt+sk=;
-        b=sdlMhZEmtEArBffvT/Usbk2P/mTIEZ8rK9TIWsPf7Z41WLQ1pRBWyKdP32TyNJSEFe
-         5YuQqsEkgi8/P2+I39RLSM17w0/e/B1Cvqz25ghAxe12oRjQou+vIvCu7HBB9GqabP9J
-         m56ZBCsleUIfBuzGCme/pxBypvjqGC9OVvSKa5T5StffaY/DA7xuGNisUv2Wmk8BpSAF
-         YL+Nfe6Rm1EOyVmY9QzHqHBkX0er/H7foGKpAtKzUB+kjQ0ojBbzj1fMJ2uSyLnOusTF
-         ywMZr3TMenjrypatncyAKubAIb8qv4IBX5Yc5VboGIgUg1KyoobBMUVpHXeWs0zajSBO
-         kThA==
+        bh=McTsAUqZkAV7zLauInuOHjFJwSfQC5KCbYHZ7tClzx0=;
+        b=GSfw6y2jwfXAO84+XOFSKmMOyhVYcb0FBs4DA5wBW4X1TNCWlTBpFs0v/ATCvTABuz
+         yAFY2SJ0ZOHJRA8BfYbqYmRmpDqIt1B7YJnqmJWPNvEaEQNU6xkTDGXQA/vwGuwhzHLp
+         eqTQ2cDNGBEOnVlEcA3BgMLx1agMfveEWQpP/vySWcfU9I04ql1+50dFVjvSemWJA4Hn
+         p90ome3dFWb97JKYm4iimncvAsewGUYuBtfywTWVSOGCzHoi6fThVdf9vfGG54jzfPCl
+         FxP+U7f0p4Laj0quE021lCR1obclEgccpOP4DqkyTccADlkMWBjU+tv+vcvAnQkbu8tQ
+         wWDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677707773;
+        d=1e100.net; s=20210112; t=1677707775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zbhrfl0XFHsaPCWnllNF/3ngXJV3MSheXBmaeeDt+sk=;
-        b=AOnVE5tKvmfPKvcKYw8MDKbly+aWfu63+bqp9p6YWCNzqWUE9oWNskboDsctIJA5ti
-         EdSQOy91TKPLRDuxxJzNvbFPziVegoL8D5LdItFm38iKn6k8yrbuJ5qef/y55dQPRoGr
-         Xv9xERlNO0i7WYt1KmxPS46SfJwgWRMT5JJMdHJFy7y1ab+sEOMbgCccivtkMupZjFzV
-         kATfgXUOaV2FBag1QQpdCq/9qmJATYuj1HXwV6oREXeso0fK8rY83Q7jxBZHMKOYHbx4
-         5MKj+w2PhMEDf5kAcsOpZhdZ2nZopJoYnLlQkDf+6Yr6l5NZJxjSWvNdZ3nB47dr5pmn
-         2xiA==
-X-Gm-Message-State: AO0yUKX4Niis2LdJbO4aF/fRWeq7Vtr/U1H9aSg1u9AutlXZrVdlgS2X
-        v/hHJzdofFHr30ESRqfjskdW5qpeX7A71oee
-X-Google-Smtp-Source: AK7set+EUMj+vJ9jq/duQdOVk+++pW2PAdTXXPBzCw8MBuVuIb+6EymnYZ9sRQmLcu8VM7Yb1mz+yA==
-X-Received: by 2002:a5e:db44:0:b0:74c:8c47:f997 with SMTP id r4-20020a5edb44000000b0074c8c47f997mr5729955iop.1.1677707772817;
-        Wed, 01 Mar 2023 13:56:12 -0800 (PST)
+        bh=McTsAUqZkAV7zLauInuOHjFJwSfQC5KCbYHZ7tClzx0=;
+        b=kfPAUR8I52/aYQziCKntIMLPyGSJzkDIah1bc6J6P/KCDyK6m+h6vNG3acgANbQ4YZ
+         39yEt+kp3KNyphJ3/E3nU1z3WMCAfdeG8a4QGh3PNca8JN2W02x8po+XA00nE2wCqTs8
+         NaLp0BcRd3NvAyiedOQVkCb/DxmcxEtexEtOALSHcLruQQP2rqQzMU+GDBjmy8JDP61b
+         WquHGgqAlNAPeoW1LqT4ZABAdbAMSTi76DEgMe3Nzs5RGDLVWjRfc7PUMhyrGebjUWtD
+         uj2QNHR+1TGAsiqm5FfdagwjpGUbrpjF7kjJiskC26/BONdAIWzWudJYxWbX37UDXzTM
+         8mEQ==
+X-Gm-Message-State: AO0yUKXOHhvGeoTJN8q5ZiL9FbtYPqc6GDuV7tuNlxlnTt7DHqNXKCBb
+        Au2Z4UQnkLCECSxYeGEnyIvvw79Gvjv5qVZB
+X-Google-Smtp-Source: AK7set9v+6S+jkNczgInoCYidsVF/TPDbuPIyPu1sWj5CWZeRLH/mskaNR6+wApnTy7apiOsK0TUiw==
+X-Received: by 2002:a05:6602:180b:b0:74d:1ccb:e5a5 with SMTP id t11-20020a056602180b00b0074d1ccbe5a5mr4789817ioh.6.1677707774817;
+        Wed, 01 Mar 2023 13:56:14 -0800 (PST)
 Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id v11-20020a5ec10b000000b0074c9a4bb374sm4173479iol.11.2023.03.01.13.56.11
+        by smtp.gmail.com with ESMTPSA id v11-20020a5ec10b000000b0074c9a4bb374sm4173479iol.11.2023.03.01.13.56.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 13:56:12 -0800 (PST)
+        Wed, 01 Mar 2023 13:56:13 -0800 (PST)
 From:   Ralph Siemsen <ralph.siemsen@linaro.org>
 To:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
 Cc:     Stephen Boyd <sboyd@kernel.org>,
@@ -57,9 +57,9 @@ Cc:     Stephen Boyd <sboyd@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [PATCH v2 2/4] clk: renesas: r9a06g032: drop unused fields
-Date:   Wed,  1 Mar 2023 16:55:18 -0500
-Message-Id: <20230301215520.828455-3-ralph.siemsen@linaro.org>
+Subject: [PATCH v2 3/4] clk: renesas: r9a06g032: document structs
+Date:   Wed,  1 Mar 2023 16:55:19 -0500
+Message-Id: <20230301215520.828455-4-ralph.siemsen@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230301215520.828455-1-ralph.siemsen@linaro.org>
 References: <20230301215520.828455-1-ralph.siemsen@linaro.org>
@@ -74,60 +74,87 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Drop three unused fields from the clock descriptor structure, and update
-the macros for filling such structures accordingly.
-
-The values for such fields are kept in the source code, now unused, in
-case they are needed later.
+Add some kerneldoc comments for the structures.
 
 Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
 
 Changes in v2:
-- added R-b tag
+- tweak a few comments
+- document remaining fields of clkdesc struct
+- fix typo
 
- drivers/clk/renesas/r9a06g032-clocks.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/clk/renesas/r9a06g032-clocks.c | 50 +++++++++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index cc479d95ef55..79b78e68c272 100644
+index 79b78e68c272..10c85e4417d5 100644
 --- a/drivers/clk/renesas/r9a06g032-clocks.c
 +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -30,8 +30,9 @@
+@@ -29,6 +29,27 @@
+ #define R9A06G032_SYSCTRL_USB_H2MODE  (1<<1)
  #define R9A06G032_SYSCTRL_DMAMUX 0xA0
  
- struct r9a06g032_gate {
--	u16 gate, reset, ready, midle,
--		scon, mirack, mistat;
-+	u16 gate, reset, ready, midle;
-+	/* Unused fields omitted to save space */
-+	/* u16 scon, mirack, mistat; */
- };
- 
- enum gate_type {
-@@ -69,14 +70,18 @@ struct r9a06g032_clkdesc {
- 	};
- };
- 
-+/*
-+ * The last three arguments are not currently used,
-+ * but are kept in the r9a06g032_clocks table below.
++/**
++ * struct r9a06g032_gate - clock-related control bits
++ * @gate:   clock enable/disable
++ * @reset:  clock module reset (active low)
++ * @ready:  enables NoC forwarding of read/write requests to device,
++ *          (eg. device is ready to handle read/write requests)
++ * @midle:  request to idle the NoC interconnect
++ *
++ * Each of these fields describes a single bit in a register,
++ * which controls some aspect of clock gating. The @gate field
++ * is mandatory, this one enables/disables the clock. The
++ * other fields are optional, with zero indicating "not used".
++ *
++ * In most cases there is a @reset bit which needs to be
++ * de-asserted to bring the module out of reset.
++ *
++ * Modules may also need to signal when the are @ready to
++ * handle requests (read/writes) from the NoC interconnect.
++ *
++ * Similarly, the @midle bit is used to idle the master.
 + */
- #define I_GATE(_clk, _rst, _rdy, _midle, _scon, _mirack, _mistat) { \
- 	.gate = _clk, \
- 	.reset = _rst, \
- 	.ready = _rdy, \
- 	.midle = _midle, \
--	.scon = _scon, \
--	.mirack = _mirack, \
--	.mistat = _mistat \
-+	/* .scon = _scon, */ \
-+	/* .mirack = _mirack, */ \
-+	/* .mistat = _mistat */ \
- }
- #define D_GATE(_idx, _n, _src, ...) { \
- 	.type = K_GATE, \
+ struct r9a06g032_gate {
+ 	u16 gate, reset, ready, midle;
+ 	/* Unused fields omitted to save space */
+@@ -43,7 +64,34 @@ enum gate_type {
+ 	K_DUALGATE	/* special for UARTs */
+ };
+ 
+-/* This is used to describe a clock for instantiation */
++/**
++ * struct r9a06g032_clkdesc - describe a single clock
++ * @name:      string describing this clock
++ * @managed:   boolean indicating if this clock should be
++ *             started/stopped as part of power management
++ * @type:      see enum @gate_type
++ * @index:     the ID of this clock element
++ * @source:    the ID+1 of the parent clock element.
++ *             Root clock uses ID of ~0 (PARENT_ID);
++ * @gate:      clock enable/disable
++ * @div_min:   smallest permitted clock divider
++ * @div_max:   largest permitted clock divider
++ * @reg:       clock divider register offset, in 32-bit words
++ * @div_table: optional list of fixed clock divider values;
++ *             must be in ascending order, zero for unused
++ * @div:       divisor for fixed-factor clock
++ * @mul:       multiplier for fixed-factor clock
++ * @group:     UART group, 0=UART0/1/2, 1=UART3/4/5/6/7
++ * @sel:       select either g1/r1 or g2/r2 as clock source
++ * @g1:        1st source gate (clock enable/disable)
++ * @r1:        1st source reset (module reset)
++ * @g2:        2nd source gate (clock enable/disable)
++ * @r2:        2nd source reset (module reset)
++ *
++ * Describes a single element in the clock tree hierarchy.
++ * As there are quite a large number of clock elements, this
++ * structure is packed tightly to conserve space.
++ */
+ struct r9a06g032_clkdesc {
+ 	const char *name;
+ 	uint32_t managed:1;
 -- 
 2.25.1
 
