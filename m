@@ -2,84 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6B116A7C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Mar 2023 09:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 988D96A7FDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Mar 2023 11:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbjCBIXi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Mar 2023 03:23:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60448 "EHLO
+        id S230158AbjCBKUq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Mar 2023 05:20:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbjCBIXi (ORCPT
+        with ESMTP id S230105AbjCBKUo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Mar 2023 03:23:38 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FA0EF99;
-        Thu,  2 Mar 2023 00:23:30 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 286C740012;
-        Thu,  2 Mar 2023 08:23:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1677745408;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XgLFmbBI3bm6LjHxBdmCtW4GZDhA73P3Vkt9Vt1OCgs=;
-        b=jvO69VWOHeQSbr8g5KLcQ6DgaEKEaQbbwBr3iOKxa01wpdSI5R1ryrPd73p32Rcz5DvM0h
-        zPmNGjyfvS3ev4DuB0PoRSKHIZYscNmRsWB0zKX3xFt1HaeffYz6sfpp3VHF87iDT44U7J
-        O1ROa1Kd6HbTP+U3ot363+4STv9ahNy0HRikkP+eYttDqL9pGBNhoqvajDGLKWB516cQth
-        lKCj+mLOa6610A1s+Q127X4re8U7IfIRWtZGQ2WfwSMi/HAeR95vmJO2m8087+WkDqipGf
-        XebTz/zmGus8gPOp9B9QV2oy7uhhGc4z5gZ03eK2mLmb+KisSbHKN/U6DPyIVw==
-Date:   Thu, 2 Mar 2023 09:23:27 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2 4/4] clk: renesas: r9a06g032: improve clock tables
-Message-ID: <20230302092327.234a360e@xps-13>
-In-Reply-To: <20230301215520.828455-5-ralph.siemsen@linaro.org>
-References: <20230301215520.828455-1-ralph.siemsen@linaro.org>
-        <20230301215520.828455-5-ralph.siemsen@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thu, 2 Mar 2023 05:20:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84EAC25960;
+        Thu,  2 Mar 2023 02:20:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2020DB811FE;
+        Thu,  2 Mar 2023 10:20:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E196C433EF;
+        Thu,  2 Mar 2023 10:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1677752439;
+        bh=lQMm+/FLt0+xB66zWlowc7zNUj0a7PqTWyhgbygdyYQ=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=C07CajyK8YEAdda2kQsW3vadORDZ5t4wWEUN0wF3hw7g/6q1AbRbdFzr6y5CDHCPK
+         2OjVysVC5uCQx8e9v8EfjIU5mbFAO4YdN5owSDrNXmPBYm3cOvt6I1bkUe50FUkcqT
+         lnmOJ48REEDfGN4ur2YCYFu/Iof2RzsK4d/NVj1U=
+Date:   Thu, 2 Mar 2023 11:20:37 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] driver core: bus: Handle early calls to bus_to_subsys()
+Message-ID: <ZAB4dVeQEZyxhx3Z@kroah.com>
+References: <0a92979f6e790737544638e8a4c19b0564e660a2.1676983596.git.geert+renesas@glider.be>
+ <Y/3d/sfipoe130Hu@ninjato>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/3d/sfipoe130Hu@ninjato>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ralph,
+On Tue, Feb 28, 2023 at 11:57:02AM +0100, Wolfram Sang wrote:
+> On Tue, Feb 21, 2023 at 01:53:51PM +0100, Geert Uytterhoeven wrote:
+> > When calling soc_device_match() from early_initcall(), bus_kset is still
+> > NULL, causing a crash:
+> > 
+> >     Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+> >     ...
+> >     Call trace:
+> >      __lock_acquire+0x530/0x20f0
+> >      lock_acquire.part.0+0xc8/0x210
+> >      lock_acquire+0x64/0x80
+> >      _raw_spin_lock+0x4c/0x60
+> >      bus_to_subsys+0x24/0xac
+> >      bus_for_each_dev+0x30/0xcc
+> >      soc_device_match+0x4c/0xe0
+> >      r8a7795_sysc_init+0x18/0x60
+> >      rcar_sysc_pd_init+0xb0/0x33c
+> >      do_one_initcall+0x128/0x2bc
+> > 
+> > Before, bus_for_each_dev() handled this gracefully by checking that
+> > the back-pointer to the private structure was valid.
+> > 
+> > Fix this by adding a NULL check for bus_kset to bus_to_subsys().
+> > 
+> > Fixes: 83b9148df2c95e23 ("driver core: bus: bus iterator cleanups")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Current top-of-head doesn't boot my Salvator-XS board, this patch fixed
+> it.
+> 
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
 
-ralph.siemsen@linaro.org wrote on Wed,  1 Mar 2023 16:55:20 -0500:
+Great, now sent to Linus.
 
-> Each entry in the clock table specifies a number of individual bits in
-> registers, for contolling clock reset, gaiting, etc. These reg/bit were
-> packed into a u16 to save space. The combined value is difficult to
-> understand when reviewing the clock table entries.
->=20
-> Introduce a "struct regbit" which still occupies only 16 bits, but
-> allows the register and bit values to be specified explicitly. Convert
-> all previous uses of u16 for reg/bit into "struct regbit".
->=20
-> The bulk of this patch converts the clock table to use struct regbit,
-> making use of the RB() helper macro. The conversion was automated by
-> script, and as a further verification, the compiled binary of the table
-> was compared before/after the change (with objdump -D).
->=20
-> The clk_rdesc_set() function now checks for zero reg/bit internally.
-> This allows callers of that function to remove those checks.
->=20
-> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Thanks,
-Miqu=C3=A8l
+greg k-h
