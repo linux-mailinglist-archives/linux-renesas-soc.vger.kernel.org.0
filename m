@@ -2,184 +2,401 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9DB46A91F3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Mar 2023 08:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D562F6A93E1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Mar 2023 10:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjCCHwI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Mar 2023 02:52:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48636 "EHLO
+        id S230240AbjCCJZQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Mar 2023 04:25:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCCHwH (ORCPT
+        with ESMTP id S230321AbjCCJZB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Mar 2023 02:52:07 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2102.outbound.protection.outlook.com [40.107.113.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063785550A;
-        Thu,  2 Mar 2023 23:52:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NnUyDTUrNWPdlsMvIOY3wSs2jJ7pvJws5NKEBYbf8ZYnZMIMguixJ0nVCy4GmiFIf30pLqRgfe7qYjT5w4aR9URus6aM6VZINbheJbWPnY356YRSzKrGij0ab/VvIXguFQFRgLHwAc6CBhx0NdoaS04UjntQTalEtjaR/Gc0allHgh+IhVR7cs3OaNQi0qfiR2ELXl4Gsg5Pi+1jD+RSWawLyj/1vNDiEi5Jns12K/93cy6SPsxFQw/8F0wbSkm7YM+VIs+bcSrOLFORlXs+T21xNFRNsLkKNY31Z1VoaUP46YIGfSMVzj5LNKd1VW5LxT07kL6uIubKLlJ/qERV6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ddpOm3KjUmTkDe33iF+G7eeJ1hzNZWJiRqJ6CkrBnbI=;
- b=D9xN0JmnwOPBdT46ewuxK3gsoULt0fqWZV1w9d/UFsuEst1UaWdVkFJqNUgkv3m7dRHu3Xld/l7lUIJ8Rz6Ljl+cX7/Pov+f0dzsgFjJThCa2iOuBBXutg4bNJ4rFw+S2rIVJryiTpDR0fkwnVz6IMgS7oA2jBi/vhqqqrEttAQugFclUp/vZcWzpHTW8uKBhOW3Zx+ryTIF7rxfDZhPwVEqmdsuOkI8eGu/QgMh7rPaDo/RqUzY9eSuHMXK9neNYQ+K2dsgrDEJs6FCz+uDyG0gKxrL6hvbl8X0Yb9ZgkX9VWTB8pJJl80mKLJu+EOQUTvSeBZUaWNbFD/77r/i8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ddpOm3KjUmTkDe33iF+G7eeJ1hzNZWJiRqJ6CkrBnbI=;
- b=t5WZUecZBKSmuEDwLuZi1tDEOvyx9DexO2W+l69OIIaWD/7iH2JIfsRcc81ewyO21xrstPrX59LcGVuiTph7x9AOOVfz+6lOROqK6Q/mZdfugAAtn4km819969wjA41K7KW3DyjxkEZ+H+Xf2Am1gUQCWIr+NC0D3BbHVeFPK1s=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB6283.jpnprd01.prod.outlook.com (2603:1096:400:84::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.18; Fri, 3 Mar
- 2023 07:52:02 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::f54c:4b2:9c7d:f207]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::f54c:4b2:9c7d:f207%7]) with mapi id 15.20.6156.021; Fri, 3 Mar 2023
- 07:52:02 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     Drew Fustini <dfustini@baylibre.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v5 0/9] Add RZ/G2L POEG support
-Thread-Topic: [PATCH v5 0/9] Add RZ/G2L POEG support
-Thread-Index: AQHZEMyy7xmstDLz3Ue3pcUPPz/gvK6EJaKAgBItt9CAASJegIBRrxFQ
-Date:   Fri, 3 Mar 2023 07:52:01 +0000
-Message-ID: <OS0PR01MB5922F5494D3C0862E15F3F8486B39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221215213206.56666-1-biju.das.jz@bp.renesas.com>
- <CACRpkdZCEvpLAWvH7pCLH7KwbDMzz0EN+4HbxVGfFPi_C1b8+g@mail.gmail.com>
- <OS0PR01MB5922FBA488F80DFB08FE16E686FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CACRpkda1JDaaMnCx81oZ2Wmm1_rfYgsaRdBGT0jCyczNSHc4og@mail.gmail.com>
-In-Reply-To: <CACRpkda1JDaaMnCx81oZ2Wmm1_rfYgsaRdBGT0jCyczNSHc4og@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYAPR01MB6283:EE_
-x-ms-office365-filtering-correlation-id: 566cf62e-cc87-4eb4-b846-08db1bbc2ca8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9nwoG0+Mz+8BauyiaOGrLGeVv7IZc/BgAv5/I0aRCgu3gtPPOyeZvdnZzUIcFjiKLrcttZMfl9tgPL8EsPQTzYsJoSj0+y/0IF6HTueoUCEt0FNw0xusd9p1Cj2hqvMEsNUalaqUaS4xgx29ULRCeoaoNi+C6DdtxZlArw3qruHMhlwt1eDab4fHK4vR8D4fkoViRa+n5A0/O98K7aRpAgG5TWrNdpdW1qsJxg4v6+ORCLA3spYitBlywo3jPIth50EVNcOYQSzUKsYMJaWNSfQMA7SsnjB0hOB9JFQo0PI3Dzjdrqmrn7X+F/LBNO8apEcOoQUNhSDh4XPVkU56OXpNvqzQbzszJOlIbGsv/pD8GTDz1T/3czITptCNZX3VrvzKAba6fTbfO/LGXXtVXW4VvijvZ1GbzgwRxVRUunuJwmc96pcdhIA0tx5mzDDtTcNZwU4bLta8kspB/gC4XrUg0I9eRDVSypmdAyh8cQJV5EMG2jmHDctubEpt5pOS2HX4Ooj00abwhMHVJozbdGo8zbffHtDASnDxK4BWNXR08zBUf8OK0eSenzarpndLxrU4LFrw06DeQxl8LCqIRxs8WJ3bHpmUZn+21FA2npBEnT6mQa0OgXKzFJ3cxO8qJTrcmfME/AVGRfXUaVyto0J9bA0kun3KEmuHs9SOs0TSuYT6IGs8VYoztXz1+CQsHr/jy5/gYML4QRmx4nyWpw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(136003)(396003)(346002)(376002)(366004)(451199018)(7416002)(5660300002)(66476007)(4326008)(66446008)(41300700001)(8936002)(64756008)(83380400001)(2906002)(66946007)(76116006)(55016003)(66556008)(8676002)(52536014)(316002)(33656002)(122000001)(38100700002)(6916009)(54906003)(6506007)(26005)(7696005)(71200400001)(186003)(107886003)(9686003)(478600001)(53546011)(86362001)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M01MT253bHhNTE5NUlY0Z1F3WjdnZElheUh2Q1pWWFB2ZlYrOHQ3YXlPdGZs?=
- =?utf-8?B?WVNDczVyQVNKRmt6VHpySXlvb0dQY2xtTXVjQW04d202RnY1MHdZWit5Y3BS?=
- =?utf-8?B?cEEvRTNjRms4ZEY4Vlo1TDRnNlU3Rjh2Mlc3Z3dSSTNTQTd6cUU0bFVlZEJs?=
- =?utf-8?B?S29QdGNEcHEycko2ZC9NaVRkRURrVWlXTXFOdW0rZmFnRGxzMkdvbDJDWW9P?=
- =?utf-8?B?U3E4NHNsK01TWUZqK0NYRW1uU2dPczI0MVAwK1VSVkFERU9mdHAxejY1c2h1?=
- =?utf-8?B?VXlRRUNzTFhya1dHK3FJbE05SFR2QllNekU3WDhCWEh6ZENQY0Z5UDl0cmw2?=
- =?utf-8?B?T0I5a1JCVlQ4RXppa1NyamZtSTE5aTVHZGE2UzRlOEhTejluTnNWV3QrMkVK?=
- =?utf-8?B?azN3L3NxWHNSUUhGQkFSS0pROEo2YzkwMHRVQVpWUGRIQWRXNUZ3N0hYQkZi?=
- =?utf-8?B?SjA3Wks4bTZnbDFQSTVrTEdXdkRsZitoNkFrQzRLamp0OFNGYnI2TXVxT2FB?=
- =?utf-8?B?ZnV5c29zcmV2SGlnQmVETGJRcHlMbllXNE01aHZMbStoNU9NcDZQamthOExS?=
- =?utf-8?B?N0FTbUVXTzNvQVpOUnhIbFlkb21sTkVOcEJhdHloMmh3TGJOblc2dXNqQUpN?=
- =?utf-8?B?cmRVWnhmRHQ5MzE0czl0Y0ZQU0pnSjVad0JMWlc4NmVJclF6QjZweHN0Nmhr?=
- =?utf-8?B?cHU1M2UzQTBLa1pVTVRnTHBxYWZZQWcyQkloUDhjczR0TGMzYWl6NWNyNlV5?=
- =?utf-8?B?UGdrZEpuZzRnMnZwR1ZvK0ZKRm9nZUdnTHhCSE1wNHlOOHRwbmNaSk5wVmZm?=
- =?utf-8?B?RFRlZXdPYkVKTmpQaWVQM0RDRGk2RlI4ZEdtcXhWN3dZQUdZTmhCb0JyYURP?=
- =?utf-8?B?bmQzSWlUSUI5TllVa0x3eVNyS3N1Q0pKT244SDlTbTZOZjdHWkQ1bWZKenA2?=
- =?utf-8?B?ZlRYTHFWVWQ2R1lzd2ludzRkRWdzOUM5dk0wNi8rNTdNT1ZwK2J5MlNqZmNV?=
- =?utf-8?B?U1pCM1NPbGlML3hrc0VWMlhYT3RNNHhXdjRuRUlTMUFYc09mTmlqVkFJemNr?=
- =?utf-8?B?Mjk3SDlTenduN29jSzhOZTlLaGkvby95ZW94TEdIY0hSbnR1NXBBa09aWmVN?=
- =?utf-8?B?bHdPdHJNekdDUS80VzlBY1lqWlVCQ3N4cktrbC95bG1pSmVSaGxKd2s2anMx?=
- =?utf-8?B?NWlwdmw4OEJJQ21DdDB6ZHFnN1FmOEZlM1p3Rnl1b0NMUzlSam5LRmJFSXpG?=
- =?utf-8?B?VnNOeUpFc2locVVjbFcrZXduTERKQmxRWWJEeEtHNWJ6bkgvbTl2R1Q3T1Vp?=
- =?utf-8?B?cUxHR3pialpNVDFkN1h0eEpLdDNnOVczUVRpcytOZXFKWEl6anN3K05qSmFN?=
- =?utf-8?B?NTcvUHkxY3hyVmZmNHpXZkVpckFwSmpKWERZbW5UNWNJQ0Y5c09KWG5NZ3Nh?=
- =?utf-8?B?TVZJTXNrZUZIWVBzeCtjSGNtRFl0OWd6cGg2Y1NUa0plTWl3VlJOc1RyRXRG?=
- =?utf-8?B?OFNRMzVESU5YSXVaNDdqSlZHcjdVMjhGcWIvMWFLN2VPR3Fqb0RrOGs4VEZs?=
- =?utf-8?B?SFE4d0VuQXYyN1RKOTB1ODd1MFM4cWZiZXZyTEhWK3RvZnBvMHZGTVB1cGQv?=
- =?utf-8?B?MTdDaEtoM2hqQWs3NWQvcDVNYy84VVBQTmprcUNnakwxbUZBWGoyRXNBVzU3?=
- =?utf-8?B?dmdsZktyc203NXQxZlBZbUM0OFo0T2QvenZrYXVHNy9HYUR4ekZCcUVUWG5S?=
- =?utf-8?B?ZGR3M0N6T2dISno0bWszNHRDOHhURVU4aHRML1JJTDZBY2ZUMmVWUDRvL2I3?=
- =?utf-8?B?ZUVCdi9wRHZoTFA2bm9La2xnYlpFVE9NMXl0dlQ5aWV4cUxJN0JKN1ZMaTFm?=
- =?utf-8?B?NkRDWExXOGFLY2pqQkxOQWp0ZG9NbnQ3MUJCY1ZONUIxRFlyUzJQTC96MzRM?=
- =?utf-8?B?MEwvSTlXQUFkK2JEUXJVNy9oSjMreTlsRXBqcXk5UDNEQ3pWbUVSS0ttVGI5?=
- =?utf-8?B?L05IWTBaNkZNOEQ5WW1hTFd4M0ROb1MrcUtxek1ueFFmaVZ6VzlOUmtXYkx1?=
- =?utf-8?B?b2FKNEI1eVRDa1k4MFNOcFRIWllnK3FDZmtHaEx2Vk4xblhhUHc5bnR6c3hO?=
- =?utf-8?Q?C2RR5KLQrzkJHerGJZd+jY0c1?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 3 Mar 2023 04:25:01 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312275C11E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Mar 2023 01:24:44 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id j2so1576184wrh.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Mar 2023 01:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677835482;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qZW13a6M4CbKDv+/tbaLjH07R3EIPpeX9wuis9iCl0M=;
+        b=RfgXVuHmkLq5H7QR1aoNvvv2IALanaH0P/POcAYoDGfK0laJjSXiUXMG2kCc40DmBV
+         5ao/QP6HdIAaN6hNk1zsTzmBzkjlvVSzfFS32NfO47ganlGU74uAoAc1ONN+fKkDAW9x
+         PX+j4q4yKvu2RAejYMPqtDX+48X9mtQ1/g9Vf3iteKlk+hgIhFTUB5g2QFY/UIh+osJ0
+         fL6DK+KImynrpdP8OB9rryz08dmc6/+BcNgfGSBVfXMAbbsUaNG2kjFjD85Q95edAEuw
+         Uzo33thMuESwFCv9ZVOxFgln7WLK59Zrhky23WQocCu9bvPQsGwITh3daE7wri7PgkXk
+         2ABg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677835482;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qZW13a6M4CbKDv+/tbaLjH07R3EIPpeX9wuis9iCl0M=;
+        b=aixMa/NcgVgd8EMmf8N9XLY5mchlFDU2ptHTSbpnx73nnNzCRE5/sLKehPeK05brM8
+         T6eRRIuXCO7jQIIe9AeIGCiVRj9CHyEGrbKfgr67r5DflyvNYAV2YPVTjez2V/b7nsdi
+         Ax9O+GHETwHDjstn4lRj9Ez43huVTXSLcoeBi5ZQ6nH1AbS9tr5MLM8LN1Sv+mV9n2rU
+         xFgE8hQ/8hzWNpBySEgkiIXt67kP4STFJBnIlpMSzSb7EQbDihXhaornbmUNSDPCXK/Z
+         tI1oYR8qEiNDasM2geQDqpbHzVx8jf/DCEORyDwuEL86673jqnlfbj3vcRXQSpu46igo
+         +IEQ==
+X-Gm-Message-State: AO0yUKVUPnmRMm73fUqAJbtwmyx2EWCiRELNPaCfkhAu3p03p33rkHwz
+        O2Et9ZgWttQLC8MysmR8IkiJOQ==
+X-Google-Smtp-Source: AK7set/TivsVLpZgfVwr7zBuzY0idsigW/sKtrB0Gs+T0bp+j2ltmNPJktyEla4UqtSRdklCLprlWw==
+X-Received: by 2002:adf:e60b:0:b0:2ca:9950:718 with SMTP id p11-20020adfe60b000000b002ca99500718mr890693wrm.52.1677835482554;
+        Fri, 03 Mar 2023 01:24:42 -0800 (PST)
+Received: from ?IPV6:2a05:6e02:1041:c10:e474:bda6:c260:d90b? ([2a05:6e02:1041:c10:e474:bda6:c260:d90b])
+        by smtp.googlemail.com with ESMTPSA id p7-20020a5d48c7000000b002c71d206329sm1631219wrs.55.2023.03.03.01.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Mar 2023 01:24:41 -0800 (PST)
+Message-ID: <1d3da42e-2499-7ff6-50fa-048a720e855f@linaro.org>
+Date:   Fri, 3 Mar 2023 10:24:39 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 566cf62e-cc87-4eb4-b846-08db1bbc2ca8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2023 07:52:01.9645
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Alo1wDFrG63NCyouZI7eYrGCpS73UAqOQzQOgn2PWpF0k22SIvShSGPIlfZStVGovPqVq34Hcz44Okfa+d8p5fvPDDjjdl25Pq4FgkT50Fs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6283
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v5 00/18] Self-encapsulate the thermal zone device
+ structure
+Content-Language: en-US
+To:     rafael@kernel.org
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Vasily Khoruzhick <anarsoul@gmail.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Talel Shenhar <talel@amazon.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGludXMsDQoNClRoYW5rcyBmb3IgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6IFtQQVRD
-SCB2NSAwLzldIEFkZCBSWi9HMkwgUE9FRyBzdXBwb3J0DQo+IA0KPiBPbiBNb24sIEphbiA5LCAy
-MDIzIGF0IDQ6MTAgUE0gQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPiB3cm90
-ZToNCj4gDQo+ID4gPiBXaGF0J3Mgd3Jvbmcgd2l0aCB1c2luZyB0aGUgZGVidWdmcyBhcHByb2Fj
-aCBEcmV3IGltcGxlbWVudGVkIGluDQo+ID4gPiBjb21taXQgNjE5OWY2YmVjYzg2OWQzMGNhOTM5
-NGNhMGY3YTQ4NGJmOWQ1OThlYg0KPiA+ID4gInBpbmN0cmw6IHBpbm11eDogQWRkIHBpbm11eC1z
-ZWxlY3QgZGVidWdmcyBmaWxlIg0KPiA+ID4gPw0KPiA+DQo+ID4gSSBhbSBub3Qgc3VyZSwgd2Ug
-c3VwcG9zZWQgdG8gdXNlIGRlYnVnZnMgZm9yIHByb2R1Y3Rpb24gZW52aXJvbm1lbnQ/Pw0KPiAN
-Cj4gSXQgZGVwZW5kcyB3aGF0IGlzIG1lYW50IGJ5ICJwcm9kdWN0aW9uIGVudmlyb25tZW50Ii4N
-Cj4gDQo+IElmIHlvdSBtZWFuIGEgY29udHJvbGxlZCBlbnZpcm9ubWVudCAib25lLW9mZiIgc3Vj
-aCBhcyBhIGZhY3RvcnkgbGluZSwgYQ0KPiBzcGVjaWZpYyBpbnN0YWxsYXRpb24gZm9yIGEgc3Bl
-Y2lmaWMgcHVycG9zZSBzdWNoIGFzIGEgd2F0ZXIgcHVyaWZpZXIsIHRoYXQNCj4gaXMgdmVyeSBj
-dXN0b20gYW5kIGhhY2tlZCB0b2dldGhlciBmb3IgdGhhdCBvbmUgdXNlY2FzZS4gSXQgd2lsbCBo
-YXZlIG90aGVyDQo+IGhhY2tzIHRvbywgc28gdGhlbiBCZWFnbGUgaXMgdXNpbmcgZGVidWdmcyBp
-biAicHJvZHVjdGlvbiINCj4gaWYgdGhhdCBpcyB3aGF0IHlvdSBtZWFuIGJ5ICJwcm9kdWN0aW9u
-IiwgaS5lLiB1c2VkIHRvIHByb2R1Y2Ugc29tZXRoaW5nLg0KPiANCj4gVGhpcyBpcyB0aGUgc2Ft
-ZSAicHJvZHVjdGlvbiIgdXNlIGNhc2VzIGFzIHVzZWQgYnkgaS5lLiB0aGUgR1BJTyBjaGFyYWN0
-ZXINCj4gZGV2aWNlLg0KPiANCj4gSWYgeW91IG1lYW4gdGhhdCB5b3UgYXJlIHByb2R1Y2luZyA2
-IG1pbGxpb24gbGFwdG9wcyB3aGVyZSB1c2Vyc3BhY2UgaXMNCj4gZ29pbmcgdG8gaGFtbWVyIHRo
-aXMgY29uc3RhbnRseSwgdGhlbiBuby4gSW4gdGhhdCBjYXNlIGEgcmVhbCBzeXNmcyBrbm9iIGFu
-ZA0KPiBBQkkgY29udHJhY3QgaXMgbmVlZGVkLg0KPiANCj4gVXN1YWxseSB2ZW5kb3JzIGtub3cg
-d2hpY2ggdXNlY2FzZSB0aGVpciBoYXJkd2FyZSBpcyBpbnRlbmRlZCBmb3IsIHRoZXJlIGlzDQo+
-IGluIG15IGV4cGVyaWVuY2Ugbm8gdW5rbm93biB0YXJnZXQgYXVkaWVuY2UsIHNvIHdoaWNoIG9u
-ZSBpcyBpdCBpbiB5b3VyDQo+IGNhc2U/DQo+IA0KPiA+ID4gc3VjaCBhcyBhIGxpc3Qgb2Ygc3R1
-ZmYgdG8gYmUgZXhwb3J0ZWQgYXMgc3lzZnMgc3dpdGNoZXMuDQo+ID4NCj4gPiBDYW4geW91IHBs
-ZWFzZSBlbGFib3JhdGU/IE9yIFBvaW50IG1lIHRvIGFuIGV4YW1wbGUgZm9yIHRoaXM/DQo+IA0K
-PiBOb3Qgc3VyZSB3aGF0IHRvIHNheSBhYm91dCB0aGF0LCB5b3Ugd2lsbCBoYXZlIHRvIGludmVu
-dCBzb21ldGhpbmcgSSdtDQo+IGFmcmFpZCwgZ29vZCBleGFtcGxlcyBhcmUgaW4gRG9jdW1lbnRh
-dGlvbi9BQkkuDQoNCg0KRm9yIGdlbmVyaWMgYXBwcm9hY2gsIGhlcmUgaXMgbXkgcGxhbg0KDQpG
-cm9tIHVzZXJzcGFjZQ0KDQplY2hvICJmbmFtZSBnbmFtZSBjb25maWcgY29uZmlndmFsdWUiID4g
-b3V0cHV0X2Rpc2FibGUNCg0KQXQgY29yZSBsZXZlbCwgd2UgaWRlbnRpZnkgdGhlIGRldmljZSBh
-c3NvY2lhdGVkIHdpdGggdGhlIGFib3ZlICJmbmFtZSBnbmFtZSIgLS0+IHRoaXMgd2lsbCBiZSBh
-IG5ldyBhcGkuDQoNCkNvcmUgY2FsbHMgcmVzcGVjdGl2ZSBwaW5jb250cm9sIGRyaXZlciB3aXRo
-IG91dHB1dF9kaXNhYmxlX2NiKGRldiwgZm5hbWUsIGduYW1lLCBjb25maWcgY29uZmlndmFsdWUp
-LS0+IHRoZXJlIHdpbGwgYmUgYSBuZXcgY2IgaW4gcGluY3RybC4NCg0KVGhlIHBpbmNvbnRyb2wg
-ZHJpdmVyIGhhcyBhIGxpc3Qgb2YgZGV2aWNlcyB3aXRoIGRldmljZV9vdXRwdXRfZGlzYWJsZSBj
-YWxsYmFja3MNCndoaWNoIHdpbGwgYmUgcmVnaXN0ZXJlZCBieSBkaWZmZXJlbnQgZHJpdmVycyAo
-ZWc6cG9lZ19kcml2ZXIsIHBvZTMtZHJpdmVyKQ0KDQpUaGUgcG9lZ19kcml2ZXIgZ2V0cyBjYWxs
-YmFjayBhbmQgaXQgd2lsbCBtYXRjaCBhZ2FpbnN0ICJmbmFtZSBnbmFtZSIgYW5kIGNvbmZpZ3Vy
-ZXMgdGhlIHZhbHVlLg0KDQpJZiBhbnl0aGluZyBmYWlscywgaXQgd2lsbCByZXBvcnQgZXJyb3Ig
-YW5kIHByb3BhZ2F0ZXMgdG8gdXNlciBzcGFjZS4NCg0KSSB3aWxsIHByb3RvdHlwZSBiYXNlZCBv
-biB0aGUgYWJvdmUuIFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UgaGF2ZSBkaWZmZXJlbnQgb3Bp
-bmlvbi4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQoNCiANCg==
+
+Hi Rafael,
+
+Do we have enough ack to apply this series, is it for you ?
+
+Thanks
+
+   -- Daniel
+
+
+On 01/03/2023 21:14, Daniel Lezcano wrote:
+> The exported thermal headers expose the thermal core structure while those
+> should be private to the framework. The initial idea was the thermal sensor
+> drivers use the thermal zone device structure pointer to pass it around from
+> the ops to the thermal framework API like a handler.
+> 
+> Unfortunately, different drivers are using and abusing the internals of this
+> structure to hook the associated struct device, read the internals values, take
+> the lock, etc ...
+> 
+> In order to fix this situation, let's encapsulate the structure leaking the
+> more in the different drivers: the thermal_zone_device structure.
+> 
+> This series revisit the existing drivers using the thermal zone private
+> structure internals to change the access to something else. For instance, the
+> get_temp() ops is using the tz->dev to write a debug trace. Despite the trace
+> is not helpful, we can check the return value for the get_temp() ops in the
+> call site and show the message in this place.
+> 
+> With this set of changes, the thermal_zone_device is almost self-encapsulated.
+> As usual, the acpi driver needs a more complex changes, so that will come in a
+> separate series along with the structure moved the private core headers.
+> 
+> Changelog:
+> 	- V5:
+> 	   - Dropped patch 19 : "thermal/tegra: Do not enable ... is already enabled"
+> 	   - Changed the init sequence of the hw channels on tegra3 to close
+> 	     the race window
+> 	   - Collected more tags
+> 	- V4:
+> 	   - Collected more tags
+> 	   - Fixed a typo therma_zone_device_priv() for db8500
+> 	   - Remove traces patch [20/20] to be submitted separetely
+> 	- V3:
+> 	   - Split the first patch into three to reduce the number of
+> 	     recipients per change
+> 	   - Collected more tags
+> 	   - Added missing changes for ->devdata in some drivers
+> 	   - Added a 'type' accessor
+> 	   - Replaced the 'type' to 'id' changes by the 'type' accessor
+> 	   - Used the 'type' accessor in the drivers
+> 	- V2:
+> 	   - Collected tags
+> 	   - Added missing changes for ->devdata for the tsens driver
+> 	   - Renamed thermal_zone_device_get_data() to thermal_zone_priv()
+> 	   - Added stubs when CONFIG_THERMAL is not set
+> 	   - Dropped hwmon change where we remove the tz->lock usage
+> 
+> Thank you all for your comments
+> 
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Ido Schimmel <idosch@nvidia.com>
+> Cc: Petr Machata <petrm@nvidia.com>
+> Cc: Gregory Greenman <gregory.greenman@intel.com>
+> Cc: Kalle Valo <kvalo@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Amit Kucheria <amitk@kernel.org>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: Markus Mayer <mmayer@broadcom.com>
+> Cc: Support Opensource <support.opensource@diasemi.com>
+> Cc: Andy Gross <agross@kernel.org>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: Thara Gopinath <thara.gopinath@gmail.com>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+> Cc: Yangtao Li <tiny.windzz@gmail.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Talel Shenhar <talel@amazon.com>
+> Cc: Eduardo Valentin <edubezval@gmail.com>
+> Cc: Keerthy <j-keerthy@ti.com>
+> Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Stefan Wahren <stefan.wahren@i2se.com>
+> Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
+> Cc: Yang Li <yang.lee@linux.alibaba.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Daniel Golle <daniel@makrotopia.org>
+> Cc: Balsam CHIHI <bchihi@baylibre.com>
+> Cc: Mikko Perttunen <mperttunen@nvidia.com>
+> Cc: linux-acpi@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-ide@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: linux-input@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-rpi-kernel@lists.infradead.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-tegra@vger.kernel.org
+> Cc: linux-omap@vger.kernel.org
+> Cc: linux-mediatek@lists.infradead.org
+> 
+> Daniel Lezcano (18):
+>    thermal/core: Add a thermal zone 'devdata' accessor
+>    thermal/core: Use the thermal zone 'devdata' accessor in thermal
+>      located drivers
+>    thermal/core: Use the thermal zone 'devdata' accessor in hwmon located
+>      drivers
+>    thermal/core: Use the thermal zone 'devdata' accessor in remaining
+>      drivers
+>    thermal/core: Show a debug message when get_temp() fails
+>    thermal: Remove debug or error messages in get_temp() ops
+>    thermal/hwmon: Do not set no_hwmon before calling
+>      thermal_add_hwmon_sysfs()
+>    thermal/hwmon: Use the right device for devm_thermal_add_hwmon_sysfs()
+>    thermal: Don't use 'device' internal thermal zone structure field
+>    thermal/core: Add thermal_zone_device structure 'type' accessor
+>    thermal/drivers/spear: Don't use tz->device but pdev->dev
+>    thermal: Add a thermal zone id accessor
+>    thermal: Use thermal_zone_device_type() accessor
+>    thermal/drivers/da9062: Don't access the thermal zone device fields
+>    thermal/hwmon: Use the thermal_core.h header
+>    thermal/drivers/tegra: Remove unneeded lock when setting a trip point
+>    thermal/drivers/acerhdf: Make interval setting only at module load
+>      time
+>    thermal/drivers/acerhdf: Remove pointless governor test
+> 
+>   drivers/acpi/thermal.c                        | 18 +++----
+>   drivers/ata/ahci_imx.c                        |  2 +-
+>   drivers/hwmon/hwmon.c                         |  4 +-
+>   drivers/hwmon/pmbus/pmbus_core.c              |  2 +-
+>   drivers/hwmon/scmi-hwmon.c                    |  4 +-
+>   drivers/hwmon/scpi-hwmon.c                    |  2 +-
+>   drivers/iio/adc/sun4i-gpadc-iio.c             |  2 +-
+>   drivers/input/touchscreen/sun4i-ts.c          |  2 +-
+>   .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  2 +-
+>   .../ethernet/mellanox/mlxsw/core_thermal.c    | 16 +++----
+>   drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  4 +-
+>   drivers/platform/x86/acerhdf.c                | 19 ++------
+>   drivers/power/supply/power_supply_core.c      |  2 +-
+>   drivers/regulator/max8973-regulator.c         |  2 +-
+>   drivers/thermal/amlogic_thermal.c             |  4 +-
+>   drivers/thermal/armada_thermal.c              | 14 ++----
+>   drivers/thermal/broadcom/bcm2711_thermal.c    |  3 +-
+>   drivers/thermal/broadcom/bcm2835_thermal.c    |  3 +-
+>   drivers/thermal/broadcom/brcmstb_thermal.c    |  8 ++--
+>   drivers/thermal/broadcom/ns-thermal.c         |  2 +-
+>   drivers/thermal/broadcom/sr-thermal.c         |  2 +-
+>   drivers/thermal/da9062-thermal.c              | 13 +++--
+>   drivers/thermal/db8500_thermal.c              |  2 +-
+>   drivers/thermal/dove_thermal.c                |  7 +--
+>   drivers/thermal/hisi_thermal.c                |  5 +-
+>   drivers/thermal/imx8mm_thermal.c              |  4 +-
+>   drivers/thermal/imx_sc_thermal.c              |  9 ++--
+>   drivers/thermal/imx_thermal.c                 | 47 +++++--------------
+>   .../intel/int340x_thermal/int3400_thermal.c   |  2 +-
+>   .../int340x_thermal/int340x_thermal_zone.c    |  4 +-
+>   .../processor_thermal_device_pci.c            |  4 +-
+>   drivers/thermal/intel/intel_pch_thermal.c     |  2 +-
+>   .../thermal/intel/intel_quark_dts_thermal.c   |  6 +--
+>   drivers/thermal/intel/intel_soc_dts_iosf.c    | 13 ++---
+>   drivers/thermal/intel/x86_pkg_temp_thermal.c  |  4 +-
+>   drivers/thermal/k3_bandgap.c                  |  4 +-
+>   drivers/thermal/k3_j72xx_bandgap.c            |  2 +-
+>   drivers/thermal/kirkwood_thermal.c            |  7 +--
+>   drivers/thermal/max77620_thermal.c            |  6 +--
+>   drivers/thermal/mediatek/auxadc_thermal.c     |  4 +-
+>   drivers/thermal/mediatek/lvts_thermal.c       | 10 ++--
+>   drivers/thermal/qcom/qcom-spmi-adc-tm5.c      |  6 +--
+>   drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  6 +--
+>   drivers/thermal/qcom/tsens.c                  |  6 +--
+>   drivers/thermal/qoriq_thermal.c               |  4 +-
+>   drivers/thermal/rcar_gen3_thermal.c           |  5 +-
+>   drivers/thermal/rcar_thermal.c                |  8 +---
+>   drivers/thermal/rockchip_thermal.c            |  8 +---
+>   drivers/thermal/rzg2l_thermal.c               |  3 +-
+>   drivers/thermal/samsung/exynos_tmu.c          |  4 +-
+>   drivers/thermal/spear_thermal.c               | 10 ++--
+>   drivers/thermal/sprd_thermal.c                |  2 +-
+>   drivers/thermal/st/st_thermal.c               |  5 +-
+>   drivers/thermal/st/stm_thermal.c              |  4 +-
+>   drivers/thermal/sun8i_thermal.c               |  4 +-
+>   drivers/thermal/tegra/soctherm.c              |  6 +--
+>   drivers/thermal/tegra/tegra-bpmp-thermal.c    |  6 ++-
+>   drivers/thermal/tegra/tegra30-tsensor.c       | 31 ++++++------
+>   drivers/thermal/thermal-generic-adc.c         |  7 ++-
+>   drivers/thermal/thermal_core.c                | 18 +++++++
+>   drivers/thermal/thermal_helpers.c             |  3 ++
+>   drivers/thermal/thermal_hwmon.c               |  9 ++--
+>   drivers/thermal/thermal_hwmon.h               |  4 +-
+>   drivers/thermal/thermal_mmio.c                |  2 +-
+>   .../ti-soc-thermal/ti-thermal-common.c        | 10 ++--
+>   drivers/thermal/uniphier_thermal.c            |  2 +-
+>   include/linux/thermal.h                       | 19 ++++++++
+>   67 files changed, 218 insertions(+), 246 deletions(-)
+> 
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
