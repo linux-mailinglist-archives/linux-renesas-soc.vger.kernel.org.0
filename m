@@ -2,103 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D92936AAA2E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Mar 2023 14:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79DE56AAA7D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Mar 2023 15:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjCDNcc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 4 Mar 2023 08:32:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
+        id S229473AbjCDOrq convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Mar 2023 09:47:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbjCDNca (ORCPT
+        with ESMTP id S229452AbjCDOrq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 4 Mar 2023 08:32:30 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C0F11E94
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Mar 2023 05:32:06 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pYRyK-0000pl-Sw; Sat, 04 Mar 2023 14:30:48 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pYRyJ-001nbH-R7; Sat, 04 Mar 2023 14:30:47 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pYRyI-0027Hz-DQ; Sat, 04 Mar 2023 14:30:46 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 28/41] rtc: rzn1: Convert to platform remove callback returning void
-Date:   Sat,  4 Mar 2023 14:30:15 +0100
-Message-Id: <20230304133028.2135435-29-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+        Sat, 4 Mar 2023 09:47:46 -0500
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9D512F12;
+        Sat,  4 Mar 2023 06:47:44 -0800 (PST)
+Received: by mail-qt1-f179.google.com with SMTP id z6so6108053qtv.0;
+        Sat, 04 Mar 2023 06:47:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677941263;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KeKbxzDZy3GcKkrGUofgHv5MAh6MoP5a08Lg7rMsvMk=;
+        b=S3qNnTfaGG8dWVsorNdGIUyak/GpcZUpktOkv6gyxtw3XAcFdhL/CEPTnxawlQEyNf
+         ahJg6xrVKof9Ba8qj4jmw8QWAUQHq5sg8lZVrnFFXNh2e6FSXM8aN92iCBHMkyHyhFOW
+         pF5M9IbKRWk6kueY6GrPeTRsBtYQnAJ+bqHZJg2WQdnDvJo82uZG4w76/sYjAQcpPvj5
+         X3PdR7+eBUj3v3V5VGL6SUaQt75AyLPdgwuQKZZZXmKfQaf0t6b+z4rxR4EzF95nhetG
+         mkUGP6pbLyZPqZlct7Y+mkWH0S8etn2r4am3ttLR2fi3LMB2kL6kUnxO0X/vIDvBZFe5
+         5UKQ==
+X-Gm-Message-State: AO0yUKVzoLn4IAtoBJaDXBH/SlyIWWFCRfWfBdJsVlpAKhiY40HLN8OC
+        Olj/cAkGxTOPQq8Y+JsX6KiYQ9LQxU20VA==
+X-Google-Smtp-Source: AK7set8iJFGfogd8HyTfcNNFYdWDx6zvwpzg4FmQZW+Si0Gg/ZbY1ExyzEf60dMofx6GBE4kRARcwA==
+X-Received: by 2002:ac8:7f14:0:b0:3bf:c407:10c5 with SMTP id f20-20020ac87f14000000b003bfc40710c5mr10006171qtk.26.1677941263461;
+        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id r15-20020ac867cf000000b003bfc2fc3235sm3817779qtp.67.2023.03.04.06.47.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536cb25982eso96915597b3.13;
+        Sat, 04 Mar 2023 06:47:43 -0800 (PST)
+X-Received: by 2002:a81:b723:0:b0:536:38b4:f51 with SMTP id
+ v35-20020a81b723000000b0053638b40f51mr3187721ywh.5.1677941242747; Sat, 04 Mar
+ 2023 06:47:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1528; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=KVLbG5ufa8Ntt0rl8VovfNEJKYzq4Ahe0QYLf7iyQwo=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkA0fAmk7AjQK9/kO2oo9bodAP0c7nlKJWe2mZo y0QCkitHJqJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZANHwAAKCRDB/BR4rcrs CYYuCACW/cHRUlehChHFq+oBLP7rFVAcK8FnRKaCeMQ8ACP25txlDckrcT0tXlDs1x73bPMJAZV WH/MbW5oxH5AMYcE/a62Q6dT4+cXoF5V4n5SysI5ihNZQY7g/daoGuZz2WyH78TWjITr+1rzL1W Q5OC3C5mDwK51En0OqLnV8WprvQakZ1JQiDp73E/jYZqeBbkPBZFUrsY7211CPFhp5fPayeRf4x no8P3993VJSqRBoIfwRP4oLs7w+1BnFBPMH50eTFqiXXFgifxneHSD3vwFaLnlNL6/zh8akWEoi UaZL1Jb7PGmh4J9oNGh4/Lslp7/IVmXyV4qb6KhCTb8CFoWc
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230301185209.274134-1-jjhiblot@traphandler.com>
+ <20230301185209.274134-3-jjhiblot@traphandler.com> <CAMuHMdVF337k+zyjpbzoDtWWDnYhM6eM3+As6UuZ7FCgASsMQg@mail.gmail.com>
+ <7fa7f07f-d1e1-1e43-992c-4981c5810284@traphandler.com>
+In-Reply-To: <7fa7f07f-d1e1-1e43-992c-4981c5810284@traphandler.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 4 Mar 2023 15:47:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVdZatMYsc=367OuGotzYuo2-XVe5MAZdzh+kBs31=t5A@mail.gmail.com>
+Message-ID: <CAMuHMdVdZatMYsc=367OuGotzYuo2-XVe5MAZdzh+kBs31=t5A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] of: irq: make callers of of_irq_parse_one() release
+ the device node
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     saravanak@google.com, clement.leger@bootlin.com,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        zajec5@gmail.com, Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Marc Zyngier <maz@kernel.org>, afaerber@suse.de,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Nishanth Menon <nm@ti.com>, ssantosh@kernel.org,
+        mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-wireless@vger.kernel.org,
+        linux-actions@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hi Jean-Jacques,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+On Sat, Mar 4, 2023 at 11:34 AM Jean-Jacques Hiblot
+<jjhiblot@traphandler.com> wrote:
+> On 02/03/2023 08:49, Geert Uytterhoeven wrote:
+> > On Wed, Mar 1, 2023 at 7:53 PM Jean-Jacques Hiblot
+> > <jjhiblot@traphandler.com> wrote:
+> >> of_irq_parse_one() does a get() on the device node returned in out_irq->np.
+> >> Callers of of_irq_parse_one() must do a put() when they are done with it.
+> >
+> > What does "be done with it" really mean here?
+> >
+> >> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> >
+> >> --- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+> >> +++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+> >> @@ -184,6 +184,7 @@ static int __init rcar_gen2_regulator_quirk(void)
+> >>                          kfree(quirk);
+> >>                          continue;
+> >>                  }
+> >> +               of_node_put(argsa->np);
+> >
+> > The quirk object, which is a container of argsa, is still used below,
+> > and stored in a linked list.  I agree argsa->np is not dereferenced,
+> > but the pointer itself is still compared to other pointers.
+>
+> I fail to see when the pointers are compared. It looks to me that only
+> the args are compared. Am I missing something ?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/rtc/rtc-rzn1.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+You're right, in upstream, there is no such check.
+In my local tree, I have converted the comparisons below to use a new
+helper of_phandle_args_eq() (which does compare the np member, too),
+but that change never went upstream, as the other user of that helper
+was rejected.
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index 0d36bc50197c..dca736caba85 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -391,11 +391,9 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int rzn1_rtc_remove(struct platform_device *pdev)
-+static void rzn1_rtc_remove(struct platform_device *pdev)
- {
- 	pm_runtime_put(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id rzn1_rtc_of_match[] = {
-@@ -406,7 +404,7 @@ MODULE_DEVICE_TABLE(of, rzn1_rtc_of_match);
- 
- static struct platform_driver rzn1_rtc_driver = {
- 	.probe = rzn1_rtc_probe,
--	.remove = rzn1_rtc_remove,
-+	.remove_new = rzn1_rtc_remove,
- 	.driver = {
- 		.name	= "rzn1-rtc",
- 		.of_match_table = rzn1_rtc_of_match,
+> In any case, looking more closely at the code, I guess that indeed the
+> of_node_put() shouldn't be added here because this code expects that the
+> nodes never go away. That is probably a good assertion in case of PMICs
+
+OK.
+
+> > IIUIC, calling of_node_put() might cause the reference count to drop to
+> > zero, and the underlying struct node object to be deallocated.
+> > So when a future reference to the same DT node will be taken, a new
+> > struct node object will be allocated, and the pointer comparison below
+> > will fail?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.39.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
