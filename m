@@ -2,62 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9439C6AAE85
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Mar 2023 08:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAA016AB01E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Mar 2023 14:53:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjCEH6L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Mar 2023 02:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48546 "EHLO
+        id S229868AbjCENxM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Mar 2023 08:53:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjCEH6K (ORCPT
+        with ESMTP id S229874AbjCENxI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Mar 2023 02:58:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA41ACDC5
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Mar 2023 23:58:05 -0800 (PST)
+        Sun, 5 Mar 2023 08:53:08 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F4817165;
+        Sun,  5 Mar 2023 05:52:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 49D3C60AAF
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Mar 2023 07:58:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92653C433EF;
-        Sun,  5 Mar 2023 07:58:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2448A60B10;
+        Sun,  5 Mar 2023 13:52:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C442C4339B;
+        Sun,  5 Mar 2023 13:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678003084;
-        bh=Sy5U7nfLvNuJne8iPFJmcZU2Js6Sb48qsrsqDgiHQdM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UruFr5JnF+TxbWDAiWIQQuVRCeWHze3EZGF6GL0qutzs3361wD8eulrCDwb7aQS2z
-         E7a7RxKBgKbBIvgRhS0xf8+PXiSX71uiBiY/HHOJRg3rW2/3Xep1UvTAfrXutJTvn6
-         6n48H2hEpgvgwtZiSLF9nZKn1sG+DOjiVoTKd0SOLCDfYP5+KwR5c1XNoSVTx6qNkV
-         dyEIVJjBYhX4Nw0IaLt+2vF2+k8UhQfj2JTFt1lhc5p5bJG75A4eGCxvqYXRc8jkF9
-         mnYw1PMuIj3lIzXmHCi84BLs4BNoFrkJVR2YDaDsnAPNNyUBEMQxZbpLAGD1js+lh9
-         VRZG907Y7KdjA==
-Date:   Sun, 5 Mar 2023 07:57:59 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        s=k20201202; t=1678024354;
+        bh=WaLyygKzcLUsP0WL87bEOYjetQ+Pi0VfdOzKWcE/IzE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=M01lQoIcBiZqaR5Y/1HkAIa02eUQUh+Orfk6Mobp8MinMm+eXiVcnRSyQl914xqa3
+         lwe3pVZ/aBY6p+uNFXQ+gHugzuDCuJkOIQqSbkM/cfLBq4PlKAjzHLFge42YLFqVSI
+         W+Coe47W74+LBAwFI1XEedsQ0hCPTuI5ec71vSWfaOlsFaf8teT5YZU2EMi64gBAzQ
+         YBmDGRFsr5PmpPYFeP7oXtDWNksLj0wp/NYHTQHGjwqqRtdPNVhoNJNbBL6fIhLR4G
+         Lm8hsjIXjZ5V3dOwNVcpyvffHU+H54QFUE+CMFL+uQg1he4x3jHPrBAQGbUT6NYAsh
+         k+V1qs44zHrqw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v13 2/6] mfd: Add Renesas RZ/G2L MTU3a core driver
-Message-ID: <20230305075759.GB2574592@google.com>
-References: <20230216203830.196632-1-biju.das.jz@bp.renesas.com>
- <20230216203830.196632-3-biju.das.jz@bp.renesas.com>
- <20230304162000.GA2574592@google.com>
+        Sasha Levin <sashal@kernel.org>, mturquette@baylibre.com,
+        sboyd@kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 07/16] clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*
+Date:   Sun,  5 Mar 2023 08:51:58 -0500
+Message-Id: <20230305135207.1793266-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230305135207.1793266-1-sashal@kernel.org>
+References: <20230305135207.1793266-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230304162000.GA2574592@google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,891 +58,367 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 04 Mar 2023, Lee Jones wrote:
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> On Thu, 16 Feb 2023, Biju Das wrote:
-> 
-> > The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
-> > the Renesas RZ/G2L family SoCs. It consists of eight 16-bit timer
-> > channels and one 32-bit timer channel. It supports the following
-> > functions
-> >  - Counter
-> >  - Timer
-> >  - PWM
-> > 
-> > The 8/16/32 bit registers are mixed in each channel.
-> > 
-> > Add MTU3a core driver for RZ/G2L SoC. The core driver shares the
-> > clk and channel register access for the other child devices like
-> > Counter, PWM and Clock event.
-> > 
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > Ref:
-> >  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230113161753.1073706-3-biju.das.jz@bp.renesas.com/
-> > 
-> > v12->v13:
-> >  * Moved RZ_MTU3_TMDR1_* macros from pwm driver to rz-mtu3.h.
-> > v11->v2:
-> >  * Moved the core driver from timer to MFD.
-> >  * Moved header fine from clocksource/rz-mtu3.h->linux/mfd/rz-mtu3.h
-> >  * Removed Select MFD_CORE option from config.
-> > v10->v11:
-> >  * No change.
-> > v9->v10:
-> >  * No change.
-> > v8->v9:
-> >  * No change.
-> > v7->v8:
-> >  * Add locking for RMW on rz_mtu3_shared_reg_update_bit()
-> >  * Replaced enum rz_mtu3_functions with channel busy flag
-> >  * Added API for request and release a channel.
-> > v6->v7:
-> >  * Added channel specific mutex to avoid races between child devices
-> >    (for eg: pwm and counter)
-> >  * Added rz_mtu3_shared_reg_update_bit() to update bit.
-> > v5->v6:
-> >  * Updated commit and KConfig description
-> >  * Selected MFD_CORE to avoid build error if CONFIG_MFD_CORE not set.
-> >  * Improved error handling in probe().
-> >  * Updated MODULE_DESCRIPTION and title.
-> > v4->v5:
-> >  * Moved core driver from MFD to timer
-> >  * Child devices instatiated using mfd_add_devices()
-> > v3->v4:
-> >  * A single driver that registers both the counter and the pwm functionalities
-> >    that binds against "renesas,rz-mtu3".
-> >  * Moved PM handling from child devices to here.
-> >  * replaced include/linux/mfd/rz-mtu3.h->drivers/mfd/rz-mtu3.h
-> >  * Removed "remove" callback
-> > v2->v3:
-> >  * removed unwanted header files
-> >  * Added LUT for 32 bit registers as it needed for 32-bit cascade counting.
-> >  * Exported 32 bit read/write functions.
-> > v1->v2:
-> >  * Changed the compatible name
-> >  * Replaced devm_reset_control_get->devm_reset_control_get_exclusive
-> >  * Renamed function names rzg2l_mtu3->rz_mtu3 as this is generic IP
-> >    in RZ family SoC's.
-> > ---
-> >  drivers/mfd/Kconfig         |  10 +
-> >  drivers/mfd/Makefile        |   1 +
-> >  drivers/mfd/rz-mtu3.c       | 458 ++++++++++++++++++++++++++++++++++++
-> >  include/linux/mfd/rz-mtu3.h | 243 +++++++++++++++++++
-> >  4 files changed, 712 insertions(+)
-> >  create mode 100644 drivers/mfd/rz-mtu3.c
-> >  create mode 100644 include/linux/mfd/rz-mtu3.h
-> > 
-> > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > index fcc141e067b9..e16c550c5b05 100644
-> > --- a/drivers/mfd/Kconfig
-> > +++ b/drivers/mfd/Kconfig
-> > @@ -1308,6 +1308,16 @@ config MFD_SC27XX_PMIC
-> >  	  This driver provides common support for accessing the SC27xx PMICs,
-> >  	  and it also adds the irq_chip parts for handling the PMIC chip events.
-> >  
-> > +config RZ_MTU3
-> > +	bool "Renesas RZ/G2L MTU3a core driver"
-> > +	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
-> > +	help
-> > +	  Select this option to enable Renesas RZ/G2L MTU3a core driver for
-> > +	  the Multi-Function Timer Pulse Unit 3 (MTU3a) hardware available
-> > +	  on SoCs from Renesas. The core driver shares the clk and channel
-> > +	  register access for the other child devices like Counter, PWM,
-> > +	  Clock Source, and Clock event.
-> > +
-> >  config ABX500_CORE
-> >  	bool "ST-Ericsson ABX500 Mixed Signal Circuit register functions"
-> >  	depends on ARCH_U8500 || COMPILE_TEST
-> > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > index 2f6c89d1e277..1d2392f06f78 100644
-> > --- a/drivers/mfd/Makefile
-> > +++ b/drivers/mfd/Makefile
-> > @@ -174,6 +174,7 @@ pcf50633-objs			:= pcf50633-core.o pcf50633-irq.o
-> >  obj-$(CONFIG_MFD_PCF50633)	+= pcf50633.o
-> >  obj-$(CONFIG_PCF50633_ADC)	+= pcf50633-adc.o
-> >  obj-$(CONFIG_PCF50633_GPIO)	+= pcf50633-gpio.o
-> > +obj-$(CONFIG_RZ_MTU3)		+= rz-mtu3.o
-> >  obj-$(CONFIG_ABX500_CORE)	+= abx500-core.o
-> >  obj-$(CONFIG_MFD_DB8500_PRCMU)	+= db8500-prcmu.o
-> >  # ab8500-core need to come after db8500-prcmu (which provides the channel)
-> > diff --git a/drivers/mfd/rz-mtu3.c b/drivers/mfd/rz-mtu3.c
-> > new file mode 100644
-> > index 000000000000..ad6bb6b28694
-> > --- /dev/null
-> > +++ b/drivers/mfd/rz-mtu3.c
-> > @@ -0,0 +1,458 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Renesas RZ/G2L Multi-Function Timer Pulse Unit 3(MTU3a) Core driver
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corporation
-> > + */
-> > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/irq.h>
-> > +#include <linux/mfd/core.h>
-> > +#include <linux/mfd/rz-mtu3.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +static const unsigned long rz_mtu3_8bit_ch_reg_offs[][13] = {
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x70,
-> > +		[RZ_MTU3_TCR] = 0x0, [RZ_MTU3_TCR2] = 0x28,
-> > +		[RZ_MTU3_TMDR1] = 0x1, [RZ_MTU3_TIORH] = 0x2,
-> > +		[RZ_MTU3_TIORL] = 0x3
-> 
-> Instead of having this huge, fragile (ordered) slab list (which I will
-> request to be amended to a single entry per line), please consider
-> implementing a (3?) few helper MACROS, stored in a header, along the
-> lines of:
-> 
-> MTU_8BIT_<BLAH>(_tier, _nfcr, ... <blah>) \
-> 	{
-> 	      [RZ_MTU3_TIER] = _tier,
-> 	      [RZ_MTU3_NFCR] = _nfcr,
-> 	      <blah>
-> 	}
-> 
-> Then in here, do:
-> 
-> 	[MTU3_CHAN_x] = MTU_8BIT_<BLAH>(0x04, 0x70 ... <blah>)
-> 
-> Notice how we're being explicit about the which values associate with
-> which channel here too.  This eradicates the fragility of an ordered
-> structure.
+[ Upstream commit b1dec4e78599a2ce5bf8557056cd6dd72e1096b0 ]
 
-Also, have you considered: devm_regmap_field_bulk_alloc()?
+R-Car H3 ES1.* was only available to an internal development group and
+needed a lot of quirks and workarounds. These become a maintenance
+burden now, so our development group decided to remove upstream support
+for this SoC. Public users only have ES2 onwards.
 
-See: REG_FIELD()
+In addition to the ES1 specific removals, a check for it was added
+preventing the machine to boot further. It may otherwise inherit wrong
+clock settings from ES2 which could damage the hardware.
 
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0xef,
-> > +		[RZ_MTU3_TSR] = 0x5, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0x14, [RZ_MTU3_TMDR1] = 0x1,
-> > +		[RZ_MTU3_TIOR] = 0x2
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x16e,
-> > +		[RZ_MTU3_TSR] = 0x5, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0xc, [RZ_MTU3_TMDR1] = 0x1,
-> > +		[RZ_MTU3_TIOR] = 0x2
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
-> > +		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
-> > +		[RZ_MTU3_TIORH] = 0x4, [RZ_MTU3_TIORL] = 0x5,
-> > +		[RZ_MTU3_TBTM] = 0x38
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
-> > +		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
-> > +		[RZ_MTU3_TIORH] = 0x5, [RZ_MTU3_TIORL] = 0x6,
-> > +		[RZ_MTU3_TBTM] = 0x38
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x32, [RZ_MTU3_NFCR] = 0x1eb,
-> > +		[RZ_MTU3_TSTR] = 0x34, [RZ_MTU3_TCNTCMPCLR] = 0x36,
-> > +		[RZ_MTU3_TCRU] = 0x4, [RZ_MTU3_TCR2U] = 0x5,
-> > +		[RZ_MTU3_TIORU] = 0x6, [RZ_MTU3_TCRV] = 0x14,
-> > +		[RZ_MTU3_TCR2V] = 0x15, [RZ_MTU3_TIORV] = 0x16,
-> > +		[RZ_MTU3_TCRW] = 0x24, [RZ_MTU3_TCR2W] = 0x25,
-> > +		[RZ_MTU3_TIORW] = 0x26
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
-> > +		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
-> > +		[RZ_MTU3_TIORH] = 0x4, [RZ_MTU3_TIORL] = 0x5,
-> > +		[RZ_MTU3_TBTM] = 0x38
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x8, [RZ_MTU3_NFCR] = 0x93,
-> > +		[RZ_MTU3_TSR] = 0x2c, [RZ_MTU3_TCR] = 0x0,
-> > +		[RZ_MTU3_TCR2] = 0x4c, [RZ_MTU3_TMDR1] = 0x2,
-> > +		[RZ_MTU3_TIORH] = 0x5, [RZ_MTU3_TIORL] = 0x6,
-> > +		[RZ_MTU3_TBTM] = 0x38
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TIER] = 0x4, [RZ_MTU3_NFCR] = 0x368,
-> > +		[RZ_MTU3_TCR] = 0x0, [RZ_MTU3_TCR2] = 0x6,
-> > +		[RZ_MTU3_TMDR1] = 0x1, [RZ_MTU3_TIORH] = 0x2,
-> > +		[RZ_MTU3_TIORL] = 0x3
-> > +	}
-> > +};
-> > +
-> > +static const unsigned long rz_mtu3_16bit_ch_reg_offs[][12] = {
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
-> > +		[RZ_MTU3_TGRB] = 0xa, [RZ_MTU3_TGRC] = 0xc,
-> > +		[RZ_MTU3_TGRD] = 0xe, [RZ_MTU3_TGRE] = 0x20,
-> > +		[RZ_MTU3_TGRF] = 0x22
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
-> > +		[RZ_MTU3_TGRB] = 0xa
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x6, [RZ_MTU3_TGRA] = 0x8,
-> > +		[RZ_MTU3_TGRB] = 0xa
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x10, [RZ_MTU3_TGRA] = 0x18,
-> > +		[RZ_MTU3_TGRB] = 0x1a, [RZ_MTU3_TGRC] = 0x24,
-> > +		[RZ_MTU3_TGRD] = 0x26, [RZ_MTU3_TGRE] = 0x72
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x11, [RZ_MTU3_TGRA] = 0x1b,
-> > +		[RZ_MTU3_TGRB] = 0x1d, [RZ_MTU3_TGRC] = 0x27,
-> > +		[RZ_MTU3_TGRD] = 0x29, [RZ_MTU3_TGRE] = 0x73,
-> > +		[RZ_MTU3_TGRF] = 0x75, [RZ_MTU3_TADCR] = 0x3f,
-> > +		[RZ_MTU3_TADCORA] = 0x43, [RZ_MTU3_TADCORB] = 0x45,
-> > +		[RZ_MTU3_TADCOBRA] = 0x47,
-> > +		[RZ_MTU3_TADCOBRB] = 0x49
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNTU] = 0x0, [RZ_MTU3_TGRU] = 0x2,
-> > +		[RZ_MTU3_TCNTV] = 0x10, [RZ_MTU3_TGRV] = 0x12,
-> > +		[RZ_MTU3_TCNTW] = 0x20, [RZ_MTU3_TGRW] = 0x22
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x10, [RZ_MTU3_TGRA] = 0x18,
-> > +		[RZ_MTU3_TGRB] = 0x1a, [RZ_MTU3_TGRC] = 0x24,
-> > +		[RZ_MTU3_TGRD] = 0x26, [RZ_MTU3_TGRE] = 0x72
-> > +	},
-> > +	{
-> > +		[RZ_MTU3_TCNT] = 0x11, [RZ_MTU3_TGRA] = 0x1b,
-> > +		[RZ_MTU3_TGRB] = 0x1d, [RZ_MTU3_TGRC] = 0x27,
-> > +		[RZ_MTU3_TGRD] = 0x29, [RZ_MTU3_TGRE] = 0x73,
-> > +		[RZ_MTU3_TGRF] = 0x75, [RZ_MTU3_TADCR] = 0x3f,
-> > +		[RZ_MTU3_TADCORA] = 0x43, [RZ_MTU3_TADCORB] = 0x45,
-> > +		[RZ_MTU3_TADCOBRA] = 0x47,
-> > +		[RZ_MTU3_TADCOBRB] = 0x49
-> > +	},
-> > +};
-> > +
-> > +static const unsigned long rz_mtu3_32bit_ch_reg_offs[][5] = {
-> > +	{
-> > +		[RZ_MTU3_TCNTLW] = 0x20, [RZ_MTU3_TGRALW] = 0x24,
-> > +		[RZ_MTU3_TGRBLW] = 0x28
-> > +	},
-> > +	{	[RZ_MTU3_TCNT] = 0x8, [RZ_MTU3_TGRA] = 0xc,
-> > +		[RZ_MTU3_TGRB] = 0x10, [RZ_MTU3_TGRC] = 0x14,
-> > +		[RZ_MTU3_TGRD] = 0x18
-> > +	}
-> > +};
-> > +
-> > +static bool rz_mtu3_is_16bit_shared_reg(u16 off)
-> > +{
-> > +	return (off == RZ_MTU3_TDDRA || off == RZ_MTU3_TDDRB ||
-> > +		off == RZ_MTU3_TCDRA || off == RZ_MTU3_TCDRB ||
-> > +		off == RZ_MTU3_TCBRA || off == RZ_MTU3_TCBRB ||
-> > +		off == RZ_MTU3_TCNTSA || off == RZ_MTU3_TCNTSB);
-> > +}
-> > +
-> > +u16 rz_mtu3_shared_reg_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(c271667730h->dev->parent);
-> > +
-> > +	if (rz_mtu3_is_16bit_shared_reg(off))
-> > +		return readw(mtu->mmio + off);
-> > +	else
-> > +		return readb(mtu->mmio + off);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_shared_reg_read);
-> > +
-> > +u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> 
-> Any harm in s/off/offset/?  I don't think it adds much bulk and will
-> make it easier on the eye for the reader.
-> 
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	ch_offs = rz_mtu3_8bit_ch_reg_offs[ch->index][off];
-> > +	if (off != RZ_MTU3_TCR && ch_offs == 0)
-> > +		return -EINVAL;
-> > +
-> > +	/*
-> > +	 * NFCR register addresses on MTU{0,1,2,5,8} channels are smaller than
-> > +	 * channel's base address.
-> > +	 */
-> > +	if (off == RZ_MTU3_NFCR && (ch->index <= RZ_MTU2 ||
-> > +				    ch->index == RZ_MTU5 ||
-> > +				    ch->index == RZ_MTU8))
-> > +		return readb(ch->base - ch_offs);
-> > +	else
-> > +		return readb(ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_8bit_ch_read);
-> > +
-> > +u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	/* MTU8 doesn't have 16-bit registers */
-> > +	if (ch->index == RZ_MTU8)
-> > +		return 0;
-> > +
-> > +	ch_offs = rz_mtu3_16bit_ch_reg_offs[ch->index][off];
-> > +	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCNTU && ch_offs == 0)
-> > +		return 0;
-> > +
-> > +	return readw(ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_16bit_ch_read);
-> > +
-> > +u32 rz_mtu3_32bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	if (ch->index == RZ_MTU1)
-> > +		ch_offs = rz_mtu3_32bit_ch_reg_offs[0][off];
-> 
-> When you define the channel numbers, as suggested above, you can swap
-> out these magic numbers out for them instead.
-> 
-> > +	else if (ch->index == RZ_MTU8)
-> > +		ch_offs = rz_mtu3_32bit_ch_reg_offs[1][off];
-> > +
-> > +	if (!ch_offs)
-> > +		return -EINVAL;
-> > +
-> > +	return readl(ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_32bit_ch_read);
-> > +
-> > +void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val)
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	ch_offs = rz_mtu3_8bit_ch_reg_offs[ch->index][off];
-> > +	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCR && ch_offs == 0)
-> > +		return;
-> > +
-> > +	/*
-> > +	 * NFCR register addresses on MTU{0,1,2,5,8} channels are smaller than
-> > +	 * channel's base address.
-> > +	 */
-> > +	if (off == RZ_MTU3_NFCR && (ch->index <= RZ_MTU2 ||
-> > +				    ch->index == RZ_MTU5 ||
-> > +				    ch->index == RZ_MTU8))
-> > +		writeb(val, ch->base - ch_offs);
-> > +	else
-> > +		writeb(val, ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_8bit_ch_write);
-> > +
-> > +void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val)
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	/* MTU8 doesn't have 16-bit registers */
-> > +	if (ch->index == RZ_MTU8)
-> > +		return;
-> > +
-> > +	ch_offs = rz_mtu3_16bit_ch_reg_offs[ch->index][off];
-> > +	if (ch->index != RZ_MTU5 && off != RZ_MTU3_TCNTU && ch_offs == 0)
-> > +		return;
-> > +
-> > +	writew(val, ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_16bit_ch_write);
-> > +
-> > +void rz_mtu3_32bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u32 val)
-> > +{
-> > +	u16 ch_offs;
-> > +
-> > +	if (ch->index == RZ_MTU1)
-> > +		ch_offs = rz_mtu3_32bit_ch_reg_offs[0][off];
-> > +	else if (ch->index == RZ_MTU8)
-> > +		ch_offs = rz_mtu3_32bit_ch_reg_offs[1][off];
-> > +
-> > +	if (!ch_offs)
-> > +		return;
-> > +
-> > +	writel(val, ch->base + ch_offs);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_32bit_ch_write);
-> > +
-> > +void rz_mtu3_shared_reg_write(struct rz_mtu3_channel *ch, u16 off, u16 value)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
-> > +
-> > +	if (rz_mtu3_is_16bit_shared_reg(off))
-> > +		writew(value, mtu->mmio + off);
-> > +	else
-> > +		writeb((u8)value, mtu->mmio + off);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_shared_reg_write);
-> > +
-> > +void rz_mtu3_shared_reg_update_bit(struct rz_mtu3_channel *ch, u16 off,
-> > +				   u16 pos, u8 val)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
-> > +	unsigned long tmdr, flags;
-> > +
-> > +	raw_spin_lock_irqsave(&mtu->lock, flags);
-> > +	tmdr = rz_mtu3_shared_reg_read(ch, off);
-> > +	__assign_bit(pos, &tmdr, !!val);
-> > +	rz_mtu3_shared_reg_write(ch, off, tmdr);
-> > +	raw_spin_unlock_irqrestore(&mtu->lock, flags);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_shared_reg_update_bit);
-> > +
-> > +static void rz_mtu3_start_stop_ch(struct rz_mtu3_channel *ch, bool start)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
-> > +	unsigned long flags, value;
-> > +	u8 offs;
-> > +
-> > +	/* start stop register shared by multiple timer channels */
-> > +	raw_spin_lock_irqsave(&mtu->lock, flags);
-> > +
-> > +	if (ch->index == RZ_MTU6 || ch->index == RZ_MTU7) {
-> > +		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRB);
-> > +		if (start)
-> > +			value |= 1 << ch->index;
-> > +		else
-> > +			value &= ~(1 << ch->index);
-> > +		rz_mtu3_shared_reg_write(ch, RZ_MTU3_TSTRB, value);
-> > +	} else if (ch->index != RZ_MTU5) {
-> > +		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRA);
-> > +		if (ch->index == RZ_MTU8)
-> > +			offs = 0x08;
-> > +		else if (ch->index < RZ_MTU3)
-> > +			offs = 1 << ch->index;
-> > +		else
-> > +			offs = 1 << (ch->index + 3);
-> > +		if (start)
-> > +			value |= offs;
-> > +		else
-> > +			value &= ~offs;
-> > +		rz_mtu3_shared_reg_write(ch, RZ_MTU3_TSTRA, value);
-> > +	}
-> > +
-> > +	raw_spin_unlock_irqrestore(&mtu->lock, flags);
-> > +}
-> > +
-> > +bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(ch->dev->parent);
-> > +	unsigned long flags, value;
-> > +	bool ret = false;
-> > +	u8 offs;
-> > +
-> > +	/* start stop register shared by multiple timer channels */
-> > +	raw_spin_lock_irqsave(&mtu->lock, flags);
-> > +
-> > +	if (ch->index == RZ_MTU6 || ch->index == RZ_MTU7) {
-> > +		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRB);
-> > +		ret = value & (1 << ch->index);
-> > +	} else if (ch->index != RZ_MTU5) {
-> > +		value = rz_mtu3_shared_reg_read(ch, RZ_MTU3_TSTRA);
-> > +		if (ch->index == RZ_MTU8)
-> > +			offs = 0x08;
-> > +		else if (ch->index < RZ_MTU3)
-> > +			offs = 1 << ch->index;
-> > +		else
-> > +			offs = 1 << (ch->index + 3);
-> > +
-> > +		ret = value & offs;
-> > +	}
-> > +
-> > +	raw_spin_unlock_irqrestore(&mtu->lock, flags);
-> > +
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_is_enabled);
-> > +
-> > +int rz_mtu3_enable(struct rz_mtu3_channel *ch)
-> > +{
-> > +	/* enable channel */
-> > +	rz_mtu3_start_stop_ch(ch, true);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_enable);
-> > +
-> > +void rz_mtu3_disable(struct rz_mtu3_channel *ch)
-> > +{
-> > +	/* disable channel */
-> > +	rz_mtu3_start_stop_ch(ch, false);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rz_mtu3_disable);
-> > +
-> > +static const unsigned int ch_reg_offsets[] = {
-> > +	0x100, 0x180, 0x200, 0x000, 0x001, 0xa80, 0x800, 0x801, 0x400
-> > +};
-> > +
-> > +static void rz_mtu3_reset_assert(void *data)
-> > +{
-> > +	struct rz_mtu3 *mtu = dev_get_drvdata(data);
-> > +
-> > +	mfd_remove_devices(data);
-> > +	reset_control_assert(mtu->rstc);
-> > +}
-> > +
-> > +static const struct mfd_cell rz_mtu3_devs[] = {
-> > +	{
-> > +		.name = "rz-mtu3-counter",
-> > +	},
-> > +	{
-> > +		.name = "pwm-rz-mtu3",
-> > +	},
-> > +};
-> > +
-> > +static int rz_mtu3_probe(struct platform_device *pdev)
-> > +{
-> > +	struct rz_mtu3 *ddata;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
-> > +	if (!ddata)
-> > +		return -ENOMEM;
-> > +
-> > +	ddata->mmio = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(ddata->mmio))
-> > +		return PTR_ERR(ddata->mmio);
-> > +
-> > +	ddata->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +	if (IS_ERR(ddata->rstc))
-> > +		return PTR_ERR(ddata->rstc);
-> > +
-> > +	ddata->clk = devm_clk_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(ddata->clk))
-> > +		return PTR_ERR(ddata->clk);
-> > +
-> > +	reset_control_deassert(ddata->rstc);
-> > +	raw_spin_lock_init(&ddata->lock);
-> > +	platform_set_drvdata(pdev, ddata);
-> > +
-> > +	for (i = 0; i < RZ_MTU_NUM_CHANNELS; i++) {
-> > +		ddata->channels[i].index = i;
-> > +		ddata->channels[i].is_busy = false;
-> > +		ddata->channels[i].base = ddata->mmio + ch_reg_offsets[i];
-> > +		mutex_init(&ddata->channels[i].lock);
-> > +	}
-> > +
-> > +	ret = mfd_add_devices(&pdev->dev, 0, rz_mtu3_devs,
-> > +			      ARRAY_SIZE(rz_mtu3_devs), NULL, 0, NULL);
-> > +	if (ret < 0)
-> > +		goto err_assert;
-> > +
-> > +	return devm_add_action_or_reset(&pdev->dev, rz_mtu3_reset_assert,
-> > +					&pdev->dev);
-> > +
-> > +err_assert:
-> > +	reset_control_assert(ddata->rstc);
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct of_device_id rz_mtu3_of_match[] = {
-> > +	{ .compatible = "renesas,rz-mtu3", },
-> > +	{ /* sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, rz_mtu3_of_match);
-> > +
-> > +static struct platform_driver rz_mtu3_driver = {
-> > +	.probe = rz_mtu3_probe,
-> > +	.driver	= {
-> > +		.name = "rz-mtu3",
-> > +		.of_match_table = rz_mtu3_of_match,
-> > +	},
-> > +};
-> > +module_platform_driver(rz_mtu3_driver);
-> > +
-> > +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-> > +MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a Core Driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/include/linux/mfd/rz-mtu3.h b/include/linux/mfd/rz-mtu3.h
-> > new file mode 100644
-> > index 000000000000..42e561a9603c
-> > --- /dev/null
-> > +++ b/include/linux/mfd/rz-mtu3.h
-> > @@ -0,0 +1,243 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2022 Renesas Electronics Corporation
-> > + */
-> > +#ifndef __LINUX_RZ_MTU3_H__
-> > +#define __LINUX_RZ_MTU3_H__
-> 
-> __MFD_RZ_MTU3_H__
-> 
-> > +#include <linux/clk.h>
-> 
-> What about all the others?
-> 
-> > +/* 8-bit shared register offsets macros */
-> > +#define RZ_MTU3_TSTRA	0x080 /* Timer start register A */
-> > +#define RZ_MTU3_TSTRB	0x880 /* Timer start register B */
-> > +
-> > +/* 16-bit shared register offset macros */
-> > +#define RZ_MTU3_TDDRA	0x016 /* Timer dead time data register A */
-> > +#define RZ_MTU3_TDDRB	0x816 /* Timer dead time data register B */
-> > +#define RZ_MTU3_TCDRA	0x014 /* Timer cycle data register A */
-> > +#define RZ_MTU3_TCDRB	0x814 /* Timer cycle data register B */
-> > +#define RZ_MTU3_TCBRA	0x022 /* Timer cycle buffer register A */
-> > +#define RZ_MTU3_TCBRB	0x822 /* Timer cycle buffer register B */
-> > +#define RZ_MTU3_TCNTSA	0x020 /* Timer subcounter A */
-> > +#define RZ_MTU3_TCNTSB	0x820 /* Timer subcounter B */
-> > +
-> > +/*
-> > + * MTU5 contains 3 timer counter registers and is totaly different
-> > + * from other channels, so we must separate its offset
-> > + */
-> > +
-> > +/* 8-bit register offset macros of MTU3 channels except MTU5 */
-> > +#define RZ_MTU3_TIER	0 /* Timer interrupt register */
-> > +#define RZ_MTU3_NFCR	1 /* Noise filter control register */
-> > +#define RZ_MTU3_TSR	2 /* Timer status register */
-> > +#define RZ_MTU3_TCR	3 /* Timer control register */
-> > +#define RZ_MTU3_TCR2	4 /* Timer control register 2 */
-> > +
-> > +/* Timer mode register 1 */
-> > +#define RZ_MTU3_TMDR1	5
-> > +#define RZ_MTU3_TMDR1_MD		GENMASK(3, 0)
-> > +#define RZ_MTU3_TMDR1_MD_NORMAL		FIELD_PREP(RZ_MTU3_TMDR1_MD, 0)
-> > +#define RZ_MTU3_TMDR1_MD_PWMMODE1	FIELD_PREP(RZ_MTU3_TMDR1_MD, 2)
-> > +
-> > +#define RZ_MTU3_TIOR	6 /* Timer I/O control register */
-> > +#define RZ_MTU3_TIORH	6 /* Timer I/O control register H */
-> > +#define RZ_MTU3_TIORL	7 /* Timer I/O control register L */
-> > +/* Only MTU3/4/6/7 have TBTM registers */
-> > +#define RZ_MTU3_TBTM	8 /* Timer buffer operation transfer mode register */
-> > +
-> > +/* 8-bit MTU5 register offset macros */
-> > +#define RZ_MTU3_TSTR		2 /* MTU5 Timer start register */
-> > +#define RZ_MTU3_TCNTCMPCLR	3 /* MTU5 Timer compare match clear register */
-> > +#define RZ_MTU3_TCRU		4 /* Timer control register U */
-> > +#define RZ_MTU3_TCR2U		5 /* Timer control register 2U */
-> > +#define RZ_MTU3_TIORU		6 /* Timer I/O control register U */
-> > +#define RZ_MTU3_TCRV		7 /* Timer control register V */
-> > +#define RZ_MTU3_TCR2V		8 /* Timer control register 2V */
-> > +#define RZ_MTU3_TIORV		9 /* Timer I/O control register V */
-> > +#define RZ_MTU3_TCRW		10 /* Timer control register W */
-> > +#define RZ_MTU3_TCR2W		11 /* Timer control register 2W */
-> > +#define RZ_MTU3_TIORW		12 /* Timer I/O control register W */
-> > +
-> > +/* 16-bit register offset macros of MTU3 channels except MTU5 */
-> > +#define RZ_MTU3_TCNT		0 /* Timer counter */
-> > +#define RZ_MTU3_TGRA		1 /* Timer general register A */
-> > +#define RZ_MTU3_TGRB		2 /* Timer general register B */
-> > +#define RZ_MTU3_TGRC		3 /* Timer general register C */
-> > +#define RZ_MTU3_TGRD		4 /* Timer general register D */
-> > +#define RZ_MTU3_TGRE		5 /* Timer general register E */
-> > +#define RZ_MTU3_TGRF		6 /* Timer general register F */
-> > +/* Timer A/D converter start request registers */
-> > +#define RZ_MTU3_TADCR		7 /* control register */
-> > +#define RZ_MTU3_TADCORA		8 /* cycle set register A */
-> > +#define RZ_MTU3_TADCORB		9 /* cycle set register B */
-> > +#define RZ_MTU3_TADCOBRA	10 /* cycle set buffer register A */
-> > +#define RZ_MTU3_TADCOBRB	11 /* cycle set buffer register B */
-> > +
-> > +/* 16-bit MTU5 register offset macros */
-> > +#define RZ_MTU3_TCNTU		0 /* MTU5 Timer counter U */
-> > +#define RZ_MTU3_TGRU		1 /* MTU5 Timer general register U */
-> > +#define RZ_MTU3_TCNTV		2 /* MTU5 Timer counter V */
-> > +#define RZ_MTU3_TGRV		3 /* MTU5 Timer general register V */
-> > +#define RZ_MTU3_TCNTW		4 /* MTU5 Timer counter W */
-> > +#define RZ_MTU3_TGRW		5 /* MTU5 Timer general register W */
-> > +
-> > +/* 32-bit register offset */
-> > +#define RZ_MTU3_TCNTLW		0 /* Timer longword counter */
-> > +#define RZ_MTU3_TGRALW		1 /* Timer longword general register A */
-> > +#define RZ_MTU3_TGRBLW		2 /* Timer longowrd general register B */
-> > +
-> > +#define RZ_MTU3_TMDR3		0x191 /* MTU1 Timer Mode Register 3 */
-> > +
-> > +/* Macros for setting registers */
-> > +#define RZ_MTU3_TCR_CCLR_TGRA	BIT(5)
-> > +
-> > +enum rz_mtu3_channels {
-> > +	RZ_MTU0,
-> > +	RZ_MTU1,
-> > +	RZ_MTU2,
-> > +	RZ_MTU3,
-> > +	RZ_MTU4,
-> > +	RZ_MTU5,
-> > +	RZ_MTU6,
-> > +	RZ_MTU7,
-> > +	RZ_MTU8,
-> > +	RZ_MTU_NUM_CHANNELS
-> > +};
-> > +
-> > +/**
-> > + * struct rz_mtu3_channel - MTU3 channel private data
-> > + *
-> > + * @dev: device handle
-> > + * @index: channel index
-> 
-> I'm generally against structures 'index'ing or 'id'ing themselves.
-> There is usually a better way to solve the issue using pointers.
-> However, I do believe this scenario is different (or I haven't spent long
-> enough thinking about an alternative), so please work around this by
-> changing the nomenclature to something like 'channel_number'.
-> 
-> > + * @base: channel base address
-> > + * @lock: Lock to protect channel state
-> > + * @is_busy: channel state
-> > + */
-> > +struct rz_mtu3_channel {
-> > +	struct device *dev;
-> > +	unsigned int index;
-> > +	void __iomem *base;
-> > +	struct mutex lock; /* Protect channel state */
-> 
-> This comment is superfluous IMHO.
-> 
-> > +	bool is_busy;
-> 
-> What's the purpose of this?
-> 
-> > +};
-> > +
-> > +/**
-> > + * struct rz_mtu3 - MTU3 core private data
-> > + *
-> > + * @clk: MTU3 module clock
-> > + * @mmio: MTU3 module clock
-> > + * @lock: Lock to protect shared register access
-> > + * @rz_mtu3_channel: HW channels
-> > + */
-> > +struct rz_mtu3 {
-> > +	void *priv_rz_mtu3;
-> > +	void __iomem *mmio;
-> > +	struct clk *clk;
-> > +	struct reset_control *rstc;
-> > +	raw_spinlock_t lock; /* Protect the shared registers */
-> 
-> As above.  This is documented twice.
-> 
-> > +	struct rz_mtu3_channel channels[RZ_MTU_NUM_CHANNELS];
-> > +};
-> > +
-> > +#if IS_ENABLED(CONFIG_RZ_MTU3)
-> > +static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel *ch)
-> > +{
-> > +	bool is_idle;
-> > +
-> > +	mutex_lock(&ch->lock);
-> > +	is_idle = !ch->is_busy;
-> > +	if (is_idle)
-> > +		ch->is_busy = true;
-> 
-> Perhaps I'd reading this all wrong, but ...
-> 
-> What are you trying to do here?
-> 
-> > +	mutex_unlock(&ch->lock);
-> > +
-> > +	return is_idle;
-> > +}
-> > +
-> > +static inline void rz_mtu3_release_channel(struct rz_mtu3_channel *ch)
-> > +{
-> > +	mutex_lock(&ch->lock);
-> > +	ch->is_busy = false;
-> > +	mutex_unlock(&ch->lock);
-> > +}
-> > +
-> > +bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch);
-> > +void rz_mtu3_disable(struct rz_mtu3_channel *ch);
-> > +int rz_mtu3_enable(struct rz_mtu3_channel *ch);
-> > +
-> > +u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off);
-> > +u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off);
-> > +u32 rz_mtu3_32bit_ch_read(struct rz_mtu3_channel *ch, u16 off);
-> > +u16 rz_mtu3_shared_reg_read(struct rz_mtu3_channel *ch, u16 off);
-> > +
-> > +void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val);
-> > +void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val);
-> > +void rz_mtu3_32bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u32 val);
-> > +void rz_mtu3_shared_reg_write(struct rz_mtu3_channel *ch, u16 off, u16 val);
-> > +void rz_mtu3_shared_reg_update_bit(struct rz_mtu3_channel *ch, u16 off,
-> > +				   u16 pos, u8 val);
-> > +#else
-> > +static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel *ch)
-> > +{
-> > +	return false;
-> > +}
-> > +
-> > +static inline void rz_mtu3_release_channel(struct rz_mtu3_channel *ch)
-> > +{
-> > +}
-> > +
-> > +static inline bool rz_mtu3_is_enabled(struct rz_mtu3_channel *ch)
-> > +{
-> > +	return false;
-> > +}
-> > +
-> > +static inline void rz_mtu3_disable(struct rz_mtu3_channel *ch)
-> > +{
-> > +}
-> > +
-> > +static inline int rz_mtu3_enable(struct rz_mtu3_channel *ch)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline u8 rz_mtu3_8bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline u16 rz_mtu3_16bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline u32 rz_mtu3_32bit_ch_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline u16 rz_mtu3_shared_reg_read(struct rz_mtu3_channel *ch, u16 off)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void rz_mtu3_8bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u8 val)
-> > +{
-> > +}
-> > +
-> > +static inline void rz_mtu3_16bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u16 val)
-> > +{
-> > +}
-> > +
-> > +static inline void rz_mtu3_32bit_ch_write(struct rz_mtu3_channel *ch, u16 off, u32 val)
-> > +{
-> > +}
-> > +
-> > +static inline void rz_mtu3_shared_reg_write(struct rz_mtu3_channel *ch, u16 off, u16 val)
-> > +{
-> > +}
-> > +
-> > +static inline void rz_mtu3_shared_reg_update_bit(struct rz_mtu3_channel *ch,
-> > +						 u16 off, u16 pos, u8 val)
-> > +{
-> > +}
-> > +#endif
-> > +
-> > +#endif /* __LINUX_RZ_MTU3_H__ */
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Lee Jones [李琼斯]
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/20230202092332.2504-1-wsa+renesas@sang-engineering.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/renesas/Kconfig            |   2 +-
+ drivers/clk/renesas/r8a7795-cpg-mssr.c | 126 ++-----------------------
+ drivers/clk/renesas/rcar-gen3-cpg.c    |  17 +---
+ drivers/clk/renesas/renesas-cpg-mssr.c |  27 ------
+ drivers/clk/renesas/renesas-cpg-mssr.h |  14 ---
+ 5 files changed, 13 insertions(+), 173 deletions(-)
 
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index cacaf9b87d264..37632a0659d82 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -22,7 +22,7 @@ config CLK_RENESAS
+ 	select CLK_R8A7791 if ARCH_R8A7791 || ARCH_R8A7793
+ 	select CLK_R8A7792 if ARCH_R8A7792
+ 	select CLK_R8A7794 if ARCH_R8A7794
+-	select CLK_R8A7795 if ARCH_R8A77950 || ARCH_R8A77951
++	select CLK_R8A7795 if ARCH_R8A77951
+ 	select CLK_R8A77960 if ARCH_R8A77960
+ 	select CLK_R8A77961 if ARCH_R8A77961
+ 	select CLK_R8A77965 if ARCH_R8A77965
+diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+index 301475c74f500..7a585a777d387 100644
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -128,7 +128,6 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
+ };
+ 
+ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+-	DEF_MOD("fdp1-2",		 117,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fdp1-1",		 118,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fdp1-0",		 119,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("tmu4",			 121,	R8A7795_CLK_S0D6),
+@@ -162,7 +161,6 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("pcie1",		 318,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("pcie0",		 319,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac30",		 326,	R8A7795_CLK_S3D1),
+-	DEF_MOD("usb3-if1",		 327,	R8A7795_CLK_S3D1), /* ES1.x */
+ 	DEF_MOD("usb3-if0",		 328,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac31",		 329,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("usb-dmac0",		 330,	R8A7795_CLK_S3D1),
+@@ -187,28 +185,21 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("hscif0",		 520,	R8A7795_CLK_S3D1),
+ 	DEF_MOD("thermal",		 522,	R8A7795_CLK_CP),
+ 	DEF_MOD("pwm",			 523,	R8A7795_CLK_S0D12),
+-	DEF_MOD("fcpvd3",		 600,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpvd2",		 601,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvd1",		 602,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvd0",		 603,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("fcpvb1",		 606,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpvb0",		 607,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpvi2",		 609,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpvi1",		 610,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpvi0",		 611,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpf2",		 613,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpf1",		 614,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fcpf0",		 615,	R8A7795_CLK_S0D1),
+-	DEF_MOD("fcpci1",		 616,	R8A7795_CLK_S2D1), /* ES1.x */
+-	DEF_MOD("fcpci0",		 617,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("fcpcs",		 619,	R8A7795_CLK_S0D1),
+-	DEF_MOD("vspd3",		 620,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("vspd2",		 621,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspd1",		 622,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspd0",		 623,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vspbc",		 624,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("vspbd",		 626,	R8A7795_CLK_S0D1),
+-	DEF_MOD("vspi2",		 629,	R8A7795_CLK_S2D1), /* ES1.x */
+ 	DEF_MOD("vspi1",		 630,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("vspi0",		 631,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("ehci3",		 700,	R8A7795_CLK_S3D2),
+@@ -221,7 +212,6 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("cmm2",			 709,	R8A7795_CLK_S2D1),
+ 	DEF_MOD("cmm1",			 710,	R8A7795_CLK_S2D1),
+ 	DEF_MOD("cmm0",			 711,	R8A7795_CLK_S2D1),
+-	DEF_MOD("csi21",		 713,	R8A7795_CLK_CSI0), /* ES1.x */
+ 	DEF_MOD("csi20",		 714,	R8A7795_CLK_CSI0),
+ 	DEF_MOD("csi41",		 715,	R8A7795_CLK_CSI0),
+ 	DEF_MOD("csi40",		 716,	R8A7795_CLK_CSI0),
+@@ -350,103 +340,26 @@ static const struct rcar_gen3_cpg_pll_config cpg_pll_configs[16] __initconst = {
+ 	{ 2,		192,	1,	192,	1,	32,	},
+ };
+ 
+-static const struct soc_device_attribute r8a7795es1[] __initconst = {
++static const struct soc_device_attribute r8a7795_denylist[] __initconst = {
+ 	{ .soc_id = "r8a7795", .revision = "ES1.*" },
+ 	{ /* sentinel */ }
+ };
+ 
+-
+-	/*
+-	 * Fixups for R-Car H3 ES1.x
+-	 */
+-
+-static const unsigned int r8a7795es1_mod_nullify[] __initconst = {
+-	MOD_CLK_ID(326),			/* USB-DMAC3-0 */
+-	MOD_CLK_ID(329),			/* USB-DMAC3-1 */
+-	MOD_CLK_ID(700),			/* EHCI/OHCI3 */
+-	MOD_CLK_ID(705),			/* HS-USB-IF3 */
+-
+-};
+-
+-static const struct mssr_mod_reparent r8a7795es1_mod_reparent[] __initconst = {
+-	{ MOD_CLK_ID(118), R8A7795_CLK_S2D1 },	/* FDP1-1 */
+-	{ MOD_CLK_ID(119), R8A7795_CLK_S2D1 },	/* FDP1-0 */
+-	{ MOD_CLK_ID(121), R8A7795_CLK_S3D2 },	/* TMU4 */
+-	{ MOD_CLK_ID(217), R8A7795_CLK_S3D1 },	/* SYS-DMAC2 */
+-	{ MOD_CLK_ID(218), R8A7795_CLK_S3D1 },	/* SYS-DMAC1 */
+-	{ MOD_CLK_ID(219), R8A7795_CLK_S3D1 },	/* SYS-DMAC0 */
+-	{ MOD_CLK_ID(408), R8A7795_CLK_S3D1 },	/* INTC-AP */
+-	{ MOD_CLK_ID(501), R8A7795_CLK_S3D1 },	/* AUDMAC1 */
+-	{ MOD_CLK_ID(502), R8A7795_CLK_S3D1 },	/* AUDMAC0 */
+-	{ MOD_CLK_ID(523), R8A7795_CLK_S3D4 },	/* PWM */
+-	{ MOD_CLK_ID(601), R8A7795_CLK_S2D1 },	/* FCPVD2 */
+-	{ MOD_CLK_ID(602), R8A7795_CLK_S2D1 },	/* FCPVD1 */
+-	{ MOD_CLK_ID(603), R8A7795_CLK_S2D1 },	/* FCPVD0 */
+-	{ MOD_CLK_ID(606), R8A7795_CLK_S2D1 },	/* FCPVB1 */
+-	{ MOD_CLK_ID(607), R8A7795_CLK_S2D1 },	/* FCPVB0 */
+-	{ MOD_CLK_ID(610), R8A7795_CLK_S2D1 },	/* FCPVI1 */
+-	{ MOD_CLK_ID(611), R8A7795_CLK_S2D1 },	/* FCPVI0 */
+-	{ MOD_CLK_ID(614), R8A7795_CLK_S2D1 },	/* FCPF1 */
+-	{ MOD_CLK_ID(615), R8A7795_CLK_S2D1 },	/* FCPF0 */
+-	{ MOD_CLK_ID(619), R8A7795_CLK_S2D1 },	/* FCPCS */
+-	{ MOD_CLK_ID(621), R8A7795_CLK_S2D1 },	/* VSPD2 */
+-	{ MOD_CLK_ID(622), R8A7795_CLK_S2D1 },	/* VSPD1 */
+-	{ MOD_CLK_ID(623), R8A7795_CLK_S2D1 },	/* VSPD0 */
+-	{ MOD_CLK_ID(624), R8A7795_CLK_S2D1 },	/* VSPBC */
+-	{ MOD_CLK_ID(626), R8A7795_CLK_S2D1 },	/* VSPBD */
+-	{ MOD_CLK_ID(630), R8A7795_CLK_S2D1 },	/* VSPI1 */
+-	{ MOD_CLK_ID(631), R8A7795_CLK_S2D1 },	/* VSPI0 */
+-	{ MOD_CLK_ID(804), R8A7795_CLK_S2D1 },	/* VIN7 */
+-	{ MOD_CLK_ID(805), R8A7795_CLK_S2D1 },	/* VIN6 */
+-	{ MOD_CLK_ID(806), R8A7795_CLK_S2D1 },	/* VIN5 */
+-	{ MOD_CLK_ID(807), R8A7795_CLK_S2D1 },	/* VIN4 */
+-	{ MOD_CLK_ID(808), R8A7795_CLK_S2D1 },	/* VIN3 */
+-	{ MOD_CLK_ID(809), R8A7795_CLK_S2D1 },	/* VIN2 */
+-	{ MOD_CLK_ID(810), R8A7795_CLK_S2D1 },	/* VIN1 */
+-	{ MOD_CLK_ID(811), R8A7795_CLK_S2D1 },	/* VIN0 */
+-	{ MOD_CLK_ID(812), R8A7795_CLK_S3D2 },	/* EAVB-IF */
+-	{ MOD_CLK_ID(820), R8A7795_CLK_S2D1 },	/* IMR3 */
+-	{ MOD_CLK_ID(821), R8A7795_CLK_S2D1 },	/* IMR2 */
+-	{ MOD_CLK_ID(822), R8A7795_CLK_S2D1 },	/* IMR1 */
+-	{ MOD_CLK_ID(823), R8A7795_CLK_S2D1 },	/* IMR0 */
+-	{ MOD_CLK_ID(905), R8A7795_CLK_CP },	/* GPIO7 */
+-	{ MOD_CLK_ID(906), R8A7795_CLK_CP },	/* GPIO6 */
+-	{ MOD_CLK_ID(907), R8A7795_CLK_CP },	/* GPIO5 */
+-	{ MOD_CLK_ID(908), R8A7795_CLK_CP },	/* GPIO4 */
+-	{ MOD_CLK_ID(909), R8A7795_CLK_CP },	/* GPIO3 */
+-	{ MOD_CLK_ID(910), R8A7795_CLK_CP },	/* GPIO2 */
+-	{ MOD_CLK_ID(911), R8A7795_CLK_CP },	/* GPIO1 */
+-	{ MOD_CLK_ID(912), R8A7795_CLK_CP },	/* GPIO0 */
+-	{ MOD_CLK_ID(918), R8A7795_CLK_S3D2 },	/* I2C6 */
+-	{ MOD_CLK_ID(919), R8A7795_CLK_S3D2 },	/* I2C5 */
+-	{ MOD_CLK_ID(927), R8A7795_CLK_S3D2 },	/* I2C4 */
+-	{ MOD_CLK_ID(928), R8A7795_CLK_S3D2 },	/* I2C3 */
+-};
+-
+-
+-	/*
+-	 * Fixups for R-Car H3 ES2.x
+-	 */
+-
+-static const unsigned int r8a7795es2_mod_nullify[] __initconst = {
+-	MOD_CLK_ID(117),			/* FDP1-2 */
+-	MOD_CLK_ID(327),			/* USB3-IF1 */
+-	MOD_CLK_ID(600),			/* FCPVD3 */
+-	MOD_CLK_ID(609),			/* FCPVI2 */
+-	MOD_CLK_ID(613),			/* FCPF2 */
+-	MOD_CLK_ID(616),			/* FCPCI1 */
+-	MOD_CLK_ID(617),			/* FCPCI0 */
+-	MOD_CLK_ID(620),			/* VSPD3 */
+-	MOD_CLK_ID(629),			/* VSPI2 */
+-	MOD_CLK_ID(713),			/* CSI21 */
+-};
+-
+ static int __init r8a7795_cpg_mssr_init(struct device *dev)
+ {
+ 	const struct rcar_gen3_cpg_pll_config *cpg_pll_config;
+ 	u32 cpg_mode;
+ 	int error;
+ 
++	/*
++	 * We panic here to ensure removed SoCs and clk updates are always in
++	 * sync to avoid overclocking damages. The panic can only be seen with
++	 * commandline args 'earlycon keep_bootcon'. But these SoCs were for
++	 * developers only anyhow.
++	 */
++	if (soc_device_match(r8a7795_denylist))
++		panic("SoC not supported anymore!\n");
++
+ 	error = rcar_rst_read_mode_pins(&cpg_mode);
+ 	if (error)
+ 		return error;
+@@ -457,25 +370,6 @@ static int __init r8a7795_cpg_mssr_init(struct device *dev)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (soc_device_match(r8a7795es1)) {
+-		cpg_core_nullify_range(r8a7795_core_clks,
+-				       ARRAY_SIZE(r8a7795_core_clks),
+-				       R8A7795_CLK_S0D2, R8A7795_CLK_S0D12);
+-		mssr_mod_nullify(r8a7795_mod_clks,
+-				 ARRAY_SIZE(r8a7795_mod_clks),
+-				 r8a7795es1_mod_nullify,
+-				 ARRAY_SIZE(r8a7795es1_mod_nullify));
+-		mssr_mod_reparent(r8a7795_mod_clks,
+-				  ARRAY_SIZE(r8a7795_mod_clks),
+-				  r8a7795es1_mod_reparent,
+-				  ARRAY_SIZE(r8a7795es1_mod_reparent));
+-	} else {
+-		mssr_mod_nullify(r8a7795_mod_clks,
+-				 ARRAY_SIZE(r8a7795_mod_clks),
+-				 r8a7795es2_mod_nullify,
+-				 ARRAY_SIZE(r8a7795es2_mod_nullify));
+-	}
+-
+ 	return rcar_gen3_cpg_init(cpg_pll_config, CLK_EXTALR, cpg_mode);
+ }
+ 
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index e668f23c75e7d..b3ef62fa612e3 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -310,19 +310,10 @@ static unsigned int cpg_clk_extalr __initdata;
+ static u32 cpg_mode __initdata;
+ static u32 cpg_quirks __initdata;
+ 
+-#define PLL_ERRATA	BIT(0)		/* Missing PLL0/2/4 post-divider */
+ #define RCKCR_CKSEL	BIT(1)		/* Manual RCLK parent selection */
+ 
+ 
+ static const struct soc_device_attribute cpg_quirks_match[] __initconst = {
+-	{
+-		.soc_id = "r8a7795", .revision = "ES1.0",
+-		.data = (void *)(PLL_ERRATA | RCKCR_CKSEL),
+-	},
+-	{
+-		.soc_id = "r8a7795", .revision = "ES1.*",
+-		.data = (void *)(RCKCR_CKSEL),
+-	},
+ 	{
+ 		.soc_id = "r8a7796", .revision = "ES1.0",
+ 		.data = (void *)(RCKCR_CKSEL),
+@@ -355,9 +346,8 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 * multiplier when cpufreq changes between normal and boost
+ 		 * modes.
+ 		 */
+-		mult = (cpg_quirks & PLL_ERRATA) ? 4 : 2;
+ 		return cpg_pll_clk_register(core->name, __clk_get_name(parent),
+-					    base, mult, CPG_PLL0CR, 0);
++					    base, 2, CPG_PLL0CR, 0);
+ 
+ 	case CLK_TYPE_GEN3_PLL1:
+ 		mult = cpg_pll_config->pll1_mult;
+@@ -370,9 +360,8 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 * multiplier when cpufreq changes between normal and boost
+ 		 * modes.
+ 		 */
+-		mult = (cpg_quirks & PLL_ERRATA) ? 4 : 2;
+ 		return cpg_pll_clk_register(core->name, __clk_get_name(parent),
+-					    base, mult, CPG_PLL2CR, 2);
++					    base, 2, CPG_PLL2CR, 2);
+ 
+ 	case CLK_TYPE_GEN3_PLL3:
+ 		mult = cpg_pll_config->pll3_mult;
+@@ -388,8 +377,6 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		 */
+ 		value = readl(base + CPG_PLL4CR);
+ 		mult = (((value >> 24) & 0x7f) + 1) * 2;
+-		if (cpg_quirks & PLL_ERRATA)
+-			mult *= 2;
+ 		break;
+ 
+ 	case CLK_TYPE_GEN3_SDH:
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index 1a0cdf001b2f2..523fd45231571 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -1113,19 +1113,6 @@ static int __init cpg_mssr_init(void)
+ 
+ subsys_initcall(cpg_mssr_init);
+ 
+-void __init cpg_core_nullify_range(struct cpg_core_clk *core_clks,
+-				   unsigned int num_core_clks,
+-				   unsigned int first_clk,
+-				   unsigned int last_clk)
+-{
+-	unsigned int i;
+-
+-	for (i = 0; i < num_core_clks; i++)
+-		if (core_clks[i].id >= first_clk &&
+-		    core_clks[i].id <= last_clk)
+-			core_clks[i].name = NULL;
+-}
+-
+ void __init mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 			     unsigned int num_mod_clks,
+ 			     const unsigned int *clks, unsigned int n)
+@@ -1139,19 +1126,5 @@ void __init mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 		}
+ }
+ 
+-void __init mssr_mod_reparent(struct mssr_mod_clk *mod_clks,
+-			      unsigned int num_mod_clks,
+-			      const struct mssr_mod_reparent *clks,
+-			      unsigned int n)
+-{
+-	unsigned int i, j;
+-
+-	for (i = 0, j = 0; i < num_mod_clks && j < n; i++)
+-		if (mod_clks[i].id == clks[j].clk) {
+-			mod_clks[i].parent = clks[j].parent;
+-			j++;
+-		}
+-}
+-
+ MODULE_DESCRIPTION("Renesas CPG/MSSR Driver");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.h b/drivers/clk/renesas/renesas-cpg-mssr.h
+index 1c3c057d17f53..80c5b462924ac 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.h
++++ b/drivers/clk/renesas/renesas-cpg-mssr.h
+@@ -187,21 +187,7 @@ void __init cpg_mssr_early_init(struct device_node *np,
+     /*
+      * Helpers for fixing up clock tables depending on SoC revision
+      */
+-
+-struct mssr_mod_reparent {
+-	unsigned int clk, parent;
+-};
+-
+-
+-extern void cpg_core_nullify_range(struct cpg_core_clk *core_clks,
+-				   unsigned int num_core_clks,
+-				   unsigned int first_clk,
+-				   unsigned int last_clk);
+ extern void mssr_mod_nullify(struct mssr_mod_clk *mod_clks,
+ 			     unsigned int num_mod_clks,
+ 			     const unsigned int *clks, unsigned int n);
+-extern void mssr_mod_reparent(struct mssr_mod_clk *mod_clks,
+-			      unsigned int num_mod_clks,
+-			      const struct mssr_mod_reparent *clks,
+-			      unsigned int n);
+ #endif
 -- 
-Lee Jones [李琼斯]
+2.39.2
+
