@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA016AB01E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Mar 2023 14:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C946AB066
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Mar 2023 14:55:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbjCENxM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Mar 2023 08:53:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        id S230175AbjCENzk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Mar 2023 08:55:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjCENxI (ORCPT
+        with ESMTP id S230090AbjCENzI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Mar 2023 08:53:08 -0500
+        Sun, 5 Mar 2023 08:55:08 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F4817165;
-        Sun,  5 Mar 2023 05:52:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C4418AAC;
+        Sun,  5 Mar 2023 05:54:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2448A60B10;
-        Sun,  5 Mar 2023 13:52:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C442C4339B;
-        Sun,  5 Mar 2023 13:52:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BEC4B60B19;
+        Sun,  5 Mar 2023 13:53:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48216C4339B;
+        Sun,  5 Mar 2023 13:53:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678024354;
+        s=k20201202; t=1678024411;
         bh=WaLyygKzcLUsP0WL87bEOYjetQ+Pi0VfdOzKWcE/IzE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=M01lQoIcBiZqaR5Y/1HkAIa02eUQUh+Orfk6Mobp8MinMm+eXiVcnRSyQl914xqa3
-         lwe3pVZ/aBY6p+uNFXQ+gHugzuDCuJkOIQqSbkM/cfLBq4PlKAjzHLFge42YLFqVSI
-         W+Coe47W74+LBAwFI1XEedsQ0hCPTuI5ec71vSWfaOlsFaf8teT5YZU2EMi64gBAzQ
-         YBmDGRFsr5PmpPYFeP7oXtDWNksLj0wp/NYHTQHGjwqqRtdPNVhoNJNbBL6fIhLR4G
-         Lm8hsjIXjZ5V3dOwNVcpyvffHU+H54QFUE+CMFL+uQg1he4x3jHPrBAQGbUT6NYAsh
-         k+V1qs44zHrqw==
+        b=s0PFAplW+aBOoZ/TwTR9bQG6OTyAZB9SGwbfdyaopo6/F84zExX6YYhq0jG6NHDKZ
+         8rIPQoXaGrJPMlPs6WGDsrsVnbimqe/aU8iTjFEznIvjQNZUxHM/qZblcecai2s5aD
+         FOXTzWCm9vpE/bWe8sFq12mL2V1NozOCHng6DA/LZMOAeBGyl+etSlX+1HrHaQMjel
+         s3V0gjUyb6c7aCb/dfRIl0RkZXTxoiMh8s/J9O8vWHCzONPJMXnNfKi8xOCUF2pVlx
+         jgDYkKTfLZbLAyIIaj+aOTvGI084iinuxKJp45okP1JV+dlvUt6G3bQv85CAIPXp4L
+         2nv6hpLchsrMQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -39,12 +39,12 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Sasha Levin <sashal@kernel.org>, mturquette@baylibre.com,
         sboyd@kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 07/16] clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*
-Date:   Sun,  5 Mar 2023 08:51:58 -0500
-Message-Id: <20230305135207.1793266-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 07/15] clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*
+Date:   Sun,  5 Mar 2023 08:52:58 -0500
+Message-Id: <20230305135306.1793564-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230305135207.1793266-1-sashal@kernel.org>
-References: <20230305135207.1793266-1-sashal@kernel.org>
+In-Reply-To: <20230305135306.1793564-1-sashal@kernel.org>
+References: <20230305135306.1793564-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
