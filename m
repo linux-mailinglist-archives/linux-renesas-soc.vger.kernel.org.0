@@ -2,196 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17D06AB926
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 10:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E61FD6AB996
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 10:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbjCFJBV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Mar 2023 04:01:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37220 "EHLO
+        id S229668AbjCFJUi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Mar 2023 04:20:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjCFJBU (ORCPT
+        with ESMTP id S229780AbjCFJUh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Mar 2023 04:01:20 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51371227A8;
-        Mon,  6 Mar 2023 01:01:09 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.98,236,1673881200"; 
-   d="scan'208";a="151662877"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Mar 2023 18:01:08 +0900
-Received: from localhost.localdomain (unknown [10.226.93.39])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 775C241C9E84;
-        Mon,  6 Mar 2023 18:01:05 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [DO NOT APPLY PATCH v6 13/13] tools/poeg: Add test app for poeg
-Date:   Mon,  6 Mar 2023 09:00:14 +0000
-Message-Id: <20230306090014.128732-14-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
-References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
+        Mon, 6 Mar 2023 04:20:37 -0500
+X-Greylist: delayed 1054 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 06 Mar 2023 01:20:32 PST
+Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E541E1C2
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 01:20:32 -0800 (PST)
+Received: by mail.ettrick.pl (Postfix, from userid 1002)
+        id A5AE2A5508; Mon,  6 Mar 2023 09:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
+        t=1678093333; bh=KHux3km3Civcx5ChslOYQZwQRBjoJa4kWJfGcMIuN6w=;
+        h=Date:From:To:Subject:From;
+        b=rvykuh5F5y62KRQYh+9dsj+GA6ErCdcfDHIx/p/TS92hAecD/AIG0YXGLWa2nPOyd
+         JTcdIuGw8DZGlScLzSR8OOWWtZOB2+qG7eae14JwF4D6PkbuKJcSCsFeThfbGDfjOv
+         NSvNfnLX+HlIOgJ/CJZMmI+PqEhbtBrKdIebaon4efhyleXxrbXpNjyyud5zYQKcUu
+         M88IWxblARnM295bdGGEpajBDzAtJnoZ5roHGLURtEij6uc3XXbN69yCfpV42gesZK
+         A21X/fwNwlJnqvobO6+cO61ILXhYzgUKxPqhpSNr2ofQUMo0zoUlRI7n0oxnM4YBpI
+         wDTfUJPiCknng==
+Received: by mail.ettrick.pl for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 09:00:53 GMT
+Message-ID: <20230306074500-0.1.97.36z43.0.a80r15c8h4@ettrick.pl>
+Date:   Mon,  6 Mar 2023 09:00:53 GMT
+From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: Fotowoltaika - nowe warunki
+X-Mailer: mail.ettrick.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,URIBL_ABUSE_SURBL,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.21.111 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: ettrick.pl]
+        * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
+        *      [score: 0.0143]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add test app for poeg
+Dzie=C5=84 dobry,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- tools/poeg/Build      |  1 +
- tools/poeg/Makefile   | 53 ++++++++++++++++++++++++++++++++++++++
- tools/poeg/poeg_app.c | 60 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 114 insertions(+)
- create mode 100644 tools/poeg/Build
- create mode 100644 tools/poeg/Makefile
- create mode 100644 tools/poeg/poeg_app.c
+chcia=C5=82bym poinformowa=C4=87, i=C5=BC mog=C4=85 Pa=C5=84stwo uzyska=C4=
+=87 dofinansowanie na systemy fotowoltaiczne w ramach nowej edycji progra=
+mu M=C3=B3j Pr=C4=85d.
 
-diff --git a/tools/poeg/Build b/tools/poeg/Build
-new file mode 100644
-index 000000000000..f960920a4afb
---- /dev/null
-+++ b/tools/poeg/Build
-@@ -0,0 +1 @@
-+poeg_app-y += poeg_app.o
-diff --git a/tools/poeg/Makefile b/tools/poeg/Makefile
-new file mode 100644
-index 000000000000..6946e6956215
---- /dev/null
-+++ b/tools/poeg/Makefile
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: GPL-2.0
-+include ../scripts/Makefile.include
-+
-+bindir ?= /usr/bin
-+
-+ifeq ($(srctree),)
-+srctree := $(patsubst %/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %/,%,$(dir $(srctree)))
-+endif
-+
-+# Do not use make's built-in rules
-+# (this improves performance and avoids hard-to-debug behaviour);
-+MAKEFLAGS += -r
-+
-+override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
-+
-+ALL_TARGETS := poeg_app
-+ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
-+
-+all: $(ALL_PROGRAMS)
-+
-+export srctree OUTPUT CC LD CFLAGS
-+include $(srctree)/tools/build/Makefile.include
-+
-+#
-+# We need the following to be outside of kernel tree
-+#
-+$(OUTPUT)include/linux/poeg.h: ../../include/linux/soc/renesas/rzg2l-poeg.h
-+	mkdir -p $(OUTPUT)include/linux 2>&1 || true
-+	ln -sf $(CURDIR)/../../include/linux/soc/renesas/rzg2l-poeg.h $@
-+
-+prepare: $(OUTPUT)include/linux/poeg.h
-+
-+COUNTER_EXAMPLE := $(OUTPUT)poeg_app.o
-+$(COUNTER_EXAMPLE): prepare FORCE
-+	$(Q)$(MAKE) $(build)=poeg_app
-+$(OUTPUT)poeg_app: $(COUNTER_EXAMPLE)
-+	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
-+
-+clean:
-+	rm -f $(ALL_PROGRAMS)
-+	rm -rf $(OUTPUT)include/linux/counter.h
-+	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
-+
-+install: $(ALL_PROGRAMS)
-+	install -d -m 755 $(DESTDIR)$(bindir);		\
-+	for program in $(ALL_PROGRAMS); do		\
-+		install $$program $(DESTDIR)$(bindir);	\
-+	done
-+
-+FORCE:
-+
-+.PHONY: all install clean FORCE prepare
-diff --git a/tools/poeg/poeg_app.c b/tools/poeg/poeg_app.c
-new file mode 100644
-index 000000000000..79cacb8c60c5
---- /dev/null
-+++ b/tools/poeg/poeg_app.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * POEG - example userspace application
-+ * Copyright (C) 2022 Biju Das
-+ */
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <sys/ioctl.h>
-+#include <linux/ioctl.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/time.h>
-+#include <sys/types.h>
-+#include <poll.h>
-+
-+#include <linux/poeg.h>
-+
-+int main(int argc, char *arg[])
-+{
-+	struct poeg_event event_data;
-+	unsigned int val;
-+	int ret, fd, i;
-+
-+	fd = open("/dev/poeg3", O_RDWR);
-+	if (fd < 0)
-+		perror("open");
-+	else
-+		printf("[POEG]open\n");
-+
-+	for (;;) {
-+		ret = read(fd, &event_data, sizeof(event_data));
-+		if (ret == -1) {
-+			perror("Failed to read event data");
-+			return 1;
-+		}
-+
-+		val = event_data.gpt_disable_irq_status;
-+		if (val) {
-+			/* emulate fault clearing condition by adding delay */
-+			sleep(2);
-+			for (i = 0; i < 8; i++) {
-+				if (val & 7) {
-+					printf("gpt ch:%u, irq=%x\n", i, val & 7);
-+					ret = write(fd, &event_data, sizeof(event_data));
-+				}
-+				val >>= 3;
-+			}
-+		}
-+	}
-+
-+	if (close(fd) != 0)
-+		perror("close");
-+	else
-+		printf("[POEG]close\n");
-+
-+	return 0;
-+}
--- 
-2.25.1
+Program zapewnia 6000 z=C5=82 dofinansowania na instalacj=C4=99 paneli i =
+16 000 z=C5=82 na magazyn energii, ni=C5=BCsze cen pr=C4=85du i mo=C5=BCl=
+iwo=C5=9B=C4=87 odliczenia koszt=C3=B3w zwi=C4=85zanych z instalacj=C4=85=
+ fotowoltaiki w ramach rozliczenia PIT (tzw. ulga termomodernizacyjna).
 
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
+
+
+Pozdrawiam,
+Norbert Karecki
