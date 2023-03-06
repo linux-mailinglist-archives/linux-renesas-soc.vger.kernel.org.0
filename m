@@ -2,53 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D86A16AC045
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 14:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E8216AC113
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 14:32:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbjCFNF2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Mar 2023 08:05:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40582 "EHLO
+        id S231289AbjCFNcM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Mar 2023 08:32:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbjCFNFW (ORCPT
+        with ESMTP id S231264AbjCFNcD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Mar 2023 08:05:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E006A93E4;
-        Mon,  6 Mar 2023 05:05:13 -0800 (PST)
+        Mon, 6 Mar 2023 08:32:03 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CBBD2ED66;
+        Mon,  6 Mar 2023 05:32:00 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 920A8B80E14;
-        Mon,  6 Mar 2023 13:05:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E34AC433EF;
-        Mon,  6 Mar 2023 13:05:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A826060F10;
+        Mon,  6 Mar 2023 13:31:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B25C4339C;
+        Mon,  6 Mar 2023 13:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678107911;
-        bh=VRHHZ5S0hUESvyjj5gGFFskHBuc8TKMpxLwWQsz+1eQ=;
+        s=k20201202; t=1678109519;
+        bh=GGz/XSquEEkd/c1A8ozA7mQ9It/zjD2cp/cMY4WB4vA=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=u1QlB9nT0mJK/2kAu5yXrMYIE9cT7yoL/8dwdGU4kCOjqf/8JPJ6fwKFoNaOysH1f
-         2z4R2Azk9agPswAwFuuup6QFvUFBSuk8YZWoW/CVRe2X77uxssrqlQ0SZkJkk2GysT
-         A7lkp6HbalG4pBTOVNC8vgW2ZXvWjQvnWPf0d0MptImBoWD+kn5yQ2dMDpRgcEwqj3
-         +KewWFjDdn2jmXO308RSa1/quhgt+VJfRDuwfrkzHR5dgN+zqXvoNE+0jsHdg/yl/x
-         rm736e3KPncwcGwlsjAADRg/jFLLy9KPqGJh8G53vrlSB+GXAmnXlvQrBq9Tin7TT7
-         lRL5TANsW9SCQ==
+        b=iBaz7RSpiIHju+faTJoDDbYnqmTn2YoDyADXL2vTPaHobu59JQLQT7lk3IOORGJdB
+         0ike2irMWoLD0BnVbFfW4l4Vhd9zdBvaTqjmyqMrp30fQPZTk6z/SElweq1D/d2gO1
+         M0Rfe35aZMF/Z/lnJEVVioyP6WK6U1VSJjhfXR6RzqAlYFWwkGLlbCGxBTNGFRjljk
+         pd3D8BWREFA3wcQM8gLvC5JSxBhHzNCSw55xylUXpfeeEV6J3mp25lQ75K6wZXapTS
+         PZq/MV4+1/V9uUTYi79oYIab4NqqASTK7vAWyVgeMlsS/uDLxPKdkCCbAi06YgHS+I
+         fZNTLSfJsfAVw==
 From:   Mark Brown <broonie@kernel.org>
-To:     David Jander <david@protonic.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Andrew Lunn <andrew@lunn.ch>, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <cb7690d9d04c06eec23dbb98fbb5444082125cff.1677594432.git.geert+renesas@glider.be>
-References: <cb7690d9d04c06eec23dbb98fbb5444082125cff.1677594432.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] spi: Replace spi_pcpu_stats_totalize() macro by a C
- function
-Message-Id: <167810791004.67440.16586593658572379579.b4-ty@kernel.org>
-Date:   Mon, 06 Mar 2023 13:05:10 +0000
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: (subset) [PATCH 0/4] RZ/G2L SSI: Update interrupt numbers
+Message-Id: <167810951612.75807.7701310254952965635.b4-ty@kernel.org>
+Date:   Mon, 06 Mar 2023 13:31:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-bd1bf
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,29 +63,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 28 Feb 2023 15:43:08 +0100, Geert Uytterhoeven wrote:
-> spi_pcpu_stats_totalize() is a rather large macro, and is instantiated
-> 28 times, causing a large amount of duplication in the amount of
-> generated code.
+On Fri, 17 Feb 2023 18:52:21 +0000, Prabhakar wrote:
+> This patch series aims to fix interrupt numbers for SSI channels and updates
+> the DT binding and the driver accordingly.
 > 
-> Reduce the duplication by replacing spi_pcpu_stats_totalize() by a real
-> C function, and absorb all other common code from
-> spi_statistics_##name##_show().  As (a) the old "field" parameter was
-> the name of a structure member, which cannot be passed to a function,
-> and (b) passing a pointer to the member is also not an option, due to
-> the loop over all possible CPUs, the "field" parameter is replaced by an
-> "offset" parameter, pointing to a location within the structure.
+> Note, this patch series applies on top of [0].
+> 
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[1/1] spi: Replace spi_pcpu_stats_totalize() macro by a C function
-      commit: fc12d4bb3227f21e1e7d6d78231074ca542c060d
+[1/4] ASoC: dt-bindings: renesas,rz-ssi: Update interrupts and interrupt-names properties
+      commit: 56a3840486ae22c42176828e25d4073712837bfd
+[2/4] ASoC: sh: rz-ssi: Update interrupt handling for half duplex channels
+      commit: 38c042b59af0248a8b13f01b1a09d890997c9f6e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
