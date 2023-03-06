@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 584786AC60E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 17:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A39986AC60C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 17:00:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjCFQAG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Mar 2023 11:00:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S229587AbjCFQAF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Mar 2023 11:00:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbjCFP7s (ORCPT
+        with ESMTP id S229633AbjCFP7t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Mar 2023 10:59:48 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C9126875
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 07:59:44 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id ky4so10905891plb.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Mar 2023 07:59:44 -0800 (PST)
+        Mon, 6 Mar 2023 10:59:49 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 804E9274AE
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 07:59:46 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id x11so6345131pln.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Mar 2023 07:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678118384;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678118386;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=AX25VNiv+5frJsy1ymjc1ppShpVaFqNCJUmnhYrkGwg=;
-        b=5vfoSPFYXRJSEI+xD1ey87F9NWvGDvGqCOK4ATLQ3iZRj8MVQ4epSQblYCGPuYQUKi
-         Lcvmm2B0nOWKF5jmcc9Szf3Obp29Rik2PsYeRxUjmkx8XWvLnv3M6mLHxK8YBJroiQeK
-         CQlhiajMF9N/AP0KRivjWfhtrKIGRwMhLZsY+4P2vSU7uhNUWziMqmiPO8pPDxZ3/MVD
-         D5aiVaWPNfumOSg59+6eGnG+hClW/8Q0MYn67M3zez3HXy1n/xFMPsbIKqYnheiENd9i
-         Jn2ThPCJvlCayxccPK4SBtD0fDbJI4gIyVB8B/pdj2CMgYNCVANtrcVXlwhNGpqDBQKJ
-         hImw==
+        bh=nSi6Y4m8Fjqv00zxn6MhvSi0dFaGZHHusu0SvQ+sc68=;
+        b=pAfkxi44j8TurK0QCfmafIVTlW0GknoUwJWVx8YA8OwFVCLPUxlToYu4VFNd89Ddbo
+         EOJNl7lWY4Xmqaz8xMdpLzxHOt2ABEKK15qICgbEISw0IVQ+90czapNyatM4c2Srze0j
+         NKbmapP941qFd478IhOexP9bTpjj4DLkse1pl00SvtSiaJLLfu7D38OVd8MMFstIs0dk
+         aySLpvAUACBXKsnEBMLJWEaiBKVcssDexxCTPfnw6NxgYxRQK2IRLxjJT+wyq3uebCnv
+         ZHxIE6R5v6ct9U7vYDzBnTBVOjXC/7QcgU3Us1xa0lJEEH1i3DpqUdOqslWo5I8CXn5G
+         1ywQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678118384;
+        d=1e100.net; s=20210112; t=1678118386;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AX25VNiv+5frJsy1ymjc1ppShpVaFqNCJUmnhYrkGwg=;
-        b=h5FHDmYDs5FCEmyqDr1dwYqWTaXCLF/d34oUVRAi4sk+hnFBu0+JqXdyUNVlcB+eZh
-         7cV+EoTchDXf8qwtiUC2cLkPu8fDXUT2N00OaAoKC5cvfJtmleYfVgKaX9mpTPB7eJiX
-         FU+x/Y4pDKoljlJNrfTL/t2nWVpXDawtCTvTByiCMml3uwVHfyJiAt7gJwcy5UWHp3gP
-         DCf8VILRmKDL4rMJV4QkHc54Sbh3dSt51qvBUDVXj4xpPJbLvgjvHASwxHGXI3YLOH4I
-         Z0bd13HvCCQLTiQuFniCjfm7Nl0akMG6JPn9mvga477/k4I9nF9LuFgITnFBonc7iolf
-         0AGw==
-X-Gm-Message-State: AO0yUKXRwRdMa4byjhxLaqmrWmDrB9VgdMhDtD5Gd6ExMU5taozsH8rq
-        qtWknRj5JXRHlghcoCPAmaE9N9Z3Fg5fl59NJ9FctD07
-X-Google-Smtp-Source: AK7set8yIWaFRGztnUvqEQ1bRFeJjtfo78QZ32G2qlHnCUyLcXJzOtLX2toGM40Eo5UksaOqwdVEuA==
-X-Received: by 2002:a17:90b:1c06:b0:236:76cb:99d3 with SMTP id oc6-20020a17090b1c0600b0023676cb99d3mr12003180pjb.12.1678118384159;
-        Mon, 06 Mar 2023 07:59:44 -0800 (PST)
+        bh=nSi6Y4m8Fjqv00zxn6MhvSi0dFaGZHHusu0SvQ+sc68=;
+        b=cssNZHdrPCN+KV2SlsrW+dUvcFHDLiIeQU0MWjJgVsEVzCht4hhAw31rDh98hnH5V3
+         Jk45fCCoYeT+2YLBSBDpbqkCi0yjqucy/egdX1L8XfNLCJ2fV36r0o4lMcLhHFdYA6C+
+         YQe9NKNoUe6Pg+ztR5aaeOiWg80JXuqwp4TSpQIGRia+vPvN7IGoIVipQ4E9wJ36+VQN
+         y/PRQIG6ghTY1//Fsf0feaYU6oB3IR5v9QcFM4KNA/0O8ABhroMgSOtK1Nb4cOSebwoY
+         fNdXF66xkw7aLVkZkKqndy4NVv+1W5wSqy3ae7UUx20TchYlfSIUzTPAhp2PUs3q8WoW
+         rPgQ==
+X-Gm-Message-State: AO0yUKU2E9RYmMrjGWFtlBGkpJcF/RKfOMdEgERRph1ohAnnJmWJ0eR4
+        gPL4yi6mAo7FdqRqOV87aN91WW5rKbCtX/x4Kom/7g1Y
+X-Google-Smtp-Source: AK7set+JDipvvtW0GHwuRYKJ578engpORf9Gx2gaxhSOqjTHoAmCPoOylM9X+mEr+sRmCBIyMuoG3w==
+X-Received: by 2002:a17:902:f7c2:b0:19a:b588:6fe2 with SMTP id h2-20020a170902f7c200b0019ab5886fe2mr12359675plw.13.1678118385782;
+        Mon, 06 Mar 2023 07:59:45 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id l3-20020a17090add8300b0022335f1dae2sm6183356pjv.22.2023.03.06.07.59.43
+        by smtp.gmail.com with ESMTPSA id kt4-20020a170903088400b00186cf82717fsm6954059plb.165.2023.03.06.07.59.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 07:59:43 -0800 (PST)
-Message-ID: <64060def.170a0220.51e8d.aa88@mx.google.com>
-Date:   Mon, 06 Mar 2023 07:59:43 -0800 (PST)
+        Mon, 06 Mar 2023 07:59:45 -0800 (PST)
+Message-ID: <64060df1.170a0220.4aa99.c671@mx.google.com>
+Date:   Mon, 06 Mar 2023 07:59:45 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -58,7 +58,7 @@ X-Kernelci-Branch: next
 X-Kernelci-Tree: renesas
 X-Kernelci-Kernel: renesas-next-2023-03-06-v6.3-rc1
 X-Kernelci-Report-Type: test
-Subject: renesas/next cros-ec: 12 runs,
+Subject: renesas/next sleep: 9 runs,
  1 regressions (renesas-next-2023-03-06-v6.3-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
@@ -71,8 +71,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next cros-ec: 12 runs, 1 regressions (renesas-next-2023-03-06-v6.3-=
-rc1)
+renesas/next sleep: 9 runs, 1 regressions (renesas-next-2023-03-06-v6.3-rc1)
 
 Regressions Summary
 -------------------
@@ -86,20 +85,15 @@ tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2023-03-06-v6.3-rc1/plan/cros-ec/
+s-next-2023-03-06-v6.3-rc1/plan/sleep/
 
-  Test:     cros-ec
+  Test:     sleep
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2023-03-06-v6.3-rc1
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      f8f70cfd66498277779fd34bd2266ea83ce3944b
-
-  Test suite revisions:
-    cros-ec-tests
-      URL:  https://github.com/hardboprobot/cros-ec-tests.git
-      SHA:  f6c0dbf63842d5751000c5527808aca38354db55 =
+  SHA:      f8f70cfd66498277779fd34bd2266ea83ce3944b =
 
 
 
@@ -116,25 +110,24 @@ tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/6406027449c9bf96408c8669
+  Details:     https://kernelci.org/test/plan/id/640601841a8a6a48ea8c8656
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: multi_v7_defconfig
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-06-v6.3-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-ec-tegra12=
-4-nyan-big.txt
+-03-06-v6.3-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-tegra124-=
+nyan-big.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-06-v6.3-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/cros-ec-tegra12=
-4-nyan-big.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
-os-ec/20230224.0/armhf/rootfs.cpio.gz =
+-03-06-v6.3-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-tegra124-=
+nyan-big.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230224.0/armhf/rootfs.cpio.gz =
 
 
 
-  * cros-ec.login: https://kernelci.org/test/case/id/6406027449c9bf96408c86=
-6a
+  * sleep.login: https://kernelci.org/test/case/id/640601841a8a6a48ea8c8657
         new failure (last pass: renesas-next-2023-01-30-v6.2-rc1) =
 
  =20
