@@ -2,174 +2,314 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E8596ABE02
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 12:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 144AC6ABED4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 12:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbjCFLUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Mar 2023 06:20:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37290 "EHLO
+        id S229638AbjCFLzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Mar 2023 06:55:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjCFLUj (ORCPT
+        with ESMTP id S230105AbjCFLzZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Mar 2023 06:20:39 -0500
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A92A2367B;
-        Mon,  6 Mar 2023 03:20:38 -0800 (PST)
-Received: by mail-qv1-f53.google.com with SMTP id ev13so6307986qvb.10;
-        Mon, 06 Mar 2023 03:20:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678101637;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ITa/PNq9clQBqOtNNMtN0KuFWltQAuyQLMGl4SkvV1g=;
-        b=uLlve43QBBduSFchzJUM5p6612yy0wkPTx4/EYgv6K2DgtRZnJ5QY9ehXz2OhWkIeM
-         l9q0tV/8nvgyhdzOFKkIu3ZzXJttZNfTH5yhjUTXUFuc1UzOOJKguRZCRiQbDkKY+Clq
-         2SdL7ycnJ7wNyYsunpPEYhwWR72tJQPhUpuAB22R/Hl5siT1U5MiWE0aqVOMbUf0pI0W
-         c5yjVNQj2osuCT5r0R+pYOXwURsRqXGGGZUlsQ2KQad/mWBfbfKVV7jSH84Qf0XnwDOI
-         zW7sxeDUKh3E1MdX0VdnFTP95gkA6aQowq3CiX9ClZ6lifcvMhguT3WFT+NyKiiKkX+C
-         m5UQ==
-X-Gm-Message-State: AO0yUKU1w/BVyZ33ZP0Zm/4kjKJUqCUNVfCEQDbgglsaL35QrPFK4a47
-        e4XDII7kfGf2/F6wsg6aGuG0lNB5ZJWLPQ==
-X-Google-Smtp-Source: AK7set+eV8Nf3jiL8ZBWTG7L6AehS0KBDAaFJ3hob7IuvrYR2gSqDFqnE8Pg3SJnjtX5Pt8BB4Dkrw==
-X-Received: by 2002:a05:6214:509d:b0:56e:9f19:71f9 with SMTP id kk29-20020a056214509d00b0056e9f1971f9mr22757817qvb.17.1678101637081;
-        Mon, 06 Mar 2023 03:20:37 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id n135-20020a37408d000000b007402fdda195sm2169789qka.123.2023.03.06.03.20.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 03:20:36 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id x12so7685924ybt.7;
-        Mon, 06 Mar 2023 03:20:36 -0800 (PST)
-X-Received: by 2002:a5b:c42:0:b0:a43:52fe:c36f with SMTP id
- d2-20020a5b0c42000000b00a4352fec36fmr4874571ybr.7.1678101636408; Mon, 06 Mar
- 2023 03:20:36 -0800 (PST)
+        Mon, 6 Mar 2023 06:55:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B947DEC42
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 03:55:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 22200B80DA6
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D7742C433D2
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678103718;
+        bh=z2syD0vAnkbpZuOHqh2E/gLCElN4ttpmDRES6syNkxk=;
+        h=Subject:From:Date:To:From;
+        b=d34Ni0dsoJqWEikl3O290zfuj1AMboDJM0vWhIgR4N7BD0o9tvJz0ghs1dR0VdHm6
+         PQ7f8Uii53fTCDZEm5MJ6K6zhiwbho/+lImaepYLcb4SgGF5NPndnqjf6bYejonkX4
+         F325TafD7QkaduuTEMw0CbInFInuZ9wudLpcRU2NKcLSQEISduD1ClBTlF0xLbK3Z8
+         BlkY9AymGraAaHJ6mo9Sx+c/OpjZKKXB7bCKlZKUaaqvjYOWi93Kmdg+3uGKoaPtbK
+         MpJ1xiTJPdbQOty2/syfACkMW+DypHOcDacfctUDvLgh3wEPlpexKz3HkzDzeNTWwk
+         2xJgtXC8tHJpA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7E92E55B14
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Mar 2023 12:20:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUKo_Sf7TjKzcNDa8Ve+6QrK+P8nSQrSQ=6LTRmcBKNww@mail.gmail.com>
-Message-ID: <CAMuHMdUKo_Sf7TjKzcNDa8Ve+6QrK+P8nSQrSQ=6LTRmcBKNww@mail.gmail.com>
-Subject: Re: cpumask: re-introduce constant-sized cpumask optimizations
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <167810371867.18423.7645587047113613438.git-patchwork-summary@kernel.org>
+Date:   Mon, 06 Mar 2023 11:55:18 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hello:
 
-Your final commit 596ff4a09b898179 ("cpumask: re-introduce
-constant-sized cpumask optimizations") in v6.3-rc1 introduced a
-regression.  During Debian userspace startup, the kernel crashes with:
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-    Alignment trap: not handling instruction e1931f9f at [<c015f0b4>]
-    8<--- cut here ---
-    Unhandled fault: alignment exception (0x001) at 0xc0c5b701
-    [c0c5b701] *pgd=40c1141e(bad)
-    Internal error: : 1 [#1] SMP ARM
-    CPU: 0 PID: 1 Comm: systemd Not tainted 6.3.0-rc1-shmobile #1519
-    Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-    PC is at arch_spin_lock+0x10/0x48
-    LR is at arch_spin_lock+0xc/0x48
-    pc : [<c015f0b8>]    lr : [<c015f0b4>]    psr: 80060093
-    sp : f0815e48  ip : c0c5b700  fp : c0d04e08
-    r10: c0d05b34  r9 : c0e5c284  r8 : c10ad140
-    r7 : f0815e84  r6 : 00000008  r5 : c0c5b701  r4 : f0815e84
-    r3 : c0c5b701  r2 : c0858678  r1 : 40060013  r0 : c0c5b701
-    Flags: Nzcv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment none
-    Control: 10c5387d  Table: 4204c06a  DAC: 00000051
-    Register r0 information: non-slab/vmalloc memory
-    Register r1 information: non-paged memory
-    Register r2 information: non-slab/vmalloc memory
-    Register r3 information: non-slab/vmalloc memory
-    Register r4 information: 2-page vmalloc region starting at
-0xf0814000 allocated at kernel_clone+0xa0/0x258
-    Register r5 information: non-slab/vmalloc memory
-    Register r6 information: non-paged memory
-    Register r7 information: 2-page vmalloc region starting at
-0xf0814000 allocated at kernel_clone+0xa0/0x258
-    Register r8 information: slab task_struct start c10ad140 pointer
-offset 0 size 2176
-    Register r9 information: non-slab/vmalloc memory
-    Register r10 information: non-slab/vmalloc memory
-    Register r11 information: non-slab/vmalloc memory
-    Register r12 information: non-slab/vmalloc memory
-    Process systemd (pid: 1, stack limit = 0x(ptrval))
-    Stack: (0xf0815e48 to 0xf0816000)
-    5e40:                   f0815e84 c0186694 40060013 96063d9c
-f0815e80 00000008
-    5e60: 00000002 c08584a4 00000000 96063d9c 00000000 04a183ac
-00000003 00000001
-    5e80: 04a183ac 00000122 00000000 ffff8dd8 c0858678 06040001
-00000001 00000002
-    5ea0: f7e1016b 00000007 c2143015 004c6000 00000000 c1d05000
-c12c20d0 00000101
-    5ec0: 00000000 00000000 00000000 0000007a 00000038 00000000
-00000000 96063d9c
-    5ee0: f0815ee4 c0e5c284 f0815f18 c22ad240 f0815f78 be847850
-c10ad140 00000003
-    5f00: b6e61130 c0445328 00000000 00000010 c22ad240 c024ab18
-01000006 00000000
-    5f20: 00000010 be847850 00000000 00000000 c22ad240 00000000
-00000000 00000000
-    5f40: 00000000 00000000 00000000 00004004 00000000 00000000
-00000001 96063d9c
-    5f60: c22ad240 be847850 f0815f78 f0815f84 00000010 c024af94
-00000000 00000000
-    5f80: 00000000 c22ad240 00000000 96063d9c 00000074 be847850
-00000000 00000003
-    5fa0: c01002c4 c0100060 00000074 be847850 0000000c be847850
-00000010 00000000
-    5fc0: 00000074 be847850 00000000 00000003 00000001 00000001
-00000001 b6e61130
-    5fe0: 00000003 be8477c0 b6ef152f b6e7a746 60060030 0000000c
-00000000 00000000
-     arch_spin_lock from add_timer_on+0xe8/0x124
-     add_timer_on from try_to_generate_entropy+0x1f4/0x250
-     try_to_generate_entropy from urandom_read_iter+0x2c/0xc8
-     urandom_read_iter from vfs_read+0x124/0x178
-     vfs_read from ksys_read+0x74/0xc8
-     ksys_read from ret_fast_syscall+0x0/0x54
-    Exception stack(0xf0815fa8 to 0xf0815ff0)
-    5fa0:                   00000074 be847850 0000000c be847850
-00000010 00000000
-    5fc0: 00000074 be847850 00000000 00000003 00000001 00000001
-00000001 b6e61130
-    5fe0: 00000003 be8477c0 b6ef152f b6e7a746
-    Code: e92d4010 e1a03000 ebfffff7 e1931f9f (e2812801)
-    ---[ end trace 0000000000000000 ]---
-    note: systemd[1] exited with irqs disabled
+Series: media: i2c: max9286: Small new features
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=602228
+  Lore link: https://lore.kernel.org/r/20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com
+    Patches: [v2,01/11] dt-bindings: media: i2c: max9286: Add support for per-port supplies
+             [v2,06/11] media: i2c: max9286: Rename MAX9286_DATATYPE_RAW11 to RAW12
+             [v2,08/11] media: i2c: max9286: Define macros for all bits of register 0x15
+             [v2,11/11] media: i2c: max9286: Select HS as data enable signal
 
-|     #define for_each_cpu_wrap(cpu, mask, start)                            \
-|    -       for_each_set_bit_wrap(cpu, cpumask_bits(mask),
-nr_cpumask_bits, start)
-|    +       for_each_set_bit_wrap(cpu, cpumask_bits(mask),
-small_cpumask_bits, start)
+Series: media: i2c: max9286: Small new features
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=704625
+  Lore link: https://lore.kernel.org/r/20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com
+    Patches: [v3,01/12] dt-bindings: media: i2c: max9286: Add support for per-port supplies
+             [v3,05/12] media: i2c: max9286: Support manual framesync operation
+             [v3,06/12] media: i2c: max9286: Rename MAX9286_DATATYPE_RAW11 to RAW12
+             [v3,07/12] media: i2c: max9286: Support 12-bit raw bayer formats
+             [v3,08/12] media: i2c: max9286: Define macros for all bits of register 0x15
+             [v3,09/12] media: i2c: max9286: Configure remote I2C speed from device tree
+             [v3,10/12] media: i2c: max9286: Configure bus width from device tree
+             [v3,11/12] media: i2c: max9286: Select HS as data enable signal
 
-Presumably using small_cpumask_bits instead of nr_cpu_ids accesses
-some uninitialized array members?
+Series: fw_devlink improvements
+  Submitter: Saravana Kannan <saravanak@google.com>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719304
+  Lore link: https://lore.kernel.org/r/20230207014207.1678715-1-saravanak@google.com
+    Patches: [v3,01/12] driver core: fw_devlink: Don't purge child fwnode's consumer links
+             [v3,02/12] driver core: fw_devlink: Improve check for fwnode with no device/driver
+             [v3,04/12] gpiolib: Clear the gpio_device's fwnode initialized flag before adding
+             [v3,05/12] driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
+             [v3,06/12] driver core: fw_devlink: Allow marking a fwnode link as being part of a cycle
+             [v3,07/12] driver core: fw_devlink: Consolidate device link flag computation
+             [v3,08/12] driver core: fw_devlink: Make cycle detection more robust
+             [v3,09/12] of: property: Simplify of_link_to_phandle()
+             [v3,10/12] irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
+             [v3,11/12] firmware: arm_scmi: Set fwnode for the scmi_device
+             [v3,12/12] mtd: mtdpart: Don't create platform device that'll never probe
 
-    NR_CPUS = 8
-    small_cpumask_bits = 8
-    nr_cpu_ids = 2
+Series: drm: Remove includes for drm_crtc_helper.h
+  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
+  Committer: Alex Deucher <alexander.deucher@amd.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=712373
+  Lore link: https://lore.kernel.org/r/20230116131235.18917-1-tzimmermann@suse.de
+    Patches: [01/22] drm/amdgpu: Fix coding style
+             [04/22] drm/arm/komeda: Remove unnecessary include statements for drm_crtc_helper.h
+             [05/22] drm/aspeed: Remove unnecessary include statements for drm_crtc_helper.h
+             [06/22] drm/ast: Remove unnecessary include statements for drm_crtc_helper.h
+             [07/22] drm/bridge: Remove unnecessary include statements for drm_crtc_helper.h
+             [08/22] drm/gma500: Remove unnecessary include statements for drm_crtc_helper.h
+             [09/22] drm/i2c/ch7006: Remove unnecessary include statements for drm_crtc_helper.h
+             [10/22] drm/ingenic: Remove unnecessary include statements for drm_crtc_helper.h
+             [11/22] drm/kmb: Remove unnecessary include statements for drm_crtc_helper.h
+             [12/22] drm/logicvc: Remove unnecessary include statements for drm_crtc_helper.h
+             [13/22] drm/nouveau: Remove unnecessary include statements for drm_crtc_helper.h
+             [14/22] drm/radeon: Remove unnecessary include statements for drm_crtc_helper.h
+             [15/22] drm/rockchip: Remove unnecessary include statements for drm_crtc_helper.h
+             [16/22] drm/shmobile: Remove unnecessary include statements for drm_crtc_helper.h
+             [17/22] drm/sprd: Remove unnecessary include statements for drm_crtc_helper.h
+             [19/22] drm/tidss: Remove unnecessary include statements for drm_crtc_helper.h
+             [20/22] drm/udl: Remove unnecessary include statements for drm_crtc_helper.h
+             [21/22] drm/vboxvideo: Remove unnecessary include statements for drm_crtc_helper.h
+             [22/22] drm/crtc-helper: Remove most include statements from drm_crtc_helper.h
 
-A similar kernel on an arm64 system that does have 8 CPU cores works fine.
-On an arm64 system with 2 CPU cores, it crashes in a similar way.
+Series: Reset related fixes for rzg2l_wdt
+  Submitter: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+  Committer: Wim Van Sebroeck <wim@linux-watchdog.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=696430
+  Lore link: https://lore.kernel.org/r/20221117114907.138583-1-fabrizio.castro.jz@renesas.com
+    Patches: [1/2] watchdog: rzg2l_wdt: Issue a reset before we put the PM clocks
+             [2/2] watchdog: rzg2l_wdt: Handle TYPE-B reset for RZ/V2M
 
-Gr{oetje,eeting}s,
+Patch: ASoC: rsnd: adg: Fix BRG typos
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=722139
+  Lore link: https://lore.kernel.org/r/ac6365c17861d71fbc89d823089db4aafdb763ed.1676470202.git.geert+renesas@glider.be
 
-                        Geert
+Series: Add Polling support for role detection with HD3SS3220
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=703459
+  Lore link: https://lore.kernel.org/r/20221209171836.71610-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/2] dt-bindings: usb: ti,hd3ss3220: Update interrupt property as optional
+             [v2,2/2] usb: typec: hd3ss3220: Add polling support
+
+Patch: thermal: Remove core header inclusion from drivers
+  Submitter: Daniel Lezcano <daniel.lezcano@linaro.org>
+  Committer: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719176
+  Lore link: https://lore.kernel.org/r/20230206153432.1017282-1-daniel.lezcano@linaro.org
+
+Patch: [net-next] net: pcs: rzn1-miic: remove unused struct members and use miic variable
+  Submitter: Clément Léger <clement.leger@bootlin.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719987
+  Lore link: https://lore.kernel.org/r/20230208161249.329631-1-clement.leger@bootlin.com
+
+Patch: dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi: Document RZ/V2L support
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Neil Armstrong <neil.armstrong@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=698211
+  Lore link: https://lore.kernel.org/r/20221122195413.1882486-1-biju.das.jz@bp.renesas.com
+
+Series: [v3,1/7] drm: rcar-du: dsi: add 'select RESET_CONTROLLER'
+  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714676
+  Lore link: https://lore.kernel.org/r/20230123104742.227460-2-tomi.valkeinen+renesas@ideasonboard.com
+    Patches: [v3,1/7] drm: rcar-du: dsi: add 'select RESET_CONTROLLER'
+             [v3,5/7] drm: rcar-du: Add quirk for H3 ES1.x pclk workaround
+             [v3,6/7] drm: rcar-du: Fix setting a reserved bit in DPLLCR
+             [v3,7/7] drm: rcar-du: Stop accessing non-existant registers on gen4
+
+Series: v4l: add support for multiplexed streams
+  Submitter: Jacopo Mondi <jacopo+renesas@jmondi.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=87953
+  Lore link: https://lore.kernel.org/r/20190305185150.20776-1-jacopo+renesas@jmondi.org
+    Patches: [v3,01/31] media: entity: Use pad as a starting point for graph walk
+             [v3,17/31] v4l: Add stream to frame descriptor
+
+Series: v4l: add support for multiplexed streams
+  Submitter: Jacopo Mondi <jacopo+renesas@jmondi.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=98275
+  Lore link: https://lore.kernel.org/r/20190328200608.9463-1-jacopo+renesas@jmondi.org
+    Patches: [v4,01/31] media: entity: Use pad as a starting point for graph walk
+             [v4,17/31] v4l: Add stream to frame descriptor
+
+Series: Renesas V4H DSI & DP output support
+  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700774
+  Lore link: https://lore.kernel.org/r/20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com
+    Patches: [v5,1/7] dt-bindings: display: renesas,du: Provide bindings for r8a779g0
+             [v5,2/7] dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779g0
+             [v5,6/7] drm: rcar-du: Add r8a779g0 support
+             [v5,7/7] drm: rcar-du: dsi: Add r8A779g0 support
+
+Series: Renesas SoC updates for v6.3
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=712031
+  Lore link: https://lore.kernel.org/r/cover.1673702287.git.geert+renesas@glider.be
+    Patches: [GIT,PULL,1/3] Renesas ARM defconfig updates for v6.3
+             [GIT,PULL,2/3] Renesas driver updates for v6.3
+             [GIT,PULL,3/3] Renesas DT updates for v6.3
+
+Series: media/drm: renesas: Add new pixel formats
+  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=706165
+  Lore link: https://lore.kernel.org/r/20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com
+    Patches: [v3,1/7] media: Add 2-10-10-10 RGB formats
+             [v3,3/7] media: renesas: vsp1: Change V3U to be gen4
+             [v3,4/7] media: renesas: vsp1: Add V4H SoC version
+             [v3,5/7] media: renesas: vsp1: Add new formats (2-10-10-10 ARGB, Y210, Y212)
+             [v3,6/7] drm: rcar-du: Bump V3U to gen 4
+             [v3,7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
+
+Patch: [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Lee Jones <lee@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714463
+  Lore link: https://lore.kernel.org/r/0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be
+
+Series: drm bridge updates
+  Submitter: Sam Ravnborg <sam@ravnborg.org>
+  Committer: Maxime Ripard <maxime@cerno.tech>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=660451
+  Lore link: https://lore.kernel.org/r/20220717174454.46616-1-sam@ravnborg.org
+    Patches: [v1,01/12] drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
+             [v1,02/12] drm/bridge: Drop unused drm_bridge_chain functions
+
+Patch: dt-bindings: watchdog: renesas,wdt: Document RZ/Five SoC
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Wim Van Sebroeck <wim@linux-watchdog.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=696942
+  Lore link: https://lore.kernel.org/r/20221118133829.12855-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: None
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=704969
+  Lore link: https://lore.kernel.org/r/20221216004500.4263-1-laurent.pinchart+renesas@ideasonboard.com
+
+Patch: None
+  Submitter: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=705475
+  Lore link: https://lore.kernel.org/r/20221219021820.24596-1-laurent.pinchart@ideasonboard.com
+
+Patch: None
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714917
+  Lore link: https://lore.kernel.org/r/20230123225013.10476-1-laurent.pinchart+renesas@ideasonboard.com
+
+Patch: None
+  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700339
+  Lore link: https://lore.kernel.org/r/20221130080810.517470-1-tomi.valkeinen+renesas@ideasonboard.com
+
+Patch: driver core: bus: Handle early calls to bus_to_subsys()
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=723736
+  Lore link: https://lore.kernel.org/r/0a92979f6e790737544638e8a4c19b0564e660a2.1676983596.git.geert+renesas@glider.be
+
+Patch: [v2] drm: rcar-du: depend on DRM_RCAR_DU for components on that SoC
+  Submitter: Peter Robinson <pbrobinson@gmail.com>
+  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=709810
+  Lore link: https://lore.kernel.org/r/20230108060401.391061-1-pbrobinson@gmail.com
+
+Patch: [v3] PCI: Fix dropping valid root bus resources with .end = zero
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Bjorn Helgaas <bhelgaas@google.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=720672
+  Lore link: https://lore.kernel.org/r/da0fcd5e86c74239be79c7cb03651c0fce31b515.1676036673.git.geert+renesas@glider.be
+
+Patch: lib: Add Dhrystone benchmark test
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Andrew Morton <akpm@linux-foundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=702992
+  Lore link: https://lore.kernel.org/r/4d07ad990740a5f1e426ce4566fb514f60ec9bdd.1670509558.git.geert+renesas@glider.be
+
+Series: None
+  Submitter: Paul Cercueil <paul@crapouillou.net>
+  Committer: Paul Cercueil <paul@crapouillou.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692887
+  Lore link: https://lore.kernel.org/r/20221107175256.360839-7-paul@crapouillou.net
+    Patches: [17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
+             [19/26] drm: shmobile: Remove #ifdef guards for PM related functions
+
+Series: None
+  Submitter: Paul Cercueil <paul@crapouillou.net>
+  Committer: Paul Cercueil <paul@crapouillou.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700214
+  Lore link: https://lore.kernel.org/r/20221129191942.138244-4-paul@crapouillou.net
+    Patches: [v2,17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
+             [v2,19/26] drm: shmobile: Remove #ifdef guards for PM related functions
+
+Patch: [v2] clocksource/drivers/riscv: Get rid of clocksource_arch_init() callback
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Daniel Lezcano <daniel.lezcano@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=707603
+  Lore link: https://lore.kernel.org/r/20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+
+Total patches: 88
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
