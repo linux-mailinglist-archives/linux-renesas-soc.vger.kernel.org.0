@@ -2,314 +2,286 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 144AC6ABED4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 12:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8995B6ABF07
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Mar 2023 13:05:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbjCFLzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Mar 2023 06:55:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
+        id S230191AbjCFMFB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Mar 2023 07:05:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbjCFLzZ (ORCPT
+        with ESMTP id S230228AbjCFMEu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Mar 2023 06:55:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B947DEC42
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 03:55:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 22200B80DA6
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D7742C433D2
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678103718;
-        bh=z2syD0vAnkbpZuOHqh2E/gLCElN4ttpmDRES6syNkxk=;
-        h=Subject:From:Date:To:From;
-        b=d34Ni0dsoJqWEikl3O290zfuj1AMboDJM0vWhIgR4N7BD0o9tvJz0ghs1dR0VdHm6
-         PQ7f8Uii53fTCDZEm5MJ6K6zhiwbho/+lImaepYLcb4SgGF5NPndnqjf6bYejonkX4
-         F325TafD7QkaduuTEMw0CbInFInuZ9wudLpcRU2NKcLSQEISduD1ClBTlF0xLbK3Z8
-         BlkY9AymGraAaHJ6mo9Sx+c/OpjZKKXB7bCKlZKUaaqvjYOWi93Kmdg+3uGKoaPtbK
-         MpJ1xiTJPdbQOty2/syfACkMW+DypHOcDacfctUDvLgh3wEPlpexKz3HkzDzeNTWwk
-         2xJgtXC8tHJpA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B7E92E55B14
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Mar 2023 11:55:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 6 Mar 2023 07:04:50 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2095.outbound.protection.outlook.com [40.107.114.95])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F5622A31;
+        Mon,  6 Mar 2023 04:04:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CbuwmQ3lb/x4o9DPwGrDDabt6XpWzgHzcaaNsP6Q3z8HSwan69xKdJqeyH4JsMHsm5zDF6/v88RghD6rEqbHBw9+9eIAw6x0oqNT0K0SQNR5Ctlp8sjAYX8vZ/5UsJzf6XAZZahADQdv8WWGRELgEQUwwfvr3pax0FxYy+7vQvptkt2kkXsyJr3gsIoIpRuYTzwKed2mt3AsYTJvUFtEF73hCOgplA11cfr6/cgeQAMi8MwIwHZPpmD/BJ3gU5SUm7JGleni0PR+BzOWpp0FNo6PursVVwQFDqnqP9rYQ3NnZHl4f5CGXJPMDmK67SyUsVphSrwGlCE9cUBUGNwHdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pnVqT3Ko4kybjGHQWQUkWcqylboUx2ebODctrhSRgX0=;
+ b=D/BiQmuHTFt5RrRcsLwUvjUSBIFDP7Gj5d/gFt0P63MfvTr2iT9pikWzRUQQcVoQU33Ab1jBSDqviQ2EhIEEUkXdKNU8Xng/lodIAjrX6BDEaCS2vSRbM7FPpVWWs5tTE9V0KtwXpPsaUgSQaUkaRKVp7+zL0xHnKmaxwWmI2NzyXMRqHM2Clj6xIMfwkcEyVEi7IHsqohgPEa1qKG/DSMFkM17z/TDfwQMajPGLgeKQUD7c/5rTjNAB3ufIRO8WkWmsraKKn4YPCR5Z4hEFI5VdWynwMTApiAZi9xwbyGtHHbV0Exxl28US4moNvw9mwnwp2+SzJUjNHsFVntUQEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pnVqT3Ko4kybjGHQWQUkWcqylboUx2ebODctrhSRgX0=;
+ b=sMEZghNKY47kJNJN/yVFmQnLfseW1cp2oVJ2os1YcEXAAia3gCEwV6J/1zZ4vDc5XRsTREFMVnPFQYknzEqZw6ys7dtKoernAkP9XsbAJf466exiBRKfZgs9U+Uhh+oRiTDVTu5iyqQm7nrz5Vr5TaGP+07pO40zk/Se4V+FhLs=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYWPR01MB9407.jpnprd01.prod.outlook.com (2603:1096:400:1a2::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
+ 2023 12:04:44 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::f54c:4b2:9c7d:f207]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::f54c:4b2:9c7d:f207%7]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
+ 12:04:44 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Rob Herring <robh@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 2/2] media: dt-bindings: media: renesas,fcp: Document
+ RZ/{G2L,V2L} FCPVD bindings
+Thread-Topic: [PATCH v4 2/2] media: dt-bindings: media: renesas,fcp: Document
+ RZ/{G2L,V2L} FCPVD bindings
+Thread-Index: AQHY/qlxicYftSpeMUKKL0vGYRE9G66iv0cggCJ9GCCAKQ2YIA==
+Date:   Mon, 6 Mar 2023 12:04:44 +0000
+Message-ID: <OS0PR01MB5922A09190347117F81C20E186B69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
+ <20221122193415.1873179-2-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB5922D9004BC2A00BF1CCA0E186C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59226BBE7D9D7151EACE52D286D89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59226BBE7D9D7151EACE52D286D89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB9407:EE_
+x-ms-office365-filtering-correlation-id: 08476da8-5a1d-4722-f7f5-08db1e3af998
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gJ5Icj+dNKLcYvrWQZx1Fwpjoaj414lGpO/ulEcJ1hiluUDXaDnQv/AT+Qf4qa9ObRuNIvzd8CPJ1UiLCG8uZmZYia0hLSEv6q4UHBOfX7EcRIR6I1DJqLNh9pEb3vlBVuaDJcp1tG+/ZasP4FEw29YMl5V0euHj1QXEEL1UFeH1xeEJ4i9ck7cImMxzCc0rNruVNsMb7udyoCgPM6lkR24ITGrxXUl/W6lEqRscT5AjZm4yWWenPHDYgN2Msz3smE8u6KP9fpv81Hts3d6ZmosClqt+O2MZ63rakzFdSZqNcp/N0tyrd2f7U5hXYVSAE5r5WiLHGPcb8qeMq3RatbW57Oa2dXnVcbNiwRI9hhQU6rcgdRIZu65f7qZQryRA9/WJSXTgxN0LV2W7f/IlwWVYXJS+ZWyvxmL/w2M4TIz0v5Z/HebTUVD8VBZOWirxBNIBgbye/hFttghnzN+gk18BRpILwxGVNNDyEG4o+vxctPlecGqmJPB3ESlywoauyL1E6popWjz4e9+nc9Z55XiFO3QwQZNHuRy06Uyl620KQfqsK3Z//DWX+eLRShyc9dNq+SjPepSo01zHDYLHmGP0WWwY9VeGrFRIwaSXTWMpL7aZHyKHRNK6wEE/oPEhoUUJg3MEFJt92Tf05pF1pd0Ag6t4EVSmkSq4SZK6Ij5/oMjyUJrLhbyQRkXdza+I
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199018)(9686003)(186003)(122000001)(38100700002)(38070700005)(52536014)(8936002)(66446008)(66556008)(66946007)(41300700001)(66476007)(4326008)(8676002)(2906002)(5660300002)(76116006)(71200400001)(7416002)(7696005)(478600001)(53546011)(6506007)(26005)(64756008)(966005)(316002)(110136005)(54906003)(86362001)(55016003)(33656002)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?I7eB0fSW86b6BAG8MqmRNO7BMgglZ1SN2djYDewmy+m9XNnW3eC64JZ2yNO4?=
+ =?us-ascii?Q?k7xInii51+qk7qwj+g7q5mjtmVKQtI7LAVXnyOxHO1JNkD0eB2iSBphV4kJE?=
+ =?us-ascii?Q?qFkuDfddhPPpK4l1MmNCUJe6nFb0SfwiT9K9aGpWkhCq1qwbp+LCYvR0y2iU?=
+ =?us-ascii?Q?n/aI5UOGvP738UuIjIUPzntptjL8LqMIaSn/76+T3vqK0oWSh856MMp8HehI?=
+ =?us-ascii?Q?QJsWDdmbPGuRm8JRi7Y+gZ4HqKV2B75TKRAIgMHf1B5+QiO0QXQwGves0vOz?=
+ =?us-ascii?Q?yGpdzaisqrl9uQW/tjwbN0CbNN2cG+JDNUpjPNk9izX8Rb1zQl5Y1fG7cqmJ?=
+ =?us-ascii?Q?20A83dc9lPktgE4b3DKkmIUiLp77QKwVstov6PIqnRw2CUA9a2ZaWYw/1sgS?=
+ =?us-ascii?Q?7WqONYR+JfElJo0BcX28lbdE11YgEAGzFgxy6B5n4D4Ew59XoCkiTBeMZ8xQ?=
+ =?us-ascii?Q?dnOwsW21/N0XeQXSXgi/d1rFE2mJAg9cBUjkhrhm0OfDTQW7yY8GVnd0Zl34?=
+ =?us-ascii?Q?DBbsf4GzPYe5cPsfxhbn06HC7JOJMyu7CC3dvWcfO1Fg04Bp+rnkxbIjaQQ9?=
+ =?us-ascii?Q?+srfUJykkB2Wq525D4diM0GSzEunqViunhZH2cBHCvljx6SfQZ8ktpw2SbgY?=
+ =?us-ascii?Q?m+APhMUEDHuqEpP+H0vLBq0dX9sdZxlQkJeYMg+EnEJFMELw9wJfB94GQcQo?=
+ =?us-ascii?Q?lt5k+riYOgHMUMiznR1ItbbRK9LbHGWr2CExwJ8ibH2W0W9CSIeoe1csTj3N?=
+ =?us-ascii?Q?F0Ydp02fI/pce7m+9SCfe9PLaAPu5AnBMfNzXMgs2UAYBK6j2eUOmrPrWi9s?=
+ =?us-ascii?Q?7PAfFn3RzTJGFj68yJ1HVJNuPzgRPBp+e/BbQAU/UW3gd5JvPPPW0gOx8OwG?=
+ =?us-ascii?Q?/yG2ndJMkp+RaoCmIZvbJqqn+XhEroyI3LhQpi5Zom0AD3TEg+Udl3qzms9T?=
+ =?us-ascii?Q?agsB0420ZVb52EQxsc54VLO2RiFlHCpKRBF66ZJKTC86QtaiVCQ0itaoh62r?=
+ =?us-ascii?Q?zaZlgkll6ojkIwGXHb3MnQp/kELBe+j5JYpPdf5pzBGEJI3OztEx7N2nyOTd?=
+ =?us-ascii?Q?w14Nzo3kP1v1T41cy9KxNwazREv2kz3peeKggkMXfLOEPzAcaqMUm3xf8U3p?=
+ =?us-ascii?Q?8C/3+9/zoBD7lyz+BE4sOEgABobP8Av807uzxvX9WVqEPmtv2ORrGSw6h1Uk?=
+ =?us-ascii?Q?A7zFu5tAQY+kZxkF0EEe2ukpyf5Q/LOLmUTNhWnq2iy4LPLj9vKy/ziK9Xj2?=
+ =?us-ascii?Q?iZg2wwKFLqEdMXMeshFOalTC3MtOr5xbAkFstpVBLHhWwf6WoZyggY0AAZxH?=
+ =?us-ascii?Q?6xoW5QvCXK2622lxf5KZzh7qMBNN61pLnxZaHQ0RrCNsA9deSNe06bGJlFAG?=
+ =?us-ascii?Q?hGW5BGWKZbL/PnV/FkQ2k3cvQkzQCxfOPxLWPkwqUb9H1gaapMDsy03GcjdS?=
+ =?us-ascii?Q?yyuAOXmuSJYZcH8SBi6QdH691zuRLK3AiS/KkFYVdXDZi6MDDr96Sjqxq4q2?=
+ =?us-ascii?Q?kj2U8KZ605rPoNlrVHAkvPDdeJAueJwWla8z4dDCHlmeJHzEHAyzWfyhtzDA?=
+ =?us-ascii?Q?iGB3P8EI59iOBGyJBhHdzfjedpfrDDPsm9jtg5DS?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167810371867.18423.7645587047113613438.git-patchwork-summary@kernel.org>
-Date:   Mon, 06 Mar 2023 11:55:18 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08476da8-5a1d-4722-f7f5-08db1e3af998
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 12:04:44.7232
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JM8tOX6u33tesSMejACOugwRlQmRZjHvPDv4xXNDYhzqs8lsmABR+xVcNxCiBHGE4xJDAJ158YHcdvhXgu7KIZXFvEp/jNFdg7z32Xktee8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9407
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi All,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Gentle ping. Looks like this patch is missed since November 2022( almost 4 =
+months).
 
-Series: media: i2c: max9286: Small new features
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=602228
-  Lore link: https://lore.kernel.org/r/20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com
-    Patches: [v2,01/11] dt-bindings: media: i2c: max9286: Add support for per-port supplies
-             [v2,06/11] media: i2c: max9286: Rename MAX9286_DATATYPE_RAW11 to RAW12
-             [v2,08/11] media: i2c: max9286: Define macros for all bits of register 0x15
-             [v2,11/11] media: i2c: max9286: Select HS as data enable signal
+Cheers,
+Biju
 
-Series: media: i2c: max9286: Small new features
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=704625
-  Lore link: https://lore.kernel.org/r/20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com
-    Patches: [v3,01/12] dt-bindings: media: i2c: max9286: Add support for per-port supplies
-             [v3,05/12] media: i2c: max9286: Support manual framesync operation
-             [v3,06/12] media: i2c: max9286: Rename MAX9286_DATATYPE_RAW11 to RAW12
-             [v3,07/12] media: i2c: max9286: Support 12-bit raw bayer formats
-             [v3,08/12] media: i2c: max9286: Define macros for all bits of register 0x15
-             [v3,09/12] media: i2c: max9286: Configure remote I2C speed from device tree
-             [v3,10/12] media: i2c: max9286: Configure bus width from device tree
-             [v3,11/12] media: i2c: max9286: Select HS as data enable signal
-
-Series: fw_devlink improvements
-  Submitter: Saravana Kannan <saravanak@google.com>
-  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719304
-  Lore link: https://lore.kernel.org/r/20230207014207.1678715-1-saravanak@google.com
-    Patches: [v3,01/12] driver core: fw_devlink: Don't purge child fwnode's consumer links
-             [v3,02/12] driver core: fw_devlink: Improve check for fwnode with no device/driver
-             [v3,04/12] gpiolib: Clear the gpio_device's fwnode initialized flag before adding
-             [v3,05/12] driver core: fw_devlink: Add DL_FLAG_CYCLE support to device links
-             [v3,06/12] driver core: fw_devlink: Allow marking a fwnode link as being part of a cycle
-             [v3,07/12] driver core: fw_devlink: Consolidate device link flag computation
-             [v3,08/12] driver core: fw_devlink: Make cycle detection more robust
-             [v3,09/12] of: property: Simplify of_link_to_phandle()
-             [v3,10/12] irqchip/irq-imx-gpcv2: Mark fwnode device as not initialized
-             [v3,11/12] firmware: arm_scmi: Set fwnode for the scmi_device
-             [v3,12/12] mtd: mtdpart: Don't create platform device that'll never probe
-
-Series: drm: Remove includes for drm_crtc_helper.h
-  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
-  Committer: Alex Deucher <alexander.deucher@amd.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=712373
-  Lore link: https://lore.kernel.org/r/20230116131235.18917-1-tzimmermann@suse.de
-    Patches: [01/22] drm/amdgpu: Fix coding style
-             [04/22] drm/arm/komeda: Remove unnecessary include statements for drm_crtc_helper.h
-             [05/22] drm/aspeed: Remove unnecessary include statements for drm_crtc_helper.h
-             [06/22] drm/ast: Remove unnecessary include statements for drm_crtc_helper.h
-             [07/22] drm/bridge: Remove unnecessary include statements for drm_crtc_helper.h
-             [08/22] drm/gma500: Remove unnecessary include statements for drm_crtc_helper.h
-             [09/22] drm/i2c/ch7006: Remove unnecessary include statements for drm_crtc_helper.h
-             [10/22] drm/ingenic: Remove unnecessary include statements for drm_crtc_helper.h
-             [11/22] drm/kmb: Remove unnecessary include statements for drm_crtc_helper.h
-             [12/22] drm/logicvc: Remove unnecessary include statements for drm_crtc_helper.h
-             [13/22] drm/nouveau: Remove unnecessary include statements for drm_crtc_helper.h
-             [14/22] drm/radeon: Remove unnecessary include statements for drm_crtc_helper.h
-             [15/22] drm/rockchip: Remove unnecessary include statements for drm_crtc_helper.h
-             [16/22] drm/shmobile: Remove unnecessary include statements for drm_crtc_helper.h
-             [17/22] drm/sprd: Remove unnecessary include statements for drm_crtc_helper.h
-             [19/22] drm/tidss: Remove unnecessary include statements for drm_crtc_helper.h
-             [20/22] drm/udl: Remove unnecessary include statements for drm_crtc_helper.h
-             [21/22] drm/vboxvideo: Remove unnecessary include statements for drm_crtc_helper.h
-             [22/22] drm/crtc-helper: Remove most include statements from drm_crtc_helper.h
-
-Series: Reset related fixes for rzg2l_wdt
-  Submitter: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-  Committer: Wim Van Sebroeck <wim@linux-watchdog.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=696430
-  Lore link: https://lore.kernel.org/r/20221117114907.138583-1-fabrizio.castro.jz@renesas.com
-    Patches: [1/2] watchdog: rzg2l_wdt: Issue a reset before we put the PM clocks
-             [2/2] watchdog: rzg2l_wdt: Handle TYPE-B reset for RZ/V2M
-
-Patch: ASoC: rsnd: adg: Fix BRG typos
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Mark Brown <broonie@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=722139
-  Lore link: https://lore.kernel.org/r/ac6365c17861d71fbc89d823089db4aafdb763ed.1676470202.git.geert+renesas@glider.be
-
-Series: Add Polling support for role detection with HD3SS3220
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=703459
-  Lore link: https://lore.kernel.org/r/20221209171836.71610-1-biju.das.jz@bp.renesas.com
-    Patches: [v2,1/2] dt-bindings: usb: ti,hd3ss3220: Update interrupt property as optional
-             [v2,2/2] usb: typec: hd3ss3220: Add polling support
-
-Patch: thermal: Remove core header inclusion from drivers
-  Submitter: Daniel Lezcano <daniel.lezcano@linaro.org>
-  Committer: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719176
-  Lore link: https://lore.kernel.org/r/20230206153432.1017282-1-daniel.lezcano@linaro.org
-
-Patch: [net-next] net: pcs: rzn1-miic: remove unused struct members and use miic variable
-  Submitter: Clément Léger <clement.leger@bootlin.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=719987
-  Lore link: https://lore.kernel.org/r/20230208161249.329631-1-clement.leger@bootlin.com
-
-Patch: dt-bindings: display: bridge: renesas,rzg2l-mipi-dsi: Document RZ/V2L support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Neil Armstrong <neil.armstrong@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=698211
-  Lore link: https://lore.kernel.org/r/20221122195413.1882486-1-biju.das.jz@bp.renesas.com
-
-Series: [v3,1/7] drm: rcar-du: dsi: add 'select RESET_CONTROLLER'
-  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714676
-  Lore link: https://lore.kernel.org/r/20230123104742.227460-2-tomi.valkeinen+renesas@ideasonboard.com
-    Patches: [v3,1/7] drm: rcar-du: dsi: add 'select RESET_CONTROLLER'
-             [v3,5/7] drm: rcar-du: Add quirk for H3 ES1.x pclk workaround
-             [v3,6/7] drm: rcar-du: Fix setting a reserved bit in DPLLCR
-             [v3,7/7] drm: rcar-du: Stop accessing non-existant registers on gen4
-
-Series: v4l: add support for multiplexed streams
-  Submitter: Jacopo Mondi <jacopo+renesas@jmondi.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=87953
-  Lore link: https://lore.kernel.org/r/20190305185150.20776-1-jacopo+renesas@jmondi.org
-    Patches: [v3,01/31] media: entity: Use pad as a starting point for graph walk
-             [v3,17/31] v4l: Add stream to frame descriptor
-
-Series: v4l: add support for multiplexed streams
-  Submitter: Jacopo Mondi <jacopo+renesas@jmondi.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=98275
-  Lore link: https://lore.kernel.org/r/20190328200608.9463-1-jacopo+renesas@jmondi.org
-    Patches: [v4,01/31] media: entity: Use pad as a starting point for graph walk
-             [v4,17/31] v4l: Add stream to frame descriptor
-
-Series: Renesas V4H DSI & DP output support
-  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700774
-  Lore link: https://lore.kernel.org/r/20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com
-    Patches: [v5,1/7] dt-bindings: display: renesas,du: Provide bindings for r8a779g0
-             [v5,2/7] dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779g0
-             [v5,6/7] drm: rcar-du: Add r8a779g0 support
-             [v5,7/7] drm: rcar-du: dsi: Add r8A779g0 support
-
-Series: Renesas SoC updates for v6.3
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Arnd Bergmann <arnd@arndb.de>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=712031
-  Lore link: https://lore.kernel.org/r/cover.1673702287.git.geert+renesas@glider.be
-    Patches: [GIT,PULL,1/3] Renesas ARM defconfig updates for v6.3
-             [GIT,PULL,2/3] Renesas driver updates for v6.3
-             [GIT,PULL,3/3] Renesas DT updates for v6.3
-
-Series: media/drm: renesas: Add new pixel formats
-  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=706165
-  Lore link: https://lore.kernel.org/r/20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com
-    Patches: [v3,1/7] media: Add 2-10-10-10 RGB formats
-             [v3,3/7] media: renesas: vsp1: Change V3U to be gen4
-             [v3,4/7] media: renesas: vsp1: Add V4H SoC version
-             [v3,5/7] media: renesas: vsp1: Add new formats (2-10-10-10 ARGB, Y210, Y212)
-             [v3,6/7] drm: rcar-du: Bump V3U to gen 4
-             [v3,7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
-
-Patch: [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Lee Jones <lee@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714463
-  Lore link: https://lore.kernel.org/r/0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be
-
-Series: drm bridge updates
-  Submitter: Sam Ravnborg <sam@ravnborg.org>
-  Committer: Maxime Ripard <maxime@cerno.tech>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=660451
-  Lore link: https://lore.kernel.org/r/20220717174454.46616-1-sam@ravnborg.org
-    Patches: [v1,01/12] drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
-             [v1,02/12] drm/bridge: Drop unused drm_bridge_chain functions
-
-Patch: dt-bindings: watchdog: renesas,wdt: Document RZ/Five SoC
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Wim Van Sebroeck <wim@linux-watchdog.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=696942
-  Lore link: https://lore.kernel.org/r/20221118133829.12855-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-Patch: None
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=704969
-  Lore link: https://lore.kernel.org/r/20221216004500.4263-1-laurent.pinchart+renesas@ideasonboard.com
-
-Patch: None
-  Submitter: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-  Committer: Mauro Carvalho Chehab <mchehab@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=705475
-  Lore link: https://lore.kernel.org/r/20221219021820.24596-1-laurent.pinchart@ideasonboard.com
-
-Patch: None
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=714917
-  Lore link: https://lore.kernel.org/r/20230123225013.10476-1-laurent.pinchart+renesas@ideasonboard.com
-
-Patch: None
-  Submitter: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700339
-  Lore link: https://lore.kernel.org/r/20221130080810.517470-1-tomi.valkeinen+renesas@ideasonboard.com
-
-Patch: driver core: bus: Handle early calls to bus_to_subsys()
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=723736
-  Lore link: https://lore.kernel.org/r/0a92979f6e790737544638e8a4c19b0564e660a2.1676983596.git.geert+renesas@glider.be
-
-Patch: [v2] drm: rcar-du: depend on DRM_RCAR_DU for components on that SoC
-  Submitter: Peter Robinson <pbrobinson@gmail.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=709810
-  Lore link: https://lore.kernel.org/r/20230108060401.391061-1-pbrobinson@gmail.com
-
-Patch: [v3] PCI: Fix dropping valid root bus resources with .end = zero
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Bjorn Helgaas <bhelgaas@google.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=720672
-  Lore link: https://lore.kernel.org/r/da0fcd5e86c74239be79c7cb03651c0fce31b515.1676036673.git.geert+renesas@glider.be
-
-Patch: lib: Add Dhrystone benchmark test
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Andrew Morton <akpm@linux-foundation.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=702992
-  Lore link: https://lore.kernel.org/r/4d07ad990740a5f1e426ce4566fb514f60ec9bdd.1670509558.git.geert+renesas@glider.be
-
-Series: None
-  Submitter: Paul Cercueil <paul@crapouillou.net>
-  Committer: Paul Cercueil <paul@crapouillou.net>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=692887
-  Lore link: https://lore.kernel.org/r/20221107175256.360839-7-paul@crapouillou.net
-    Patches: [17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
-             [19/26] drm: shmobile: Remove #ifdef guards for PM related functions
-
-Series: None
-  Submitter: Paul Cercueil <paul@crapouillou.net>
-  Committer: Paul Cercueil <paul@crapouillou.net>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=700214
-  Lore link: https://lore.kernel.org/r/20221129191942.138244-4-paul@crapouillou.net
-    Patches: [v2,17/26] drm: rcar-du: Remove #ifdef guards for PM related functions
-             [v2,19/26] drm: shmobile: Remove #ifdef guards for PM related functions
-
-Patch: [v2] clocksource/drivers/riscv: Get rid of clocksource_arch_init() callback
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Daniel Lezcano <daniel.lezcano@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=707603
-  Lore link: https://lore.kernel.org/r/20221229224601.103851-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-
-Total patches: 88
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+> Subject: RE: [PATCH v4 2/2] media: dt-bindings: media: renesas,fcp: Docum=
+ent
+> RZ/{G2L,V2L} FCPVD bindings
+>=20
+> Hi All,
+>=20
+> Gentle ping. Does this patch to be taken by media subsystem or dt?
+>=20
+> Is there any chance that it can be taken for v6.3?
+>=20
+> Cheers,
+> Biju
+>=20
+>=20
+> > Subject: RE: [PATCH v4 2/2] media: dt-bindings: media: renesas,fcp:
+> > Document RZ/{G2L,V2L} FCPVD bindings
+> >
+> > Hi all,
+> >
+> > Gentle ping.
+> >
+> > This patch is reviewed by Rob.
+> >
+> > It is blocking for accepting SoC dtsi patches[1] through renesas-soc
+> > tree
+> >
+> > 1] https://patchwork.kernel.org/project/linux-renesas-
+> > soc/patch/20221122193415.1873179-2-biju.das.jz@bp.renesas.com/
+> >
+> > Cheers,
+> > Biju
+> >
+> > > -----Original Message-----
+> > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Sent: 22 November 2022 19:34
+> > > To: Mauro Carvalho Chehab <mchehab@kernel.org>; Rob Herring
+> > > <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > > <krzysztof.kozlowski+dt@linaro.org>
+> > > Cc: Biju Das <biju.das.jz@bp.renesas.com>; Laurent Pinchart
+> > > <laurent.pinchart@ideasonboard.com>; linux-media@vger.kernel.org;
+> > > linux- renesas-soc@vger.kernel.org; devicetree@vger.kernel.org;
+> > > Geert Uytterhoeven <geert+renesas@glider.be>; Fabrizio Castro
+> > > <fabrizio.castro.jz@renesas.com>; Rob Herring <robh@kernel.org>
+> > > Subject: [PATCH v4 2/2] media: dt-bindings: media: renesas,fcp:
+> > > Document RZ/{G2L,V2L} FCPVD bindings
+> > >
+> > > Document FCPVD found in RZ/G2L alike SoCs. FCPVD block is similar to
+> > > FCP for VSP found on R-Car SoC's . It has 3 clocks compared to 1
+> > > clock on
+> > fcpv.
+> > > Introduce new compatibles renesas,r9a07g044-fcpvd for RZ/G2{L,LC}
+> > > and renesas,r9a07g054-fcpvd for RZ/V2L to handle this difference.
+> > >
+> > > The 3 clocks are shared between du, vspd and fcpvd. No driver
+> > > changes are required as generic compatible string "renesas,fcpv"
+> > > will be used as a fallback.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > > v3->v4:
+> > >  * Added Rb tag from Rob.
+> > > v2->v3:
+> > >  * Updated the compatibles by replacing items->enum as
+> > >    it is just one item.
+> > > v1->v2:
+> > >  * Documented RZ/{G2,V2}L FCPVD bindings
+> > >  * Introduces new compatibles renesas,r9a07g0{44,54}-fcpvd
+> > >  * Added clock-names property
+> > >  * described clocks.
+> > > ---
+> > >  .../bindings/media/renesas,fcp.yaml           | 45 ++++++++++++++++-=
+--
+> > >  1 file changed, 40 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > > b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > > index 43f2fed8cd33..c6abe719881b 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > > @@ -21,15 +21,22 @@ description: |
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    enum:
+> > > -      - renesas,fcpv # FCP for VSP
+> > > -      - renesas,fcpf # FCP for FDP
+> > > +    oneOf:
+> > > +      - enum:
+> > > +          - renesas,fcpv # FCP for VSP
+> > > +          - renesas,fcpf # FCP for FDP
+> > > +      - items:
+> > > +          - enum:
+> > > +              - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
+> > > +              - renesas,r9a07g054-fcpvd # RZ/V2L
+> > > +          - const: renesas,fcpv         # Generic FCP for VSP fallba=
+ck
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > >
+> > > -  clocks:
+> > > -    maxItems: 1
+> > > +  clocks: true
+> > > +
+> > > +  clock-names: true
+> > >
+> > >    iommus:
+> > >      maxItems: 1
+> > > @@ -49,6 +56,34 @@ required:
+> > >
+> > >  additionalProperties: false
+> > >
+> > > +allOf:
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - renesas,r9a07g044-fcpvd
+> > > +              - renesas,r9a07g054-fcpvd
+> > > +    then:
+> > > +      properties:
+> > > +        clocks:
+> > > +          items:
+> > > +            - description: Main clock
+> > > +            - description: Register access clock
+> > > +            - description: Video clock
+> > > +        clock-names:
+> > > +          items:
+> > > +            - const: aclk
+> > > +            - const: pclk
+> > > +            - const: vclk
+> > > +      required:
+> > > +        - clock-names
+> > > +    else:
+> > > +      properties:
+> > > +        clocks:
+> > > +          maxItems: 1
+> > > +        clock-names: false
+> > > +
+> > >  examples:
+> > >    # R8A7795 (R-Car H3) FCP for VSP-D1
+> > >    - |
+> > > --
+> > > 2.25.1
 
