@@ -2,101 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06CF46AE0A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Mar 2023 14:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC586AE0FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Mar 2023 14:45:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbjCGNg3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Mar 2023 08:36:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60230 "EHLO
+        id S229621AbjCGNpK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Mar 2023 08:45:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjCGNg1 (ORCPT
+        with ESMTP id S229699AbjCGNl4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Mar 2023 08:36:27 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4258C5BC90
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Mar 2023 05:36:27 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id h19so14228873qtk.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Mar 2023 05:36:27 -0800 (PST)
+        Tue, 7 Mar 2023 08:41:56 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4038B8C95F
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Mar 2023 05:41:28 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id e82so11376682ybh.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Mar 2023 05:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678196487;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HxhnY9ee6S+JKaeqgBDgMPD72VYaOjVliRXgd6QNQIg=;
+        b=VTkXO6ebhtYLpuBvA8pUoWMYs4C8phlf1DPmOYh74IJJyq/Po0AqZnKQi0ntazJC2h
+         iBeHHljzD2QGpETKUsRrjxxdFpLb7vAwRwdPHXyk1hd1DTNuF6t/w33F/6uKs42d3v7a
+         AErL7FjVUVCPuDuWuBsvZJ0rNQ2CsBci/kt4fkW21sotWE8yECAeLIuMd+WzcjudpXut
+         pfd05Hk+8rFW/dB0pqppm+ci414SFjDKcuIE108dIPECHFCT2xhxdccBMpO4w0v16DZD
+         WsS3ra4tYFs9h/uzaI1K/Oe8UTWdZNnNgxggPirf74szSE0RW2oDudbCPQCAhZ2C1aln
+         pWKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678196186;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=urULbQUOPfOIWbeWwu/UVMWyxPeVZ3I2kroq681pdYA=;
-        b=T5+/FABCY8CpAIWQZhIQBzqijdWfoIYQ8bwZvxxMjTdF6oD8ZlnfdtQxN8SNhhDH33
-         aIXafWBAY7/s7gW4o0lfdwSKJfgZQD79VVleVgheDc/agAQ2Oj0kMl3bFjNuW5a7Duwn
-         cMcimVnVoJWQwaXGmi/T2Jcsh6D/O7fdEVQkmOfF0rcau1AyDUcysZEDm57FKOkF5zy4
-         oDmWoV1JcKgM7pKGlxULLrDya/Xugllf2X2va7wexY1+0A4eY+LM16shTxSWnxwFtijl
-         4p5SlxtbaRXTUxGsS24l/ue5CSSDFX9t2w5zuKhG2HJ6Kunqb2AXLNErAf/CTlPW8VdS
-         kCaw==
-X-Gm-Message-State: AO0yUKWAcbt8JXOBcBd9cBIbqsNBtKXzTMd+iWzd8PDhY01NO+JvBnv8
-        x2udnP6j44v3v4h7pqqB9o36An9LVfLehg==
-X-Google-Smtp-Source: AK7set85Hve6eU2xo6pZsbfTTUY5PYYsAKHZRhPyNll9bdnX1aSBWPNyUb8Y5JgzD6fb8bsxT33Kbw==
-X-Received: by 2002:ac8:7d11:0:b0:3bf:d9a0:a33a with SMTP id g17-20020ac87d11000000b003bfd9a0a33amr24835475qtb.27.1678196185273;
-        Tue, 07 Mar 2023 05:36:25 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id a18-20020ac84352000000b003bfaff2a6b9sm9664192qtn.10.2023.03.07.05.36.24
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 05:36:24 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id e194so11400646ybf.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Mar 2023 05:36:24 -0800 (PST)
-X-Received: by 2002:a05:6902:208:b0:acd:7374:f154 with SMTP id
- j8-20020a056902020800b00acd7374f154mr8646856ybs.7.1678196183774; Tue, 07 Mar
- 2023 05:36:23 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678196487;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HxhnY9ee6S+JKaeqgBDgMPD72VYaOjVliRXgd6QNQIg=;
+        b=uO6W20e7FoZlIX64gjgrB4zvNmmrPB54aWjUl+XpI3O2zbh0Dgo2U/bASl07jUdrJk
+         MQsnedfeSXg+6oraFJuk0V22PENQRQjwsBJlpt3Kf3c+qE/gg+UO+Iu7jdBYUI7TyIwa
+         aDa6Br9Vcv1OgbVF4vMNuFUOLHYLVptEwpOvsM4R+RC0JB0GcQS3WtiTtpackXbNLIjR
+         xEfTcjcCnk4A2/KA8Nd9gEdr02LRb4jhinGQoiFHzf4jo0RrS/yQQwFdgjXjplyqNyk4
+         s57Kunfvzcic2W7V11WanwFwGIaDz2XvxXOHgdCgmIhv3yr7LqdybIfBmQXPi9MgzDad
+         /Yjw==
+X-Gm-Message-State: AO0yUKVFRFVxnrJbGPDkWuVW2eCKr0UxQsxB9gut6tWYVE0d+vd60gg4
+        6QwvKVpuWEiMgwDDC5NFTjcT31gf13N+LHAqvfX3Sg==
+X-Google-Smtp-Source: AK7set8ou4L2bAlX4IYu1rZyZ5XNdsNqitcUOWXI3Qzn29JRmg2qCgTzY+gdBWjIfLE2q8apEc1HT0folW40J64j4nE=
+X-Received: by 2002:a05:6902:4f4:b0:a06:5ef5:3a82 with SMTP id
+ w20-20020a05690204f400b00a065ef53a82mr6806214ybs.5.1678196487306; Tue, 07 Mar
+ 2023 05:41:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de> <20230307115900.2293120-18-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230307115900.2293120-18-u.kleine-koenig@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Mar 2023 14:36:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV5SjiMNyKqbF+WR_D+g44TpriA2YN6ZEWLA_Yker0erg@mail.gmail.com>
-Message-ID: <CAMuHMdV5SjiMNyKqbF+WR_D+g44TpriA2YN6ZEWLA_Yker0erg@mail.gmail.com>
-Subject: Re: [PATCH 17/31] phy: renesas: phy-rcar-gen3-usb3: Convert to
- platform remove callback returning void
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
-        kernel@pengutronix.de
+References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com> <20230306090014.128732-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230306090014.128732-4-biju.das.jz@bp.renesas.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 7 Mar 2023 14:41:16 +0100
+Message-ID: <CACRpkdb-gyn29ns3tGXXnrGgySNP7R90h0M7fan=zeNMU7-QKg@mail.gmail.com>
+Subject: Re: [PATCH v6 03/13] pinctrl: Add sysfs support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 1:11 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On Mon, Mar 6, 2023 at 10:00 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+
+> Add a simple sysfs interface to the generic pinctrl framework
+> for configuring pins for output disable operation.
 >
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> /sys/class/pinctrl/
+>   `-- output-disable/
+>       |-- configure    (w/o) ask the kernel to configure a pin group
+>                              for output disable operation.
 >
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>   echo "<group-name function-name 0 1>" > configure
+>
+> The existing "pinmux-functions" debugfs file lists the pin functions
+> registered for the pin controller. For example:
+>
+>   function 0: usb0, groups = [ usb0 ]
+>   function 1: usb1, groups = [ usb1 ]
+>   function 2: gpt4-pins, groups = [ gpt4-pins ]
+>   function 3: scif0, groups = [ scif0 ]
+>   function 4: scif2, groups = [ scif2 ]
+>   function 5: spi1, groups = [ spi1 ]
+>
+> To configure gpt4-pins for output disable activation by user:
+>
+>   echo "gpt4-pins gpt4-pins 0 1" > configure
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+You have to run things like this by Greg K-H (adde on To)
 
-                        Geert
+> +static struct class pinctrl_class = {
+> +       .name = "pinctrl",
+> +       .owner = THIS_MODULE,
+> +       .dev_groups = pinctrl_groups,
+> +};
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Why are you adding a new device class?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+IIRC Greg don't like them, we should probably just deal with the
+devices directly on the bus where they are, which also implies
+some topology search etc which is a feature.
+
+Yours,
+Linus Walleij
