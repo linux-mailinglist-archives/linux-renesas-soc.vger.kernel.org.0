@@ -2,101 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8C716B0E87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 17:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB0DF6B1096
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 19:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbjCHQWr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 11:22:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S229818AbjCHSEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 13:04:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjCHQWq (ORCPT
+        with ESMTP id S229952AbjCHSEr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 11:22:46 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EFFBE5CD
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 08:22:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678292565; x=1709828565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ko9kQctfLRT98NL58ITdfcYDexpET1KrsYUUHXjWGCU=;
-  b=iMWCrEE7LkMzejVJuT1lMG/YAurSyxdCdvS8pTAlNdBXqpBvibWaluxP
-   ekZHv8Dy/iVVymI6jJ7n/j6vENENx7uUVjBYOJ2FIkZo7c16sZW6H6OOA
-   4DfNrfIlg/6SYHsygi7BwfNOBVG+d8glGAXPhd5ax0REF12OkhI8uUA6m
-   EuZ+7yHm/WsahD7beo7Xxm/CggBaHqcorvjr/+60vBulKbBQMrhrYlHwe
-   zWtW6IH7+jgHJkq/rigaXOAGVxUqVPbP4sFvsVI8pm8yWwdWHpv82CESB
-   7lWLWP6rg4UCm1fIfGa1q9en2XrUAZ8R2hVp7YKtB9cZqmtr9STOHtRe/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="320029051"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="320029051"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:22:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006380199"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="1006380199"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 08:22:41 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pZwYp-00HVcu-2a;
-        Wed, 08 Mar 2023 18:22:39 +0200
-Date:   Wed, 8 Mar 2023 18:22:39 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Saravana Kannan <saravanak@google.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Use of_fwnode_handle() helper
-Message-ID: <ZAi2T4mYefbLTI9U@smile.fi.intel.com>
-References: <d49b9fb20d68709b12692558aca91997e6b06fb4.1678272276.git.geert+renesas@glider.be>
+        Wed, 8 Mar 2023 13:04:47 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 372B359E3
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 10:04:45 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id f11so16212018wrv.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Mar 2023 10:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678298683;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=36QQSXDy6HLVF+1TRChIdbNOy+S6sdWRo/ebFHbbL/w=;
+        b=xwZVnDqNNrqeOGErsihKhmARGxeQxjenT2pg8APxKJnrKeG6DXe8WYFgNiDuQ+2D9m
+         e4uwYe92oW5h1tkYR1zpX7j4asq8c800kUnoDi1PaBEDQEMCLgcGuBElgAsTmdjLvG2C
+         CoBgPsAwavVxsyOGBHol+wMrq2hGf+9vlSo2EpOnOSsiV88LdFfmhVq04SXead5XF3c4
+         PdCU29X6TE7g+MRSfBwCcELU8xq1nroQLo3d+4P3vtJRTfT6IqxgLaHQ9nGd+TY8SwgC
+         NhbjR3CX/HMUelCRyvYO5p6i/OnD14BNIkD6RvMBCXX4RpGPWcufq4Bunp1tESKwmZUy
+         A48Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678298683;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=36QQSXDy6HLVF+1TRChIdbNOy+S6sdWRo/ebFHbbL/w=;
+        b=AMBUaW21XmfFY1k/VwUkFyrAAh/ef+5AEVpmJawiM/xd+G7Z9tkWu1QvGbx7XABZ2C
+         F4xh3sB0NRGez9qiHsAaM7KH2yu3MxonZJT0jF5MoindQ1w9UzfKFEDzJtF5GpK2JqI7
+         mCTgk742SRFfNRtE8tapVJDGGLGz67Os3F61nw/65dEcXycsenCe/+lkCcSl/j1OmQ6/
+         HDs+gDJF5K6/SG62N8XCXwlFa5Tdb5Pjb3wseNX4u/zvRJAjNQqdtAwqbyhPYyMK/Ig4
+         hnNqUBojbw06j9i5I+WaQtUUAebppTf7qtoRriRphvHGGPrbH7yHQ7OhcWIJgyoBF25E
+         YJ4Q==
+X-Gm-Message-State: AO0yUKXFSI+mUcuz9yLCujKAoudppu2R85gD6PSsqsmksGjUFVYCuwzt
+        vMx9Z+5+gOhbwGF0W0GWsa2QtA==
+X-Google-Smtp-Source: AK7set87hJiYUFdWOhlkLfiCzzQEgcB/m/PwMmOH752pH3UfZH7d6XhMNiDWB4G+OFRfnegFoUu/Ug==
+X-Received: by 2002:a5d:6912:0:b0:2c8:14ba:4589 with SMTP id t18-20020a5d6912000000b002c814ba4589mr11585613wru.42.1678298683569;
+        Wed, 08 Mar 2023 10:04:43 -0800 (PST)
+Received: from ?IPV6:2a05:6e02:1041:c10:4213:ad42:5630:43c4? ([2a05:6e02:1041:c10:4213:ad42:5630:43c4])
+        by smtp.googlemail.com with ESMTPSA id r11-20020a5d494b000000b002c54c9bd71fsm15310715wrs.93.2023.03.08.10.04.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 10:04:43 -0800 (PST)
+Message-ID: <1d0e06ca-c61c-27f1-281a-ed75034c91d4@linaro.org>
+Date:   Wed, 8 Mar 2023 19:04:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d49b9fb20d68709b12692558aca91997e6b06fb4.1678272276.git.geert+renesas@glider.be>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 06/11] thermal/drivers/rcar_gen3_thermal: remove R-Car H3
+ ES1.* handling
+Content-Language: en-US
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
+ <20230307163041.3815-7-wsa+renesas@sang-engineering.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230307163041.3815-7-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 11:48:17AM +0100, Geert Uytterhoeven wrote:
-> Use the existing of_fwnode_handle() helper instead of open-coding the
-> same operation.
-
-LGTM,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 07/03/2023 17:30, Wolfram Sang wrote:
+> R-Car H3 ES1.* was only available to an internal development group and
+> needed a lot of quirks and workarounds. These become a maintenance
+> burden now, so our development group decided to remove upstream support
+> and disable booting for this SoC. Public users only have ES2 onwards.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
-> To be queued in renesas-devel-for-v6.4.
-> 
->  drivers/soc/renesas/rmobile-sysc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
-> index 204e6135180b919c..728ebac98e14a5cc 100644
-> --- a/drivers/soc/renesas/rmobile-sysc.c
-> +++ b/drivers/soc/renesas/rmobile-sysc.c
-> @@ -343,7 +343,7 @@ static int __init rmobile_init_pm_domains(void)
->  			break;
->  		}
->  
-> -		fwnode_dev_initialized(&np->fwnode, true);
-> +		fwnode_dev_initialized(of_fwnode_handle(np), true);
->  	}
->  
->  	put_special_pds();
+> Please apply individually per subsystem. There are no dependencies and the SoC
+> doesn't boot anymore since v6.3-rc1.
+
+Applied, thanks
 
 -- 
-With Best Regards,
-Andy Shevchenko
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
