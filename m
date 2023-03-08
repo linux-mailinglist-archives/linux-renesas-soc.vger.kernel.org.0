@@ -2,284 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33CB56B03C7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 11:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB6F26B0573
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 12:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230315AbjCHKL7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 05:11:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40698 "EHLO
+        id S229768AbjCHLIm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 06:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbjCHKL6 (ORCPT
+        with ESMTP id S229613AbjCHLIj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 05:11:58 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB425DBDB;
-        Wed,  8 Mar 2023 02:11:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4499927C;
-        Wed,  8 Mar 2023 11:11:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678270314;
-        bh=W/+h4Lreayy3WufHVZSAr9X9Gvd5PYSCIAeLj2m/Scw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Xvwx8Agcwdxx+3ViuFKX1b8GsYDP4OoW43W15LFyoXQ6cCzb7RCZqBgBGGvpS1WeQ
-         xlLamzdsBGCVEV1ugAMzyYoTjdErbt4cYxUlQBbQ2SANS+F6L7RNcldutSYSIKeFCv
-         LWsP+S8uOAjQsIf9spZUpyMKf60xHU7vkFFsMY4A=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 8 Mar 2023 06:08:39 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575D3231D8;
+        Wed,  8 Mar 2023 03:08:32 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id t39so14214604ybi.3;
+        Wed, 08 Mar 2023 03:08:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678273711;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dXJLchZ3CLsje5+7ZZBBlhl0+d94Zoo7kNdmX7dqbOs=;
+        b=RrtOdI+D6/WHBOKSaRpibafbT7TPzJGrD272U3Xzl7psc6VHTgxi9qf0eOGrBogbaL
+         IdSBRZynrqzZ/LpDDf1Ixs82XkZGpYjSyDk5kk/NTHMUk6NyLNMjcVyDC0UlS2QTxJ3R
+         345MTxXwvB5ZeWpMuVopHDH68Hif8wGZK4B+LSKa9blEM/2bEkgnuf7uIN0MYFgOA/Co
+         gSMCSGHUZfcxmuhgjAdcfrQ8DQ0ETehVzzFh3nmc6KZ/icSCfwsY88UPIEV547OBM6U0
+         FF8iT2SmrmJYtz7Gm/d6tpqVN6gOg5WWoJoF8xJS3EjCbSbhB1DA0wS4hsR7kSS0JvfQ
+         p5Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678273711;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dXJLchZ3CLsje5+7ZZBBlhl0+d94Zoo7kNdmX7dqbOs=;
+        b=a7Ucpz6sHRQCSho68CtxCisZyHgBfCZbX6gDVtlmrcIeG0+a/Rhava5OxOjf8Ox/vD
+         zq14cMvnm+nmf/96cmwo4pTsgxGDSbhYGMGW71iyEb+MX3tliXne1VAZta7vuxYgFLGz
+         /FqVVDkrqZ9t4wHZpBEgHVsOq8XbUF5fjM8zC3Y/3DtCNXAuum5SXeNs2CIBYmOo8VlM
+         Gyd2No+7t3ujAtHT9Y6F2c+fVFhdqspp7VPwI3S/UbZBsXYR91u9KFSkXO3vLxCdvmwM
+         aUdnfE+wZeSF8oODaF57wdz8yerdc5dVS0qi5avWWjqYEF1v20qzdPFvIoUFx1zV+/Q1
+         /mdw==
+X-Gm-Message-State: AO0yUKX0tWIty3G7fDqlQRbBnBBS7okSzpIn8vECUfXKAOyY3NVdr0qj
+        7UKtARdB6KiTO09R+Ha2SVcTJR7/Bqic87b0/F8=
+X-Google-Smtp-Source: AK7set/5RjequTJCQUjg69IGow+Wa/vlxBCrjoX91l2mwEs7aGXw74L2lQQNX9IAZJIp5MNnkHGM7yEphxMeLLphXso=
+X-Received: by 2002:a5b:88c:0:b0:ad7:b81e:69be with SMTP id
+ e12-20020a5b088c000000b00ad7b81e69bemr8507234ybq.6.1678273711353; Wed, 08 Mar
+ 2023 03:08:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20230216175347.99778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230216175347.99778-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXNrBCdLvMKK6kPbMLhSmuxXtd5A+Lt4J0ddVorODqCvw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXNrBCdLvMKK6kPbMLhSmuxXtd5A+Lt4J0ddVorODqCvw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 8 Mar 2023 11:08:04 +0000
+Message-ID: <CA+V-a8up5tnNt==6nUcpK44o+eN0VVMLdtLD5NyZzd37Rx=GgA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Add OV5645 node
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230307163041.3815-3-wsa+renesas@sang-engineering.com>
-References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com> <20230307163041.3815-3-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 02/11] drm: rcar-du: remove R-Car H3 ES1.* workarounds
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Wed, 08 Mar 2023 10:11:51 +0000
-Message-ID: <167827031185.93391.13063424473910902940@Monstersaurus>
-User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Geert.
 
-Quoting Wolfram Sang (2023-03-07 16:30:30)
-> R-Car H3 ES1.* was only available to an internal development group and
-> needed a lot of quirks and workarounds. These become a maintenance
-> burden now, so our development group decided to remove upstream support
-> and disable booting for this SoC. Public users only have ES2 onwards.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thank you for the review.
 
-Wow, this lets us get rid of workarounds all throughout.
-
-This looks pretty decisive, and complete to me.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
-> Please apply individually per subsystem. There are no dependencies and th=
-e SoC
-> doesn't boot anymore since v6.3-rc1.
->=20
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 37 ++------------------
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c  | 48 --------------------------
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  2 --
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h |  3 +-
->  4 files changed, 4 insertions(+), 86 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rca=
-r-du/rcar_du_crtc.c
-> index 008e172ed43b..84411c452e30 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -223,20 +223,6 @@ static void rcar_du_crtc_set_display_timing(struct r=
-car_du_crtc *rcrtc)
->                  * DU channels that have a display PLL can't use the inte=
-rnal
->                  * system clock, and have no internal clock divider.
->                  */
-> -
-> -               /*
-> -                * The H3 ES1.x exhibits dot clock duty cycle stability i=
-ssues.
-> -                * We can work around them by configuring the DPLL to twi=
-ce the
-> -                * desired frequency, coupled with a /2 post-divider. Res=
-trict
-> -                * the workaround to H3 ES1.x as ES2.0 and all other SoCs=
- have
-> -                * no post-divider when a display PLL is present (as show=
-n by
-> -                * the workaround breaking HDMI output on M3-W during tes=
-ting).
-> -                */
-> -               if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PCLK_STABIL=
-ITY) {
-> -                       target *=3D 2;
-> -                       div =3D 1;
-> -               }
-> -
->                 extclk =3D clk_get_rate(rcrtc->extclock);
->                 rcar_du_dpll_divider(rcrtc, &dpll, extclk, target);
-> =20
-> @@ -245,30 +231,13 @@ static void rcar_du_crtc_set_display_timing(struct =
-rcar_du_crtc *rcrtc)
->                        | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
->                        | DPLLCR_STBY;
-> =20
-> -               if (rcrtc->index =3D=3D 1) {
-> +               if (rcrtc->index =3D=3D 1)
->                         dpllcr |=3D DPLLCR_PLCS1
->                                |  DPLLCR_INCS_DOTCLKIN1;
-> -               } else {
-> -                       dpllcr |=3D DPLLCR_PLCS0_PLL
-> +               else
-> +                       dpllcr |=3D DPLLCR_PLCS0
->                                |  DPLLCR_INCS_DOTCLKIN0;
-> =20
-> -                       /*
-> -                        * On ES2.x we have a single mux controlled via b=
-it 21,
-> -                        * which selects between DCLKIN source (bit 21 =
-=3D 0) and
-> -                        * a PLL source (bit 21 =3D 1), where the PLL is =
-always
-> -                        * PLL1.
-> -                        *
-> -                        * On ES1.x we have an additional mux, controlled
-> -                        * via bit 20, for choosing between PLL0 (bit 20 =
-=3D 0)
-> -                        * and PLL1 (bit 20 =3D 1). We always want to use=
- PLL1,
-> -                        * so on ES1.x, in addition to setting bit 21, we=
- need
-> -                        * to set the bit 20.
-> -                        */
-> -
-> -                       if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PLL)
-> -                               dpllcr |=3D DPLLCR_PLCS0_H3ES1X_PLL1;
-> -               }
-> -
->                 rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
-> =20
->                 escr =3D ESCR_DCLKSEL_DCLKIN | div;
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.c
-> index b9a94c5260e9..1ffde19cb87f 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -16,7 +16,6 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm.h>
->  #include <linux/slab.h>
-> -#include <linux/sys_soc.h>
->  #include <linux/wait.h>
-> =20
->  #include <drm/drm_atomic_helper.h>
-> @@ -387,43 +386,6 @@ static const struct rcar_du_device_info rcar_du_r8a7=
-795_info =3D {
->         .dpll_mask =3D  BIT(2) | BIT(1),
->  };
-> =20
-> -static const struct rcar_du_device_info rcar_du_r8a7795_es1_info =3D {
-> -       .gen =3D 3,
-> -       .features =3D RCAR_DU_FEATURE_CRTC_IRQ
-> -                 | RCAR_DU_FEATURE_CRTC_CLOCK
-> -                 | RCAR_DU_FEATURE_VSP1_SOURCE
-> -                 | RCAR_DU_FEATURE_INTERLACED
-> -                 | RCAR_DU_FEATURE_TVM_SYNC,
-> -       .quirks =3D RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY
-> -               | RCAR_DU_QUIRK_H3_ES1_PLL,
-> -       .channels_mask =3D BIT(3) | BIT(2) | BIT(1) | BIT(0),
-> -       .routes =3D {
-> -               /*
-> -                * R8A7795 has one RGB output, two HDMI outputs and one
-> -                * LVDS output.
-> -                */
-> -               [RCAR_DU_OUTPUT_DPAD0] =3D {
-> -                       .possible_crtcs =3D BIT(3),
-> -                       .port =3D 0,
-> -               },
-> -               [RCAR_DU_OUTPUT_HDMI0] =3D {
-> -                       .possible_crtcs =3D BIT(1),
-> -                       .port =3D 1,
-> -               },
-> -               [RCAR_DU_OUTPUT_HDMI1] =3D {
-> -                       .possible_crtcs =3D BIT(2),
-> -                       .port =3D 2,
-> -               },
-> -               [RCAR_DU_OUTPUT_LVDS0] =3D {
-> -                       .possible_crtcs =3D BIT(0),
-> -                       .port =3D 3,
-> -               },
-> -       },
-> -       .num_lvds =3D 1,
-> -       .num_rpf =3D 5,
-> -       .dpll_mask =3D  BIT(2) | BIT(1),
-> -};
-> -
->  static const struct rcar_du_device_info rcar_du_r8a7796_info =3D {
->         .gen =3D 3,
->         .features =3D RCAR_DU_FEATURE_CRTC_IRQ
-> @@ -614,11 +576,6 @@ static const struct of_device_id rcar_du_of_table[] =
-=3D {
-> =20
->  MODULE_DEVICE_TABLE(of, rcar_du_of_table);
-> =20
-> -static const struct soc_device_attribute rcar_du_soc_table[] =3D {
-> -       { .soc_id =3D "r8a7795", .revision =3D "ES1.*", .data =3D &rcar_d=
-u_r8a7795_es1_info },
-> -       { /* sentinel */ }
-> -};
-> -
->  const char *rcar_du_output_name(enum rcar_du_output output)
->  {
->         static const char * const names[] =3D {
-> @@ -707,7 +664,6 @@ static void rcar_du_shutdown(struct platform_device *=
-pdev)
-> =20
->  static int rcar_du_probe(struct platform_device *pdev)
->  {
-> -       const struct soc_device_attribute *soc_attr;
->         struct rcar_du_device *rcdu;
->         unsigned int mask;
->         int ret;
-> @@ -725,10 +681,6 @@ static int rcar_du_probe(struct platform_device *pde=
-v)
-> =20
->         rcdu->info =3D of_device_get_match_data(rcdu->dev);
-> =20
-> -       soc_attr =3D soc_device_match(rcar_du_soc_table);
-> -       if (soc_attr)
-> -               rcdu->info =3D soc_attr->data;
-> -
->         platform_set_drvdata(pdev, rcdu);
-> =20
->         /* I/O resources */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.h
-> index acc3673fefe1..5cfa2bb7ad93 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -34,8 +34,6 @@ struct rcar_du_device;
->  #define RCAR_DU_FEATURE_NO_BLENDING    BIT(5)  /* PnMR.SPIM does not hav=
-e ALP nor EOR bits */
-> =20
->  #define RCAR_DU_QUIRK_ALIGN_128B       BIT(0)  /* Align pitches to 128 b=
-ytes */
-> -#define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)     /* H3 ES1 has pcl=
-k stability issue */
-> -#define RCAR_DU_QUIRK_H3_ES1_PLL       BIT(2)  /* H3 ES1 PLL setup diffe=
-rs from non-ES1 */
-> =20
->  enum rcar_du_output {
->         RCAR_DU_OUTPUT_DPAD0,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rca=
-r-du/rcar_du_regs.h
-> index 789ae9285108..288eff12b2b1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> @@ -283,8 +283,7 @@
->  #define DPLLCR                 0x20044
->  #define DPLLCR_CODE            (0x95 << 24)
->  #define DPLLCR_PLCS1           (1 << 23)
-> -#define DPLLCR_PLCS0_PLL       (1 << 21)
-> -#define DPLLCR_PLCS0_H3ES1X_PLL1       (1 << 20)
-> +#define DPLLCR_PLCS0           (1 << 21)
->  #define DPLLCR_CLKE            (1 << 18)
->  #define DPLLCR_FDPLL(n)                ((n) << 12)
->  #define DPLLCR_N(n)            ((n) << 5)
-> --=20
-> 2.35.1
+On Mon, Mar 6, 2023 at 7:27=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
 >
+> Hi Prabhakar,
+>
+> On Thu, Feb 16, 2023 at 6:57=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > OV5645 sensor can be connected to the CN1 connector on the
+> > carrier board. This patch adds the ov5645 node under i2c0 node.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > @@ -6,6 +6,10 @@
+> >   */
+> >
+> >  /dts-v1/;
+> > +
+> > +/* comment the #define statement if OV5645 is not connected to CN1  */
+> > +#define CAM_INTERFACE_OV5645   1
+>
+> I believe the camera is optional ("can be connector" above).
+> So shouldn't this be commented out by default?
+>
+Yep, that makes sense.
+
+Shall I send this change or will you be generous to do this while applying =
+;)
+
+Cheers,
+Prabhakar
+
+
+> The rest LGTM, so with the above sorted out:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
