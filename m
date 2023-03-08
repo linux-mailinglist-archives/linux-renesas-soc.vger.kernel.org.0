@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2BB16B0864
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 14:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A77496B085E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 14:19:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbjCHNTd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 08:19:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43414 "EHLO
+        id S231168AbjCHNT2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 08:19:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbjCHNSm (ORCPT
+        with ESMTP id S231618AbjCHNSl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 08:18:42 -0500
+        Wed, 8 Mar 2023 08:18:41 -0500
 Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BB4ACE34
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 05:15:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AE0D08E3
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 05:15:26 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:614d:21b0:703:d0f9])
         by andre.telenet-ops.be with bizsmtp
-        id VpFM290093mNwr401pFMRX; Wed, 08 Mar 2023 14:15:21 +0100
+        id VpFM290043mNwr401pFMRV; Wed, 08 Mar 2023 14:15:21 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pZtd0-00BF1S-VH;
+        id 1pZtd0-00BF1P-Sl;
         Wed, 08 Mar 2023 14:15:21 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pZrFu-00FUfD-4d;
+        id 1pZrFu-00FUfI-6W;
         Wed, 08 Mar 2023 11:42:46 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/8] pinctrl: renesas: r8a77970: Add support for AVB power-source
-Date:   Wed,  8 Mar 2023 11:42:40 +0100
-Message-Id: <eb4db82bdeb67507a1a77f63b9d90280d6f38ba4.1678271030.git.geert+renesas@glider.be>
+Subject: [PATCH 5/8] pinctrl: renesas: r8a77980: Add support for AVB/GE power-sources
+Date:   Wed,  8 Mar 2023 11:42:41 +0100
+Message-Id: <3c26c4f3735a6d071685c507c065172e63af5d70.1678271030.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1678271030.git.geert+renesas@glider.be>
 References: <cover.1678271030.git.geert+renesas@glider.be>
@@ -48,30 +48,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for configuring the I/O voltage level of the Ethernet AVB
-pins on the R-Car V3M SoC.  "PIN_VDDQ_AVB0" can be configured for 2.5V
-or 3.3V operation.
+Add support for configuring the I/O voltage levels of the Ethernet AVB
+and Gigabit Ethernet pins on the R-Car V3H SoC.  "PIN_VDDQ_AVB" and
+"PIN_VDDQ_GE" can be configured for 2.5V or 3.3V operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pinctrl/renesas/pfc-r8a77970.c | 28 ++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ drivers/pinctrl/renesas/pfc-r8a77980.c | 39 ++++++++++++++++++--------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77970.c b/drivers/pinctrl/renesas/pfc-r8a77970.c
-index 578c1d6fc2e0fcd9..54da0c025458d0a7 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77970.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77970.c
-@@ -34,7 +34,8 @@
- 	PIN_NOGP_CFG(TCK, "TCK", fn, SH_PFC_PIN_CFG_PULL_UP),		\
- 	PIN_NOGP_CFG(TDI, "TDI", fn, SH_PFC_PIN_CFG_PULL_UP),		\
- 	PIN_NOGP_CFG(TMS, "TMS", fn, SH_PFC_PIN_CFG_PULL_UP),		\
--	PIN_NOGP_CFG(TRST_N, "TRST#", fn, SH_PFC_PIN_CFG_PULL_UP)
-+	PIN_NOGP_CFG(TRST_N, "TRST#", fn, SH_PFC_PIN_CFG_PULL_UP),	\
-+	PIN_NOGP_CFG(VDDQ_AVB0, "VDDQ_AVB0", fn, SH_PFC_PIN_CFG_IO_VOLTAGE_25_33)
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77980.c b/drivers/pinctrl/renesas/pfc-r8a77980.c
+index b632ea1b29c73e3a..8effbcec0b227ee3 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77980.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77980.c
+@@ -35,7 +35,9 @@
+ 	PIN_NOGP_CFG(EXTALR, "EXTALR", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN),	\
+ 	PIN_NOGP_CFG(FSCLKST, "FSCLKST", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN),	\
+ 	PIN_NOGP_CFG(FSCLKST_N, "FSCLKST#", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN),	\
+-	PIN_NOGP_CFG(PRESETOUT_N, "PRESETOUT#", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN)
++	PIN_NOGP_CFG(PRESETOUT_N, "PRESETOUT#", fn, SH_PFC_PIN_CFG_PULL_UP_DOWN), \
++	PIN_NOGP_CFG(VDDQ_AVB, "VDDQ_AVB", fn, SH_PFC_PIN_CFG_IO_VOLTAGE_25_33), \
++	PIN_NOGP_CFG(VDDQ_GE, "VDDQ_GE", fn, SH_PFC_PIN_CFG_IO_VOLTAGE_25_33)
  
  /*
   * F_() : just information
-@@ -2364,19 +2365,30 @@ static int r8a77970_pin_to_pocctrl(unsigned int pin, u32 *pocctrl)
+@@ -2837,24 +2839,39 @@ static int r8a77980_pin_to_pocctrl(unsigned int pin, u32 *pocctrl)
  {
  	int bit = pin & 0x1f;
  
@@ -81,7 +82,7 @@ index 578c1d6fc2e0fcd9..54da0c025458d0a7 100644
 +	case RCAR_GP_PIN(0, 0) ... RCAR_GP_PIN(0, 21):
 +		*pocctrl = pinmux_ioctrl_regs[POCCTRL0].reg;
  		return bit;
--	if (pin >= RCAR_GP_PIN(2, 0) && pin <= RCAR_GP_PIN(2, 9))
+-	else if (pin >= RCAR_GP_PIN(2, 0) && pin <= RCAR_GP_PIN(2, 9))
 +
 +	case RCAR_GP_PIN(2, 0) ... RCAR_GP_PIN(2, 9):
 +		*pocctrl = pinmux_ioctrl_regs[POCCTRL0].reg;
@@ -92,16 +93,28 @@ index 578c1d6fc2e0fcd9..54da0c025458d0a7 100644
 +	case RCAR_GP_PIN(2, 10) ... RCAR_GP_PIN(2, 16):
 +		*pocctrl = pinmux_ioctrl_regs[POCCTRL1].reg;
  		return bit - 10;
--	if (pin >= RCAR_GP_PIN(3, 0) && pin <= RCAR_GP_PIN(3, 16))
+-	if ((pin >= RCAR_GP_PIN(2, 17) && pin <= RCAR_GP_PIN(2, 24)) ||
+-	    (pin >= RCAR_GP_PIN(3,  0) && pin <= RCAR_GP_PIN(3, 16)))
 +
-+	case RCAR_GP_PIN(3, 0) ... RCAR_GP_PIN(3, 16):
++	case RCAR_GP_PIN(2, 17) ... RCAR_GP_PIN(2, 24):
++	case RCAR_GP_PIN(3,  0) ... RCAR_GP_PIN(3, 16):
 +		*pocctrl = pinmux_ioctrl_regs[POCCTRL1].reg;
  		return bit + 7;
  
--	return -EINVAL;
-+	case PIN_VDDQ_AVB0:
+-	*pocctrl = pinmux_ioctrl_regs[POCCTRL2].reg;
+-	if (pin >= RCAR_GP_PIN(2, 25) && pin <= RCAR_GP_PIN(2, 29))
++	case RCAR_GP_PIN(2, 25) ... RCAR_GP_PIN(2, 29):
 +		*pocctrl = pinmux_ioctrl_regs[POCCTRL2].reg;
+ 		return pin - 25;
+ 
+-	return -EINVAL;
++	case PIN_VDDQ_AVB:
++		*pocctrl = pinmux_ioctrl_regs[POCCTRL3].reg;
 +		return 0;
++
++	case PIN_VDDQ_GE:
++		*pocctrl = pinmux_ioctrl_regs[POCCTRL3].reg;
++		return 1;
 +
 +	default:
 +		return -EINVAL;
