@@ -2,222 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF816B0963
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 14:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C73E6B0A80
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 15:08:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231343AbjCHNhB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 08:37:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51608 "EHLO
+        id S232129AbjCHOIK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 09:08:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbjCHNg2 (ORCPT
+        with ESMTP id S232128AbjCHOHv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 08:36:28 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E71B1E1F4
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 05:34:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A11EBB81C6F
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 13:34:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C2BC433D2;
-        Wed,  8 Mar 2023 13:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678282446;
-        bh=m4BZBfqwb6uVcIdmP/SV0DiG2zaTdD7IGz4vY7BBMAw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p2Q7b0Z/w9pQAyp6YcWInqyI+jHk27xUYfcFEEZQ3VFR7yjLE24jN5gkMXssIksTN
-         H3d9WSkDs39HLxqf0SjR3ev31Iix0rHwGCSF4TjImSfjPhbaxu7TK5I/kl9KdC/Yt7
-         QOm+zNCEZRywq5gPz8VMKhn8JHbm0G7B+CzjedO5zgXePy+KwwEQzbmcCtu3587nMR
-         GKEAZ4Uv0l7WoSXT0RDLIH9x1L5UT97yWifvXMTHolwERO5GY2qO1LawncpkXxD1Gm
-         U4ynbMDi4X1LoTZCcJG5ig2fDeuFQtsPpMKSEEr51z2G1ljNWQFox8BhsaRkY9CLYm
-         RLsZej+STVzEg==
-Date:   Wed, 8 Mar 2023 13:34:00 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v13 2/6] mfd: Add Renesas RZ/G2L MTU3a core driver
-Message-ID: <20230308133400.GI9667@google.com>
-References: <20230216203830.196632-1-biju.das.jz@bp.renesas.com>
- <20230216203830.196632-3-biju.das.jz@bp.renesas.com>
- <20230304162000.GA2574592@google.com>
- <TYCPR01MB5933B070FDB6FFCD60B2FEB186B69@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Wed, 8 Mar 2023 09:07:51 -0500
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6265C4DE35;
+        Wed,  8 Mar 2023 06:06:30 -0800 (PST)
+Received: by mail-oi1-f175.google.com with SMTP id q15so12199279oiw.11;
+        Wed, 08 Mar 2023 06:06:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678284389;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=46ifXtx7H5qHUf/TrPJ9mIvLhusVn1artVDZ/aEfyqY=;
+        b=KWFUyO0nioE5dQ7vHHl//5hg/neJ0gcA6fLP4BsYkFKL2k7ukG2RASWWdjPOsxrKrb
+         oCvayFtAzWC++0SJnFA03XE7HxUpkx9ti4QJb/ARvO9rGUhjgsiHxZi5aYZYYoHksRvy
+         R/FEi8Np8/k+ZU8J7lCV3BFy5VC07qMALGgjQt9zL0Wm/MUJWlqAZLi4XDEGQzqHvKJp
+         S8GipnhT/M871QNNjW2aIwfG2fOx9VPcMX0IAVVk1TzNoi5LDUSuynX0yiZpgvg2+uR/
+         CYNIFYb63AYYK3R4fOYAoqflFFEsEEEG9b8i4uKxbpKFU0SwXtC4VgNkthRttQE2bCS4
+         QTng==
+X-Gm-Message-State: AO0yUKU4KxJIrT8bHxWBiyuSxvhyB4JIQCdnxMMzKBmW9MXU1WboS8pB
+        6FWsiX0LU4zfG3+H1VmraQ==
+X-Google-Smtp-Source: AK7set8gAyNjY8BkNBNF90LL+mmM7D2sm8zj5SI+095OPsrGhbzhNlHil1wu52ljYCwndnnZtwARTA==
+X-Received: by 2002:a05:6808:251:b0:384:637:a4f with SMTP id m17-20020a056808025100b0038406370a4fmr8319226oie.10.1678284389579;
+        Wed, 08 Mar 2023 06:06:29 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05680811cd00b0037d59e90a07sm6336512oiv.55.2023.03.08.06.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 06:06:28 -0800 (PST)
+Received: (nullmailer pid 2666447 invoked by uid 1000);
+        Wed, 08 Mar 2023 14:06:21 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYCPR01MB5933B070FDB6FFCD60B2FEB186B69@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, lpieralisi@kernel.org,
+        jingoohan1@gmail.com, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+        bhelgaas@google.com, Sergey.Semin@baikalelectronics.ru,
+        kw@linux.com, robh+dt@kernel.org, gustavo.pimentel@synopsys.com
+In-Reply-To: <20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com>
+References: <20230308082352.491561-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <167828360013.2613033.9597953469083757730.robh@kernel.org>
+Subject: Re: [PATCH v10 04/12] dt-bindings: PCI: renesas: Add R-Car Gen4
+ PCIe Endpoint
+Date:   Wed, 08 Mar 2023 08:06:21 -0600
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 06 Mar 2023, Biju Das wrote:
 
-> Hi Lee Jones,
->
-> Thanks for the review.
->
-> > Subject: Re: [PATCH v13 2/6] mfd: Add Renesas RZ/G2L MTU3a core driver
-> >
-> > On Thu, 16 Feb 2023, Biju Das wrote:
-> >
-> > > The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
-> > > the Renesas RZ/G2L family SoCs. It consists of eight 16-bit timer
-> > > channels and one 32-bit timer channel. It supports the following
-> > > functions
-> > >  - Counter
-> > >  - Timer
-> > >  - PWM
-> > >
-> > > The 8/16/32 bit registers are mixed in each channel.
-> > >
-> > > Add MTU3a core driver for RZ/G2L SoC. The core driver shares the clk
-> > > and channel register access for the other child devices like Counter,
-> > > PWM and Clock event.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > Ref:
-> > >
-> > >
-> > > v12->v13:
-> > >  * Moved RZ_MTU3_TMDR1_* macros from pwm driver to rz-mtu3.h.
-> > > v11->v2:
-> > >  * Moved the core driver from timer to MFD.
-> > >  * Moved header fine from clocksource/rz-mtu3.h->linux/mfd/rz-mtu3.h
-> > >  * Removed Select MFD_CORE option from config.
-> > > v10->v11:
-> > >  * No change.
-> > > v9->v10:
-> > >  * No change.
-> > > v8->v9:
-> > >  * No change.
-> > > v7->v8:
-> > >  * Add locking for RMW on rz_mtu3_shared_reg_update_bit()
-> > >  * Replaced enum rz_mtu3_functions with channel busy flag
-> > >  * Added API for request and release a channel.
-> > > v6->v7:
-> > >  * Added channel specific mutex to avoid races between child devices
-> > >    (for eg: pwm and counter)
-> > >  * Added rz_mtu3_shared_reg_update_bit() to update bit.
-> > > v5->v6:
-> > >  * Updated commit and KConfig description
-> > >  * Selected MFD_CORE to avoid build error if CONFIG_MFD_CORE not set.
-> > >  * Improved error handling in probe().
-> > >  * Updated MODULE_DESCRIPTION and title.
-> > > v4->v5:
-> > >  * Moved core driver from MFD to timer
-> > >  * Child devices instatiated using mfd_add_devices()
-> > > v3->v4:
-> > >  * A single driver that registers both the counter and the pwm
-> > functionalities
-> > >    that binds against "renesas,rz-mtu3".
-> > >  * Moved PM handling from child devices to here.
-> > >  * replaced include/linux/mfd/rz-mtu3.h->drivers/mfd/rz-mtu3.h
-> > >  * Removed "remove" callback
-> > > v2->v3:
-> > >  * removed unwanted header files
-> > >  * Added LUT for 32 bit registers as it needed for 32-bit cascade
-> > counting.
-> > >  * Exported 32 bit read/write functions.
-> > > v1->v2:
-> > >  * Changed the compatible name
-> > >  * Replaced devm_reset_control_get->devm_reset_control_get_exclusive
-> > >  * Renamed function names rzg2l_mtu3->rz_mtu3 as this is generic IP
-> > >    in RZ family SoC's.
-> > > ---
-> > >  drivers/mfd/Kconfig         |  10 +
-> > >  drivers/mfd/Makefile        |   1 +
-> > >  drivers/mfd/rz-mtu3.c       | 458 ++++++++++++++++++++++++++++++++++++
-> > >  include/linux/mfd/rz-mtu3.h | 243 +++++++++++++++++++
-> > >  4 files changed, 712 insertions(+)
-> > >  create mode 100644 drivers/mfd/rz-mtu3.c  create mode 100644
-> > > include/linux/mfd/rz-mtu3.h
+On Wed, 08 Mar 2023 17:23:44 +0900, Yoshihiro Shimoda wrote:
+> Document bindings for Renesas R-Car Gen4 and R-Car S4-8 (R8A779F0)
+> PCIe endpoint module.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/pci/rcar-gen4-pci-ep.yaml        | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+> 
 
-[...]
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> > > diff --git a/include/linux/mfd/rz-mtu3.h b/include/linux/mfd/rz-mtu3.h
-> > > new file mode 100644 index 000000000000..42e561a9603c
-> > > --- /dev/null
-> > > +++ b/include/linux/mfd/rz-mtu3.h
-> > > @@ -0,0 +1,243 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +/*
-> > > + * Copyright (C) 2022 Renesas Electronics Corporation  */ #ifndef
-> > > +__LINUX_RZ_MTU3_H__ #define __LINUX_RZ_MTU3_H__
-> >
-> > __MFD_RZ_MTU3_H__
->
-> OK.
->
-> >
-> > > +#include <linux/clk.h>
-> >
-> > What about all the others?
->
-> It is not required here. Will remove it.
+yamllint warnings/errors:
 
-It is required.  Please explicitly include all the headers you use here.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.example.dtb: pcie-ep@e65d0000: reg-names:2: 'app' was expected
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
 
-[...]
+doc reference errors (make refcheckdocs):
 
- > > +#if IS_ENABLED(CONFIG_RZ_MTU3)
-> > > +static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel
-> > > +*ch) {
-> > > +	bool is_idle;
-> > > +
-> > > +	mutex_lock(&ch->lock);
-> > > +	is_idle = !ch->is_busy;
-> > > +	if (is_idle)
-> > > +		ch->is_busy = true;
-> >
-> > Perhaps I'd reading this all wrong, but ...
-> >
-> > What are you trying to do here?
->
-> It is to avoid race between counter and pwm to acquiring the same channel.
-> If a channel is free, then only they can access the channel.
->
-> Please let me know if any clarifications needed, or correct me if anything wrong.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com
 
-I mean the logic.  Please explain it to me.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-For instance, why not just do:
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-  bool success = false
+pip3 install dtschema --upgrade
 
-  lock()
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-  if (!is_busy)
-    is_busy = true
-    success = true
-
-  unlock()
-
-  return success
-
-What do you think?  Easier to brain parse?
-
-> > > +	mutex_unlock(&ch->lock);
-> > > +
-> > > +	return is_idle;
-> > > +}
-
---
-Lee Jones [李琼斯]
