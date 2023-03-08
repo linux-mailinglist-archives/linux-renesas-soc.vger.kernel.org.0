@@ -2,100 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F0276B06BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 13:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F736B0768
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 13:47:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbjCHMRH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 07:17:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60700 "EHLO
+        id S229852AbjCHMrW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 07:47:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjCHMRG (ORCPT
+        with ESMTP id S229608AbjCHMrV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 07:17:06 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B01BAD00
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 04:16:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=wZJRM2rHzGf84CtmVYJT/6El2+DB
-        2f0LTb8sWk3XR8g=; b=T9d7vaeMwyVgnnf4joeAwYgPH+ENqHsI634ZxeS59u5+
-        UGlk1uSRipbxytFq4slwXYcrMFPdWVIdvscYcQ8BSKdc4tBYOx7PrnwEjG/VJpD3
-        McBG2Qj0RyqAiBhf4GXISjgzzs1qryBv/Rf3HijxqfAz9Ty9UmTJtADvjih5XZM=
-Received: (qmail 1073161 invoked from network); 8 Mar 2023 13:16:52 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Mar 2023 13:16:52 +0100
-X-UD-Smtp-Session: l3s3148p1@s4zQgGL2GLcgAQnoAFr3AO/pv39cimVn
-Date:   Wed, 8 Mar 2023 13:16:51 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] soc: renesas: remove r8a77950 arch
-Message-ID: <ZAh8s38kTHLr1Xpf@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230307105645.5285-1-wsa+renesas@sang-engineering.com>
- <20230307105645.5285-6-wsa+renesas@sang-engineering.com>
- <CAMuHMdXr=WGTEOnAhckPW4B1WUoRZUokkRjEZXjsU+Qr-y60iQ@mail.gmail.com>
+        Wed, 8 Mar 2023 07:47:21 -0500
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6487F9BA5D;
+        Wed,  8 Mar 2023 04:47:20 -0800 (PST)
+Received: by mail-qv1-f51.google.com with SMTP id o3so11004291qvr.1;
+        Wed, 08 Mar 2023 04:47:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678279639;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8QoG6lFQOa6DcT5o3dgKUDLc2SadqzJqm0y9eSB0xFU=;
+        b=nG+j4YOD2JVhSl4hcyKpdvmK1un8v0edt9ZYfajsDJF2EPXTDHpUIq7sV7Xs7TkAaX
+         24+DKRctJyQx2iKDSorirYl7q+2jfcVOvokkQlVSs18pTj3qfjxer6a3U6R+utcvhqvk
+         vL7Le6zYCtQ5OKiLRPTGXxVuSyXjclh36pBtmv4m7C8DgyE1ZQ6hlYIWLsz1niSK2OX/
+         jz3Uv2NfU1biXphD3jNoojZMJf7sqa3oBXbnB6F+5fvy3uR76IB7js3NKucLsuIYRfJU
+         IOYiHleFexcL8bif22kpgg/omwKhMUL4b9IrbMKYT/Wdi5A+/AwHg4jsWppyYPss2dt9
+         eFag==
+X-Gm-Message-State: AO0yUKXtLdCWEy+p+kNzme47KNM+cyccNS/FTOsF3lBgx3SSU3stfjng
+        by6bWuNa8T+c1HQlY1JJ9Q6WNEDTU4tP+RT1
+X-Google-Smtp-Source: AK7set9JBOfDxCQq+YtBlsQQAhBu+VBVXlH+b5fhIVEb2NsojjgW7dZ+Kr0ZfdnI4RUt4vx59S+5AQ==
+X-Received: by 2002:ad4:5749:0:b0:56e:9551:196b with SMTP id q9-20020ad45749000000b0056e9551196bmr33500719qvx.3.1678279639330;
+        Wed, 08 Mar 2023 04:47:19 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id n132-20020a37408a000000b007425dade624sm11436821qka.41.2023.03.08.04.47.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 04:47:18 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-536cb25982eso301993487b3.13;
+        Wed, 08 Mar 2023 04:47:18 -0800 (PST)
+X-Received: by 2002:a81:ae18:0:b0:52e:b22b:f99 with SMTP id
+ m24-20020a81ae18000000b0052eb22b0f99mr11588158ywh.4.1678279638260; Wed, 08
+ Mar 2023 04:47:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AsjcfHyIniRZmAli"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXr=WGTEOnAhckPW4B1WUoRZUokkRjEZXjsU+Qr-y60iQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230216175347.99778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230216175347.99778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXNrBCdLvMKK6kPbMLhSmuxXtd5A+Lt4J0ddVorODqCvw@mail.gmail.com> <CA+V-a8up5tnNt==6nUcpK44o+eN0VVMLdtLD5NyZzd37Rx=GgA@mail.gmail.com>
+In-Reply-To: <CA+V-a8up5tnNt==6nUcpK44o+eN0VVMLdtLD5NyZzd37Rx=GgA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Mar 2023 13:47:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXz-giK7M-Z0EeBwJrgvStEk_U+ocBmUrkK0DkDFMSZxQ@mail.gmail.com>
+Message-ID: <CAMuHMdXz-giK7M-Z0EeBwJrgvStEk_U+ocBmUrkK0DkDFMSZxQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Add OV5645 node
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Prabhakar,
 
---AsjcfHyIniRZmAli
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Mar 8, 2023 at 12:08 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Mon, Mar 6, 2023 at 7:27 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Feb 16, 2023 at 6:57 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > OV5645 sensor can be connected to the CN1 connector on the
+> > > carrier board. This patch adds the ov5645 node under i2c0 node.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > > @@ -6,6 +6,10 @@
+> > >   */
+> > >
+> > >  /dts-v1/;
+> > > +
+> > > +/* comment the #define statement if OV5645 is not connected to CN1  */
+> > > +#define CAM_INTERFACE_OV5645   1
+> >
+> > I believe the camera is optional ("can be connector" above).
+> > So shouldn't this be commented out by default?
+> >
+> Yep, that makes sense.
+>
+> Shall I send this change or will you be generous to do this while applying ;)
 
-Hi Geert,
+As this has an unresolved dependency on "[PATCH v2 0/2] Share RZ/G2L
+SoC DTSI with RZ/V2L SoC", I cannot do that yet...
 
-> ... while queuing in renesas-devel for v6.4.
+Gr{oetje,eeting}s,
 
-Thank you for the fixups!
+                        Geert
 
-Happy hacking,
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-   Wolfram
-
-
---AsjcfHyIniRZmAli
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQIfLMACgkQFA3kzBSg
-KbZUjg/+MXkBkOBrzFfErKnn/1+QJ0oDMSPiuZf8owAma7Qbn0b/IA2OzggUd1jB
-ScpiSugHkfNu75GpRke4W2IA+xtIuQCGTx8F2BcPK/sSNOQP15PiwNu+2di0zaPW
-21ZKpX0rG3KOgAJ9t1GV4UwmeWSdFuEQu40HWrSbCf9B6NywDyTxtSDYH0CvxlIa
-Z4LCvGcofisQlGtJFHfgjdzLH1AMXKnJYhF8zA30q/kzZArCvpXQeXJYeb6nF4V6
-wPLbgtAiX2xfMOEE7+tFyZmcF4RkiNOo+gc/qvAyP+Z4hrWmK3vYOjt06L0hG0SJ
-qgzRFSmNGokSVakDZX0wm/6LK5ORWzfNCFpgoitvRo7AzGqWq9VDmBvCuVTEPH7z
-cd5bQIFvs/L1ViCId/JX5dAotbY/aZfaIXc6ePVYlLdlh41VrrDMvtAThXKpV16m
-3ngXvzcGhNmKPtXCseX+qNa5WRX008LOMJozd/zQGZCQQHt/faxA+eZ49SkjZgNW
-xrpWEM/Lh5BlVxTVOmzP6mV2s3jZBG0o1GvpHg5a+2TZbKcvMGLjqTBftADm5cwR
-Uxoi5p0JE0uLklh0EbZCY4hsDoOCRgrt1xBx5NmjVLMpbZKOV6wtT0+CzXX6aHR4
-C0D4Qlp+p0/fT5a3HN/2KKfTPetygHsZEkYmLf/nkeaQiuVX/xs=
-=XeZo
------END PGP SIGNATURE-----
-
---AsjcfHyIniRZmAli--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
