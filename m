@@ -2,108 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C73E6B0A80
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 15:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B416B0B58
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 15:36:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232129AbjCHOIK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 09:08:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
+        id S231990AbjCHOgS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 09:36:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232128AbjCHOHv (ORCPT
+        with ESMTP id S231816AbjCHOgR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 09:07:51 -0500
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6265C4DE35;
-        Wed,  8 Mar 2023 06:06:30 -0800 (PST)
-Received: by mail-oi1-f175.google.com with SMTP id q15so12199279oiw.11;
-        Wed, 08 Mar 2023 06:06:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678284389;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=46ifXtx7H5qHUf/TrPJ9mIvLhusVn1artVDZ/aEfyqY=;
-        b=KWFUyO0nioE5dQ7vHHl//5hg/neJ0gcA6fLP4BsYkFKL2k7ukG2RASWWdjPOsxrKrb
-         oCvayFtAzWC++0SJnFA03XE7HxUpkx9ti4QJb/ARvO9rGUhjgsiHxZi5aYZYYoHksRvy
-         R/FEi8Np8/k+ZU8J7lCV3BFy5VC07qMALGgjQt9zL0Wm/MUJWlqAZLi4XDEGQzqHvKJp
-         S8GipnhT/M871QNNjW2aIwfG2fOx9VPcMX0IAVVk1TzNoi5LDUSuynX0yiZpgvg2+uR/
-         CYNIFYb63AYYK3R4fOYAoqflFFEsEEEG9b8i4uKxbpKFU0SwXtC4VgNkthRttQE2bCS4
-         QTng==
-X-Gm-Message-State: AO0yUKU4KxJIrT8bHxWBiyuSxvhyB4JIQCdnxMMzKBmW9MXU1WboS8pB
-        6FWsiX0LU4zfG3+H1VmraQ==
-X-Google-Smtp-Source: AK7set8gAyNjY8BkNBNF90LL+mmM7D2sm8zj5SI+095OPsrGhbzhNlHil1wu52ljYCwndnnZtwARTA==
-X-Received: by 2002:a05:6808:251:b0:384:637:a4f with SMTP id m17-20020a056808025100b0038406370a4fmr8319226oie.10.1678284389579;
-        Wed, 08 Mar 2023 06:06:29 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id p13-20020a05680811cd00b0037d59e90a07sm6336512oiv.55.2023.03.08.06.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 06:06:28 -0800 (PST)
-Received: (nullmailer pid 2666447 invoked by uid 1000);
-        Wed, 08 Mar 2023 14:06:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Wed, 8 Mar 2023 09:36:17 -0500
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFCD9AFC5
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 06:36:15 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:614d:21b0:703:d0f9])
+        by michel.telenet-ops.be with bizsmtp
+        id VqcE290023mNwr406qcE88; Wed, 08 Mar 2023 15:36:14 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pZutH-00BFXx-R9;
+        Wed, 08 Mar 2023 15:36:14 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pZutp-00FazF-VA;
+        Wed, 08 Mar 2023 15:36:13 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] [LOCAL] arm64: renesas: defconfig: Refresh for v6.3-rc1
+Date:   Wed,  8 Mar 2023 15:36:12 +0100
+Message-Id: <b852a3302fbc2e7729d95dad9e56c3636ff9624e.1678286092.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     marek.vasut+renesas@gmail.com, lpieralisi@kernel.org,
-        jingoohan1@gmail.com, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
-        bhelgaas@google.com, Sergey.Semin@baikalelectronics.ru,
-        kw@linux.com, robh+dt@kernel.org, gustavo.pimentel@synopsys.com
-In-Reply-To: <20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com>
-References: <20230308082352.491561-1-yoshihiro.shimoda.uh@renesas.com>
- <20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com>
-Message-Id: <167828360013.2613033.9597953469083757730.robh@kernel.org>
-Subject: Re: [PATCH v10 04/12] dt-bindings: PCI: renesas: Add R-Car Gen4
- PCIe Endpoint
-Date:   Wed, 08 Mar 2023 08:06:21 -0600
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Refresh the defconfig for Renesas ARM64 systems:
+  - Disable CONFIG_ARM64_ERRATUM_2645198 (No Cortex-A715),
+  - Disable CONFIG_SERIAL_8250_PCI1XXXX (No Microchip 8250 based serial
+    ports),
+  - Enable RZ/V2M xHCI and USB3.1 DRD controller support,
+  - Drop CONFIG_ARCH_R8A77950=y (R-Car H3 ES1.x is no longer supported
+    since commit b1dec4e78599a2ce ("clk: renesas: rcar-gen3: Disable
+    R-Car H3 ES1.*")),
+  - Drop CONFIG_DEBUG_PREEMPT=n (no longer auto-enabled since commit
+    cc6003916ed46d7a ("lib/Kconfig.debug: do not enable DEBUG_PREEMPT by
+    default")).
 
-On Wed, 08 Mar 2023 17:23:44 +0900, Yoshihiro Shimoda wrote:
-> Document bindings for Renesas R-Car Gen4 and R-Car S4-8 (R8A779F0)
-> PCIe endpoint module.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/pci/rcar-gen4-pci-ep.yaml        | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
-> 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Not intended for upstream merge.
+To be applied to the topic/renesas-defconfig branch.
+---
+ arch/arm64/configs/renesas_defconfig | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.example.dtb: pcie-ep@e65d0000: reg-names:2: 'app' was expected
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230308082352.491561-5-yoshihiro.shimoda.uh@renesas.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index 0f73d81f333d3344..f60f4ddcbf9fb7bc 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -34,6 +34,7 @@ CONFIG_ARCH_RENESAS=y
+ # CONFIG_ARM64_ERRATUM_2054223 is not set
+ # CONFIG_ARM64_ERRATUM_2067961 is not set
+ # CONFIG_ARM64_ERRATUM_2441009 is not set
++# CONFIG_ARM64_ERRATUM_2645198 is not set
+ # CONFIG_CAVIUM_ERRATUM_22375 is not set
+ # CONFIG_CAVIUM_ERRATUM_23154 is not set
+ # CONFIG_CAVIUM_ERRATUM_27456 is not set
+@@ -158,6 +159,7 @@ CONFIG_SERIAL_8250_CONSOLE=y
+ # CONFIG_SERIAL_8250_PCI is not set
+ CONFIG_SERIAL_8250_NR_UARTS=2
+ CONFIG_SERIAL_8250_RUNTIME_UARTS=2
++# CONFIG_SERIAL_8250_PCI1XXXX is not set
+ CONFIG_SERIAL_8250_EM=y
+ # CONFIG_SERIAL_8250_PERICOM is not set
+ CONFIG_SERIAL_SH_SCI=y
+@@ -295,6 +297,7 @@ CONFIG_USB=y
+ CONFIG_USB_OTG=y
+ CONFIG_USB_XHCI_HCD=y
+ CONFIG_USB_XHCI_PLATFORM=y
++CONFIG_USB_XHCI_RZV2M=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_EHCI_ROOT_HUB_TT=y
+ CONFIG_USB_EHCI_HCD_PLATFORM=y
+@@ -308,6 +311,7 @@ CONFIG_NOP_USB_XCEIV=y
+ CONFIG_USB_ULPI=y
+ CONFIG_USB_GADGET=y
+ CONFIG_USB_RENESAS_USBHS_UDC=y
++CONFIG_USB_RZV2M_USB3DRD=y
+ CONFIG_USB_RENESAS_USB3=y
+ CONFIG_USB_SNP_UDC_PLAT=y
+ CONFIG_USB_BDC_UDC=y
+@@ -353,7 +357,6 @@ CONFIG_MAILBOX=y
+ CONFIG_IOMMU_IO_PGTABLE_LPAE=y
+ CONFIG_ARCH_R8A77995=y
+ CONFIG_ARCH_R8A77990=y
+-CONFIG_ARCH_R8A77950=y
+ CONFIG_ARCH_R8A77951=y
+ CONFIG_ARCH_R8A77965=y
+ CONFIG_ARCH_R8A77960=y
+@@ -418,6 +421,5 @@ CONFIG_DEBUG_KERNEL=y
+ CONFIG_MAGIC_SYSRQ=y
+ CONFIG_DEBUG_FS=y
+ # CONFIG_SCHED_DEBUG is not set
+-# CONFIG_DEBUG_PREEMPT is not set
+ CONFIG_PROVE_LOCKING=y
+ # CONFIG_FTRACE is not set
+-- 
+2.34.1
 
