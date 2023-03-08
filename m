@@ -2,214 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92ADB6B0D6A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 16:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C716B0E87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 17:22:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230464AbjCHPxZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 10:53:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34254 "EHLO
+        id S229662AbjCHQWr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 11:22:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjCHPxY (ORCPT
+        with ESMTP id S229843AbjCHQWq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 10:53:24 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FA45B41C;
-        Wed,  8 Mar 2023 07:53:23 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id u5so18050655plq.7;
-        Wed, 08 Mar 2023 07:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678290802;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ERPte+GLfYGNUQKc38j5roO9NGI1HxeNMKiYrmWUlXw=;
-        b=qaMwRlCwSijTyKp3Ko45Pr5e8WKRVmkg/VTmJlMslvXucCm7TcC7q5uBeHcvROo4T4
-         mVqn6u+V19tLzdRFgpoNgRnXAzMghGpstb89cnPX/T1yUSMSfaC80QlhBSrW2v1hP3/W
-         zAQ6MGDFFC1QCXWjRs55AZAGLn8rcjRaSAC467+4lqSZfNethlMm7ExrsuYJ3dHPk/Gc
-         QkFXXT47F+BpP54zGO6qc4X/OkVsZXg+ZSck7Rha718WDhabAhyF7IWL7GOyxKqsjy9U
-         6KpYDc8JIy5hJoDMvP0sU32j84h5U4vzTihT4RVpzJ+sBTlYa/EpyQ3RtS5g6jDv17KZ
-         Hjqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678290802;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ERPte+GLfYGNUQKc38j5roO9NGI1HxeNMKiYrmWUlXw=;
-        b=vPuBZVhUqPVz6Teoeb6gl6v43mTnvxyPZBnV7cvL5NxG1zTvvhtXtKL+xrGYEQlvLp
-         UR6oTj/0N6q+kJyM+Z9/zZPYgYY4XMyFHK8QBGTC1hvkJfm9poINhp24wcHFTRa0F9Kz
-         qlzTyRqrwvz4aUFEek7WPkKqJBcaPXSXcLpqGngU1wT8Esp6Z0TRRtPU5PBMcdCksMRD
-         o4ltATYoVwb3BPMXegzsCdyfe0Jd5CYW2B9pywrKpBgKnCXiI+JQfme4KIGaWG9s64xX
-         82pfNXXOGnA1Ai1bIsHsaw0adh8cV5hfP8CnQDh4G6DWe+hB2v5I4KWRdrr8L30DUx8x
-         /erA==
-X-Gm-Message-State: AO0yUKXcM2sOE7004c5tBrTub/sTctXkbJdH7vZ0Zar1UU3znTlZyADu
-        ulF8JfqwloFSBJBers04IKx33iuv3pPr8fFjpK0On97YphM=
-X-Google-Smtp-Source: AK7set80cozO5AtE2fAewN604E9TLifg4kLOn5BU89f5fABOnEqXgZCcTCaIPHQoguw0Ky62vebKUUJgaXViBHeJ+Uo=
-X-Received: by 2002:a17:902:f812:b0:19c:140d:aad7 with SMTP id
- ix18-20020a170902f81200b0019c140daad7mr7175448plb.4.1678290802552; Wed, 08
- Mar 2023 07:53:22 -0800 (PST)
-MIME-Version: 1.0
-References: <e825b50a843ffe40e33f34e4d858c07c1b2ff259.1678280913.git.geert+renesas@glider.be>
-In-Reply-To: <e825b50a843ffe40e33f34e4d858c07c1b2ff259.1678280913.git.geert+renesas@glider.be>
-From:   Vincent Mailhol <vincent.mailhol@gmail.com>
-Date:   Thu, 9 Mar 2023 00:53:11 +0900
-Message-ID: <CAMZ6RqJ-3fyLFMjuyq4euNB-1sz0sBU5YswMeRduXO4TJ1QmLw@mail.gmail.com>
-Subject: Re: [PATCH v2] can: rcar_canfd: Add transceiver support
+        Wed, 8 Mar 2023 11:22:46 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EFFBE5CD
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 08:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678292565; x=1709828565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ko9kQctfLRT98NL58ITdfcYDexpET1KrsYUUHXjWGCU=;
+  b=iMWCrEE7LkMzejVJuT1lMG/YAurSyxdCdvS8pTAlNdBXqpBvibWaluxP
+   ekZHv8Dy/iVVymI6jJ7n/j6vENENx7uUVjBYOJ2FIkZo7c16sZW6H6OOA
+   4DfNrfIlg/6SYHsygi7BwfNOBVG+d8glGAXPhd5ax0REF12OkhI8uUA6m
+   EuZ+7yHm/WsahD7beo7Xxm/CggBaHqcorvjr/+60vBulKbBQMrhrYlHwe
+   zWtW6IH7+jgHJkq/rigaXOAGVxUqVPbP4sFvsVI8pm8yWwdWHpv82CESB
+   7lWLWP6rg4UCm1fIfGa1q9en2XrUAZ8R2hVp7YKtB9cZqmtr9STOHtRe/
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="320029051"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="320029051"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 08:22:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006380199"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="1006380199"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 08:22:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pZwYp-00HVcu-2a;
+        Wed, 08 Mar 2023 18:22:39 +0200
+Date:   Wed, 8 Mar 2023 18:22:39 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Saravana Kannan <saravanak@google.com>,
         linux-renesas-soc@vger.kernel.org,
-        Simon Horman <simon.horman@corigine.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Use of_fwnode_handle() helper
+Message-ID: <ZAi2T4mYefbLTI9U@smile.fi.intel.com>
+References: <d49b9fb20d68709b12692558aca91997e6b06fb4.1678272276.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d49b9fb20d68709b12692558aca91997e6b06fb4.1678272276.git.geert+renesas@glider.be>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed. 8 Mar. 2023 at 22:20, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Add support for CAN transceivers described as PHYs.
->
-> While simple CAN transceivers can do without, this is needed for CAN
-> transceivers like NXP TJR1443 that need a configuration step (like
-> pulling standby or enable lines), and/or impose a bitrate limit.
->
+On Wed, Mar 08, 2023 at 11:48:17AM +0100, Geert Uytterhoeven wrote:
+> Use the existing of_fwnode_handle() helper instead of open-coding the
+> same operation.
+
+LGTM,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
-
-I have one nitpick (see below). Aside from that:
-Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-
 > ---
-> v2:
->   - Add Reviewed-by.
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 30 +++++++++++++++++++++++++-----
->  1 file changed, 25 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> index ef4e1b9a9e1ee280..6df9a259e5e4f92c 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -35,6 +35,7 @@
->  #include <linux/netdevice.h>
->  #include <linux/of.h>
->  #include <linux/of_device.h>
-> +#include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
->  #include <linux/types.h>
-> @@ -530,6 +531,7 @@ struct rcar_canfd_channel {
->         struct net_device *ndev;
->         struct rcar_canfd_global *gpriv;        /* Controller reference */
->         void __iomem *base;                     /* Register base address */
-> +       struct phy *transceiver;                /* Optional transceiver */
->         struct napi_struct napi;
->         u32 tx_head;                            /* Incremented on xmit */
->         u32 tx_tail;                            /* Incremented on xmit done */
-> @@ -1413,11 +1415,17 @@ static int rcar_canfd_open(struct net_device *ndev)
->         struct rcar_canfd_global *gpriv = priv->gpriv;
->         int err;
->
-> +       err = phy_power_on(priv->transceiver);
-> +       if (err) {
-> +               netdev_err(ndev, "failed to power on PHY, error %d\n", err);
-> +               return err;
-> +       }
-> +
->         /* Peripheral clock is already enabled in probe */
->         err = clk_prepare_enable(gpriv->can_clk);
->         if (err) {
->                 netdev_err(ndev, "failed to enable CAN clock, error %d\n", err);
-                                                                      ^^
+> To be queued in renesas-devel-for-v6.4.
+> 
+>  drivers/soc/renesas/rmobile-sysc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
+> index 204e6135180b919c..728ebac98e14a5cc 100644
+> --- a/drivers/soc/renesas/rmobile-sysc.c
+> +++ b/drivers/soc/renesas/rmobile-sysc.c
+> @@ -343,7 +343,7 @@ static int __init rmobile_init_pm_domains(void)
+>  			break;
+>  		}
+>  
+> -		fwnode_dev_initialized(&np->fwnode, true);
+> +		fwnode_dev_initialized(of_fwnode_handle(np), true);
+>  	}
+>  
+>  	put_special_pds();
 
-Nitpick: can you print the mnemotechnic instead of the error value?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-                netdev_err(ndev, "failed to enable CAN clock, error
-%pe\n", ERR_PTR(err));
 
-> -               goto out_clock;
-> +               goto out_phy;
->         }
->
->         err = open_candev(ndev);
-> @@ -1437,7 +1445,8 @@ static int rcar_canfd_open(struct net_device *ndev)
->         close_candev(ndev);
->  out_can_clock:
->         clk_disable_unprepare(gpriv->can_clk);
-> -out_clock:
-> +out_phy:
-> +       phy_power_off(priv->transceiver);
->         return err;
->  }
->
-> @@ -1480,6 +1489,7 @@ static int rcar_canfd_close(struct net_device *ndev)
->         napi_disable(&priv->napi);
->         clk_disable_unprepare(gpriv->can_clk);
->         close_candev(ndev);
-> +       phy_power_off(priv->transceiver);
->         return 0;
->  }
->
-> @@ -1711,7 +1721,7 @@ static const struct ethtool_ops rcar_canfd_ethtool_ops = {
->  };
->
->  static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
-> -                                   u32 fcan_freq)
-> +                                   u32 fcan_freq, struct phy *transceiver)
->  {
->         const struct rcar_canfd_hw_info *info = gpriv->info;
->         struct platform_device *pdev = gpriv->pdev;
-> @@ -1732,8 +1742,11 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
->         ndev->flags |= IFF_ECHO;
->         priv->ndev = ndev;
->         priv->base = gpriv->base;
-> +       priv->transceiver = transceiver;
->         priv->channel = ch;
->         priv->gpriv = gpriv;
-> +       if (transceiver)
-> +               priv->can.bitrate_max = transceiver->attrs.max_link_rate;
->         priv->can.clock.freq = fcan_freq;
->         dev_info(dev, "can_clk rate is %u\n", priv->can.clock.freq);
->
-> @@ -1836,6 +1849,7 @@ static void rcar_canfd_channel_remove(struct rcar_canfd_global *gpriv, u32 ch)
->
->  static int rcar_canfd_probe(struct platform_device *pdev)
->  {
-> +       struct phy *transceivers[RCANFD_NUM_CHANNELS] = { 0, };
->         const struct rcar_canfd_hw_info *info;
->         struct device *dev = &pdev->dev;
->         void __iomem *addr;
-> @@ -1857,9 +1871,14 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         for (i = 0; i < info->max_channels; ++i) {
->                 name[7] = '0' + i;
->                 of_child = of_get_child_by_name(dev->of_node, name);
-> -               if (of_child && of_device_is_available(of_child))
-> +               if (of_child && of_device_is_available(of_child)) {
->                         channels_mask |= BIT(i);
-> +                       transceivers[i] = devm_of_phy_optional_get(dev,
-> +                                                       of_child, NULL);
-> +               }
->                 of_node_put(of_child);
-> +               if (IS_ERR(transceivers[i]))
-> +                       return PTR_ERR(transceivers[i]);
->         }
->
->         if (info->shared_global_irqs) {
-> @@ -2035,7 +2054,8 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         }
->
->         for_each_set_bit(ch, &gpriv->channels_mask, info->max_channels) {
-> -               err = rcar_canfd_channel_probe(gpriv, ch, fcan_freq);
-> +               err = rcar_canfd_channel_probe(gpriv, ch, fcan_freq,
-> +                                              transceivers[ch]);
->                 if (err)
->                         goto fail_channel;
->         }
-> --
-> 2.34.1
->
