@@ -2,40 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F486B0BAE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 15:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 802CC6B0BAD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 15:43:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230268AbjCHOn0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 09:43:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50356 "EHLO
+        id S232046AbjCHOnX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Mar 2023 09:43:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232039AbjCHOnH (ORCPT
+        with ESMTP id S231487AbjCHOnB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 09:43:07 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEF6C3638
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 06:41:07 -0800 (PST)
+        Wed, 8 Mar 2023 09:43:01 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02F01C3607
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 06:41:05 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:614d:21b0:703:d0f9])
-        by michel.telenet-ops.be with bizsmtp
-        id Vqgx2900d3mNwr406qgy0F; Wed, 08 Mar 2023 15:40:58 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id Vqgx2900f3mNwr401qgya0; Wed, 08 Mar 2023 15:40:58 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pZuxr-00BFYz-Mi;
+        id 1pZuxr-00BFYy-Mh;
         Wed, 08 Mar 2023 15:40:57 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pZuyP-00Fb3K-Qc;
+        id 1pZuyP-00Fb3N-Rg;
         Wed, 08 Mar 2023 15:40:57 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] ARM/arm64: defconfig updates for Renesas platforms
-Date:   Wed,  8 Mar 2023 15:40:51 +0100
-Message-Id: <cover.1678286291.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] ARM: shmobile: defconfig: Refresh for v6.3-rc1
+Date:   Wed,  8 Mar 2023 15:40:52 +0100
+Message-Id: <b4bac37273be5287b0198abe0aafd16f08ed330d.1678286291.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1678286291.git.geert+renesas@glider.be>
+References: <cover.1678286291.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
@@ -47,35 +49,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-        Hi all,
+Refresh the defconfig for Renesas ARM systems:
+  - Disable CONFIG_SERIAL_8250_PCI1XXXX (No Microchip 8250 based serial
+    ports),
+  - Enable RZ/N1 USB Function controller support.
 
-This patch series contains updates related to Renesas platforms for the
-various defconfig files.
-
-I plan to qeueue these in renesas-devel-for-v6.4.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (3):
-  ARM: shmobile: defconfig: Refresh for v6.3-rc1
-  ARM: multi_v7_defconfig: Enable additional support for RZ/N1 platforms
-  arm64: defconfig: Enable RZ/V2M xHCI and USB3.1 DRD controller support
-
- arch/arm/configs/multi_v7_defconfig | 6 ++++++
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
  arch/arm/configs/shmobile_defconfig | 2 ++
- arch/arm64/configs/defconfig        | 2 ++
- 3 files changed, 10 insertions(+)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index 751d939fcb761b31..0b21c0a4758286ef 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -76,6 +76,7 @@ CONFIG_SERIAL_8250=y
+ # CONFIG_SERIAL_8250_16550A_VARIANTS is not set
+ CONFIG_SERIAL_8250_CONSOLE=y
+ # CONFIG_SERIAL_8250_PCI is not set
++# CONFIG_SERIAL_8250_PCI1XXXX is not set
+ CONFIG_SERIAL_8250_DW=y
+ CONFIG_SERIAL_8250_EM=y
+ # CONFIG_SERIAL_8250_PERICOM is not set
+@@ -168,6 +169,7 @@ CONFIG_USB_R8A66597_HCD=y
+ CONFIG_USB_RENESAS_USBHS=y
+ CONFIG_USB_GADGET=y
+ CONFIG_USB_RENESAS_USBHS_UDC=y
++CONFIG_USB_RENESAS_USBF=y
+ CONFIG_USB_ETH=y
+ CONFIG_MMC=y
+ CONFIG_MMC_SDHI=y
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
