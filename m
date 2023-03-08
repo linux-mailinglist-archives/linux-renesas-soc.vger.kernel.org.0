@@ -2,116 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B546B0388
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 10:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F2136B03C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Mar 2023 11:11:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230188AbjCHJ6P convert rfc822-to-8bit (ORCPT
+        id S229760AbjCHKLT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 04:58:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
+        Wed, 8 Mar 2023 05:11:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbjCHJ6K (ORCPT
+        with ESMTP id S229715AbjCHKLS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 04:58:10 -0500
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A352B60E;
-        Wed,  8 Mar 2023 01:58:08 -0800 (PST)
-Received: by mail-qv1-f44.google.com with SMTP id bo10so10715152qvb.12;
-        Wed, 08 Mar 2023 01:58:08 -0800 (PST)
+        Wed, 8 Mar 2023 05:11:18 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17957B111
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 02:11:17 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id c3so17509336qtc.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Mar 2023 02:11:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678269487;
+        d=1e100.net; s=20210112; t=1678270277;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tenmK7UqFMmxK8HdH+j4A3EbtAfm6VYOyD+pHnFrgGw=;
-        b=C2qDpPU+Vl/eeWLForek4eBtIYqqb5wxtGBEa6RvfCEmDOBlI6oiwkCrC6QbCGhZOI
-         MNr33fgm4jj+Lip7hV9rh9mzDSF2j2AkwOKyh1EeQJaW3ylO0BZmJSoTK6GT3OHE2PVB
-         UbPsfWBycIAzVr8Lqz8qKP5cacFr/T7bm+h7pES2dtpxPNbBDST2W2Y2JbzNEtu37uw+
-         KcFDVbZ/Y/R3UPEVLbCdql8jDQ1HkTHMyqlipVm2jub/Vcp7UUOJE9+2yXP6VvM8zEB1
-         9pbNj37FLr25/55StJnDxMR3FpFd1hv+/xlFHFwAEj5M1jBXbX8ZhyTPxeYVeerT2vc3
-         p+Tg==
-X-Gm-Message-State: AO0yUKUnC0gZ5j8JAQsJTzpkdjsRR08e4Nyf3V4ZSe/27s3k8E9b9+M1
-        MnPeuDYEF216u7mdA7TKKVISckKOniQLFmlt
-X-Google-Smtp-Source: AK7set+TGop96qBsqSx1Q4OmBCm5tQPL5VhdTLY5Of8ET3UupU6a5HT7RJrSNDzREdPBage867lFwg==
-X-Received: by 2002:a05:6214:21ee:b0:56e:af8a:a872 with SMTP id p14-20020a05621421ee00b0056eaf8aa872mr25798570qvj.11.1678269487250;
-        Wed, 08 Mar 2023 01:58:07 -0800 (PST)
+        bh=4rSlwotQANx2jc8Jq+Fxnr6pXS9SYtLFSW9QChQJMK0=;
+        b=wRJDKP4mwgMIzkhgZrwL75RwIQ7gh7VA12sfMaNiySJf4+tFKpO0Egz1BIBc7aW1vr
+         +/AkqBaeZNArTDtJ0C83HdJW16EjddtF3tluR3zpdl7tqSGMcIIsBqGBgNBSPJW8ARdJ
+         RufT+LggSqFkUsAVhNamnDkcNduxJ22iOh9VgAwvLspSz2kQCIb+UsComvgI6MQCHks8
+         U4BW9lowqAMbtTBgCHRG5shTAiSqRwm+TF3P4EyqSG3/sE0ke1/RDOa0MWGydBjka+l5
+         treVWBpSYVlv8pqBMWHaGIk+/O961lzcL17bEMk9gpJMM+lO06jyVzjDhzDE1PlkpgS2
+         OlOQ==
+X-Gm-Message-State: AO0yUKUUk+mimSt/QEFQnejp2b77/aUmgeiCVegBenor+J4BwwgJyzkx
+        P7tlicclAyaQkQZhDTuJT+/PMtBYJsgb3PuS
+X-Google-Smtp-Source: AK7set8MZyv3txIq/ENYk4BkBUDGhV5bNr1iH3W7hUHTiQidjYQLJtvbVpBEwPm1FSFTA+EE3D+I+g==
+X-Received: by 2002:ac8:7f42:0:b0:3bd:16cf:2f37 with SMTP id g2-20020ac87f42000000b003bd16cf2f37mr1716790qtk.60.1678270276719;
+        Wed, 08 Mar 2023 02:11:16 -0800 (PST)
 Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id i23-20020a05620a145700b00739e7e10b71sm10962007qkl.114.2023.03.08.01.58.06
+        by smtp.gmail.com with ESMTPSA id m67-20020a375846000000b00741e27ecb37sm11132418qkb.74.2023.03.08.02.11.16
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 01:58:06 -0800 (PST)
-Received: by mail-yb1-f169.google.com with SMTP id 82so14042025ybn.6;
-        Wed, 08 Mar 2023 01:58:06 -0800 (PST)
-X-Received: by 2002:a5b:c4e:0:b0:9f2:a1ba:6908 with SMTP id
- d14-20020a5b0c4e000000b009f2a1ba6908mr8495733ybr.12.1678269486343; Wed, 08
- Mar 2023 01:58:06 -0800 (PST)
+        Wed, 08 Mar 2023 02:11:16 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id y144so14035657yby.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Mar 2023 02:11:16 -0800 (PST)
+X-Received: by 2002:a5b:ccf:0:b0:a6f:9156:5579 with SMTP id
+ e15-20020a5b0ccf000000b00a6f91565579mr8689266ybr.12.1678270275847; Wed, 08
+ Mar 2023 02:11:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20230307105645.5285-1-wsa+renesas@sang-engineering.com> <20230307105645.5285-6-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230307105645.5285-6-wsa+renesas@sang-engineering.com>
+References: <cover.1669036423.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1669036423.git.geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Mar 2023 10:57:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXr=WGTEOnAhckPW4B1WUoRZUokkRjEZXjsU+Qr-y60iQ@mail.gmail.com>
-Message-ID: <CAMuHMdXr=WGTEOnAhckPW4B1WUoRZUokkRjEZXjsU+Qr-y60iQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] soc: renesas: remove r8a77950 arch
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Wed, 8 Mar 2023 11:11:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX+rq8CNqo1dtbcUe6bBtZ0JV-5ZmuzTrYrhFXuQCyRKA@mail.gmail.com>
+Message-ID: <CAMuHMdX+rq8CNqo1dtbcUe6bBtZ0JV-5ZmuzTrYrhFXuQCyRKA@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/4] pinctrl: renesas: r8a779g0: Miscellaneous fixes
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Tue, Mar 7, 2023 at 11:57 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> R-Car H3 ES1.* was only available to an internal development group and
-> needed a lot of quirks and workarounds. These become a maintenance
-> burden now, so our development group decided to remove upstream support
-> and disable booting for this SoC. Public users only have ES2 onwards.
+On Mon, Nov 21, 2022 at 2:18 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> This patch series contains miscellaneous fixes for the R-Car V4H pin
+> control driver.  Any functional changes are based on R-Car V4H Series
+> User’s Manual: Hardware Rev. 0.54.
 >
-> Remove the architecture which describes H3 ES1.*.
+> The last 3 patches are marked RFC, as the affected functionality could
+> not be tested yet.
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Thanks for your comments!
+>
+> Geert Uytterhoeven (4):
+>   pinctrl: renesas: r8a779g0: Fix alignment in GPSR[678]_* macros
+>   pinctrl: renesas: r8a779g0: Fix Group 4/5 pin functions
+>   pinctrl: renesas: r8a779g0: Fix Group 6/7 pin functions
+>   pinctrl: renesas: r8a779g0: Fix ERROROUTC function names
 
-Thanks for your patch!
-
-> ---
->  arch/arm64/configs/defconfig      | 1 -
->  drivers/soc/renesas/Kconfig       | 7 -------
->  drivers/soc/renesas/renesas-soc.c | 2 +-
-
-I will split this in two patches (defconfig and drivers/soc)...
-
-> --- a/drivers/soc/renesas/renesas-soc.c
-> +++ b/drivers/soc/renesas/renesas-soc.c
-> @@ -330,7 +330,7 @@ static const struct of_device_id renesas_socs[] __initconst = {
->  #ifdef CONFIG_ARCH_R8A7794
->         { .compatible = "renesas,r8a7794",      .data = &soc_rcar_e2 },
->  #endif
-> -#if defined(CONFIG_ARCH_R8A77950) || defined(CONFIG_ARCH_R8A77951)
-> +#if defined(CONFIG_ARCH_R8A77951)
->         { .compatible = "renesas,r8a7795",      .data = &soc_rcar_h3 },
-
-... and merge this with the section below ...
-
->  #endif
->  #ifdef CONFIG_ARCH_R8A77951
-
-... while queuing in renesas-devel for v6.4.
+As I have verified this against datasheet Rev. 0.70, I plan to queue
+patches 2-4 in renesas-pinctrl-for-v6.4.
 
 Gr{oetje,eeting}s,
 
