@@ -2,180 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB2A76B1E2E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5F16B1E3D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbjCIIcX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 03:32:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42752 "EHLO
+        id S229636AbjCIIdN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 03:33:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjCIIcD (ORCPT
+        with ESMTP id S230034AbjCIIcO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 03:32:03 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B7516AD5
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Mar 2023 00:30:41 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id v101so1122666ybi.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Mar 2023 00:30:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678350640;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6X01iIU0wnxPVN4mE7EbEfeiXJ0H/q86RXnLPkaXpNQ=;
-        b=sFFwDzyP/v/Gl+iJe8PCcylVUjYTJrmsMUblQNR9XkeUOZMY0fQ/Hc0T8Gwc/6uMq2
-         91LZ3Tz4iYasKiwJiIJeDzz+C3SkEpdJuEvZCa6Pe9UlGlmlajfZOiVEPA/8wGrYAKjA
-         LmGzDBMrO6/hVFU1kCe/8ncg01bk3tUxqDYtQe6qkBUYVmQfCW+WQliQlqbkx1d/J2N8
-         MdLjWXCRsGXSmVqjHwy+iHqigZedg08E7CePrj5752x+w70FD1ufJU6sATF8pxmFC85V
-         fE3T39j5W3O2Osjenh6sZ47hgip062gCMozpYQKpRfzSF1AK3nefZDMdRlfBlduVHZFP
-         XfsA==
+        Thu, 9 Mar 2023 03:32:14 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A09234DD;
+        Thu,  9 Mar 2023 00:31:23 -0800 (PST)
+Received: by mail-qt1-f173.google.com with SMTP id r16so1165590qtx.9;
+        Thu, 09 Mar 2023 00:31:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678350640;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6X01iIU0wnxPVN4mE7EbEfeiXJ0H/q86RXnLPkaXpNQ=;
-        b=dQVLRxxbVrn0LqgUsWHY81l2LuzM10MncT58cM4BFus9FbPypyzPEhyxNoI5mES+1d
-         uk6uMyqqiczizgSparISMOclmNOFP5az7ckTEjSH4vPFkLyi/3kg+RJbF2NNN7K8t7t1
-         LHe/IyVbKgWng39HJKTrHmtcbWToZXbbrA1q6X9ZJeLurU4IzTuZzg+dx+2BxB1ag8Bo
-         aWvga8hKpgzeEXV5NGbHPGCB9AmQ1SSzeDPNSkX7RAL6JDqNkBE49I7nJYUQtJCm0ZxK
-         PLJCrkYEWkTHI/OSSJ7imOTCHkjEfszpAXQbFA0kHlXn2BURVWkx24s21ZJGGhZ1TRWT
-         Zv9g==
-X-Gm-Message-State: AO0yUKVQbDVXENq5IvUF1cahjIGKUPcKk7glrXZQQIJka5a/ioQxgJDe
-        wKlk13FRrcXXd9ga9uoAmJyT+R+ynygvH7dimiJPkw==
-X-Google-Smtp-Source: AK7set+0Omu29SoUGI3ideA2ereu9ALg/F/QLm40StIVYVsoJ0c5ssjGhRiOVnxdmvi71H975er5diCiOZcF+UB5KCk=
-X-Received: by 2002:a25:cd0a:0:b0:b26:884:c35e with SMTP id
- d10-20020a25cd0a000000b00b260884c35emr1643582ybf.4.1678350640088; Thu, 09 Mar
- 2023 00:30:40 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678350681;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pQQwihoQm8uXBBR2hgaSel12EpXi6e7mZu3C3LVlcZg=;
+        b=YlysR+Ajz1WjX4XWH4h8GyXSdemygQGWhJ1uqLiwUKnSKtUNIKOjyp5l2td8aHFmBC
+         9uYT2dGDRoFJV899xcjps14Oe8leJtYziGrRslW29yiqw8H2HpIKzRZi6/ZoOOd5lM6s
+         iFUChzjTFomjjO++xAgUvt0/noWQyx/j0h0eBc9SloAmqvxBRIfrMxFcEc2CxkILlwN8
+         0hKszDG2jutf2o3a0WjBj0YLZSY/wSDhVfysV6qpdOceBfmu8+AgZNFBvaPsqluOuIrK
+         iO63NCYjvq/puMbzNQhWkcAQ4zNPqyad3yohXVXGzqPpiVJM0zdESK50ODqhVLJm68JM
+         6s1g==
+X-Gm-Message-State: AO0yUKVkDCf8IdvwOOr4r0/0f2ljKJsYqCUSL8E/80Ra2ScCi/HrtJiS
+        8b3js11bIimd9guLwNjc1m6nxXCeraOLWWj+
+X-Google-Smtp-Source: AK7set+/ZxmpF0M/dzEpsEf1NRjGmYdQ74IBOd/rXgKRhZjap+uuo7GKLUK6gZ1jJzKYaxCnQmVZ0w==
+X-Received: by 2002:a05:622a:118b:b0:3bf:c266:fa6f with SMTP id m11-20020a05622a118b00b003bfc266fa6fmr33789283qtk.46.1678350681217;
+        Thu, 09 Mar 2023 00:31:21 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id fu22-20020a05622a5d9600b003be56bdd3b1sm12971726qtb.92.2023.03.09.00.31.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Mar 2023 00:31:20 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id o1so1078675ybu.13;
+        Thu, 09 Mar 2023 00:31:20 -0800 (PST)
+X-Received: by 2002:a05:6902:4d4:b0:a03:da3f:3e68 with SMTP id
+ v20-20020a05690204d400b00a03da3f3e68mr13049236ybs.12.1678350680338; Thu, 09
+ Mar 2023 00:31:20 -0800 (PST)
 MIME-Version: 1.0
-References: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
-In-Reply-To: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
-From:   Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Date:   Thu, 9 Mar 2023 09:30:29 +0100
-Message-ID: <CACMJSevqE8NC-=so7W_Xge-yw7w+La0dJTqx0z9u_AYt-7gtuQ@mail.gmail.com>
-Subject: Re: [PATCH] i2c: dev: Fix bus callback return values
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
+ <202303091612.UKr8Fhos-lkp@intel.com>
+In-Reply-To: <202303091612.UKr8Fhos-lkp@intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Mar 2023 09:31:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWQXw-+_PSnmWTVSgHYftoyN2=O7cKWrsaNOaSwuhx3pQ@mail.gmail.com>
+Message-ID: <CAMuHMdWQXw-+_PSnmWTVSgHYftoyN2=O7cKWrsaNOaSwuhx3pQ@mail.gmail.com>
+Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
+ voltage levels
+To:     kernel test robot <lkp@intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 9 Mar 2023 at 08:45, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->
-> The i2cdev_{at,de}tach_adapter() callbacks are used for two purposes:
->   1. As notifier callbacks, when (un)registering I2C adapters created or
->      destroyed after i2c_dev_init(),
->   2. As bus iterator callbacks, for registering already existing
->      adapters from i2c_dev_init(), and for cleanup.
->
-> Unfortunately both use cases expect different return values: the former
-> expects NOTIFY_* return codes, while the latter expects zero or error
-> codes, and aborts in case of error.
->
-> Hence in case 2, as soon as i2cdev_{at,de}tach_adapter() returns
-> (non-zero) NOTIFY_OK, the bus iterator aborts.  This causes (a) only the
-> first already existing adapter to be registered, leading to missing
-> /dev/i2c-* entries, and (b) a failure to unregister all but the first
-> I2C adapter during cleanup.
->
-> Fix this by introducing separate callbacks for the bus iterator,
-> wrapping the notifier functions, and always returning succes.
-> Any errors inside these callback functions are unlikely to happen, and
-> are fatal anyway.
->
-> Fixes: cddf70d0bce71c2a ("i2c: dev: fix notifier return values")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Seen on r8a7740/armadillo and r8a73a4/ape6evm, where the i2c-shmobile
-> adapters are probed before i2c_dev_init().
-> Not seen on r8a779g0/white-hawk, where all I2C adapters are probed after
-> i2c_dev_init().
->
->  drivers/i2c/i2c-dev.c | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/i2c/i2c-dev.c b/drivers/i2c/i2c-dev.c
-> index 107623c4cc14aaf9..95a0b63ac560cf33 100644
-> --- a/drivers/i2c/i2c-dev.c
-> +++ b/drivers/i2c/i2c-dev.c
-> @@ -646,7 +646,7 @@ static void i2cdev_dev_release(struct device *dev)
->         kfree(i2c_dev);
->  }
->
-> -static int i2cdev_attach_adapter(struct device *dev, void *dummy)
-> +static int i2cdev_attach_adapter(struct device *dev)
->  {
->         struct i2c_adapter *adap;
->         struct i2c_dev *i2c_dev;
-> @@ -685,7 +685,7 @@ static int i2cdev_attach_adapter(struct device *dev, void *dummy)
->         return NOTIFY_DONE;
->  }
->
-> -static int i2cdev_detach_adapter(struct device *dev, void *dummy)
-> +static int i2cdev_detach_adapter(struct device *dev)
->  {
->         struct i2c_adapter *adap;
->         struct i2c_dev *i2c_dev;
-> @@ -711,9 +711,9 @@ static int i2cdev_notifier_call(struct notifier_block *nb, unsigned long action,
->
->         switch (action) {
->         case BUS_NOTIFY_ADD_DEVICE:
-> -               return i2cdev_attach_adapter(dev, NULL);
-> +               return i2cdev_attach_adapter(dev);
->         case BUS_NOTIFY_DEL_DEVICE:
-> -               return i2cdev_detach_adapter(dev, NULL);
-> +               return i2cdev_detach_adapter(dev);
->         }
->
->         return NOTIFY_DONE;
-> @@ -725,6 +725,18 @@ static struct notifier_block i2cdev_notifier = {
->
->  /* ------------------------------------------------------------------------- */
->
-> +static int __init i2c_dev_attach_adapter(struct device *dev, void *dummy)
-> +{
-> +       i2cdev_attach_adapter(dev);
-> +       return 0;
-> +}
-> +
-> +static int __exit i2c_dev_detach_adapter(struct device *dev, void *dummy)
-> +{
-> +       i2cdev_detach_adapter(dev);
-> +       return 0;
-> +}
-> +
->  /*
->   * module load/unload record keeping
->   */
-> @@ -752,7 +764,7 @@ static int __init i2c_dev_init(void)
->                 goto out_unreg_class;
->
->         /* Bind to already existing adapters right away */
-> -       i2c_for_each_dev(NULL, i2cdev_attach_adapter);
-> +       i2c_for_each_dev(NULL, i2c_dev_attach_adapter);
->
->         return 0;
->
-> @@ -768,7 +780,7 @@ static int __init i2c_dev_init(void)
->  static void __exit i2c_dev_exit(void)
->  {
->         bus_unregister_notifier(&i2c_bus_type, &i2cdev_notifier);
-> -       i2c_for_each_dev(NULL, i2cdev_detach_adapter);
-> +       i2c_for_each_dev(NULL, i2c_dev_detach_adapter);
->         class_destroy(i2c_dev_class);
->         unregister_chrdev_region(MKDEV(I2C_MAJOR, 0), I2C_MINORS);
->  }
-> --
-> 2.34.1
->
+Hi Robot,
 
-Thanks for addressing it.
+On Thu, Mar 9, 2023 at 9:29 AM kernel test robot <lkp@intel.com> wrote:
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
+> [also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+> patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
+> patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
+> config: nios2-randconfig-r004-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091612.UKr8Fhos-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+>         git checkout 513932515f943c5987c5a214520f6875cd507c3e
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/pinctrl/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303091612.UKr8Fhos-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from drivers/pinctrl/renesas/pfc-r8a77950.c:11:
+> >> drivers/pinctrl/renesas/pfc-r8a77950.c:19:48: error: 'SH_PFC_PIN_CFG_IO_VOLTAGE' undeclared here (not in a function); did you mean 'SH_PFC_PIN_CFG_IO_VOLTAGE_MASK'?
+>       19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
+>          |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+This driver is scheduled for removal, hence was not updated.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
