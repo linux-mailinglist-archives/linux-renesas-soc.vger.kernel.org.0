@@ -2,157 +2,168 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD8E6B1DAA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8496B1E24
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:31:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbjCIIRX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 03:17:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41326 "EHLO
+        id S230112AbjCIIbq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 03:31:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbjCIIRF (ORCPT
+        with ESMTP id S230098AbjCIIbW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 03:17:05 -0500
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CAE250F8D;
-        Thu,  9 Mar 2023 00:13:16 -0800 (PST)
-Received: by mail-qt1-f170.google.com with SMTP id r16so1135691qtx.9;
-        Thu, 09 Mar 2023 00:13:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678349554;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p+1xOKbrywXjEK6z9y1/Q9rNoAtKiRUOKGVYgkwDhuM=;
-        b=N10kkF73X6/cGILt9pBg7ob9k58LQI0Zwmt2YLBYzBad6JpnY42/QJlNUswgMKUXvW
-         U6pTDp5JgXPA4qalF8Ka5UaW7p8vCshvFYCl5oiCcGvyiZfhSIe9X1YG4qORHc+buhSu
-         kdppqGDXIjyAqAwuib8bYlH3/HDjIhZbRI7UwNEGTVcCCbk//Tw7KKAKjvXBLKPy7zsN
-         /jM3rWJyhi87Pw//2kqWWYlc/uGfGQY9mtW9Bvc55CmfPCYs3j/OFShTs2g1fjIGlMRC
-         eKihbYlVVUkwj4BEj8CGzo4uioKnOCB+5DTkkwZhmuslBAuiKcWYJ4XUSN1vaDvSB72S
-         uKvQ==
-X-Gm-Message-State: AO0yUKVfCkKqPwISYKChRiWqdaXDIbBXE/slELgbU/AXewtXck1hV5PN
-        ViamSuVXKGKlca3+w1AmuegfWfNDSXI0r2IQ
-X-Google-Smtp-Source: AK7set8wfaaHUeOCLG4dTj7ZI19vy+QTZODNFf/3enh9PvcO5/s+yyg05hKW/km+x0WYaPo9huMYsg==
-X-Received: by 2002:a05:622a:341:b0:3b8:6075:5d16 with SMTP id r1-20020a05622a034100b003b860755d16mr35193875qtw.56.1678349554574;
-        Thu, 09 Mar 2023 00:12:34 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id u2-20020a37ab02000000b007423caef02fsm12874582qke.122.2023.03.09.00.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 00:12:34 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-536bf92b55cso20418547b3.12;
-        Thu, 09 Mar 2023 00:12:33 -0800 (PST)
-X-Received: by 2002:a81:f105:0:b0:538:49a4:b1e0 with SMTP id
- h5-20020a81f105000000b0053849a4b1e0mr15534773ywm.2.1678349553687; Thu, 09 Mar
- 2023 00:12:33 -0800 (PST)
+        Thu, 9 Mar 2023 03:31:22 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47316DF27D;
+        Thu,  9 Mar 2023 00:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678350575; x=1709886575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ez34kjscgZUPX0KiPYbpcrQbCpjzHK/+o25b4HpA+Zw=;
+  b=KA1pCLguKVkGEelTAIGc7ZZOVNiWx6jJv8vt04AO0UsjpkXKLm6QFS93
+   KBdQCWv4p7ueX5kpvm5gg572qixkO3MWxX2sqn+S9MYjfN6xkBGtGqP9+
+   0nohuD3ii77BHlJsnfTF4j83aNYz7b8kXNTw5IXW9iTDUsZAUEHTQ/GnW
+   KFizG+K9PTRzs5CQU+VCsT+HtKr9KoaOLe/fM+AO5H3GP6GzfZSuYXwgt
+   L14LBkmZdD0YJwneLaOH6e8l0c0oMaqeCw0qhMoQAxpa53J2WQfEtcRXd
+   BGqIPR+01z7qOpF0SRu3ibZR6yAARAZNtSDrtJrIK7x/TlXz+dKB2saeo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="333857812"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="333857812"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:29:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746232565"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="746232565"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 00:29:16 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1paBeG-0002nt-0N;
+        Thu, 09 Mar 2023 08:29:16 +0000
+Date:   Thu, 9 Mar 2023 16:28:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
+ voltage levels
+Message-ID: <202303091612.UKr8Fhos-lkp@intel.com>
+References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <e825b50a843ffe40e33f34e4d858c07c1b2ff259.1678280913.git.geert+renesas@glider.be>
- <CAMZ6RqJ-3fyLFMjuyq4euNB-1sz0sBU5YswMeRduXO4TJ1QmLw@mail.gmail.com>
-In-Reply-To: <CAMZ6RqJ-3fyLFMjuyq4euNB-1sz0sBU5YswMeRduXO4TJ1QmLw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Mar 2023 09:12:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWo_A8aeHS7Dy5X-6BEqUrwq5KGxnt4HDiLgfo-SaaYSg@mail.gmail.com>
-Message-ID: <CAMuHMdWo_A8aeHS7Dy5X-6BEqUrwq5KGxnt4HDiLgfo-SaaYSg@mail.gmail.com>
-Subject: Re: [PATCH v2] can: rcar_canfd: Add transceiver support
-To:     Vincent Mailhol <vincent.mailhol@gmail.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Simon Horman <simon.horman@corigine.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Vincent,
+Hi Geert,
 
-On Wed, Mar 8, 2023 at 4:55 PM Vincent Mailhol
-<vincent.mailhol@gmail.com> wrote:
-> On Wed. 8 Mar. 2023 at 22:20, Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Add support for CAN transceivers described as PHYs.
-> >
-> > While simple CAN transceivers can do without, this is needed for CAN
-> > transceivers like NXP TJR1443 that need a configuration step (like
-> > pulling standby or enable lines), and/or impose a bitrate limit.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Simon Horman <simon.horman@corigine.com>
->
-> I have one nitpick (see below). Aside from that:
-> Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+I love your patch! Yet something to improve:
 
-Thanks!
+[auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
+[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> > ---
-> > v2:
-> >   - Add Reviewed-by.
-> > ---
-> >  drivers/net/can/rcar/rcar_canfd.c | 30 +++++++++++++++++++++++++-----
-> >  1 file changed, 25 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> > index ef4e1b9a9e1ee280..6df9a259e5e4f92c 100644
-> > --- a/drivers/net/can/rcar/rcar_canfd.c
-> > +++ b/drivers/net/can/rcar/rcar_canfd.c
-> > @@ -35,6 +35,7 @@
-> >  #include <linux/netdevice.h>
-> >  #include <linux/of.h>
-> >  #include <linux/of_device.h>
-> > +#include <linux/phy/phy.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/reset.h>
-> >  #include <linux/types.h>
-> > @@ -530,6 +531,7 @@ struct rcar_canfd_channel {
-> >         struct net_device *ndev;
-> >         struct rcar_canfd_global *gpriv;        /* Controller reference */
-> >         void __iomem *base;                     /* Register base address */
-> > +       struct phy *transceiver;                /* Optional transceiver */
-> >         struct napi_struct napi;
-> >         u32 tx_head;                            /* Incremented on xmit */
-> >         u32 tx_tail;                            /* Incremented on xmit done */
-> > @@ -1413,11 +1415,17 @@ static int rcar_canfd_open(struct net_device *ndev)
-> >         struct rcar_canfd_global *gpriv = priv->gpriv;
-> >         int err;
-> >
-> > +       err = phy_power_on(priv->transceiver);
-> > +       if (err) {
-> > +               netdev_err(ndev, "failed to power on PHY, error %d\n", err);
-> > +               return err;
-> > +       }
-> > +
-> >         /* Peripheral clock is already enabled in probe */
-> >         err = clk_prepare_enable(gpriv->can_clk);
-> >         if (err) {
-> >                 netdev_err(ndev, "failed to enable CAN clock, error %d\n", err);
->                                                                       ^^
->
-> Nitpick: can you print the mnemotechnic instead of the error value?
->
->                 netdev_err(ndev, "failed to enable CAN clock, error
-> %pe\n", ERR_PTR(err));
+url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
+patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
+config: nios2-randconfig-r004-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091612.UKr8Fhos-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
+        git checkout 513932515f943c5987c5a214520f6875cd507c3e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/pinctrl/
 
-Thanks for the suggestion!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091612.UKr8Fhos-lkp@intel.com/
 
-As you're pointing to pre-existing code, and there are several cases
-like that, I sent a follow-up patch to fix all of them at once:
-https://lore.kernel.org/r/8a39f99fc28967134826dff141b51a5df824b034.1678349267.git.geert+renesas@glider.be
+All errors (new ones prefixed by >>):
 
-Gr{oetje,eeting}s,
+   In file included from drivers/pinctrl/renesas/pfc-r8a77950.c:11:
+>> drivers/pinctrl/renesas/pfc-r8a77950.c:19:48: error: 'SH_PFC_PIN_CFG_IO_VOLTAGE' undeclared here (not in a function); did you mean 'SH_PFC_PIN_CFG_IO_VOLTAGE_MASK'?
+      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:620:20: note: in definition of macro '_GP_GPIO'
+     620 |         .configs = cfg,                                                 \
+         |                    ^~~
+   drivers/pinctrl/renesas/sh_pfc.h:447:9: note: in expansion of macro 'PORT_GP_CFG_1'
+     447 |         PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),                          \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:452:9: note: in expansion of macro 'PORT_GP_CFG_2'
+     452 |         PORT_GP_CFG_2(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:458:9: note: in expansion of macro 'PORT_GP_CFG_4'
+     458 |         PORT_GP_CFG_4(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:464:9: note: in expansion of macro 'PORT_GP_CFG_6'
+     464 |         PORT_GP_CFG_6(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:469:9: note: in expansion of macro 'PORT_GP_CFG_7'
+     469 |         PORT_GP_CFG_7(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:474:9: note: in expansion of macro 'PORT_GP_CFG_8'
+     474 |         PORT_GP_CFG_8(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:479:9: note: in expansion of macro 'PORT_GP_CFG_9'
+     479 |         PORT_GP_CFG_9(bank, fn, sfx, cfg),                              \
+         |         ^~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:484:9: note: in expansion of macro 'PORT_GP_CFG_10'
+     484 |         PORT_GP_CFG_10(bank, fn, sfx, cfg),                             \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:489:9: note: in expansion of macro 'PORT_GP_CFG_11'
+     489 |         PORT_GP_CFG_11(bank, fn, sfx, cfg),                             \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/pfc-r8a77950.c:19:9: note: in expansion of macro 'PORT_GP_CFG_12'
+      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
+         |         ^~~~~~~~~~~~~~
+   drivers/pinctrl/renesas/sh_pfc.h:622:41: note: in expansion of macro 'CPU_ALL_GP'
+     622 | #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
+         |                                         ^~~~~~~~~~
+   drivers/pinctrl/renesas/pfc-r8a77950.c:1502:9: note: in expansion of macro 'PINMUX_GPIO_GP_ALL'
+    1502 |         PINMUX_GPIO_GP_ALL(),
+         |         ^~~~~~~~~~~~~~~~~~
 
-                        Geert
+
+vim +19 drivers/pinctrl/renesas/pfc-r8a77950.c
+
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  14  
+bd79c92039f117 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-03-21  15  #define CPU_ALL_GP(fn, sfx)						\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  16  	PORT_GP_CFG_16(0, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  17  	PORT_GP_CFG_28(1, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  18  	PORT_GP_CFG_15(2, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03 @19  	PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  20  	PORT_GP_CFG_1(3, 12, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  21  	PORT_GP_CFG_1(3, 13, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  22  	PORT_GP_CFG_1(3, 14, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  23  	PORT_GP_CFG_1(3, 15, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  24  	PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  25  	PORT_GP_CFG_26(5, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  26  	PORT_GP_CFG_32(6, fn, sfx, CFG_FLAGS),	\
+b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  27  	PORT_GP_CFG_4(7, fn, sfx, CFG_FLAGS)
+4f062bcb588972 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-01-15  28  
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
