@@ -2,168 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE8496B1E24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB2A76B1E2E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:32:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230112AbjCIIbq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 03:31:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33542 "EHLO
+        id S230281AbjCIIcX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 03:32:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbjCIIbW (ORCPT
+        with ESMTP id S229742AbjCIIcD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 03:31:22 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47316DF27D;
-        Thu,  9 Mar 2023 00:29:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678350575; x=1709886575;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ez34kjscgZUPX0KiPYbpcrQbCpjzHK/+o25b4HpA+Zw=;
-  b=KA1pCLguKVkGEelTAIGc7ZZOVNiWx6jJv8vt04AO0UsjpkXKLm6QFS93
-   KBdQCWv4p7ueX5kpvm5gg572qixkO3MWxX2sqn+S9MYjfN6xkBGtGqP9+
-   0nohuD3ii77BHlJsnfTF4j83aNYz7b8kXNTw5IXW9iTDUsZAUEHTQ/GnW
-   KFizG+K9PTRzs5CQU+VCsT+HtKr9KoaOLe/fM+AO5H3GP6GzfZSuYXwgt
-   L14LBkmZdD0YJwneLaOH6e8l0c0oMaqeCw0qhMoQAxpa53J2WQfEtcRXd
-   BGqIPR+01z7qOpF0SRu3ibZR6yAARAZNtSDrtJrIK7x/TlXz+dKB2saeo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="333857812"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="333857812"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 00:29:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="746232565"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="746232565"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 00:29:16 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1paBeG-0002nt-0N;
-        Thu, 09 Mar 2023 08:29:16 +0000
-Date:   Thu, 9 Mar 2023 16:28:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
- voltage levels
-Message-ID: <202303091612.UKr8Fhos-lkp@intel.com>
-References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
+        Thu, 9 Mar 2023 03:32:03 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B7516AD5
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Mar 2023 00:30:41 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id v101so1122666ybi.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Mar 2023 00:30:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678350640;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6X01iIU0wnxPVN4mE7EbEfeiXJ0H/q86RXnLPkaXpNQ=;
+        b=sFFwDzyP/v/Gl+iJe8PCcylVUjYTJrmsMUblQNR9XkeUOZMY0fQ/Hc0T8Gwc/6uMq2
+         91LZ3Tz4iYasKiwJiIJeDzz+C3SkEpdJuEvZCa6Pe9UlGlmlajfZOiVEPA/8wGrYAKjA
+         LmGzDBMrO6/hVFU1kCe/8ncg01bk3tUxqDYtQe6qkBUYVmQfCW+WQliQlqbkx1d/J2N8
+         MdLjWXCRsGXSmVqjHwy+iHqigZedg08E7CePrj5752x+w70FD1ufJU6sATF8pxmFC85V
+         fE3T39j5W3O2Osjenh6sZ47hgip062gCMozpYQKpRfzSF1AK3nefZDMdRlfBlduVHZFP
+         XfsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678350640;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6X01iIU0wnxPVN4mE7EbEfeiXJ0H/q86RXnLPkaXpNQ=;
+        b=dQVLRxxbVrn0LqgUsWHY81l2LuzM10MncT58cM4BFus9FbPypyzPEhyxNoI5mES+1d
+         uk6uMyqqiczizgSparISMOclmNOFP5az7ckTEjSH4vPFkLyi/3kg+RJbF2NNN7K8t7t1
+         LHe/IyVbKgWng39HJKTrHmtcbWToZXbbrA1q6X9ZJeLurU4IzTuZzg+dx+2BxB1ag8Bo
+         aWvga8hKpgzeEXV5NGbHPGCB9AmQ1SSzeDPNSkX7RAL6JDqNkBE49I7nJYUQtJCm0ZxK
+         PLJCrkYEWkTHI/OSSJ7imOTCHkjEfszpAXQbFA0kHlXn2BURVWkx24s21ZJGGhZ1TRWT
+         Zv9g==
+X-Gm-Message-State: AO0yUKVQbDVXENq5IvUF1cahjIGKUPcKk7glrXZQQIJka5a/ioQxgJDe
+        wKlk13FRrcXXd9ga9uoAmJyT+R+ynygvH7dimiJPkw==
+X-Google-Smtp-Source: AK7set+0Omu29SoUGI3ideA2ereu9ALg/F/QLm40StIVYVsoJ0c5ssjGhRiOVnxdmvi71H975er5diCiOZcF+UB5KCk=
+X-Received: by 2002:a25:cd0a:0:b0:b26:884:c35e with SMTP id
+ d10-20020a25cd0a000000b00b260884c35emr1643582ybf.4.1678350640088; Thu, 09 Mar
+ 2023 00:30:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
+In-Reply-To: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
+From:   Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Date:   Thu, 9 Mar 2023 09:30:29 +0100
+Message-ID: <CACMJSevqE8NC-=so7W_Xge-yw7w+La0dJTqx0z9u_AYt-7gtuQ@mail.gmail.com>
+Subject: Re: [PATCH] i2c: dev: Fix bus callback return values
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, 9 Mar 2023 at 08:45, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+>
+> The i2cdev_{at,de}tach_adapter() callbacks are used for two purposes:
+>   1. As notifier callbacks, when (un)registering I2C adapters created or
+>      destroyed after i2c_dev_init(),
+>   2. As bus iterator callbacks, for registering already existing
+>      adapters from i2c_dev_init(), and for cleanup.
+>
+> Unfortunately both use cases expect different return values: the former
+> expects NOTIFY_* return codes, while the latter expects zero or error
+> codes, and aborts in case of error.
+>
+> Hence in case 2, as soon as i2cdev_{at,de}tach_adapter() returns
+> (non-zero) NOTIFY_OK, the bus iterator aborts.  This causes (a) only the
+> first already existing adapter to be registered, leading to missing
+> /dev/i2c-* entries, and (b) a failure to unregister all but the first
+> I2C adapter during cleanup.
+>
+> Fix this by introducing separate callbacks for the bus iterator,
+> wrapping the notifier functions, and always returning succes.
+> Any errors inside these callback functions are unlikely to happen, and
+> are fatal anyway.
+>
+> Fixes: cddf70d0bce71c2a ("i2c: dev: fix notifier return values")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Seen on r8a7740/armadillo and r8a73a4/ape6evm, where the i2c-shmobile
+> adapters are probed before i2c_dev_init().
+> Not seen on r8a779g0/white-hawk, where all I2C adapters are probed after
+> i2c_dev_init().
+>
+>  drivers/i2c/i2c-dev.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/i2c/i2c-dev.c b/drivers/i2c/i2c-dev.c
+> index 107623c4cc14aaf9..95a0b63ac560cf33 100644
+> --- a/drivers/i2c/i2c-dev.c
+> +++ b/drivers/i2c/i2c-dev.c
+> @@ -646,7 +646,7 @@ static void i2cdev_dev_release(struct device *dev)
+>         kfree(i2c_dev);
+>  }
+>
+> -static int i2cdev_attach_adapter(struct device *dev, void *dummy)
+> +static int i2cdev_attach_adapter(struct device *dev)
+>  {
+>         struct i2c_adapter *adap;
+>         struct i2c_dev *i2c_dev;
+> @@ -685,7 +685,7 @@ static int i2cdev_attach_adapter(struct device *dev, void *dummy)
+>         return NOTIFY_DONE;
+>  }
+>
+> -static int i2cdev_detach_adapter(struct device *dev, void *dummy)
+> +static int i2cdev_detach_adapter(struct device *dev)
+>  {
+>         struct i2c_adapter *adap;
+>         struct i2c_dev *i2c_dev;
+> @@ -711,9 +711,9 @@ static int i2cdev_notifier_call(struct notifier_block *nb, unsigned long action,
+>
+>         switch (action) {
+>         case BUS_NOTIFY_ADD_DEVICE:
+> -               return i2cdev_attach_adapter(dev, NULL);
+> +               return i2cdev_attach_adapter(dev);
+>         case BUS_NOTIFY_DEL_DEVICE:
+> -               return i2cdev_detach_adapter(dev, NULL);
+> +               return i2cdev_detach_adapter(dev);
+>         }
+>
+>         return NOTIFY_DONE;
+> @@ -725,6 +725,18 @@ static struct notifier_block i2cdev_notifier = {
+>
+>  /* ------------------------------------------------------------------------- */
+>
+> +static int __init i2c_dev_attach_adapter(struct device *dev, void *dummy)
+> +{
+> +       i2cdev_attach_adapter(dev);
+> +       return 0;
+> +}
+> +
+> +static int __exit i2c_dev_detach_adapter(struct device *dev, void *dummy)
+> +{
+> +       i2cdev_detach_adapter(dev);
+> +       return 0;
+> +}
+> +
+>  /*
+>   * module load/unload record keeping
+>   */
+> @@ -752,7 +764,7 @@ static int __init i2c_dev_init(void)
+>                 goto out_unreg_class;
+>
+>         /* Bind to already existing adapters right away */
+> -       i2c_for_each_dev(NULL, i2cdev_attach_adapter);
+> +       i2c_for_each_dev(NULL, i2c_dev_attach_adapter);
+>
+>         return 0;
+>
+> @@ -768,7 +780,7 @@ static int __init i2c_dev_init(void)
+>  static void __exit i2c_dev_exit(void)
+>  {
+>         bus_unregister_notifier(&i2c_bus_type, &i2cdev_notifier);
+> -       i2c_for_each_dev(NULL, i2cdev_detach_adapter);
+> +       i2c_for_each_dev(NULL, i2c_dev_detach_adapter);
+>         class_destroy(i2c_dev_class);
+>         unregister_chrdev_region(MKDEV(I2C_MAJOR, 0), I2C_MINORS);
+>  }
+> --
+> 2.34.1
+>
 
-I love your patch! Yet something to improve:
+Thanks for addressing it.
 
-[auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
-[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
-config: nios2-randconfig-r004-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091612.UKr8Fhos-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
-        git checkout 513932515f943c5987c5a214520f6875cd507c3e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/pinctrl/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091612.UKr8Fhos-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/pinctrl/renesas/pfc-r8a77950.c:11:
->> drivers/pinctrl/renesas/pfc-r8a77950.c:19:48: error: 'SH_PFC_PIN_CFG_IO_VOLTAGE' undeclared here (not in a function); did you mean 'SH_PFC_PIN_CFG_IO_VOLTAGE_MASK'?
-      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:620:20: note: in definition of macro '_GP_GPIO'
-     620 |         .configs = cfg,                                                 \
-         |                    ^~~
-   drivers/pinctrl/renesas/sh_pfc.h:447:9: note: in expansion of macro 'PORT_GP_CFG_1'
-     447 |         PORT_GP_CFG_1(bank, 0,  fn, sfx, cfg),                          \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:452:9: note: in expansion of macro 'PORT_GP_CFG_2'
-     452 |         PORT_GP_CFG_2(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:458:9: note: in expansion of macro 'PORT_GP_CFG_4'
-     458 |         PORT_GP_CFG_4(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:464:9: note: in expansion of macro 'PORT_GP_CFG_6'
-     464 |         PORT_GP_CFG_6(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:469:9: note: in expansion of macro 'PORT_GP_CFG_7'
-     469 |         PORT_GP_CFG_7(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:474:9: note: in expansion of macro 'PORT_GP_CFG_8'
-     474 |         PORT_GP_CFG_8(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:479:9: note: in expansion of macro 'PORT_GP_CFG_9'
-     479 |         PORT_GP_CFG_9(bank, fn, sfx, cfg),                              \
-         |         ^~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:484:9: note: in expansion of macro 'PORT_GP_CFG_10'
-     484 |         PORT_GP_CFG_10(bank, fn, sfx, cfg),                             \
-         |         ^~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:489:9: note: in expansion of macro 'PORT_GP_CFG_11'
-     489 |         PORT_GP_CFG_11(bank, fn, sfx, cfg),                             \
-         |         ^~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/pfc-r8a77950.c:19:9: note: in expansion of macro 'PORT_GP_CFG_12'
-      19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
-         |         ^~~~~~~~~~~~~~
-   drivers/pinctrl/renesas/sh_pfc.h:622:41: note: in expansion of macro 'CPU_ALL_GP'
-     622 | #define PINMUX_GPIO_GP_ALL()            CPU_ALL_GP(_GP_GPIO, unused)
-         |                                         ^~~~~~~~~~
-   drivers/pinctrl/renesas/pfc-r8a77950.c:1502:9: note: in expansion of macro 'PINMUX_GPIO_GP_ALL'
-    1502 |         PINMUX_GPIO_GP_ALL(),
-         |         ^~~~~~~~~~~~~~~~~~
-
-
-vim +19 drivers/pinctrl/renesas/pfc-r8a77950.c
-
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  14  
-bd79c92039f117 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-03-21  15  #define CPU_ALL_GP(fn, sfx)						\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  16  	PORT_GP_CFG_16(0, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  17  	PORT_GP_CFG_28(1, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  18  	PORT_GP_CFG_15(2, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03 @19  	PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  20  	PORT_GP_CFG_1(3, 12, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  21  	PORT_GP_CFG_1(3, 13, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  22  	PORT_GP_CFG_1(3, 14, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  23  	PORT_GP_CFG_1(3, 15, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  24  	PORT_GP_CFG_18(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  25  	PORT_GP_CFG_26(5, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  26  	PORT_GP_CFG_32(6, fn, sfx, CFG_FLAGS),	\
-b205914c8f822e drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2016-10-03  27  	PORT_GP_CFG_4(7, fn, sfx, CFG_FLAGS)
-4f062bcb588972 drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c Geert Uytterhoeven 2019-01-15  28  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
