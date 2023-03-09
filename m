@@ -2,123 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA5F16B1E3D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 09:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5227F6B1F99
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 10:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjCIIdN convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 03:33:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43188 "EHLO
+        id S229827AbjCIJN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 04:13:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbjCIIcO (ORCPT
+        with ESMTP id S229891AbjCIJN5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 03:32:14 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A09234DD;
-        Thu,  9 Mar 2023 00:31:23 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id r16so1165590qtx.9;
-        Thu, 09 Mar 2023 00:31:23 -0800 (PST)
+        Thu, 9 Mar 2023 04:13:57 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E45735F514
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Mar 2023 01:13:53 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id cy23so4149257edb.12
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Mar 2023 01:13:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678353232;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9CEu2+xzDEP1ysZ2Jodpi5h8X2MlwOBxqMwTYxrM9tE=;
+        b=hgV1BzwmBLq1MLu70vByaZViKECvofPPWellrIF9OkLBuk4rfT816uqlpygy1swxrV
+         Xamz3U8zY3xv7QXjOruuz3L83l0vgePE3o4vHdrpDGnCo56GXcHTh2iuN8a1HbLhHeUJ
+         ry/xlrbQ2mQOoC9sMLUjQtw0leOHkNWS1WURrHWmt7sr0LRiqcwQuXHAU/8fEyAQAn++
+         MmO/RpKPjyb4kx32deQyGHlOQ4970vubR6Qd1ubEp9H4ysM7mGyUVFcuSrRTb3wa1XOL
+         +i86wsgPTuiuFcwxVS4mc8tPpSqIp0n7mifSjolD3ExreBXW9qJ9tQh0XPEYH7pGp45G
+         g+Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678350681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pQQwihoQm8uXBBR2hgaSel12EpXi6e7mZu3C3LVlcZg=;
-        b=YlysR+Ajz1WjX4XWH4h8GyXSdemygQGWhJ1uqLiwUKnSKtUNIKOjyp5l2td8aHFmBC
-         9uYT2dGDRoFJV899xcjps14Oe8leJtYziGrRslW29yiqw8H2HpIKzRZi6/ZoOOd5lM6s
-         iFUChzjTFomjjO++xAgUvt0/noWQyx/j0h0eBc9SloAmqvxBRIfrMxFcEc2CxkILlwN8
-         0hKszDG2jutf2o3a0WjBj0YLZSY/wSDhVfysV6qpdOceBfmu8+AgZNFBvaPsqluOuIrK
-         iO63NCYjvq/puMbzNQhWkcAQ4zNPqyad3yohXVXGzqPpiVJM0zdESK50ODqhVLJm68JM
-         6s1g==
-X-Gm-Message-State: AO0yUKVkDCf8IdvwOOr4r0/0f2ljKJsYqCUSL8E/80Ra2ScCi/HrtJiS
-        8b3js11bIimd9guLwNjc1m6nxXCeraOLWWj+
-X-Google-Smtp-Source: AK7set+/ZxmpF0M/dzEpsEf1NRjGmYdQ74IBOd/rXgKRhZjap+uuo7GKLUK6gZ1jJzKYaxCnQmVZ0w==
-X-Received: by 2002:a05:622a:118b:b0:3bf:c266:fa6f with SMTP id m11-20020a05622a118b00b003bfc266fa6fmr33789283qtk.46.1678350681217;
-        Thu, 09 Mar 2023 00:31:21 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id fu22-20020a05622a5d9600b003be56bdd3b1sm12971726qtb.92.2023.03.09.00.31.20
+        d=1e100.net; s=20210112; t=1678353232;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9CEu2+xzDEP1ysZ2Jodpi5h8X2MlwOBxqMwTYxrM9tE=;
+        b=d/QiRU9P0jF5kaAhipDg9eqYewG3YSQR6gJeHfjeKwiMn3LWxr56UQQubBn/ukcKhe
+         9QfPHwxRIAuuL8qcIIlOgc9Xn6t5WvGulWIgd02bhyQ885wpjiY+LQpafPsmo0JxD45G
+         tzG7cAyo/hdllTOAukcZa/NoXYeOzJGTO5nybjz8lcQmWg6YuwkfjZCtkYh4kNgGtvdC
+         czOtdBgnandJ20HO+eFpgSoKn4ot879tQfiLAM0NJ3Qe5E4zFh0AOzmrjizk3sukLuK0
+         7N7KQVrwXmpQKpiYLJC9+T34LHndVT2VCVjID9pXDyPOe0qDbKHeg4O4M0/Rch7DM3f5
+         XWrQ==
+X-Gm-Message-State: AO0yUKXyPW1GwMl/OlUWYZZbcE5a8yy5a8h8uVc7AsD7djd2pEQ+LMWx
+        tfWnyectaxxTfi7cHUPhLrcXow==
+X-Google-Smtp-Source: AK7set/jZEusWLawgfMr+VFVWu7w/eeDzg1P4nP6rbjE5J81n0UA4EyVpXJtA596Z2KHx1Ks+fTLpg==
+X-Received: by 2002:a17:907:9703:b0:8af:514f:1078 with SMTP id jg3-20020a170907970300b008af514f1078mr25280900ejc.31.1678353232434;
+        Thu, 09 Mar 2023 01:13:52 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:7ee2:e73e:802e:45c1? ([2a02:810d:15c0:828:7ee2:e73e:802e:45c1])
+        by smtp.gmail.com with ESMTPSA id mb3-20020a170906eb0300b008e772c97db6sm8520392ejb.128.2023.03.09.01.13.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 00:31:20 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id o1so1078675ybu.13;
-        Thu, 09 Mar 2023 00:31:20 -0800 (PST)
-X-Received: by 2002:a05:6902:4d4:b0:a03:da3f:3e68 with SMTP id
- v20-20020a05690204d400b00a03da3f3e68mr13049236ybs.12.1678350680338; Thu, 09
- Mar 2023 00:31:20 -0800 (PST)
+        Thu, 09 Mar 2023 01:13:52 -0800 (PST)
+Message-ID: <984f1689-459e-bd26-b96c-6c759417b3d1@linaro.org>
+Date:   Thu, 9 Mar 2023 10:13:51 +0100
 MIME-Version: 1.0
-References: <0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert+renesas@glider.be>
- <202303091612.UKr8Fhos-lkp@intel.com>
-In-Reply-To: <202303091612.UKr8Fhos-lkp@intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Mar 2023 09:31:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWQXw-+_PSnmWTVSgHYftoyN2=O7cKWrsaNOaSwuhx3pQ@mail.gmail.com>
-Message-ID: <CAMuHMdWQXw-+_PSnmWTVSgHYftoyN2=O7cKWrsaNOaSwuhx3pQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O
- voltage levels
-To:     kernel test robot <lkp@intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH RFC 1/3] dt-bindings: clock: Add Renesas versa3 clock
+ generator bindings
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+References: <20230220131307.269100-1-biju.das.jz@bp.renesas.com>
+ <20230220131307.269100-2-biju.das.jz@bp.renesas.com>
+ <e9e63c87-b491-b4d5-b226-0539ef0de2d0@linaro.org>
+ <OS0PR01MB59221C8C937EF20347149E4886B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <36e06397-2189-4f1b-99cc-d39e720ebc71@linaro.org>
+ <OS0PR01MB5922BDA0632ACCCC0100EEBD86B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <6cbe6c71-2d2d-0f79-1270-7f8ed2ddc1d6@linaro.org>
+ <TYCPR01MB5933650D5BAB7A3F4BE03BAF86B59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYCPR01MB5933650D5BAB7A3F4BE03BAF86B59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Robot,
+On 09/03/2023 08:57, Biju Das wrote:
+>>> It is clk generator HW specific. Clk generator is vital component
+>>> which provides clocks to the system.
+>>
+>> Every clock controller is vital...
+>>
+>>> We are providing some hardware feature which is exposed as dt
+>>> properties.
+>>>
+>>> Like clock output is fixed rate clock or dynamic rate clock/
+>>
+>> OK, I wait then for proper description which will explain and justify this.
+> 
+> Here it is, Please let me know is it ok?
+> 
+> renesas,output-clock-fixed-rate-mode:
+>     type: boolean
+>     description:
+>       In output clock fixed rate mode, the output clock frequency is always
+>       fixed and the hardware will use the values from the OTP or full register
+> 	map initialized during boot.
+>       If not given, the output clock rate is not fixed.
+>     maxItems: 6
 
-On Thu, Mar 9, 2023 at 9:29 AM kernel test robot <lkp@intel.com> wrote:
-> I love your patch! Yet something to improve:
->
-> [auto build test ERROR on geert-renesas-drivers/renesas-pinctrl]
-> [also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.3-rc1 next-20230309]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-> patch link:    https://lore.kernel.org/r/0c04925457bf3f7e78e7e3851528d9a4c29246da.1678271030.git.geert%2Brenesas%40glider.be
-> patch subject: [PATCH 3/8] pinctrl: renesas: Add support for 1.8V/2.5V I/O voltage levels
-> config: nios2-randconfig-r004-20230309 (https://download.01.org/0day-ci/archive/20230309/202303091612.UKr8Fhos-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/513932515f943c5987c5a214520f6875cd507c3e
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Geert-Uytterhoeven/pinctrl-renesas-r8a77995-Retain-POCCTRL0-register-across-suspend-resume/20230308-212328
->         git checkout 513932515f943c5987c5a214520f6875cd507c3e
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/pinctrl/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303091612.UKr8Fhos-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from drivers/pinctrl/renesas/pfc-r8a77950.c:11:
-> >> drivers/pinctrl/renesas/pfc-r8a77950.c:19:48: error: 'SH_PFC_PIN_CFG_IO_VOLTAGE' undeclared here (not in a function); did you mean 'SH_PFC_PIN_CFG_IO_VOLTAGE_MASK'?
->       19 |         PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE),      \
->          |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+boolean is scalar, not array, so no maxItems. If the frequency is taken
+from OTP or register map, why they cannot also provide information the
+clock is fixed?
 
-This driver is scheduled for removal, hence was not updated.
+> 
+> Cheers,
+> Biju
 
-Gr{oetje,eeting}s,
+Best regards,
+Krzysztof
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
