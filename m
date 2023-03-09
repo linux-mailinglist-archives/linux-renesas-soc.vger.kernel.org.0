@@ -2,86 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57CD86B1C4D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 08:30:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8BE6B1C96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 08:46:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbjCIHa2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 02:30:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49892 "EHLO
+        id S230052AbjCIHp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 02:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229852AbjCIHaY (ORCPT
+        with ESMTP id S229819AbjCIHp5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 02:30:24 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAA662FDE;
-        Wed,  8 Mar 2023 23:30:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id CA2E2CE228E;
-        Thu,  9 Mar 2023 07:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DFAE8C433AA;
-        Thu,  9 Mar 2023 07:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678347019;
-        bh=pLu2EUjm0EUWWJ8Bq7EHf6FFQCmBn3/LFHoWP+HFOaM=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=TRQuKn87mlc14w2ao4dBhX1cwTkgy+XNoKUXHEVGLpkVkwA961dPU03wWDtoaRCoA
-         KyBg+99tIz4BIEUt4yRJjLm4kakaKOhBW2bABom535uQzWsAYQzIuv2b1wGgbxVv1I
-         h99HVGsJH5XnneOV/MClhLyGOSNsyynn8EROjm+3GxkFpvcDqjJgsJvhOCzKNNWsad
-         T7AURXwMYPT/hjEhGGqeiGj61NUZLPgN9CxIxpcYVno1yA6HaIr2DDe7b/W8+MxBYs
-         sw45PH57JbFR6WTsYZyqATB+g1nHYdBuBvdZyVhillv7JBDYRYVwybV3DK0ya5tBtz
-         fVjbtpLQp/f2A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CB1B0E61B60;
-        Thu,  9 Mar 2023 07:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 9 Mar 2023 02:45:57 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B5EDC0B5
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Mar 2023 23:45:50 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:614d:21b0:703:d0f9])
+        by laurent.telenet-ops.be with bizsmtp
+        id W7ln2900G3mNwr4017lnNV; Thu, 09 Mar 2023 08:45:48 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1paAxd-00BJiF-3S;
+        Thu, 09 Mar 2023 08:45:47 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1paAyB-00Fxln-Kt;
+        Thu, 09 Mar 2023 08:45:47 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] i2c: dev: Fix bus callback return values
+Date:   Thu,  9 Mar 2023 08:45:46 +0100
+Message-Id: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/11] tree-wide: remove support for Renesas R-Car H3 ES1
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167834701982.22182.9521763384207545073.git-patchwork-notify@kernel.org>
-Date:   Thu, 09 Mar 2023 07:30:19 +0000
-References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+The i2cdev_{at,de}tach_adapter() callbacks are used for two purposes:
+  1. As notifier callbacks, when (un)registering I2C adapters created or
+     destroyed after i2c_dev_init(),
+  2. As bus iterator callbacks, for registering already existing
+     adapters from i2c_dev_init(), and for cleanup.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Unfortunately both use cases expect different return values: the former
+expects NOTIFY_* return codes, while the latter expects zero or error
+codes, and aborts in case of error.
 
-On Tue,  7 Mar 2023 17:30:28 +0100 you wrote:
-> Because H3 ES1 becomes an increasing maintenance burden and was only available
-> to a development group, we decided to remove upstream support for it. Here are
-> the patches to remove driver changes. Review tags have been gathered before
-> during an internal discussion. Only change since the internal version is a
-> plain rebase to v6.3-rc1. A branch with all removals is here:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/h3es1-removal
-> 
-> [...]
+Hence in case 2, as soon as i2cdev_{at,de}tach_adapter() returns
+(non-zero) NOTIFY_OK, the bus iterator aborts.  This causes (a) only the
+first already existing adapter to be registered, leading to missing
+/dev/i2c-* entries, and (b) a failure to unregister all but the first
+I2C adapter during cleanup.
 
-Here is the summary with links:
-  - [07/11] ravb: remove R-Car H3 ES1.* handling
-    https://git.kernel.org/netdev/net-next/c/6bf0ad7f2917
+Fix this by introducing separate callbacks for the bus iterator,
+wrapping the notifier functions, and always returning succes.
+Any errors inside these callback functions are unlikely to happen, and
+are fatal anyway.
 
-You are awesome, thank you!
+Fixes: cddf70d0bce71c2a ("i2c: dev: fix notifier return values")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Seen on r8a7740/armadillo and r8a73a4/ape6evm, where the i2c-shmobile
+adapters are probed before i2c_dev_init().
+Not seen on r8a779g0/white-hawk, where all I2C adapters are probed after
+i2c_dev_init().
+
+ drivers/i2c/i2c-dev.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/i2c/i2c-dev.c b/drivers/i2c/i2c-dev.c
+index 107623c4cc14aaf9..95a0b63ac560cf33 100644
+--- a/drivers/i2c/i2c-dev.c
++++ b/drivers/i2c/i2c-dev.c
+@@ -646,7 +646,7 @@ static void i2cdev_dev_release(struct device *dev)
+ 	kfree(i2c_dev);
+ }
+ 
+-static int i2cdev_attach_adapter(struct device *dev, void *dummy)
++static int i2cdev_attach_adapter(struct device *dev)
+ {
+ 	struct i2c_adapter *adap;
+ 	struct i2c_dev *i2c_dev;
+@@ -685,7 +685,7 @@ static int i2cdev_attach_adapter(struct device *dev, void *dummy)
+ 	return NOTIFY_DONE;
+ }
+ 
+-static int i2cdev_detach_adapter(struct device *dev, void *dummy)
++static int i2cdev_detach_adapter(struct device *dev)
+ {
+ 	struct i2c_adapter *adap;
+ 	struct i2c_dev *i2c_dev;
+@@ -711,9 +711,9 @@ static int i2cdev_notifier_call(struct notifier_block *nb, unsigned long action,
+ 
+ 	switch (action) {
+ 	case BUS_NOTIFY_ADD_DEVICE:
+-		return i2cdev_attach_adapter(dev, NULL);
++		return i2cdev_attach_adapter(dev);
+ 	case BUS_NOTIFY_DEL_DEVICE:
+-		return i2cdev_detach_adapter(dev, NULL);
++		return i2cdev_detach_adapter(dev);
+ 	}
+ 
+ 	return NOTIFY_DONE;
+@@ -725,6 +725,18 @@ static struct notifier_block i2cdev_notifier = {
+ 
+ /* ------------------------------------------------------------------------- */
+ 
++static int __init i2c_dev_attach_adapter(struct device *dev, void *dummy)
++{
++	i2cdev_attach_adapter(dev);
++	return 0;
++}
++
++static int __exit i2c_dev_detach_adapter(struct device *dev, void *dummy)
++{
++	i2cdev_detach_adapter(dev);
++	return 0;
++}
++
+ /*
+  * module load/unload record keeping
+  */
+@@ -752,7 +764,7 @@ static int __init i2c_dev_init(void)
+ 		goto out_unreg_class;
+ 
+ 	/* Bind to already existing adapters right away */
+-	i2c_for_each_dev(NULL, i2cdev_attach_adapter);
++	i2c_for_each_dev(NULL, i2c_dev_attach_adapter);
+ 
+ 	return 0;
+ 
+@@ -768,7 +780,7 @@ static int __init i2c_dev_init(void)
+ static void __exit i2c_dev_exit(void)
+ {
+ 	bus_unregister_notifier(&i2c_bus_type, &i2cdev_notifier);
+-	i2c_for_each_dev(NULL, i2cdev_detach_adapter);
++	i2c_for_each_dev(NULL, i2c_dev_detach_adapter);
+ 	class_destroy(i2c_dev_class);
+ 	unregister_chrdev_region(MKDEV(I2C_MAJOR, 0), I2C_MINORS);
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
