@@ -2,86 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D2E6B1655
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 00:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57CD86B1C4D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 08:30:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbjCHXOm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Mar 2023 18:14:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33210 "EHLO
+        id S229814AbjCIHa2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Mar 2023 02:30:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbjCHXOe (ORCPT
+        with ESMTP id S229852AbjCIHaY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Mar 2023 18:14:34 -0500
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E0566486F;
-        Wed,  8 Mar 2023 15:14:29 -0800 (PST)
-Received: by mail-ot1-f46.google.com with SMTP id g73-20020a9d12cf000000b006943a7df072so96290otg.11;
-        Wed, 08 Mar 2023 15:14:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678317269;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kHu/oGGSXQlPy/uql3D2VDJcT0bQkL/85Y5X0Ql3e9A=;
-        b=Msss3uZ3NJslCQ19C7r/KAN4gQyr/MSClkcU8RADuZ9ZsLMZ4o+nrqjN1flQv9UsOM
-         OQhOzsLcaGkBjkR7M5D1MkX/7qUftG+MhkQignlvSkPo7n96jVLLqkoEsCHmSsNYcwp3
-         5yHU/oNeiJmaj5EH2NjD/h4kxS49DwBoDxn8CvZvt1dzULPgWXyAGUQeRlkCpSBRKaFt
-         eK71MS2Yx5bGunpSJ9TABWUaCiE/bzq80aTazeQKdmdaw1nHAqKkIVy+Ss9YQA0bprOp
-         ADEuYSx4VtDxaka1ilgvHtvphLdWh0bZ6q0lFZfDHAfObrgRHdKNa0iNNPmy8ScL+pEY
-         oaPg==
-X-Gm-Message-State: AO0yUKWMPtYLFkeKb88YZoDUC8QhZM4JjgxFsL3ckqqfg78c+ty8pMDG
-        ZdOI6+ZHVOofSBcCWWCuROJ+AlG60w==
-X-Google-Smtp-Source: AK7set/tyoSQViAmxTaUHy/Tj2H+uzwC8gFhM1OGhh8Tsia2+9aUxqpaCMsm85alcWBG/GLP99nbvw==
-X-Received: by 2002:a9d:6d16:0:b0:68b:dd2c:77cf with SMTP id o22-20020a9d6d16000000b0068bdd2c77cfmr1772195otp.32.1678317268758;
-        Wed, 08 Mar 2023 15:14:28 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y12-20020a9d714c000000b006864b5f4650sm7140599otj.46.2023.03.08.15.14.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 15:14:28 -0800 (PST)
-Received: (nullmailer pid 4053194 invoked by uid 1000);
-        Wed, 08 Mar 2023 23:14:27 -0000
-Date:   Wed, 8 Mar 2023 17:14:27 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 3/5] dt-bindings: soc: renesas: remove R-Car H3 ES1.*
-Message-ID: <167831726687.4053115.9108602835932174936.robh@kernel.org>
-References: <20230307105645.5285-1-wsa+renesas@sang-engineering.com>
- <20230307105645.5285-4-wsa+renesas@sang-engineering.com>
+        Thu, 9 Mar 2023 02:30:24 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAA662FDE;
+        Wed,  8 Mar 2023 23:30:23 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id CA2E2CE228E;
+        Thu,  9 Mar 2023 07:30:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DFAE8C433AA;
+        Thu,  9 Mar 2023 07:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678347019;
+        bh=pLu2EUjm0EUWWJ8Bq7EHf6FFQCmBn3/LFHoWP+HFOaM=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=TRQuKn87mlc14w2ao4dBhX1cwTkgy+XNoKUXHEVGLpkVkwA961dPU03wWDtoaRCoA
+         KyBg+99tIz4BIEUt4yRJjLm4kakaKOhBW2bABom535uQzWsAYQzIuv2b1wGgbxVv1I
+         h99HVGsJH5XnneOV/MClhLyGOSNsyynn8EROjm+3GxkFpvcDqjJgsJvhOCzKNNWsad
+         T7AURXwMYPT/hjEhGGqeiGj61NUZLPgN9CxIxpcYVno1yA6HaIr2DDe7b/W8+MxBYs
+         sw45PH57JbFR6WTsYZyqATB+g1nHYdBuBvdZyVhillv7JBDYRYVwybV3DK0ya5tBtz
+         fVjbtpLQp/f2A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CB1B0E61B60;
+        Thu,  9 Mar 2023 07:30:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307105645.5285-4-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/11] tree-wide: remove support for Renesas R-Car H3 ES1
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167834701982.22182.9521763384207545073.git-patchwork-notify@kernel.org>
+Date:   Thu, 09 Mar 2023 07:30:19 +0000
+References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
-On Tue, 07 Mar 2023 11:56:39 +0100, Wolfram Sang wrote:
-> R-Car H3 ES1.* was only available to an internal development group and
-> needed a lot of quirks and workarounds. These become a maintenance
-> burden now, so our development group decided to remove upstream support
-> and disable booting for this SoC. Public users only have ES2 onwards.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  .../devicetree/bindings/soc/renesas/renesas.yaml          | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Acked-by: Rob Herring <robh@kernel.org>
+On Tue,  7 Mar 2023 17:30:28 +0100 you wrote:
+> Because H3 ES1 becomes an increasing maintenance burden and was only available
+> to a development group, we decided to remove upstream support for it. Here are
+> the patches to remove driver changes. Review tags have been gathered before
+> during an internal discussion. Only change since the internal version is a
+> plain rebase to v6.3-rc1. A branch with all removals is here:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/h3es1-removal
+> 
+> [...]
+
+Here is the summary with links:
+  - [07/11] ravb: remove R-Car H3 ES1.* handling
+    https://git.kernel.org/netdev/net-next/c/6bf0ad7f2917
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
