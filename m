@@ -2,103 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DD46B3EDC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 13:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 343356B3F45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 13:35:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjCJMMZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 07:12:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36194 "EHLO
+        id S230344AbjCJMfQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Mar 2023 07:35:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbjCJML5 (ORCPT
+        with ESMTP id S230146AbjCJMfP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 07:11:57 -0500
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A15724BEB;
-        Fri, 10 Mar 2023 04:11:40 -0800 (PST)
-Received: by mail-qt1-f172.google.com with SMTP id c18so5359472qte.5;
-        Fri, 10 Mar 2023 04:11:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678450299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KN9ADwNp0Kvo6TG9fwtArvPEhlN9J1P8hbAGaNC2UAg=;
-        b=kOvtWID2bL6WjzU7UzsB79PH8j41Z00zvxOMsE2BGUeJgDDPUvpF6iRXKxMOmS3uUd
-         gCEBc07zup1re4x2G6/X408T/ASnxBhhY/epEyhWQ6ye1Z+kNN6DD9bEFMYcc93E6MqZ
-         nzanhs94XzBcDADxLhSoCi801d/LNe+IGsrkNFqUPZMvdOO+k7MfkXJBXXgQDzRfKj1+
-         QJyVutkxUMN3c2g6mGrWaahh/cHOgbY2Md35txSRm0LIFsTTpKrY1JmwgriMN5BGnibG
-         11O4aOsPJfmesplEzll8p1z8ei70MKDnNF/cE6JCWyhcoaWxm9nBkL5emZFyg8hVNHG3
-         5WWw==
-X-Gm-Message-State: AO0yUKUNH+u/mF6eOdd7vMK67gVcgPLawjdLMVGM7Ypepm6Bt9WcU8sh
-        NcUDZg8ciIKxFURjWi5lMm3TrzwrWO4R5A==
-X-Google-Smtp-Source: AK7set9j0PsXtpFxaf73+BiUm7XbJ7SMGPbgtk0UXaThOi0Bo/QazvSyptoAzE1NzMxN4oWX+Idk6g==
-X-Received: by 2002:a05:622a:d1:b0:3bf:d1b3:2bbb with SMTP id p17-20020a05622a00d100b003bfd1b32bbbmr8484041qtw.13.1678450298995;
-        Fri, 10 Mar 2023 04:11:38 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id q2-20020ac84502000000b003bfa66b7484sm1268650qtn.35.2023.03.10.04.11.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 04:11:38 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-536bf92b55cso93216777b3.12;
-        Fri, 10 Mar 2023 04:11:38 -0800 (PST)
-X-Received: by 2002:a81:ae4a:0:b0:52e:b7cf:4cd1 with SMTP id
- g10-20020a81ae4a000000b0052eb7cf4cd1mr16215414ywk.5.1678450298121; Fri, 10
- Mar 2023 04:11:38 -0800 (PST)
+        Fri, 10 Mar 2023 07:35:15 -0500
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 00CA110BA7E;
+        Fri, 10 Mar 2023 04:35:13 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.98,249,1673881200"; 
+   d="scan'208";a="155526881"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Mar 2023 21:35:13 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F448423B048;
+        Fri, 10 Mar 2023 21:35:13 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com
+Cc:     Sergey.Semin@baikalelectronics.ru, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v11 00/13] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Fri, 10 Mar 2023 21:34:57 +0900
+Message-Id: <20230310123510.675685-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230206001300.28937-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV+Az_yda0nTzn5teeQ2V7brQsmtZx6RUzBQsok3LxVKw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV+Az_yda0nTzn5teeQ2V7brQsmtZx6RUzBQsok3LxVKw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Mar 2023 13:11:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWw43xpmRgzGM8g2fEbpMrVp4exOCNG+4riFC9v_TU+ZA@mail.gmail.com>
-Message-ID: <CAMuHMdWw43xpmRgzGM8g2fEbpMrVp4exOCNG+4riFC9v_TU+ZA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r9a07g044: Add Cortex-A55 PMU node
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.4 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-On Fri, Feb 10, 2023 at 11:49 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Mon, Feb 6, 2023 at 1:13 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable the performance monitor unit for the Cortex-A55 cores on the
-> > RZ/G2L (r9a07g044) SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * Fixed interrupt type
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.4.
+Patch [1/12] and [2/12] are bug fix patches.
 
-And cloning for RZ/V2L...
+Changes from v10:
+https://patchwork.kernel.org/project/linux-pci/cover/20230308082352.491561-1-yoshihiro.shimoda.uh@renesas.com/
+ - Fix dt-bindings doc for endpoint (reported by Rob's bot).
+ - Add reg and reg-names to the dt-bindings doc of host.
+ - Fix examples in the dt-bindings docs of both host and endpoint.
+ - Add R-Car S4-8 device ID into the pci_test_endpoint driver.
 
-Gr{oetje,eeting}s,
+Changes from v9:
+https://lore.kernel.org/linux-pci/20230210134917.2909314-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230306
+ - Add bug fix patches into this patch series.
+   https://lore.kernel.org/linux-pci/20230216092012.3256440-1-yoshihiro.shimoda.uh@renesas.com/
+   https://lore.kernel.org/linux-pci/20230222015327.3585691-1-yoshihiro.shimoda.uh@renesas.com/
+ - Add maximum for max-link-speed and num-lanes to dt-bindings of both host and endpoint.
+ - Add max-functions to dt-bindings of endpoint.
+ - Use reg-names "app" on endpoint.
+ - Remove unnecessary linkup and wait process in rcar_gen4_pcie_host_init().
+ - Remove unnecessary macros in pcie-rcar-gen4.h.
+ - Use dbi2 to write BAR mask registers.
+ - Remove no_msix and intx_by_atu flags.
+ - Reduce __dw_pcie_prog_outbound_atu() arguments.
+ - Add dw_pcie_num_lanes_setup() to setup num_lanes.
+ - Refactor dw_pcie_setup() to avoid PCIE_PORT_LINK_CONTROL writing twice.
 
-                        Geert
+Yoshihiro Shimoda (13):
+  PCI: dwc: Fix writing wrong value if snps,enable-cdm-check
+  PCI: endpoint: functions/pci-epf-test: Fix dma_chan direction
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: dwc: Refactor PCIE_PORT_LINK_CONTROL handling
+  PCI: Add PCI_EXP_LNKCAP_MLW macros
+  PCI: designware-ep: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Add dw_pcie_num_lanes_setup()
+  PCI: dwc: Add support for triggering legacy IRQs
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
+
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        |  97 ++++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 108 +++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  70 +++++++-
+ drivers/pci/controller/dwc/pcie-designware.c  | 130 +++++++++-----
+ drivers/pci/controller/dwc/pcie-designware.h  |  18 +-
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 170 ++++++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 134 ++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 156 ++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  56 ++++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   5 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |   2 +-
+ include/uapi/linux/pci_regs.h                 |   6 +
+ 16 files changed, 919 insertions(+), 60 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
