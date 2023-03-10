@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 303496B3EA6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 13:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C52FA6B3ECE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 13:10:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjCJMFn convert rfc822-to-8bit (ORCPT
+        id S230172AbjCJMKl convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 07:05:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53062 "EHLO
+        Fri, 10 Mar 2023 07:10:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbjCJMF2 (ORCPT
+        with ESMTP id S230179AbjCJMKW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 07:05:28 -0500
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9DEF34CD;
-        Fri, 10 Mar 2023 04:05:26 -0800 (PST)
-Received: by mail-qt1-f172.google.com with SMTP id r16so5315216qtx.9;
-        Fri, 10 Mar 2023 04:05:26 -0800 (PST)
+        Fri, 10 Mar 2023 07:10:22 -0500
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7A3FCBDC;
+        Fri, 10 Mar 2023 04:09:12 -0800 (PST)
+Received: by mail-qt1-f169.google.com with SMTP id s12so5306959qtq.11;
+        Fri, 10 Mar 2023 04:09:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678449925;
+        d=1e100.net; s=20210112; t=1678450151;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M8UNkrLW/HQojg28MfnnyGYVjttNpcn/zGjRX4vMdGU=;
-        b=eX7M9cdLl2JTraSX1senV5BGQ640IJDgBvnidCWcvt5YmGdBU7W/WZaJx9oTCGEU83
-         S6YM7Mdf6zjpNCACSfEXQeS9MsYyhizwfqj8tnCmhCifjOzuDoeAWdiiQn9asBHkNGOZ
-         xf7Qn68YKuJNRnjw0ONXfEDOUuK6ZmiokiWDD/2p66YnruXMmZ/JtGdgOec1lxV6tR2E
-         7bhhc2m5kR74CK3YKVT1y+IOz3fUzF9oxJx55NsybXi6GXAuY2jqw56JYMZQwyKPEB+M
-         zJLynCCC9+u6tVpCzDdQEtoGe0JxTKZEZYD4a6wWTtHTWqrAxpdpxWrezWYFjgM9wIZR
-         oKPw==
-X-Gm-Message-State: AO0yUKXWRBwFA6qgtlG+r3DctEIYDKJb/qJPNRPwu6BQ44sT+WkPUPzn
-        ilaeW6pFjuGVjPAdzxCOBTzbXrvevLmxSg==
-X-Google-Smtp-Source: AK7set+CqID7+IJqbGGixhQF4yvpRZA6GBZSshSdlfY83BI0NSeZiSrHNFvbT9TUhZBUdGkrfZFiiw==
-X-Received: by 2002:a05:622a:170b:b0:3b6:3e4f:f876 with SMTP id h11-20020a05622a170b00b003b63e4ff876mr8371317qtk.18.1678449924831;
-        Fri, 10 Mar 2023 04:05:24 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id c1-20020ac853c1000000b003b323387c1asm1296154qtq.18.2023.03.10.04.05.24
+        bh=osXtcLpzII8HMhQvnw8NYQ8r9e4scUgeSo4VdhXXuHE=;
+        b=5dEtkieSX9+kHCz8QaMU9V8XUJZ/s19MsauE4JHCZpAu2g1HywkZveQ0xWXuUVnM97
+         wYDQ2Q2e/AJlRz+brJDYr0CrPvYEnoUUhTdLzPvvt8UVVJ32+Vmcsdv0VTn616QgdZp4
+         TDKFweE64593eW7rO5w5nH3GiDYOyPdBI/x7gIEslwM5RS3UPLHYonseAra6c0CBbOGg
+         mR+StBSCJg/736OJ1AqZjsoGURbzm22BKYS2mYfP5F5Ex9ylnWSXSy+4ZaZ3GhaiyaGM
+         ZdxGD1dUI6YU8HmqtFlQbhFHQvtuLHhMj76ZtUj6uEbGTSzbBijb0Pv6EhbwVqoon1+K
+         nAnw==
+X-Gm-Message-State: AO0yUKUYq9lhs/0sNAKqLp+A1Pkp34pYCQXqtcD/fYVBzSu+tfvZ+HeZ
+        0Tp3opag1sDjwCM9oq1pHQvV/I7S/b9slA==
+X-Google-Smtp-Source: AK7set934mArPxO5dbqovGMYLgSAAPJIfOG8DTjMSXBlIWDrgXtKI/SoxXM+uHqZZ5IbmVEn2arOng==
+X-Received: by 2002:ac8:5715:0:b0:3b9:bc8c:c1f8 with SMTP id 21-20020ac85715000000b003b9bc8cc1f8mr2589875qtw.3.1678450150861;
+        Fri, 10 Mar 2023 04:09:10 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id i6-20020a378606000000b00741b312c899sm1234512qkd.6.2023.03.10.04.09.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 04:05:24 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id t4so4986171ybg.11;
-        Fri, 10 Mar 2023 04:05:24 -0800 (PST)
-X-Received: by 2002:a5b:18e:0:b0:967:f8b2:7a42 with SMTP id
- r14-20020a5b018e000000b00967f8b27a42mr12326443ybl.7.1678449923837; Fri, 10
- Mar 2023 04:05:23 -0800 (PST)
+        Fri, 10 Mar 2023 04:09:10 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-53d277c1834so93230327b3.10;
+        Fri, 10 Mar 2023 04:09:09 -0800 (PST)
+X-Received: by 2002:a81:ae4a:0:b0:52e:b7cf:4cd1 with SMTP id
+ g10-20020a81ae4a000000b0052eb7cf4cd1mr16210644ywk.5.1678450149576; Fri, 10
+ Mar 2023 04:09:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230217185225.43310-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230217185225.43310-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230217185225.43310-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230217185225.43310-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Mar 2023 13:05:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU=mCAWQNFCkkCxBkDyYTLM87QdrYMYE9hpOv1fuS=bWw@mail.gmail.com>
-Message-ID: <CAMuHMdU=mCAWQNFCkkCxBkDyYTLM87QdrYMYE9hpOv1fuS=bWw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] arm64: dts: renesas: r9a07g044: Update IRQ numbers
+Date:   Fri, 10 Mar 2023 13:08:57 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXDJe7pSM8buhwRkYF-DXy4C9NnxbgTWefhRwOXFs0DAA@mail.gmail.com>
+Message-ID: <CAMuHMdXDJe7pSM8buhwRkYF-DXy4C9NnxbgTWefhRwOXFs0DAA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a07g043: Update IRQ numbers
  for SSI channels
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Liam Girdwood <lgirdwood@gmail.com>,
@@ -70,20 +70,18 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Fri, Feb 17, 2023 at 7:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Fri, Feb 17, 2023 at 7:54 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> From R01UH0914EJ0120 Rev.1.20 HW manual the interrupt numbers for SSI
+> From R01UH0968EJ0100 Rev.1.00 HW manual the interrupt numbers for SSI
 > channels have been updated,
 >
 > SPI 329 - SSIF0 is now marked as reserved
@@ -94,27 +92,12 @@ On Fri, Feb 17, 2023 at 7:53 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 >
 > This patch drops the above IRQs from SoC DTSI.
 >
-> Fixes: 92a341315afc9 ("arm64: dts: renesas: r9a07g044: Add SSI support")
+> Fixes: 559f2b0708c70 ("arm64: dts: renesas: r9a07g043: Add SSI{1,2,3} nodes and fillup the SSI0 stub node")
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.4.
-
-> As this is is a fixes patch and we are still waiting for [0] to be merged
-> shall do the same for V2L SoC?
->
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-No need to send, I cloned the above with
-    s/G2L/V2L/
-    s/g044/g054/
-    s/G044/G054/
-    s/R01UH0914EJ0120/R01UH0936EJ0120/
-
-and
-Fixes: cd0339ec25895c0b ("arm64: dts: renesas: r9a07g054: Add
-SSI{1,2,3} nodes and fillup the SSI0 stub node")
 
 Gr{oetje,eeting}s,
 
