@@ -2,59 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD3D6B40A0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 14:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ADB06B4199
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 14:54:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbjCJNj4 convert rfc822-to-8bit (ORCPT
+        id S231243AbjCJNyn convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 08:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
+        Fri, 10 Mar 2023 08:54:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230274AbjCJNjy (ORCPT
+        with ESMTP id S231214AbjCJNym (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 08:39:54 -0500
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F9584809
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:39:51 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id g9so3581284qvt.8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:39:51 -0800 (PST)
+        Fri, 10 Mar 2023 08:54:42 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B13010FBA6;
+        Fri, 10 Mar 2023 05:54:41 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id s12so5640846qtq.11;
+        Fri, 10 Mar 2023 05:54:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678455590;
+        d=1e100.net; s=20210112; t=1678456480;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lH9G3FZCdw8CBlhJ5gStJjoGgKYZe8e/V6+MwMZJz7s=;
-        b=5oN8BBJePrHOTo8GyocFpHQbDYdM5oUSEGSONKbYzDnDIQwHFkqEWURu2Eq3vZUbTS
-         XMhiIa7nJh216JG2CWalMXj7IqW1+vykV17WvnapvQPfue98Ov1JHQFF2p+baimOOmSt
-         3JGi0YXo36rA/4aX1LW9wVUeau25jb4gfdVxZkZxyJJFITPm0tJdBUC5BHVg4XJLntGG
-         EeucRHUfaE1pc1duZnStInMHepoSU7yjgKV6YlZHgLKHI7ATYK0u0268sch7dlQT6te9
-         6cX3mM9FM9jLN6IvFOYpQnSZLCSyr1uE6JODsX1UsmuZ16aZXcZjfkRbONTtLcEGpnKt
-         gFQg==
-X-Gm-Message-State: AO0yUKVhTGeJTqlspel+RWzEOzWi04NC2fcS62kGQcrU6AQkr7WWJHdb
-        b3xzlwhqMZZU57UJ3SzfuIlvOhof0t/PmA==
-X-Google-Smtp-Source: AK7set/hWOGKkcGoNeExnpt0NL4DTCtx15gPAWX/QzGtXnPtDtxTcsvFuKW6OV+hner9czguY08Iyg==
-X-Received: by 2002:a05:6214:20c4:b0:56e:a4c5:9da5 with SMTP id 4-20020a05621420c400b0056ea4c59da5mr51400747qve.6.1678455590254;
-        Fri, 10 Mar 2023 05:39:50 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id 26-20020a05620a041a00b00742562938cfsm1299111qkp.107.2023.03.10.05.39.49
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=WnUNSiXGbQH0bP9V2LCwGnWViLXgG1OKk6n06yFH75A=;
+        b=o2eGGOOigT3kz84lib5dIq54FZCdODSFHBtyDRJE0Zk6lmRAnd65dsPD4uJP8GV9BH
+         pY8mZVoeKaOZO8z9difuU6TG63sqpwH6SUKw1elfQ/ezDY5Pm0Ofq9FXlK/OziRq8gvu
+         klF8pOewZ3bvpMDBlEgcwIdDkCkHP3PrjQUk3HGVhgCTbzpBzSqHVeCD0nnoxRd+UrxV
+         l4ol4fTKKg9E4vtHME2rn5oudRtq9O4OZQXp8dGVuqeHjJJGa9uzJWlXWFLkEcKkTCvn
+         yLM1qSPj/lGmISN1QxtZeU+EZi+C8k/1LjCMKuhVrjSmmGcBSTzcbQE8bVJKmc+P3CL9
+         U0sA==
+X-Gm-Message-State: AO0yUKWkJzHqTOJ8FWke1CxlTZimLFmRb9rmODHaU4GEZ9yy2r4G/vKB
+        b8SqG29UcXu2iOU+SgTxU05zKo3N9csIqA==
+X-Google-Smtp-Source: AK7set/hUzmLDeP4F9eIvtFBvW90p1qfAqy16uWpJ1tElf3ULiOy1nbggUAXZjowP+qPsslTkQeTMg==
+X-Received: by 2002:a05:622a:111:b0:3a7:e2df:e868 with SMTP id u17-20020a05622a011100b003a7e2dfe868mr40375642qtw.41.1678456480281;
+        Fri, 10 Mar 2023 05:54:40 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id z2-20020a05622a028200b003a527d29a41sm1432671qtw.75.2023.03.10.05.54.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 05:39:50 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-536bbef1c5eso97789757b3.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:39:49 -0800 (PST)
-X-Received: by 2002:a81:ad14:0:b0:538:112b:67a0 with SMTP id
- l20-20020a81ad14000000b00538112b67a0mr16735195ywh.5.1678455589683; Fri, 10
- Mar 2023 05:39:49 -0800 (PST)
+        Fri, 10 Mar 2023 05:54:39 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id e82so5290229ybh.9;
+        Fri, 10 Mar 2023 05:54:38 -0800 (PST)
+X-Received: by 2002:a25:e406:0:b0:8ed:3426:8a69 with SMTP id
+ b6-20020a25e406000000b008ed34268a69mr1382028ybh.1.1678456478500; Fri, 10 Mar
+ 2023 05:54:38 -0800 (PST)
 MIME-Version: 1.0
-References: <87r0u1l9vc.wl-kuninori.morimoto.gx@renesas.com> <87lek9l9st.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87lek9l9st.wl-kuninori.morimoto.gx@renesas.com>
+References: <20230301215520.828455-1-ralph.siemsen@linaro.org> <20230301215520.828455-2-ralph.siemsen@linaro.org>
+In-Reply-To: <20230301215520.828455-2-ralph.siemsen@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Mar 2023 14:39:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU3F60ZYa4nxXB3a86C6CcZD2bFQUqyZhxrBG6mSi=74w@mail.gmail.com>
-Message-ID: <CAMuHMdU3F60ZYa4nxXB3a86C6CcZD2bFQUqyZhxrBG6mSi=74w@mail.gmail.com>
-Subject: Re: [PATCH 4/4] arm64: renesas_defconfig: Enable DA7213/COMMON_CLK_PWM
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 10 Mar 2023 14:54:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWyeg_s4BtMvhCnNDX0QxN3--mh8CALnQ4YX9RWNvn_5Q@mail.gmail.com>
+Message-ID: <CAMuHMdWyeg_s4BtMvhCnNDX0QxN3--mh8CALnQ4YX9RWNvn_5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] clk: renesas: r9a06g032: improve readability
+To:     Ralph Siemsen <ralph.siemsen@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Stephen Boyd <sboyd@kernel.org>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -67,15 +69,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 12:49 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> This patch enables DA7213 Codec and COMMON_CLK_PWM to
-> enable ARD-AUDIO-DA7212 support on R-Car V4H White Hawk
+On Wed, Mar 1, 2023 at 10:56 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
+> Several small readability improvements:
+> - Move enum gate_type definition up and add comments to each field.
+> - Use this enum instead of generic uint32_t type in clock desc struct.
+> - Tidy up bitfield syntax and comments in clock desc structure
+> - Reformat macros for building clock desc to have one assignment per line
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> There is no functional change.
+>
+> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will apply to my topic/renesas-defconfig branch.
+i.e. will queue in renesas-clk-for-v6.4.
 
 Gr{oetje,eeting}s,
 
