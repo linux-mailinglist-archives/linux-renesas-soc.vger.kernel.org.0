@@ -2,80 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F446B3F73
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 13:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DDD46B4086
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 14:36:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbjCJMhZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 07:37:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48638 "EHLO
+        id S229469AbjCJNgT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Mar 2023 08:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbjCJMhL (ORCPT
+        with ESMTP id S229523AbjCJNgS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 07:37:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D01110C72A;
-        Fri, 10 Mar 2023 04:36:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C9EEBB82289;
-        Fri, 10 Mar 2023 12:36:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42DDC433D2;
-        Fri, 10 Mar 2023 12:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678451796;
-        bh=PWCVTsxCw26Cz18rQKUtN2MtA3+P6cbKGi9GO9ylpbY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gq85VTs8UU8E8IvynBgdr6eI3J2MbgjX/XPVexU4GKZbE2iZMln1k/EF35wc6+Fxs
-         fWFWmDTT5HSN/pUGIkAt800H4Rq4xPJCdbddaUwRyGwqNMvpq+oEYaZxEKuLVCuTVt
-         wobieWVxvIKtiXGHNsjkzysydfAiMolwCy7kT6P7M90+c//nQRJ6JAFUt9IRN71i9c
-         F6gIorX3ZHWbTWLBOZojMu5N/K4RL5Z8LjTI9JyXc++76KyRpxv1A832IibdFVRmhQ
-         eotnoCo7QxjAF/Q0GUtWeFsiS9MXtt7uUiyksk7LTEG2kFvZURIJlRjusB6NUUT5vD
-         QhNOfs97rupAw==
-From:   Lorenzo Pieralisi <lpieralisi@kernel.org>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar: avoid defines prefixed with CONFIG
-Date:   Fri, 10 Mar 2023 13:36:30 +0100
-Message-Id: <167845177669.1223205.12603940242969013581.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230113084516.31888-1-lukas.bulwahn@gmail.com>
-References: <20230113084516.31888-1-lukas.bulwahn@gmail.com>
+        Fri, 10 Mar 2023 08:36:18 -0500
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BB21091E0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:36:17 -0800 (PST)
+Received: by mail-qv1-f48.google.com with SMTP id ev13so3568792qvb.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:36:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678455376;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6l24vRjwYopOU27PH/6yPrTXYoPEf6Lk2xKIV6+tzNE=;
+        b=RCCys+0pDKNAyc28QL1gNnuTzZZeiZIkY5agIBIJ7LKauxZ7+92DaFfqS+oGI66boZ
+         NW5wXz0Vlm6aT3jE78n6mwunCDzLW2GwSs3tIF3A1ePQJitdDlTgdpZfyoKUsaxffiYb
+         kC9ceR9mw2bfXzHdr/zegN+uo7Zyz6f44jNPmRmiwfXz0Y6iANDOwmMKZzCEMiYZFbfR
+         o9eVKubAyq/0MwFRMQASVcJYCGjCXZPqnKYIWwCD20alZCuI5tysKy2/W0MN9kGvFu5o
+         IjCriEzKRZcesr6a36Ya2WBSgwlsNw6FC87Dx1UPcq8jHuVTPaksi2HrZSZfwCdrBxbQ
+         kxnw==
+X-Gm-Message-State: AO0yUKX47LBTVqE2pbnUGxDgExAbXQH+ZPlZRhjDdGFqBotK+6R0DkwP
+        fVLgQVDCgBArkIqi9cyJcVMliajaU/ukmQ==
+X-Google-Smtp-Source: AK7set/CgTSlmdt1dQo95CGEix7JyGE09Hy1gR1iOFWA+KKB9xcfhXfmtUJEGSl5zmGktlpRaCosUw==
+X-Received: by 2002:a05:6214:e8d:b0:56e:a4c5:9d9d with SMTP id hf13-20020a0562140e8d00b0056ea4c59d9dmr9805943qvb.22.1678455375845;
+        Fri, 10 Mar 2023 05:36:15 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id t185-20020ae9dfc2000000b0073b45004754sm1342386qkf.34.2023.03.10.05.36.15
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 05:36:15 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-536bf92b55cso97361597b3.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 05:36:15 -0800 (PST)
+X-Received: by 2002:a81:ae4a:0:b0:52e:b7cf:4cd1 with SMTP id
+ g10-20020a81ae4a000000b0052eb7cf4cd1mr16370485ywk.5.1678455375008; Fri, 10
+ Mar 2023 05:36:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <87r0u1l9vc.wl-kuninori.morimoto.gx@renesas.com> <87pm9ll9ue.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87pm9ll9ue.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 10 Mar 2023 14:36:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU0jjjw_1tojMeCbuV3oX_9n3GsOhX8y4RUUHUJJ33iDQ@mail.gmail.com>
+Message-ID: <CAMuHMdU0jjjw_1tojMeCbuV3oX_9n3GsOhX8y4RUUHUJJ33iDQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] arm64: dts: renesas: r8a779g0: R-Car Sound support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 13 Jan 2023 09:45:16 +0100, Lukas Bulwahn wrote:
-> Defines prefixed with "CONFIG" should be limited to proper Kconfig options,
-> that are introduced in a Kconfig file.
-> 
-> Here, a definition for a bitmask to configure the SEND_ENABLE mode is named
-> CONFIG_SEND_ENABLE.
-> 
-> Rename this local definition to CONFIGURE_SEND_ENABLE to avoid defines
-> prefixed with "CONFIG".
-> 
-> [...]
+Hi Morimoto-san,
 
-Applied to pci/rcar, thanks!
+On Tue, Mar 7, 2023 at 12:49 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> This patch adds Sound support for R-Car V4H.
+>
+> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[1/1] PCI: rcar: avoid defines prefixed with CONFIG
-      https://git.kernel.org/pci/pci/c/727de4c08768
+Thanks for your patch!
 
-Thanks,
-Lorenzo
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> @@ -185,6 +185,15 @@ scif_clk: scif {
+>                 clock-frequency = <0>;
+>         };
+>
+> +       /*
+> +        * The clock from AUDIO_CLKIN pin are configured as 0 Hz fixed frequency
+> +        */
+> +       audio_clkin: audio_clkin {
+
+Moving up to preserve sort order (alphabetically).
+
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               clock-frequency = <0>;
+> +       };
+> +
+>         soc: soc {
+>                 compatible = "simple-bus";
+>                 interrupt-parent = <&gic>;
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.4, with the above fixed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
