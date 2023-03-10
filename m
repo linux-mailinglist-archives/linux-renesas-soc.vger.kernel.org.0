@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58D376B41AC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 14:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 973566B41C5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 14:56:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbjCJNzS convert rfc822-to-8bit (ORCPT
+        id S231281AbjCJN4a convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 08:55:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36478 "EHLO
+        Fri, 10 Mar 2023 08:56:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231307AbjCJNzO (ORCPT
+        with ESMTP id S231284AbjCJN41 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 08:55:14 -0500
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F1310F467;
-        Fri, 10 Mar 2023 05:55:12 -0800 (PST)
-Received: by mail-qt1-f169.google.com with SMTP id cf14so5650283qtb.10;
-        Fri, 10 Mar 2023 05:55:11 -0800 (PST)
+        Fri, 10 Mar 2023 08:56:27 -0500
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645AA10FBB7;
+        Fri, 10 Mar 2023 05:56:03 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id l18so5714563qtp.1;
+        Fri, 10 Mar 2023 05:56:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678456511;
+        d=1e100.net; s=20210112; t=1678456562;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IIONDeBFSsx7/+t0CQ2gB7qRM17u5AAx7/ZtR9C+8Z8=;
-        b=pn8kpWBt5IeSSTgsM37n4Q08++B1QM2ciBLSY/5+Yh6go1d+Cz5Kc1ByqbXR852Ypg
-         /mbfHrtVv7P4pTrR/eFrCW5kHnG7zCEz22l5xc9HrRCp5tGyy+L4wT/KdKoLKUfPYFWF
-         O94rSlF2gXCFvMbo2Klk1yUcgXOdBML0fMlMw/149ZkEMlRc41Jyb/0+VOAVdWerTyRX
-         mgE7H4TsO3Iyf6KRV9bwLx+3WvH+BIJJCRxDl52Q+QQ7T2bria4+ytbJj3PvXUIZi4zG
-         mnjLS+rZyiDbkNn8KZxNHDfmjNMkSnPBpdrQDBsYnNkd71OoOSPGsSkedhT7JrEznuvI
-         HGGA==
-X-Gm-Message-State: AO0yUKW0lpdEvzXdJA/WzioBFtrthw+x59wI5MCS4eum9cjTUD6BwyR7
-        Gm52VAbzORkgTi/Gj4jTTmrSZ07RK6wKTg==
-X-Google-Smtp-Source: AK7set9XGlFRgzwKpUgl2ZdBhAAuqCko92VzRekLecHqXpDQJjsx3mBuDqfm/c4rD2rXVya8wjWWJg==
-X-Received: by 2002:ac8:5c4a:0:b0:3bf:c6be:cbbe with SMTP id j10-20020ac85c4a000000b003bfc6becbbemr44761256qtj.1.1678456511013;
-        Fri, 10 Mar 2023 05:55:11 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id q23-20020a37f717000000b0073b399700adsm1390084qkj.3.2023.03.10.05.55.09
+        bh=YQ5Y0Vp02ojFUqpW301smfOJxciovGk5YxkUDH/nsVQ=;
+        b=K3Y4PKVu4D23ZUkShGVjcQd2XrppzUTesltSenbx9VZqZc2FCjYvmTQsqCZcsK3nth
+         roa3YOeW3z0rhOanoIew3nmIQ7pDmjLHx4eeru453960JOAEep9XuXeoDfX3X2iLfyxp
+         JQo10J5/l7r8dyDJanQHCMz6qFJXTkSTp4/Pprsr2+tJYywbj6jUQpDhL9N3AuM9KXZQ
+         I5Pwg35DGe73SNDH1jFJO2x5H3cKwhs5oebb+yEg8NmlD0FNyKGtHYqcsd3fcPAbsnLt
+         hzsvMd7OwHMaWib19Urobhpnvu5YH9Pql2+mGDvf5b9daOaR0tJgEZS4zaVdfC73Gook
+         iFTQ==
+X-Gm-Message-State: AO0yUKXv/Zr+9mZgUSeWKZt+tGvTiJhiXVfzqpifSKwYYSDpV895Kcsv
+        6jEO4RrnyriYNkXxHQhs7UnD6nac/NRMfQ==
+X-Google-Smtp-Source: AK7set/DQZrOYb9SpIaLJVcaOLGQNmRPDzENIegHhKyf20bgkodYNylzcc0qmQaM7VsBO/EFI0WdAQ==
+X-Received: by 2002:a05:622a:1d3:b0:3bf:c8f9:def4 with SMTP id t19-20020a05622a01d300b003bfc8f9def4mr17740435qtw.59.1678456562160;
+        Fri, 10 Mar 2023 05:56:02 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id d9-20020ac800c9000000b003b85ed59fa2sm1400953qtg.50.2023.03.10.05.56.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 05:55:10 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536bf92b55cso98343007b3.12;
-        Fri, 10 Mar 2023 05:55:09 -0800 (PST)
-X-Received: by 2002:a81:b723:0:b0:536:38b4:f51 with SMTP id
- v35-20020a81b723000000b0053638b40f51mr16535772ywh.5.1678456509654; Fri, 10
- Mar 2023 05:55:09 -0800 (PST)
+        Fri, 10 Mar 2023 05:56:01 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-536c02eea4dso99017107b3.4;
+        Fri, 10 Mar 2023 05:56:01 -0800 (PST)
+X-Received: by 2002:a81:ae4a:0:b0:52e:b7cf:4cd1 with SMTP id
+ g10-20020a81ae4a000000b0052eb7cf4cd1mr16403076ywk.5.1678456560883; Fri, 10
+ Mar 2023 05:56:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20230301215520.828455-1-ralph.siemsen@linaro.org> <20230301215520.828455-3-ralph.siemsen@linaro.org>
-In-Reply-To: <20230301215520.828455-3-ralph.siemsen@linaro.org>
+References: <20230301215520.828455-1-ralph.siemsen@linaro.org> <20230301215520.828455-4-ralph.siemsen@linaro.org>
+In-Reply-To: <20230301215520.828455-4-ralph.siemsen@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Mar 2023 14:54:57 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVEFkg8ZXWveu8Vustv3pToNGRBFwONZKKjQCi16V6Q4Q@mail.gmail.com>
-Message-ID: <CAMuHMdVEFkg8ZXWveu8Vustv3pToNGRBFwONZKKjQCi16V6Q4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] clk: renesas: r9a06g032: drop unused fields
+Date:   Fri, 10 Mar 2023 14:55:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX-aODKyXZd1BfjNmbqW7vpDXtbjQHttsOd6MdrD+bZ7g@mail.gmail.com>
+Message-ID: <CAMuHMdX-aODKyXZd1BfjNmbqW7vpDXtbjQHttsOd6MdrD+bZ7g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] clk: renesas: r9a06g032: document structs
 To:     Ralph Siemsen <ralph.siemsen@linaro.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Stephen Boyd <sboyd@kernel.org>,
@@ -61,8 +61,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -70,21 +70,49 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Mar 1, 2023 at 10:56 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
-> Drop three unused fields from the clock descriptor structure, and update
-> the macros for filling such structures accordingly.
->
-> The values for such fields are kept in the source code, now unused, in
-> case they are needed later.
+> Add some kerneldoc comments for the structures.
 >
 > Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-> Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 > ---
 >
 > Changes in v2:
-> - added R-b tag
+> - tweak a few comments
+> - document remaining fields of clkdesc struct
+> - fix typo
+
+> --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> @@ -29,6 +29,27 @@
+>  #define R9A06G032_SYSCTRL_USB_H2MODE  (1<<1)
+>  #define R9A06G032_SYSCTRL_DMAMUX 0xA0
+>
+> +/**
+> + * struct r9a06g032_gate - clock-related control bits
+> + * @gate:   clock enable/disable
+> + * @reset:  clock module reset (active low)
+> + * @ready:  enables NoC forwarding of read/write requests to device,
+> + *          (eg. device is ready to handle read/write requests)
+> + * @midle:  request to idle the NoC interconnect
+> + *
+> + * Each of these fields describes a single bit in a register,
+> + * which controls some aspect of clock gating. The @gate field
+> + * is mandatory, this one enables/disables the clock. The
+> + * other fields are optional, with zero indicating "not used".
+> + *
+> + * In most cases there is a @reset bit which needs to be
+> + * de-asserted to bring the module out of reset.
+> + *
+> + * Modules may also need to signal when the are @ready to
+
+they
+
+> + * handle requests (read/writes) from the NoC interconnect.
+> + *
+> + * Similarly, the @midle bit is used to idle the master.
+> + */
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.4.
+i.e. will queue in renesas-clk-for-v6.4, with the above fixed.
 
 Gr{oetje,eeting}s,
 
