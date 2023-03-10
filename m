@@ -2,73 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5216B47DC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 15:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B04566B48B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 16:06:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233597AbjCJOyp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 09:54:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
+        id S233841AbjCJPGK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Mar 2023 10:06:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233465AbjCJOyI (ORCPT
+        with ESMTP id S233214AbjCJPFb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:54:08 -0500
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B9E20568;
-        Fri, 10 Mar 2023 06:49:59 -0800 (PST)
-Received: by mail-oi1-f170.google.com with SMTP id bg11so4402221oib.5;
-        Fri, 10 Mar 2023 06:49:59 -0800 (PST)
+        Fri, 10 Mar 2023 10:05:31 -0500
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88CF129734;
+        Fri, 10 Mar 2023 06:58:47 -0800 (PST)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-176b48a9a05so6166635fac.0;
+        Fri, 10 Mar 2023 06:58:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678459722;
+        d=1e100.net; s=20210112; t=1678460205;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hwhYtKzDnXEsLBl9Tm3BqnXbNzyUsQ3KuTYFbJoohGM=;
-        b=Y+Bo8TYkfnbYROW59aHEiy7Loa7w9Lyr2OAeBGvM7lJF5afIzUtUSZvGwtKD+hjuTY
-         ZQ2roLOk2gO/0hn0+oULU6rCw3HO/fXBA1R7QRfiLyUVdlzQsIFC8thLGNXzrLPLC45q
-         eDNdwIhZQOmE4FJzD9KIlb5JNtARl4EXUKOBiAlPXL/FibOYKPT9JIX9kcVZfNfYUaTQ
-         ruUVb8Fa5MKHd+67psArxoKOKjUlAqEtKzM5I++WX6AwFJ/KmzWu/+ui9REkpLFtTu4K
-         n5fbPGCBt435CK1dfVWFxpBTXQFem2xsrgF6sbUXZidpCralIoJoO6AKas776SdKJjiJ
-         1yZQ==
-X-Gm-Message-State: AO0yUKVRlAfqWW5rXrIewugzAK/HbX5+6HUaJmc7z0zlEQvQUrm7JrbQ
-        cH4aCOxznbwBrmvYMWCyPg==
-X-Google-Smtp-Source: AK7set/2Hv/GHCQ4CWKw9+OchH8gffT8eqBP4iLmC17qsMPdXt7UFyt1xWM3HZum7IWwuaM8TqbJlg==
-X-Received: by 2002:a05:6808:1d7:b0:383:ef56:a34c with SMTP id x23-20020a05680801d700b00383ef56a34cmr1364469oic.2.1678459722220;
-        Fri, 10 Mar 2023 06:48:42 -0800 (PST)
+        bh=OQk+ypPqgihyUeUIiesj0AXK7svmXbRQzGpX4VpHfOM=;
+        b=RMIejRn7oxglsP3kjx2Oy8efmC0b0r4mvv6j7gN0qUEtrc/BdycJkuoDoIaafdlgCm
+         BmiVithf1j/MxnRUfFecfhXHT32UFnPEGnjkGVuPLyoLhr8wD9aF7da2ienBunUXQ2sU
+         tAW6ynrw8Erei3466N0IGaZGzQ3hww8cgym/i+YLvIiVvOcY6zEeE5wBMq5t/lKMJHla
+         F2HZGErYzK8ny3kprVrjTQHOCAoE//VPCduy3euaSzNzBEagi2rUoHQw9IPcMsiQoFcR
+         IDT8MVBx/dB+8KGHQ7+rKYEgwFhlkbxLEFGraIHsuoDlU8JUP7q9mU+BmKWUznQq9Mxy
+         eALg==
+X-Gm-Message-State: AO0yUKWOoTefyezEiIbZ7X3mVhY2+NISExBDdhIcFXNz2061Qd0epseJ
+        XvR0JpvvYZm5+FVQHv53X0X5ahQcWw==
+X-Google-Smtp-Source: AK7set8EIbIkzUtJ90ghmwkL/cci31MqBBSA3xxJJ9nkn5CXYyyFP2bawNWYEbOMktuugW9dBrg3pg==
+X-Received: by 2002:a05:6871:207:b0:176:53a1:b65c with SMTP id t7-20020a056871020700b0017653a1b65cmr16734662oad.11.1678459711546;
+        Fri, 10 Mar 2023 06:48:31 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y129-20020acae187000000b0038476262f65sm967331oig.33.2023.03.10.06.48.41
+        by smtp.gmail.com with ESMTPSA id j21-20020a056870d45500b0017697dfc20fsm119271oag.12.2023.03.10.06.48.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 06:48:41 -0800 (PST)
-Received: (nullmailer pid 1544713 invoked by uid 1000);
-        Fri, 10 Mar 2023 14:47:21 -0000
+        Fri, 10 Mar 2023 06:48:30 -0800 (PST)
+Received: (nullmailer pid 1543883 invoked by uid 1000);
+        Fri, 10 Mar 2023 14:47:15 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Sean Wang <sean.wang@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH] pinctrl: Use of_property_present() for testing DT property presence
-Date:   Fri, 10 Mar 2023 08:47:20 -0600
-Message-Id: <20230310144721.1544669-1-robh@kernel.org>
+To:     Russell King <linux@armlinux.org.uk>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Haibo Chen <haibo.chen@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ben Dooks <ben-linux@fluff.org>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     devicetree@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] mmc: Use of_property_read_bool() for boolean properties
+Date:   Fri, 10 Mar 2023 08:47:14 -0600
+Message-Id: <20230310144715.1543836-1-robh@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -77,146 +75,175 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 It is preferred to use typed property access functions (i.e.
 of_property_read_<type> functions) rather than low-level
-of_get_property/of_find_property functions for reading properties. As
-part of this, convert of_get_property/of_find_property calls to the
-recently added of_property_present() helper when we just want to test
-for presence of a property and nothing more.
+of_get_property/of_find_property functions for reading properties.
+Convert reading boolean properties to to of_property_read_bool().
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/pinctrl/mediatek/pinctrl-moore.c |  2 +-
- drivers/pinctrl/pinctrl-single.c         |  4 ++--
- drivers/pinctrl/pinctrl-stmfx.c          |  2 +-
- drivers/pinctrl/renesas/pinctrl.c        |  4 ++--
- drivers/pinctrl/stm32/pinctrl-stm32.c    |  2 +-
- drivers/pinctrl/sunxi/pinctrl-sunxi.c    | 20 ++++++++++----------
- 6 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/mmc/host/mmci.c            | 22 +++++++++++-----------
+ drivers/mmc/host/omap_hsmmc.c      |  8 ++++----
+ drivers/mmc/host/sdhci-esdhc-imx.c |  4 ++--
+ drivers/mmc/host/sdhci-pxav2.c     |  2 +-
+ drivers/mmc/host/sdhci-s3c.c       |  4 ++--
+ drivers/mmc/host/tmio_mmc_core.c   |  2 +-
+ drivers/mmc/host/wmt-sdmmc.c       |  6 ++----
+ 7 files changed, 23 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
-index 007b98ce5631..8649a2f9d324 100644
---- a/drivers/pinctrl/mediatek/pinctrl-moore.c
-+++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
-@@ -586,7 +586,7 @@ static int mtk_build_gpiochip(struct mtk_pinctrl *hw)
- 	 * Documentation/devicetree/bindings/gpio/gpio.txt on how to
- 	 * bind pinctrl and gpio drivers via the "gpio-ranges" property.
- 	 */
--	if (!of_find_property(hw->dev->of_node, "gpio-ranges", NULL)) {
-+	if (!of_property_present(hw->dev->of_node, "gpio-ranges")) {
- 		ret = gpiochip_add_pin_range(chip, dev_name(hw->dev), 0, 0,
- 					     chip->ngpio);
- 		if (ret < 0) {
-diff --git a/drivers/pinctrl/pinctrl-single.c b/drivers/pinctrl/pinctrl-single.c
-index 190923757cda..0dabbcf68b9f 100644
---- a/drivers/pinctrl/pinctrl-single.c
-+++ b/drivers/pinctrl/pinctrl-single.c
-@@ -939,11 +939,11 @@ static int pcs_parse_pinconf(struct pcs_device *pcs, struct device_node *np,
+diff --git a/drivers/mmc/host/mmci.c b/drivers/mmc/host/mmci.c
+index b9e5dfe74e5c..f2b2e8b0574e 100644
+--- a/drivers/mmc/host/mmci.c
++++ b/drivers/mmc/host/mmci.c
+@@ -1962,28 +1962,28 @@ static int mmci_of_parse(struct device_node *np, struct mmc_host *mmc)
+ 	if (ret)
+ 		return ret;
  
- 	/* cacluate how much properties are supported in current node */
- 	for (i = 0; i < ARRAY_SIZE(prop2); i++) {
--		if (of_find_property(np, prop2[i].name, NULL))
-+		if (of_property_present(np, prop2[i].name))
- 			nconfs++;
- 	}
- 	for (i = 0; i < ARRAY_SIZE(prop4); i++) {
--		if (of_find_property(np, prop4[i].name, NULL))
-+		if (of_property_present(np, prop4[i].name))
- 			nconfs++;
- 	}
- 	if (!nconfs)
-diff --git a/drivers/pinctrl/pinctrl-stmfx.c b/drivers/pinctrl/pinctrl-stmfx.c
-index 1181c4b506b1..3c031692e44d 100644
---- a/drivers/pinctrl/pinctrl-stmfx.c
-+++ b/drivers/pinctrl/pinctrl-stmfx.c
-@@ -632,7 +632,7 @@ static int stmfx_pinctrl_probe(struct platform_device *pdev)
- 	pctl->dev = &pdev->dev;
- 	pctl->stmfx = stmfx;
+-	if (of_get_property(np, "st,sig-dir-dat0", NULL))
++	if (of_property_read_bool(np, "st,sig-dir-dat0"))
+ 		host->pwr_reg_add |= MCI_ST_DATA0DIREN;
+-	if (of_get_property(np, "st,sig-dir-dat2", NULL))
++	if (of_property_read_bool(np, "st,sig-dir-dat2"))
+ 		host->pwr_reg_add |= MCI_ST_DATA2DIREN;
+-	if (of_get_property(np, "st,sig-dir-dat31", NULL))
++	if (of_property_read_bool(np, "st,sig-dir-dat31"))
+ 		host->pwr_reg_add |= MCI_ST_DATA31DIREN;
+-	if (of_get_property(np, "st,sig-dir-dat74", NULL))
++	if (of_property_read_bool(np, "st,sig-dir-dat74"))
+ 		host->pwr_reg_add |= MCI_ST_DATA74DIREN;
+-	if (of_get_property(np, "st,sig-dir-cmd", NULL))
++	if (of_property_read_bool(np, "st,sig-dir-cmd"))
+ 		host->pwr_reg_add |= MCI_ST_CMDDIREN;
+-	if (of_get_property(np, "st,sig-pin-fbclk", NULL))
++	if (of_property_read_bool(np, "st,sig-pin-fbclk"))
+ 		host->pwr_reg_add |= MCI_ST_FBCLKEN;
+-	if (of_get_property(np, "st,sig-dir", NULL))
++	if (of_property_read_bool(np, "st,sig-dir"))
+ 		host->pwr_reg_add |= MCI_STM32_DIRPOL;
+-	if (of_get_property(np, "st,neg-edge", NULL))
++	if (of_property_read_bool(np, "st,neg-edge"))
+ 		host->clk_reg_add |= MCI_STM32_CLK_NEGEDGE;
+-	if (of_get_property(np, "st,use-ckin", NULL))
++	if (of_property_read_bool(np, "st,use-ckin"))
+ 		mmci_probe_level_translator(mmc);
  
--	if (!of_find_property(np, "gpio-ranges", NULL)) {
-+	if (!of_property_present(np, "gpio-ranges")) {
- 		dev_err(pctl->dev, "missing required gpio-ranges property\n");
- 		return -EINVAL;
- 	}
-diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index b74147800319..5c71e168b370 100644
---- a/drivers/pinctrl/renesas/pinctrl.c
-+++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	 * inside a subnode nor across subnodes.
- 	 */
- 	if (!pmx->func_prop_name) {
--		if (of_find_property(np, "groups", NULL) ||
--		    of_find_property(np, "pins", NULL)) {
-+		if (of_property_present(np, "groups")||
-+		    of_property_present(np, "pins")) {
- 			pmx->func_prop_name = "function";
- 			pmx->groups_prop_name = "groups";
- 			pmx->pins_prop_name = "pins";
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
-index cb33a23ab0c1..66a25becd8f5 100644
---- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-@@ -1374,7 +1374,7 @@ static struct irq_domain *stm32_pctrl_get_irq_domain(struct platform_device *pde
- 	struct device_node *parent;
- 	struct irq_domain *domain;
+-	if (of_get_property(np, "mmc-cap-mmc-highspeed", NULL))
++	if (of_property_read_bool(np, "mmc-cap-mmc-highspeed"))
+ 		mmc->caps |= MMC_CAP_MMC_HIGHSPEED;
+-	if (of_get_property(np, "mmc-cap-sd-highspeed", NULL))
++	if (of_property_read_bool(np, "mmc-cap-sd-highspeed"))
+ 		mmc->caps |= MMC_CAP_SD_HIGHSPEED;
  
--	if (!of_find_property(np, "interrupt-parent", NULL))
-+	if (!of_property_present(np, "interrupt-parent"))
+ 	return 0;
+diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
+index 4bd744755205..517dde777413 100644
+--- a/drivers/mmc/host/omap_hsmmc.c
++++ b/drivers/mmc/host/omap_hsmmc.c
+@@ -1736,18 +1736,18 @@ static struct omap_hsmmc_platform_data *of_get_hsmmc_pdata(struct device *dev)
+ 	if (legacy && legacy->name)
+ 		pdata->name = legacy->name;
+ 
+-	if (of_find_property(np, "ti,dual-volt", NULL))
++	if (of_property_read_bool(np, "ti,dual-volt"))
+ 		pdata->controller_flags |= OMAP_HSMMC_SUPPORTS_DUAL_VOLT;
+ 
+-	if (of_find_property(np, "ti,non-removable", NULL)) {
++	if (of_property_read_bool(np, "ti,non-removable")) {
+ 		pdata->nonremovable = true;
+ 		pdata->no_regulator_off_init = true;
+ 	}
+ 
+-	if (of_find_property(np, "ti,needs-special-reset", NULL))
++	if (of_property_read_bool(np, "ti,needs-special-reset"))
+ 		pdata->features |= HSMMC_HAS_UPDATED_RESET;
+ 
+-	if (of_find_property(np, "ti,needs-special-hs-handling", NULL))
++	if (of_property_read_bool(np, "ti,needs-special-hs-handling"))
+ 		pdata->features |= HSMMC_HAS_HSPE_SUPPORT;
+ 
+ 	return pdata;
+diff --git a/drivers/mmc/host/sdhci-esdhc-imx.c b/drivers/mmc/host/sdhci-esdhc-imx.c
+index 58f042fdd4f4..d7c0c0b9e26c 100644
+--- a/drivers/mmc/host/sdhci-esdhc-imx.c
++++ b/drivers/mmc/host/sdhci-esdhc-imx.c
+@@ -1597,7 +1597,7 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
+ 	struct esdhc_platform_data *boarddata = &imx_data->boarddata;
+ 	int ret;
+ 
+-	if (of_get_property(np, "fsl,wp-controller", NULL))
++	if (of_property_read_bool(np, "fsl,wp-controller"))
+ 		boarddata->wp_type = ESDHC_WP_CONTROLLER;
+ 
+ 	/*
+@@ -1614,7 +1614,7 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
+ 
+ 	of_property_read_u32(np, "fsl,strobe-dll-delay-target",
+ 				&boarddata->strobe_dll_delay_target);
+-	if (of_find_property(np, "no-1-8-v", NULL))
++	if (of_property_read_bool(np, "no-1-8-v"))
+ 		host->quirks2 |= SDHCI_QUIRK2_NO_1_8_V;
+ 
+ 	if (of_property_read_u32(np, "fsl,delay-line", &boarddata->delay_line))
+diff --git a/drivers/mmc/host/sdhci-pxav2.c b/drivers/mmc/host/sdhci-pxav2.c
+index fc306eb1f845..91aca8f8d6ef 100644
+--- a/drivers/mmc/host/sdhci-pxav2.c
++++ b/drivers/mmc/host/sdhci-pxav2.c
+@@ -228,7 +228,7 @@ static struct sdhci_pxa_platdata *pxav2_get_mmc_pdata(struct device *dev)
+ 	if (!pdata)
  		return NULL;
  
- 	parent = of_irq_find_parent(np);
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index f35179eceb4e..1dc1882cbdd7 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -224,16 +224,16 @@ static int sunxi_pctrl_get_group_pins(struct pinctrl_dev *pctldev,
+-	if (of_find_property(np, "non-removable", NULL))
++	if (of_property_read_bool(np, "non-removable"))
+ 		pdata->flags |= PXA_FLAG_CARD_PERMANENT;
  
- static bool sunxi_pctrl_has_bias_prop(struct device_node *node)
- {
--	return of_find_property(node, "bias-pull-up", NULL) ||
--		of_find_property(node, "bias-pull-down", NULL) ||
--		of_find_property(node, "bias-disable", NULL) ||
--		of_find_property(node, "allwinner,pull", NULL);
-+	return of_property_present(node, "bias-pull-up") ||
-+		of_property_present(node, "bias-pull-down") ||
-+		of_property_present(node, "bias-disable") ||
-+		of_property_present(node, "allwinner,pull");
+ 	of_property_read_u32(np, "bus-width", &bus_width);
+diff --git a/drivers/mmc/host/sdhci-s3c.c b/drivers/mmc/host/sdhci-s3c.c
+index 9085f3932443..504015e84308 100644
+--- a/drivers/mmc/host/sdhci-s3c.c
++++ b/drivers/mmc/host/sdhci-s3c.c
+@@ -437,12 +437,12 @@ static int sdhci_s3c_parse_dt(struct device *dev,
+ 	pdata->max_width = max_width;
+ 
+ 	/* get the card detection method */
+-	if (of_get_property(node, "broken-cd", NULL)) {
++	if (of_property_read_bool(node, "broken-cd")) {
+ 		pdata->cd_type = S3C_SDHCI_CD_NONE;
+ 		return 0;
+ 	}
+ 
+-	if (of_get_property(node, "non-removable", NULL)) {
++	if (of_property_read_bool(node, "non-removable")) {
+ 		pdata->cd_type = S3C_SDHCI_CD_PERMANENT;
+ 		return 0;
+ 	}
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index e24c3d284515..be7f18fd4836 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -1084,7 +1084,7 @@ static void tmio_mmc_of_parse(struct platform_device *pdev,
+ 	 * For new platforms, please use "disable-wp" instead of
+ 	 * "toshiba,mmc-wrprotect-disable"
+ 	 */
+-	if (of_get_property(np, "toshiba,mmc-wrprotect-disable", NULL))
++	if (of_property_read_bool(np, "toshiba,mmc-wrprotect-disable"))
+ 		mmc->caps2 |= MMC_CAP2_NO_WRITE_PROTECT;
  }
  
- static bool sunxi_pctrl_has_drive_prop(struct device_node *node)
- {
--	return of_find_property(node, "drive-strength", NULL) ||
--		of_find_property(node, "allwinner,drive", NULL);
-+	return of_property_present(node, "drive-strength") ||
-+		of_property_present(node, "allwinner,drive");
- }
+diff --git a/drivers/mmc/host/wmt-sdmmc.c b/drivers/mmc/host/wmt-sdmmc.c
+index 9aa3027ca25e..68525d900046 100644
+--- a/drivers/mmc/host/wmt-sdmmc.c
++++ b/drivers/mmc/host/wmt-sdmmc.c
+@@ -802,10 +802,8 @@ static int wmt_mci_probe(struct platform_device *pdev)
+ 	priv->power_inverted = 0;
+ 	priv->cd_inverted = 0;
  
- static int sunxi_pctrl_parse_bias_prop(struct device_node *node)
-@@ -241,13 +241,13 @@ static int sunxi_pctrl_parse_bias_prop(struct device_node *node)
- 	u32 val;
+-	if (of_get_property(np, "sdon-inverted", NULL))
+-		priv->power_inverted = 1;
+-	if (of_get_property(np, "cd-inverted", NULL))
+-		priv->cd_inverted = 1;
++	priv->power_inverted = of_property_read_bool(np, "sdon-inverted");
++	priv->cd_inverted = of_property_read_bool(np, "cd-inverted");
  
- 	/* Try the new style binding */
--	if (of_find_property(node, "bias-pull-up", NULL))
-+	if (of_property_present(node, "bias-pull-up"))
- 		return PIN_CONFIG_BIAS_PULL_UP;
- 
--	if (of_find_property(node, "bias-pull-down", NULL))
-+	if (of_property_present(node, "bias-pull-down"))
- 		return PIN_CONFIG_BIAS_PULL_DOWN;
- 
--	if (of_find_property(node, "bias-disable", NULL))
-+	if (of_property_present(node, "bias-disable"))
- 		return PIN_CONFIG_BIAS_DISABLE;
- 
- 	/* And fall back to the old binding */
-@@ -1424,7 +1424,7 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 		return 0;
- 
- 	/* If we don't have any setup, bail out */
--	if (!of_find_property(node, "input-debounce", NULL))
-+	if (!of_property_present(node, "input-debounce"))
- 		return 0;
- 
- 	losc = devm_clk_get(pctl->dev, "losc");
+ 	priv->sdmmc_base = of_iomap(np, 0);
+ 	if (!priv->sdmmc_base) {
 -- 
 2.39.2
 
