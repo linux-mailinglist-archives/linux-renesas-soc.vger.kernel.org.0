@@ -2,116 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B01C6B2F58
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Mar 2023 22:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D6A36B37D7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 08:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbjCIVLd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Mar 2023 16:11:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
+        id S229952AbjCJHzy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Mar 2023 02:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbjCIVLc (ORCPT
+        with ESMTP id S229751AbjCJHzx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Mar 2023 16:11:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEFFF98C5;
-        Thu,  9 Mar 2023 13:11:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 10 Mar 2023 02:55:53 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A366E191A;
+        Thu,  9 Mar 2023 23:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678434946; x=1709970946;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qYQPl7nGfAFl2mMjX45qVs8yCecf4A47M9vFzemDep8=;
+  b=b7tvaGZ+3sPqnwnKpMsAg5N/+iC4FrzUV/HTgVqXVHLFWOipQ3UHWoni
+   5oOKY3DOTYfaIy7BLkbvfrXbcqMZGBnRp5RZrBJ15WbJtt+/v+6K4l3GW
+   qUALQ7LcxP3kJWoGe92IyhDaBczJ32GHyl06urtrUZW6meJo/RhaWc4Y+
+   tOQP/rEhULYpSlnASatHpHnUPH3r5QE09pyu+ZMiqYW9DKaRemjVMz30t
+   8GkVoMdEI3z0XGnr+wRupOW3rXzY2bRT654M7EzK+FQDJ+YMzdtaGjj30
+   +cbaCeHXNag3CV5rdeaAEvY7ElHJbI1mFMl+73/WwNRMDSK+zRstW9waZ
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,249,1673910000"; 
+   d="scan'208";a="29597121"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 10 Mar 2023 08:55:44 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 10 Mar 2023 08:55:43 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 10 Mar 2023 08:55:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678434944; x=1709970944;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qYQPl7nGfAFl2mMjX45qVs8yCecf4A47M9vFzemDep8=;
+  b=ZjIM0xyJD/iIobliNT0P1AixALUtPbN8roF1KjoEWcRMXB9SbOE1Gce/
+   BTiYbKVXLL87W0YGDVHgKJJfYNaoX4MO+DwrSamR/qWpr9bwp2r2WYDOf
+   LFtqQLQATPRx1JkSFWdb8IMJbNxMNUHRcFS099HG+J73261CPU3egBxge
+   VZAdlg4SKCUOBatKQdMTZ87CmBn4g800RQwuUFm6ZSzGZoI/hUjfVOvwv
+   NjT4g6gcpDYI0V6lWYtTzoKSUFc5UCR7eDqMH10poVLrGvDJGLEnKXMV1
+   dEAw1AVE2YjqzARuK1193r1u8M2rY5F09f//LraNkuTMhz6SCrdAWNenP
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,249,1673910000"; 
+   d="scan'208";a="29597120"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 10 Mar 2023 08:55:43 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 882EB61CDA;
-        Thu,  9 Mar 2023 21:11:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C976C433EF;
-        Thu,  9 Mar 2023 21:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678396290;
-        bh=u4VqRJso8zH9qZKSmQOFBu/jiHn2fWd7l/mQCOcDGRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NuVhvpAgu7tqzGGtbpm3/DtGd6GsIW8NrjN1FsryzF6gm98vc2jyiQ7wBqRQ1SjbD
-         jXrI5dREBb8MCrykCafukdkb3m6RobUTjxZOC0AMEf6Ym3v7Hr8r0VZFE749JC3r4S
-         VDswzwiyrP3eIbkTktFJbYGxN0okLBuHb7Wxp6f78c/UKNg1saDqvvTCgI1UUzzyEh
-         s7D44VLmZsulM3eXGlbTWkBvYpi8m7I5iJ4CFf+fcoCc9HJ+X225tjkV6NfEoLVPG6
-         RRRr8N1Gsdc+ijBUGoKnk5Ws6nDxFOcx+f+IIC8jNBfY/IgvJWkV1euLohS4IkFL7x
-         souPbaFP81V/Q==
-Date:   Thu, 9 Mar 2023 22:11:24 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: dev: Fix bus callback return values
-Message-ID: <ZApLfPnPdJkCIQYt@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6A5A4280056;
+        Fri, 10 Mar 2023 08:55:43 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Marek Vasut <marex@denx.de>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v3 1/4] clk: rs9: Check for vendor/device ID
+Date:   Fri, 10 Mar 2023 08:55:32 +0100
+Message-Id: <20230310075535.3476580-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Dpj+1m9Hb2Yj+lH9"
-Content-Disposition: inline
-In-Reply-To: <03a8cd13af352c4d990bc70b72df4915b9fa2874.1678347776.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This is in preparation to support additional devices which have different
+IDs as well as a slightly different register layout.
 
---Dpj+1m9Hb2Yj+lH9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Marek Vasut <marex@denx.de>
+---
+Changes in v3:
+* Added Marek's R-b
 
-On Thu, Mar 09, 2023 at 08:45:46AM +0100, Geert Uytterhoeven wrote:
-> The i2cdev_{at,de}tach_adapter() callbacks are used for two purposes:
->   1. As notifier callbacks, when (un)registering I2C adapters created or
->      destroyed after i2c_dev_init(),
->   2. As bus iterator callbacks, for registering already existing
->      adapters from i2c_dev_init(), and for cleanup.
->=20
-> Unfortunately both use cases expect different return values: the former
-> expects NOTIFY_* return codes, while the latter expects zero or error
-> codes, and aborts in case of error.
->=20
-> Hence in case 2, as soon as i2cdev_{at,de}tach_adapter() returns
-> (non-zero) NOTIFY_OK, the bus iterator aborts.  This causes (a) only the
-> first already existing adapter to be registered, leading to missing
-> /dev/i2c-* entries, and (b) a failure to unregister all but the first
-> I2C adapter during cleanup.
->=20
-> Fix this by introducing separate callbacks for the bus iterator,
-> wrapping the notifier functions, and always returning succes.
-> Any errors inside these callback functions are unlikely to happen, and
-> are fatal anyway.
->=20
-> Fixes: cddf70d0bce71c2a ("i2c: dev: fix notifier return values")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+ drivers/clk/clk-renesas-pcie.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-Applied to for-current, thanks!
+diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
+index f91f30560820..3873c52ad3b0 100644
+--- a/drivers/clk/clk-renesas-pcie.c
++++ b/drivers/clk/clk-renesas-pcie.c
+@@ -45,6 +45,13 @@
+ #define RS9_REG_DID				0x6
+ #define RS9_REG_BCP				0x7
+ 
++#define RS9_REG_VID_IDT				0x01
++
++#define RS9_REG_DID_TYPE_FGV			(0x0 << RS9_REG_DID_TYPE_SHIFT)
++#define RS9_REG_DID_TYPE_DBV			(0x1 << RS9_REG_DID_TYPE_SHIFT)
++#define RS9_REG_DID_TYPE_DMV			(0x2 << RS9_REG_DID_TYPE_SHIFT)
++#define RS9_REG_DID_TYPE_SHIFT			0x6
++
+ /* Supported Renesas 9-series models. */
+ enum rs9_model {
+ 	RENESAS_9FGV0241,
+@@ -54,6 +61,7 @@ enum rs9_model {
+ struct rs9_chip_info {
+ 	const enum rs9_model	model;
+ 	unsigned int		num_clks;
++	u8			did;
+ };
+ 
+ struct rs9_driver_data {
+@@ -269,6 +277,7 @@ static int rs9_probe(struct i2c_client *client)
+ {
+ 	unsigned char name[5] = "DIF0";
+ 	struct rs9_driver_data *rs9;
++	unsigned int vid, did;
+ 	struct clk_hw *hw;
+ 	int i, ret;
+ 
+@@ -305,6 +314,20 @@ static int rs9_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = regmap_read(rs9->regmap, RS9_REG_VID, &vid);
++	if (ret < 0)
++		return ret;
++
++	ret = regmap_read(rs9->regmap, RS9_REG_DID, &did);
++	if (ret < 0)
++		return ret;
++
++	if (vid != RS9_REG_VID_IDT || did != rs9->chip_info->did)
++		return dev_err_probe(&client->dev, -ENODEV,
++				     "Incorrect VID/DID: %#02x, %#02x. Expected %#02x, %#02x\n",
++				     vid, did, RS9_REG_VID_IDT,
++				     rs9->chip_info->did);
++
+ 	/* Register clock */
+ 	for (i = 0; i < rs9->chip_info->num_clks; i++) {
+ 		snprintf(name, 5, "DIF%d", i);
+@@ -348,6 +371,7 @@ static int __maybe_unused rs9_resume(struct device *dev)
+ static const struct rs9_chip_info renesas_9fgv0241_info = {
+ 	.model		= RENESAS_9FGV0241,
+ 	.num_clks	= 2,
++	.did		= RS9_REG_DID_TYPE_FGV | 0x02,
+ };
+ 
+ static const struct i2c_device_id rs9_id[] = {
+-- 
+2.34.1
 
-
---Dpj+1m9Hb2Yj+lH9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQKS3gACgkQFA3kzBSg
-KbaEIw/8Di3Rnwk9g5nCq/XtZ1EpQ5ZmJKofFSVI5+Ye7N65+W881Eq5XisTv+x5
-cG7LPYn5XN+/vzDsmc80h9gERx/yQH3Rjkry+2doE1SRdYGdMsN2qBtaZXzZDr7V
-oY2A4PC7FYKTjhUh1PRK0LahWDxeofsNBA4jfp0sinAAeirSGbrSuN0PvAFSvrMs
-duRJTN/nlPvCPiYZQqMqhST2fXueCjqpsEgQ4keRhwntVhNIvhRz4JomZntSbLyP
-Co5QR0YNZcWpdC3qT1fLnN+5o2dEda2w5JXYvP8NrxA1dCb9ZiyChQrr8RfejYQQ
-Rf3CHnJSUHl9H5yuzzMZ3NUpQFxmv3i48lHV08myDW9UNdcvdWRIu7zMZhBzi0uX
-WouSPsqEBJwQW3YmqWh3Hxo5pxVbmHk4rAanq6tdQU8y0jhQ/OsOKgM6g5I6UUAe
-FrQD3cnTN4qkL6jpTC3SXMzHxhOvNHjIDIMYCx8ZXlTHGjMR8DgV+eVyv1R0Dit3
-hfFZ6it52H/st7Z5HBxuEc5jTbunrvLbz9gwF1eAgNOAywxddgLa12IjsaMowWl9
-NjkdAZrlTiSks9i1PpkRrxUsaHWYfR3WikaFdqIwSLno38B0vSPCbwBhbth032jP
-csdsfO2ZdXnmL7MiGZhEecffCJPdpdM7+0dDvpuMQE89iZ1dfT0=
-=6t5G
------END PGP SIGNATURE-----
-
---Dpj+1m9Hb2Yj+lH9--
