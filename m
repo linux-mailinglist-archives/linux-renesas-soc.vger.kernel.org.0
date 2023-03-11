@@ -2,631 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F136B5823
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Mar 2023 05:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E84116B58D3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Mar 2023 07:02:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjCKEMA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 23:12:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
+        id S229927AbjCKGCs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Mar 2023 01:02:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjCKEL7 (ORCPT
+        with ESMTP id S229929AbjCKGCr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 23:11:59 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B7E11CAFB
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 20:11:57 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id ce8-20020a17090aff0800b0023a61cff2c6so9383713pjb.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 20:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678507916;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=D4OiKJbxhYP2RGnvf2A2+7/TLN9/ZlODbQ7W26uK4t8=;
-        b=UvOMeuQuhiW14EUtS93Tn8TxySWFlDRdcBIbvgY75pNNqukrnIxlfoi5nRNsNmkm1R
-         /doqt32zYay3ziYkbXPfSwy3qMI5Nwqbg6+KmfJI8nfur2z6E/Ecxwm65ZOQMx4Dkobs
-         IW0jbNgRQrMcl2MdBLu0QoOf5Cee/qRQaDAjKjf55WFSvldz6ps57keKJBJWHesdXqrN
-         gBgIxvjBsEBUnP3MLqPfhN2hdZWLyJ7ileuz5POoSJI2It9WCq/tVmK7VBr7VGcVDndv
-         QvtbKNnKpGB20dGelZlDsXIcnAtxp1kGQSuEAjti6DKZpJZHlAHcW/Wa3QAqeKvNw2ML
-         oNtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678507916;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D4OiKJbxhYP2RGnvf2A2+7/TLN9/ZlODbQ7W26uK4t8=;
-        b=e+e3/bTAar7w6LINij+mZAgiU9mSONiOJidO/nGCXQQq5qhEeD6zvJ61LQ5Uoxo0jo
-         9I1zdpI9E36PY86sLfLuCIauUe0qdT1gPOXifrvAisJXDTkvClm4UTu0srmR68/iU4HG
-         ySlwecXqkGgSwu4Ibwylc1lybjK1sbgf0PmUNCBaKyV31zAIQ5Yo+/5x9+01MUq3JEhw
-         EFiIcPhLGaG/x4yt3/LRpeggzc/4TTlIzBMwVlTCz8B84DFPaAFYint+bqujhvuLlGZp
-         5bj9ouhmqI63kV2hnQv6vEH05HesC4FAZYqTbfjL1rEHX1nKCBLSrxpvGJhkyeoNfuBj
-         rd5w==
-X-Gm-Message-State: AO0yUKVhdHBVmMBEyxFnPu7umheLYkdz7Jgna+Qw78dCl6sz9is92yYW
-        mt+TBQbFK0m5egyifDGE9Vfvjtkdq8JvkHdn3l0JIYQ9
-X-Google-Smtp-Source: AK7set8tK65mZ8DZt/R1Rw4oMHa94FSah0yWdNeWhE51m+1t2hAiHZBdD+MELpDm1G6rGiUq15j4rg==
-X-Received: by 2002:a05:6a21:33a2:b0:cd:97f3:25e1 with SMTP id yy34-20020a056a2133a200b000cd97f325e1mr36438327pzb.51.1678507915720;
-        Fri, 10 Mar 2023 20:11:55 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id s26-20020a65645a000000b00503828cc73fsm633541pgv.13.2023.03.10.20.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 20:11:55 -0800 (PST)
-Message-ID: <640bff8b.650a0220.954ef.1cc1@mx.google.com>
-Date:   Fri, 10 Mar 2023 20:11:55 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Sat, 11 Mar 2023 01:02:47 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC73312B67A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 22:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678514565; x=1710050565;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OMOtCm0eqOhMwWhHeJT9But3xHcbt7DZrcWboiuAKQg=;
+  b=KLnaNDvT1aSwzYPsn8/6i/RS1bdp6mqPa9DuNUbJfxmEifBLNQSgt5Xa
+   cZQq3MSvN8C16kHpy+L4TU5JMhWLEWOVivu2lRoIW/5Y2t2Cnp2Ukg934
+   +ZMonajk/SGoSacS5oqKk4vujfo5WcsGc8qSMqJENLCZWiTXXa9dIFD2Z
+   HQChhe4FPdabYaieDk5IARiInzynMqLX3Mqwf0jB+b8yyCbMpuV9hlyZR
+   DPV1i83Km1LMMVkPYv4qbMCYdcD0Z5hLGkzy8ET8ZEdv4dasnHPS2BNYc
+   TFZqzenoe2j6F/4QOeVcUL9YPXNxT0o8U1P/QGafbkdgxZywi5tTHiTON
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="338437527"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
+   d="scan'208";a="338437527"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 22:02:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="923935501"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
+   d="scan'208";a="923935501"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 10 Mar 2023 22:02:42 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pasJV-0004NN-2Y;
+        Sat, 11 Mar 2023 06:02:41 +0000
+Date:   Sat, 11 Mar 2023 14:02:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-drivers-for-v6.4] BUILD SUCCESS
+ b39d242dbfd925d9f6b262bf216518e28445570d
+Message-ID: <640c1959.CDhxweIbkiYwqeRu%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-next-2023-03-10-v6.3-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/next baseline-nfs: 125 runs,
- 16 regressions (renesas-next-2023-03-10-v6.3-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline-nfs: 125 runs, 16 regressions (renesas-next-2023-03-1=
-0-v6.3-rc1)
-
-Regressions Summary
--------------------
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-asus-C523NA-A20057-coral     | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 1          =
-
-asus-CM1400CXA-dalboz        | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...ok+kselftest | 1          =
-
-at91sam9g20ek                | arm    | lab-broonie   | gcc-10   | at91_dt_=
-defconfig            | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+crypto             | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+CON...OMIZE_BASE=3Dy | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+kselftest          | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+debug              | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+ima                | 1          =
-
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g                    | 1          =
-
-mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm...ook+videodec | 3          =
-
-mt8192-asurada-spherion-r0   | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm...ook+videodec | 3          =
-
-sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie   | gcc-10   | defconfi=
-g+debug              | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2023-03-10-v6.3-rc1/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2023-03-10-v6.3-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      cc8231630ee44792603a05386e094432f7415af4 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-asus-C523NA-A20057-coral     | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...6-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bc6fa821863ad968c864e
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/baseline-nfs-asus-C523NA-A20057-coral.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
-/baseline-nfs-asus-C523NA-A20057-coral.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/640bc6fa821863ad968c8657
-        failing since 57 days (last pass: renesas-next-2022-11-21-v6.1-rc1,=
- first fail: renesas-next-2023-01-12-v6.2-rc1)
-
-    2023-03-11T00:10:14.958710  + set +x
-
-    2023-03-11T00:10:14.963342  <8>[   19.861454] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 9548531_1.5.2.3.1>
-
-    2023-03-11T00:10:15.069460  =
-
-
-    2023-03-11T00:10:15.170223  / # #export SHELL=3D/bin/sh
-
-    2023-03-11T00:10:15.170416  =
-
-
-    2023-03-11T00:10:15.271370  / # export SHELL=3D/bin/sh. /lava-9548531/e=
-nvironment
-
-    2023-03-11T00:10:15.271673  =
-
-
-    2023-03-11T00:10:15.372938  / # . /lava-9548531/environment/lava-954853=
-1/bin/lava-test-runner /lava-9548531/1
-
-    2023-03-11T00:10:15.374177  =
-
-
-    2023-03-11T00:10:15.376952  / # /lava-9548531/bin/lava-test-runner /lav=
-a-9548531/1
- =
-
-    ... (13 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-asus-CM1400CXA-dalboz        | x86_64 | lab-collabora | gcc-10   | x86_64_d=
-efcon...ok+kselftest | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bcb5dc3369644018c868e
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook+kselftest
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/lab=
--collabora/baseline-nfs-asus-CM1400CXA-dalboz.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/lab=
--collabora/baseline-nfs-asus-CM1400CXA-dalboz.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/640bcb5dc33=
-69644018c8691
-        new failure (last pass: renesas-next-2023-03-06-v6.3-rc1)
-        3 lines
-
-    2023-03-11T00:29:01.822498  kern  :emerg : __common_interrupt: 1.55 No =
-irq handler for vector
-
-    2023-03-11T00:29:01.829088  kern  :emerg : __common_interrupt: 2.55 No =
-irq handler for vector
-
-    2023-03-11T00:29:01.835262  kern  :emerg : __common_interrupt: 3.55 No =
-irq handler for vector
-
-    2023-03-11T00:29:01.875244  <8>[  112.221740] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Demerg RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D3>
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-at91sam9g20ek                | arm    | lab-broonie   | gcc-10   | at91_dt_=
-defconfig            | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bc84e2c9b84d6318c8640
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: at91_dt_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91s=
-am9g20ek.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm/at91_dt_defconfig/gcc-10/lab-broonie/baseline-nfs-at91s=
-am9g20ek.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/armel/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bc84e2c9b84d63=
-18c8641
-        new failure (last pass: renesas-next-2023-03-06-v6.3-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+crypto             | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bd83081508e85fd8c86b8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+crypto
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-nfs-kont=
-ron-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-nfs-kont=
-ron-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bd83081508e85f=
-d8c86b9
-        new failure (last pass: renesas-next-2023-01-24-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+CON...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bd9bef09b833aba8c8630
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kontro=
-n/baseline-nfs-kontron-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kontro=
-n/baseline-nfs-kontron-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bd9bef09b833ab=
-a8c8631
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+kselftest          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bdbc62565a5c5f98c8636
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+kselftest
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+kselftest/gcc-10/lab-kontron/baseline-nfs-k=
-ontron-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+kselftest/gcc-10/lab-kontron/baseline-nfs-k=
-ontron-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bdbc62565a5c5f=
-98c8637
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+debug              | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bdde23a009f9c028c8645
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+debug
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+debug/gcc-10/lab-kontron/baseline-nfs-kontr=
-on-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+debug/gcc-10/lab-kontron/baseline-nfs-kontr=
-on-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bdde23a009f9c0=
-28c8646
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g+ima                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bdf4ce4364df07b8c863a
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+ima
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-nfs-kontron=
--kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-nfs-kontron=
--kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bdf4ce4364df07=
-b8c863b
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-kontron-kbox-a-230-ls        | arm64  | lab-kontron   | gcc-10   | defconfi=
-g                    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bdffe5dd54413778c8630
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
-x-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
-x-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bdffe5dd544137=
-78c8631
-        new failure (last pass: renesas-next-2023-01-24-v6.2-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm...ook+videodec | 3          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bcb1ed36e5dddb28c863e
-
-  Results:     165 PASS, 6 FAIL, 1 SKIP
-  Full config: defconfig+arm64-chromebook+videodec
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-collab=
-ora/baseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-collab=
-ora/baseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.panel-edp-probed: https://kernelci.org/test/case/id=
-/640bcb1ed36e5dddb28c8692
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:27:46.211710  /lava-9548830/1/../bin/lava-test-case
-
-    2023-03-11T00:27:46.234709  <8>[   37.162209] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dpanel-edp-probed RESULT=3Dfail>
-   =
-
-
-  * baseline-nfs.bootrr.clk-mt8183-pericfg-probed: https://kernelci.org/tes=
-t/case/id/640bcb1ed36e5dddb28c86e4
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:27:40.421140  /lava-9548830/1/../bin/lava-test-case
-
-    2023-03-11T00:27:40.447693  <8>[   31.375071] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dclk-mt8183-pericfg-probed RESULT=3Dfail>
-   =
-
-
-  * baseline-nfs.bootrr.clk-mt8183-infracfg-probed: https://kernelci.org/te=
-st/case/id/640bcb1ed36e5dddb28c86e5
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:27:39.377766  /lava-9548830/1/../bin/lava-test-case
-
-    2023-03-11T00:27:39.403014  <8>[   30.331006] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dclk-mt8183-infracfg-probed RESULT=3Dfail>
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-mt8192-asurada-spherion-r0   | arm64  | lab-collabora | gcc-10   | defconfi=
-g+arm...ook+videodec | 3          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bcb34623967d5fa8c864e
-
-  Results:     176 PASS, 9 FAIL, 1 SKIP
-  Full config: defconfig+arm64-chromebook+videodec
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-collab=
-ora/baseline-nfs-mt8192-asurada-spherion-r0.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-collab=
-ora/baseline-nfs-mt8192-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.clk-mt8192-pericfg-probed: https://kernelci.org/tes=
-t/case/id/640bcb34623967d5fa8c8704
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:28:08.565772  /lava-9548819/1/../bin/lava-test-case
-
-    2023-03-11T00:28:08.585125  <8>[   31.423303] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dclk-mt8192-pericfg-probed RESULT=3Dfail>
-   =
-
-
-  * baseline-nfs.bootrr.clk-mt8192-infracfg-probed: https://kernelci.org/te=
-st/case/id/640bcb34623967d5fa8c8705
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:28:07.511284  /lava-9548819/1/../bin/lava-test-case
-
-    2023-03-11T00:28:07.534098  <8>[   30.371983] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dclk-mt8192-infracfg-probed RESULT=3Dfail>
-   =
-
-
-  * baseline-nfs.bootrr.clk-mt8192-topckgen-probed: https://kernelci.org/te=
-st/case/id/640bcb34623967d5fa8c8706
-        new failure (last pass: renesas-next-2023-01-30-v6.2-rc1)
-
-    2023-03-11T00:28:06.452308  /lava-9548819/1/../bin/lava-test-case
-
-    2023-03-11T00:28:06.472296  <8>[   29.310489] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dclk-mt8192-topckgen-probed RESULT=3Dfail>
-   =
-
- =
-
-
-
-platform                     | arch   | lab           | compiler | defconfi=
-g                    | regressions
------------------------------+--------+---------------+----------+---------=
----------------------+------------
-sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie   | gcc-10   | defconfi=
-g+debug              | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/640bce8367eaf416f18c8642
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+debug
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-sun50=
-i-h5-libretech-all-h3-cc.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--03-10-v6.3-rc1/arm64/defconfig+debug/gcc-10/lab-broonie/baseline-nfs-sun50=
-i-h5-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230303.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/640bce8367eaf416f=
-18c8643
-        failing since 4 days (last pass: renesas-next-2022-11-21-v6.1-rc1, =
-first fail: renesas-next-2023-03-06-v6.3-rc1) =
-
- =20
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.4
+branch HEAD: b39d242dbfd925d9f6b262bf216518e28445570d  soc: renesas: rmobile-sysc: Use of_fwnode_handle() helper
+
+elapsed time: 721m
+
+configs tested: 102
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r001-20230310   gcc  
+arc                  randconfig-r043-20230310   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r004-20230310   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230310   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+hexagon              randconfig-r024-20230310   clang
+hexagon              randconfig-r041-20230310   clang
+hexagon              randconfig-r045-20230310   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r012-20230310   gcc  
+ia64                 randconfig-r022-20230310   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r016-20230310   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r014-20230310   gcc  
+microblaze           randconfig-r006-20230310   gcc  
+microblaze           randconfig-r011-20230310   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r005-20230310   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r005-20230310   gcc  
+nios2                randconfig-r015-20230310   gcc  
+nios2                randconfig-r021-20230310   gcc  
+openrisc             randconfig-r003-20230310   gcc  
+openrisc             randconfig-r036-20230310   gcc  
+parisc       buildonly-randconfig-r001-20230310   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r004-20230310   gcc  
+parisc               randconfig-r023-20230310   gcc  
+parisc               randconfig-r035-20230310   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r003-20230310   gcc  
+powerpc              randconfig-r013-20230310   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r026-20230310   gcc  
+riscv                randconfig-r042-20230310   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r006-20230310   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230310   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r032-20230310   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r033-20230310   gcc  
+sparc64      buildonly-randconfig-r002-20230310   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r002-20230310   gcc  
+xtensa               randconfig-r031-20230310   gcc  
+xtensa               randconfig-r034-20230310   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
