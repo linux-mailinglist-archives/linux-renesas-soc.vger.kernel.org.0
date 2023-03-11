@@ -2,130 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 475806B4E5D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Mar 2023 18:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0184E6B5783
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Mar 2023 02:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbjCJRUa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Mar 2023 12:20:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47508 "EHLO
+        id S230274AbjCKBZb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Mar 2023 20:25:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbjCJRUa (ORCPT
+        with ESMTP id S230346AbjCKBZJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Mar 2023 12:20:30 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61B9E8C581
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 09:20:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id BF7E3CE29D5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 17:20:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 19D61C433D2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 17:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678468823;
-        bh=EdyjfNKrCz10RAhHXPgYZE/gP4AFx1p573tNByiDo4c=;
-        h=Subject:From:Date:To:From;
-        b=joUTIRKUjum/wT3w3VHA+1Ht4sB1EtDT/HH7QWe6ONYJisf0JmGRfqN63wIo4byep
-         SFBn03Ih8/moGGaTfCSUJGSevjBdBHIqEAwXb2L8vhIoYJTLfzFNek4SXIIaY0Q4kF
-         qaXYQhzd5lQyhTjNF2egc/0y41k42nOyFHLpRiaohXWo6twUFvA1S4KN1MQ/USmA0Y
-         h3tpEDDQcXuyl47iPxrlOiDvepV55tRf/jAKV/RyJUhRqDiMgjhkZ+j21mSInoioTJ
-         JiUIIbtIstlZsJIkBlgsEO77zXN7KUw2jErNt+wbsJEqc3yOK5+MAv9BAGDsSBLP6i
-         N5SmE8f2cBOEA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E6EC9C59A4C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 17:20:22 +0000 (UTC)
+        Fri, 10 Mar 2023 20:25:09 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1306150EDD
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 17:24:37 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id l1so6967548pjt.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Mar 2023 17:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678497856;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lUO1g/LlFOGUFYfiNTCsmnsLJZLQKq99yfqdJpudmKc=;
+        b=xzfB7y+FlsbvCYh8NX0RKQU3FbU42ASHLWsLrGmlwDMitD+KFEv1lZ8mhLYWtkZ37Y
+         7Ks74Fpx21/X/SZmylYlHXiPt/qI2ko3DrbkCCWedQt7LkOuj6UfUagVIlIi6KRrLKRN
+         E33S4m3pdbhcLnkm+hYqrOvnkTDiGB/RXCovD0OXlB7ZtIASJUouJC470iQ2yeW8797V
+         Cox/5oaANGFJs8htMe45ZPqEdCO+e/T1AgOEJIgdKkGnythtyIuVAdnT1StUZbS6aReL
+         e/p/oiOJewz/VZ7CFWWNrTEiPIepBUHauxp0wh8g2XCtldMQNhPqgNPFFSdxM72zbR8Y
+         GIjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678497856;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lUO1g/LlFOGUFYfiNTCsmnsLJZLQKq99yfqdJpudmKc=;
+        b=YOMMCmBl4DI8rHdpM3i2qO8lUrRzykr4BSM3UUNQ2ysvJ0cXdGL1e2SPug922I+OE0
+         yqAZqBqKWxRb7iKglxZ11s5vJaXEQNFpRL4Pa+snPwPrsPiY4PftN+xCeenqZDwhktBd
+         fdmdXwF8Ijrr8h6gLOBOpDuFoYz+mAeAv8BmAKQVhJEAlVINftayH7Dw5IsgtlISghW5
+         4zP2UpZ1SIY2KUtcPUuYUKI+qdG1dE9i6XNEwEZtupR9iQow5z7xf32LRvEgn1rgb966
+         0X24XXFozv2ihlm6QdwO77TB/nxU4aoXfro727BOBui8+e7egjL8Dzt66xSLfIl7pnGq
+         ncYQ==
+X-Gm-Message-State: AO0yUKUcxAQnNpCAMsBsdsqsjo5OYWmJWxKIAyhu/nxonUNYCkoObhUe
+        1tOndU/qObr+S3pkKbWYUPjgL05E9FNuJHPLLUUeGe7s
+X-Google-Smtp-Source: AK7set8UhDWYhYSv4/+SGZ7NJJw/tUK/lANBRTAyQVGj9N9+9kqnhAWQLHWe0/L1smhwqCn+z5PGfg==
+X-Received: by 2002:a17:903:120b:b0:19e:786f:4cac with SMTP id l11-20020a170903120b00b0019e786f4cacmr30883244plh.53.1678497856561;
+        Fri, 10 Mar 2023 17:24:16 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id kq5-20020a170903284500b0017a032d7ae4sm566931plb.104.2023.03.10.17.24.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 17:24:16 -0800 (PST)
+Message-ID: <640bd840.170a0220.e0fd3.1f21@mx.google.com>
+Date:   Fri, 10 Mar 2023 17:24:16 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167846882283.32252.15303576265018277858.git-patchwork-summary@kernel.org>
-Date:   Fri, 10 Mar 2023 17:20:22 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-03-10-v6.3-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/master ltp-ipc: 15 runs,
+ 1 regressions (renesas-devel-2023-03-10-v6.3-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+renesas/master ltp-ipc: 15 runs, 1 regressions (renesas-devel-2023-03-10-v6=
+.3-rc1)
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Regressions Summary
+-------------------
 
-Series: arm64: WhiteHawk: Add Sound support
-  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=727135
-  Lore link: https://lore.kernel.org/r/87r0u1l9vc.wl-kuninori.morimoto.gx@renesas.com
-    Patches: [1/4] arm64: dts: renesas: r8a779g0: R-Car Sound support
-             [2/4] arm64: dts: renesas: r8a779g0: whitehawk: Add R-Car Sound support
-             [3/4] arm64: defconfig: Enable DA7213 Codec
-             [4/4] arm64: renesas_defconfig: Enable DA7213/COMMON_CLK_PWM
-
-Series: ARM/arm64: defconfig updates for Renesas platforms
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=727925
-  Lore link: https://lore.kernel.org/r/cover.1678286291.git.geert+renesas@glider.be
-    Patches: [1/3] ARM: shmobile: defconfig: Refresh for v6.3-rc1
-             [2/3] ARM: multi_v7_defconfig: Enable additional support for RZ/N1 platforms
-             [3/3] arm64: defconfig: Enable RZ/V2M xHCI and USB3.1 DRD controller support
-
-Series: arm64: dts: renesas: add V4H White Hawk Sound support
-  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=717933
-  Lore link: https://lore.kernel.org/r/87edr8angv.wl-kuninori.morimoto.gx@renesas.com
-    Patches: [1/9] pinctrl: renesas: r8a779g0: Add Audio Clock support
-             [8/9] arm64: defconfig: Enable DA7213 Codec
-
-Patch: soc: renesas: rmobile-sysc: Use of_fwnode_handle() helper
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=727874
-  Lore link: https://lore.kernel.org/r/d49b9fb20d68709b12692558aca91997e6b06fb4.1678272276.git.geert+renesas@glider.be
-
-Series: arm64: dts: renesas: Remove bogus voltages from OPP table
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=722592
-  Lore link: https://lore.kernel.org/r/cover.1676560856.git.geert+renesas@glider.be
-    Patches: [1/2] arm64: dts: renesas: r8a77990: Remove bogus voltages from OPP table
-             [2/2] arm64: dts: renesas: r8a774c0: Remove bogus voltages from OPP table
-
-Series: renesas: remove support for H3 ES1
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=727290
-  Lore link: https://lore.kernel.org/r/20230307105645.5285-1-wsa+renesas@sang-engineering.com
-    Patches: [2/5] arm64: dts: renesas: remove R-Car H3 ES1.* devicetrees
-             [3/5] dt-bindings: soc: renesas: remove R-Car H3 ES1.*
-             [4/5] soc: renesas: rcar-sysc: remove R-Car H3 ES1.* handling
-             [5/5] soc: renesas: remove r8a77950 arch
-
-Series: RZ/G2L SSI: Update interrupt numbers
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=723065
-  Lore link: https://lore.kernel.org/r/20230217185225.43310-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [1/4] ASoC: dt-bindings: renesas,rz-ssi: Update interrupts and interrupt-names properties
-             [3/4] arm64: dts: renesas: r9a07g044: Update IRQ numbers for SSI channels
-             [4/4] arm64: dts: renesas: r9a07g043: Update IRQ numbers for SSI channels
-
-Patch: [LOCAL] arm64: renesas: defconfig: Refresh for v6.3-rc1
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=727918
-  Lore link: https://lore.kernel.org/r/b852a3302fbc2e7729d95dad9e56c3636ff9624e.1678286092.git.geert+renesas@glider.be
+platform            | arch   | lab           | compiler | defconfig        =
+            | regressions
+--------------------+--------+---------------+----------+------------------=
+------------+------------
+asus-cx9400-volteer | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6=
+-chromebook | 1          =
 
 
-Total patches: 20
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-03-10-v6.3-rc1/plan/ltp-ipc/
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-03-10-v6.3-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      c520d1376b59c054cec31c3ca09f4df3eddd5296
+
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  3cbaaddf6f785d91aeb370beb75d0623f8c48624 =
 
 
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch   | lab           | compiler | defconfig        =
+            | regressions
+--------------------+--------+---------------+----------+------------------=
+------------+------------
+asus-cx9400-volteer | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6=
+-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/640bc61f5e5d4a90388c8679
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/ltp-ipc-asus-cx9400-volteer.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-10-v6.3-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/ltp-ipc-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
+p/20230303.0/amd64/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/640bc61f5e5d4a90388c86=
+7a
+        new failure (last pass: renesas-devel-2023-03-07-v6.3-rc1) =
+
+ =20
