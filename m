@@ -2,203 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A90A86B747C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 11:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C5926B749C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 11:49:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbjCMKpv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Mar 2023 06:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33122 "EHLO
+        id S230231AbjCMKtQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Mar 2023 06:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230162AbjCMKpt (ORCPT
+        with ESMTP id S230247AbjCMKtM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Mar 2023 06:45:49 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A22D52F77
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Mar 2023 03:45:46 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id az3-20020a05600c600300b003ed2920d585so679379wmb.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Mar 2023 03:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678704345;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6YaG0SWzLbweQszAk60kBLdxmB/7i6RyPeQI10oAzV4=;
-        b=LGtukpD/p9tW2HynhY3ArpOnq71vUNWspCHDXcqL9E0H12uUGwCrNnJ8M0RxmdNpeq
-         pAeM7HgE3lC/iWS08/SNNgrlDNCkMeXQqRuX8cwlBg4zRVpNXPW3gDjtnKxALuceF78y
-         NdVTDObibZ8R4EtyBNCPIMcq0OgaTbkZvAM49h3p8hUGXW7fJ7YGuhjTjqQdepEuEkoV
-         cD7UbzHMLuWJXYr4Foe1gbFD2MHYxciKwANocceIkSdzewD4rowtkp2iwkioPH9TaNKp
-         rEBkV5vvEN+FggyOIX39CDWbzc/iJhYRAVxAyxEi2kAEgx37tlorGCa+Sd08jrlENeFY
-         mZeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678704345;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YaG0SWzLbweQszAk60kBLdxmB/7i6RyPeQI10oAzV4=;
-        b=piVhjijCl8lq9kCJdgNhUOPQourXlsUtgjzy3sB8MSrWDVfzjPq6f6ZASBIx0PPWl8
-         oWNYfAfHuhPVj5Bu7auP52vptCw0ShsF8/fv/vD55IjszXkQQrp5pZ67uQYQzLejj5qO
-         DlvlEnIPPT0GuuPD6abznvj1uWi/qmP8cQfie9rY0tsmPoGzXbwneYVPowm4cifhHe1R
-         vBJ+s00ifV00j5bGSWj/sPIplwozomjSwOTF2AX+5YAHSpSWIW37M20FU0/bboOSPsj1
-         +9zQOub9Id1hphY7fIo6Ds9n5FeySsqCGYLY05ZGJL7SfbJZBgYveUa4WYAs4AMh6kuP
-         m4rA==
-X-Gm-Message-State: AO0yUKXd6N/joxrCLK5J+HkbrgrbdW91SCvzdBf7FBj4vmiu4Q7WsWYm
-        lmwwTWgc3mLIHWbofIItyN98vg==
-X-Google-Smtp-Source: AK7set+0Oc4726DzdphLUKeZrWCln4A5vSwSav6cx8LjV/d2+4mI/5d3Gg6o/COIT9hrcw7T8dFWSQ==
-X-Received: by 2002:a05:600c:3504:b0:3ea:d620:579b with SMTP id h4-20020a05600c350400b003ead620579bmr9852881wmq.0.1678704344899;
-        Mon, 13 Mar 2023 03:45:44 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:8522:ca6e:1db4:96c6? ([2a05:6e02:1041:c10:8522:ca6e:1db4:96c6])
-        by smtp.googlemail.com with ESMTPSA id l4-20020a05600c4f0400b003dc4a47605fsm9523224wmq.8.2023.03.13.03.45.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 03:45:44 -0700 (PDT)
-Message-ID: <f78e6b70-a963-c0ca-a4b2-0d4c6aeef1fb@linaro.org>
-Date:   Mon, 13 Mar 2023 11:45:41 +0100
+        Mon, 13 Mar 2023 06:49:12 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4708684
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Mar 2023 03:49:10 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:7ed1:e2c6:b94:264a])
+        by albert.telenet-ops.be with bizsmtp
+        id Xmp62900901Vtj806mp69p; Mon, 13 Mar 2023 11:49:07 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pbfjA-00C3Fp-Mv;
+        Mon, 13 Mar 2023 11:49:06 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pbfjm-008cMY-3L;
+        Mon, 13 Mar 2023 11:49:06 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Rob Herring <robh@kernel.org>, linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: renesas: Drop support for Renesas-specific properties
+Date:   Mon, 13 Mar 2023 11:49:04 +0100
+Message-Id: <ff9c14781110bbf19b56b45dd1f01e6da90319ad.1678704441.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v8 01/29] thermal/core: Add a generic
- thermal_zone_get_trip() function
-Content-Language: en-US
-To:     Ido Schimmel <idosch@idosch.org>
-Cc:     rafael@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, rui.zhang@intel.com,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        danieller@nvidia.com, vadimp@nvidia.com, petrm@nvidia.com
-References: <20221003092602.1323944-1-daniel.lezcano@linaro.org>
- <20221003092602.1323944-2-daniel.lezcano@linaro.org>
- <ZA3CFNhU4AbtsP4G@shredder>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <ZA3CFNhU4AbtsP4G@shredder>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The last user of the Renesas-specific properties was converted to the
+standard properties in commit af897250ea54c6f2 ("ARM: dts: gose: use
+generic pinctrl properties in SDHI nodes") in v4.10.
 
-Hi Ido,
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-pinctrl-for-v6.4.
 
-On 12/03/2023 13:14, Ido Schimmel wrote:
-> On Mon, Oct 03, 2022 at 11:25:34AM +0200, Daniel Lezcano wrote:
->> @@ -1252,9 +1319,10 @@ thermal_zone_device_register_with_trips(const char *type, struct thermal_trip *t
->>   		goto release_device;
->>   
->>   	for (count = 0; count < num_trips; count++) {
->> -		if (tz->ops->get_trip_type(tz, count, &trip_type) ||
->> -		    tz->ops->get_trip_temp(tz, count, &trip_temp) ||
->> -		    !trip_temp)
->> +		struct thermal_trip trip;
->> +
->> +		result = thermal_zone_get_trip(tz, count, &trip);
->> +		if (result)
->>   			set_bit(count, &tz->trips_disabled);
->>   	}
-> 
-> Daniel, this change makes it so that trip points with a temperature of
-> zero are no longer disabled. This behavior was originally added in
-> commit 81ad4276b505 ("Thermal: Ignore invalid trip points"). The mlxsw
-> driver relies on this behavior - see mlxsw_thermal_module_trips_reset()
-> - and with this change I see that the thermal subsystem tries to
-> repeatedly set the state of the associated cooling devices to the
-> maximum state. Other drivers might also be affected by this.
-> 
-> Following patch solves the problem for me:
-> 
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-> index 55679fd86505..b50931f84aaa 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -1309,7 +1309,7 @@ thermal_zone_device_register_with_trips(const char *type, struct thermal_trip *t
->                  struct thermal_trip trip;
->   
->                  result = thermal_zone_get_trip(tz, count, &trip);
-> -               if (result)
-> +               if (result || !trip.temperature)
->                          set_bit(count, &tz->trips_disabled);
->          }
-> 
-> Should I submit it or do you have a better idea?
+ drivers/pinctrl/renesas/pinctrl.c | 31 +++++--------------------------
+ 1 file changed, 5 insertions(+), 26 deletions(-)
 
-Thanks for reporting this, I think the fix you are proposing is correct 
-regarding the previous behavior.
-
-However, I disagree with the commit 81ad4276b505, because it defines the 
-zero as an invalid trip point. But some platforms have warming devices, 
-when the temperature is too cold, eg 0°C, we enable the warming device 
-in order to stay in the functioning temperature range.
-
-Other devices can do the same with negative temperature values.
-
-This feature is not yet upstream and the rework of the trip point should 
-allow proper handling of cold trip points.
-
-If you can send the change to fix the regression that would be great.
-
-But keep in mind, the driver is assuming an internal thermal framework 
-behavior. The trips_disabled is only to overcome a trip point 
-description bug and you should not rely on it as well as not changing 
-the trip points on the fly after they are registered.
-
-Actually, the mlxsw driver should just build a valid array of trip 
-points without 0°C trip point and pass it to 
-thermal_zone_device_register_with_trips(). That would be a proper change 
-without relying on a side effect of the thermal trip bug 0°C workaround.
-
-
-
+diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
+index f6ef658fb2276bb0..4d9d58fc1356ff53 100644
+--- a/drivers/pinctrl/renesas/pinctrl.c
++++ b/drivers/pinctrl/renesas/pinctrl.c
+@@ -40,10 +40,6 @@ struct sh_pfc_pinctrl {
+ 
+ 	struct pinctrl_pin_desc *pins;
+ 	struct sh_pfc_pin_config *configs;
+-
+-	const char *func_prop_name;
+-	const char *groups_prop_name;
+-	const char *pins_prop_name;
+ };
+ 
+ static int sh_pfc_get_groups_count(struct pinctrl_dev *pctldev)
+@@ -120,27 +116,10 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	const char *pin;
+ 	int ret;
+ 
+-	/* Support both the old Renesas-specific properties and the new standard
+-	 * properties. Mixing old and new properties isn't allowed, neither
+-	 * inside a subnode nor across subnodes.
+-	 */
+-	if (!pmx->func_prop_name) {
+-		if (of_find_property(np, "groups", NULL) ||
+-		    of_find_property(np, "pins", NULL)) {
+-			pmx->func_prop_name = "function";
+-			pmx->groups_prop_name = "groups";
+-			pmx->pins_prop_name = "pins";
+-		} else {
+-			pmx->func_prop_name = "renesas,function";
+-			pmx->groups_prop_name = "renesas,groups";
+-			pmx->pins_prop_name = "renesas,pins";
+-		}
+-	}
+-
+ 	/* Parse the function and configuration properties. At least a function
+ 	 * or one configuration must be specified.
+ 	 */
+-	ret = of_property_read_string(np, pmx->func_prop_name, &function);
++	ret = of_property_read_string(np, "function", &function);
+ 	if (ret < 0 && ret != -EINVAL) {
+ 		dev_err(dev, "Invalid function in DT\n");
+ 		return ret;
+@@ -158,7 +137,7 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	/* Count the number of pins and groups and reallocate mappings. */
+-	ret = of_property_count_strings(np, pmx->pins_prop_name);
++	ret = of_property_count_strings(np, "pins");
+ 	if (ret == -EINVAL) {
+ 		num_pins = 0;
+ 	} else if (ret < 0) {
+@@ -168,7 +147,7 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		num_pins = ret;
+ 	}
+ 
+-	ret = of_property_count_strings(np, pmx->groups_prop_name);
++	ret = of_property_count_strings(np, "groups");
+ 	if (ret == -EINVAL) {
+ 		num_groups = 0;
+ 	} else if (ret < 0) {
+@@ -199,7 +178,7 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	*num_maps = nmaps;
+ 
+ 	/* Iterate over pins and groups and create the mappings. */
+-	of_property_for_each_string(np, pmx->groups_prop_name, prop, group) {
++	of_property_for_each_string(np, "groups", prop, group) {
+ 		if (function) {
+ 			maps[idx].type = PIN_MAP_TYPE_MUX_GROUP;
+ 			maps[idx].data.mux.group = group;
+@@ -223,7 +202,7 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		goto done;
+ 	}
+ 
+-	of_property_for_each_string(np, pmx->pins_prop_name, prop, pin) {
++	of_property_for_each_string(np, "pins", prop, pin) {
+ 		ret = sh_pfc_map_add_config(&maps[idx], pin,
+ 					    PIN_MAP_TYPE_CONFIGS_PIN,
+ 					    configs, num_configs);
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+2.34.1
 
