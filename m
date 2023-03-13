@@ -2,122 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEEC16B71FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 10:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 499B36B720D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 10:08:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjCMJFM convert rfc822-to-8bit (ORCPT
+        id S231145AbjCMJIB convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Mar 2023 05:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55042 "EHLO
+        Mon, 13 Mar 2023 05:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230479AbjCMJEk (ORCPT
+        with ESMTP id S229994AbjCMJHp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Mar 2023 05:04:40 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A1B3C29;
-        Mon, 13 Mar 2023 02:01:02 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id l18so12414410qtp.1;
-        Mon, 13 Mar 2023 02:01:02 -0700 (PDT)
+        Mon, 13 Mar 2023 05:07:45 -0400
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0A01F480;
+        Mon, 13 Mar 2023 02:05:38 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id y10so12415505qtj.2;
+        Mon, 13 Mar 2023 02:05:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678698061;
+        d=1e100.net; s=20210112; t=1678698337;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JMjv67oqH0XcHnu1slnz7obBOYeNA0kXm4szuRMQips=;
-        b=aw1AdWyNMcEeGLnQunCJe99uq/ZZs0gLThSnXLv+UBhc9Rib6ovcsXKl3FGetg/oI6
-         ELwDiOyJtQjDTNja5v2ZagaJPgs9QPrssPZvAR2Vz3O5XHvJki7Ry/CJEzk45yPkT/LE
-         Idjww0rBB6xtPzaYnzWxrYjHP5XGwhR4VlTHBM9Rz8rXW1Z/OFh8CBGYDxWate6iW781
-         HOwK5AE9Y5kAF9OP9pQ6PY7ESjW7riNLsFouQnySoJlb7CyunaMaHQHtOpq9iBFh7/+C
-         dDd3aHEu8Q27kQM1Wts1lqnAgTacpIgXs01//Igy+aGGfzE8UQkVYjBi1PNxpDI41son
-         dTJg==
-X-Gm-Message-State: AO0yUKW0XN2nKFEHPr37VqxYuhiuf0+D+au45+Lp5+h1X2S9ZQAWjXkJ
-        3eA0TA/xPaXgXIybuo+Q6zMoEka+I/bVoQ==
-X-Google-Smtp-Source: AK7set8WzH26vCM0R1qdZpsSSh6qK0fRhpddR77RNdbVXnu1G9x9/BW/Idu5OTcljORGnqz/50GFlg==
-X-Received: by 2002:a05:622a:1a0e:b0:3b9:cc9b:1d9d with SMTP id f14-20020a05622a1a0e00b003b9cc9b1d9dmr16045605qtb.20.1678698061442;
-        Mon, 13 Mar 2023 02:01:01 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id j6-20020ac86646000000b003bfb820f17csm5074246qtp.63.2023.03.13.02.01.00
+        bh=HKyTtkBc3vhH0cNio/ELGF+bwr3W/1y9c0sgHfHKMEo=;
+        b=HhW4fv6ZXvYBTJ6AGZBCTFiFF9FWoelMQ7xdWlN5nyo+aZJGB9r/Any8H9INPuf29m
+         28SiXM86cVsLJea4/AMKo8zpTaM/Ty8X+4pEh82bpXtt7kkY52jtOjpCDxm7GdZXxJ00
+         FzGwnoZUGQXVmt99iWMyT3gY7zYO0SoQ2M2FgNHwm2MDnCGtcXA16Lm6ihufXjqNLleL
+         cCMGds80zIAfIaCJfhhm7Aj2G8qMTtoM/b0S+PHFPn7aQvAHm/PE+9s0zXs5F0cyH4sK
+         VdAy0K6aRdI5bizk87UDsKC+NSDEH0GaTHbESZYWy3tql68uXYjJsNeLEBfo9G7po7Tz
+         WN9Q==
+X-Gm-Message-State: AO0yUKV7efvX66PAbF55ht/tuGul/ctPt6XAo7HWAhYo/cfLDhoRB/Du
+        +1JxTSYYn7tudK0wdfgmaI8nCHuhm5HbdQ==
+X-Google-Smtp-Source: AK7set9Vc/bCfMIp7y+k42AvCq5XarJGXvB393t/nmVM2SXc6J+lplGl/cHI/86K4GC+mbJKxhyfdA==
+X-Received: by 2002:ac8:5904:0:b0:3bf:bbaf:5c82 with SMTP id 4-20020ac85904000000b003bfbbaf5c82mr17775124qty.21.1678698337638;
+        Mon, 13 Mar 2023 02:05:37 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id 74-20020a37054d000000b007456c75edbbsm3422295qkf.129.2023.03.13.02.05.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 02:01:01 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id t4so10929109ybg.11;
-        Mon, 13 Mar 2023 02:01:00 -0700 (PDT)
-X-Received: by 2002:a25:8b08:0:b0:b14:91e:4d19 with SMTP id
- i8-20020a258b08000000b00b14091e4d19mr14474451ybl.7.1678698060305; Mon, 13 Mar
- 2023 02:01:00 -0700 (PDT)
+        Mon, 13 Mar 2023 02:05:36 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id e71so2569609ybc.0;
+        Mon, 13 Mar 2023 02:05:36 -0700 (PDT)
+X-Received: by 2002:a05:6902:208:b0:acd:7374:f154 with SMTP id
+ j8-20020a056902020800b00acd7374f154mr20748438ybs.7.1678698336364; Mon, 13 Mar
+ 2023 02:05:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310144721.1544669-1-robh@kernel.org>
-In-Reply-To: <20230310144721.1544669-1-robh@kernel.org>
+References: <20230312161512.2715500-1-u.kleine-koenig@pengutronix.de> <20230312161512.2715500-24-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230312161512.2715500-24-u.kleine-koenig@pengutronix.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Mar 2023 10:00:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
-Message-ID: <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
- property presence
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sean Wang <sean.wang@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Date:   Mon, 13 Mar 2023 10:05:24 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWrn45DEG4yHqiEMsR4G5460rxBu5d5-OEMg_7TUWOfFA@mail.gmail.com>
+Message-ID: <CAMuHMdWrn45DEG4yHqiEMsR4G5460rxBu5d5-OEMg_7TUWOfFA@mail.gmail.com>
+Subject: Re: [PATCH 23/30] clk: renesas: Convert to platform remove callback
+ returning void
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
-
-On Fri, Mar 10, 2023 at 3:56 PM Rob Herring <robh@kernel.org> wrote:
-> It is preferred to use typed property access functions (i.e.
-> of_property_read_<type> functions) rather than low-level
-> of_get_property/of_find_property functions for reading properties. As
-> part of this, convert of_get_property/of_find_property calls to the
-> recently added of_property_present() helper when we just want to test
-> for presence of a property and nothing more.
+On Sun, Mar 12, 2023 at 5:15 PM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Thanks for your patch!
-
-> --- a/drivers/pinctrl/renesas/pinctrl.c
-> +++ b/drivers/pinctrl/renesas/pinctrl.c
-> @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
->          * inside a subnode nor across subnodes.
->          */
->         if (!pmx->func_prop_name) {
-> -               if (of_find_property(np, "groups", NULL) ||
-> -                   of_find_property(np, "pins", NULL)) {
-> +               if (of_property_present(np, "groups")||
-> +                   of_property_present(np, "pins")) {
->                         pmx->func_prop_name = "function";
->                         pmx->groups_prop_name = "groups";
->                         pmx->pins_prop_name = "pins";
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-This check is used to auto-detect if the standard property names
-should be used, or the "renesas,"-prefixed ones.
-As the last users of the latter were removed from DTS in v4.10,
-perhaps I should just remove these checks instead?
+i.e. will queue in renesas-clk-for-v6.4.
 
 Gr{oetje,eeting}s,
 
