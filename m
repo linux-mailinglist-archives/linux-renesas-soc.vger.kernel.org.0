@@ -2,123 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54B5F6B8318
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 21:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF56D6B8476
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 23:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjCMUvP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Mar 2023 16:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
+        id S229743AbjCMWFd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Mar 2023 18:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbjCMUvG (ORCPT
+        with ESMTP id S230162AbjCMWF3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Mar 2023 16:51:06 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC29C5B5D1;
-        Mon, 13 Mar 2023 13:51:04 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id t4so13346328ybg.11;
-        Mon, 13 Mar 2023 13:51:04 -0700 (PDT)
+        Mon, 13 Mar 2023 18:05:29 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B04611EBE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Mar 2023 15:05:18 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-54184571389so119455777b3.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Mar 2023 15:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678740664;
+        d=linaro.org; s=google; t=1678745117;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pVDMl7afmqyNlWSHMur8DAhwbfy3QB/KArfD3iReUEI=;
-        b=B63VOA5e2wKkVcBEVSVoYEXb2Go0SDMEhh+LXaSd577dRWZ+e0U/tz01Gfnn/xkroW
-         zWjWhyr5eSl4Z0wiQPdvWI9DoKWaHjxikit6td0QbTDJfe/LeE5Qmxxsf/Uq16XLkTzh
-         Va96ApIncTvS/jt1nZZMdUMemKiXey/196v1yqitx6khbaO4bsWowdqar4So/UJRDEGX
-         r6H00BmSAtQhTdrq7IjZAYpS+O5C1i+IQYkL2diQ3k3ZxsF2FowW2mQIK8lJ6sVOe7K1
-         C1ffHctIGOFHVWXDVZpKlGfzj0XWD3K0dDG474gb6ZkXi9dp0IQ7vkNMpwloJVQlj1+l
-         jjLw==
+        bh=GaJ1rw0GxmFn6lOYjuFsf5MXeyEAW/i1SnT3isjwGsM=;
+        b=va/x+Pjp+N+yuTJEB7oTVFTjsv/wzkGZhs4nUcwWnut3z7MxRQak6OiMura8n5M83s
+         rcuSBFtuEZT/gq7YAd7YTZJE8uOeKnUF2jLqW/S0kwD2VltncJTGUdLJ6Iz4ntfU6lXx
+         QTaCfov+s5nsujdxE3tKAvX/zI2qrHQtqKFKKOQnRiL9QtVooTNP/fge9gLb+vSkTaBR
+         2yjUx8oy63GjeG2msRqXy0mclRQ9ehjiOLpCdB5jjGGU2AW2pbVXqK/wQq/SPAtpw5+4
+         zC2wy4m88zRGEGqWcvQh3/vqLkf970JTvSv8ytu8HDYQobJ0+1eCKURs5KeuZ9gYeS6p
+         Pjlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678740664;
+        d=1e100.net; s=20210112; t=1678745117;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pVDMl7afmqyNlWSHMur8DAhwbfy3QB/KArfD3iReUEI=;
-        b=LVQgwG0SgGtJYN2DittIYzErdv2CS5KzGGICaTwpxG4te2Ky1AAMyw1run1BK0SD78
-         fx9TPWNPA30/xhfc3HIhhVqJPBRg30L/bFHMy8sGirTwZwZeWEs1nAR6VDQ9cAdPoPTT
-         VnGM4XFLMQJDYEAulx1BNWhecm+d14Fh6MoT5444Erv3+VWX0Vv29ZjCeBd9+gCBPYBf
-         kV6khRjZ4a2hG43Ps8eYUmZKm2zzaWK+4NuzGEkoliKkcf4YdfVmW5svqwmQV8ci3vgj
-         BGSOIQcFtGt/U9i+iujTwkXqpdRX4+UX72TFkrfaOWg8SBtRzIjfc0cyc3jeE9LAxAAm
-         FqJQ==
-X-Gm-Message-State: AO0yUKWkqntb9WmaF92P5/uInBhhYa7pyipRpqBrK96VZskarjThWn5d
-        QHNG4RDDv2FMTwcZ2IMRrnAYu4VmtI7IKsRPdspomZNELpc=
-X-Google-Smtp-Source: AK7set/16PVBhq1JojqFSgrUinwqY6HQJkTPq3MtOLV3VZja0XFjc+yYK0Uhgyzjh1cV+fQIdXifmJegQ8CKDeFBg6w=
-X-Received: by 2002:a05:6902:251:b0:9f1:6c48:f95f with SMTP id
- k17-20020a056902025100b009f16c48f95fmr9928550ybs.5.1678740664174; Mon, 13 Mar
- 2023 13:51:04 -0700 (PDT)
+        bh=GaJ1rw0GxmFn6lOYjuFsf5MXeyEAW/i1SnT3isjwGsM=;
+        b=jEx5ywNbODv/9EBNzJE58nBoe3TrmXGwOzDKaVEkdBbGrvqF2urUkjp4UWWLAzRnhz
+         jsbqqsAJVZM1jafUOnkBKrtvERm05nTgmso9R63OJ02Eapo1Yiuaey5W6hv+7zJrAc3D
+         TN3nSmN0blZP6Xl71OaSEQFjZGl36JKoVHsz0HaFx/IJmQnvqEpekGsP/UKUISsmbtKI
+         UKEuwQeATT1p9pO6tKuRDhusA0uBVskjGesgQF9IzfnrYrr6DiUresLm2dd6V5SUH8yD
+         QpsR6Lod5JDWgCzMlnccK6vIsfwk+zPdbUEvXyB4awoEbOWfmsfpL23GkmLBQ+vV6ubn
+         PcBQ==
+X-Gm-Message-State: AO0yUKV9iIJmGQmlJBGxPBM89QKYzMOAXqutmM1r76fRBbvJdLGQVa7U
+        VJfSOjMmJpfG5cLXGrvnbZGiy0JGyYo/OkCWXphAEN646CltoSAt
+X-Google-Smtp-Source: AK7set/LKjmjlcTb5A9usQFhgqxSVuHPK3Ba0mAY61rQ09E96ghDnLEKzN9WJ/2Q1yWTf7CZw7UvRyzM/4mTVatGgac=
+X-Received: by 2002:a81:ac67:0:b0:541:753d:32f9 with SMTP id
+ z39-20020a81ac67000000b00541753d32f9mr5548024ywj.9.1678745117468; Mon, 13 Mar
+ 2023 15:05:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230216175347.99778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230216175347.99778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXNrBCdLvMKK6kPbMLhSmuxXtd5A+Lt4J0ddVorODqCvw@mail.gmail.com> <20230308230001.GF31765@pendragon.ideasonboard.com>
-In-Reply-To: <20230308230001.GF31765@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 13 Mar 2023 20:50:38 +0000
-Message-ID: <CA+V-a8uQ8fAc-F=7WokcH4otbap0F_ik9Dnw4GpB8ALdVRuWgg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Add OV5645 node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
+ <20230306090014.128732-2-biju.das.jz@bp.renesas.com> <ZAZ4LY+xG2LGiHwh@surfacebook>
+ <OS0PR01MB5922EA0703F259A99C157D3286B79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75Vd6qTG67_1DGiemy8n-mQn=9kiGrC0rEYw2XO0rm4Tbag@mail.gmail.com>
+ <OS0PR01MB59224CECBB888ADC9214145286B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75VfDL74cEUQkxC1JuUB7SS1vYTPj_K7+VkQ-i-MKXad5Lw@mail.gmail.com> <OS0PR01MB5922CC51889D094129820C0C86B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922CC51889D094129820C0C86B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 13 Mar 2023 23:05:06 +0100
+Message-ID: <CACRpkdZS5UKc7bDPs-zx_QyJU9GwJAhB7372oSC9tB-txgghtw@mail.gmail.com>
+Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, Mar 9, 2023 at 3:19=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
 
-On Wed, Mar 8, 2023 at 10:59=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+> I have an IP which detects short circuit between the output terminals and
+> disable the output from pwm pins ,when it detects short circuit to protec=
+t from
+> system failure.
 >
-> On Mon, Mar 06, 2023 at 08:27:19PM +0100, Geert Uytterhoeven wrote:
-> > Hi Prabhakar,
-> >
-> > On Thu, Feb 16, 2023 at 6:57=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
-il.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > OV5645 sensor can be connected to the CN1 connector on the
-> > > carrier board. This patch adds the ov5645 node under i2c0 node.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+> pwm-pins are involved in this operation.
 >
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-> > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-> > > @@ -6,6 +6,10 @@
-> > >   */
-> > >
-> > >  /dts-v1/;
-> > > +
-> > > +/* comment the #define statement if OV5645 is not connected to CN1  =
-*/
-> > > +#define CAM_INTERFACE_OV5645   1
-> >
-> > I believe the camera is optional ("can be connector" above).
-> > So shouldn't this be commented out by default?
->
-> Even better, could you turn this into a DT overlay ?
->
-Please let me know your thoughts on this.
+> From user space we need to configure the type of protection for this pins=
+ (eg: disable PWM output,
+> when both pwm outputs are high at same time).
 
-> > The rest LGTM, so with the above sorted out:
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Why do you want to do this from user space?
+
+It sounds like something the kernel should be doing.
+
+The kernel has a PWM subsystem, and a pin control subsystem,
+and we don't even have a userspace ABI for pin control.
+Pin control is designed to avoid electrical disasters
+and a driver can add further policy for sure.
+
+If you want to add policy of different types to avoid electrical
+disaster into the pin control driver, go ahead, just run it by
+Geert so he's on board with the ideas.
+
+> For that, we need to find a provider device (which provides gpt-pins).
 >
-Cheers,
-Prabhakar
+> pinctrl_get_device() returns "current provider device" associated with fn=
+ame/gname.
+> If " current provider device" =3D=3D "pwm device" do the configuration.
+
+I don't understand this, sorry.
+
+Yours,
+Linus Walleij
