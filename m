@@ -2,158 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A266B773A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 13:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABE26B7796
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Mar 2023 13:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjCMMNE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Mar 2023 08:13:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54236 "EHLO
+        id S229548AbjCMMe1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Mar 2023 08:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbjCMMNC (ORCPT
+        with ESMTP id S229621AbjCMMe0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Mar 2023 08:13:02 -0400
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33F63C01;
-        Mon, 13 Mar 2023 05:12:57 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 23BFD2B065EF;
-        Mon, 13 Mar 2023 08:12:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 13 Mar 2023 08:12:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1678709570; x=1678716770; bh=9ui9bmvE5i4u3m/ARdGTj1kwQVPleXj0Y6d
-        rKORRRdE=; b=WUMIR8yT/f22HAwm5Aovj8/OD54RFZFtg8maPs6wmZCp79zQwk2
-        KXXos4GzGqFt9BvscL4OqD1szAu52+4XSWc70eThQIbOjMYwZktDXpc6sewkt1Kt
-        IQuP4iYISi11UCu5EGR4vK5yWqNX2bodRIrhiIzD8dN8e71kC3/T2BSIfwW08q6w
-        sOm3bg2DJDrZhG+CaHwhggasxpIKKspowN8iOVbGD4wmr4U7d7yXFVs0egsFMhvn
-        UsjuDboWzqQ2sXYU5zIgUDAHiJdHRUHwGuGMtE45ml6QdWmA9inGrWaPjlIGdGG0
-        U0zNusFrFDr6WwzqNo4fbbk7d4LWnEmsQdw==
-X-ME-Sender: <xms:QBMPZAGuXJ6KHpEM2zLBqBMUhtupMv-AYvRIxQsCT9c2WXj_KrL9yw>
-    <xme:QBMPZJUYrUCR9v9niZxHAtNQXDXMuRJOeUTfDrNQL5AMpWp5_gRyUgARVG6AJt5MB
-    8V-REv7A00LtEU>
-X-ME-Received: <xmr:QBMPZKKtheRiAdEM52XhXs5g2XlATNLs-UmEZDpDXOxzcEYr2b_RExlVS0qy>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvgedgfeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefkugho
-    ucfutghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeegheekuddvueejvddtvdfgtddvgfevudektddtteevuddvkeetveeftdev
-    ueejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hiughoshgthhesihguohhstghhrdhorhhg
-X-ME-Proxy: <xmx:QBMPZCHmJTlQSPmNn5mFwF98VfTp58Lr3edQLA0SKWtFi27UqxeHjg>
-    <xmx:QBMPZGVmlGLnYUi0bAWfEBuENurj0LmBoTEnwljNdphwsJYoJ_5spg>
-    <xmx:QBMPZFPzMMmiZLpPDr-Ymi2cASyz9VcV8XLgDOWfjhFRevVEG5aPmw>
-    <xmx:QhMPZBQ3z4tvEYR1IPnmOsVCvIChQHU9DB0qKJv1fRScLdvuwmt2Jm_iXJ0>
-Feedback-ID: i494840e7:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Mar 2023 08:12:47 -0400 (EDT)
-Date:   Mon, 13 Mar 2023 14:12:44 +0200
-From:   Ido Schimmel <idosch@idosch.org>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     rafael@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, rui.zhang@intel.com,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Antoine Tenart <atenart@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        danieller@nvidia.com, vadimp@nvidia.com, petrm@nvidia.com
-Subject: Re: [PATCH v8 01/29] thermal/core: Add a generic
- thermal_zone_get_trip() function
-Message-ID: <ZA8TPDpEVanOpjEp@shredder>
-References: <20221003092602.1323944-1-daniel.lezcano@linaro.org>
- <20221003092602.1323944-2-daniel.lezcano@linaro.org>
- <ZA3CFNhU4AbtsP4G@shredder>
- <f78e6b70-a963-c0ca-a4b2-0d4c6aeef1fb@linaro.org>
+        Mon, 13 Mar 2023 08:34:26 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C8D42BEB;
+        Mon, 13 Mar 2023 05:34:06 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id t13so1191556qvn.2;
+        Mon, 13 Mar 2023 05:34:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678710821;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=txUNeUXSkINlsmXbzrnBl+u3YlAFA225dm1gz5Yqp08=;
+        b=aL29uLJ7vOhSMOD6IRdQNmIrtfRB08IMM1azBFhVoDvjRMggXRDjamU4OzyjFehq0w
+         6CaanwFM19TC21pfKjc6YS0YhH/kNZSPk/jcHz+n72IQgaYx9RB4jgELDlfRvyewQwQS
+         M/RC+JKWCljJ31i6FLnlsTMwJn4NPsK4buk3ElrySx6taVmWm3isiuuyPMRg+cSZ5Dwy
+         Z2Sn1TUztQKpqLKuixrt8tuoG6aOcZ+W5VLbpCzopv0jNgDLSBavHEakND5dNZ90sNIi
+         m/7u/o55qrPgP3/683quYqDJ3NCVoX47c5EL3pQ3B6aQGY6HsymCgM11Ql+PsfoStpdM
+         YfuQ==
+X-Gm-Message-State: AO0yUKW/RgApkG9cgmZgHLEIc07gmQVGepL+KPM+DdVUGuNENpCJXjPL
+        S6eIPxHZkEi+Tfjeg1hq021KYjcVv1ObZw==
+X-Google-Smtp-Source: AK7set/7O5cPOjWWT5NL1zQ86npGGa4Hwc1IonZHqxwpW6TemzAMGdwkBNz78HP+gQRRP2c2RcTiXA==
+X-Received: by 2002:ad4:5caa:0:b0:56a:8d2a:8ef9 with SMTP id q10-20020ad45caa000000b0056a8d2a8ef9mr15311895qvh.35.1678710820761;
+        Mon, 13 Mar 2023 05:33:40 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 198-20020a3707cf000000b007456efa7f73sm3310058qkh.85.2023.03.13.05.33.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Mar 2023 05:33:40 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5419d4c340aso53826987b3.11;
+        Mon, 13 Mar 2023 05:33:40 -0700 (PDT)
+X-Received: by 2002:a81:e30e:0:b0:541:7f69:aa9b with SMTP id
+ q14-20020a81e30e000000b005417f69aa9bmr3803604ywl.4.1678710820086; Mon, 13 Mar
+ 2023 05:33:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f78e6b70-a963-c0ca-a4b2-0d4c6aeef1fb@linaro.org>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230312132650.352796-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312132650.352796-1-krzysztof.kozlowski@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Mar 2023 13:33:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVQsQZgU213+c3eJKZ2+p69AorUEhHck84NAN01QtxEBg@mail.gmail.com>
+Message-ID: <CAMuHMdVQsQZgU213+c3eJKZ2+p69AorUEhHck84NAN01QtxEBg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] soc: renesas: mark OF related data as maybe unused
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 11:45:41AM +0100, Daniel Lezcano wrote:
-> Thanks for reporting this, I think the fix you are proposing is correct
-> regarding the previous behavior.
-> 
-> However, I disagree with the commit 81ad4276b505, because it defines the
-> zero as an invalid trip point. But some platforms have warming devices, when
-> the temperature is too cold, eg 0°C, we enable the warming device in order
-> to stay in the functioning temperature range.
-> 
-> Other devices can do the same with negative temperature values.
-> 
-> This feature is not yet upstream and the rework of the trip point should
-> allow proper handling of cold trip points.
-> 
-> If you can send the change to fix the regression that would be great.
+Hi Krzysztof,
 
-Thanks for the reply. Will send you the fix later this week. I want to
-test it across all of our systems.
+Thanks for your patch!
 
-> 
-> But keep in mind, the driver is assuming an internal thermal framework
-> behavior. The trips_disabled is only to overcome a trip point description
-> bug and you should not rely on it as well as not changing the trip points on
-> the fly after they are registered.
-> 
-> Actually, the mlxsw driver should just build a valid array of trip points
-> without 0°C trip point and pass it to
-> thermal_zone_device_register_with_trips(). That would be a proper change
-> without relying on a side effect of the thermal trip bug 0°C workaround.
+On Sun, Mar 12, 2023 at 2:26â€¯PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> The driver can be compile tested with !CONFIG_OF making certain data
+> unused:
+>
+>   drivers/soc/renesas/renesas-soc.c:272:34: error: â€˜renesas_socsâ€™ defined but not used [-Werror=unused-const-variable=]
 
-Understood. Will check with Vadim what we can do in order not to rely on
-this behavior.
+Where do you see this issue?
+This variable is used unconditionally, and the driver builds fine for
+me for m68k/allmodconfig+CONFIG_OF=n?
+
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -269,7 +269,7 @@ static const struct renesas_soc soc_shmobile_ag5 __initconst __maybe_unused = {
+>  };
+>
+>
+> -static const struct of_device_id renesas_socs[] __initconst = {
+> +static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
+>  #ifdef CONFIG_ARCH_R7S72100
+>         { .compatible = "renesas,r7s72100",     .data = &soc_rz_a1h },
+>  #endif
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
