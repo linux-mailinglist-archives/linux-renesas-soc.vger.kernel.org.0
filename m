@@ -2,89 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08CA16B9501
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 13:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C43C86B9681
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 14:40:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbjCNM4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 08:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59262 "EHLO
+        id S231334AbjCNNkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 09:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232852AbjCNMzg (ORCPT
+        with ESMTP id S231339AbjCNNkV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 08:55:36 -0400
+        Tue, 14 Mar 2023 09:40:21 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E12A6BEA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 05:51:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B4E11672
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 06:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=YSDGQgo64K7kPQPijTqgAMUKCwj
-        Eu9vA4OsmPLBJ/pU=; b=B9HQI9o5SsFCfo06nrkKU/np4zw7Jw8Vb2MdaLMP+hH
-        cMUnirTlQ8AIEKbdsMKhLQFnqNlSv1TnRxMonfGlCSMpPOSgdyZUvH38KsQFZ/tt
-        qvLVFqkOF3gwDYP2UGN5B6bhF/uuG7HjcVnz+ktICCcNKvC7SrW3NHWos4S8gPUg
+        :content-transfer-encoding; s=k1; bh=chZ0p5pooJS4l4YVMMk5XQCw6WQ
+        YkRgYzRIcOGy//iI=; b=skYzw9ae+naIVGKOtiCxPExRevoCb639GcELbkWhjEq
+        iyQgI1IohL0zZYkNCoEsMiAAlI8UCETPR4aTqMvjhLBdN68cls6j77fcU3hb+JHa
+        kQOH2foqvl7cxQQ8IVY+T10liSWGJSyMnuIl5IjCNjueyW2AerZSgyjIAcTIzrb8
         =
-Received: (qmail 3103901 invoked from network); 14 Mar 2023 13:49:30 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2023 13:49:30 +0100
-X-UD-Smtp-Session: l3s3148p1@nHeUqNv2OsQujnvb
+Received: (qmail 3103630 invoked from network); 14 Mar 2023 13:48:58 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2023 13:48:58 +0100
+X-UD-Smtp-Session: l3s3148p1@5Cawptv2pOwujnvb
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     netdev@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Russell King <linux@armlinux.org.uk>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [RESEND net-next] net: phy: micrel: drop superfluous use of temp variable
-Date:   Tue, 14 Mar 2023 13:49:27 +0100
-Message-Id: <20230314124928.44948-1-wsa+renesas@sang-engineering.com>
+Subject: [RESEND net-next] net: phy: update obsolete comment about PHY_STARTING
+Date:   Tue, 14 Mar 2023 13:48:56 +0100
+Message-Id: <20230314124856.44878-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-'temp' was used before commit c0c99d0cd107 ("net: phy: micrel: remove
-the use of .ack_interrupt()") refactored the code. Now, we can simplify
-it a little.
+Commit 899a3cbbf77a ("net: phy: remove states PHY_STARTING and
+PHY_PENDING") missed to update a comment in phy_probe. Remove
+superfluous "Description:" prefix while we are here.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
 
-Only tags added since last time.
+Only tag added since last time.
 
- drivers/net/phy/micrel.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/net/phy/phy_device.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
-index 2c84fccef4f6..6c7845137c23 100644
---- a/drivers/net/phy/micrel.c
-+++ b/drivers/net/phy/micrel.c
-@@ -435,11 +435,9 @@ static int kszphy_config_intr(struct phy_device *phydev)
- 		if (err)
- 			return err;
- 
--		temp = KSZPHY_INTCS_ALL;
--		err = phy_write(phydev, MII_KSZPHY_INTCS, temp);
-+		err = phy_write(phydev, MII_KSZPHY_INTCS, KSZPHY_INTCS_ALL);
- 	} else {
--		temp = 0;
--		err = phy_write(phydev, MII_KSZPHY_INTCS, temp);
-+		err = phy_write(phydev, MII_KSZPHY_INTCS, 0);
- 		if (err)
- 			return err;
- 
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 1785f1cead97..c0760cbf534b 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -3076,9 +3076,7 @@ EXPORT_SYMBOL_GPL(fwnode_get_phy_node);
+  * phy_probe - probe and init a PHY device
+  * @dev: device to probe and init
+  *
+- * Description: Take care of setting up the phy_device structure,
+- *   set the state to READY (the driver's init function should
+- *   set it to STARTING if needed).
++ * Take care of setting up the phy_device structure, set the state to READY.
+  */
+ static int phy_probe(struct device *dev)
+ {
 -- 
 2.30.2
 
