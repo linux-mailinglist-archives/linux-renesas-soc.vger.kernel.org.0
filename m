@@ -2,99 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7594B6B8792
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 02:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4776B8D19
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 09:21:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbjCNBZB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Mar 2023 21:25:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
+        id S229888AbjCNIVn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 04:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjCNBZA (ORCPT
+        with ESMTP id S229872AbjCNIVS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Mar 2023 21:25:00 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A51069CEC;
-        Mon, 13 Mar 2023 18:24:59 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id p13-20020a17090a284d00b0023d2e945aebso66888pjf.0;
-        Mon, 13 Mar 2023 18:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678757099;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9rQAj3RdmyLkPTq1oHtk9XKECnzrwmvjxGU7spr3bBY=;
-        b=IsUs0wHdJkILJGOuNdK4H9pKSoTih6KfR3UItAylXx0Q6bl8tgb0NJGrQQ5rIDt9CS
-         VvQly+sSQXUsPbOzMyUZ1WoLPfodkylq8BGvweIa3It6jKOU8vqhcmw4lMVddTr4CCxi
-         DY/rtelAiJiEA9BQRJiNQpBoL/4pkRP7CRJthoz5LYG0D0GVKP14rYP2JBoVh/FYYPD7
-         EhbN4XvzfVVvEPJR2tU75gFEXvHUNaxDb1IwKkLX7ap0dcGlTNSqOeksYZewF6w9LVkj
-         kOL0gIxT0tFXK2BrOVWNmScGl8wrpDfIx8z9DihSCBZgJO7rfLHvWpBkEuShHfhTrKIH
-         TRNg==
+        Tue, 14 Mar 2023 04:21:18 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 552F695E13;
+        Tue, 14 Mar 2023 01:20:15 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id r5so15905234qtp.4;
+        Tue, 14 Mar 2023 01:20:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678757099;
+        d=1e100.net; s=20210112; t=1678782014;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9rQAj3RdmyLkPTq1oHtk9XKECnzrwmvjxGU7spr3bBY=;
-        b=udGxMgUrM5MVY4WqhNd0DgVU0ABVBRFKlQo/XU86uDC/pouSpeCbh6Fo59/3PmPWqc
-         1oQokKaTMnR4/zu6kW4E83MXfEa82fbPEI63Jk75Oyc+RRS8D+Ir349YIAwOR7JVazVv
-         GfygRSFSRy+m6nkeZ7p+m0qR2MZQmc3UyKVUd23ao4bOzDKWmsScLHbYfpXg32JLgdcY
-         vhVVelhEVvQG9td5TOL9Ae28d1XFnTiskJ4BGWUqXPHFhz83+siKrKwGtPi1V/Wo6Jl7
-         vxXZtC9X5UQH2NpQt7mLLUchLouUjeVshwAM6JXnEuUZhNteEAIXdWjNltYELYyvGueE
-         r+1w==
-X-Gm-Message-State: AO0yUKUGfzeDbkxR4MsmpkBg3C3FGfzUsiDXh2+WUCU/0n29ezynbZ8t
-        B4Ws751Yp43ty5d4d1j5XhACWLJjpAn69uqNi2U=
-X-Google-Smtp-Source: AK7set8scFBkNmdlTDen93ONGYZBItUA1MFMdQtWl5NTgTqHlykVRUkzRW0cD7CsESKImmbhqRCkyAI7VYxNlvi3cHc=
-X-Received: by 2002:a17:902:f986:b0:1a0:4321:920e with SMTP id
- ky6-20020a170902f98600b001a04321920emr2435495plb.12.1678757098846; Mon, 13
- Mar 2023 18:24:58 -0700 (PDT)
+        bh=F4lI7q9jGUXAO8uwyJQW1pOS/OekqJ62OeVWS1QjDXo=;
+        b=pChzl4WF4vG8/B023IFFGU07jZ6u1W7FsZkzdP/nJ8jgfShReUbIYN1hSx7alOO8th
+         IafVsykxsqPpeSLmXGvyVd0ZXatz4Wv8wmSGyxShRNwbiSt1gj1VVCuj1TrwK/iwKGJ+
+         QV+nqAzzJfh1soz8J3RWUUkEWSZFMOAMcX0CYIwVa/FZQ3yO4CA/YHcUeMA9Vp0aQIeb
+         dTwXy0nRLb8RztL23viv6hiZejm/01oKYuUlNyuC5kwRpXvh4kO84x5bEcuLqs4ZPSix
+         CPd9wahpxq2gADovrvS1iSHH1odpXDzG4rmx9srCcrIbxoGdFlEZvWtV+fhIYdaib7Ne
+         zh6w==
+X-Gm-Message-State: AO0yUKXvZn9eD/Cd1z/3B4aH+Edd9m+FDf1eI5cXmsyivXWMH0NvkFGt
+        cPQaa10x5HcStmDi2BxdgejhBKJ4FaF2oA==
+X-Google-Smtp-Source: AK7set962J6QcB+c/GwoJ9V/s1IQe5RIZBCUm9yIyDHsUCKBiZ+AR7KBMlwUioGyZ1U7yEdty1AICg==
+X-Received: by 2002:a05:622a:1895:b0:3bf:b504:d5ea with SMTP id v21-20020a05622a189500b003bfb504d5eamr31503547qtc.48.1678782014341;
+        Tue, 14 Mar 2023 01:20:14 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 71-20020a37054a000000b007436d0e9408sm1293889qkf.127.2023.03.14.01.20.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Mar 2023 01:20:13 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id t4so14539774ybg.11;
+        Tue, 14 Mar 2023 01:20:13 -0700 (PDT)
+X-Received: by 2002:a05:6902:188:b0:a99:de9d:d504 with SMTP id
+ t8-20020a056902018800b00a99de9dd504mr22847227ybh.12.1678782013408; Tue, 14
+ Mar 2023 01:20:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230311180630.4011201-1-zyytlz.wz@163.com> <20230313153904.53647ad7@kernel.org>
-In-Reply-To: <20230313153904.53647ad7@kernel.org>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Tue, 14 Mar 2023 09:24:46 +0800
-Message-ID: <CAJedcCzPGSBrR9vPHaguPCdK-_6txyQNhiMDaqxKRMNC1Ky2yg@mail.gmail.com>
-Subject: Re: [PATCH net v3] net: ravb: Fix possible UAF bug in ravb_remove
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, s.shtylyov@omp.ru,
-        davem@davemloft.net, linyunsheng@huawei.com, edumazet@google.com,
-        pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com, richardcochran@gmail.com,
-        p.zabel@pengutronix.de, Biju Das <biju.das.jz@bp.renesas.com>,
-        phil.edworthy@renesas.com,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        geert+renesas@glider.be, yuehaibing@huawei.com,
-        linux-renesas-soc@vger.kernel.org
+References: <20230216175347.99778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230216175347.99778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXNrBCdLvMKK6kPbMLhSmuxXtd5A+Lt4J0ddVorODqCvw@mail.gmail.com>
+ <20230308230001.GF31765@pendragon.ideasonboard.com> <CA+V-a8uQ8fAc-F=7WokcH4otbap0F_ik9Dnw4GpB8ALdVRuWgg@mail.gmail.com>
+In-Reply-To: <CA+V-a8uQ8fAc-F=7WokcH4otbap0F_ik9Dnw4GpB8ALdVRuWgg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Mar 2023 09:20:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVbUqkHOxkJR7_QNa8zstwysHZ0vt45M3dimwQajVfuBA@mail.gmail.com>
+Message-ID: <CAMuHMdVbUqkHOxkJR7_QNa8zstwysHZ0vt45M3dimwQajVfuBA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Add OV5645 node
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> =E4=BA=8E2023=E5=B9=B43=E6=9C=8814=E6=97=
-=A5=E5=91=A8=E4=BA=8C 06:39=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, 12 Mar 2023 02:06:30 +0800 Zheng Wang wrote:
-> > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
->
-> You must CC all people involved in a commit if you put it as Fixes.
-Hi Jakub,
+Hi Prabhakar,
 
-Get it.
+On Mon, Mar 13, 2023 at 9:54 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Mar 8, 2023 at 10:59 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Mon, Mar 06, 2023 at 08:27:19PM +0100, Geert Uytterhoeven wrote:
+> > > On Thu, Feb 16, 2023 at 6:57 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > OV5645 sensor can be connected to the CN1 connector on the
+> > > > carrier board. This patch adds the ov5645 node under i2c0 node.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+> > > > @@ -6,6 +6,10 @@
+> > > >   */
+> > > >
+> > > >  /dts-v1/;
+> > > > +
+> > > > +/* comment the #define statement if OV5645 is not connected to CN1  */
+> > > > +#define CAM_INTERFACE_OV5645   1
+> > >
+> > > I believe the camera is optional ("can be connector" above).
+> > > So shouldn't this be commented out by default?
+> >
+> > Even better, could you turn this into a DT overlay ?
+> >
+> Please let me know your thoughts on this.
 
-> Are you using the get_maintainer.pl script?
-> How do you call in exactly?
+I agree with Laurent.
 
-Yes, I used this script to find developers involved but It seems that
-I unintentionally forgot to CC some people.
+Gr{oetje,eeting}s,
 
-I apologize for my offense for everyone exclued in the list.
+                        Geert
 
-Thanks,
-Zheng
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
