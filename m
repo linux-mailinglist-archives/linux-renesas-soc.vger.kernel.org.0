@@ -2,84 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C43C86B9681
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 14:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D63776B95E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 14:19:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbjCNNkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 09:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50000 "EHLO
+        id S232112AbjCNNTW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 09:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbjCNNkV (ORCPT
+        with ESMTP id S231675AbjCNNSp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 09:40:21 -0400
+        Tue, 14 Mar 2023 09:18:45 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B4E11672
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 06:37:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E3462850
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 06:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=chZ0p5pooJS4l4YVMMk5XQCw6WQ
-        YkRgYzRIcOGy//iI=; b=skYzw9ae+naIVGKOtiCxPExRevoCb639GcELbkWhjEq
-        iyQgI1IohL0zZYkNCoEsMiAAlI8UCETPR4aTqMvjhLBdN68cls6j77fcU3hb+JHa
-        kQOH2foqvl7cxQQ8IVY+T10liSWGJSyMnuIl5IjCNjueyW2AerZSgyjIAcTIzrb8
+        :content-transfer-encoding; s=k1; bh=Tsk4wHMeWOvTFQfbreaoPUX9miB
+        BnSXXC9+icfM7WVE=; b=XJEpL3JliV7UzxDue4nodoey51u7PoDDDKrZD0gbx3V
+        AizTC+OfdupQt7y5GvIs3V1OtttbzOWFC6MF51u4MHkO0bQ4dX02ea92gnQIxpG7
+        RlUoV62RXRwbgwAaWSXnVGOx0XqgZwXMWP1uOvyE9Gl21YcBQIUY7pX52GgfRUpk
         =
-Received: (qmail 3103630 invoked from network); 14 Mar 2023 13:48:58 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2023 13:48:58 +0100
-X-UD-Smtp-Session: l3s3148p1@5Cawptv2pOwujnvb
+Received: (qmail 3111535 invoked from network); 14 Mar 2023 14:14:55 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Mar 2023 14:14:55 +0100
+X-UD-Smtp-Session: l3s3148p1@PKN/A9z2is0ujnvb
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     netdev@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
+Cc:     linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [RESEND net-next] net: phy: update obsolete comment about PHY_STARTING
-Date:   Tue, 14 Mar 2023 13:48:56 +0100
-Message-Id: <20230314124856.44878-1-wsa+renesas@sang-engineering.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net 0/4] net: set 'mac_managed_pm' at probe time
+Date:   Tue, 14 Mar 2023 14:14:38 +0100
+Message-Id: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit 899a3cbbf77a ("net: phy: remove states PHY_STARTING and
-PHY_PENDING") missed to update a comment in phy_probe. Remove
-superfluous "Description:" prefix while we are here.
+When suspending/resuming an interface which was not up, we saw mdiobus
+related PM handling despite 'mac_managed_pm' being set for RAVB/SH_ETH.
+Heiner kindly suggested the fix to set this flag at probe time, not at
+init/open time. I implemented his suggestion and it works fine on these
+two Renesas drivers. These are patches 1+2.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Heiner Kallweit <hkallweit1@gmail.com>
----
+I then looked which other drivers could be affected by the same problem.
+I could only identify two where I am quite sure. Because I don't have
+any HW, I opted to at least add a FIXME and send this out as patches
+3+4. Ideally, they will never need to go upstream because the relevant
+people will see their patch and do something like I did for patches 1+2.
 
-Only tag added since last time.
+Looking forward to comments. Thanks and happy hacking!
 
- drivers/net/phy/phy_device.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 1785f1cead97..c0760cbf534b 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -3076,9 +3076,7 @@ EXPORT_SYMBOL_GPL(fwnode_get_phy_node);
-  * phy_probe - probe and init a PHY device
-  * @dev: device to probe and init
-  *
-- * Description: Take care of setting up the phy_device structure,
-- *   set the state to READY (the driver's init function should
-- *   set it to STARTING if needed).
-+ * Take care of setting up the phy_device structure, set the state to READY.
-  */
- static int phy_probe(struct device *dev)
- {
+Wolfram Sang (4):
+  ravb: avoid PHY being resumed when interface is not up
+  sh_eth: avoid PHY being resumed when interface is not up
+  fec: add FIXME to move 'mac_managed_pm' to probe
+  smsc911x: add FIXME to move 'mac_managed_pm' to probe
+
+ drivers/net/ethernet/freescale/fec_main.c |  1 +
+ drivers/net/ethernet/renesas/ravb_main.c  | 12 ++++++++++--
+ drivers/net/ethernet/renesas/sh_eth.c     | 12 ++++++++++--
+ drivers/net/ethernet/smsc/smsc911x.c      |  1 +
+ 4 files changed, 22 insertions(+), 4 deletions(-)
+
 -- 
 2.30.2
 
