@@ -2,99 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96C416B8DAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 09:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E0526B8E01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:01:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbjCNImo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 04:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
+        id S230336AbjCNJAu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 05:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229899AbjCNIml (ORCPT
+        with ESMTP id S230455AbjCNJAo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 04:42:41 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFAAB2822D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 01:42:23 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5445009c26bso64825677b3.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 01:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678783343;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RyfJlLPgjERQcTzZdEIvIGdNCCYbhGHEmYJcVkMFQx8=;
-        b=sAKlkh+PD8fSIcuCtZF3dp6H2rffw4yT6e/1S6gniQdexILJ4kNwGDKmWE5Yb/Z7Rf
-         J4nTSihP/wcKeEb6OlFGId6CldujUB2jfNkKJeQbZ6IiUWPQMMvrf9RiTBt+BYPnMoml
-         WFEgS1t8TaPpiy5QmNNUqbegmtn22gfHHQsS+L1o1/r07vxUdHth+NZsPgfAZkx3bfX6
-         SPmw2tAfweH/Mjyc0qIY35493OZu49je1M6yqTLgmbIeu3UnB7McqZKb+J1xX1be+Rs9
-         SMo8GVkG//UPQL5EZSObC//ZwnqvROh9sHb1IqA8UabHg/d3I77dZAxJhP5h6npQE9Hg
-         YA0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678783343;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RyfJlLPgjERQcTzZdEIvIGdNCCYbhGHEmYJcVkMFQx8=;
-        b=lhGtBgKooXRDHGbVlREkaEf7cB4DQo53rVaiNM53HzR3OBmJTkxBgF3Gynp4V13Wji
-         QkSBuHIafPKCxqQjcp2azKH2k0RNbrY8f4H3WjIu6Qo3sMhNV3rezLAEZgLfyCM39haT
-         25YprR5wjw6Ftsqba0sU0W5d4pQmsbtQl7/jDlXAcJy0BapBJDL01CMNngEPZJVtSRxK
-         oTz8N7xQmV3M9Ew7D8CTdlHkJM0u4/hPXywIHYpI/oHj4ZFlkaZWnADhSilpMiUrVhP2
-         MfhG4DmCOO/7fSlZezMOL/2mS+40oaGIXshucGBl+ayXK3F6c1TUVD6dpjTBNsCXRoha
-         oQZA==
-X-Gm-Message-State: AO0yUKV3BviIl66gDZX/lL2dLw5ZCwh8CqFGUmifDcnFr/6YJSn0TtWg
-        o4XHhLZZYm87+PBS/rXEpKFn1kFXlFmYs5FcemE25Q==
-X-Google-Smtp-Source: AK7set+5W+F4WPOOqhDRx4CVAT8IMDCIBpyCU/Ol0rUg1nVe96Ns9ilnkVMyyby2mh6+/aPqtuVgkHjoUuUWlWwpiPc=
-X-Received: by 2002:a81:b605:0:b0:541:9895:4ce9 with SMTP id
- u5-20020a81b605000000b0054198954ce9mr4816352ywh.9.1678783342936; Tue, 14 Mar
- 2023 01:42:22 -0700 (PDT)
+        Tue, 14 Mar 2023 05:00:44 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9579385D
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:00:32 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by xavier.telenet-ops.be with bizsmtp
+        id Y90U290011C8whw0190UJp; Tue, 14 Mar 2023 10:00:29 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pc0Va-00C9G1-Er;
+        Tue, 14 Mar 2023 10:00:27 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pc0WB-00AlNE-QE;
+        Tue, 14 Mar 2023 10:00:27 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] can: rcar_canfd: Improve error messages
+Date:   Tue, 14 Mar 2023 10:00:26 +0100
+Message-Id: <e67f2f58d00faeba74558ae2696aa22cd0897740.1678784404.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
- <20230306090014.128732-2-biju.das.jz@bp.renesas.com> <ZAZ4LY+xG2LGiHwh@surfacebook>
- <OS0PR01MB5922EA0703F259A99C157D3286B79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75Vd6qTG67_1DGiemy8n-mQn=9kiGrC0rEYw2XO0rm4Tbag@mail.gmail.com>
- <OS0PR01MB59224CECBB888ADC9214145286B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75VfDL74cEUQkxC1JuUB7SS1vYTPj_K7+VkQ-i-MKXad5Lw@mail.gmail.com>
- <OS0PR01MB5922CC51889D094129820C0C86B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CACRpkdZS5UKc7bDPs-zx_QyJU9GwJAhB7372oSC9tB-txgghtw@mail.gmail.com> <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 14 Mar 2023 09:42:11 +0100
-Message-ID: <CACRpkdbLonPgBMD6f2Rc-E3sFtMhoc0Mzt00uTUmiAnx59JC2Q@mail.gmail.com>
-Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 9:27 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+Improve printed error messages:
+  - Replace numerical error codes by mnemotechnic error codes, to
+    improve the user experience in case of errors,
+  - Drop parentheses around printed numbers, cfr.
+    Documentation/process/coding-style.rst,
+  - Drop printing of an error message in case of out-of-memory, as the
+    core memory allocation code already takes care of this.
 
-> If we cannot do it in user space, then we need to make it as part of
-> Dt bindings and users will define the use case they need in DT.
+Suggested-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+This is v2 of "[PATCH] can: rcar_canfd: Print mnemotechnic error codes".
+I haven't added any tags given on v1, as half of the printed message
+changed.
 
-That sounds like a much better idea :)
+This depends on "[PATCH v2] can: rcar_canfd: Add transceiver support"
+https://lore.kernel.org/r/e825b50a843ffe40e33f34e4d858c07c1b2ff259.1678280913.git.geert+renesas@glider.be
+---
+ drivers/net/can/rcar/rcar_canfd.c | 43 +++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 22 deletions(-)
 
-The kernel is for protecting hardware from users after all, and it
-seems you want to select one of these use cases and DT is
-excellent for system config like this.
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index 6df9a259e5e4f92c..ecdb8ffe2f670c9b 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -1417,20 +1417,20 @@ static int rcar_canfd_open(struct net_device *ndev)
+ 
+ 	err = phy_power_on(priv->transceiver);
+ 	if (err) {
+-		netdev_err(ndev, "failed to power on PHY, error %d\n", err);
++		netdev_err(ndev, "failed to power on PHY, %pe\n", ERR_PTR(err));
+ 		return err;
+ 	}
+ 
+ 	/* Peripheral clock is already enabled in probe */
+ 	err = clk_prepare_enable(gpriv->can_clk);
+ 	if (err) {
+-		netdev_err(ndev, "failed to enable CAN clock, error %d\n", err);
++		netdev_err(ndev, "failed to enable CAN clock, %pe\n", ERR_PTR(err));
+ 		goto out_phy;
+ 	}
+ 
+ 	err = open_candev(ndev);
+ 	if (err) {
+-		netdev_err(ndev, "open_candev() failed, error %d\n", err);
++		netdev_err(ndev, "open_candev() failed, %pe\n", ERR_PTR(err));
+ 		goto out_can_clock;
+ 	}
+ 
+@@ -1731,10 +1731,9 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+ 	int err = -ENODEV;
+ 
+ 	ndev = alloc_candev(sizeof(*priv), RCANFD_FIFO_DEPTH);
+-	if (!ndev) {
+-		dev_err(dev, "alloc_candev() failed\n");
++	if (!ndev)
+ 		return -ENOMEM;
+-	}
++
+ 	priv = netdev_priv(ndev);
+ 
+ 	ndev->netdev_ops = &rcar_canfd_netdev_ops;
+@@ -1777,8 +1776,8 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+ 				       rcar_canfd_channel_err_interrupt, 0,
+ 				       irq_name, priv);
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq CH Err(%d) failed, error %d\n",
+-				err_irq, err);
++			dev_err(dev, "devm_request_irq CH Err %d failed, %pe\n",
++				err_irq, ERR_PTR(err));
+ 			goto fail;
+ 		}
+ 		irq_name = devm_kasprintf(dev, GFP_KERNEL, "canfd.ch%d_trx",
+@@ -1791,8 +1790,8 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+ 				       rcar_canfd_channel_tx_interrupt, 0,
+ 				       irq_name, priv);
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq Tx (%d) failed, error %d\n",
+-				tx_irq, err);
++			dev_err(dev, "devm_request_irq Tx %d failed, %pe\n",
++				tx_irq, ERR_PTR(err));
+ 			goto fail;
+ 		}
+ 	}
+@@ -1823,7 +1822,7 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+ 	gpriv->ch[priv->channel] = priv;
+ 	err = register_candev(ndev);
+ 	if (err) {
+-		dev_err(dev, "register_candev() failed, error %d\n", err);
++		dev_err(dev, "register_candev() failed, %pe\n", ERR_PTR(err));
+ 		goto fail_candev;
+ 	}
+ 	dev_info(dev, "device registered (channel %u)\n", priv->channel);
+@@ -1967,16 +1966,16 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 				       rcar_canfd_channel_interrupt, 0,
+ 				       "canfd.ch_int", gpriv);
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
+-				ch_irq, err);
++			dev_err(dev, "devm_request_irq %d failed, %pe\n",
++				ch_irq, ERR_PTR(err));
+ 			goto fail_dev;
+ 		}
+ 
+ 		err = devm_request_irq(dev, g_irq, rcar_canfd_global_interrupt,
+ 				       0, "canfd.g_int", gpriv);
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
+-				g_irq, err);
++			dev_err(dev, "devm_request_irq %d failed, %pe\n",
++				g_irq, ERR_PTR(err));
+ 			goto fail_dev;
+ 		}
+ 	} else {
+@@ -1985,8 +1984,8 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 				       "canfd.g_recc", gpriv);
+ 
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
+-				g_recc_irq, err);
++			dev_err(dev, "devm_request_irq %d failed, %pe\n",
++				g_recc_irq, ERR_PTR(err));
+ 			goto fail_dev;
+ 		}
+ 
+@@ -1994,8 +1993,8 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 				       rcar_canfd_global_err_interrupt, 0,
+ 				       "canfd.g_err", gpriv);
+ 		if (err) {
+-			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
+-				g_err_irq, err);
++			dev_err(dev, "devm_request_irq %d failed, %pe\n",
++				g_err_irq, ERR_PTR(err));
+ 			goto fail_dev;
+ 		}
+ 	}
+@@ -2012,14 +2011,14 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 	/* Enable peripheral clock for register access */
+ 	err = clk_prepare_enable(gpriv->clkp);
+ 	if (err) {
+-		dev_err(dev, "failed to enable peripheral clock, error %d\n",
+-			err);
++		dev_err(dev, "failed to enable peripheral clock, %pe\n",
++			ERR_PTR(err));
+ 		goto fail_reset;
+ 	}
+ 
+ 	err = rcar_canfd_reset_controller(gpriv);
+ 	if (err) {
+-		dev_err(dev, "reset controller failed\n");
++		dev_err(dev, "reset controller failed, %pe\n", ERR_PTR(err));
+ 		goto fail_clk;
+ 	}
+ 
+-- 
+2.34.1
 
-So I would say work ahead on this path.
-
-Yours,
-Linus Walleij
