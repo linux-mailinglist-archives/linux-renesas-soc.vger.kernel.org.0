@@ -2,62 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6969B6BE059
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 06:00:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A732E6BE186
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 07:48:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjCQFAg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 01:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51336 "EHLO
+        id S230154AbjCQGsc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 02:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjCQFAf (ORCPT
+        with ESMTP id S230171AbjCQGsa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 01:00:35 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660B14E5D6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 22:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=XqB12is+kKUQInBlIS2SuiteZwZo
-        5y3HKbz0OXT3cB8=; b=Nw7+UxfHAqvfkzXwnvjFT20v507LE2gl58Ld0oEBasXz
-        oUVbde5VlPSewH55So9G2xcWSPkr6zFJ0FvvB8G+O21omvXna9ZcYtf5fjSeFLYk
-        fyEilLpwA4kcDr3G99bXcV0K/t09bDFkByMpTsnxFDL0E82DxVHh17nNm889d9I=
-Received: (qmail 4104850 invoked from network); 17 Mar 2023 06:00:27 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2023 06:00:27 +0100
-X-UD-Smtp-Session: l3s3148p1@KwmDdBH33ogujnvb
-Date:   Fri, 17 Mar 2023 06:00:24 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] Revert "net: smsc911x: Make Runtime PM handling more
- fine-grained"
-Message-ID: <ZBPz6Ads0dOT8ceT@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        linux-kernel@vger.kernel.org
-References: <20230316074558.15268-1-wsa+renesas@sang-engineering.com>
- <20230316074558.15268-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdURZ-nC-yZua1wGCcW++fDhgd-U93KP3PT5v6cbm8305A@mail.gmail.com>
+        Fri, 17 Mar 2023 02:48:30 -0400
+Received: from sragenkab.go.id (mail.sragenkab.go.id [103.172.109.4])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 2D2DF3FB8F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 23:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sragenkab.go.id;
+         h=mime-version:content-type:content-transfer-encoding:date:from
+        :to:subject:reply-to:message-id; q=dns/txt; s=dkim1; bh=QGcIAmD5
+        O/Y9qXzDV8MxyimbsW3+rMaQ/kz75GzBHbk=; b=zKREKC2xJMJ273cI0jRwZw8A
+        9YEa6wA4NkFFtpEKmdsfefLnnPjrVfV0rBzBI4wbJ8x0HBqz5G0V2kR9E0DWKaTN
+        FcK1E8mUUEZrAy+pWfvVM6g1HuRTUmSpMFIyLaVn3uozhXiuVoFePfv8hoepybP0
+        9V7RKqaWcMe8waRF15+ZO24GPYOc1OqqRN8OL283t5gnKXslBiV90x32BT53jqrv
+        KAoA9kofvQrmK11pwwIAB/LSP5kRjOLhHBOX9gkIAT6PNtI510b3t/Tvxyjeo77V
+        hA2P7IY3bQ2e/9i5zROGqw3+R5a7Qp6XLLjbYqjWEvGvQ90ZhN2jdlIu1z3P6A==
+Received: (qmail 63985 invoked from network); 14 Mar 2023 19:51:07 -0000
+Received: from localhost (HELO mail2.sragenkab.go.id) (127.0.0.1)
+  by localhost with SMTP; 14 Mar 2023 19:51:07 -0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SS7CshjXnRjbyo7D"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdURZ-nC-yZua1wGCcW++fDhgd-U93KP3PT5v6cbm8305A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 14 Mar 2023 12:51:06 -0700
+From:   Ibrahim Tafa <jurnalsukowati@sragenkab.go.id>
+To:     undisclosed-recipients:;
+Subject: LOAN OPPORTUNITY AT LOW-INTEREST RATE>/
+Reply-To: <ibrahimtafa@abienceinvestmentsfze.com>
+Mail-Reply-To: <ibrahimtafa@abienceinvestmentsfze.com>
+Message-ID: <11771ddb8e306d95f5b3116ea710d3df@sragenkab.go.id>
+X-Sender: jurnalsukowati@sragenkab.go.id
+User-Agent: Roundcube Webmail/0.8.1
+X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,SUBJ_ALL_CAPS,UNDISC_MONEY,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -65,45 +52,18 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---SS7CshjXnRjbyo7D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+-- 
+Greetings,
+   I am contacting you based on the Investment/Loan opportunity for 
+companies in need of financing a project/business, We have developed a 
+new method of financing that doesn't take long to receive financing from 
+our clients.
+    If you are looking for funds to finance your project/Business or if 
+you are willing to work as our agent in your country to find clients in 
+need of financing and earn commissions, then get back to me for more 
+details.
 
-> In sh_eth this was fixed differently, by adding a check for
-> mdp->is_opened to sh_eth_get_stats() [1].
-> I believe the modern way would be to add a check for netif_running()
-> instead.
->=20
-> Would adding such a check to smsc911x_get_stats() work for you, too?
-
-Yeah, that worked. Thank you! I'll send v2 soon.
-
-Happy hacking,
-
-   Wolfram
-
-
---SS7CshjXnRjbyo7D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQT8+QACgkQFA3kzBSg
-KbZ0JBAAkAPwb+0C+ARVJB1Al8Hhln5uG1ezKfroDEoHiiUQCE+RgLbnfd5r7PLc
-XU30ZgvwuS5/G7fVphgY3hPIp8oO3sI6Hms1wkvb/lcHvheyeejZB0HHxLcaebdJ
-FgqkC7UUZ3ltC6xHgjVgJDPrI2tZH0sNPtzNRLmQ3vvD2YMeU6NZWSuHNIt82YFM
-EPUdVOwBFm3V/M0PF6MkCrCA6e/R93wHvSeYjJbNdxQ840bWieTCTRTrbLtMVkjz
-Gk4BnMElJcOPVyE9wpcdMgoU8DJ6H55wUpq2ACc9nY6d225VQU/z+Du70vpPZSlD
-/of0x6ScFRigLQ2NDJTiWWKIzDh/bA/yKa482UZVimmQeUySnMCcyB/IM9cFWPnT
-4znt9odurbULOtS9uBY8VgL0LZYdlHSJwQExYus7w8yuKXZW+iMWLC1bhOIto7GN
-MZCX3NSo3RLYRTp/lM4Px3xNdJoTqhSuozGfjqB/mGuyGAthdeR8uzucb+p7R/U4
-vPKgIXgMb1QNdURHTMnjVLB/oXCYahGPxbd1dEfJkiJCIVmHXANYXaloZz5G2hD5
-Mjbo87rMguJM61xK6j1WrkUXalGGl5a9uMUZyJUVU0x5SNOsR1pAVq8rqmc2XCK6
-2HqoU2JCy7JL2uzMNu89Sz1SatUoEjTgs0Y0vxfxUil3cBbHpeg=
-=aRKd
------END PGP SIGNATURE-----
-
---SS7CshjXnRjbyo7D--
+Regards,
+Ibrahim Tafa
+ABIENCE INVESTMENT GROUP FZE, United Arab Emirates
