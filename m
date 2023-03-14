@@ -2,121 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6AE96B8E25
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF7B6B8ED0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbjCNJGp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 05:06:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36582 "EHLO
+        id S230092AbjCNJdZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 05:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbjCNJGo (ORCPT
+        with ESMTP id S230209AbjCNJdY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 05:06:44 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F8598EA7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id k18-20020a17090a591200b0023d36e30cb5so1588697pji.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678784772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
-        b=ta4LarLUW8GVYewL3V7G52f2PnqeptY/XG+Xj++LeAYExfggHPOU6rG3/4/3rQXG+n
-         AzvmQ2wQl0ABLmLB+j8uqP96pHc5Kxv0AojIqlYpcGB1hUHvyyK276Yy6PoiJmTkGYcu
-         zGJWJSkXkAHoByUCG6b1z7gylywfPo1un+ivuW9QzU19dOPVUL+TdFCv2jh27+uFdlUv
-         7c7ZUWQY8PPanuRhSoHepXGS5nc7Tm/aIJfcWW/45typlJNAf25mejQ/TUovv4vr0E7i
-         ZjaKWWdJFJ1ZCo3L2LxQbfB4xP8RlcaiME0yAjDtKQXdfMsvfTAldgKplyZxAWY1yeil
-         yyWg==
+        Tue, 14 Mar 2023 05:33:24 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39B16B32E;
+        Tue, 14 Mar 2023 02:33:21 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id s12so15980938qtq.11;
+        Tue, 14 Mar 2023 02:33:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678784772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678786400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
-        b=NSD9PYSnA7h6XB8960YhgJk9TjvQ6Owad2aQylvsxNpVm0q5A8bVu/WHKLBVnZpSTK
-         wKNE7VoF7+AvhyIcUGcj9iC/RMG29UmLO+oizbm3Sr2EoM/8eI4r8ImBaBS6sw/5AYWb
-         Q2CHewUzvY0xiY+ZRPOPF9rn9CN5ry2KxLD2iSR7DK5IkxWa8Pu58NCQHk7rL36cmdBm
-         dncM+ABBPkfUuOQUzoo+IVDKtXJ1Q+M+nNLIkipxE9HCEiDhY/B1yU7PSQlLXOtpD8XA
-         AwEd3R3e/jaIZvDSgTtzlHiwqIDeBi+vzLn1ARC0j77sHlbcGDkDfAQPihItdaN3Na1B
-         FVEQ==
-X-Gm-Message-State: AO0yUKVDWfnBWlnMlCgI1bKff7mBiCZ40VcJST9l4ftZxT8e6axIdro/
-        43KeJSOY4NOF+M272cQ6VmwvYA==
-X-Google-Smtp-Source: AK7set/XpT6XzJflkOougYbJXIWlZCBg7D1MY8N+0OWLt8IZY2LG8a7E83HVnkqfAtO3xcf+IpKViQ==
-X-Received: by 2002:a17:902:d4cc:b0:19a:b033:2bb0 with SMTP id o12-20020a170902d4cc00b0019ab0332bb0mr43699652plg.46.1678784771688;
-        Tue, 14 Mar 2023 02:06:11 -0700 (PDT)
-Received: from localhost.localdomain ([49.206.34.126])
-        by smtp.gmail.com with ESMTPSA id kv3-20020a17090328c300b0019c919bccf8sm1254131plb.86.2023.03.14.02.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 02:06:10 -0700 (PDT)
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-To:     u.kleine-koenig@pengutronix.de
-Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
-        alexandre.torgue@foss.st.com,
-        angelogioacchino.delregno@collabora.com,
-        bcm-kernel-feedback-list@broadcom.com, bleung@chromium.org,
-        chrome-platform@lists.linux.dev, claudiu.beznea@microchip.com,
-        conor.dooley@microchip.com, cw00.choi@samsung.com,
-        daire.mcnamara@microchip.com, eddie.huang@mediatek.com,
-        f.fainelli@gmail.com, groeck@chromium.org, jonathanh@nvidia.com,
-        kernel@pengutronix.de, krzysztof.kozlowski@linaro.org,
-        kumba@gentoo.org, linus.walleij@linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-rtc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, matthias.bgg@gmail.com,
-        mcoquelin.stm32@gmail.com, michal.simek@xilinx.com,
-        miquel.raynal@bootlin.com, nicolas.ferre@microchip.com,
-        patches@opensource.cirrus.com, sean.wang@mediatek.com,
-        thierry.reding@gmail.com, ulli.kroll@googlemail.com,
-        vincent.sunplus@gmail.com, vz@mleia.com,
-        Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: [PATCH 00/41] rtc: Convert to platform remove callback returning void
-Date:   Tue, 14 Mar 2023 14:35:57 +0530
-Message-Id: <20230314090557.41960-1-naresh.kamboju@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
-References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+        bh=V7XbWMDY02aVFXblAgDLLKxMSPg9BGDC2vsGo+cpiDY=;
+        b=0jCBGej6i/aM/rmVVH76hH4X9IP2rViL0TCu06tpZeR22prwQs/KhQhbcttD7++H7t
+         NVf8fim9uqaoZzPZ2gEKoWCduLFkmWI37yKjZdwKPM+K5DIgHQGqjfyIU/0EM4M36yYS
+         plryRGSSPYRXKrqfF9qJ9CD+rbxtGGT8GMBgex1/4pCM8x1nUA8HMu3cO1uN/tGvbaBa
+         2jbF/cAilzjAOMilUoejbasvrg94Rca7Z+dfgPwhTxGELfpTkfrCWrM9DiRHvQsFgsgm
+         Lzjft9KEmwI+PZx7DJ04KxPHdqwof3bJQcWYFgHq8n899Nmv6IEAyPKO+5TtwT3qffkr
+         vCKQ==
+X-Gm-Message-State: AO0yUKVljzbOn+NTG4jk76YDriE7Y6ZbvuwNBwmu6LdRL546PefuyRT7
+        ot9xaQpHesK+9QHbZt9lwFrDUBOwt4C2Uw==
+X-Google-Smtp-Source: AK7set84z2AQkm1zV5ltJHpNZZHTlGsXadh9E9qFmnzzCxUG2cZMIdZv+k4kO8PRYgBMLpUdibhrBA==
+X-Received: by 2002:ac8:7dc9:0:b0:3d2:3257:215c with SMTP id c9-20020ac87dc9000000b003d23257215cmr2472187qte.42.1678786400580;
+        Tue, 14 Mar 2023 02:33:20 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id i7-20020a378607000000b007422eee8058sm1386655qkd.125.2023.03.14.02.33.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Mar 2023 02:33:19 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-536af432ee5so293441857b3.0;
+        Tue, 14 Mar 2023 02:33:19 -0700 (PDT)
+X-Received: by 2002:a81:ae18:0:b0:52e:b22b:f99 with SMTP id
+ m24-20020a81ae18000000b0052eb22b0f99mr24440964ywh.4.1678786399207; Tue, 14
+ Mar 2023 02:33:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
+ <20230306090014.128732-2-biju.das.jz@bp.renesas.com> <ZAZ4LY+xG2LGiHwh@surfacebook>
+ <OS0PR01MB5922EA0703F259A99C157D3286B79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75Vd6qTG67_1DGiemy8n-mQn=9kiGrC0rEYw2XO0rm4Tbag@mail.gmail.com>
+ <OS0PR01MB59224CECBB888ADC9214145286B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAHp75VfDL74cEUQkxC1JuUB7SS1vYTPj_K7+VkQ-i-MKXad5Lw@mail.gmail.com>
+ <OS0PR01MB5922CC51889D094129820C0C86B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CACRpkdZS5UKc7bDPs-zx_QyJU9GwJAhB7372oSC9tB-txgghtw@mail.gmail.com> <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Mar 2023 10:33:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXqXg7xa3wvk3hvoxUAD+sg_OD-QpAXDpm8qdvuuDK4Rw@mail.gmail.com>
+Message-ID: <CAMuHMdXqXg7xa3wvk3hvoxUAD+sg_OD-QpAXDpm8qdvuuDK4Rw@mail.gmail.com>
+Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> Hello,
-> 
-> this patch series adapts the platform drivers below drivers/rtc to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver core
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warning. The
-> device is removed anyhow and an early return from .remove() usually yields a
-> resource leak.
+Hi Biju,
 
-This patch set applied on top of Linux next.
+On Tue, Mar 14, 2023 at 9:27 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
+> > On Thu, Mar 9, 2023 at 3:19 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > I have an IP which detects short circuit between the output terminals
+> > > and disable the output from pwm pins ,when it detects short circuit to
+> > > protect from system failure.
+> > >
+> > > pwm-pins are involved in this operation.
+> > >
+> > > From user space we need to configure the type of protection for this
+> > > pins (eg: disable PWM output, when both pwm outputs are high at same
+> > time).
+> >
+> > Why do you want to do this from user space?
+>
+> To take care of the below features provided by Port Output Enable for GPT(a.k.a PWM)
+> (POEG) IP.
+>
+> The output pins of the general PWM timer (GPT) can be disabled by
+> using the port output enabling function for the GPT (POEG).
+> Specifically, either of the following ways can be used[1].
+>
+> [1]
+>
+> Use case 1)
+> ● Input level detection of the GTETRGA to GTETRGD pins (i.e: detect short circuit in switching circuit
+> externally and use an external pin(GTETRGA to GTETRGD) to disable the output pins of PWM)
+>
+> Use case 2)
+> ● Output-disable request from the GPT (GPT detects short circuit in switching circuit internally and
+> disable the output pins of PWM)
+>
+> Use case 3)
+> ● Register settings(Detect short circuit in switching circuit
+> externally and use internal register to disable the output pins of PWM)
+>
+> The advantage of providing these options from user space is, it is flexible.
+> Runtime user can configure the use case he wants to use for his product.
+>
+> +Rob, + Krzysztof Kozlowski
+>
+> If we cannot do it in user space, then we need to make it as part of
+> Dt bindings and users will define the use case they need in DT.
+>
+> Some of the failure conditions in switching circuits are like below
+>
+> when you use PWM push-pull configuration you SHOULD have a dead time.
+> When + mosfet is turned off - mosfet can't be immediately turned on
+> because you will create a direct path (short circuit) between + and -
+> as parasitic capacitance will leave + mosfet turned on for a while .
+> This will destroy your mosfets.
+>
+> Dead time is the delay measured from turning off the driver switch
+> connected to one rail of the power supply to the time the switch
+> connected to the other rail of the power supply is turned on.
+> Switching devices like MOSFETs and IGBTs turn off after a delay
+> when the gate drive is turned off. If the other switch on the half
+> bridge is turned on immediately, both upper and lower switches may be
+> in a conductive region for a brief moment, shorting the power rail.
+> In order to avoid this, a dead time is maintained between turning off
+> of one switch and turning on the other in a half bridge.
+>
+> POEG IP provides the below protections,
+>
+> 1) When the GTIOCA pin and the GTIOCB pin(PWM pins) are driven to an active level simultaneously, the
+> PWM generates an output-disable request to the POEG. Through reception of these requests,
+> the POEG can control whether the GTIOCA and GTIOCB pins are output-disabled
+>
+> 2) PWM output pins can be set to be disabled when the PWM output pins detect a dead time error
+> or short circuit detection between the output terminals
+>
+> >
+> > It sounds like something the kernel should be doing.
+>
+> If we cannot do the above use cases[1] in user space, then we need to make it as part of
+> Dt bindings and it will be fully taken care in kernel.
+>
+> >
+> > The kernel has a PWM subsystem, and a pin control subsystem, and we don't
+> > even have a userspace ABI for pin control.
+> > Pin control is designed to avoid electrical disasters and a driver can add
+> > further policy for sure.
+> >
+> > If you want to add policy of different types to avoid electrical disaster
+> > into the pin control driver, go ahead, just run it by Geert so he's on board
+> > with the ideas.
+>
+> OK. Geert Can you please provide valuable suggestion how to address this use cases[1]
+> As mentioned above?
 
-Build tested with gcc-12, clang-16 and clang nightly.
-Boot and LTP smoketests performed on
- - qemu-x86_64
- - qemu-arm64
- - fvp-aemva
- - qemu-armv7
- - qemu-i386
+Is this configuration you need to do once, based on the hardware,
+or do you need to change it at run-time?
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Before, I was under the impression you needed to change the
+configuration at run-time, hence the need for a sysfs API.
+If configuration is static, DT is the way to go.
 
-Link,
-https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-arm-kernel_20230304133028_2135435-1-u_kleine-koenig_pengutronix_de/?failures_only=false#!#test-results
+Gr{oetje,eeting}s,
 
---
-Linaro LKFT
-https://lkft.linaro.org
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
