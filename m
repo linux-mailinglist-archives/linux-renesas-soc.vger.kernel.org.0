@@ -2,206 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0526B8E01
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6AE96B8E25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:06:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbjCNJAu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 05:00:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
+        id S230454AbjCNJGp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 05:06:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjCNJAo (ORCPT
+        with ESMTP id S230475AbjCNJGo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 05:00:44 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9579385D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:00:32 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by xavier.telenet-ops.be with bizsmtp
-        id Y90U290011C8whw0190UJp; Tue, 14 Mar 2023 10:00:29 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pc0Va-00C9G1-Er;
-        Tue, 14 Mar 2023 10:00:27 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pc0WB-00AlNE-QE;
-        Tue, 14 Mar 2023 10:00:27 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] can: rcar_canfd: Improve error messages
-Date:   Tue, 14 Mar 2023 10:00:26 +0100
-Message-Id: <e67f2f58d00faeba74558ae2696aa22cd0897740.1678784404.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 14 Mar 2023 05:06:44 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F8598EA7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id k18-20020a17090a591200b0023d36e30cb5so1588697pji.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 02:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678784772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
+        b=ta4LarLUW8GVYewL3V7G52f2PnqeptY/XG+Xj++LeAYExfggHPOU6rG3/4/3rQXG+n
+         AzvmQ2wQl0ABLmLB+j8uqP96pHc5Kxv0AojIqlYpcGB1hUHvyyK276Yy6PoiJmTkGYcu
+         zGJWJSkXkAHoByUCG6b1z7gylywfPo1un+ivuW9QzU19dOPVUL+TdFCv2jh27+uFdlUv
+         7c7ZUWQY8PPanuRhSoHepXGS5nc7Tm/aIJfcWW/45typlJNAf25mejQ/TUovv4vr0E7i
+         ZjaKWWdJFJ1ZCo3L2LxQbfB4xP8RlcaiME0yAjDtKQXdfMsvfTAldgKplyZxAWY1yeil
+         yyWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678784772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VvVKKTfClzDHbKr25iX73V342HR8rTZ6C7kPvWX0aBY=;
+        b=NSD9PYSnA7h6XB8960YhgJk9TjvQ6Owad2aQylvsxNpVm0q5A8bVu/WHKLBVnZpSTK
+         wKNE7VoF7+AvhyIcUGcj9iC/RMG29UmLO+oizbm3Sr2EoM/8eI4r8ImBaBS6sw/5AYWb
+         Q2CHewUzvY0xiY+ZRPOPF9rn9CN5ry2KxLD2iSR7DK5IkxWa8Pu58NCQHk7rL36cmdBm
+         dncM+ABBPkfUuOQUzoo+IVDKtXJ1Q+M+nNLIkipxE9HCEiDhY/B1yU7PSQlLXOtpD8XA
+         AwEd3R3e/jaIZvDSgTtzlHiwqIDeBi+vzLn1ARC0j77sHlbcGDkDfAQPihItdaN3Na1B
+         FVEQ==
+X-Gm-Message-State: AO0yUKVDWfnBWlnMlCgI1bKff7mBiCZ40VcJST9l4ftZxT8e6axIdro/
+        43KeJSOY4NOF+M272cQ6VmwvYA==
+X-Google-Smtp-Source: AK7set/XpT6XzJflkOougYbJXIWlZCBg7D1MY8N+0OWLt8IZY2LG8a7E83HVnkqfAtO3xcf+IpKViQ==
+X-Received: by 2002:a17:902:d4cc:b0:19a:b033:2bb0 with SMTP id o12-20020a170902d4cc00b0019ab0332bb0mr43699652plg.46.1678784771688;
+        Tue, 14 Mar 2023 02:06:11 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.34.126])
+        by smtp.gmail.com with ESMTPSA id kv3-20020a17090328c300b0019c919bccf8sm1254131plb.86.2023.03.14.02.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 02:06:10 -0700 (PDT)
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+To:     u.kleine-koenig@pengutronix.de
+Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+        alexandre.torgue@foss.st.com,
+        angelogioacchino.delregno@collabora.com,
+        bcm-kernel-feedback-list@broadcom.com, bleung@chromium.org,
+        chrome-platform@lists.linux.dev, claudiu.beznea@microchip.com,
+        conor.dooley@microchip.com, cw00.choi@samsung.com,
+        daire.mcnamara@microchip.com, eddie.huang@mediatek.com,
+        f.fainelli@gmail.com, groeck@chromium.org, jonathanh@nvidia.com,
+        kernel@pengutronix.de, krzysztof.kozlowski@linaro.org,
+        kumba@gentoo.org, linus.walleij@linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, matthias.bgg@gmail.com,
+        mcoquelin.stm32@gmail.com, michal.simek@xilinx.com,
+        miquel.raynal@bootlin.com, nicolas.ferre@microchip.com,
+        patches@opensource.cirrus.com, sean.wang@mediatek.com,
+        thierry.reding@gmail.com, ulli.kroll@googlemail.com,
+        vincent.sunplus@gmail.com, vz@mleia.com,
+        Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: [PATCH 00/41] rtc: Convert to platform remove callback returning void
+Date:   Tue, 14 Mar 2023 14:35:57 +0530
+Message-Id: <20230314090557.41960-1-naresh.kamboju@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Improve printed error messages:
-  - Replace numerical error codes by mnemotechnic error codes, to
-    improve the user experience in case of errors,
-  - Drop parentheses around printed numbers, cfr.
-    Documentation/process/coding-style.rst,
-  - Drop printing of an error message in case of out-of-memory, as the
-    core memory allocation code already takes care of this.
+> Hello,
+> 
+> this patch series adapts the platform drivers below drivers/rtc to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
 
-Suggested-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
-This is v2 of "[PATCH] can: rcar_canfd: Print mnemotechnic error codes".
-I haven't added any tags given on v1, as half of the printed message
-changed.
+This patch set applied on top of Linux next.
 
-This depends on "[PATCH v2] can: rcar_canfd: Add transceiver support"
-https://lore.kernel.org/r/e825b50a843ffe40e33f34e4d858c07c1b2ff259.1678280913.git.geert+renesas@glider.be
----
- drivers/net/can/rcar/rcar_canfd.c | 43 +++++++++++++++----------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
+Build tested with gcc-12, clang-16 and clang nightly.
+Boot and LTP smoketests performed on
+ - qemu-x86_64
+ - qemu-arm64
+ - fvp-aemva
+ - qemu-armv7
+ - qemu-i386
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 6df9a259e5e4f92c..ecdb8ffe2f670c9b 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -1417,20 +1417,20 @@ static int rcar_canfd_open(struct net_device *ndev)
- 
- 	err = phy_power_on(priv->transceiver);
- 	if (err) {
--		netdev_err(ndev, "failed to power on PHY, error %d\n", err);
-+		netdev_err(ndev, "failed to power on PHY, %pe\n", ERR_PTR(err));
- 		return err;
- 	}
- 
- 	/* Peripheral clock is already enabled in probe */
- 	err = clk_prepare_enable(gpriv->can_clk);
- 	if (err) {
--		netdev_err(ndev, "failed to enable CAN clock, error %d\n", err);
-+		netdev_err(ndev, "failed to enable CAN clock, %pe\n", ERR_PTR(err));
- 		goto out_phy;
- 	}
- 
- 	err = open_candev(ndev);
- 	if (err) {
--		netdev_err(ndev, "open_candev() failed, error %d\n", err);
-+		netdev_err(ndev, "open_candev() failed, %pe\n", ERR_PTR(err));
- 		goto out_can_clock;
- 	}
- 
-@@ -1731,10 +1731,9 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
- 	int err = -ENODEV;
- 
- 	ndev = alloc_candev(sizeof(*priv), RCANFD_FIFO_DEPTH);
--	if (!ndev) {
--		dev_err(dev, "alloc_candev() failed\n");
-+	if (!ndev)
- 		return -ENOMEM;
--	}
-+
- 	priv = netdev_priv(ndev);
- 
- 	ndev->netdev_ops = &rcar_canfd_netdev_ops;
-@@ -1777,8 +1776,8 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
- 				       rcar_canfd_channel_err_interrupt, 0,
- 				       irq_name, priv);
- 		if (err) {
--			dev_err(dev, "devm_request_irq CH Err(%d) failed, error %d\n",
--				err_irq, err);
-+			dev_err(dev, "devm_request_irq CH Err %d failed, %pe\n",
-+				err_irq, ERR_PTR(err));
- 			goto fail;
- 		}
- 		irq_name = devm_kasprintf(dev, GFP_KERNEL, "canfd.ch%d_trx",
-@@ -1791,8 +1790,8 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
- 				       rcar_canfd_channel_tx_interrupt, 0,
- 				       irq_name, priv);
- 		if (err) {
--			dev_err(dev, "devm_request_irq Tx (%d) failed, error %d\n",
--				tx_irq, err);
-+			dev_err(dev, "devm_request_irq Tx %d failed, %pe\n",
-+				tx_irq, ERR_PTR(err));
- 			goto fail;
- 		}
- 	}
-@@ -1823,7 +1822,7 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
- 	gpriv->ch[priv->channel] = priv;
- 	err = register_candev(ndev);
- 	if (err) {
--		dev_err(dev, "register_candev() failed, error %d\n", err);
-+		dev_err(dev, "register_candev() failed, %pe\n", ERR_PTR(err));
- 		goto fail_candev;
- 	}
- 	dev_info(dev, "device registered (channel %u)\n", priv->channel);
-@@ -1967,16 +1966,16 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 				       rcar_canfd_channel_interrupt, 0,
- 				       "canfd.ch_int", gpriv);
- 		if (err) {
--			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
--				ch_irq, err);
-+			dev_err(dev, "devm_request_irq %d failed, %pe\n",
-+				ch_irq, ERR_PTR(err));
- 			goto fail_dev;
- 		}
- 
- 		err = devm_request_irq(dev, g_irq, rcar_canfd_global_interrupt,
- 				       0, "canfd.g_int", gpriv);
- 		if (err) {
--			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
--				g_irq, err);
-+			dev_err(dev, "devm_request_irq %d failed, %pe\n",
-+				g_irq, ERR_PTR(err));
- 			goto fail_dev;
- 		}
- 	} else {
-@@ -1985,8 +1984,8 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 				       "canfd.g_recc", gpriv);
- 
- 		if (err) {
--			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
--				g_recc_irq, err);
-+			dev_err(dev, "devm_request_irq %d failed, %pe\n",
-+				g_recc_irq, ERR_PTR(err));
- 			goto fail_dev;
- 		}
- 
-@@ -1994,8 +1993,8 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 				       rcar_canfd_global_err_interrupt, 0,
- 				       "canfd.g_err", gpriv);
- 		if (err) {
--			dev_err(dev, "devm_request_irq(%d) failed, error %d\n",
--				g_err_irq, err);
-+			dev_err(dev, "devm_request_irq %d failed, %pe\n",
-+				g_err_irq, ERR_PTR(err));
- 			goto fail_dev;
- 		}
- 	}
-@@ -2012,14 +2011,14 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 	/* Enable peripheral clock for register access */
- 	err = clk_prepare_enable(gpriv->clkp);
- 	if (err) {
--		dev_err(dev, "failed to enable peripheral clock, error %d\n",
--			err);
-+		dev_err(dev, "failed to enable peripheral clock, %pe\n",
-+			ERR_PTR(err));
- 		goto fail_reset;
- 	}
- 
- 	err = rcar_canfd_reset_controller(gpriv);
- 	if (err) {
--		dev_err(dev, "reset controller failed\n");
-+		dev_err(dev, "reset controller failed, %pe\n", ERR_PTR(err));
- 		goto fail_clk;
- 	}
- 
--- 
-2.34.1
+Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
+Link,
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-arm-kernel_20230304133028_2135435-1-u_kleine-koenig_pengutronix_de/?failures_only=false#!#test-results
+
+--
+Linaro LKFT
+https://lkft.linaro.org
