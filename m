@@ -2,193 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EF7B6B8ED0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 10:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 739706B90B0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Mar 2023 11:54:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbjCNJdZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 05:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
+        id S229755AbjCNKyD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Mar 2023 06:54:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbjCNJdY (ORCPT
+        with ESMTP id S229475AbjCNKx4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 05:33:24 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39B16B32E;
-        Tue, 14 Mar 2023 02:33:21 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id s12so15980938qtq.11;
-        Tue, 14 Mar 2023 02:33:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678786400;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V7XbWMDY02aVFXblAgDLLKxMSPg9BGDC2vsGo+cpiDY=;
-        b=0jCBGej6i/aM/rmVVH76hH4X9IP2rViL0TCu06tpZeR22prwQs/KhQhbcttD7++H7t
-         NVf8fim9uqaoZzPZ2gEKoWCduLFkmWI37yKjZdwKPM+K5DIgHQGqjfyIU/0EM4M36yYS
-         plryRGSSPYRXKrqfF9qJ9CD+rbxtGGT8GMBgex1/4pCM8x1nUA8HMu3cO1uN/tGvbaBa
-         2jbF/cAilzjAOMilUoejbasvrg94Rca7Z+dfgPwhTxGELfpTkfrCWrM9DiRHvQsFgsgm
-         Lzjft9KEmwI+PZx7DJ04KxPHdqwof3bJQcWYFgHq8n899Nmv6IEAyPKO+5TtwT3qffkr
-         vCKQ==
-X-Gm-Message-State: AO0yUKVljzbOn+NTG4jk76YDriE7Y6ZbvuwNBwmu6LdRL546PefuyRT7
-        ot9xaQpHesK+9QHbZt9lwFrDUBOwt4C2Uw==
-X-Google-Smtp-Source: AK7set84z2AQkm1zV5ltJHpNZZHTlGsXadh9E9qFmnzzCxUG2cZMIdZv+k4kO8PRYgBMLpUdibhrBA==
-X-Received: by 2002:ac8:7dc9:0:b0:3d2:3257:215c with SMTP id c9-20020ac87dc9000000b003d23257215cmr2472187qte.42.1678786400580;
-        Tue, 14 Mar 2023 02:33:20 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id i7-20020a378607000000b007422eee8058sm1386655qkd.125.2023.03.14.02.33.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Mar 2023 02:33:19 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-536af432ee5so293441857b3.0;
-        Tue, 14 Mar 2023 02:33:19 -0700 (PDT)
-X-Received: by 2002:a81:ae18:0:b0:52e:b22b:f99 with SMTP id
- m24-20020a81ae18000000b0052eb22b0f99mr24440964ywh.4.1678786399207; Tue, 14
- Mar 2023 02:33:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230306090014.128732-1-biju.das.jz@bp.renesas.com>
- <20230306090014.128732-2-biju.das.jz@bp.renesas.com> <ZAZ4LY+xG2LGiHwh@surfacebook>
- <OS0PR01MB5922EA0703F259A99C157D3286B79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75Vd6qTG67_1DGiemy8n-mQn=9kiGrC0rEYw2XO0rm4Tbag@mail.gmail.com>
- <OS0PR01MB59224CECBB888ADC9214145286B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75VfDL74cEUQkxC1JuUB7SS1vYTPj_K7+VkQ-i-MKXad5Lw@mail.gmail.com>
- <OS0PR01MB5922CC51889D094129820C0C86B59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CACRpkdZS5UKc7bDPs-zx_QyJU9GwJAhB7372oSC9tB-txgghtw@mail.gmail.com> <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922D0321A0779A8E78B96AA86BE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Mar 2023 10:33:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXqXg7xa3wvk3hvoxUAD+sg_OD-QpAXDpm8qdvuuDK4Rw@mail.gmail.com>
-Message-ID: <CAMuHMdXqXg7xa3wvk3hvoxUAD+sg_OD-QpAXDpm8qdvuuDK4Rw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        Tue, 14 Mar 2023 06:53:56 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C67584BC
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Mar 2023 03:53:25 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by laurent.telenet-ops.be with bizsmtp
+        id YAtN2900G1C8whw01AtNQ8; Tue, 14 Mar 2023 11:53:23 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pc2Cd-00C9kO-OS;
+        Tue, 14 Mar 2023 11:49:01 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pc2DF-00AoST-4O;
+        Tue, 14 Mar 2023 11:49:01 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ASoC: dt-bindings: renesas: rsnd: Update example
+Date:   Tue, 14 Mar 2023 11:48:59 +0100
+Message-Id: <ba4ec999dc152ea1f113253e497c093b8789d414.1678790879.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Miscellaneous updates to make the example match reality:
+  - Correct SSI resource region size,
+  - Complete half-conversion to new-style CPG/MSSR bindings,
+  - Add missing power-domains, resets, and reset-names properties,
+  - Use interrupt binding definitions instead of hardcoded numbers,
+  - Correct interrupt flags,
+  - Drop double blank line.
 
-On Tue, Mar 14, 2023 at 9:27 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v6 01/13] pinctrl: core: Add pinctrl_get_device()
-> > On Thu, Mar 9, 2023 at 3:19 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > I have an IP which detects short circuit between the output terminals
-> > > and disable the output from pwm pins ,when it detects short circuit to
-> > > protect from system failure.
-> > >
-> > > pwm-pins are involved in this operation.
-> > >
-> > > From user space we need to configure the type of protection for this
-> > > pins (eg: disable PWM output, when both pwm outputs are high at same
-> > time).
-> >
-> > Why do you want to do this from user space?
->
-> To take care of the below features provided by Port Output Enable for GPT(a.k.a PWM)
-> (POEG) IP.
->
-> The output pins of the general PWM timer (GPT) can be disabled by
-> using the port output enabling function for the GPT (POEG).
-> Specifically, either of the following ways can be used[1].
->
-> [1]
->
-> Use case 1)
-> ● Input level detection of the GTETRGA to GTETRGD pins (i.e: detect short circuit in switching circuit
-> externally and use an external pin(GTETRGA to GTETRGD) to disable the output pins of PWM)
->
-> Use case 2)
-> ● Output-disable request from the GPT (GPT detects short circuit in switching circuit internally and
-> disable the output pins of PWM)
->
-> Use case 3)
-> ● Register settings(Detect short circuit in switching circuit
-> externally and use internal register to disable the output pins of PWM)
->
-> The advantage of providing these options from user space is, it is flexible.
-> Runtime user can configure the use case he wants to use for his product.
->
-> +Rob, + Krzysztof Kozlowski
->
-> If we cannot do it in user space, then we need to make it as part of
-> Dt bindings and users will define the use case they need in DT.
->
-> Some of the failure conditions in switching circuits are like below
->
-> when you use PWM push-pull configuration you SHOULD have a dead time.
-> When + mosfet is turned off - mosfet can't be immediately turned on
-> because you will create a direct path (short circuit) between + and -
-> as parasitic capacitance will leave + mosfet turned on for a while .
-> This will destroy your mosfets.
->
-> Dead time is the delay measured from turning off the driver switch
-> connected to one rail of the power supply to the time the switch
-> connected to the other rail of the power supply is turned on.
-> Switching devices like MOSFETs and IGBTs turn off after a delay
-> when the gate drive is turned off. If the other switch on the half
-> bridge is turned on immediately, both upper and lower switches may be
-> in a conductive region for a brief moment, shorting the power rail.
-> In order to avoid this, a dead time is maintained between turning off
-> of one switch and turning on the other in a half bridge.
->
-> POEG IP provides the below protections,
->
-> 1) When the GTIOCA pin and the GTIOCB pin(PWM pins) are driven to an active level simultaneously, the
-> PWM generates an output-disable request to the POEG. Through reception of these requests,
-> the POEG can control whether the GTIOCA and GTIOCB pins are output-disabled
->
-> 2) PWM output pins can be set to be disabled when the PWM output pins detect a dead time error
-> or short circuit detection between the output terminals
->
-> >
-> > It sounds like something the kernel should be doing.
->
-> If we cannot do the above use cases[1] in user space, then we need to make it as part of
-> Dt bindings and it will be fully taken care in kernel.
->
-> >
-> > The kernel has a PWM subsystem, and a pin control subsystem, and we don't
-> > even have a userspace ABI for pin control.
-> > Pin control is designed to avoid electrical disasters and a driver can add
-> > further policy for sure.
-> >
-> > If you want to add policy of different types to avoid electrical disaster
-> > into the pin control driver, go ahead, just run it by Geert so he's on board
-> > with the ideas.
->
-> OK. Geert Can you please provide valuable suggestion how to address this use cases[1]
-> As mentioned above?
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../bindings/sound/renesas,rsnd.yaml          | 51 ++++++++++++-------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
-Is this configuration you need to do once, based on the hardware,
-or do you need to change it at run-time?
-
-Before, I was under the impression you needed to change the
-configuration at run-time, hence the need for a sysfs API.
-If configuration is static, DT is the way to go.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+index 55e5213b90a17d1d..676dfe7a7f1766cd 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+@@ -372,30 +372,33 @@ unevaluatedProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7790-sysc.h>
+     rcar_sound: sound@ec500000 {
+         #sound-dai-cells = <1>;
+         compatible = "renesas,rcar_sound-r8a7790", "renesas,rcar_sound-gen2";
+         reg = <0xec500000 0x1000>, /* SCU  */
+               <0xec5a0000 0x100>,  /* ADG  */
+               <0xec540000 0x1000>, /* SSIU */
+-              <0xec541000 0x1280>, /* SSI  */
++              <0xec541000 0x280>,  /* SSI  */
+               <0xec740000 0x200>;  /* Audio DMAC peri peri*/
+         reg-names = "scu", "adg", "ssiu", "ssi", "audmapp";
+ 
+-        clocks = <&mstp10_clks 1005>,                      /* SSI-ALL    */
+-                 <&mstp10_clks 1006>, <&mstp10_clks 1007>, /* SSI9, SSI8 */
+-                 <&mstp10_clks 1008>, <&mstp10_clks 1009>, /* SSI7, SSI6 */
+-                 <&mstp10_clks 1010>, <&mstp10_clks 1011>, /* SSI5, SSI4 */
+-                 <&mstp10_clks 1012>, <&mstp10_clks 1013>, /* SSI3, SSI2 */
+-                 <&mstp10_clks 1014>, <&mstp10_clks 1015>, /* SSI1, SSI0 */
+-                 <&mstp10_clks 1022>, <&mstp10_clks 1023>, /* SRC9, SRC8 */
+-                 <&mstp10_clks 1024>, <&mstp10_clks 1025>, /* SRC7, SRC6 */
+-                 <&mstp10_clks 1026>, <&mstp10_clks 1027>, /* SRC5, SRC4 */
+-                 <&mstp10_clks 1028>, <&mstp10_clks 1029>, /* SRC3, SRC2 */
+-                 <&mstp10_clks 1030>, <&mstp10_clks 1031>, /* SRC1, SRC0 */
+-                 <&mstp10_clks 1020>, <&mstp10_clks 1021>, /* MIX1, MIX0 */
+-                 <&mstp10_clks 1020>, <&mstp10_clks 1021>, /* CTU1, CTU0 */
+-                 <&mstp10_clks 1019>, <&mstp10_clks 1018>, /* DVC0, DVC1 */
++        clocks = <&cpg CPG_MOD 1005>,                      /* SSI-ALL    */
++                 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>, /* SSI9, SSI8 */
++                 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>, /* SSI7, SSI6 */
++                 <&cpg CPG_MOD 1010>, <&cpg CPG_MOD 1011>, /* SSI5, SSI4 */
++                 <&cpg CPG_MOD 1012>, <&cpg CPG_MOD 1013>, /* SSI3, SSI2 */
++                 <&cpg CPG_MOD 1014>, <&cpg CPG_MOD 1015>, /* SSI1, SSI0 */
++                 <&cpg CPG_MOD 1022>, <&cpg CPG_MOD 1023>, /* SRC9, SRC8 */
++                 <&cpg CPG_MOD 1024>, <&cpg CPG_MOD 1025>, /* SRC7, SRC6 */
++                 <&cpg CPG_MOD 1026>, <&cpg CPG_MOD 1027>, /* SRC5, SRC4 */
++                 <&cpg CPG_MOD 1028>, <&cpg CPG_MOD 1029>, /* SRC3, SRC2 */
++                 <&cpg CPG_MOD 1030>, <&cpg CPG_MOD 1031>, /* SRC1, SRC0 */
++                 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>, /* MIX1, MIX0 */
++                 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>, /* CTU1, CTU0 */
++                 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>, /* DVC0, DVC1 */
+                  <&audio_clk_a>, <&audio_clk_b>,           /* CLKA, CLKB */
+                  <&audio_clk_c>, <&audio_clk_i>;           /* CLKC, CLKI */
+ 
+@@ -416,6 +419,17 @@ examples:
+                       "clk_a", "clk_b",
+                       "clk_c", "clk_i";
+ 
++        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
++
++        resets = <&cpg 1005>,
++                 <&cpg 1006>, <&cpg 1007>, <&cpg 1008>, <&cpg 1009>,
++                 <&cpg 1010>, <&cpg 1011>, <&cpg 1012>, <&cpg 1013>,
++                 <&cpg 1014>, <&cpg 1015>;
++        reset-names = "ssi-all",
++                      "ssi.9", "ssi.8", "ssi.7", "ssi.6",
++                      "ssi.5", "ssi.4", "ssi.3", "ssi.2",
++                      "ssi.1", "ssi.0";
++
+         rcar_sound,dvc {
+                dvc0: dvc-0 {
+                     dmas = <&audma0 0xbc>;
+@@ -448,7 +462,7 @@ examples:
+                 status = "disabled";
+             };
+             src1: src-1 {
+-                interrupts = <0 353 0>;
++                interrupts = <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>;
+                 dmas = <&audma0 0x87>, <&audma1 0x9c>;
+                 dma-names = "rx", "tx";
+             };
+@@ -469,12 +483,12 @@ examples:
+ 
+         rcar_sound,ssi {
+             ssi0: ssi-0 {
+-                interrupts = <0 370 1>;
++                interrupts = <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>;
+                 dmas = <&audma0 0x01>, <&audma1 0x02>;
+                 dma-names = "rx", "tx";
+             };
+             ssi1: ssi-1 {
+-                interrupts = <0 371 1>;
++                interrupts = <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>;
+                 dmas = <&audma0 0x03>, <&audma1 0x04>;
+                 dma-names = "rx", "tx";
+             };
+@@ -516,7 +530,6 @@ examples:
+         };
+     };
+ 
+-
+     /* assume audio-graph */
+     codec {
+         port {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
