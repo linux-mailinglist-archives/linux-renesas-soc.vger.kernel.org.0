@@ -2,98 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D3F6BB51B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 14:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B836BB5FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 15:30:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232297AbjCONsg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Mar 2023 09:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40612 "EHLO
+        id S232701AbjCOOaC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 10:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232257AbjCONsc (ORCPT
+        with ESMTP id S233204AbjCOOaA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Mar 2023 09:48:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1292888893;
-        Wed, 15 Mar 2023 06:47:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C2867B81DF6;
-        Wed, 15 Mar 2023 13:47:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC8FAC433EF;
-        Wed, 15 Mar 2023 13:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678888069;
-        bh=SbeGpheoaIH+3SHeZqV2seC5XyA53aIcklBW6utJOhc=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=QKPE5sYvdi64orFsHFqoGpw48cXbVJ5GgV/C61EV5vDdNa89OKJ5iXPj5tGIzAALP
-         22M2r0RQRl5PlJVU0st+tEv873qOmbppjmfx1yndsJMBubOD9D+tf6NbDZcR8/Hvqn
-         lFgKeHXqMDTevpLn+gDAuvBR8T2pBqX3fmzFO0Zy+6/+C7OobfDx+LL9vxEm18Hk0/
-         DJTwNGMRjXo1N/T5s25FVBjixMOLxCvWDQ0WcXf6jskdC7MySCRBWYtFkNBHKS3FTV
-         +XenpdoOPrXiGRZiD2OTK1WjXf2H4pVMIZboixtXbaHAPx96TeOkXP8scUNvkw/iQB
-         HBdlhWMSZdtUA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <ba4ec999dc152ea1f113253e497c093b8789d414.1678790879.git.geert+renesas@glider.be>
-References: <ba4ec999dc152ea1f113253e497c093b8789d414.1678790879.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: dt-bindings: renesas: rsnd: Update example
-Message-Id: <167888806765.29884.1943433797878845928.b4-ty@kernel.org>
-Date:   Wed, 15 Mar 2023 13:47:47 +0000
+        Wed, 15 Mar 2023 10:30:00 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7AA31F5E4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 07:29:57 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by albert.telenet-ops.be with bizsmtp
+        id YeVt2900b1C8whw06eVtLg; Wed, 15 Mar 2023 15:29:54 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pcS3h-00CI8b-Fn;
+        Wed, 15 Mar 2023 15:25:31 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pcS4J-00D13s-Rp;
+        Wed, 15 Mar 2023 15:25:31 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tobias Klausmann <klausman@schwarzvogel.de>
+Subject: [PATCH] lib: dhry: Fix unstable smp_processor_id(_) usage
+Date:   Wed, 15 Mar 2023 15:25:22 +0100
+Message-Id: <b0d29932bb24ad82cea7f821e295c898e9657be0.1678890070.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-bd1bf
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 14 Mar 2023 11:48:59 +0100, Geert Uytterhoeven wrote:
-> Miscellaneous updates to make the example match reality:
->   - Correct SSI resource region size,
->   - Complete half-conversion to new-style CPG/MSSR bindings,
->   - Add missing power-domains, resets, and reset-names properties,
->   - Use interrupt binding definitions instead of hardcoded numbers,
->   - Correct interrupt flags,
->   - Drop double blank line.
-> 
-> [...]
+When running the in-kernel Dhrystone benchmark with
+CONFIG_DEBUG_PREEMPT=y:
 
-Applied to
+    BUG: using smp_processor_id() in preemptible [00000000] code: bash/938
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fix this by not using smp_processor_id() directly, but instead wrapping
+the whole benchmark inside a get_cpu()/put_cpu() pair.  This makes sure
+the whole benchmark is run on the same CPU core, and the reported values
+are consistent.
 
-Thanks!
+Fixes: d5528cc16893f1f6 ("lib: add Dhrystone benchmark test")
+Reported-by: Tobias Klausmann <klausman@schwarzvogel.de>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217179
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ lib/dhry_run.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-[1/1] ASoC: dt-bindings: renesas: rsnd: Update example
-      commit: ff750f8e9464e368fc92941553c9c385644ebfc1
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/lib/dhry_run.c b/lib/dhry_run.c
+index f9d33efa6d090604..f15ac666e9d38bd2 100644
+--- a/lib/dhry_run.c
++++ b/lib/dhry_run.c
+@@ -31,6 +31,7 @@ MODULE_PARM_DESC(iterations,
+ 
+ static void dhry_benchmark(void)
+ {
++	unsigned int cpu = get_cpu();
+ 	int i, n;
+ 
+ 	if (iterations > 0) {
+@@ -45,9 +46,10 @@ static void dhry_benchmark(void)
+ 	}
+ 
+ report:
++	put_cpu();
+ 	if (n >= 0)
+-		pr_info("CPU%u: Dhrystones per Second: %d (%d DMIPS)\n",
+-			smp_processor_id(), n, n / DHRY_VAX);
++		pr_info("CPU%u: Dhrystones per Second: %d (%d DMIPS)\n", cpu,
++			n, n / DHRY_VAX);
+ 	else if (n == -EAGAIN)
+ 		pr_err("Please increase the number of iterations\n");
+ 	else
+-- 
+2.34.1
 
