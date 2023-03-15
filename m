@@ -2,66 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B1976BA908
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 08:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A28E6BA986
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 08:41:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231557AbjCOH11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Mar 2023 03:27:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
+        id S229734AbjCOHlr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 03:41:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231587AbjCOH1Z (ORCPT
+        with ESMTP id S231657AbjCOHla (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Mar 2023 03:27:25 -0400
+        Wed, 15 Mar 2023 03:41:30 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634C965C65
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 00:27:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF1718170
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 00:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=g4ixwWgZk+hP0glUWWvMJ/9M6sji
-        gmZC1jxuIW+OZ58=; b=w60xD37kBYH8CBw80xumkxpT/t6adPa+4Lb3NjHMB9if
-        8/bWvrSxo5btxN7eAk+6hbI0a5zmcdB7HLRMzzVHRtNLWno8xfprnZ9wkMulEkeL
-        ENfr9IcoVjDVC2QUsCLfvAwgdRY/4uwNOS6d2VVp7tdaIHHnjfrE9pqzFf4MCrY=
-Received: (qmail 3356968 invoked from network); 15 Mar 2023 08:27:18 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Mar 2023 08:27:18 +0100
-X-UD-Smtp-Session: l3s3148p1@VVcuRuv26Nkujnvb
-Date:   Wed, 15 Mar 2023 08:27:18 +0100
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=eY/LXrA5gjdPh1os2CR8OKcWcNR
+        B8xmkakVZh6vboNk=; b=Jc7llXM/ddsMMNPSVTq91M0nWa/YJEvoIbApFgtPv9C
+        8/blkz3c6PTuokJHIAYW4vlgfNCJnTnq1DVzmgxfbjg3MZL/PEzivAf/ShKqr5hX
+        YrI37M4JcndXjdJtBfakAZpzUybH2AscrnVoEr53WmSOpzzi+mAMgFlGKCzJPdk0
+        =
+Received: (qmail 3360657 invoked from network); 15 Mar 2023 08:41:16 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Mar 2023 08:41:16 +0100
+X-UD-Smtp-Session: l3s3148p1@f1EfeOv2HI0ujnvb
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Wei Fang <wei.fang@nxp.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
- probe
-Message-ID: <ZBFzVjaRjcITP0bA@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Wei Fang <wei.fang@nxp.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
- <20230314131443.46342-4-wsa+renesas@sang-engineering.com>
- <DB9PR04MB8106C492FAAE4D7BE9CB731688BF9@DB9PR04MB8106.eurprd04.prod.outlook.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH net v2 0/2] net: renesas: set 'mac_managed_pm' at probe time
+Date:   Wed, 15 Mar 2023 08:41:13 +0100
+Message-Id: <20230315074115.3008-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DAgezE5i+dVbrDpK"
-Content-Disposition: inline
-In-Reply-To: <DB9PR04MB8106C492FAAE4D7BE9CB731688BF9@DB9PR04MB8106.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -72,46 +45,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+When suspending/resuming an interface which was not up, we saw mdiobus
+related PM handling despite 'mac_managed_pm' being set for RAVB/SH_ETH.
+Heiner kindly suggested the fix to set this flag at probe time, not at
+init/open time. I implemented his suggestion and it works fine on these
+two Renesas drivers.
 
---DAgezE5i+dVbrDpK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> > On Renesas hardware, we had issues because the above flag was set during
-> > 'open'. It was concluded that it needs to be set during 'probe'. It loo=
-ks like FEC
-> > needs the same fix but I can't test it because I don't have the hardwar=
-e. At
-> > least, leave a note about the issue.
-> >=20
->=20
-> Could you describe this issue in more details? So that I can reproduce an=
-d fix this
-> issue and test it. Thanks!
-
-Yes, I will resend the series as RFC with more explanations.
+Changes since v1:
+* added tag from Michal (thanks!)
+* split out patches which are for 'net' only (Thanks, Simon!)
 
 
---DAgezE5i+dVbrDpK
-Content-Type: application/pgp-signature; name="signature.asc"
+Wolfram Sang (2):
+  ravb: avoid PHY being resumed when interface is not up
+  sh_eth: avoid PHY being resumed when interface is not up
 
------BEGIN PGP SIGNATURE-----
+ drivers/net/ethernet/renesas/ravb_main.c | 12 ++++++++++--
+ drivers/net/ethernet/renesas/sh_eth.c    | 12 ++++++++++--
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQRc1YACgkQFA3kzBSg
-KbYIUg/5AYrq7VV325fjSMJh0iT7yGzYJRrrsnkBsHsy4U6UvaRyoyk8o2EbjLQu
-qLvwRpSUkr8DCYEnkllzKUMg9S4q1lf6NO3PBxwDpQw025CJwakruWEIdSKUdVHj
-jZeka8m+Y77aXhRP5tmoqKcRCfZktgxnlOK3TN+FONyFCQPtn5WEFHRmb6rPxm6B
-hI+oz6NhH5Elwaz76XcW9frge3Q0z+Aq2EOhE4jYWgX2hZth0fNCsMfdbQ5xBnrb
-YLYmTWEAQoR/zYIkvjk3iAsqXsar67bgbaff2posseGaJRIOVEXXs2p9MCT9V7iG
-4OcT0muZnZXrhtnQlQRGlF30VGZBAf8uT11A4rCsga3LJPzF7zGiaXrJC1zkPmMP
-ReCX7oP7t7imBwGDsFc46lTEHgC7HeYFRi5Y00+0YQ3dn5fUo0fPW36/v2x/UgU6
-DfYA7o2MTAi1aXM+gaPrKTTkUlNVsHXRk6ufksnNo3014HEIh9duzpg0vcA4vIfz
-EsOEoh8XU+Zd/lddnXDd7G+VYNO5WjFh/RFKEq/K7zrLkRPmY4lYUuXo1wkSHpEz
-/iFHFNPk372MYUiWCoRGy5ei28HG1QKXAvcW+OJrLBTJ9Yh2bkwh3IVnsV/XtRr7
-hLXMv19SQ47X+Nf5H//a8aPsIMMyCc36RmxMO627x2ZJp7JuHjI=
-=UTgG
------END PGP SIGNATURE-----
+-- 
+2.30.2
 
---DAgezE5i+dVbrDpK--
