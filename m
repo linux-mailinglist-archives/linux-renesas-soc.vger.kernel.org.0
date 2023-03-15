@@ -2,102 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1366BAB2B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 09:52:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D3F6BB51B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 14:48:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231871AbjCOIwk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Mar 2023 04:52:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59702 "EHLO
+        id S232297AbjCONsg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 09:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbjCOIwh (ORCPT
+        with ESMTP id S232257AbjCONsc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Mar 2023 04:52:37 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE7D76F71
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 01:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=p9WY1RdyYLmbwG3tcnjinpq3FolR
-        mCwaBad4ZRar/TI=; b=qrQE9RiARpW/Xu8+C1eTs85kTQrtWuSkRVP4yjSapswG
-        2U+CWP7JyfMQNSCGdnUVm1S2jcN2WNRc9IuwFoMRG2Q/066Ztc0A6Sw3TFdiQD1A
-        +Mf0y88OA1SVVwzMLyJBbQYjbZHo2MO0pUfhZitkc7cTLYuJIrrYQydZtYu5Ifs=
-Received: (qmail 3381861 invoked from network); 15 Mar 2023 09:52:02 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Mar 2023 09:52:02 +0100
-X-UD-Smtp-Session: l3s3148p1@Gc80dez2oN4ujnvb
-Date:   Wed, 15 Mar 2023 09:52:02 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        kernel@pengutronix.de,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 4/4] smsc911x: add FIXME to move
- 'mac_managed_pm' to probe
-Message-ID: <ZBGHMn6xX5giT6fH@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        linux-kernel@vger.kernel.org
-References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
- <20230314131443.46342-5-wsa+renesas@sang-engineering.com>
- <CAMuHMdWhKfw93Fyukr=kguMAmZCnynk=-96+BKBPB8PDZkE9gg@mail.gmail.com>
+        Wed, 15 Mar 2023 09:48:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1292888893;
+        Wed, 15 Mar 2023 06:47:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C2867B81DF6;
+        Wed, 15 Mar 2023 13:47:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC8FAC433EF;
+        Wed, 15 Mar 2023 13:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678888069;
+        bh=SbeGpheoaIH+3SHeZqV2seC5XyA53aIcklBW6utJOhc=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=QKPE5sYvdi64orFsHFqoGpw48cXbVJ5GgV/C61EV5vDdNa89OKJ5iXPj5tGIzAALP
+         22M2r0RQRl5PlJVU0st+tEv873qOmbppjmfx1yndsJMBubOD9D+tf6NbDZcR8/Hvqn
+         lFgKeHXqMDTevpLn+gDAuvBR8T2pBqX3fmzFO0Zy+6/+C7OobfDx+LL9vxEm18Hk0/
+         DJTwNGMRjXo1N/T5s25FVBjixMOLxCvWDQ0WcXf6jskdC7MySCRBWYtFkNBHKS3FTV
+         +XenpdoOPrXiGRZiD2OTK1WjXf2H4pVMIZboixtXbaHAPx96TeOkXP8scUNvkw/iQB
+         HBdlhWMSZdtUA==
+From:   Mark Brown <broonie@kernel.org>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <ba4ec999dc152ea1f113253e497c093b8789d414.1678790879.git.geert+renesas@glider.be>
+References: <ba4ec999dc152ea1f113253e497c093b8789d414.1678790879.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas: rsnd: Update example
+Message-Id: <167888806765.29884.1943433797878845928.b4-ty@kernel.org>
+Date:   Wed, 15 Mar 2023 13:47:47 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uxTA4kgouIK70B4O"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWhKfw93Fyukr=kguMAmZCnynk=-96+BKBPB8PDZkE9gg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-bd1bf
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, 14 Mar 2023 11:48:59 +0100, Geert Uytterhoeven wrote:
+> Miscellaneous updates to make the example match reality:
+>   - Correct SSI resource region size,
+>   - Complete half-conversion to new-style CPG/MSSR bindings,
+>   - Add missing power-domains, resets, and reset-names properties,
+>   - Use interrupt binding definitions instead of hardcoded numbers,
+>   - Correct interrupt flags,
+>   - Drop double blank line.
+> 
+> [...]
 
---uxTA4kgouIK70B4O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > On Renesas hardware, we had issues because the above flag was set during
-> > 'open'. It was concluded that it needs to be set during 'probe'. It
-> > looks like SMS911x needs the same fix but I can't test it because I
-> > don't have the hardware. At least, leave a note about the issue.
->=20
-> You no longer have the APE6-EVM?
+Thanks!
 
-I should have it somewhere. Cool, thanks for the pointer!
+[1/1] ASoC: dt-bindings: renesas: rsnd: Update example
+      commit: ff750f8e9464e368fc92941553c9c385644ebfc1
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---uxTA4kgouIK70B4O
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQRhy4ACgkQFA3kzBSg
-KbZ15xAAouD2VI/VKsM6jupar4Qy8yGfcrEdu6sCD4tmq9DwZWSoBPlELQiqLKd1
-+CSYrH5rMJHCGqcjefz7VWiGUvxXr8DpJu5bpbV69jUXfaWrN3HPusmuPXMtVhMd
-1p2TAT7kotFtO89LuI+PEkVvZWYHZRfTdLuiwDTMn6YDOWtOY7K8ufcvWfs2EwdG
-8Iq3ZMhCznrNTeh337suwBfvjiVAlF0qptwU714ZxcIwPUc63+xrSFMJmSF6NuCG
-qby0dGUG0hJGnriDQsM8NUeS3ihg61GC4Tp8myeLDuSNTyzkyhKJ0FMu+gf4PQIx
-wgISxEAwMoYQ1YcgLKF3QRQXyr00Xve+c448e/3hZ37OVF4xYOQfFclH2f7rA5Zy
-lWw6QhvNuq4U6GlWECHdd0PDHJMZ4iT1ajGnh55XqlYHkbt63pleJ19UMRVE4J9H
-/+TzMsqLmVqygeQT76LQPtp1xjpXgZRTx3556qvdUBW/+jnQb/438S8Qs6y7aPal
-yMcJkl87t8ZuKyX/GeIpoFsnPIS1oLktEBgw/ojD+Ao9PK3491vs68tSvucvrLPo
-5qRlCyreE4KJdQu64QrhZW0FdG3Rmm6wWZXuu2CqKzNseWlESXp63GUw1b1o0kO0
-/my7ygULjALOA8zY516ztjDNE9IdXrhWrZQ16vzRcXIdMZ2ZKeY=
-=Ukni
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---uxTA4kgouIK70B4O--
+Thanks,
+Mark
+
