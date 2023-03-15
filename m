@@ -2,99 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5544A6BA8A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 08:05:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F626BA8FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 08:26:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231571AbjCOHEy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Mar 2023 03:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34398 "EHLO
+        id S231404AbjCOH0n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 03:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231473AbjCOHEn (ORCPT
+        with ESMTP id S231340AbjCOH0l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Mar 2023 03:04:43 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C14F13C33;
-        Wed, 15 Mar 2023 00:04:41 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,262,1673881200"; 
-   d="scan'208";a="156005160"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Mar 2023 16:04:39 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9437A418A02B;
-        Wed, 15 Mar 2023 16:04:39 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com
+        Wed, 15 Mar 2023 03:26:41 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE975B5FA
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 00:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=3Xdv1SPbFc/MN2Ud+h68Jqnms20u
+        TaYbcPiPwRPC3OM=; b=YhPRDN7zgscr4r86aBuDgHCDy7jB6/NxmsCzY0ZXtGAq
+        9ANttIHepX+qDY0HO9EJa8NXzN+ci/JEAYRGeHPXT2GHYBDLDk9hxt+srFoIv0Ch
+        AeRjjNSiMYq7c908uOqERGiSflbY1y6QrVwsnqBfogUG3qkB73YzFNaezHlMgrg=
+Received: (qmail 3356775 invoked from network); 15 Mar 2023 08:26:33 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Mar 2023 08:26:33 +0100
+X-UD-Smtp-Session: l3s3148p1@2Rx8Q+v2/K0ujnvb
+Date:   Wed, 15 Mar 2023 08:26:33 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Simon Horman <simon.horman@corigine.com>
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: [PATCH net 2/2] net: renesas: rswitch: Fix GWTSDIE register handling
-Date:   Wed, 15 Mar 2023 16:04:24 +0900
-Message-Id: <20230315070424.1088877-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230315070424.1088877-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230315070424.1088877-1-yoshihiro.shimoda.uh@renesas.com>
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 0/4] net: set 'mac_managed_pm' at probe time
+Message-ID: <ZBFzKatnFs7MraVn@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Simon Horman <simon.horman@corigine.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org
+References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
+ <ZBCjj6btYod38O7g@corigine.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="0ST3wKXCq3p6447a"
+Content-Disposition: inline
+In-Reply-To: <ZBCjj6btYod38O7g@corigine.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the GWCA has the TX timestamp feature, this driver
-should not disable it if one of ports is opened. So, fix it.
 
-Reported-by: Phong Hoang <phong.hoang.wz@renesas.com>
-Fixes: 33f5d733b589 ("net: renesas: rswitch: Improve TX timestamp accuracy")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 9 +++++++--
- drivers/net/ethernet/renesas/rswitch.h | 1 +
- 2 files changed, 8 insertions(+), 2 deletions(-)
+--0ST3wKXCq3p6447a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 46d8d9c8fc19..c4f93d24c6a4 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1441,7 +1441,10 @@ static int rswitch_open(struct net_device *ndev)
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, true);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, true);
- 
--	iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDIE);
-+	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
-+		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDIE);
-+
-+	bitmap_set(rdev->priv->opened_ports, rdev->port, 1);
- 
- 	return 0;
- };
-@@ -1452,8 +1455,10 @@ static int rswitch_stop(struct net_device *ndev)
- 	struct rswitch_gwca_ts_info *ts_info, *ts_info2;
- 
- 	netif_tx_stop_all_queues(ndev);
-+	bitmap_clear(rdev->priv->opened_ports, rdev->port, 1);
- 
--	iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDID);
-+	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
-+		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDID);
- 
- 	list_for_each_entry_safe(ts_info, ts_info2, &rdev->priv->gwca.ts_info_list, list) {
- 		if (ts_info->port != rdev->port)
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 27d3d38c055f..b3e0411b408e 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -998,6 +998,7 @@ struct rswitch_private {
- 	struct rcar_gen4_ptp_private *ptp_priv;
- 
- 	struct rswitch_device *rdev[RSWITCH_NUM_PORTS];
-+	DECLARE_BITMAP(opened_ports, RSWITCH_NUM_PORTS);
- 
- 	struct rswitch_gwca gwca;
- 	struct rswitch_etha etha[RSWITCH_NUM_PORTS];
--- 
-2.25.1
+Hi Simon!
 
+> an initial comment is, and I know this is a bit of a pain,
+> that 'net' and 'net-next' patches need to be split into separate serries.
+
+Thanks for the heads up. I will refactor the series. First a part which
+shall go into "net" and I will make the second part RFC with more
+explanations how to reproduce the issue.
+
+All the best,
+
+   Wolfram
+
+
+--0ST3wKXCq3p6447a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQRcyUACgkQFA3kzBSg
+Kbb8MhAAoD66iQdGbZKz5RIMU4gpMkjw5rI7U0pE4DQJZncI/sPciVWOT495o20F
+Z0+g9lrHUU93dyne3M3bvWMJ6eKZxh92L02qIaBvE0F+2+gSh50zgGiaGrxCa6mP
+fq/n2g2+0uDk1b0PsaCN9F1ED+5EKpfvN5sNuHdK6Qn4qX7jPy/dVkj2CpyUCDRF
+YCEBIp8w7My3xMxupdQvsEpf2JMEVOE2rFtZmQiaj1IMhNlS/de+vWLQVfhrCx5Y
+886Zl0qEc3hwUR2rrp8tMsXD8TBvSpD9JfvHjQJivGhxlpWKyj/bYcgFo+4tVr/Y
+uW6nzKT06bYcarHsPVHahXAzz+Pp4K2ec4w64fzn9nIl9tershKZTViuG0exNesL
+Ct4TsLIHjDYen8PfdcVv+f0DErlT+1V2egaFa57Q3VhnJiZQmkFyf8skUp8G+RbM
+/0qPYna9Leq4IjyAygBKZ/lRHuQ1hT1PkDLfqpSqD2CG3eoRuNGawetAEC0ZoBaX
+2hYnrc7oCuVQo8PHAOGQmwLEEHxI5nQS8T81Izk0uyFBJgN9bn/eC7mHWYBKfMW5
+lBRj+antcVgJvXC1t23GPeucPdreybqlNYTY6NPTp+qnk1ggR4t4qcAFV48RBMWa
+MWSGy5sUbIw7vIPcObkcs1qy7iI4s5vKXh5gasUabiF6AYP/wLI=
+=8+zk
+-----END PGP SIGNATURE-----
+
+--0ST3wKXCq3p6447a--
