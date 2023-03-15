@@ -2,88 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FFC16BA393
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 00:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA1D36BA754
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 06:48:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbjCNXfA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Mar 2023 19:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S229629AbjCOFsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 01:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjCNXe7 (ORCPT
+        with ESMTP id S229488AbjCOFsy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Mar 2023 19:34:59 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D4D0A243;
-        Tue, 14 Mar 2023 16:34:58 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id x3so68716204edb.10;
-        Tue, 14 Mar 2023 16:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678836897;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=75mkBro0auUkQVDm72OpsQNfSGM7MDaLDHv3dONW9eQ=;
-        b=E5nRdro+MEVtesuGijddf2kLm9OlmTwbzNhAclYTIy1qBOo3JMYzAf+r6snKOqGhiH
-         YkuEWil77Ne6Gr9qhLTyPI1MAlDk8XdEZaf48LqjNkLMsZ943xqrupOc5VNynI976CQU
-         kflRLM8q1NU5igauSzByjAvl7enpA9qOChNavY9dFoPaspmSrNmLGdMcOly19lhF6DdY
-         02v7dL1gftDh3EB/382f1bfIm0IuyaUJ8DcOmvQytFleG5KpQJtKL9b729d7TQEHYLAB
-         gByj2mFNYZlqnBbWeSJpcHqAQ8A8hVc0gIHiyD4+4op5dXWJTn8q6IpFVu6GS4Ny8Y18
-         Hc5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678836897;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=75mkBro0auUkQVDm72OpsQNfSGM7MDaLDHv3dONW9eQ=;
-        b=0Hh2Rqq5PgGzSLaluKOLyhTXw74efO/+3RYLpocdmFRkLK4IrwhIKekPxue0hSo8wR
-         R9d9wk4jmQDkQVf+SPzZIkCgiGKUr0EIvUjZHNq8cKraWLtA93ArqN4MQLkRq23D8OAJ
-         xP7KMldgWJ1s66jb/O7kXUv67gpvW8bQD2BXeGupXZ7IGsYnTbOH50hYAF6QFDpu9FaP
-         udYScOfjlvzsqGxoXRaPYwrCuKIP6JYqsw7bv4SPKKCoHkgNNpYkeaM39ovp2EPFCn+E
-         9ikHL1Tr71zxOSJWj2nVWbZ6YPAxzfsKnSto8XmTRX7GTeOOkK4XLbAkHOtnCyu/EHsZ
-         Oq6A==
-X-Gm-Message-State: AO0yUKWdo456Vu+1NStbx7Wc9zlznCyF8AtNdVbH5xS98oZ0R7GHXwUq
-        wZAnQQeGmSf+9ZylZ53H7mg=
-X-Google-Smtp-Source: AK7set/uUtlk3y77eOFjKc9q33ZV4VPN1ElsNmUVBtjhsc2qJp/W3Ssj9LfkZNVOvXE4oF/4w60VAg==
-X-Received: by 2002:a17:906:d92e:b0:8b1:7684:dfb0 with SMTP id rn14-20020a170906d92e00b008b17684dfb0mr4101699ejb.57.1678836896956;
-        Tue, 14 Mar 2023 16:34:56 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id qt17-20020a170906ecf100b009236ae669ecsm1716641ejb.191.2023.03.14.16.34.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 16:34:56 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 01:34:54 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+        Wed, 15 Mar 2023 01:48:54 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2081.outbound.protection.outlook.com [40.107.20.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0029122789;
+        Tue, 14 Mar 2023 22:48:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BIR/rAJ0+yhH6fxnky98yhhQ8i/TeA0qWA2/TPYaVyxldzOX3zYDM6CdteuFZdy5N/ZMcnHAXJlhxmZMVw5QOAavrJUw2mNMJt7HMQQxtkLZtPxuaNe8V6asxtRALQvxvx1+r5oXBxhHQ1sB8I+eQ73+tZVjLyhsJ8hPDLlOnbXx3WXFXCbBr1POjyF5sZJgfygqtNj3A30RYbmlXr4gckECmT9g5SjMNerOopEHVHIo4rjK03SnQfRvHvFc0oLmqHWlo3+YVsARXJYn3keu4j0oyZPcGHZGFrRVqRJiwnyLr8MDydFW6spUSTw0g8XRbUIy4apdG9zYUCxzkvihZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=di0oTCBZKn/QQULM1l8dCiOqafF5ObfhRydD9o1hn18=;
+ b=k69AQyGobUA75GNDiFvxbhI+C3DW3c8J7cYJuctyxmTLfd6GUIa/jBJjZPlkt341WG2REHHIJR88+5pjCRo+CO0n9MEFbDXjImf5A4Fkmehp6I8CFNDTR2BNzUucCFEAkmCgh1S2/D69KALxYhXzERii9Wa4zfUEJO7Eq/CRfn+zYSYJcWRdtZMFBOvEABdSAKV8JrDecH+zoqtNDFTikMHASwCW9GYCvnH9HrOd+KGG2FQt6wXaZQXooRj+Uq5ezs5jkm2H9M1zk8ZveG+U6DCBOK/UpQ4xZqGVicRIvCRrK8qJh72kbtVjB8ot9JypKDcZZYsSvngNzc75Hby4SA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=di0oTCBZKn/QQULM1l8dCiOqafF5ObfhRydD9o1hn18=;
+ b=slWFRJA4hr6C0IYoXQkBEgE/0DOn/mv+x9eBsrsCIPVfXwaZlSecWXqqUuAK1HdM3xnJ0+Rhl4bO1r57z6hLHoU9egUFJ3OSOlgTsv7yAIrKiqLeoHLG9wVpKeHOO5s33tMvS4vUZI6AuMPTAaUBvRtIQa3b96KJCjJVzWEKJoM=
+Received: from DB9PR04MB8106.eurprd04.prod.outlook.com (2603:10a6:10:24b::13)
+ by PAXPR04MB9594.eurprd04.prod.outlook.com (2603:10a6:102:23c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Wed, 15 Mar
+ 2023 05:48:49 +0000
+Received: from DB9PR04MB8106.eurprd04.prod.outlook.com
+ ([fe80::7f2:8bc6:24d8:bb9a]) by DB9PR04MB8106.eurprd04.prod.outlook.com
+ ([fe80::7f2:8bc6:24d8:bb9a%8]) with mapi id 15.20.6178.026; Wed, 15 Mar 2023
+ 05:48:49 +0000
+From:   Wei Fang <wei.fang@nxp.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND net-next v4 3/3] net: dsa: rzn1-a5psw: add vlan
- support
-Message-ID: <20230314233454.3zcpzhobif475hl2@skbuf>
-References: <20230314163651.242259-1-clement.leger@bootlin.com>
- <20230314163651.242259-1-clement.leger@bootlin.com>
- <20230314163651.242259-4-clement.leger@bootlin.com>
- <20230314163651.242259-4-clement.leger@bootlin.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
+ probe
+Thread-Topic: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
+ probe
+Thread-Index: AQHZVnb/KB/pqz+XYEihHV2b1uAXEK77VTGw
+Date:   Wed, 15 Mar 2023 05:48:49 +0000
+Message-ID: <DB9PR04MB8106C492FAAE4D7BE9CB731688BF9@DB9PR04MB8106.eurprd04.prod.outlook.com>
+References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
+ <20230314131443.46342-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230314131443.46342-4-wsa+renesas@sang-engineering.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR04MB8106:EE_|PAXPR04MB9594:EE_
+x-ms-office365-filtering-correlation-id: 53915ab1-703c-45e3-b32e-08db2518f325
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SjzSdnstiLGBYNUBk0yYVwaJ+1EZIMMTE9HsOY/HH5V12LDd/D6o7plIsW0SAH94TzrMT55PdZ5lLGfNmerEeVikylKP+x/XDw06pyieBN8asS0kAvnwoPZNtZl6J9hQQs11yDsnxo/VG0iowGCOpGnpgNhcs3ZlxaS9Y5TrjQg/Es/S4md04K+tHhQYejxC83KLj+lHGvcBvG/0DmrJ86t8E4iCxoarThMUiUJk1A+r3PaU2vhZHg0tcwY+Bi/Opx4cI0WtXuP3bgnxBNDsCpwBO7GDjg2+uJVgAy5k/VOMVthNDHBdWRQG9hQNrFTMEPgUC+KndNr9O96dVqjjRVYpnZmg+Iw9lVeG9n0JgHrAw85WPOQNuEXQYxYts/eogLFpjgDj5S3fuv44d/238TkJBD8y0Vx48i7nLBG5DOKMllDwHBIgDmanWrwcbNFA/woa12pBDChfArl/eLOpcm/R6w5TuVW+ZAlDpOZmwa4b1cObJcfpOOYvoWqKyB90BN66KHm44wPfnDf/1t0iNmnorbl4FvV2RQHndJ5QgYaBDjLkNmyApGvDmgxN5cEMoiTbB2urTGpx5boZX+mjZu47Os2E8503Hzi9/cQE/3PXAvNHRRumJuvC+7iTe/9I60n5rxOzx1G/BhZZCiE86h1GJysajC/dVLpamKVItjSDGyZ3WBRn2wPtivKlVbTGsd6BQUhXUj+exzAR90ry0A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB8106.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(376002)(396003)(39860400002)(346002)(451199018)(54906003)(33656002)(316002)(55016003)(86362001)(122000001)(38070700005)(83380400001)(53546011)(9686003)(26005)(186003)(6506007)(5660300002)(52536014)(478600001)(8676002)(71200400001)(66446008)(41300700001)(38100700002)(4326008)(7696005)(8936002)(64756008)(2906002)(44832011)(66946007)(76116006)(66556008)(66476007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?gb2312?B?Q25lbzlBTlBHMW9uZTYzUFBBYWFETFYxTVp6OUpMSUZiY0xKb21pSkROWENL?=
+ =?gb2312?B?WXJZWEtyazg2ZGJuK1FQNWZwL3BuT01jc2hyMkRRYVhZOHlQRlF5d0tIbEV2?=
+ =?gb2312?B?SDRXd3RVZGNyMnRRZFRjY3FIelRWeUdTNUxYaXEzdm1vRTczQzFTRW1JS3Z3?=
+ =?gb2312?B?TXYwWEF5VFBwc1VMV0p3ZWIzcHV4bEFnVGJldThrb3UzTzA0MFU3bHM2L3hr?=
+ =?gb2312?B?NGlMYWFIZzZidGVTQ3QxeU1wYzJXY1pGVmkyRTZERS9IcEEvSklOWnJwc2hJ?=
+ =?gb2312?B?ZG82WDJ2Y3RYZkIya0Q4YzQxbXc4MmRmOFhEQ0ltWk5SbTBPUDhHUFUzVGtk?=
+ =?gb2312?B?N1duTkpaOTg1TC9jbUNnQjZ4V0llTC9zN283dEd4cjRpVkt4VC8rVWZJVjVK?=
+ =?gb2312?B?N3RkTGZTYnI3azk0SDFCZ0ZOR0duUTBWZVhCWEUwQXd4NTdsVFRtczlpMm83?=
+ =?gb2312?B?UFZscVR0ZWp3STVSdnhGN3MrVllMNlVHTW5xaWpTZHpRN0ZYK0diMDNuczdK?=
+ =?gb2312?B?UWZoLzVYb3R1R0Jzb3dKbnU4ZVkrOXExSXl5ZTVqSFJNa0tLbTZpVTJRcTRB?=
+ =?gb2312?B?VmFXUGpWZUpXTDJWbkx3dytaR0hJdkFET1ExZllXSklsYW1ZNUFzOWZtZGxr?=
+ =?gb2312?B?UEw3ejVtbFp2RXJ0ay96dll4N2ZkOGNTOVhHSDFuNjBYaC9PczAvb0Z2Mnlz?=
+ =?gb2312?B?a0kwVytYZGg3K2ptRjIxUUxESWxZUlhDT29LNUh6aks3aVc4Zyt5TlBJcHhW?=
+ =?gb2312?B?UVFaZlEzdUFmck14bEJSY3JmOU9WWEtNOWkvdFd6aVNyQ3FmeGhvdU5kK0lk?=
+ =?gb2312?B?RElkc0IxQmgxWnArRWJTQlRiWS96VTg0NnV6dGtkbUZabkxGMVB5bVI4bDB1?=
+ =?gb2312?B?TFFtWmR4TXhZUktqeFBDMXh5OWJZdjc5OHRKLzQwRm9VRHZyV25EcDY5L29K?=
+ =?gb2312?B?TVZsV1NQUXVKVjBxZHg3V1Y4K3podjBrVnlRcmdid0ljcXl1bXBKMjJ0dUtG?=
+ =?gb2312?B?Uy9zc21BVHdYeHk1TDBCRWNqUFdOSHpkdm5BcEpNUlVNM3ZIQmNlb3FGK2Zj?=
+ =?gb2312?B?UFpHMTltYVg3d3QrWFZrSjhLcmorNExaM2lzSGhob1pXUDN3cmNtcnNic01p?=
+ =?gb2312?B?My9xMTNPOGNMeUxwT2hLTUE1ZHIrd3U4U3hzQVVNdVZQdkI0Q2VmV21iYTJY?=
+ =?gb2312?B?bTl3YXhKZkhOUWhrVUQrU2lnRmRtMGFod0U5aEVOa0hQenJ0RExOOVlrYy8v?=
+ =?gb2312?B?TTkyQ1k2L0NmSGJQQTlPZHVsRzMrVVBmRW1JaDY5b2xVVTdJeXFwcHhHVWJ6?=
+ =?gb2312?B?VXEvZ2JQZkJqVEZtNTAybVNWM0wzWTFRb3pTaVZ4cnVNR1NzOXFyaFJXRWNi?=
+ =?gb2312?B?OWhjV0NOL3VnTC9sZnpBOXBQOUpMOXNJYzAyYkpucWxzUFhrZUdRK3BWRnpV?=
+ =?gb2312?B?SHNXOHBiL2F3SEFOaFUzcXcrRVR1aC9NZFRQaldkeHdVemZSU0o5UGw0cHhE?=
+ =?gb2312?B?aXlQZEV2bEI3cEpFQXMwQU9GelV4cExyeGY0c3V1V3N0SmJoOTJhdGlxbEFn?=
+ =?gb2312?B?V2szbDNML3NSZGxzbEg2MDFQbW5NZ1QyVmQxeWp5dFNERGFyNHZteHVJQzYy?=
+ =?gb2312?B?MGhLTEYwQ25TRmJUSFpOWEhIZWFwbEdXMWNLcXQrcVI0TFVaODhNTUpTN0Nj?=
+ =?gb2312?B?UUoveXpGM2ZJV1IvUkJYbXRjMXVQVU5oUFEvejNjUXNsWFBIenBoL1F3NDMy?=
+ =?gb2312?B?aHVBNUdWT1NkeGV3MWhtTlFubzNFRWg1NmoxOFVqZVVqS2dsYzFoNzd3bnI4?=
+ =?gb2312?B?ZmVFdkhibEZ3aUNzVW9tOG5UblJzTkl2d2E0Z3VPTWkrcUF2WVAyNHpIczFZ?=
+ =?gb2312?B?TTE5c1FJMHhldlcxZnVTRlhBQlZVUFQzeWhXVktoNHV6SWpMQmRwYmdjQ3d5?=
+ =?gb2312?B?WjFXaTNHbHFXbk1idjhsWlNCVjN4ZEFuTDN5WktUWXh6azA2SXRHbmxBQzZL?=
+ =?gb2312?B?SzhCNTcxczZDMFFMVElITGY1dXdTVHY1OVppYmxGUzZndmp4emxteDI4R2Zv?=
+ =?gb2312?B?cXNDRDJJUzlNZURmeERxdWNIWlFkME5KeU5uVGZmMUVJTkJtdVJkR01WeWsr?=
+ =?gb2312?Q?7D3Q=3D?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230314163651.242259-4-clement.leger@bootlin.com>
- <20230314163651.242259-4-clement.leger@bootlin.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB8106.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53915ab1-703c-45e3-b32e-08db2518f325
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2023 05:48:49.1053
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Nc7ZAx9Njrf7TDfK1uvpcGWKdlLudV7MGeLFrMN3///465IH4cm+UpQC87Js18hKQeSjbpXi17FG7z4te1JyIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9594
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,142 +137,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 05:36:51PM +0100, Clément Léger wrote:
-> Add support for vlan operation (add, del, filtering) on the RZN1
-> driver. The a5psw switch supports up to 32 VLAN IDs with filtering,
-> tagged/untagged VLANs and PVID for each ports.
-> 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
->  drivers/net/dsa/rzn1_a5psw.c | 164 +++++++++++++++++++++++++++++++++++
->  drivers/net/dsa/rzn1_a5psw.h |   8 +-
->  2 files changed, 169 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-> index 5059b2814cdd..a9a42a8bc7e3 100644
-> --- a/drivers/net/dsa/rzn1_a5psw.c
-> +++ b/drivers/net/dsa/rzn1_a5psw.c
-> @@ -583,6 +583,144 @@ static int a5psw_port_fdb_dump(struct dsa_switch *ds, int port,
->  	return ret;
->  }
->  
-> +static int a5psw_port_vlan_filtering(struct dsa_switch *ds, int port,
-> +				     bool vlan_filtering,
-> +				     struct netlink_ext_ack *extack)
-> +{
-> +	u32 mask = BIT(port + A5PSW_VLAN_VERI_SHIFT) |
-> +		   BIT(port + A5PSW_VLAN_DISC_SHIFT);
-
-I'm curious what the A5PSW_VLAN_VERI_SHIFT and A5PSW_VLAN_DISC_SHIFT
-bits do. Also curious in general what does this hardware do w.r.t.
-VLANs. There would be several things on the checklist:
-
-- can it drop a VLAN which isn't present in the port membership list?
-  I guess this is what A5PSW_VLAN_DISC_SHIFT does.
-
-- can it use VLAN information from the packet (with a fallback on the
-  port PVID) to determine where to send, and where *not* to send the
-  packet? How does this relate to the flooding registers? Is the flood
-  mask restricted by the VLAN mask? Is there a default VLAN installed in
-  the hardware tables, which is also the PVID of all ports, and all
-  ports are members of it? Could you implement standalone/bridged port
-  forwarding isolation based on VLANs, rather than the flimsy and most
-  likely buggy implementation done based on flooding domains, from this
-  patch set?
-
-- is the FDB looked up per {MAC DA, VLAN ID} or just MAC DA? Looking at
-  a5psw_port_fdb_add(), there's absolutely no sign of "vid" being used,
-  so I guess it's Shared VLAN Learning. In that case, there's absolutely
-  no hope to implement ds->fdb_isolation for this hardware. But at the
-  *very* least, please disable address learning on standalone ports,
-  *and* implement ds->ops->port_fast_age() so that ports quickly forget
-  their learned MAC adddresses after leaving a bridge and become
-  standalone again.
-
-- if the port PVID is indeed used to filter the flooding mask of
-  untagged packets, then I speculate that when A5PSW_VLAN_VERI_SHIFT
-  is set, the hardware searches for a VLAN tag in the packet, whereas if
-  it's unset, all packets will be forwarded according just to the port
-  PVID (A5PSW_SYSTEM_TAGINFO). That would be absolutely magnificent if
-  true, but it also means that you need to be *a lot* more careful when
-  programming this register. See the "Address databases" section from
-  Documentation/networking/dsa/dsa.rst for an explanation of the
-  asynchronous nature of .port_vlan_add() relative to .port_vlan_filtering().
-  Also see the call paths of sja1105_commit_pvid() and mv88e6xxx_port_commit_pvid()
-  for an example of how this should be managed correctly, and how the
-  bridge PVID should be committed to hardware only when the port is
-  currently VLAN-aware.
-
-> +	u32 val = vlan_filtering ? mask : 0;
-> +	struct a5psw *a5psw = ds->priv;
-> +
-> +	a5psw_reg_rmw(a5psw, A5PSW_VLAN_VERIFY, mask, val);
-> +
-> +	return 0;
-> +}
-> +
-> +static int a5psw_port_vlan_del(struct dsa_switch *ds, int port,
-> +			       const struct switchdev_obj_port_vlan *vlan)
-> +{
-> +	struct a5psw *a5psw = ds->priv;
-> +	u16 vid = vlan->vid;
-> +	int vlan_res_id;
-> +
-> +	dev_dbg(a5psw->dev, "Removing VLAN %d on port %d\n", vid, port);
-> +
-> +	vlan_res_id = a5psw_find_vlan_entry(a5psw, vid);
-> +	if (vlan_res_id < 0)
-> +		return -EINVAL;
-> +
-> +	a5psw_port_vlan_cfg(a5psw, vlan_res_id, port, false);
-> +	a5psw_port_vlan_tagged_cfg(a5psw, vlan_res_id, port, false);
-> +
-> +	/* Disable PVID if the vid is matching the port one */
-
-What does it mean to disable PVID?
-
-> +	if (vid == a5psw_reg_readl(a5psw, A5PSW_SYSTEM_TAGINFO(port)))
-> +		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port), 0);
-> +
-> +	return 0;
-> +}
-> +
->  static u64 a5psw_read_stat(struct a5psw *a5psw, u32 offset, int port)
->  {
->  	u32 reg_lo, reg_hi;
-> @@ -700,6 +838,27 @@ static void a5psw_get_eth_ctrl_stats(struct dsa_switch *ds, int port,
->  	ctrl_stats->MACControlFramesReceived = stat;
->  }
->  
-> +static void a5psw_vlan_setup(struct a5psw *a5psw, int port)
-> +{
-> +	u32 reg;
-> +
-> +	/* Enable TAG always mode for the port, this is actually controlled
-> +	 * by VLAN_IN_MODE_ENA field which will be used for PVID insertion
-> +	 */
-
-What does the "tag always" mode do, and what are the alternatives?
-
-> +	reg = A5PSW_VLAN_IN_MODE_TAG_ALWAYS;
-> +	reg <<= A5PSW_VLAN_IN_MODE_PORT_SHIFT(port);
-> +	a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE, A5PSW_VLAN_IN_MODE_PORT(port),
-> +		      reg);
-> +
-> +	/* Set transparent mode for output frame manipulation, this will depend
-> +	 * on the VLAN_RES configuration mode
-> +	 */
-
-What does the "transparent" output mode do, and how does it compare to
-the "dis", "strip" and "tag through" alternatives?
-
-> +	reg = A5PSW_VLAN_OUT_MODE_TRANSPARENT;
-> +	reg <<= A5PSW_VLAN_OUT_MODE_PORT_SHIFT(port);
-> +	a5psw_reg_rmw(a5psw, A5PSW_VLAN_OUT_MODE,
-> +		      A5PSW_VLAN_OUT_MODE_PORT(port), reg);
-> +}
-
-Sorry for asking all these questions, but VLAN configuration on a switch
-such as to bring it in line with the bridge driver expectations is a
-rather tricky thing, so I'd like to have as clear of a mental model of
-this hardware as possible, if public documentation isn't available.
+SGVsbG8gV29sZnJhbSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBX
+b2xmcmFtIFNhbmcgPHdzYStyZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPg0KPiBTZW50OiAy
+MDIzxOoz1MIxNMjVIDIxOjE1DQo+IFRvOiBuZXRkZXZAdmdlci5rZXJuZWwub3JnDQo+IENjOiBs
+aW51eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5lbC5vcmc7IGtlcm5lbEBwZW5ndXRyb25peC5kZTsg
+V29sZnJhbSBTYW5nDQo+IDx3c2ErcmVuZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNvbT47IFdlaSBG
+YW5nIDx3ZWkuZmFuZ0BueHAuY29tPjsNCj4gU2hlbndlaSBXYW5nIDxzaGVud2VpLndhbmdAbnhw
+LmNvbT47IENsYXJrIFdhbmcNCj4gPHhpYW9uaW5nLndhbmdAbnhwLmNvbT47IGRsLWxpbnV4LWlt
+eCA8bGludXgtaW14QG54cC5jb20+OyBEYXZpZCBTLg0KPiBNaWxsZXIgPGRhdmVtQGRhdmVtbG9m
+dC5uZXQ+OyBFcmljIER1bWF6ZXQgPGVkdW1hemV0QGdvb2dsZS5jb20+Ow0KPiBKYWt1YiBLaWNp
+bnNraSA8a3ViYUBrZXJuZWwub3JnPjsgUGFvbG8gQWJlbmkgPHBhYmVuaUByZWRoYXQuY29tPjsN
+Cj4gbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBbUEFUQ0ggbmV0LW5l
+eHQgMy80XSBmZWM6IGFkZCBGSVhNRSB0byBtb3ZlICdtYWNfbWFuYWdlZF9wbScgdG8NCj4gcHJv
+YmUNCj4gDQo+IE9uIFJlbmVzYXMgaGFyZHdhcmUsIHdlIGhhZCBpc3N1ZXMgYmVjYXVzZSB0aGUg
+YWJvdmUgZmxhZyB3YXMgc2V0IGR1cmluZw0KPiAnb3BlbicuIEl0IHdhcyBjb25jbHVkZWQgdGhh
+dCBpdCBuZWVkcyB0byBiZSBzZXQgZHVyaW5nICdwcm9iZScuIEl0IGxvb2tzIGxpa2UgRkVDDQo+
+IG5lZWRzIHRoZSBzYW1lIGZpeCBidXQgSSBjYW4ndCB0ZXN0IGl0IGJlY2F1c2UgSSBkb24ndCBo
+YXZlIHRoZSBoYXJkd2FyZS4gQXQNCj4gbGVhc3QsIGxlYXZlIGEgbm90ZSBhYm91dCB0aGUgaXNz
+dWUuDQo+IA0KDQpDb3VsZCB5b3UgZGVzY3JpYmUgdGhpcyBpc3N1ZSBpbiBtb3JlIGRldGFpbHM/
+IFNvIHRoYXQgSSBjYW4gcmVwcm9kdWNlIGFuZCBmaXggdGhpcw0KaXNzdWUgYW5kIHRlc3QgaXQu
+IFRoYW5rcyENCg0KPiBTaWduZWQtb2ZmLWJ5OiBXb2xmcmFtIFNhbmcgPHdzYStyZW5lc2FzQHNh
+bmctZW5naW5lZXJpbmcuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvbmV0L2V0aGVybmV0L2ZyZWVz
+Y2FsZS9mZWNfbWFpbi5jIHwgMSArDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykN
+Cj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9mcmVlc2NhbGUvZmVjX21h
+aW4uYw0KPiBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZyZWVzY2FsZS9mZWNfbWFpbi5jDQo+IGlu
+ZGV4IGM3M2UyNWY4OTk1ZS4uYjE2ZjU2MjA4ZDY2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL25l
+dC9ldGhlcm5ldC9mcmVlc2NhbGUvZmVjX21haW4uYw0KPiArKysgYi9kcml2ZXJzL25ldC9ldGhl
+cm5ldC9mcmVlc2NhbGUvZmVjX21haW4uYw0KPiBAQCAtMjMxOCw2ICsyMzE4LDcgQEAgc3RhdGlj
+IGludCBmZWNfZW5ldF9taWlfcHJvYmUoc3RydWN0IG5ldF9kZXZpY2UNCj4gKm5kZXYpDQo+ICAJ
+ZmVwLT5saW5rID0gMDsNCj4gIAlmZXAtPmZ1bGxfZHVwbGV4ID0gMDsNCj4gDQo+ICsJLyogRklY
+TUU6IHNob3VsZCBiZSBzZXQgcmlnaHQgYWZ0ZXIgbWRpb2J1cyBpcyByZWdpc3RlcmVkICovDQo+
+ICAJcGh5X2Rldi0+bWFjX21hbmFnZWRfcG0gPSB0cnVlOw0KPiANCj4gIAlwaHlfYXR0YWNoZWRf
+aW5mbyhwaHlfZGV2KTsNCj4gLS0NCj4gMi4zMC4yDQoNCg==
