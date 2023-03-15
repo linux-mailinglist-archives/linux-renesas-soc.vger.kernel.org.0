@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08FB16BB60A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 15:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EABD6BB6B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Mar 2023 15:55:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbjCOObG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Mar 2023 10:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        id S233233AbjCOOzp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Mar 2023 10:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbjCOObC (ORCPT
+        with ESMTP id S233243AbjCOOzV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Mar 2023 10:31:02 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222D12B291
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 07:30:34 -0700 (PDT)
+        Wed, 15 Mar 2023 10:55:21 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23941E9F5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Mar 2023 07:54:27 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.187.55])
-        by andre.telenet-ops.be with bizsmtp
-        id YeWY2900R1C8whw01eWYSs; Wed, 15 Mar 2023 15:30:33 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id Yeu9290031C8whw06eu9fC; Wed, 15 Mar 2023 15:54:09 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pcS6R-00CI9L-4A;
-        Wed, 15 Mar 2023 15:28:21 +0100
+        id 1pcSVO-00CIIr-Hn;
+        Wed, 15 Mar 2023 15:54:09 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pcS73-00D174-Gj;
-        Wed, 15 Mar 2023 15:28:21 +0100
+        id 1pcSW0-00D2JO-UQ;
+        Wed, 15 Mar 2023 15:54:08 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tobias Klausmann <klausman@schwarzvogel.de>
-Subject: [PATCH] lib: dhry: Fix unstable smp_processor_id(_) usage
-Date:   Wed, 15 Mar 2023 15:28:17 +0100
-Message-Id: <b0d29932bb24ad82cea7f821e295c898e9657be0.1678890070.git.geert+renesas@glider.be>
+To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: spi: renesas,sh-msiof: Miscellaneous improvements
+Date:   Wed, 15 Mar 2023 15:54:07 +0100
+Message-Id: <052af97ecbaa9ba6e0d406883dd3389fa397579a.1678891999.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,49 +48,66 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When running the in-kernel Dhrystone benchmark with
-CONFIG_DEBUG_PREEMPT=y:
+Make "clocks" and "power-domains" required everywhere.
+Make "resets" required on R-Car Gen2 and newer (i.e. all but SH-Mobile).
 
-    BUG: using smp_processor_id() in preemptible [00000000] code: bash/938
+Update the example to match reality:
+  - Use interrupt binding definitions instead of hardcoded numbers,
+  - Convert to new-style CPG/MSSR bindings,
+  - Add missing "power-domains" and "resets" properties.
 
-Fix this by not using smp_processor_id() directly, but instead wrapping
-the whole benchmark inside a get_cpu()/put_cpu() pair.  This makes sure
-the whole benchmark is run on the same CPU core, and the reported values
-are consistent.
-
-Fixes: d5528cc16893f1f6 ("lib: add Dhrystone benchmark test")
-Reported-by: Tobias Klausmann <klausman@schwarzvogel.de>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217179
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- lib/dhry_run.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../bindings/spi/renesas,sh-msiof.yaml        | 23 +++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/lib/dhry_run.c b/lib/dhry_run.c
-index f9d33efa6d090604..f15ac666e9d38bd2 100644
---- a/lib/dhry_run.c
-+++ b/lib/dhry_run.c
-@@ -31,6 +31,7 @@ MODULE_PARM_DESC(iterations,
+diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+index 491a695a2deb3b83..00acbbb0f65dcf57 100644
+--- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
++++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+@@ -149,23 +149,38 @@ required:
+   - compatible
+   - reg
+   - interrupts
++  - clocks
++  - power-domains
+   - '#address-cells'
+   - '#size-cells'
  
- static void dhry_benchmark(void)
- {
-+	unsigned int cpu = get_cpu();
- 	int i, n;
++if:
++  not:
++    properties:
++      compatible:
++        contains:
++          const: renesas,sh-mobile-msiof
++then:
++  required:
++    - resets
++
+ unevaluatedProperties: false
  
- 	if (iterations > 0) {
-@@ -45,9 +46,10 @@ static void dhry_benchmark(void)
- 	}
+ examples:
+   - |
+-    #include <dt-bindings/clock/r8a7791-clock.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7791-sysc.h>
  
- report:
-+	put_cpu();
- 	if (n >= 0)
--		pr_info("CPU%u: Dhrystones per Second: %d (%d DMIPS)\n",
--			smp_processor_id(), n, n / DHRY_VAX);
-+		pr_info("CPU%u: Dhrystones per Second: %d (%d DMIPS)\n", cpu,
-+			n, n / DHRY_VAX);
- 	else if (n == -EAGAIN)
- 		pr_err("Please increase the number of iterations\n");
- 	else
+     msiof0: spi@e6e20000 {
+         compatible = "renesas,msiof-r8a7791", "renesas,rcar-gen2-msiof";
+         reg = <0xe6e20000 0x0064>;
+-        interrupts = <0 156 IRQ_TYPE_LEVEL_HIGH>;
+-        clocks = <&mstp0_clks R8A7791_CLK_MSIOF0>;
++        interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 000>;
+         dmas = <&dmac0 0x51>, <&dmac0 0x52>;
+         dma-names = "tx", "rx";
++        power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
++        resets = <&cpg 0>;
+         #address-cells = <1>;
+         #size-cells = <0>;
+     };
 -- 
 2.34.1
 
