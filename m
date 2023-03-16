@@ -2,24 +2,24 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D989D6BD9A6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 20:58:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE286BD9B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 21:00:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbjCPT6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Mar 2023 15:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41492 "EHLO
+        id S230033AbjCPUAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Mar 2023 16:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbjCPT57 (ORCPT
+        with ESMTP id S230168AbjCPUAd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Mar 2023 15:57:59 -0400
+        Thu, 16 Mar 2023 16:00:33 -0400
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55FDBDD24;
-        Thu, 16 Mar 2023 12:57:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D812CCC33D;
+        Thu, 16 Mar 2023 13:00:14 -0700 (PDT)
 Received: from [192.168.1.103] (178.176.73.23) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 16 Mar
- 2023 22:56:12 +0300
-Subject: Re: [PATCH net v2 1/2] ravb: avoid PHY being resumed when interface
+ 2023 22:58:41 +0300
+Subject: Re: [PATCH net v2 2/2] sh_eth: avoid PHY being resumed when interface
  is not up
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         <netdev@vger.kernel.org>
@@ -34,15 +34,15 @@ CC:     <linux-renesas-soc@vger.kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         <linux-kernel@vger.kernel.org>
 References: <20230315074115.3008-1-wsa+renesas@sang-engineering.com>
- <20230315074115.3008-2-wsa+renesas@sang-engineering.com>
+ <20230315074115.3008-3-wsa+renesas@sang-engineering.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <f4f46db5-459a-5479-7fda-7d59517e34a5@omp.ru>
-Date:   Thu, 16 Mar 2023 22:56:11 +0300
+Message-ID: <4985c895-636d-9707-0acb-5334ae74e906@omp.ru>
+Date:   Thu, 16 Mar 2023 22:58:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20230315074115.3008-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230315074115.3008-3-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,14 +91,15 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 3/15/23 10:41 AM, Wolfram Sang wrote:
 
-> RAVB doesn't need mdiobus suspend/resume, that's why it sets
+> SH_ETH doesn't need mdiobus suspend/resume, that's why it sets
 > 'mac_managed_pm'. However, setting it needs to be moved from init to
 > probe, so mdiobus PM functions will really never be called (e.g. when
 > the interface is not up yet during suspend/resume).
 > 
-> Fixes: 4924c0cdce75 ("net: ravb: Fix PHY state warning splat during system resume")
+> Fixes: 6a1dbfefdae4 ("net: sh_eth: Fix PHY state warning splat during system resume")
 > Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Michal Kubiak <michal.kubiak@intel.com>
 
 [...]
 
