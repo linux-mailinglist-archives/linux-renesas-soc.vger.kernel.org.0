@@ -2,185 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EF446BCA67
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 10:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D5A66BCEBB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 12:50:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbjCPJKm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Mar 2023 05:10:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49996 "EHLO
+        id S230006AbjCPLuv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Mar 2023 07:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbjCPJKj (ORCPT
+        with ESMTP id S229733AbjCPLuu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Mar 2023 05:10:39 -0400
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2059.outbound.protection.outlook.com [40.107.241.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F115138EBD;
-        Thu, 16 Mar 2023 02:10:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nlFwlstz/MWlYuALOgvopnU8hjx2bBzIkdJEk2/Zzraig7TcOY/f2aZXLdaw4K6GaTI7OVpwNqmznx3OEiry1lwpEbZcJ2hwNRWNlnL51dEVevxym2Opl7NscCsJSKHrv61JdZpLHQeu7Vg+gGBw5m+lv5ktKm//ysJkNL3lzKcfAmuq2QDzt4+evfrdpnqOag/WSIvAYmi60K1/LK4/PfxRI8WsQcJoB0R2IxiAPbxfdydQNoLZ5OUGml7tYuq6rsQnCEkSqMdZuITUR1qv8RGW15/9+0VRu7dkz21cZ/rrmzIylsjNi5VvGyNWuZz38NvmcEXHNbDolWejuex6Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vkg0IjH/SNjEhpXL7sV2B2UrGWEFGpCeoqjGn3twkVw=;
- b=fSuUg5SrUFCK57fnXXuj2P3InnjMB16zSUFeizbe9UNsnlwVZ4Z3PUgSEZ2c45GVlI4M/CuNjFBEKasAv+V1jkoHYk5c2UxhUSeQYIu6G7soDHsgwbKSNZWBFxTozKuXpJHhnUf+dxU+Pyn7Rj6Rm/Pjw3N6GzTKj3nkwKJrlS8lyofDRZgU5ld+fsQR6sijXdfyTKxz+O4QZukP4UGhjpDZNpqYLBtTVt0acYh5j9HrpzKHUQ2pIXKpdoof1ud08NIJInVE0h6UsxVIiNe6jbRl4zZytcfBt0hsXp12c7T/pGY2Ze6bIxZbmIw+xHTvrpDl5ePsyMKPawEkauVLbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vkg0IjH/SNjEhpXL7sV2B2UrGWEFGpCeoqjGn3twkVw=;
- b=Lu9B+Qcv6/NGdf/mf+Df75f0qNrQy4W9hkZoF3Iy3EUY39kM3pDG5BNW7HvGlACt7k2252m635J64ZOJA5UZi/JqTvIKR7rRotYbSTqvPApI5sYGKI3m4pEiUcMq5Hcix04isGKstEvq5E1ZTubo44G1QDR0kvrGGQOLiVTIuT0=
-Received: from AM5PR04MB3139.eurprd04.prod.outlook.com (2603:10a6:206:8::20)
- by PAXPR04MB8476.eurprd04.prod.outlook.com (2603:10a6:102:1df::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.30; Thu, 16 Mar
- 2023 09:10:24 +0000
-Received: from AM5PR04MB3139.eurprd04.prod.outlook.com
- ([fe80::414:d11c:d215:4ed3]) by AM5PR04MB3139.eurprd04.prod.outlook.com
- ([fe80::414:d11c:d215:4ed3%7]) with mapi id 15.20.6178.024; Thu, 16 Mar 2023
- 09:10:23 +0000
-From:   Wei Fang <wei.fang@nxp.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
+        Thu, 16 Mar 2023 07:50:50 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAAF49F3;
+        Thu, 16 Mar 2023 04:50:47 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id F373E1C0005;
+        Thu, 16 Mar 2023 11:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1678967445;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=E1afFIzDsJ40IP7Ith3L/4SRKNCsYKLONEXOEtzaXbs=;
+        b=Nn5HyeapmUkGllvyxQEGYP/X+cMnXXK0lX4ufrC/EhLRdqJ/pWmEogmdcrKat+hZDlPgHF
+        Qh0udtx4m7bVmBSI5xVu5/1+ExG6C3dVUATriG8FHR3jpPogKGuTu36jRk4grXhkkBd1XW
+        eYZ9oAFJeBj+HUr5uSK4h56fru4jJiItlr7gv75qSCzCWbgR0Mvu8OnxCHjtQ+XyP+1t/Z
+        WqJIT9K6dFM2oFLQd6MG3o6n0KIiywhy/GD6eGjTux3/JL5D0IVp9FkPbJmkKAl0WAmh6q
+        h2ZGY0Hjw+ZQwQ9Q8KL4vy1io85bRpYykrxllDuV0VPHWbk32KxL0D59t2YyGA==
+Date:   Thu, 16 Mar 2023 12:53:29 +0100
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: RE: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
- probe
-Thread-Topic: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
- probe
-Thread-Index: AQHZVnb/KB/pqz+XYEihHV2b1uAXEK77VTGwgAAdBgCAAZwbgIAACHtw
-Date:   Thu, 16 Mar 2023 09:10:23 +0000
-Message-ID: <AM5PR04MB313943C24A61C48D761B452688BC9@AM5PR04MB3139.eurprd04.prod.outlook.com>
-References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
- <20230314131443.46342-4-wsa+renesas@sang-engineering.com>
- <DB9PR04MB8106C492FAAE4D7BE9CB731688BF9@DB9PR04MB8106.eurprd04.prod.outlook.com>
- <ZBFzVjaRjcITP0bA@ninjato> <ZBLNCYgeTtNBSaMi@ninjato>
-In-Reply-To: <ZBLNCYgeTtNBSaMi@ninjato>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM5PR04MB3139:EE_|PAXPR04MB8476:EE_
-x-ms-office365-filtering-correlation-id: 7a7782c5-6211-470c-9a82-08db25fe4648
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IisiI0L+o+Hj1mvXh7hzKuHihEl+tod2+r9JECYzvss9yqiTqvChuyoIblglB0HxVVHU3ExZrcjoocfQwBAX3JqdR2DOQK90tviZXpwjinw9UHlOEfoqpWaKAviIFB7fC4PrNeY+R1qrAjkP8qMk7O1eHBiUfcsPvX3UQgrr4FhMOu9HrlmkuyIG1rlImOzqyWbFHMER2SKWhhO6yDDxfT0jjfh9Dhbp1G496ez0k4h6Ti4lb1CTsFhzKmqAIfqkGRxf2RlhSrUEAUg6mmn7gwoix2/BCuBTJlBK5crVJtfZmhGrU7MTtAm0R9nyNw4q5Ac8D83IxI7EaKLiBkR9fJAVGHFqOWVwX/hTtXZSX2n4FlEZBba5fSUwgitEP/NvUJtmyLmTWsj2ldas68pAXgY5+K8Wf2rkmi5nQvmMJ4waS4nnaVZMBqEcJ5adhRApGT2foVopEWWzjqabVn8Q3TVXS0NpUtsQ9yWACBZRRNCKE9Odu9qUPmB2nEhliPc8GAhqCCIsN1WwG+EBsXvuzQgeriYJp79tSb25vyXXLqAQFUGalzMgubjZrDEQFWmY2QPQOFl1PUT3BZq9lOdA5KYJlyg8UxHycyXw+RWB23pc8gtAvGrpXprLp6JHPGqpAPikZ1ywfu7oxHFPT68IGotqtHQM/XgM5BWQDNtvDII9iSWpRcp8sM9r2pUFYKUWpGxeHA1ySGjafP7M1kueRMHjiM1j6DE/xU3fxoG+FsQ=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3139.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(451199018)(83380400001)(86362001)(478600001)(316002)(110136005)(53546011)(7696005)(26005)(6506007)(186003)(33656002)(71200400001)(55016003)(921005)(38100700002)(38070700005)(9686003)(2906002)(66946007)(122000001)(5660300002)(76116006)(44832011)(8936002)(66556008)(66446008)(66476007)(64756008)(52536014)(41300700001)(8676002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?T0xTUUNmQURRY1RhMDBydkQ0MWF6Qk5pZFQwMWc3akw4eTNWamJHRjJBZCt1?=
- =?gb2312?B?NTF2WEMyY2FGRk1Mejl5elpwVHVVeFJ6U2c2REtIMyswWnFZVE0yNmF5bjF3?=
- =?gb2312?B?WUFUOWpvdWtKZ29DS2pPRitELzJlMythVDlzS3RtNDVRbG9SMFUvRkswekcy?=
- =?gb2312?B?UGNuazlkazRmeUk3Uzd4UlNNNXU2RzhHWTc1d3ZGYk9sZlYxaEN4T2VFWGpP?=
- =?gb2312?B?RTFxVkt0a2hMWmVyNXlqTGhpblJtbmZ2bWc4Uk1VdXFmVFBSbXhsbFJtak5z?=
- =?gb2312?B?MUU1UmVXUUhJWnhPOEg2TWJ2TDhLYzR4c0FxL1h1NVl3eDZDQ3VnME4vSTVP?=
- =?gb2312?B?Nzk0TmduT2hyNUdJZkh5a0xwUmkxU2k5VnUycHExbnV1cnh5clo0UlVob052?=
- =?gb2312?B?bjZiM0xqSVRNdVEwMGw2Y1dmdUNRck8rZ1VYT1ovZFlDaFFiQjVpWWVad1dV?=
- =?gb2312?B?ZS9HVzBrQ0QrclpYcS92R3I1Z0htTm9IK2EzL096V29DS0RRRnJ6YkFndWdo?=
- =?gb2312?B?Y1BQZUxxdUg0VUdmY3BUaTZqRCtvUEtBQlJuSVpMUWxoQlJ0MUdwM2l3N0RG?=
- =?gb2312?B?OVZxbDhiK1IwbHRuYk1vbFJaYnp1c2pZVlpIaUdaUXZMdXYvb0RZbHdFTG5i?=
- =?gb2312?B?ekN2bCtCS0oycXN5K1Y3ZDdSK2lCTnh6ZjgyLzRVYlovTGJvUHhqWUZNeS8x?=
- =?gb2312?B?NkNzeFIwSkh6VVRxdTJuSThzNUpwMlI0MWphUk5rNkF3M3ZNdWFwL1JyNkVF?=
- =?gb2312?B?b1ZnS1UwU2JlSmQzMGVKTStZbHhLQWtQMy9xdmpOTlluVkkzZ3VZejlUMklZ?=
- =?gb2312?B?ZHEzaUx5dGx5TlhmWHVJUGdPUHYrdktteVZ5QmxLU01la1VDTkNLNjBBVmJM?=
- =?gb2312?B?bTZDQ25xR1lmS1hMVEovM1ZKMG0yZ2RQOHA5KzNJSlZkZlNLSzI0dDdYZ2Jz?=
- =?gb2312?B?c2xDVFNwOW1VREJscGJqOUlteWpWVUZKVnJVZFVkQlUxamhvYnpEVjV1SFhJ?=
- =?gb2312?B?UExLMmZNS3FzbzlQcHBHUDBNWUtkVm1kVDVsT0tsYUVFYWRpZ2RrcFRzaVhI?=
- =?gb2312?B?ekxqY01EUFAzTCsxZ3lQczJKMFk2UTVuMytDNmNENjhMVVFBdlBaN3RJdlI5?=
- =?gb2312?B?Y0NSS1VwZm93VEc2T0owREROMHN4eUNKMk5QRVlCWnpKVVRuZWV3ekZBQjRk?=
- =?gb2312?B?TjJKVmlZbGJiNzM4eU1TL2ptMU5tNkNCd2JHZ1E0K3R3cmVBeU52NmptVW51?=
- =?gb2312?B?NGQ0bFR2UkY1NDkzT3RaSDJLRitwUjlqNEZKeDBYUEg1MWdjMHYwaE5oR3cw?=
- =?gb2312?B?MFpoOTRuUlFpTmgvTFVKQm1IZ2YzR1ZWbjYxRW44bmJpcnhxZUN4U29VQnZ1?=
- =?gb2312?B?ejFiNnpDbFdONkpFVUFlMVp3eCtHSUIzOXZSbytmdzM1OGlmSmVCV2VVaVJW?=
- =?gb2312?B?b2libys5QjlIVTRYZTQ5TGpTUjgzeXoyY0huN2p5cjY5T0xFQ0hXU2ppZDM3?=
- =?gb2312?B?UGZWUThJVzZIUnM2ZCszVGlTRklSTjJtb1lwNUlyLzFkS2ljRUFzbFIyR3NT?=
- =?gb2312?B?ckVORFV2NU5LTnBLdFN1dnQzUE9vaXlYeVVQNVNLZjlPQUh3aFlxS1VLYkE0?=
- =?gb2312?B?NnBSbzVTeldBUHJsRURTdGMrVVNrSmplaDhQN25WOUkxbFlnN2E2S3dRYlBq?=
- =?gb2312?B?eEN6VjhrMERpeStDL05RK0hqK3kyMjRYM0MyUThncUJmNUtDbjNNSFo2YWU0?=
- =?gb2312?B?RGZPa1V5ZEMrM0hSSHVDRWdNNFl6Ykw5QzMrUlpOSVIyZmlRdzJRVm5WK3Bm?=
- =?gb2312?B?ODJpb0VpekZOREZSZk9pM2U3UDZhOWVFTzU1MkdzNElSV09OcXQ0ZHk1ZFpR?=
- =?gb2312?B?ckdmUjBQYUQ1V1RJWTZETTUwZ2NNQS9rM0Y1TTB1RkdIWnV3Rkl4bmE0SkNK?=
- =?gb2312?B?WllUbXFSYW5iOHQ4aUd0VW5ZalBac2xRWmtEZ2dUUVhyM012Mis2RXpLSlpQ?=
- =?gb2312?B?VlJzK1hUNGlPNHFNZ0lXTkd1dWxYYnpnVEZvQ1pNc2hBZVphR25UeCtWc2tB?=
- =?gb2312?B?NExvS3dEcTRRUmFQclZVYU4weUpqRW1URzMxVkZ0eEZFcUx3Uk5Ga3hGSGZq?=
- =?gb2312?Q?Gvgk=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexis =?UTF-8?B?TG90aG9yw6k=?= <alexis.lothore@bootlin.com>
+Subject: Re: [PATCH RESEND net-next v4 2/3] net: dsa: rzn1-a5psw: add
+ support for .port_bridge_flags
+Message-ID: <20230316125329.75b290d4@fixe.home>
+In-Reply-To: <20230314230821.kjiyseiqhat4apqb@skbuf>
+References: <20230314163651.242259-1-clement.leger@bootlin.com>
+        <20230314163651.242259-3-clement.leger@bootlin.com>
+        <20230314230821.kjiyseiqhat4apqb@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3139.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a7782c5-6211-470c-9a82-08db25fe4648
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2023 09:10:23.3828
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x3iBDA11w7RuyK9lweZsVK6sbbT7+2zCG7LkMoqXXlSZZ/CMwlHYR0Y6WzkKI/muisqC/b9MuoZNRnGFH4x0/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8476
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBXb2xmcmFtIFNhbmcgPHdzYSty
-ZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPg0KPiBTZW50OiAyMDIzxOoz1MIxNsjVIDE2OjAy
-DQo+IFRvOiBXZWkgRmFuZyA8d2VpLmZhbmdAbnhwLmNvbT47IGxpbnV4LXJlbmVzYXMtc29jQHZn
-ZXIua2VybmVsLm9yZzsNCj4ga2VybmVsQHBlbmd1dHJvbml4LmRlOyBTaGVud2VpIFdhbmcgPHNo
-ZW53ZWkud2FuZ0BueHAuY29tPjsgQ2xhcmsNCj4gV2FuZyA8eGlhb25pbmcud2FuZ0BueHAuY29t
-PjsgZGwtbGludXgtaW14IDxsaW51eC1pbXhAbnhwLmNvbT47IERhdmlkIFMuDQo+IE1pbGxlciA8
-ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD47IEVyaWMgRHVtYXpldCA8ZWR1bWF6ZXRAZ29vZ2xlLmNvbT47
-DQo+IEpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+OyBQYW9sbyBBYmVuaSA8cGFiZW5p
-QHJlZGhhdC5jb20+Ow0KPiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBuZXRkZXZAdmdl
-ci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggbmV0LW5leHQgMy80XSBmZWM6IGFk
-ZCBGSVhNRSB0byBtb3ZlICdtYWNfbWFuYWdlZF9wbScNCj4gdG8gcHJvYmUNCj4gDQo+IA0KPiA+
-IFllcywgSSB3aWxsIHJlc2VuZCB0aGUgc2VyaWVzIGFzIFJGQyB3aXRoIG1vcmUgZXhwbGFuYXRp
-b25zLg0KPiANCj4gQmVjYXVzZSBJIHdhcyBhYmxlIHRvIGZpeCBTTVNDIG15c2VsZiwgSSdsbCBq
-dXN0IGRlc2NyaWJlIHRoZSBwcm9jZWR1cmUNCj4gaGVyZToNCj4gDQo+IDEpIGFwcGx5IHRoaXMg
-ZGVidWcgcGF0Y2g6DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvcGh5L3BoeV9kZXZp
-Y2UuYyBiL2RyaXZlcnMvbmV0L3BoeS9waHlfZGV2aWNlLmMgaW5kZXgNCj4gMWIyZTI1M2ZjZTc1
-Li43Yjc5YzU5Nzk0ODYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbmV0L3BoeS9waHlfZGV2aWNl
-LmMNCj4gKysrIGIvZHJpdmVycy9uZXQvcGh5L3BoeV9kZXZpY2UuYw0KPiBAQCAtMzEwLDYgKzMx
-MCw4IEBAIHN0YXRpYyBfX21heWJlX3VudXNlZCBpbnQNCj4gbWRpb19idXNfcGh5X3N1c3BlbmQo
-c3RydWN0IGRldmljZSAqZGV2KQ0KPiAgCWlmIChwaHlkZXYtPm1hY19tYW5hZ2VkX3BtKQ0KPiAg
-CQlyZXR1cm4gMDsNCj4gDQo+ICtwcmludGsoS0VSTl9JTkZPICIqKioqKiogTURJTyBzdXNwZW5k
-XG4iKTsNCj4gKw0KPiAgCS8qIFdha2V1cCBpbnRlcnJ1cHRzIG1heSBvY2N1ciBkdXJpbmcgdGhl
-IHN5c3RlbSBzbGVlcCB0cmFuc2l0aW9uIHdoZW4NCj4gIAkgKiB0aGUgUEhZIGlzIGluYWNjZXNz
-aWJsZS4gU2V0IGZsYWcgdG8gcG9zdHBvbmUgaGFuZGxpbmcgdW50aWwgdGhlIFBIWQ0KPiAgCSAq
-IGhhcyByZXN1bWVkLiBXYWl0IGZvciBjb25jdXJyZW50IGludGVycnVwdCBoYW5kbGVyIHRvIGNv
-bXBsZXRlLg0KPiANCj4gMikgYm9vdCB0aGUgZGV2aWNlIHdpdGhvdXQgYnJpbmdpbmcgdGhlIGlu
-dGVyZmFjZSAoYW5kIHRodXMgdGhlIFBIWSkgdXAuDQo+ICAgIEJyaW5naW5nIGl0IGRvd24gYWZ0
-ZXIgaXQgd2FzIHVwIGlzIG5vdCB0aGUgc2FtZSEgSXQgaXMgaW1wb3J0YW50DQo+ICAgIHRoYXQg
-aXQgd2FzIG5ldmVyIHVwIGJlZm9yZS4NCj4gDQo+IDMpIGRvIGEgc3VzcGVuZC10by1yYW0vcmVz
-dW1lIGN5Y2xlDQo+IA0KPiA0KSB5b3VyIGxvZyBzaG91bGQgc2hvdyB0aGUgYWJvdmUgZGVidWcg
-bWVzc2FnZS4gSWYgbm90LCBJIHdhcyB3cm9uZw0KPiANCj4gNSkgSWYgeWVzLCBhcHBseSBhIHNp
-bWlsYXIgZml4IHRvIHRoZSBvbmUgSSBkaWQgZm9yIHRoZSBSZW5lc2FzIGRyaXZlcnMNCj4gICAg
-aW4gdGhpcyBzZXJpZXMNCj4gDQo+IDYpIHN1c3BlbmQvcmVzdW1lIHNob3VsZCBub3Qgc2hvdyB0
-aGUgZGVidWcgbWVzc2FnZSBhbnltb3JlDQo+IA0KPiA3KSB0ZXN0IGZvciByZWdyZXNzaW9ucyBh
-bmQgc2VuZCBvdXQgOikNCj4gDQo+IEkgaG9wZSB0aGlzIHdhcyB1bmRlcnN0YW5kYWJsZS4gSWYg
-bm90LCBmZWVsIGZyZWUgdG8gYXNrLg0KPiANCj4gSGFwcHkgaGFja2luZywNCj4gDQoNClRoYW5r
-IHlvdSBXb2xmcmFtLiBCdXQgSSdtIG5vdCBzdXJlIHdoZXRoZXIgaXQncyByZWFsbHkgYW4gaXNz
-dWUuIFRoZSBmbGFnDQoiIG1hY19tYW5hZ2VkX3BtIiBpbmRpY2F0ZXMgdGhhdCB0aGUgTUFDIGRy
-aXZlciB3aWxsIHRha2UgY2FyZSBvZg0Kc3VzcGVuZGluZy9yZXN1bWluZyB0aGUgUEhZLCB0aGF0
-IGlzIHRvIHNheSB0aGUgTUFDIGRyaXZlciBjYWxscw0KcGh5X3N0b3AoKS9waHlfc3RhcnQoKSBp
-biBpdHMgUE0gY2FsbGJhY2tzLiBJZiBhIGV0aGVybmV0IGludGVyZmFjZSBuZXZlcg0KYnJpbmdz
-IHVwLCB0aGUgTUFDIFBNIGNhbGxiYWNrcyBkbyBub3RoaW5nIGFuZCBqdXN0IHJldHVybiAwIGRp
-cmVjdGx5LiBTbyBJDQp0aGluayBpdCdzIGZpbmUgZm9yIHRoZSBNRElPIFBNIHRvIGRvIHN1c3Bl
-bmQvcmVzdW1lIHRoZSBQSFkgdW5sZXNzIHRoZSBNRElPDQpidXMgY2FuJ3QgYmUgYWNjZXNzZWQu
-DQoNCg0KDQo=
+Le Wed, 15 Mar 2023 01:08:21 +0200,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
+
+> On Tue, Mar 14, 2023 at 05:36:50PM +0100, Cl=C3=A9ment L=C3=A9ger wrote:
+> > +static int a5psw_port_pre_bridge_flags(struct dsa_switch *ds, int port,
+> > +				       struct switchdev_brport_flags flags,
+> > +				       struct netlink_ext_ack *extack)
+> > +{
+> > +	if (flags.mask & ~(BR_LEARNING | BR_FLOOD | BR_MCAST_FLOOD |
+> > +			   BR_BCAST_FLOOD))
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +a5psw_port_bridge_flags(struct dsa_switch *ds, int port,
+> > +			struct switchdev_brport_flags flags,
+> > +			struct netlink_ext_ack *extack)
+> > +{
+> > +	struct a5psw *a5psw =3D ds->priv;
+> > +	u32 val;
+> > +
+> > +	if (flags.mask & BR_LEARNING) {
+> > +		val =3D flags.val & BR_LEARNING ? 0 : A5PSW_INPUT_LEARN_DIS(port);
+> > +		a5psw_reg_rmw(a5psw, A5PSW_INPUT_LEARN,
+> > +			      A5PSW_INPUT_LEARN_DIS(port), val);
+> > +	} =20
+>=20
+> 2 issues.
+>=20
+> 1: does this not get overwritten by a5psw_port_stp_state_set()?
+
+Hum indeed. How is this kind of thing supposed to be handled ? Should I
+remove the handling of BR_LEARNING to forbid modifying it ? Ot should I
+allow it only if STP isn't enabled (which I'm not sure how to do it) ?
+
+> 2: What is the hardware default value for A5PSW_INPUT_LEARN? Please make
+>    sure that standalone ports have learning disabled by default, when
+>    the driver probes.
+>=20
+> > +
+> > +	if (flags.mask & BR_FLOOD) {
+> > +		val =3D flags.val & BR_FLOOD ? BIT(port) : 0;
+> > +		a5psw_reg_rmw(a5psw, A5PSW_UCAST_DEF_MASK, BIT(port), val);
+> > +	}
+> > +
+> > +	if (flags.mask & BR_MCAST_FLOOD) {
+> > +		val =3D flags.val & BR_MCAST_FLOOD ? BIT(port) : 0;
+> > +		a5psw_reg_rmw(a5psw, A5PSW_MCAST_DEF_MASK, BIT(port), val);
+> > +	}
+> > +
+> > +	if (flags.mask & BR_BCAST_FLOOD) {
+> > +		val =3D flags.val & BR_BCAST_FLOOD ? BIT(port) : 0;
+> > +		a5psw_reg_rmw(a5psw, A5PSW_BCAST_DEF_MASK, BIT(port), val);
+> > +	} =20
+>=20
+> Humm, there's a (huge) problem with this flooding mask.
+>=20
+> a5psw_flooding_set_resolution() - called from a5psw_port_bridge_join()
+> and a5psw_port_bridge_leave() - touches the same registers as
+> a5psw_port_bridge_flags(). Which means that your bridge forwarding
+> domain controls are the same as your flooding controls.
+>=20
+> Which is bad news, because
+> dsa_port_bridge_leave()
+> -> dsa_port_switchdev_unsync_attrs()
+>    -> dsa_port_clear_brport_flags()
+>       -> dsa_port_bridge_flags()
+>          -> a5psw_port_bridge_flags() =20
+>=20
+> enables flooding on the port after calling a5psw_port_bridge_leave().
+> So the port which has left a bridge is standalone, but it still forwards
+> packets to the other bridged ports!
+
+Actually not this way because the port is configured in a specific mode
+which only forward packet to the CPU ports. Indeed, we set a specific
+rule using the PATTERN_CTRL register with the MGMTFWD bit set:
+When set, the frame is forwarded to the management port only
+(suppressing destination address lookup).
+
+However, the port will received packets *from* the other ports (which is
+wrong... I can handle that by not setting the flooding attributes if
+the port is not in bridge. Doing so would definitely fix the various
+problems that could happen.
+
+BTW, the same goes with the learning bit that would be reenabled after
+leaving the bridge and you mentionned it should be disabled for a
+standalone port.
+
+>=20
+> You should be able to see that this is the case, if you put the ports
+> under a dummy bridge, then run tools/testing/selftests/drivers/net/dsa/no=
+_forwarding.sh.
+
+Yes, makes sense.
+
+Thanks,
+
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
