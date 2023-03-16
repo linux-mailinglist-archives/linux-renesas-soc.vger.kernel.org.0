@@ -2,166 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 010596BD798
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 18:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A89E56BD84D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 19:43:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbjCPRzZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Mar 2023 13:55:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
+        id S229544AbjCPSni (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Mar 2023 14:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbjCPRzR (ORCPT
+        with ESMTP id S229476AbjCPSni (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Mar 2023 13:55:17 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03344CDF7;
-        Thu, 16 Mar 2023 10:54:59 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id fy17so119666qtb.2;
-        Thu, 16 Mar 2023 10:54:58 -0700 (PDT)
+        Thu, 16 Mar 2023 14:43:38 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C061BADC
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 11:43:36 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id k2so2760196pll.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 11:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1678992216;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNOie6kwcj7Z7SwuK3r19pQC8LTr9h0poSGgwGacKnU=;
+        b=549e0O3hbdrs6RLspS9ZkJl0yxugErRU0zICeI65m4e1w10X67d+AHhjvG1hf3Oegy
+         8DO60RAEpPYteaWFO8MFC1fK/T78G0CnnoNs8T7UkUu0L644LYqEPR8trpiLlkQQcgi/
+         Y9LbfQD++mn/j0FS+xh7K9R1lonPeA9qy5o+uXQ9znK7B4W2Qmo0uQwU1ld034uCiT/v
+         QUcfmcMSLE+zJLmWaarXwP9m7VgB6tZ1dEfRF7Y118MlyEM86MtJbBpaXXTTnInD9Yyl
+         z+FqTGZr9RSiqtXIKIHSG1qJNhL/Jd3ozp/kwZnKR4CUy45wA++IBcgjoKxCJkxnARwV
+         Wtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678989297;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XEqXJNTIv0ppIS+gmuWapWAt4V7zUutlS0jW2Y5bsWU=;
-        b=e/v2SS5ydH3N3r9T/CDQFv67+nMujWt4I2Ov+ZQMvjAtO6ce2lLOE6zmH08j4q+PmP
-         xbZsy34zxBBc4vbltctMsW4wrpWclGSykchWUoUjQCfmWC093sJc7xSBHeQLqw7govSD
-         deyoHXpFyCYGulc/UstkPOXptcH3Xovo4uS1aRl5IAE0qa8xd9ikyhoOu+teFZp7VSHf
-         Cihe2IArL63WjWletbvP8L+hqSMDwYA+lPDaZ8C22ndJ14IK554iFkRyuhr4qrV89D/F
-         DkCEydyzLqE+M10XdbnCWlGbhY0b03HfFZZG2GwM+kk6QvZSlMHr0Jn0stgmz9KhKxCM
-         pADw==
-X-Gm-Message-State: AO0yUKWQLaqIp1/VF3Ng4n4MyJVwbEI/vLyGsJiR1mP4YcGUFhMU3s80
-        9H3P8MBl68y3HXMLLN6RibIvJDQ3OumXyg==
-X-Google-Smtp-Source: AK7set+xoAy4XXLwn3W5jSjNSXmG1340rKwFWY0WlqOBYst1KllSnjZ/YK/j070m3rsDJ3lRySjBpw==
-X-Received: by 2002:a05:622a:10b:b0:3d8:a785:ec01 with SMTP id u11-20020a05622a010b00b003d8a785ec01mr3505501qtw.48.1678989297694;
-        Thu, 16 Mar 2023 10:54:57 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id f33-20020a05622a1a2100b003bfb5fd72a7sm6389630qtb.86.2023.03.16.10.54.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 10:54:57 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id r1so2911181ybu.5;
-        Thu, 16 Mar 2023 10:54:57 -0700 (PDT)
-X-Received: by 2002:a5b:68c:0:b0:b30:d9c:b393 with SMTP id j12-20020a5b068c000000b00b300d9cb393mr14551387ybq.12.1678989296781;
- Thu, 16 Mar 2023 10:54:56 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678992216;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vNOie6kwcj7Z7SwuK3r19pQC8LTr9h0poSGgwGacKnU=;
+        b=eAkFapE29DFI+GZe8q/IuyEbD4vUQ14owGFsUsl2fedZeWgwOQy5U+Ixid+AB441Fm
+         NlWhtvqniwKOrBET5apN6NaIF+XHvpISCqgye1IMCZz8pXnFjAbG2G5lOuFPCXYtPegq
+         yilM0oxFP8f7FRrecvECT2xKD09Eo2L9c0tBxzZ+Q+HsisuPShxMxpBSOhAX/ukaNUwt
+         Jv0oGBxitttxLVftGYJCLk7yyeWA2IsbKRtFu1Ud58i/IAxnj0tl/udqW/O5hNq6mm05
+         KGuOTfPcrMe6C3fM0fy2KBcqLqSvjHcjDCQdYZkZUt/fKK6w9WL6PxakXT+63rr43yMt
+         qwkQ==
+X-Gm-Message-State: AO0yUKW9mO4zXO/71uqLP0V8rqtlN+hU1la2P4W9GR6KPn9opFj2XJNF
+        rC+7lcLCLx7kHAAb3tHbjlqjzhXBie2kfouWf45RFA==
+X-Google-Smtp-Source: AK7set+vLcgJh1dNhNCI4vrwriK8VEhDfcc7GT97DBU1PDTLkCmCTI3YY7sI+SKvj/HO/wRHCTmAaA==
+X-Received: by 2002:a17:902:d2cc:b0:19d:2542:96a4 with SMTP id n12-20020a170902d2cc00b0019d254296a4mr5930621plc.4.1678992215939;
+        Thu, 16 Mar 2023 11:43:35 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u4-20020a170902b28400b001a06b33923bsm32234plr.164.2023.03.16.11.43.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 11:43:35 -0700 (PDT)
+Message-ID: <64136357.170a0220.38fd4.021d@mx.google.com>
+Date:   Thu, 16 Mar 2023 11:43:35 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230316160118.133182-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdVX=sM-1y+-3PQDsjf8K3nLoS4WfSYfv6UAP=92T_oHaQ@mail.gmail.com> <OS0PR01MB5922EA7DC64F0D2C36B490A986BC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922EA7DC64F0D2C36B490A986BC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Mar 2023 18:54:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgwkJ2O7y98HW6n8SOgbuEx1uFrt1Jc-X2CzpC3y1P0Q@mail.gmail.com>
-Message-ID: <CAMuHMdXgwkJ2O7y98HW6n8SOgbuEx1uFrt1Jc-X2CzpC3y1P0Q@mail.gmail.com>
-Subject: Re: [PATCH] tty: serial: sh-sci: Fix transmit end interrupt handler
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-next-2023-03-16-v6.3-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next v4l2-compliance on uvcvideo: 4 runs,
+ 1 regressions (renesas-next-2023-03-16-v6.3-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/next v4l2-compliance on uvcvideo: 4 runs, 1 regressions (renesas-ne=
+xt-2023-03-16-v6.3-rc1)
 
-On Thu, Mar 16, 2023 at 5:34 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] tty: serial: sh-sci: Fix transmit end interrupt handler
+Regressions Summary
+-------------------
 
-> > On Thu, Mar 16, 2023 at 5:01 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > The RZ SCI/ RZ/A1 SCIF has only 4 interrupts. The fourth interrupt is
-> > > transmit end interrupt, so shuffle the interrupts to fix the transmit
-> > > end interrupt handler for these IPs.
-> > >
-> > > Fixes: 392fb8df528b ("serial: sh-sci: Use platform_get_irq_optional()
-> > > for optional interrupts")
-> >
-> > I don't think that's the right bad commit.
->
-> OK. I will use below commit as fixes one,
-> that is the commit which added RZ/A1 SCIF with 4 interrupts.
->
-> commit 8b0bbd956228ae87 ("serial: sh-sci: Add support for R7S9210")
+platform                   | arch  | lab           | compiler | defconfig  =
+                | regressions
+---------------------------+-------+---------------+----------+------------=
+----------------+------------
+mt8192-asurada-spherion-r0 | arm64 | lab-collabora | gcc-10   | defconfig+a=
+rm64-chromebook | 1          =
 
-That one added support for RZ/A2, and is also not the bad
-commit?
 
-> > > --- a/drivers/tty/serial/sh-sci.c
-> > > +++ b/drivers/tty/serial/sh-sci.c
-> > > @@ -31,6 +31,7 @@
-> > >  #include <linux/ioport.h>
-> > >  #include <linux/ktime.h>
-> > >  #include <linux/major.h>
-> > > +#include <linux/minmax.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/mm.h>
-> > >  #include <linux/of.h>
-> > > @@ -2841,6 +2842,7 @@ static int sci_init_single(struct platform_device
-> > *dev,
-> > >         struct uart_port *port = &sci_port->port;
-> > >         const struct resource *res;
-> > >         unsigned int i;
-> > > +       int irq_cnt;
-> > >         int ret;
-> > >
-> > >         sci_port->cfg   = p;
-> > > @@ -2864,6 +2866,14 @@ static int sci_init_single(struct platform_device
-> > *dev,
-> > >                         sci_port->irqs[i] = platform_get_irq(dev, i);
-> > >         }
-> > >
-> > > +       /*
-> > > +        * RZ SCI/ RZ/A1 SCIF has only 4 interrupts. The fourth interrupt
-> > > +        * is transmit end interrupt, so shuffle the interrupts.
-> > > +        */
-> > > +       irq_cnt = platform_irq_count(dev);
-> > > +       if (irq_cnt == 4)
-> > > +               swap(sci_port->irqs[SCIx_BRI_IRQ],
-> > > + sci_port->irqs[SCIx_TEI_IRQ]);
-> > > +
-> >
-> > I think it's simpler to just check if SCIx_TEI_IRQ is missing:
-> >
-> >     if (sci_port->irqs[SCIx_TEI_IRQ] < 0)
-> >             swap(sci_port->irqs[SCIx_BRI_IRQ], sci_port-
-> > >irqs[SCIx_TEI_IRQ]);
->
-> OK.
->
-> >
-> > We already rely on "make dtbs_check" to catch invalid combinations (anything
-> > different from 1/4/6 interrupts).
-> >
-> > And please move that code below, together with the other checks for non-
-> > existing interrupts.
->
-> OK, Will add below code in probe
->
-> +       irq_cnt = platform_irq_count(dev);
-> +       if (irq_cnt != 1 && irq_cnt != 4 && irq_cnt != 6)
-> +               return -EINVAL;
-> +
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2023-03-16-v6.3-rc1/plan/v4l2-compliance-uvc/
 
-IMHO none of these checks are needed. "make dtbs_check" takes
-care of that.
+V4L2 Compliance on the uvcvideo driver.
 
-Gr{oetje,eeting}s,
+This test ran "v4l2-compliance -s" from v4l-utils:
 
-                        Geert
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2023-03-16-v6.3-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      8184e7e383be876199a3be519c067b40143d8ab8
+
+  Test suite revisions:
+    v4l2-compliance
+      URL:  git://linuxtv.org/v4l-utils.git
+      SHA:  c7823a3f5f8846561d91e7ae77fea82fab63fff1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                   | arch  | lab           | compiler | defconfig  =
+                | regressions
+---------------------------+-------+---------------+----------+------------=
+----------------+------------
+mt8192-asurada-spherion-r0 | arm64 | lab-collabora | gcc-10   | defconfig+a=
+rm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6413504cde88a5e1ed8c86de
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-03-16-v6.3-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/v4l2-=
+compliance-uvc-mt8192-asurada-spherion-r0.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-03-16-v6.3-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/v4l2-=
+compliance-uvc-mt8192-asurada-spherion-r0.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-v4=
+l2/20230303.0/arm64/rootfs.cpio.gz =
+
+
+
+  * v4l2-compliance-uvc.login: https://kernelci.org/test/case/id/6413504cde=
+88a5e1ed8c86df
+        new failure (last pass: renesas-next-2023-03-06-v6.3-rc1) =
+
+ =20
