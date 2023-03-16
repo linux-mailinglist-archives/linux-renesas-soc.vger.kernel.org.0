@@ -2,122 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F846BC795
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 08:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 059976BC817
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Mar 2023 09:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjCPHqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Mar 2023 03:46:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38948 "EHLO
+        id S230315AbjCPICg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Mar 2023 04:02:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbjCPHqQ (ORCPT
+        with ESMTP id S230345AbjCPICb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Mar 2023 03:46:16 -0400
+        Thu, 16 Mar 2023 04:02:31 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA113A42CD
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 00:46:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA5E5BDA1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 01:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=zl2jnjzDWpy3C4
-        fB7TuVFiW4MYKclvO6XP0vE27XA8A=; b=MP4aeJnDTqGMF504Tj7vAH+ymvPq6/
-        iwQaNrbgixzVmfBPrGf06njGKslRidfB0Ls7eDVDnht1EP0baYD/SsYBFbfQ4f7m
-        9qPkg9sFl0V39b3683Ri8LrF1JH0FqMNj0600pQwSGzarUnBD3DR0Afjc0EPQjZn
-        jcb5oiiNBsm0g=
-Received: (qmail 3694275 invoked from network); 16 Mar 2023 08:46:10 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2023 08:46:10 +0100
-X-UD-Smtp-Session: l3s3148p1@Kbx3p//2XJwujnvb
+        date:from:to:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=qTgxZi2N8WngTS7AJuNYP/T8rF/7
+        fpHomMW9FUIfnKE=; b=jM3Ioj41dmdwi2mOSWlmWALEXjbD9KQXuez44anmxSKJ
+        R/WVcEQRRxXXi/iuzRaj+Bj2l9g8w8C85rxZuvl0Dxk7ejHVs/WJoN06nfmkD20A
+        uvkTZFXdmHW3sf8WdQGZGxpJVmhZNRrDJyNJqbDeLN9yMcXf79ckku7ZR23Xh6g=
+Received: (qmail 3698686 invoked from network); 16 Mar 2023 09:02:17 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2023 09:02:17 +0100
+X-UD-Smtp-Session: l3s3148p1@Za8f4f/2boUujnvb
+Date:   Thu, 16 Mar 2023 09:02:17 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
+To:     Wei Fang <wei.fang@nxp.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] smsc911x: avoid PHY being resumed when interface is not up
-Date:   Thu, 16 Mar 2023 08:45:58 +0100
-Message-Id: <20230316074558.15268-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230316074558.15268-1-wsa+renesas@sang-engineering.com>
-References: <20230316074558.15268-1-wsa+renesas@sang-engineering.com>
+        Paolo Abeni <pabeni@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH net-next 3/4] fec: add FIXME to move 'mac_managed_pm' to
+ probe
+Message-ID: <ZBLNCYgeTtNBSaMi@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Wei Fang <wei.fang@nxp.com>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+References: <20230314131443.46342-1-wsa+renesas@sang-engineering.com>
+ <20230314131443.46342-4-wsa+renesas@sang-engineering.com>
+ <DB9PR04MB8106C492FAAE4D7BE9CB731688BF9@DB9PR04MB8106.eurprd04.prod.outlook.com>
+ <ZBFzVjaRjcITP0bA@ninjato>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="IhMaB8MQ29TyJgc3"
+Content-Disposition: inline
+In-Reply-To: <ZBFzVjaRjcITP0bA@ninjato>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SMSC911x doesn't need mdiobus suspend/resume, that's why it sets
-'mac_managed_pm'. However, setting it needs to be moved from init to
-probe, so mdiobus PM functions will really never be called (e.g. when
-the interface is not up yet during suspend/resume). The errno is changed
-because ENODEV has a special meaning when returned in probe().
 
-Fixes: 3ce9f2bef755 ("net: smsc911x: Stop and start PHY during suspend and resume")
-Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/net/ethernet/smsc/smsc911x.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+--IhMaB8MQ29TyJgc3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/net/ethernet/smsc/smsc911x.c b/drivers/net/ethernet/smsc/smsc911x.c
-index 9d12fd54281a..4cc5b9833e8f 100644
---- a/drivers/net/ethernet/smsc/smsc911x.c
-+++ b/drivers/net/ethernet/smsc/smsc911x.c
-@@ -1015,12 +1015,7 @@ static int smsc911x_mii_probe(struct net_device *dev)
- 	struct phy_device *phydev = NULL;
- 	int ret;
- 
--	/* find the first phy */
- 	phydev = phy_find_first(pdata->mii_bus);
--	if (!phydev) {
--		netdev_err(dev, "no PHY found\n");
--		return -ENODEV;
--	}
- 
- 	SMSC_TRACE(pdata, probe, "PHY: addr %d, phy_id 0x%08X",
- 		   phydev->mdio.addr, phydev->phy_id);
-@@ -1033,8 +1028,6 @@ static int smsc911x_mii_probe(struct net_device *dev)
- 		return ret;
- 	}
- 
--	/* Indicate that the MAC is responsible for managing PHY PM */
--	phydev->mac_managed_pm = true;
- 	phy_attached_info(phydev);
- 
- 	phy_set_max_speed(phydev, SPEED_100);
-@@ -1062,6 +1055,7 @@ static int smsc911x_mii_init(struct platform_device *pdev,
- 			     struct net_device *dev)
- {
- 	struct smsc911x_data *pdata = netdev_priv(dev);
-+	struct phy_device *phydev;
- 	int err = -ENXIO;
- 
- 	pdata->mii_bus = mdiobus_alloc();
-@@ -1104,6 +1098,15 @@ static int smsc911x_mii_init(struct platform_device *pdev,
- 		goto err_out_free_bus_2;
- 	}
- 
-+	phydev = phy_find_first(pdata->mii_bus);
-+	if (!phydev) {
-+		netdev_err(dev, "no PHY found\n");
-+		err = -ENOENT;
-+		goto err_out_free_bus_2;
-+	}
+
+> Yes, I will resend the series as RFC with more explanations.
+
+Because I was able to fix SMSC myself, I'll just describe the procedure
+here:
+
+1) apply this debug patch:
+
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 1b2e253fce75..7b79c5979486 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -310,6 +310,8 @@ static __maybe_unused int mdio_bus_phy_suspend(struct d=
+evice *dev)
+ 	if (phydev->mac_managed_pm)
+ 		return 0;
+=20
++printk(KERN_INFO "****** MDIO suspend\n");
 +
-+	phydev->mac_managed_pm = true;
-+
- 	return 0;
- 
- err_out_free_bus_2:
--- 
-2.30.2
+ 	/* Wakeup interrupts may occur during the system sleep transition when
+ 	 * the PHY is inaccessible. Set flag to postpone handling until the PHY
+ 	 * has resumed. Wait for concurrent interrupt handler to complete.
 
+2) boot the device without bringing the interface (and thus the PHY) up.
+   Bringing it down after it was up is not the same! It is important
+   that it was never up before.
+
+3) do a suspend-to-ram/resume cycle
+
+4) your log should show the above debug message. If not, I was wrong
+
+5) If yes, apply a similar fix to the one I did for the Renesas drivers
+   in this series
+
+6) suspend/resume should not show the debug message anymore
+
+7) test for regressions and send out :)
+
+I hope this was understandable. If not, feel free to ask.
+
+Happy hacking,
+
+   Wolfram
+
+
+--IhMaB8MQ29TyJgc3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQSzQUACgkQFA3kzBSg
+KbbCiw/6A0LifU8y+F4lZ4bTaBEjFkRDzIW0XmWpx5IB8paJhjZsdv0MxeQ+kBRM
+40jREfLld5z7zo/JtAo0VThszzSLal5/gx2X1a5qe9IKLnpJ6rTrGEdH+DD2dscP
+K8+b2fDHjPJyzq0jYszLewdjjd4noe0GioAdG0A3khvQHyWNYBihIyDrPcbVfGk6
+ncD6Mdmu/EegqWNlLtsXkjI5F4DD46T1wUie8FCPEYwOUsB27ff67wH8aMiJ1Y5B
+rTyMPbKAiHHrwlpOhigwJm2NV9kMMqwoMr35HjKxKpHuZIuRVGahHk4QuWrLfAtB
+OJkECMwo11roYFeYlLkQVfkeTNfWg4TaBUpif3d8WKBDZFy5vY6GYSVD5LBqhvP9
+9MIg1UpridQW27daQplEe7Bwj/Z1AJEsh0dhShgn2sDfWKo1wqgttB3rzTT/O12E
+GzmrSwsllhOxHfNzZo/u0+KEIEvi9BRxfC/KELEFq02uE6d/K3abCm/+H9RTpb/U
+GGmlVhZ+ahW3SpuNX79k7xtDQ3y5Z9I7oYtPP3N3OaHeE/bgecQ8YNio+gLFcU5/
+lAFa9d24IxEuzO8r5ZDxt3pY4hvJ579AMvmeR/Rl32R8YH3bPLNmB2pECwvn+7nL
+/C/Z7YB8cLS9Ww9XuWsNUYKWdebUNxwYwx21q6I5AzCcPw4r5t0=
+=Pti+
+-----END PGP SIGNATURE-----
+
+--IhMaB8MQ29TyJgc3--
