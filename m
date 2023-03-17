@@ -2,86 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C22526BDDA0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 01:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6969B6BE059
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 06:00:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbjCQAaZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Mar 2023 20:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44770 "EHLO
+        id S229534AbjCQFAg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 01:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjCQAaY (ORCPT
+        with ESMTP id S229489AbjCQFAf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Mar 2023 20:30:24 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4BC3D0A6;
-        Thu, 16 Mar 2023 17:30:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 18BC8CE1EB3;
-        Fri, 17 Mar 2023 00:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BE1BC4339B;
-        Fri, 17 Mar 2023 00:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679013020;
-        bh=7o1ndXGP2MiYrjcAv7VYkvDlwwEmyLWC3DDj4rMPu2o=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=sjxz0sl1/1SZyg81mhKLeb+vKYPjoaSoFJQfypeYNQarmfVsyKYWvhGJg40vhxabn
-         QyrqFTFuL3H+kWy58zNotAC0eskNgbJ1lh68f7kFhJXid9RnBER6v4kN0+De8rslGs
-         B8hCgTuFtqluLOfh58SobkARcDlPpYo53mDKFqlR2LPtWgM3R9IrZgtzEGdZEyCfyq
-         RQ/5EQT+E4PavAoMzRB76hkUSwz6D+fsT6KhxIgOEeIQ5fdg868PG/fNeDpeeZAJ4a
-         NzRtTuxPErRQxCYdOvvYoUhgbuiNu7uQ2Zrc2YwI42APy3LiyTZzDZlQyYGbF7vqMd
-         Nxhi4lATlsJgg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 36994E4D002;
-        Fri, 17 Mar 2023 00:30:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 17 Mar 2023 01:00:35 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660B14E5D6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Mar 2023 22:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=XqB12is+kKUQInBlIS2SuiteZwZo
+        5y3HKbz0OXT3cB8=; b=Nw7+UxfHAqvfkzXwnvjFT20v507LE2gl58Ld0oEBasXz
+        oUVbde5VlPSewH55So9G2xcWSPkr6zFJ0FvvB8G+O21omvXna9ZcYtf5fjSeFLYk
+        fyEilLpwA4kcDr3G99bXcV0K/t09bDFkByMpTsnxFDL0E82DxVHh17nNm889d9I=
+Received: (qmail 4104850 invoked from network); 17 Mar 2023 06:00:27 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2023 06:00:27 +0100
+X-UD-Smtp-Session: l3s3148p1@KwmDdBH33ogujnvb
+Date:   Fri, 17 Mar 2023 06:00:24 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Revert "net: smsc911x: Make Runtime PM handling more
+ fine-grained"
+Message-ID: <ZBPz6Ads0dOT8ceT@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        linux-kernel@vger.kernel.org
+References: <20230316074558.15268-1-wsa+renesas@sang-engineering.com>
+ <20230316074558.15268-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdURZ-nC-yZua1wGCcW++fDhgd-U93KP3PT5v6cbm8305A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2 0/2] net: renesas: set 'mac_managed_pm' at probe time
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167901302021.26766.6629035403026123851.git-patchwork-notify@kernel.org>
-Date:   Fri, 17 Mar 2023 00:30:20 +0000
-References: <20230315074115.3008-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230315074115.3008-1-wsa+renesas@sang-engineering.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SS7CshjXnRjbyo7D"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdURZ-nC-yZua1wGCcW++fDhgd-U93KP3PT5v6cbm8305A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-This series was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+--SS7CshjXnRjbyo7D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Mar 2023 08:41:13 +0100 you wrote:
-> When suspending/resuming an interface which was not up, we saw mdiobus
-> related PM handling despite 'mac_managed_pm' being set for RAVB/SH_ETH.
-> Heiner kindly suggested the fix to set this flag at probe time, not at
-> init/open time. I implemented his suggestion and it works fine on these
-> two Renesas drivers.
-> 
-> Changes since v1:
-> * added tag from Michal (thanks!)
-> * split out patches which are for 'net' only (Thanks, Simon!)
-> 
-> [...]
+Hi Geert,
 
-Here is the summary with links:
-  - [net,v2,1/2] ravb: avoid PHY being resumed when interface is not up
-    https://git.kernel.org/netdev/net/c/7f5ebf5dae42
-  - [net,v2,2/2] sh_eth: avoid PHY being resumed when interface is not up
-    https://git.kernel.org/netdev/net/c/c6be7136afb2
+> In sh_eth this was fixed differently, by adding a check for
+> mdp->is_opened to sh_eth_get_stats() [1].
+> I believe the modern way would be to add a check for netif_running()
+> instead.
+>=20
+> Would adding such a check to smsc911x_get_stats() work for you, too?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Yeah, that worked. Thank you! I'll send v2 soon.
+
+Happy hacking,
+
+   Wolfram
 
 
+--SS7CshjXnRjbyo7D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQT8+QACgkQFA3kzBSg
+KbZ0JBAAkAPwb+0C+ARVJB1Al8Hhln5uG1ezKfroDEoHiiUQCE+RgLbnfd5r7PLc
+XU30ZgvwuS5/G7fVphgY3hPIp8oO3sI6Hms1wkvb/lcHvheyeejZB0HHxLcaebdJ
+FgqkC7UUZ3ltC6xHgjVgJDPrI2tZH0sNPtzNRLmQ3vvD2YMeU6NZWSuHNIt82YFM
+EPUdVOwBFm3V/M0PF6MkCrCA6e/R93wHvSeYjJbNdxQ840bWieTCTRTrbLtMVkjz
+Gk4BnMElJcOPVyE9wpcdMgoU8DJ6H55wUpq2ACc9nY6d225VQU/z+Du70vpPZSlD
+/of0x6ScFRigLQ2NDJTiWWKIzDh/bA/yKa482UZVimmQeUySnMCcyB/IM9cFWPnT
+4znt9odurbULOtS9uBY8VgL0LZYdlHSJwQExYus7w8yuKXZW+iMWLC1bhOIto7GN
+MZCX3NSo3RLYRTp/lM4Px3xNdJoTqhSuozGfjqB/mGuyGAthdeR8uzucb+p7R/U4
+vPKgIXgMb1QNdURHTMnjVLB/oXCYahGPxbd1dEfJkiJCIVmHXANYXaloZz5G2hD5
+Mjbo87rMguJM61xK6j1WrkUXalGGl5a9uMUZyJUVU0x5SNOsR1pAVq8rqmc2XCK6
+2HqoU2JCy7JL2uzMNu89Sz1SatUoEjTgs0Y0vxfxUil3cBbHpeg=
+=aRKd
+-----END PGP SIGNATURE-----
+
+--SS7CshjXnRjbyo7D--
