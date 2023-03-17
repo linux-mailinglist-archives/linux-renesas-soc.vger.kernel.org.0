@@ -2,115 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 084116BE623
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 11:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5466C6BE6D3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 11:33:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjCQKBp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 06:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60556 "EHLO
+        id S230185AbjCQKdj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 06:33:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjCQKBo (ORCPT
+        with ESMTP id S229654AbjCQKdg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 06:01:44 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06744ECE0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 03:01:42 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id y20so5802898lfj.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 03:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1679047301;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IULcPf2+7dUXnSWr6iZnijROMDOSV5jq63jdWgbmy2U=;
-        b=f1HmXyXbOUwUP6bnI42e+hugNWSsvj/DDYL9h0o3VvirKuv5uLPBjdGmr0KXf+KoDO
-         wki3tTzJV1eAsLV6n9DzdTBsLijTyondI0GueVoVy/4ku76epFHGq+SUgWiTWDmZi/bf
-         iw5r6MPDABmM9f9vEBjFEHFl51tlJrsS46d5V+HiV5358Dvg2U2Qw6WpxvrBXCinpPLJ
-         axOw4SdpF3eMJI0VzBYnCBk713rga3rRvnXsGy2AeklqTH2KMo4jEnp+kOGz/cKAHOpk
-         JnSth4LaDyvD0+t7PXZl1ZDILBL4GP/NH97RFuo6N9RjjaPn7CCDsFKJMWm+r7YIVEHV
-         /QMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679047301;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IULcPf2+7dUXnSWr6iZnijROMDOSV5jq63jdWgbmy2U=;
-        b=wc+KHvHEtnD2xribYHHWJYDRVS46PRAV+Vz8iWGXFXH8dMu27YFFSpfMLReIJDsjaC
-         PCS45VE74AevaIgrUCor/00pgSnj96VGgQCIYHzbvKRTXRoaf7L3jH2+S/LykDe5JZFz
-         KuIbI8SZU2LFHiABoZlCI9h/qfyD9gPZ5n907huPTZgInbXlANykaDolrgVCzQApp1Lt
-         6qOXGZ9Gpgi/4FCThfi8/pCrL7+MrGRlFt4amzc0unVOhQoCzjEZnuHLJwgTKjX2c29X
-         UnvaExtj4uvmUnLPWGSTfhpWgAi7PMblnH0YFuoyEnyRtwOxSufjWTusr/zBmh9tjCU5
-         dpPA==
-X-Gm-Message-State: AO0yUKWjanndtt2s76+qvq/nzuFK5uwVPNONPUyI8GMJvCok9E9E2haH
-        VgoE62VOOipYD4Pyzr80XN2s5A==
-X-Google-Smtp-Source: AK7set9a07Ek6cej+3Iq/soaUrRsFDaiYmA1FuVeu1wEL4haHCOYOPfeE2FA4Ia14DI6qKIv93iPLQ==
-X-Received: by 2002:ac2:5618:0:b0:4df:9ce8:300 with SMTP id v24-20020ac25618000000b004df9ce80300mr4052919lfd.52.1679047301199;
-        Fri, 17 Mar 2023 03:01:41 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id l28-20020ac24a9c000000b004e80038e2aasm293788lfp.191.2023.03.17.03.01.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 03:01:40 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 11:01:39 +0100
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: renesas: Add "renesas," file content pattern
-Message-ID: <ZBQ6g1gxBD8vOpc1@oden.dyn.berto.se>
-References: <c1be1e97c5457eade25b0eb5118196677cecfc08.1679039809.git.geert+renesas@glider.be>
+        Fri, 17 Mar 2023 06:33:36 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9242CC4A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 03:33:32 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by laurent.telenet-ops.be with bizsmtp
+        id ZNZM290071C8whw01NZMKx; Fri, 17 Mar 2023 11:33:31 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pd7O5-00CXwE-E0;
+        Fri, 17 Mar 2023 11:33:21 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pd7Oi-00FFZ4-Tm;
+        Fri, 17 Mar 2023 11:33:20 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] treewide: Fix instantiation of devices in DT overlay
+Date:   Fri, 17 Mar 2023 11:33:18 +0100
+Message-Id: <328e557aaee9d3f5f1bcaf2b8ac2de0e04c4fbb8.1679049188.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c1be1e97c5457eade25b0eb5118196677cecfc08.1679039809.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+When loading a DT overlay that creates a device, the device is not
+instantiated, unless the DT overlay is unloaded and reloaded again.
 
-Neat!
+Saravana explains:
+  Basically for all overlays (I hope the function is only used for
+  overlays) we assume all nodes are NOT devices until they actually
+  get added as a device. Don't review the code, it's not meant to be :)
 
-On 2023-03-17 08:59:00 +0100, Geert Uytterhoeven wrote:
-> Add a keyword match pattern for the word "renesas," in files to the
-> ARM/RISC-V/RENESAS ARCHITECTURE section.  This make sure patches
-> changing drivers that match against "renesas,<foo>" (as used mostly for
-> Renesas on-SoC components) are CCed to the linux-renesas-soc mailing
-> list.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Based on a hacky patch by Saravana Kannan, which covered only platform
+and spi devices.
 
-Acked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
+Link: https://lore.kernel.org/all/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=rWYnkCZ6z5bGX-wj4w@mail.gmail.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Marked RFC as Saravana said this is an ugly hack.
+Still, this is a regression in v6.3-rc1 that should be fixed.
+---
+ drivers/bus/imx-weim.c    | 1 +
+ drivers/i2c/i2c-core-of.c | 1 +
+ drivers/of/dynamic.c      | 1 +
+ drivers/of/platform.c     | 1 +
+ drivers/spi/spi.c         | 1 +
+ 5 files changed, 5 insertions(+)
 
-> ---
-> To be queued in renesas-devel for v6.4.
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fc343041495b7015..281c6da85a4bdf5d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2655,6 +2655,7 @@ F:	arch/arm64/configs/renesas_defconfig
->  F:	arch/riscv/boot/dts/renesas/
->  F:	drivers/soc/renesas/
->  F:	include/linux/soc/renesas/
-> +K:	\brenesas,
->  
->  ARM/RISCPC ARCHITECTURE
->  M:	Russell King <linux@armlinux.org.uk>
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+index 2a6b4f676458612e..71d8807170fa9f29 100644
+--- a/drivers/bus/imx-weim.c
++++ b/drivers/bus/imx-weim.c
+@@ -329,6 +329,7 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
+ 				 "Failed to setup timing for '%pOF'\n", rd->dn);
+ 
+ 		if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
++			rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 			if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
+ 				dev_err(&pdev->dev,
+ 					"Failed to create child device '%pOF'\n",
+diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+index bce6b796e04c2ca0..79a0d47010ba0b20 100644
+--- a/drivers/i2c/i2c-core-of.c
++++ b/drivers/i2c/i2c-core-of.c
+@@ -178,6 +178,7 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
+ 			return NOTIFY_OK;
+ 		}
+ 
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		client = of_i2c_register_device(adap, rd->dn);
+ 		if (IS_ERR(client)) {
+ 			dev_err(&adap->dev, "failed to create client for '%pOF'\n",
+diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+index 07d93753b12f5f4d..e311d406b1705306 100644
+--- a/drivers/of/dynamic.c
++++ b/drivers/of/dynamic.c
+@@ -226,6 +226,7 @@ static void __of_attach_node(struct device_node *np)
+ 	np->sibling = np->parent->child;
+ 	np->parent->child = np;
+ 	of_node_clear_flag(np, OF_DETACHED);
++	np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
+ }
+ 
+ /**
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index b2bd2e783445dd78..17c92cbfb62ee3ef 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -737,6 +737,7 @@ static int of_platform_notify(struct notifier_block *nb,
+ 		if (of_node_check_flag(rd->dn, OF_POPULATED))
+ 			return NOTIFY_OK;
+ 
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		/* pdev_parent may be NULL when no bus platform device */
+ 		pdev_parent = of_find_device_by_node(rd->dn->parent);
+ 		pdev = of_platform_device_create(rd->dn, NULL,
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 1a65f96fe2aff591..7bd053a32fad1a3c 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -4480,6 +4480,7 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
+ 			return NOTIFY_OK;
+ 		}
+ 
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		spi = of_register_spi_device(ctlr, rd->dn);
+ 		put_device(&ctlr->dev);
+ 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.34.1
+
