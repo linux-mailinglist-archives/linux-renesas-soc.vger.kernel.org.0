@@ -2,147 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5466C6BE6D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 11:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 871676BE952
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 13:34:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbjCQKdj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 06:33:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52418 "EHLO
+        id S229499AbjCQMej (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 08:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjCQKdg (ORCPT
+        with ESMTP id S229517AbjCQMei (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 06:33:36 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9242CC4A
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 03:33:32 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by laurent.telenet-ops.be with bizsmtp
-        id ZNZM290071C8whw01NZMKx; Fri, 17 Mar 2023 11:33:31 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pd7O5-00CXwE-E0;
-        Fri, 17 Mar 2023 11:33:21 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pd7Oi-00FFZ4-Tm;
-        Fri, 17 Mar 2023 11:33:20 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Saravana Kannan <saravanak@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Wolfram Sang <wsa@kernel.org>,
+        Fri, 17 Mar 2023 08:34:38 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605C7AD31;
+        Fri, 17 Mar 2023 05:33:51 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id i9so4281524wrp.3;
+        Fri, 17 Mar 2023 05:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679056409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0/Wy1AwTsLh6VX8OVUHCexjXRtBHIjRzVBkQ4ezpP1E=;
+        b=jMpD+KdfbZTIQ73dkfe3Llm4sRYdiQUUJyKsjmjLB6F3sY3MXKTmlm586mT4ISBbpQ
+         EQ+/QbiQbyM4qE7teB+rpAYVYWht1G94AMjV5rQa0MLfWi/ZovIlfKJhbsFD+zPvV1eL
+         xMxKe8Rqk6WDxHY7fKZ2mCP/2AbSNJ2iaO6geBoxUBguToMAkGfrPCcxa6JfLlNDovTV
+         QQ0i2YDgQNdbJCPfVPIiu4p+E3YvrHJVKt2NAWvJSKcWyZfZwznaPpo8yWUMdBz1wPJD
+         zFEhzAOmMCj0AgCb1dZToqdrfDVoY1TzyfmSY3Z2cJ3837yvyNFxf/SP8tZnPMO4YipK
+         Iu6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679056409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0/Wy1AwTsLh6VX8OVUHCexjXRtBHIjRzVBkQ4ezpP1E=;
+        b=HDuUsEnUb5NyKj1XIdjrYdRDiadswqDo8lP7SCcje8WqHYMaYwc/IIo5NKbTkLA1tO
+         diD0zTYOCfZ+NTXYCjEdcVl7APJlOw0GkoKHYwtTImGzdKiWcTHJNe9hBFjwNywHPdom
+         TBJi2wwwAtj3UiVjaHvXVCunQERJNCicvgHq4sA0BDStyCLHZQeUxJ7ezxYU4BEFHHKP
+         SblxjNJ5C8eM2O9MgQWxWCKbxpvOme942AE7UODMDYKC2Bboflcc96GC4+nTs4/bSm5V
+         N8gF9IVYKGTtk1ytoeRTZqXg8ric9MOUIdv7Mq4PFzi0SaKolKGTkofcmybwY1Cow5Gf
+         e2ww==
+X-Gm-Message-State: AO0yUKUc/Lj3vQIUm5MdkBw8juUyTGtaeIC63BNZoefw3KT1C/kMYbcB
+        lw8wO6OwcEr2mlcybts/TOc=
+X-Google-Smtp-Source: AK7set/30dngfeeDzKQ+QTuk8xOPIdlr4/4bPmXxw19Uy+Rt7exKXaCjOkbocIePzfVBKXogZ3Svtw==
+X-Received: by 2002:adf:dd92:0:b0:2cf:e3c7:596e with SMTP id x18-20020adfdd92000000b002cfe3c7596emr7354228wrl.35.1679056408550;
+        Fri, 17 Mar 2023 05:33:28 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:cc60:8c15:c868:fa91])
+        by smtp.gmail.com with ESMTPSA id j10-20020a5d464a000000b002cea8f07813sm1876515wrs.81.2023.03.17.05.33.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 05:33:27 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC] treewide: Fix instantiation of devices in DT overlay
-Date:   Fri, 17 Mar 2023 11:33:18 +0100
-Message-Id: <328e557aaee9d3f5f1bcaf2b8ac2de0e04c4fbb8.1679049188.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/2] RZ/G2L: Add CRU, CSI support
+Date:   Fri, 17 Mar 2023 12:33:12 +0000
+Message-Id: <20230317123314.145121-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When loading a DT overlay that creates a device, the device is not
-instantiated, unless the DT overlay is unloaded and reloaded again.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Saravana explains:
-  Basically for all overlays (I hope the function is only used for
-  overlays) we assume all nodes are NOT devices until they actually
-  get added as a device. Don't review the code, it's not meant to be :)
+Hi All,
 
-Based on a hacky patch by Saravana Kannan, which covered only platform
-and spi devices.
+This patch series adds support for CRU and CSI support to RZ/G2L SoC
+and enables it on the RZ/G2L SMARC EVK. Also ov5645 node is added which
+connects to the CSI2 node.
 
-Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
-Link: https://lore.kernel.org/all/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=rWYnkCZ6z5bGX-wj4w@mail.gmail.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Marked RFC as Saravana said this is an ugly hack.
-Still, this is a regression in v6.3-rc1 that should be fixed.
----
- drivers/bus/imx-weim.c    | 1 +
- drivers/i2c/i2c-core-of.c | 1 +
- drivers/of/dynamic.c      | 1 +
- drivers/of/platform.c     | 1 +
- drivers/spi/spi.c         | 1 +
- 5 files changed, 5 insertions(+)
+Note, this patch series applies on top of [0].
 
-diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
-index 2a6b4f676458612e..71d8807170fa9f29 100644
---- a/drivers/bus/imx-weim.c
-+++ b/drivers/bus/imx-weim.c
-@@ -329,6 +329,7 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
- 				 "Failed to setup timing for '%pOF'\n", rd->dn);
- 
- 		if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
-+			rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 			if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
- 				dev_err(&pdev->dev,
- 					"Failed to create child device '%pOF'\n",
-diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
-index bce6b796e04c2ca0..79a0d47010ba0b20 100644
---- a/drivers/i2c/i2c-core-of.c
-+++ b/drivers/i2c/i2c-core-of.c
-@@ -178,6 +178,7 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
- 			return NOTIFY_OK;
- 		}
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		client = of_i2c_register_device(adap, rd->dn);
- 		if (IS_ERR(client)) {
- 			dev_err(&adap->dev, "failed to create client for '%pOF'\n",
-diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
-index 07d93753b12f5f4d..e311d406b1705306 100644
---- a/drivers/of/dynamic.c
-+++ b/drivers/of/dynamic.c
-@@ -226,6 +226,7 @@ static void __of_attach_node(struct device_node *np)
- 	np->sibling = np->parent->child;
- 	np->parent->child = np;
- 	of_node_clear_flag(np, OF_DETACHED);
-+	np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
- }
- 
- /**
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index b2bd2e783445dd78..17c92cbfb62ee3ef 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -737,6 +737,7 @@ static int of_platform_notify(struct notifier_block *nb,
- 		if (of_node_check_flag(rd->dn, OF_POPULATED))
- 			return NOTIFY_OK;
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		/* pdev_parent may be NULL when no bus platform device */
- 		pdev_parent = of_find_device_by_node(rd->dn->parent);
- 		pdev = of_platform_device_create(rd->dn, NULL,
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 1a65f96fe2aff591..7bd053a32fad1a3c 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -4480,6 +4480,7 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
- 			return NOTIFY_OK;
- 		}
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		spi = of_register_spi_device(ctlr, rd->dn);
- 		put_device(&ctlr->dev);
- 
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230131223529.11905-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+v1->v2
+* Dropped using SOC_PREFIX() macro in patch #1
+* Included RB tag from Geert for patch #1
+* Used overlay to enable CRU, CSI and ov5645 sensor
+
+v1:
+https://patchwork.kernel.org/project/linux-renesas-soc/cover/20230216175347.99778-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a07g044: Add CSI and CRU nodes
+  arm64: dts: renesas: rzg2l-smarc: Enable CRU, CSI support
+
+ arch/arm64/boot/dts/renesas/Makefile          |  1 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 79 +++++++++++++++++
+ .../r9a07g044l2-smarc-cru-csi-ov5645.dtso     | 18 ++++
+ .../dts/renesas/rz-smarc-cru-csi-ov5645.dtsi  | 87 +++++++++++++++++++
+ 4 files changed, 185 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtso
+ create mode 100644 arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
+
 -- 
-2.34.1
+2.25.1
 
