@@ -2,186 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48AF96BF0BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 19:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 336096BF4E8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 23:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbjCQSbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 14:31:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41316 "EHLO
+        id S229799AbjCQWKG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 18:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjCQSbo (ORCPT
+        with ESMTP id S229872AbjCQWKF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 14:31:44 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C6D4AFC2;
-        Fri, 17 Mar 2023 11:31:42 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id p203so6684938ybb.13;
-        Fri, 17 Mar 2023 11:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679077902;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YvJ70W31eDPBtGDHoN0dzmi83vmZajj1b0iRIfuS03Y=;
-        b=jmKdJM6f8PDERiOtpMu1id19q+4IxichfhRBZJesSGpYuNotT/6XnOnA+hgfrS4K1E
-         ltxutcIo5C4wdfTZ5FZs3+YP7V3YmUwF8BcGlRGPmrgAfqcvjspG896N+Co8W3DK4rwD
-         ouE6bo6drRML/2N7tb4fen267q7V+PzK7XFEKrVHWhoocWNOg80UKMNCazkA7p7nzzcj
-         NC0Bou7Dx9Gxd/VAlkZR1cIGjLuH83tEB21Rb5kd15ojz5ghHx3Tu86Gk9R3pqwEisq7
-         Qq5clh/wOIHlFF+aCnrur0mW3AgS0q9L2U2ghKzXOX8lg9yupKfN5WyjVtPDb2zQiAMb
-         /CPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679077902;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YvJ70W31eDPBtGDHoN0dzmi83vmZajj1b0iRIfuS03Y=;
-        b=7mSUEQtZH7giLly/CArPdwPjF6io73BjszN2BONLgCDMu53BJNES0y0JnWa1bTYe+v
-         ImqUjS6ebodOS2MdZaWT3WrXshtddDpscEb7CoIgbe/4EY5kV258eYas9c6iXHrqfAxu
-         GYXtR9vgtIlhztzJrsuZejlPzaX6f0s9CFZhI/z4EmOVtIBcfI5dwQjCRUgJ+69RBKA+
-         rjRfLB/PZEJlEwmImbdOrwnlBxNbOlsJh/A8XSLD05Nh0p2QZspLJe2YwHmEUv+6vw1d
-         lvuvR6A3qLzLXKOo5JSrFiBy1boJxAH4tn6Ppzyuu7XrMvAetIHJQPFwAqSO08lnc5xw
-         1Zdg==
-X-Gm-Message-State: AO0yUKX3/b/qXGLT8S+YayMakM5lN1ZRBbTWXARxRdZpmlIOI7Bpa+J2
-        sS9ul6JcxZSrwizvXMmQFNmx1UxmYJWQLLsLMqE=
-X-Google-Smtp-Source: AK7set95lw36pV9wpSdvM3RdFH/9Jn4PZZTKxs7PXXkh5kb5tY7xddMq54lT1HoQZAOwfpcjtbFy30OHTjTSE1JNHEI=
-X-Received: by 2002:a25:d4e:0:b0:9fc:e3d7:d60f with SMTP id
- 75-20020a250d4e000000b009fce3d7d60fmr320384ybn.5.1679077901938; Fri, 17 Mar
- 2023 11:31:41 -0700 (PDT)
+        Fri, 17 Mar 2023 18:10:05 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8552B399C5;
+        Fri, 17 Mar 2023 15:09:59 -0700 (PDT)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id E8C1B60006;
+        Fri, 17 Mar 2023 22:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1679090998;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ydOYXHQbAQwRlDgBE8D09/DiUFJ7qXsxUL0PXkGETCE=;
+        b=gxdMZ2BrYyWyx9kX77EBkYQV9fTzdP0QG4+apoaarC7ba2aSSw4QOUeotjWwZPrtCPd+Vp
+        dR+z7o+0JFKbhXhzIOskw65hViO8jJseil7auBmA+VfYNzl9Ba869dUOHmGsAVOaiWFwd9
+        SWzvCOIEnPr83VO/3bNKnj8G+cCab+fKdo97zjpkLn+nyDciYAAFDYFxOXiX2m6xOGOQbE
+        f3J90EfvlrFKodrHbp3nLL3fhmXyWm2Ho3t2mwke+h12iD3ITeQ68F3lj85T6UASbZF974
+        /a71oqxxOaKR9AOjZvrAJVd2etTV8ox8FXMG5XjRSkgj9hS2jftwNMP8kwn6Vg==
+Date:   Fri, 17 Mar 2023 23:09:54 +0100
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Joshua Kinard <kumba@gentoo.org>,
+        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
+        Eddie Huang <eddie.huang@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Vincent Shih <vincent.sunplus@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        chrome-platform@lists.linux.dev, linux-riscv@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 00/41] rtc: Convert to platform remove callback returning
+ void
+Message-ID: <167909091159.113952.12576059020896222306.b4-ty@bootlin.com>
+References: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20230317123314.145121-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230317123314.145121-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <TYCPR01MB10588B29A18ABE00374AD07A3B7BD9@TYCPR01MB10588.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB10588B29A18ABE00374AD07A3B7BD9@TYCPR01MB10588.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 17 Mar 2023 18:31:15 +0000
-Message-ID: <CA+V-a8sOib64rA3YRkHa3X-SiSpnn70QJK6DDqg7pX05X2phFA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: rzg2l-smarc: Enable CRU, CSI support
-To:     Chris Paterson <Chris.Paterson2@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230304133028.2135435-1-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chris,
 
-Thank you for the review.
+On Sat, 04 Mar 2023 14:29:47 +0100, Uwe Kleine-König wrote:
+> this patch series adapts the platform drivers below drivers/rtc to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
+> 
+> [...]
 
-On Fri, Mar 17, 2023 at 6:03=E2=80=AFPM Chris Paterson
-<Chris.Paterson2@renesas.com> wrote:
->
-> Hello Prabhakar,
->
-> > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: 17 March 2023 12:33
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable CRU, CSI on RZ/G2L SMARC EVK and tie the CSI to OV5645 sensor
-> > using Device Tree overlay. rz-smarc-cru-csi-ov5645.dtsi is created so
-> > that RZ/G2L alike EVKs can make use of it.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > setenv bootfile kernel_fdt.itb
-> > tftpboot ${bootfile}
-> > bootm ${fileaddr}#rzg2l-smarc#ov5645
-> >
-> > v1->v2
-> > * New patch
-> > ---
-> >  arch/arm64/boot/dts/renesas/Makefile          |  1 +
-> >  .../r9a07g044l2-smarc-cru-csi-ov5645.dtso     | 18 ++++
-> >  .../dts/renesas/rz-smarc-cru-csi-ov5645.dtsi  | 87 +++++++++++++++++++
-> >  3 files changed, 106 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-
-> > csi-ov5645.dtso
-> >  create mode 100644 arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-
-> > ov5645.dtsi
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/Makefile
-> > b/arch/arm64/boot/dts/renesas/Makefile
-> > index 23b10c03091c..a553d99175cb 100644
-> > --- a/arch/arm64/boot/dts/renesas/Makefile
-> > +++ b/arch/arm64/boot/dts/renesas/Makefile
-> > @@ -79,6 +79,7 @@ dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043u11-
-> > smarc.dtb
-> >
-> >  dtb-$(CONFIG_ARCH_R9A07G044) +=3D r9a07g044c2-smarc.dtb
-> >  dtb-$(CONFIG_ARCH_R9A07G044) +=3D r9a07g044l2-smarc.dtb
-> > +dtb-$(CONFIG_ARCH_R9A07G044) +=3D r9a07g044l2-smarc-cru-csi-
-> > ov5645.dtbo
-> >
-> >  dtb-$(CONFIG_ARCH_R9A07G054) +=3D r9a07g054l2-smarc.dtb
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-
-> > ov5645.dtso b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-
-> > ov5645.dtso
-> > new file mode 100644
-> > index 000000000000..40cece1491bb
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtso
-> > @@ -0,0 +1,18 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Device Tree overlay for the RZ/G2L SMARC EVK with OV5645 camera
-> > + * connected to CSI and CRU enabled.
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corp.
-> > + */
-> > +
-> > +/dts-v1/;
-> > +/plugin/;
-> > +
-> > +#define OV5645_PARENT_I2C i2c0
-> > +#include "rz-smarc-cru-csi-ov5645.dtsi"
-> > +
-> > +&ov5645 {
-> > +     enable-gpios =3D <&pinctrl RZG2L_GPIO(2, 0) GPIO_ACTIVE_HIGH>;
-> > +     reset-gpios =3D <&pinctrl RZG2L_GPIO(40, 2) GPIO_ACTIVE_LOW>;
-> > +};
-> > diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
-> > b/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
-> > new file mode 100644
-> > index 000000000000..95286bf2066e
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
-> > @@ -0,0 +1,87 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Common Device Tree for the RZ/G2L SMARC EVK (and alike EVKs) with
-> > + * OV5645 camera connected to CSI and CRU enabled.
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corp.
-> > + */
-> > +
-> > +/dts-v1/;
-> > +/plugin/;
-The above two lines are not required here.
+Applied, thanks!
 
-> > +
-> > +#include <dt-bindings/gpio/gpio.h>
-> > +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
->
-> Are either of these includes used in this file?
-> Or should they move to the overlay?
->
-Good catch, yes they need to be moved into the overlay file instead.
+[01/41] rtc: 88pm80x: Convert to platform remove callback returning void
+        commit: 8ef70a5ef3ed41ce4d700794d45fd9e084460a00
+[02/41] rtc: 88pm860x: Convert to platform remove callback returning void
+        commit: 8fbff75e2b7582fc03dbcd13e67831fb75345dcb
+[03/41] rtc: ab8500: Convert to platform remove callback returning void
+        commit: 8a700af1babfc0e5d34bd95264d65ea6adb0b288
+[04/41] rtc: ac100: Convert to platform remove callback returning void
+        commit: 28015e799ad9ff04d68107b7392a4884accedb0e
+[05/41] rtc: asm9260: Convert to platform remove callback returning void
+        commit: ad01bf83bfc33c53079415f02e160bf72221d7e6
+[06/41] rtc: at91sam9: Convert to platform remove callback returning void
+        commit: 06e5e4a5a996aefb5d8e0c8db05b014e3bd91a28
+[07/41] rtc: brcmstb-waketimer: Convert to platform remove callback returning void
+        commit: d64906b320ce6fef446ea72c6043bbec19f0da60
+[08/41] rtc: cadence: Convert to platform remove callback returning void
+        commit: 0b9efd82a63b31c7c2ce17a3d8ad3aeb28b3a928
+[09/41] rtc: cmos: Convert to platform remove callback returning void
+        commit: 63c18a079bbb5f564b30e0fa7ec292eb123b1bf6
+[10/41] rtc: cros-ec: Convert to platform remove callback returning void
+        commit: 0d8742e61098b422b1ba1458a7ce80c4f1e299bb
+[11/41] rtc: ds1685: Convert to platform remove callback returning void
+        commit: de11783c9d2a4dec9e0e2c01b9a9897d72019d5f
+[12/41] rtc: ftrtc010: Convert to platform remove callback returning void
+        commit: 43eeb707afb00579a7bb611d14fc9a056bba849e
+[13/41] rtc: hid-sensor-time: Convert to platform remove callback returning void
+        commit: 30d5365c8dda63e31fb1fbbec446d72d0f1e5ce6
+[14/41] rtc: lpc24xx: Convert to platform remove callback returning void
+        commit: 52fcb90d8cdf117ade871b01861b8a8defbf3b78
+[15/41] rtc: max77686: Convert to platform remove callback returning void
+        commit: bf05de01160d493d53cc289be1b1092c26b378b4
+[16/41] rtc: mc13xxx: Convert to platform remove callback returning void
+        commit: 99c3a1367db02b6b57be54bf61da051a93e0615f
+[17/41] rtc: mpc5121: Convert to platform remove callback returning void
+        commit: 22edbc10a514a8cf56d9c8da5cc1a2d43e6832a5
+[18/41] rtc: mpfs: Convert to platform remove callback returning void
+        commit: fa147083acf61de306e2881d91401d817de11093
+[19/41] rtc: mt7622: Convert to platform remove callback returning void
+        commit: ae0ac71651c726c2f1d5af752d38bf40526b7026
+[20/41] rtc: mxc_v2: Convert to platform remove callback returning void
+        commit: 153f56f9ce99495ca4cb6d7f2047c29940aef9f5
+[21/41] rtc: omap: Convert to platform remove callback returning void
+        commit: 578afdb9084ed0446060d627e7f3ecd1c4100c3d
+[22/41] rtc: palmas: Convert to platform remove callback returning void
+        commit: a7f9864e4362e07e113517d647c5bc355cdee970
+[23/41] rtc: pcf50633: Convert to platform remove callback returning void
+        commit: d25f0ba97692b4a8ac63bbd2c562741525c5f5ca
+[24/41] rtc: pic32: Convert to platform remove callback returning void
+        commit: c3d12a10922dcf32a97d3c71f6a574529b061caf
+[25/41] rtc: pm8xxx: Convert to platform remove callback returning void
+        commit: 3fc5029a8f7d0d3c039c3649e82cc2e4eeeb46a6
+[26/41] rtc: rc5t583: Convert to platform remove callback returning void
+        commit: ade527dd2192ddabbd4926338c31ca281098c34c
+[27/41] rtc: rtd119x: Convert to platform remove callback returning void
+        commit: 0824a15b6863a19c7c8e1c16abf6090fd8ac615f
+[28/41] rtc: rzn1: Convert to platform remove callback returning void
+        commit: e55fbc80e9d2bf3ec0ec77551baa683f30e85b74
+[29/41] rtc: s3c: Convert to platform remove callback returning void
+        commit: 9e6a2ad120fa3f785f013e70ae7d872abafb8318
+[30/41] rtc: sa1100: Convert to platform remove callback returning void
+        commit: cf407e9f1a9dc290e2088c11bd0e5542334e7ab4
+[31/41] rtc: spear: Convert to platform remove callback returning void
+        commit: 25ffc856b3cb1bd08a8645839aa38505469a6edd
+[32/41] rtc: stm32: Convert to platform remove callback returning void
+        commit: 54c2cb2797cd76465dae08cd9b81676ffad36b27
+[33/41] rtc: stmp3xxx: Convert to platform remove callback returning void
+        commit: 16324165ab1f90fa06294679e3de58cb53c0423f
+[34/41] rtc: sunplus: Convert to platform remove callback returning void
+        commit: d6f525040eef1562327fccc4412acdb4f173e01b
+[35/41] rtc: tegra: Convert to platform remove callback returning void
+        commit: 31c94505f44b47493d62c0fd43d30838326d345f
+[36/41] rtc: tps6586x: Convert to platform remove callback returning void
+        commit: adebcc1c1916188c1c9ac8e8f54123b07431baf7
+[37/41] rtc: twl: Convert to platform remove callback returning void
+        commit: fff118c9e8331b9b08b69841498fbea34693a28c
+[38/41] rtc: vt8500: Convert to platform remove callback returning void
+        commit: 5b1064441f20fc3f397239599b1193fecb7a90e4
+[39/41] rtc: wm8350: Convert to platform remove callback returning void
+        commit: 631aa2d919f542373892d5ef6baf13e2969a10fd
+[40/41] rtc: xgene: Convert to platform remove callback returning void
+        commit: 257062d2679f4db5b6ebc9f4e6a77d0a45977278
+[41/41] rtc: zynqmp: Convert to platform remove callback returning void
+        commit: f45e5cfa73f445fa3cfbb7ebac3a7e2c66a9281c
 
-Cheers,
-Prabhakar
+Best regards,
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
