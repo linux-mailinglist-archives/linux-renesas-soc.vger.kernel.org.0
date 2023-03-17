@@ -2,98 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D8546BEC17
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 16:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A58186BEFA0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Mar 2023 18:26:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjCQPEN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 11:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49138 "EHLO
+        id S229652AbjCQR04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 13:26:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbjCQPEM (ORCPT
+        with ESMTP id S229585AbjCQR04 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 11:04:12 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 455EDE7EF7;
-        Fri, 17 Mar 2023 08:04:09 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,268,1673881200"; 
-   d="scan'208";a="152963901"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Mar 2023 00:04:09 +0900
-Received: from localhost.localdomain (unknown [10.226.92.188])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8B1AB438C8C2;
-        Sat, 18 Mar 2023 00:04:06 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Fri, 17 Mar 2023 13:26:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB3C1A4B4;
+        Fri, 17 Mar 2023 10:26:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F2C64B82641;
+        Fri, 17 Mar 2023 17:26:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14966C433D2;
+        Fri, 17 Mar 2023 17:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679074012;
+        bh=+nvNxMzFMvS8V7tYMsKVsfHsBxJtFJ5AXs5g5mvcxtk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Lf7PcvLGLvz2di5OVjJZ7itAqmLQAOcB9dys9b5s8hY5ZW1om/SccOnBukiTr1srk
+         ThtuBvjArTvOY/+oue0QNJGkrbsigczQEEIGCyQ5+EIOSwSNa3u+fB5Fl9vh7aqaSU
+         u7fplynUS1eG4O8LNedChmKnGEeHm4Ticzb9SJ8kB4tnepZoMnX5Ie9DflDQ116/yO
+         RKZq/vDnGbIXmqTjZlaGRqBpGHnZLTxrH1TTOhrLCiJOrfYR1og18kbfgOi1qYf+0p
+         2U9IPOuAUgrSHdeQBlDBheRoZLxc0MrZZy/ML+QJJBv0690V5fjCE0EpMdc/WZQUZe
+         eKXnSh+CWtVlQ==
+Date:   Fri, 17 Mar 2023 22:56:49 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-serial@vger.kernel.org,
+        dmaengine@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] tty: serial: sh-sci: Fix transmit end interrupt handler
-Date:   Fri, 17 Mar 2023 15:04:03 +0000
-Message-Id: <20230317150403.154094-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] dmaengine: sh: rz-dmac: Add reset support
+Message-ID: <ZBSi2YecQDFK6OZD@matsya>
+References: <20230315064501.21491-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.4 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230315064501.21491-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The fourth interrupt on SCI port is transmit end interrupt compared to
-the break interrupt on other port types. So, shuffle the interrupts to fix
-the transmit end interrupt handler.
+On 15-03-23, 06:45, Biju Das wrote:
+> Add reset support for DMAC module found on RZ/G2L alike SoCs.
+> 
+> For booting the board, reset release of the DMAC module is required
+> otherwise we don't get GIC interrupts. Currently the reset release
+> was done by the bootloader now move this to the driver instead.
 
-Fixes: e1d0be616186 ("sh-sci: Add h8300 SCI")
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Replaced the wrong fixes tag
- * Added a simpler check in sci_init_single() and removed irq_cnt logic
-   as make dtbs_check already catches the invalid combination.
+Applied, thanks
 
-Tested the SCI0 interface on RZ/G2UL by connecting to PMOD USBUART.
- 39:          0     GICv3 437 Level     1004d000.serial:rx err
- 40:         12     GICv3 438 Edge      1004d000.serial:rx full
- 41:         70     GICv3 439 Edge      1004d000.serial:tx empty
- 42:         18     GICv3 440 Level     1004d000.serial:tx end
----
- drivers/tty/serial/sh-sci.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 7bd080720929..c07663fe80bf 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -31,6 +31,7 @@
- #include <linux/ioport.h>
- #include <linux/ktime.h>
- #include <linux/major.h>
-+#include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/mm.h>
- #include <linux/of.h>
-@@ -2864,6 +2865,13 @@ static int sci_init_single(struct platform_device *dev,
- 			sci_port->irqs[i] = platform_get_irq(dev, i);
- 	}
- 
-+	/*
-+	 * The fourth interrupt on SCI port is transmit end interrupt, so
-+	 * shuffle the interrupts.
-+	 */
-+	if (p->type == PORT_SCI)
-+		swap(sci_port->irqs[SCIx_BRI_IRQ], sci_port->irqs[SCIx_TEI_IRQ]);
-+
- 	/* The SCI generates several interrupts. They can be muxed together or
- 	 * connected to different interrupt lines. In the muxed case only one
- 	 * interrupt resource is specified as there is only one interrupt ID.
 -- 
-2.25.1
-
+~Vinod
