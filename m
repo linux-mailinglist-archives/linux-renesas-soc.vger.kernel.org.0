@@ -2,369 +2,241 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5087C6BF678
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Mar 2023 00:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B95E66BF6F8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Mar 2023 01:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbjCQXgt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Mar 2023 19:36:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49484 "EHLO
+        id S229816AbjCRAhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Mar 2023 20:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjCQXgm (ORCPT
+        with ESMTP id S229945AbjCRAhH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Mar 2023 19:36:42 -0400
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991665BD9E;
-        Fri, 17 Mar 2023 16:36:36 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id i19so3555331ila.10;
-        Fri, 17 Mar 2023 16:36:36 -0700 (PDT)
+        Fri, 17 Mar 2023 20:37:07 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0C629E3B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 17:37:02 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso7002879pjb.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Mar 2023 17:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679099822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=os6ePIEHmP798yvFxpKjy1znOP2oGPeyXknmdif5JHU=;
+        b=a5xtF12hkvnghsPvDuTuK348fpZSXALnGIbl9mESd55HVB81z0tqHcsOpNkPU+s7e3
+         SgM/1VJ9dNzTcMfEewhNEPCA7g70f189gJZFhB8Tdjy6Tga6ODWmN1n+0cc/I/WU91HX
+         EpE587pzcVBrjQbeeFphibG9cv4sWkR0nFR/jP3q40el0wuUOgBgP2J1Zs7kVpXQfCTU
+         FDKbrpJcl4ZBRoh/ImMIzOYK5tpNTJeAuPNqid1VnzayGs/z47AMfQbYzfG77sm6KszG
+         ef4WyYKllhioNDf6zzLdsyvxHsMbDh27+MEZujltTX11Lgw/XZn1yHkDZSNd+s9pjfZG
+         MWCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679096196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oKoy4P5RpcU+zg25GpDCmwXljCst6ANGjCSVJiQJeeE=;
-        b=pOjbm1b3dXRKvh76bluUeB21zN73KeOPiqiMxNi+I0CYzIjPgDlPNp1nlOSfBvSrKy
-         vz/JJ+TUavIAtlvuLiyQC33GBgDRRYvJ+IlBR+H5bsOD7LmkuBCVGrjV3ifoX7e7JhC5
-         PdyZZh28YXv8WMevrUeuJfctxjTGz/cwiXTz5zWi1p3RmSEC3RIBG4LytdzZGlr9Bihq
-         PMYg/TTzjkdI70fcN2fmbqc3WqL438m2SL6k2MgtFzXQGWJwecxzqay8+A5O0aW02ngI
-         0nVUiaZ6+/oTqjRKs9AL/ea1r6DVcx78FAwFyZducJOoQaBbkSMG50fY5fBScWqGFBcZ
-         jfcw==
-X-Gm-Message-State: AO0yUKW3FfsQnqD110A6xt2ZNxIlfPyuM+4cJEc0Ba7IZYHU7MS143se
-        /sP9rrQ5DHC7s6IGxg59Jw==
-X-Google-Smtp-Source: AK7set+CgCl6/tw0+Jm12fkd3AiK2RqCrk65QID25EKCIyxV/RIAtsLK79jYcrRDueMyQG+Q1KmfIA==
-X-Received: by 2002:a92:d7ca:0:b0:316:e6e4:570b with SMTP id g10-20020a92d7ca000000b00316e6e4570bmr282783ilq.11.1679096195774;
-        Fri, 17 Mar 2023 16:36:35 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id d2-20020a056e020c0200b00310f9a0f8a7sm938905ile.76.2023.03.17.16.36.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 16:36:35 -0700 (PDT)
-Received: (nullmailer pid 3968612 invoked by uid 1000);
-        Fri, 17 Mar 2023 23:36:32 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Naga Sureshkumar Relli <nagasure@xilinx.com>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc:     linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH] dt-bindings: mtd: Drop unneeded quotes
-Date:   Fri, 17 Mar 2023 18:36:30 -0500
-Message-Id: <20230317233631.3968509-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20210112; t=1679099822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=os6ePIEHmP798yvFxpKjy1znOP2oGPeyXknmdif5JHU=;
+        b=yRCC517b0794uH7cVEoPbgsFkFJKTMvVS/6OPROvjJOnGSb3TqzuKIRdytDRiE/Sfl
+         yAV5GqABH9UU1E+XYTsWVUdWK9emeQScwInp/M32VSxujXyWAWZ6t+ysEkcJD5AIaF4y
+         IAQqvmEelIvlPpSdHF7359SXxkjA8z0p4wfn/zGQ4hTgycVR95DFUPf60dxMvGeIB4t/
+         rymvAfGIlQALCwUSrJOkngFCT5DkTtCVgabVdVIMH4O/G22McDoik+EofYtd5+sDcu3/
+         8Yl4qmAPo2ABIAtAvWdriPb980zvLeskIhKf78iNOZEcT7a5QWFE6MHtdr1GZruTzm9U
+         X6xg==
+X-Gm-Message-State: AO0yUKUZ7GvBlVwaAjx5JkpypVv6yEh3I7fKpG1d9Ln44vbbV8dZwEvi
+        JHzxiHj/Jzhqa9ZcpFepgijTMaO8eIaMQXsk2wKrWg==
+X-Google-Smtp-Source: AK7set/+lJKTdHw1xZK9DEl7C5giuxqHvkjsLLOb5yxjG+GWItax0LbcmZRuOR9nVaD7OG9442T0m+tAHXMDVL9Xxfs=
+X-Received: by 2002:a17:90a:e502:b0:237:5e4c:7d78 with SMTP id
+ t2-20020a17090ae50200b002375e4c7d78mr2702737pjy.9.1679099821549; Fri, 17 Mar
+ 2023 17:37:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+References: <328e557aaee9d3f5f1bcaf2b8ac2de0e04c4fbb8.1679049188.git.geert+renesas@glider.be>
+In-Reply-To: <328e557aaee9d3f5f1bcaf2b8ac2de0e04c4fbb8.1679049188.git.geert+renesas@glider.be>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 17 Mar 2023 17:36:25 -0700
+Message-ID: <CAGETcx_oYrhjo0C3zJ57gt7HGuiY_=9xEq+TvQU8R5zW6OiQCw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] treewide: Fix instantiation of devices in DT overlay
+To:     geert+renesas@glider.be
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-checking for this can be enabled in yamllint.
+On Fri, Mar 17, 2023 at 3:33=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> When loading a DT overlay that creates a device, the device is not
+> instantiated, unless the DT overlay is unloaded and reloaded again.
+>
+> Saravana explains:
+>   Basically for all overlays (I hope the function is only used for
+>   overlays) we assume all nodes are NOT devices until they actually
+>   get added as a device. Don't review the code, it's not meant to be :)
+>
+> Based on a hacky patch by Saravana Kannan, which covered only platform
+> and spi devices.
+>
+> Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
+> Link: https://lore.kernel.org/all/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=3DrWYn=
+kCZ6z5bGX-wj4w@mail.gmail.com
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Marked RFC as Saravana said this is an ugly hack.
+> Still, this is a regression in v6.3-rc1 that should be fixed.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml     | 2 +-
- .../devicetree/bindings/mtd/arasan,nand-controller.yaml       | 2 +-
- .../devicetree/bindings/mtd/arm,pl353-nand-r2p1.yaml          | 2 +-
- Documentation/devicetree/bindings/mtd/gpmi-nand.yaml          | 2 +-
- Documentation/devicetree/bindings/mtd/intel,lgm-ebunand.yaml  | 2 +-
- Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml      | 2 +-
- Documentation/devicetree/bindings/mtd/mtd-physmap.yaml        | 2 +-
- Documentation/devicetree/bindings/mtd/mxc-nand.yaml           | 2 +-
- Documentation/devicetree/bindings/mtd/nand-chip.yaml          | 2 +-
- Documentation/devicetree/bindings/mtd/nand-controller.yaml    | 2 +-
- .../bindings/mtd/partitions/brcm,bcm4908-partitions.yaml      | 2 +-
- .../bindings/mtd/partitions/linksys,ns-partitions.yaml        | 2 +-
- Documentation/devicetree/bindings/mtd/qcom,nandc.yaml         | 2 +-
- Documentation/devicetree/bindings/mtd/renesas-nandc.yaml      | 2 +-
- .../devicetree/bindings/mtd/rockchip,nand-controller.yaml     | 2 +-
- Documentation/devicetree/bindings/mtd/spi-nand.yaml           | 2 +-
- Documentation/devicetree/bindings/mtd/st,stm32-fmc2-nand.yaml | 2 +-
- Documentation/devicetree/bindings/mtd/ti,gpmc-nand.yaml       | 4 ++--
- Documentation/devicetree/bindings/mtd/ti,gpmc-onenand.yaml    | 4 ++--
- 19 files changed, 21 insertions(+), 21 deletions(-)
+Thanks for making sure this isn't forgotten.
 
-diff --git a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-index e7ec0c59bca6..9a88870cd865 100644
---- a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Allwinner A10 NAND Controller
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- maintainers:
-   - Chen-Yu Tsai <wens@csie.org>
-diff --git a/Documentation/devicetree/bindings/mtd/arasan,nand-controller.yaml b/Documentation/devicetree/bindings/mtd/arasan,nand-controller.yaml
-index d028269cdbaa..2fe53cbfbee0 100644
---- a/Documentation/devicetree/bindings/mtd/arasan,nand-controller.yaml
-+++ b/Documentation/devicetree/bindings/mtd/arasan,nand-controller.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Arasan NAND Flash Controller with ONFI 3.1 support
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- maintainers:
-   - Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-diff --git a/Documentation/devicetree/bindings/mtd/arm,pl353-nand-r2p1.yaml b/Documentation/devicetree/bindings/mtd/arm,pl353-nand-r2p1.yaml
-index e552875040e2..f8c0f606f451 100644
---- a/Documentation/devicetree/bindings/mtd/arm,pl353-nand-r2p1.yaml
-+++ b/Documentation/devicetree/bindings/mtd/arm,pl353-nand-r2p1.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: PL353 NAND Controller
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- maintainers:
-   - Miquel Raynal <miquel.raynal@bootlin.com>
-diff --git a/Documentation/devicetree/bindings/mtd/gpmi-nand.yaml b/Documentation/devicetree/bindings/mtd/gpmi-nand.yaml
-index 8487089b6e16..ba086c34626d 100644
---- a/Documentation/devicetree/bindings/mtd/gpmi-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/gpmi-nand.yaml
-@@ -93,7 +93,7 @@ required:
- unevaluatedProperties: false
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/mtd/intel,lgm-ebunand.yaml b/Documentation/devicetree/bindings/mtd/intel,lgm-ebunand.yaml
-index 8c62c7d3d0cd..cc3def758e00 100644
---- a/Documentation/devicetree/bindings/mtd/intel,lgm-ebunand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/intel,lgm-ebunand.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Intel LGM SoC NAND Controller
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- maintainers:
-   - Ramuthevar Vadivel Murugan <vadivel.muruganx.ramuthevar@linux.intel.com>
-diff --git a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-index 3fe981b14e2c..2bece155699f 100644
---- a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-+++ b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Rob Herring <robh@kernel.org>
- 
- allOf:
--  - $ref: "mtd.yaml#"
-+  - $ref: mtd.yaml#
-   - $ref: /schemas/spi/spi-peripheral-props.yaml#
- 
- properties:
-diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-index 44cd4476d1d3..f8c976898a95 100644
---- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-+++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-@@ -14,7 +14,7 @@ description: |
-   file systems on embedded devices.
- 
- allOf:
--  - $ref: "mtd.yaml#"
-+  - $ref: mtd.yaml#
-   - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
- 
- properties:
-diff --git a/Documentation/devicetree/bindings/mtd/mxc-nand.yaml b/Documentation/devicetree/bindings/mtd/mxc-nand.yaml
-index 7f6f7c9596c4..cf4198e43d7f 100644
---- a/Documentation/devicetree/bindings/mtd/mxc-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/mxc-nand.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/mtd/nand-chip.yaml b/Documentation/devicetree/bindings/mtd/nand-chip.yaml
-index 33d079f76c05..609d4a4ddd80 100644
---- a/Documentation/devicetree/bindings/mtd/nand-chip.yaml
-+++ b/Documentation/devicetree/bindings/mtd/nand-chip.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Miquel Raynal <miquel.raynal@bootlin.com>
- 
- allOf:
--  - $ref: "mtd.yaml#"
-+  - $ref: mtd.yaml#
- 
- description: |
-   This file covers the generic description of a NAND chip. It implies that the
-diff --git a/Documentation/devicetree/bindings/mtd/nand-controller.yaml b/Documentation/devicetree/bindings/mtd/nand-controller.yaml
-index efcd415f8641..f70a32d2d9d4 100644
---- a/Documentation/devicetree/bindings/mtd/nand-controller.yaml
-+++ b/Documentation/devicetree/bindings/mtd/nand-controller.yaml
-@@ -51,7 +51,7 @@ properties:
- 
- patternProperties:
-   "^nand@[a-f0-9]$":
--    $ref: "nand-chip.yaml#"
-+    $ref: nand-chip.yaml#
- 
-     properties:
-       reg:
-diff --git a/Documentation/devicetree/bindings/mtd/partitions/brcm,bcm4908-partitions.yaml b/Documentation/devicetree/bindings/mtd/partitions/brcm,bcm4908-partitions.yaml
-index 5bbb1c01ddee..94f0742b375c 100644
---- a/Documentation/devicetree/bindings/mtd/partitions/brcm,bcm4908-partitions.yaml
-+++ b/Documentation/devicetree/bindings/mtd/partitions/brcm,bcm4908-partitions.yaml
-@@ -31,7 +31,7 @@ properties:
- 
- patternProperties:
-   "^partition@[0-9a-f]+$":
--    $ref: "partition.yaml#"
-+    $ref: partition.yaml#
-     properties:
-       compatible:
-         const: brcm,bcm4908-firmware
-diff --git a/Documentation/devicetree/bindings/mtd/partitions/linksys,ns-partitions.yaml b/Documentation/devicetree/bindings/mtd/partitions/linksys,ns-partitions.yaml
-index 213858f60375..c5fa78ff7125 100644
---- a/Documentation/devicetree/bindings/mtd/partitions/linksys,ns-partitions.yaml
-+++ b/Documentation/devicetree/bindings/mtd/partitions/linksys,ns-partitions.yaml
-@@ -32,7 +32,7 @@ properties:
- 
- patternProperties:
-   "^partition@[0-9a-f]+$":
--    $ref: "partition.yaml#"
-+    $ref: partition.yaml#
-     properties:
-       compatible:
-         items:
-diff --git a/Documentation/devicetree/bindings/mtd/qcom,nandc.yaml b/Documentation/devicetree/bindings/mtd/qcom,nandc.yaml
-index 07024ee45951..00c991ffa6c4 100644
---- a/Documentation/devicetree/bindings/mtd/qcom,nandc.yaml
-+++ b/Documentation/devicetree/bindings/mtd/qcom,nandc.yaml
-@@ -46,7 +46,7 @@ patternProperties:
-           - 512
- 
- allOf:
--  - $ref: "nand-controller.yaml#"
-+  - $ref: nand-controller.yaml#
- 
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml b/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
-index f0dc78bb0515..cc6b8274e6a2 100644
---- a/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
-+++ b/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Miquel Raynal <miquel.raynal@bootlin.com>
- 
- allOf:
--  - $ref: "nand-controller.yaml"
-+  - $ref: nand-controller.yaml
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/mtd/rockchip,nand-controller.yaml b/Documentation/devicetree/bindings/mtd/rockchip,nand-controller.yaml
-index 566f330851f7..7eb1d0a38565 100644
---- a/Documentation/devicetree/bindings/mtd/rockchip,nand-controller.yaml
-+++ b/Documentation/devicetree/bindings/mtd/rockchip,nand-controller.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Rockchip SoCs NAND FLASH Controller (NFC)
- 
- allOf:
--  - $ref: "nand-controller.yaml#"
-+  - $ref: nand-controller.yaml#
- 
- maintainers:
-   - Heiko Stuebner <heiko@sntech.de>
-diff --git a/Documentation/devicetree/bindings/mtd/spi-nand.yaml b/Documentation/devicetree/bindings/mtd/spi-nand.yaml
-index 4d095e613204..77a8727c7966 100644
---- a/Documentation/devicetree/bindings/mtd/spi-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/spi-nand.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Miquel Raynal <miquel.raynal@bootlin.com>
- 
- allOf:
--  - $ref: "nand-chip.yaml#"
-+  - $ref: nand-chip.yaml#
-   - $ref: /schemas/spi/spi-peripheral-props.yaml#
- 
- properties:
-diff --git a/Documentation/devicetree/bindings/mtd/st,stm32-fmc2-nand.yaml b/Documentation/devicetree/bindings/mtd/st,stm32-fmc2-nand.yaml
-index 19cf1f18b61c..986e85ccebc7 100644
---- a/Documentation/devicetree/bindings/mtd/st,stm32-fmc2-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/st,stm32-fmc2-nand.yaml
-@@ -45,7 +45,7 @@ patternProperties:
-         enum: [1, 4, 8]
- 
- allOf:
--  - $ref: "nand-controller.yaml#"
-+  - $ref: nand-controller.yaml#
- 
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/mtd/ti,gpmc-nand.yaml b/Documentation/devicetree/bindings/mtd/ti,gpmc-nand.yaml
-index 4ac198814b7a..115682fa81b7 100644
---- a/Documentation/devicetree/bindings/mtd/ti,gpmc-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/ti,gpmc-nand.yaml
-@@ -63,10 +63,10 @@ properties:
- 
- patternProperties:
-   "@[0-9a-f]+$":
--    $ref: "/schemas/mtd/partitions/partition.yaml"
-+    $ref: /schemas/mtd/partitions/partition.yaml
- 
- allOf:
--  - $ref: "/schemas/memory-controllers/ti,gpmc-child.yaml"
-+  - $ref: /schemas/memory-controllers/ti,gpmc-child.yaml
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/mtd/ti,gpmc-onenand.yaml b/Documentation/devicetree/bindings/mtd/ti,gpmc-onenand.yaml
-index 8a79ad300216..7d3ace4f5505 100644
---- a/Documentation/devicetree/bindings/mtd/ti,gpmc-onenand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/ti,gpmc-onenand.yaml
-@@ -36,10 +36,10 @@ properties:
- 
- patternProperties:
-   "@[0-9a-f]+$":
--    $ref: "/schemas/mtd/partitions/partition.yaml"
-+    $ref: /schemas/mtd/partitions/partition.yaml
- 
- allOf:
--  - $ref: "/schemas/memory-controllers/ti,gpmc-child.yaml"
-+  - $ref: /schemas/memory-controllers/ti,gpmc-child.yaml
- 
- required:
-   - compatible
--- 
-2.39.2
+I thought about this a bit more and I've decided what I gave earlier
+isn't really too much of a hack. The other option is to handle the
+clearing of the flag at the driver core level, but we incur these
+additional instructions for all devices instead of just the overlay
+case. But the benefit is that if more busses add overlay support in
+the future, they won't need to remember to clear the flag in those
+instances too. But they'll probably start off by looking at the
+existing platform bus case, so they'll get it right.
 
+I'll continue the pondering next week and maybe test it on my device
+to make sure it's not doing anything weird for non-overlay cases.
+
+-Saravana
+
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3611,6 +3611,15 @@ int device_add(struct device *dev)
+         */
+        if (dev->fwnode && !dev->fwnode->dev) {
+                dev->fwnode->dev =3D dev;
++               /*
++                * If a fwnode was initially marked as not a device, but we
++                * clearly have a device added for it that can probe, then =
+clear
++                * the flag so fw_devlink will continue linking consumers t=
+o
++                * this device. This code path is really expected to run on=
+ly
++                * for DT overlays.
++                */
++               if (dev->bus)
++                       dev->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE
+                fw_devlink_link_device(dev);
+        }
+
+diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+index 07d93753b12f..f715b59d9bf3 100644
+--- a/drivers/of/dynamic.c
++++ b/drivers/of/dynamic.c
+@@ -226,6 +226,11 @@ static void __of_attach_node(struct device_node *np)
+        np->sibling =3D np->parent->child;
+        np->parent->child =3D np;
+        of_node_clear_flag(np, OF_DETACHED);
++       /*
++        * Ask fw_devlink to assume any new node is not a device. Driver co=
+re
++        * will clear this flag if the assumption turns out to be wrong.
++        */
++       np->fwnode.flags |=3D FWNODE_FLAG_NOT_DEVICE;
+ }
+
+
+
+
+> ---
+>  drivers/bus/imx-weim.c    | 1 +
+>  drivers/i2c/i2c-core-of.c | 1 +
+>  drivers/of/dynamic.c      | 1 +
+>  drivers/of/platform.c     | 1 +
+>  drivers/spi/spi.c         | 1 +
+>  5 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+> index 2a6b4f676458612e..71d8807170fa9f29 100644
+> --- a/drivers/bus/imx-weim.c
+> +++ b/drivers/bus/imx-weim.c
+> @@ -329,6 +329,7 @@ static int of_weim_notify(struct notifier_block *nb, =
+unsigned long action,
+>                                  "Failed to setup timing for '%pOF'\n", r=
+d->dn);
+>
+>                 if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
+> +                       rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE=
+;
+>                         if (!of_platform_device_create(rd->dn, NULL, &pde=
+v->dev)) {
+>                                 dev_err(&pdev->dev,
+>                                         "Failed to create child device '%=
+pOF'\n",
+> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+> index bce6b796e04c2ca0..79a0d47010ba0b20 100644
+> --- a/drivers/i2c/i2c-core-of.c
+> +++ b/drivers/i2c/i2c-core-of.c
+> @@ -178,6 +178,7 @@ static int of_i2c_notify(struct notifier_block *nb, u=
+nsigned long action,
+>                         return NOTIFY_OK;
+>                 }
+>
+> +               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+>                 client =3D of_i2c_register_device(adap, rd->dn);
+>                 if (IS_ERR(client)) {
+>                         dev_err(&adap->dev, "failed to create client for =
+'%pOF'\n",
+> diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+> index 07d93753b12f5f4d..e311d406b1705306 100644
+> --- a/drivers/of/dynamic.c
+> +++ b/drivers/of/dynamic.c
+> @@ -226,6 +226,7 @@ static void __of_attach_node(struct device_node *np)
+>         np->sibling =3D np->parent->child;
+>         np->parent->child =3D np;
+>         of_node_clear_flag(np, OF_DETACHED);
+> +       np->fwnode.flags |=3D FWNODE_FLAG_NOT_DEVICE;
+>  }
+>
+>  /**
+> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> index b2bd2e783445dd78..17c92cbfb62ee3ef 100644
+> --- a/drivers/of/platform.c
+> +++ b/drivers/of/platform.c
+> @@ -737,6 +737,7 @@ static int of_platform_notify(struct notifier_block *=
+nb,
+>                 if (of_node_check_flag(rd->dn, OF_POPULATED))
+>                         return NOTIFY_OK;
+>
+> +               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+>                 /* pdev_parent may be NULL when no bus platform device */
+>                 pdev_parent =3D of_find_device_by_node(rd->dn->parent);
+>                 pdev =3D of_platform_device_create(rd->dn, NULL,
+> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+> index 1a65f96fe2aff591..7bd053a32fad1a3c 100644
+> --- a/drivers/spi/spi.c
+> +++ b/drivers/spi/spi.c
+> @@ -4480,6 +4480,7 @@ static int of_spi_notify(struct notifier_block *nb,=
+ unsigned long action,
+>                         return NOTIFY_OK;
+>                 }
+>
+> +               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+>                 spi =3D of_register_spi_device(ctlr, rd->dn);
+>                 put_device(&ctlr->dev);
+>
+> --
+> 2.34.1
+>
