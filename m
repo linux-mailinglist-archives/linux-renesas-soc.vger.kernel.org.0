@@ -2,78 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5302A6C0507
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 21:55:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 951F46C054F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 22:15:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjCSUzq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Mar 2023 16:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
+        id S229734AbjCSVPD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Mar 2023 17:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbjCSUzo (ORCPT
+        with ESMTP id S230036AbjCSVPC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Mar 2023 16:55:44 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8AB72A2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 13:55:41 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id z83so10844640ybb.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 13:55:41 -0700 (PDT)
+        Sun, 19 Mar 2023 17:15:02 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA3DB758
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 14:15:00 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id e65so10848173ybh.10
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 14:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679259340;
+        d=linaro.org; s=google; t=1679260500;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
-        b=H/USSk17Fu5IdWFmU2HYEVwZ92SC2T/aL/5nOvlVpJeD0L0do87jcAsTliaBEz0MCA
-         mMqeZBU9urZirZ7zxW11auSX7+tkHYp0K9XThAE/wLNlnvSVJ8GdNjd8zqxEnyfC6R+S
-         bF0GNyNi0+l9Pp7ASmve9a2w4hwTf3i3d+4y1vux+85gQW4f0GI7kaHZLVj6jXu3zltE
-         7jVl7Q6CBsq+1I5qhe0Ga3XfgMounIvMwgwAAF156gYYGaIPQ8+xRHnk/kIV9uZT6MuK
-         aofXXYTTc5isXyhzb02mMH9GFNLJv1AQNxp4DslX98DqL+NC2qt8ieSTjsvVDSUikCvp
-         WBRg==
+        bh=o0iorqXQgWfUsmZ323+Wyn0oeyKtqb16TQ+B351+3qA=;
+        b=PqJlDX0gTYbEtn8Inp0Uq9s7u/HTYqGjD1dgyn2nK1HN81qzYpJ9YK87P3/GK9pyjS
+         NIox5xD6dYqMCgOx32vaNV7CStlqriTHBcn+xVBoWVHv64f9OkeU7yqIs+ePEjrucDlf
+         hLYQeSFr+uU2/M2tfVJ5lrNZIIQBGZMUOQR/x/Pb64/87ScadQHktjIXmYzf0soAd8Cm
+         1/vXcIPIvmyXhvwjyg9zJXzO53/CrLg2sarThltEBai116bRrT//SIC4+loKJSCgmFoX
+         qFt40qfje7rzwaijTzBX1bDxUpXmUPSUnzUEnrOEFINsNM2XFX8efE0qIlI4ANoUsKOX
+         jQCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679259340;
+        d=1e100.net; s=20210112; t=1679260500;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
-        b=MHGQ3bjPbtl6sfxNxkwuuCuWkUK8L5UfgGZGlWNqFAfW6aXbz7Crj8Ypp1Bu2au1sx
-         E14dJL8BDOgcf8mUB876EhuRBaZu1ghJzeksyVwVqBrBo0LR1kaI9qQxEJBHTu41A3OS
-         uhgz4nFvmrqwBaLKYHdhbSjOpceyuRQ8SUfwyvJNd4gno4jkkhuQtYApakFW10BAlRrY
-         1NxmNDCoSW6YEBKGYkmAPrMjtdnDB3U2YqogZCB0QxwjUZlCPq3ELnbvDTEdyaymO7vX
-         rndHqGXg2aRNnb6UrM5IxqWMkdpTd0CLq+dEJzjarn+wBFgQ5/q2KtwjuiKGetvtBVTT
-         La7g==
-X-Gm-Message-State: AO0yUKXFtHPAnU3618cWvjzl3661C03iO4HffweNy0UiMUBc9q6voN9g
-        DywvPhH45qOgXX5SzAeJGctfh6Uk2q0YP21tLKBl0w==
-X-Google-Smtp-Source: AK7set96jMMXsU1lpAmC3W40A6khl6vhFPSlLdYAPpPspd35ltaJhYbiXGg5BwG99gy+Dk9b8AqTCwMdTjF2Un45KI0=
-X-Received: by 2002:a05:6902:110e:b0:b26:47f3:6cb with SMTP id
- o14-20020a056902110e00b00b2647f306cbmr3222772ybu.4.1679259340445; Sun, 19 Mar
- 2023 13:55:40 -0700 (PDT)
+        bh=o0iorqXQgWfUsmZ323+Wyn0oeyKtqb16TQ+B351+3qA=;
+        b=LaT6KsPnUkzJreyW/Tvpix6LVmOE/evCKv8WCekP8b+SMvsPkNQRJvdtqMxtBeLVzV
+         tlPnvQQv1Dns5UgI3iNLbf+s0lzcAh1QWhO3u5zbDjteZEvTIYiIzdNW7vlm9MpHYvCN
+         PT2ZZQMP684v68zbEJlyHW6Ukg/ZVPUguhosluV3BgDcovEQPyAyxUdwvk+yzhqZmGGN
+         ZROg2UjtDP7RIGxJ552pU7dSY/MnyQvZRerZ2/o5GVUlAhV1bACiNX0aQvc5YglNZn5A
+         y3pVMc+QNcvDizY3QYJz83cL12Djb9TUmXK/TybzPRpWEGLdg/V7I2Oe5SD3TA/AjGx4
+         5veg==
+X-Gm-Message-State: AO0yUKUaqDUGegwpz75Ifn48Qsnr8pLBaGKnYIRqKKrvH2GtLoDPWg7a
+        6ZHgCSA5PDwzlt+X2j6xReOHhdjvpZoqFCbqJG0CLg==
+X-Google-Smtp-Source: AK7set88lgxJVA166ieuR2TTLZeS1J0rp7AfomiAt3xMAZzNkfr7DVMxQnogtWZ9zBjTSPGk/rTQReVq7hLkbmXRmbU=
+X-Received: by 2002:a05:6902:1143:b0:aa9:bd2e:3746 with SMTP id
+ p3-20020a056902114300b00aa9bd2e3746mr2997588ybu.4.1679260499808; Sun, 19 Mar
+ 2023 14:14:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310144721.1544669-1-robh@kernel.org> <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
- <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
-In-Reply-To: <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
+References: <20230317233623.3968172-1-robh@kernel.org>
+In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 19 Mar 2023 21:55:29 +0100
-Message-ID: <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
- property presence
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Sun, 19 Mar 2023 22:14:48 +0100
+Message-ID: <CACRpkdYFJ-q9OT2b7U-CP08XGfdoD-qN3k3C2KBHhnuBdfSi7A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To:     Rob Herring <robh@kernel.org>
+Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sean Wang <sean.wang@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jianlong Huang <jianlong.huang@starfivetech.com>,
+        Dvorkin Dmitry <dvorkin@tibbo.com>,
+        Wells Lu <wellslutw@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, patches@opensource.cirrus.com,
+        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -86,51 +120,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 12:00=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Mon, Mar 13, 2023 at 10:00=E2=80=AFAM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Fri, Mar 10, 2023 at 3:56=E2=80=AFPM Rob Herring <robh@kernel.org> w=
-rote:
-> > > It is preferred to use typed property access functions (i.e.
-> > > of_property_read_<type> functions) rather than low-level
-> > > of_get_property/of_find_property functions for reading properties. As
-> > > part of this, convert of_get_property/of_find_property calls to the
-> > > recently added of_property_present() helper when we just want to test
-> > > for presence of a property and nothing more.
-> > >
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/pinctrl/renesas/pinctrl.c
-> > > +++ b/drivers/pinctrl/renesas/pinctrl.c
-> > > @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctr=
-l_dev *pctldev,
-> > >          * inside a subnode nor across subnodes.
-> > >          */
-> > >         if (!pmx->func_prop_name) {
-> > > -               if (of_find_property(np, "groups", NULL) ||
-> > > -                   of_find_property(np, "pins", NULL)) {
-> > > +               if (of_property_present(np, "groups")||
-> > > +                   of_property_present(np, "pins")) {
-> > >                         pmx->func_prop_name =3D "function";
-> > >                         pmx->groups_prop_name =3D "groups";
-> > >                         pmx->pins_prop_name =3D "pins";
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > This check is used to auto-detect if the standard property names
-> > should be used, or the "renesas,"-prefixed ones.
-> > As the last users of the latter were removed from DTS in v4.10,
-> > perhaps I should just remove these checks instead?
->
-> Sent a patch just doing that, so you can drop this chunk.
-> https://lore.kernel.org/linux-renesas-soc/ff9c14781110bbf19b56b45dd1f01e6=
-da90319ad.1678704441.git.geert+renesas@glider.be
+On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
 
-So I need a new version of this patch before I can apply it
-I guess, or there will be conflict with Reseas stuff?
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Less bad examples =3D good.
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
