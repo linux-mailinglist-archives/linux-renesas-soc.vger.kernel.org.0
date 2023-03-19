@@ -2,113 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC8AD6C03C2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 19:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5302A6C0507
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 21:55:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbjCSSYN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Mar 2023 14:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34332 "EHLO
+        id S229610AbjCSUzq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Mar 2023 16:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjCSSYM (ORCPT
+        with ESMTP id S229958AbjCSUzo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Mar 2023 14:24:12 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7CA1ADF7;
-        Sun, 19 Mar 2023 11:24:08 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 39C2940002;
-        Sun, 19 Mar 2023 18:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1679250247;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UxKJ5DqiHIKx6uJVgysoPzQWoYyFGH7gsA6iqa5x6zM=;
-        b=lnJmxOVr1SeA5dJXwWhxXkKpUi16Mz6Gga2nftt9alNqQztJWa9xF8CpzrHFkHWuL9MwS7
-        0d4lMp3VOfUs/F2UdbXdLu4iXnfy14Ic199tawTfU0adAg/pQFt6UvOy64vy3GdWdjTYL7
-        AVSEo8Y5N37fY+9R2gbO7QU5T9CoyllK1VtyiAUDl7UbzP+6Dpq4cb24SD1TF0MQcsOsxh
-        DfOQZ7T+RMZg9SC2TD9KwSbY7tN2zOLOWKUb1uIPQsQrMr3HWAE5QMOWtK/xgaqESfb94J
-        aiqNeQcgk21/VIrdICiCbQlMlWcqeFuPYKE8FoLb1Kc+K/ej5ivP9hRxNdJviQ==
-Date:   Sun, 19 Mar 2023 19:24:05 +0100
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Tom Rix <trix@redhat.com>
-Cc:     gregkh@linuxfoundation.org, nathan@kernel.org,
-        ndesaulniers@google.com, linux-renesas-soc@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] usb: gadget: udc: remove unused usbf_ep_dma_reg_clrset
- function
-Message-ID: <20230319192405.6202ea2b@bootlin.com>
-In-Reply-To: <20230319155910.1706294-1-trix@redhat.com>
-References: <20230319155910.1706294-1-trix@redhat.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        Sun, 19 Mar 2023 16:55:44 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8AB72A2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 13:55:41 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id z83so10844640ybb.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 13:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679259340;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
+        b=H/USSk17Fu5IdWFmU2HYEVwZ92SC2T/aL/5nOvlVpJeD0L0do87jcAsTliaBEz0MCA
+         mMqeZBU9urZirZ7zxW11auSX7+tkHYp0K9XThAE/wLNlnvSVJ8GdNjd8zqxEnyfC6R+S
+         bF0GNyNi0+l9Pp7ASmve9a2w4hwTf3i3d+4y1vux+85gQW4f0GI7kaHZLVj6jXu3zltE
+         7jVl7Q6CBsq+1I5qhe0Ga3XfgMounIvMwgwAAF156gYYGaIPQ8+xRHnk/kIV9uZT6MuK
+         aofXXYTTc5isXyhzb02mMH9GFNLJv1AQNxp4DslX98DqL+NC2qt8ieSTjsvVDSUikCvp
+         WBRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679259340;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
+        b=MHGQ3bjPbtl6sfxNxkwuuCuWkUK8L5UfgGZGlWNqFAfW6aXbz7Crj8Ypp1Bu2au1sx
+         E14dJL8BDOgcf8mUB876EhuRBaZu1ghJzeksyVwVqBrBo0LR1kaI9qQxEJBHTu41A3OS
+         uhgz4nFvmrqwBaLKYHdhbSjOpceyuRQ8SUfwyvJNd4gno4jkkhuQtYApakFW10BAlRrY
+         1NxmNDCoSW6YEBKGYkmAPrMjtdnDB3U2YqogZCB0QxwjUZlCPq3ELnbvDTEdyaymO7vX
+         rndHqGXg2aRNnb6UrM5IxqWMkdpTd0CLq+dEJzjarn+wBFgQ5/q2KtwjuiKGetvtBVTT
+         La7g==
+X-Gm-Message-State: AO0yUKXFtHPAnU3618cWvjzl3661C03iO4HffweNy0UiMUBc9q6voN9g
+        DywvPhH45qOgXX5SzAeJGctfh6Uk2q0YP21tLKBl0w==
+X-Google-Smtp-Source: AK7set96jMMXsU1lpAmC3W40A6khl6vhFPSlLdYAPpPspd35ltaJhYbiXGg5BwG99gy+Dk9b8AqTCwMdTjF2Un45KI0=
+X-Received: by 2002:a05:6902:110e:b0:b26:47f3:6cb with SMTP id
+ o14-20020a056902110e00b00b2647f306cbmr3222772ybu.4.1679259340445; Sun, 19 Mar
+ 2023 13:55:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230310144721.1544669-1-robh@kernel.org> <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
+ <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
+In-Reply-To: <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 19 Mar 2023 21:55:29 +0100
+Message-ID: <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
+ property presence
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tom,
+On Mon, Mar 13, 2023 at 12:00=E2=80=AFPM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Mon, Mar 13, 2023 at 10:00=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Fri, Mar 10, 2023 at 3:56=E2=80=AFPM Rob Herring <robh@kernel.org> w=
+rote:
+> > > It is preferred to use typed property access functions (i.e.
+> > > of_property_read_<type> functions) rather than low-level
+> > > of_get_property/of_find_property functions for reading properties. As
+> > > part of this, convert of_get_property/of_find_property calls to the
+> > > recently added of_property_present() helper when we just want to test
+> > > for presence of a property and nothing more.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/pinctrl/renesas/pinctrl.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl.c
+> > > @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctr=
+l_dev *pctldev,
+> > >          * inside a subnode nor across subnodes.
+> > >          */
+> > >         if (!pmx->func_prop_name) {
+> > > -               if (of_find_property(np, "groups", NULL) ||
+> > > -                   of_find_property(np, "pins", NULL)) {
+> > > +               if (of_property_present(np, "groups")||
+> > > +                   of_property_present(np, "pins")) {
+> > >                         pmx->func_prop_name =3D "function";
+> > >                         pmx->groups_prop_name =3D "groups";
+> > >                         pmx->pins_prop_name =3D "pins";
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > This check is used to auto-detect if the standard property names
+> > should be used, or the "renesas,"-prefixed ones.
+> > As the last users of the latter were removed from DTS in v4.10,
+> > perhaps I should just remove these checks instead?
+>
+> Sent a patch just doing that, so you can drop this chunk.
+> https://lore.kernel.org/linux-renesas-soc/ff9c14781110bbf19b56b45dd1f01e6=
+da90319ad.1678704441.git.geert+renesas@glider.be
 
-On Sun, 19 Mar 2023 11:59:10 -0400
-Tom Rix <trix@redhat.com> wrote:
+So I need a new version of this patch before I can apply it
+I guess, or there will be conflict with Reseas stuff?
 
-> clang with W=3D1 reports
-> drivers/usb/gadget/udc/renesas_usbf.c:548:20: error: unused function
->   'usbf_ep_dma_reg_clrset' [-Werror,-Wunused-function]
-> static inline void usbf_ep_dma_reg_clrset(struct usbf_ep *ep, uint offset,
->                    ^
-> This function is not used, so remove it.
->=20
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/usb/gadget/udc/renesas_usbf.c | 11 -----------
->  1 file changed, 11 deletions(-)
->=20
-> diff --git a/drivers/usb/gadget/udc/renesas_usbf.c b/drivers/usb/gadget/u=
-dc/renesas_usbf.c
-> index cb23e62e8a87..84ac9fe4ce7f 100644
-> --- a/drivers/usb/gadget/udc/renesas_usbf.c
-> +++ b/drivers/usb/gadget/udc/renesas_usbf.c
-> @@ -545,17 +545,6 @@ static inline void usbf_ep_dma_reg_bitclr(struct usb=
-f_ep *ep, uint offset,
->  	usbf_ep_dma_reg_writel(ep, offset, tmp);
->  }
-> =20
-> -static inline void usbf_ep_dma_reg_clrset(struct usbf_ep *ep, uint offse=
-t,
-> -					  u32 clr, u32 set)
-> -{
-> -	u32 tmp;
-> -
-> -	tmp =3D usbf_ep_dma_reg_readl(ep, offset);
-> -	tmp &=3D ~clr;
-> -	tmp |=3D set;
-> -	usbf_ep_dma_reg_writel(ep, offset, tmp);
-> -}
-> -
->  static void usbf_ep0_send_null(struct usbf_ep *ep0, bool is_data1)
->  {
->  	u32 set;
-
-Yes, indeed.
-
-Acked-by: Herve Codina <herve.codina@bootlin.com>
-
-Thanks for the patch.
-Regards,
-Herv=C3=A9
-
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yours,
+Linus Walleij
