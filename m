@@ -2,119 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEC2E6C009C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 11:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B2396C00C8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 12:22:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbjCSK4T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Mar 2023 06:56:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58312 "EHLO
+        id S229593AbjCSLWm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Mar 2023 07:22:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjCSK4Q (ORCPT
+        with ESMTP id S230189AbjCSLWl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Mar 2023 06:56:16 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3AE22139
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 03:56:10 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id x3so36351861edb.10
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 03:56:10 -0700 (PDT)
+        Sun, 19 Mar 2023 07:22:41 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C6820693
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 04:22:38 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id x3so36490723edb.10
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 04:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679223369;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1679224957;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=LoyXTmuTmKGgTLGBo0qYnX6Jp8bEDf17eVvP7XGO2qhfRemxtwJtrRH9Ep1JHhGnQk
-         DM7G/ianKOJTy+onrcx5K+rasN1+P/5phdjTikcBfSCvls5VoUEtU19R0HbCgCF7aobg
-         40WRU2UHhFcDZODehVDDkwN/snWgAt/4QDmupCFnR47uQEZePsVew0+rLxSDOdDvvAwp
-         3JMq8P2tanxmPYuvLeuCmLNfn9yRr7Dfe9NF+r536JdXbCdxebQX1OVjBpyJ7mUDvRMU
-         iVtQ2+uN79keOw++o+t+UG4w2ddZnZ5CBm+iLIx5uFLx+Pf3+PRu53Jz68pAER7B1gdw
-         MxHg==
+        bh=5MvO/Da/vXp+FQwb+fkpWJ6UVyvRxEgrYpb2y3cdHv4=;
+        b=zystIQT4MCgpr+mWAvxC/TiepveTN+l0c/HQKMV8AOrx97zCG/nsrJ4pWUtKS5kRIw
+         HhyRpc+U1aIt2zlaOUVyLtnP+BFv1HZU+twhL5gpwPqqe4lLDixmmFdVW098+gEBis2m
+         mw3B3pMPwhQ9rxV+5Hpwk8mX+6FTKQlqCu9LdcdEC6RjTXtZk38KXbuLCUJybVtag6Od
+         61sA/AvILNsURnvA+pL8ihpzlTY8PjGT1XuVWG9X3mgbfxtxGQ1xYH12rLDbYUgO65xj
+         fyjM1+vMD+vEUNGSVZsBDABMbGuS34Kp2+PcxwCRQRygl/2Mg3Wt9kRWJqO3ulCC9lHW
+         /1cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679223369;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1679224957;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=qV2ViyPxtaXN5/MRTyhpsID+pK5Y5Cj/oy6dd9vD9mMWUmF2J4gjRMPLYg6H34oAmt
-         5iPkj0NqQ2H7+2jnbBNI6eROU4yau9q+AjQ0U2boI5yuJkMkSNdyuf01NFHtKvAtkLJI
-         8zfKsylNMpUGEkpdON428ThBvMe+6Qkz2fSc6AdFHcpTeO47austlo/dfMdbUQuw93zN
-         syx+P04rTHOR5O7DH3B5vC9idzliNnUwGdW1jR/MhoHQz6WlCtUpEKcWoP94Qp0u3+UI
-         sOA2g72YUOJCGkgifXYh7FlVhk1rX1O5LP03BUo4yT2kAqkcXC+h8J6vqWrYEQd7u4dH
-         xuaA==
-X-Gm-Message-State: AO0yUKW23ZdUj7PCeTmqWB4XvdrSt9oM3+IqQbdCJXsZLRfEVOVsPBSr
-        pJ2guLk51TwdP1XMzehImbOmJg==
-X-Google-Smtp-Source: AK7set8aBKLZuOSLuGkgBgWSIN+Nyo0cQB4QbrQUYK+fT1WnG6tZns0BtbZAKs7jswp9C0GRLAkphg==
-X-Received: by 2002:a17:906:7fc6:b0:923:812c:a5d3 with SMTP id r6-20020a1709067fc600b00923812ca5d3mr5250858ejs.25.1679223369254;
-        Sun, 19 Mar 2023 03:56:09 -0700 (PDT)
+        bh=5MvO/Da/vXp+FQwb+fkpWJ6UVyvRxEgrYpb2y3cdHv4=;
+        b=6LR33TJYZoePLpYrK5MFtylbaPK462+x4szDcLava/T2+LoPaIyte7/RrFHkYakyQj
+         NVupcGVMtW4cHZVzYb/YTV8DmXF+Jc8DaqRLcMG3SChJVkuSPxX9tBZVdKKLc4AdDb8K
+         0NjB0hfLeLEC5/qSHpc9HGSMpAGW4evf1ODwdjGRfoDIETe+y9lwPlJeNMBdQ8iuzubx
+         Tp8fU0umXYR4gPek8BzwckpVP87oddOqXU0pb2HcQPcdL0dPW4blWwUEPbaLPDMT0U0D
+         tWOV6W8cqp//w4BxSCFwdkTT6/7tFzbiq39CDMDIKH/1nVr4uamyVYtMETkAV7duRP+t
+         Vwbg==
+X-Gm-Message-State: AO0yUKUmdKmMHiJDUiVN6zjc+HjcF0Na1yK0d2P0ORojQbirB3AdA/ez
+        Dj4h8azcT89WeazTKw9P3vsQ3w==
+X-Google-Smtp-Source: AK7set+Rk1oCyHSti7CFYtrp+fbuExnaEFeI9SfYEF/GgMA3WA2UBTOCUAs8kb6XYh3+CtBCGWp7XQ==
+X-Received: by 2002:a17:906:fe04:b0:933:6ae6:374d with SMTP id wy4-20020a170906fe0400b009336ae6374dmr2282754ejb.73.1679224957034;
+        Sun, 19 Mar 2023 04:22:37 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d? ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
-        by smtp.gmail.com with ESMTPSA id 21-20020a170906319500b008d68d018153sm3115271ejy.23.2023.03.19.03.56.06
+        by smtp.gmail.com with ESMTPSA id u19-20020a50d513000000b004fe9386b259sm3423545edi.41.2023.03.19.04.22.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 03:56:08 -0700 (PDT)
-Message-ID: <23036bfc-cceb-2ac5-85fb-5e2d0bc0cbb5@linaro.org>
-Date:   Sun, 19 Mar 2023 11:56:05 +0100
+        Sun, 19 Mar 2023 04:22:36 -0700 (PDT)
+Message-ID: <b8b067d2-5d73-f713-df87-229275140276@linaro.org>
+Date:   Sun, 19 Mar 2023 12:22:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To:     Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jianlong Huang <jianlong.huang@starfivetech.com>,
-        Dvorkin Dmitry <dvorkin@tibbo.com>,
-        Wells Lu <wellslutw@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, patches@opensource.cirrus.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <20230317233623.3968172-1-robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Fix 4th IRQ for 4-IRQ
+ SCIFs
 Content-Language: en-US
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <719d1582e0ebbe3d674e3a48fc26295e1475a4c3.1679046394.git.geert+renesas@glider.be>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
+In-Reply-To: <719d1582e0ebbe3d674e3a48fc26295e1475a4c3.1679046394.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -127,15 +83,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18/03/2023 00:36, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On 17/03/2023 10:46, Geert Uytterhoeven wrote:
+> The fourth interrupt on SCIF variants with four interrupts (RZ/A1) is
+> the Break interrupt, not the Transmit End interrupt (like on SCI(g)).
+> Update the description and interrupt name to fix this.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Fixes: 384d00fae8e51f8f ("dt-bindings: serial: sh-sci: Convert to json-schema")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
