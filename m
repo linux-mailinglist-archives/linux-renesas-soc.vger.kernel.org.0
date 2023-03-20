@@ -2,163 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D4016C05B0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Mar 2023 22:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0FD36C0BAE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Mar 2023 09:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbjCSVhT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Mar 2023 17:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57572 "EHLO
+        id S230198AbjCTIBV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Mar 2023 04:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbjCSVhQ (ORCPT
+        with ESMTP id S229850AbjCTIBS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Mar 2023 17:37:16 -0400
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C580B12868
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 14:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1679261809; x=1710797809;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TT1NZFDlglG04lWn8b3D569FNDwhCTSHE8VYkA5Dx+U=;
-  b=N5HZipVb6VSXEMtRQE3K772cJ+k5DP0c2RpLTVa25mRzTxQJN4hcVCo1
-   vk9j5phpp1eLKj51dHqhAyXQGYxEftus92+RL+MUy0FTqXq1X6Y5WW6do
-   nHoLt660uBwNkUDpIxFvEDtPdAG+CaGk0Ttov+NsB/Ku/Metgwe341Y6c
-   HU+6S/Bffzg4o0DTiTeYcVfG/1S2uxtH53Ulff6m0uW6xtXUSv5QDpXpV
-   1n/wIC5vgynmzLPXvWfVSF23HB+TUkRAFjGJyOjlUyID5VAAVi4tFpoJm
-   fCYlgsIdhDIk7PPChRxl2U8pFRAKQ/+6ZQIO1anCpMYT85TWBtVTSP+u+
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.98,274,1673884800"; 
-   d="scan'208";a="330394022"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 20 Mar 2023 05:36:10 +0800
-IronPort-SDR: 5hg1mBGjxZ+cu4KVr1AqQWVwkMEVqOO3Qba8Cc7x0TKUUiLdB/1DnLBcmPF2PKXYCa7Pe3BcH/
- yBtmEMMw4/iZcOFDUHdIuHjwW0ezADcafltqnErkMkSfdf3M477B27jdA9wMwSJsIb28D7P6XP
- yLBrfh43yrX6nzXCW3hmJFHI4lMnlod+JRjp5OYRc5TXvKoc5zv9Y7bd/BCAp4nZewjx4wsPeE
- 783HjTBKVYXZfOgoPeM9rPgH1kealGV6qg1zAYvbzutqrWGB2vuXrnrCUVv/UyhEXK9+833eXv
- hc8=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Mar 2023 13:46:50 -0700
-IronPort-SDR: +oQFckAFK3wDrY8C0gMUVq96kUB6HVpvwPi491ez161Pu3D/fCVAs4nSlFI6A77nsQzUojuM+B
- Ok6lR1hyZYduZ9TeR10tPkE0md/UeGZF6FbQ6x/HjpWYZj+Olq8qn82NYR+BwzLXawjdVqZER/
- 1a1VhnszoEEx7GzOxJsY0qJX+ksMQQwtiaDJN7PLaovGJi2UWP0iccBVg1jYG6fw+LwKqPxmvm
- vawdK2JcouKYFRreeWbJv6fNE6pMxVRNCmZbT9Tcw5lMXbwyE+Er2/D92U5WXOLzXjYeiuabVi
- oK8=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Mar 2023 14:36:10 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PfrlY2kXxz1RtVw
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Mar 2023 14:36:09 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:content-language:references:to
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1679261768; x=1681853769; bh=TT1NZFDlglG04lWn8b3D569FNDwhCTSHE8V
-        YkA5Dx+U=; b=S8JspY/jT9HKo9uIoAqdicok3stSmSP3ZC72QphNU7sDF1HRlu5
-        WEHlENHnykDAc+PypzLR3AKh+nkdMH083OdE11omsr4lq8r6bvML7GaKsZVKacZc
-        MZHz5SQ+ppoKtSaDEwpYgqjDYxa5D+COba0qcQKw+mvAjO/hVOxH2r0a2BiHgjcj
-        TDQPTShi6TS6CRaKSdirsSF0+p+Y3zl7lZDKJ7b2fss43cDQVdW/HXyTxJeQfXZ8
-        wT8a1dOL4COVNs9eTAD+fnEHjbLliqP/dQCY4TrpRaEg8oDyHXx5471RrqK7Xg4z
-        0nN4CP2SYOKmSfVIRogCAC7RqfZYz9N1OXg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id cBqy8B0rdm2D for <linux-renesas-soc@vger.kernel.org>;
-        Sun, 19 Mar 2023 14:36:08 -0700 (PDT)
-Received: from [10.225.163.91] (unknown [10.225.163.91])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PfrlK1xCLz1RtVm;
-        Sun, 19 Mar 2023 14:35:57 -0700 (PDT)
-Message-ID: <de10b014-1a97-e74a-c7c4-b1004bf4cb60@opensource.wdc.com>
-Date:   Mon, 20 Mar 2023 06:35:55 +0900
+        Mon, 20 Mar 2023 04:01:18 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD9E132C6;
+        Mon, 20 Mar 2023 01:01:17 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id r16so12081776qtx.9;
+        Mon, 20 Mar 2023 01:01:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679299276;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9YDU8IzF0EsSpDkzRDjzs/d7Q1NfYw1Ou2xNB8kfdm8=;
+        b=ZF3taVLGj6p5NQ0ktZFXkNENzlu54mi1CPuhErVVCfY+wqdgwlS1ulIEMCOdZPW1Qs
+         QagB6yKvsLnfJCabixWuNjCzdUMl6js1q5FO5WiFUlTH/viJlvTG0vqoLogxGmIxnMfP
+         CzakzXDUZ5qAt9ga0DvzZijTIQdrC75G7E/TdJb9FU6/5sYrOpsVapNlJxh4YpSVBPZj
+         OJi4iMlL/k0KWcX0C7NEkBVB3DFPZOoMylx1+Qy1ah43q9QQ/aByVQRivGerVkox4uXd
+         p0O3d+bitkUvZNGCV9PHoR3BCpdEmYlOUtvAbuGba2UA/RwjJ3uEBRsZA22/ii5ptkMx
+         kJWg==
+X-Gm-Message-State: AO0yUKW7UiDBbj2kk9NT+sglee16Cp8YwaUIMQsbAuYUe741T+VOWLGl
+        ixOH70QpJZl/AdT3yTf7gSKbYFCRRkPuig==
+X-Google-Smtp-Source: AK7set9wKCjL9JyrlRTw4jWPcXjkkvkIn3NAxrnMK4AytsO3ekZIyiJO7P0vFM6REENGt8zOG0b/uQ==
+X-Received: by 2002:ac8:5c03:0:b0:3d5:6eaf:fe8f with SMTP id i3-20020ac85c03000000b003d56eaffe8fmr18445959qti.11.1679299276270;
+        Mon, 20 Mar 2023 01:01:16 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id a72-20020ae9e84b000000b00745a3b63569sm6839336qkg.107.2023.03.20.01.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 01:01:15 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-53d277c1834so209022017b3.10;
+        Mon, 20 Mar 2023 01:01:14 -0700 (PDT)
+X-Received: by 2002:a81:e508:0:b0:544:5fc7:f01f with SMTP id
+ s8-20020a81e508000000b005445fc7f01fmr9057012ywl.4.1679299274592; Mon, 20 Mar
+ 2023 01:01:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To:     Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+References: <20230310144721.1544669-1-robh@kernel.org> <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
+ <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com> <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+In-Reply-To: <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Mar 2023 09:01:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVgWne0goeJ3A1=v8FZCz3hmHC2j_UEYPn51gD1jz-9uA@mail.gmail.com>
+Message-ID: <CAMuHMdVgWne0goeJ3A1=v8FZCz3hmHC2j_UEYPn51gD1jz-9uA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
+ property presence
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jianlong Huang <jianlong.huang@starfivetech.com>,
-        Dvorkin Dmitry <dvorkin@tibbo.com>,
-        Wells Lu <wellslutw@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, patches@opensource.cirrus.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <20230317233623.3968172-1-robh@kernel.org>
-Content-Language: en-US
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/18/23 08:36, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi Linus,
 
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+On Sun, Mar 19, 2023 at 9:55 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Mon, Mar 13, 2023 at 12:00 PM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Mar 13, 2023 at 10:00 AM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> > > On Fri, Mar 10, 2023 at 3:56 PM Rob Herring <robh@kernel.org> wrote:
+> > > > It is preferred to use typed property access functions (i.e.
+> > > > of_property_read_<type> functions) rather than low-level
+> > > > of_get_property/of_find_property functions for reading properties. As
+> > > > part of this, convert of_get_property/of_find_property calls to the
+> > > > recently added of_property_present() helper when we just want to test
+> > > > for presence of a property and nothing more.
+> > > >
+> > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/drivers/pinctrl/renesas/pinctrl.c
+> > > > +++ b/drivers/pinctrl/renesas/pinctrl.c
+> > > > @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+> > > >          * inside a subnode nor across subnodes.
+> > > >          */
+> > > >         if (!pmx->func_prop_name) {
+> > > > -               if (of_find_property(np, "groups", NULL) ||
+> > > > -                   of_find_property(np, "pins", NULL)) {
+> > > > +               if (of_property_present(np, "groups")||
+> > > > +                   of_property_present(np, "pins")) {
+> > > >                         pmx->func_prop_name = "function";
+> > > >                         pmx->groups_prop_name = "groups";
+> > > >                         pmx->pins_prop_name = "pins";
+> > >
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > This check is used to auto-detect if the standard property names
+> > > should be used, or the "renesas,"-prefixed ones.
+> > > As the last users of the latter were removed from DTS in v4.10,
+> > > perhaps I should just remove these checks instead?
+> >
+> > Sent a patch just doing that, so you can drop this chunk.
+> > https://lore.kernel.org/linux-renesas-soc/ff9c14781110bbf19b56b45dd1f01e6da90319ad.1678704441.git.geert+renesas@glider.be
+>
+> So I need a new version of this patch before I can apply it
+> I guess, or there will be conflict with Reseas stuff?
+
+It would be a minor conflict, though, and you would have to resolve
+that yourself, when merging my renesas-pinctrl PR.  So when you
+will send a PR to The Other Linus, there won't be a conflict anymore,
+and no angriness ;-)
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Damien Le Moal
-Western Digital Research
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
