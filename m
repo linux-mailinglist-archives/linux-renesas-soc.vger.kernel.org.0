@@ -2,90 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D09B6C0CCE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Mar 2023 10:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 850C56C0D14
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Mar 2023 10:21:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbjCTJKt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Mar 2023 05:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43320 "EHLO
+        id S231297AbjCTJVd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Mar 2023 05:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbjCTJKs (ORCPT
+        with ESMTP id S231299AbjCTJVL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:10:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE2C812F15
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Mar 2023 02:10:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 796AA612A1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Mar 2023 09:10:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D9BDDC433EF
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Mar 2023 09:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679303445;
-        bh=TsLkRQ36pHbCUfAXAHPS1BrSSMFhu/l1IWA4vYlgqNQ=;
-        h=Subject:From:Date:To:From;
-        b=Y3cFOD9MHRcAAvf+TeL+PQ7nljLCHHOq2/X/rYKT/RKHhLCe4h/eng79lLBeuNXq+
-         DsISEhcY2EeTk/wPi5UrdkN/eAtR9+4c+Fmh0RywiljbL9AHOqptECeaIsM3ksoFQ5
-         SpYEwz4Qqn4SdHaK2IWBef8VQFBA2gzJy7rl67B9y9M253CJj9L5FuaN23LW58TwS8
-         X7aarvuTVXHEPm62DN0qX3zzxgosgNm/DSdJbyNq0WT6C+EHZxwIkITihtAGCFWXKR
-         y2Pbh1ultxZeiwqekE8i717fxwxhfHSFOF34rlrp7rmm67U/VPAWjeS1v0PSzjUUZt
-         svFLefcKijZjw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C0FBFE4F0D8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Mar 2023 09:10:45 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 20 Mar 2023 05:21:11 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4505A23DB5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Mar 2023 02:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=wHYsXvK6uoJ9eQZQ74HzrijgpuT
+        y5EsMMcmd3JB2YQg=; b=F3Y/A1Sd9IsF9wCcZT0tv03+I3XVhNumsH++/Go7/vk
+        eYjTxPv9zrf6bijAte0WODKTAMFPV7IN0W/VVgoe5f3BNqbcdobWgxESMxumevyi
+        rae3Vh89ms8thX4Q1aeLr9tfDVeBmZ0RIwRtbxuDwBD8Kp1h/LafF0TTarzfbBps
+        =
+Received: (qmail 860414 invoked from network); 20 Mar 2023 10:20:47 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2023 10:20:47 +0100
+X-UD-Smtp-Session: l3s3148p1@ChP+cFH3Xtwujnuq
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net v2 0/2] smsc911x: fix issues when interface is not up yet
+Date:   Mon, 20 Mar 2023 10:20:39 +0100
+Message-Id: <20230320092041.1656-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167930344571.11643.3387693883768872244.git-patchwork-summary@kernel.org>
-Date:   Mon, 20 Mar 2023 09:10:45 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Similar to upstream commit 7f5ebf5dae42 ("ravb: avoid PHY being resumed
+when interface is not up"), here is the fix for SMSC911x (patch 2).
+Also, I saw a splat running 'ifconfig' when interface was not up. Patch
+1 fixes it. Thank to Geert for a comment on this one.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Patches are based on v6.2-rc3 and tested on a Renesas APE6-EK.
 
-Series: net: renesas: rswitch: Fix rx and timestamp
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: David S. Miller <davem@davemloft.net>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=730198
-  Lore link: https://lore.kernel.org/r/20230315070424.1088877-1-yoshihiro.shimoda.uh@renesas.com
-    Patches: [net,1/2] net: renesas: rswitch: Fix the output value of quote from rswitch_rx()
-             [net,2/2] net: renesas: rswitch: Fix GWTSDIE register handling
-
-Series: net: set 'mac_managed_pm' at probe time
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=729927
-  Lore link: https://lore.kernel.org/r/20230314131443.46342-1-wsa+renesas@sang-engineering.com
-    Patches: [net,1/4] ravb: avoid PHY being resumed when interface is not up
-             [net,2/4] sh_eth: avoid PHY being resumed when interface is not up
-
-Series: net: renesas: set 'mac_managed_pm' at probe time
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=730211
-  Lore link: https://lore.kernel.org/r/20230315074115.3008-1-wsa+renesas@sang-engineering.com
-    Patches: [net,v2,1/2] ravb: avoid PHY being resumed when interface is not up
-             [net,v2,2/2] sh_eth: avoid PHY being resumed when interface is not up
+Changes since v1:
+* patch 1 is not a revert but a proper fix this time
 
 
-Total patches: 6
+Wolfram Sang (2):
+  smsc911x: only update stats when interface is up
+  smsc911x: avoid PHY being resumed when interface is not up
+
+ drivers/net/ethernet/smsc/smsc911x.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.30.2
 
