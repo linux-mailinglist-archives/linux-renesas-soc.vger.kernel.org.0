@@ -2,77 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A4A6C3A66
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 20:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13936C3AB0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 20:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbjCUT1x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 15:27:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S230178AbjCUTe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 15:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbjCUT1w (ORCPT
+        with ESMTP id S230150AbjCUTe2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 15:27:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC70155513;
-        Tue, 21 Mar 2023 12:27:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 44BB3B81988;
-        Tue, 21 Mar 2023 19:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 903DDC433EF;
-        Tue, 21 Mar 2023 19:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679426863;
-        bh=C/0ab2CywZhx7j9d2jbrGBqrW9lxAO1EyXEMje7UqUI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fqkrClXGi1MHn9tU26G1yPSoMloRZHDwzLVOK1L7YS28YYpvCN2nYHEBdC5LqB8O1
-         AcmqTDvTXm1FxZ/qng0aL+vs+ODQKmUAd4LWVOPzkh0Y7E9WyGAHTxT2vSHHAmPYbD
-         IumY4W8EiL9fM/OvinXKz6/ABsrOKEqQep8d5yZW4xOmTZHlhydZUNi0KTQ9DflS94
-         veX+h+ilO11pRSsfXB+6Qy/F4atfN5GAjnmA6Mo39e9bEHjdPLFnYKMdyhy1cBaVOQ
-         +wIS2Wx69jvwzKU9xq827OrQxMuI5VPMWwMAT5dED/mhEZz5uCd61riZv80es/x7cs
-         /cIZoKwo91vQw==
-Date:   Tue, 21 Mar 2023 12:27:42 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] smsc911x: remove superfluous variable init
-Message-ID: <20230321122742.7bd1165f@kernel.org>
-In-Reply-To: <ZBnBZwC9WEoNK0Gp@ninjato>
-References: <20230321114721.20531-1-wsa+renesas@sang-engineering.com>
-        <CAMuHMdXrvdUPTs=ExXJo-WM+=A=WgyCQM_0mGKZxQOrVFePbwA@mail.gmail.com>
-        <ZBnBZwC9WEoNK0Gp@ninjato>
+        Tue, 21 Mar 2023 15:34:28 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B0057D0A;
+        Tue, 21 Mar 2023 12:33:40 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id z42so16655552ljq.13;
+        Tue, 21 Mar 2023 12:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679427216;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wm8MQJivihHpRBhX5jhq2CsoTzKuk96liIpsYQdFPy8=;
+        b=HMJfHmVwTQKZVYAQsEecuyAc3DSoCa+z/mMKv3aQSC/3xylrzRHSj9szKW9x313igz
+         JaFEDw7KHd4QlE88XUqHegUDNoDqDMZ9gvboaQ4yggKLNe9qGBkt4TUlU7n8AjRT7/J5
+         cy7TaV5jI+027wHG9ji3Efjln5GjAKS4g7fm7IgXkGP25rJHUMzWDpODhop+uP3RnRsS
+         Q50IWASMn/lgFBlSXGmMDiGZp2hdxyzctW2cHn7EEX2SUxu7l9bt4TgECowOpykm+Hul
+         00GKG3aBZrM4LaNvQC8/3gkc074g4NmhO7yqQsczlrNGXrg8lcLwjwJM9qL38WHMKZ1w
+         yiAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679427216;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wm8MQJivihHpRBhX5jhq2CsoTzKuk96liIpsYQdFPy8=;
+        b=slCKSpQ+o+4XwlOs0JO+xpOsFG3s2M+jFN8jrizoSjocKlb4sUupKUbFV38gVvME7P
+         9vBkGHX/ZqXOGd5TAKgvyDwout7jVoTmXOwCSleq1dn0PBa/HP+ZS4IZ+lwduekMBKx1
+         FqjzjXzirSoGbu6EGrshuL5rKDYFUdowN7UFBUbfFaiMutAMC3hE89IgGP2T5cYqVhbI
+         35JbE5TYryCAfWb3BZfXcM3UFV9h5cgjUTeVs2+MPL4K+giDeT1FJEj79IFtvQN0YVYa
+         /xtQcO8UQnoIcoDd9r6gUoA3w/bdFHL1MKhdYbSaP/ngcKQs+S4XFwKLACDWa0sAe9Os
+         yNRQ==
+X-Gm-Message-State: AO0yUKWUc4rkdkVJ4Fy3D4vMy29jepKzA/X8KUwaHZgP3K+0iPgrBjqc
+        LrW9pR2RfXsbOZ6+p3FRDTenWHcoJOqPHg==
+X-Google-Smtp-Source: AK7set+lirdhq1D1avVPH/PjwULAjPrtvtxKZnsmYTtDU3KN3f7BsCj91nCTNDUqNIDMzmX63s37Pg==
+X-Received: by 2002:a2e:8ecf:0:b0:295:b0ed:ee8 with SMTP id e15-20020a2e8ecf000000b00295b0ed0ee8mr1195980ljl.46.1679427216330;
+        Tue, 21 Mar 2023 12:33:36 -0700 (PDT)
+Received: from mobilestation ([95.79.133.202])
+        by smtp.gmail.com with ESMTPSA id g5-20020a2e9385000000b002959d2cc975sm2356301ljh.37.2023.03.21.12.33.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 12:33:35 -0700 (PDT)
+Date:   Tue, 21 Mar 2023 22:33:33 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, lpieralisi@kernel.org,
+        robh+dt@kernel.org, kw@linux.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, Sergey.Semin@baikalelectronics.ru,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v11 01/13] PCI: dwc: Fix writing wrong value if
+ snps,enable-cdm-check
+Message-ID: <20230321193333.2o2gefhcuzk7sub7@mobilestation>
+References: <20230321090255.cca6xowea6k6fud4@mobilestation>
+ <20230321185228.GA2405946@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321185228.GA2405946@bhelgaas>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 21 Mar 2023 15:38:31 +0100 Wolfram Sang wrote:
-> > >         struct smsc911x_data *pdata = netdev_priv(dev);
-> > > -       struct phy_device *phydev = NULL;
-> > > +       struct phy_device *phydev;
-> > >         int ret;
-> > >
-> > >         phydev = phy_find_first(pdata->mii_bus);  
+On Tue, Mar 21, 2023 at 01:52:28PM -0500, Bjorn Helgaas wrote:
+> On Tue, Mar 21, 2023 at 12:02:55PM +0300, Serge Semin wrote:
+> > On Fri, Mar 10, 2023 at 09:34:58PM +0900, Yoshihiro Shimoda wrote:
+> > > The "val" of PCIE_PORT_LINK_CONTROL will be reused on the
+> > > "Set the number of lanes". But, if snps,enable-cdm-check" exists,
+> > > the "val" will be set to PCIE_PL_CHK_REG_CONTROL_STATUS.
+> > > Therefore, unexpected register value is possible to be used
+> > > to PCIE_PORT_LINK_CONTROL register if snps,enable-cdm-check" exists.
+> > > So, change reading timing of PCIE_PORT_LINK_CONTROL register to fix
+> > > the issue.
 > > 
-> > Nit: perhaps combine this assignment with the variable declaration?  
+> > My version of the commit log:
+> > < If CDM_CHECK capability is set then the local variable 'val' will be
+> > < overwritten in the dw_pcie_setup() method in the PL_CHK register
+> > < initialization procedure. Thus further variable usage in the framework of
+> > < the PCIE_PORT_LINK_CONTROL register initialization at the very least must
+> > < imply the variable re-initialization. Alas it hasn't been taken into
+> > < account in the commit ec7b952f453c ("PCI: dwc: Always enable CDM check if
+> > < "snps,enable-cdm-check" exists"). Due to that the PCIE_PORT_LINK_CONTROL
+> > < register will be written with an improper value in case if the CDM-check
+> > < is enabled. Let's fix this by moving the PCIE_PORT_LINK_CONTROL CSR
+> > < updated to be fully performed after the PL_CHK register
+> > < initialization.
+> > 
+> > > 
+> > > Fixes: ec7b952f453c ("PCI: dwc: Always enable CDM check if "snps,enable-cdm-check" exists")
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > 
+> > Looks good. Thanks.
+> > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> > 
+> > @Bjorn, if it's possible could you please take this patch to a
+> > fixes(-ish) branch of your tree and merge it in the next rc-cycle?
+> > It definitely fixes a bug in the DW PCIe core driver.
 > 
-> I thought about it but found this version to be easier readable.
 
-+1 
+> I applied this patch only to for-linus for v6.3.  I adapted the commit
+> message as follows, let me know if you spot a mistake:
+> 
+>   PCI: dwc: Fix PORT_LINK_CONTROL update when CDM check enabled
+>   
+>   If CDM_CHECK is enabled (by the DT "snps,enable-cdm-check" property), 'val'
+>   is overwritten by PCIE_PL_CHK_REG_CONTROL_STATUS initialization.  Commit
+>   ec7b952f453c ("PCI: dwc: Always enable CDM check if "snps,enable-cdm-check"
+>   exists") did not account for further usage of 'val', so we wrote improper
+>   values to PCIE_PORT_LINK_CONTROL when the CDM check is enabled.
+>   
+>   Move the PCIE_PORT_LINK_CONTROL update to be completely after the
+>   PCIE_PL_CHK_REG_CONTROL_STATUS register initialization.
+>   
+>   [bhelgaas: commit log adapted from Serge's version]
 
-Calling functions which need their return value error-checked as part
-of the variable declaration should be against the kernel coding style
-IMHO.
+Sounds good. Thanks!
+
+* I'll keep reviewing the rest of the patches in the series. There are
+several aspects which I think is possible to improve/optimize.
+
+-Serge(y)
+
+> 
+> > > ---
+> > >  drivers/pci/controller/dwc/pcie-designware.c | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > > index 53a16b8b6ac2..8e33e6e59e68 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > > @@ -1001,11 +1001,6 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> > >  		dw_pcie_writel_dbi(pci, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> > >  	}
+> > >  
+> > > -	val = dw_pcie_readl_dbi(pci, PCIE_PORT_LINK_CONTROL);
+> > > -	val &= ~PORT_LINK_FAST_LINK_MODE;
+> > > -	val |= PORT_LINK_DLL_LINK_EN;
+> > > -	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+> > > -
+> > >  	if (dw_pcie_cap_is(pci, CDM_CHECK)) {
+> > >  		val = dw_pcie_readl_dbi(pci, PCIE_PL_CHK_REG_CONTROL_STATUS);
+> > >  		val |= PCIE_PL_CHK_REG_CHK_REG_CONTINUOUS |
+> > > @@ -1013,6 +1008,11 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> > >  		dw_pcie_writel_dbi(pci, PCIE_PL_CHK_REG_CONTROL_STATUS, val);
+> > >  	}
+> > >  
+> > > +	val = dw_pcie_readl_dbi(pci, PCIE_PORT_LINK_CONTROL);
+> > > +	val &= ~PORT_LINK_FAST_LINK_MODE;
+> > > +	val |= PORT_LINK_DLL_LINK_EN;
+> > > +	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+> > > +
+> > >  	if (!pci->num_lanes) {
+> > >  		dev_dbg(pci->dev, "Using h/w default number of lanes\n");
+> > >  		return;
+> > > -- 
+> > > 2.25.1
+> > > 
+> > > 
