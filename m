@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE3C6C3432
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 15:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43E7E6C3452
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 15:34:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbjCUO2Q convert rfc822-to-8bit (ORCPT
+        id S230490AbjCUOeO convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 10:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47934 "EHLO
+        Tue, 21 Mar 2023 10:34:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbjCUO2Q (ORCPT
+        with ESMTP id S231322AbjCUOeM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 10:28:16 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7632350705;
-        Tue, 21 Mar 2023 07:27:51 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id c18so18026405qte.5;
-        Tue, 21 Mar 2023 07:27:51 -0700 (PDT)
+        Tue, 21 Mar 2023 10:34:12 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A026234C37;
+        Tue, 21 Mar 2023 07:34:10 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id c19so18032763qtn.13;
+        Tue, 21 Mar 2023 07:34:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679408835;
+        d=1e100.net; s=20210112; t=1679409249;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pwf8rQVzZz9UeH+SyAgm4VBiDO8a7YgTXmFKX3lcsqE=;
-        b=pqUXyAIjGq93itskI+ReynPgX9qqPAU10lSnicl5CzK9fsU7zT/jDcqJ42SRUdNzAa
-         kVZ85uwzUTJyAdA1xhnThQ/av/FApE1ORTqNPuMNa1JhL56DFwNFmZQnTVErsad8/9kR
-         gxFu1zN3MM/SqZqdthTGeMUHrO4bFJdD5r0Zned5Im0y4/RP5FryG7wPTy6vV52Z3WXH
-         p7xXrRh1SdllN6pHmTyvtfxNtoju6Af9YDrJRC5Tp5U6k335J6eou4wSy16EsCm6P2NL
-         fR7O61b0FdMpd3ouGX7H8t78PUJjTs4y5tyxlFL7hEvHA54gDC4ipY5Hy8tNF8LMVGno
-         IXYA==
-X-Gm-Message-State: AO0yUKU+WWrLbkBdAswInsyfCfFajdWRak4RWaJSi/crKBBf+tO9P7TL
-        eRK09SlVqsxhcQsdPcjDsOGGE2dsQh2neA==
-X-Google-Smtp-Source: AK7set85cEj8TSZdffh4vJC4L8y3Cfuan4aRIvfHei90WFDYc+D4OqWQfNBxYSnWoa4V3yFPrT9Jtg==
-X-Received: by 2002:a05:622a:40e:b0:3bf:db21:8c87 with SMTP id n14-20020a05622a040e00b003bfdb218c87mr4660412qtx.60.1679408835116;
-        Tue, 21 Mar 2023 07:27:15 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id c20-20020ac86614000000b003e1080e0f8csm3951266qtp.16.2023.03.21.07.27.14
+        bh=82nUopC4peey5GRVSgLUYvMNsOkr6qqSP8KaXHFDorM=;
+        b=povKLd2VWRVnfXIwc/JvHyhRXfzbpRCOXWz67h8TEE5Uo0h4oNBXibBzJ6PeVozRr+
+         fHcX8sms7zpFFHqgmpDKefq2LWbHhz1CyIdEDROvMdN0qNdLPSWkGNn3XsGpPc5Oi7wr
+         f/O5Ygrlvm6qveC1eM2cGjYPk0A51N6OeH18ni8VAg3fOyN+0y7Ftdiu/qlc5Z8rtbsk
+         LahV5+8Buc5MSXRWfvyZ/BTi8I7JgsVuMH6cw+pt4OZVaA6UzIKkn/r1kLpJ6iO2a/lW
+         BxTKL2AaIlxC3Yt5WmrvXjB2hrkAKdoe85JW0lG8PRmLtjZNmPOmiS6kbFU+/FZFy3Sj
+         YuWw==
+X-Gm-Message-State: AO0yUKX3h9t3ijewGqWdPFiNuwD9ziWZnv3aChd1yKL4JzXXWoYfeI+5
+        EL5hEGpD4DhypPIhtfo/aqKxV0VB9xV2ow==
+X-Google-Smtp-Source: AK7set/hopW2XtMSTKOZpioG6ZIh22UttanvDRwjaBRMfHIzwA+U9NwjPFxbIoC6/7OHeNe0wZQmdw==
+X-Received: by 2002:ac8:5c93:0:b0:3bf:c5ce:127a with SMTP id r19-20020ac85c93000000b003bfc5ce127amr236294qta.4.1679409248911;
+        Tue, 21 Mar 2023 07:34:08 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id b14-20020a05620a270e00b0073b7f2a0bcbsm9589445qkp.36.2023.03.21.07.34.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 07:27:14 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-53d277c1834so283311787b3.10;
-        Tue, 21 Mar 2023 07:27:14 -0700 (PDT)
-X-Received: by 2002:a81:ac62:0:b0:541:a17f:c779 with SMTP id
- z34-20020a81ac62000000b00541a17fc779mr1183143ywj.4.1679408834245; Tue, 21 Mar
- 2023 07:27:14 -0700 (PDT)
+        Tue, 21 Mar 2023 07:34:08 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id e194so17365122ybf.1;
+        Tue, 21 Mar 2023 07:34:08 -0700 (PDT)
+X-Received: by 2002:a05:6902:1023:b0:b6b:841a:aae4 with SMTP id
+ x3-20020a056902102300b00b6b841aaae4mr1264687ybt.12.1679409248087; Tue, 21 Mar
+ 2023 07:34:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230321114721.20531-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230321114721.20531-1-wsa+renesas@sang-engineering.com>
+References: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Mar 2023 15:27:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXrvdUPTs=ExXJo-WM+=A=WgyCQM_0mGKZxQOrVFePbwA@mail.gmail.com>
-Message-ID: <CAMuHMdXrvdUPTs=ExXJo-WM+=A=WgyCQM_0mGKZxQOrVFePbwA@mail.gmail.com>
-Subject: Re: [PATCH net-next] smsc911x: remove superfluous variable init
+Date:   Tue, 21 Mar 2023 15:33:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWts4ixT87hK=GcOODQVkfgCqjp+dML0cAxPnXkfnsCpg@mail.gmail.com>
+Message-ID: <CAMuHMdWts4ixT87hK=GcOODQVkfgCqjp+dML0cAxPnXkfnsCpg@mail.gmail.com>
+Subject: Re: [PATCH net-next] sh_eth: remove open coded netif_running()
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -71,31 +72,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Tue, Mar 21, 2023 at 12:50 PM Wolfram Sang
+On Tue, Mar 21, 2023 at 7:58 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> phydev is assigned a value right away, no need to initialize it.
+> It had a purpose back in the days, but today we have a handy helper.
 >
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Thanks for your patch!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/drivers/net/ethernet/smsc/smsc911x.c
-> +++ b/drivers/net/ethernet/smsc/smsc911x.c
-> @@ -1016,7 +1016,7 @@ static void smsc911x_phy_adjust_link(struct net_device *dev)
->  static int smsc911x_mii_probe(struct net_device *dev)
->  {
->         struct smsc911x_data *pdata = netdev_priv(dev);
-> -       struct phy_device *phydev = NULL;
-> +       struct phy_device *phydev;
->         int ret;
->
->         phydev = phy_find_first(pdata->mii_bus);
-
-Nit: perhaps combine this assignment with the variable declaration?
+No regressions seen on R-Car M2-W, RZ/A1H, and RZ/A2M.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
