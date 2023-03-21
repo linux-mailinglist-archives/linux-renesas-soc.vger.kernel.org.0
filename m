@@ -2,103 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E2D6C3470
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 15:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 585876C347C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 15:40:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbjCUOii (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 10:38:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36588 "EHLO
+        id S231371AbjCUOkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 10:40:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231350AbjCUOih (ORCPT
+        with ESMTP id S230425AbjCUOkE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 10:38:37 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F17B4E5E9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Mar 2023 07:38:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=y3JoVdCj3jgvJHWV3eVK6+pPUYGP
-        NrH7su41rVd9VU4=; b=SZD3pHaRNRgFZ4bz44WbSkcTIr1qgp9kVdc7IC+QVaGb
-        6gmnZ/gl95i8LInnaJSqZHiewsq5t/pxeqkNapAcIhOY5ItOuISvrM9Xi6N2OAVb
-        I5wtLwQgyUDj3iDVed/ktt5YPDKJXBJyCJNT7qBZ9HjNzHS19fP+iUSPVRixIFI=
-Received: (qmail 1315219 invoked from network); 21 Mar 2023 15:38:31 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Mar 2023 15:38:31 +0100
-X-UD-Smtp-Session: l3s3148p1@zrdX/2n3woEujnv6
-Date:   Tue, 21 Mar 2023 15:38:31 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tue, 21 Mar 2023 10:40:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E98AD4FF23
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Mar 2023 07:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679409553;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=te2wjPxLotIIBWis0C4qhukl42NU3760NpTaXDtKkAA=;
+        b=JxMuyAz/xBwZJOwsE/nqNZ2g2S652my9U8KDLgXxZLK/CEmZin8vhdUS5hbTBM1xhSaD+R
+        RUQwqXZRKBweHKs3YF4n+iXDpcyzDdkP7T49oRjtvaBMsW2vZfjGSL4e10c4iSB3D1C4zH
+        +A+ZqtiPQuadhDc2qW6wKxvly+XwCzQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-QGxHuFAVMEydLD--pNGaSQ-1; Tue, 21 Mar 2023 10:39:08 -0400
+X-MC-Unique: QGxHuFAVMEydLD--pNGaSQ-1
+Received: by mail-wr1-f72.google.com with SMTP id o3-20020a5d6483000000b002cc4fe0f7fcso1793603wri.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Mar 2023 07:39:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679409547;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=te2wjPxLotIIBWis0C4qhukl42NU3760NpTaXDtKkAA=;
+        b=kZ5v/HlQzs8zme0jEf1LbddwuzofMKRbS6Cob5g1iEQ+REhlj+JlKHNaEUoStKnL5n
+         OndFO7hlqu+1sLl+L6CpNFNFgVP+Hx5XV86BX8ECi6Jhwi0zSwa+O/kEH+NIkpjPDvEp
+         nJ8LmU59cMUPb0iCjqH8JyoAfAFHocWpnefJe6O9ufdWWs0j1iL3A0eM7qNYlT4Tg8Up
+         UCxX6AeFqi0INmOqyPi/rMCk5v1EXbKIk7m/QLB4aOVLqVY72D0lDdDVzZzrl2+Om82v
+         swy8dnNOI/e80IgVpnc9dvYPLScNNJy/RBzg8lw3QxcUKwKR41D6HCk2+bittDu56JiR
+         CSRA==
+X-Gm-Message-State: AO0yUKVP6Qri9XYf9a7o+YW2sc8JJ8aBFMKvj88yTi7DHoIhfZGwG6Jk
+        hX3iqV+ywquyaRUe6moBDFCJGmqRuACnMCqlYyKpKdrYBBaIykyodb2MZiJgoTc+9g1MFmUQuPL
+        CdYH6j9D/oLz/todSanJqlQeIDVEWMBU=
+X-Received: by 2002:a05:600c:4744:b0:3ed:ebcb:e2c6 with SMTP id w4-20020a05600c474400b003edebcbe2c6mr2966527wmo.3.1679409547710;
+        Tue, 21 Mar 2023 07:39:07 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8Jpe5k8eJaSDWziJnwP3NQWvprpto6X93PPJIuPivb6Bx6XPYOeMSt783Ld3ERpqKIUsu/Vg==
+X-Received: by 2002:a05:600c:4744:b0:3ed:ebcb:e2c6 with SMTP id w4-20020a05600c474400b003edebcbe2c6mr2966505wmo.3.1679409547445;
+        Tue, 21 Mar 2023 07:39:07 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-244-19.dyn.eolo.it. [146.241.244.19])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05600c1c8f00b003ed793d9de0sm2618439wms.1.2023.03.21.07.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 07:39:07 -0700 (PDT)
+Message-ID: <7589589f340f1ecb49bc8ed852e1e2dddb384700.camel@redhat.com>
+Subject: Re: [PATCH net v2 2/2] smsc911x: avoid PHY being resumed when
+ interface is not up
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         Steve Glendinning <steve.glendinning@shawell.net>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] smsc911x: remove superfluous variable init
-Message-ID: <ZBnBZwC9WEoNK0Gp@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         linux-kernel@vger.kernel.org
-References: <20230321114721.20531-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdXrvdUPTs=ExXJo-WM+=A=WgyCQM_0mGKZxQOrVFePbwA@mail.gmail.com>
+Date:   Tue, 21 Mar 2023 15:39:05 +0100
+In-Reply-To: <20230320092041.1656-3-wsa+renesas@sang-engineering.com>
+References: <20230320092041.1656-1-wsa+renesas@sang-engineering.com>
+         <20230320092041.1656-3-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yeGyJMCzGsHhRqcP"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXrvdUPTs=ExXJo-WM+=A=WgyCQM_0mGKZxQOrVFePbwA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---yeGyJMCzGsHhRqcP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> >         struct smsc911x_data *pdata =3D netdev_priv(dev);
-> > -       struct phy_device *phydev =3D NULL;
-> > +       struct phy_device *phydev;
-> >         int ret;
-> >
-> >         phydev =3D phy_find_first(pdata->mii_bus);
+On Mon, 2023-03-20 at 10:20 +0100, Wolfram Sang wrote:
+> SMSC911x doesn't need mdiobus suspend/resume, that's why it sets
+> 'mac_managed_pm'. However, setting it needs to be moved from init to
+> probe, so mdiobus PM functions will really never be called (e.g. when
+> the interface is not up yet during suspend/resume). The errno is changed
+> because ENODEV has a special meaning when returned in probe().
 >=20
-> Nit: perhaps combine this assignment with the variable declaration?
+> Fixes: 3ce9f2bef755 ("net: smsc911x: Stop and start PHY during suspend an=
+d resume")
+> Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> Changes since v1:
+> * no change
+>=20
+> In smsc911x_mii_probe(), I remove the sanity check for 'phydev' because
+> it was already done in smsc911x_mii_init(). Let me know if this is
+> acceptable or if a more defensive approach is favoured.
 
-I thought about it but found this version to be easier readable.
+Since this is a fix, I would keep the old check, too.
 
-Thanks!
+> @@ -1108,6 +1102,15 @@ static int smsc911x_mii_init(struct platform_devic=
+e *pdev,
+>  		goto err_out_free_bus_2;
+>  	}
+> =20
+> +	phydev =3D phy_find_first(pdata->mii_bus);
+> +	if (!phydev) {
+> +		netdev_err(dev, "no PHY found\n");
+> +		err =3D -ENOENT;
+> +		goto err_out_free_bus_2;
 
+Why don't you call mdiobus_unregister() in this error path?
 
---yeGyJMCzGsHhRqcP
-Content-Type: application/pgp-signature; name="signature.asc"
+mdiobus_register() completed successfully a few lines above.
 
------BEGIN PGP SIGNATURE-----
+Cheers,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQZwWMACgkQFA3kzBSg
-KbYiwBAAqnubm1w+d7LQWNl1dqHHUTELBpi6H5Ot31Z7bS1TlKklHYNt0VJ8q5n2
-C4hQV0ZILhczZpWE/9e2zdIzjAQXf03W62XzIiQNl6Pv5kjQtdp5ba/9GsoUsGfH
-2f3jIpocaNMxZ87IeEx7UhnA3Nwl648ihoHrMIEf+wgBpzg/l19nqRr/JQ81WW/a
-1yGea8VR0HPnVdokwIHuEX8Xm7emrJQWC1IXazBtzyTOPzYcC08YgqBzhQh7DH+k
-51OVx3eK+uNNkB5j09q6RjqS07uRisIxa6HbDPYK/+0Zwd10LVI8t8vrcL8v8DEl
-gtjP+a4V92hAmQltBPFmNk7FqQPGyU+KbHlb03OEOaBs+Co4faCfOlC7eWAGzeGx
-e1dQ/G//6uNhMoxckhganan3yxCWzLgbBpKgYI7F9D45b5sevoyKgEBrTRb0jKJA
-/rl9BMXLuqop4yQZOc81PzI2ep1mBBdhHWGPHarOsAN8o3A3no/t1kZuJU6hlqzz
-I9TviWeSvNJ2qx95C6ErImP8cMt7EdIEkynEWufCLC53Xjhm6Q9/Q6bBcupzXtDu
-w8M9xoydJ81qYWJM8jer8wbPv731/VOFHg4HmX0LFRBQLEk0zLwANvs87/0JHrFe
-4V8p0QtqcvlCjNPfz2iDHbVptglTzhH3aRcx74v1Sb6Q1wvVAvA=
-=enyV
------END PGP SIGNATURE-----
+Paolo
 
---yeGyJMCzGsHhRqcP--
