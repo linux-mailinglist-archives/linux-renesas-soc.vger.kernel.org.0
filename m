@@ -2,94 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD946C3BFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 21:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95C206C3C02
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 21:40:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbjCUUjp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 16:39:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58054 "EHLO
+        id S229675AbjCUUka (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 16:40:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbjCUUjo (ORCPT
+        with ESMTP id S229663AbjCUUk3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 16:39:44 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174573E1C9;
-        Tue, 21 Mar 2023 13:39:34 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id t13so10695573qvn.2;
-        Tue, 21 Mar 2023 13:39:34 -0700 (PDT)
+        Tue, 21 Mar 2023 16:40:29 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F613B0F1;
+        Tue, 21 Mar 2023 13:40:24 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id l16so9231068ybe.6;
+        Tue, 21 Mar 2023 13:40:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679431173;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HGyUxdj/Lp65x5LrMfbN6yHtalYpshYTCf2SeZA/f44=;
-        b=V8sy3C7DwSMDJYaT8nJf8hfsLIXhDpmNWEqo7BK1Tgw5usVXWDzgWyLBMjWBdU/o6B
-         E0pokEgO1CdwiEEjx+sQD0XpgVUXaPvV7EPlEN6lLUB0Lk+ceIyU1bk7DS5L2RAkf7DN
-         nagLjZgyT+EUxRfm7o9HhLnMxRo5FCLCLe10BojRxzXFEE3WTna1lNR4wPWmx3ls+xdA
-         OcnqduXY+qRSR7UzxBOvb2pdPqyBr+OmKFtzgqyU+n/IpL7wz8qyaphV1xM2n2a+vvqr
-         dVrLUebjY3dg5TCdJF7pvi7Io7ID/O0oroDBLA2Ms/hMnTL/gcdRZLqVi7YB8jQDVFvY
-         uhlA==
+        d=gmail.com; s=20210112; t=1679431223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rnJYCIHb3YOLk6h7F2Xo1WPCj6zYYjtkpvkZ8wpoQJs=;
+        b=jLlwwP11Eqd3QcuN1GuSMsYw65pUik7rYOLx5A1BPNTMKYJnucTWfSjnqUytJNHQXy
+         GlAFJL6HyR3XP707iPGwPLT9NY80fMZ/hCISBwSyJBwHfz7eX+lK3CL2OIHoNHXO5Kyz
+         no+vIz2/4ucVrHHNXkTOmblHIkWNlzdaISIxpB3ZjQRTD5u2I/FgqtMhRgiy9YzTWTcX
+         waavRaNlKiFGoog+iFNJImDr8t2BuR/0PLfTa74EW/SK1wMrTJ1l2qBB/fA5N5Y/t28Q
+         /rPFIaJLKvcae0dQ9PRxX/RisjwpluW3tmFgSdLMjx7xzAexmNpGqZa2XA5/3IwG7ffU
+         1+CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679431173;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGyUxdj/Lp65x5LrMfbN6yHtalYpshYTCf2SeZA/f44=;
-        b=V+6gbrpXF2zstBhPobuEv/3IOjwdJKaMQA7eeirp6RZRK7YDwdeRKQPhmIC8VWRL7X
-         FGF7joOFzF4OavrJNXq0JJTikBFvxl4ICrF3DFX069xBSAUBFsuwC1fmfdfP8wQy4hyD
-         EiWIDqcbngAMnYHSxoREwtywy64clDGhcz/O7QgV9Kxgmr5eoS1JOddgoWDystgqZDrr
-         IlyXa6DANz+/XpC6es9a4Y9Q63ROgbi4Ydt/nbHxtWbsZhUpfCybxxv6Efw9906Z+6KU
-         74/Kz6V7EN4dRIDO5bmFcpxp6WJyLR7tWOh6o6Mh1T9KUKnPZKp2IwaQq/61Ogo8yLIB
-         LTEw==
-X-Gm-Message-State: AO0yUKU2ipu7zuPHn8GPIza+uONlOp/v7fsYYZYqN75ePzXsi9W1hmmc
-        u0Cs8Z6FuT0e3fcPlF/WWdotktD+SjY=
-X-Google-Smtp-Source: AK7set+da2uXW3p+YVhyn/MAGPh4vsrGPdb3/mWfdqp+CgAgkvwVDha1d5iFjvvqhdiS9xq54Q0VOQ==
-X-Received: by 2002:a05:6214:1942:b0:5ac:d0dc:8ec0 with SMTP id q2-20020a056214194200b005acd0dc8ec0mr2588014qvk.26.1679431173157;
-        Tue, 21 Mar 2023 13:39:33 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id z9-20020a376509000000b0074283b87a4esm2777178qkb.90.2023.03.21.13.39.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 13:39:32 -0700 (PDT)
-Message-ID: <4d841ff2-706b-960d-1b59-a77fb849bb83@gmail.com>
-Date:   Tue, 21 Mar 2023 13:38:57 -0700
+        d=1e100.net; s=20210112; t=1679431223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rnJYCIHb3YOLk6h7F2Xo1WPCj6zYYjtkpvkZ8wpoQJs=;
+        b=UDw/pTjDpVPB3R2MB4IPyDpBqxjevfkOFn/twFloF0zj3tK4+pMOQU5bA9nIIeV59O
+         foklRmlFan8ILt8HSg74rX8YcJ2ohP2aCfbcFGBDqymqWQWowvjERA3Nf9vLXFMGf2Fi
+         k9kgyC6AxVvYhpPGCx0sgUETfFZz+EMDn4f0BG1cLHlBQjXmfqWOr6NYIUIFBpGjZdF3
+         am75TALB6OX3K48NmIYjQsID9nuPZITxVqd08Brw1VqCV6lW+JlBirYqVVUvxejnwD9n
+         PKeTv8jinTyZzc7Z2udEKhxP4u4BFGC7KvSCgtueh/VS1HanONDreTwZkIlyAQDNwVJQ
+         fLOw==
+X-Gm-Message-State: AAQBX9dwVEOWOmKSA7Oq+2OO3KdryIdcU8p7qUb9nbYYoPvMEpOJMdPX
+        cgi/H6xDkC+ui3nAGKxmZAa5fZ8ItQx1b5RRufE=
+X-Google-Smtp-Source: AKy350Yr0lFcvlrRV/aUYAmitKBlF/YIDHoHGNgfQJQ9fN+jGmA0gMeojAbcNNdTi/SlMNF7cHZPfM6jxoOO65XX8gM=
+X-Received: by 2002:a05:6902:6:b0:b5c:f48:3083 with SMTP id
+ l6-20020a056902000600b00b5c0f483083mr2322649ybh.11.1679431223686; Tue, 21 Mar
+ 2023 13:40:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH net-next] ethernet: remove superfluous clearing of phydev
-Content-Language: en-US
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        netdev@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Bryan Whitehead <bryan.whitehead@microchip.com>,
-        UNGLinuxDriver@microchip.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Wells Lu <wellslutw@gmail.com>, linux-kernel@vger.kernel.org
-References: <20230321131745.27688-1-wsa+renesas@sang-engineering.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230321131745.27688-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230320233823.2919475-1-robh@kernel.org>
+In-Reply-To: <20230320233823.2919475-1-robh@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 21 Mar 2023 21:40:12 +0100
+Message-ID: <CANiq72m+cNuGiU_J9xU9QKmQK-ncD=1Y5imskrFNFSezzmjq8A@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: Drop unneeded quotes
+To:     Rob Herring <robh@kernel.org>
+Cc:     Robin van der Gracht <robin@protonic.nl>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/21/23 06:17, Wolfram Sang wrote:
-> phy_disconnect() calls phy_detach() which already clears 'phydev' if it
-> is attached to a struct net_device.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Tue, Mar 21, 2023 at 12:38=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+>  .../bindings/auxdisplay/holtek,ht16k33.yaml   |  2 +-
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
+Cheers,
+Miguel
