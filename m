@@ -2,119 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C99B6C38C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 18:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFED16C3992
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 19:52:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbjCUR51 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 13:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53062 "EHLO
+        id S229937AbjCUSwg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 14:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbjCUR4w (ORCPT
+        with ESMTP id S229747AbjCUSwf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 13:56:52 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B7555053
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Mar 2023 10:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=X/XHGzweNcGnZj7J+RpSBa5nq+wT
-        r0BLkAkcv70wsdM=; b=D+nVXfa0FkyurAG1/7M4V0Z5UKvwx0AkpfK84DU1Cz1j
-        fRaH19mATwg5Ru7VOD01wnpi7ixQ4UzWzH4sGAQtN5NLTaDU9i3DBiNd25x/c7OY
-        OXYQoEyAS0v3UmDsdvhS+ZChMb0cdBJJRjT3M9JBqXWRir7R9vLc1HhXUOfvv3s=
-Received: (qmail 1364990 invoked from network); 21 Mar 2023 18:56:28 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Mar 2023 18:56:28 +0100
-X-UD-Smtp-Session: l3s3148p1@bhIcw2z34N4ujnv6
-Date:   Tue, 21 Mar 2023 18:56:25 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Paolo Abeni <pabeni@redhat.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2 2/2] smsc911x: avoid PHY being resumed when
- interface is not up
-Message-ID: <ZBnvya7Q/brY+MEt@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org
-References: <20230320092041.1656-1-wsa+renesas@sang-engineering.com>
- <20230320092041.1656-3-wsa+renesas@sang-engineering.com>
- <7589589f340f1ecb49bc8ed852e1e2dddb384700.camel@redhat.com>
+        Tue, 21 Mar 2023 14:52:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4103FBDC9;
+        Tue, 21 Mar 2023 11:52:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 81ACFB81977;
+        Tue, 21 Mar 2023 18:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFF96C433D2;
+        Tue, 21 Mar 2023 18:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679424750;
+        bh=OYQIvSSfu+5pnXb7ch/rzsrmHUW3SLly7IYqnR7JYI4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=aF8fgigZ7V53bAZL34wXeB+rj+1wJtymL88yTdNNM5XIkM09r4znMQQ758BpGAgKv
+         RIcm8oEEzTRntOOEkR5VCetMbdVEBGPiKBzKGyiEQ9DcOmdEiEvyBwTT+Au95GHEwc
+         YDMKPgzib+C+vAEnwFg9oDPEOv9WgzUgFV29HWBHbn77vViFRDZstcA5nxgk63ouH8
+         AnPB/t/5ne9pwDjbhGc1n+rLnhQzkHHAi+2Dy30iQ1LrcmryC40p2yXbT+yvPpx+3s
+         LEOwsqeE7Rz9F7HMLebhIWem2KnAbdSsOl7JVXowHqNwlqHaVChU1N2UAMpnu9vBjC
+         fhZ/n7UZSDxlg==
+Date:   Tue, 21 Mar 2023 13:52:28 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Serge Semin <fancer.lancer@gmail.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, lpieralisi@kernel.org,
+        robh+dt@kernel.org, kw@linux.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, Sergey.Semin@baikalelectronics.ru,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v11 01/13] PCI: dwc: Fix writing wrong value if
+ snps,enable-cdm-check
+Message-ID: <20230321185228.GA2405946@bhelgaas>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dSX357otSPN9QRZc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7589589f340f1ecb49bc8ed852e1e2dddb384700.camel@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230321090255.cca6xowea6k6fud4@mobilestation>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Mar 21, 2023 at 12:02:55PM +0300, Serge Semin wrote:
+> On Fri, Mar 10, 2023 at 09:34:58PM +0900, Yoshihiro Shimoda wrote:
+> > The "val" of PCIE_PORT_LINK_CONTROL will be reused on the
+> > "Set the number of lanes". But, if snps,enable-cdm-check" exists,
+> > the "val" will be set to PCIE_PL_CHK_REG_CONTROL_STATUS.
+> > Therefore, unexpected register value is possible to be used
+> > to PCIE_PORT_LINK_CONTROL register if snps,enable-cdm-check" exists.
+> > So, change reading timing of PCIE_PORT_LINK_CONTROL register to fix
+> > the issue.
+> 
+> My version of the commit log:
+> < If CDM_CHECK capability is set then the local variable 'val' will be
+> < overwritten in the dw_pcie_setup() method in the PL_CHK register
+> < initialization procedure. Thus further variable usage in the framework of
+> < the PCIE_PORT_LINK_CONTROL register initialization at the very least must
+> < imply the variable re-initialization. Alas it hasn't been taken into
+> < account in the commit ec7b952f453c ("PCI: dwc: Always enable CDM check if
+> < "snps,enable-cdm-check" exists"). Due to that the PCIE_PORT_LINK_CONTROL
+> < register will be written with an improper value in case if the CDM-check
+> < is enabled. Let's fix this by moving the PCIE_PORT_LINK_CONTROL CSR
+> < updated to be fully performed after the PL_CHK register
+> < initialization.
+> 
+> > 
+> > Fixes: ec7b952f453c ("PCI: dwc: Always enable CDM check if "snps,enable-cdm-check" exists")
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> 
+> Looks good. Thanks.
+> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> 
+> @Bjorn, if it's possible could you please take this patch to a
+> fixes(-ish) branch of your tree and merge it in the next rc-cycle?
+> It definitely fixes a bug in the DW PCIe core driver.
 
---dSX357otSPN9QRZc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I applied this patch only to for-linus for v6.3.  I adapted the commit
+message as follows, let me know if you spot a mistake:
 
-Hi Paolo,
+  PCI: dwc: Fix PORT_LINK_CONTROL update when CDM check enabled
+  
+  If CDM_CHECK is enabled (by the DT "snps,enable-cdm-check" property), 'val'
+  is overwritten by PCIE_PL_CHK_REG_CONTROL_STATUS initialization.  Commit
+  ec7b952f453c ("PCI: dwc: Always enable CDM check if "snps,enable-cdm-check"
+  exists") did not account for further usage of 'val', so we wrote improper
+  values to PCIE_PORT_LINK_CONTROL when the CDM check is enabled.
+  
+  Move the PCIE_PORT_LINK_CONTROL update to be completely after the
+  PCIE_PL_CHK_REG_CONTROL_STATUS register initialization.
+  
+  [bhelgaas: commit log adapted from Serge's version]
 
-> > In smsc911x_mii_probe(), I remove the sanity check for 'phydev' because
-> > it was already done in smsc911x_mii_init(). Let me know if this is
-> > acceptable or if a more defensive approach is favoured.
->=20
-> Since this is a fix, I would keep the old check, too.
-
-Yes, makes sense.
-
-> > +	phydev =3D phy_find_first(pdata->mii_bus);
-> > +	if (!phydev) {
-> > +		netdev_err(dev, "no PHY found\n");
-> > +		err =3D -ENOENT;
-> > +		goto err_out_free_bus_2;
->=20
-> Why don't you call mdiobus_unregister() in this error path?
-
-Oversight. I will fix it.
-
-Thank you for the review!
-
-
---dSX357otSPN9QRZc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQZ78UACgkQFA3kzBSg
-KbalWQ//QzAaCeqp5I/wIJj9fW3lDht8cVRIiUEco0sruEdxcE0uAKwVZ3FTtG69
-lobHyWzyxzJA/EtbYFPB3CWoFTRs9yVb7Dl36fBtmXz6UrUZTiiZxD661Kj6I47t
-CEcmNoMhVr+XBdNxE34vjKKe6lzFWzjOxJJEUmJ5heUbQPqpeHGH4ZDeBXb8s/8n
-fGOKOgREQ3kyk9bVYFpwPO84tWVsY+07SbQ77/zgCqaGtkh/O8doQ2Rz+LQgZub1
-Re8c/1ldwloHhQXj9p1RL/uIQCb3cR0zQD4TBDYy8M95Ip1y2PJg6islO2WGvNQJ
-z1bp57CvFiNCxdT7ZfF6uc2ysr06leJGPhBlAiXxUNCiYhJ0pWvyDi+aoohtcMsP
-rVYBikF4cASU8xxGLF6W3MUHy8W+zVubz+1Kz539L22Erb5Ca4rWpAN2n3WKYoZW
-uFyG0gD/JD88UO31aeNwgXXrpIxyEZO0UAoWMBKyopWOP+exxQ5O/Q0mM/pYqlAa
-aBf1t8ziO+3MJOoSgwOwU5UxAHUaRzc75GU4B//fg2SQipDzW4gwQU53bq2pnGQY
-M2fXFbX1RdVkGcoSJud3Jf21El4lCUfakbnvclMKWyDzpC3Z/MDjJyJm5prFCTAw
-04QYsJxmHhfbHH2Wn1nXOm+XZIW02S/K+P+o9vfD+etY+oix9KY=
-=ptv0
------END PGP SIGNATURE-----
-
---dSX357otSPN9QRZc--
+> > ---
+> >  drivers/pci/controller/dwc/pcie-designware.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > index 53a16b8b6ac2..8e33e6e59e68 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > @@ -1001,11 +1001,6 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> >  		dw_pcie_writel_dbi(pci, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> >  	}
+> >  
+> > -	val = dw_pcie_readl_dbi(pci, PCIE_PORT_LINK_CONTROL);
+> > -	val &= ~PORT_LINK_FAST_LINK_MODE;
+> > -	val |= PORT_LINK_DLL_LINK_EN;
+> > -	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+> > -
+> >  	if (dw_pcie_cap_is(pci, CDM_CHECK)) {
+> >  		val = dw_pcie_readl_dbi(pci, PCIE_PL_CHK_REG_CONTROL_STATUS);
+> >  		val |= PCIE_PL_CHK_REG_CHK_REG_CONTINUOUS |
+> > @@ -1013,6 +1008,11 @@ void dw_pcie_setup(struct dw_pcie *pci)
+> >  		dw_pcie_writel_dbi(pci, PCIE_PL_CHK_REG_CONTROL_STATUS, val);
+> >  	}
+> >  
+> > +	val = dw_pcie_readl_dbi(pci, PCIE_PORT_LINK_CONTROL);
+> > +	val &= ~PORT_LINK_FAST_LINK_MODE;
+> > +	val |= PORT_LINK_DLL_LINK_EN;
+> > +	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+> > +
+> >  	if (!pci->num_lanes) {
+> >  		dev_dbg(pci->dev, "Using h/w default number of lanes\n");
+> >  		return;
+> > -- 
+> > 2.25.1
+> > 
+> > 
