@@ -2,121 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C206C3C02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 21:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 475266C3E61
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 00:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjCUUka (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 16:40:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
+        id S230035AbjCUXQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 19:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjCUUk3 (ORCPT
+        with ESMTP id S229511AbjCUXQK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 16:40:29 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F613B0F1;
-        Tue, 21 Mar 2023 13:40:24 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id l16so9231068ybe.6;
-        Tue, 21 Mar 2023 13:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679431223;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rnJYCIHb3YOLk6h7F2Xo1WPCj6zYYjtkpvkZ8wpoQJs=;
-        b=jLlwwP11Eqd3QcuN1GuSMsYw65pUik7rYOLx5A1BPNTMKYJnucTWfSjnqUytJNHQXy
-         GlAFJL6HyR3XP707iPGwPLT9NY80fMZ/hCISBwSyJBwHfz7eX+lK3CL2OIHoNHXO5Kyz
-         no+vIz2/4ucVrHHNXkTOmblHIkWNlzdaISIxpB3ZjQRTD5u2I/FgqtMhRgiy9YzTWTcX
-         waavRaNlKiFGoog+iFNJImDr8t2BuR/0PLfTa74EW/SK1wMrTJ1l2qBB/fA5N5Y/t28Q
-         /rPFIaJLKvcae0dQ9PRxX/RisjwpluW3tmFgSdLMjx7xzAexmNpGqZa2XA5/3IwG7ffU
-         1+CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679431223;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rnJYCIHb3YOLk6h7F2Xo1WPCj6zYYjtkpvkZ8wpoQJs=;
-        b=UDw/pTjDpVPB3R2MB4IPyDpBqxjevfkOFn/twFloF0zj3tK4+pMOQU5bA9nIIeV59O
-         foklRmlFan8ILt8HSg74rX8YcJ2ohP2aCfbcFGBDqymqWQWowvjERA3Nf9vLXFMGf2Fi
-         k9kgyC6AxVvYhpPGCx0sgUETfFZz+EMDn4f0BG1cLHlBQjXmfqWOr6NYIUIFBpGjZdF3
-         am75TALB6OX3K48NmIYjQsID9nuPZITxVqd08Brw1VqCV6lW+JlBirYqVVUvxejnwD9n
-         PKeTv8jinTyZzc7Z2udEKhxP4u4BFGC7KvSCgtueh/VS1HanONDreTwZkIlyAQDNwVJQ
-         fLOw==
-X-Gm-Message-State: AAQBX9dwVEOWOmKSA7Oq+2OO3KdryIdcU8p7qUb9nbYYoPvMEpOJMdPX
-        cgi/H6xDkC+ui3nAGKxmZAa5fZ8ItQx1b5RRufE=
-X-Google-Smtp-Source: AKy350Yr0lFcvlrRV/aUYAmitKBlF/YIDHoHGNgfQJQ9fN+jGmA0gMeojAbcNNdTi/SlMNF7cHZPfM6jxoOO65XX8gM=
-X-Received: by 2002:a05:6902:6:b0:b5c:f48:3083 with SMTP id
- l6-20020a056902000600b00b5c0f483083mr2322649ybh.11.1679431223686; Tue, 21 Mar
- 2023 13:40:23 -0700 (PDT)
+        Tue, 21 Mar 2023 19:16:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401653BC6D;
+        Tue, 21 Mar 2023 16:16:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CFDA561ED6;
+        Tue, 21 Mar 2023 23:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A196C433D2;
+        Tue, 21 Mar 2023 23:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679440568;
+        bh=/M8W1SHtPyJEINPYzcVea0a9v+JMaf9CiVoRpkQcGQ4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=mfIYhulVMQVGJiaDtYPDTG9cOWgPyQ+NAqVw1MEzByEVkTehjZ1yF7KRkXRz3RFzv
+         sWxTDY0RTFP3hO8tyi2swSsNmReZHP28WAgBVo5IcusLbE6eBCo2zrufq1J50UiHQU
+         dm7/6qMnQSsbM42mA5hz3MUT1kz/JvRS3q5PWlh31psGW3UJPMLwd0zjsaourFeGse
+         D+Jx/O04RO7gJZ96OD47q517MPM/yKRZ7VUWWSrpvLxRSH0dcaFV+4n7xIUdtRfUDB
+         W2Yn86RudlgfHzhpZS4bz3gmTnISI8xUTA1mAkQIzMUJnB9GAx6WNEJbu74MmyZLbm
+         38TV410dt8fqA==
+Message-ID: <fbb9d1bf8643b4ddce6e9498911f3137.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230320233823.2919475-1-robh@kernel.org>
-In-Reply-To: <20230320233823.2919475-1-robh@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 21 Mar 2023 21:40:12 +0100
-Message-ID: <CANiq72m+cNuGiU_J9xU9QKmQK-ncD=1Y5imskrFNFSezzmjq8A@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: display: Drop unneeded quotes
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230309165529.223052-3-biju.das.jz@bp.renesas.com>
+References: <20230309165529.223052-1-biju.das.jz@bp.renesas.com> <20230309165529.223052-3-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 2/3] drivers: clk: Add support for versa3 clock driver
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Tue, 21 Mar 2023 16:16:05 -0700
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 12:38=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
->
->  .../bindings/auxdisplay/holtek,ht16k33.yaml   |  2 +-
+Quoting Biju Das (2023-03-09 08:55:28)
+> diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
+> new file mode 100644
+> index 000000000000..6c5c8b37f6af
+> --- /dev/null
+> +++ b/drivers/clk/clk-versaclock3.c
+> @@ -0,0 +1,1139 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Driver for Renesas Versaclock 3
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+> + */
+> +
+[...]
+> +       [vc3_se1] =3D "se1",
+> +       [vc3_ref] =3D "ref"
+> +};
+> +
+> +static const struct clk_parent_data pfdmux_p[] =3D {
+> +       { .fw_name =3D vc3_fin_name, .name =3D vc3_fin_name },
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+New drivers should only have .fw_name here. I don't think you're
+migrating an existing driver to clk_parent_data so .name should be
+removed. And then maybe you'll want to simply use the index instead so
+that we don't have to do any string comparisons to find clk parents.
 
-Cheers,
-Miguel
+> +       { .fw_name =3D "div2", .name =3D "div2" }
+> +};
+> +
+[...]
+> +
+> +static unsigned long vc3_clk_out_recalc_rate(struct clk_hw *hw,
+> +                                            unsigned long parent_rate)
+> +{
+> +       return parent_rate;
+> +}
+> +
+> +static long vc3_clk_out_round_rate(struct clk_hw *hw, unsigned long rate,
+> +                                  unsigned long *prate)
+> +{
+> +       *prate =3D clk_hw_round_rate(clk_hw_get_parent(hw), rate);
+> +
+> +       return *prate;
+> +}
+> +
+> +static int vc3_clk_out_set_rate(struct clk_hw *hw, unsigned long rate,
+> +                               unsigned long parent_rate)
+> +{
+> +       /*
+> +        * We must report success. round_rate() propagates rate to the
+> +        * parent and based on the rate mux changes its parent.
+> +        */
+> +
+> +       return 0;
+> +}
+> +
+> +const struct clk_ops vc3_clk_out_ops =3D {
+> +       .recalc_rate =3D vc3_clk_out_recalc_rate,
+> +       .round_rate =3D vc3_clk_out_round_rate,
+> +       .set_rate =3D vc3_clk_out_set_rate,
+> +};
+
+Are any of these clk ops necessary? They don't do anything besides pass
+up to the parent, so you can set CLK_SET_RATE_PARENT and be done?
+
+> +
+> +static bool vc3_regmap_is_writeable(struct device *dev, unsigned int reg)
+> +{
+> +       return true;
+> +}
+> +
+> +static const struct regmap_config vc3_regmap_config =3D {
+> +       .reg_bits =3D 8,
+> +       .val_bits =3D 8,
+> +       .cache_type =3D REGCACHE_RBTREE,
+> +       .max_register =3D 0x24,
+> +       .writeable_reg =3D vc3_regmap_is_writeable,
+> +};
+> +
+> +static struct clk_hw *vc3_of_clk_get(struct of_phandle_args *clkspec,
+> +                                    void *data)
+> +{
+> +       struct vc3_driver_data *vc3 =3D data;
+> +       unsigned int idx =3D clkspec->args[0];
+> +
+> +       if (idx >=3D ARRAY_SIZE(clk_out_data)) {
+> +               pr_err("invalid clk index %u for provider %pOF\n", idx, c=
+lkspec->np);
+> +               return ERR_PTR(-EINVAL);
+> +       }
+> +
+> +       return &vc3->clk_out[idx].hw;
+> +}
+> +
+> +static void vc3_divider_type_parse_dt(struct device *dev,
+> +                                     struct vc3_driver_data *vc3)
+> +{
+> +       struct device_node *np =3D dev->of_node;
+> +       struct property *prop;
+> +       const __be32 *p;
+> +       u32 i =3D 0;
+> +       u32 val;
+> +
+> +       of_property_for_each_u32(np, "assigned-clock-rates",
+
+This is an interesting use of assigned-clock-rates.
+
+> +                                prop, p, val) {
+> +               if (i >=3D ARRAY_SIZE(div_data))
+> +                       break;
+> +               if (val)
+> +                       vc3->clk_div[i].flags =3D CLK_DIVIDER_READ_ONLY;
+
+Why would assigned clock rates change the read only flag?
