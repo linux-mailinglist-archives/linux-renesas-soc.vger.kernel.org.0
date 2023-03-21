@@ -2,56 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C14F46C37A4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 18:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C99B6C38C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Mar 2023 18:57:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbjCURFK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Mar 2023 13:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59870 "EHLO
+        id S230308AbjCUR51 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Mar 2023 13:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjCURFI (ORCPT
+        with ESMTP id S230393AbjCUR4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Mar 2023 13:05:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B8428E5C;
-        Tue, 21 Mar 2023 10:04:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0C65CB818B9;
-        Tue, 21 Mar 2023 17:04:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34633C433D2;
-        Tue, 21 Mar 2023 17:04:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679418268;
-        bh=6/1OwnwDR5ngQ1kgeL+G+n1lPgIlB5gjxbjViN6yr6c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NvGU4MaW7FkpbV1xMSfL8kQ/e+mlSYg+DJrK3oh93jNorQfIhxpGhxDR2RyNqZxni
-         CU70CgQUFFrY0G7CkDMgAbrwAJODxmP7RC9H/eDwvkOUgzL8CB9KbicQmsvcnWpV+f
-         yYA1NE8+aKWYHJ+vUvgHINXKfRX6GAVookKLF/4S/eZbBAE2nWn5QfoJcX0QeHWi1f
-         tWX+Iz7BNRLDHVRYNXn76dVsWWMM2oP17hk1Nv5VtBEbR7Uf6n8fBZyvcMkiPPmQMy
-         yTNUNtujC6TXBC/PMPQswesNz5XLwDnipteFA6nvdI0IPfln9QiQn0JKr8nWwwxCWo
-         yAiAAr/xntfyA==
-Date:   Tue, 21 Mar 2023 18:04:21 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: renesas: core: Drop unneeded #ifdef CONFIG_OF
-Message-ID: <ZBnjlXjBarzKhcP5@sai.fritz.box>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Tue, 21 Mar 2023 13:56:52 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B7555053
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Mar 2023 10:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=X/XHGzweNcGnZj7J+RpSBa5nq+wT
+        r0BLkAkcv70wsdM=; b=D+nVXfa0FkyurAG1/7M4V0Z5UKvwx0AkpfK84DU1Cz1j
+        fRaH19mATwg5Ru7VOD01wnpi7ixQ4UzWzH4sGAQtN5NLTaDU9i3DBiNd25x/c7OY
+        OXYQoEyAS0v3UmDsdvhS+ZChMb0cdBJJRjT3M9JBqXWRir7R9vLc1HhXUOfvv3s=
+Received: (qmail 1364990 invoked from network); 21 Mar 2023 18:56:28 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Mar 2023 18:56:28 +0100
+X-UD-Smtp-Session: l3s3148p1@bhIcw2z34N4ujnv6
+Date:   Tue, 21 Mar 2023 18:56:25 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <55d72ce46b43ec2f41681cb5ba7ca7fcebdb98d1.1679416005.git.geert+renesas@glider.be>
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2 2/2] smsc911x: avoid PHY being resumed when
+ interface is not up
+Message-ID: <ZBnvya7Q/brY+MEt@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org
+References: <20230320092041.1656-1-wsa+renesas@sang-engineering.com>
+ <20230320092041.1656-3-wsa+renesas@sang-engineering.com>
+ <7589589f340f1ecb49bc8ed852e1e2dddb384700.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="683ymHmNu6+/zMr4"
+        protocol="application/pgp-signature"; boundary="dSX357otSPN9QRZc"
 Content-Disposition: inline
-In-Reply-To: <55d72ce46b43ec2f41681cb5ba7ca7fcebdb98d1.1679416005.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <7589589f340f1ecb49bc8ed852e1e2dddb384700.camel@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -59,39 +69,52 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---683ymHmNu6+/zMr4
+--dSX357otSPN9QRZc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 21, 2023 at 05:28:00PM +0100, Geert Uytterhoeven wrote:
-> As the of_node member of struct device always exists, and there is a
-> dummy of of_device_get_match_data() for the !CONFIG_OF case, there is no
-> longer a need to protect code using these interfaces with an #ifdef.
+Hi Paolo,
+
+> > In smsc911x_mii_probe(), I remove the sanity check for 'phydev' because
+> > it was already done in smsc911x_mii_init(). Let me know if this is
+> > acceptable or if a more defensive approach is favoured.
 >=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Since this is a fix, I would keep the old check, too.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Yes, makes sense.
+
+> > +	phydev =3D phy_find_first(pdata->mii_bus);
+> > +	if (!phydev) {
+> > +		netdev_err(dev, "no PHY found\n");
+> > +		err =3D -ENOENT;
+> > +		goto err_out_free_bus_2;
+>=20
+> Why don't you call mdiobus_unregister() in this error path?
+
+Oversight. I will fix it.
+
+Thank you for the review!
 
 
---683ymHmNu6+/zMr4
+--dSX357otSPN9QRZc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQZ440ACgkQFA3kzBSg
-KbZumQ/7BwUEWiLTHI7YyUTEFuRnoZYJ+djldq4MLE5ft/DnJnHx2OTXnjY48FN5
-Xg4j4TUtDR14rPo3O1+eonnR0ZfaWB8xb679488jzPx1EZsA6F5C9ZuDql/dnMUd
-3mzfL1MrrXaoSw/syjuppB1Fub6ca4RZRI8752EY+r8ZQ1aR+oMuuVQZ4QCqpi/y
-MX5kH7R/dPlpAjsc/69iTgsKLZ8JmKRVxX5vazIe/JIL7qrkZk/dpycwgA1LFPBD
-u2c108kr4+NxyiZkaxoWdlrsHcm7MgM4zppsC5yHllrcCfRuBmoce2OZMeJP9VsO
-9Vrsh5ab9It0g6dS1+ttxE8Et6EX1vF4soXdIcpgc2t3UA4jWlU0l//jJic2EoV1
-QiiGEfhcrMTLGAz08Q0/zsHZCxVuQlSU2+RImx8wUeEXKGNR46GNcILuk9h6ZQKm
-kMvjay5O2858raiphYLMmomft2iAaN8y9M6V7OJBntJGy+W/ZN+BeyjEs+oDO0CU
-3IFkNN1CrBmB2OdOkpk9y9i50m67hakyB53uswvvJCN0cNhTbNy6AkV4ChQogzcL
-WbR7D9IS6KtipF1EO/yj6aHufEIjdWF4+M+c+RhVRzQmVHEhovhO8NLVKS0WSyW4
-1LHkVH47kZd4yhwJxvaN9ak8lv6kl3xmfKL3Uu+6uh4qHrc/pGQ=
-=MCoN
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQZ78UACgkQFA3kzBSg
+KbalWQ//QzAaCeqp5I/wIJj9fW3lDht8cVRIiUEco0sruEdxcE0uAKwVZ3FTtG69
+lobHyWzyxzJA/EtbYFPB3CWoFTRs9yVb7Dl36fBtmXz6UrUZTiiZxD661Kj6I47t
+CEcmNoMhVr+XBdNxE34vjKKe6lzFWzjOxJJEUmJ5heUbQPqpeHGH4ZDeBXb8s/8n
+fGOKOgREQ3kyk9bVYFpwPO84tWVsY+07SbQ77/zgCqaGtkh/O8doQ2Rz+LQgZub1
+Re8c/1ldwloHhQXj9p1RL/uIQCb3cR0zQD4TBDYy8M95Ip1y2PJg6islO2WGvNQJ
+z1bp57CvFiNCxdT7ZfF6uc2ysr06leJGPhBlAiXxUNCiYhJ0pWvyDi+aoohtcMsP
+rVYBikF4cASU8xxGLF6W3MUHy8W+zVubz+1Kz539L22Erb5Ca4rWpAN2n3WKYoZW
+uFyG0gD/JD88UO31aeNwgXXrpIxyEZO0UAoWMBKyopWOP+exxQ5O/Q0mM/pYqlAa
+aBf1t8ziO+3MJOoSgwOwU5UxAHUaRzc75GU4B//fg2SQipDzW4gwQU53bq2pnGQY
+M2fXFbX1RdVkGcoSJud3Jf21El4lCUfakbnvclMKWyDzpC3Z/MDjJyJm5prFCTAw
+04QYsJxmHhfbHH2Wn1nXOm+XZIW02S/K+P+o9vfD+etY+oix9KY=
+=ptv0
 -----END PGP SIGNATURE-----
 
---683ymHmNu6+/zMr4--
+--dSX357otSPN9QRZc--
