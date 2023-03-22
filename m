@@ -2,107 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD0E6C43F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 08:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5656C4454
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 08:47:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbjCVHUK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Mar 2023 03:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46262 "EHLO
+        id S230018AbjCVHrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Mar 2023 03:47:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbjCVHUJ (ORCPT
+        with ESMTP id S230017AbjCVHrc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Mar 2023 03:20:09 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C252A279BF
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Mar 2023 00:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=BuTEfbOBiIdWf7
-        8/ODXnnPhkKGKWwb8r1PKgZrxzDhM=; b=JzdtXNhLn5/kyvv4NO/Y0Lo8Cn9fJa
-        yIGdHCFNmKSiy7Svm4mbp3hDrif2msJsfKwPJBE1Q1U9enKne6jPu1fG1K9AvrZ/
-        cMOqmApLfuGkSTcZ9f9Lic7PzmOtQA1wxKfzSVw5N/ETHuq0PWD/xz7zW6WkP1Rx
-        6Ngr5enlfRU8o=
-Received: (qmail 1526233 invoked from network); 22 Mar 2023 08:20:02 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2023 08:20:02 +0100
-X-UD-Smtp-Session: l3s3148p1@8zEP/Xf3IJsujnv6
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: [PATCH net v3 2/2] smsc911x: avoid PHY being resumed when interface is not up
-Date:   Wed, 22 Mar 2023 08:19:59 +0100
-Message-Id: <20230322071959.9101-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230322071959.9101-1-wsa+renesas@sang-engineering.com>
-References: <20230322071959.9101-1-wsa+renesas@sang-engineering.com>
+        Wed, 22 Mar 2023 03:47:32 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B61BD5CC34;
+        Wed, 22 Mar 2023 00:47:25 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.98,281,1673881200"; 
+   d="scan'208";a="153375710"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Mar 2023 16:47:24 +0900
+Received: from localhost.localdomain (unknown [10.226.93.24])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 441AE4005E20;
+        Wed, 22 Mar 2023 16:47:22 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, linux-serial@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] tty: serial: sh-sci: Remove setting {src,dst}_{addr,addr_width} based on DMA direction
+Date:   Wed, 22 Mar 2023 07:47:17 +0000
+Message-Id: <20230322074717.6057-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.5 required=5.0 tests=AC_FROM_MANY_DOTS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SMSC911x doesn't need mdiobus suspend/resume, that's why it sets
-'mac_managed_pm'. However, setting it needs to be moved from init to
-probe, so mdiobus PM functions will really never be called (e.g. when
-the interface is not up yet during suspend/resume).
+The direction field in the DMA config is deprecated. The sh-sci driver
+sets {src,dst}_{addr,addr_width} based on the DMA direction and
+it results in dmaengine_slave_config() failure as RZ DMAC driver
+validates {src,dst}_addr_width values independent of DMA direction.
 
-Fixes: 3ce9f2bef755 ("net: smsc911x: Stop and start PHY during suspend and resume")
-Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fix this issue by passing both {src,dst}_{addr,addr_width}
+values independent of DMA direction.
+
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-Changes since v2:
-* kept the original error handling when a PHY is not present in
-  mii_probe() to avoid regressions. Because the patch is simpler now, it
-  is also easier to backport.
+ drivers/tty/serial/sh-sci.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
- drivers/net/ethernet/smsc/smsc911x.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/ethernet/smsc/smsc911x.c b/drivers/net/ethernet/smsc/smsc911x.c
-index 67cb5eb9c716..01aac820ac30 100644
---- a/drivers/net/ethernet/smsc/smsc911x.c
-+++ b/drivers/net/ethernet/smsc/smsc911x.c
-@@ -1037,8 +1037,6 @@ static int smsc911x_mii_probe(struct net_device *dev)
- 		return ret;
- 	}
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index da7eb7a3ca6f..4278aef59f6d 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -1553,15 +1553,12 @@ static struct dma_chan *sci_request_dma_chan(struct uart_port *port,
  
--	/* Indicate that the MAC is responsible for managing PHY PM */
--	phydev->mac_managed_pm = true;
- 	phy_attached_info(phydev);
+ 	memset(&cfg, 0, sizeof(cfg));
+ 	cfg.direction = dir;
+-	if (dir == DMA_MEM_TO_DEV) {
+-		cfg.dst_addr = port->mapbase +
+-			(sci_getreg(port, SCxTDR)->offset << port->regshift);
+-		cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
+-	} else {
+-		cfg.src_addr = port->mapbase +
+-			(sci_getreg(port, SCxRDR)->offset << port->regshift);
+-		cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
+-	}
++	cfg.dst_addr = port->mapbase +
++		(sci_getreg(port, SCxTDR)->offset << port->regshift);
++	cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
++	cfg.src_addr = port->mapbase +
++		(sci_getreg(port, SCxRDR)->offset << port->regshift);
++	cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
  
- 	phy_set_max_speed(phydev, SPEED_100);
-@@ -1066,6 +1064,7 @@ static int smsc911x_mii_init(struct platform_device *pdev,
- 			     struct net_device *dev)
- {
- 	struct smsc911x_data *pdata = netdev_priv(dev);
-+	struct phy_device *phydev;
- 	int err = -ENXIO;
- 
- 	pdata->mii_bus = mdiobus_alloc();
-@@ -1108,6 +1107,10 @@ static int smsc911x_mii_init(struct platform_device *pdev,
- 		goto err_out_free_bus_2;
- 	}
- 
-+	phydev = phy_find_first(pdata->mii_bus);
-+	if (phydev)
-+		phydev->mac_managed_pm = true;
-+
- 	return 0;
- 
- err_out_free_bus_2:
+ 	ret = dmaengine_slave_config(chan, &cfg);
+ 	if (ret) {
 -- 
-2.30.2
+2.25.1
 
