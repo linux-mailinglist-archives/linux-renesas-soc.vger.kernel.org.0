@@ -2,80 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9DE16C583E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 21:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C6026C5AD3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Mar 2023 00:49:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231192AbjCVU5Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Mar 2023 16:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55882 "EHLO
+        id S229790AbjCVXtW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Mar 2023 19:49:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230226AbjCVU5V (ORCPT
+        with ESMTP id S229487AbjCVXtV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Mar 2023 16:57:21 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E773F1E9FD;
-        Wed, 22 Mar 2023 13:57:11 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.85.97) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 22 Mar
- 2023 23:57:04 +0300
-Subject: Re: [PATCH net-next] sh_eth: remove open coded netif_running()
-To:     <patchwork-bot+netdevbpf@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <geert+renesas@glider.be>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <linux-kernel@vger.kernel.org>
-References: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
- <167948821900.6670.3791726075792773514.git-patchwork-notify@kernel.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <fb762ef6-4d44-ec72-0a85-dec2fbfbf636@omp.ru>
-Date:   Wed, 22 Mar 2023 23:57:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <167948821900.6670.3791726075792773514.git-patchwork-notify@kernel.org>
+        Wed, 22 Mar 2023 19:49:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D712F2386A;
+        Wed, 22 Mar 2023 16:49:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 02726B81E98;
+        Wed, 22 Mar 2023 23:49:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE6C2C433EF;
+        Wed, 22 Mar 2023 23:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679528957;
+        bh=4e2XnzVD64xxw0K3LkJydIgTL5u8SOHIr+8q/XXU+cY=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=SQHWi+M9SksMIcwSwW7vQk2ilND7txWs1TQERx+M9MLFfOxkbkRwcYMY1Quf3fszz
+         A9VzaLlXafrRLkseMo5Enbic1gJ4NIg16mxt6OINxPaLzLTvJcb03OgwL0EcKSpY+y
+         xFWE73Yv65DknBcyHr+7+seStGRE0erx5o7HZDkoW4AcAle7CBOQ/nkUjfMiqCHbI1
+         wSC4swco5gKd2WaMoA3KZ7dYaTj4vQNi4IzCndBKtW8d6h3zd3ws9T8cazIcKs5tym
+         6A3Zif8XPxBSbAyIS7igO1XqC++zSWZpmZbYPO6yXENKVYtGj72zR7rqdmQWdLFCYP
+         K4Luha7MPrWnA==
+Message-ID: <003f436e96aa480f02ee5147f428f389.sboyd@kernel.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.85.97]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 03/22/2023 20:39:01
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 176220 [Mar 22 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 507 507 08d345461d9bcca7095738422a5279ab257bb65a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_arrow_text}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.97 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;git.kernel.org:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.97
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/22/2023 20:41:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/22/2023 2:20:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-0.0 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230322173549.3972106-1-robh@kernel.org>
+References: <20230322173549.3972106-1-robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: clock: Drop unneeded quotes
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+To:     Alim Akhtar <alim.akhtar@samsung.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>
+Date:   Wed, 22 Mar 2023 16:49:15 -0700
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,30 +71,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/22/23 3:30 PM, patchwork-bot+netdevbpf@kernel.org wrote:
-[...]
+Quoting Rob Herring (2023-03-22 10:35:48)
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-> This patch was applied to netdev/net-next.git (main)
-> by Paolo Abeni <pabeni@redhat.com>:
-> 
-> On Tue, 21 Mar 2023 07:58:26 +0100 you wrote:
->> It had a purpose back in the days, but today we have a handy helper.
->>
->> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->> ---
->>
->> Based on 6.3-rc3 and tested on a Renesas Lager board (R-Car H2).
->>
->> [...]
-> 
-> Here is the summary with links:
->   - [net-next] sh_eth: remove open coded netif_running()
->     https://git.kernel.org/netdev/net-next/c/ce1fdb065695
-> 
-> You are awesome, thank you!
-
-   I don't think this needed to be merged circumventing my review.
-The patch was posted yesterday...
-
-MBR, Sergey
+Acked-by: Stephen Boyd <sboyd@kernel.org>
