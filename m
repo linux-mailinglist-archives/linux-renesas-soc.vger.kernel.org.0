@@ -2,88 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5656C4454
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 08:47:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 404B86C4507
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Mar 2023 09:34:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjCVHrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Mar 2023 03:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54796 "EHLO
+        id S229896AbjCVIet (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Mar 2023 04:34:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbjCVHrc (ORCPT
+        with ESMTP id S230009AbjCVIer (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Mar 2023 03:47:32 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B61BD5CC34;
-        Wed, 22 Mar 2023 00:47:25 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,281,1673881200"; 
-   d="scan'208";a="153375710"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Mar 2023 16:47:24 +0900
-Received: from localhost.localdomain (unknown [10.226.93.24])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 441AE4005E20;
-        Wed, 22 Mar 2023 16:47:22 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, linux-serial@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Wed, 22 Mar 2023 04:34:47 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2676B302BF
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Mar 2023 01:34:34 -0700 (PDT)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1petvT-0001pr-0z; Wed, 22 Mar 2023 09:34:31 +0100
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id E5A0E19952C;
+        Wed, 22 Mar 2023 08:34:28 +0000 (UTC)
+Date:   Wed, 22 Mar 2023 09:34:27 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] tty: serial: sh-sci: Remove setting {src,dst}_{addr,addr_width} based on DMA direction
-Date:   Wed, 22 Mar 2023 07:47:17 +0000
-Message-Id: <20230322074717.6057-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v4 0/2] can: rcar_canfd: Add transceiver support
+Message-ID: <20230322083427.gpctjxsbli4jwymg@pengutronix.de>
+References: <cover.1679414936.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.5 required=5.0 tests=AC_FROM_MANY_DOTS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="d7myp4lk3xjjti3m"
+Content-Disposition: inline
+In-Reply-To: <cover.1679414936.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The direction field in the DMA config is deprecated. The sh-sci driver
-sets {src,dst}_{addr,addr_width} based on the DMA direction and
-it results in dmaengine_slave_config() failure as RZ DMAC driver
-validates {src,dst}_addr_width values independent of DMA direction.
 
-Fix this issue by passing both {src,dst}_{addr,addr_width}
-values independent of DMA direction.
+--d7myp4lk3xjjti3m
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/tty/serial/sh-sci.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+On 21.03.2023 17:14:59, Geert Uytterhoeven wrote:
+> 	Hi all,
+>=20
+> This patch series adds transceiver support to the Renesas R-Car CAN-FD
+> driver, and improves the printing of error messages, as requested by
+> Vincent.
+>=20
+> Originally, both patches were submitted separately, but as the latter
+> depends on the former, I absorbed it within this series for the resend.
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index da7eb7a3ca6f..4278aef59f6d 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -1553,15 +1553,12 @@ static struct dma_chan *sci_request_dma_chan(struct uart_port *port,
- 
- 	memset(&cfg, 0, sizeof(cfg));
- 	cfg.direction = dir;
--	if (dir == DMA_MEM_TO_DEV) {
--		cfg.dst_addr = port->mapbase +
--			(sci_getreg(port, SCxTDR)->offset << port->regshift);
--		cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
--	} else {
--		cfg.src_addr = port->mapbase +
--			(sci_getreg(port, SCxRDR)->offset << port->regshift);
--		cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
--	}
-+	cfg.dst_addr = port->mapbase +
-+		(sci_getreg(port, SCxTDR)->offset << port->regshift);
-+	cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
-+	cfg.src_addr = port->mapbase +
-+		(sci_getreg(port, SCxRDR)->offset << port->regshift);
-+	cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
- 
- 	ret = dmaengine_slave_config(chan, &cfg);
- 	if (ret) {
--- 
-2.25.1
+Applied to linux-can-next. I've squashed the improved error message for
+the phy_power_on() into patch 1.
 
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129  |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--d7myp4lk3xjjti3m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQavZAACgkQvlAcSiqK
+BOiOhgf9HPvv0c966rIStZyowDe97ypON9Wk1ZnAiDd89nMPZelPkSe/+pT8YwKn
+ZbG+dmUfArhJryAEfQXY02aFBiEO0wiB9PiG1Sf85pyHvWCd8x+81UiVxXYqo6c/
+m9TKwjO2h4As6nJZLRySkSMsEaD94CbFEJqBa/NMah2pse9dVqTxDUrlLv8xni1A
+G37oWxkxYmMD29fm1iF6DBR/G6Zlwo/ZctvmDRKm81bE2gXh+TYmLJVU7O3Khwmy
+qnkIrlgtwE54rtteyeu7g/IHmkLQFNtPxUlWVZnn6CvvgFbglfkZ0v1r9rG6BtYx
+ufoy809tMXJncwrRoEh8TDSSBbKCtA==
+=O164
+-----END PGP SIGNATURE-----
+
+--d7myp4lk3xjjti3m--
