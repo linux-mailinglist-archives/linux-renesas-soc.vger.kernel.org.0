@@ -2,133 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E38456C621A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Mar 2023 09:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B14166C6316
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Mar 2023 10:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231483AbjCWIlg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Mar 2023 04:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32800 "EHLO
+        id S231235AbjCWJQy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Mar 2023 05:16:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231524AbjCWIlV (ORCPT
+        with ESMTP id S230340AbjCWJQw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Mar 2023 04:41:21 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93FF137B61
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Mar 2023 01:40:09 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id p203so23846928ybb.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Mar 2023 01:40:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679560808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVdvufZV56apmT3wmD9ncMcsijkg1/WCzRLjEqhYbYk=;
-        b=jt0T1kyTzkSVHHCl6C3RepTUHJHJMJwp3E7PBrhT2/xYa5EtksiTTG/c8wwIzIU4Z/
-         SP6qSrUD+NxMXZX1bTG8PCQpgfuHP59u0Np8wiu0KUJPXSqAJzXQDAgAhdBdm4ERqTZu
-         W1iU/UXMn4o+x12ZfA1TbzzlGle1mhqc6+pCFoTYeSycXLH0chaeh9w1eBTkD2vOP8sA
-         vAdlNnAtJbu1a1BYoccU9GKqHc2Cvh+aARoS6g2QyjguTZ3KI+BylBNheh9Xg9t4NtTd
-         2k3OHgvwLC4ljAJqFRZ+gv0eOvpjcGObjDM/uBGal3iyuErBjVTwBqdgO9KbDxL+mVt4
-         VMjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679560808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVdvufZV56apmT3wmD9ncMcsijkg1/WCzRLjEqhYbYk=;
-        b=zsf9m6VmPNyfwbQE9VyyAD8COcA9NbCsc294vJR53sZXNE7MRLBCwrSQX57cysrsSj
-         Zm9sSTjbK3usivhSVSxdJA8PwN3P7U9sPkhVyo6aBCbpisFvQebHyoDMGrp8oImca1u8
-         8lowlEveK0ls10oWWIPqf66DnmLQzMMSQKRCCZzOswTWcMaNEz2P8JRjVN3/R5/AAw8K
-         WxXgEv25xR84SgWPNhIGP+X7nyjV09GnO4yyPTpGwoiVQ1Dd5ibdJZwBfcr/35SXS3pS
-         Yja8TbGz7h5YVg3ESLiRxmkhnmq8L7b23BIonm23Qfcp1HZGoNmFGSdSLT7UZTZbjdeI
-         Q4cg==
-X-Gm-Message-State: AAQBX9dqdud6aL0HxPSRpeCTsR5zWWWVFWgXX4bzebxKTO6FSbj5Z9B4
-        Gmm1lJYDjZWi7hjIN+noUTQNCBVGMeVRuVVWnpnz1w==
-X-Google-Smtp-Source: AKy350aSyoiWihVzfFCCUghPO+0y8OTXazqo59ZooJtguYITdbyYyykALVgXcFtgTaOhhPAE83rDbJuRGMjWP7pJT3I=
-X-Received: by 2002:a25:8712:0:b0:b26:47f3:6cb with SMTP id
- a18-20020a258712000000b00b2647f306cbmr1346675ybl.4.1679560808264; Thu, 23 Mar
- 2023 01:40:08 -0700 (PDT)
+        Thu, 23 Mar 2023 05:16:52 -0400
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A27B1CF68;
+        Thu, 23 Mar 2023 02:16:48 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VeTkQZk_1679563004;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VeTkQZk_1679563004)
+          by smtp.aliyun-inc.com;
+          Thu, 23 Mar 2023 17:16:45 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     marek.vasut+renesas@gmail.com
+Cc:     yoshihiro.shimoda.uh@renesas.com, lpieralisi@kernel.org,
+        kw@linux.com, robh@kernel.org, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH -next] PCI: rcar-gen2: Use devm_platform_get_and_ioremap_resource()
+Date:   Thu, 23 Mar 2023 17:16:44 +0800
+Message-Id: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-References: <20230317233623.3968172-1-robh@kernel.org>
-In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 23 Mar 2023 09:39:57 +0100
-Message-ID: <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To:     Rob Herring <robh@kernel.org>
-Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jianlong Huang <jianlong.huang@starfivetech.com>,
-        Dvorkin Dmitry <dvorkin@tibbo.com>,
-        Wells Lu <wellslutw@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, patches@opensource.cirrus.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-8.0 required=5.0 tests=ENV_AND_HDR_SPF_MATCH,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
+According to commit 890cc39a8799 ("drivers: provide
+devm_platform_get_and_ioremap_resource()"), convert
+platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_get_and_ioremap_resource(), as this is exactly
+what this function does.
 
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/pci/controller/pci-rcar-gen2.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Should I queue this patch by the way, or do you need it to go into some
-DT-related tree?
+diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/controller/pci-rcar-gen2.c
+index 839695791757..d29866485361 100644
+--- a/drivers/pci/controller/pci-rcar-gen2.c
++++ b/drivers/pci/controller/pci-rcar-gen2.c
+@@ -290,8 +290,7 @@ static int rcar_pci_probe(struct platform_device *pdev)
+ 	priv = pci_host_bridge_priv(bridge);
+ 	bridge->sysdata = priv;
+ 
+-	cfg_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	reg = devm_ioremap_resource(dev, cfg_res);
++	reg = devm_platform_get_and_ioremap_resource(pdev, 0, &cfg_res);
+ 	if (IS_ERR(reg))
+ 		return PTR_ERR(reg);
+ 
+-- 
+2.20.1.7.g153144c
 
-Yours,
-Linus Walleij
