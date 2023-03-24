@@ -2,149 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E8F56C7B6B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 10:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E04366C7B83
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 10:35:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbjCXJa6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 05:30:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37536 "EHLO
+        id S231327AbjCXJfX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 05:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbjCXJa5 (ORCPT
+        with ESMTP id S230117AbjCXJfI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 05:30:57 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B920C23866
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Mar 2023 02:30:53 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by michel.telenet-ops.be with bizsmtp
-        id c9Wh290031C8whw069Whz3; Fri, 24 Mar 2023 10:30:50 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pfdkD-00EQQI-Tm;
-        Fri, 24 Mar 2023 10:30:41 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pfdkv-00CQVy-0d;
-        Fri, 24 Mar 2023 10:30:41 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] treewide: Fix instantiation of devices in DT overlays
-Date:   Fri, 24 Mar 2023 10:30:39 +0100
-Message-Id: <240155f20aae47e9f7461e2b7416120ba6238886.1679650087.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Fri, 24 Mar 2023 05:35:08 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF2A12CD2;
+        Fri, 24 Mar 2023 02:35:05 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5418d54d77bso22546097b3.12;
+        Fri, 24 Mar 2023 02:35:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679650504;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=miXbgzLmIT8TbuaHosYV2bM+7farboHCB6roIPdYqKY=;
+        b=tWRfBuAGQ4FZXEOppKNgU//wOH04r3m2a3h/CMm8nPdRamd/5ZhmaGTw4Z4ywnuPAm
+         em+zcDLfm4pHnTxdQVOMbqIPnK/v5/U4IbvLgMDW9N3qIDcJ/n+pMs8J9L+Ew8h/Z4f1
+         h9PzNr5d0SOh5nUVa3EhzNVHtzC3W3giE59rjhtF6o6N0R7tpHl/kEPFLYy4FnlObkTr
+         aPaM/5RcoVhg4CF0IcAk/RKgX+GZZ5pIob74uRfUrq6DlLZ3bMwahrQADg9UG2Xd+Eli
+         GYM3kAYn9l6IhBWD19qSEs0A1xF5noRdRM8unK/Z2PNanbDUonUlc94OABQ9+wQ1QTzV
+         r+Qg==
+X-Gm-Message-State: AAQBX9d60xJevG6WfU78WbPtGOXIrlt7n1i4Mx+6yciBxiAk7N15cMGC
+        BAcAEXC2a8nw2IACTyZ3lohQWJMgM+fpbw==
+X-Google-Smtp-Source: AKy350Y1F/blRqW6RxndPKHPONwSbG6jp6vKMUAcEFQVPZE+cmaK6QXZ0Ea8Fa5Qog/lPWUF9KzhMw==
+X-Received: by 2002:a0d:d9ca:0:b0:545:60c5:ad88 with SMTP id b193-20020a0dd9ca000000b0054560c5ad88mr1501572ywe.43.1679650504477;
+        Fri, 24 Mar 2023 02:35:04 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id o63-20020a257342000000b00b7767ca7466sm345705ybc.3.2023.03.24.02.35.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Mar 2023 02:35:03 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id p204so1368928ybc.12;
+        Fri, 24 Mar 2023 02:35:02 -0700 (PDT)
+X-Received: by 2002:a05:6902:10c3:b0:b75:9519:dbcd with SMTP id
+ w3-20020a05690210c300b00b759519dbcdmr979907ybu.12.1679650502403; Fri, 24 Mar
+ 2023 02:35:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 24 Mar 2023 10:34:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVKRS1N5s-cvxrgSj9ev-Hh+gxfa-Hp2+z1zt+r7fEUWg@mail.gmail.com>
+Message-ID: <CAMuHMdVKRS1N5s-cvxrgSj9ev-Hh+gxfa-Hp2+z1zt+r7fEUWg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas: ostm: Document RZ/Five SoC
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When loading a DT overlay that creates a device, the device is not
-instantiated, unless the DT overlay is unloaded and reloaded again.
+Hi Prabhakar,
 
-Saravana explains:
-  Basically for all overlays (I hope the function is only used for
-  overlays) we assume all nodes are NOT devices until they actually
-  get added as a device.
+Thanks for your patch!
 
-Based on a patch by Saravana Kannan, which covered only platform and spi
-devices.
+On Thu, Mar 23, 2023 at 7:56 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> The OSTM block on the RZ/Five SoC is identical to one found on the RZ/G2UL
+> SoC. "renesas,r9a07g043-ostm" compatible string will be used on the
+> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
+> SoC.
+>
+> No driver changes are required as generic compatible string
+> "renesas,ostm" will be used as a fallback on RZ/Five SoC.
 
-Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
-Link: https://lore.kernel.org/r/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=rWYnkCZ6z5bGX-wj4w@mail.gmail.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Mark Brown <broonie@kernel.org>
----
-v2:
-  - Add Acked-by,
-  - Drop RFC.
----
- drivers/bus/imx-weim.c    | 1 +
- drivers/i2c/i2c-core-of.c | 1 +
- drivers/of/dynamic.c      | 1 +
- drivers/of/platform.c     | 1 +
- drivers/spi/spi.c         | 1 +
- 5 files changed, 5 insertions(+)
+While this paragraph is true, it doesn't really matter, as you're not
+adding a new SoC-specific compatible value.
 
-diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
-index 36d42484142aede2..898e23a4231400fa 100644
---- a/drivers/bus/imx-weim.c
-+++ b/drivers/bus/imx-weim.c
-@@ -329,6 +329,7 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
- 				 "Failed to setup timing for '%pOF'\n", rd->dn);
- 
- 		if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
-+			rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 			if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
- 				dev_err(&pdev->dev,
- 					"Failed to create child device '%pOF'\n",
-diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
-index aa93467784c29c89..303f9003562eed3d 100644
---- a/drivers/i2c/i2c-core-of.c
-+++ b/drivers/i2c/i2c-core-of.c
-@@ -178,6 +178,7 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
- 			return NOTIFY_OK;
- 		}
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		client = of_i2c_register_device(adap, rd->dn);
- 		if (IS_ERR(client)) {
- 			dev_err(&adap->dev, "failed to create client for '%pOF'\n",
-diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
-index 07d93753b12f5f4d..e311d406b1705306 100644
---- a/drivers/of/dynamic.c
-+++ b/drivers/of/dynamic.c
-@@ -226,6 +226,7 @@ static void __of_attach_node(struct device_node *np)
- 	np->sibling = np->parent->child;
- 	np->parent->child = np;
- 	of_node_clear_flag(np, OF_DETACHED);
-+	np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
- }
- 
- /**
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index b2bd2e783445dd78..17c92cbfb62ee3ef 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -737,6 +737,7 @@ static int of_platform_notify(struct notifier_block *nb,
- 		if (of_node_check_flag(rd->dn, OF_POPULATED))
- 			return NOTIFY_OK;
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		/* pdev_parent may be NULL when no bus platform device */
- 		pdev_parent = of_find_device_by_node(rd->dn->parent);
- 		pdev = of_platform_device_create(rd->dn, NULL,
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 8e8af148b1dc371e..66ac67580d2a473b 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -4527,6 +4527,7 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
- 			return NOTIFY_OK;
- 		}
- 
-+		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
- 		spi = of_register_spi_device(ctlr, rd->dn);
- 		put_device(&ctlr->dev);
- 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
+> @@ -23,7 +23,7 @@ properties:
+>        - enum:
+>            - renesas,r7s72100-ostm  # RZ/A1H
+>            - renesas,r7s9210-ostm   # RZ/A2M
+> -          - renesas,r9a07g043-ostm # RZ/G2UL
+> +          - renesas,r9a07g043-ostm # RZ/G2UL and RZ/Five
+>            - renesas,r9a07g044-ostm # RZ/G2{L,LC}
+>            - renesas,r9a07g054-ostm # RZ/V2L
+>        - const: renesas,ostm        # Generic
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.34.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
