@@ -2,97 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 832BE6C7BF2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 10:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA3216C7C1D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 11:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbjCXJuO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 05:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
+        id S230153AbjCXKCe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 06:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230004AbjCXJuL (ORCPT
+        with ESMTP id S229623AbjCXKCd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 05:50:11 -0400
+        Fri, 24 Mar 2023 06:02:33 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 41A968A5F;
-        Fri, 24 Mar 2023 02:50:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 772522367E;
+        Fri, 24 Mar 2023 03:02:28 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.98,287,1673881200"; 
-   d="scan'208";a="153658955"
+   d="scan'208";a="153660269"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Mar 2023 18:50:09 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Mar 2023 19:02:27 +0900
 Received: from localhost.localdomain (unknown [10.226.93.228])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id ECF6E401AEB2;
-        Fri, 24 Mar 2023 18:50:07 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8C158401BBF8;
+        Fri, 24 Mar 2023 19:02:25 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Vinod Koul <vkoul@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/3] dmaengine: sh: rz-dmac: Add device_pause() callback
-Date:   Fri, 24 Mar 2023 09:49:57 +0000
-Message-Id: <20230324094957.115071-4-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/3] Add RZ/G2L SCIFA DMAC support
+Date:   Fri, 24 Mar 2023 10:02:19 +0000
+Message-Id: <20230324100222.116666-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230324094957.115071-1-biju.das.jz@bp.renesas.com>
-References: <20230324094957.115071-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.5 required=5.0 tests=AC_FROM_MANY_DOTS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The device_pause() callback is needed for serial DMA (RZ/G2L
-SCIFA). Add support for device_pause() callback.
+This patch series aims to add DMA support for SCIFA IP found on
+RZ/G2L alike SoCs.
 
-Based on a patch in the BSP by Long Luu
-<long.luu.ur@renesas.com>
+v1->v2:
+ * Added support for DMA tx and rx.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/dma/sh/rz-dmac.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+This patch series depend upon [1]
+[1] https://lore.kernel.org/linux-renesas-soc/20230321114753.75038-1-biju.das.jz@bp.renesas.com/T/#t
 
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 3625925d9f9f..a0cfb8f75534 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -822,6 +822,25 @@ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
- 	return status;
- }
- 
-+static int rz_dmac_device_pause(struct dma_chan *chan)
-+{
-+	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-+	struct rz_dmac *dmac = to_rz_dmac(chan->device);
-+	unsigned int i;
-+	u32 chstat;
-+
-+	for (i = 0; i < 1024; i++) {
-+		chstat = rz_dmac_ch_readl(channel, CHSTAT, 1);
-+		if (!(chstat & CHSTAT_EN))
-+			break;
-+		udelay(1);
-+	}
-+
-+	rz_dmac_set_dmars_register(dmac, channel->index, 0);
-+
-+	return 0;
-+}
-+
- /*
-  * -----------------------------------------------------------------------------
-  * IRQ handling
-@@ -1111,6 +1130,7 @@ static int rz_dmac_probe(struct platform_device *pdev)
- 	engine->device_terminate_all = rz_dmac_terminate_all;
- 	engine->device_issue_pending = rz_dmac_issue_pending;
- 	engine->device_synchronize = rz_dmac_device_synchronize;
-+	engine->device_pause = rz_dmac_device_pause;
- 
- 	engine->copy_align = DMAENGINE_ALIGN_1_BYTE;
- 	dma_set_max_seg_size(engine->dev, U32_MAX);
+Biju Das (3):
+  tty: serial: sh-sci: Remove setting {src,dst}_{addr,addr_width} based
+    on DMA direction
+  tty: serial: sh-sci: Add RZ/G2L SCIF DMA tx support
+  tty: serial: sh-sci: Add RZ/G2L SCIF DMA rx support
+
+ drivers/tty/serial/sh-sci.c | 59 +++++++++++++++++++++++++++++--------
+ 1 file changed, 46 insertions(+), 13 deletions(-)
+
 -- 
 2.25.1
 
