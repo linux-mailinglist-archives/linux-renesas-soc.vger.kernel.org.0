@@ -2,106 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8D706C7C24
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 11:02:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10EF06C7C6C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 11:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbjCXKCk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 06:02:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57704 "EHLO
+        id S230125AbjCXKTh convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 06:19:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbjCXKCi (ORCPT
+        with ESMTP id S230011AbjCXKTg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 06:02:38 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0392E2365A;
-        Fri, 24 Mar 2023 03:02:36 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,287,1673881200"; 
-   d="scan'208";a="153660287"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Mar 2023 19:02:36 +0900
-Received: from localhost.localdomain (unknown [10.226.93.228])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4052E401BBF8;
-        Fri, 24 Mar 2023 19:02:33 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Fri, 24 Mar 2023 06:19:36 -0400
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 922301B314;
+        Fri, 24 Mar 2023 03:19:30 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5447d217bc6so24536567b3.7;
+        Fri, 24 Mar 2023 03:19:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679653169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u44WcnuqyHzepBxdvX3IGwCYzPtovczf29Qc9lcrlJ4=;
+        b=fw526iE0CNqNV4kp+kSJqH+uo+F3c6T/kva32UUWRd+dopsM0AVl47/79oPCs7JwLt
+         3hzZnXLuoYD/pd0z2RwXrmjYweRwfuPh4OyC2IQbGuPeUnEtXEMPuR+IEV9TCvh1UkfP
+         6MuTgJlIXSWvhnaBUUBsJ2iLthCekrQ4/IK1HFqy6jmlGf9RqMKhi9GoLD9I7z+tsMwZ
+         mz8s+FL5NEY7Jbwyw3TRJdX3DCWuPr0fv60zy2B7sQRHTqfxu96OSabEUP1FpR0uUqLA
+         qGXZgR36prjUwrL+ot1LOG+OhMVTdvjb02nZcwXIHTaf/DYPRDZY7jwhkRjdfcaQOs3E
+         Oeuw==
+X-Gm-Message-State: AAQBX9f0DIk3S+1Sb6N6+GLXu5AFlHw3NB6rYDvmxojLZOFkCsumgMrG
+        0K/PaJoUN3BV8ECwJXQazkipPPTzv9vmSA==
+X-Google-Smtp-Source: AKy350YPLkhoCEI4WdRzzxsKVRIEx3jDox3QVhFQaSt9OYsIKVmXzXA6FiB+1Enjp1KvF0+//Busvw==
+X-Received: by 2002:a81:52cf:0:b0:545:21f2:7bb5 with SMTP id g198-20020a8152cf000000b0054521f27bb5mr1729783ywb.35.1679653169610;
+        Fri, 24 Mar 2023 03:19:29 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id 206-20020a810fd7000000b00545a0818487sm332114ywp.23.2023.03.24.03.19.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Mar 2023 03:19:28 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id r187so1508819ybr.6;
+        Fri, 24 Mar 2023 03:19:28 -0700 (PDT)
+X-Received: by 2002:a25:2749:0:b0:a99:de9d:d504 with SMTP id
+ n70-20020a252749000000b00a99de9dd504mr1012626ybn.12.1679653167954; Fri, 24
+ Mar 2023 03:19:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230324100222.116666-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230324100222.116666-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 24 Mar 2023 11:19:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVD-545UeLZcBKc3OKSyO0=+YSBwN=invZVAvGjhmH58w@mail.gmail.com>
+Message-ID: <CAMuHMdVD-545UeLZcBKc3OKSyO0=+YSBwN=invZVAvGjhmH58w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Add RZ/G2L SCIFA DMAC support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>,
         linux-serial@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 3/3] tty: serial: sh-sci: Add RZ/G2L SCIF DMA rx support
-Date:   Fri, 24 Mar 2023 10:02:22 +0000
-Message-Id: <20230324100222.116666-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230324100222.116666-1-biju.das.jz@bp.renesas.com>
-References: <20230324100222.116666-1-biju.das.jz@bp.renesas.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SCIF DMA rx support for RZ/G2L alike SoCs.
+Hi Biju,
 
-RZ/G2L alike SoCs use the same signal for both interrupt and DMA transfer
-requests, so we must disable line interrupt while transferring DMA.
+Thanks for your series!
 
-We must set FIFO trigger to 1 so that SCIF will request DMA when there is
-a character as SCIF DMA request is based on FIFO data full RDF.
+On Fri, Mar 24, 2023 at 11:05 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> This patch series aims to add DMA support for SCIFA IP found on
+> RZ/G2L alike SoCs.
+>
+> v1->v2:
+>  * Added support for DMA tx and rx.
 
-Based on a patch in the BSP by Long Luu
-<long.luu.ur@renesas.com>
+All individual patches say "no changes from v1->v2"?
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * No change
----
- drivers/tty/serial/sh-sci.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 81797eb722cb..ce3d6af47759 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -1312,9 +1312,13 @@ static void sci_dma_rx_reenable_irq(struct sci_port *s)
- 
- 	/* Direct new serial port interrupts back to CPU */
- 	scr = serial_port_in(port, SCSCR);
--	if (port->type == PORT_SCIFA || port->type == PORT_SCIFB) {
--		scr &= ~SCSCR_RDRQE;
-+	if (port->type == PORT_SCIFA || port->type == PORT_SCIFB ||
-+	    is_rz_scif_port(port, s)) {
- 		enable_irq(s->irqs[SCIx_RXI_IRQ]);
-+		if (port->type == PORT_SCIF)
-+			scif_set_rtrg(port, s->rx_trigger);
-+		else
-+			scr &= ~SCSCR_RDRQE;
- 	}
- 	serial_port_out(port, SCSCR, scr | SCSCR_RIE);
- }
-@@ -1735,7 +1739,15 @@ static irqreturn_t sci_rx_interrupt(int irq, void *ptr)
- 			if (sci_dma_rx_submit(s, false) < 0)
- 				goto handle_pio;
- 
--			scr &= ~SCSCR_RIE;
-+			if (is_rz_scif_port(port, s)) {
-+				/* Switch irq from SCIF to DMA */
-+				disable_irq_nosync(s->irqs[SCIx_RXI_IRQ]);
-+				scif_set_rtrg(port, 1);
-+				/* DMA need RIE enable */
-+				scr |= SCSCR_RIE;
-+			} else {
-+				scr &= ~SCSCR_RIE;
-+			}
- 		}
- 		serial_port_out(port, SCSCR, scr);
- 		/* Clear current interrupt */
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
