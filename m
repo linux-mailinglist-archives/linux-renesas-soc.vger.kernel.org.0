@@ -2,77 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 824FA6C7D7D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 12:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F0176C7E9F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 14:19:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbjCXLwK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 07:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S231990AbjCXNTi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 09:19:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjCXLwJ (ORCPT
+        with ESMTP id S229508AbjCXNTh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 07:52:09 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7776B22A1E;
-        Fri, 24 Mar 2023 04:52:08 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id o14so674376ioa.3;
-        Fri, 24 Mar 2023 04:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679658728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iWww7KIOZBCmIAHeZv67n8Ky5bkkqCoK79aVsIAZNBI=;
-        b=TZIv8T/N6JJPGZzyhEafVekIQ23TQTiv0q+86h2sLILA6iYzEfF+u25kxtdHp0VNRq
-         oxZ78xFZORp0fy9rKmZZbV739hSARgPOxdeaHK8u5HVOOZ+XoTsb4e+8OIlwjfdD+Ql7
-         zhqN1Parx4H/ypNye6pC5LYEcdA2aVqEf5Pj85VQJCszYYHd3qwp7Z6vgH8A4g2J4iDq
-         Jvyj/nX9Kxxs1RNcEyCI4VxU8gCULSV9V72g3/PWK4V27yBgt7JRix0tewp8vbtVw3wM
-         S62jCU5Rp3Pf1rHR89/Ps52hFSuInfYfA0/v6QVaVOAAszzLLvwm1fE5xWI5yg91LgDW
-         n8Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679658728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iWww7KIOZBCmIAHeZv67n8Ky5bkkqCoK79aVsIAZNBI=;
-        b=K1KOHApxjnV3NaWp+LomxoU+QAfwLSQUTgqzW2SD3iwqQEpCg13gElLdprOGPJhCA/
-         sCdzMarjTJ3+D91U9JYQIfkYn2zjigY1AOWW4uV5InCsiJGCDFQayGJXC+MHM5sO87in
-         bJ37sfKgzKqme2zFyJMUBwjz5rw7nWDZVFEEwaut4DqFhv2uh4vwq+LbYHEbphR2LcCL
-         ox1MMpJ3nivSUzxoAbfO6R2zpk0w8DYbp48ZEG+uL6j5632zMaCX6PDZb0OpDuRyVDE1
-         r5vhhppe8XYydPt7aj8m6Ne82e0/VrfKu58YQ+hpRU5ZeWRcaTYfVxK6s+G+FL+zffeE
-         7K1w==
-X-Gm-Message-State: AO0yUKU5b2Xz8YYjUSTTDM3W99bnMvervQVCvk6jBWPwzc1HCjFlod6o
-        REyecNVAAt9LUsX/JJumY+iJ5FhbBEtnVy10kvu28wmhtAs=
-X-Google-Smtp-Source: AK7set8+H6cwLxu738lkTCKCs6nwLDvrDpz/EBmL2ZmHT3i13MKkp+14knPu99WuRsmhLBPnfRJcdLzJTAFzgFo9qX0=
-X-Received: by 2002:a05:6638:22a1:b0:3ae:e73b:ff26 with SMTP id
- z1-20020a05663822a100b003aee73bff26mr831353jas.1.1679658727838; Fri, 24 Mar
- 2023 04:52:07 -0700 (PDT)
+        Fri, 24 Mar 2023 09:19:37 -0400
+X-Greylist: delayed 732 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Mar 2023 06:19:35 PDT
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD6A12860;
+        Fri, 24 Mar 2023 06:19:35 -0700 (PDT)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id B303418837C2;
+        Fri, 24 Mar 2023 13:07:21 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id ACC3F2500B57;
+        Fri, 24 Mar 2023 13:07:21 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id A23749B403F4; Fri, 24 Mar 2023 13:07:21 +0000 (UTC)
+X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
+Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
+        by smtp.gigahost.dk (Postfix) with ESMTPSA id B3AEB9B403E2;
+        Fri, 24 Mar 2023 13:07:20 +0000 (UTC)
+From:   Hans Schultz <netdev@kapio-technology.com>
+To:     Ido Schimmel <idosch@nvidia.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 1/6] net: bridge: add dynamic flag to
+ switchdev notifier
+In-Reply-To: <ZBgd1mgO36umXqoj@shredder>
+References: <20230318141010.513424-1-netdev@kapio-technology.com>
+ <20230318141010.513424-2-netdev@kapio-technology.com>
+ <ZBgd1mgO36umXqoj@shredder>
+Date:   Fri, 24 Mar 2023 14:04:45 +0100
+Message-ID: <87h6ua5mhe.fsf@kapio-technology.com>
 MIME-Version: 1.0
-References: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVKRS1N5s-cvxrgSj9ev-Hh+gxfa-Hp2+z1zt+r7fEUWg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVKRS1N5s-cvxrgSj9ev-Hh+gxfa-Hp2+z1zt+r7fEUWg@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 24 Mar 2023 11:51:41 +0000
-Message-ID: <CA+V-a8u5ttTsG9fn4ePKi-0=2NXzhk1seBwnzBn_X6VQDwWKpw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: timer: renesas: ostm: Document RZ/Five SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,65 +84,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Mon, Mar 20, 2023 at 10:48, Ido Schimmel <idosch@nvidia.com> wrote:
+>
+> I was under the impression that the consensus was to rename this to
+> 'is_static' so that it is consistent with other flags.
+>
 
-Thank you for the review.
+I think the consensus was that the bridge maintainers would decide if it
+should be changed, this according to Oltean. I still think that
+is_dyn is more secure codewise in the long run and it is logical as that
+is what the feature the flag concerns.
 
-On Fri, Mar 24, 2023 at 9:35=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your patch!
->
-> On Thu, Mar 23, 2023 at 7:56=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The OSTM block on the RZ/Five SoC is identical to one found on the RZ/G=
-2UL
-> > SoC. "renesas,r9a07g043-ostm" compatible string will be used on the
-> > RZ/Five SoC so to make this clear, update the comment to include RZ/Fiv=
-e
-> > SoC.
-> >
-> > No driver changes are required as generic compatible string
-> > "renesas,ostm" will be used as a fallback on RZ/Five SoC.
->
-> While this paragraph is true, it doesn't really matter, as you're not
-> adding a new SoC-specific compatible value.
->
-Agreed, I will keep that in mind for future patches.
-
-Cheers,
-Prabhakar
-
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > --- a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-> > +++ b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-> > @@ -23,7 +23,7 @@ properties:
-> >        - enum:
-> >            - renesas,r7s72100-ostm  # RZ/A1H
-> >            - renesas,r7s9210-ostm   # RZ/A2M
-> > -          - renesas,r9a07g043-ostm # RZ/G2UL
-> > +          - renesas,r9a07g043-ostm # RZ/G2UL and RZ/Five
-> >            - renesas,r9a07g044-ostm # RZ/G2{L,LC}
-> >            - renesas,r9a07g054-ostm # RZ/V2L
-> >        - const: renesas,ostm        # Generic
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+When you say consistent with other flags, I don't understand the
+inconsistency. Could you please explain.
