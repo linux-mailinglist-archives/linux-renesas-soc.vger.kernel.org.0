@@ -2,114 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6C36C708E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Mar 2023 19:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A766C78E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 08:33:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231490AbjCWSva (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Mar 2023 14:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
+        id S231706AbjCXHd3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 03:33:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231277AbjCWSv3 (ORCPT
+        with ESMTP id S231222AbjCXHd1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Mar 2023 14:51:29 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38322D178;
-        Thu, 23 Mar 2023 11:51:27 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id v4-20020a05600c470400b003ee4f06428fso1730643wmo.4;
-        Thu, 23 Mar 2023 11:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679597486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=64169Vvyo0ZZgIoZU5qnXvhyXyFpGQgMQ4mYoA5/rdo=;
-        b=MKFxTpTDbyIGV0lMr2M3rwEnb94MOqyxqpRVFxI2yBYnA4kjOcrkc9EjDt16ZRBRWy
-         w5rSFgxczBz8qdrzN96STvHlDGVopIivS3LeEiZyg5DMAXizfrS1UIKc6qmJ4fDXrjHf
-         AmdbAwv01aP9xSLohMK1BgqJu8jfpfjNztej4hUsOa8vY7m6Rg85LIjFATndeup4LuIV
-         k88Dzo7+MtuBG8/0DT+aEoBoZe6Gd9boRLgSaZOHWpP6iPkX3UouDtTIJ+DBZk/TPrHk
-         7hxXF5/EwdOZL63ZdZ6P7rTjoz/z4QN/9SHbaREcZS5iE+1GZy1wxUd//NOsYdWGQC+P
-         impw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679597486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=64169Vvyo0ZZgIoZU5qnXvhyXyFpGQgMQ4mYoA5/rdo=;
-        b=gSRW/a5qZns7HqRnp50LI5jklMP2lah34hj7F8Z/SQmK5KsNeTazEXedj2tQ1ggy5z
-         krWfJJ6W/kYTc7zuOVxX19Zk/EgATQtmLs+45RK+iNbAzRYmOOTlYtaYUQd8ehQAThDC
-         YzWnm7mQPwB8FfNmKvnLyNLkOhh+h9wyCyiI51xOqJaXMU9Vp20qr2NXQEAChGq8iLDE
-         PMBu60GJ1UehUiv5e27NIP8zP0TwjUevRBQPap57cklh4uNSn+OJtqb/vI2FHiwz3jCG
-         iPKRrBEUcy9obfQVjKQBiWUt3dY1fjx2JLz4vPV2nEhEp6A4hEoSdQnFz+MW38NJjmJ2
-         X+eQ==
-X-Gm-Message-State: AO0yUKVWQWXdO60aRTx+pX7noKFyHyLdUl44FgjtkGexoP6/hMYkgnnU
-        8LQIBVFnsHMac/6GUX1GbDc=
-X-Google-Smtp-Source: AK7set8uRrPGJYJokclypVKb4nC0fwJfb6HDu06Bl+KrlXV0hSQ1uQBNDiwna2u1y3tUW3Bmkkxl1A==
-X-Received: by 2002:a7b:c40b:0:b0:3ee:4ee:bf73 with SMTP id k11-20020a7bc40b000000b003ee04eebf73mr454458wmi.24.1679597485860;
-        Thu, 23 Mar 2023 11:51:25 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:7448:a207:93a2:a1ed])
-        by smtp.gmail.com with ESMTPSA id k11-20020a05600c0b4b00b003edef091b17sm2649323wmr.37.2023.03.23.11.51.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 11:51:24 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] dt-bindings: timer: renesas: ostm: Document RZ/Five SoC
-Date:   Thu, 23 Mar 2023 18:51:12 +0000
-Message-Id: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 24 Mar 2023 03:33:27 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B746D149AC
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Mar 2023 00:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=UMmp/4EUKVt/cI0P7zFZbonTYH6N
+        d78n8J7R0k7kAis=; b=XfF2TL6fJLwTKEZ5tQLscuX9Nscgb0lrA6M/tz6axdQV
+        eKXuMN99HhbEZLI9wJBFdVTv75cSv9wbKhfSkWXFcXb6GFSnvvHCEK176Pfjl+Uo
+        ekTtatL5st72fuCaFegIEurCuQ/ORs4jGtha1vQaNw9fbJaYRM1LW/eanHR6GNg=
+Received: (qmail 2199740 invoked from network); 24 Mar 2023 08:33:21 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Mar 2023 08:33:21 +0100
+X-UD-Smtp-Session: l3s3148p1@qvRZaKD3susujnv6
+Date:   Fri, 24 Mar 2023 08:33:20 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Simon Horman <simon.horman@corigine.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net v3 1/2] smsc911x: only update stats when interface is
+ up
+Message-ID: <ZB1SQCOpLp0kDkm3@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Simon Horman <simon.horman@corigine.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vladimir Oltean <olteanv@gmail.com>
+References: <20230322071959.9101-1-wsa+renesas@sang-engineering.com>
+ <20230322071959.9101-2-wsa+renesas@sang-engineering.com>
+ <20230323113945.0915029d@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ppsRxTzobnLW8AvR"
+Content-Disposition: inline
+In-Reply-To: <20230323113945.0915029d@kernel.org>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The OSTM block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-SoC. "renesas,r9a07g043-ostm" compatible string will be used on the
-RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-SoC.
+--ppsRxTzobnLW8AvR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-No driver changes are required as generic compatible string
-"renesas,ostm" will be used as a fallback on RZ/Five SoC.
+Hi Jakub,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- Documentation/devicetree/bindings/timer/renesas,ostm.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Maybe we should add a false-negative version of netif_running() ?
+> __LINK_STATE_START*ED* ?
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-index 7207929e5cd6..8b06a681764e 100644
---- a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-@@ -23,7 +23,7 @@ properties:
-       - enum:
-           - renesas,r7s72100-ostm  # RZ/A1H
-           - renesas,r7s9210-ostm   # RZ/A2M
--          - renesas,r9a07g043-ostm # RZ/G2UL
-+          - renesas,r9a07g043-ostm # RZ/G2UL and RZ/Five
-           - renesas,r9a07g044-ostm # RZ/G2{L,LC}
-           - renesas,r9a07g054-ostm # RZ/V2L
-       - const: renesas,ostm        # Generic
--- 
-2.25.1
+Sounds very reasonable, yet I am missing subsystem details to really
+judge it. I just hacked a quick coccinelle script and 14 more drivers
+could be happy about such a change:
 
+ drivers/net/ethernet/3com/3c515.c            | 2 +-
+ drivers/net/ethernet/8390/axnet_cs.c         | 2 +-
+ drivers/net/ethernet/8390/lib8390.c          | 2 +-
+ drivers/net/ethernet/dec/tulip/de2104x.c     | 2 +-
+ drivers/net/ethernet/dec/tulip/tulip_core.c  | 2 +-
+ drivers/net/ethernet/dec/tulip/winbond-840.c | 2 +-
+ drivers/net/ethernet/fealnx.c                | 2 +-
+ drivers/net/ethernet/natsemi/natsemi.c       | 2 +-
+ drivers/net/ethernet/realtek/8139cp.c        | 2 +-
+ drivers/net/ethernet/silan/sc92031.c         | 2 +-
+ drivers/net/ethernet/smsc/epic100.c          | 2 +-
+ drivers/net/ethernet/sun/sungem.c            | 2 +-
+ drivers/net/ethernet/toshiba/tc35815.c       | 2 +-
+ drivers/net/ethernet/via/via-velocity.c      | 2 +-
+ 14 files changed, 14 insertions(+), 14 deletions(-)
+
+The script:
+
+@@
+identifier name, args;
+@@
+
+	static struct net_device_stats *name(struct net_device *args)
+	{
+		...
+-		netif_running
++		netif_opened
+		...
+	}
+
+
+Thanks and happy hacking,
+
+   Wolfram
+
+
+--ppsRxTzobnLW8AvR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQdUkAACgkQFA3kzBSg
+KbYhLBAAksx0IU69Au8T6ye1eIY4TAy0Lbe5V2uTgeWUVXx27ad0qp05EIutXb1R
+iO4D3ZoJwOeKl9E+tWfqBvYB2tLLJpfH7hMpF+KG99HFvU3Vbxq+P/hHDG9Dlhxq
+4H0GyrPZgLblQWB7afJERBE9jrdkMhxFDPcumtahzvAWh7JeztLQrlzRjQeyE5Hj
+LNhPE8Xs4IIXsxNFq0i07UIoSPfAoW00gu6Ja3+lqCyf3MlT3xs3BZiJ7u7Uy85M
+Hsh99irH3FBhTLO6fePRUUgrsF3tYrtQA1Lj9Og9PlbU7+IIErZ4Fpx7agcDi9iy
+YvhjwJCcEFyYsLYHMo5YCcZrw22iUivAh8zaxMd68Thre///kqgCgNYLFIu9TLgu
+QI/9fm/LoWuHf15WLV7SGhMeRIfQhnEr2BHpiWqAvhs5eHdmFGI1Rf2L8lw/+ALq
+vbxcwi7trQMR2jrdKyaUNB5dkWoehEzjIIM56DeEKBzfLuTRTWnMBJ7o6yofFD4S
+kAJSnkc4X9In09zD7ByXlNeOeC/RGIGuycoewqhckfa445GM9RqyH6o8w57wEmho
++JWA9tW0bACYfcr9b3qeidKTo8uTKKLzAncam/GDHP/hsEFB7Mzi+rZcdZF0HGlG
+S1n2E/HBzXG+MgtkPaHZkKiywgv5TF6g5LUeI35dQMoAKLsPusc=
+=lDO1
+-----END PGP SIGNATURE-----
+
+--ppsRxTzobnLW8AvR--
