@@ -2,131 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2B06C7FEF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 15:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BC9C6C809A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 16:01:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbjCXOeR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 10:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
+        id S232282AbjCXPBC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Mar 2023 11:01:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjCXOeQ (ORCPT
+        with ESMTP id S231868AbjCXPBB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 10:34:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0654B10EB;
-        Fri, 24 Mar 2023 07:34:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9EA5862B31;
-        Fri, 24 Mar 2023 14:34:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED42C433A4;
-        Fri, 24 Mar 2023 14:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679668455;
-        bh=ozq+vH75mAjNkKi3jfaobvjryF3L2Ni1S1Tn6tmagvQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZnhWOCjRHBVl6jMFyTdz2uJBPpSM2kij2cHeCYfnvMal7mOe3nevgli12nKSVyo1+
-         rZlC/eiRp+q6eYz1wuvLbURRo4cOa1ihg2sXmqlhxeiwE/5uyDJZb5KiFkbR81W5wr
-         Mihu8blBLIIPZzPzXG+mtcNvBqAxymxPA4pqExAf5yA8RL9wTslmj93FUvsxYqap4Q
-         U4sDe3114VPd8xkzxxSl3wiRrlADe7/VvdzGpRwnCFQhUCrAMQiONqvicHZNOAzuqU
-         qvkUUlLWORUAOjqfuxV3S76W62ttb0Hz0+kSU2MB9UaOHxxmARqzQALHu2NEdEOapF
-         9LgGCEDTVE4Ew==
-Received: by mail-pl1-f173.google.com with SMTP id ix20so1978358plb.3;
-        Fri, 24 Mar 2023 07:34:15 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fyxFGJ2Q7V/4XTxyFgsG+S3SoSPtgcDKoRmveKbIlYoNbAyKn/
-        oGawmAEbx0daUxX9Zpt4COpTTvA0lLKbTPlqTQ==
-X-Google-Smtp-Source: AKy350Y57cQ3/TzcctMtJeBkZVGy3RaGVnEiqyzqBxcgVPo3gFc72P+HHXJ3tIgI+qnw4mjDX3xPaiNQsV4yB10ee/Y=
-X-Received: by 2002:a81:b149:0:b0:543:9065:b225 with SMTP id
- p70-20020a81b149000000b005439065b225mr1122523ywh.5.1679668433642; Fri, 24 Mar
- 2023 07:33:53 -0700 (PDT)
+        Fri, 24 Mar 2023 11:01:01 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A03199E3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Mar 2023 08:01:00 -0700 (PDT)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1pfiuX-00033W-Ul; Fri, 24 Mar 2023 16:00:58 +0100
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 4F95A19B907;
+        Fri, 24 Mar 2023 14:57:43 +0000 (UTC)
+Date:   Fri, 24 Mar 2023 15:57:42 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] can: rcar_canfd: Add transceiver support
+Message-ID: <20230324145742.j4ec237uxcehivsx@pengutronix.de>
+References: <cover.1679414936.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-In-Reply-To: <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 24 Mar 2023 09:33:42 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sean Wang <sean.wang@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jianlong Huang <jianlong.huang@starfivetech.com>,
-        Dvorkin Dmitry <dvorkin@tibbo.com>,
-        Wells Lu <wellslutw@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, patches@opensource.cirrus.com,
-        alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5ikkmcmpcuvjoqhk"
+Content-Disposition: inline
+In-Reply-To: <cover.1679414936.git.geert+renesas@glider.be>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
->
-> On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
-ote:
->
-> > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> > checking for this can be enabled in yamllint.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Should I queue this patch by the way, or do you need it to go into some
-> DT-related tree?
 
-Stands on its own. You can take it.
+--5ikkmcmpcuvjoqhk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+On 21.03.2023 17:14:59, Geert Uytterhoeven wrote:
+> 	Hi all,
+>=20
+> This patch series adds transceiver support to the Renesas R-Car CAN-FD
+> driver, and improves the printing of error messages, as requested by
+> Vincent.
+>=20
+> Originally, both patches were submitted separately, but as the latter
+> depends on the former, I absorbed it within this series for the resend.
+
+Thanks. Applied to can-next, I've replaced the colons by comma, as
+Vincent suggested.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129  |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--5ikkmcmpcuvjoqhk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQdumIACgkQvlAcSiqK
+BOgNPAgAhGtrMn4SrYmt4r929BMsV3fb4ZH2NvyjrIjebzSgwk8f73q8tZmCFtW9
+ysA1Hzk2zcpDwMiIQgcfeiVPSB8vzMX35CVXMxYSt2iOmog+fwcGLGSJfXsYMSxF
+4XtnIYrQJkf6fuse5/2EE77i5G4MO9a33yzJf9UMYuzw44Fz7GJPCxY+zR6nT70s
+oa3N0v6TmpH1WtRVmo3xKW9fPrf6bOKkfWc6Bbx3KXUobn6lQcQ2Sn0rnQCWJx1Q
+BxVlu9PmQQv4kN9qoLI+OhvDpVMkFt4kKnTgmdwr8/69jVt3L1EAMjuNih1cTsMa
+kDwWLMXAxd7SVaTNpg/pPKbYVsd88A==
+=MSlf
+-----END PGP SIGNATURE-----
+
+--5ikkmcmpcuvjoqhk--
