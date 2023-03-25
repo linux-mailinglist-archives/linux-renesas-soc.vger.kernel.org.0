@@ -2,173 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA876C8821
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Mar 2023 23:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BCC26C90B3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Mar 2023 21:27:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbjCXWLH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Mar 2023 18:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45022 "EHLO
+        id S229774AbjCYU1j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Mar 2023 16:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232171AbjCXWLG (ORCPT
+        with ESMTP id S229528AbjCYU1i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Mar 2023 18:11:06 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1202A2007B;
-        Fri, 24 Mar 2023 15:10:36 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id er18so2028056edb.9;
-        Fri, 24 Mar 2023 15:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679695833;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fxVZl65ppaYPFIKyRPyYl3dX0Inh16J0pYuSo0cJb7E=;
-        b=UyazcQbd8gG65l601C3UsTA6yL+rW6fegRVIGG4AR5MPSmoOclYwoBIaUEfB5tP+Uq
-         rCu2JU7emy41Ux5nokIxhqKI5J1MGBgzKiq59ICmxWzijxH6n7rvHon8VrCs2qGXCicn
-         JeqQiuK3D9ZuZyfpl0GBuy/yq8CU89U5ELCSuZQs+aw/Ps4IOV2HwBPdyT6LPbiS1pn7
-         3PubVrbdoPmEfaR6Ovkt1oQOvtuaDtYIZ6GjzPP+7eVM4U//NyJIpaKNfvQO6zzPjx1d
-         HVVZ+l+j6rzCGOd9/ldOqhUDCiLkGPFnn4LRKAeKEvd0MU/t9Ta22+paV1ILG80q1y0M
-         L/XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679695833;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxVZl65ppaYPFIKyRPyYl3dX0Inh16J0pYuSo0cJb7E=;
-        b=MiriGYTqrJSiZTSxpujIf4M/UrpYl89PUsiyCVqcXKxkrpWf5oJ4VlKqpVk6X9/fS7
-         2j/zxJULp265tn9S1tmHSgxakiLSuXSSzhBO3S5KW03GMpkmNGR3cz4i9FjAbYhlzpgM
-         il0b/MEWdF1zX4OvbiKGnQLQmjsb92cRcdLQiIjeRm8br3KP/N4dyGA2Xlhb8QtD/vMJ
-         0qnBbcp5aoCDiIU4sZ+CnGlUDIoUDXWcNZc2kaPCV/FuD6AeugoSI/Dfcv0Ze5BLr9+o
-         m/WS8aa21VUBFMqAIz63Jt13sEXXYYgWYpmg099Q4pfHf9DZiM8WNi7w1Lmjq8uymhcw
-         DJQA==
-X-Gm-Message-State: AAQBX9eNsOlb0+bBaqateqb3ZsqoKhloXFpLwzbtG76UiYr0h/gsQ96e
-        oK56XVskW+ZpOp6hZXALwqE=
-X-Google-Smtp-Source: AKy350bbbGxK21mLlRapiV4hrzxYhWbys8g59LNpWrccXWhmcAIuU/uIm4ympucH+j396toCfj8JlA==
-X-Received: by 2002:a17:907:d09:b0:930:e634:3d52 with SMTP id gn9-20020a1709070d0900b00930e6343d52mr5565312ejc.24.1679695833228;
-        Fri, 24 Mar 2023 15:10:33 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id zc14-20020a170906988e00b00927f6c799e6sm10931958ejb.132.2023.03.24.15.10.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 15:10:32 -0700 (PDT)
-Date:   Sat, 25 Mar 2023 00:10:30 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+        Sat, 25 Mar 2023 16:27:38 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126AED31C;
+        Sat, 25 Mar 2023 13:27:37 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.79.104) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 25 Mar
+ 2023 23:27:26 +0300
+Subject: Re: [PATCH net-next] sh_eth: remove open coded netif_running()
+To:     Jakub Kicinski <kuba@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alexis =?utf-8?Q?Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-Subject: Re: [PATCH RESEND net-next v4 2/3] net: dsa: rzn1-a5psw: add support
- for .port_bridge_flags
-Message-ID: <20230324221030.eps7xsbapwfzjxez@skbuf>
-References: <20230314163651.242259-1-clement.leger@bootlin.com>
- <20230314163651.242259-3-clement.leger@bootlin.com>
- <20230314230821.kjiyseiqhat4apqb@skbuf>
- <20230316125329.75b290d4@fixe.home>
+        Paolo Abeni <pabeni@redhat.com>, <linux-kernel@vger.kernel.org>
+References: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
+ <79d945a4-e105-4bc4-3e73-64971731660e@omp.ru>
+ <CAMuHMdUt_kTH3tnrdF=oKBLyjrstei8PLsyr+dFXVoPEyxTLAA@mail.gmail.com>
+ <20230323094034.5b021c65@kernel.org>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <6d2f216c-df1d-9ab5-353c-de5e5e082b57@omp.ru>
+Date:   Sat, 25 Mar 2023 23:27:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230316125329.75b290d4@fixe.home>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230323094034.5b021c65@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.79.104]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 03/25/2023 20:10:37
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 176289 [Mar 24 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 507 507 08d345461d9bcca7095738422a5279ab257bb65a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_arrow_text}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;178.176.79.104:7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.79.104
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/25/2023 20:13:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/25/2023 6:14:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-0.0 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 12:53:29PM +0100, Clément Léger wrote:
-> Le Wed, 15 Mar 2023 01:08:21 +0200,
-> Vladimir Oltean <olteanv@gmail.com> a écrit :
+On 3/23/23 7:40 PM, Jakub Kicinski wrote:
+[...]
+
+>> Is there some protection against parallel execution of ndo_open()
+>> and get_stats()?
 > 
-> > On Tue, Mar 14, 2023 at 05:36:50PM +0100, Clément Léger wrote:
-> > > +static int a5psw_port_pre_bridge_flags(struct dsa_switch *ds, int port,
-> > > +				       struct switchdev_brport_flags flags,
-> > > +				       struct netlink_ext_ack *extack)
-> > > +{
-> > > +	if (flags.mask & ~(BR_LEARNING | BR_FLOOD | BR_MCAST_FLOOD |
-> > > +			   BR_BCAST_FLOOD))
-> > > +		return -EINVAL;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int
-> > > +a5psw_port_bridge_flags(struct dsa_switch *ds, int port,
-> > > +			struct switchdev_brport_flags flags,
-> > > +			struct netlink_ext_ack *extack)
-> > > +{
-> > > +	struct a5psw *a5psw = ds->priv;
-> > > +	u32 val;
-> > > +
-> > > +	if (flags.mask & BR_LEARNING) {
-> > > +		val = flags.val & BR_LEARNING ? 0 : A5PSW_INPUT_LEARN_DIS(port);
-> > > +		a5psw_reg_rmw(a5psw, A5PSW_INPUT_LEARN,
-> > > +			      A5PSW_INPUT_LEARN_DIS(port), val);
-> > > +	}  
-> > 
-> > 2 issues.
-> > 
-> > 1: does this not get overwritten by a5psw_port_stp_state_set()?
-> 
-> Hum indeed. How is this kind of thing supposed to be handled ? Should I
-> remove the handling of BR_LEARNING to forbid modifying it ? Ot should I
-> allow it only if STP isn't enabled (which I'm not sure how to do it) ?
+> Nope - one is under rtnl_lock, the other under just RCU, IIRC.
+> So this patch just makes the race worse, but it was already
+> racy before.
 
-It's handled correctly by only enabling learning in port_stp_state_set()
-if dp->learning allows it. See sja1105_bridge_stp_state_set():
+   How about reverting it then?
 
-	case BR_STATE_LEARNING:
-		mac[port].dyn_learn = dp->learning;
-		break;
-	case BR_STATE_FORWARDING:
-		mac[port].dyn_learn = dp->learning;
-
-ocelot_bridge_stp_state_set():
-
-	if ((state == BR_STATE_LEARNING || state == BR_STATE_FORWARDING) &&
-	    ocelot_port->learn_ena)
-		learn_ena = ANA_PORT_PORT_CFG_LEARN_ENA;
-
-ksz_port_stp_state_set():
-
-	case BR_STATE_LEARNING:
-		if (!p->learning)
-			data |= PORT_LEARN_DISABLE;
-		break;
-	case BR_STATE_FORWARDING:
-		if (!p->learning)
-			data |= PORT_LEARN_DISABLE;
-
-> > enables flooding on the port after calling a5psw_port_bridge_leave().
-> > So the port which has left a bridge is standalone, but it still forwards
-> > packets to the other bridged ports!
-> 
-> Actually not this way because the port is configured in a specific mode
-> which only forward packet to the CPU ports. Indeed, we set a specific
-> rule using the PATTERN_CTRL register with the MGMTFWD bit set:
-> When set, the frame is forwarded to the management port only
-> (suppressing destination address lookup).
-
-Ah, cool, this answers one of my issues in the other thread.
-
-> However, the port will received packets *from* the other ports (which is
-> wrong... I can handle that by not setting the flooding attributes if
-> the port is not in bridge. Doing so would definitely fix the various
-> problems that could happen.
-
-hmm.. I guess that could work?
+MBR, Sergey
