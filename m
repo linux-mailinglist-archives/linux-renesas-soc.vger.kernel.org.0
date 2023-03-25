@@ -2,99 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BCC26C90B3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Mar 2023 21:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74DAC6C90CE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Mar 2023 21:56:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbjCYU1j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Mar 2023 16:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
+        id S229582AbjCYU4G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Mar 2023 16:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbjCYU1i (ORCPT
+        with ESMTP id S229446AbjCYU4F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:27:38 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126AED31C;
-        Sat, 25 Mar 2023 13:27:37 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.79.104) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 25 Mar
- 2023 23:27:26 +0300
-Subject: Re: [PATCH net-next] sh_eth: remove open coded netif_running()
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, <linux-kernel@vger.kernel.org>
-References: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
- <79d945a4-e105-4bc4-3e73-64971731660e@omp.ru>
- <CAMuHMdUt_kTH3tnrdF=oKBLyjrstei8PLsyr+dFXVoPEyxTLAA@mail.gmail.com>
- <20230323094034.5b021c65@kernel.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <6d2f216c-df1d-9ab5-353c-de5e5e082b57@omp.ru>
-Date:   Sat, 25 Mar 2023 23:27:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 25 Mar 2023 16:56:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315EEA5CB;
+        Sat, 25 Mar 2023 13:56:05 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94B6F8BE;
+        Sat, 25 Mar 2023 21:56:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679777763;
+        bh=8Ltqtewi2anpPoTZHd3yDIcuyfasUrBBCU/+n2ERLro=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EL+XSRS7UYHqOnv87CC8Gr+JJKqm6+32syZ/Gm7Lg99bSAzizWLRCce9kSH+IHF2k
+         vTFhM3sbF+jRxGslIEqeel236EvluCGUXW5U6bTkj6K6wpjEX8mSArpVxifoU1hG8u
+         PRbwrgKD6Pfo8q/By1b7dvOjwyB30wFfl7Y1uH/w=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 0/2] media: i2c: adv7604: Fix handling of video adjustments
+Date:   Sat, 25 Mar 2023 22:56:08 +0200
+Message-Id: <20230325205610.22583-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-In-Reply-To: <20230323094034.5b021c65@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.79.104]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 03/25/2023 20:10:37
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 176289 [Mar 24 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 507 507 08d345461d9bcca7095738422a5279ab257bb65a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_arrow_text}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;178.176.79.104:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.79.104
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/25/2023 20:13:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/25/2023 6:14:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-0.0 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/23/23 7:40 PM, Jakub Kicinski wrote:
-[...]
+Hello,
 
->> Is there some protection against parallel execution of ndo_open()
->> and get_stats()?
-> 
-> Nope - one is under rtnl_lock, the other under just RCU, IIRC.
-> So this patch just makes the race worse, but it was already
-> racy before.
+This small series fixes two issues with video adjustments (brightness,
+contrast, saturation and hue) in the adv7604 driver. Patch 1/2 makes
+those controls effective (they currently have no effect), and patch 2/2
+fixes the range of the hue control.
 
-   How about reverting it then?
+I have successfully tested the series with an ADV7612, and Hans with the
+ADV7604. The ADV7604 and ADV7611 documentation of the hue control
+differs from the ADV7612, but I believe that's because earlier
+documentation was incorrect.
 
-MBR, Sergey
+In patch 2/2 I've decided to represent the hue value as an unsigned
+8-bit integer, mapping to the [0°, 360°[ range. Using a signed value
+would map to the [-180°, 180°[ range instead, without making any other
+difference (and without requiring any modification to the patch other
+than changing the range). I don't have a strong preference between the
+two options, and I'm pretty sure we can freely pick one without any fear
+of an impact on existing userspace applications as patch 1/2 shows that
+the hue control has currently no effect.
+
+Compared to v1, this version fixes a typo in the commit message of patch
+2/2.
+
+Laurent Pinchart (2):
+  media: i2c: adv7604: Enable video adjustment
+  media: i2c: adv7604: Fix range of hue control
+
+ drivers/media/i2c/adv7604.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
