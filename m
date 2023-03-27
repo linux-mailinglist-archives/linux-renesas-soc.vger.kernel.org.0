@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17E7A6C9EBF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D27F6C9EBB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233520AbjC0I7p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 04:59:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34844 "EHLO
+        id S232766AbjC0I7m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 04:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232640AbjC0I7P (ORCPT
+        with ESMTP id S233460AbjC0I7N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:59:15 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FFD59CF
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:57:12 -0700 (PDT)
+        Mon, 27 Mar 2023 04:59:13 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44815526F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:57:10 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.187.55])
-        by andre.telenet-ops.be with bizsmtp
-        id dLx82900Q1C8whw01Lx81N; Mon, 27 Mar 2023 10:57:10 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id dLx82900H1C8whw06Lx8FR; Mon, 27 Mar 2023 10:57:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pgieO-00ExYx-Ri;
+        id 1pgieO-00ExYz-SK;
         Mon, 27 Mar 2023 10:57:08 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pgif6-002ath-Cd;
+        id 1pgif6-002atk-DO;
         Mon, 27 Mar 2023 10:57:08 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
@@ -33,9 +33,9 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 1/4] Renesas ARM defconfig updates for v6.4
-Date:   Mon, 27 Mar 2023 10:57:01 +0200
-Message-Id: <cover.1679907057.git.geert+renesas@glider.be>
+Subject: [GIT PULL 2/4] Renesas driver updates for v6.4
+Date:   Mon, 27 Mar 2023 10:57:02 +0200
+Message-Id: <cover.1679907059.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679907055.git.geert+renesas@glider.be>
 References: <cover.1679907055.git.geert+renesas@glider.be>
@@ -56,36 +56,35 @@ The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v6.4-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v6.4-tag1
 
-for you to fetch changes up to 93582bdfd0cf5aeeb4451ade1076a455c53d8a85:
+for you to fetch changes up to 2653d5bf1c9d123c0d8b8c1634cf54dacfcfdb52:
 
-  arm64: defconfig: Enable RZ/V2M xHCI and USB3.1 DRD controller support (2023-03-10 16:41:43 +0100)
-
-----------------------------------------------------------------
-Renesas ARM defconfig updates for v6.4
-
-  - Enable support for the Dialog Semiconductor DA7213 Codec, and the
-    Renesas RZ/V2M xHCI and USB3.1 DRD controllers in the arm64
-    defconfig,
-  - Disable support for the obsolete R-Car H3 ES1.* (R8A77950) SoC in
-    the arm64 defconfig,
-  - Refresh shmobile_defconfig for v6.3-rc1,
-  - Enable additional support for RZ/N1 platforms in multi_v7_defconfig.
+  soc: renesas: Use "#ifdef" for single-symbol definition checks (2023-03-16 16:58:42 +0100)
 
 ----------------------------------------------------------------
-Geert Uytterhoeven (3):
-      ARM: shmobile: defconfig: Refresh for v6.3-rc1
-      ARM: multi_v7_defconfig: Enable additional support for RZ/N1 platforms
-      arm64: defconfig: Enable RZ/V2M xHCI and USB3.1 DRD controller support
+Renesas driver updates for v6.4
 
-Kuninori Morimoto (1):
-      arm64: defconfig: Enable DA7213 Codec
+  - Drop support for the obsolete R-Car H3 ES1.* (R8A77950) SoC,
+  - Miscellaneous fixes and improvements.
 
-Wolfram Sang (1):
-      arm64: defconfig: Disable R-Car H3 ES1.*
+----------------------------------------------------------------
+Geert Uytterhoeven (2):
+      soc: renesas: rmobile-sysc: Use of_fwnode_handle() helper
+      soc: renesas: Use "#ifdef" for single-symbol definition checks
 
- arch/arm/configs/multi_v7_defconfig | 6 ++++++
- arch/arm/configs/shmobile_defconfig | 2 ++
- arch/arm64/configs/defconfig        | 4 +++-
- 3 files changed, 11 insertions(+), 1 deletion(-)
+Krzysztof Kozlowski (2):
+      soc: renesas: mark OF related data as maybe unused
+      soc: renesas: pwc-rzv2m: drop of_match_ptr for ID table
+
+Wolfram Sang (2):
+      soc: renesas: rcar-sysc: Remove R-Car H3 ES1.* handling
+      soc: renesas: Remove r8a77950 arch
+
+ drivers/soc/renesas/Kconfig              |  7 -------
+ drivers/soc/renesas/pwc-rzv2m.c          |  2 +-
+ drivers/soc/renesas/r8a7795-sysc.c       | 10 ----------
+ drivers/soc/renesas/renesas-soc.c        | 14 ++++++--------
+ drivers/soc/renesas/rmobile-sysc.c       |  2 +-
+ include/dt-bindings/power/r8a7795-sysc.h |  1 -
+ 6 files changed, 8 insertions(+), 28 deletions(-)
