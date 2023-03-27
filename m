@@ -2,55 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EF996C9E7A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 337FB6C9E9D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:52:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233424AbjC0Iqe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 04:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50062 "EHLO
+        id S233438AbjC0Iwf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 04:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232134AbjC0IqT (ORCPT
+        with ESMTP id S233488AbjC0IwB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:46:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052569022;
-        Mon, 27 Mar 2023 01:42:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E627712F3;
-        Mon, 27 Mar 2023 10:41:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679906490;
-        bh=+Ua11wbI2+XgB0RQEi7CpB8mZ46MNWUX8g6+QXF3EXU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=o3vqBl0A8U96ozsnEvQgSN6sHBoPz5Ux3u39VK0q428bS2aeeltYb/s5H4eyTpysp
-         vdjwdhI6NTgkms9PLfFsS0hn3yZoyLkVWCt6CJTBL4ta9wstumpGEw6PjGC1fvAzAU
-         IZfEN0mNc6RLGfcHmOT6saU0/423pgFIXHqg56EU=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230326143224.572654-61-u.kleine-koenig@pengutronix.de>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-61-u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 058/117] media: vsp1_drv: Convert to platform remove callback returning void
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Mon, 27 Mar 2023 04:52:01 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F1F310FE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:47:56 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id i13so10308227lfe.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1679906874;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=r4M98D9jJIODK0yR9HdOwsGY2fF3cLflvrBklnJxnQE=;
+        b=l+uaM+WU/NZPi3L57lGCxKvke4L7vjiuEI2yV2mxJnn/w41wsAnRJzbXnthtmh3pTP
+         nf6BuhYkf3TUWYa1he8Tx2uzgUvNArW2S2r6lUAreYlD3rDgHZlpQft3AE9BIIl7DQkY
+         AyEx5fVwjg8D9R5KETjz7yshrsJAPQshIyBs68V+pudTzDpeMX+HYl+IeeRpzXcgk3yY
+         6VtJJQOXJjKwzXjVeW2qaQTM/pwy690eR4VqoPSXA6zhEq3Q61Ze9Ez+Va7eg/l4fBGV
+         H3mpLSMrJTPplBzne4rxnOa6QBDbhDQwo8YDGIUF5js5kfI2BN6wpsm+LhVA/pfL2HrM
+         YoXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679906874;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r4M98D9jJIODK0yR9HdOwsGY2fF3cLflvrBklnJxnQE=;
+        b=Mhth5eV1NTRSFImo/TQAj8DlrbP0HzL5aYHuufgFSrDvWwFfaFyKWYYuYCTpDG+9IP
+         f2NS5zOyjMipGqyWXsVPI6oQpJipukRGKh7zAuQtGPDY9aBcPGJrIcLbYFtO7qqRJNcd
+         EqR15lHm8bWFa/NvU3/iCatTqRXv51Gb8TiwkfPMvb4k5qCvrybFO53/IivkxCb6YOO9
+         USm7IzFRlB0fdwyjBhqkE+vnUdp6icSJmNSJiPp/j54D6ptByCn2P9tTgabHJgsW/eBd
+         aYe6mXl1Kb+6X5eyljTYNhdS0TzfSKO3jegsHDD6CWI+QJfwQpAzhThnMss3SpJinNsy
+         yn+Q==
+X-Gm-Message-State: AAQBX9dW/DYj8EaKb4iX0ppb3RfW1EQCyW/cTQLcfT0jn8XGtI4peNdV
+        BXEc/NQnzPtqASFlLxkL4jb72g==
+X-Google-Smtp-Source: AKy350bCtuyxNsKI2hDdfaa2qqE4eb3MhN7hcCkyf6tiEiQohUHCkxUp4Ful6riCYUJqaNq/WYYfnw==
+X-Received: by 2002:ac2:4352:0:b0:4d5:8f3e:7852 with SMTP id o18-20020ac24352000000b004d58f3e7852mr3140360lfl.49.1679906874436;
+        Mon, 27 Mar 2023 01:47:54 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id w19-20020ac24433000000b004eb00c0d417sm1772728lfl.130.2023.03.27.01.47.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 01:47:54 -0700 (PDT)
+Date:   Mon, 27 Mar 2023 10:47:53 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         kernel@pengutronix.de
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Date:   Mon, 27 Mar 2023 09:41:27 +0100
-Message-ID: <167990648749.2697263.5403143235365291246@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 049/117] media: rcar-core: Convert to platform remove
+ callback returning void
+Message-ID: <ZCFYOQsi4ftHP7Ut@oden.dyn.berto.se>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+ <20230326143224.572654-52-u.kleine-koenig@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230326143224.572654-52-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Uwe Kleine-K=C3=B6nig (2023-03-26 15:31:25)
+On 2023-03-26 16:31:16 +0200, Uwe Kleine-König wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -58,50 +83,53 @@ Quoting Uwe Kleine-K=C3=B6nig (2023-03-26 15:31:25)
 > quest to make the remove callback return void. In the first step of this
 > quest all drivers are converted to .remove_new() which already returns
 > void.
->=20
+> 
 > Trivially convert this driver from always returning zero in the remove
 > callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 6 ++----
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/med=
-ia/platform/renesas/vsp1/vsp1_drv.c
-> index 5710152d6511..c1c28f98bd10 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -977,7 +977,7 @@ static int vsp1_probe(struct platform_device *pdev)
->         return ret;
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index 5e53d6b7036c..1398f147e5c2 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -1442,7 +1442,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
+>  	return 0;
 >  }
-> =20
-> -static int vsp1_remove(struct platform_device *pdev)
-> +static void vsp1_remove(struct platform_device *pdev)
+>  
+> -static int rcar_vin_remove(struct platform_device *pdev)
+> +static void rcar_vin_remove(struct platform_device *pdev)
 >  {
->         struct vsp1_device *vsp1 =3D platform_get_drvdata(pdev);
-> =20
-> @@ -985,8 +985,6 @@ static int vsp1_remove(struct platform_device *pdev)
->         rcar_fcp_put(vsp1->fcp);
-> =20
->         pm_runtime_disable(&pdev->dev);
+>  	struct rvin_dev *vin = platform_get_drvdata(pdev);
+>  
+> @@ -1458,8 +1458,6 @@ static int rcar_vin_remove(struct platform_device *pdev)
+>  		rvin_parallel_cleanup(vin);
+>  
+>  	rvin_dma_unregister(vin);
 > -
-> -       return 0;
+> -	return 0;
 >  }
-> =20
->  static const struct of_device_id vsp1_of_match[] =3D {
-> @@ -999,7 +997,7 @@ MODULE_DEVICE_TABLE(of, vsp1_of_match);
-> =20
->  static struct platform_driver vsp1_platform_driver =3D {
->         .probe          =3D vsp1_probe,
-> -       .remove         =3D vsp1_remove,
-> +       .remove_new     =3D vsp1_remove,
->         .driver         =3D {
->                 .name   =3D "vsp1",
->                 .pm     =3D &vsp1_pm_ops,
-> --=20
+>  
+>  static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+> @@ -1472,7 +1470,7 @@ static struct platform_driver rcar_vin_driver = {
+>  		.of_match_table = rvin_of_id_table,
+>  	},
+>  	.probe = rcar_vin_probe,
+> -	.remove = rcar_vin_remove,
+> +	.remove_new = rcar_vin_remove,
+>  };
+>  
+>  module_platform_driver(rcar_vin_driver);
+> -- 
 > 2.39.2
->
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
