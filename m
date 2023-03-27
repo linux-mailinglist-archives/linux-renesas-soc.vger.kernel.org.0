@@ -2,42 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F0BD6C9ED8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4490C6C9EDB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233025AbjC0JEr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 05:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41820 "EHLO
+        id S232529AbjC0JEs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 05:04:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232529AbjC0JEE (ORCPT
+        with ESMTP id S232816AbjC0JEE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 27 Mar 2023 05:04:04 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84BC49E7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 02:03:05 -0700 (PDT)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D564C3F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 02:03:09 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.187.55])
-        by michel.telenet-ops.be with bizsmtp
-        id dM342900A1C8whw06M34eG; Mon, 27 Mar 2023 11:03:04 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id dM38290061C8whw06M38lL; Mon, 27 Mar 2023 11:03:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pgik8-00ExaK-Je;
-        Mon, 27 Mar 2023 11:03:04 +0200
+        id 1pgikC-00ExaS-FJ;
+        Mon, 27 Mar 2023 11:03:08 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pgikq-002sSo-3n;
-        Mon, 27 Mar 2023 11:03:04 +0200
+        id 1pgiku-002sdq-0D;
+        Mon, 27 Mar 2023 11:03:08 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.4
-Date:   Mon, 27 Mar 2023 11:03:01 +0200
-Message-Id: <cover.1679907532.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.4
+Date:   Mon, 27 Mar 2023 11:03:07 +0200
+Message-Id: <cover.1679907618.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
@@ -48,7 +46,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
 The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
@@ -56,59 +54,52 @@ The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.4-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.4-tag1
 
-for you to fetch changes up to 72cd8436ece036294322fecf91567fef3ce3e868:
+for you to fetch changes up to 9d7558ed8372c51cbed011cb1dc3eb1beee212cf:
 
-  clk: renesas: Convert to platform remove callback returning void (2023-03-16 16:54:21 +0100)
+  pinctrl: renesas: Drop support for Renesas-specific properties (2023-03-16 16:55:27 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v6.4
+pinctrl: renesas: Updates for v6.4
 
-  - Add Audio, thermal, camera (CSI-2), Image Signal Processor/Channel
-    Selector (ISPCS), and video capture (VIN) clocks on R-Car V4H,
-  - Add video capture (VIN) clocks on R-Car V3H,
-  - Add Cortex-A53 System CPU (Z2) clocks on R-Car V3M and V3H,
+  - Add pin groups for audio on R-Car V4H,
+  - Drop support for the obsolete R-Car H3 ES1.* (R8A77950) SoC,
   - Miscellaneous fixes and improvements.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
 Geert Uytterhoeven (4):
-      clk: renesas: r8a779g0: Add thermal clock
-      clk: renesas: r8a77995: Fix VIN parent clock
-      clk: renesas: r8a77970: Add Z2 clock
-      clk: renesas: r8a77980: Add Z2 clock
+      pinctrl: renesas: r8a779g0: Fix Group 4/5 pin functions
+      pinctrl: renesas: r8a779g0: Fix Group 6/7 pin functions
+      pinctrl: renesas: r8a779g0: Fix ERROROUTC function names
+      pinctrl: renesas: Drop support for Renesas-specific properties
 
-Kuninori Morimoto (1):
-      clk: renesas: r8a779g0: Add Audio clocks
+Hai Pham (1):
+      pinctrl: renesas: r8a779a0: Remove incorrect AVB[01] pinmux configuration
 
-Niklas Söderlund (4):
-      clk: renesas: r8a779g0: Add CSI-2 clocks
-      clk: renesas: r8a779g0: Add ISPCS clocks
-      clk: renesas: r8a779g0: Add VIN clocks
-      clk: renesas: r8a77980: Add VIN clocks
+Linh Phung (2):
+      pinctrl: renesas: r8a779g0: Add Audio Clock pins, groups, and functions
+      pinctrl: renesas: r8a779g0: Add Audio SSI pins, groups, and functions
 
-Ralph Siemsen (4):
-      clk: renesas: r9a06g032: Improve readability
-      clk: renesas: r9a06g032: Drop unused fields
-      clk: renesas: r9a06g032: Document structs
-      clk: renesas: r9a06g032: Improve clock tables
+Phong Hoang (1):
+      pinctrl: renesas: r8a779f0: Fix tsn1_avtp_pps pin group
 
-Takeshi Kihara (1):
-      clk: renesas: cpg-mssr: Update MSSR register range for R-Car V4H
+Wolfram Sang (1):
+      pinctrl: renesas: Remove R-Car H3 ES1.* handling
 
-Uwe Kleine-König (1):
-      clk: renesas: Convert to platform remove callback returning void
-
- drivers/clk/renesas/r8a77970-cpg-mssr.c   |   1 +
- drivers/clk/renesas/r8a77980-cpg-mssr.c   |  17 +
- drivers/clk/renesas/r8a77995-cpg-mssr.c   |   2 +-
- drivers/clk/renesas/r8a779g0-cpg-mssr.c   |  24 +
- drivers/clk/renesas/r9a06g032-clocks.c    | 736 ++++++++++++++++++++++--------
- drivers/clk/renesas/rcar-usb2-clock-sel.c |   6 +-
- drivers/clk/renesas/renesas-cpg-mssr.c    |   8 +-
- 7 files changed, 590 insertions(+), 204 deletions(-)
+ drivers/pinctrl/renesas/Kconfig        |    5 -
+ drivers/pinctrl/renesas/Makefile       |    1 -
+ drivers/pinctrl/renesas/core.c         |   41 +-
+ drivers/pinctrl/renesas/pfc-r8a77950.c | 5947 --------------------------------
+ drivers/pinctrl/renesas/pfc-r8a779a0.c |    8 -
+ drivers/pinctrl/renesas/pfc-r8a779f0.c |    2 +-
+ drivers/pinctrl/renesas/pfc-r8a779g0.c | 1042 +++---
+ drivers/pinctrl/renesas/pinctrl.c      |   31 +-
+ drivers/pinctrl/renesas/sh_pfc.h       |    1 -
+ 9 files changed, 565 insertions(+), 6513 deletions(-)
+ delete mode 100644 drivers/pinctrl/renesas/pfc-r8a77950.c
 
 Gr{oetje,eeting}s,
 
