@@ -2,112 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D706CA8D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 17:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777EA6CA919
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 17:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbjC0PV2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 11:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40314 "EHLO
+        id S232489AbjC0PeJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 11:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231960AbjC0PV1 (ORCPT
+        with ESMTP id S230239AbjC0PeI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 11:21:27 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 795DE10F0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 08:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=/hEkQuC5dIyQge5O1M/0+jkjKhV
-        RP21yuq+uBggGlXE=; b=f1lNr5OaBMalEC9f23kB9Pwe8lViA8QXaMkzBslZN/z
-        wbQhsY511cIvbzK26c9VNIm34r03u9KBZcCMIofTWb3K8JeBervbm1sxlAhOKU8v
-        Y8TAx0QO5IQQ3YL4pWzDGxh9b4jqbq/yCrt0FHaQOWRW3fK4V84Viw0SVuXz7Ark
-        =
-Received: (qmail 3175861 invoked from network); 27 Mar 2023 17:21:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2023 17:21:22 +0200
-X-UD-Smtp-Session: l3s3148p1@p6ejS+P3ApAujnv6
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
+        Mon, 27 Mar 2023 11:34:08 -0400
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3B5E5;
+        Mon, 27 Mar 2023 08:34:06 -0700 (PDT)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id EAE071884409;
+        Mon, 27 Mar 2023 15:34:03 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id D5765250394A;
+        Mon, 27 Mar 2023 15:34:03 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id BE7339B403E4; Mon, 27 Mar 2023 15:34:03 +0000 (UTC)
+X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
+Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
+        by smtp.gigahost.dk (Postfix) with ESMTPSA id DEB2891201E3;
+        Mon, 27 Mar 2023 15:34:02 +0000 (UTC)
+From:   Hans Schultz <netdev@kapio-technology.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2] Revert "sh_eth: remove open coded netif_running()"
-Date:   Mon, 27 Mar 2023 17:21:12 +0200
-Message-Id: <20230327152112.15635-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
+ drivers
+In-Reply-To: <20230327115206.jk5q5l753aoelwus@skbuf>
+References: <20230318141010.513424-1-netdev@kapio-technology.com>
+ <20230318141010.513424-3-netdev@kapio-technology.com>
+ <20230327115206.jk5q5l753aoelwus@skbuf>
+Date:   Mon, 27 Mar 2023 17:31:26 +0200
+Message-ID: <87355qb48h.fsf@kapio-technology.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This reverts commit ce1fdb065695f49ef6f126d35c1abbfe645d62d5. It turned
-out this actually introduces a race condition. netif_running() is not a
-suitable check for get_stats.
+On Mon, Mar 27, 2023 at 14:52, Vladimir Oltean <olteanv@gmail.com> wrote:
+>
+> By the way, there is a behavior change here.
+>
+> Before:
+>
+> $ ip link add br0 type bridge && ip link set br0 up
+> $ ip link set swp0 master br0 && ip link set swp0 up
+> $ bridge fdb add dev swp0 00:01:02:03:04:05 master dynamic
+> [   70.010181] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 0
+> [   70.019105] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 1
+> .... 5 minutes later
+> [  371.686935] mscc_felix 0000:00:00.5: felix_fdb_del: port 0 addr 00:01:02:03:04:05 vid 1
+> [  371.695449] mscc_felix 0000:00:00.5: felix_fdb_del: port 0 addr 00:01:02:03:04:05 vid 0
+> $ bridge fdb | grep 00:01:02:03:04:05
+>
+> After:
+>
+> $ ip link add br0 type bridge && ip link set br0 up
+> $ ip link set swp0 master br0 && ip link set swp0 up
+> $ bridge fdb add dev swp0 00:01:02:03:04:05 master dynamic
+> [  222.071492] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 0 flags 0x1
+> [  222.081154] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 1 flags 0x1
+> .... 5 minutes later
+> $ bridge fdb | grep 00:01:02:03:04:05
+> 00:01:02:03:04:05 dev swp0 vlan 1 offload master br0 stale
+> 00:01:02:03:04:05 dev swp0 offload master br0 stale
+> 00:01:02:03:04:05 dev swp0 vlan 1 self
+> 00:01:02:03:04:05 dev swp0 self
+>
+> As you can see, the behavior is not identical, and it made more sense
+> before.
 
-Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-
-Change since v1:
-* added 'net-next' to $subject
-
- drivers/net/ethernet/renesas/sh_eth.c | 6 +++++-
- drivers/net/ethernet/renesas/sh_eth.h | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index 2d9787231099..d8ec729825be 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -2441,6 +2441,8 @@ static int sh_eth_open(struct net_device *ndev)
- 
- 	netif_start_queue(ndev);
- 
-+	mdp->is_opened = 1;
-+
- 	return ret;
- 
- out_free_irq:
-@@ -2563,7 +2565,7 @@ static struct net_device_stats *sh_eth_get_stats(struct net_device *ndev)
- 	if (mdp->cd->no_tx_cntrs)
- 		return &ndev->stats;
- 
--	if (!netif_running(ndev))
-+	if (!mdp->is_opened)
- 		return &ndev->stats;
- 
- 	sh_eth_update_stat(ndev, &ndev->stats.tx_dropped, TROCR);
-@@ -2612,6 +2614,8 @@ static int sh_eth_close(struct net_device *ndev)
- 	/* Free all the skbuffs in the Rx queue and the DMA buffer. */
- 	sh_eth_ring_free(ndev);
- 
-+	mdp->is_opened = 0;
-+
- 	pm_runtime_put(&mdp->pdev->dev);
- 
- 	return 0;
-diff --git a/drivers/net/ethernet/renesas/sh_eth.h b/drivers/net/ethernet/renesas/sh_eth.h
-index f56dbc8a064a..a5c07c6ff44a 100644
---- a/drivers/net/ethernet/renesas/sh_eth.h
-+++ b/drivers/net/ethernet/renesas/sh_eth.h
-@@ -560,6 +560,7 @@ struct sh_eth_private {
- 
- 	unsigned no_ether_link:1;
- 	unsigned ether_link_active_low:1;
-+	unsigned is_opened:1;
- 	unsigned wol_enabled:1;
- };
- 
--- 
-2.30.2
-
+I see this is Felix Ocelot and there is no changes in this patchset that
+affects Felix Ocelot. Thus I am quite sure the results will be the same
+without this patchset, ergo it must be because of another patch. All
+that is done here in the DSA layer is to pass on an extra field and add
+an extra check that will always pass in the case of this flag.
