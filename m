@@ -2,171 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F18936CA2D8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 13:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E706F6CA67D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 15:52:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230041AbjC0LwN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 07:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42416 "EHLO
+        id S232847AbjC0NwR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 09:52:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjC0LwN (ORCPT
+        with ESMTP id S232869AbjC0NwB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 07:52:13 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8672D4E;
-        Mon, 27 Mar 2023 04:52:11 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id b20so35074626edd.1;
-        Mon, 27 Mar 2023 04:52:11 -0700 (PDT)
+        Mon, 27 Mar 2023 09:52:01 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A975E558E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 06:51:17 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id k2so8486433pll.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 06:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679917930;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=reW1DVwM1zk8Q9iqp1u3bB31mlwrsAJaRz6RuSIoXIU=;
-        b=M1zZJS7aR62kTdJ1jkufI//A+r0KrxQx24PFXrRWBX2xnMPE6tABYKqI2H4s2xqk3u
-         lx715LjMHeL8JxddEDtGvf2MqmMZJu6/KNdO1igiaFxZyAKXsKvr02xlpfrVKi8TevBp
-         QR9RxKgUwi/MVBJ1Axaj3wUOgXnTbx3ATx3JvSxb7YnmtnYvKvq9MCSEU+5gtUju8znz
-         gjDAS/0UoZyMaEr1mmzJnF0mhrczZe+NnIt+99HuglMce8Q5Zattl2b85mo1jKFyfBOO
-         rkOXXjLLpDbqJTJ0hIeVxNAszfJyAi/5uEwHLIePTh+Q+hEKTm+896smc6GdIy8TqZA2
-         1j3Q==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112; t=1679925077;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=p/RxJZB137KewlP8yzbKIg7RCYyNntBjnE2nSG33q0o=;
+        b=oY7AYAtDXE/z7b6PVZcJ6oVvb3t2cPQn82b/XXJ9MQl0o7a04XIFFgQgByed8QL4tm
+         QOUAD7mZtdR+ALJLGxdKx1MJmM18tw2W7gF1LhExcksDP2Gx971M3OEKS6cGSiIo9Op4
+         wihsXW3d2bY7H7l6j56vQqVw7p5/Bi3DTcUFrgw9TMu75ksqCQogyAkBsc3Xu0AHbCNf
+         oK7TElr08+Kf1pJuyKMsW8wyy4AaFVIpX8cTzhfwUdW/rop9axJEJWYGXWE24qrG4k8A
+         9s6y+V6AkTO6H9k1WYOQjpX9WqEEXb2KhaF9lUYO6TmO4W5m59gCBynxYHVbfdD0Cgsf
+         Fv5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679917930;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=reW1DVwM1zk8Q9iqp1u3bB31mlwrsAJaRz6RuSIoXIU=;
-        b=D6OM1Zi6k6nPPIxloeJYYYjVWh5RMMAkGgqFNEZDlSAl5D4fv4h8HCh8e1kq46gZUy
-         qvLs9B69xumxt82e71w3yV1V6YEbyu2SLB425nOgIM+KjQEIfHNKa2CB7ChwTGTDbRTc
-         NgUdt2HVWjsyvq5fZEjNrUUoxbEmlNMvXoXcKwugPdIzXhANeTECo99QqWF5j/5hBG0A
-         fSJRZwapD1iWdU+BC6+MUrOikeitKpHZn0+RgtOsyFgICzjeyX1TlHc6oUFUK8iNZ5CB
-         sLCslAX/utQLKjcZckNjYEDfOSBeSQYR+wU78qin3ZKMBANpT9E3Y8JMCsIxDSDytt7b
-         W2YQ==
-X-Gm-Message-State: AAQBX9c+4AkR+WAGQ1izFK+HL1SrIrPkDSPUW9SGrlBe/oMoNoR58XAN
-        Dt9h0CXdIdimv5zCcdk9VSI=
-X-Google-Smtp-Source: AKy350bLfbg96/HAe8yX3pMOfueGxTBs/7BRBWdpqdBgFhAsQdsRhKDSQbhmFu49387GoBMY7YjoZQ==
-X-Received: by 2002:a17:906:7090:b0:885:a62c:5a5c with SMTP id b16-20020a170906709000b00885a62c5a5cmr11379251ejk.46.1679917930144;
-        Mon, 27 Mar 2023 04:52:10 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id y4-20020a17090629c400b0092fdb0b2e5dsm14067388eje.93.2023.03.27.04.52.08
+        d=1e100.net; s=20210112; t=1679925077;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p/RxJZB137KewlP8yzbKIg7RCYyNntBjnE2nSG33q0o=;
+        b=AfWSm8q/5Twx6mKihVtriXNt3+9/Izt9OlGbPwjiKbsOP1u7ep5xcQYUrKtnvjk9cZ
+         hhYzZcoNnFOmcDwHbX8OxbosjpUhh6mhfeGwCCUTTpjrqjCZGAGWiXt1/LmsLInYp38+
+         OXQm0WX1TfPc5SN6dGgSPScuRrFzq6yqdFCt2Ss73q5byIZTE4bIOgWk+BDw4gGRpY48
+         sMQPxE2HMGqmr7u5QKOBnLMKsgW6OIQ/V/wbdLRgYHx0Icv+NMzffqiyRTPCanmitf47
+         bZwuyRWAH+oJeLryyul5sBvMJZnTZ4qAB6BgHcdSInpd9/EVhEQnGBCp3qgbvBbZx6rj
+         fa/g==
+X-Gm-Message-State: AAQBX9cGfdtSYYqScYyaDkfpF8IBfmrBrqwNJRJ0AFtuiu8bM1EpRN/H
+        Xlt7CJOmc46muDvUIjejDZ9KpEC8D5qcphuGjOBhLw==
+X-Google-Smtp-Source: AKy350bQm13IDKZt0jvGW79Zplg5TeGvwmeWElg6dKE8r8ccRu+/ytWlzxhmxSCusSrR6Q55ABtrVA==
+X-Received: by 2002:a17:903:27ce:b0:19c:da7f:a234 with SMTP id km14-20020a17090327ce00b0019cda7fa234mr10113251plb.67.1679925076781;
+        Mon, 27 Mar 2023 06:51:16 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x1-20020a1709029a4100b001a19bac463fsm1727131plv.42.2023.03.27.06.51.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 04:52:09 -0700 (PDT)
-Date:   Mon, 27 Mar 2023 14:52:06 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     "Hans J. Schultz" <netdev@kapio-technology.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
- drivers
-Message-ID: <20230327115206.jk5q5l753aoelwus@skbuf>
-References: <20230318141010.513424-1-netdev@kapio-technology.com>
- <20230318141010.513424-3-netdev@kapio-technology.com>
+        Mon, 27 Mar 2023 06:51:16 -0700 (PDT)
+Message-ID: <64219f54.170a0220.fff29.2a2c@mx.google.com>
+Date:   Mon, 27 Mar 2023 06:51:16 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230318141010.513424-3-netdev@kapio-technology.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2023-03-27-v6.3-rc4
+Subject: renesas/master baseline: 202 runs,
+ 3 regressions (renesas-devel-2023-03-27-v6.3-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 03:10:06PM +0100, Hans J. Schultz wrote:
-> diff --git a/net/dsa/dsa.c b/net/dsa/dsa.c
-> index e5f156940c67..c07a2e225ae5 100644
-> --- a/net/dsa/dsa.c
-> +++ b/net/dsa/dsa.c
-> @@ -626,6 +626,12 @@ static int dsa_switch_setup(struct dsa_switch *ds)
->  
->  	ds->configure_vlan_while_not_filtering = true;
->  
-> +	/* Since dynamic FDB entries are legacy, all switch drivers should
-> +	 * support the flag at least by just installing a static entry and
-> +	 * letting the bridge age it.
-> +	 */
-> +	ds->supported_fdb_flags = DSA_FDB_FLAG_DYNAMIC;
+renesas/master baseline: 202 runs, 3 regressions (renesas-devel-2023-03-27-=
+v6.3-rc4)
 
-I believe that switchdev has a structural problem in the fact that FDB
-entries with flags that aren't interpreted by drivers (so they don't
-know if those flags are set or unset) are still passed to the switchdev
-notifier chains by default.
+Regressions Summary
+-------------------
 
-I don't believe that anybody used 'bridge fdb add <mac> <dev> master dynamic"
-while relying on a static FDB entry in the DSA offloaded data path.
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+imx7ulp-evk         | arm  | lab-nxp       | gcc-10   | imx_v6_v7_defconfig=
+          | 1          =
 
-Just like commit 6ab4c3117aec ("net: bridge: don't notify switchdev for
-local FDB addresses"), we could deny that for stable kernels, and add
-the correct interpretation of the flag in net-next.
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
 
-Ido, Nikolay, Roopa, Jiri, thoughts?
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
 
-> +
->  	err = ds->ops->setup(ds);
->  	if (err < 0)
->  		goto unregister_notifier;
 
-By the way, there is a behavior change here.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-03-27-v6.3-rc4/plan/baseline/
 
-Before:
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-03-27-v6.3-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      7244cafb37b479232e3cc50acf74245ccab3c490 =
 
-$ ip link add br0 type bridge && ip link set br0 up
-$ ip link set swp0 master br0 && ip link set swp0 up
-$ bridge fdb add dev swp0 00:01:02:03:04:05 master dynamic
-[   70.010181] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 0
-[   70.019105] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 1
-.... 5 minutes later
-[  371.686935] mscc_felix 0000:00:00.5: felix_fdb_del: port 0 addr 00:01:02:03:04:05 vid 1
-[  371.695449] mscc_felix 0000:00:00.5: felix_fdb_del: port 0 addr 00:01:02:03:04:05 vid 0
-$ bridge fdb | grep 00:01:02:03:04:05
 
-After:
 
-$ ip link add br0 type bridge && ip link set br0 up
-$ ip link set swp0 master br0 && ip link set swp0 up
-$ bridge fdb add dev swp0 00:01:02:03:04:05 master dynamic
-[  222.071492] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 0 flags 0x1
-[  222.081154] mscc_felix 0000:00:00.5: felix_fdb_add: port 0 addr 00:01:02:03:04:05 vid 1 flags 0x1
-.... 5 minutes later
-$ bridge fdb | grep 00:01:02:03:04:05
-00:01:02:03:04:05 dev swp0 vlan 1 offload master br0 stale
-00:01:02:03:04:05 dev swp0 offload master br0 stale
-00:01:02:03:04:05 dev swp0 vlan 1 self
-00:01:02:03:04:05 dev swp0 self
+Test Regressions
+---------------- =
 
-As you can see, the behavior is not identical, and it made more sense
-before.
+
+
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+imx7ulp-evk         | arm  | lab-nxp       | gcc-10   | imx_v6_v7_defconfig=
+          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6421691b45c3df52129c9574
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
+evk.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/imx_v6_v7_defconfig/gcc-10/lab-nxp/baseline-imx7ulp-=
+evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230310.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6421691b45c3df52129c9=
+575
+        new failure (last pass: renesas-devel-2023-03-16-v6.3-rc2) =
+
+ =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6421655943262b477c9c9568
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-rock2-square.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230310.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6421655943262b477c9c9=
+569
+        failing since 83 days (last pass: renesas-devel-2022-12-12-v6.1, fi=
+rst fail: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6421644144c2e2dce89c9560
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-03-27-v6.3-rc4/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230310.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6421644144c2e2dce89c9=
+561
+        failing since 83 days (last pass: renesas-devel-2022-12-12-v6.1, fi=
+rst fail: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =20
