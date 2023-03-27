@@ -2,41 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6FE6C9D80
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABC986C9E0B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232339AbjC0IT5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 04:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53482 "EHLO
+        id S233016AbjC0Ihz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 04:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233028AbjC0ITj (ORCPT
+        with ESMTP id S233020AbjC0Iha (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:19:39 -0400
+        Mon, 27 Mar 2023 04:37:30 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE40C26B7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:19:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098C84480
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=wLuRzzh4tSUyKBDmW5/07cdQNiF
-        lz2cl8qUiBA1pOWM=; b=A+EtsIsfRb5BOM6Hs/mknVU6HQ0kuzi5BD6SYcC80JW
-        yXMm+EvRzd8n/JCAp+jhVOEoNISxZFkgpu7HYQhKA2gSb7RAokbrMtguU6cZw/+U
-        0Lkyjilio94sTQQR2+o1m1x2D8HNGyqUUwfo8mfhAuS5H94dN635wUlJZQNq4fEo
+        :content-transfer-encoding; s=k1; bh=YNOkyiQLi6rsjmLS4oe/+s1BKco
+        sbWSDxtO/1EqJKJs=; b=e965lDlKU7sfdRCqt6zCCT1Mm6Hkmm444GuAhEYxWRW
+        8ErrG+r95/YWnY0YsQ/RqI+IY0ZsfZNdL5G+Gu+Av4EvpxVkQRYfFzyy8mULqO64
+        1ZHsSX4lf/pDKg5o6mRiSzkogGDzhnIUdh/v1d/0iQ0RD2hTvKERHd71+jxgbj88
         =
-Received: (qmail 3060899 invoked from network); 27 Mar 2023 10:19:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2023 10:19:35 +0200
-X-UD-Smtp-Session: l3s3148p1@dWpBZ933JoMujnv6
+Received: (qmail 3064193 invoked from network); 27 Mar 2023 10:31:40 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2023 10:31:40 +0200
+X-UD-Smtp-Session: l3s3148p1@8TNskt33wpsujnv6
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     netdev@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "sh_eth: remove open coded netif_running()"
-Date:   Mon, 27 Mar 2023 10:19:33 +0200
-Message-Id: <20230327081933.5460-1-wsa+renesas@sang-engineering.com>
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net v4] smsc911x: avoid PHY being resumed when interface is not up
+Date:   Mon, 27 Mar 2023 10:31:38 +0200
+Message-Id: <20230327083138.6044-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,60 +54,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This reverts commit ce1fdb065695f49ef6f126d35c1abbfe645d62d5. It turned
-out this actually introduces a race condition. netif_running() is not a
-suitable check for get_stats.
+SMSC911x doesn't need mdiobus suspend/resume, that's why it sets
+'mac_managed_pm'. However, setting it needs to be moved from init to
+probe, so mdiobus PM functions will really never be called (e.g. when
+the interface is not up yet during suspend/resume).
 
-Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Fixes: 3ce9f2bef755 ("net: smsc911x: Stop and start PHY during suspend and resume")
+Suggested-by: Heiner Kallweit <hkallweit1@gmail.com>
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 ---
- drivers/net/ethernet/renesas/sh_eth.c | 6 +++++-
- drivers/net/ethernet/renesas/sh_eth.h | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index 2d9787231099..d8ec729825be 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -2441,6 +2441,8 @@ static int sh_eth_open(struct net_device *ndev)
+Changes since v3:
+* broken out of a patch series. The other patch needs bigger rework and
+  a seperate series
+* add Simon's tag (thanks!)
+
+ drivers/net/ethernet/smsc/smsc911x.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/smsc/smsc911x.c b/drivers/net/ethernet/smsc/smsc911x.c
+index a2e511912e6a..a690d139e177 100644
+--- a/drivers/net/ethernet/smsc/smsc911x.c
++++ b/drivers/net/ethernet/smsc/smsc911x.c
+@@ -1037,8 +1037,6 @@ static int smsc911x_mii_probe(struct net_device *dev)
+ 		return ret;
+ 	}
  
- 	netif_start_queue(ndev);
+-	/* Indicate that the MAC is responsible for managing PHY PM */
+-	phydev->mac_managed_pm = true;
+ 	phy_attached_info(phydev);
  
-+	mdp->is_opened = 1;
+ 	phy_set_max_speed(phydev, SPEED_100);
+@@ -1066,6 +1064,7 @@ static int smsc911x_mii_init(struct platform_device *pdev,
+ 			     struct net_device *dev)
+ {
+ 	struct smsc911x_data *pdata = netdev_priv(dev);
++	struct phy_device *phydev;
+ 	int err = -ENXIO;
+ 
+ 	pdata->mii_bus = mdiobus_alloc();
+@@ -1108,6 +1107,10 @@ static int smsc911x_mii_init(struct platform_device *pdev,
+ 		goto err_out_free_bus_2;
+ 	}
+ 
++	phydev = phy_find_first(pdata->mii_bus);
++	if (phydev)
++		phydev->mac_managed_pm = true;
 +
- 	return ret;
- 
- out_free_irq:
-@@ -2563,7 +2565,7 @@ static struct net_device_stats *sh_eth_get_stats(struct net_device *ndev)
- 	if (mdp->cd->no_tx_cntrs)
- 		return &ndev->stats;
- 
--	if (!netif_running(ndev))
-+	if (!mdp->is_opened)
- 		return &ndev->stats;
- 
- 	sh_eth_update_stat(ndev, &ndev->stats.tx_dropped, TROCR);
-@@ -2612,6 +2614,8 @@ static int sh_eth_close(struct net_device *ndev)
- 	/* Free all the skbuffs in the Rx queue and the DMA buffer. */
- 	sh_eth_ring_free(ndev);
- 
-+	mdp->is_opened = 0;
-+
- 	pm_runtime_put(&mdp->pdev->dev);
- 
  	return 0;
-diff --git a/drivers/net/ethernet/renesas/sh_eth.h b/drivers/net/ethernet/renesas/sh_eth.h
-index f56dbc8a064a..a5c07c6ff44a 100644
---- a/drivers/net/ethernet/renesas/sh_eth.h
-+++ b/drivers/net/ethernet/renesas/sh_eth.h
-@@ -560,6 +560,7 @@ struct sh_eth_private {
  
- 	unsigned no_ether_link:1;
- 	unsigned ether_link_active_low:1;
-+	unsigned is_opened:1;
- 	unsigned wol_enabled:1;
- };
- 
+ err_out_free_bus_2:
 -- 
 2.30.2
 
