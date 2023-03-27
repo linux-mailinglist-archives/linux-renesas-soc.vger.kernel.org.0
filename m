@@ -2,44 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA71C6CA068
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23546CA070
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:49:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbjC0Jsl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 05:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43406 "EHLO
+        id S232307AbjC0Jti convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 05:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232661AbjC0Jsj (ORCPT
+        with ESMTP id S232912AbjC0Jtd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 05:48:39 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0B949CA
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 02:48:37 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by xavier.telenet-ops.be with bizsmtp
-        id dMob2900D1C8whw01MobGQ; Mon, 27 Mar 2023 11:48:35 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pgjSB-00Exm2-Fi;
-        Mon, 27 Mar 2023 11:48:35 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pgjSs-003t8c-W8;
-        Mon, 27 Mar 2023 11:48:35 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Vinod Koul <vkoul@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dmaengine: sh: rz-dmac: Remove unused rz_dmac_chan.*_word_size
-Date:   Mon, 27 Mar 2023 11:48:33 +0200
-Message-Id: <021bdf56f1716276a55bcfb1ea81bba5f1d42b3d.1679910274.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Mon, 27 Mar 2023 05:49:33 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA4C4C15;
+        Mon, 27 Mar 2023 02:49:21 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-544787916d9so158785377b3.13;
+        Mon, 27 Mar 2023 02:49:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679910560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OIUcewTtZhKhGPfN3Y/89VYWw8yL2wWAKrkVuJWSYSA=;
+        b=5e2GVEpkwCtrlFM/zy2q5BGgAWbWAjd92JVYecgOjUxMFUgPQDZHaqqkx7eLJPPfUd
+         8v7TXue5hTafPd0/C7gIHNRXtMb1Ct5++1nFDfYCIV3ftBPp8gbfETuv2Otn5lOYueT+
+         Hf/ql8Tj6a4giP2EBP4WpSnZg5SDOcLgm97I78pPhmLV0iMp6Px5o0T5l9RbxM7YZ5XQ
+         DBTFOePGzCqpw/+VIacvniaT3ggei7AS9VuqX+kfuqvzu1/BWp1Swgjp95HAZ5FRGuAu
+         Qux15R9teglzHDA2yjyFzQ5yaj0DPDV7dwmP2k6CasXuhTm4MdAYV21DGn8sM0DMq2ma
+         nrBQ==
+X-Gm-Message-State: AAQBX9d9KTfApK9Brm3605dPIJcBqij5vJaysAQleslRx5uZy/X4typY
+        iYhXqJ/toAWAMxXyMRRA3BmmbGEmvI4IEA==
+X-Google-Smtp-Source: AKy350YBRpn1vM/MqHjbxQQ4bsy/A93kybcNKCpjBkpfxXaxRuiMoim4Nej3eDA3VDldm014iDHkng==
+X-Received: by 2002:a81:5a83:0:b0:544:7850:b62f with SMTP id o125-20020a815a83000000b005447850b62fmr10782131ywb.18.1679910560556;
+        Mon, 27 Mar 2023 02:49:20 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id c1-20020a811c01000000b00545a081848fsm1884888ywc.31.2023.03.27.02.49.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 02:49:20 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-536af432ee5so160250847b3.0;
+        Mon, 27 Mar 2023 02:49:19 -0700 (PDT)
+X-Received: by 2002:a81:b65f:0:b0:544:8bc1:a179 with SMTP id
+ h31-20020a81b65f000000b005448bc1a179mr5122130ywk.4.1679910559684; Mon, 27 Mar
+ 2023 02:49:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+References: <20230324100222.116666-1-biju.das.jz@bp.renesas.com> <20230324100222.116666-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230324100222.116666-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Mar 2023 11:49:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdULJcDryguGd-Y1fxkq2mrTQEkeEnrf_+yVhGU1SDUp0Q@mail.gmail.com>
+Message-ID: <CAMuHMdULJcDryguGd-Y1fxkq2mrTQEkeEnrf_+yVhGU1SDUp0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tty: serial: sh-sci: Remove setting
+ {src,dst}_{addr,addr_width} based on DMA direction
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,37 +72,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The src_word_size and dst_word_size members of the rz_dmac_chan
-structure were never used, so they can be removed.
+On Fri, Mar 24, 2023 at 11:02 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The direction field in the DMA config is deprecated. The sh-sci driver
+> sets {src,dst}_{addr,addr_width} based on the DMA direction and
+> it results in dmaengine_slave_config() failure as RZ DMAC driver
+> validates {src,dst}_addr_width values independent of DMA direction.
+>
+> Fix this issue by passing both {src,dst}_{addr,addr_width}
+> values independent of DMA direction.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/dma/sh/rz-dmac.c | 4 ----
- 1 file changed, 4 deletions(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 6b62e01ba658ac13..9479f29692d3e3d7 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -67,8 +67,6 @@ struct rz_dmac_chan {
- 	struct rz_dmac_desc *desc;
- 	int descs_allocated;
- 
--	enum dma_slave_buswidth src_word_size;
--	enum dma_slave_buswidth dst_word_size;
- 	dma_addr_t src_per_address;
- 	dma_addr_t dst_per_address;
- 
-@@ -603,9 +601,7 @@ static int rz_dmac_config(struct dma_chan *chan,
- 	u32 val;
- 
- 	channel->src_per_address = config->src_addr;
--	channel->src_word_size = config->src_addr_width;
- 	channel->dst_per_address = config->dst_addr;
--	channel->dst_word_size = config->dst_addr_width;
- 
- 	val = rz_dmac_ds_to_val_mapping(config->dst_addr_width);
- 	if (val == CHCFG_DS_INVALID)
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.34.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
