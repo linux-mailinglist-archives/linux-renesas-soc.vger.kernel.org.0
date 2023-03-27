@@ -2,43 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4490C6C9EDB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 538176C9F17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 11:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232529AbjC0JEs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 05:04:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41834 "EHLO
+        id S233033AbjC0JNN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 05:13:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232816AbjC0JEE (ORCPT
+        with ESMTP id S232276AbjC0JNH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 05:04:04 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D564C3F
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 02:03:09 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by albert.telenet-ops.be with bizsmtp
-        id dM38290061C8whw06M38lL; Mon, 27 Mar 2023 11:03:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pgikC-00ExaS-FJ;
-        Mon, 27 Mar 2023 11:03:08 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pgiku-002sdq-0D;
-        Mon, 27 Mar 2023 11:03:08 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v6.4
-Date:   Mon, 27 Mar 2023 11:03:07 +0200
-Message-Id: <cover.1679907618.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Mon, 27 Mar 2023 05:13:07 -0400
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ACC949D7;
+        Mon, 27 Mar 2023 02:12:54 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id b18so9631264ybp.1;
+        Mon, 27 Mar 2023 02:12:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679908373;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=39v8GGfodhYmnqk1H1AgJMeOw8tM+/daTtEK7WYqt90=;
+        b=8Iugbv7T0o94bi94zHQcjq0Jdum+aXNoWpmTpSr6aYWzqDv9CXBRnVJsSku6TlAX62
+         4+me5ppZH8Ow0HSvi07kd3uhsFqL0YeXHM4vUPfao70pg8Gi2///Ip8kk7JwTKOGgunr
+         tyGZsWzEvra4uFqIa+2KP5XXuWJtZg83JAf/nFNrHPmXr2ccIvXdkUsCxdaNop2XNJyt
+         2gH0SSh50abrM29vzG6xA4YrhfAQ3Spx5i4ytWDCsBovaqgMN+4uGqYPHXUXRcJOV8ZG
+         h90UgBDTt35m+K+mU/LKZia50CU+ayofXqVJo0qDc7x+Dh7necgz4a+3qCKqJBKAvu1C
+         l86A==
+X-Gm-Message-State: AAQBX9e7gjJdPwnltm77R1cyypFmnhmnXtojsK3xe1A9BM3m7QsA7jlv
+        nkRrMGLoCxH8Xf2dGH2at/oF1IgSmTLOMA==
+X-Google-Smtp-Source: AKy350ZbiD2DZfC9lB73Jn30riKilr2X8uT0nw1RBArcpv0MEa87JI4UZ6FCRDOxAhjbmInKJTJjXw==
+X-Received: by 2002:a25:b096:0:b0:b6e:3a15:403 with SMTP id f22-20020a25b096000000b00b6e3a150403mr11388524ybj.60.1679908373354;
+        Mon, 27 Mar 2023 02:12:53 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id p142-20020a25d894000000b00b7767ca746fsm2168764ybg.12.2023.03.27.02.12.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 02:12:53 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id n125so9594935ybg.7;
+        Mon, 27 Mar 2023 02:12:52 -0700 (PDT)
+X-Received: by 2002:a05:6902:154e:b0:b77:d2db:5f8f with SMTP id
+ r14-20020a056902154e00b00b77d2db5f8fmr6443739ybu.12.1679908372769; Mon, 27
+ Mar 2023 02:12:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+References: <20230321114753.75038-1-biju.das.jz@bp.renesas.com> <20230321114753.75038-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230321114753.75038-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Mar 2023 11:12:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV1kE3bBj2xPhahmW-LVMNgp6=eHOJE0AgmV2vHrQYArA@mail.gmail.com>
+Message-ID: <CAMuHMdV1kE3bBj2xPhahmW-LVMNgp6=eHOJE0AgmV2vHrQYArA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] tty: serial: sh-sci: Fix transmit end interrupt handler
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-serial@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,68 +71,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+On Tue, Mar 21, 2023 at 12:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The fourth interrupt on SCI port is transmit end interrupt compared to
+> the break interrupt on other port types. So, shuffle the interrupts to fix
+> the transmit end interrupt handler.
+>
+> Fixes: e1d0be616186 ("sh-sci: Add h8300 SCI")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v4:
+>  * No change.
 
-The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
-
-  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.4-tag1
-
-for you to fetch changes up to 9d7558ed8372c51cbed011cb1dc3eb1beee212cf:
-
-  pinctrl: renesas: Drop support for Renesas-specific properties (2023-03-16 16:55:27 +0100)
-
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v6.4
-
-  - Add pin groups for audio on R-Car V4H,
-  - Drop support for the obsolete R-Car H3 ES1.* (R8A77950) SoC,
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (4):
-      pinctrl: renesas: r8a779g0: Fix Group 4/5 pin functions
-      pinctrl: renesas: r8a779g0: Fix Group 6/7 pin functions
-      pinctrl: renesas: r8a779g0: Fix ERROROUTC function names
-      pinctrl: renesas: Drop support for Renesas-specific properties
-
-Hai Pham (1):
-      pinctrl: renesas: r8a779a0: Remove incorrect AVB[01] pinmux configuration
-
-Linh Phung (2):
-      pinctrl: renesas: r8a779g0: Add Audio Clock pins, groups, and functions
-      pinctrl: renesas: r8a779g0: Add Audio SSI pins, groups, and functions
-
-Phong Hoang (1):
-      pinctrl: renesas: r8a779f0: Fix tsn1_avtp_pps pin group
-
-Wolfram Sang (1):
-      pinctrl: renesas: Remove R-Car H3 ES1.* handling
-
- drivers/pinctrl/renesas/Kconfig        |    5 -
- drivers/pinctrl/renesas/Makefile       |    1 -
- drivers/pinctrl/renesas/core.c         |   41 +-
- drivers/pinctrl/renesas/pfc-r8a77950.c | 5947 --------------------------------
- drivers/pinctrl/renesas/pfc-r8a779a0.c |    8 -
- drivers/pinctrl/renesas/pfc-r8a779f0.c |    2 +-
- drivers/pinctrl/renesas/pfc-r8a779g0.c | 1042 +++---
- drivers/pinctrl/renesas/pinctrl.c      |   31 +-
- drivers/pinctrl/renesas/sh_pfc.h       |    1 -
- 9 files changed, 565 insertions(+), 6513 deletions(-)
- delete mode 100644 drivers/pinctrl/renesas/pfc-r8a77950.c
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+                                -- Linus Torvalds
