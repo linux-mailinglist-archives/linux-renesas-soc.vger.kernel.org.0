@@ -2,72 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3386D6C9C6E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 09:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8248F6C9D65
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Mar 2023 10:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232740AbjC0Hk7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 03:40:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50770 "EHLO
+        id S232640AbjC0IP0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 04:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232711AbjC0Hkr (ORCPT
+        with ESMTP id S232972AbjC0IPI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:40:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44DB26A8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 00:40:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1A14AB80DAE
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 07:40:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CA88CC4339B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 07:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679902836;
-        bh=vXTgwg7tumK4IUoSAF0v+vgSNyT1oiMirmgsVpxuIC4=;
-        h=Subject:From:Date:To:From;
-        b=F8zWALzCKwgIR2sJ3g3JF55WljM+Pm3wdi77UKneu36DTVPv2luCu0sAnEju0SJ9S
-         zB/Im4yk5Xd0dcj8yR8FWbvGBKkhy94P8zQuLaPYwKkOpYWtFS8yx2dx2AcRNrM0sy
-         0SEldyRNdww6w6nj6nkylaFDC1ILdTIXWnq2nGi4wAfIyxO1N+KuY/d7xoLxebjwAw
-         xJHoRUCGolqpM6WYv32eksuKanDr7yP0JmU4CZIM0lZd9JLwipEQJ8HPxuRBw4KNdi
-         AO8R8e9vgQO6+iuNUF54KrS7SL+YymbRbdNSa3yGjzEZEKdhXCENQaK4Ho/YnTP6Xw
-         pfu6J20yh7I/Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A4188C41612
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 07:40:36 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 27 Mar 2023 04:15:08 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8783949DF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 01:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=dBOXurVqj/MpMeq7Dle54wgSV5Q1
+        alYox1rkTkRCkMo=; b=AWKXt0Plw+rjd7A3YnNT0Fp9WhzaT4NndoV8v4KBzk3c
+        awUQC+4QF6w/JhTh7g0AKsKOjLa1Q3+1OIcDRuHc6+kiYNHWBHJ1/q+PTGaKijVF
+        5Zbo6utek8eQ3yzr/x1foY44zomLKuV4Ctn1gEDug/4p2qG1YbRi6ymOgiBrDLg=
+Received: (qmail 3059495 invoked from network); 27 Mar 2023 10:14:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2023 10:14:58 +0200
+X-UD-Smtp-Session: l3s3148p1@fcW5Vt33HLQujnv6
+Date:   Mon, 27 Mar 2023 10:14:58 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] sh_eth: remove open coded netif_running()
+Message-ID: <ZCFQgiqKPaP2Ss08@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        linux-kernel@vger.kernel.org
+References: <20230321065826.2044-1-wsa+renesas@sang-engineering.com>
+ <79d945a4-e105-4bc4-3e73-64971731660e@omp.ru>
+ <CAMuHMdUt_kTH3tnrdF=oKBLyjrstei8PLsyr+dFXVoPEyxTLAA@mail.gmail.com>
+ <20230323094034.5b021c65@kernel.org>
+ <6d2f216c-df1d-9ab5-353c-de5e5e082b57@omp.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <167990283657.16393.11656064894736023031.git-patchwork-summary@kernel.org>
-Date:   Mon, 27 Mar 2023 07:40:36 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2MGGcozzLoV/RlMr"
+Content-Disposition: inline
+In-Reply-To: <6d2f216c-df1d-9ab5-353c-de5e5e082b57@omp.ru>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Patch: lib: dhry: Fix unstable smp_processor_id(_) usage
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Andrew Morton <akpm@linux-foundation.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=730371
-  Lore link: https://lore.kernel.org/r/b0d29932bb24ad82cea7f821e295c898e9657be0.1678890070.git.geert+renesas@glider.be
+--2MGGcozzLoV/RlMr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-Total patches: 1
+> > Nope - one is under rtnl_lock, the other under just RCU, IIRC.
+> > So this patch just makes the race worse, but it was already
+> > racy before.
+>=20
+>    How about reverting it then?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Agreed. Will send a revert.
 
 
+--2MGGcozzLoV/RlMr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQhUHcACgkQFA3kzBSg
+KbYxbg/+KHZbqTHMix9aCgZXPrX01VDK5eK8U6kE5L+WHoU3RBqqTO1Y3CDf86Mm
+T8FFmPGGdP1gQTtpw5uSEDli8AgetRTWvc2T81sw7YDXmR0b5e1eZDacmzxvyi6p
+UCF7F6XVnN//1iOVRNdfxeGtK6NASezdITOtgbotF9aZrmy9c0lapd2xfFTOMXUk
++AuL4TRSnxTyCLgieguHbrPdhGq3qbPfVcH88vdnyqINBf1d/Z+8L6QJtWL11qPk
+pcqTnFByZ6pU384XS4C/vVejmSujQIpuvyHx3K+okTq5EHJoAPrXRdboX6MOCxAt
+shQkOmT19YXHpYxve7AfWSEKUINj3fCU4V41YNXHN12DBbGqbcjPrgPcMN9R/7jN
+GMNVMkx7uylXaDfAWnzax6t5J+W/AqB3R2BOHDtjvXaKYikCg+Sx2MgqdI/leZt1
+OwYrndoDPzofzBQ1Tcd4Qu5hk94RimpfwngbWkehWa5mXYtLRqgoUNhYcWvkEUZI
+Dn6oO+SBKrpacqDH7QI+Q9gh6y2cDwuxLu2FIeHkj1EEzVoVfI6VEBRHd5DY/fsR
+zfQnT+WUIcNZbgstdHKI0BaIc0UOltSabcb90F4tmkoFFH3E7hSt8MVhsmiyRi7J
+NICb9J/HySL8P5FeSEt2Qw1vP9gh/aM6BfIv4JyXAFbE9aGdDkI=
+=6y40
+-----END PGP SIGNATURE-----
+
+--2MGGcozzLoV/RlMr--
