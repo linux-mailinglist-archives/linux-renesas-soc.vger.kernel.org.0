@@ -2,114 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 326AB6CB24C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Mar 2023 01:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB1B16CB4F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Mar 2023 05:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbjC0X1S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Mar 2023 19:27:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36510 "EHLO
+        id S231841AbjC1DjS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Mar 2023 23:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjC0X1R (ORCPT
+        with ESMTP id S232521AbjC1DjR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Mar 2023 19:27:17 -0400
-Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16EAB3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 16:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1679959636; x=1711495636;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8v/j5oydGaOLEzE1iZOLYHGbB0l++zz9C6Rd3Ol5Oqs=;
-  b=V2hv7miNAMe+NhtDtWlfdav6dvJA71Aid0s2kIb2mJufbIXuILd51t+3
-   DBZ9vsgiKFyMNOO+MBG/yOc/NOPlHOwArzgWCNzbLOSq0eeoiADvPRQZJ
-   dTRpXPkYtsuLvQjmiW3tfG1WFtrouteSXEpPJJGwrAqX6S8ktqDJQel5D
-   ay/fFVz8vBBWhcHEQ88UbHJRTh5hJ8aFpBSRv8PvfxbNC9wJ2ChPi4KTx
-   PQAT1e5/MRIfOHAo6HQGpTzYXgeMr6Rq9q8VjgiTgmq2RwXghW7Ja4pz2
-   CiBgp/bJDxgTxzcRQ+jYxmtHspCg4ZykwmUTOqiMg2rjrkwUEMUFIT7AO
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,295,1673884800"; 
-   d="scan'208";a="338704328"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Mar 2023 07:27:15 +0800
-IronPort-SDR: n3F+05hl0wcsoyLnOJ5d+HaUuzL4CnzBLUNDXkHgyM8wqTG6jg1RFx7AWma3ti4fdNYfX+LHH7
- 4du3W1vFKA6Bqdd925xYwM66GqsnFrsha0+L3+ttoeobWT6QtdhRb7d/ML17tiocjp9xv7MYsi
- PkxYKeAti8QCGcNpDyjOV6BWoYrN5rtftiDuAcJFEoOfK1DapijhJuMmr2cGcNIy98bEfijMTv
- mz0KQ0aWdzvSKkLSw8asYjOgkPWnaGvdFYTuq181AA5n4Yiby9q59qik8Zj9VPh0Qm48WZ/Zaj
- dhA=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Mar 2023 15:43:26 -0700
-IronPort-SDR: fbJYSsGsQeLrIVA65gWrj2k/xqXYQi7AO7BOmz1humaQWCoGTAb9O8qy858PtWZdQGkphZbHd3
- BpSOIFOhVxZ5ygXh2OQZ6JfKr9WeZ5BGTK+a7qHbordfQ8jaC8CKG6UfwYUMq3zxm88QMNtdde
- acwZCumuaDS81VbBA8V/Joxq0TEp/ggUgDadEQ3vPeOh1kg/OwN3pasjGap2oUESbGcesUKC/x
- 73ejpL+qa+kw17S+eAItlSrPC4S1eOQiH2PPyb19QpgwqUwY/qPjOWKX7d7tIL3Uyabk/I0rSy
- zks=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Mar 2023 16:27:15 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Plpr26tjmz1RtVq
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 16:27:14 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:content-language:references:to
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1679959634; x=1682551635; bh=8v/j5oydGaOLEzE1iZOLYHGbB0l++zz9C6R
-        d3Ol5Oqs=; b=QX3rP6A9ZXTSfRgk0Wh/idvyK1hRW541DFFqqptpOyYAPq51B61
-        PFRgVGVY5U9XvMLY0bpMcY+ctYCG8aR6E+YCJa70Nky49Rupw92CEDNFglF8NBhh
-        YxpvhkXzaxvGjph83LPYDRDiuyxxZAK/XVhvgVKspCAoKEllgfVYW6rHQBdECely
-        FW7PTCxHp2nGgM/sbtNTH3UpxRMPfigypCUJv8jnUnBsXX9bWf9iDxKLiRTlblOh
-        yLBZ2eqoVI4S2mZQbTv1fOsjtkUi9C1Ge0ujbFEjITO8YfpI94p3JhQMDzqTjCFM
-        LQ5rdX/x9B8LyxYbG231DYioHRurn6RUKmA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id bP4Mjsxmp_Cy for <linux-renesas-soc@vger.kernel.org>;
-        Mon, 27 Mar 2023 16:27:14 -0700 (PDT)
-Received: from [10.225.163.111] (unknown [10.225.163.111])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Plpr05zyRz1RtVm;
-        Mon, 27 Mar 2023 16:27:12 -0700 (PDT)
-Message-ID: <30066318-e9ca-0796-f671-23f4a85bb138@opensource.wdc.com>
-Date:   Tue, 28 Mar 2023 08:27:11 +0900
+        Mon, 27 Mar 2023 23:39:17 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8761B1720
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 20:39:15 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id a11so11111575lji.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Mar 2023 20:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112; t=1679974754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+teYGhMbJ/qz9LQzLhsSWOaFjw154Q/LczJdwFN1UeE=;
+        b=XocY01PzBpz+CXvNjXM0LutVNnAk/CZv2NrrC7j6q2IRdAtZgsB3HT7qtHlBLq5YZy
+         UzTy1tgacmQYtAwFKyL0swlY0C94yOdeSKZiJJcNP/J23PuDxTc0SGo/BcyvfAyTe2OQ
+         EIuaO4PPkjTy0GCvATDtdYNgJ4WuRqsJUH0xRTFgoO7a1N6jWllaCxakrwUOCIC3CKPY
+         phpsqx+z47ZGUyJzlWAzlRLko0fD3ky4Ztw22VMS8btx1BQbObDvvyv7FeSkDHYctOaz
+         ouHBfKTSmRmBBKwPxgUL3Dr6J14c0pD1WDirMZhGdbY1xbtuHv4nmBpCzWtxt5AEJooC
+         FhZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679974754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+teYGhMbJ/qz9LQzLhsSWOaFjw154Q/LczJdwFN1UeE=;
+        b=1D6umON5MS79URx5arO8i9WPcDGu+2jeJcraEmyz65sYvA15GV1EtH7NNm0eB9B1sB
+         gpLWWuI+vIhiQHkBBzmbZaHF1Uc69jhKcfvUh6DxpDOTL4xp8o554sP3n4F6ZRNnUgGM
+         hhHtLdIgEJE7wLlIjZng4L6+Ual3cU8rWIicUqBSYUnMySstRzucnjjC0Vjhf3nHZ+VR
+         JHrbBaN7gj85rzBgnmF9YDjtgLtUPVZOe8Jg/YiNhuvzdOIirH2j269NHJOfWgRGy8L5
+         CpbGnZ4hB0JxxOOjl1PZ5N5Yb8BCcI3HaHzIZOd65/I3/9y2Lxu3xXDyzj7Kg/jTh0vf
+         3jQA==
+X-Gm-Message-State: AAQBX9dr412SUgAqCs0tUWQizkOJWfMnNAmwit52JHSm1Qaq0s5d6Dqg
+        QgMaFTB7eJCincsOg3wUOkSIhA==
+X-Google-Smtp-Source: AKy350ZXmlguZVLGLGK8nHVPZeZlcJTzhlT/xD/9+u+W4Dc/kdvYAValjAG/AN1/BfQqHwd4pZb1UA==
+X-Received: by 2002:a2e:868c:0:b0:298:9b8d:cc17 with SMTP id l12-20020a2e868c000000b002989b8dcc17mr4391050lji.9.1679974753652;
+        Mon, 27 Mar 2023 20:39:13 -0700 (PDT)
+Received: from cobook.lan ([85.193.119.48])
+        by smtp.gmail.com with ESMTPSA id r10-20020a2eb60a000000b002945b851ea5sm4865094ljn.21.2023.03.27.20.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 20:39:13 -0700 (PDT)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] clk: renesas: r8a77980: Add i2c5 clock
+Date:   Tue, 28 Mar 2023 09:39:02 +0600
+Message-Id: <20230328033902.830269-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: ata: Drop unneeded quotes
-To:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20230327170053.4100949-1-robh@kernel.org>
-Content-Language: en-US
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20230327170053.4100949-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/28/23 02:00, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+The MSSR clock definition for i2c5 was missing. Add it.
 
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/clk/renesas/r8a77980-cpg-mssr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
+diff --git a/drivers/clk/renesas/r8a77980-cpg-mssr.c b/drivers/clk/renesas/r8a77980-cpg-mssr.c
+index 01ea09891b32..2f21a8725907 100644
+--- a/drivers/clk/renesas/r8a77980-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77980-cpg-mssr.c
+@@ -206,6 +206,7 @@ static const struct mssr_mod_clk r8a77980_mod_clks[] __initconst = {
+ 	DEF_MOD("gpio0",		 912,	R8A77980_CLK_CP),
+ 	DEF_MOD("can-fd",		 914,	R8A77980_CLK_S3D2),
+ 	DEF_MOD("rpc-if",		 917,	R8A77980_CLK_RPCD2),
++	DEF_MOD("i2c5",			 919,	R8A77980_CLK_S0D6),
+ 	DEF_MOD("i2c4",			 927,	R8A77980_CLK_S0D6),
+ 	DEF_MOD("i2c3",			 928,	R8A77980_CLK_S0D6),
+ 	DEF_MOD("i2c2",			 929,	R8A77980_CLK_S3D2),
 -- 
-Damien Le Moal
-Western Digital Research
+2.30.2
 
