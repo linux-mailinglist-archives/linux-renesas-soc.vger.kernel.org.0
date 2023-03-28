@@ -2,93 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55CA06CB7F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Mar 2023 09:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D0FC6CB883
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Mar 2023 09:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbjC1H0J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Mar 2023 03:26:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
+        id S232350AbjC1Hrl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Mar 2023 03:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbjC1H0I (ORCPT
+        with ESMTP id S232349AbjC1Hrj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Mar 2023 03:26:08 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43ACECE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Mar 2023 00:26:05 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by baptiste.telenet-ops.be with bizsmtp
-        id djS22900B1C8whw01jS2wD; Tue, 28 Mar 2023 09:26:03 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ph3hm-00F2J5-HC;
-        Tue, 28 Mar 2023 09:26:02 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ph3iU-004B34-0N;
-        Tue, 28 Mar 2023 09:26:02 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Chuck Lever <chuck.lever@oracle.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna@kernel.org>
-Cc:     linux-nfs@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        kernel test robot <lkp@intel.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: [PATCH] NFSv4: Fix NFS_V4 select RPCSEC_GSS_KRB5
-Date:   Tue, 28 Mar 2023 09:25:57 +0200
-Message-Id: <42751e1fef65485a5441618bc39735f8b62b3a46.1679988298.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 28 Mar 2023 03:47:39 -0400
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F31740CB
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Mar 2023 00:47:35 -0700 (PDT)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id CF39B845CB; Tue, 28 Mar 2023 08:46:02 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1679989569; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=NXuEudyFDtOOWAzBfCM7wQDWXNaEhm/IXGOyxaOViKhsMsznEC/vQUiY8d3rzrfs/
+         +DJ0K2zcrse5GzwHqe6HuTcDRJ5kM7xZDr7zKCUG0f0Yv7n1D4JALYB4f6l3eA8UzY
+         ef+y5Mv7Bzge+dG+JVW1NDlWxDTP/SETMFiVFwMQhVKWvM2s3VDAvZgYs23dllOvT1
+         wFpEmuaM1+aV64ht7CPX1mEU8oSwDa89NkjTVv8ZXzgnveE8PQZZalinkucpAij4UA
+         yH/8ABO0ICfaBifZ/2g+qWPV5qPQ1tQTJ9fQCNv2tBfkCEgMW7A3oTkSdbIrmenrQm
+         cmhrmVBKewfdw==
+Received: by mail.lokoho.com for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Mar 2023 07:45:59 GMT
+Message-ID: <20230328074501-0.1.4x.1n0co.0.f4c0232ac5@lokoho.com>
+Date:   Tue, 28 Mar 2023 07:45:59 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-If CONFIG_CRYPTO=n (e.g. arm/shmobile_defconfig):
+Dzie=C5=84 dobry,
 
-    WARNING: unmet direct dependencies detected for RPCSEC_GSS_KRB5
-      Depends on [n]: NETWORK_FILESYSTEMS [=y] && SUNRPC [=y] && CRYPTO [=n]
-      Selected by [y]:
-      - NFS_V4 [=y] && NETWORK_FILESYSTEMS [=y] && NFS_FS [=y]
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-As NFSv4 can work without crypto enabled, fix this by making the
-selection of RPCSEC_GSS_KRB5 conditional on CRYPTO.
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Fixes: e57d065277387980 ("NFS & NFSD: Update GSS dependencies")
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202303241307.f6NeW9gZ-lkp@intel.com/
-Reported-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-Link: https://lore.kernel.org/r/ZCG6tIoz0VN6d+oy@sleipner.dyn.berto.se
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Nfsroot ("root=/dev/nfs rw nfsroot=aaa.bbb.ccc.ddd:/path/to/fs,tcp,v4")
-works fine without CRYPTO and RPCSEC_GSS_KRB5.
-CONFIG_NFSD_V4 selects CRYPTO, so was not affected by the similar change.
----
- fs/nfs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-diff --git a/fs/nfs/Kconfig b/fs/nfs/Kconfig
-index 450d6c3bc05e27dd..f05c13ce0155bd69 100644
---- a/fs/nfs/Kconfig
-+++ b/fs/nfs/Kconfig
-@@ -75,7 +75,7 @@ config NFS_V3_ACL
- config NFS_V4
- 	tristate "NFS client support for NFS version 4"
- 	depends on NFS_FS
--	select RPCSEC_GSS_KRB5
-+	select RPCSEC_GSS_KRB5 if CRYPTO
- 	select KEYS
- 	help
- 	  This option enables support for version 4 of the NFS protocol
--- 
-2.34.1
 
+Pozdrawiam
+Adam Charachuta
