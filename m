@@ -2,86 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 037236CCAE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Mar 2023 21:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2A146CCECE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 02:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjC1TsH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Mar 2023 15:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34150 "EHLO
+        id S229572AbjC2AcO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Mar 2023 20:32:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjC1TsG (ORCPT
+        with ESMTP id S229452AbjC2AcN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Mar 2023 15:48:06 -0400
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DF2172C;
-        Tue, 28 Mar 2023 12:48:04 -0700 (PDT)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 3DEC318839E9;
-        Tue, 28 Mar 2023 19:48:03 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 369182500389;
-        Tue, 28 Mar 2023 19:48:03 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 2E8489B403E2; Tue, 28 Mar 2023 19:48:03 +0000 (UTC)
-X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
-Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
-        by smtp.gigahost.dk (Postfix) with ESMTPSA id 7BA9491201E3;
-        Tue, 28 Mar 2023 19:48:02 +0000 (UTC)
-From:   Hans Schultz <netdev@kapio-technology.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
- drivers
-In-Reply-To: <20230328114943.4mibmn2icutcio4m@skbuf>
-References: <20230318141010.513424-1-netdev@kapio-technology.com>
- <20230318141010.513424-3-netdev@kapio-technology.com>
- <20230327115206.jk5q5l753aoelwus@skbuf>
- <87355qb48h.fsf@kapio-technology.com>
- <20230327160009.bdswnalizdv2u77z@skbuf>
- <87pm8tooe1.fsf@kapio-technology.com>
- <20230327225933.plm5raegywbe7g2a@skbuf>
- <87ileljfwo.fsf@kapio-technology.com>
- <20230328114943.4mibmn2icutcio4m@skbuf>
-Date:   Tue, 28 Mar 2023 21:45:26 +0200
-Message-ID: <87cz4slkx5.fsf@kapio-technology.com>
+        Tue, 28 Mar 2023 20:32:13 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2130.outbound.protection.outlook.com [40.107.113.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5495187;
+        Tue, 28 Mar 2023 17:32:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e9jo7n3p7iyjoLY8pUIlzSxEJwp1mLECcNmW2bbxvwVjFXg01TXotGXv1oK1tmPHsRNtDNlx3kADXosuWdAAyd/uOq0sV2KXcDU6G1hguh3ZCeCbyJoS6Zs5TZHp5L5/PIPZW2t2h4KLYHzakcdksHPFMpJKClGlgxQY+6btOWPwuUhvD2lg6lkov+txchQ3FAm5E8tb+Uba0qyrnhONR2h6+vZ6K/s1zP+rgdbifzw6OTzAIxys+PyzlVL8zkdeWDiiiKW94TvLS0Oq07/O244U0sRwSPvreO4RLsMEqoraoIAP1C3cq1mGHy9jFtYNpEF4wHDYhEv7sl+WVZlhUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qKU/z5virGwwiWL9s+ZX/7/x/kigOlki6jRHBza9nmA=;
+ b=Xg0f2jII3DVB1iy9HKjchfYOYMCeAxR+n0olWJ/Hg3VnkMAinm1pV28vQXlnyDoU1ZvnQPubPBmpI99uk+KJDFeGFtms+wEBxjiZWByxnM8aF63VJbnbseUyG7TLpM0qJFQrgOHENF6ASseU8YIFYCv2hzPceiH3Qn6s0As+rNZFZWCO19DXhDvhcVSxAfqKVCwWPoWlb7d3yBhzwhOumL/Yo21AUWnSw30stCZVYrEAkw3ObBeUruycGotrLY4GfV1lqYJb8+pCIi8d9tYK41pV5gNe9LrQRvUGl6CO8mYFKzQGQIVtZ76zMzgkVq+0Ub99Lkva2nosRL43B7D4yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qKU/z5virGwwiWL9s+ZX/7/x/kigOlki6jRHBza9nmA=;
+ b=R7Sy99VpeziD+vezCSjzqJMtv9GBArRR/zoXCyuaoVjJt4zK/1V2XbmoeZCqFPamIr5NlQH6ph9lgu1tzALXnjT1MHQBTk1s5xdGbD53JuxdbmiemZBQLeXI71MO3L5PQSgmDLqmXjeTS6gD8Y3IvHhltsirpVFjAkttONOmM68=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYCPR01MB9520.jpnprd01.prod.outlook.com
+ (2603:1096:400:190::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.34; Wed, 29 Mar
+ 2023 00:32:09 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::ffc4:2acc:f9ca:1633]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::ffc4:2acc:f9ca:1633%8]) with mapi id 15.20.6222.034; Wed, 29 Mar 2023
+ 00:32:09 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] PCI: rcar-host: Remove unused static pcie_base and
+ pcie_dev
+Thread-Topic: [PATCH] PCI: rcar-host: Remove unused static pcie_base and
+ pcie_dev
+Thread-Index: AQHZYX6Q1aA4RJWrp0+wU6uATepxg68Q6G3A
+Date:   Wed, 29 Mar 2023 00:32:09 +0000
+Message-ID: <TYBPR01MB53411AAB513802B105ACB3DED8899@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <94b369447c38c478c52aef10e493b658a4f755ac.1680011974.git.geert+renesas@glider.be>
+In-Reply-To: <94b369447c38c478c52aef10e493b658a4f755ac.1680011974.git.geert+renesas@glider.be>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB9520:EE_
+x-ms-office365-filtering-correlation-id: d0e859dd-b244-48fa-e813-08db2fed0815
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ftnaLXrb1zG3lOZPA1gzFetFORV/PaKnp49I+QYv2H+NKJ/INc6lpCiMJbdv/zTaE7SxR2El7br+3Ckly/Aj20bxOsap9voRKqqB5abhhiTnOx/GAAtur4fkvHtsa5k/SM4io/HHlJnXZ3RyJgFR0485wmxd+WQDD59Pi8yJ5mJo4QymWEGB60jcz3hgEI+QPkN3aQssG10rDtyyB6At3Pr9MdQ61WV9sb2X5Kwi3GQtYS+KlZ1a7z5qR0T5owBCp1t+EcKowWriIKq87teAFhNrAetOkzKFdx7xZUw1LWh2DXRWslIUxIrhdlyuU6Hei48l+Z+AJpY8LjmxB9bEJR+gCnITn2s4Jk2z+yN22w88CcmA05wEyVuvhmfjT/1qrRad+1R7FBLBVsMHnsIt+4sC0zbAbmTlciVDGx9CI/wMp+noe0mMmfBRLT7u2DIqyFl5U/uyCx15AfllP789q30FZ/tQoQMcWSKYl0PZMoFxQCx/lec5YW8Tt0bcLscgNuwmgQpiDejVfbscLdwj7IjFq+n0UrB0B+N57+Mk01YxQxd0/ooityapqoWkkO9awaRUJ8ly2ejgLBkOo8l+e6cBfyZdN5+O+5IFh9LO1tYwg0imniYnY1hvKS/lIgB0
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(451199021)(186003)(9686003)(6506007)(7696005)(71200400001)(478600001)(76116006)(54906003)(66946007)(110136005)(316002)(122000001)(52536014)(66476007)(64756008)(8676002)(4326008)(66446008)(66556008)(41300700001)(2906002)(8936002)(5660300002)(33656002)(38100700002)(4744005)(38070700005)(86362001)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?UsyDXssyjp70zU5AeS7USyJ2j7bkn5AiwknXkY/8sqDZjRGEdkTsncGJ7s?=
+ =?iso-8859-2?Q?axkZlB3qKfOvCznVKwNxyiq7Aw4sKyoVC3e5nrm/SN/mkQKCMKhdE2WgdP?=
+ =?iso-8859-2?Q?0vTi41eq4gwETKsaQgLthsWXmnzm/SA0uavaaj284uuTsBXhDg8iZjuFon?=
+ =?iso-8859-2?Q?DCXAhClgAqNBqCsdaqLrR0Gl3rAqiOEncGMrt/2H/TDGLJWsR1Nvg5xPE/?=
+ =?iso-8859-2?Q?+qFCjaKbzrVEM0ybkK8dLzi9utSYOoYQu7nVnzS5rLeZYt4aBdq5IqsCzm?=
+ =?iso-8859-2?Q?XlITl8BYaiu0xXNAFF1ugON7LKLA1PT4tj5JOuG892Q9mS+P2iJC7v53OU?=
+ =?iso-8859-2?Q?v5S/4ibspeRMj+jR+N9iMBdKRDDaYJCmmshb7tMK/dlsxMfbW2dbe+UhWo?=
+ =?iso-8859-2?Q?5aJCgPn3e5TAg/fzkdSP2+m3xx3YAcmIHsog3dPnH00ubLajd4x2PISHmo?=
+ =?iso-8859-2?Q?rGj/BVRS3yvoMRfgjIb5BX+zrqJNB0tfGdDR9aMkd3THu5UerwKrZBzobx?=
+ =?iso-8859-2?Q?1BALMV24Qre7DYO+hgIyqxZMln0PDEMAjZ/C/Bvhs97SwbWNoQGeIAubVl?=
+ =?iso-8859-2?Q?kqm8gAelE3jFKYANdrU74TKrBBrHH3e3rzuOBuzbwAIimFOp5r37U3bAv9?=
+ =?iso-8859-2?Q?04UtBe3NBgcOH7WjCAOeOCozlJ03/oMqdIGr+1YulVyhE/WvHWYDM+Galo?=
+ =?iso-8859-2?Q?N4WzXMc4nPnB5MFjfRD5AZXZadaHGea6AAICQzoBzvql9Z04ttABurEa2q?=
+ =?iso-8859-2?Q?6LSS+x88w/wivMRQS9DHQhyymulRAofCrLV2PTIsjLQCRg8WfoRCPZPl9g?=
+ =?iso-8859-2?Q?KTW+2ITlJDiUiIlljHAIfvJjiIqjAhAsaDSyDlVO+/XBRSHstv8I2OvDB9?=
+ =?iso-8859-2?Q?ekLVFaLzQXfwLamYW4ab604hKAY+8yhys10VLd69fCwt/mnNA304aB43iU?=
+ =?iso-8859-2?Q?RDpcis7584hJ5xgm5XwSrnkZNCAJws6nmIZHHjS7oxorhlLYTyLWQpBn/R?=
+ =?iso-8859-2?Q?eIAOQBINhx1Ux7HWHD/HEWpLYKC2gNYvNliGSWKWmsKMsVh6uz6IlVG4/f?=
+ =?iso-8859-2?Q?CuO0707SF81/7gO1m7kyXF8Ek8EaEJz0EoIakC5TmmHpMA5QaPZVBbSDSP?=
+ =?iso-8859-2?Q?wVOjPDEsocp10Nlkd9XbBTLL+VmGGnPlUtk+DfWwYWL3OhqRYg47HlBLFb?=
+ =?iso-8859-2?Q?+JIhpd8NroNz65DtfxJ6PScYUgZ6k+OZdzm/rGIwF7ANzn+1yMKD3AAWoc?=
+ =?iso-8859-2?Q?5vbHDY7KZTDul8UeTlDhVLBLWG5kQeX/cKd077MD18Mv4+qKpTPdBSSiUM?=
+ =?iso-8859-2?Q?ppNgr7FeLvDkeH1ma5Cbv6JGWHkJXX3w9x5VXhfhZBC0Jxry8a9nD5XpNc?=
+ =?iso-8859-2?Q?HxnzrZavJqxTBSqX4HVwbk0gZQTMU+PwYMGrB4m2bqrp3k5dqj7zR62UZ9?=
+ =?iso-8859-2?Q?5UW4meK0uanOPI4ISG0AJMYvQnK/LOjJPG85TfB6T1XDASgdIp3WcmypCL?=
+ =?iso-8859-2?Q?jm4q2nKvYmXPyh1vxrxqMcSjuyDG58m22E0NNdFe+cpmgzHI8D6fcPRrC0?=
+ =?iso-8859-2?Q?h3WuzaIOsE07RwOD8gYoe+35kx/HR1kRohA/W4qAigdRCRHmE+CbvObPyy?=
+ =?iso-8859-2?Q?paHjftVaLWEPtwLRBC9823bNmQEMmtc+mdYz1FKuC83dboOd0bjZoSTMa4?=
+ =?iso-8859-2?Q?1ixWz83ZUXnUiWlTUIaeU1tfWMbPs98mN6vlTweLuv07ulEIemhC1/PYc8?=
+ =?iso-8859-2?Q?bpqw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0e859dd-b244-48fa-e813-08db2fed0815
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2023 00:32:09.2168
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2CVqPJuZQscf6yI++nNo6eaU9g0zoJq+KSIc/CCvsLkNjOAv4UXUVGIIsia4JkSCPtwukXuvDCVWiJR3gpJ2FKJsqVipSmfev9hum/8hc+tOky7BfSnC2N4MebTb5FFh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9520
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,31 +127,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 14:49, Vladimir Oltean <olteanv@gmail.com> wrote:
-> On Tue, Mar 28, 2023 at 01:04:23PM +0200, Hans Schultz wrote:
->> On Tue, Mar 28, 2023 at 01:59, Vladimir Oltean <olteanv@gmail.com> wrote:
->> >
->> > which idea is that, again?
->> 
->> So I cannot us the offloaded flag as it is added by DSA in the common
->> case when using 'bridge fdb replace ... dynamic'.
->
-> Why not? I find it reasonable that the software bridge does not age out
-> a dynamic FDB entry that is offloaded to hardware... the hardware should
-> do that ("dynamic" being the key).
+Hi Geert-san,
 
-So the solution would be to not let the DSA layer send the
-SWITCHDEV_FDB_OFFLOADED event in the case when the new dynamic flag is
-set?
-Thus other drivers that don't support the flag yet will install a
-static entry in HW and the bridge will age it out as there is no offloaded
-flag on. For the mv88e6xxx it will set the offloaded flag and HW will
-age it.
+> From: Geert Uytterhoeven, Sent: Tuesday, March 28, 2023 11:03 PM
+>=20
+> After the L1 link state transition exception handler rework, the static
+> copies of the remapped PCIe controller address and the PCIe device
+> pointer became unused.  Remove them.
+>=20
+> Fixes: 6e36203bc14ce147 ("PCI: rcar: Use PCI_SET_ERROR_RESPONSE after rea=
+d which triggered an exception")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> At least, I find it more reasonable
-> than the current behavior, where the bridge notifies dynamic FDB entries
-> to switchdev, but doesn't say they're dynamic, and switchdev treats them
-> as static, so they don't roam from one bridge port to another until
-> software sees a packet with that MAC DA, and they have the potential of
-> blocking traffic because of that.
->
+Thank you for the patch!
+
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
