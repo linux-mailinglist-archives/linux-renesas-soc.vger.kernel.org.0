@@ -2,178 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 789636CD678
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 11:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC9766CDA3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 15:16:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbjC2JcC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Mar 2023 05:32:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34052 "EHLO
+        id S230125AbjC2NQX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Mar 2023 09:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjC2JcA (ORCPT
+        with ESMTP id S230132AbjC2NQV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Mar 2023 05:32:00 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2106.outbound.protection.outlook.com [40.107.113.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC6A40F8;
-        Wed, 29 Mar 2023 02:31:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kMRPTQ1NaBKge5CU3+WikIXdQ4Evqm1TqZ0Ng2cAgMV4piZKPfX8oBW7FJimEmgcQAJQ4XWQ40RApSrtEgsFu0NlHa8Wzp4ChTXF9KkJOLUCw6+xsXMy/0piLKegV7cacA/1sqrBrlSlVsJUjfVhjxLgZTwN2AeycKNOyfyh2a6orxbMi2S9343terLUzfEbWLYxoYMMLPWstskRMtncZR2kWhBE7zboH+lsQiXKeBf5sP2xq3YwR8cwamsSccJi3KTIEB2/7b4mJlSuILAjO48hitpWFc/kSQXZod9lUgKSGKPV7woYsJNPEoR+vBut8MvQ+h/7TKbdLqu54y87IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BOcEliGpeNV0OC6JUpl/dtdBKqKm3trU6WXpgz+2+Q=;
- b=MMXV3wgFAKV7m9Uv5jCzmtxKBSOxW2VUzcXewPFI77FKIoRBe0RLuuLNE1ut4bI9Cl4D8tR7dZVaqDueFf5Y8oJJQSqicBS9pFwozxLWNr5ga7jj02nSQgwbZ+RVRcTN2P28KZAF5jJqbzpL3HZc+Dg+2uKBHpJsaVZref4ul7ZbAqboLAL12XMdpCTrLla8e796NT+S2kJeLmdgBarioVEh0ZL1ns4Az2cOVckFFzUrrWgBZOyCrYMjTi+GueVMYyh4AXeCKrOrarMGNVxnx7xwyd8sX1dyJuzIQLkUpGk8zYaYLUkwhGxo8NIkpnFqpj9F1jf6g5/K395qnJ2/aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BOcEliGpeNV0OC6JUpl/dtdBKqKm3trU6WXpgz+2+Q=;
- b=ObT6cF6dp2DL2f9NHPDYl4LltptQtALEdhSv6SXSLpTzhGqANe1HNUTSv6WHwiHAU+647BIDaBqrWguAA3o17W7u7FoIlGH4v8NWqInr9VR1JX+m94P4rjbjf+hZ/lhd9F+RafbXpfW95jbroPHdONnZexKJhkvbUsCYq/iu6EM=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYVPR01MB10718.jpnprd01.prod.outlook.com (2603:1096:400:2af::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.34; Wed, 29 Mar
- 2023 09:31:53 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::e521:994c:bb0e:9bf6]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::e521:994c:bb0e:9bf6%8]) with mapi id 15.20.6222.033; Wed, 29 Mar 2023
- 09:31:53 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH v4 2/5] tty: serial: sh-sci: Fix Rx on RZ/G2L SCI
-Thread-Topic: [PATCH v4 2/5] tty: serial: sh-sci: Fix Rx on RZ/G2L SCI
-Thread-Index: AQHZW+sFzUMpnEaLa0+ZQjsfAiDzca8OYYWAgAG4MaCAAWiSgIAAAOMggAAESoCAAAA7AA==
-Date:   Wed, 29 Mar 2023 09:31:53 +0000
-Message-ID: <OS0PR01MB59229C03DC95C34B755C2C2986899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230321114753.75038-1-biju.das.jz@bp.renesas.com>
- <20230321114753.75038-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdXO+ZEotRSSRnqeB+YxY4jUm+zNyecEiZHqBQcAd_oXpA@mail.gmail.com>
- <OS0PR01MB5922092AD985055F7376611486889@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZCP-bdhw585BSKdx@kroah.com>
- <OS0PR01MB5922F0F9BB4D42C3E14F1A7A86899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZCQCxQDwR1N4KT4r@kroah.com>
-In-Reply-To: <ZCQCxQDwR1N4KT4r@kroah.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYVPR01MB10718:EE_
-x-ms-office365-filtering-correlation-id: 6bab90fb-c155-40b8-8018-08db30386ec8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wGWdA+yg0s1DUs4SDG3acnZi7ws9/YoMF1NSr7tvkUR20LIFu5VFPkezfIP66bRJtbeUc3ajrEbYXz0m4jYQc3uT56upT+2x5pJ/AAyAakFpqIKi8dsWrmQugQpNHJ3oewhP8yhaOqfLE6rfDNMJAe0Xm+diqNLSvNkRFvpm6gV9fDeMQRfmMBZzz7nE6GMkT+AAduMgVz/KNcXLy+mLO+nBjIlThbMlF30vL/Z7Ns0L8QcscmAp87e5k0C1jgGM1jvzKA3Ymc7cqrMf8whr/JOFSHriwkSuS/wz94AJWlBtclnmfAcjqToxmFCGF5z+3shgVHP6YdY0wL9SDXeNrwLPpYqXGu1/orgb7FpqgF44FjAFBraCyfE2xBnjRhjfSqNU0u9Plrg065Is40rWTh88RPSV8cYxJNm4Mc26WhILG6bx8/RDW03uTMThyfS4r+sZJiRYRfUpmSeoy2zLsOoDUtZHeNOeXxGDlmaI3/6UTeZQUpSFAKsk/vbzTju59vkIaxgfG/Chhz7NvpKsFrxGYGH09UO9rIRwyQQqc8vmK/HWfvCw+EShBDxPmvaU3PdaR6TbFtmKPKyLQ2BiSVB7JWwC8spnQmNeKBJMnzc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(396003)(366004)(346002)(136003)(451199021)(33656002)(86362001)(55016003)(54906003)(316002)(7696005)(478600001)(71200400001)(8676002)(41300700001)(122000001)(83380400001)(52536014)(9686003)(66946007)(66556008)(4326008)(6506007)(66446008)(64756008)(76116006)(26005)(53546011)(186003)(66476007)(6916009)(966005)(38100700002)(2906002)(8936002)(5660300002)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZUhWd0VkNVpBV2tDY1NYc3ZDRmVBdGJrMlJYNm5OT2dhczZ5RU1JbTJqNWJx?=
- =?utf-8?B?RXJIYXZnNUJPSEJmK2tlazE0cHY2QWlNMTBGalU1a0dNVVRGZThZdkJwTUph?=
- =?utf-8?B?ZG9NMk00RTJ4ek9CUTFOMlNtT3dWcFcvZmc3RTl0UlQ2WUYzOUxRaktVVGt3?=
- =?utf-8?B?clNabStKOXB4VkhpRm5ybWlmU3dEOU8xWFBDNHpUdWM4UWxqQnl1ZDlTbHcx?=
- =?utf-8?B?cGMzQ2Jpc3AxVXJuNGZnanRGZnc5eHB1NzcwNjZZTXU4TXlvYWdIL2RaZ3ZH?=
- =?utf-8?B?VEp3eVlibFpBNXJzbmxuckJVbFBxejUvRTB3ZXc5NlNuSVJjcVNmdFBPbXpF?=
- =?utf-8?B?Qy93Si93SmlvSEtSYVF2V1JqU0MxeTFrdGM4UkY4VW9BQjNQN1oyTHROdkF1?=
- =?utf-8?B?MC9DMUJlYzdzVHVVM2FxSG1WUEZvTGZCMHJTRWloZVdmUWQxSFhrdzk5dXds?=
- =?utf-8?B?Ym1TWmRlWGxiNkhpZG91WmNuMnJzTDhVN1cwU0VMMi9YM1pySzZtaXBXQUVo?=
- =?utf-8?B?bHFPSE1CMVBFTVBJUy8zUjhBaW00RHZxZXpVUmlZQ3FoejIvWldtcFVlY3Rw?=
- =?utf-8?B?S1RWMUFzcW96NDlUK3JmQXUvQWo4T29VaisrWVVCWk1LR0VSbDdXNVJIMEJ3?=
- =?utf-8?B?SVZFUktJZC9qUkp4RXlmemN2TkNueTNNUnRUK0ppdFdPdkZ5aVVxMVVRRmdN?=
- =?utf-8?B?WlU2UUFzMzFNeVJpMHNmczFFaExnVEU1TVRtaHVmOUhrb0VTL3VHbXVnL0ww?=
- =?utf-8?B?QmtVRUdQczNRbHo4MGtvOENpQVBUQmlVZzRPTUw3NE1tWmVpTTVYakVTaS83?=
- =?utf-8?B?TGlNRjFvMG5Xc1FYczZ5V2lROERWZTYrMldWZEF0SWpnV1pCTnV4QW9hVnpI?=
- =?utf-8?B?VTBxL283MEFOZlEzek9xM1hrU0MwRjJJeXNyR0d3eXM2MmxQWTc3T0lvb1Bk?=
- =?utf-8?B?cXBhWm1leGtEdGM2SDBrbEtTQTBWeW5nSjRuc2dqNk5zOFlPaFVOc0lsMmZB?=
- =?utf-8?B?blB0SkIreHdPaXZTQWd4R1RLWFpLc1hGdjl6M1M1UkFTNWVkQ3ZQNkVWU3hY?=
- =?utf-8?B?SHdoc0ZIYVVwdWNGQjB5a2JWS2MrR0s1UVZrbUtmd0dMMVRod0hVUTlSTjFy?=
- =?utf-8?B?WWxjRlk2MVhKelpzU1k0dTJ6OFFXZmVkSnUxWFNrdDhBbDZhMm1uMEc4TmV1?=
- =?utf-8?B?U0E3MFJiZlZUOGY4UGxCOHVMMlU1ZmVkaFdVTkVYUkNHSFV5NHNHMG9VZ1dk?=
- =?utf-8?B?SWtNSHpFWG9vN2JTZXRyc3E3TVRkSVFqYUdxaDRmbHVNMDhUSE5QZGYvM2Y0?=
- =?utf-8?B?Mk5SYmdlV2UvRisxSnd5d2xSVyswTis3Rm0xcllmZEJGbFJFZEtMUCtNTkpS?=
- =?utf-8?B?Sk9CT3hHcnRwUmgvd2NmcTR3MjhRS0JpSk5WZlQyVFUrWTdWcG12SlYrOTFl?=
- =?utf-8?B?TnU5eFQwdFQyWTZmS0puOXNKc1dmN2MyTk1zcVh6bVR1eEhWenFlTVpweDRy?=
- =?utf-8?B?SDdpd3hHSWtwaGM4dmVPSERyaDRGQ0puVHJpV2NRSnhxdjZBV0o5dEdZK3Zi?=
- =?utf-8?B?azBDZlVMRHRnNHRlOHJKdktGVTllaEFWbXhUR2dBS0pQL1dBaUFVRW41UERJ?=
- =?utf-8?B?ZnZQV0orWFQ5bWpKQ0ZiLzNPOUhHM0dSOGcrQVBRZnh5ZDUybXFuQ2tTNCts?=
- =?utf-8?B?Q3BDdlIrQVVTT0JYSGsrMWRTdFFXT2ZaNEJVN21XcER5VEpFRzhuREdINlR6?=
- =?utf-8?B?MTdHMFN1Y25mWDVKS0F2bWRvS0pNUmhFYVQ3dHdFNmI3Sy9zYnk3cTRSN25o?=
- =?utf-8?B?UUJhN3ZMeGFhVzJuOHJBaTNBbzFPSWRHcFk0Tk5wdVdVVSszNTU5OEtKa01O?=
- =?utf-8?B?cUFTUGdTc3FEWDdwMTI4dkIrZkJkT1l5eHYrL0h6eWl1R1VQbE5lVTRmMGwv?=
- =?utf-8?B?R1VDWmFkc2FWUW93Si9FY01jMnJKaGV4NGYwWWNPS2ZjM2s3bHFmaEpGSXg1?=
- =?utf-8?B?U2c2RUxjRXMwUzJyY1FPTmt4Z3ZpdWJXcTlmbkJ2SUlERW1XTnpwTTFoRkN5?=
- =?utf-8?B?MHBZUnFRelV2bUYwMG9rWiszd1cxT3pkT21LTitFTE15WVhUaDJRbDJNb1lk?=
- =?utf-8?Q?vsYzObyGE0gxubcc9aGI0ZaVP?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 29 Mar 2023 09:16:21 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12CB26BA;
+        Wed, 29 Mar 2023 06:16:17 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id t10so62976096edd.12;
+        Wed, 29 Mar 2023 06:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680095776;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DwJSuS4piQ0HvL3T/KfLrqCp6d69uaw8sTU8PI6GsgM=;
+        b=oY29iafcZxccEXftwGIHucchBe9ICOpxvmRfOfNuKMYrSKsDEmRZ5mEuMY0RE0ExzF
+         8khFSxbQ0T8ZoVvWE8F6cT5X6Agy/k0x6rLp/pP0cSQ6mAA0AW50wf1NEilY7UjjS5jA
+         MUexSxVKHzJp2ea2UwWJSVcxoHw7CaqzRL4FDtNMT9LS2FuwvgqSvAOAFlQZbEKC1DQt
+         vcGxA9w45RVS6dlRKkxvlrM7TSnjilAi26ImckecdXCCNInnGauI7bdb2ncmv6u+OYiJ
+         Ycyh0+xpJlG00utpiNW7Tue+q/aakjlT+ALdUJIdFQps1pZlMcq6jJdHeeNKl8aKuZOB
+         pRpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680095776;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DwJSuS4piQ0HvL3T/KfLrqCp6d69uaw8sTU8PI6GsgM=;
+        b=IWf5+MSEY4cTp8ef7va00SnumEfTwtaA2vr1EHFKACdEdCeaRHjbJbQLMrRr0raeg+
+         S4HL2mQhCs19sNZLpGZVmsrvFuSdKK5miJKk++DkOkOB1jiFP+2fV4clSt7zyaWzpgyq
+         T8645gP6uUldptVuVfoH07O+9jYFLFKLTmMp7hdIZJbM/JyBXvM8d5bprjm9fChqIFW4
+         wefw/bV1uX5jXDHr41h0/g09p3oOfB28r0hBSrMN8eDPWZYSPcJuttFs/8VOUKrRgwh+
+         9BZz37Osdbu0CTWBOAvhzwvSFAmIksBqis/duyC8Xbx8ufIbrBmrW40dVOR7oxNzrvWN
+         GOUg==
+X-Gm-Message-State: AAQBX9cL50XNkjBhtrHsOyg8K8kokfFRGFPykc4Rh3jQqpxpRrR26S3+
+        QwEN1iADtDh6mWMhsG8lKOg=
+X-Google-Smtp-Source: AKy350YBH5qAE1fkenQg1U0S5e4LDdNYrwGApTKD39ArcdtBQoAhuP36DflVgKsH9UcWDuS3pH+iqw==
+X-Received: by 2002:a17:906:6449:b0:8eb:d3a5:b9f0 with SMTP id l9-20020a170906644900b008ebd3a5b9f0mr19623080ejn.67.1680095776017;
+        Wed, 29 Mar 2023 06:16:16 -0700 (PDT)
+Received: from skbuf ([188.27.184.189])
+        by smtp.gmail.com with ESMTPSA id c19-20020a170906155300b0093ebc654f78sm6376241ejd.25.2023.03.29.06.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 06:16:15 -0700 (PDT)
+Date:   Wed, 29 Mar 2023 16:16:13 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND net-next v4 3/3] net: dsa: rzn1-a5psw: add vlan
+ support
+Message-ID: <20230329131613.zg4whzzoa4yna7lh@skbuf>
+References: <20230324220042.rquucjt7dctn7xno@skbuf>
+ <20230314163651.242259-1-clement.leger@bootlin.com>
+ <20230314163651.242259-1-clement.leger@bootlin.com>
+ <20230314163651.242259-4-clement.leger@bootlin.com>
+ <20230314163651.242259-4-clement.leger@bootlin.com>
+ <20230314233454.3zcpzhobif475hl2@skbuf>
+ <20230315155430.5873cdb6@fixe.home>
+ <20230324220042.rquucjt7dctn7xno@skbuf>
+ <20230328104429.5d2e475a@fixe.home>
+ <20230328104429.5d2e475a@fixe.home>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bab90fb-c155-40b8-8018-08db30386ec8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2023 09:31:53.7848
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8cUc3S94Zdb4ifWT3ZU2LJOR0CkWGgV1r2aCMO4O6bwndgF/Fh9zDBpWUO2zJnWfjh0T84Gibk2H96sw98SYa9GU5NSVUr7XdAtkPL0xn5A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10718
-X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230328104429.5d2e475a@fixe.home>
+ <20230328104429.5d2e475a@fixe.home>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR3JlZywNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDIvNV0gdHR5OiBzZXJpYWw6IHNo
-LXNjaTogRml4IFJ4IG9uIFJaL0cyTCBTQ0kNCj4gDQo+IE9uIFdlZCwgTWFyIDI5LCAyMDIzIGF0
-IDA5OjA2OjQzQU0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+IEhpIEdyZWcsDQo+ID4NCj4g
-PiBUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCj4gPg0KPiA+ID4gU3ViamVjdDogUmU6IFtQQVRD
-SCB2NCAyLzVdIHR0eTogc2VyaWFsOiBzaC1zY2k6IEZpeCBSeCBvbiBSWi9HMkwNCj4gPiA+IFND
-SQ0KPiA+ID4NCj4gPiA+IE9uIFR1ZSwgTWFyIDI4LCAyMDIzIGF0IDExOjMyOjM4QU0gKzAwMDAs
-IEJpanUgRGFzIHdyb3RlOg0KPiA+ID4gPiBIaSBHZWVydCwNCj4gPiA+ID4NCj4gPiA+ID4gVGhh
-bmtzIGZvciB0aGUgZmVlZGJhY2suDQo+ID4gPiA+DQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtQ
-QVRDSCB2NCAyLzVdIHR0eTogc2VyaWFsOiBzaC1zY2k6IEZpeCBSeCBvbg0KPiA+ID4gPiA+IFJa
-L0cyTCBTQ0kNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IE9uIFR1ZSwgTWFyIDIxLCAyMDIzIGF0IDEy
-OjQ44oCvUE0gQmlqdSBEYXMNCj4gPiA+ID4gPiA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+
-DQo+ID4gPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4gPiBTQ0kgSVAgb24gUlovRzJMIGFsaWtlIFNv
-Q3MgZG8gbm90IG5lZWQgcmVnc2hpZnQgY29tcGFyZWQgdG8NCj4gPiA+ID4gPiA+IG90aGVyIFND
-SSBJUHMgb24gdGhlIFNIIHBsYXRmb3JtLiBDdXJyZW50bHksIGl0IGRvZXMgcmVnc2hpZnQNCj4g
-PiA+ID4gPiA+IGFuZCBjb25maWd1cmluZyBSeCB3cm9uZ2x5LiBEcm9wIGFkZGluZyByZWdzaGlm
-dCBmb3IgUlovRzJMIGFsaWtlDQo+IFNvQ3MuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gRml4
-ZXM6IGRmYzgwMzg3YWVmYiAoInNlcmlhbDogc2gtc2NpOiBDb21wdXRlIHRoZSByZWdzaGlmdA0K
-PiA+ID4gPiA+ID4gdmFsdWUgZm9yIFNDSSBwb3J0cyIpDQo+ID4gPiA+ID4gPiBDYzogc3RhYmxl
-QHZnZXIua2VybmVsLm9yZw0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJp
-anUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gPiB2
-My0+djQ6DQo+ID4gPiA+ID4gPiAgKiBVcGRhdGVkIHRoZSBmaXhlcyB0YWcNCj4gPiA+ID4gPiA+
-ICAqIFJlcGxhY2VkIHNjaV9wb3J0LT5pc19yel9zY2kgd2l0aCBkZXYtPmRldi5vZl9ub2RlIGFz
-DQo+ID4gPiA+ID4gPiByZWdzaGlmdCBhcmUgb25seQ0KPiA+ID4gPiA+IG5lZWRlZA0KPiA+ID4g
-PiA+ID4gICAgZm9yIHNoNzcweC9zaDc3NTAvc2g3NzYwLCB3aGljaCBkb24ndCB1c2UgRFQgeWV0
-Lg0KPiA+ID4gPiA+ID4gICogRHJvcHBlZCBpc19yel9zY2kgdmFyaWFibGUgZnJvbSBzdHJ1Y3Qg
-c2NpX3BvcnQuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBSZXZpZXdlZC1ieTogR2VlcnQgVXl0dGVy
-aG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IE9u
-ZSBjYW4gd29uZGVyIGhvdyB0aGlzIGV2ZXIgd29ya2VkIG9uIERULWJhc2VkIEg4LzMwMC4uLg0K
-PiA+ID4gPg0KPiA+ID4gPiBZZXAsIGl0IGlzIGludGVyZXN0aW5nIHRvIHNlZSB3aGV0aGVyIFND
-SSBldmVyIHdvcmtlZCBvbiBEVC1iYXNlZA0KPiA+ID4gPiBIOC8zMDAgQXNzdW1pbmcgaXQgaGFz
-IHNhbWUgcmVnaXN0ZXIgbGF5b3V0IGFzIFJaL0cyTCBTb0MuDQo+ID4gPg0KPiA+ID4gVGhpcyBp
-cyBhbHJlYWR5IGluIExpbnVzJ3MgdHJlZSBub3csIHJpZ2h0Pw0KPiA+DQo+ID4gQXMgcGVyIHRo
-ZSBkaXNjdXNzaW9uIHdpdGggR2VlcnQsIEl0IGlzIGJlZW4gcmVtb3ZlZCBzaW5jZSAyMDIyLiBZ
-ZXMsIEl0DQo+IGlzIHByZXNlbnQgaW4gYmFja3BvcnRzLg0KPiA+DQo+ID4gR2VlcnQsIHBsZWFz
-ZSBjb3JyZWN0IG1lIElmIEkgYW0gd3JvbmcuDQo+IA0KPiBTZWVtcyB0byBub3QgYXBwbHkgYWdh
-aW5zdCA2LjMtcmMzIDooDQoNCk9LLCBPbmx5IEg4LzMwMCBzdXBwb3J0IGlzIHJlbW92ZWQgaW4g
-MjAyMi4gQnV0IHdlIGhhdmUgUlovRzJMIGFsaWtlIFNvQ3MgdGhhdA0KbmVlZHMgdGhpcyBmaXgu
-IFNDSSBzdXBwb3J0IGZvciBSWi9HMkwgU29DcyBpbiBEVFsxXSBhcmUgcHJlc2VudCBzaW5jZSA1
-LjE3ICsuDQoNClsxXSBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVs
-L2dpdC9zdGFibGUvbGludXguZ2l0L3RyZWUvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I5
-YTA3ZzA0NC5kdHNpP2g9bGludXgtNS4xNy55I24zOTMNCg0KQ2hlZXJzLA0KQmlqdQ0KDQo=
+On Tue, Mar 28, 2023 at 10:44:29AM +0200, Clément Léger wrote:
+> > And, I guess, if BIT(port) is unset in VLAN_IN_MODE_ENA, then untagged
+> > packets will not see any hit in the VLAN resolution table.
+> > But, if VLAN_IN_MODE_ENA contains BIT(port) and VLAN_IN_MODE is set to,
+> > say, TAG_ALWAYS for BIT(port), then all frames (including untagged
+> > frames) will get encapsulated in the VLAN from SYSTEM_TAGINFO[port].
+> > In that case, the packets will always hit the VLAN resolution table
+> > (assuming that the VID from $SYSTEM_TAGINFO[port] was installed there),
+> 
+> Yes, indeed and when adding a PVID, the documentation states that the
+> port must also be a member of the VLAN ID when vlan verification is
+> enabled:
+> 
+> In addition, if VLAN verification is enabled for a port (see Section
+> 4.4.5, VLAN_VERIFY — Verify VLAN Domain), the VLAN id used for
+> insertion (SYSTEM_TAGINFO[n]) must also be configured in the global
+> VLAN resolution table (see Section 4.4.51, VLAN_RES_TABLE[n] — 32 VLAN
+> Domain Entries (n = 0..31)), to ensure the switch accepts frames, which
+> contain the inserted tag.
+
+Ok. Is VLAN verification also bypassed by the MGMTFWD mechanism of
+PATTERN_CTRL, or only the FDB table lookup? Asking for my general
+knowledge; I don't think the answer will be useful to the current state
+of the driver.
+
+> > There is simply no way this can work if the MAC Address Lookup table is
+> > VLAN-unaware. What should have happened is that swp0 should have not
+> > been able to find the FDB entry towards swp3, because swp0 is standalone,
+> > and swp3 is under a bridge.
+> 
+> Ok got it !
+
+So after learning about the MGMTFWD action of the pattern matching
+engine: the case described above should work. Maybe all hope is not
+lost.
+
+Although, small note, MGMTFWD is incompatible with RX filtering (IFF_UNICAST_FLT).
+Since you tell the switch to send all traffic received on standalone
+ports to the CPU and bypass the MAC table, then you can no longer tell
+it which addresses you are interested in seeing, and you cannot use the
+MAC table as an accelerator to selectively drop them.
+
+Interesting hardware design, and interesting how the past few years of
+changes made to the DSA framework don't seem to help it...
+
+> > Okay. Disabling address learning on standalone ports should help with
+> > some use cases, like when all ports are standalone and there is no
+> > bridging offload.
+> 
+> Based on my previous comment, if I remove standalone ports from the
+> flooding mask, disable learning on them and if the port is fast aged
+> when leaving a bridge, it seems correct to assume this port will never
+> receive nor forward packets from other port and also thanks to the
+> matching rule we set for standalone ports, it will only send packets to
+> CPU port. Based on that I think I can say that the port will be truly
+> standalone. This also allows to keep the full 32 VLANs available for
+> stadnard operations.
+
+Seems correct.
+
+> > > Does this means I don't have to be extra careful when programming it ?  
+> > 
+> > Actually, no :) you still do.
+> > 
+> > What I don't think will work in your current setup of the hardware is this:
+> > 
+> >  br0  (standalone)
+> >   |      |
+> >  swp0   swp1
+> > 
+> > ip link add br0 type bridge vlan_filtering 1 && ip link set br0 up
+> > ip link set swp0 master br0 && ip link set swp0 up
+> > bridge vlan add dev swp0 vid 100
+> > bridge fdb add 00:01:02:03:04:05 dev swp0 master static
+> > 
+> > and then connect a station to swp1 and send a packet with
+> > { MAC DA 00:01:02:03:04:05, VID 100 }. It should only reach the CPU port
+> > of the switch, but it also leaks to swp0, am I right?
+> 
+> Actually, it won't leak to swp0 since, since we enable a specific
+> matching rule (MGMTFWD) for the standalone ports which ensure all the
+> lookup is bypassed and that the trafic coming from these ports is only
+> forwarded to the CPU port (see my comment at the end of this mail).
+
+I agree, this makes sense.
+
+> > I think the UCAST_DEFAULT_MASK/MCAST_DEFAULT_MASK/BCAST_DEFAULT_MASK
+> > flooding destination masks are useless, because they are not keyed per
+> > source port, but global.
+> > 
+> > - each port under a bridge which is currently VLAN-unaware should use
+> >   the same technique as for standalone ports, which is to set
+> >   SYSTEM_TAGINFO[port] to a reserved value, common for all ports under
+> >   the same bridge. That value can even be the standalone PVID of the
+> >   first port that joined the VLAN-unaware bridge. This way, you would
+> >   need to reserve no more than 4 VLANs, and you would keep reusing them
+> >   also for VLAN-unaware bridging.
+> 
+> However I did not thought about this part :) Indeed makes sense and
+> allows to use only 4 VLAN at most out of the 32s. By the way, this
+> bridge supports only a single bridge due to some registers being common
+> to all ports and not per bridge (flooding for instance...).
+
+I searched to see whether it is possible to control the flooding per
+VLAN, in the off-chance that we decided to support multiple VLAN-unaware
+bridges by allocating one VLAN per bridge. It looks like VLAN_RES_TABLE[n]
+doesn't support this. Frames classified to a VLAN which don't hit any
+entry in the MAC table are flooded to all ports in that VLAN. Strange!
+
+I think this might be the actual insurmountable reason why the driver
+will never get support for multiple bridges. It would be good to even
+add a comment about this in the next patch set, so that any Renesas
+hardware design engineers who might be reading will take note.
+
+> After thinking about the current mechasnim, let me summarize why I
+> think it almost matches what you described in this last paragraph:
+> 
+> - Port is set to match a specific matching rule which will enforce port
+>   to CPU forwarding only based on the MGMTFWD bit of PATTERN_CTRL which
+>   states the following: "When set, the frame is forwarded to the
+>   management port only (suppressing destination address lookup)"
+> 
+> This means that for the "port to CPU" path when in standalone mode, we
+> are fine. Regarding the other "CPU to port" path only:
+> 
+> - Learning will be disabled when leaving the bridge. This will allow
+>   not to have any new forwarding entries in the MAC lookup table.
+> 
+> - Port is fast aged which means it won't be targeted for packet
+>   forwarding.
+> 
+> - We remove the port from the flooding mask which means it won't be
+>   flooded after being removed from the port.
+> 
+> Based on that, the port should not be the target of any forward packet
+> from the other ports. Note that anyway, even if using per-port VLAN for
+> standalone mode, we would also end up needing to disable learning,
+> fast-age the port and disable flooding (at least from my understanding
+> if we want the port to be truly isolated).
+> 
+> Tell me if it makes sense.
+
+This makes sense.
+
+However, I still spotted a bug and I don't know where to mention it
+better, so I'll mention it here:
+
+a5psw_port_vlan_add()
+
+	if (pvid) {
+		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port),
+			      BIT(port));
+		a5psw_reg_writel(a5psw, A5PSW_SYSTEM_TAGINFO(port), vid);
+	}
+
+You don't want a5psw_port_vlan_add() to change VLAN_IN_MODE_ENA, because
+port_vlan_add() will be called even for VLAN-unaware bridges, and you
+want all traffic to be forwarded as if untagged, and not according to
+the PVID. In other words, in a setup like this:
+
+ip link add br0 type bridge vlan_filtering 0 && ip link set br0 up
+ip link set swp0 master br0 && ip link set swp0 up
+ip link set swp1 master br0 && ip link set swp1 up
+bridge vlan del dev swp1 vid 1
+
+forwarding should still take place with no issues, because the entire
+VLAN table is bypassed by the software bridge when vlan_filtering=0, and
+the hardware accelerator should replicate that behavior.
+
+I suspect that the PVID handling in a5psw_port_vlan_del() is also
+incorrect:
+
+	/* Disable PVID if the vid is matching the port one */
+	if (vid == a5psw_reg_readl(a5psw, A5PSW_SYSTEM_TAGINFO(port)))
+		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port), 0);
+
+VLAN-aware bridge ports without a PVID should drop untagged and VID-0-tagged
+packets. However, as per your own comments:
+
+| > What does it mean to disable PVID?
+| 
+| It means it disable the input tagging of packets with this PVID.
+| Incoming packets will not be modified and passed as-is.
+
+so this is not what happens.
