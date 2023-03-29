@@ -2,78 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 263296CF453
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 22:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B948D6CF4D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 22:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbjC2UR3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Mar 2023 16:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
+        id S230141AbjC2Uwl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Mar 2023 16:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjC2UR3 (ORCPT
+        with ESMTP id S229822AbjC2Uw3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Mar 2023 16:17:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3025F30C7;
-        Wed, 29 Mar 2023 13:17:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C8C56B82460;
-        Wed, 29 Mar 2023 20:17:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47706C433EF;
-        Wed, 29 Mar 2023 20:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680121045;
-        bh=hL8RFP5Ifh21s7G7hUUcfXFMHxET6E1fGbTTxImEWGk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AyaxrvXAafae+DWlZ93pHbIZtf62VRj2NcOItL1m7RPnDFpfHTUBBSBo0HhJTlCIy
-         RF2/QaMC2mYyoL2P7uv3OAV/kum55UPhYmlz1l6ueAbuKefnVWhlPSJp5UcpXf8rKC
-         uG0n+bwyS+DvDNcq+jgHxY1sa9vaIcOahqw9o5smu7+0w1mfSPOvZMdgQl4b/Bwb+V
-         HW+bGftGJI5VOBuGlUWFCuIcmgxiib+LkvUB/Ii7JLl+d0NVnaEdvB9i1ic4PdT/4k
-         Rjbx+4SxyKtg86hdHUuJ/DOLY0s48924etUpzDVtGV64BMo0K6yeJQp1BlTwUIhJ94
-         w27V/xR/KWkRw==
-Date:   Wed, 29 Mar 2023 13:17:24 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Wed, 29 Mar 2023 16:52:29 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881CE65BB
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Mar 2023 13:52:07 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1phclu-0001zE-G2; Wed, 29 Mar 2023 22:51:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1phcls-007cAt-7M; Wed, 29 Mar 2023 22:51:52 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1phclr-0091Ek-A4; Wed, 29 Mar 2023 22:51:51 +0200
+Date:   Wed, 29 Mar 2023 22:51:50 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v4] smsc911x: only update stats when interface is up
-Message-ID: <20230329131724.4484a881@kernel.org>
-In-Reply-To: <ZCSWJxuu1EY/zBFm@shikoro>
-References: <20230329064010.24657-1-wsa+renesas@sang-engineering.com>
-        <20230329123958.045c9861@kernel.org>
-        <ZCSWJxuu1EY/zBFm@shikoro>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v14 6/6] pwm: Add Renesas RZ/G2L MTU3a PWM driver
+Message-ID: <20230329205150.a4tdosjlojppigc6@pengutronix.de>
+References: <20230310170654.268047-1-biju.das.jz@bp.renesas.com>
+ <20230310170654.268047-7-biju.das.jz@bp.renesas.com>
+ <20230327204000.x67sybfbp34udwfg@pengutronix.de>
+ <OS0PR01MB5922B1D75AF03CA851572AB586899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6z6brxp2giiq35mf"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922B1D75AF03CA851572AB586899@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 29 Mar 2023 21:48:55 +0200 Wolfram Sang wrote:
-> > Hm, so you opted to not add the flag in the core?
-> > To keep the backport small? I think we should just add it..
-> > Clearly multiple drivers would benefit and it's not a huge change.  
-> 
-> I did it this way for two reasons. First, yes, this is a minimal patch
-> for backporting. No dependency on core changes, very easy. Second, this
-> is a solution I could develop quickly. I am interested in finding
-> another solution, but I guess it needs more time, especially as it
-> probably touches 15 drivers. I created an action item for it. I hope
-> I'll be able to work on it somewhen. But for now, I just need the SMSC
-> bug fixed and need to move to the next issue. If we later have the
-> generic solution, converting this driver also won't make a lot of a
-> difference.
 
-Okay, core changes aside - does pm_runtime_put() imply an RCU sync?
-Otherwise your check in get_stats is racy...
+--6z6brxp2giiq35mf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Biju,
+
+On Wed, Mar 29, 2023 at 05:40:17PM +0000, Biju Das wrote:
+> [...]
+
+IMHO it's easier to send a v15 instead of discussing what you made of my
+suggestions in prosa.
+
+> > .probe() enables rz_mtu3_pwm->clk, but there is no .remove() that cares
+> > about disabling it again.
+>=20
+> I believe it is ok. I have added WARN_ON for double checking.
+> Please correct me, if it is wrong.
+
+I might have missed some details in the runtime pm stuff. I'll happily
+recheck if you resend with the other things we agreed on fixed.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6z6brxp2giiq35mf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQkpOUACgkQj4D7WH0S
+/k7PHwf3Up6s6QHp3k7DgWe8QdKCFjJVWpf97pwB60EzM4cym+vDAtT+znVGsg1A
+IINmRwmCADerl0nDeLQWQGV+zegneCi3H4dTPO1162hk619NbAbYf3znoA0h+2yB
+d2bBYda9JuIx4t4fzn3tYMdEliecCcaXX2zmwV24+m7MRhs2mxFhKRwzHO50ELEJ
+cfZSsJVqZ1DA4SyJXjh2LdwkCmFpEe5ykveyn0wXFEJ0ruw5TplMbyF6tD+569Ui
+coJc3SxHjADL6Al/vKE79f9HwHmLygJk39Dq/E1OGNN+Vkuop99dk83bgyHfTDwQ
+s3VprgasWoIpUBSnN5OfhDTKIpG+
+=uR9f
+-----END PGP SIGNATURE-----
+
+--6z6brxp2giiq35mf--
