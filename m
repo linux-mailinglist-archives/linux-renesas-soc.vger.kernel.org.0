@@ -2,84 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8AAB6CCFF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 04:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA0FB6CD227
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Mar 2023 08:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbjC2CaY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Mar 2023 22:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40860 "EHLO
+        id S229717AbjC2Gko (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Mar 2023 02:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjC2CaX (ORCPT
+        with ESMTP id S229705AbjC2Gkn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Mar 2023 22:30:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36DAA2D4F;
-        Tue, 28 Mar 2023 19:30:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BE28CB81FAD;
-        Wed, 29 Mar 2023 02:30:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5CA6EC4339C;
-        Wed, 29 Mar 2023 02:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680057019;
-        bh=+QwrRmOXbnQhTisk8GmcCJmFMKhT3fmPAg7Gw0Ms5l8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=dc8/Z1fpLRipEtdfMpu0iRxHEddMycyhUPJhhIaTPJpOLz8Rs1qzeySGI48OkhNOi
-         zkAGB3zdNgiWYZnlCB/fL2vaUqT5Jw6AhRueqm5NEXFXT96+vsse10VKF/EHQsiMAE
-         Ke4B5xCBnr9LvMzlzBapeUtrvCjrClL1ZXo5gy9DrrDqBRNfecjSIzSzXZBbeaTeai
-         IW5aoQWnOnLnvDXly4UHXYfRuCW6v0qQPFWsXEF1GyM95F26y2fJ/h/NuU67SSiVWm
-         IzNj62FKxDPbCMImnoC4yDEnrTuV8CvLzDLaUrqHNDqQqLMzxaHuiIFeGYHCpbfegj
-         B9K7mpzrRjCBw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 365F2E55B21;
-        Wed, 29 Mar 2023 02:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Mar 2023 02:40:43 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698451722
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Mar 2023 23:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=bp2oMfQvdpfgL+bw/t6/ET9O4Xp
+        sb1NY92VJliw+S7w=; b=RxyhuWsXKrtXlpT7D0AKfoJiQQumEatJPpXrayV7Vf+
+        SCkiCDDZB8zpK0N05igqaRd0fX9FWLw1puxMWJLd52CvBeCeWPxThyiIWuhuBPN0
+        QjrCOC2SHErx/onZzzCedM3UYU3OHHz9QWNibNRK6YjTbCvv6ure8uZMmJEXsOsU
+        =
+Received: (qmail 456570 invoked from network); 29 Mar 2023 08:40:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Mar 2023 08:40:30 +0200
+X-UD-Smtp-Session: l3s3148p1@IB9oQAT4vKsujnv6
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net v4] smsc911x: only update stats when interface is up
+Date:   Wed, 29 Mar 2023 08:40:10 +0200
+Message-Id: <20230329064010.24657-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] Revert "sh_eth: remove open coded
- netif_running()"
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168005701921.27658.2565049250607185005.git-patchwork-notify@kernel.org>
-Date:   Wed, 29 Mar 2023 02:30:19 +0000
-References: <20230327152112.15635-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230327152112.15635-1-wsa+renesas@sang-engineering.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, linux-kernel@vger.kernel.org
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Otherwise the clocks are not enabled and reading registers will OOPS.
+Copy the behaviour from Renesas SH_ETH and use a custom flag because
+using netif_running() is racy. A generic solution still needs to be
+implemented. Tested on a Renesas APE6-EK.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Fixes: 1e30b8d755b8 ("net: smsc911x: Make Runtime PM handling more fine-grained")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-On Mon, 27 Mar 2023 17:21:12 +0200 you wrote:
-> This reverts commit ce1fdb065695f49ef6f126d35c1abbfe645d62d5. It turned
-> out this actually introduces a race condition. netif_running() is not a
-> suitable check for get_stats.
-> 
-> Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
-> [...]
+Changes since v3:
+* broken out of a patch series
+* don't use netif_running() but a custom flag
 
-Here is the summary with links:
-  - [net-next,v2] Revert "sh_eth: remove open coded netif_running()"
-    https://git.kernel.org/netdev/net-next/c/cdeccd13a03f
+ drivers/net/ethernet/smsc/smsc911x.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-You are awesome, thank you!
+diff --git a/drivers/net/ethernet/smsc/smsc911x.c b/drivers/net/ethernet/smsc/smsc911x.c
+index a690d139e177..af96986cbc88 100644
+--- a/drivers/net/ethernet/smsc/smsc911x.c
++++ b/drivers/net/ethernet/smsc/smsc911x.c
+@@ -140,6 +140,8 @@ struct smsc911x_data {
+ 
+ 	/* clock */
+ 	struct clk *clk;
++
++	bool is_open;
+ };
+ 
+ /* Easy access to information */
+@@ -1738,6 +1740,8 @@ static int smsc911x_open(struct net_device *dev)
+ 	smsc911x_reg_write(pdata, TX_CFG, TX_CFG_TX_ON_);
+ 
+ 	netif_start_queue(dev);
++	pdata->is_open = true;
++
+ 	return 0;
+ 
+ irq_stop_out:
+@@ -1778,6 +1782,8 @@ static int smsc911x_stop(struct net_device *dev)
+ 		dev->phydev = NULL;
+ 	}
+ 	netif_carrier_off(dev);
++	pdata->is_open = false;
++
+ 	pm_runtime_put(dev->dev.parent);
+ 
+ 	SMSC_TRACE(pdata, ifdown, "Interface stopped");
+@@ -1841,8 +1847,12 @@ smsc911x_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ static struct net_device_stats *smsc911x_get_stats(struct net_device *dev)
+ {
+ 	struct smsc911x_data *pdata = netdev_priv(dev);
+-	smsc911x_tx_update_txcounters(dev);
+-	dev->stats.rx_dropped += smsc911x_reg_read(pdata, RX_DROP);
++
++	if (pdata->is_open) {
++		smsc911x_tx_update_txcounters(dev);
++		dev->stats.rx_dropped += smsc911x_reg_read(pdata, RX_DROP);
++	}
++
+ 	return &dev->stats;
+ }
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.30.2
 
