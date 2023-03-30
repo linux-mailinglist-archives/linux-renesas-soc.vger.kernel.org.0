@@ -2,132 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11F576D0600
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 15:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9538C6D0699
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 15:26:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231851AbjC3NKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 09:10:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
+        id S231956AbjC3N0n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 09:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231842AbjC3NKA (ORCPT
+        with ESMTP id S231974AbjC3N0i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 09:10:00 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DF59EF8;
-        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id kc4so17990500plb.10;
-        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680181798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WCALfOMUCA+7cbkFzE5ClFTbOlYcV+OCvi/3vd2QpzI=;
-        b=q8EbuTS0Rvsdu2umDVcsX21gG7WlwBzQRSqG+glphuDbA68bBDGtsvmT3P4wfKGP/6
-         ksI2QycwJ29BgXgpZszGd2yR0nsJiBoy7uSSOYvh85ySy/olqUxqsPlXQM4MEH0ETDj/
-         Uw+uVa11ka9CvyYadaY/ppOZQYZTFMDLdAOO/4yfQZY4Lci9qlzLc7ZQUKcH8hD1kDq0
-         eADo2mZ+huDKbIocDnksJPdZc3Kjj+S+j7v6iNX5qjWpz1lIj74uGkJ7fjiupJtogC0T
-         szUgAORRQQJsjzinKN0/7PImycWiK1SPZlTDYgNbUpsEVOWW+wIMqJScJUQ5IMBbm+WY
-         Vo6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680181798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WCALfOMUCA+7cbkFzE5ClFTbOlYcV+OCvi/3vd2QpzI=;
-        b=7MyKOIpSAAmOsLOYdHgUrXwMgOWdDxJdK5lbIG+Br+aswK9ISaGnJd28YTGwMvs0ds
-         gSDAcj6wjs6nZKqU4zccovWYk/7BGzRnTmXmmSVAiAkvqKdQNGkRtLHpDn0tL2OAiwBv
-         QL49vpA2Tie34AoS3zBWX9vCzttlaiS6/Q8SVPFa0ObMqSICYEcQyJoL6OvaOUhagYIT
-         LrN0lbr3HqXUGO8aoQSsSl7aKLmyLsgWpGh2vkb62ujKnRKli7eP+RRa8jGS8QkuT5Yg
-         2WH1Ab/HsZAiSQnISWyFYoUu1StjapQw+dUVWY1Rsqp6icEqV6iUeN0y5Bz/+cj/EJoL
-         4nmA==
-X-Gm-Message-State: AAQBX9fdXeEQjxd3+xeWpA5H6phbb8DrcnlTd7xUKpfKPm+FUSNu0KFl
-        LwtIqhCHiMC3ra3VD9VYuog=
-X-Google-Smtp-Source: AKy350ZW/GFX58WiadMJbKuotQrVNunP5H2QYeW0YokOfcetmboxpxgezstrTiQ7wxDpKxZnD/BZWw==
-X-Received: by 2002:a17:902:ce8e:b0:19e:2fb0:a5d9 with SMTP id f14-20020a170902ce8e00b0019e2fb0a5d9mr6584147plg.32.1680181798039;
-        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id w22-20020a170902a71600b001992e74d055sm8707635plq.12.2023.03.30.06.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 06:09:57 -0700 (PDT)
-Date:   Thu, 30 Mar 2023 16:09:36 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Hans Schultz <netdev@kapio-technology.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
- drivers
-Message-ID: <20230330130936.hxme34qrqwolvpsh@skbuf>
-References: <20230327115206.jk5q5l753aoelwus@skbuf>
- <87355qb48h.fsf@kapio-technology.com>
- <20230327160009.bdswnalizdv2u77z@skbuf>
- <87pm8tooe1.fsf@kapio-technology.com>
- <20230327225933.plm5raegywbe7g2a@skbuf>
- <87ileljfwo.fsf@kapio-technology.com>
- <20230328114943.4mibmn2icutcio4m@skbuf>
- <87cz4slkx5.fsf@kapio-technology.com>
- <20230330124326.v5mqg7do25tz6izk@skbuf>
- <87wn2yxunb.fsf@kapio-technology.com>
+        Thu, 30 Mar 2023 09:26:38 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB5EBB8F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 06:26:28 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by xavier.telenet-ops.be with bizsmtp
+        id edSF2900D1C8whw01dSFSm; Thu, 30 Mar 2023 15:26:25 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1phsHS-00FKfy-71;
+        Thu, 30 Mar 2023 15:26:15 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1phsIB-007ycS-40;
+        Thu, 30 Mar 2023 15:26:15 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Saravana Kannan <saravanak@google.com>
+Cc:     Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Ivan Bornyakov <i.bornyakov@metrotek.ru>,
+        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3] treewide: Fix probing of devices in DT overlays
+Date:   Thu, 30 Mar 2023 15:26:13 +0200
+Message-Id: <e1fa546682ea4c8474ff997ab6244c5e11b6f8bc.1680182615.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87wn2yxunb.fsf@kapio-technology.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 02:59:04PM +0200, Hans Schultz wrote:
-> On Thu, Mar 30, 2023 at 15:43, Vladimir Oltean <olteanv@gmail.com> wrote:
-> > On Tue, Mar 28, 2023 at 09:45:26PM +0200, Hans Schultz wrote:
-> >> So the solution would be to not let the DSA layer send the
-> >> SWITCHDEV_FDB_OFFLOADED event in the case when the new dynamic flag is
-> >> set?
-> >
-> > I have never said that.
-> 
-> No, I was just thinking of a solution based on your previous comment
-> that dynamic fdb entries with the offloaded flag set should not be aged
-> out by the bridge as they are now.
+When loading a DT overlay that creates a device, the device is not
+probed, unless the DT overlay is unloaded and reloaded again.
 
-If you were a user of those other drivers, and you ran the command:
-"bridge fdb add ... master dynamic"
-would you be ok with the behavior: "I don't have dynamic FDB entries,
-but here's a static one for you"?
+After the recent refactoring to improve fw_devlink, it no longer depends
+on the "compatible" property to identify which device tree nodes will
+become struct devices.   fw_devlink now picks up dangling consumers
+(consumers pointing to descendent device tree nodes of a device that
+aren't converted to child devices) when a device is successfully bound
+to a driver.  See __fw_devlink_pickup_dangling_consumers().
+
+However, during DT overlay, a device's device tree node can have
+sub-nodes added/removed without unbinding/rebinding the driver.  This
+difference in behavior between the normal device instantiation and
+probing flow vs. the DT overlay flow has a bunch of implications that
+are pointed out elsewhere[1].  One of them is that the fw_devlink logic
+to pick up dangling consumers is never exercised.
+
+This patch solves the fw_devlink issue by marking all DT nodes added by
+DT overlays with FWNODE_FLAG_NOT_DEVICE (fwnode that won't become
+device), and by clearing the flag when a struct device is actually
+created for the DT node.  This way, fw_devlink knows not to have
+consumers waiting on these newly added DT nodes, and to propagate the
+dependency to an ancestor DT node that has the corresponding struct
+device.
+
+Based on a patch by Saravana Kannan, which covered only platform and spi
+devices.
+
+[1] https://lore.kernel.org/r/CAGETcx_bkuFaLCiPrAWCPQz+w79ccDp6=9e881qmK=vx3hBMyg@mail.gmail.com
+
+Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
+Link: https://lore.kernel.org/r/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=rWYnkCZ6z5bGX-wj4w@mail.gmail.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Mark Brown <broonie@kernel.org>
+Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
+---
+v3:
+  - Add Acked-by,
+  - s/instantiate/probe/,
+  - Improve commit description,
+  - Add comment before clearing FWNODE_FLAG_NOT_DEVICE,
+
+v2:
+  - Add Acked-by,
+  - Drop RFC.
+---
+ drivers/bus/imx-weim.c    | 6 ++++++
+ drivers/i2c/i2c-core-of.c | 5 +++++
+ drivers/of/dynamic.c      | 1 +
+ drivers/of/platform.c     | 5 +++++
+ drivers/spi/spi.c         | 5 +++++
+ 5 files changed, 22 insertions(+)
+
+diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+index 36d42484142aede2..cf463c1d2102c6fb 100644
+--- a/drivers/bus/imx-weim.c
++++ b/drivers/bus/imx-weim.c
+@@ -329,6 +329,12 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
+ 				 "Failed to setup timing for '%pOF'\n", rd->dn);
+ 
+ 		if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
++			/*
++			 * Clear the flag before adding the device so that
++			 * fw_devlink doesn't skip adding consumers to this
++			 * device.
++			 */
++			rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 			if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
+ 				dev_err(&pdev->dev,
+ 					"Failed to create child device '%pOF'\n",
+diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+index aa93467784c29c89..5c137638689799c8 100644
+--- a/drivers/i2c/i2c-core-of.c
++++ b/drivers/i2c/i2c-core-of.c
+@@ -178,6 +178,11 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
+ 			return NOTIFY_OK;
+ 		}
+ 
++		/*
++		 * Clear the flag before adding the device so that fw_devlink
++		 * doesn't skip adding consumers to this device.
++		 */
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		client = of_i2c_register_device(adap, rd->dn);
+ 		if (IS_ERR(client)) {
+ 			dev_err(&adap->dev, "failed to create client for '%pOF'\n",
+diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+index 07d93753b12f5f4d..e311d406b1705306 100644
+--- a/drivers/of/dynamic.c
++++ b/drivers/of/dynamic.c
+@@ -226,6 +226,7 @@ static void __of_attach_node(struct device_node *np)
+ 	np->sibling = np->parent->child;
+ 	np->parent->child = np;
+ 	of_node_clear_flag(np, OF_DETACHED);
++	np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
+ }
+ 
+ /**
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index b2bd2e783445dd78..78ae8418744905c9 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -737,6 +737,11 @@ static int of_platform_notify(struct notifier_block *nb,
+ 		if (of_node_check_flag(rd->dn, OF_POPULATED))
+ 			return NOTIFY_OK;
+ 
++		/*
++		 * Clear the flag before adding the device so that fw_devlink
++		 * doesn't skip adding consumers to this device.
++		 */
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		/* pdev_parent may be NULL when no bus platform device */
+ 		pdev_parent = of_find_device_by_node(rd->dn->parent);
+ 		pdev = of_platform_device_create(rd->dn, NULL,
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 37a7be6c5a44c8f9..a12420e28640bbd4 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -4504,6 +4504,11 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
+ 			return NOTIFY_OK;
+ 		}
+ 
++		/*
++		 * Clear the flag before adding the device so that fw_devlink
++		 * doesn't skip adding consumers to this device.
++		 */
++		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+ 		spi = of_register_spi_device(ctlr, rd->dn);
+ 		put_device(&ctlr->dev);
+ 
+-- 
+2.34.1
+
