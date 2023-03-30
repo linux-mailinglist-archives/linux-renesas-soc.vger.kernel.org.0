@@ -2,107 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A9BF6D0599
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 14:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F576D0600
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 15:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbjC3M7v convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 08:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54434 "EHLO
+        id S231851AbjC3NKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 09:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231731AbjC3M7s (ORCPT
+        with ESMTP id S231842AbjC3NKA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 08:59:48 -0400
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220259EE7;
-        Thu, 30 Mar 2023 05:59:43 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id h9so19514916ljq.2;
-        Thu, 30 Mar 2023 05:59:43 -0700 (PDT)
+        Thu, 30 Mar 2023 09:10:00 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DF59EF8;
+        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id kc4so17990500plb.10;
+        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680181798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WCALfOMUCA+7cbkFzE5ClFTbOlYcV+OCvi/3vd2QpzI=;
+        b=q8EbuTS0Rvsdu2umDVcsX21gG7WlwBzQRSqG+glphuDbA68bBDGtsvmT3P4wfKGP/6
+         ksI2QycwJ29BgXgpZszGd2yR0nsJiBoy7uSSOYvh85ySy/olqUxqsPlXQM4MEH0ETDj/
+         Uw+uVa11ka9CvyYadaY/ppOZQYZTFMDLdAOO/4yfQZY4Lci9qlzLc7ZQUKcH8hD1kDq0
+         eADo2mZ+huDKbIocDnksJPdZc3Kjj+S+j7v6iNX5qjWpz1lIj74uGkJ7fjiupJtogC0T
+         szUgAORRQQJsjzinKN0/7PImycWiK1SPZlTDYgNbUpsEVOWW+wIMqJScJUQ5IMBbm+WY
+         Vo6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680181180;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZGoTpAkzvPXZTogVoj8kdq2GxGxpgvtqWQ8RuMpPxVo=;
-        b=KKyOlNAEflmYpHiQc6XuVmm/RTk0kRUjRqufi+EDudYI2OAYYPZ88FLphjs2cU7zm3
-         t0+PkGc5Z+2bwkZn7hNb2H7K5P0gpHcImyrOGoSOWNBeWcIUpFCRSONOE5tXfZxiEK1G
-         4XSl7GN4AJIVbXzjJw/hsSfe/ogGgoWo2S3MauXsNma+NAOKdeZfKV6PvIStQPyb7Etp
-         p9Ow3OUtFLt8gwjrXncf2UD2+mz0I8LcJ54VReTe84HTxMPUOi2ZIxkyooFO1lePWC+f
-         Gk3ZYPVGAGJIH/4apc4m2yaVVa+Kg1HWLumuYkuytebrffFwEnBhvVZHOBByI91Yvuts
-         rCGg==
-X-Gm-Message-State: AAQBX9fkv+3c98e8+yYEbqk5XEqQZzQKVLv4JoZT57UDwcjHbfPO0Ska
-        JyOymwbX02MZbU2HQ6zTuJYH4fFVbI8UcUxY
-X-Google-Smtp-Source: AKy350b5FEvUkeqbiPIF8q//VsLTZrSk/T6ulAPE9F8UaeGFJXwsUgS3FscdDnrnH/qsurtrosxsRQ==
-X-Received: by 2002:a2e:9e98:0:b0:29c:d0ef:481c with SMTP id f24-20020a2e9e98000000b0029cd0ef481cmr7029567ljk.28.1680181180446;
-        Thu, 30 Mar 2023 05:59:40 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id c1-20020a2e6801000000b002a421ac8629sm2514124lja.49.2023.03.30.05.59.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 05:59:38 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id q14so19488939ljm.11;
-        Thu, 30 Mar 2023 05:59:38 -0700 (PDT)
-X-Received: by 2002:a2e:b60d:0:b0:299:ac4e:a8a6 with SMTP id
- r13-20020a2eb60d000000b00299ac4ea8a6mr7200190ljn.9.1680181178291; Thu, 30 Mar
- 2023 05:59:38 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680181798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WCALfOMUCA+7cbkFzE5ClFTbOlYcV+OCvi/3vd2QpzI=;
+        b=7MyKOIpSAAmOsLOYdHgUrXwMgOWdDxJdK5lbIG+Br+aswK9ISaGnJd28YTGwMvs0ds
+         gSDAcj6wjs6nZKqU4zccovWYk/7BGzRnTmXmmSVAiAkvqKdQNGkRtLHpDn0tL2OAiwBv
+         QL49vpA2Tie34AoS3zBWX9vCzttlaiS6/Q8SVPFa0ObMqSICYEcQyJoL6OvaOUhagYIT
+         LrN0lbr3HqXUGO8aoQSsSl7aKLmyLsgWpGh2vkb62ujKnRKli7eP+RRa8jGS8QkuT5Yg
+         2WH1Ab/HsZAiSQnISWyFYoUu1StjapQw+dUVWY1Rsqp6icEqV6iUeN0y5Bz/+cj/EJoL
+         4nmA==
+X-Gm-Message-State: AAQBX9fdXeEQjxd3+xeWpA5H6phbb8DrcnlTd7xUKpfKPm+FUSNu0KFl
+        LwtIqhCHiMC3ra3VD9VYuog=
+X-Google-Smtp-Source: AKy350ZW/GFX58WiadMJbKuotQrVNunP5H2QYeW0YokOfcetmboxpxgezstrTiQ7wxDpKxZnD/BZWw==
+X-Received: by 2002:a17:902:ce8e:b0:19e:2fb0:a5d9 with SMTP id f14-20020a170902ce8e00b0019e2fb0a5d9mr6584147plg.32.1680181798039;
+        Thu, 30 Mar 2023 06:09:58 -0700 (PDT)
+Received: from skbuf ([188.27.184.189])
+        by smtp.gmail.com with ESMTPSA id w22-20020a170902a71600b001992e74d055sm8707635plq.12.2023.03.30.06.09.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 06:09:57 -0700 (PDT)
+Date:   Thu, 30 Mar 2023 16:09:36 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Hans Schultz <netdev@kapio-technology.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
+ drivers
+Message-ID: <20230330130936.hxme34qrqwolvpsh@skbuf>
+References: <20230327115206.jk5q5l753aoelwus@skbuf>
+ <87355qb48h.fsf@kapio-technology.com>
+ <20230327160009.bdswnalizdv2u77z@skbuf>
+ <87pm8tooe1.fsf@kapio-technology.com>
+ <20230327225933.plm5raegywbe7g2a@skbuf>
+ <87ileljfwo.fsf@kapio-technology.com>
+ <20230328114943.4mibmn2icutcio4m@skbuf>
+ <87cz4slkx5.fsf@kapio-technology.com>
+ <20230330124326.v5mqg7do25tz6izk@skbuf>
+ <87wn2yxunb.fsf@kapio-technology.com>
 MIME-Version: 1.0
-References: <20230327205228.573456-1-robh@kernel.org>
-In-Reply-To: <20230327205228.573456-1-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 30 Mar 2023 14:59:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX742MrnXhYJUSRqXnG_ctzcH0ee=og_6-7K=62yFLaDQ@mail.gmail.com>
-Message-ID: <CAMuHMdX742MrnXhYJUSRqXnG_ctzcH0ee=og_6-7K=62yFLaDQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: sh-mobile: Use of_cpu_node_to_id() to read CPU
- node 'reg'
-To:     Rob Herring <robh@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wn2yxunb.fsf@kapio-technology.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On Thu, Mar 30, 2023 at 02:59:04PM +0200, Hans Schultz wrote:
+> On Thu, Mar 30, 2023 at 15:43, Vladimir Oltean <olteanv@gmail.com> wrote:
+> > On Tue, Mar 28, 2023 at 09:45:26PM +0200, Hans Schultz wrote:
+> >> So the solution would be to not let the DSA layer send the
+> >> SWITCHDEV_FDB_OFFLOADED event in the case when the new dynamic flag is
+> >> set?
+> >
+> > I have never said that.
+> 
+> No, I was just thinking of a solution based on your previous comment
+> that dynamic fdb entries with the offloaded flag set should not be aged
+> out by the bridge as they are now.
 
-On Mon, Mar 27, 2023 at 10:52 PM Rob Herring <robh@kernel.org> wrote:
-> Replace open coded CPU nodes reading of "reg" and translation to logical
-> ID with of_cpu_node_to_id().
->
-> The original code called of_parse_phandle() CONFIG_NR_CPUS times
-> regardless of the length of 'cpus'. Optimize the loop to bail out once
-> of_parse_phandle() fails as the end of 'cpus' property has been reached.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
->  - Optimize the number of loop iterations
-
-Thanks for the update!
-
-I have tested this on:
-  - R-Car H2: 4xCA15 + 4xCA7, booted from either CA15 or CA7,
-  - R-Car M2-W: 2xCA15,
-  - R-Car E2: 2xCA7.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.4.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+If you were a user of those other drivers, and you ran the command:
+"bridge fdb add ... master dynamic"
+would you be ok with the behavior: "I don't have dynamic FDB entries,
+but here's a static one for you"?
