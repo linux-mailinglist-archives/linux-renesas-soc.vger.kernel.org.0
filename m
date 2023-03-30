@@ -2,163 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0956D01F3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 12:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49B126D023A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 12:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbjC3Kqz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 06:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35324 "EHLO
+        id S231149AbjC3K5B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 06:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC3Kpy (ORCPT
+        with ESMTP id S231214AbjC3K45 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 06:45:54 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F30986B1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 03:45:17 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id i5so74858750eda.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 03:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall-org.20210112.gappssmtp.com; s=20210112; t=1680173115;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nJ4kHmOyB5GJCNT97r/CEXr1tfWeNmV/zja7PhdakrM=;
-        b=lGerEYp3RodGDGGbu9v46KqIKVUtY8TeLHCWxCyKo+lIj9VCOEqmYXb5Luv5Icdw83
-         /Q3ohcVMs8/k4KEjqUfKTm0pm1obz2hYyDJZEGwY4xvSV70Uh8/o0fRR62eoC40mv/Bv
-         UEBYsZ9wt18DBWpVrq6PHs0ItsJPyhMLJmMVYdRNaFyf6g5o43qmVx2ExIW9JPB5NAcT
-         SXRLeONaXaaxnx6NDDtdppC3NfBaEjMNaKyBR43dlSVVCegyF8RxQYNMsOAzUTzA2au6
-         2XuJdBK+c0uj4WiQDcWKQjhPoR9V9sl3rqUkq8GEkpgIesqP2468KV0nJR3pSnsRbAgW
-         ihWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680173115;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJ4kHmOyB5GJCNT97r/CEXr1tfWeNmV/zja7PhdakrM=;
-        b=wI59w3HzhUcbCc9fLC42Q26VhQCuTTk06CnC1YaRG1m1BoxC6V129TvQsokg9VPH22
-         CE+f/Uc0Ur5oBDRFWlfSdMFOgyMhSqGxsMIbbBqA4SE/w24fUymjmCp7vRCHIKKl93A3
-         r1ouhULZFLMWcxU178wzc1ab1DRDAB19q2WC6v4b3L2rEIkIVR49roi/RleQsjuHH2yd
-         fOGRm/fyfgewAkYZe3eP+UkQhP1R3WXLCF0YJkZ5Eip9DN4sQQGq4v/KC9hpPpbz4ncE
-         L0z3mcMoa0SZmg+/rtA4OrUCPWKVWHZsM9A2Rz6bCZB+ghpVKJ8wYUfpLr7US6aw7hVN
-         F1aA==
-X-Gm-Message-State: AAQBX9ef4CqXwxDiKVPvP2ZsIFqj5hY0PHCWSj7/J4C7sZRcAqk/R07b
-        LI0O8A5/RU3Ao9o42lzZ+w5+bg==
-X-Google-Smtp-Source: AKy350ZCwuMbyX3imXZjyklWc/tn6fTJgMv803a+AfMakTywcrCsiPGJxBzQ+0cpDFJ7UWixfjodXw==
-X-Received: by 2002:a17:906:738a:b0:878:58e6:f1eb with SMTP id f10-20020a170906738a00b0087858e6f1ebmr20132191ejl.23.1680173115494;
-        Thu, 30 Mar 2023 03:45:15 -0700 (PDT)
-Received: from [192.168.0.161] (62-73-72-43.ip.btc-net.bg. [62.73.72.43])
-        by smtp.gmail.com with ESMTPSA id p25-20020a50cd99000000b004bf76fdfdb3sm17878396edi.26.2023.03.30.03.45.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 03:45:15 -0700 (PDT)
-Message-ID: <6f0d0f2d-474b-caaf-78a7-289e660c3aa0@blackwall.org>
-Date:   Thu, 30 Mar 2023 13:45:13 +0300
+        Thu, 30 Mar 2023 06:56:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00757DB3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 03:56:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1911061FEA
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 10:56:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6443CC433EF;
+        Thu, 30 Mar 2023 10:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680173813;
+        bh=Z/8TD4rvJoxGrQr8FdeA7TpbDXwOS00pvOOoPtw3JVE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OqDjKdbF8lHbkotvOpdQkWT7OHlUTNGt/iM1Xe/JGXgwRMaNXF2DleS759cYNlGkI
+         PzYLf3+FAmM29xeIlVQ9ihSZKkO8WdROza40zKj/HFXNt4ovVspthIJlY1e/3Sep+u
+         feojQeWdZ8Z00MFl7pq0pR7PgaGv0TouZTdwhgDSpS/Rjljxu1KrFSRlUcSqhmNgQL
+         I/T+D9hDQL/gwPdyEy5AOY4hfq2BLHJHe932rlDxY/L6YBtmNx8HehzposN+BwStZW
+         5+JsgXwj3KdqRCZgtDV3H1dIftfnXkAH1wjrZR/cU7gVy56KAHlXLklYxbWlEVIFOd
+         VkkLXt5lTfDew==
+Date:   Thu, 30 Mar 2023 11:56:48 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v14 2/6] mfd: Add Renesas RZ/G2L MTU3a core driver
+Message-ID: <20230330105648.GX2673958@google.com>
+References: <20230310170654.268047-1-biju.das.jz@bp.renesas.com>
+ <20230310170654.268047-3-biju.das.jz@bp.renesas.com>
+ <20230316155806.GN9667@google.com>
+ <20230329205406.bfjftoto5jikalfh@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 net-next 6/6] selftests: forwarding: add dynamic FDB
- test
-Content-Language: en-US
-To:     Hans Schultz <netdev@kapio-technology.com>,
-        Ido Schimmel <idosch@nvidia.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>, Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-References: <20230318141010.513424-1-netdev@kapio-technology.com>
- <20230318141010.513424-7-netdev@kapio-technology.com>
- <ZBgdAo8mxwnl+pEE@shredder> <87a5zzh65p.fsf@kapio-technology.com>
- <ZCMYbRqd+qZaiHfu@shredder> <87fs9ollmn.fsf@kapio-technology.com>
- <ZCUuMosWbyq1pK8R@shredder> <87mt3u7csh.fsf@kapio-technology.com>
-From:   Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <87mt3u7csh.fsf@kapio-technology.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=3.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230329205406.bfjftoto5jikalfh@pengutronix.de>
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/03/2023 13:29, Hans Schultz wrote:
-> On Thu, Mar 30, 2023 at 09:37, Ido Schimmel <idosch@nvidia.com> wrote:
->> On Tue, Mar 28, 2023 at 09:30:08PM +0200, Hans Schultz wrote:
->>>
->>> Sorry, but I have sent you several emails telling you about the problems
->>> I have with running the selftests due to changes in the phy etc. Maybe
->>> you have just not received all those emails?
->>>
->>> Have you checked spamfilters?
->>>
->>> With the kernels now, I cannot even test with the software bridge and
->>> selftests as the compile fails - probably due to changes in uapi headers
->>> compared to what the packages my system uses expects.
->>
->> My spam filters are fine. I saw your emails where you basically said
->> that you are too lazy to setup a VM to test your patches and that your
->> time is more valuable than mine, which is why I should be testing them.
->> Stop making your problems our problems. It's hardly the first time. If
->> you are unable to test your patches, then invest the time in fixing your
->> setup instead of submitting completely broken patches and making it our
->> problem to test and fix them. I refuse to invest time in reviewing /
->> testing / reworking your submissions as long as you insist on doing less
->> than the bare minimum.
->>
->> Good luck
-> 
-> I never said or indicated that my time is more valuable than yours. I
-> have a VM to run these things that some have spent countless hours to
-> develop with the right tools etc installed and set up. Fixing that
-> system will take quite many hours for me, so I am asking for some simple
-> assistance from someone who already has a system running supporting the
-> newest kernel.
-> 
-> Alternatively if there is an open sourced system available that would be
-> great.
-> 
-> As this patch-set is for the community and some companies that would
-> like to use it and not for myself, I am asking for some help from the
-> community with a task that when someone has the system in place should
-> not take more than 15-20 minutes, maybe even less.
+On Wed, 29 Mar 2023, Uwe Kleine-König wrote:
 
-I'm sorry but this is absolutely the wrong way to go about this. Your setup's
-problems are yours to figure out and fix, if you are going to send *any* future
-patches make absolutely sure they build, run and work as intended.
-Please do not send any future patches without them being fully tested and, as
-Ido mentioned, cover at least the bare minimum for a submission.
+> Hello Lee,
+>
+> On Thu, Mar 16, 2023 at 03:58:06PM +0000, Lee Jones wrote:
+> > On Fri, 10 Mar 2023, Biju Das wrote:
+> > > [...]
+> > I plan to take this set via MFD once you have  PWM Ack.
+> >
+> > For my own reference (apply this as-is to your sign-off block):
+> >
+> > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+>
+> Given that the pwm patch needs a rework, I wonder how to proceed here.
+> Do you want to take patches 1 - 5 now? Or do you prefer to wait until
+> the pwm patch is fine, too?
 
-Thanks,
- Nik
+If I take them now, you won't be able to apply the PWM driver until next
+cycle.
 
+--
+Lee Jones [李琼斯]
