@@ -2,132 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B60816D08F7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 17:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387C26D08F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 17:01:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232641AbjC3PAa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 11:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47030 "EHLO
+        id S232645AbjC3PBH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 11:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232654AbjC3PA2 (ORCPT
+        with ESMTP id S232690AbjC3PBG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 11:00:28 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CE0127
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 08:00:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D21ADCE28FA
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 15:00:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F783C433EF
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 15:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680188422;
-        bh=ivk2rq0NJhrLaBLy8h7L53KwgbYsV2eJZo1wek8KhZA=;
-        h=Subject:From:Date:To:From;
-        b=hpVSyIuDjxPoppCsDbDj/aZpJbYZr/qJIG7oFtuc13vgRRGF1oEo/OyBZiUypUEoc
-         skTszYcuzccBEWgJSGml17hZRxmunk5and/YyZgnpUPEk6CumsBnQQKlYTVDuI+8d0
-         S/hrRrdUdDAfehIPJwkrhUkJGYDJ4CARVdpt3X76LCZaMdr66hnRpGA5vIu5au8pWv
-         iFJa3Ld6WWC+nESuisG5jfdTBSwEmZaVpboKC5+rFjgumAymzAyLQ+Ug+uMm7+tIgl
-         t17gUFa2+fTiULC22HAmTf1qF3tIR/AEaBtX4s3FBKghm54dzZKA9DUBCVTsk+HKMk
-         bb0KlojIaf8Ug==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E6ABEE21EDD
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 15:00:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 30 Mar 2023 11:01:06 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49DE41BC;
+        Thu, 30 Mar 2023 08:00:59 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5BCA04000B;
+        Thu, 30 Mar 2023 15:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1680188458;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=W+fF9+hXUqTVKBtkjbyAVsPYf8+Z/jN24amAbg/Esug=;
+        b=I+eZwnKw0YV2yA5a4IdM7h2HHx5PsrKBF1G1q4qjSO6ZYs51TqyH6E5IBd5X/8Wu4kkerR
+        6Tkxv3H5hA+c2t1pYmpEpowHKsVfugebbuJPcq5R0sqEC+1AHxwh4rzwZ19xrbz3uev6bH
+        9/zNs4+GUSvgxaWMjSKjnG1Ly6+nWXAL+YwrnOBdHHjd+JStyxLo8dnR0mJ43lyu98tubX
+        nNCccyGgNP7acXQv8IluJ400Nlo9vXYwSnE9xAAjb9suS6oklgyT5HbTU/q9Aqh9Cqa7BI
+        p6bn+6roXHtvowBYnu6mo+a97MTSRv6dw0ZelkCCAtTbzBpsgQ59iO6PHOmASw==
+Date:   Thu, 30 Mar 2023 17:01:34 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Alexis =?UTF-8?B?TG90aG9yw6k=?= <alexis.lothore@bootlin.com>
+Subject: Re: [PATCH net-next 1/2] net: dsa: rzn1-a5psw: enable DPBU for CPU
+ port and fix STP states
+Message-ID: <20230330170134.2f0cd3d1@fixe.home>
+In-Reply-To: <20230330145623.z5q44euny3zj3uat@skbuf>
+References: <20230330083408.63136-1-clement.leger@bootlin.com>
+        <20230330083408.63136-2-clement.leger@bootlin.com>
+        <20230330104828.6badaaad@fixe.home>
+        <20230330145623.z5q44euny3zj3uat@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <168018842185.14249.16249111660242527912.git-patchwork-summary@kernel.org>
-Date:   Thu, 30 Mar 2023 15:00:21 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Le Thu, 30 Mar 2023 17:56:23 +0300,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+> On Thu, Mar 30, 2023 at 10:48:28AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Actually, after leaving a bridge, it seems like the DSA core put the
+> > port in STP DISABLED state. Which means it will potentially leave that
+> > port with TX disable... Since this TX enable is applying not only on
+> > bridge port but also on standalone port, it seems like this also needs
+> > to be reenabled in bridge_leave(). =20
+>=20
+> That's... not true? dsa_port_switchdev_unsync_attrs() has:
+>=20
+> 	/* Port left the bridge, put in BR_STATE_DISABLED by the bridge layer,
+> 	 * so allow it to be in BR_STATE_FORWARDING to be kept functional
+> 	 */
+> 	dsa_port_set_state_now(dp, BR_STATE_FORWARDING, true);
+>=20
+> a dump_stack() could help explain what's going on in your system?
 
-Patch: [v2] ARM: sh-mobile: Use of_cpu_node_to_id() to read CPU node 'reg'
-  Submitter: Rob Herring <robh@kernel.org>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=734341
-  Lore link: https://lore.kernel.org/r/20230327205228.573456-1-robh@kernel.org
+Indeed, I was referring to the messages displayed by the STP setp state
+function (br0: port 2(lan1) entered disabled state). But the DSA core
+indeed calls the stp_set_state() to enable forwarding which then
+reenables the Tx path so I guess we are all good with this series.
+Sorry for that.
 
-Series: RZ/G2L: Add CRU, CSI support
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=732736
-  Lore link: https://lore.kernel.org/r/20230322125648.24948-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v3,1/2] arm64: dts: renesas: r9a07g044: Add CSI and CRU nodes
-             [v3,2/2] arm64: dts: renesas: rzg2l-smarc: Enable CRU, CSI support
-
-Patch: ARM: dts: marzen: Enable I2C support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731948
-  Lore link: https://lore.kernel.org/r/77b87378397fd26f39c73f68e3ea465db6d38fb1.1679330016.git.geert+renesas@glider.be
-
-Series: ARM: dts: r8a7779: Add PWM support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731943
-  Lore link: https://lore.kernel.org/r/cover.1679329211.git.geert+renesas@glider.be
-    Patches: [1/2] dt-bindings: clock: r8a7779: Add PWM module clock
-             [2/2] ARM: dts: r8a7779: Add PWM support
-
-Patch: MAINTAINERS: renesas: Add "renesas," file content pattern
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731084
-  Lore link: https://lore.kernel.org/r/c1be1e97c5457eade25b0eb5118196677cecfc08.1679039809.git.geert+renesas@glider.be
-
-Series: Renesas SCI fixes
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=732300
-  Lore link: https://lore.kernel.org/r/20230321114753.75038-1-biju.das.jz@bp.renesas.com
-    Patches: [v4,1/5] tty: serial: sh-sci: Fix transmit end interrupt handler
-             [v4,5/5] arm64: dts: renesas: r9a07g044: Enable sci0 node using dt overlay
-
-Series: [1/2] dt-bindings: dma: rz-dmac: Document clock-names and reset-names
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=730196
-  Lore link: https://lore.kernel.org/r/20230315064726.22739-1-biju.das.jz@bp.renesas.com
-    Patches: [1/2] dt-bindings: dma: rz-dmac: Document clock-names and reset-names
-             [2/2] arm64: dts: renesas: Add clock-names and reset-names to DMAC node
-
-Patch: ARM: dts: r8a7790: Add TPU device node
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731958
-  Lore link: https://lore.kernel.org/r/75da1e63135a3fc8a3aaafbff7139bd5d7509be3.1679330727.git.geert+renesas@glider.be
-
-Patch: ARM: dts: marzen: Add slide switches
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731947
-  Lore link: https://lore.kernel.org/r/f834a3c397362f2424fcae6a0c0440356208b182.1679329829.git.geert+renesas@glider.be
-
-Patch: ARM: dts: r8a7790: Add PWM device nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=731959
-  Lore link: https://lore.kernel.org/r/9755b3af4296060ee31c4652def639574cbbd2fb.1679330878.git.geert+renesas@glider.be
-
-
-Total patches: 14
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
