@@ -2,92 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 110886CFF6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 11:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC9C6CFF6C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 11:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjC3JCg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 05:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35862 "EHLO
+        id S229869AbjC3JJ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 05:09:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjC3JCf (ORCPT
+        with ESMTP id S229491AbjC3JJ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 05:02:35 -0400
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51372717;
-        Thu, 30 Mar 2023 02:02:33 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-536af432ee5so343191357b3.0;
-        Thu, 30 Mar 2023 02:02:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680166953;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YqG2Z6d0Pb8iORwk+e3Ro79KtXr2omWNescegmF+Vgw=;
-        b=bpwrZNIOp165hWwL3+FCbghUFU358553YFUquIAKZ9AaV6sQDGDDhXPyg/TPOpeUUJ
-         04P89k2MXfVCm3+lowyRNpNoNLggxEcP2OhAHGcoFi2DcUsuD8Q5kfcqhaORZUHxibU4
-         NIdKnZdSoolhNuIdDfraLLOTtSxR+mN4TAjeSmzTYTjlNo1aAaoBcR54zv2cxJOS9nzG
-         dyYMrWZVUaLLSb9G9kaYOOiZHgWN47wqnuYoOrXxXKOQSbUkak0Ck+lAai4yi467WPKg
-         IJV9txCfUZ7RHSuSpmk/w3BprvK1IV10OjsNaFbG0xdsZ965s/29J06cgeMWVhi2Hrwi
-         Bq+Q==
-X-Gm-Message-State: AAQBX9ezbwZZQqSdG7JzwVtIwn0hJ9lNS+cKwz8aDak9BnpRRIDsrzYl
-        9pAWELRQ9TduZefguPtG7Ql6DqdMTgrLcw==
-X-Google-Smtp-Source: AKy350aff33rXZwWHf0szL4sARp1j7U9xYXErkrMEc3O4TZfMxBUW2La7aVfSGNjyEmDESdz5Lk7dA==
-X-Received: by 2002:a0d:d7c4:0:b0:545:b05f:6722 with SMTP id z187-20020a0dd7c4000000b00545b05f6722mr20490288ywd.10.1680166952840;
-        Thu, 30 Mar 2023 02:02:32 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id cp33-20020a05690c0e2100b00545a08184c6sm3440426ywb.86.2023.03.30.02.02.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 02:02:32 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5419d4c340aso342023437b3.11;
-        Thu, 30 Mar 2023 02:02:32 -0700 (PDT)
-X-Received: by 2002:a81:7e10:0:b0:52f:184a:da09 with SMTP id
- o16-20020a817e10000000b0052f184ada09mr2923082ywn.2.1680166952237; Thu, 30 Mar
- 2023 02:02:32 -0700 (PDT)
+        Thu, 30 Mar 2023 05:09:28 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F50F65AC;
+        Thu, 30 Mar 2023 02:09:25 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 63F2AC0009;
+        Thu, 30 Mar 2023 09:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1680167364;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WtUh57EJJSQe6Pe0U1pJ/OpWThBAVkWCUDMXG8Z66Qg=;
+        b=P2mH3v3WV41ffCI+oj7We8XxB8se0IuaI6vUAL6RQaC+lmZqHDH5weRakWMvtllQCaHtPZ
+        K2lE9su42PdM6NYUHeM604aLdGdhXY4rKN8N1Zipm1uMmsMBj97rzHVAaqcND1cnUaEQEp
+        k7iQqoXuKDpKqr6YXxGw+B7XN4mzTi+Lg9Ay0ISe8J2MIr7iley9Qfo0Xz6LLpFu5kHcGZ
+        OxBJI2HFWviUMqIKJyUBad6isIhi3aPK3fBg//Dxbw6H3kJbd4ZkTMoRI5lrD/XdFNYiyB
+        xQDDMBpl7Dyz1M5Dg3Nfeol5h13NKlAqTLUA7qjSwlD4bB8WWd5tqQveupDp8Q==
+Date:   Thu, 30 Mar 2023 11:09:59 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Arun Ramadoss <Arun.Ramadoss@microchip.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexis Lothore <alexis.lothore@bootlin.com>
+Subject: Re: [PATCH RESEND net-next v4 3/3] net: dsa: rzn1-a5psw: add vlan
+ support
+Message-ID: <20230330110959.2132cd07@fixe.home>
+In-Reply-To: <20230329131613.zg4whzzoa4yna7lh@skbuf>
+References: <20230324220042.rquucjt7dctn7xno@skbuf>
+        <20230314163651.242259-1-clement.leger@bootlin.com>
+        <20230314163651.242259-1-clement.leger@bootlin.com>
+        <20230314163651.242259-4-clement.leger@bootlin.com>
+        <20230314163651.242259-4-clement.leger@bootlin.com>
+        <20230314233454.3zcpzhobif475hl2@skbuf>
+        <20230315155430.5873cdb6@fixe.home>
+        <20230324220042.rquucjt7dctn7xno@skbuf>
+        <20230328104429.5d2e475a@fixe.home>
+        <20230328104429.5d2e475a@fixe.home>
+        <20230329131613.zg4whzzoa4yna7lh@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230122121129.28699-1-krzysztof.kozlowski@linaro.org>
- <CAMuHMdXdZbJDTOzQG4=pRpR1OCU0=RTDZDH0MnPW8Ea2LJKs6A@mail.gmail.com> <082ab65b-09d3-e899-ef46-7fe04446109f@kernel.org>
-In-Reply-To: <082ab65b-09d3-e899-ef46-7fe04446109f@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 30 Mar 2023 11:02:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUf=X2eGpa9P0OF34b8yA8vrx_nFqW+P+Odu5S7P1xeng@mail.gmail.com>
-Message-ID: <CAMuHMdUf=X2eGpa9P0OF34b8yA8vrx_nFqW+P+Odu5S7P1xeng@mail.gmail.com>
-Subject: Re: [GIT PULL] memory: drivers for v6.3
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
-        arm@kernel.org, soc@kernel.org, linux-kernel@vger.kernel.org,
-        JaimeLiao <jaimeliao.tw@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+Le Wed, 29 Mar 2023 16:16:13 +0300,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-On Mon, Jan 23, 2023 at 11:47 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> BTW, you might want to add separate Renesas RPC IF maintainer entry or
-> include it also in Renesas SoC. Otherwise you don't get CC on it.
+> > After thinking about the current mechasnim, let me summarize why I
+> > think it almost matches what you described in this last paragraph:
+> >=20
+> > - Port is set to match a specific matching rule which will enforce port
+> >   to CPU forwarding only based on the MGMTFWD bit of PATTERN_CTRL which
+> >   states the following: "When set, the frame is forwarded to the
+> >   management port only (suppressing destination address lookup)"
+> >=20
+> > This means that for the "port to CPU" path when in standalone mode, we
+> > are fine. Regarding the other "CPU to port" path only:
+> >=20
+> > - Learning will be disabled when leaving the bridge. This will allow
+> >   not to have any new forwarding entries in the MAC lookup table.
+> >=20
+> > - Port is fast aged which means it won't be targeted for packet
+> >   forwarding.
+> >=20
+> > - We remove the port from the flooding mask which means it won't be
+> >   flooded after being removed from the port.
+> >=20
+> > Based on that, the port should not be the target of any forward packet
+> > from the other ports. Note that anyway, even if using per-port VLAN for
+> > standalone mode, we would also end up needing to disable learning,
+> > fast-age the port and disable flooding (at least from my understanding
+> > if we want the port to be truly isolated).
+> >=20
+> > Tell me if it makes sense. =20
+>=20
+> This makes sense.
+>=20
+> However, I still spotted a bug and I don't know where to mention it
+> better, so I'll mention it here:
+>=20
+> a5psw_port_vlan_add()
+>=20
+> 	if (pvid) {
+> 		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port),
+> 			      BIT(port));
+> 		a5psw_reg_writel(a5psw, A5PSW_SYSTEM_TAGINFO(port), vid);
+> 	}
+>=20
+> You don't want a5psw_port_vlan_add() to change VLAN_IN_MODE_ENA, because
+> port_vlan_add() will be called even for VLAN-unaware bridges, and you
+> want all traffic to be forwarded as if untagged, and not according to
+> the PVID. In other words, in a setup like this:
+>=20
+> ip link add br0 type bridge vlan_filtering 0 && ip link set br0 up
+> ip link set swp0 master br0 && ip link set swp0 up
+> ip link set swp1 master br0 && ip link set swp1 up
+> bridge vlan del dev swp1 vid 1
+>=20
+> forwarding should still take place with no issues, because the entire
+> VLAN table is bypassed by the software bridge when vlan_filtering=3D0, and
+> the hardware accelerator should replicate that behavior.
 
-FYI, that should be taken care of for all DT-based drivers for Renesas
-on-SoC peripherals by
-https://lore.kernel.org/linux-renesas-soc/c1be1e97c5457eade25b0eb5118196677cecfc08.1679039809.git.geert+renesas@glider.be/
+Ok, we'll see how to fix that.
 
-Gr{oetje,eeting}s,
+>=20
+> I suspect that the PVID handling in a5psw_port_vlan_del() is also
+> incorrect:
+>=20
+> 	/* Disable PVID if the vid is matching the port one */
+> 	if (vid =3D=3D a5psw_reg_readl(a5psw, A5PSW_SYSTEM_TAGINFO(port)))
+> 		a5psw_reg_rmw(a5psw, A5PSW_VLAN_IN_MODE_ENA, BIT(port), 0);
+>=20
+> VLAN-aware bridge ports without a PVID should drop untagged and VID-0-tag=
+ged
+> packets. However, as per your own comments:
+>=20
+> | > What does it mean to disable PVID?
+> |=20
+> | It means it disable the input tagging of packets with this PVID.
+> | Incoming packets will not be modified and passed as-is.
+>=20
+> so this is not what happens.
 
-                        Geert
+Yes indeed, and we noticed the handling of VLANVERI and VLANDISC in
+vlan_filtering() should be set according to the fact there is a PVID or
+not (which is not the case right now).
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
