@@ -2,103 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B04C76D00D2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 12:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DF46D013D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 12:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231256AbjC3KNS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 06:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56020 "EHLO
+        id S229807AbjC3KcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 06:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbjC3KNP (ORCPT
+        with ESMTP id S229486AbjC3KcD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 06:13:15 -0400
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC478A7A;
-        Thu, 30 Mar 2023 03:13:09 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id m16so2431609ybk.0;
-        Thu, 30 Mar 2023 03:13:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680171188;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fiQtdZgzOCieHIQyt+UuoiOVmv0W3cDpr9ArTRdEFcQ=;
-        b=Cf0Wg1g9ZDlWEyBJ5jftqyHp8Y7VJb1UQVwd84vE/fjfOzA0jCggavzTHL3whf1tfb
-         dmcN0t8QPWwkqkbc705cSp+Tuy50s5sqVpzdJsU4CwmLV0RfoboVmNKGATllXak4PXym
-         7TGl1uiN9edtSFSfUmvC9Jyp7N2D6mBxFZ4qUu2E4s1jDGLSI5QzVMCN4yKcY6ipE184
-         l68WufhN221p6CnZeQwoeyYuPNyZZCJDL0cxZHbmY9uxRZArA94VZmSzL8uTBDWSBr55
-         xCjIrVNzRiA4K096J3pKAPLBao/mPxz7PWf+3NHregfEl/ksT6JppBLZe95JvLy69u6t
-         DpCg==
-X-Gm-Message-State: AAQBX9fy5viQ5Zmsk5Gtk4yMqDhaBzZ/JHlRG7/wwBoipKBFLDlLjmYT
-        6HsY9HtNEMkOZCt4Ms81rV33xKvFTSEsDg==
-X-Google-Smtp-Source: AKy350Yfn1ou7bsAOJzOvc0vyzvWto3jAIElGlJUgo9Kt8BgFvZXJZ2bwaxX5Ez7fuNYCiTnvfX52w==
-X-Received: by 2002:a05:6902:102a:b0:a27:33f:cba7 with SMTP id x10-20020a056902102a00b00a27033fcba7mr26348109ybt.33.1680171188281;
-        Thu, 30 Mar 2023 03:13:08 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id l186-20020a8157c3000000b00545a0818494sm3467569ywb.36.2023.03.30.03.13.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 03:13:08 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5456249756bso345049517b3.5;
-        Thu, 30 Mar 2023 03:13:07 -0700 (PDT)
-X-Received: by 2002:a81:b617:0:b0:544:4008:baa1 with SMTP id
- u23-20020a81b617000000b005444008baa1mr11162541ywh.4.1680171187711; Thu, 30
- Mar 2023 03:13:07 -0700 (PDT)
+        Thu, 30 Mar 2023 06:32:03 -0400
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED7A19F;
+        Thu, 30 Mar 2023 03:31:59 -0700 (PDT)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 550331883A12;
+        Thu, 30 Mar 2023 10:31:57 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id 3F89F2500389;
+        Thu, 30 Mar 2023 10:31:57 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id 342579B403F6; Thu, 30 Mar 2023 10:31:57 +0000 (UTC)
+X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
+Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
+        by smtp.gigahost.dk (Postfix) with ESMTPSA id 821C49B403E4;
+        Thu, 30 Mar 2023 10:31:56 +0000 (UTC)
+From:   Hans Schultz <netdev@kapio-technology.com>
+To:     Ido Schimmel <idosch@nvidia.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 6/6] selftests: forwarding: add dynamic FDB
+ test
+In-Reply-To: <ZCUuMosWbyq1pK8R@shredder>
+References: <20230318141010.513424-1-netdev@kapio-technology.com>
+ <20230318141010.513424-7-netdev@kapio-technology.com>
+ <ZBgdAo8mxwnl+pEE@shredder> <87a5zzh65p.fsf@kapio-technology.com>
+ <ZCMYbRqd+qZaiHfu@shredder> <87fs9ollmn.fsf@kapio-technology.com>
+ <ZCUuMosWbyq1pK8R@shredder>
+Date:   Thu, 30 Mar 2023 12:29:18 +0200
+Message-ID: <87mt3u7csh.fsf@kapio-technology.com>
 MIME-Version: 1.0
-References: <20230322125648.24948-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230322125648.24948-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230322125648.24948-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 30 Mar 2023 12:12:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVayx_jz+JHO8kd6kdDHp_f+61o2zTDjr1LdGPp37vBjA@mail.gmail.com>
-Message-ID: <CAMuHMdVayx_jz+JHO8kd6kdDHp_f+61o2zTDjr1LdGPp37vBjA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] arm64: dts: renesas: rzg2l-smarc: Enable CRU, CSI support
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 2:09 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Mar 30, 2023 at 09:37, Ido Schimmel <idosch@nvidia.com> wrote:
+> On Tue, Mar 28, 2023 at 09:30:08PM +0200, Hans Schultz wrote:
+>> 
+>> Sorry, but I have sent you several emails telling you about the problems
+>> I have with running the selftests due to changes in the phy etc. Maybe
+>> you have just not received all those emails?
+>> 
+>> Have you checked spamfilters?
+>> 
+>> With the kernels now, I cannot even test with the software bridge and
+>> selftests as the compile fails - probably due to changes in uapi headers
+>> compared to what the packages my system uses expects.
 >
-> Enable CRU, CSI on RZ/G2L SMARC EVK and tie the CSI to OV5645 sensor
-> using Device Tree overlay. rz-smarc-cru-csi-ov5645.dtsi is created so
-> that RZ/G2L alike EVKs can make use of it.
+> My spam filters are fine. I saw your emails where you basically said
+> that you are too lazy to setup a VM to test your patches and that your
+> time is more valuable than mine, which is why I should be testing them.
+> Stop making your problems our problems. It's hardly the first time. If
+> you are unable to test your patches, then invest the time in fixing your
+> setup instead of submitting completely broken patches and making it our
+> problem to test and fix them. I refuse to invest time in reviewing /
+> testing / reworking your submissions as long as you insist on doing less
+> than the bare minimum.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> setenv bootfile kernel_fdt.itb
-> tftpboot ${bootfile}
-> bootm ${fileaddr}#rzg2l-smarc#ov5645
->
-> v2->v3
-> * Moved the gpio.h and rzg2l-pinctrl.h headers to
->   r9a07g044l2-smarc-cru-csi-ov5645.dtso
+> Good luck
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.4.
+I never said or indicated that my time is more valuable than yours. I
+have a VM to run these things that some have spent countless hours to
+develop with the right tools etc installed and set up. Fixing that
+system will take quite many hours for me, so I am asking for some simple
+assistance from someone who already has a system running supporting the
+newest kernel.
 
-Gr{oetje,eeting}s,
+Alternatively if there is an open sourced system available that would be
+great.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+As this patch-set is for the community and some companies that would
+like to use it and not for myself, I am asking for some help from the
+community with a task that when someone has the system in place should
+not take more than 15-20 minutes, maybe even less.
