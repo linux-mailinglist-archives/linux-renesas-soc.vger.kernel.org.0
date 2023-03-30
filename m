@@ -2,123 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2AC76D102D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 22:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 862756D10EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 23:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjC3UnC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 16:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
+        id S229540AbjC3Ve3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 17:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbjC3Um6 (ORCPT
+        with ESMTP id S229508AbjC3Ve2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 16:42:58 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BFDA113DB;
-        Thu, 30 Mar 2023 13:42:47 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id r29so20327296wra.13;
-        Thu, 30 Mar 2023 13:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680208967; x=1682800967;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVLJ+jvYtKAHw9uWehWmKzg7iwxnJbw0QCzpAvbBm74=;
-        b=W7fVzssA8QDCapvKTkoy/XagVfFnxYrLEzjjz8EEr9aqhofp2hVnw8T+E3Jr+nEdNa
-         97dIWkEbf3FORLwLZE/5HArDgiFztVrOgFjz5hxh1jmA6tjNbhheZt3RWJcyaDjN9d5C
-         LGWKU1Ceue5VI2if/h8CyKWHHUO2bN6I3O50fpCnM+VtfM8ZFsQPPztuALBtlfENa6ft
-         YtwUfM/3ASZcD5pylRfLVPvV/BOl1WCNFBmTdMwJqPu5XQp12OIeZD8Oce9m1qZDFFDa
-         RC5c3OwCzvRrbwjIshLD20LU0IonkECsfK766VhHOvAG9yQIskRzqu0j8ZWStESC3bUl
-         hRZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680208967; x=1682800967;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVLJ+jvYtKAHw9uWehWmKzg7iwxnJbw0QCzpAvbBm74=;
-        b=z4CGPZB2HaWm0/8ajzm40PwBjFLHQt1HCpE1hTUCKR+MfzHMgpJz5mbhBEfsRzb0Y+
-         Zx+QgNBaTN7msY2suMGtWEiZ6Gt8WYq9dMyBSWU0RSeyg89+PLpq6ihOXY9qrFQC+WRE
-         5y1/DpvBFWW04P5TpMbTLNIqKf5lfShKnK9AxjUEc2fp0qSvzEB3+H5n5i2bkqSeJqPs
-         y0PHKm/4+Q3q3dcVykoz9qoygfIXWG9fhHSnxjDaHlcgKSCW+/xGlfHnPoOuFFVz5W8j
-         oz8x8g3fXt4HYLNMMf97JFgNnEEdRoxV/wP25JqzEHh/Je+Ynq93re0PKtSuKTF6+bhA
-         a2jw==
-X-Gm-Message-State: AAQBX9cvIeGrCcWFREBCeo3HXzcnMD4UDN40QqbtnjmlRT6DihjnoVZ1
-        nRTBEQpUSv6wr72whIhU1uE=
-X-Google-Smtp-Source: AKy350aAvzzQW67L9QzCg0QWZlDe/xWID6JRpmXb9cTLENUc1XfQLzXnwUJG9YMad8I19gvPKRQjlQ==
-X-Received: by 2002:adf:fac5:0:b0:2cf:f2f9:df7a with SMTP id a5-20020adffac5000000b002cff2f9df7amr18208641wrs.38.1680208967130;
-        Thu, 30 Mar 2023 13:42:47 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:30f2:5b7:ab32:c3f])
-        by smtp.gmail.com with ESMTPSA id v12-20020a5d4b0c000000b002cfed482e9asm297981wrq.61.2023.03.30.13.42.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 13:42:46 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v7 6/6] soc: renesas: Kconfig: Select the required configs for RZ/Five SoC
-Date:   Thu, 30 Mar 2023 21:42:17 +0100
-Message-Id: <20230330204217.47666-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 30 Mar 2023 17:34:28 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D790335B5;
+        Thu, 30 Mar 2023 14:34:27 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 5B925320094E;
+        Thu, 30 Mar 2023 17:34:24 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 30 Mar 2023 17:34:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1680212063; x=1680298463; bh=hp
+        uSAgqfUaqD/ysKyJQwTcBXNZjA8xYFCgAGQ8d1bL8=; b=vPTfmWAyebme5BY4p6
+        J4ucGHGxrN86sr2fRjD+KS3geiZl6TYAyvsUFTPJV9vgZm+YpnhnUAfkJuQyjcZ0
+        HsUAp7qWX2x1XpqS/6Avrs5R6vNIeD2d9e0BclI7l4+Xa85yS7RJ7d4zBfAPteQY
+        IqSl4R+T8FOxkEJWL3lxLJOTpvEslf10gn2QFIk8BUptkGAC1qgV7vk6wPe9Et7X
+        9jJquc17UpAUSDRMARTnPuIVSBD/q6atWEbNYS/Tde0YqW4Rrc97T0IXg06IROeW
+        rxADsu62hJFwbM1wo85cXh3YgY7X/taN2HPLNJWSvyzj1m98x8wrioQ3DIfdaF4V
+        2+0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1680212063; x=1680298463; bh=hpuSAgqfUaqD/
+        ysKyJQwTcBXNZjA8xYFCgAGQ8d1bL8=; b=ZRndJORL0aLLZMdezjvfovMzjPjgD
+        /SKaR2niKqMry7R8FNFZGjh6xUJlJtOb6rhudt5wAj1K9u1sYHvrZpeqlEDxoKFj
+        CTdphfMnjq0IF2XCIbcOBtcqdVkl5LClq/oTtAv9Q5Ek04a3t4xNLzeteriILCbR
+        wFgeLl4JeUAV7iqsnUT3fP1OZ96KKTukwHGEcPp2mXXWnfg6M875wmv6yXpM9OSy
+        0Yx6bCmmskVhOyGFO/I5Pf+60RdcF2NNRAmXxzKR1nCNajILfNoGjY5Flxnbcdz0
+        NKA2Ph3MOwJlhjfrjqwQjxoLGItm1DUYfekI3VnjvQGVBMEAu6735U2nQ==
+X-ME-Sender: <xms:XwAmZHnJYWMFJmQOZtTITumy-EB4NgW6rRQXnIGt1NOfbyYHegs37w>
+    <xme:XwAmZK2aJx29Qpw-cq6bhpawMaG2yq2NHtOziL7jTMDJDb85mCeqym62zH29mwsxN
+    rKC1pGPxWAiawX49cA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehledgjeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:XwAmZNqhsJPQicXWZvvxtikvnPQm5OVNl49IFAyrhhZRaiF1V9y9SA>
+    <xmx:XwAmZPkxehnn8E_iSkk91ZnWcfXm8zZDhRls891efa4l0d1EpjMgMA>
+    <xmx:XwAmZF3BvN2SH4R7BPA2b39JA-WzPFTCtSkq0rWw-BoDi1Rm7vRXsw>
+    <xmx:XwAmZE3yMMFvvLb-B40Fm_jatYudGBfd4G6AXs6SphEee8iJQan4tQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 01C80B60086; Thu, 30 Mar 2023 17:34:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
+Mime-Version: 1.0
+Message-Id: <6ca5941a-8803-477d-8b40-17292decc5af@app.fastmail.com>
+In-Reply-To: <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+ <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Thu, 30 Mar 2023 23:34:02 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Samuel Holland" <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org
+Cc:     "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "Biju Das" <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function pointers
+ for cache management
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Mar 30, 2023, at 22:42, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Currently, selecting which CMOs to use on a given platform is done using
+> and ALTERNATIVE_X() macro. This was manageable when there were just two
+> CMO implementations, but now that there are more and more platforms coming
+> needing custom CMOs, the use of the ALTERNATIVE_X() macro is unmanageable.
+>
+> To avoid such issues this patch switches to use of function pointers
+> instead of ALTERNATIVE_X() macro for cache management (the only drawback
+> being performance over the previous approach).
+>
+> void (*clean_range)(unsigned long addr, unsigned long size);
+> void (*inv_range)(unsigned long addr, unsigned long size);
+> void (*flush_range)(unsigned long addr, unsigned long size);
+>
+> The above function pointers are provided to be overridden for platforms
+> needing CMO.
+>
+> Convert ZICBOM and T-HEAD CMO to use function pointers.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Explicitly select the required Cache management and Errata configs
-required for the RZ/Five SoC.
+This is looking pretty good. There are a few things that I
+still see sticking out, and I think I've mentioned some of 
+them before, but don't remember if there was a reason for
+doing it like this:
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
----
-v6->v7
-* Included RB tag from Conor
+> +#ifdef CONFIG_ERRATA_THEAD_CMO
 
-v5->v6
-* New patch
----
- drivers/soc/renesas/Kconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+I would rename this to not call this an 'ERRATA' but
+just make it a driver. Not important though, and there
+was probably a reason you did it like this.
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index de31589ed054..67604f24973e 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -334,6 +334,10 @@ if RISCV
- config ARCH_R9A07G043
- 	bool "RISC-V Platform support for RZ/Five"
- 	select ARCH_RZG2L
-+	select AX45MP_L2_CACHE
-+	select DMA_GLOBAL_POOL
-+	select ERRATA_ANDES
-+	select ERRATA_ANDES_CMO
- 	help
- 	  This enables support for the Renesas RZ/Five SoC.
- 
--- 
-2.25.1
+> +extern struct riscv_cache_ops noncoherent_cache_ops;
+> +
+> +void riscv_noncoherent_register_cache_ops(const struct riscv_cache_ops 
+> *ops);
+> +
+> +static inline void riscv_dma_noncoherent_clean(void *vaddr, size_t 
+> size)
+> +{
+> +	if (noncoherent_cache_ops.clean_range) {
+> +		unsigned long addr = (unsigned long)vaddr;
+> +
+> +		noncoherent_cache_ops.clean_range(addr, size);
+> +	}
+> +}
 
+The type case should not be necessary here. Instead I would 
+make the callbacks use 'void *' as well, not 'unsigned long'.
+
+It's possible that some future cache controller driver requires
+passing physical addresses, as is common for last level cache,
+but as long as all drivers pass virtual addresses, it's easier
+to do the phys_to_virt() in common code.
+
+It also seems wrong to have the fallback be to do nothing
+when the pointer is NULL, since that cannot actually work
+when a device is not cache coherent.
+
+I would either initialize the function pointer to the
+zicbom version and remove the NULL check, or keep the
+pointer NULL and have an explicit
+'else zicbom_clean_range()' fallback.
+
+> +static void zicbom_register_cmo_ops(void)
+> +{
+> +	riscv_noncoherent_register_cache_ops(&zicbom_cmo_ops);
+> +}
+> +#else
+> +static void zicbom_register_cmo_ops(void) {}
+> +#endif
+
+As far as I recall, the #else path here was needed previously
+to work around a binutils dependency, but with the current
+code, it should be possible to just always enable
+CONFIG_RISCV_ISA_ZICBOM when RISCV_DMA_NONCOHERENT is used.
+
+     Arnd
