@@ -2,85 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 523296D095A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 17:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB47F6D09D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 17:37:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232885AbjC3PVs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 11:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        id S233202AbjC3Phs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 11:37:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232875AbjC3PVq (ORCPT
+        with ESMTP id S233132AbjC3Phq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 11:21:46 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D7391710;
-        Thu, 30 Mar 2023 08:20:47 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id c18so18370309ple.11;
-        Thu, 30 Mar 2023 08:20:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680189622;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9BJN6KvGFEdtYQeDXwsGBPAtMtBePoD/1g7P1KUhX/c=;
-        b=qwC2UA0fLhzbMLvZBRgkV30OtZGXFjlTkuzK/W+vR+5lm131gMRwGpPNk/pG9wrmr2
-         S+wT7xyopxuNbEeKsxfMNqCeiwljp5x9fcGCbyfeXO4chfb/PeOWkVOpGGvazgM6xpzS
-         yAAoK8QtRoifTLzahzcxMiT81TlXlWRWJp4EHi7NSMHIg6HqdHXl8306ttYi45RQcUFW
-         blzrKfmbL87anADROIWA4C/HWYuiewFzkOXhKw9I8tJ4KgEbhPQkf99Je487GyzV9nIU
-         VMZPpWhdIQOLSnccmtuj1xwM70E2Wi8BLHMzYdko3+dtV93kxpDtfrrqdoDke5qYoCG6
-         J2Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680189622;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9BJN6KvGFEdtYQeDXwsGBPAtMtBePoD/1g7P1KUhX/c=;
-        b=AOYfmIVvvLc/R/s4sm8QBFt6rfBZp6qRBU4uCvEcXpQxdl7v0UPi9CT1vFZuErNx2B
-         afCb+bAo0ePVEgwFXM71VEvOxLkwtDijuvEdRCVRlJ6elXfucONXZ5jqB90mBRR6Y4Kq
-         kY1S40kEbTXzHsmLG8PNpCz3YJBYu2Up8p6YotpBreiwhK28KBc02xWbHrE6krk+b4a6
-         zYOqeVngV942E+bJgLtt4GXwjEJnQ1HyKsgJlQow5c2NKgyM5MfQ52mSoGmbRD5c++MU
-         +2Zp3SdKeYOdVU3W5fz24udAN/RUsV90KSW37B3O1K0eEf8t+R2pF4jSkaIwv7UZJpAq
-         tR3Q==
-X-Gm-Message-State: AAQBX9fxYsy8LCBEv3MYmKbS0mEGEXf9oDMQh6M+Ioggd/LHp4IlOs8x
-        Tka4SEQSle+lIdb+EXUTA0U=
-X-Google-Smtp-Source: AKy350br4StkSNKgNvDcGnehHHFVF5xuH1kYdhsE8iAgh6EQrMOwWFYjG1iBg+rAcggIp3+OVxMBmg==
-X-Received: by 2002:a17:902:e2d3:b0:199:1b8a:42a8 with SMTP id l19-20020a170902e2d300b001991b8a42a8mr19616659plc.6.1680189622380;
-        Thu, 30 Mar 2023 08:20:22 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id c19-20020a170902b69300b001a279237e73sm2806213pls.152.2023.03.30.08.20.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 08:20:22 -0700 (PDT)
-Date:   Thu, 30 Mar 2023 18:20:08 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Thu, 30 Mar 2023 11:37:46 -0400
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A182976F;
+        Thu, 30 Mar 2023 08:37:26 -0700 (PDT)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id BAD591883842;
+        Thu, 30 Mar 2023 15:37:22 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id AC9BA2500389;
+        Thu, 30 Mar 2023 15:37:22 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id A74189B403E2; Thu, 30 Mar 2023 15:37:22 +0000 (UTC)
+X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
+Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
+        by smtp.gigahost.dk (Postfix) with ESMTPSA id 04E2D91201E3;
+        Thu, 30 Mar 2023 15:37:22 +0000 (UTC)
+From:   Hans Schultz <netdev@kapio-technology.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew@lunn.ch>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Alexis =?utf-8?Q?Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-Subject: Re: [PATCH net-next 2/2] net: dsa: rzn1-a5psw: disable learning for
- standalone ports
-Message-ID: <20230330152008.ji5mrwbpzklylpck@skbuf>
-References: <20230330083408.63136-1-clement.leger@bootlin.com>
- <20230330083408.63136-3-clement.leger@bootlin.com>
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
+ drivers
+In-Reply-To: <20230330150752.gdquw5kudtrqgzyz@skbuf>
+References: <20230327160009.bdswnalizdv2u77z@skbuf>
+ <87pm8tooe1.fsf@kapio-technology.com>
+ <20230327225933.plm5raegywbe7g2a@skbuf>
+ <87ileljfwo.fsf@kapio-technology.com>
+ <20230328114943.4mibmn2icutcio4m@skbuf>
+ <87cz4slkx5.fsf@kapio-technology.com>
+ <20230330124326.v5mqg7do25tz6izk@skbuf>
+ <87wn2yxunb.fsf@kapio-technology.com>
+ <20230330130936.hxme34qrqwolvpsh@skbuf>
+ <875yaimgro.fsf@kapio-technology.com>
+ <20230330150752.gdquw5kudtrqgzyz@skbuf>
+Date:   Thu, 30 Mar 2023 17:34:44 +0200
+Message-ID: <877cuy6ynf.fsf@kapio-technology.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230330083408.63136-3-clement.leger@bootlin.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,17 +91,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 10:34:08AM +0200, Clément Léger wrote:
-> When port are in standalone mode, they should have learning disabled to
-> avoid adding new entries in the MAC lookup table which might be used by
-> other bridge ports to forward packets. While adding that, also make sure
-> learning is enabled for CPU port.
-> 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
+On Thu, Mar 30, 2023 at 18:07, Vladimir Oltean <olteanv@gmail.com> wrote:
+>
+> Then, make DSA decide whether to handle the "added_by_user && !is_static"
+> combination or not, based on the presence of the DSA_FDB_FLAG_DYNAMIC
+> flag, which will be set in ds->supported_fdb_flags only for the mv88e6xxx
+> driver.
 
-Usually I prefer this kind of change to be treated as a bug and
-backported to older trees, because we see reports of setups which don't
-work due to it. For example, see commit 15f7cfae912e ("net: dsa:
-microchip: make learning configurable and keep it off while standalone")
-which has a Fixes: tag.
+Okay, so this will require a new function in the DSA layer that sets
+which flags are supported and that the driver will call on
+initialization.
+
+Where (in the DSA layer) should such a function be placed and what
+should it be called?
