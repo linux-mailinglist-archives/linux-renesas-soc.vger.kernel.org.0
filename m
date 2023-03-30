@@ -2,61 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DE3F6D04BA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 14:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2A536D0517
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Mar 2023 14:43:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbjC3Maf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Mar 2023 08:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54958 "EHLO
+        id S231384AbjC3Mnd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Mar 2023 08:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC3Mae (ORCPT
+        with ESMTP id S231151AbjC3Mnc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Mar 2023 08:30:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061904C35
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 05:30:32 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phrQ3-0000SX-S4; Thu, 30 Mar 2023 14:30:19 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phrQ1-007lPQ-OI; Thu, 30 Mar 2023 14:30:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1phrQ0-009BAr-Ve; Thu, 30 Mar 2023 14:30:16 +0200
-Date:   Thu, 30 Mar 2023 14:30:16 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        William Breathitt Gray <william.gray@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v14 2/6] mfd: Add Renesas RZ/G2L MTU3a core driver
-Message-ID: <20230330123016.bstolfrxbz6ysrm4@pengutronix.de>
-References: <20230310170654.268047-1-biju.das.jz@bp.renesas.com>
- <20230310170654.268047-3-biju.das.jz@bp.renesas.com>
- <20230316155806.GN9667@google.com>
- <20230329205406.bfjftoto5jikalfh@pengutronix.de>
- <20230330105648.GX2673958@google.com>
+        Thu, 30 Mar 2023 08:43:32 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D55191;
+        Thu, 30 Mar 2023 05:43:31 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id h8so75934664ede.8;
+        Thu, 30 Mar 2023 05:43:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680180209;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=n/8td5sRl3oLpjvJWr+SauyjMW5J+/af8DNO0aQQsj4=;
+        b=R6I/30BG5UPA5FkYjKVUOSk8ON+L56EIBLONKVcUcG66As/OewLwhMJOEZ7pH/CLIF
+         lw5Ldo93TyCnbouWW7sn6r3X1q4G9eBsDkqM7EGHS++EvGHXZ1BPDKRnhCkRnHpH3k7W
+         toyOaQ8AdiCXYmHXxTqfMSFBKgw1bzxE4IuGtB3xQgGZ5fyVGYpbDHx/jTc/43Plix+k
+         TfXLtwH042/qHJ2RMlQ5OwK2exvA5LqhC/2Bcjao6WLpg3vfRYD38I+FcWic3HWgUBY4
+         0OuxkiVp/bNVDNwReIudGNhx0j7PVxoWzHj4bgO+e68KZRf4WBgjXUwtpjuoIHRN3Bwa
+         nxMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680180209;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n/8td5sRl3oLpjvJWr+SauyjMW5J+/af8DNO0aQQsj4=;
+        b=HsAYBc8E7hOiKEWqL0JQAimJWb5p0rSsnvOZESP7nFcnFLu4lgd60lTErPp9XGT/ni
+         Tmmip6TMJ/gPtlbLoPWbksUIZ4BWYy5094mk3NoUmH5+FI7fQw+x+KrCTXDj/uJIm5Ei
+         I0eAMstzM0c7H5ZUp3UBjuCKhwaIJ9TaBEsT2UM8+5dUXeN85BSrOcyDGyu0HTqczY4/
+         x6WpA4CrGsLkgVQ7U5qFvS5YDW5KV3LrBLtrLDq56smC8Yde60dIH05UrC8ifbPP7RmD
+         nR5E1+NobuG4R2kcN7Tcf+c7e/3TCrcX98eogNiEnbc4XRaiXmPf6Ug2PVjFV8ySa5uZ
+         JnjA==
+X-Gm-Message-State: AAQBX9dXktRk2c2zrTasGjTmaDh3f5uPa8kxTbrC/lj2HoMLgpBK4orY
+        Q+UDhbNGu+BcLIFxKunUbqo=
+X-Google-Smtp-Source: AKy350YI2msvuHetohhT7eQ5t1xlC1RudA+4E9BCOndXuD6L8J5sWGjktS0WAdrtvGBAhM/oS9ONAg==
+X-Received: by 2002:aa7:cf19:0:b0:501:dc02:1956 with SMTP id a25-20020aa7cf19000000b00501dc021956mr24516457edy.29.1680180209442;
+        Thu, 30 Mar 2023 05:43:29 -0700 (PDT)
+Received: from skbuf ([188.27.184.189])
+        by smtp.gmail.com with ESMTPSA id q30-20020a50aa9e000000b004fadc041e13sm18202433edc.42.2023.03.30.05.43.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 05:43:29 -0700 (PDT)
+Date:   Thu, 30 Mar 2023 15:43:26 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Hans Schultz <netdev@kapio-technology.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
+ drivers
+Message-ID: <20230330124326.v5mqg7do25tz6izk@skbuf>
+References: <20230318141010.513424-1-netdev@kapio-technology.com>
+ <20230318141010.513424-3-netdev@kapio-technology.com>
+ <20230327115206.jk5q5l753aoelwus@skbuf>
+ <87355qb48h.fsf@kapio-technology.com>
+ <20230327160009.bdswnalizdv2u77z@skbuf>
+ <87pm8tooe1.fsf@kapio-technology.com>
+ <20230327225933.plm5raegywbe7g2a@skbuf>
+ <87ileljfwo.fsf@kapio-technology.com>
+ <20230328114943.4mibmn2icutcio4m@skbuf>
+ <87cz4slkx5.fsf@kapio-technology.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ivmkjnx4zlgwdlxa"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330105648.GX2673958@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+In-Reply-To: <87cz4slkx5.fsf@kapio-technology.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,56 +114,9 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Mar 28, 2023 at 09:45:26PM +0200, Hans Schultz wrote:
+> So the solution would be to not let the DSA layer send the
+> SWITCHDEV_FDB_OFFLOADED event in the case when the new dynamic flag is
+> set?
 
---ivmkjnx4zlgwdlxa
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Thu, Mar 30, 2023 at 11:56:48AM +0100, Lee Jones wrote:
-> On Wed, 29 Mar 2023, Uwe Kleine-K=F6nig wrote:
-> > On Thu, Mar 16, 2023 at 03:58:06PM +0000, Lee Jones wrote:
-> > > On Fri, 10 Mar 2023, Biju Das wrote:
-> > > > [...]
-> > > I plan to take this set via MFD once you have  PWM Ack.
-> > >
-> > > For my own reference (apply this as-is to your sign-off block):
-> > >
-> > > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-> >
-> > Given that the pwm patch needs a rework, I wonder how to proceed here.
-> > Do you want to take patches 1 - 5 now? Or do you prefer to wait until
-> > the pwm patch is fine, too?
->=20
-> If I take them now, you won't be able to apply the PWM driver until next
-> cycle.
-
-*I* have no problem with that, I'd be surprised if Thierry had one.
-Depending on how fast Biju sends a fixed patch and I can review it, we
-won't be much faster.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ivmkjnx4zlgwdlxa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQlgNcACgkQj4D7WH0S
-/k7ubgf/ZCM+FRFxIiMlNLTw3t3GugSN6UWA5j3xv/RgbyKqt9DfThq5UuoTjRU5
-gG8sbCXIAhvOHIwF8d37nUrRM5G6dzAQtzTANtkTGKsdnzv1SfpFWgvn0FNrmu4k
-aRQdbux69cD7Rs0KFZgS1GtFUFYAWr3KfA1NpXwMBL3FTUzZhmmxPagpCm6fAND7
-NYsyGendtX5L4MnFHJmG37QCQ9dvafC5VeyJd3NtFUQbyRD6mv/UTwqAMetAgZo5
-NMuKiZyQp7ciEqOoyF3UHc43WpcR4JtOnAkQ4X/3LNTp6EMiZJCywLvReLAw5/xn
-tFYkHqFeHtbga6ozaOR5s9ejgOyCRA==
-=Xn0l
------END PGP SIGNATURE-----
-
---ivmkjnx4zlgwdlxa--
+I have never said that.
