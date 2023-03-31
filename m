@@ -2,159 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66A7E6D2418
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 17:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 818C36D241E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 17:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbjCaPfP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 11:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56226 "EHLO
+        id S232047AbjCaPjQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 11:39:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjCaPfP (ORCPT
+        with ESMTP id S229523AbjCaPjQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:35:15 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E1610E4;
-        Fri, 31 Mar 2023 08:35:14 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id F3A4921AAC;
-        Fri, 31 Mar 2023 15:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1680276913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bgopTtLCvd94QN1+0LY//7r0zDRlIg6vTuYpHw3fzAI=;
-        b=ZRVgYvYm6jRZNmpCVOkzrgkuBXNCC8D7JWT7YbJ6gnK7qukWuv+eQk7rJy9+dtMCztQXdj
-        BNSSPEoWwRdXhYMgNkn+GKWFu5N3st/ZtT2tAvm0ku5vd2t/syQXL4jq6eRpOCZKxA7+VH
-        QoGuktiYZXj8Go5HlzAL9CPt03CkywI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1680276913;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bgopTtLCvd94QN1+0LY//7r0zDRlIg6vTuYpHw3fzAI=;
-        b=KGmnWEHc9J+I0Wb9nsbwULmKlUrwCcJMYnDXrLoBy0M8Ja+QthUNeECfW1n4zU+bS+I5Ny
-        4yfOv+Y8T1GRR2DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C10AC133B6;
-        Fri, 31 Mar 2023 15:35:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id W6z8LbD9JmTuDQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 31 Mar 2023 15:35:12 +0000
-Message-ID: <7b63909c-07c2-86bd-5a6e-29504b88dae6@suse.de>
-Date:   Fri, 31 Mar 2023 17:35:12 +0200
+        Fri, 31 Mar 2023 11:39:16 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEA524C35;
+        Fri, 31 Mar 2023 08:39:14 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-545e907790fso306010277b3.3;
+        Fri, 31 Mar 2023 08:39:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680277154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bgd1v9r38Hx8sUxhoLjxobImk6YKVHUgGgN0pJ0Zhro=;
+        b=AaCnNE/ho4bILmY+7dzXhvah7ppm3CAbYKCjeZdYX2TGrTzLhwDMhbs48fMhRQYiu1
+         mS6dZpKbPJ24ffjR4p8hVbTTimMULjo4jkTg4eqRmp3bUnMeaSSIf9Q/pfA+eeOV6G/0
+         fT7yJTDmpAa7W+BOyoPk3eLhuD2z4iZjiZTX+/T/XCrmxz3l3LoS3EALNVJgbLAeavL8
+         CCrKywrIsv0Akdjq//TS9XeyuP0Qp1Tz36l9PGeVav3pj9Q5WcqSweHbOta2OgDDv8Pd
+         QrABs6Hit34XzuGn7tlZDQ72ZCUF4w9dzNlwt+Vt2roegfKn9hLqapbFGWK/XoepCnhk
+         iKUw==
+X-Gm-Message-State: AAQBX9dye61dYstEuAD8IQCaF5HV4wZ+pyoZL2VO1nvtNzn5q7eDqZO2
+        ms9kMzWQvLHl0rVmqWO9wv6DvzgoXiRuSw==
+X-Google-Smtp-Source: AKy350ao2v7Etyf69vUUhcQU98JbcE8i8Fm+gfo3B0YbvoIYMmjEDKms+WNz+0rrkNH6xy3ZMy1xDA==
+X-Received: by 2002:a81:a08f:0:b0:541:6158:fa85 with SMTP id x137-20020a81a08f000000b005416158fa85mr22818060ywg.19.1680277153953;
+        Fri, 31 Mar 2023 08:39:13 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id 75-20020a810a4e000000b00545a0818481sm595217ywk.17.2023.03.31.08.39.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 08:39:13 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id e65so27826629ybh.10;
+        Fri, 31 Mar 2023 08:39:13 -0700 (PDT)
+X-Received: by 2002:a25:2749:0:b0:a99:de9d:d504 with SMTP id
+ n70-20020a252749000000b00a99de9dd504mr17930157ybn.12.1680277153144; Fri, 31
+ Mar 2023 08:39:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/5] drm: shmobile: Fixes and enhancements
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-References: <cover.1680273039.git.geert+renesas@glider.be>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <cover.1680273039.git.geert+renesas@glider.be>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iBMAxBiqxaasxQ1oHtj09ku8"
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230331141431.3820311-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWXxUy67noYCq3d2HOKD0rvzmoL=xPGHZ=0GjToJosNNA@mail.gmail.com> <ZCb8pZic2NILOER/@oden.dyn.berto.se>
+In-Reply-To: <ZCb8pZic2NILOER/@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 31 Mar 2023 17:39:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7OX_Sda6HX9+zDWBtAvKBocrWPL0Y0=4Ont5v-4=i6w@mail.gmail.com>
+Message-ID: <CAMuHMdX7OX_Sda6HX9+zDWBtAvKBocrWPL0Y0=4Ont5v-4=i6w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: falcon-csi-dsi: Set bus-type for MAX96712
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iBMAxBiqxaasxQ1oHtj09ku8
-Content-Type: multipart/mixed; boundary="------------IrREz1EpaWTr98WYqdzm8yuw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <7b63909c-07c2-86bd-5a6e-29504b88dae6@suse.de>
-Subject: Re: [PATCH 0/5] drm: shmobile: Fixes and enhancements
-References: <cover.1680273039.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1680273039.git.geert+renesas@glider.be>
+Hi Niklas,
 
---------------IrREz1EpaWTr98WYqdzm8yuw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, Mar 31, 2023 at 5:30 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2023-03-31 17:08:50 +0200, Geert Uytterhoeven wrote:
+> > On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > Specify the bus-type property for all three connected MAX96712.
+> >
+> > Probably this can use a little bit more explanation?
+> > E.g. what does not work?
+>
+> Everything works both with and without this patch. This is done in
+> preparation to making the property mandatory. The default behavior when
+> parsing a node without this property is to default to D-PHY. So this is
+> just playing it safe and future prof tings as the default parsing comes
+> from the V4L2 core and not the driver itself.
 
-SGkNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPg0KDQpmb3IgdGhlIHdob2xlIHBhdGNoc2V0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQpBbSAzMS4wMy4yMyB1bSAxNjo0OCBzY2hyaWViIEdlZXJ0IFV5dHRlcmhvZXZlbjoN
-Cj4gCUhpIGFsbCwNCj4gDQo+IEN1cnJlbnRseSwgdGhlcmUgYXJlIHR3byBkcml2ZXJzIGZv
-ciB0aGUgTENEIGNvbnRyb2xsZXIgb24gUmVuZXNhcw0KPiBTdXBlckgtYmFzZWQgYW5kIEFS
-TS1iYXNlZCBTSC1Nb2JpbGUgYW5kIFItTW9iaWxlIFNvQ3M6DQo+ICAgIDEuIHNoX21vYmls
-ZV9sY2RjZmIsIHVzaW5nIHRoZSBmYmRldiBmcmFtZXdvcmssDQo+ICAgIDIuIHNobW9iX2Ry
-bSwgdXNpbmcgdGhlIERSTSBmcmFtZXdvcmsuDQo+IEhvd2V2ZXIsIG9ubHkgdGhlIGZvcm1l
-ciBkcml2ZXIgY2FuIGJlIHVzZWQsIGFzIGFsbCBwbGF0Zm9ybSBzdXBwb3J0DQo+IGludGVn
-cmF0ZXMgdGhlIGZvcm1lci4gIE5vbmUgb2YgdGhlc2UgZHJpdmVycyBzdXBwb3J0IERULWJh
-c2VkIHN5c3RlbXMuDQo+IA0KPiBUaGlzIHBhdGNoIHNlcmllcyBpcyBhIGZpcnN0IHN0ZXAg
-dG8gZW5hYmxlIHRoZSBTSC1Nb2JpbGUgRFJNIGRyaXZlciBmb3INCj4gUmVuZXNhcyBBUk0t
-YmFzZWQgU0gtTW9iaWxlIGFuZCBSLU1vYmlsZSBTb0NzLiAgVGhlIG5leHQgc3RlcCBwbGFu
-bmVkIGlzDQo+IHRvIGFkZCBEVCBzdXBwb3J0Lg0KPiANCj4gVGhpcyBoYXMgYmVlbiB0ZXN0
-ZWQgb24gdGhlIFItTW9iaWxlIEExLWJhc2VkIEF0bWFyayBUZWNobm8NCj4gQXJtYWRpbGxv
-LTgwMC1FVkEgZGV2ZWxvcG1lbnQgYm9hcmQsIHVzaW5nIGEgdGVtcG9yYXJ5DQo+IHBsYXRm
-b3JtLWVuYWJsZW1lbnQgcGF0Y2hbMV0uDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgY29tbWVu
-dHMhDQo+IA0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci9jMDNkNGVkYmQ2NTA4
-MzZiZjZhOTY1MDRkZjgyMzM4ZWM2ZDgwMGZmLjE2ODAyNzI5ODAuZ2l0LmdlZXJ0K3JlbmVz
-YXNAZ2xpZGVyLmJlDQo+IA0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gKDUpOg0KPiAgICBkcm06
-IHNobW9iaWxlOiBVc2UgJXA0Y2MgdG8gcHJpbnQgZm91cmNjIGNvZGVzDQo+ICAgIGRybTog
-c2htb2JpbGU6IEFkZCBzdXBwb3J0IGZvciBEUk1fRk9STUFUX1hSR0I4ODg4DQo+ICAgIGRy
-bTogc2htb2JpbGU6IFN3aXRjaCB0byBkcm1fY3J0Y19pbml0X3dpdGhfcGxhbmVzKCkNCj4g
-ICAgZHJtOiBzaG1vYmlsZTogQWRkIG1pc3NpbmcgY2FsbCB0byBkcm1fZmJkZXZfZ2VuZXJp
-Y19zZXR1cCgpDQo+ICAgIGRybTogc2htb2JpbGU6IE1ha2UgRFJNX1NITU9CSUxFIHZpc2li
-bGUgb24gUmVuZXNhcyBTb0MgcGxhdGZvcm1zDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9z
-aG1vYmlsZS9LY29uZmlnICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3NobW9iaWxlL3NobW9iX2RybV9jcnRjLmMgIHwgMzUgKysrKysrKysrKysrKysrKysrKy0t
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fZHJ2LmMgICB8ICAz
-ICsrDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9rbXMuYyAgIHwg
-IDkgKysrKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9wbGFu
-ZS5jIHwgIDUgKysrKw0KPiAgIDUgZmlsZXMgY2hhbmdlZCwgNDcgaW5zZXJ0aW9ucygrKSwg
-NyBkZWxldGlvbnMoLSkNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
-IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+OK. I realized most of that after reading your other patch...
 
---------------IrREz1EpaWTr98WYqdzm8yuw--
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > LGTM, so
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Does this need a Fixes: tag?
+> > Fixes: 283252132cb578cf ("arm64: dts: renesas: falcon-csi-dsi: Add and
+> > connect MAX96712")
+> >
+> > Note that a backport to v6.1 and earlier will depend on a backport of
+> > commit f7eeb00845934851 ("media: dt-bindings: media: Add macros for
+> > video interface bus types") in v6.2, too.
+>
+> In a perfect word it would. But since the change is backward compatible
+> I'm not sure it's worth the effort given the dependency on the macro
+> definitions? If you think this is a good idea maybe a separate patch
+> posted for stable that uses the numerical values directly?
 
---------------iBMAxBiqxaasxQ1oHtj09ku8
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+OK, so no Fixes needed.
+And if someone wants to backport it (renesas-bsp?), xe can backport the
+latter, too (in fact renesas-bsp already did).
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQm/bAFAwAAAAAACgkQlh/E3EQov+CL
-6A/+Kx3TRyqGRDdU08FG6qG4Cvf6ANSau0X83PljDvKCotDJS1+kMGxxje96/xVO4NqsYiABZ+oy
-hGfaV31TfsrbOlPRoEKGEVxd1d7bS8wpkqMgERIy5P8JxF29ubozwtJMBrmle9wxqd/3YrCbnSqz
-rd132kSU5DBrHX7/JoQT9RluCWci4SqDxyVDd9sHMFrE96/nS5MidP1IEZwoC+jrXeXaNeXhkti4
-2enO6r+jIJvEPOMCh8ZNLWAjGBvB3nEfWigmu+HiWeGqv/syuHAErIsEuUNIgpYAeqkEJ9j3d6tx
-lPBXEd78YvmuInZWN4gwG3IrrX1twYARTGW6G49bxvV9NhbkFa4urvdC+C+f8hNi33E0AAIEdH3U
-1F0wwL0JDcNvCYzuLvz2vW+geFkBKqMp2GwePrumEaXzRTnFnn42px5xqjD/rOTxYi5On3Lra+ZJ
-ffoEUdsnhiDW/HdeAL/w+B9fb9VcqxcGjkA5h/s8lt2FN2eeAHApl5f54S0xaTMRU9jiZF3NUJVT
-KzNX6KpFZr73VaILnP7/NtCiqUmw8lN510givThUrvNpTcINC2FnWs0DeBRrU6xJdCYXR1KebZBP
-UI1EWwo/wBaAlZl/70ZKvZJCQb4g846mtynvUO3iRqw28jNxuGHcnnHdFFdHoa+N7eyRUWONfUAR
-sBc=
-=sbAn
------END PGP SIGNATURE-----
+                        Geert
 
---------------iBMAxBiqxaasxQ1oHtj09ku8--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
