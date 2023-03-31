@@ -2,114 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D89C76D18E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 09:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BEC6D1915
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 09:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231173AbjCaHqa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 03:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46794 "EHLO
+        id S230332AbjCaHzv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 03:55:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbjCaHqX (ORCPT
+        with ESMTP id S230266AbjCaHzc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 03:46:23 -0400
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D30E1A943;
-        Fri, 31 Mar 2023 00:46:18 -0700 (PDT)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 63BFC188443E;
-        Fri, 31 Mar 2023 07:46:15 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 3241325038AA;
-        Fri, 31 Mar 2023 07:46:15 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id 21C839B403F4; Fri, 31 Mar 2023 07:46:15 +0000 (UTC)
-X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
-Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
-        by smtp.gigahost.dk (Postfix) with ESMTPSA id 6920D91201E3;
-        Fri, 31 Mar 2023 07:46:14 +0000 (UTC)
-From:   Hans Schultz <netdev@kapio-technology.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Ido Schimmel <idosch@nvidia.com>, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 6/6] selftests: forwarding: add dynamic FDB
- test
-In-Reply-To: <20230330192714.oqosvifrftirshej@skbuf>
-References: <20230318141010.513424-1-netdev@kapio-technology.com>
- <20230318141010.513424-7-netdev@kapio-technology.com>
- <ZBgdAo8mxwnl+pEE@shredder> <87a5zzh65p.fsf@kapio-technology.com>
- <ZCMYbRqd+qZaiHfu@shredder> <874jq22h2u.fsf@kapio-technology.com>
- <20230330192714.oqosvifrftirshej@skbuf>
-Date:   Fri, 31 Mar 2023 09:43:34 +0200
-Message-ID: <874jq1mkm1.fsf@kapio-technology.com>
+        Fri, 31 Mar 2023 03:55:32 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 185A51A457;
+        Fri, 31 Mar 2023 00:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1680249308; x=1711785308;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G06WLXOVFAFnLBBUsp6Jlr0u7jQcjZ+I3gaWkuDCem4=;
+  b=edKMwGFar8ioxxHgrSOanZhFrdU4zLo3oB+f4F5xYI1+/AuXw0cVs6fV
+   RYWD7dH5dQ9SJoFR7XOr0oMw4O4HA2z1B2G1m0efbLEtWeEj+5VJMVO+l
+   llVxWizHn/6tOThoYJcPe6CKHISwINlsExvqmIJKNAIi3d32LOso0Kcn5
+   tOkcbjgl0VEmcV4/JdlG4fbjLWIc/R53uR6Mi5E4/YjlHGoAIdfBVLlPg
+   xTavGRNlZe7C9t1GUYCiVfex93/1PWNazxmcM2hPhgoF+mGBZBAlYW0ce
+   tEcwiqrzQbUFbjK/tz5jtwQS+WkZkuPxpYu49e2Z2BwWvZGKV/skgX0OK
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,307,1673938800"; 
+   d="asc'?scan'208";a="208206452"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 31 Mar 2023 00:55:06 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 31 Mar 2023 00:55:06 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Fri, 31 Mar 2023 00:55:04 -0700
+Date:   Fri, 31 Mar 2023 08:54:50 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+CC:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        <linux-riscv@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
+ pointers for cache management
+Message-ID: <c63bace6-1046-4428-97ba-6f12fd119dc6@spud>
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <6ca5941a-8803-477d-8b40-17292decc5af@app.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3+eEFpkaOtz7KiLx"
+Content-Disposition: inline
+In-Reply-To: <6ca5941a-8803-477d-8b40-17292decc5af@app.fastmail.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 22:27, Vladimir Oltean <olteanv@gmail.com> wrote:
-> On Thu, Mar 30, 2023 at 09:07:53PM +0200, Hans Schultz wrote:
->> Not true, it reveals that I forgot to put it in the patch, that's all. As
->> I cannot run several of these tests because of memory constraints I link
->> the file to a copy in a rw area where I modify the list and just run one
->> of the subtests at a time. If I try to run the whole it always fails
->> after a couple of sub-tests with an error.
->> 
->> It seems to me that these scripts are quite memory consuming as they
->> accumulate memory consuption in relation to what is loaded along the
->> way. A major problem with my system.
->
-> I'm sorry for perhaps asking something entirely obvious, but have you tried:
->
-> kernel-dir $ rsync -avr tools/testing/selftests/ root@$board:selftests/
-> board $ cd selftests/drivers/net/dsa/
-> board $ ./bridge_locked_port.sh lan0 lan1 lan2 lan3
->
-> ?
->
-> This is how I always run them, and it worked fine with both Debian
-> (where it's easy to add missing packages to the rootfs) or with a more
-> embedded-oriented Buildroot.
+--3+eEFpkaOtz7KiLx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am not entirely clear of your idea. You need somehow to boot into a
-system with the patched net-next kernel or you have a virtual machine
-boot into a virtual OS. I guess it is the last option you refer to using
-Debian?
+On Thu, Mar 30, 2023 at 11:34:02PM +0200, Arnd Bergmann wrote:
+> On Thu, Mar 30, 2023, at 22:42, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+> > +#ifdef CONFIG_ERRATA_THEAD_CMO
+>=20
+> I would rename this to not call this an 'ERRATA' but
+> just make it a driver. Not important though, and there
+> was probably a reason you did it like this.
+
+I think what was discussed in a prior iteration was that we'd leave
+refactoring the T-HEAD bits into a driver for a subsequent work.
+
+--3+eEFpkaOtz7KiLx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCaRuwAKCRB4tDGHoIJi
+0henAQDzrAo67Su8ED56Dq3c08Eyq7o64Jv8WJBe/+zTzHdyxwEA9bnQTwb2UDwF
+/2XfB1c09QrVeBENyd3hleXb77tXbgo=
+=4qUu
+-----END PGP SIGNATURE-----
+
+--3+eEFpkaOtz7KiLx--
