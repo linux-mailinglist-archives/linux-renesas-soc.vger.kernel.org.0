@@ -2,31 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EDC26D1773
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 08:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D8C6D17C7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 08:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjCaGda (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 02:33:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
+        id S230116AbjCaGuO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 02:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjCaGd3 (ORCPT
+        with ESMTP id S230096AbjCaGuN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 02:33:29 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0FB7E384
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 23:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=j30QLMDESvoyDz9iXByOpZ6fuiif
-        C140J3QpR7RkjPQ=; b=oXu9mPTaTxRk6wk56CLilnLn1AJMz6BsqGKKrOmoxSDk
-        giEsFLBaGazYey8qG+NZ0qFrWc+XpvN/yx5gR+rww/lXF3owJUEeHoarR+rM6lc4
-        1kdYuSl8KXYamdiHBXLAqLrLYstIlsNPBncTnLQBB4/DD5wn/8jldNbqWEX/8rc=
-Received: (qmail 1183893 invoked from network); 31 Mar 2023 08:33:24 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2023 08:33:24 +0200
-X-UD-Smtp-Session: l3s3148p1@iTbcYiz4iqAujnv6
-Date:   Fri, 31 Mar 2023 08:33:24 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Jakub Kicinski <kuba@kernel.org>
+        Fri, 31 Mar 2023 02:50:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62971BC3;
+        Thu, 30 Mar 2023 23:50:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 772D162375;
+        Fri, 31 Mar 2023 06:50:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9B8C433D2;
+        Fri, 31 Mar 2023 06:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680245410;
+        bh=rhyBsElZo0Ta67fGA+xvuCeA4z94ImcI9RFKEh/mtpQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bYlMcsP82q/ZpCZExmr4gv9Yq3dFCE+ZMjWCfOQXzwQpP+xqz8teACYe5wQYouhQF
+         Zyl544dWDDO58wE8jxFZlymWXu6DzoJw5HgriP11OIQ1DAyJRi+uVeek3pJ3sd8T2X
+         ZpMW7jryQTikQgasYqu9S7HZ6OxDsympkyEicjHfHk3WJaQXXHS6ci/3OWNj1xdWeY
+         7UX0oyylKiklREh9+jLqXgw1Wlsz98LrZGDegBPIHBo6Gl1GQmpmAI+3CDVZ2uX8H5
+         YwRE5cOKtJo518oJusAErv9ebYwr/RGqB8bSFTDMPrDFLtwWRKPO8ZBJkkP28qB2A5
+         50Xb0j6F9F+7w==
+Date:   Thu, 30 Mar 2023 23:50:09 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Steve Glendinning <steve.glendinning@shawell.net>,
         "David S. Miller" <davem@davemloft.net>,
@@ -35,67 +43,33 @@ Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net v4] smsc911x: only update stats when interface is up
-Message-ID: <ZCZ+tFtp9NBBjiqv@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
+Message-ID: <20230330235009.4b6d4b8e@kernel.org>
+In-Reply-To: <ZCZ+tFtp9NBBjiqv@ninjato>
 References: <20230329064010.24657-1-wsa+renesas@sang-engineering.com>
- <20230329123958.045c9861@kernel.org>
- <ZCSWJxuu1EY/zBFm@shikoro>
- <20230329131724.4484a881@kernel.org>
+        <20230329123958.045c9861@kernel.org>
+        <ZCSWJxuu1EY/zBFm@shikoro>
+        <20230329131724.4484a881@kernel.org>
+        <ZCZ+tFtp9NBBjiqv@ninjato>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5qdbPEL+nrZZAkQ+"
-Content-Disposition: inline
-In-Reply-To: <20230329131724.4484a881@kernel.org>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, 31 Mar 2023 08:33:24 +0200 Wolfram Sang wrote:
+> > Okay, core changes aside - does pm_runtime_put() imply an RCU sync?
+> > Otherwise your check in get_stats is racy...  
+> 
+> From some light research, I can't find a trace of RCU sync. Pity, I'll
+> need to move furhter investigation to later. I'll report back if I have
+> something, but it may take a while. Thanks for the help!
 
---5qdbPEL+nrZZAkQ+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> Okay, core changes aside - does pm_runtime_put() imply an RCU sync?
-> Otherwise your check in get_stats is racy...
-
-=46rom some light research, I can't find a trace of RCU sync. Pity, I'll
-need to move furhter investigation to later. I'll report back if I have
-something, but it may take a while. Thanks for the help!
-
-
---5qdbPEL+nrZZAkQ+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQmfrAACgkQFA3kzBSg
-KbaqLw//ZoK8taG1FXjfTLeNELsk6VxQP8Gp7XWth0XTlt6av1jXS8HWdO+zvYfI
-HIjujOUzkWqmDJ6YrupRseMl6FXBcWPfKfa/q1eQ68a9Pv0ur+zbhWhKDk/7DaEN
-veuSNRzEjOwTqtqJmF6hsjZFPeuoqijb+ObmYMgMHswUfRsuP4OHi3sJRTsFB2+6
-jGCrQYJH5tPHifl6nkDvaah57Y6r1gG4zMx9Yq8ON0f92ZwAjkt8q5sgv80NxWJu
-3Z+oSa1ysbO2FGqRfH5gVtmrG9wS565O8b6AcD/ZgRP23B+alssS7DNBUVc8FKc0
-RyvFwxLxF7LB23EKsu46Xm/C49junk1xhlQpasldrPQmIbPyAA8vcN4F3ruAZLr9
-v7kk5g+uSOT3r/dFy6byG7vsh18HsGzhm0wlVh447iAT7fasuRI/79cfuufDqI0v
-FI0fVNlWdvsJs+RGl+ZOO3D23fSEYqMiKZSunf/Z/2Mp3H6ZIQKI3QL2G4Ygyjlb
-diCVFcV6P5N1VQ1eSkIrRoAPlonzCy7LKJKE22yF4B/odmdOyTY+zaC0tBNvQ4Q8
-z5ZzWYOTvBSmZplFmPE6Us3inG2NLCFlHb1WWm9GfuWCjqqgM/54rQbml5IQUR6o
-jV1X6s+4tSiOzknY/a0bmZXv/v/LyzctwQrBkyyD3YDdSCnSxk0=
-=QAsY
------END PGP SIGNATURE-----
-
---5qdbPEL+nrZZAkQ+--
+If you don't want to spend too much time you can just call it yourself
+right? :) Put a synchronize_rcu() with a comment about concurrent stat
+reading after pdata->is_open = false; and that's it?
