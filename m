@@ -2,41 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B10EF6D293B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 22:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF4476D2947
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 22:18:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232946AbjCaUQA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 16:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33884 "EHLO
+        id S232996AbjCaUSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 16:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbjCaUP6 (ORCPT
+        with ESMTP id S231313AbjCaUSH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 16:15:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C9B2220D;
-        Fri, 31 Mar 2023 13:15:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E21C62BB4;
-        Fri, 31 Mar 2023 20:15:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44293C433EF;
-        Fri, 31 Mar 2023 20:15:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680293753;
-        bh=16dwsgZWYBPEcC5Mo0pKMFJte2h3ZbqjXpx66wj21YA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Tukh8HKpkIKrGnzD7GGfO5MBqpoaQ94utwny7C0Hv4uqcjdYsFR0z6rZPGeDBkhkg
-         UwBnGYapRWzEQTpmeQK6vxn6mahEdbz+h0kGVRKpRKCzKtH9izPGLQ8BrIZx9nNy4a
-         oa5nxeK7E3RiDg5FtX5u734NQKO0m9EX2XM2RRZbNCbWEGxe6Jkm1A6nHN0fCrCLAt
-         Fa3hwloajB0ybTUimh06xCDoXuRDrJU5CJF+nRpsbAZaTQNPmA6SrZot7MALuqW4+6
-         eYmxF0KHLzrpRETlghwGq8GNwE+UWox/oX6+nQ3n0XsIaChqIoLVpZSissV2T5s9Ww
-         JdnlG/vn8JZlg==
-Date:   Fri, 31 Mar 2023 21:15:46 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+        Fri, 31 Mar 2023 16:18:07 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D48B2220C;
+        Fri, 31 Mar 2023 13:18:06 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id j2so5092533ila.8;
+        Fri, 31 Mar 2023 13:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680293885; x=1682885885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sPBrvhS4C9fH8+UVEU/PMvBSYFvObmXLuJFfdX5dcJg=;
+        b=fa4BxSIgi57AMyUtvtR9HC3rjFIwqjjdJBx5G7TB5hltEcKzhqL0+Of2hzGU+B4qa1
+         WjuKLQY23FBHO0RbFKvigpoXI4CmTlJEYB75WKOyWsFiCSORU37zyymm6SJpfzVEKFU+
+         aNtuQXio1QuheM23jHTqY+czwzrzHDEiCtV8Ug7j/xUfTILz7oQRTZn8Bzur3xDzZaPs
+         25bXr7emhd6mLVcMV4fK9rigr3mFPD9JgzpkP6tcex3TAW1prjdNg0ZHXtb1C5MPicx0
+         RcqXnyrQSv4lD/wDV/UdAK/B4WBqJ5tXk3IXAPfXEEVKiMibr6D2neFqi3y3cr+2LThu
+         Eslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680293885; x=1682885885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sPBrvhS4C9fH8+UVEU/PMvBSYFvObmXLuJFfdX5dcJg=;
+        b=5gEtKDxDZAbq7pclujIxMkNGny7WbwOqwGN2sOk15CNecJ8l1Cu+2EEobpkb07bTI/
+         S5fioMtFDtepYqsAg0Qtlg7UnEF9f1zwPRB5CXaDcOe0rM8IgZtmhp5d6pUN1kHA9s3V
+         7YNbTVioeWv9LC+eXBm1sK7HNtD9ckf8Zmyo0W+/AUj2MbKi+fCGKcohe7t76UZGx2dq
+         dqtoSawWqIOSzrSlsW9HtNfoTvhHbjKIrEQJdyRoF7f38GNwcjq9tM5Pn8LmCmTJdnsg
+         u0U77Ks6LpvJFemDGJlAzZNP1UwTpQPdb4fw2jJY/Bqi9qB6ohN4yvQoiFGueLmFC+X+
+         kLLg==
+X-Gm-Message-State: AAQBX9eB7OgfJbRi4I6mlmtfoHdjdRjDyNVnJqFq2mx95m5CZB7LwJ36
+        ItZ6+ztiW32e6SDfc8NhoYJ4jZYUcpG1PpoTz/c=
+X-Google-Smtp-Source: AKy350Y54OJxf8iUlKpXbAgqSiyCtgyMjlHCU15pwG/udlx4BQ0qKWVSD06JZkpsfbCXKsybTvlOQgTz5Kcxc8QZ5iQ=
+X-Received: by 2002:a05:6e02:1528:b0:326:3b43:4c2a with SMTP id
+ i8-20020a056e02152800b003263b434c2amr3463407ilu.1.1680293885621; Fri, 31 Mar
+ 2023 13:18:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230330204217.47666-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <5468019d-e688-4019-882f-6f9611443408@spud>
+In-Reply-To: <5468019d-e688-4019-882f-6f9611443408@spud>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 31 Mar 2023 20:17:39 +0000
+Message-ID: <CA+V-a8uzk7VmYRgHgXpN9Hz3VUoHU5hN7OUaLzB1KX6m=nkBzQ@mail.gmail.com>
+Subject: Re: [PATCH v7 5/6] cache: Add L2 cache management for Andes AX45MP
+ RISC-V core
+To:     Conor Dooley <conor.dooley@microchip.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
         Andrew Jones <ajones@ventanamicro.com>,
@@ -49,65 +70,93 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        uwu@icenowy.me
-Subject: Re: [PATCH v7 0/6] RISC-V non-coherent function pointer based CMO +
- non-coherent DMA support for AX45MP
-Message-ID: <0d5590e4-e78b-4197-bf17-9de54466470d@spud>
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <b2dcda17-5850-47c1-94bc-4ca87f900581@spud>
- <CA+V-a8s+=OY6CX4XTUwyAE9b=rdJZZfgAaY2nU+6aqnu=X9nxQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r7DYywVukqmnzbkh"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8s+=OY6CX4XTUwyAE9b=rdJZZfgAaY2nU+6aqnu=X9nxQ@mail.gmail.com>
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Conor,
 
---r7DYywVukqmnzbkh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the review.
 
-On Fri, Mar 31, 2023 at 08:09:16PM +0000, Lad, Prabhakar wrote:
-> Hi Conor,
->=20
-> On Fri, Mar 31, 2023 at 7:05=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
-> >
-> > On Thu, Mar 30, 2023 at 09:42:11PM +0100, Prabhakar wrote:
-> >
-> > > - This series requires testing on Cores with zicbom and T-Head SoCs
-> >
-> > I don't actually know if there are Zicbom parts, may need to test that
-> > on QEMU.
-> > I had to revert unrelated content to boot, but my D1 NFS setup seems to
-> > work fine with these changes, so where it is relevant:
-> > Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-kicking on =
-D1
-> >
-> Thank you for testing this. By any chance did you compare the performance?
+On Fri, Mar 31, 2023 at 1:45=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> On Thu, Mar 30, 2023 at 09:42:16PM +0100, Prabhakar wrote:
+>
+> > +STANDALONE CACHE CONTROLLER DRIVERS
+>
+> > +F:   include/cache
+>
+> This can go since the file no longer exists.
+>
+Agreed I will drop this.
 
-No, just tyre kicking. Icenowy had some benchmark for it IIRC, I think
-mining some coin or w/e. +CC them.
+> > +config AX45MP_L2_CACHE
+> > +     bool "Andes Technology AX45MP L2 Cache controller"
+> > +     depends on RISCV && RISCV_DMA_NONCOHERENT
+>
+> This can just be depends on RISCV_DMA_NONCOHERENT, since that's only
+> defined on RISC-V.
+>
+Agreed.
 
---r7DYywVukqmnzbkh
-Content-Type: application/pgp-signature; name="signature.asc"
+> > +static void ax45mp_get_l2_line_size(struct platform_device *pdev)
+> > +{
+> > +     struct device_node *np =3D pdev->dev.of_node;
+> > +     struct device *dev =3D &pdev->dev;
+> > +     int ret;
+> > +
+> > +     ret =3D of_property_read_u32(np, "cache-line-size", &ax45mp_priv-=
+>ax45mp_cache_line_size);
+> > +     if (ret) {
+> > +             dev_err(dev, "Failed to get cache-line-size, defaulting t=
+o 64 bytes\n");
+> > +             ax45mp_priv->ax45mp_cache_line_size =3D AX45MP_CACHE_LINE=
+_SIZE;
+> > +     }
+> > +
+> > +     if (ax45mp_priv->ax45mp_cache_line_size !=3D AX45MP_CACHE_LINE_SI=
+ZE) {
+> > +             dev_err(dev, "Expected cache-line-size to be 64 bytes (fo=
+und:%u). Defaulting to 64 bytes\n",
+> > +                     ax45mp_priv->ax45mp_cache_line_size);
+> > +             ax45mp_priv->ax45mp_cache_line_size =3D AX45MP_CACHE_LINE=
+_SIZE;
+> > +     }
+>
+> I forget, why are we doing this defaulting rather than falling over
+> immediately if we detect the property is missing or wrong?
+>
+No reason as such on not failing on property not existing/Invalid. I
+will bail out in an error case now.
 
------BEGIN PGP SIGNATURE-----
+> > +}
+>
+> > +static const struct riscv_cache_ops ax45mp_cmo_ops =3D {
+> > +     .clean_range =3D &ax45mp_cpu_dma_wb_range,
+> > +     .inv_range =3D &ax45mp_cpu_dma_inval_range,
+> > +     .flush_range =3D &ax45mp_cpu_dma_flush_range,
+> > +};
+>
+> I think it would be nice if your driver functions matched the names used
+> by the ops. (and as I said on the other patch, I think the ops should
+> match the cross-arch naming.
+>
+Agreed, will do.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCc/cgAKCRB4tDGHoIJi
-0qcNAQCb/JCLCWAyFRm/yAdbNFnCLXnc2InpcdffRHVHLrmn2QD9HXRaoIyBKy8C
-+GZGUxjBua3BKi4ILC22+PF1eF7MvAk=
-=W6KH
------END PGP SIGNATURE-----
+> Otherwise, looks grand - although I think I was mostly happy with the
+> last revision too.a
+>
+I know you had provided the RB for the last version ;)
 
---r7DYywVukqmnzbkh--
+Cheers,
+Prabhakar
