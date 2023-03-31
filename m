@@ -2,45 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 400B86D231B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 16:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5F56D2329
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 16:54:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232986AbjCaOxP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 10:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59992 "EHLO
+        id S232944AbjCaOyf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 10:54:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232994AbjCaOxF (ORCPT
+        with ESMTP id S232971AbjCaOy1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 10:53:05 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF67820C1F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Mar 2023 07:52:41 -0700 (PDT)
+        Fri, 31 Mar 2023 10:54:27 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B06C20C0B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Mar 2023 07:53:59 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.187.55])
-        by albert.telenet-ops.be with bizsmtp
-        id f2se2900N1C8whw062sej2; Fri, 31 Mar 2023 16:52:39 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id f2tq2900A1C8whw012tqhi; Fri, 31 Mar 2023 16:53:50 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1piG2N-00FUgr-6b;
-        Fri, 31 Mar 2023 16:48:16 +0200
+        id 1piG3X-00FUhG-LH;
+        Fri, 31 Mar 2023 16:49:29 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1piG36-008fIi-KO;
-        Fri, 31 Mar 2023 16:48:16 +0200
+        id 1piG4H-008fKN-2A;
+        Fri, 31 Mar 2023 16:49:29 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 5/5] drm: shmobile: Make DRM_SHMOBILE visible on Renesas SoC platforms
-Date:   Fri, 31 Mar 2023 16:48:11 +0200
-Message-Id: <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC] staging: board: armadillo800eva: Add DRM support
+Date:   Fri, 31 Mar 2023 16:49:25 +0200
+Message-Id: <c03d4edbd650836bf6a96504df82338ec6d800ff.1680272980.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1680273039.git.geert+renesas@glider.be>
-References: <cover.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
@@ -52,28 +47,104 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The LCD Controller supported by the drm-shmob driver is not only present
-on SuperH SH-Mobile SoCs, but also on Renesas ARM SH/R-Mobile SoCs.
-Make its option visible, so the user can enable support for it.
+Add support for using the SH-Mobile DRM driver instead of the SH-Mobile
+LCDC framebuffer driver.
+
+Based on old kzm9g conversion prototype code by Laurent Pinchart.
+
+Note that the new timings are slightly different, as they are based on
+the AMPIRE AM-800480L1TMQW-T00H-L datasheet.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/shmobile/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Not intended for upstream merge.
+The final solution should be DT-based, and include removal of this file.
 
-diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobile/Kconfig
-index 4ec5dc74a6b0b880..719d4e7a5cd75aad 100644
---- a/drivers/gpu/drm/shmobile/Kconfig
-+++ b/drivers/gpu/drm/shmobile/Kconfig
-@@ -2,7 +2,7 @@
- config DRM_SHMOBILE
- 	tristate "DRM Support for SH Mobile"
- 	depends on DRM && ARM
--	depends on ARCH_SHMOBILE || COMPILE_TEST
-+	depends on ARCH_RENESAS || ARCH_SHMOBILE || COMPILE_TEST
- 	select BACKLIGHT_CLASS_DEVICE
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_DMA_HELPER
+proper operation, this depends on "[PATCH 0/5] drm: shmobile: Fixes and
+enhancements"
+https://lore.kernel.org/r/cover.1680273039.git.geert+renesas@glider.be
+---
+ drivers/staging/board/armadillo800eva.c | 37 +++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/drivers/staging/board/armadillo800eva.c b/drivers/staging/board/armadillo800eva.c
+index 0225234dd7aa6b1c..e5ce61b54b1ca3fb 100644
+--- a/drivers/staging/board/armadillo800eva.c
++++ b/drivers/staging/board/armadillo800eva.c
+@@ -12,6 +12,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/fb.h>
+ #include <linux/kernel.h>
++#include <linux/platform_data/shmob_drm.h>
+ #include <linux/platform_device.h>
+ #include <linux/videodev2.h>
+ 
+@@ -19,6 +20,33 @@
+ 
+ #include "board.h"
+ 
++#ifdef CONFIG_DRM_SHMOBILE
++static struct shmob_drm_platform_data lcdc0_info = {
++	.clk_source = SHMOB_DRM_CLK_BUS,
++	.iface = {
++		.interface = SHMOB_DRM_IFACE_RGB24,
++		.clk_div = 5,
++	},
++	.panel = {
++		.width_mm = 111,
++		.height_mm = 68,
++		.mode = {
++			// Timings based on AMPIRE AM-800480L1TMQW-T00H-L
++			// datasheet
++			.name		= "AMPIRE/AM-800480",
++			.clock		= 33264,
++			.hdisplay	= 800,
++			.hsync_start	= 840,
++			.hsync_end	= 968,
++			.htotal		= 1056,
++			.vdisplay	= 480,
++			.vsync_start	= 515,
++			.vsync_end	= 517,
++			.vtotal		= 525,
++		},
++	},
++};
++#else
+ static struct fb_videomode lcdc0_mode = {
+ 	.name		= "AMPIER/AM-800480",
+ 	.xres		= 800,
+@@ -48,6 +76,7 @@ static struct sh_mobile_lcdc_info lcdc0_info = {
+ 		},
+ 	},
+ };
++#endif
+ 
+ static struct resource lcdc0_resources[] = {
+ 	DEFINE_RES_MEM_NAMED(0xfe940000, 0x4000, "LCD0"),
+@@ -55,7 +84,11 @@ static struct resource lcdc0_resources[] = {
+ };
+ 
+ static struct platform_device lcdc0_device = {
++#ifdef CONFIG_DRM_SHMOBILE
++	.name		= "shmob-drm",
++#else
+ 	.name		= "sh_mobile_lcdc_fb",
++#endif
+ 	.num_resources	= ARRAY_SIZE(lcdc0_resources),
+ 	.resource	= lcdc0_resources,
+ 	.id		= 0,
+@@ -66,7 +99,11 @@ static struct platform_device lcdc0_device = {
+ };
+ 
+ static const struct board_staging_clk lcdc0_clocks[] __initconst = {
++#ifdef CONFIG_DRM_SHMOBILE
++	{ "lcdc0", NULL, "shmob-drm.0" },
++#else
+ 	{ "lcdc0", NULL, "sh_mobile_lcdc_fb.0" },
++#endif
+ };
+ 
+ static const struct board_staging_dev armadillo800eva_devices[] __initconst = {
 -- 
 2.34.1
 
