@@ -2,57 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FAD96D1899
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 09:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDE586D18B6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 09:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbjCaHb2 convert rfc822-to-8bit (ORCPT
+        id S230318AbjCaHhS convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 03:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60132 "EHLO
+        Fri, 31 Mar 2023 03:37:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbjCaHb1 (ORCPT
+        with ESMTP id S229529AbjCaHhR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 03:31:27 -0400
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B0CB44E;
-        Fri, 31 Mar 2023 00:31:26 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-536af432ee5so400839157b3.0;
-        Fri, 31 Mar 2023 00:31:26 -0700 (PDT)
+        Fri, 31 Mar 2023 03:37:17 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE67199B;
+        Fri, 31 Mar 2023 00:37:17 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5463fa0c2bfso69789997b3.1;
+        Fri, 31 Mar 2023 00:37:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680247885;
+        d=1e100.net; s=20210112; t=1680248236;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CUd21DqN56tUJJauxzkykeUBegNuegGhlGwWCjC09Bs=;
-        b=XUsOuEyYJ4pdt/iyo2h3i4Vk9Ewxll9E+PmZPbwSKJxXFh/enZObs4zaeqvYZyqtvB
-         Y271wzwBiLPA53lLUue8cLKora/KZE4EhF3oi6KOhbihln/CoHjCUxpBguNYUM6fIWlB
-         E5KNFClAX7W8M5GBtLepyY7x+FKRE4kJZHfmXFr2Cet0+oHgkSNgfkgBjyutbsiMwPz7
-         JLIq6FaS/lCiKUsxxrB4nhqG1P76+VF5M7tXYrfMFkUpsTS4EmvVvwP46hymSMLgv+0H
-         +oWP+wsAzmj4EUu1z//6lIOUVyBzCSZpgv1Ow4ypQlR4o05YtsiRlrvJ7GL9JUabZ1Vm
-         EwKw==
-X-Gm-Message-State: AAQBX9cXBjLl40lvBD331JGUfSIXnUd4d0/sFS/4mze9l0KrXccQM7v+
-        5mNOCtOFKFXizga6StzSOv8/mhmqQITM2CSM
-X-Google-Smtp-Source: AKy350Y9tjv6c27rnNvCUslBs8mc1G4k6/FF9mARBwAX5wjTJk/yrBTxteLNouqngBMwIJW2pXyYwA==
-X-Received: by 2002:a0d:d6d1:0:b0:53c:8a40:330f with SMTP id y200-20020a0dd6d1000000b0053c8a40330fmr27236603ywd.22.1680247885503;
-        Fri, 31 Mar 2023 00:31:25 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id 188-20020a8114c5000000b00545a081848esm377380ywu.30.2023.03.31.00.31.25
+        bh=vMCPBKqa5X7qdxmutmPXldx9K7gy/4RLJ6RttIJMQZE=;
+        b=bYb5Hlx4fJLVvInPcmj4uLtRfeQvc5uPYKTCLQhd5IGqZ4b8UbpdDBn0zEof7dJT7M
+         lpZ29AZNfPpaDgI+fXN4Qd4jy3IGonC+WUrfu/aIaQosCFG4e60FCxSsvRjr1YBPUEXi
+         KxwfvZZCzXEUBL8mBIYK5/Z1PqEuWLGlikzBcJaG5auq6Uw6GFWyUEOSt4tvqf1CfsRi
+         VvvzGVuwOrqVOGb+kyKubMPHDJCfORjJnTEvjDIjK0m0qsEVTujdanTo5Zefu+bV6W4d
+         MSQ0UeEJz8d7ukhx4JKcR2WTq1wD+SAFdkfNst9nZCRTdW61hU4uembXzjgBGOYFJM03
+         DQZg==
+X-Gm-Message-State: AAQBX9c4PvbXZ9Ge3Oh7ZJCm7387MvT6pj8p+z/poqy+tJUQHMRT7RQV
+        Fo83X+IBT+3LIPBc/IelV3XatDke6+N9W6fl
+X-Google-Smtp-Source: AKy350YKTTRDcNXIjTfJDfEOv4ZMgswwLd47ihrHjWmjOf9Eca3Yfg5BdZ4ylcvIVx3BEFa4Sm/M7w==
+X-Received: by 2002:a81:6141:0:b0:52e:cd73:f927 with SMTP id v62-20020a816141000000b0052ecd73f927mr22476359ywb.48.1680248236195;
+        Fri, 31 Mar 2023 00:37:16 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id l133-20020a81258b000000b00545a08184e5sm368272ywl.117.2023.03.31.00.37.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 00:31:25 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-545cb3c9898so324939957b3.7;
-        Fri, 31 Mar 2023 00:31:25 -0700 (PDT)
-X-Received: by 2002:a81:b65f:0:b0:545:611c:8d19 with SMTP id
- h31-20020a81b65f000000b00545611c8d19mr13248405ywk.4.1680247884888; Fri, 31
- Mar 2023 00:31:24 -0700 (PDT)
+        Fri, 31 Mar 2023 00:37:15 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id f188so7980218ybb.3;
+        Fri, 31 Mar 2023 00:37:15 -0700 (PDT)
+X-Received: by 2002:a25:24c3:0:b0:a02:a3a6:78fa with SMTP id
+ k186-20020a2524c3000000b00a02a3a678famr13492502ybk.12.1680248235245; Fri, 31
+ Mar 2023 00:37:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230330204217.47666-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230330204217.47666-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 31 Mar 2023 09:31:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVseMfkQw5OnTM4CxW9BUCZ0pVZP6px67h8VPah0x3QAA@mail.gmail.com>
-Message-ID: <CAMuHMdVseMfkQw5OnTM4CxW9BUCZ0pVZP6px67h8VPah0x3QAA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
- pointers for cache management
+Date:   Fri, 31 Mar 2023 09:37:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWz=Vf1svs3TJrCSq8ED0rEy-NURQ++bUspo73zfct50A@mail.gmail.com>
+Message-ID: <CAMuHMdWz=Vf1svs3TJrCSq8ED0rEy-NURQ++bUspo73zfct50A@mail.gmail.com>
+Subject: Re: [PATCH v7 6/6] soc: renesas: Kconfig: Select the required configs
+ for RZ/Five SoC
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
         Conor Dooley <conor.dooley@microchip.com>,
@@ -80,86 +80,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-Thanks for your patch!
-
 On Thu, Mar 30, 2023 at 10:42 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Currently, selecting which CMOs to use on a given platform is done using
-> and ALTERNATIVE_X() macro. This was manageable when there were just two
-
-the ALTERNATIVE_X()
-
-> CMO implementations, but now that there are more and more platforms coming
-> needing custom CMOs, the use of the ALTERNATIVE_X() macro is unmanageable.
->
-> To avoid such issues this patch switches to use of function pointers
-
-"the use" or "using"
-
-> instead of ALTERNATIVE_X() macro for cache management (the only drawback
-
-the ALTERNATIVE_X()
-
-> being performance over the previous approach).
->
-> void (*clean_range)(unsigned long addr, unsigned long size);
-> void (*inv_range)(unsigned long addr, unsigned long size);
-> void (*flush_range)(unsigned long addr, unsigned long size);
->
-> The above function pointers are provided to be overridden for platforms
-> needing CMO.
->
-> Convert ZICBOM and T-HEAD CMO to use function pointers.
+> Explicitly select the required Cache management and Errata configs
+> required for the RZ/Five SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-> --- a/arch/riscv/errata/thead/errata.c
-> +++ b/arch/riscv/errata/thead/errata.c
-
-> +#ifdef CONFIG_ERRATA_THEAD_CMO
-
-> +static void thead_register_cmo_ops(void)
-> +{
-> +       riscv_noncoherent_register_cache_ops(&thead_cmo_ops);
-> +}
-> +#else
-> +static void thead_register_cmo_ops(void) {}
-> +#endif
-
-> --- a/arch/riscv/mm/dma-noncoherent.c
-> +++ b/arch/riscv/mm/dma-noncoherent.c
-
-> @@ -75,3 +83,12 @@ void riscv_noncoherent_supported(void)
->              "Non-coherent DMA support enabled without a block size\n");
->         noncoherent_supported = true;
->  }
-> +
-> +void riscv_noncoherent_register_cache_ops(const struct riscv_cache_ops *ops)
-> +{
-> +       if (!ops)
-> +               return;
-
-This is never true.
-I guess originally you wanted to call riscv_noncoherent_register_cache_ops()
-unconditionally from common code, instead of the various *register_cmo_ops()?
-But that would have required something like
-
-#ifdef CONFIG_ERRATA_THEAD_CMO
-#define THEAD_CMO_OPS_PTR   (&thead_cmo_ops)
-#else
-#define THEAD_CMO_OPS_PTR   NULL
-#endif
-
-Or can we come up with some macro like pm_ptr(), but that also takes
-care of the "&", so we can do "#define thead_cmo_ops NULL"?
-
-> +
-> +       noncoherent_cache_ops = *ops;
-> +}
-> +EXPORT_SYMBOL_GPL(riscv_noncoherent_register_cache_ops);
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
