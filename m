@@ -2,120 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3BB6D191F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 09:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561416D1971
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 10:09:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230389AbjCaH6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 03:58:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37162 "EHLO
+        id S230064AbjCaIJ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 04:09:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbjCaH6s (ORCPT
+        with ESMTP id S229629AbjCaIJ0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 03:58:48 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C50710D7;
-        Fri, 31 Mar 2023 00:58:47 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id F15D35C01C0;
-        Fri, 31 Mar 2023 03:58:46 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 31 Mar 2023 03:58:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1680249526; x=1680335926; bh=wH
-        aFZh9Hjt71v1c/Rx3QN0Gf6IAjxia8M9ANG/7PiMU=; b=alX5bdCEDMDEuYnsGY
-        iucLQv7b+7i/49as9dH58EZpEOY5EJ7tFCR6CH3KYDHdqaTUDBSrN9ix6SxTvOuK
-        RXVYmGGDuIANQthZQpO5ycyI/bhajwGTOh0seZjerEpGD4BK0LgrTR/OKxjUec1X
-        myW5ESxHyfLX44jhpKE8ASdQN/drjHC39jbNDhOtz/XuYPssieX2lQ+BRDJ7b7Jl
-        wDzM9HVU+vFtBfkmpg8u5T6QWmNzDeBtLcFMvwGfA9JVaqCWAUWLjBYOaujQLEfe
-        9W1pkxpXoc5X0WOQoEknBmMUWr26duTk3tr6FerxFCew9a4RxhrQhppGvuSc22Ii
-        eTpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680249526; x=1680335926; bh=wHaFZh9Hjt71v
-        1c/Rx3QN0Gf6IAjxia8M9ANG/7PiMU=; b=lOFo7bxKojH/ePY7knlvBmje9OV5V
-        gAk/zPc9PytSlgFWPVulRG9PaF9ZIk/PUiFNe9cmHu8N9oPwKSOJOjkfBAvM/suG
-        fFt1herjaPgjtkgOCQZh9gQiGVljbAdoJTtSLbYtiwCcLrZDOy3tJTY9UWRC/VsX
-        AXdldjgnbBVEqkPd2dyd9uZckb/9RpjhwmzGc/3VqC695dBqPCLQlc6aIUKkSYTt
-        2K2+EIk2L2EKKo5BCd6iGv7CCh2sOd/K+jzVhzV7D57+sZa3G4jQ9C/MPlQUsk6L
-        Vi30Fw2QlVhMVfk68pIJjneX1Amp8uq1aKX1hJykno83ZxhCRgC884o/Q==
-X-ME-Sender: <xms:tpImZFe0R5LrJjfZVziAaclxa3r3gUK2RftkazW6Abe0mgk2XuItPQ>
-    <xme:tpImZDMPuK6H_FxYZlXtgaLYbb5td-oTgJLXyx7ovk4DldqHNzhvLFmj_U4XQe0jj
-    dVavPtsveYX25Gww0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeitddguddvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:tpImZOiiavZKiAdFLvHv21kMcSBx5Nmsq3z0G444kPGg53uBE8YR4A>
-    <xmx:tpImZO84h1zvkCjOtw8iH-yt0-Wco_jCxImi07LPYgHj-OQRNMa4-w>
-    <xmx:tpImZBu8Ud1zpxVhotDPQlb5kQdk1VxBHvejmkemGuJA-trhf2zGHA>
-    <xmx:tpImZBOP00k0sZkgqZYLG4AwRG_aWQenGN2-v3KvCkqAzgbyP4WR9Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 08457B6008D; Fri, 31 Mar 2023 03:58:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
-Mime-Version: 1.0
-Message-Id: <887fe1ff-0bb7-485d-a7ef-262bab808c31@app.fastmail.com>
-In-Reply-To: <c63bace6-1046-4428-97ba-6f12fd119dc6@spud>
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <6ca5941a-8803-477d-8b40-17292decc5af@app.fastmail.com>
- <c63bace6-1046-4428-97ba-6f12fd119dc6@spud>
-Date:   Fri, 31 Mar 2023 09:58:25 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Conor.Dooley" <conor.dooley@microchip.com>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        guoren <guoren@kernel.org>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Samuel Holland" <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function pointers
- for cache management
+        Fri, 31 Mar 2023 04:09:26 -0400
+Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA8126BD;
+        Fri, 31 Mar 2023 01:09:16 -0700 (PDT)
+Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
+        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id E758E18844A7;
+        Fri, 31 Mar 2023 08:09:14 +0000 (UTC)
+Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
+        by mailout.gigahost.dk (Postfix) with ESMTP id C2F5F2503962;
+        Fri, 31 Mar 2023 08:09:14 +0000 (UTC)
+Received: by smtp.gigahost.dk (Postfix, from userid 1000)
+        id B5F069B403E2; Fri, 31 Mar 2023 08:09:14 +0000 (UTC)
+X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
+Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
+        by smtp.gigahost.dk (Postfix) with ESMTPSA id C9DC291201E3;
+        Fri, 31 Mar 2023 08:09:13 +0000 (UTC)
+From:   Hans Schultz <netdev@kapio-technology.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Ido Schimmel <idosch@nvidia.com>, davem@davemloft.net,
+        kuba@kernel.org, netdev@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
+        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Ivan Vecera <ivecera@redhat.com>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 net-next 6/6] selftests: forwarding: add dynamic FDB
+ test
+In-Reply-To: <20230330192714.oqosvifrftirshej@skbuf>
+References: <20230318141010.513424-1-netdev@kapio-technology.com>
+ <20230318141010.513424-7-netdev@kapio-technology.com>
+ <ZBgdAo8mxwnl+pEE@shredder> <87a5zzh65p.fsf@kapio-technology.com>
+ <ZCMYbRqd+qZaiHfu@shredder> <874jq22h2u.fsf@kapio-technology.com>
+ <20230330192714.oqosvifrftirshej@skbuf>
+Date:   Fri, 31 Mar 2023 10:06:34 +0200
+Message-ID: <871ql5mjjp.fsf@kapio-technology.com>
+MIME-Version: 1.0
 Content-Type: text/plain
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 31, 2023, at 09:54, Conor Dooley wrote:
-> On Thu, Mar 30, 2023 at 11:34:02PM +0200, Arnd Bergmann wrote:
->> On Thu, Mar 30, 2023, at 22:42, Prabhakar wrote:
->> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
->> > +#ifdef CONFIG_ERRATA_THEAD_CMO
+On Thu, Mar 30, 2023 at 22:27, Vladimir Oltean <olteanv@gmail.com> wrote:
+> On Thu, Mar 30, 2023 at 09:07:53PM +0200, Hans Schultz wrote:
+>> Not true, it reveals that I forgot to put it in the patch, that's all. As
+>> I cannot run several of these tests because of memory constraints I link
+>> the file to a copy in a rw area where I modify the list and just run one
+>> of the subtests at a time. If I try to run the whole it always fails
+>> after a couple of sub-tests with an error.
 >> 
->> I would rename this to not call this an 'ERRATA' but
->> just make it a driver. Not important though, and there
->> was probably a reason you did it like this.
+>> It seems to me that these scripts are quite memory consuming as they
+>> accumulate memory consuption in relation to what is loaded along the
+>> way. A major problem with my system.
 >
-> I think what was discussed in a prior iteration was that we'd leave
-> refactoring the T-HEAD bits into a driver for a subsequent work.
+> I'm sorry for perhaps asking something entirely obvious, but have you tried:
+>
+> kernel-dir $ rsync -avr tools/testing/selftests/ root@$board:selftests/
+> board $ cd selftests/drivers/net/dsa/
+> board $ ./bridge_locked_port.sh lan0 lan1 lan2 lan3
+>
+> ?
+>
+> This is how I always run them, and it worked fine with both Debian
+> (where it's easy to add missing packages to the rootfs) or with a more
+> embedded-oriented Buildroot.
 
-Ok, makes sense.
+The memory problems are of course on the embedded target. In that case I
+think it would be a very good idea to do something to design the system
+better, so that it frees memory between the subtests.
 
-     Arnd
+If all tests are always run on the bridge only, I think they don't make
+much sense as these patchsets are directed towards switchcores.
