@@ -2,95 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D57F16D27EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 20:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44AD76D2928
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 22:09:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231159AbjCaShC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 14:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42968 "EHLO
+        id S232818AbjCaUJv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 16:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232619AbjCaShA (ORCPT
+        with ESMTP id S231983AbjCaUJr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 14:37:00 -0400
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77286236A3;
-        Fri, 31 Mar 2023 11:36:58 -0700 (PDT)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-17683b570b8so24084644fac.13;
-        Fri, 31 Mar 2023 11:36:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680287818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        Fri, 31 Mar 2023 16:09:47 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB3D22214;
+        Fri, 31 Mar 2023 13:09:44 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id h187so8486875iof.7;
+        Fri, 31 Mar 2023 13:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680293383; x=1682885383;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+bjD1EcJNKzAi8wncOI0Nv9d4Dm2eSpivDuCUZ0uj+Q=;
-        b=YSXAVDJxZlnP5rNK4AcZzldroEqDbpdAA0yuUytbn4ubDAyR2lWl7ovQDRiSXXspf/
-         KEILaGN1MEqyDeDoOzdpI0wLjGPKwophEEkIPnz5hHQUxJSiugKAh9KsMukmc2yXwtc/
-         6twOGxO6yJn2myXjPw4CtFQ7rlKX/xNyBMnwGUglNT29pGx14wY4kvm5og3Hbt0/sNSs
-         BJFKAYS7pIQNnShCy2p9ayinx3Q2svq+UB3c6GWOxUD1GXEG9KKG7gzRl2LoLdLNQS+A
-         PGtFHoKwk3PgenEPeZT4eQ0PJqWWisCnESQjiaJCHefa/6B85syhN5REp8HbM6HWuYhN
-         48wQ==
-X-Gm-Message-State: AAQBX9eFTegTJMPBW7AI2Va9LH7lT+bb32CKvzKXey4DIEO/PxLC6Svm
-        0p62TcBRU02yxgYFelutTg==
-X-Google-Smtp-Source: AKy350Y886xOZ+2ooL5E3zJvqqPPH1/c5nOufsJ+DfqnVrTuBrB0nKcCnpq/FFcxJ0fp42lzvWwBTg==
-X-Received: by 2002:a05:6870:d191:b0:177:a92e:ee6 with SMTP id a17-20020a056870d19100b00177a92e0ee6mr17583742oac.54.1680287817716;
-        Fri, 31 Mar 2023 11:36:57 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k24-20020a056830169800b0069f95707335sm1369913otr.69.2023.03.31.11.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 11:36:57 -0700 (PDT)
-Received: (nullmailer pid 1920516 invoked by uid 1000);
-        Fri, 31 Mar 2023 18:36:56 -0000
-Date:   Fri, 31 Mar 2023 13:36:56 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] dt-bindings: timer: renesas: ostm: Document RZ/Five SoC
-Message-ID: <168028781598.1920458.10411321215956149029.robh@kernel.org>
-References: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=1NAz9S30aGFPtEuWfJEyiKcdkusKBbk0JyFKWd+aoVA=;
+        b=G2WAtaKi4SqMg8ku//tzWr4dU1WOMosZlfN+GwaOHuWVINLMXHGKqsHCtByB+WJpJ2
+         Vs3XtxJ1n9r1C+PFSKAggGuiSrU6Z7AXtOFOFEDntKZL9Ir9Fcup9O6xrNkB0kWv70se
+         fTLrsCd8zdfnVfLcS9DYFRvKOV53+ZB90DmmlNMlVBCciz1wfJAkyZILgez2gQ1F5tbY
+         HmnCEzViVy6O33SZC8HDtD92BPcl3Z+RhKx7u7yaNcu4JRkLAt604rML0XBydHPHcl0K
+         U4Rh2DG2vnwEsZy9mlonDlq/JN30a0fOf7+ve0OK7eVEmnQNwKy/qIsgEhh6iQOpBh/u
+         qfWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680293383; x=1682885383;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1NAz9S30aGFPtEuWfJEyiKcdkusKBbk0JyFKWd+aoVA=;
+        b=Kj5d8zocT7/zJd/Sx7+RWcGHGXgLotBRclYQVqc6yG49Jb4OOLbA9j4FZyVUhyPQbz
+         x6HOtwU5+EyK3lZwUYb14Bl1Gi5mgdnRorvQHytqlQ9oHynU+XWH6S/8r4MasalQewiC
+         nRTaFoiALsV08zK7ODMfMtNlW52Ub27XT/TK+kr5xVk13L0H4Z0EHNOiD03ScyPg4Tu8
+         rjM7l8GvuKDtGfcxqBRv8tRNUxcnR186qPZKT5NjdGjUI4IeKxOs24BSJ7vJoFOR4zqJ
+         FoHdGvANae2wyM2Hvjzv9EfizlMN+gj2ulyYfine8GfEvaW/KL5UPUbCWt9T+9qm2h7E
+         Yj4w==
+X-Gm-Message-State: AO0yUKV10f1VwWkv4lvQZx7gNXlSNLoyI9aoTMBcb0ZF+DN9iX+FddUO
+        LPZ0cWekVaafKSiMteVhqdWVwMPK8uK7BqnrvfA6fAi/cd4JNA==
+X-Google-Smtp-Source: AK7set/N3YGnS9ogYf8bW40PdxxrBzO9MUQuB3Lh+RxfeeKlwnhxk2YA2WgzehfEB2G8ERWuDMiioDseQ+shcBi6xvg=
+X-Received: by 2002:a02:a182:0:b0:3c5:1971:1b7b with SMTP id
+ n2-20020a02a182000000b003c519711b7bmr10783828jah.1.1680293383261; Fri, 31 Mar
+ 2023 13:09:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323185112.13855-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <b2dcda17-5850-47c1-94bc-4ca87f900581@spud>
+In-Reply-To: <b2dcda17-5850-47c1-94bc-4ca87f900581@spud>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 31 Mar 2023 20:09:16 +0000
+Message-ID: <CA+V-a8s+=OY6CX4XTUwyAE9b=rdJZZfgAaY2nU+6aqnu=X9nxQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] RISC-V non-coherent function pointer based CMO +
+ non-coherent DMA support for AX45MP
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Conor,
 
-On Thu, 23 Mar 2023 18:51:12 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The OSTM block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,r9a07g043-ostm" compatible string will be used on the
-> RZ/Five SoC so to make this clear, update the comment to include RZ/Five
-> SoC.
-> 
-> No driver changes are required as generic compatible string
-> "renesas,ostm" will be used as a fallback on RZ/Five SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/timer/renesas,ostm.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+On Fri, Mar 31, 2023 at 7:05=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Thu, Mar 30, 2023 at 09:42:11PM +0100, Prabhakar wrote:
+>
+> > - This series requires testing on Cores with zicbom and T-Head SoCs
+>
+> I don't actually know if there are Zicbom parts, may need to test that
+> on QEMU.
+> I had to revert unrelated content to boot, but my D1 NFS setup seems to
+> work fine with these changes, so where it is relevant:
+> Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-kicking on D1
+>
+Thank you for testing this. By any chance did you compare the performance?
 
-Acked-by: Rob Herring <robh@kernel.org>
-
+Cheers,
+Prabhakar
