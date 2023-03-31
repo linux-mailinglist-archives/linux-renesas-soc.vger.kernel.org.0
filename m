@@ -2,50 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B049D6D171A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 08:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EDC26D1773
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 08:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbjCaGC3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 02:02:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50714 "EHLO
+        id S230039AbjCaGda (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 02:33:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjCaGC2 (ORCPT
+        with ESMTP id S229529AbjCaGd3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 02:02:28 -0400
+        Fri, 31 Mar 2023 02:33:29 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7340ACA0B
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 23:02:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0FB7E384
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 23:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=oTBeSyANGvYTvZGv/yjKbgHwqoOH
-        PgLHtmNhf4S1oEo=; b=rPtmrypJ6xxitPxAbhDbTQYB8H5YJST13c52+PaCWJB9
-        bJUxKakDT3sHhQf94TOxhoNZimxkEZiM7qnJrzRPl7CrZuju4WRrRxs5Alw44odP
-        4niiDirM3GMLHqZy4TFBpvmJlJL9DKlH3goTK/fTJGhTehb1KRu7vvduUEyi19k=
-Received: (qmail 1176182 invoked from network); 31 Mar 2023 08:02:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2023 08:02:22 +0200
-X-UD-Smtp-Session: l3s3148p1@drDW8yv4gokujnv6
-Date:   Fri, 31 Mar 2023 08:02:21 +0200
+        :content-type:in-reply-to; s=k1; bh=j30QLMDESvoyDz9iXByOpZ6fuiif
+        C140J3QpR7RkjPQ=; b=oXu9mPTaTxRk6wk56CLilnLn1AJMz6BsqGKKrOmoxSDk
+        giEsFLBaGazYey8qG+NZ0qFrWc+XpvN/yx5gR+rww/lXF3owJUEeHoarR+rM6lc4
+        1kdYuSl8KXYamdiHBXLAqLrLYstIlsNPBncTnLQBB4/DD5wn/8jldNbqWEX/8rc=
+Received: (qmail 1183893 invoked from network); 31 Mar 2023 08:33:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2023 08:33:24 +0200
+X-UD-Smtp-Session: l3s3148p1@iTbcYiz4iqAujnv6
+Date:   Fri, 31 Mar 2023 08:33:24 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Steen.Hegelund@microchip.com
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        steve.glendinning@shawell.net, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        geert+renesas@glider.be, linux-kernel@vger.kernel.org
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net v4] smsc911x: only update stats when interface is up
-Message-ID: <ZCZ3bSlOF9Sm4DJ2@ninjato>
+Message-ID: <ZCZ+tFtp9NBBjiqv@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Steen.Hegelund@microchip.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, steve.glendinning@shawell.net,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, geert+renesas@glider.be,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-kernel@vger.kernel.org
 References: <20230329064010.24657-1-wsa+renesas@sang-engineering.com>
- <CRIP4UR9M4IS.V7ZOZHKV9QRX@den-dk-m31857>
+ <20230329123958.045c9861@kernel.org>
+ <ZCSWJxuu1EY/zBFm@shikoro>
+ <20230329131724.4484a881@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZPUO7quT3QOZiRXY"
+        protocol="application/pgp-signature"; boundary="5qdbPEL+nrZZAkQ+"
 Content-Disposition: inline
-In-Reply-To: <CRIP4UR9M4IS.V7ZOZHKV9QRX@den-dk-m31857>
+In-Reply-To: <20230329131724.4484a881@kernel.org>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_MSPIKE_H3,
         RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
@@ -57,59 +64,38 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---ZPUO7quT3QOZiRXY
+--5qdbPEL+nrZZAkQ+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 
-> > +       if (pdata->is_open) {
->=20
-> Couldn't you just use netif_carrier_ok() here and drop the is_open
-> variable?
+> Okay, core changes aside - does pm_runtime_put() imply an RCU sync?
+> Otherwise your check in get_stats is racy...
 
-=46rom my research, I can't:
-
-1) netif_carrier_ok() uses __LINK_STATE_NOCARRIER
-2) __LINK_STATE_NOCARRIER gets cleared in netif_carrier_on()
-3) netif_carrier_on() is this code:
-
-	if (test_and_clear_bit(__LINK_STATE_NOCARRIER, &dev->state)) {
-		if (dev->reg_state =3D=3D NETREG_UNINITIALIZED)
-			return;
-		atomic_inc(&dev->carrier_up_count);
-		linkwatch_fire_event(dev);
-		if (netif_running(dev))
-			__netdev_watchdog_up(dev);
-	}
-
-4) Notice the last if. It checks netif_running(). So, it is possible to
-have the carrier on and the device not opened yet.
-5) Sadly, no cigar. If I didn't miss something...
-
-But thanks for the suggestion! Happy hacking,
-
-   Wolfram
+=46rom some light research, I can't find a trace of RCU sync. Pity, I'll
+need to move furhter investigation to later. I'll report back if I have
+something, but it may take a while. Thanks for the help!
 
 
---ZPUO7quT3QOZiRXY
+--5qdbPEL+nrZZAkQ+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQmd2kACgkQFA3kzBSg
-KbaWBA//fNTM7DoeNK5082KA1GRiby93GS14IGQqwOJbugpYLk+36OilPukr+Egm
-pRjLvfTjZ8Dw5r+DlxPopbMQpjWH2+vlTgFVa11AmZszqQI4P4l4HDLP/tHcBQ3w
-o0GyFDzD3t/ZJArRXJJX9CytuVBnZQ5l06Uu+PPg6xjysxna+JKd+1SMxMVU+gA8
-i/jWBkfstKjLQhp7x78n+wDTG/i2GBTlMo9SayQVxQbYk1h9XdWuq9vdaLe4xVgb
-LLQ5DwFw+KrTQdHd0Va6+ESxYsD0hljd8I2ICjJrARELVzzb7ZMimArO1LVWaqPy
-/OoBSgSJRSV/7pqoLm84E4Jdpr2lkI4AZM70t6HoXOF/DRubSanrx8/C23ATKzhx
-mwL9iMm17+bYZELNG9Ny9QEYm5Sup1sprcyU2BBAH0TRRQ6w7KcHkv7eLwS8WCBj
-mu0pf1gcDrNng2xO9CqdyXdPeiRGWWXAuqzdHqRxnxvxr0yqnlyR78g/stf2kmc5
-ow0soo4idGQZPH2mkqZu9gw9HK6nikful1xY8gzv3rDZMfs70rnS53uN84qUmY63
-kIkd+8EvDo8vTXr+dWeE/q2Wv8QN2AU29/Lj+IGs3OHf2UluumNioQliYHB7b+l7
-TZ8hs/Bu8S6BQPNE4tZRiooHsgx7HRJSdXPPUgr7ykndQ5+G2pg=
-=mITd
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQmfrAACgkQFA3kzBSg
+KbaqLw//ZoK8taG1FXjfTLeNELsk6VxQP8Gp7XWth0XTlt6av1jXS8HWdO+zvYfI
+HIjujOUzkWqmDJ6YrupRseMl6FXBcWPfKfa/q1eQ68a9Pv0ur+zbhWhKDk/7DaEN
+veuSNRzEjOwTqtqJmF6hsjZFPeuoqijb+ObmYMgMHswUfRsuP4OHi3sJRTsFB2+6
+jGCrQYJH5tPHifl6nkDvaah57Y6r1gG4zMx9Yq8ON0f92ZwAjkt8q5sgv80NxWJu
+3Z+oSa1ysbO2FGqRfH5gVtmrG9wS565O8b6AcD/ZgRP23B+alssS7DNBUVc8FKc0
+RyvFwxLxF7LB23EKsu46Xm/C49junk1xhlQpasldrPQmIbPyAA8vcN4F3ruAZLr9
+v7kk5g+uSOT3r/dFy6byG7vsh18HsGzhm0wlVh447iAT7fasuRI/79cfuufDqI0v
+FI0fVNlWdvsJs+RGl+ZOO3D23fSEYqMiKZSunf/Z/2Mp3H6ZIQKI3QL2G4Ygyjlb
+diCVFcV6P5N1VQ1eSkIrRoAPlonzCy7LKJKE22yF4B/odmdOyTY+zaC0tBNvQ4Q8
+z5ZzWYOTvBSmZplFmPE6Us3inG2NLCFlHb1WWm9GfuWCjqqgM/54rQbml5IQUR6o
+jV1X6s+4tSiOzknY/a0bmZXv/v/LyzctwQrBkyyD3YDdSCnSxk0=
+=QAsY
 -----END PGP SIGNATURE-----
 
---ZPUO7quT3QOZiRXY--
+--5qdbPEL+nrZZAkQ+--
