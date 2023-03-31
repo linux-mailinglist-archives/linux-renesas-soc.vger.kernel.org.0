@@ -2,75 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 947636D20B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 14:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48DFF6D216D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 15:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232476AbjCaMqK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 08:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
+        id S231320AbjCaNYK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 09:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbjCaMqG (ORCPT
+        with ESMTP id S229792AbjCaNYJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 08:46:06 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F5220638;
-        Fri, 31 Mar 2023 05:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1680266747; x=1711802747;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XSJ9xYx7OKiDUOZcxx839tz93MC5ZSo3mvtiQkoZYKA=;
-  b=apPXsXgOBVZMM8Jmpf+q/nzqbBP3gwMIx9dKKO5zuE7FF+LeOcDnpupP
-   C6d7I+sCMppP0eK+OJfcp1vbVjmbNdckTE3k6C3tD0erRKa/v2EdJFcWB
-   ZXzSCfP2C/0EExQ4PxCmeiWGMs35I4x+TTgpPcXIAjzN/aHp1A0XrBi+C
-   CR9b+W/Ns13Jm/FmuzP9SsXnhqQJBpzvm23BdofdHLAGNuRLdJYAGJXtQ
-   QYA4m7J02TPVQfRm6ByI2is8cgHsy4/tRhfj33MxsuZZouU6jAMz9cuYF
-   MA3yqEL0yxvS24w4LtkDIixvDYSoJ2EY/SwXWiR4d1wiB5QcdEHL6qL7A
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,307,1673938800"; 
-   d="asc'?scan'208";a="207589991"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 31 Mar 2023 05:45:45 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 31 Mar 2023 05:45:44 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Fri, 31 Mar 2023 05:45:41 -0700
-Date:   Fri, 31 Mar 2023 13:45:27 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-CC:     Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Samuel Holland <samuel@sholland.org>,
-        <linux-riscv@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v7 5/6] cache: Add L2 cache management for Andes AX45MP
- RISC-V core
-Message-ID: <5468019d-e688-4019-882f-6f9611443408@spud>
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230330204217.47666-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 31 Mar 2023 09:24:09 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1C31D845
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Mar 2023 06:24:07 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id y20so28888238lfj.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 31 Mar 2023 06:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680269046;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VjpLOI3kSsLp1gVZchxWXjr+GzjeRq4bQKOT/rGECHc=;
+        b=k6VpTCz8m7yY9UO+Z8Kq37FoucGH9SmTn+GG5Ty/VFU7GPo6RZjgea5kxGA/4Q8J5G
+         TaQMUYiuHX/H5Y8eL2z8E0xAjMfhuGWFoFstMPctnys9jeJbymbYF5Fp/NL5KFQBVPsF
+         UmMs90pAJekpX0iWuTXatUFs8v42Q5R8AxfEqJY+lpy7S3TSpKj6/7nDO6ArxnpNDxEg
+         nzrIKoCsRuunhSH9eYZ1yPkE/Evv4Jw2GP95Q3pkoYHpvDahSIQ8hdj/n8+Ua7NTydRx
+         gUMaJywRILFGmeFCnEbsx4lwmA3mWn0De4JCZx7XaSgpsZZdXf9KBfkuL8SKNAeVf2l5
+         xT+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680269046;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VjpLOI3kSsLp1gVZchxWXjr+GzjeRq4bQKOT/rGECHc=;
+        b=yndjXqgka7vIZbmSCjKPwY4qoLi4gBQt6NRFcsNFbgQ2nxlqNBqQhwI57+jlMLI1ib
+         k5fuTsFae0dkiNQ5U0oW9ZnGPVb8GKFvlwFKQmz4rzEJwaWYdzS6ovZdCBJ24g3vJCX1
+         +edUD8ZD+k9U7XRvLWpC+k35wr4bTNQxN1ohlZre/wWbNWZ5nkGx2BDyaVpFCxZIqGIy
+         ROoLMUOQwZJdwvqGRvYYQKG7sqbH5uS/8MiKjK9LiRQWItrLQvdTotPJwMvcBEx+HbjW
+         +MyFFkFIpCy/vGsUPWO/Jr59HENrpz/qI3t2brdvMrQSBZW4q5NyhEyTtBvmelPybSb/
+         SpgA==
+X-Gm-Message-State: AAQBX9cyqRVnFzK/NOWhPYhpUE2a+rvkRZaonp4xRCIMXcAPaLVqGofn
+        DFVBv+qP0/H9bI0eM1OhszCRxg==
+X-Google-Smtp-Source: AKy350Z6c33duEF6XeCh63NhZZ25Lzx4R6jqMducoYlMxRAYohiTLSDqQXavR/EpUfiN/KVTf+qCKQ==
+X-Received: by 2002:a05:6512:49c:b0:4dc:84c2:96f1 with SMTP id v28-20020a056512049c00b004dc84c296f1mr6691209lfq.22.1680269046047;
+        Fri, 31 Mar 2023 06:24:06 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id t24-20020ac24c18000000b004db3e03e201sm379574lfq.6.2023.03.31.06.24.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 06:24:05 -0700 (PDT)
+Date:   Fri, 31 Mar 2023 15:24:04 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
+Message-ID: <ZCbe9D+LxbWveekE@oden.dyn.berto.se>
+References: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
+ <ZCbQTjL+Gy+Poeu/@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ujmC02K2mc/43jGi"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230330204217.47666-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZCbQTjL+Gy+Poeu/@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,73 +76,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---ujmC02K2mc/43jGi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hej Sakari,
 
-On Thu, Mar 30, 2023 at 09:42:16PM +0100, Prabhakar wrote:
+Tack för din feedback.
 
-> +STANDALONE CACHE CONTROLLER DRIVERS
+On 2023-03-31 15:21:34 +0300, Sakari Ailus wrote:
 
-> +F:	include/cache
+...
 
-This can go since the file no longer exists.
+> > @@ -332,8 +341,9 @@ static int max96712_parse_dt(struct 
+> > max96712_priv *priv)
+> >  {
+> >  	struct fwnode_handle *ep;
+> >  	struct v4l2_fwnode_endpoint v4l2_ep = {
+> > -		.bus_type = V4L2_MBUS_CSI2_DPHY
+> > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> 
+> The bindings don't require setting bus-type. Please change the bindings as
+> well. And assume D-PHY in the driver if bus-type isn't set.
 
-> +config AX45MP_L2_CACHE
-> +	bool "Andes Technology AX45MP L2 Cache controller"
-> +	depends on RISCV && RISCV_DMA_NONCOHERENT
+Thanks for spotting this, I will send out an update to update the 
+binding to require setting bus-type.
 
-This can just be depends on RISCV_DMA_NONCOHERENT, since that's only
-defined on RISC-V.
+About updating the driver to assume D-PHY if bus-type is not set. I 
+wonder if we can avoid that and keep the driver change as is? The only 
+in-tree user of this binding is in r8a779a0-falcon-csi-dsi.dtsi, and I 
+intend to send out a patch to set the bus-type for that together with 
+the updated bindings.
 
-> +static void ax45mp_get_l2_line_size(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = pdev->dev.of_node;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +
-> +	ret = of_property_read_u32(np, "cache-line-size", &ax45mp_priv->ax45mp_cache_line_size);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to get cache-line-size, defaulting to 64 bytes\n");
-> +		ax45mp_priv->ax45mp_cache_line_size = AX45MP_CACHE_LINE_SIZE;
-> +	}
-> +
-> +	if (ax45mp_priv->ax45mp_cache_line_size != AX45MP_CACHE_LINE_SIZE) {
-> +		dev_err(dev, "Expected cache-line-size to be 64 bytes (found:%u). Defaulting to 64 bytes\n",
-> +			ax45mp_priv->ax45mp_cache_line_size);
-> +		ax45mp_priv->ax45mp_cache_line_size = AX45MP_CACHE_LINE_SIZE;
-> +	}
+I have tested this driver change on the Falcon board and if bus-type is 
+not explicitly set in the DTS it is reported as D-PHY and everything 
+works as expected. So if I
 
-I forget, why are we doing this defaulting rather than falling over
-immediately if we detect the property is missing or wrong?
+- Send out a patch to update the bindings to require bus-type being set.
+- Send out patch to update the only in-tree use of the driver to set 
+  bus-type.
 
-> +}
+Can't we avoid issues in the future by not assuming no bus-type is D-PHY 
+in the driver while still being backward compatible with the old DTS?
 
-> +static const struct riscv_cache_ops ax45mp_cmo_ops = {
-> +	.clean_range = &ax45mp_cpu_dma_wb_range,
-> +	.inv_range = &ax45mp_cpu_dma_inval_range,
-> +	.flush_range = &ax45mp_cpu_dma_flush_range,
-> +};
-
-I think it would be nice if your driver functions matched the names used
-by the ops. (and as I said on the other patch, I think the ops should
-match the cross-arch naming.
-
-Otherwise, looks grand - although I think I was mostly happy with the
-last revision too.a
-
-Cheers,
-Conor.
-
---ujmC02K2mc/43jGi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCbV5wAKCRB4tDGHoIJi
-0jXXAP0Wzcz5s99w4wfN/xL5lC591ZxAOt8+z4NTdIBaxn4mzQD+PLdKyy6NKLib
-xz7hD43NmKAe5yK/zmiimoEH/rNnTA4=
-=25N2
------END PGP SIGNATURE-----
-
---ujmC02K2mc/43jGi--
+-- 
+Kind Regards,
+Niklas Söderlund
