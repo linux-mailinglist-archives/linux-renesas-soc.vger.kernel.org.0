@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6CFD6D1638
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 06:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6913D6D1639
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 06:13:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjCaEMk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 00:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S229564AbjCaENT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 00:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjCaEMj (ORCPT
+        with ESMTP id S229448AbjCaENS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 00:12:39 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486B911EAD
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 21:12:38 -0700 (PDT)
+        Fri, 31 Mar 2023 00:13:18 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423DDBB
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 21:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680235958; x=1711771958;
+  t=1680235997; x=1711771997;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=seA/MSpGD9NQMTei07vgU6ySfgyaBqNL62nfPN91QKg=;
-  b=j539PAflVPyjFxHoOsQbn5JCm5n1wraukl6puZvScUV0f67gFyeoXXPc
-   XdOpGGl5MwxqYTiG5XkRefXVH2S6L582mvuLR3HcM9O2PobtyxwtOVE8M
-   zs9Li14253e2HI0Ci282Ckyxho+9bObnOwvWUZhTdZltjLmV1q+erkccn
-   S4BKzU69oPBwtxDac+/zXjLWJyrUUvO0MgulJbIUWw/Ds83Ir9E6g5nOm
-   V1qH3YfP6u9W6ryeVXFmnX/At6OCNyeeznwFFxxirMMnbBMUsglTfm/cB
-   B20Bj46aL3y8Ao/BsNAx/KFrl8qOIe2w2t8nR3FEnVchtOaW32wGrE8hz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="338852608"
+  bh=edDYyqj9SXyTdpQYdkYkSswiSJK82HFm0eSdb7fBOWE=;
+  b=Kk5KgxYgbmN7wm/1EB97ZcCQtKPjZtjFJtezwWUFIZzAGoBK6LwjABjO
+   rSijVmRMJ4deg3Ly60j28FNTts8QDNKce+TuWIeKI8zZY9zy91PRWKtsF
+   eriqJxZ0FaYfNvAzKCqmXM7+Io3UcMewVJPOWkIQceYRUx9xX0vSW2XO+
+   tFyep5hAPYGpdR0GCa02g+H/37xCiBxuou4oaRJHNnMTXKEWQJ6+4K5cC
+   rLs+nWrWgJZxni98HTJ2uEe3en4ZTbjy8MjJU83PGSviv7+2yBunnzI3L
+   qUKQ6GZ0pWKkmNkj1NkArPhiwcni7N2zhlBbv5wP0/jT1mxD7nWo3242E
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="341361281"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="338852608"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 21:11:23 -0700
+   d="scan'208";a="341361281"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 21:12:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="717566568"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="859143655"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="717566568"
+   d="scan'208";a="859143655"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 30 Mar 2023 21:11:22 -0700
+  by orsmga005.jf.intel.com with ESMTP; 30 Mar 2023 21:12:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pi66j-000LSw-0h;
-        Fri, 31 Mar 2023 04:11:21 +0000
-Date:   Fri, 31 Mar 2023 12:11:08 +0800
+        id 1pi67h-000LTF-1Q;
+        Fri, 31 Mar 2023 04:12:21 +0000
+Date:   Fri, 31 Mar 2023 12:11:53 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-drivers-for-v6.4] BUILD SUCCESS
- 1e135922f608572f216c959202d0ef303aa2a0c1
-Message-ID: <64265d5c.4NRwrLUZCEyfaND2%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.4] BUILD SUCCESS
+ 45e6cc8ef1cd8576707506a4eeffef858e4a1a83
+Message-ID: <64265d89.Lb62LAaHZYdi6SoQ%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,10 +63,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.4
-branch HEAD: 1e135922f608572f216c959202d0ef303aa2a0c1  MAINTAINERS: renesas: Add "renesas," file contents pattern
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.4
+branch HEAD: 45e6cc8ef1cd8576707506a4eeffef858e4a1a83  pinctrl: renesas: core: Drop unneeded #ifdef CONFIG_OF
 
-elapsed time: 730m
+elapsed time: 731m
 
 configs tested: 239
 configs skipped: 18
