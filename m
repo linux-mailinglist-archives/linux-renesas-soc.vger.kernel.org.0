@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6913D6D1639
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 06:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6617A6D163A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 06:13:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbjCaENT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 00:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
+        id S229888AbjCaENU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 00:13:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjCaENS (ORCPT
+        with ESMTP id S229448AbjCaENU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 00:13:18 -0400
+        Fri, 31 Mar 2023 00:13:20 -0400
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423DDBB
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 21:13:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E511738
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Mar 2023 21:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680235997; x=1711771997;
+  t=1680235998; x=1711771998;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=edDYyqj9SXyTdpQYdkYkSswiSJK82HFm0eSdb7fBOWE=;
-  b=Kk5KgxYgbmN7wm/1EB97ZcCQtKPjZtjFJtezwWUFIZzAGoBK6LwjABjO
-   rSijVmRMJ4deg3Ly60j28FNTts8QDNKce+TuWIeKI8zZY9zy91PRWKtsF
-   eriqJxZ0FaYfNvAzKCqmXM7+Io3UcMewVJPOWkIQceYRUx9xX0vSW2XO+
-   tFyep5hAPYGpdR0GCa02g+H/37xCiBxuou4oaRJHNnMTXKEWQJ6+4K5cC
-   rLs+nWrWgJZxni98HTJ2uEe3en4ZTbjy8MjJU83PGSviv7+2yBunnzI3L
-   qUKQ6GZ0pWKkmNkj1NkArPhiwcni7N2zhlBbv5wP0/jT1mxD7nWo3242E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="341361281"
+  bh=STiI5U+Fm0EFThMgsLWgLb8aPAT1R1u3ZfTOHehbeDI=;
+  b=fUejMly009e+yIeP2EMNRl8DN+V4PrEdpBJtJL7uSqgTfFxm+5kTPf4z
+   uwQUCpgcjsQo9F/2x3oFUSy1eMEEMWOPS8ao/uR+gZBbxWutRjYeJvZkP
+   uxsc2BbyrX9VgYOMigkKl1BLZFgzUfTYjVQc/3B8TBH7pDdCZOAAaLDV0
+   tfQZogabOgz3GEFTooHMc7B4LY2tQYDwmjnI1XrhcR0KNs8Vs5prmYa9/
+   oNYeNk0KwNKZIVVw8XN+z8+lD6ArrjZ8Rs/EGfGTWWFAyV+S+W7e6Tj8Z
+   t67+ItOwRPUartutAHn+RJKApzp9KQhCaq1eytdqpx6xYiyrUtFRMrK/O
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="341361285"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="341361281"
+   d="scan'208";a="341361285"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 21:12:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="859143655"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="859143661"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="859143655"
+   d="scan'208";a="859143661"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 30 Mar 2023 21:12:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pi67h-000LTF-1Q;
+        id 1pi67h-000LTg-2o;
         Fri, 31 Mar 2023 04:12:21 +0000
-Date:   Fri, 31 Mar 2023 12:11:53 +0800
+Date:   Fri, 31 Mar 2023 12:12:02 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.4] BUILD SUCCESS
- 45e6cc8ef1cd8576707506a4eeffef858e4a1a83
-Message-ID: <64265d89.Lb62LAaHZYdi6SoQ%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
+ 5e96c2e0e88d3617477313b071cf199bfc29d794
+Message-ID: <64265d92.FeP0A3dRy0q488q/%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,10 +63,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.4
-branch HEAD: 45e6cc8ef1cd8576707506a4eeffef858e4a1a83  pinctrl: renesas: core: Drop unneeded #ifdef CONFIG_OF
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: 5e96c2e0e88d3617477313b071cf199bfc29d794  clk: renesas: r8a77980: Add I2C5 clock
 
-elapsed time: 731m
+elapsed time: 733m
 
 configs tested: 239
 configs skipped: 18
