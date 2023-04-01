@@ -2,114 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F4F6D2D7B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Apr 2023 03:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7898D6D3C73
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 06:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234032AbjDAB6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 21:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45510 "EHLO
+        id S231411AbjDCEaK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Apr 2023 00:30:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233545AbjDAB5x (ORCPT
+        with ESMTP id S230447AbjDCE3x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 21:57:53 -0400
-X-Greylist: delayed 167 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 31 Mar 2023 18:55:56 PDT
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D161BF5D;
-        Fri, 31 Mar 2023 18:55:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680313641; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=e872dxYKwpEmkU7ojBV5oxWY5yPEVsfRppSkHWLXyxK2QRHALoTZ9ES6HSu0fkI63hh9IOHCYdBwTS+ZbV3+Zls/3GA3nO3hcXl2iwSghOjUxIyJB7J0KVAyoSIes/wZwCZms0/cpoarR9COjb43mAeXnzLWeCHMbajgc4zEIsY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1680313641; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=S+zGGBqMP5BV/39K5ihbzESIqXi6/hEN1mEtg1ES/40=; 
-        b=btAeaJbnSX/otV9mzt0oRQCU3prXUl72yptb7/sh1Rrl+y5PyRWVjtijnSRkb0rbpdnfco6kN+279LU0EcEzyRo5BGMA2nO840LEOWEg21t6GbsNdQjSf/bjTBAOYBdTfyUNPAVSNfb3ULDG3e3CuyskO3jjDA0PU6jWsoJES5A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=icenowy.me;
-        spf=pass  smtp.mailfrom=uwu@icenowy.me;
-        dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1680313641;
-        s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-        h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-        bh=S+zGGBqMP5BV/39K5ihbzESIqXi6/hEN1mEtg1ES/40=;
-        b=UEXpHn7Z+mCjHatAbJ0EA4GpqEOoPHeQOAUlyvlwbEosnOLM6kNtXZ5N2bV2ZanW
-        isQtmIrTPnWFFUtF/Y9pg4r5PEyaECLlf5/XHGVjA+QObak+fM3wcVGtNDAVk2cgnOb
-        B8pu/N9Ybs16FU1NHih8uOiB3KMgSfSEtNDRa2so=
-Received: from edelgard.fodlan.icenowy.me (120.85.97.183 [120.85.97.183]) by mx.zohomail.com
-        with SMTPS id 1680313639213673.7042963583667; Fri, 31 Mar 2023 18:47:19 -0700 (PDT)
-Message-ID: <40cdea465fef49a8a337b48e2a748138c66a08eb.camel@icenowy.me>
-Subject: Re: [PATCH v7 0/6] RISC-V non-coherent function pointer based CMO +
- non-coherent DMA support for AX45MP
-From:   Icenowy Zheng <uwu@icenowy.me>
-To:     Conor Dooley <conor@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Mon, 3 Apr 2023 00:29:53 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91DFB44E;
+        Sun,  2 Apr 2023 21:29:46 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id cn12so112118328edb.4;
+        Sun, 02 Apr 2023 21:29:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680496184;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qFNuFMeHCuZuwK8vNRfkVYseskXxs9aV8QWzQeRLILI=;
+        b=O3PnMJaeiVRjgZmFqpPQiFSaBFXr92sqyk3ah1yc+0fl57GLlf5rQwqcihCjbESRK5
+         ucqz/wDiaDtYGuTc5vr9Rqti/ajA6ZIT6J4IjQ55dcbtINB15cNU38ONGMYqFFH7o/Ac
+         MG3r1sNtmx0brEljIT1UmGbERDmYV4At39yezlMxfuXuJRiMvlbFy94oF91r61C5+CEz
+         xvOT0T7CZmpyNjztyG+cIpuafVFDsHadAwhSl5LBU9kLdNvGu0c340tJj1N9WgrQIny1
+         QwQ1O939ji+KBa2PP1bMvjgJARNEydve0N0idWO9st/ywDj8KfcGGqB42LGt3KkpDOFz
+         xLGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680496184;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qFNuFMeHCuZuwK8vNRfkVYseskXxs9aV8QWzQeRLILI=;
+        b=2gyMvo74MDd2la7f87gLj/6T4B5HO/QYD6PYNDcS6gSW0jDTbSe8NSUYa/ZeGBflzb
+         kLwnd+ntA9st2Es0leHkqfJHVISqJ9IyGIwJ0UfW1Mwkq/ZaysvQqs3umI1C88v25wxL
+         yuKxOEvecOMSFIF73W82D+dVGPXMIp6sphMeeQMETAdRH0GV7QsdAn8gTxKAfqi53rXe
+         Q9gw1fOg81QswzA8An/4NVtx39rtgrt7V+bLHqvCt0BF0/70SjVOVbgLc0ZDPVSQKcNG
+         efWDDZReLK+eCZbANpD842An127H10LHnGSThsCLBT6QveWyurhmV3hshgvKhYewwiuX
+         269A==
+X-Gm-Message-State: AAQBX9fJwptR0+EKMwMaxkkSlAc5BQ/ZnLFNIC+rwy+h+pSeYgt/tMf/
+        7ZnbAzWu4QiBQImfjQDzCfCzMKFSQNK+EA==
+X-Google-Smtp-Source: AKy350ZjZPbag5cF4XJQDqkW5bqMlJoau4o3/q62fncdXEzK8jryyCYRpb3EBvtNhLUi0AzMg1eYXg==
+X-Received: by 2002:aa7:c6c8:0:b0:4f9:deb4:b986 with SMTP id b8-20020aa7c6c8000000b004f9deb4b986mr28281834eds.7.1680496184531;
+        Sun, 02 Apr 2023 21:29:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e27-20020a50d4db000000b004fadc041e13sm3996858edj.42.2023.04.02.21.29.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 21:29:44 -0700 (PDT)
+Date:   Sat, 1 Apr 2023 11:22:52 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Li Yang <lidaxian@hust.edu.cn>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Date:   Sat, 01 Apr 2023 09:47:05 +0800
-In-Reply-To: <0d5590e4-e78b-4197-bf17-9de54466470d@spud>
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-         <b2dcda17-5850-47c1-94bc-4ca87f900581@spud>
-         <CA+V-a8s+=OY6CX4XTUwyAE9b=rdJZZfgAaY2nU+6aqnu=X9nxQ@mail.gmail.com>
-         <0d5590e4-e78b-4197-bf17-9de54466470d@spud>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: renesas: renesas-soc: release 'chipid' from
+ ioremap()
+Message-ID: <d2688eb2-d7b6-4e80-a13e-55ed541ac9b8@kili.mountain>
+References: <20230331095545.31823-1-lidaxian@hust.edu.cn>
+ <CAMuHMdV5guFbo76nq27aZjWsYqneOfGNf0Ozyh0C53+VgnXgXw@mail.gmail.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
-X-Spam-Status: No, score=1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLACK autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdV5guFbo76nq27aZjWsYqneOfGNf0Ozyh0C53+VgnXgXw@mail.gmail.com>
+X-Spam-Status: No, score=0.5 required=5.0 tests=DATE_IN_PAST_24_48,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-=E5=9C=A8 2023-03-31=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 21:15 +0100=EF=BC=
-=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
-> On Fri, Mar 31, 2023 at 08:09:16PM +0000, Lad, Prabhakar wrote:
-> > Hi Conor,
-> >=20
-> > On Fri, Mar 31, 2023 at 7:05=E2=80=AFPM Conor Dooley <conor@kernel.org>
-> > wrote:
-> > >=20
-> > > On Thu, Mar 30, 2023 at 09:42:11PM +0100, Prabhakar wrote:
-> > >=20
-> > > > - This series requires testing on Cores with zicbom and T-Head
-> > > > SoCs
-> > >=20
-> > > I don't actually know if there are Zicbom parts, may need to test
-> > > that
-> > > on QEMU.
-> > > I had to revert unrelated content to boot, but my D1 NFS setup
-> > > seems to
-> > > work fine with these changes, so where it is relevant:
-> > > Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-
-> > > kicking on D1
-> > >=20
-> > Thank you for testing this. By any chance did you compare the
-> > performance?
->=20
-> No, just tyre kicking. Icenowy had some benchmark for it IIRC, I
-> think
-> mining some coin or w/e. +CC them.
+On Fri, Mar 31, 2023 at 02:13:10PM +0200, Geert Uytterhoeven wrote:
+> Hi Li,
+> 
+> On Fri, Mar 31, 2023 at 12:14 PM Li Yang <lidaxian@hust.edu.cn> wrote:
+> > Smatch reports:
+> >
+> > drivers/soc/renesas/renesas-soc.c:536 renesas_soc_init() warn:
+> > 'chipid' from ioremap() not released on lines: 475.
+> >
+> > If soc_dev_atrr allocation is failed, function renesas_soc_init()
+> > will return without releasing 'chipid' from ioremap().
+> >
+> > Fix this by adding function iounmap().
+> >
+> > Fixes: cb5508e47e60 ("soc: renesas: Add support for reading product revision for RZ/G2L family")
+> > Signed-off-by: Li Yang <lidaxian@hust.edu.cn>
+> > Reviewed-by: Dan Carpenter <error27@gmail.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/drivers/soc/renesas/renesas-soc.c
+> > +++ b/drivers/soc/renesas/renesas-soc.c
+> > @@ -471,8 +471,11 @@ static int __init renesas_soc_init(void)
+> >         }
+> >
+> >         soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+> > -       if (!soc_dev_attr)
+> > +       if (!soc_dev_attr) {
+> > +               if (chipid)
+> > +                       iounmap(chipid);
+> 
+> We don't really care, as the system is dead at this point anyway.
+> 
 
-I previously tested the function pointer based CMO, it do not affect
-the performance beyond the measurement error. Maybe it's because CMO
-operations are only done at the start and end of DMA operations.
+Why even have the check for NULL then?  The kzalloc() is small enough
+to the point where it litterally cannot fail.
 
-My previous test system is LiteX + OpenC906.
+This patch is already written, it's way less effort for us to apply it
+than it is to debate its worth.  I kind of feel like it's better to just
+fix the bugs even when they don't affect real life.  Otherwise it's a
+constant debate with bugs if they're worth fixing.
+
+This is a university group and they're looking for bugs to fix.  I'm
+like, "I'm drowning in resource leak warnings and I don't even look at
+them any more because they're basically all trash that no one cares
+about."  So I was hoping to maybe clean up the trash a bit to the point
+where we can start caring about the leaks.
+
+regards,
+dan carpenter
+
