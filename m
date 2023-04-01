@@ -2,62 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4476D2947
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Mar 2023 22:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F4F6D2D7B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Apr 2023 03:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232996AbjCaUSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Mar 2023 16:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S234032AbjDAB6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Mar 2023 21:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbjCaUSH (ORCPT
+        with ESMTP id S233545AbjDAB5x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Mar 2023 16:18:07 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D48B2220C;
-        Fri, 31 Mar 2023 13:18:06 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id j2so5092533ila.8;
-        Fri, 31 Mar 2023 13:18:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680293885; x=1682885885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sPBrvhS4C9fH8+UVEU/PMvBSYFvObmXLuJFfdX5dcJg=;
-        b=fa4BxSIgi57AMyUtvtR9HC3rjFIwqjjdJBx5G7TB5hltEcKzhqL0+Of2hzGU+B4qa1
-         WjuKLQY23FBHO0RbFKvigpoXI4CmTlJEYB75WKOyWsFiCSORU37zyymm6SJpfzVEKFU+
-         aNtuQXio1QuheM23jHTqY+czwzrzHDEiCtV8Ug7j/xUfTILz7oQRTZn8Bzur3xDzZaPs
-         25bXr7emhd6mLVcMV4fK9rigr3mFPD9JgzpkP6tcex3TAW1prjdNg0ZHXtb1C5MPicx0
-         RcqXnyrQSv4lD/wDV/UdAK/B4WBqJ5tXk3IXAPfXEEVKiMibr6D2neFqi3y3cr+2LThu
-         Eslw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680293885; x=1682885885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sPBrvhS4C9fH8+UVEU/PMvBSYFvObmXLuJFfdX5dcJg=;
-        b=5gEtKDxDZAbq7pclujIxMkNGny7WbwOqwGN2sOk15CNecJ8l1Cu+2EEobpkb07bTI/
-         S5fioMtFDtepYqsAg0Qtlg7UnEF9f1zwPRB5CXaDcOe0rM8IgZtmhp5d6pUN1kHA9s3V
-         7YNbTVioeWv9LC+eXBm1sK7HNtD9ckf8Zmyo0W+/AUj2MbKi+fCGKcohe7t76UZGx2dq
-         dqtoSawWqIOSzrSlsW9HtNfoTvhHbjKIrEQJdyRoF7f38GNwcjq9tM5Pn8LmCmTJdnsg
-         u0U77Ks6LpvJFemDGJlAzZNP1UwTpQPdb4fw2jJY/Bqi9qB6ohN4yvQoiFGueLmFC+X+
-         kLLg==
-X-Gm-Message-State: AAQBX9eB7OgfJbRi4I6mlmtfoHdjdRjDyNVnJqFq2mx95m5CZB7LwJ36
-        ItZ6+ztiW32e6SDfc8NhoYJ4jZYUcpG1PpoTz/c=
-X-Google-Smtp-Source: AKy350Y54OJxf8iUlKpXbAgqSiyCtgyMjlHCU15pwG/udlx4BQ0qKWVSD06JZkpsfbCXKsybTvlOQgTz5Kcxc8QZ5iQ=
-X-Received: by 2002:a05:6e02:1528:b0:326:3b43:4c2a with SMTP id
- i8-20020a056e02152800b003263b434c2amr3463407ilu.1.1680293885621; Fri, 31 Mar
- 2023 13:18:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230330204217.47666-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <5468019d-e688-4019-882f-6f9611443408@spud>
-In-Reply-To: <5468019d-e688-4019-882f-6f9611443408@spud>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 31 Mar 2023 20:17:39 +0000
-Message-ID: <CA+V-a8uzk7VmYRgHgXpN9Hz3VUoHU5hN7OUaLzB1KX6m=nkBzQ@mail.gmail.com>
-Subject: Re: [PATCH v7 5/6] cache: Add L2 cache management for Andes AX45MP
- RISC-V core
-To:     Conor Dooley <conor.dooley@microchip.com>
+        Fri, 31 Mar 2023 21:57:53 -0400
+X-Greylist: delayed 167 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 31 Mar 2023 18:55:56 PDT
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D161BF5D;
+        Fri, 31 Mar 2023 18:55:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680313641; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=e872dxYKwpEmkU7ojBV5oxWY5yPEVsfRppSkHWLXyxK2QRHALoTZ9ES6HSu0fkI63hh9IOHCYdBwTS+ZbV3+Zls/3GA3nO3hcXl2iwSghOjUxIyJB7J0KVAyoSIes/wZwCZms0/cpoarR9COjb43mAeXnzLWeCHMbajgc4zEIsY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1680313641; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=S+zGGBqMP5BV/39K5ihbzESIqXi6/hEN1mEtg1ES/40=; 
+        b=btAeaJbnSX/otV9mzt0oRQCU3prXUl72yptb7/sh1Rrl+y5PyRWVjtijnSRkb0rbpdnfco6kN+279LU0EcEzyRo5BGMA2nO840LEOWEg21t6GbsNdQjSf/bjTBAOYBdTfyUNPAVSNfb3ULDG3e3CuyskO3jjDA0PU6jWsoJES5A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=icenowy.me;
+        spf=pass  smtp.mailfrom=uwu@icenowy.me;
+        dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1680313641;
+        s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+        h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+        bh=S+zGGBqMP5BV/39K5ihbzESIqXi6/hEN1mEtg1ES/40=;
+        b=UEXpHn7Z+mCjHatAbJ0EA4GpqEOoPHeQOAUlyvlwbEosnOLM6kNtXZ5N2bV2ZanW
+        isQtmIrTPnWFFUtF/Y9pg4r5PEyaECLlf5/XHGVjA+QObak+fM3wcVGtNDAVk2cgnOb
+        B8pu/N9Ybs16FU1NHih8uOiB3KMgSfSEtNDRa2so=
+Received: from edelgard.fodlan.icenowy.me (120.85.97.183 [120.85.97.183]) by mx.zohomail.com
+        with SMTPS id 1680313639213673.7042963583667; Fri, 31 Mar 2023 18:47:19 -0700 (PDT)
+Message-ID: <40cdea465fef49a8a337b48e2a748138c66a08eb.camel@icenowy.me>
+Subject: Re: [PATCH v7 0/6] RISC-V non-coherent function pointer based CMO +
+ non-coherent DMA support for AX45MP
+From:   Icenowy Zheng <uwu@icenowy.me>
+To:     Conor Dooley <conor@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
         Andrew Jones <ajones@ventanamicro.com>,
@@ -71,92 +57,59 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Sat, 01 Apr 2023 09:47:05 +0800
+In-Reply-To: <0d5590e4-e78b-4197-bf17-9de54466470d@spud>
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+         <b2dcda17-5850-47c1-94bc-4ca87f900581@spud>
+         <CA+V-a8s+=OY6CX4XTUwyAE9b=rdJZZfgAaY2nU+6aqnu=X9nxQ@mail.gmail.com>
+         <0d5590e4-e78b-4197-bf17-9de54466470d@spud>
+Organization: Anthon Open-Source Community
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Evolution 3.44.4 
+MIME-Version: 1.0
+X-ZohoMailClient: External
+X-Spam-Status: No, score=1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLACK autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+=E5=9C=A8 2023-03-31=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 21:15 +0100=EF=BC=
+=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
+> On Fri, Mar 31, 2023 at 08:09:16PM +0000, Lad, Prabhakar wrote:
+> > Hi Conor,
+> >=20
+> > On Fri, Mar 31, 2023 at 7:05=E2=80=AFPM Conor Dooley <conor@kernel.org>
+> > wrote:
+> > >=20
+> > > On Thu, Mar 30, 2023 at 09:42:11PM +0100, Prabhakar wrote:
+> > >=20
+> > > > - This series requires testing on Cores with zicbom and T-Head
+> > > > SoCs
+> > >=20
+> > > I don't actually know if there are Zicbom parts, may need to test
+> > > that
+> > > on QEMU.
+> > > I had to revert unrelated content to boot, but my D1 NFS setup
+> > > seems to
+> > > work fine with these changes, so where it is relevant:
+> > > Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-
+> > > kicking on D1
+> > >=20
+> > Thank you for testing this. By any chance did you compare the
+> > performance?
+>=20
+> No, just tyre kicking. Icenowy had some benchmark for it IIRC, I
+> think
+> mining some coin or w/e. +CC them.
 
-Thank you for the review.
+I previously tested the function pointer based CMO, it do not affect
+the performance beyond the measurement error. Maybe it's because CMO
+operations are only done at the start and end of DMA operations.
 
-On Fri, Mar 31, 2023 at 1:45=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> On Thu, Mar 30, 2023 at 09:42:16PM +0100, Prabhakar wrote:
->
-> > +STANDALONE CACHE CONTROLLER DRIVERS
->
-> > +F:   include/cache
->
-> This can go since the file no longer exists.
->
-Agreed I will drop this.
-
-> > +config AX45MP_L2_CACHE
-> > +     bool "Andes Technology AX45MP L2 Cache controller"
-> > +     depends on RISCV && RISCV_DMA_NONCOHERENT
->
-> This can just be depends on RISCV_DMA_NONCOHERENT, since that's only
-> defined on RISC-V.
->
-Agreed.
-
-> > +static void ax45mp_get_l2_line_size(struct platform_device *pdev)
-> > +{
-> > +     struct device_node *np =3D pdev->dev.of_node;
-> > +     struct device *dev =3D &pdev->dev;
-> > +     int ret;
-> > +
-> > +     ret =3D of_property_read_u32(np, "cache-line-size", &ax45mp_priv-=
->ax45mp_cache_line_size);
-> > +     if (ret) {
-> > +             dev_err(dev, "Failed to get cache-line-size, defaulting t=
-o 64 bytes\n");
-> > +             ax45mp_priv->ax45mp_cache_line_size =3D AX45MP_CACHE_LINE=
-_SIZE;
-> > +     }
-> > +
-> > +     if (ax45mp_priv->ax45mp_cache_line_size !=3D AX45MP_CACHE_LINE_SI=
-ZE) {
-> > +             dev_err(dev, "Expected cache-line-size to be 64 bytes (fo=
-und:%u). Defaulting to 64 bytes\n",
-> > +                     ax45mp_priv->ax45mp_cache_line_size);
-> > +             ax45mp_priv->ax45mp_cache_line_size =3D AX45MP_CACHE_LINE=
-_SIZE;
-> > +     }
->
-> I forget, why are we doing this defaulting rather than falling over
-> immediately if we detect the property is missing or wrong?
->
-No reason as such on not failing on property not existing/Invalid. I
-will bail out in an error case now.
-
-> > +}
->
-> > +static const struct riscv_cache_ops ax45mp_cmo_ops =3D {
-> > +     .clean_range =3D &ax45mp_cpu_dma_wb_range,
-> > +     .inv_range =3D &ax45mp_cpu_dma_inval_range,
-> > +     .flush_range =3D &ax45mp_cpu_dma_flush_range,
-> > +};
->
-> I think it would be nice if your driver functions matched the names used
-> by the ops. (and as I said on the other patch, I think the ops should
-> match the cross-arch naming.
->
-Agreed, will do.
-
-> Otherwise, looks grand - although I think I was mostly happy with the
-> last revision too.a
->
-I know you had provided the RB for the last version ;)
-
-Cheers,
-Prabhakar
+My previous test system is LiteX + OpenC906.
