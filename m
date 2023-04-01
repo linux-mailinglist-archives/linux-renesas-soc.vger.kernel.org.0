@@ -2,130 +2,273 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7898D6D3C73
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 06:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 820386D3296
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Apr 2023 18:21:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjDCEaK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Apr 2023 00:30:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37116 "EHLO
+        id S229647AbjDAQVQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 Apr 2023 12:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbjDCE3x (ORCPT
+        with ESMTP id S229574AbjDAQVQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Apr 2023 00:29:53 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91DFB44E;
-        Sun,  2 Apr 2023 21:29:46 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id cn12so112118328edb.4;
-        Sun, 02 Apr 2023 21:29:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680496184;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qFNuFMeHCuZuwK8vNRfkVYseskXxs9aV8QWzQeRLILI=;
-        b=O3PnMJaeiVRjgZmFqpPQiFSaBFXr92sqyk3ah1yc+0fl57GLlf5rQwqcihCjbESRK5
-         ucqz/wDiaDtYGuTc5vr9Rqti/ajA6ZIT6J4IjQ55dcbtINB15cNU38ONGMYqFFH7o/Ac
-         MG3r1sNtmx0brEljIT1UmGbERDmYV4At39yezlMxfuXuJRiMvlbFy94oF91r61C5+CEz
-         xvOT0T7CZmpyNjztyG+cIpuafVFDsHadAwhSl5LBU9kLdNvGu0c340tJj1N9WgrQIny1
-         QwQ1O939ji+KBa2PP1bMvjgJARNEydve0N0idWO9st/ywDj8KfcGGqB42LGt3KkpDOFz
-         xLGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680496184;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qFNuFMeHCuZuwK8vNRfkVYseskXxs9aV8QWzQeRLILI=;
-        b=2gyMvo74MDd2la7f87gLj/6T4B5HO/QYD6PYNDcS6gSW0jDTbSe8NSUYa/ZeGBflzb
-         kLwnd+ntA9st2Es0leHkqfJHVISqJ9IyGIwJ0UfW1Mwkq/ZaysvQqs3umI1C88v25wxL
-         yuKxOEvecOMSFIF73W82D+dVGPXMIp6sphMeeQMETAdRH0GV7QsdAn8gTxKAfqi53rXe
-         Q9gw1fOg81QswzA8An/4NVtx39rtgrt7V+bLHqvCt0BF0/70SjVOVbgLc0ZDPVSQKcNG
-         efWDDZReLK+eCZbANpD842An127H10LHnGSThsCLBT6QveWyurhmV3hshgvKhYewwiuX
-         269A==
-X-Gm-Message-State: AAQBX9fJwptR0+EKMwMaxkkSlAc5BQ/ZnLFNIC+rwy+h+pSeYgt/tMf/
-        7ZnbAzWu4QiBQImfjQDzCfCzMKFSQNK+EA==
-X-Google-Smtp-Source: AKy350ZjZPbag5cF4XJQDqkW5bqMlJoau4o3/q62fncdXEzK8jryyCYRpb3EBvtNhLUi0AzMg1eYXg==
-X-Received: by 2002:aa7:c6c8:0:b0:4f9:deb4:b986 with SMTP id b8-20020aa7c6c8000000b004f9deb4b986mr28281834eds.7.1680496184531;
-        Sun, 02 Apr 2023 21:29:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e27-20020a50d4db000000b004fadc041e13sm3996858edj.42.2023.04.02.21.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 21:29:44 -0700 (PDT)
-Date:   Sat, 1 Apr 2023 11:22:52 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Li Yang <lidaxian@hust.edu.cn>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: renesas: renesas-soc: release 'chipid' from
- ioremap()
-Message-ID: <d2688eb2-d7b6-4e80-a13e-55ed541ac9b8@kili.mountain>
-References: <20230331095545.31823-1-lidaxian@hust.edu.cn>
- <CAMuHMdV5guFbo76nq27aZjWsYqneOfGNf0Ozyh0C53+VgnXgXw@mail.gmail.com>
+        Sat, 1 Apr 2023 12:21:16 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6651BA5E1
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  1 Apr 2023 09:21:14 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pidxN-00089G-VF; Sat, 01 Apr 2023 18:19:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pidxD-008GPi-EI; Sat, 01 Apr 2023 18:19:47 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pidxC-009kf7-7s; Sat, 01 Apr 2023 18:19:46 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Naga Sureshkumar Relli <nagasure@xilinx.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Valentin Korenblit <vkorenblit@sequans.com>,
+        Wang Weiyang <wangweiyang2@huawei.com>,
+        =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+        Han Xu <han.xu@nxp.com>,
+        Harvey Hunt <harveyhuntnexus@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chuanhong Guo <gch981213@gmail.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Christophe Kerello <christophe.kerello@foss.st.com>,
+        Jack Wang <jinpu.wang@ionos.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
+        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+        linux-mips@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, linux-oxnas@groups.io,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH 00/49] mtd: nand: Convert to platform remove callback returning void
+Date:   Sat,  1 Apr 2023 18:18:49 +0200
+Message-Id: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7821; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=8nRDgN5CqU2nRF//FRAdHbfY+cIFaqsEtSZQEPh7QiU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKFjvp7868qd0VsHN6SrxaEO8NTL3D3fmpZjg3 cwKJmJerMqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZChY7wAKCRCPgPtYfRL+ TmkoB/9SLYo/ZDac4CvKk1I5MwZ2nAQBqeUpre7ZKONouC+Gkder1fO1RUM4NlhPPEffEi+2yVj hvcHL7KB5t8UeLrH1vE4Nfi5/3wVAmPww7pWHCPy5AF29t7fgt3U/IYs9QHSysdj+FA73SP/62S ZWdZgdVuVhqYvfPh2RsBg7QJYkAjbhmhA3ZY080V2LH7EpMW6GwOSdQ0OEZ6da9H82tbY9Uz4zk Rb5KLVyrwfuT0n3Dw5q7/YmB6D8y15Diqty+SnJAGLqjGgKNbPUxVOuBDgnXJHcMdA2etpWvgh/ zGMY8LDnJKc/tIuA8o341utDrcxym5uDPWg81ONd0MsBvTHu
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV5guFbo76nq27aZjWsYqneOfGNf0Ozyh0C53+VgnXgXw@mail.gmail.com>
-X-Spam-Status: No, score=0.5 required=5.0 tests=DATE_IN_PAST_24_48,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 31, 2023 at 02:13:10PM +0200, Geert Uytterhoeven wrote:
-> Hi Li,
-> 
-> On Fri, Mar 31, 2023 at 12:14 PM Li Yang <lidaxian@hust.edu.cn> wrote:
-> > Smatch reports:
-> >
-> > drivers/soc/renesas/renesas-soc.c:536 renesas_soc_init() warn:
-> > 'chipid' from ioremap() not released on lines: 475.
-> >
-> > If soc_dev_atrr allocation is failed, function renesas_soc_init()
-> > will return without releasing 'chipid' from ioremap().
-> >
-> > Fix this by adding function iounmap().
-> >
-> > Fixes: cb5508e47e60 ("soc: renesas: Add support for reading product revision for RZ/G2L family")
-> > Signed-off-by: Li Yang <lidaxian@hust.edu.cn>
-> > Reviewed-by: Dan Carpenter <error27@gmail.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
-> > @@ -471,8 +471,11 @@ static int __init renesas_soc_init(void)
-> >         }
-> >
-> >         soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
-> > -       if (!soc_dev_attr)
-> > +       if (!soc_dev_attr) {
-> > +               if (chipid)
-> > +                       iounmap(chipid);
-> 
-> We don't really care, as the system is dead at this point anyway.
-> 
+Hello,
 
-Why even have the check for NULL then?  The kzalloc() is small enough
-to the point where it litterally cannot fail.
+this series adapts the platform drivers below drivers/mtd/nand to use the
+.remove_new() callback. Compared to the traditional .remove() callback
+.remove_new() returns no value. This is a good thing because the driver core
+doesn't (and cannot) cope for errors during remove. The only effect of a
+non-zero return value in .remove() is that the driver core emits a warning. The
+device is removed anyhow and an early return from .remove() usually yields a
+resource leak.
 
-This patch is already written, it's way less effort for us to apply it
-than it is to debate its worth.  I kind of feel like it's better to just
-fix the bugs even when they don't affect real life.  Otherwise it's a
-constant debate with bugs if they're worth fixing.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-This is a university group and they're looking for bugs to fix.  I'm
-like, "I'm drowning in resource leak warnings and I don't even look at
-them any more because they're basically all trash that no one cares
-about."  So I was hoping to maybe clean up the trash a bit to the point
-where we can start caring about the leaks.
+As all drivers already return 0 in their .remove callback, they can be
+converted trivially.
 
-regards,
-dan carpenter
+Thanks
+Uwe
+
+Uwe Kleine-König (49):
+  mtd: nand: mxic-ecc: Convert to platform remove callback returning
+    void
+  mtd: onenand: generic: Convert to platform remove callback returning
+    void
+  mtd: onenand: omap2: Convert to platform remove callback returning
+    void
+  mtd: onenand: samsung: Convert to platform remove callback returning
+    void
+  mtd: rawnand: ams-delta: Convert to platform remove callback returning
+    void
+  mtd: rawnand: arasan: Convert to platform remove callback returning
+    void
+  mtd: rawnand: atmel: Convert to platform remove callback returning
+    void
+  mtd: rawnand: au1550nd: Convert to platform remove callback returning
+    void
+  mtd: rawnand: bcm47xxnflash: Convert to platform remove callback
+    returning void
+  mtd: rawnand: cadence: Convert to platform remove callback returning
+    void
+  mtd: rawnand: davinci: Convert to platform remove callback returning
+    void
+  mtd: rawnand: denali_dt: Convert to platform remove callback returning
+    void
+  mtd: rawnand: fsl_elbc: Convert to platform remove callback returning
+    void
+  mtd: rawnand: fsl_ifc: Convert to platform remove callback returning
+    void
+  mtd: rawnand: fsl_upm: Convert to platform remove callback returning
+    void
+  mtd: rawnand: fsmc: Convert to platform remove callback returning void
+  mtd: rawnand: gpio: Convert to platform remove callback returning void
+  mtd: rawnand: gpmi: Convert to platform remove callback returning void
+  mtd: rawnand: hisi504: Convert to platform remove callback returning
+    void
+  mtd: rawnand: ingenic: Convert to platform remove callback returning
+    void
+  mtd: rawnand: intel: Convert to platform remove callback returning
+    void
+  mtd: rawnand: lpc32xx_mlc: Convert to platform remove callback
+    returning void
+  mtd: rawnand: lpc32xx_slc: Convert to platform remove callback
+    returning void
+  mtd: rawnand: marvell: Convert to platform remove callback returning
+    void
+  mtd: rawnand: meson: Convert to platform remove callback returning
+    void
+  mtd: rawnand: mpc5121_nfc: Convert to platform remove callback
+    returning void
+  mtd: rawnand: mtk: Convert to platform remove callback returning void
+  mtd: rawnand: mxc: Convert to platform remove callback returning void
+  mtd: rawnand: mxic: Convert to platform remove callback returning void
+  mtd: rawnand: ndfc: Convert to platform remove callback returning void
+  mtd: rawnand: omap2: Convert to platform remove callback returning
+    void
+  mtd: rawnand: omap_elm: Convert to platform remove callback returning
+    void
+  mtd: rawnand: orion: Convert to platform remove callback returning
+    void
+  mtd: rawnand: oxnas: Convert to platform remove callback returning
+    void
+  mtd: rawnand: pasemi: Convert to platform remove callback returning
+    void
+  mtd: rawnand: pl35x: Convert to platform remove callback returning
+    void
+  mtd: rawnand: plat: Convert to platform remove callback returning void
+  mtd: rawnand: qcom: Convert to platform remove callback returning void
+  mtd: rawnand: renesas: Convert to platform remove callback returning
+    void
+  mtd: rawnand: rockchip: Convert to platform remove callback returning
+    void
+  mtd: rawnand: s3c2410: Convert to platform remove callback returning
+    void
+  mtd: rawnand: sh_flctl: Convert to platform remove callback returning
+    void
+  mtd: rawnand: sharpsl: Convert to platform remove callback returning
+    void
+  mtd: rawnand: socrates: Convert to platform remove callback returning
+    void
+  mtd: rawnand: stm32_fmc2: Convert to platform remove callback
+    returning void
+  mtd: rawnand: sunxi: Convert to platform remove callback returning
+    void
+  mtd: rawnand: tegra: Convert to platform remove callback returning
+    void
+  mtd: rawnand: vf610_nfc: Convert to platform remove callback returning
+    void
+  mtd: rawnand: xway: Convert to platform remove callback returning void
+
+ drivers/mtd/nand/ecc-mxic.c                     | 6 ++----
+ drivers/mtd/nand/onenand/generic.c              | 6 ++----
+ drivers/mtd/nand/onenand/onenand_omap2.c        | 6 ++----
+ drivers/mtd/nand/onenand/onenand_samsung.c      | 6 ++----
+ drivers/mtd/nand/raw/ams-delta.c                | 6 ++----
+ drivers/mtd/nand/raw/arasan-nand-controller.c   | 6 ++----
+ drivers/mtd/nand/raw/atmel/nand-controller.c    | 6 ++----
+ drivers/mtd/nand/raw/au1550nd.c                 | 5 ++---
+ drivers/mtd/nand/raw/bcm47xxnflash/main.c       | 6 ++----
+ drivers/mtd/nand/raw/cadence-nand-controller.c  | 6 ++----
+ drivers/mtd/nand/raw/davinci_nand.c             | 6 ++----
+ drivers/mtd/nand/raw/denali_dt.c                | 6 ++----
+ drivers/mtd/nand/raw/fsl_elbc_nand.c            | 6 ++----
+ drivers/mtd/nand/raw/fsl_ifc_nand.c             | 6 ++----
+ drivers/mtd/nand/raw/fsl_upm.c                  | 6 ++----
+ drivers/mtd/nand/raw/fsmc_nand.c                | 6 ++----
+ drivers/mtd/nand/raw/gpio.c                     | 6 ++----
+ drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c      | 5 ++---
+ drivers/mtd/nand/raw/hisi504_nand.c             | 6 ++----
+ drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c | 6 ++----
+ drivers/mtd/nand/raw/intel-nand-controller.c    | 6 ++----
+ drivers/mtd/nand/raw/lpc32xx_mlc.c              | 6 ++----
+ drivers/mtd/nand/raw/lpc32xx_slc.c              | 6 ++----
+ drivers/mtd/nand/raw/marvell_nand.c             | 6 ++----
+ drivers/mtd/nand/raw/meson_nand.c               | 6 ++----
+ drivers/mtd/nand/raw/mpc5121_nfc.c              | 6 ++----
+ drivers/mtd/nand/raw/mtk_nand.c                 | 6 ++----
+ drivers/mtd/nand/raw/mxc_nand.c                 | 6 ++----
+ drivers/mtd/nand/raw/mxic_nand.c                | 5 ++---
+ drivers/mtd/nand/raw/ndfc.c                     | 6 ++----
+ drivers/mtd/nand/raw/omap2.c                    | 5 ++---
+ drivers/mtd/nand/raw/omap_elm.c                 | 5 ++---
+ drivers/mtd/nand/raw/orion_nand.c               | 6 ++----
+ drivers/mtd/nand/raw/oxnas_nand.c               | 6 ++----
+ drivers/mtd/nand/raw/pasemi_nand.c              | 6 ++----
+ drivers/mtd/nand/raw/pl35x-nand-controller.c    | 6 ++----
+ drivers/mtd/nand/raw/plat_nand.c                | 6 ++----
+ drivers/mtd/nand/raw/qcom_nandc.c               | 6 ++----
+ drivers/mtd/nand/raw/renesas-nand-controller.c  | 6 ++----
+ drivers/mtd/nand/raw/rockchip-nand-controller.c | 6 ++----
+ drivers/mtd/nand/raw/s3c2410.c                  | 8 +++-----
+ drivers/mtd/nand/raw/sh_flctl.c                 | 6 ++----
+ drivers/mtd/nand/raw/sharpsl.c                  | 6 ++----
+ drivers/mtd/nand/raw/socrates_nand.c            | 6 ++----
+ drivers/mtd/nand/raw/stm32_fmc2_nand.c          | 6 ++----
+ drivers/mtd/nand/raw/sunxi_nand.c               | 6 ++----
+ drivers/mtd/nand/raw/tegra_nand.c               | 6 ++----
+ drivers/mtd/nand/raw/vf610_nfc.c                | 5 ++---
+ drivers/mtd/nand/raw/xway_nand.c                | 6 ++----
+ 49 files changed, 99 insertions(+), 191 deletions(-)
+
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
