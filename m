@@ -2,100 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8B726D37A3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Apr 2023 13:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 909A16D3DE5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 09:13:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbjDBL3N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 2 Apr 2023 07:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40116 "EHLO
+        id S231680AbjDCHNc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Apr 2023 03:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjDBL3M (ORCPT
+        with ESMTP id S231510AbjDCHNU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 2 Apr 2023 07:29:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C781EFD3;
-        Sun,  2 Apr 2023 04:29:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A432611C0;
-        Sun,  2 Apr 2023 11:29:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB48C433EF;
-        Sun,  2 Apr 2023 11:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680434950;
-        bh=O7FvGnaQoAlD46duLUMHPDdQnP0Mle8dOr2IFMWfzLE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KL+N3+UL88woFkI24eWRtK6AMLcd0MJ9b5DGulMTGFzLRGCyC3/yw1q4qzdq1W8Hj
-         2+8qglRRKJlXIwTpoM79NplLOomgc+gaCPEOLHow5DMYmWFnMwuN3LnzcMwdD5FtGJ
-         ywP0kZ7lFV9OIOEh+dkPYuruyJJ4vrIJSo4lY7THQXTUbF9odJdaw8umU6hw7YOs14
-         h1on6wMg50DN00J2k/Am+fgqIPN8lKv2sDAZk1mAIEvsWflrAasJpLSj7j68TnK1D/
-         /n65eKa0Nv7SgfLq3vGDxnK3RkJrjIrVi/DpN0n/WLYyriQYG7rAFDW0Kb5p5PNCde
-         79B6ZnoozFt8w==
-Message-ID: <e200be05-4066-b6d8-badd-c7726741356d@kernel.org>
-Date:   Sun, 2 Apr 2023 13:29:06 +0200
+        Mon, 3 Apr 2023 03:13:20 -0400
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA2586BD;
+        Mon,  3 Apr 2023 00:13:14 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id g17so36736275lfv.4;
+        Mon, 03 Apr 2023 00:13:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680505991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e7capAJy/014BXDXeBkJl6CUwcFU7SprHWGZwxKTcxg=;
+        b=hLC49TBVWt1rjTqVVu0oLVhQmINJAE+p50np2C5JgQH2EdUQZs7qWQUjUjMm3liQod
+         heCKJFnd+UrIeyNNdo7ZIiX1OJIdk+zmA69KfrV2M0kR9qpM89djt4GwbegN01g+qkd/
+         Y7FmTpAE8PTfwcXJ8hDw3HbAVgDr/9Br+yPjkYiNVhReICaB2WcJO+nlXI+u8ezhehf2
+         Z+DeRZGI6o+K8bYWDANAkGyswcR19zvUimw+Ve0l0+Z9VJSyGSFRYSUVc1izMCzrr/DW
+         R5IiVrNeBLTriHD0c1OPz7LElaugfoRBvHFY+oYJdYsU8CEMB27olQkMtsskwfMOyBMg
+         fvWA==
+X-Gm-Message-State: AAQBX9fdhIj3iIIpKHRqKunroxWdHykRWTa2tBM5gBdtA8EohIcUX8RG
+        Vhv3CzSW65Z0HxwHySo4LSNPE6mYwowQ8Q==
+X-Google-Smtp-Source: AKy350ZH5qiDzPPdBSxA7mZm9eLPaIx2SXQvoX9Sg/nuFG9FzH8Luy1nAtXDHVK0IV9XG9gEW90OEA==
+X-Received: by 2002:ac2:5291:0:b0:4b9:a91c:b0c9 with SMTP id q17-20020ac25291000000b004b9a91cb0c9mr9376528lfm.7.1680505991373;
+        Mon, 03 Apr 2023 00:13:11 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id b5-20020ac25e85000000b004e80141709fsm1647026lfq.109.2023.04.03.00.13.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 00:13:10 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 20so29274990lju.0;
+        Mon, 03 Apr 2023 00:13:10 -0700 (PDT)
+X-Received: by 2002:a2e:86d2:0:b0:2a1:d819:f0ae with SMTP id
+ n18-20020a2e86d2000000b002a1d819f0aemr10668463ljj.9.1680505990149; Mon, 03
+ Apr 2023 00:13:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
- bus-type property
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230331095545.31823-1-lidaxian@hust.edu.cn> <CAMuHMdV5guFbo76nq27aZjWsYqneOfGNf0Ozyh0C53+VgnXgXw@mail.gmail.com>
+ <d2688eb2-d7b6-4e80-a13e-55ed541ac9b8@kili.mountain>
+In-Reply-To: <d2688eb2-d7b6-4e80-a13e-55ed541ac9b8@kili.mountain>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Apr 2023 09:12:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX2b+GV4+Ee0yQ2hfNCvHaU_jAsnmF28=4ffCmdVy58xg@mail.gmail.com>
+Message-ID: <CAMuHMdX2b+GV4+Ee0yQ2hfNCvHaU_jAsnmF28=4ffCmdVy58xg@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: renesas-soc: release 'chipid' from ioremap()
+To:     Dan Carpenter <error27@gmail.com>
+Cc:     Li Yang <lidaxian@hust.edu.cn>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 31/03/2023 16:10, Niklas Söderlund wrote:
-> The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
-> supported bus-types and make the property mandatory.
+Hi Dan,
 
-Why making it mandatory? Commit msg should focus on "why" because "what"
-is easy to see.
+On Mon, Apr 3, 2023 at 6:29 AM Dan Carpenter <error27@gmail.com> wrote:
+> On Fri, Mar 31, 2023 at 02:13:10PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Mar 31, 2023 at 12:14 PM Li Yang <lidaxian@hust.edu.cn> wrote:
+> > > Smatch reports:
+> > >
+> > > drivers/soc/renesas/renesas-soc.c:536 renesas_soc_init() warn:
+> > > 'chipid' from ioremap() not released on lines: 475.
+> > >
+> > > If soc_dev_atrr allocation is failed, function renesas_soc_init()
+> > > will return without releasing 'chipid' from ioremap().
+> > >
+> > > Fix this by adding function iounmap().
+> > >
+> > > Fixes: cb5508e47e60 ("soc: renesas: Add support for reading product revision for RZ/G2L family")
+> > > Signed-off-by: Li Yang <lidaxian@hust.edu.cn>
+> > > Reviewed-by: Dan Carpenter <error27@gmail.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/soc/renesas/renesas-soc.c
+> > > +++ b/drivers/soc/renesas/renesas-soc.c
+> > > @@ -471,8 +471,11 @@ static int __init renesas_soc_init(void)
+> > >         }
+> > >
+> > >         soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+> > > -       if (!soc_dev_attr)
+> > > +       if (!soc_dev_attr) {
+> > > +               if (chipid)
+> > > +                       iounmap(chipid);
+> >
+> > We don't really care, as the system is dead at this point anyway.
+>
+> Why even have the check for NULL then?  The kzalloc() is small enough
 
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> Hi,
-> 
-> This is done in conjunction with adding C-PHY support to the driver,
-> patches on list. The current driver only supports D-PHY so this was
-> assumed in the driver.
-> 
-> There is a single user of this binding, r8a779a0-falcon-csi-dsi.dtsi. A
-> separate patch to update that binding with a bus-type property is be
-> submitted.
-> 
-> Without the property present the driver fall-back to D-PHY (even with
-> the C-PHY work applied). So this change is backward compatible with old
-> versions of the only effected DTS file.
-> ---
+Because else someone will submit a patch to add that check? ;-)
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC.  It might happen, that command when run on an older
-kernel, gives you outdated entries.  Therefore please be sure you base
-your patches on recent Linux kernel.
+> to the point where it litterally cannot fail.
 
->  .../devicetree/bindings/media/i2c/maxim,max96712.yaml      | 7 +++++++
->  1 file changed, 7 insertions(+)
+I still don't understand how it can be guaranteed that small allocations
+never fail... "while (1) kmalloc(16, GFP_KERNEL);"
 
+> This patch is already written, it's way less effort for us to apply it
+> than it is to debate its worth.  I kind of feel like it's better to just
+> fix the bugs even when they don't affect real life.  Otherwise it's a
+> constant debate with bugs if they're worth fixing.
+>
+> This is a university group and they're looking for bugs to fix.  I'm
+> like, "I'm drowning in resource leak warnings and I don't even look at
+> them any more because they're basically all trash that no one cares
+> about."  So I was hoping to maybe clean up the trash a bit to the point
+> where we can start caring about the leaks.
 
-Best regards,
-Krzysztof
+Fair enough.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.4.
 
+Perhaps we need a different mechanism to annotate error handling code
+that cannot ever happen in a real product, so it can be thrown away by
+the compiler, while still pleasing the static checkers?  All these
+checks and error handling code do affect kernel size.  There are
+Linux products running on SoCs with 8 MiB of internal SRAM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
