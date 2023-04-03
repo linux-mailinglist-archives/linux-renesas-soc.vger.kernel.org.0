@@ -2,126 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BDEC6D4DCC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 18:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D0F86D4E89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 19:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232821AbjDCQap (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Apr 2023 12:30:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
+        id S232856AbjDCRAe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Apr 2023 13:00:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232822AbjDCQan (ORCPT
+        with ESMTP id S231730AbjDCRAd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Apr 2023 12:30:43 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366CA270B
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Apr 2023 09:30:09 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id ew6so119586716edb.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:30:09 -0700 (PDT)
+        Mon, 3 Apr 2023 13:00:33 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F192B19B7;
+        Mon,  3 Apr 2023 10:00:31 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id bl9so13127298iob.8;
+        Mon, 03 Apr 2023 10:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680539404;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MeWz95RBmI6XpSLkAR+cuB3iAEeGC3iRvwSDE5+WIbY=;
-        b=vHhtKJL5afd3fDZb5Xvy5G6y/LTvqitLGSe7Ap0XWRSd3UnHwlhXG/jlL1pEDbro5N
-         dDLdwGPIJVRIvCgJf+ooSRVUmcxTfsxV8spRGbOdGMiu0Yjabnu9Hv/mjHGNPXQ8lvjN
-         cHe5ugODQYhlOZWDVDxVyYBUABgPfEhUNhPdKeF3/9v5wJk7oZDOr605S7tVuPNd8wTF
-         bx6a/0ODqm177Gf9vkkLZzZXwHE9nR4G62csYL1zJ90eb79s5EDQerAqVGy4fDYuhuFx
-         gXu3jujaXU5RPMtaZlFQ+OKGBp5RSLJJ0rYp6O8X402TZk6l3E92wW+w0z23pJ8wZvpJ
-         eSIg==
+        d=gmail.com; s=20210112; t=1680541231; x=1683133231;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2nf1Z/1629BSjtPERMC0xegxmYOylmoUX4r5kQI3Zb4=;
+        b=afZSs2OWGE0NO12jOYZZiTTElaK97bfx4375BKXFjikdA8n0hir3GyRGXNuXs1UnzL
+         5lg2tgzlu/ihguK+7ws1V4VP+Ka/6E+KU4xzIGpJmSb3wVON495DEAv0vWks7ObDMy0B
+         QeN2khJBAeNmAYfBLjn/xfcGpDlC+jhTxnD3qH+o8D4xdkBt2Tt8tws9PK3V3TU7DoYg
+         Ub7icz4RPADSd1ONMIXOz3/ZZoK9OBeDmv8mJhSioQmNb3a47+nWiZsG8DR3zS1X4IoF
+         wz3YoMCBH6X9N2Sm8lpmJnI8G0EwYsYAf7foI5TI7Ph7SQ3uZHPejgFzF9MMjC+4xI/V
+         pwhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680539404;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MeWz95RBmI6XpSLkAR+cuB3iAEeGC3iRvwSDE5+WIbY=;
-        b=fyRTrL707L+hDWtw127DZY7pAmFcBje/OAaY8YQKsuyQj5IFa5Bvc33DOfYNCyuxAK
-         SvR7pDFjJPTQvqmox4nVuaEDoKGP/7qNVS1NX82fhI9C2jZU/2QeVojSBdoZlDeHkD6C
-         XQaSzqZ0WGS/LaEii6xIAoahT4gT4hOOeN8IW0MJwH4HVevQSA06USrk3G0cCJwC3N4N
-         LGOE1vd0bOmkGMIFpvCFG3vG5/XNlgkNRJILlg1a8KydylzcKrvD55lto+6N7IA+FA7q
-         SNrShEyqDlxDi6y4L2naxIRKbcZWEWzEy6sABGLNbulpPi3DTIR23IYVmXpvjsJ/mNXQ
-         wZyw==
-X-Gm-Message-State: AAQBX9cKeuGZf8dqvweg0GLl23NuzAUl7goXl+XkTibA+z0ll0dwo5qQ
-        Lwy+0caOnWtq8in76u82ojgGGQ==
-X-Google-Smtp-Source: AKy350YS4e1dI8mZhrbLOs96X7qTnH/JqlEPq688zdETFGPGyW8pAjyNj4FhzEJY/Pp8fKqk3yTMRQ==
-X-Received: by 2002:a17:906:3da:b0:931:95a1:a05a with SMTP id c26-20020a17090603da00b0093195a1a05amr37358230eja.62.1680539403777;
-        Mon, 03 Apr 2023 09:30:03 -0700 (PDT)
-Received: from [192.168.2.107] ([79.115.63.91])
-        by smtp.gmail.com with ESMTPSA id ld4-20020a1709079c0400b009486efb9192sm2073196ejc.11.2023.04.03.09.29.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 09:30:03 -0700 (PDT)
-Message-ID: <f881883e-23e1-66e0-78d2-da86533b038f@linaro.org>
-Date:   Mon, 3 Apr 2023 17:29:59 +0100
+        d=1e100.net; s=20210112; t=1680541231; x=1683133231;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2nf1Z/1629BSjtPERMC0xegxmYOylmoUX4r5kQI3Zb4=;
+        b=l6g67eDjttfCXbZEzvh4Z2yNPmnkZ3V6nWhcbuiLe0UIpGX9uJwLPBn+o3LE7tzHy7
+         K0jmY6rOIJwLq3zWHQSmYN7TTAIaeObAoNq/lTFdntPa+NW7fO4pLxvOfw2bTq3IrY7f
+         +YbIVMQNYxJsaIBJzv4czrnKvmVjwZ+Lf6dg/33cs2faRKjeTXdXbT2BlRj67h0abcsu
+         /L1BNWj0GsvVb7FihKwlv42N+dGWE+wHMYdN1NNqLDWOlBYhOMmFC+c8h6zmU7YWeaJA
+         X3PJ3ss5Q+S351CfkrmycHzznNJV73JazDcydxvsSmtshzmRTOIH5zi8oStylKbth8S8
+         0Krw==
+X-Gm-Message-State: AAQBX9cVPpaS+oC1VCfgp06+aMd85/2jmwCkrvI3EMCpn4R/8ULiZDd2
+        mHcZwZukb1B7s8+OIoONKZh2+m0+30nsm9OQBQw=
+X-Google-Smtp-Source: AKy350Y/yLdfzY2ZvtkWGRk2SOZ/N5p31WZSenKJhc7loZKG0LwU+ujjt2tYneg/fN/rDMA3AWrQzzlpaYBPirIuotA=
+X-Received: by 2002:a02:7359:0:b0:3a7:e46e:ab64 with SMTP id
+ a25-20020a027359000000b003a7e46eab64mr17031jae.1.1680541231305; Mon, 03 Apr
+ 2023 10:00:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 00/49] mtd: nand: Convert to platform remove callback
- returning void
-Content-Language: en-US
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Naga Sureshkumar Relli <nagasure@xilinx.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Valentin Korenblit <vkorenblit@sequans.com>,
-        Wang Weiyang <wangweiyang2@huawei.com>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        Han Xu <han.xu@nxp.com>,
-        Harvey Hunt <harveyhuntnexus@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chuanhong Guo <gch981213@gmail.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Christophe Kerello <christophe.kerello@foss.st.com>,
-        Jack Wang <jinpu.wang@ionos.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <6ca5941a-8803-477d-8b40-17292decc5af@app.fastmail.com> <CA+V-a8tkiDXG37YjFKPxrGoXVQMVBemMdBcfb+uUDzBofOWH_A@mail.gmail.com>
+ <1c441d20-951d-407b-90ba-4cda3b0505b2@app.fastmail.com>
+In-Reply-To: <1c441d20-951d-407b-90ba-4cda3b0505b2@app.fastmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 3 Apr 2023 18:00:04 +0100
+Message-ID: <CA+V-a8t-j6DRpcv5oGREHVUaQpafcHiW8M_mRWAK4dC6PAsbcg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
+ pointers for cache management
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Samuel Holland <samuel@sholland.org>,
-        Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
-        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-        linux-mips@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
-        linux-amlogic@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org, linux-oxnas@groups.io,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-References: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
-From:   Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -130,27 +86,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Arnd,
 
+On Fri, Mar 31, 2023 at 11:45=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrot=
+e:
+>
+> On Fri, Mar 31, 2023, at 12:37, Lad, Prabhakar wrote:
+> > On Thu, Mar 30, 2023 at 10:34=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
+> >
+> >> It also seems wrong to have the fallback be to do nothing
+> >> when the pointer is NULL, since that cannot actually work
+> >> when a device is not cache coherent.
+> >>
+> > If the device is non cache coherent and if it doesn't support ZICBOM
+> > ISA extension the device won't work anyway. So non-cache coherent
+> > devices until they have their CMO config enabled won't work anyway. So
+> > I didn't see any benefit in enabling ZICBOM by default. Please let me
+> > know if I am misunderstanding.
+>
+> Two things:
+>
+> - Having a broken machine crash with in invalid instruction
+>   exception is better than having it run into silent data
+>   corruption.
+>
+> - a correctly predicted branch is typically faster than an
+>   indirect function call, so the fallback to zicbom makes the
+>   expected (at least in the future) case the fast one.
+>
+> > @@ -465,7 +466,6 @@ config RISCV_ISA_ZICBOM
+> >         depends on MMU
+> >         depends on RISCV_ALTERNATIVE
+> >         default y
+> > -       select RISCV_DMA_NONCOHERENT
+> >         help
+> >            Adds support to dynamically detect the presence of the ZICBO=
+M
+> >            extension (Cache Block Management Operations) and enable its
+> >
+> > But what if the platform doesn't have the ZICBOM ISA extension?
+>
+> Then it needs to register its cache operations before the first
+> DMA, which is something that it should do anyway. With your
+> current code, it may work by accident depending on the state of
+> the cache, but with the version I suggested, it will either work
+> correctly all the time or crash in an obvious way when misconfigured.
+>
+You were right, defaulting to ZICBOM is giving me a crash. So I need
+to switch to something else rather than using arch_initcall().
 
-On 4/1/23 17:18, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series adapts the platform drivers below drivers/mtd/nand to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver core
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warning. The
-> device is removed anyhow and an early return from .remove() usually yields a
-> resource leak.
-> 
-> By changing the remove callback to return void driver authors cannot
-> reasonably assume any more that there is some kind of cleanup later.
-> 
-> As all drivers already return 0 in their .remove callback, they can be
-> converted trivially.
-> 
+I tried early_initcall() but this doesn't let me register a platform
+driver. I should be able to access the resources and DT from init
+callback and then register CMO callbacks (I havent tried this yet) but
+it wont be a platform driver. Should this be OK?
 
-I'd make a single patch per subsystem for trivial changes, but I don't
-mind having them split per driver either:
-
-Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cheers,
+Prabhakar
