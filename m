@@ -2,63 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C8D6D463D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 15:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCDE6D4DB0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 18:29:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbjDCNwj convert rfc822-to-8bit (ORCPT
+        id S232208AbjDCQ33 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Apr 2023 09:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
+        Mon, 3 Apr 2023 12:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231310AbjDCNwi (ORCPT
+        with ESMTP id S231809AbjDCQ32 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Apr 2023 09:52:38 -0400
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B7335BB;
-        Mon,  3 Apr 2023 06:52:37 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id e65so34782338ybh.10;
-        Mon, 03 Apr 2023 06:52:37 -0700 (PDT)
+        Mon, 3 Apr 2023 12:29:28 -0400
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D15C1FDE
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Apr 2023 09:29:27 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-536af432ee5so562843157b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:29:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680529956;
+        d=1e100.net; s=20210112; t=1680539366;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a3dsuy9SysKm463aIidfzRiqsaM6ZWpxf2+nNV1AuG4=;
-        b=Hg0rpX2kOa/Xcd901s48x1fAf1/WLx0e5aznyqTHTGRz5aqjH5Mla+Uie3pbIBB7p5
-         3nFKWiBm+OBQ3NEWcnckUVt6sZXW7Aa81bFDCwZQtfTOt01Pzgq5fkFZbpWSc0NWswTr
-         wQt9mI1lmjEYqk/OSX/jILOrdwjh6Qupp2nfRMU4XlczOekqVXWRIEgdC9CA1rxoG5wY
-         6sYOpzzicWFa98epN83C2m80x3GONDNVEQJiWnQoh97n2Doe5Q865zD9K9zA7Xh7xqZX
-         e94wmdi119MPQKAeOmAmNpOu3G3u0OV8AhRsRyGfXZo75eFNQcRhAXqM8/zxChHbfrX4
-         iFag==
-X-Gm-Message-State: AAQBX9c829Yoymu6H0DL/1kzT1gyrNUBBLpcIpcPwDq+hYqgbMq0dqG7
-        7xkCACIVWnPGc1LS5bxupsfcUPQRsDF/pX+V
-X-Google-Smtp-Source: AKy350bW6glImCBOrEW0z9I4DFpYTTUX5hJPgXV5ttDmPYFZoNoWizU4TjZlKz0sN89D5ab8xL4BUA==
-X-Received: by 2002:a25:1506:0:b0:b74:7922:5f3f with SMTP id 6-20020a251506000000b00b7479225f3fmr32221445ybv.52.1680529956196;
-        Mon, 03 Apr 2023 06:52:36 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id 188-20020a8114c5000000b00545a081848esm2547840ywu.30.2023.04.03.06.52.35
+        bh=OJp/UHUUVWepRPEy8J9qP7lkAX18u/uBn6W1djkz/+Q=;
+        b=nWTCh7q7KXQRlM3R1i6kMiJp6RvkxdcQSUarbDpI1NoYIqXtY9KkGoUjBKqr0PtLnh
+         ryOBFBIND/tbH9rnZw+eynnUOgFTy8hAWuQzbUfA0dvKFbr1SoVPzWsOHM0e2AjomLfH
+         /57qIdiqhjraPtiT5Xg7K8mDS1ngLMvIstd7GnV54kUGPvoKp4oEevAP6FzS7k8uZZVi
+         O+BRXtyKN1x4vbnHeXbmDCyGdWy0gILeTsc630mWK9LbICmwvvoYXIebsvTlk+SkX7Ui
+         O/8V3b7jgYRvrzfS6h47faOjnKRTe2SkMdEqZroRYigTuu/VA5YLfgSnp7mvLaW/chpU
+         Mkhg==
+X-Gm-Message-State: AAQBX9fQJePt1WqnJqKb5BhZOEWiGhv9960k2b61sN8EJYqYAAIoRGkW
+        UZu4BNaLQKXPKr/K8uvoPgi8g5I2kKY/iDi3
+X-Google-Smtp-Source: AKy350YMhbmuvazKylvvErSSR7SK4BpBzWoRO0pZAA4I8xTHUqrL1FPR4AR7dpx2nl3HFwfN/7eTWQ==
+X-Received: by 2002:a0d:e28c:0:b0:544:7994:34dc with SMTP id l134-20020a0de28c000000b00544799434dcmr30395836ywe.43.1680539366054;
+        Mon, 03 Apr 2023 09:29:26 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id 2-20020a811202000000b00545a081849bsm2629331yws.43.2023.04.03.09.29.25
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 06:52:35 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id cf7so34847408ybb.5;
-        Mon, 03 Apr 2023 06:52:35 -0700 (PDT)
-X-Received: by 2002:a25:bb85:0:b0:b7c:1144:a708 with SMTP id
- y5-20020a25bb85000000b00b7c1144a708mr16700229ybg.12.1680529955037; Mon, 03
- Apr 2023 06:52:35 -0700 (PDT)
+        Mon, 03 Apr 2023 09:29:25 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-544787916d9so561385517b3.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:29:25 -0700 (PDT)
+X-Received: by 2002:a81:a7c4:0:b0:546:264:a375 with SMTP id
+ e187-20020a81a7c4000000b005460264a375mr13077370ywh.4.1680539365152; Mon, 03
+ Apr 2023 09:29:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1680273039.git.geert+renesas@glider.be> <01484ce3-2366-5000-3aa6-727448145f36@suse.de>
-In-Reply-To: <01484ce3-2366-5000-3aa6-727448145f36@suse.de>
+References: <07cf5e2b466f3ba217403afc66a8246460609e09.1679330105.git.geert+renesas@glider.be>
+ <4afd79ba-215d-8b33-4999-4afaa88ae051@linaro.org> <CAMuHMdXE=jvjKTekRgWpYRPa7_T51qRdTXTgB3nQn5Dcjjg7bA@mail.gmail.com>
+ <CAMuHMdVsbcuH+UYKb2be34LAk=gu8GMOQ+5+uxk_O585X4rWBg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVsbcuH+UYKb2be34LAk=gu8GMOQ+5+uxk_O585X4rWBg@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Apr 2023 15:52:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXYnbxLsJp3bnH74yfZAHG=8Da360C4AjKQg-Ynv6hiMw@mail.gmail.com>
-Message-ID: <CAMuHMdXYnbxLsJp3bnH74yfZAHG=8Da360C4AjKQg-Ynv6hiMw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] drm: shmobile: Fixes and enhancements
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
+Date:   Mon, 3 Apr 2023 18:29:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWvVmQ6ZuYAs2z9xAJ9y82UNAckXDmkSQSXxGY_KyT4tg@mail.gmail.com>
+Message-ID: <CAMuHMdWvVmQ6ZuYAs2z9xAJ9y82UNAckXDmkSQSXxGY_KyT4tg@mail.gmail.com>
+Subject: Re: [PATCH/RFC] ARM: dts: marzen: Add FLASH node
+To:     Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
@@ -71,29 +75,48 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+On Tue, Mar 21, 2023 at 4:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Mar 20, 2023 at 7:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, Mar 20, 2023 at 6:04 PM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
+> > > Vignesh used to review CFI code, maybe he can intervene. I've never
+> > > worked with CFI, but I can try to help. I'll need more debug data though.
+> > >
+> > > On 3/20/23 16:43, Geert Uytterhoeven wrote:
+> > > > Add a device node for the Spansion S29GL512N NOR FLASH on the Marzen
+> > > > development board.
+> > > >
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > ---
+> > > > Although the S29GL512N is a CFI FLASH, using "cfi-flash" instead of
+> > > > "mtd-rom" does not work:
+> > > >   1. Probing fails with "physmap-flash 0.flash: map_probe failed",
+> > >
+> > > I would first try to understand why the probe fails.
 
-On Mon, Apr 3, 2023 at 3:14 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 31.03.23 um 16:48 schrieb Geert Uytterhoeven:
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >    1. sh_mobile_lcdcfb, using the fbdev framework,
-> >    2. shmob_drm, using the DRM framework.
-> > However, only the former driver can be used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
-> >
-> > This patch series is a first step to enable the SH-Mobile DRM driver for
-> > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next step planned is
-> > to add DT support.
-> >
-> > This has been tested on the R-Mobile A1-based Atmark Techno
-> > Armadillo-800-EVA development board, using a temporary
-> > platform-enablement patch[1].
+> I suddenly remembered I have a different board (APE6-EVM), where
+> the CFI-FLASH stopped working after adding support for secondary
+> CPUs. I always thought that was a hardware quirk...
 >
-> Since you have the hardware for shmobile, would you be able to test
-> patches occasionally?
+> Turns out the CFI-FLASH on Marzen (quad Cortex-A9) is detected when
+> booting with "nosmp":
 
-Sure!
+> My first guess was that the probing process is migrated to a different
+> CPU core during probing, but printing smp_processor_id() didn't
+> confirm that; it's just running on a different CPU core than CPU0.
+> Wrapping the body of cfi_qry_mode_on() inside a get_cpu()/put_cpu()
+> pair to prevent migration also didn't fix it.
+>
+> Is CFI-FLASH known-broken on SMP?
+
+After actively looking for more boards with CFI FLASHes, and finding one
+more board where FLASH probing fails on SMP, I dug deeper.
+Turns out they all have in common that (a) the CFI FLASH is located at
+physical address zero, and (b) the secondary CPU bringup code relies
+on mapping (by special hardware) the region at address zero to the
+CPU boot code...
+
+Hence fixing this involves making sure that accessing FLASH and bringing
+CPU cores online do not happen concurrently...
 
 Gr{oetje,eeting}s,
 
