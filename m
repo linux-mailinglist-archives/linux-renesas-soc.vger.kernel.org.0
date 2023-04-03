@@ -2,129 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCDE6D4DB0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 18:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BDEC6D4DCC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Apr 2023 18:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjDCQ33 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Apr 2023 12:29:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33750 "EHLO
+        id S232821AbjDCQap (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Apr 2023 12:30:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231809AbjDCQ32 (ORCPT
+        with ESMTP id S232822AbjDCQan (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Apr 2023 12:29:28 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D15C1FDE
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Apr 2023 09:29:27 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-536af432ee5so562843157b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:29:27 -0700 (PDT)
+        Mon, 3 Apr 2023 12:30:43 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366CA270B
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Apr 2023 09:30:09 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id ew6so119586716edb.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:30:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680539404;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MeWz95RBmI6XpSLkAR+cuB3iAEeGC3iRvwSDE5+WIbY=;
+        b=vHhtKJL5afd3fDZb5Xvy5G6y/LTvqitLGSe7Ap0XWRSd3UnHwlhXG/jlL1pEDbro5N
+         dDLdwGPIJVRIvCgJf+ooSRVUmcxTfsxV8spRGbOdGMiu0Yjabnu9Hv/mjHGNPXQ8lvjN
+         cHe5ugODQYhlOZWDVDxVyYBUABgPfEhUNhPdKeF3/9v5wJk7oZDOr605S7tVuPNd8wTF
+         bx6a/0ODqm177Gf9vkkLZzZXwHE9nR4G62csYL1zJ90eb79s5EDQerAqVGy4fDYuhuFx
+         gXu3jujaXU5RPMtaZlFQ+OKGBp5RSLJJ0rYp6O8X402TZk6l3E92wW+w0z23pJ8wZvpJ
+         eSIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680539366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OJp/UHUUVWepRPEy8J9qP7lkAX18u/uBn6W1djkz/+Q=;
-        b=nWTCh7q7KXQRlM3R1i6kMiJp6RvkxdcQSUarbDpI1NoYIqXtY9KkGoUjBKqr0PtLnh
-         ryOBFBIND/tbH9rnZw+eynnUOgFTy8hAWuQzbUfA0dvKFbr1SoVPzWsOHM0e2AjomLfH
-         /57qIdiqhjraPtiT5Xg7K8mDS1ngLMvIstd7GnV54kUGPvoKp4oEevAP6FzS7k8uZZVi
-         O+BRXtyKN1x4vbnHeXbmDCyGdWy0gILeTsc630mWK9LbICmwvvoYXIebsvTlk+SkX7Ui
-         O/8V3b7jgYRvrzfS6h47faOjnKRTe2SkMdEqZroRYigTuu/VA5YLfgSnp7mvLaW/chpU
-         Mkhg==
-X-Gm-Message-State: AAQBX9fQJePt1WqnJqKb5BhZOEWiGhv9960k2b61sN8EJYqYAAIoRGkW
-        UZu4BNaLQKXPKr/K8uvoPgi8g5I2kKY/iDi3
-X-Google-Smtp-Source: AKy350YMhbmuvazKylvvErSSR7SK4BpBzWoRO0pZAA4I8xTHUqrL1FPR4AR7dpx2nl3HFwfN/7eTWQ==
-X-Received: by 2002:a0d:e28c:0:b0:544:7994:34dc with SMTP id l134-20020a0de28c000000b00544799434dcmr30395836ywe.43.1680539366054;
-        Mon, 03 Apr 2023 09:29:26 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id 2-20020a811202000000b00545a081849bsm2629331yws.43.2023.04.03.09.29.25
-        for <linux-renesas-soc@vger.kernel.org>
+        d=1e100.net; s=20210112; t=1680539404;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MeWz95RBmI6XpSLkAR+cuB3iAEeGC3iRvwSDE5+WIbY=;
+        b=fyRTrL707L+hDWtw127DZY7pAmFcBje/OAaY8YQKsuyQj5IFa5Bvc33DOfYNCyuxAK
+         SvR7pDFjJPTQvqmox4nVuaEDoKGP/7qNVS1NX82fhI9C2jZU/2QeVojSBdoZlDeHkD6C
+         XQaSzqZ0WGS/LaEii6xIAoahT4gT4hOOeN8IW0MJwH4HVevQSA06USrk3G0cCJwC3N4N
+         LGOE1vd0bOmkGMIFpvCFG3vG5/XNlgkNRJILlg1a8KydylzcKrvD55lto+6N7IA+FA7q
+         SNrShEyqDlxDi6y4L2naxIRKbcZWEWzEy6sABGLNbulpPi3DTIR23IYVmXpvjsJ/mNXQ
+         wZyw==
+X-Gm-Message-State: AAQBX9cKeuGZf8dqvweg0GLl23NuzAUl7goXl+XkTibA+z0ll0dwo5qQ
+        Lwy+0caOnWtq8in76u82ojgGGQ==
+X-Google-Smtp-Source: AKy350YS4e1dI8mZhrbLOs96X7qTnH/JqlEPq688zdETFGPGyW8pAjyNj4FhzEJY/Pp8fKqk3yTMRQ==
+X-Received: by 2002:a17:906:3da:b0:931:95a1:a05a with SMTP id c26-20020a17090603da00b0093195a1a05amr37358230eja.62.1680539403777;
+        Mon, 03 Apr 2023 09:30:03 -0700 (PDT)
+Received: from [192.168.2.107] ([79.115.63.91])
+        by smtp.gmail.com with ESMTPSA id ld4-20020a1709079c0400b009486efb9192sm2073196ejc.11.2023.04.03.09.29.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 09:29:25 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-544787916d9so561385517b3.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Apr 2023 09:29:25 -0700 (PDT)
-X-Received: by 2002:a81:a7c4:0:b0:546:264:a375 with SMTP id
- e187-20020a81a7c4000000b005460264a375mr13077370ywh.4.1680539365152; Mon, 03
- Apr 2023 09:29:25 -0700 (PDT)
+        Mon, 03 Apr 2023 09:30:03 -0700 (PDT)
+Message-ID: <f881883e-23e1-66e0-78d2-da86533b038f@linaro.org>
+Date:   Mon, 3 Apr 2023 17:29:59 +0100
 MIME-Version: 1.0
-References: <07cf5e2b466f3ba217403afc66a8246460609e09.1679330105.git.geert+renesas@glider.be>
- <4afd79ba-215d-8b33-4999-4afaa88ae051@linaro.org> <CAMuHMdXE=jvjKTekRgWpYRPa7_T51qRdTXTgB3nQn5Dcjjg7bA@mail.gmail.com>
- <CAMuHMdVsbcuH+UYKb2be34LAk=gu8GMOQ+5+uxk_O585X4rWBg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVsbcuH+UYKb2be34LAk=gu8GMOQ+5+uxk_O585X4rWBg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Apr 2023 18:29:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWvVmQ6ZuYAs2z9xAJ9y82UNAckXDmkSQSXxGY_KyT4tg@mail.gmail.com>
-Message-ID: <CAMuHMdWvVmQ6ZuYAs2z9xAJ9y82UNAckXDmkSQSXxGY_KyT4tg@mail.gmail.com>
-Subject: Re: [PATCH/RFC] ARM: dts: marzen: Add FLASH node
-To:     Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 00/49] mtd: nand: Convert to platform remove callback
+ returning void
+Content-Language: en-US
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
         Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Naga Sureshkumar Relli <nagasure@xilinx.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Valentin Korenblit <vkorenblit@sequans.com>,
+        Wang Weiyang <wangweiyang2@huawei.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
+        Han Xu <han.xu@nxp.com>,
+        Harvey Hunt <harveyhuntnexus@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chuanhong Guo <gch981213@gmail.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Christophe Kerello <christophe.kerello@foss.st.com>,
+        Jack Wang <jinpu.wang@ionos.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
+        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+        linux-mips@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, linux-oxnas@groups.io,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+References: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+From:   Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 4:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Mar 20, 2023 at 7:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Mar 20, 2023 at 6:04 PM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
-> > > Vignesh used to review CFI code, maybe he can intervene. I've never
-> > > worked with CFI, but I can try to help. I'll need more debug data though.
-> > >
-> > > On 3/20/23 16:43, Geert Uytterhoeven wrote:
-> > > > Add a device node for the Spansion S29GL512N NOR FLASH on the Marzen
-> > > > development board.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > Although the S29GL512N is a CFI FLASH, using "cfi-flash" instead of
-> > > > "mtd-rom" does not work:
-> > > >   1. Probing fails with "physmap-flash 0.flash: map_probe failed",
-> > >
-> > > I would first try to understand why the probe fails.
 
-> I suddenly remembered I have a different board (APE6-EVM), where
-> the CFI-FLASH stopped working after adding support for secondary
-> CPUs. I always thought that was a hardware quirk...
->
-> Turns out the CFI-FLASH on Marzen (quad Cortex-A9) is detected when
-> booting with "nosmp":
 
-> My first guess was that the probing process is migrated to a different
-> CPU core during probing, but printing smp_processor_id() didn't
-> confirm that; it's just running on a different CPU core than CPU0.
-> Wrapping the body of cfi_qry_mode_on() inside a get_cpu()/put_cpu()
-> pair to prevent migration also didn't fix it.
->
-> Is CFI-FLASH known-broken on SMP?
+On 4/1/23 17:18, Uwe Kleine-König wrote:
+> Hello,
+> 
+> this series adapts the platform drivers below drivers/mtd/nand to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
+> 
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+> 
+> As all drivers already return 0 in their .remove callback, they can be
+> converted trivially.
+> 
 
-After actively looking for more boards with CFI FLASHes, and finding one
-more board where FLASH probing fails on SMP, I dug deeper.
-Turns out they all have in common that (a) the CFI FLASH is located at
-physical address zero, and (b) the secondary CPU bringup code relies
-on mapping (by special hardware) the region at address zero to the
-CPU boot code...
+I'd make a single patch per subsystem for trivial changes, but I don't
+mind having them split per driver either:
 
-Hence fixing this involves making sure that accessing FLASH and bringing
-CPU cores online do not happen concurrently...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
