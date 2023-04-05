@@ -2,111 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9AA46D7ED2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 16:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E676D7EE8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 16:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238556AbjDEOLd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Apr 2023 10:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
+        id S238339AbjDEOON (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Apr 2023 10:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237448AbjDEOLM (ORCPT
+        with ESMTP id S238195AbjDEOOM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Apr 2023 10:11:12 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED57765BF;
-        Wed,  5 Apr 2023 07:10:41 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,319,1673881200"; 
-   d="scan'208";a="158393799"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Apr 2023 23:10:41 +0900
-Received: from localhost.localdomain (unknown [10.226.93.81])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C821B42DB43A;
-        Wed,  5 Apr 2023 23:10:39 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wed, 5 Apr 2023 10:14:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA15B7;
+        Wed,  5 Apr 2023 07:13:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 40BBA62502;
+        Wed,  5 Apr 2023 14:13:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7BC7C433EF;
+        Wed,  5 Apr 2023 14:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680703987;
+        bh=zK32UG745OiVsFGIBK7c7Vr6KqlzuaubMx2AyCz81i4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VlsMb4WsQRyYUtamDlzFMzy/7496gAaK5p8A8UOEAcHGbYtSXUKFmdQPC2bLC8b8i
+         nbr7MfJJahx2smB6/ZHlBLMNlMkmlGT1qGalzjx7IFEMOn6LlZcRDkAaDeskBPLYdM
+         RYQbCl7LONmkd+BD5tdrVFrinf0oTcwJFdqmUM6c+0O58m65k7Kvxa+9mUI17tyAzO
+         mKfDHwAv3r1Dg105niXyZbEhPnLIGWNRl1qTe48PGbkkLamO1/Xq/rqlBw8ZNVfnVG
+         OuwttqjOO8Zdawu821D45kzLAC/a5qwdTrNuwq/U9fIFFHWcrr8PQNa3vPFoZhxSRa
+         S7bKKg/zvTJMQ==
+Date:   Wed, 5 Apr 2023 15:13:01 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 3/5] dmaengine: sh: rz-dmac: Add device_{pause,resume}() callbacks
-Date:   Wed,  5 Apr 2023 15:10:37 +0100
-Message-Id: <20230405141037.201999-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v15 1/6] dt-bindings: timer: Document RZ/G2L MTU3a
+ bindings
+Message-ID: <20230405141301.GG8371@google.com>
+References: <20230330111632.169434-1-biju.das.jz@bp.renesas.com>
+ <20230330111632.169434-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=3.0 required=5.0 tests=AC_FROM_MANY_DOTS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+In-Reply-To: <20230330111632.169434-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for device_{pause, resume}() callbacks as it is needed
-for RZ/G2L SCIFA driver.
+On Thu, 30 Mar 2023, Biju Das wrote:
 
-Based on a patch in the BSP by Long Luu
-<long.luu.ur@renesas.com>
+> The RZ/G2L multi-function timer pulse unit 3 (MTU3a) is embedded in
+> the Renesas RZ/G2L family SoC's. It consists of eight 16-bit timer
+> channels and one 32-bit timer channel. It supports the following
+> functions
+>  - Counter
+>  - Timer
+>  - PWM
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> Ref:
+>  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221010145222.1047748-2-biju.das.jz@bp.renesas.com/
+> v14->v15:
+>  * No change.
+> v13->v14:
+>  * No change.
+> v12->V13:
+>  * No change.
+> v11->V12:
+>  * No change.
+> v10->v11:
+>  * No change
+> v9->v10:
+>  * No change
+> v8->v9:
+>  * No change
+> v7->v8:
+>  * No change
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * Added Rb tag from Rob and Krzysztof.
+> v4->v5:
+>  * Modelled as timer bindings.
+>  * Fixed the typo.
+> v3->v4:
+>  * Dropped counter and pwm compatibeles as they don't have any resources.
+>  * Made rz-mtu3 as pwm provider.
+>  * Updated the example and description.
+> v2->v3:
+>  * Dropped counter bindings and integrated with mfd as it has only one property.
+>  * Removed "#address-cells" and "#size-cells" as it do not have children with
+>    unit addresses.
+>  * Removed quotes from counter and pwm.
+>  * Provided full path for pwm bindings.
+>  * Updated the example.
+> v1->v2:
+>  * Modelled counter and pwm as a single device that handles
+>    multiple channels.
+>  * Moved counter and pwm bindings to respective subsystems
+>  * Dropped 'bindings' from MFD binding title.
+>  * Updated the example
+>  * Changed the compatible names.
+> ---
+>  .../bindings/timer/renesas,rz-mtu3.yaml       | 302 ++++++++++++++++++
+>  1 file changed, 302 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Added resume callback().
- * Updated commit description.
----
- drivers/dma/sh/rz-dmac.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+Applied, thanks
 
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index aaaae1c090ad..3ef516aee4fc 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -817,6 +817,35 @@ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
- 	return status;
- }
- 
-+static int rz_dmac_device_pause(struct dma_chan *chan)
-+{
-+	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-+	struct rz_dmac *dmac = to_rz_dmac(chan->device);
-+	unsigned int i;
-+	u32 chstat;
-+
-+	for (i = 0; i < 1024; i++) {
-+		chstat = rz_dmac_ch_readl(channel, CHSTAT, 1);
-+		if (!(chstat & CHSTAT_EN))
-+			break;
-+		udelay(1);
-+	}
-+
-+	rz_dmac_set_dmars_register(dmac, channel->index, 0);
-+
-+	return 0;
-+}
-+
-+static int rz_dmac_device_resume(struct dma_chan *chan)
-+{
-+	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-+	struct rz_dmac *dmac = to_rz_dmac(chan->device);
-+
-+	rz_dmac_set_dmars_register(dmac, channel->index, channel->mid_rid);
-+
-+	return 0;
-+}
-+
- /*
-  * -----------------------------------------------------------------------------
-  * IRQ handling
-@@ -1106,6 +1135,8 @@ static int rz_dmac_probe(struct platform_device *pdev)
- 	engine->device_terminate_all = rz_dmac_terminate_all;
- 	engine->device_issue_pending = rz_dmac_issue_pending;
- 	engine->device_synchronize = rz_dmac_device_synchronize;
-+	engine->device_pause = rz_dmac_device_pause;
-+	engine->device_resume = rz_dmac_device_resume;
- 
- 	engine->copy_align = DMAENGINE_ALIGN_1_BYTE;
- 	dma_set_max_seg_size(engine->dev, U32_MAX);
--- 
-2.25.1
-
+--
+Lee Jones [李琼斯]
