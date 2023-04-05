@@ -2,180 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D423E6D72AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 05:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6356D72CA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 05:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236811AbjDEDO7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Apr 2023 23:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35390 "EHLO
+        id S231589AbjDED7z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Apr 2023 23:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236725AbjDEDO6 (ORCPT
+        with ESMTP id S236700AbjDED7s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Apr 2023 23:14:58 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A433F2708
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Apr 2023 20:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680664497; x=1712200497;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=w2n+nRrTrCNtbUQgb0C6QRj3qPSc3Gw8Kziq4nUy2VU=;
-  b=UICKFwgc/KbJ2UIrUCm4+YpL3UjChLZbHdgdkkJL41tzI5dfIMRymQ5Q
-   F7Zcy2YhG6Xa+3zIwv4/i3GVn0yuU2Xpcb7JUkwRZaJHE56/z/ygNnxc9
-   6vlxAYJSu9l47WvAtCyOcrp4Wwa2kjKvxgYfQAcohKl59S03hz/YRss6b
-   GzMK5/H5X7sHuZ9v1DGcGqIa4xjjWyNMn7gy7jpwLSSMiKKQR34DvUrBr
-   TyNJxY3sBVWRkev9HcMpozYEBlTIqZRE7kprD+TJPGcQviBvBdT6+ZZ8k
-   gYkHgjk2ded30M27K4F5spXwUmbQH11X1e+sQffkCKVY5AHXLz0AOMWxe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="341082690"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="341082690"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 20:14:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="932663846"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="932663846"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Apr 2023 20:14:56 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pjtbr-000QF0-1j;
-        Wed, 05 Apr 2023 03:14:55 +0000
-Date:   Wed, 05 Apr 2023 11:14:19 +0800
-From:   kernel test robot <lkp@intel.com>
+        Tue, 4 Apr 2023 23:59:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B3330ED;
+        Tue,  4 Apr 2023 20:59:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B76C905;
+        Wed,  5 Apr 2023 05:59:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680667185;
+        bh=Dxm79oyRJT9b8gKrOzRwmkfugRaKtT8JuVJT6m5bmPI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PflqIUVBytlCg/mnUlz2Ripb1HKoq+KPIyBjcpKkQh/fkoLDQPonMbaKh/n934pJj
+         hwifEitd/j17VXEWQ65Qk15EGoo1OhWQWW3gdgcm+OBVcayKu2jAQVC1FtGgEysmhk
+         jTXJ3+mJCPoqToU8Mzf1Eq8uER/2UYLFH00Tnpp8=
+Date:   Wed, 5 Apr 2023 06:59:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- f2b019c56db6762d70f61bcf3ad51869b62bd69e
-Message-ID: <642ce78b.u0sXgnjs/aahu3DB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
+Message-ID: <20230405035952.GI9915@pendragon.ideasonboard.com>
+References: <cover.1680273039.git.geert+renesas@glider.be>
+ <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: f2b019c56db6762d70f61bcf3ad51869b62bd69e  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Hi Geert,
 
-elapsed time: 722m
+Thank you for the patch.
 
-configs tested: 100
-configs skipped: 6
+On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
+> The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
+> advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
+> being supported.
+> 
+> Switch to drm_crtc_init_with_planes(), and advertize all supported
+> (A)RGB modes, so we can use RGB565 as the default mode for the console.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 30 +++++++++++++++++++++--
+>  1 file changed, 28 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index 08dc1428aa16caf0..11dd2bc803e7cb62 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -18,6 +18,7 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_plane_helper.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
+>  	.disable_vblank = shmob_drm_disable_vblank,
+>  };
+>  
+> +static const uint32_t modeset_formats[] = {
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const struct drm_plane_funcs primary_plane_funcs = {
+> +	DRM_PLANE_NON_ATOMIC_FUNCS,
+> +};
+> +
+>  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>  {
+>  	struct drm_crtc *crtc = &sdev->crtc.crtc;
+> +	struct drm_plane *primary;
+>  	int ret;
+>  
+>  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+>  
+> -	ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
+> -	if (ret < 0)
+> +	primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
+> +					      0, &primary_plane_funcs,
+> +					      modeset_formats,
+> +					      ARRAY_SIZE(modeset_formats),
+> +					      NULL, DRM_PLANE_TYPE_PRIMARY,
+> +					      NULL);
+> +	if (IS_ERR(primary))
+> +		return PTR_ERR(primary);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This seems like a bit of a hack to me. Why don't you use the planes
+created by shmob_drm_plane_create() instead of allocating a new one ?
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r005-20230403   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r002-20230403   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230403   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r001-20230403   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r011-20230403   clang
-arm                  randconfig-r046-20230403   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r022-20230403   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r015-20230403   gcc  
-csky                 randconfig-r031-20230403   gcc  
-hexagon              randconfig-r004-20230403   clang
-hexagon              randconfig-r016-20230403   clang
-hexagon              randconfig-r041-20230403   clang
-hexagon              randconfig-r045-20230403   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230403   clang
-i386                 randconfig-a002-20230403   clang
-i386                 randconfig-a003-20230403   clang
-i386                 randconfig-a004-20230403   clang
-i386                 randconfig-a005-20230403   clang
-i386                 randconfig-a006-20230403   clang
-i386                 randconfig-a011-20230403   gcc  
-i386                 randconfig-a012-20230403   gcc  
-i386                 randconfig-a013-20230403   gcc  
-i386                 randconfig-a014-20230403   gcc  
-i386                 randconfig-a015-20230403   gcc  
-i386                 randconfig-a016-20230403   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r014-20230403   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k         buildonly-randconfig-r002-20230403   gcc  
-m68k         buildonly-randconfig-r006-20230403   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r023-20230403   gcc  
-m68k                 randconfig-r032-20230403   gcc  
-microblaze           randconfig-r005-20230403   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r013-20230403   clang
-mips                 randconfig-r021-20230403   clang
-mips                 randconfig-r024-20230403   clang
-mips                 randconfig-r034-20230403   gcc  
-mips                 randconfig-r035-20230403   gcc  
-mips                 randconfig-r036-20230403   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r033-20230403   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230403   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r003-20230403   clang
-s390                 randconfig-r044-20230403   gcc  
-sh                               allmodconfig   gcc  
-sparc        buildonly-randconfig-r004-20230403   gcc  
-sparc                               defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230403   clang
-x86_64               randconfig-a002-20230403   clang
-x86_64               randconfig-a003-20230403   clang
-x86_64               randconfig-a004-20230403   clang
-x86_64               randconfig-a005-20230403   clang
-x86_64               randconfig-a006-20230403   clang
-x86_64               randconfig-a011-20230403   gcc  
-x86_64               randconfig-a012-20230403   gcc  
-x86_64               randconfig-a013-20230403   gcc  
-x86_64               randconfig-a014-20230403   gcc  
-x86_64               randconfig-a015-20230403   gcc  
-x86_64               randconfig-a016-20230403   gcc  
-x86_64               randconfig-r026-20230403   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r003-20230403   gcc  
-xtensa               randconfig-r001-20230403   gcc  
+> +
+> +	ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
+> +					&crtc_funcs, NULL);
+> +	if (ret < 0) {
+> +		drm_plane_cleanup(primary);
+> +		kfree(primary);
+>  		return ret;
+> +	}
+>  
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+
+Laurent Pinchart
