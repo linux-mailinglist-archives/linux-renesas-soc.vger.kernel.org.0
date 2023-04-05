@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD6D36D72CE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 06:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625546D72D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 06:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbjDEEAc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Apr 2023 00:00:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44344 "EHLO
+        id S229559AbjDEECH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Apr 2023 00:02:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjDEEAb (ORCPT
+        with ESMTP id S229478AbjDEECH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Apr 2023 00:00:31 -0400
+        Wed, 5 Apr 2023 00:02:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A72130ED;
-        Tue,  4 Apr 2023 21:00:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C5E3C0E;
+        Tue,  4 Apr 2023 21:02:06 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40241905;
-        Wed,  5 Apr 2023 06:00:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFD7A905;
+        Wed,  5 Apr 2023 06:02:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680667228;
-        bh=AHIsH12us0GQXr96+co1pM5tm6f1rwXMYmg/pzvTPKw=;
+        s=mail; t=1680667324;
+        bh=7QQDxqe+YDf+wcgyso7uXaGVWNtOHPLCCDx8Kq5oRPc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pooJfr1XDvgME43QEgTlYSUpVUYybfLU0cWmbZr7oDqvCrthUz0qvO+CV5VboHV1Y
-         O+dTxiMHIdV/bt2cbr5wOAPTgYB0thySLTlGuJPERoz2wMISGAaMv6aeYDydy3EH60
-         /GRJwLeqUl8/zAV4afqGU+dio76Eoz17bkcD/vjc=
-Date:   Wed, 5 Apr 2023 07:00:35 +0300
+        b=J4LaNJo70yb3M8uoeuL+zQ6JGPo7Ch6tGE1Yu2oprxSDCUFd4LLsNZWnMZ5yXytcG
+         WYvSQSR1rs3Z6Chl35GTseuLDBQ4nSUQz5sTbMm3FLqRaWzxybj2TV5rWQVaefRmtC
+         c4BzssfIhGdaRT+3Xrq/Cza7AZaSerTuLkjhNs+8=
+Date:   Wed, 5 Apr 2023 07:02:11 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -33,15 +33,15 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] drm: shmobile: Add missing call to
- drm_fbdev_generic_setup()
-Message-ID: <20230405040035.GJ9915@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/5] drm: shmobile: Make DRM_SHMOBILE visible on Renesas
+ SoC platforms
+Message-ID: <20230405040211.GK9915@pendragon.ideasonboard.com>
 References: <cover.1680273039.git.geert+renesas@glider.be>
- <fd4cf33c68fd103228cf4e6d76959827b187230b.1680273039.git.geert+renesas@glider.be>
+ <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fd4cf33c68fd103228cf4e6d76959827b187230b.1680273039.git.geert+renesas@glider.be>
+In-Reply-To: <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -55,43 +55,35 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Fri, Mar 31, 2023 at 04:48:10PM +0200, Geert Uytterhoeven wrote:
-> Set up generic fbdev emulation, to enable support for the Linux console.
+On Fri, Mar 31, 2023 at 04:48:11PM +0200, Geert Uytterhoeven wrote:
+> The LCD Controller supported by the drm-shmob driver is not only present
+> on SuperH SH-Mobile SoCs, but also on Renesas ARM SH/R-Mobile SoCs.
+> Make its option visible, so the user can enable support for it.
 > 
-> Use 16 as the preferred depth, as that is a good compromise between
-> colorfulness and resource utilization, and the default of the fbdev
-> driver.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/shmobile/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobile/Kconfig
+> index 4ec5dc74a6b0b880..719d4e7a5cd75aad 100644
+> --- a/drivers/gpu/drm/shmobile/Kconfig
+> +++ b/drivers/gpu/drm/shmobile/Kconfig
+> @@ -2,7 +2,7 @@
+>  config DRM_SHMOBILE
+>  	tristate "DRM Support for SH Mobile"
+>  	depends on DRM && ARM
+
+There shouldn't be anything ARM-dependent, could you drop "&& ARM" while
+at it ?
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index faacfee24763b1d4..30493ce874192e3e 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/slab.h>
->  
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_fbdev_generic.h>
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_module.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -271,6 +272,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		goto err_irq_uninstall;
->  
-> +	drm_fbdev_generic_setup(ddev, 16);
-> +
->  	return 0;
->  
->  err_irq_uninstall:
+> -	depends on ARCH_SHMOBILE || COMPILE_TEST
+> +	depends on ARCH_RENESAS || ARCH_SHMOBILE || COMPILE_TEST
+>  	select BACKLIGHT_CLASS_DEVICE
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_DMA_HELPER
 
 -- 
 Regards,
