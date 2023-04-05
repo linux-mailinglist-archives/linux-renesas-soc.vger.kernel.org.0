@@ -2,76 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D106D7426
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 08:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B2F6D77EF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 11:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236989AbjDEGIs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Apr 2023 02:08:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54510 "EHLO
+        id S236888AbjDEJXT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Apr 2023 05:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236800AbjDEGIo (ORCPT
+        with ESMTP id S230031AbjDEJXS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Apr 2023 02:08:44 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2135.outbound.protection.outlook.com [40.107.113.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C427E212A;
-        Tue,  4 Apr 2023 23:08:30 -0700 (PDT)
+        Wed, 5 Apr 2023 05:23:18 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2090.outbound.protection.outlook.com [40.107.113.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59A54200;
+        Wed,  5 Apr 2023 02:23:15 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mWCIqn9FAWvQyh2Xdsa7wPZyE3hzlRsT3Cmq71n2Foplnw3XU9/dgeVw6OMyJ0CRnaS0a8hGBphtglx9IbhBzDZvsN7+QO/ZeSPLpwrI6EePuLOSvnUZ7f/inojoefpIVdNF2gXw4EWH+YCKfqV72AFAiArO0e6FThw2J93/DTQIibQ9VWf8VAjyzKVUbgyHxOZOADD3MsJ2ILWv0YLyl0VERgQR2abVZVaEQiQdwh5Z3DWzToCm6Xb6fb7Jf+2rqwUj4Ks1y/zFzuEPv01Dw7Rj7uhp2qXcmGKS+3tXrXdfUaDHTLt7J8hZG8ckVAn7Jivn4Hs0hbu3GZwzQR15tw==
+ b=N90+gho74atyo6hutegH9GecOvT+9ez6mmuQGkxYRZKOgmBfAcN2exql/kOk4aZQo7DASmZq4f9BQiJsAEPYDw7TIq1fLfG4m0InnxGJIqBO7+vdps47lgG4Ka//IKAM7VXf+BDnIVQMltcQZ26jhtiw9CjrE4CHnxG+T8OxQMBsk/QQeJ5vdWxcmyC6XDh+GbQHVMBHGuUEk8WeSm2PmMlkYAG1bHlmsZ0rG5Htq6QKxBb8/ejv+mq9jT2NR4N0zHr35lVGCz071aUqCPArmp8ev/ycA8PDANW5ka3RaEPKHtCCT7fKW4Wy4548xVs3Aq/djdAApWngyDZ838SYhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jn1R5+IUfWJh6oiwJsqZlehate+V2x6IliHUGAQrfdY=;
- b=k32MYBMCf9WgRtvu5IthYQg9pDKz9ZvgQ2cWN79Uz4kS+a0DZMfjfrDh3hrrG0eLgDLHCsun/DHY3LOkPJ/SpFCCVbCcNQZaeZyv5rC04+qU8VACgnmsn+ro4V2yR8coVivixiMPSyAghtS6geRe3Wo8F1FGax9jFwbRakoUnU5ULMpm8gHs0GsQBnsWQ8G/ZQZp5nD6HnHG2nIvd2OmG9pSKpIN9rs+N7zdTnFUxsmTqG22K2jsz6bfnlVCbV8QJbWnk6f3TiwSJnkgNbDlwDnJbW3oFnwgf9BPbDyebbJjlEQWaRfxfspy/HCjkrSA9QtL4PEUYeaULQ5vE98mEg==
+ bh=HaI8gnQtXa074Xz8WsSNTvAnroS2fhg1R4Mu0kQHK5s=;
+ b=oG5xKZB5cslEYdDcPz0tud4Ghw7aLaVKrZcRNiM0ZCAO8K6p2xly3/5zfc+NKYm7wnFaKRHdHKGdWjEId6KlTW9nUnTzrJJvL92CO/X19fL8dHRhpLI1ncqspnAyZEQmMGBfoYdBw605Ult6drPGXC1ViP5cTBPuMUHGGmbtSD07ZAyJvADw0Yr+rtActKgOlYi0MuEcYUwSH6apKvSRLNjO0E9dKL436zzs7vadhL9ES756DDA3rzc/V6Nnw8WdKIk5fVvNhlBWGjY5NwOC7/HCrwge6/etLapE5dB7sLEQwjgVjAhPSUFqESv3yBHRcLcUNv98hxnx2vXE4jADwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jn1R5+IUfWJh6oiwJsqZlehate+V2x6IliHUGAQrfdY=;
- b=HW5OxP6pCbxNt4nJqxwXoqMljkdc/IUuK2Slr7d3zw0YeEutju6zIY2FhF5R8QQzC9YwVqKjnx56IFg0nSnL/rQarxWAKJTYt+j0urW1mVuDe961hUB7OYXxNEK7Vciwpw41PUM5dJ0D2ckzU8O7IAk/qBWq4MJ0R038FnJ2UCU=
+ bh=HaI8gnQtXa074Xz8WsSNTvAnroS2fhg1R4Mu0kQHK5s=;
+ b=VJGXwR14Rxa+CayNr+iSVZ4EmUtSMG3PahTmVldTIeFdyO0UYT3qS8rgZBGPhcVqvHJvBQw6D3OGh0EO3K++BSiBLDVPyGkqCBVzimM0hiLdT4Jv8X+66sGMvvy5KBk1ajXYJZNOYAu13AfUMgf7h3vdZYS7ic+OdWNMMBZnZWs=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB8173.jpnprd01.prod.outlook.com (2603:1096:400:102::9) with
+ by TYCPR01MB10974.jpnprd01.prod.outlook.com (2603:1096:400:3a5::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.34; Wed, 5 Apr
- 2023 06:08:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 09:23:12 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::e521:994c:bb0e:9bf6]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::e521:994c:bb0e:9bf6%8]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
- 06:08:27 +0000
+ 09:23:12 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     Prabhakar <prabhakar.csengg@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
+To:     Vinod Koul <vkoul@kernel.org>
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Samuel Holland <samuel@sholland.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Andrew Jones <ajones@ventanamicro.com>
-Subject: RE: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
- pointers for cache management
-Thread-Topic: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
- pointers for cache management
-Thread-Index: AQHZY0gufzzLDccxyUW8wSwyIaAovK8apkQAgAAN0RCAAJ1igIAA8IhA
-Date:   Wed, 5 Apr 2023 06:08:27 +0000
-Message-ID: <OS0PR01MB592238D5F77EC74D1EBFB78E86909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <ZCu1tFrQCVe2sgNz@infradead.org>
- <OS0PR01MB59224C99770F84D8CE2D0DBA86939@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZCxFUb8+eQPzqBmo@infradead.org>
-In-Reply-To: <ZCxFUb8+eQPzqBmo@infradead.org>
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 1/3] dmaengine: sh: rz-dmac: Reinitialize lmdescriptor
+ head
+Thread-Topic: [PATCH 1/3] dmaengine: sh: rz-dmac: Reinitialize lmdescriptor
+ head
+Thread-Index: AQHZXjYDRJNb+Bi3cUaVVV+lnaSf6a8U2FcAgAASfjCAB5ZPQA==
+Date:   Wed, 5 Apr 2023 09:23:11 +0000
+Message-ID: <OS0PR01MB5922FC2764D3FBB55483B54086909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230324094957.115071-1-biju.das.jz@bp.renesas.com>
+ <20230324094957.115071-2-biju.das.jz@bp.renesas.com>
+ <ZCbOtrbTUlxGVWHd@matsya>
+ <OS0PR01MB5922320042416294F810828C868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922320042416294F810828C868F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -79,55 +65,55 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB8173:EE_
-x-ms-office365-filtering-correlation-id: 9ca00b90-0560-4563-2f00-08db359c2c1f
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB10974:EE_
+x-ms-office365-filtering-correlation-id: 2ac07a43-6548-4307-133c-08db35b760a5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3m882kjNpMN8LrCs1leljyD7hYGfzOGoNCtZVUCx1QyLBQ+jWfj8p2drjUiTdT9hgHPWUxLerAOcbxWDhFBCKC9zFsVfuyiPFDd/BlEjjIVPp9oTRw+3KwDLI+JBggHwvEOR7xG0wSCp+pJ/GXSj7Q2aa58RlncruQ6vfUQwPhcUmvpgIRmNuJ9uBuWYaRyDavxpOjcL8IXneQVpO0K7wr46IpSYPQiAIxYI0HqD6l8xUTUVY4Lf8E5sUymhw7K2UkwqsrpqAVvGKjqizo312d1KcOsQyBPJMrD1JqmKrG0Z4zfGDUcbMiQHuxzsI8C+OcDxT7nL0Re1ABGZgqr3zGgVgAbsq9Vrs+u5/4gdTOU+hO5mntC1hoD+5xskZS1gQPlOdCP3KJpOcDroRbICdhHw7OfmYUYc3XL7ntRTqdh6xlm8S4izhwZpqdWVBh+KMC3OLW/P95doiTJac5oMf9eva1mE2zQC8XyiMBLg1S/gOugNGfglT7/WPfXPMdqX2l2MkDPpZ9UuBkPTYkQ+YvgFZLMu89mgW6cJewx4CAuoSqz56C+YeCRZ2tRuqyfArPQTCtToVTKM4KQ3umT3SdCx9VyTzB3XxWDAwDXWOqA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(346002)(396003)(39860400002)(376002)(451199021)(66556008)(26005)(9686003)(6506007)(122000001)(38100700002)(41300700001)(7696005)(71200400001)(186003)(66476007)(66446008)(54906003)(316002)(66946007)(478600001)(7416002)(2906002)(4326008)(64756008)(4744005)(76116006)(6916009)(55016003)(86362001)(33656002)(8676002)(5660300002)(38070700005)(52536014)(8936002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: rghbmRV7vP1SucBuyPWeRXouPEKHlpZUpwWnouLkUUL2s52BhhwrdfTV8Y2gFDCziQY8MkavdBPNNqyF2YXSPjIrtQGKX59r+8FeOm7jfdTK2BR1SdYcXl6hcUZv8uXmio4aqy2bEYAK4bQPHjHntKbp4oKgRnaBjqRTfTpjy3D4gP9qwczmslmJOfezktzUfqcQUcJbvMD05/sbTujwbsUcLU+N3zSDCoIVAA7rUFlk3HtbZAU+iIwJapobXL0D9WDEQeFSTtjKuVJzRhT+/NvjTRuXvkmrGD9hMAaP1ZZtXkjKBMe4/WooTSRuqMuaGYZ5bdFlUWg5GjDG1ATQgXcCiLEGER/PjXAnywpMPZy7nflypf612qPyEsE4UHSjL6GWHMgLotZE3ATaLx7uCdcUAtZ6ZJ7e4yxH8ZvuYDuBOMKtIowIFNWEQLS3jKUjNy4HhQJaji+MT5eL7OVrW7oKj8mQmlY0tafUGVzGgRCZI7Nu4Mbt7NksceRZDa+xAxruLULeP+X1CTQXojuL8zenfUSzOQUoq7JpSeOsWW36KlY2ZZjHn+iAAGUFPhR+5xyVSL+UkLhmhR6MGizojqmlRgAq00QXwotEh/59iN0PIMPAmnCt1D55jD7Nzl0y
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(366004)(39860400002)(376002)(396003)(451199021)(26005)(6506007)(9686003)(53546011)(66946007)(83380400001)(122000001)(66556008)(38100700002)(66446008)(41300700001)(7696005)(71200400001)(186003)(316002)(66476007)(54906003)(478600001)(2906002)(86362001)(33656002)(55016003)(76116006)(64756008)(6916009)(4326008)(8676002)(38070700005)(5660300002)(52536014)(8936002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RX8GxbabGbg0SjuDlJclS/BRMmIakfG4MN540VnrJRIILfLZ33nbIfTCYVkS?=
- =?us-ascii?Q?3hN+8xjrP7MgoSoJ2ScRlDP41NDg799wI9vBsMyZ7NoT0BRsGoS2Z9oap7so?=
- =?us-ascii?Q?/TgMYZswzj/mvV3TCtorkg1+E83WHopZKIZLPTOZkMypamL9zE+g49XDQ05E?=
- =?us-ascii?Q?vPdZia7s42Rk3yNzAN1E9Slz5gC3eQ4x2X2Ym1ZjXP1B8g6WFuT0kk/OcN7P?=
- =?us-ascii?Q?t1fRABO8EFcThe3vgkmIwQYavniO6XWRn/JLQBVjLTimlI9qnomifUgcvh0j?=
- =?us-ascii?Q?GlPFVvk9ZazpQZD0oHWfGJTohpTGZn4d+z7ZQoXYeSThlJLNeemC27Jp6ZZO?=
- =?us-ascii?Q?VEs21o0M09JOd9Ua1xffLYVl3u2C7o/43E4R1LMk048JLQQ2e761JT/AaK0k?=
- =?us-ascii?Q?DzdegWE9A5XsXyi7ECBwrWL7W572O0+1+WLbKwqh+fL5dLNnPQocvVWz8j1U?=
- =?us-ascii?Q?mDhO1t0oDGB4hcthSOEgJRtdiSTGb8j4VpfwVu/cdFe0a71dCi3mWQOB3RCb?=
- =?us-ascii?Q?CNjq33+Uup4G8Zn8/7MqzNsXcmNXx2tp4V7ZkYeLh4THIxUxTgAKka7bpVIP?=
- =?us-ascii?Q?gpr/wR7Gt4kqNaT6loTTmi/WiOsXyNBJrP0rbXX+YQUYH0mBykPjyNUulGBv?=
- =?us-ascii?Q?Cwtkj36qLGSb7wFc9JG9jmzIiqkmzUv7k9RLlpVfUg5LS3Zp1eWqIOeqg3ii?=
- =?us-ascii?Q?fFyoPa3TCEPyuSebimeUbe5XmExhu88+D1FK9MYxGUiPMxsVYhB3JdNF0piZ?=
- =?us-ascii?Q?SXX9YAyeVSVyx1LWo0N6QhZcoak/zq7hmWpWtV4T1frtxA+reZrgZeMZ/dlc?=
- =?us-ascii?Q?SjJdsJuHoGCB4o85zSwaqBS2NhNhAERhL6jqyXkbLXmhG3fXUpHaXS88OXAp?=
- =?us-ascii?Q?GDwz8I9p3ox2c8e+StVz2+hFlvtAoaIijreOyLt9iEuNELobItKOzO7Yfb1a?=
- =?us-ascii?Q?+18v/Q0Kudwyv0QJcxG3nkGITukgwtFqs7D5ibLwHDPfYWWIQjSpDH+uZNOU?=
- =?us-ascii?Q?1uEoDF8f9hLI8HZEReGR67ne+ZhC2TNEDMX179Wtr7x+aBxASz4nB3oPaXTF?=
- =?us-ascii?Q?81ZrW7so08sZPc0A93RVlCRPIUi38aCt0FtHwrc46MGw43frXYAkvKnxefZZ?=
- =?us-ascii?Q?N+MIstmVYd7Fh4cCLnxiAMbImYio7xmxLSE7rqNrbGZCctomOrlPUEr1LIJy?=
- =?us-ascii?Q?W8PMnCWPj6pwRYS6YGZzjofdVUUrDiuJ8cP3aBKHULChRUfxIa7A3yuNAJUG?=
- =?us-ascii?Q?i+HwxKF1+VZipmS37dv6DTo5aD+bYs4mFFu4mQUwRJU1K6uUtIz69zmM8qbx?=
- =?us-ascii?Q?H8HbHMxx4GPhQfIMDlvvnxv2aWWoFzjuR5m0t/aPV1Ws9sLxP6HqO8V7JoiM?=
- =?us-ascii?Q?GPrsvIdxInnngmV+r9ndh0fFgdYEpZoDGgkSnq0dJ1bxGgH+mrQOFcF+jjHr?=
- =?us-ascii?Q?mZcHD7PQIWz1utowqD0jbDitTCZko6TSrwvpA/1kp2rF6cDmaC2+WfK6UJXv?=
- =?us-ascii?Q?XT0D63MR0MGoP3fMAO0CzoH6AK4UCap3NDrC84SJH2fkFtlHQyV3I99AliaW?=
- =?us-ascii?Q?qw8Oub4E9YF+lBZoYqUbl5O9N4QjM2EL67BTClqe?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3kkBrDPr9BMcIjpVuUzLe2UBhPTy/zpgQk6yGUTX9MChAzMxVsOrB5baQ+Q9?=
+ =?us-ascii?Q?46jcCpJOjs+NxxUc/IeT+L/z/oDMxLP9SdH9A+GrCuTATkUdMuxa3Y+Yrp3B?=
+ =?us-ascii?Q?TBF61hRwE85c+9LJ5CYX+PLQdR9KZlx2OdB3BWVMZPhBGoN2csscMQVqoCIV?=
+ =?us-ascii?Q?xrloRmr+mZHcJdHlFqH3w5hYle71Q70wYmEjHdrgCpF2PuXmmtbgOi8HihCp?=
+ =?us-ascii?Q?riK/xNMJFYKkKiwjziQhHTVO0DsFnKbZl9/+bVgJkXIwx1Y4y2nwzbA6ZX4C?=
+ =?us-ascii?Q?DkUKcOlWjTHPUMaHxtbW7A+793NPMk+WW2Ge9XjVKMKDW44tAeG9hUn9ULYR?=
+ =?us-ascii?Q?SJJIZFldGCbsMQYtyCMpbVW80crq0+XKsQWsa3GIfdhtqJW/q4QHfVs1bsU4?=
+ =?us-ascii?Q?eWei3umah0C0Q6cIQHGApDBbj61gD1HhJKtXphcopMURdR4dS3sj4/uVRtsP?=
+ =?us-ascii?Q?CSBxu9j8UsCVYGpX/Bw8ZwcZJL0qYflDSAVS0Iz7ereq2+5OWsTnwTaqRaFN?=
+ =?us-ascii?Q?ZLvf70OkFVObfcQcAPSnMxz8mfWOtHC15Ij829M1rPl1R11SUufj88yS+GTi?=
+ =?us-ascii?Q?n2PPhSIBK51x3u6dPaTco0xS2RYfdDRuVAo84gW2su/lzAV+1Gj+ezftP4d9?=
+ =?us-ascii?Q?o/MtkmTs0XpbBckbnOhe4S1M1dQWR3+z5TRcLorQ9VKeuZum1PvUhy01Myqp?=
+ =?us-ascii?Q?TEFUQi+govdM/9WlJdmnk3l9yKBvEXdDn5Z2eZbqgQxrJOKs7g5/hVGdNsx7?=
+ =?us-ascii?Q?2MpoyWMV+kLHAjf3wIEYLoZ1t9ntdUslapk/rIBmmYyA+4DDkWs+ru9Sb2/D?=
+ =?us-ascii?Q?ll/ReBSum7ulyebVTYYV+qhTluhY0dNYl8CQjsduZceetW7XUdFZiCMPYTpy?=
+ =?us-ascii?Q?kW/BYe86m0sxCvW6VlIsIdpNnzrLPZ5u6aA0s0RgIiU+/KH9oaAiMwRCzIwh?=
+ =?us-ascii?Q?ThwzOWKkHLW1/UhmWo8wer2tNhbcT8E6Cb/cnbsjl6dn6yI9EB+NSPox4P0S?=
+ =?us-ascii?Q?CpLLOHMPNy80LfmUxrns/r9JUIzqwxXfkj4o7pJExBoOWi5ub1NfAcVMWtTy?=
+ =?us-ascii?Q?eS/jX+9IggTTQnPncrGK71vWD9y1z/h37MGAUaj3PL2NiSB8CC3ds+wywDo5?=
+ =?us-ascii?Q?Je81VTA7XGVmY5i1N3VyIgUE5cBKYhHEWciBis4w2ObllmPzTd88a5YBWH4W?=
+ =?us-ascii?Q?qYCuE6aXHl2nT8mdr+iqtwQ8al+Py6OfI7oCmVBfKa8Mt3KgbOOlx1+a3hbF?=
+ =?us-ascii?Q?IAust2+rWdw8DmiRKOPUmWP+08ZyTDo76ksqrBanFFtooEP7i56KXq7+IUzo?=
+ =?us-ascii?Q?8DHaTCmH42QPBT2wasGkeNApcYSR+32JTTrXJ+ZK8ThFnLE9/0/8wOQODjBE?=
+ =?us-ascii?Q?T8kBS321fEVU6T/SQWxGxJZ3PT/BFQcUo8vahKYzPGxbcswqVxpOc0myzDGp?=
+ =?us-ascii?Q?a35Wu8obh6Nl09dofIhC1jForgKnkbuRkkW+CkZcuFG4D8r/UJo/r5+x76Lu?=
+ =?us-ascii?Q?mRu2W02ENxCmuMZosLkB76aKKsikqzfRWcdGOWvUgmBZUfoH16qAeBIhF3Kc?=
+ =?us-ascii?Q?DkZ6rvY1D86BbJmXtrrR1yxxN9TLpgwf15gWPR2P?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca00b90-0560-4563-2f00-08db359c2c1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 06:08:27.4009
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ac07a43-6548-4307-133c-08db35b760a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 09:23:11.9288
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cH/0lqbHunSKPfykJ12YsVSv/v7wqWevVC8ttxdFIQj+jdHxp2LQf+1cwj2hyAU5kG7UKP+I7yCDdL7xyn2srtdltbGC/yLzEMRC+cL0HmM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8173
+X-MS-Exchange-CrossTenant-userprincipalname: i2r+kxcytTsNluIQs/XOUZWX3AB35e9dqV8CGOgfsJFTCAPq3wdUPn0dGUkqhSQnrbHN1lQQ+mWr7/ggEZMLSzg0UqYJFoQgDVGkaMhm3vM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10974
 X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
@@ -137,32 +123,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph Hellwig,
+Hi Vinod,
 
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using
-> function pointers for cache management
+> Subject: RE: [PATCH 1/3] dmaengine: sh: rz-dmac: Reinitialize lmdescripto=
+r
+> head
 >=20
-> On Tue, Apr 04, 2023 at 06:24:16AM +0000, Biju Das wrote:
-> > Just a question, how does function pointer makes a performance
-> > difference compared to
-> > ALTERNATIVE_X() macros?
+> Hi Vinod,
+>=20
+> Thanks for the feedback.
+>=20
+> > -----Original Message-----
+> > From: Vinod Koul <vkoul@kernel.org>
+> > Sent: Friday, March 31, 2023 1:15 PM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>;
+> > Geert Uytterhoeven <geert+renesas@glider.be>;
+> > dmaengine@vger.kernel.org; linux- renesas-soc@vger.kernel.org
+> > Subject: Re: [PATCH 1/3] dmaengine: sh: rz-dmac: Reinitialize
+> > lmdescriptor head
 > >
-> > On both cases, we are pushing function parameters to stack, jumping to
-> > the actual routine And then on return pop the variables from stack. Am =
-I
-> missing something here?
->=20
-> Indirect calls have always been more expensive, and with the hard- and
-> software mitigations for spectre-like attacks they are becoming even more
-> expensive.
+> > On 24-03-23, 09:49, Biju Das wrote:
+> > > Reinitialize link mode descriptor head during terminate_all().
+> > > It fixes the incorrect serial messages during serial transfer when
+> > > DMA is enabled.
+> > >
+> > > Based on a patch in the BSP by Long Luu <long.luu.ur@renesas.com>
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/dma/sh/rz-dmac.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+> > > index 6b62e01ba658..a04a37ce03fd 100644
+> > > --- a/drivers/dma/sh/rz-dmac.c
+> > > +++ b/drivers/dma/sh/rz-dmac.c
+> > > @@ -534,11 +534,18 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan,
+> > > struct scatterlist *sgl,  static int rz_dmac_terminate_all(struct
+> > > dma_chan *chan)  {
+> > >  	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> > > +	struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+> > >  	unsigned long flags;
+> > > +	unsigned int i;
+> > > +
+> > >  	LIST_HEAD(head);
+> > >
+> > >  	rz_dmac_disable_hw(channel);
+> > >  	spin_lock_irqsave(&channel->vc.lock, flags);
+> > > +
+> > > +	for (i =3D 0; i < DMAC_NR_LMDESC; i++)
+> > > +		lmdesc[i].header =3D 0;
+> >
 
-Thanks for the info. I agree, it will be more expensive with software mitig=
-ations
-for spectre-like attacks.
+I will send an improved version for invalidating lmdesc.=20
 
-Cheers,
-Biju
+Add helper function rz_dmac_invalidate_lmdesc() and share the code between
+rz_dmac_free_chan_resources and rz_dmac_terminate_all(),so that hardware
+descriptors can be reused in rz_dmac_lmdesc_recycle().
 
++static void rz_dmac_invalidate_lmdesc(struct rz_dmac_chan *channel)
++{
++	struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
++
++	for (; lmdesc < channel->lmdesc.base + DMAC_NR_LMDESC; lmdesc++) {
++		if (lmdesc->header)
++			lmdesc->header =3D 0;
++	}
++}
++
 
+static void rz_dmac_lmdesc_recycle(struct rz_dmac_chan *channel)
+ {
+ 	struct rz_lmdesc *lmdesc =3D channel->lmdesc.head;
+@@ -437,16 +447,11 @@ static void rz_dmac_free_chan_resources(struct dma_ch=
+an *chan)
+ {
+ 	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+ 	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+-	struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+ 	struct rz_dmac_desc *desc, *_desc;
+ 	unsigned long flags;
+-	unsigned int i;
+=20
+ 	spin_lock_irqsave(&channel->vc.lock, flags);
+-
+-	for (i =3D 0; i < DMAC_NR_LMDESC; i++)
+-		lmdesc[i].header =3D 0;
+-
++	rz_dmac_invalidate_lmdesc(channel);
+ 	rz_dmac_disable_hw(channel);
+ 	list_splice_tail_init(&channel->ld_active, &channel->ld_free);
+ 	list_splice_tail_init(&channel->ld_queue, &channel->ld_free);
+@@ -537,6 +542,7 @@ static int rz_dmac_terminate_all(struct dma_chan *chan)
+=20
+ 	rz_dmac_disable_hw(channel);
+ 	spin_lock_irqsave(&channel->vc.lock, flags);
++	rz_dmac_invalidate_lmdesc(channel);
