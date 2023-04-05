@@ -2,188 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7FB6D7068
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 01:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC9D6D729D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 05:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236064AbjDDXHx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Apr 2023 19:07:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
+        id S231589AbjDEDFP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Apr 2023 23:05:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbjDDXHw (ORCPT
+        with ESMTP id S229964AbjDEDFO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Apr 2023 19:07:52 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF171BD1
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Apr 2023 16:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680649670; x=1712185670;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UREfuwg3twE+Oj21h1vRvOQhhF6h6UqAZFSZIJd0yMQ=;
-  b=afsgTBRnHj6fMT8Hx3EWlZb1G1C+/00kUuMHngmkP/S7xWWgi+bZ2/QY
-   TI7dMVAsRCSouMgvPpwI3t5QQ0ihchl1AwDCgEg1Xl+6WFlIWOX6Tv1Vo
-   zxjJSnRGrFPw7CHMgsddPWTczIHRpfRfe43CfO379q5J67KhmkkbMxIF7
-   jDdEpCa6xNco6GM3me6ZDHKObVy6yK6bsO27OtKeY4RbdJUsmUu5VHn5E
-   v1oGn87qhqXd1i1nCq6M4kDcnfOrPktv/O6F/QGPlOAE7sbbOIcDDNaBD
-   iTn/QuHOjBne9hBLI2A0dWtet1Z9U90JxaGLSU2vCocnvKFT3X0lSy4Qy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="405098684"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="405098684"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 16:07:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="810433283"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="810433283"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Apr 2023 16:07:49 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pjpki-000Q6C-24;
-        Tue, 04 Apr 2023 23:07:48 +0000
-Date:   Wed, 05 Apr 2023 07:06:53 +0800
-From:   kernel test robot <lkp@intel.com>
+        Tue, 4 Apr 2023 23:05:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5A03AAD;
+        Tue,  4 Apr 2023 20:05:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D401C905;
+        Wed,  5 Apr 2023 05:05:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680663910;
+        bh=7Q6te+srG/YQdMjnP9zmGIwnmU0iy8ZmFiqkBUkPSuk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Gg/FhMUGg5AYJeuHo5MXTd29ntJknBw+mZ2gjT3cFKXTjhCFIcLSan7RalR6gZBWi
+         MOnXoM5d8bJWZ/iV5qG8v8wlDtqSwjfRbBIIXPMpjc1Aq9DfIlfVxvaLnSdhe0RAGP
+         ZMGiR/vXU0i57pYqnkixScAUM83zMoUScls+Ua/o=
+Date:   Wed, 5 Apr 2023 06:05:16 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- b4dd84fbb7628443a99f26465ef2fcee5c99583f
-Message-ID: <642cad8d.Ydui8VZIc9Hhliaz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] drm: shmobile: Use %p4cc to print fourcc codes
+Message-ID: <20230405030516.GG9915@pendragon.ideasonboard.com>
+References: <cover.1680273039.git.geert+renesas@glider.be>
+ <1912536b0972568efc3d4f96c89de96b2abd7510.1680273039.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1912536b0972568efc3d4f96c89de96b2abd7510.1680273039.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: b4dd84fbb7628443a99f26465ef2fcee5c99583f  Merge branch 'renesas-next' into renesas-devel
+Hi Geert,
 
-elapsed time: 849m
+Thank you for the patch.
 
-configs tested: 108
-configs skipped: 3
+On Fri, Mar 31, 2023 at 04:48:07PM +0200, Geert Uytterhoeven wrote:
+> Replace the printing of hexadecimal fourcc format codes by
+> pretty-printed format names, using the "%p4cc" format specifier.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I really like %p4cc :-) I makes things much neater.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r025-20230403   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r022-20230403   gcc  
-arc                  randconfig-r043-20230403   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r003-20230403   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r026-20230403   clang
-arm                  randconfig-r031-20230403   gcc  
-arm                  randconfig-r046-20230403   clang
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r004-20230403   clang
-arm64                               defconfig   gcc  
-csky         buildonly-randconfig-r002-20230403   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r021-20230403   gcc  
-hexagon              randconfig-r041-20230403   clang
-hexagon              randconfig-r045-20230403   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230403   clang
-i386                 randconfig-a002-20230403   clang
-i386                 randconfig-a003-20230403   clang
-i386                 randconfig-a004-20230403   clang
-i386                 randconfig-a005-20230403   clang
-i386                 randconfig-a006-20230403   clang
-i386                 randconfig-a011-20230403   gcc  
-i386                 randconfig-a012-20230403   gcc  
-i386                 randconfig-a013-20230403   gcc  
-i386                 randconfig-a014-20230403   gcc  
-i386                 randconfig-a015-20230403   gcc  
-i386                 randconfig-a016-20230403   gcc  
-i386                 randconfig-r014-20230403   gcc  
-i386                 randconfig-r015-20230403   gcc  
-i386                 randconfig-r021-20230403   gcc  
-i386                 randconfig-r023-20230403   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r002-20230403   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k         buildonly-randconfig-r006-20230403   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r023-20230403   gcc  
-m68k                 randconfig-r024-20230403   gcc  
-m68k                 randconfig-r035-20230403   gcc  
-microblaze           randconfig-r011-20230403   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r005-20230403   gcc  
-mips                 randconfig-r024-20230403   clang
-mips                 randconfig-r033-20230403   gcc  
-nios2        buildonly-randconfig-r005-20230403   gcc  
-nios2                               defconfig   gcc  
-openrisc             randconfig-r016-20230403   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r001-20230403   gcc  
-parisc               randconfig-r013-20230403   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230403   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r001-20230403   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r004-20230403   clang
-s390                 randconfig-r044-20230403   gcc  
-sh                               allmodconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r034-20230403   gcc  
-sparc64              randconfig-r003-20230403   gcc  
-sparc64              randconfig-r022-20230403   gcc  
-sparc64              randconfig-r036-20230403   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230403   clang
-x86_64               randconfig-a002-20230403   clang
-x86_64               randconfig-a003-20230403   clang
-x86_64               randconfig-a004-20230403   clang
-x86_64               randconfig-a005-20230403   clang
-x86_64               randconfig-a006-20230403   clang
-x86_64               randconfig-a011-20230403   gcc  
-x86_64               randconfig-a012-20230403   gcc  
-x86_64               randconfig-a013-20230403   gcc  
-x86_64               randconfig-a014-20230403   gcc  
-x86_64               randconfig-a015-20230403   gcc  
-x86_64               randconfig-a016-20230403   gcc  
-x86_64               randconfig-r032-20230403   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r006-20230403   gcc  
-xtensa               randconfig-r012-20230403   gcc  
-xtensa               randconfig-r026-20230403   gcc  
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
+>  drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index d354ab3077cecf94..713a7612244c647a 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
+>  
+>  	format = shmob_drm_format_info(crtc->primary->fb->format->format);
+>  	if (format == NULL) {
+> -		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
+> -			crtc->primary->fb->format->format);
+> +		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
+> +			&crtc->primary->fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> @@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+>  
+>  	format = shmob_drm_format_info(mode_cmd->pixel_format);
+>  	if (format == NULL) {
+> -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+> -			mode_cmd->pixel_format);
+> +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
+> +			&mode_cmd->pixel_format);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+
+Laurent Pinchart
