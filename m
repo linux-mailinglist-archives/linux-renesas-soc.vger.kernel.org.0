@@ -2,61 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F20526D7EF7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 16:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D4996D7F71
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Apr 2023 16:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238304AbjDEOQD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Apr 2023 10:16:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38970 "EHLO
+        id S238104AbjDEO2w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Apr 2023 10:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238450AbjDEOQC (ORCPT
+        with ESMTP id S237766AbjDEO2v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Apr 2023 10:16:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30D26588;
-        Wed,  5 Apr 2023 07:15:13 -0700 (PDT)
+        Wed, 5 Apr 2023 10:28:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1924B65B0;
+        Wed,  5 Apr 2023 07:28:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 18EC361FC3;
-        Wed,  5 Apr 2023 14:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730CBC433EF;
-        Wed,  5 Apr 2023 14:15:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4642A63E44;
+        Wed,  5 Apr 2023 14:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF11C433D2;
+        Wed,  5 Apr 2023 14:27:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680704110;
-        bh=Dfv16e+bR5p7T51xphMD3a1e+PiXwpZYEjZMIu90IUM=;
+        s=k20201202; t=1680704868;
+        bh=Pzi6zJxJr8ZUgmTZZZ6XD+HYvxPprYklmZaH/0dEtMk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CLxDCOdBlHGOnbP971/mOn+p7NsA6ETcJ/iyQTkxoncD9u7dN4Ue3QadhgxmpBeb7
-         PsUlMa2R5R0ulUJGcyaZfNpFXWVgLG6tDuKexeUttvfAJRje5Ej8+0H/grZ5r7GDgh
-         W8P9I7zNGd0tGessn7yGwhAzXf2OV1+89gbrbdjddZjgD0Sqg95/f8lsvor2GG1ROd
-         q+IV226fI14FD2WhkstSL9oQ10FM9h7Qnm2l6jgZwTFA3DDjkoOpBNjUrPRb1/wxbC
-         QBskBv+3V0jq6IWP6bV4S8A8GZ3zpPmz4FAvZy2lPPUdLJfGJLfQb8ZajziKSYlT5e
-         Xy0vwuo/BfvDg==
-Date:   Wed, 5 Apr 2023 15:15:05 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     William Breathitt Gray <william.gray@linaro.org>,
-        linux-iio@vger.kernel.org,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v15 5/6] MAINTAINERS: Add entries for Renesas RZ/G2L
- MTU3a counter driver
-Message-ID: <20230405141505.GK8371@google.com>
-References: <20230330111632.169434-1-biju.das.jz@bp.renesas.com>
- <20230330111632.169434-6-biju.das.jz@bp.renesas.com>
+        b=ImRaG3GVvpmqJNe1S1e8k+pepVfUqu3UM9plmOCyikVY8gYB6aJzgjb8sMQg3A2r/
+         KMGDHqlNG+R53It2QnpunzBxNsOlSY/fdAq/bI+9XomAP2dHQNJFEDd6pwf1/lmg7/
+         1oMVTm0Pm+FKilQuUhP7LZQOK+SJOZyfSG4aNFlwJSfYYcZUF50/kFu4e1YoUMr8Jp
+         s3fGRSMkHOmOc6X+IRGhODnKcRLyUN/TZS/SGidTHDH0N3Jqh7CQF2rB6obnqte0Mp
+         nF1ZUTO5v9xP01Un2nOGctkdwjH+SzH2fONJeCWj+3pyxFHGCI5P9B8dNbhjdK/2UD
+         BXWwm5RfeCfrw==
+Date:   Wed, 5 Apr 2023 22:27:37 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Ivan Bornyakov <i.bornyakov@metrotek.ru>,
+        linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] treewide: Fix probing of devices in DT overlays
+Message-ID: <20230405142737.GH11367@dragon>
+References: <e1fa546682ea4c8474ff997ab6244c5e11b6f8bc.1680182615.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230330111632.169434-6-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+In-Reply-To: <e1fa546682ea4c8474ff997ab6244c5e11b6f8bc.1680182615.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,26 +65,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 30 Mar 2023, Biju Das wrote:
-
-> Add the MAINTAINERS entries for the Renesas RZ/G2L MTU3a counter
-> driver.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Thu, Mar 30, 2023 at 03:26:13PM +0200, Geert Uytterhoeven wrote:
+> When loading a DT overlay that creates a device, the device is not
+> probed, unless the DT overlay is unloaded and reloaded again.
+> 
+> After the recent refactoring to improve fw_devlink, it no longer depends
+> on the "compatible" property to identify which device tree nodes will
+> become struct devices.   fw_devlink now picks up dangling consumers
+> (consumers pointing to descendent device tree nodes of a device that
+> aren't converted to child devices) when a device is successfully bound
+> to a driver.  See __fw_devlink_pickup_dangling_consumers().
+> 
+> However, during DT overlay, a device's device tree node can have
+> sub-nodes added/removed without unbinding/rebinding the driver.  This
+> difference in behavior between the normal device instantiation and
+> probing flow vs. the DT overlay flow has a bunch of implications that
+> are pointed out elsewhere[1].  One of them is that the fw_devlink logic
+> to pick up dangling consumers is never exercised.
+> 
+> This patch solves the fw_devlink issue by marking all DT nodes added by
+> DT overlays with FWNODE_FLAG_NOT_DEVICE (fwnode that won't become
+> device), and by clearing the flag when a struct device is actually
+> created for the DT node.  This way, fw_devlink knows not to have
+> consumers waiting on these newly added DT nodes, and to propagate the
+> dependency to an ancestor DT node that has the corresponding struct
+> device.
+> 
+> Based on a patch by Saravana Kannan, which covered only platform and spi
+> devices.
+> 
+> [1] https://lore.kernel.org/r/CAGETcx_bkuFaLCiPrAWCPQz+w79ccDp6=9e881qmK=vx3hBMyg@mail.gmail.com
+> 
+> Fixes: 4a032827daa89350 ("of: property: Simplify of_link_to_phandle()")
+> Link: https://lore.kernel.org/r/CAGETcx_+rhHvaC_HJXGrr5_WAd2+k5f=rWYnkCZ6z5bGX-wj4w@mail.gmail.com
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
 > ---
-> v14->v15:
->  * No change.
-> v13->v14:
->  * No change.
-> v12->v13:
->  * No change.
-> v11->v12:
->  * No change.
+> v3:
+>   - Add Acked-by,
+>   - s/instantiate/probe/,
+>   - Improve commit description,
+>   - Add comment before clearing FWNODE_FLAG_NOT_DEVICE,
+> 
+> v2:
+>   - Add Acked-by,
+>   - Drop RFC.
 > ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/bus/imx-weim.c    | 6 ++++++
 
-Applied, thanks
+Acked-by: Shawn Guo <shawnguo@kernel.org>
 
---
-Lee Jones [李琼斯]
+>  drivers/i2c/i2c-core-of.c | 5 +++++
+>  drivers/of/dynamic.c      | 1 +
+>  drivers/of/platform.c     | 5 +++++
+>  drivers/spi/spi.c         | 5 +++++
+>  5 files changed, 22 insertions(+)
