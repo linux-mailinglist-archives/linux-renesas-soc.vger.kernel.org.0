@@ -2,102 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D93A76D9C12
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Apr 2023 17:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAED6D9C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Apr 2023 17:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236921AbjDFPUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Apr 2023 11:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48776 "EHLO
+        id S238770AbjDFPVa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Apr 2023 11:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238699AbjDFPUj (ORCPT
+        with ESMTP id S233628AbjDFPV2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Apr 2023 11:20:39 -0400
-Received: from mailout-taastrup.gigahost.dk (mailout-taastrup.gigahost.dk [46.183.139.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C319747;
-        Thu,  6 Apr 2023 08:20:35 -0700 (PDT)
-Received: from mailout.gigahost.dk (mailout.gigahost.dk [89.186.169.112])
-        by mailout-taastrup.gigahost.dk (Postfix) with ESMTP id 55C7918837A6;
-        Thu,  6 Apr 2023 15:20:32 +0000 (UTC)
-Received: from smtp.gigahost.dk (smtp.gigahost.dk [89.186.169.109])
-        by mailout.gigahost.dk (Postfix) with ESMTP id 1E16725002FD;
-        Thu,  6 Apr 2023 15:20:32 +0000 (UTC)
-Received: by smtp.gigahost.dk (Postfix, from userid 1000)
-        id F1F5A9B403F4; Thu,  6 Apr 2023 15:20:31 +0000 (UTC)
-X-Screener-Id: e32ae469fa6e394734d05373d3a705875723cf1e
-Received: from fujitsu (2-104-116-184-cable.dk.customer.tdc.net [2.104.116.184])
-        by smtp.gigahost.dk (Postfix) with ESMTPSA id 5442891201E3;
-        Thu,  6 Apr 2023 15:20:31 +0000 (UTC)
-From:   Hans Schultz <netdev@kapio-technology.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "maintainer:MICROCHIP KSZ SERIES ETHERNET SWITCH DRIVER" 
-        <UNGLinuxDriver@microchip.com>, Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
+        Thu, 6 Apr 2023 11:21:28 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E45A93C5;
+        Thu,  6 Apr 2023 08:21:24 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7C211C0A;
+        Thu,  6 Apr 2023 08:22:08 -0700 (PDT)
+Received: from [10.2.7.51] (stinger.cambridge.arm.com [10.2.7.51])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADE653F762;
+        Thu,  6 Apr 2023 08:21:17 -0700 (PDT)
+Message-ID: <a54a4ea0-f9f5-6869-9629-747c3889a1de@arm.com>
+Date:   Thu, 6 Apr 2023 16:21:15 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 36/65] clk: versatile: sp810: Add a determine_rate hook
+Content-Language: en-US
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        David Lechner <david@lechnology.com>,
+        Sekhar Nori <nsekhar@ti.com>, Abel Vesa <abelvesa@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        linux-kernel@vger.kernel.org,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:RENESAS RZ/N1 A5PSW SWITCH DRIVER" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ETHERNET BRIDGE" <bridge@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 2/6] net: dsa: propagate flags down towards
- drivers
-In-Reply-To: <20230330150752.gdquw5kudtrqgzyz@skbuf>
-References: <20230327160009.bdswnalizdv2u77z@skbuf>
- <87pm8tooe1.fsf@kapio-technology.com>
- <20230327225933.plm5raegywbe7g2a@skbuf>
- <87ileljfwo.fsf@kapio-technology.com>
- <20230328114943.4mibmn2icutcio4m@skbuf>
- <87cz4slkx5.fsf@kapio-technology.com>
- <20230330124326.v5mqg7do25tz6izk@skbuf>
- <87wn2yxunb.fsf@kapio-technology.com>
- <20230330130936.hxme34qrqwolvpsh@skbuf>
- <875yaimgro.fsf@kapio-technology.com>
- <20230330150752.gdquw5kudtrqgzyz@skbuf>
-Date:   Thu, 06 Apr 2023 17:17:46 +0200
-Message-ID: <87o7o1ox9h.fsf@kapio-technology.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-arm-kernel@lists.infradead.org,
+        linux-actions@lists.infradead.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
+From:   Pawel Moll <pawel.moll@arm.com>
+In-Reply-To: <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 18:07, Vladimir Oltean <olteanv@gmail.com> wrote:
-> As a bug fix, stop reporting to switchdev those FDB entries with
-> BR_FDB_ADDED_BY_USER && !BR_FDB_STATIC. Then, after "net" is merged into
-> "net-next" next Thursday (the ship has sailed for today), add "bool static"
+On 04/04/2023 11:11, Maxime Ripard wrote:
+> The Versatile sp810 "timerclken" clock implements a mux with a
+> set_parent hook, but doesn't provide a determine_rate implementation.
+> 
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. 
 
-It is probably too late today (now I have a Debian based VM that can do
-the selftests), but with this bug fix I have 1) not submitted bug fixes
-before and 2) it probably needs an appropriate explanation, where I
-don't know the problem well enough for general switchcores to submit
-with a suitable text.
+Explanation of this mystery is pretty simple - the original patch:
+
+	commit 6e973d2c438502dcf956e76305258ba7d1c7d1d3
+	Author: Pawel Moll <pawel.moll@arm.com>
+	Date:   Thu Apr 18 18:23:22 2013 +0100
+
+	    clk: vexpress: Add separate SP810 driver
+
+predates introduction of determine_rate to clk_ops...
+
+	commit 71472c0c06cf9a3d1540762ea205654c584e3bc4
+	Author: James Hogan <jhogan@kernel.org>
+	Date:   Mon Jul 29 12:25:00 2013 +0100
+
+	    clk: add support for clock reparent on set_rate
+
+and clearly no one (the author included ;-) bothered to have another
+look at this side of the driver.
+
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
+
+It's been one hell of a memory lane trip, but my recollection suggest
+that the main goal of the driver was simply initialisation of the mux
+to select the 1MHz parent, because the other option - 32kHz - just
+didn't make any sense whatsoever. And that would be the case on every
+single platform using SP810 I know (or at least: knew), so it's seems
+to me that making the state permanent, as you're suggesting (or I
+think you're suggesting?) it's the right thing to do.
+
+Thanks!
+
+Paweł
