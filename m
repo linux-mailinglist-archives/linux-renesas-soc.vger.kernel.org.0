@@ -2,78 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 003FE6DA072
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Apr 2023 20:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6B66DA668
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Apr 2023 02:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239650AbjDFS7v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Apr 2023 14:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54198 "EHLO
+        id S229669AbjDGADr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Apr 2023 20:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbjDFS7u (ORCPT
+        with ESMTP id S229512AbjDGADq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Apr 2023 14:59:50 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C09426B2;
-        Thu,  6 Apr 2023 11:59:49 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id n1so20340204ili.10;
-        Thu, 06 Apr 2023 11:59:49 -0700 (PDT)
+        Thu, 6 Apr 2023 20:03:46 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65F04C17;
+        Thu,  6 Apr 2023 17:03:44 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id l17so5105445ejp.8;
+        Thu, 06 Apr 2023 17:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680807588; x=1683399588;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pUyJ3wxzxoqSuvxPI58fy1Btf6mp8kX94ybQptXUc3Q=;
-        b=YkKIr0GocwTAvB4t/GGojOyjJQrlawJFDeEIq7fgZQ0DqGk5NImD9Go7I7XBAQOfW3
-         eYq5ujzUXkEzVnaC07MyyL2e529FZ81atwYQQLFZ9Kb+a+wpWSJjppzOiN8EPS+O/KpE
-         BZIdqjdajls2tbOYgstJBf3atbMy+dZAgb4WZGEHdwwSQfZENcA19TYYhLdkrxfjAkoK
-         NFptTaCqhJiss0Yd4T/aPtBP7+430FpAK+iFijJgvN9PmOXqKoUmQ6/5tAMRTyiV7QUC
-         2j1LYK4snrCVyLKee25ixG7vc3NoQ5YF0Eio3pnk3FktYwFACXEjuHN16jKqFDhF79mL
-         Pt+A==
+        d=gmail.com; s=20210112; t=1680825823; x=1683417823;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f+8kfy3tjKLPe3TifJTVuacG8Zo955zar201sEBpYQI=;
+        b=MNxZauynb0gVNoahtsqVvCiD8C2zrTbmZyxhykOshWSl4e4x5UNTGqTuT7/wA3I7k8
+         isZu/+ogsApfCs7W/ZB5fS6cxwdrbU9TU7BY1fI0qASwr6BjQJLXCeNFv+s+Xh83T/xY
+         ll8AO3x+gov4OAc2i56yvml4nCb4zNkFKJ5u74M0JI4ko9UKgzW6TnWtMQRvEHud/aEw
+         lomkn4kZSlpECT9vUFQuUsSM478UXOnO04ZA+Z6NzoehD+9jPv9f2qOB+4HKsfrWSX3v
+         vE03MFZzWVxQUnH/d6yU0N3M5EsXJIX4L+16l1ynHUGQ6r7rbi5f6lCkt63a4xE6+x4b
+         yzFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680807588; x=1683399588;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pUyJ3wxzxoqSuvxPI58fy1Btf6mp8kX94ybQptXUc3Q=;
-        b=jqkJOSuiqzZ0OTtg8usyy3IMWRiBRjybROhJ2Tf6DVeBBsn4F2m89Oo6jAY+MjUJ//
-         CBIuFOyKRkF7dtjVxYa2N9UD7LIeCfQp70iO/WwM5uvXv49JUCZv4S0X972MlQrVEtZK
-         CdH7Awxb5Cq2lsgpP1wg/DzkWWL0dPHL+yoKc1rD6t+HeQ1Cr7d8PZhU7rycGDjuoobq
-         VnXIpP1HvPUh1wu7Sbw+L8r/+VqKH7k/NbzFxN6IVspgr+knzYWzev7mhGJ2EDSK+NjZ
-         94csohZWRHqYrAIUwnQvHAcCgp30c/SlyFWBYHJ6K+kgRRuirRfCe6KcPknQmcZdqPTl
-         ZBCQ==
-X-Gm-Message-State: AAQBX9cBLbvJIkGmAq/fCBXByNKpP1aER3sjjdl5RINx/rGjThVwsWVR
-        I10+DgFQ+beDA3jwcdAii+mjl1EvJ8F5sgDU0So=
-X-Google-Smtp-Source: AKy350bQp4WCCWwuYEVoVmA1ow6eFikyqvIzEhmOaus7gRujSkLUdnIxlEeOdiLBcMiNn18hKyvJs5Bu35ppe0l85QE=
-X-Received: by 2002:a92:c5cf:0:b0:326:4201:2d8c with SMTP id
- s15-20020a92c5cf000000b0032642012d8cmr6810904ilt.1.1680807588655; Thu, 06 Apr
- 2023 11:59:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <ZCu1tFrQCVe2sgNz@infradead.org>
-In-Reply-To: <ZCu1tFrQCVe2sgNz@infradead.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 6 Apr 2023 18:59:22 +0000
-Message-ID: <CA+V-a8sn8ai1h9+D-b2+Uj2xGcPOw95ukFPy=T_jL+EjTuqApQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
- pointers for cache management
+        d=1e100.net; s=20210112; t=1680825823; x=1683417823;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f+8kfy3tjKLPe3TifJTVuacG8Zo955zar201sEBpYQI=;
+        b=yfEe9V6jo9DuPHDu7KgqvlzhXs0ak69W1iDl8sBwoqzNiaqUh8wzuD501tgMn4jAMo
+         LSsFnUccrVsOUxJ5GmDKY8zWYW81krJgz2P0IviQ1ezVm5sCoDMJ9AzYi0ZV7KWs0vJ2
+         Au1WDkVLNgwSzkfyalJkCTWZLQCkxI1MUfKci2C1p0zsbKDMlb2CTJa/QVmBKyceC/0+
+         omnqvpTE0Ba3fNCUiH0pviaL2a9dL04xs6YP6l4NsAkqhlXIdqjdYcloCUoUo6ni3OpH
+         J7lgiooACNnm68E6H7mSqMnR9+mmRZSRUU0LoBkn9D3S2BtlD2R4tmxzWwU0cKi4PdZ7
+         fe0Q==
+X-Gm-Message-State: AAQBX9eB0qzcI4PlvL43CtOBZ15cnzuH436F8Y7r0j5oXQFyPhHjmFZ1
+        w/x5PPTm2rL6D0Xa7YA/+6dQIuEYpOVVX3Y6
+X-Google-Smtp-Source: AKy350bZf3Pgmi2zLBkprnBI1EXh9QEM6UWQo+KFZnv2Ap/aVssuKQNynTVN5Pac7j4VHVTr9tnMlw==
+X-Received: by 2002:a17:906:a18b:b0:933:44ef:851e with SMTP id s11-20020a170906a18b00b0093344ef851emr558038ejy.55.1680825823181;
+        Thu, 06 Apr 2023 17:03:43 -0700 (PDT)
+Received: from andrea (host-79-35-32-179.retail.telecomitalia.it. [79.35.32.179])
+        by smtp.gmail.com with ESMTPSA id x5-20020a170906804500b008def483cf79sm1373504ejw.168.2023.04.06.17.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 17:03:42 -0700 (PDT)
+Date:   Fri, 7 Apr 2023 02:03:36 +0200
+From:   Andrea Parri <parri.andrea@gmail.com>
 To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH v7 1/6] riscv: mm: dma-noncoherent: Switch using function
+ pointers for cache management
+Message-ID: <ZC9d2DIOMy27AAT9@andrea>
+References: <20230330204217.47666-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230330204217.47666-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ZCu1tFrQCVe2sgNz@infradead.org>
+ <OS0PR01MB59224C99770F84D8CE2D0DBA86939@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZCxFUb8+eQPzqBmo@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZCxFUb8+eQPzqBmo@infradead.org>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -84,36 +93,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph,
+> But other other point is adding more cache flushing variants should not
+> be easy.  Everyone should be using the standardize version.  If it's not
+> implemented in hardware despite having ratified extensions you can fake
+> it up in SBI.  Yes, that's way more expensive than indirect calls, but
+> that's what you get for taping out new hardware that ignores the actual
+> architecture specification and just does their own made up shit.
 
-On Tue, Apr 4, 2023 at 6:29=E2=80=AFAM Christoph Hellwig <hch@infradead.org=
-> wrote:
->
-> On Thu, Mar 30, 2023 at 09:42:12PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Currently, selecting which CMOs to use on a given platform is done usin=
-g
-> > and ALTERNATIVE_X() macro. This was manageable when there were just two
-> > CMO implementations, but now that there are more and more platforms com=
-ing
-> > needing custom CMOs, the use of the ALTERNATIVE_X() macro is unmanageab=
-le.
-> >
-> > To avoid such issues this patch switches to use of function pointers
-> > instead of ALTERNATIVE_X() macro for cache management (the only drawbac=
-k
-> > being performance over the previous approach).
-> >
-> > void (*clean_range)(unsigned long addr, unsigned long size);
-> > void (*inv_range)(unsigned long addr, unsigned long size);
-> > void (*flush_range)(unsigned long addr, unsigned long size);
-> >
->
-> NAK.  Function pointers for somthing high performance as cache
-> maintainance is a complete no-go.
->
-Ok, I will take the ALTERNATIVE() macro route.
+FWIW, ALTERNATIVE_X() for "three instructions with (what should be a)
+crystal-clear semantics" already smells like "we're doing it wrong" to
+me, function pointers would be closer to "we're looking for trouble".
 
-Cheers,
-Prabhakar
+Thanks,
+  Andrea
