@@ -2,57 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADA126DC520
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Apr 2023 11:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9F906DC54F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Apr 2023 11:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbjDJJgO convert rfc822-to-8bit (ORCPT
+        id S229572AbjDJJqC convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Apr 2023 05:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54114 "EHLO
+        Mon, 10 Apr 2023 05:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbjDJJgN (ORCPT
+        with ESMTP id S229549AbjDJJqB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Apr 2023 05:36:13 -0400
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A0730DC;
-        Mon, 10 Apr 2023 02:36:11 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-54c0dd7e2f3so203178007b3.8;
-        Mon, 10 Apr 2023 02:36:11 -0700 (PDT)
+        Mon, 10 Apr 2023 05:46:01 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D66194;
+        Mon, 10 Apr 2023 02:46:00 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id bv15so2215831ybb.1;
+        Mon, 10 Apr 2023 02:46:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681119370;
+        d=1e100.net; s=20210112; t=1681119959;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FHSMM1KvEHdmSEiK3Kz5ib8QCRDoCzAK4drVjX0gWY8=;
-        b=xFEOmO5biKX4K8VmCcWIReKJ0kQ3WE+kCWbXvrHNZlmTFhavAmRd+tp3bHod2dkEmM
-         fuuQfKBvwYqS8t1nKVMsZsUV5FJN2kn16VIql7vzxI2B+wb++j7peAmkpSuuXcUqpoZB
-         s3G1v2pHIg32RjxAzsZFLSC2sPD5G8i+zaKvm6HTTuijgrNuavAVwfmM6XGC1vuTQpsi
-         OrSqmPp+P2x5wxIjLcx0oPtr8S9MesnXZu1nTBQY/D69xQJQNXNRc9MsKUZKdPeZRnuI
-         VOo29M3cXCaNjGYyEkN17YDMOv3567S/MnM4DlTV1yAfsYweLNzyMYoVx7+8JHIhvKmn
-         hqAQ==
-X-Gm-Message-State: AAQBX9fkpvEY3CpF71HDE6b8szYUSea02MKkK88BFUh2YknuIgD18ZVz
-        MixcUurIqElaqFQobdflF+3gYGowTNbvRA==
-X-Google-Smtp-Source: AKy350Zh7MMYFhMtOGiU37qbcNnQ3Agy5/M0QsmCwExkxXKOdSoeGFIwtL3jd9aDhVzqUU8od9f9Yg==
-X-Received: by 2002:a0d:e614:0:b0:546:209d:ee81 with SMTP id p20-20020a0de614000000b00546209dee81mr7960754ywe.2.1681119370581;
-        Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id p20-20020a0de614000000b00545a08184f3sm2697184ywe.131.2023.04.10.02.36.10
+        bh=aW3geLGISJ5Wl59n77OgvFtQOg4LkNPXguyTMjOYNek=;
+        b=onwLkj9Nt1lbs/R3TyhoppSSq4rIdeH+SaR8vgVZG7Et2ELfy3BGG5X1MH+THxMsAu
+         gVADzVq+WhNXCru+DfkC0wh93zdUWfaFgU0QXL8qON+W4Xefyh6hdyEWEqy+1QRoM+Wq
+         igqMrVHdkAQ7yXjrg3XiOwovfBbWQt3AfjSLMiQXI3a/cf13t2x/m4/EDotK5sjWyKcp
+         d5fhdKlnH8d73INJI8vGQZAYBmqGJ8hXf4lPPekKZ8wRmuYEMNcUkNn1TmUOo+1elCxN
+         NCvktTs7u4cZZ7DQb5T9Cvqu9D9HfOmSCjkKJVltxJXJoK71DP4mBzyRobg9HkCq9Y4Z
+         tFdw==
+X-Gm-Message-State: AAQBX9ex2ICFy3Mf7g4Vd37WoRTW8bIRcUBpj5UajSY/HVjyZrXNLwVS
+        R4q4o5jznU/pwcL9HFHsLbvDbQDRAVEyzQ==
+X-Google-Smtp-Source: AKy350ajo5e3lje86XLdbE0uIgAhV6LqdqFJa30RJC2cHaUbTFMrQDy4b+GHdtyyhU4KGsPCSRpgvQ==
+X-Received: by 2002:a25:6585:0:b0:b7e:ef3b:bca5 with SMTP id z127-20020a256585000000b00b7eef3bbca5mr8192343ybb.15.1681119959337;
+        Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 130-20020a250a88000000b00b8bd10ad9b0sm2870547ybk.11.2023.04.10.02.45.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 72so4099048ybe.6;
-        Mon, 10 Apr 2023 02:36:10 -0700 (PDT)
-X-Received: by 2002:a25:df0b:0:b0:b75:9519:dbcd with SMTP id
- w11-20020a25df0b000000b00b759519dbcdmr6808406ybg.12.1681119369989; Mon, 10
- Apr 2023 02:36:09 -0700 (PDT)
+        Mon, 10 Apr 2023 02:45:59 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id f188so35797685ybb.3;
+        Mon, 10 Apr 2023 02:45:58 -0700 (PDT)
+X-Received: by 2002:a25:cb52:0:b0:a02:a3a6:78fa with SMTP id
+ b79-20020a25cb52000000b00a02a3a678famr4936366ybg.12.1681119958795; Mon, 10
+ Apr 2023 02:45:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1680273039.git.geert+renesas@glider.be> <df4099d79c985c73bdc890eb0e026494b7fa5c96.1680273039.git.geert+renesas@glider.be>
- <20230405035952.GI9915@pendragon.ideasonboard.com>
-In-Reply-To: <20230405035952.GI9915@pendragon.ideasonboard.com>
+References: <cover.1680273039.git.geert+renesas@glider.be> <972e66cd36e9173ea6817d41565f708cb84bc2f4.1680273039.git.geert+renesas@glider.be>
+ <20230405040211.GK9915@pendragon.ideasonboard.com>
+In-Reply-To: <20230405040211.GK9915@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Apr 2023 11:35:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
-Message-ID: <CAMuHMdUMEVYRr9oYBB=50WJtM4St1UfVkGMw09dchjgoUC2Q6A@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm: shmobile: Switch to drm_crtc_init_with_planes()
+Date:   Mon, 10 Apr 2023 11:45:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
+Message-ID: <CAMuHMdXjry9-owh6nrtdXXi9wtvgJRROd+P6=zRq0se8PJ4jMQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm: shmobile: Make DRM_SHMOBILE visible on Renesas
+ SoC platforms
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@gmail.com>,
@@ -73,84 +74,36 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-Thanks for your comments!
-
-On Wed, Apr 5, 2023 at 5:59 AM Laurent Pinchart
+On Wed, Apr 5, 2023 at 6:02 AM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Mar 31, 2023 at 04:48:09PM +0200, Geert Uytterhoeven wrote:
-> > The SH-Mobile DRM driver uses the legacy drm_crtc_init(), which
-> > advertizes only the formats in safe_modeset_formats[] (XR24 and AR24) as
-> > being supported.
-> >
-> > Switch to drm_crtc_init_with_planes(), and advertize all supported
-> > (A)RGB modes, so we can use RGB565 as the default mode for the console.
+> On Fri, Mar 31, 2023 at 04:48:11PM +0200, Geert Uytterhoeven wrote:
+> > The LCD Controller supported by the drm-shmob driver is not only present
+> > on SuperH SH-Mobile SoCs, but also on Renesas ARM SH/R-Mobile SoCs.
+> > Make its option visible, so the user can enable support for it.
 > >
 > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> > @@ -18,6 +18,7 @@
-> >  #include <drm/drm_gem_dma_helper.h>
-> >  #include <drm/drm_modeset_helper.h>
-> >  #include <drm/drm_modeset_helper_vtables.h>
-> > +#include <drm/drm_plane_helper.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_simple_kms_helper.h>
-> >  #include <drm/drm_vblank.h>
-> > @@ -478,16 +479,41 @@ static const struct drm_crtc_funcs crtc_funcs = {
-> >       .disable_vblank = shmob_drm_disable_vblank,
-> >  };
+> > ---
+> >  drivers/gpu/drm/shmobile/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > +static const uint32_t modeset_formats[] = {
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +};
-> > +
-> > +static const struct drm_plane_funcs primary_plane_funcs = {
-> > +     DRM_PLANE_NON_ATOMIC_FUNCS,
-> > +};
-> > +
-> >  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
-> >  {
-> >       struct drm_crtc *crtc = &sdev->crtc.crtc;
-> > +     struct drm_plane *primary;
-> >       int ret;
-> >
-> >       sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
-> >
-> > -     ret = drm_crtc_init(sdev->ddev, crtc, &crtc_funcs);
-> > -     if (ret < 0)
-> > +     primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
-> > +                                           0, &primary_plane_funcs,
-> > +                                           modeset_formats,
-> > +                                           ARRAY_SIZE(modeset_formats),
-> > +                                           NULL, DRM_PLANE_TYPE_PRIMARY,
-> > +                                           NULL);
-> > +     if (IS_ERR(primary))
-> > +             return PTR_ERR(primary);
+> > diff --git a/drivers/gpu/drm/shmobile/Kconfig b/drivers/gpu/drm/shmobile/Kconfig
+> > index 4ec5dc74a6b0b880..719d4e7a5cd75aad 100644
+> > --- a/drivers/gpu/drm/shmobile/Kconfig
+> > +++ b/drivers/gpu/drm/shmobile/Kconfig
+> > @@ -2,7 +2,7 @@
+> >  config DRM_SHMOBILE
+> >       tristate "DRM Support for SH Mobile"
+> >       depends on DRM && ARM
 >
-> This seems like a bit of a hack to me. Why don't you use the planes
+> There shouldn't be anything ARM-dependent, could you drop "&& ARM" while
+> at it ?
 
-I'm following what Thomas did in the nouveau driver....
+Oops, that was added back in 2014, when the driver stopped building on SH.
+The build issue seems to be fixed, so I'll drop the dependency on ARM.
 
-> created by shmob_drm_plane_create() instead of allocating a new one ?
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Is that possible? shmob_drm_plane_create() creates overlay planes,
-while this is for the primary plane.
-
->
-> > +
-> > +     ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
-> > +                                     &crtc_funcs, NULL);
-> > +     if (ret < 0) {
-> > +             drm_plane_cleanup(primary);
-> > +             kfree(primary);
-> >               return ret;
-> > +     }
-> >
-> >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+Thanks!
 
 Gr{oetje,eeting}s,
 
