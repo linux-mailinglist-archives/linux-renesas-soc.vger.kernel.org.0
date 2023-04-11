@@ -2,78 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E31D6DDADB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Apr 2023 14:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 229AB6DDBBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Apr 2023 15:10:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjDKMaj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Apr 2023 08:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
+        id S229955AbjDKNJ6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Apr 2023 09:09:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjDKMah (ORCPT
+        with ESMTP id S230047AbjDKNJv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Apr 2023 08:30:37 -0400
-Received: from sp14.canonet.ne.jp (sp14.canonet.ne.jp [210.134.168.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 91FCF49E6;
-        Tue, 11 Apr 2023 05:30:06 -0700 (PDT)
-Received: from csp14.canonet.ne.jp (unknown [172.21.160.134])
-        by sp14.canonet.ne.jp (Postfix) with ESMTP id 9FFF61E02EC;
-        Tue, 11 Apr 2023 21:30:04 +0900 (JST)
-Received: from echeck14.canonet.ne.jp ([172.21.160.124])
-        by csp4 with ESMTP
-        id mD8Op1wRtVjWJmD8OpUdkg; Tue, 11 Apr 2023 21:30:04 +0900
-X-CNT-CMCheck-Reason: "undefined", "v=2.4 cv=WsmVjfTv c=1 sm=1 tr=0
- ts=643552cc cx=g_jp:t_eml p=ISLhRirdagkA:10 a=puqJfqqrwnhV2n3dwg+kWg==:117
- a=yr9NA9NbXb0B05yJHQEWeQ==:17 a=PlGk70OYzacA:10 a=kj9zAlcOel0A:10
- a=dKHAf1wccvYA:10 a=x7bEGLp0ZPQA:10 a=uUN0uIi2KnPteaT9AOsA:9
- a=CjuIK1q_8ugA:10"
-X-CNT-CMCheck-Score: 100.00
-Received: from echeck14.canonet.ne.jp (localhost [127.0.0.1])
-        by esets.canonet.ne.jp (Postfix) with ESMTP id 40B2A1C026B;
-        Tue, 11 Apr 2023 21:30:04 +0900 (JST)
-X-Virus-Scanner: This message was checked by ESET Mail Security
-        for Linux/BSD. For more information on ESET Mail Security,
-        please, visit our website: http://www.eset.com/.
-Received: from smtp14.canonet.ne.jp (unknown [172.21.160.104])
-        by echeck14.canonet.ne.jp (Postfix) with ESMTP id 1199F1C025B;
-        Tue, 11 Apr 2023 21:30:04 +0900 (JST)
-Received: from wakaba-foods.co.jp (webmail.canonet.ne.jp [210.134.169.250])
-        by smtp14.canonet.ne.jp (Postfix) with ESMTPA id E093115F967;
-        Tue, 11 Apr 2023 21:30:02 +0900 (JST)
+        Tue, 11 Apr 2023 09:09:51 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E014690;
+        Tue, 11 Apr 2023 06:09:47 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8667320007;
+        Tue, 11 Apr 2023 13:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1681218585;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zj1JtAKrv3GVkrzExsf9B7vpxAMSpGNgfjgQje0eTak=;
+        b=oNG2Rb7etLGd3op/Iz2fmq0xokA2awaHaTUwmpMIqfWRcdiVNffJhH1OiD/NJa8U8VhbyA
+        yF9MXtYH8Fxz3M+cAq/7V/oq1xoDx4mXB50I/MCViACuf5Xj/3sm+jiFSUhQyd/GFiKSU+
+        MvbhXoQ5xcQFvUgIZ6glZLEM1HPSvT3ZkSE8cIw3GiRKuf3ey7u+ch+9vo/URZlNg8hBkX
+        sdQ/9ZojYLUArwz1K4ERP3d5/cBFRF6/83yyqSdXppNVR0gRdgwuMipAeMDZ8IGKN7s335
+        n6r/K2t/A0PaaBtBH3FUkAWJV3CrDikEbkeZlUHa/BD6XrUBmGFFsgVYyetBaQ==
+Date:   Tue, 11 Apr 2023 15:09:30 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Maxime Ripard <maxime@cerno.tech>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andreas =?UTF-8?B?RsOkcmJlcg==?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        David Lechner <david@lechnology.com>,
+        Sekhar Nori <nsekhar@ti.com>, Abel Vesa <abelvesa@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-actions@lists.infradead.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: Re: [PATCH v3 28/65] clk: renesas: r9a06g032: Add a determine_rate
+ hook
+Message-ID: <20230411150930.4fb22d7e@xps-13>
+In-Reply-To: <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+        <20221018-clk-range-checks-fixes-v3-28-9a1358472d52@cerno.tech>
+        <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Message-ID: <20230411123002.0000448C.0303@wakaba-foods.co.jp>
-Date:   Tue, 11 Apr 2023 21:30:02 +0900
-From:   "Mr. Jerry Chang" <tozawa@wakaba-foods.co.jp>
-To:     <jc@jc.jc>
-Reply-To: <c-genghis0@yandex.com>
-Subject: Best Regards..., 
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-ORGANIZATION: Banking
-X-MAILER: Active! mail
-X-EsetResult: clean, %VIRUSNAME%
-X-ESET-AS: R=SPAM;S=100;OP=CALC;TIME=1681216204;VERSION=7952;MC=1568820569;ID=1378267868;TRN=15;CRV=0;IPC=210.134.169.250;SP=4;SIPS=1;PI=5;F=0
-X-I-ESET-AS: RN=442,624:0;RNP=c-genghis0@yandex.com
-X-ESET-Antispam: SPAM
-X-Spam-Status: No, score=4.5 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,HK_NAME_MR_MRS,SPF_HELO_NONE,SPF_PASS,
-        UNRESOLVED_TEMPLATE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert & Maxime,
 
-Hello! 
-Best Regards..., 
-How are you doing today? 
-I hope this email finds you in good health. 
-You have not responded to my previous emails to you regarding Mr. Husson. 
-Kindly acknowledge my proposal and let me know what your decisions are, if you are taking the offer. 
-Kindly get back to me as soon as possible for more details. 
-Best regards,
-Mr. Jerry Chang.
+geert@linux-m68k.org wrote on Tue, 11 Apr 2023 12:27:38 +0200:
 
+> CC Gareth, Herv=C3=A9, Miquel, Ralph
+>=20
+> On Tue, Apr 4, 2023 at 2:44=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> =
+wrote:
+> > The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
+> > hook, but doesn't provide a determine_rate implementation.
+> >
+> > This is a bit odd, since set_parent() is there to, as its name implies,
+> > change the parent of a clock. However, the most likely candidate to
+> > trigger that parent change is a call to clk_set_rate(), with
+> > determine_rate() figuring out which parent is the best suited for a
+> > given rate.
+> >
+> > The other trigger would be a call to clk_set_parent(), but it's far less
+> > used, and it doesn't look like there's any obvious user for that clock.
+> >
+> > So, the set_parent hook is effectively unused, possibly because of an
+> > oversight. However, it could also be an explicit decision by the
+> > original author to avoid any reparenting but through an explicit call to
+> > clk_set_parent().
+> >
+> > The latter case would be equivalent to setting the flag
+> > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> > to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> > implementation is provided, clk_round_rate() (through
+> > clk_core_round_rate_nolock()) will call itself on the parent if
+> > CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> > otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> > CLK_SET_RATE_NO_REPARENT is set.
+> >
+> > And if it was an oversight, then we are at least explicit about our
+> > behavior now and it can be further refined down the line.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech> =20
+>=20
+> LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+I searched for 'possible callers', I didn't find any places
+where this would be used on the consumer side. However, downstream,
+there is a rzn1-clock-bitselect.c clock driver which states:
+
++ * This clock provider handles the case of the RZN1 where you have periphe=
+rals
++ * that have two potential clock source and two gates, one for each of the
++ * clock source - the used clock source (for all sub clocks) is selected b=
+y a
++ * single bit.
++ * That single bit affects all sub-clocks, and therefore needs to change t=
+he
++ * active gate (and turn the others off) and force a recalculation of the =
+rates.
+
+I don't know how much of this file has been upstreamed (under a
+different form) but this might very well be related to the fact that
+reparenting in some cases would be a major issue and thus needs to be
+avoided unless done on purpose (guessing?).
+
+Maybe Ralph can comment, but for what I understand,
+
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+> But I do not have the hardware.
+>=20
+> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> > @@ -1121,6 +1121,7 @@ static int r9a06g032_clk_mux_set_parent(struct cl=
+k_hw *hw, u8 index)
+> >  }
+> >
+> >  static const struct clk_ops clk_bitselect_ops =3D {
+> > +       .determine_rate =3D __clk_mux_determine_rate,
+> >         .get_parent =3D r9a06g032_clk_mux_get_parent,
+> >         .set_parent =3D r9a06g032_clk_mux_set_parent,
+> >  };
+> > @@ -1145,7 +1146,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *=
+clocks,
+> >
+> >         init.name =3D desc->name;
+> >         init.ops =3D &clk_bitselect_ops;
+> > -       init.flags =3D CLK_SET_RATE_PARENT;
+> > +       init.flags =3D CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
+> >         init.parent_names =3D names;
+> >         init.num_parents =3D 2;
+> > =20
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+
+Thanks,
+Miqu=C3=A8l
