@@ -2,95 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE7E6DD84B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Apr 2023 12:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB5856DD923
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Apr 2023 13:14:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbjDKKu3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Apr 2023 06:50:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43264 "EHLO
+        id S229666AbjDKLOd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Apr 2023 07:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229934AbjDKKuU (ORCPT
+        with ESMTP id S229437AbjDKLOc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:50:20 -0400
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848AB40C7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Apr 2023 03:50:18 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id ch3so8660748ybb.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Apr 2023 03:50:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681210217;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xs2/x86u4erLtJ74tp6ukYUrJzojRcQ45RRn+/5uWKo=;
-        b=C/ACPtaC49VATM9ZbTa2dDyIVtVhn10JlJAobMApFnQKvJVC9Ee/7g7GdgbUOJXMKb
-         H9u1boQpPAytm0I1AkfUOqtvZkiZ/5WTQLSSZzZIxLHm3xROwE5DigIjQzBomA2gQGYc
-         LPTS297kBauh0MvyrnJvSqPJl9GCU7/qFAHuE2AcLBJ6R7Mso+OQVxDinAuh3KnfN2up
-         u5GwV/tCEXJad6UUM3/MFsn6iQCkONctsgsdSfiQ45eNe5JG/ATK144FEZcn8JWtTWbV
-         FSl25bQxnCibGXZCO68BGqdZi4WlhBP4WlEyvH3VqubFBL3u6Tj/IYRKAAl3Q9tMYQcY
-         TGQw==
-X-Gm-Message-State: AAQBX9cITMMbHkQl6wcQfWa5pmz1rix/lk0ua/z4f2MiBswKGjJAwEW8
-        eXmx6U5wATI9i0SvzsRvtZNTJLx17UM7rw==
-X-Google-Smtp-Source: AKy350bObc1Zlb75eQ00tj/6m1shO2HgYvyR+8HNydQCtkWZ//ahz43Zo3obm2f23i8jHmL3OuEkVw==
-X-Received: by 2002:a25:ac49:0:b0:b8b:8abb:d4d6 with SMTP id r9-20020a25ac49000000b00b8b8abbd4d6mr1540889ybd.8.1681210217373;
-        Tue, 11 Apr 2023 03:50:17 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id k15-20020a81ed0f000000b0054629ed8300sm3420258ywm.80.2023.04.11.03.50.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Apr 2023 03:50:16 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-54ee0b73e08so152910767b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Apr 2023 03:50:16 -0700 (PDT)
-X-Received: by 2002:a81:7643:0:b0:54b:fa6f:106e with SMTP id
- j3-20020a817643000000b0054bfa6f106emr1417332ywk.4.1681210216434; Tue, 11 Apr
- 2023 03:50:16 -0700 (PDT)
+        Tue, 11 Apr 2023 07:14:32 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B227935B5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Apr 2023 04:14:02 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pmBv0-0004gl-Lm; Tue, 11 Apr 2023 13:12:10 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pmBuf-00AURe-AU; Tue, 11 Apr 2023 13:11:49 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pmBue-00CH5H-AL; Tue, 11 Apr 2023 13:11:48 +0200
+Date:   Tue, 11 Apr 2023 13:11:48 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Valentin Korenblit <vkorenblit@sequans.com>,
+        Lucas Stach <dev@lynxeye.de>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Naga Sureshkumar Relli <nagasure@xilinx.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Han Xu <han.xu@nxp.com>, Chuanhong Guo <gch981213@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Heiko Stuebner <heiko@sntech.de>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jack Wang <jinpu.wang@ionos.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        linux-sunxi@lists.linux.dev, ye xingchen <ye.xingchen@zte.com.cn>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-arm-msm@vger.kernel.org, Vladimir Zapolskiy <vz@mleia.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Wang Weiyang <wangweiyang2@huawei.com>,
+        Harvey Hunt <harveyhuntnexus@gmail.com>,
+        linux-mediatek@lists.infradead.org, linux-mtd@lists.infradead.org,
+        linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Christophe Kerello <christophe.kerello@foss.st.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        kernel@pengutronix.de, Richard Weinberger <richard@nod.at>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-oxnas@groups.io, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH] mtd: nand: Convert to platform remove callback returning
+ void
+Message-ID: <20230411111148.yefmzohsvk3facq3@pengutronix.de>
+References: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+ <20230407101043.299f5e22@xps-13>
+ <20230408185332.d2g2ao4tdp6ltm4i@pengutronix.de>
+ <20230411102025.6b2fdc9e@xps-13>
 MIME-Version: 1.0
-References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
- <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 11 Apr 2023 12:50:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
-Message-ID: <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
-Subject: Re: Future renesas-drivers releases
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="he6vq5knkogtd7j7"
+Content-Disposition: inline
+In-Reply-To: <20230411102025.6b2fdc9e@xps-13>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 22, 2022 at 2:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->   - renesas-drivers-2023-02-14-v6.2 (TBD),
->   - renesas-drivers-2023-02-21-v6.2 (TBD).
 
-So that became the latter.
+--he6vq5knkogtd7j7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Apparently I forgot  to update the forecasts, sorry for that.
-In the meantime we had:
-  - renesas-drivers-2023-03-07-v6.3-rc1,
-  - renesas-drivers-2023-03-21-v6.3-rc3,
-  - renesas-drivers-2023-04-04-v6.3-rc5.
+Hello Miquel,
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2023-04-18-v6.3-rc7,
-  - renesas-drivers-2023-04-25-v6.3 (TBD),
-  - renesas-drivers-2023-05-02-v6.3 (TBD).
+On Tue, Apr 11, 2023 at 10:20:25AM +0200, Miquel Raynal wrote:
+> > On Fri, Apr 07, 2023 at 10:10:43AM +0200, Miquel Raynal wrote:
+> > > I've looked at the different patches, they look good to me but as they
+> > > are all trivial and exactly identical, would you mind sending this
+> > > again all squashed in a single patch? A subsystem-wide conversion see=
+ms
+> > > appropriate. In all cases I plan to take this for the next merge
+> > > window. =20
+> >=20
+> > I slightly prefer them separately, because I like small patches and
+> > because the Acks and Reviews only apply to the individual drivers.
+> > But I don't mind seriously, so here comes the series squashed into one.
+>=20
+> For any non trivial change, I would definitely do that as well.
 
-Gr{oetje,eeting}s,
+A patch is only trivial as long as it doesn't do anything wrong.
+I don't assume any problem, but it wouldn't be the first. The first was
+bcm2835_spi_remove() being used in bcm2835_spi_shutdown().
 
-                        Geert
+> The thing is, by collecting the tags with b4, you lost all the Acks and
+> Reviews targets, while we could prevent this, see below.
+>=20
+> > While going through the changed, probably the s3c24xx driver (which
+> > isn't exactly identical to the other changes) could benefit from an
+> > additional change throwing out the early exit (which---I guess---cannot
+> > be hit).
+>=20
+> Yes, I believe the 'info =3D=3D NULL' condition is useless, feel free to
+> drop it in a second patch if you wish.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Yeah.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > BTW, I constructed the lists of acks/reviews myself and found the same
+> > set. However b4 wailed about each patch claiming:
+> >=20
+> > 	    =E2=9C=97 BADSIG: DKIM/infradead.org
+>=20
+> No idea what this means, any pointer?
+
+lists.infradead.org signs all outgoing mail and something between these
+outgoing mails and b4 consuming them breaks the signature. I didn't
+debug, but depending on where the problem is, either
+postmaster@lists.infradead.org or the admins of lore.kernel.org or the
+maintainer of b4 might want to know and fix.
+
+> > And it didn't like you producing the tags, saying:
+> >=20
+> > 	NOTE: some trailers ignored due to from/email mismatches:
+> > 	    ! Trailer: Acked-by: Roger Quadros <rogerq@kernel.org>
+> > 	     Msg From: Miquel Raynal <miquel.raynal@bootlin.com>
+> > 	    [...]
+>=20
+> Well, yes, I don't expect b4 to read plain english when I say "I
+> collected them for you" ^^ But at least my list had a '# <area>' suffix
+> for each of the Acked and Reviewed changes, which is now missing. I
+> don't know  how useful they actually are, but it seems to me that the
+> information was lost between v1 and v2?
+
+That's right. I will resend in a separate thread with the annotations
+fixed. Sorry for the noise.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--he6vq5knkogtd7j7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ1QHMACgkQj4D7WH0S
+/k59PQgApmYCdD89s3AZJOYu84R1sSO13lJD2sW2YG/826FnsTQ8v5JAAMkZRhMV
+k+MCufvC25ennRcrXR5Uv8O1rreswBF1+9WhnWNEGGzaOsRqvVjkbsrMHgpJUsh3
+FMlNyvjm6KpNJhqF46lITimOhkWph7CAmCq1OMnfs5D1/biK19XqlwyNlOrka0XW
+8dwB13fYwc9PnEdLkyfmzqtcQbGBezwBjXzPkAls4+2qwIJkinKwMZACrpKd1VUr
+VOROg0xogL+KfIkaVvPu4UQTs2jpIf13YnyBfynr+pg81qKqHh6lHeS9zaMbTEhM
+JRbE//97QsOix1ZjsQHXvFD4zk8yjQ==
+=LsjF
+-----END PGP SIGNATURE-----
+
+--he6vq5knkogtd7j7--
