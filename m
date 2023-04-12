@@ -2,91 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC72B6DEBDA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Apr 2023 08:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382F36DEBE5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Apr 2023 08:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbjDLGfM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Apr 2023 02:35:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
+        id S229486AbjDLGhn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Apr 2023 02:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjDLGfL (ORCPT
+        with ESMTP id S229503AbjDLGhm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Apr 2023 02:35:11 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E65AD3ABC;
-        Tue, 11 Apr 2023 23:35:09 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,338,1673881200"; 
-   d="scan'208";a="159142066"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 12 Apr 2023 15:35:09 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4429B400F7A0;
-        Wed, 12 Apr 2023 15:35:09 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     lpieralisi@kernel.org, kw@linux.com, mani@kernel.org,
-        kishon@kernel.org, bhelgaas@google.com
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Frank Li <Frank.Li@nxp.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Subject: [PATCH v12] PCI: endpoint: functions/pci-epf-test: Fix dma_chan direction
-Date:   Wed, 12 Apr 2023 15:34:47 +0900
-Message-Id: <20230412063447.2841177-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 12 Apr 2023 02:37:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A147D5BBD;
+        Tue, 11 Apr 2023 23:37:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E4C6C62E84;
+        Wed, 12 Apr 2023 06:37:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA6BDC433EF;
+        Wed, 12 Apr 2023 06:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1681281452;
+        bh=C08xlScrwcFLdBM4M2cjiejNGUOC2cBgygJXW4F0akQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OvPmm65tFUtKMb6uvKdWdj+CwHnU3HWMLPT3Jz6E92n9YwogMdR4ulZuq7okqBdT7
+         Ffzjig8MFiNLWWQIW/VHk4EEiH38RDfTTckhEH97Sknhaf8qxgdKfAgBJ1vkBkVssg
+         a3tVu+XhCbytOYlwY1MasJtSi0KC2KPJkv2UM58I=
+Date:   Wed, 12 Apr 2023 08:37:29 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jiri Slaby <jslaby@suse.com>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>, stable <stable@kernel.org>
+Subject: Re: [PATCH] tty: serial: sh-sci: Fix transmit end interrupt handler
+Message-ID: <2023041214-epidural-overrate-3b81@gregkh>
+References: <20230411100859.305617-1-biju.das.jz@bp.renesas.com>
+ <2023041129-skeleton-nursery-f9b0@gregkh>
+ <OS0PR01MB59225DFD2073B3A6C8249104869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59220D9E0C52F5413046CAFB869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <2023041158-crisped-obtrusive-2309@gregkh>
+ <TYCPR01MB5933C7188612037F0787A5E3869A9@TYCPR01MB5933.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB5933C7188612037F0787A5E3869A9@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In the pci_epf_test_init_dma_chan(), epf_test->dma_chan_rx
-is assigned from dma_request_channel() with DMA_DEV_TO_MEM as
-filter.dma_mask. However, in the pci_epf_test_data_transfer(),
-if the dir is DMA_DEV_TO_MEM, it should use epf->dma_chan_rx,
-but it used epf_test->dma_chan_tx. So, fix it. Otherwise,
-results of pcitest with enabled DMA will be "NOT OKAY" on eDMA
-environment.
+On Tue, Apr 11, 2023 at 03:36:04PM +0000, Biju Das wrote:
+> 
+> Hi Greg,
+> 
+> > Subject: Re: [PATCH] tty: serial: sh-sci: Fix transmit end interrupt handler
+> > 
+> > On Tue, Apr 11, 2023 at 02:40:52PM +0000, Biju Das wrote:
+> > > Hi Greg,
+> > >
+> > > > Subject: RE: [PATCH] tty: serial: sh-sci: Fix transmit end interrupt
+> > > > handler
+> > > >
+> > > > Hi Greg,
+> > > >
+> > > > Thanks for the feedback.
+> > > >
+> > > > > Subject: Re: [PATCH] tty: serial: sh-sci: Fix transmit end
+> > > > > interrupt handler
+> > > > >
+> > > > > On Tue, Apr 11, 2023 at 11:08:59AM +0100, Biju Das wrote:
+> > > > > > commit b43a18647f03c87e77d50d6fe74904b61b96323e upstream.
+> > > > > >
+> > > > > > The fourth interrupt on SCI port is transmit end interrupt
+> > > > > > compared to the break interrupt on other port types. So, shuffle
+> > > > > > the interrupts to fix the transmit end interrupt handler.
+> > > > > >
+> > > > > > Fixes: e1d0be616186 ("sh-sci: Add h8300 SCI")
+> > > > > > Cc: stable <stable@kernel.org>
+> > > > > > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > Link:
+> > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > > [biju: manually fixed the conflicts]
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > ---
+> > > > > > Resending to 4.14 with confilcts [1] fixed.
+> > > > > > [1]
+> > > > >
+> > > > > You did not actually build your patch, as it breaks the build :(
+> > > >
+> > > > Actually, I build the patch, but did not test it on target as I
+> > > > don't have the platform to test it.
+> > > >
+> > > > I got some issues while building modules which is unrelated to this
+> > change.
+> > > >
+> > > > Anyway, I will double check again and confirm.
+> > >
+> > > I confirm, there is an issue with this patch.
+> > >
+> > > I disabled building modules from my build script and it showed the below
+> > error.
+> > > So I would like to drop this patch for 4.14 as this header file does not
+> > exist for 4.14.
+> > >
+> > > drivers/tty/serial/sh-sci.c:40:10: fatal error: linux/minmax.h: No such
+> > file or directory
+> > >    40 | #include <linux/minmax.h>
+> > >       |          ^~~~~~~~~~~~~~~~
+> > 
+> > Yes, minmax is not there, but the function needed by that is there (hint, I
+> > had to remove that include in 4.19).  Remove it and see the next error you
+> > get :)
+> > 
+> 
+> OK got it, The SCIx_TEI_IRQ  is introduced after 4.18 by patch [1]. 
+> 
+> [1] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/tty/serial/sh-sci.c?h=linux-5.4.y&id=628c534ae73581fd21a09a27b7a4222b01a44d64
+> 
+> So, 4.14 does not require this patch, as it have combined interrupt.
 
-Fixes: 8353813c88ef ("PCI: endpoint: Enable DMA tests for endpoints with DMA capabilities")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Tested-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
----
- Patch history:
- v1: https://lore.kernel.org/linux-pci/20230221100949.3530608-1-yoshihiro.shimoda.uh@renesas.com/
- v1 resend: https://lore.kernel.org/linux-pci/20230221101706.3530869-1-yoshihiro.shimoda.uh@renesas.com/
- v2: https://lore.kernel.org/linux-pci/20230222015327.3585691-1-yoshihiro.shimoda.uh@renesas.com/
- v10 [1]: https://lore.kernel.org/linux-pci/20230308082352.491561-3-yoshihiro.shimoda.uh@renesas.com/
- v11 [1]: https://lore.kernel.org/linux-pci/20230310123510.675685-3-yoshihiro.shimoda.uh@renesas.com/
- v12: This patch.
-
- Changes from v11:
- - Add Tested-by (Thanks Hayashi-san!).
-
-[1] Include this patch into R-Car S4 support patch series. However, I need
-    more time to fix the R-Car patches. So, I send this fix patch independently.
-
- drivers/pci/endpoint/functions/pci-epf-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index 0f9d2ec822ac..172e5ac0bd96 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -112,7 +112,7 @@ static int pci_epf_test_data_transfer(struct pci_epf_test *epf_test,
- 				      size_t len, dma_addr_t dma_remote,
- 				      enum dma_transfer_direction dir)
- {
--	struct dma_chan *chan = (dir == DMA_DEV_TO_MEM) ?
-+	struct dma_chan *chan = (dir == DMA_MEM_TO_DEV) ?
- 				 epf_test->dma_chan_tx : epf_test->dma_chan_rx;
- 	dma_addr_t dma_local = (dir == DMA_MEM_TO_DEV) ? dma_src : dma_dst;
- 	enum dma_ctrl_flags flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
--- 
-2.25.1
-
+Great, thanks for checking, it turns out that the Fixes: tag was wrong :(
