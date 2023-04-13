@@ -2,234 +2,233 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC006E111A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Apr 2023 17:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F41426E1420
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Apr 2023 20:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbjDMP1c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Apr 2023 11:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46804 "EHLO
+        id S229630AbjDMS0q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Apr 2023 14:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230214AbjDMP13 (ORCPT
+        with ESMTP id S229493AbjDMS0p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Apr 2023 11:27:29 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02FC3AF1E;
-        Thu, 13 Apr 2023 08:27:07 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,194,1677510000"; 
-   d="scan'208";a="159329576"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Apr 2023 00:27:07 +0900
-Received: from localhost.localdomain (unknown [10.226.93.85])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E8BA64005E22;
-        Fri, 14 Apr 2023 00:27:04 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 3/3] arm64: dts: renesas: rzg2l-smarc: Use versa3 clk for audio mclk
-Date:   Thu, 13 Apr 2023 16:26:48 +0100
-Message-Id: <20230413152648.89089-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230413152648.89089-1-biju.das.jz@bp.renesas.com>
-References: <20230413152648.89089-1-biju.das.jz@bp.renesas.com>
+        Thu, 13 Apr 2023 14:26:45 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F76D76B4;
+        Thu, 13 Apr 2023 11:26:29 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3294d582947so4098605ab.1;
+        Thu, 13 Apr 2023 11:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681410388; x=1684002388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYuEjEbEPDSMvvaHBlTko8UtitDT729rV6ITgl5m4LE=;
+        b=sjh8zKjZxASu4FTHtLDRNrfYwizf3MZtospmSwbv5dB9mcCLUpCkFoF3XwykJNnXtF
+         jDIhMTE14Pwqu3K6aUpWg7rFMr1Om6Ts2hSo0qX4Qncmv9JJLNZ0zWZtA5hall+FXGwz
+         PYXt00AJsqv/WG/wAU568nfG26iqUPGSMTgNif3Ci683Id16HQyl9VdveqkoZADMWX67
+         idZ20Dy5nVGJTX7qnHQA5V66rWq4JanEZMf4xl44hA8Ava8DaR1dbaABpbbHo+kp4KGM
+         UvCXn8GBvN7Nn07dO3/ocg+UCib+/L0RQ7K1MgJCTOz6K/hqGvuyCMlVg1vjYqGLmazD
+         pgmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681410388; x=1684002388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cYuEjEbEPDSMvvaHBlTko8UtitDT729rV6ITgl5m4LE=;
+        b=R47uVIFwz7PFn8LdNAPbmqSOcbsgfNvv4KoN5wfbVLl9/IE+SQB+Rg7UNXQEMn8b6B
+         U+NIhCFotfxOQssRl+CIwgBVAvL9OiokgAyCs9xPsUywT3kIK2PsImhEb7tqzjaxu9VL
+         ZpTStwNq/LlqQCPMHnMGbIc4XhFfvmkO8yJa9ZOsl++MvDwZb057BzrbT5DzKTefg26x
+         HeIsh9g87l6T6gWHlbhqF0fF7EQbo1+yFLX8iaEkcrJixzuhLsjY3RhbnFVefvbLVQC2
+         NzDxi3yYJPNvJCOv+0lAal/H6kP8paDCVjGWGrJ67IkLsatdxOLX2TrBggA8XFp+VfP2
+         lPRw==
+X-Gm-Message-State: AAQBX9d+uwTNUpVtSFqr9Q9b2gyHt9xsRpziw2/Iq+ZMBh9cMfPfq0wX
+        wPOb/XABb61hx3JBmVZGTE9XEPup3iwQ1bR9yYY=
+X-Google-Smtp-Source: AKy350YLYttw68A/sm+q6B1DJJ42F6HN6f5sbUEbrfaKZ2y+94kIXikYs9CQu6mD1KoW818hYhctLYeH+Fb4I5i3Fa8=
+X-Received: by 2002:a92:4a03:0:b0:32a:9195:7374 with SMTP id
+ m3-20020a924a03000000b0032a91957374mr354196ilf.1.1681410388569; Thu, 13 Apr
+ 2023 11:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230412110900.69738-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230412110900.69738-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230412-cheddar-prune-5ce03ccf5581@spud> <20230413-aorta-unheated-c9bb35411fb2@wendy>
+In-Reply-To: <20230413-aorta-unheated-c9bb35411fb2@wendy>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 13 Apr 2023 19:26:02 +0100
+Message-ID: <CA+V-a8uksWMihUadYc_dCoef7vaC5ncOicX0oGpSP9HRnHgScw@mail.gmail.com>
+Subject: Re: [PATCH v8 5/7] cache: Add L2 cache management for Andes AX45MP
+ RISC-V core
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Conor Dooley <conor@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently audio mclk uses a fixed clk 11.2896MHz(multiple of 44.1KHz).
-Replace this fixed clk to programmable versa3 clk that can provide
-2 rates 11.2896MHz and 12.2880(multiple of 48KHz) based on audio
-sampling rate for the playback/record.
+Hi Conor,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * No change.
-v3->v4:
- * No change.
-v2->v3:
- * Updated the changes for RZ/G2LC and RZ/G2{UL, Five}.
-RFC->v2:
- * No change
-RFC:
- * New patch
----
- .../boot/dts/renesas/rz-smarc-common.dtsi     | 13 +++++-----
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 23 +++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 23 +++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi | 25 +++++++++++++++++++
- 4 files changed, 77 insertions(+), 7 deletions(-)
+On Thu, Apr 13, 2023 at 8:06=E2=80=AFAM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> On Wed, Apr 12, 2023 at 09:25:34PM +0100, Conor Dooley wrote:
+> > On Wed, Apr 12, 2023 at 12:08:58PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > I/O Coherence Port (IOCP) provides an AXI interface for connecting
+> > > external non-caching masters, such as DMA controllers. The accesses
+> > > from IOCP are coherent with D-Caches and L2 Cache.
+> > >
+> > > IOCP is a specification option and is disabled on the Renesas RZ/Five
+> > > SoC due to this reason IP blocks using DMA will fail.
+> > >
+> > > The Andes AX45MP core has a Programmable Physical Memory Attributes (=
+PMA)
+> > > block that allows dynamic adjustment of memory attributes in the runt=
+ime.
+> > > It contains a configurable amount of PMA entries implemented as CSR
+> > > registers to control the attributes of memory locations in interest.
+> > > Below are the memory attributes supported:
+> > > * Device, Non-bufferable
+> > > * Device, bufferable
+> > > * Memory, Non-cacheable, Non-bufferable
+> > > * Memory, Non-cacheable, Bufferable
+> > > * Memory, Write-back, No-allocate
+> > > * Memory, Write-back, Read-allocate
+> > > * Memory, Write-back, Write-allocate
+> > > * Memory, Write-back, Read and Write-allocate
+> > >
+> > > More info about PMA (section 10.3):
+> > > Link: http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.=
+0-Datasheet.pdf
+> > >
+> > > As a workaround for SoCs with IOCP disabled CMO needs to be handled b=
+y
+> > > software. Firstly OpenSBI configures the memory region as
+> > > "Memory, Non-cacheable, Bufferable" and passes this region as a globa=
+l
+> > > shared dma pool as a DT node. With DMA_GLOBAL_POOL enabled all DMA
+> > > allocations happen from this region and synchronization callbacks are
+> > > implemented to synchronize when doing DMA transactions.
+> > >
+> > > Example PMA region passes as a DT node from OpenSBI:
+> > >     reserved-memory {
+> > >         #address-cells =3D <2>;
+> > >         #size-cells =3D <2>;
+> > >         ranges;
+> > >
+> > >         pma_resv0@58000000 {
+> > >             compatible =3D "shared-dma-pool";
+> > >             reg =3D <0x0 0x58000000 0x0 0x08000000>;
+> > >             no-map;
+> > >             linux,dma-default;
+> > >         };
+> > >     };
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> > > ---
+> > > v7 -> v8
+> > > * Dropped function pointer usage
+> > > * Now exporting the functions for clean/inval/flush
+> > > * Switched to using early_initcall instead of arch_initcall
+> > > * Dropped entry for "include/cache" from MAINTAINERS
+> > > * Dropped dependency of RISCV on AX45MP_L2_CACHE
+> > > * Returning error in case of cache line mismatch
+> >
+> > > * Renamed clean/inval/flush functions
+> >
+> > I kinda screwed you with that request given Hellwig's NAK on the
+> > function pointer based stuff. Ah well, I prefer matching the proposed
+> > naming of the dma core to what RVI chose for the instructions.
+> >
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> >
+> > I suppose this will need a resubmission once Arnd's stuff gets applied,
+> > but I would like to see it have a run through the build bots etc.
+>
+> So apparently my build bot did actually run against this series?
+> https://patchwork.kernel.org/project/linux-riscv/list/?series=3D739109
+>
+> To be quite honest, I am not sure at all how it managed to apply the
+> series w/ Arnd's pre-reqs. Perhaps it has achieved some from of
+> sentience. There's a build failure for 32-bit that appeared on the final
+> patch, but is not really its fault:
+> ../arch/riscv/mm/dma-noncoherent.c: Assembler messages:
+> ../arch/riscv/mm/dma-noncoherent.c:104: Error: unrecognized opcode `sd s0=
+,0(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:105: Error: unrecognized opcode `sd ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:110: Error: unrecognized opcode `ld ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:111: Error: unrecognized opcode `ld s0=
+,0(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:111: Error: unrecognized opcode `sd s0=
+,0(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:112: Error: unrecognized opcode `sd ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:117: Error: unrecognized opcode `ld ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:118: Error: unrecognized opcode `ld s0=
+,0(sp)'
+> ../arch/riscv/mm/pmem.c: Assembler messages:
+> ../arch/riscv/mm/pmem.c:98: Error: unrecognized opcode `sd s0,0(sp)'
+> ../arch/riscv/mm/pmem.c:99: Error: unrecognized opcode `sd ra,8(sp)'
+> ../arch/riscv/mm/pmem.c:104: Error: unrecognized opcode `ld ra,8(sp)'
+> ../arch/riscv/mm/pmem.c:105: Error: unrecognized opcode `ld s0,0(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:138: Error: unrecognized opcode `sd s0=
+,0(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:139: Error: unrecognized opcode `sd ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:144: Error: unrecognized opcode `ld ra=
+,8(sp)'
+> ../arch/riscv/mm/dma-noncoherent.c:145: Error: unrecognized opcode `ld s0=
+,0(sp)'
+> ../arch/riscv/mm/pmem.c:104: Error: unrecognized opcode `sd s0,0(sp)'
+> ../arch/riscv/mm/pmem.c:105: Error: unrecognized opcode `sd ra,8(sp)'
+> ../arch/riscv/mm/pmem.c:110: Error: unrecognized opcode `ld ra,8(sp)'
+> ../arch/riscv/mm/pmem.c:111: Error: unrecognized opcode `ld s0,0(sp)'
+> ../arch/riscv/mm/pmem.c:110: Error: attempt to move .org backwards
+> ../arch/riscv/mm/pmem.c:116: Error: attempt to move .org backwards
+> ../arch/riscv/mm/dma-noncoherent.c:116: Error: attempt to move .org backw=
+ards
+> ../arch/riscv/mm/dma-noncoherent.c:123: Error: attempt to move .org backw=
+ards
+> ../arch/riscv/mm/dma-noncoherent.c:150: Error: attempt to move .org backw=
+ards
+> make[4]: *** [../scripts/Makefile.build:252: arch/riscv/mm/pmem.o] Error =
+1
+> make[4]: *** [../scripts/Makefile.build:252: arch/riscv/mm/dma-noncoheren=
+t.o] Error 1
+> make[4]: Target 'arch/riscv/mm/' not remade because of errors.
+> make[3]: *** [../scripts/Makefile.build:494: arch/riscv/mm] Error 2
+> make[3]: Target 'arch/riscv/' not remade because of errors.
+> make[2]: *** [../scripts/Makefile.build:494: arch/riscv] Error 2
+>
+> The simplest solution may to just be making the erratum depend on 64BIT?
+>
+I dont think this will work, as pmem.c is compiled unconditionally. Is
+dma-noncoherent.c also valid for RISCV-32? If not then we can make
+pmem.c compile conditionally if DMA non-coherenet is enabled and we
+make DMA non-coherent depend on 64bit.
 
-diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-index 3962d47b3e59..ca868af2db38 100644
---- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
-@@ -32,12 +32,6 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
--	audio_mclock: audio_mclock {
--		compatible = "fixed-clock";
--		#clock-cells = <0>;
--		clock-frequency = <11289600>;
--	};
--
- 	snd_rzg2l: sound {
- 		compatible = "simple-audio-card";
- 		simple-audio-card,format = "i2s";
-@@ -55,7 +49,6 @@ cpu_dai: simple-audio-card,cpu {
- 		};
- 
- 		codec_dai: simple-audio-card,codec {
--			clocks = <&audio_mclock>;
- 			sound-dai = <&wm8978>;
- 		};
- 	};
-@@ -76,6 +69,12 @@ vccq_sdhi1: regulator-vccq-sdhi1 {
- 		gpios-states = <1>;
- 		states = <3300000 1>, <1800000 0>;
- 	};
-+
-+	x1_x2: xtal {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <24000000>;
-+	};
- };
- 
- &audio_clk1{
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index e180a955b6ac..9fb3cd07faa3 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -18,6 +18,10 @@ aliases {
- 	};
- };
- 
-+&codec_dai {
-+	clocks = <&versa3 3>;
-+};
-+
- &cpu_dai {
- 	sound-dai = <&ssi0>;
- };
-@@ -29,6 +33,25 @@ &i2c3 {
- 
- 	status = "okay";
- 
-+	versa3: versa3@68 {
-+		compatible = "renesas,5p35023";
-+		reg = <0x68>;
-+		#clock-cells = <1>;
-+		clocks = <&x1_x2>;
-+
-+		renesas,settings = [
-+			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
-+			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
-+			80 b0 45 c4 95
-+		];
-+		assigned-clocks = <&versa3 0>, <&versa3 1>,
-+				  <&versa3 2>, <&versa3 3>,
-+				  <&versa3 4>, <&versa3 5>;
-+		assigned-clock-rates = <12288000>, <25000000>,
-+				       <12000000>, <11289600>,
-+				       <11289600>, <24000000>;
-+	};
-+
- 	wm8978: codec@1a {
- 		compatible = "wlf,wm8978";
- 		#sound-dai-cells = <0>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index b6bd27196d88..ba91b2e653bc 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -32,6 +32,10 @@ &canfd {
- };
- #endif
- 
-+&codec_dai {
-+	clocks = <&versa3 3>;
-+};
-+
- &cpu_dai {
- 	sound-dai = <&ssi0>;
- };
-@@ -43,6 +47,25 @@ &i2c2 {
- 
- 	status = "okay";
- 
-+	versa3: versa3@68 {
-+		compatible = "renesas,5p35023";
-+		reg = <0x68>;
-+		#clock-cells = <1>;
-+		clocks = <&x1_x2>;
-+
-+		renesas,settings = [
-+			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
-+			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
-+			80 b0 45 c4 95
-+		];
-+		assigned-clocks = <&versa3 0>, <&versa3 1>,
-+				  <&versa3 2>, <&versa3 3>,
-+				  <&versa3 4>, <&versa3 5>;
-+		assigned-clock-rates = <12288000>, <25000000>,
-+				       <12000000>, <11289600>,
-+				       <11289600>, <24000000>;
-+	};
-+
- 	wm8978: codec@1a {
- 		compatible = "wlf,wm8978";
- 		#sound-dai-cells = <0>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-index 2a1331ed1a5c..85383f86cf2e 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-@@ -16,10 +16,35 @@ &canfd {
- };
- #endif
- 
-+&codec_dai {
-+	clocks = <&versa3 3>;
-+};
-+
- &cpu_dai {
- 	sound-dai = <&ssi1>;
- };
- 
-+&i2c0 {
-+	versa3: versa3@68 {
-+		compatible = "renesas,5p35023";
-+		reg = <0x68>;
-+		#clock-cells = <1>;
-+		clocks = <&x1_x2>;
-+
-+		renesas,settings = [
-+			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
-+			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
-+			80 b0 45 c4 95
-+		];
-+		assigned-clocks = <&versa3 0>, <&versa3 1>,
-+				  <&versa3 2>, <&versa3 3>,
-+				  <&versa3 4>, <&versa3 5>;
-+		assigned-clock-rates = <12288000>, <25000000>,
-+				       <12000000>, <11289600>,
-+				       <11289600>, <24000000>;
-+	};
-+};
-+
- &i2c1 {
- 	wm8978: codec@1a {
- 		compatible = "wlf,wm8978";
--- 
-2.25.1
-
+Cheers,
+Prabhakar
