@@ -2,100 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00D116E0B02
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Apr 2023 12:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 019C16E0CD5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Apr 2023 13:40:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjDMKHA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Apr 2023 06:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55426 "EHLO
+        id S229599AbjDMLku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Apr 2023 07:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjDMKG6 (ORCPT
+        with ESMTP id S229516AbjDMLkt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Apr 2023 06:06:58 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3131C7285;
-        Thu, 13 Apr 2023 03:06:54 -0700 (PDT)
-Received: (Authenticated sender: kamel.bouhara@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2955EE000B;
-        Thu, 13 Apr 2023 10:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1681380413;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=st4qOHiye8rh9wqwQDVyg+uFBmH5X7ITDgsye87N3g4=;
-        b=Qb00LY/g3Bucveqz/5gM1XOjLEV9wlcJTs/BegrboLcmNrmf+/QW5X+4ugFFt/cQjkGowt
-        wHxIZiFqH9CDYX/Cm3/Oqz4Vqhb4aZWAC60b18nKtAo8W4EX+sbSsRMfa6CWkWnGEYR8a2
-        Oe1/iwkudW/uIQPRdaIJrnX97MTXTPJUQ/8JjvM0+sn9dQP50tPLhr3uHz0aDytteV8su1
-        mOHOVoNXyKfjPgx52zmz8W9aKk0tSbHKYBApGORN8br3zrK3S3Y4BqtJFTGnDa/ilIskIP
-        ZD+HQXZQL+8GH84PuX2ouC3lPjxaSN4/8GL3wv2snqBy3uo8PhHMNaakK/wJEQ==
-Date:   Thu, 13 Apr 2023 12:06:50 +0200
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        metux IT consult <lkml@metux.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        stratos-dev@op-lists.linaro.org
-Subject: Re: [PATCH] gpio: aggregator: Add interrupt support
-Message-ID: <20230413100650.GC16381@kb-xps>
-References: <c987d0bf744150ca05bd952f5f9e5fb3244d27b0.1633350340.git.geert+renesas@glider.be>
- <58f91e983ac95b7f252606ecac12f016@bootlin.com>
- <CAMuHMdVqyY=tg6iU4feRwQhPt9c7ZZK9ifBCYf5AAgkxWjYOBA@mail.gmail.com>
+        Thu, 13 Apr 2023 07:40:49 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D56269D;
+        Thu, 13 Apr 2023 04:40:47 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id gw13so8281808wmb.3;
+        Thu, 13 Apr 2023 04:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681386046; x=1683978046;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m66B/9uT9mWYOEyZbd8z/k+G4QiidL/7FmVJXlLVW/U=;
+        b=hgm6xnGddWYrtgZzDQB8etna94nRQacYpeJTqaTBRs2X9wUyIBAYpdgqeicJdE8TV3
+         b2yybhT0Thzptj/4EolAbcI84Be5Ya68gSXR7TSNBw85zqxkqtV52V52SMixWwVIYZD4
+         N7W3NJJRg38lcIGqzC6RDslvpx2jTP/QrQk1w+lDugmlLzaM6KvBd6aA6vBiHZ/LRklo
+         snZi8cpqcxE/Mv97b1pllp+Ybx6/907SOieY4D7n2p+jDiKb/UhfiRaogW+XdBLlEhTX
+         4C3hnFfeljzvcCW3g7LQzBbDKi8cHqMXYEncETC4yMe2wuhK9v1fo2oBteMmY/XKXVgc
+         8AQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681386046; x=1683978046;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m66B/9uT9mWYOEyZbd8z/k+G4QiidL/7FmVJXlLVW/U=;
+        b=NZcDund7P73yrIUNID9KB5VA7H2TOSpCfqf7SZ3U+m75kOLB0FoDIKik1YsvZjgt6f
+         jgjJoT1tVrhv95IF6bgOTTyk9NndhYrOXiOYyE6r7eRUPFvilHtcooWHWDVbMR+GBu3O
+         amACGdkG1Cmtgj8QtYapyNAw0isZNFSvC0STFIK3YydDXwfar+VhD3UKLJKkiVCTOmaC
+         gab5GQxD2kgzhpsC2jMtoNtJbwQbPcOnLCJnALIZwpXtyle476WHLKEqtSbbNGXZJzGX
+         dIo36+2o7uosbmoaqJmAu9MDb9KabUEZ8wOxLA+5oO/eq+EWmkusm24tcJ7PYODzmxk4
+         H83w==
+X-Gm-Message-State: AAQBX9duXRP12WxC0Ly1a7p83y6V6iiCL3VDhmjlmAo6RwCcqLhv/Fpa
+        JhtgtFWHUc641kOc8Pz+4qc=
+X-Google-Smtp-Source: AKy350Z0/BBlkEGZm1T98jo0jsnaWp676sBKuaybDgOTY4zFNt2PUX0gexC0vOrdHlBAzmmDMc2nCg==
+X-Received: by 2002:a7b:c7d4:0:b0:3eb:39e0:3530 with SMTP id z20-20020a7bc7d4000000b003eb39e03530mr1517475wmk.41.1681386046105;
+        Thu, 13 Apr 2023 04:40:46 -0700 (PDT)
+Received: from localhost.localdomain (host81-136-160-130.in-addr.btopenworld.com. [81.136.160.130])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05600c1c8f00b003ede2c59a54sm5272515wms.37.2023.04.13.04.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Apr 2023 04:40:45 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rg2lc-smarc: Enable CRU, CSI support
+Date:   Thu, 13 Apr 2023 12:40:16 +0100
+Message-Id: <20230413114016.16068-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVqyY=tg6iU4feRwQhPt9c7ZZK9ifBCYf5AAgkxWjYOBA@mail.gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Thu, Apr 13, 2023 at 10:54:34AM +0200, Geert Uytterhoeven a écrit :
-> Hi Kamel,
->
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hello Geert,
+Enable CRU, CSI on RZ/G2LC SMARC EVK and tie the CSI to the OV5645 sensor
+using Device Tree overlay.
 
-> On Thu, Apr 13, 2023 at 9:48 AM <kamel.bouhara@bootlin.com> wrote:
-> > Le 2021-10-04 14:44, Geert Uytterhoeven a écrit :
-> > What is the status for this patch, is there any remaining
-> > changes to be made ?
->
-> You mean commit a00128dfc8fc0cc8 ("gpio: aggregator: Add interrupt
-> support") in v5.17?
->
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  1 +
+ .../r9a07g044c2-smarc-cru-csi-ov5645.dtso     | 21 +++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso
 
-Sorry, I was checking on a v5.15 :) and based on the thread, I tough it
-was still not applied !
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index ebcbd66ba816..7114cbbd8713 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -79,6 +79,7 @@ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc.dtb
+ dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043-smarc-pmod.dtbo
+ 
+ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc.dtb
++dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc-cru-csi-ov5645.dtbo
+ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
+ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc-cru-csi-ov5645.dtbo
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso
+new file mode 100644
+index 000000000000..f983bdd3ea30
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso
+@@ -0,0 +1,21 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree overlay for the RZ/G2LC SMARC EVK with
++ * OV5645 camera connected to CSI and CRU enabled.
++ *
++ * Copyright (C) 2023 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
++
++#define OV5645_PARENT_I2C i2c0
++#include "rz-smarc-cru-csi-ov5645.dtsi"
++
++&ov5645 {
++	enable-gpios = <&pinctrl RZG2L_GPIO(0, 1) GPIO_ACTIVE_HIGH>;
++	reset-gpios = <&pinctrl RZG2L_GPIO(5, 2) GPIO_ACTIVE_LOW>;
++};
+-- 
+2.25.1
 
-Thanks.
-
-Cheers,
-
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
