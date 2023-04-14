@@ -2,80 +2,304 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16D606E1C77
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Apr 2023 08:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D95736E1C98
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Apr 2023 08:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbjDNGQr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Apr 2023 02:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
+        id S229542AbjDNG1g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Apr 2023 02:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbjDNGQj (ORCPT
+        with ESMTP id S229599AbjDNG1g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Apr 2023 02:16:39 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 980925FD0;
-        Thu, 13 Apr 2023 23:16:38 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,195,1677510000"; 
-   d="scan'208";a="159411153"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Apr 2023 15:16:34 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 00AA04195F5A;
-        Fri, 14 Apr 2023 15:16:33 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, mani@kernel.org,
-        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, kishon@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v12 19/19] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Fri, 14 Apr 2023 15:16:22 +0900
-Message-Id: <20230414061622.2930995-20-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230414061622.2930995-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230414061622.2930995-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 14 Apr 2023 02:27:36 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55856A5B
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Apr 2023 23:27:08 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pnCtQ-0004uj-98; Fri, 14 Apr 2023 08:26:44 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pnCtO-00B8Vk-Cq; Fri, 14 Apr 2023 08:26:42 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pnCtN-00D4nG-Oa; Fri, 14 Apr 2023 08:26:41 +0200
+Date:   Fri, 14 Apr 2023 08:26:41 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        William Breathitt Gray <william.gray@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v15 6/6] pwm: Add Renesas RZ/G2L MTU3a PWM driver
+Message-ID: <20230414062641.76no7jz7uluixwdg@pengutronix.de>
+References: <20230330111632.169434-1-biju.das.jz@bp.renesas.com>
+ <20230330111632.169434-7-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="l7awkgl2o3zkxwkd"
+Content-Disposition: inline
+In-Reply-To: <20230330111632.169434-7-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+--l7awkgl2o3zkxwkd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index a7244de081ec..1d8f72b42c0a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -993,6 +994,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
--- 
-2.25.1
+Hello,
 
+On Thu, Mar 30, 2023 at 12:16:32PM +0100, Biju Das wrote:
+> +static struct rz_mtu3_pwm_channel *
+> +rz_mtu3_get_channel(struct rz_mtu3_pwm_chip *rz_mtu3_pwm, u32 hwpwm)
+> +{
+> +	struct rz_mtu3_pwm_channel *priv =3D rz_mtu3_pwm->channel_data;
+> +	unsigned int ch;
+> +
+> +	for (ch =3D 0; ch < RZ_MTU3_MAX_HW_CHANNELS; ch++, priv++) {
+> +		if (priv->map->channel + priv->map->num_channel_ios >  hwpwm)
+
+s/  / /
+
+> +			break;
+> +	}
+> +
+> +	return priv;
+> +}
+> +
+> +static bool rz_mtu3_pwm_is_ch_enabled(struct rz_mtu3_pwm_chip *rz_mtu3_p=
+wm,
+> +				      u32 hwpwm)
+> +{
+> +	struct rz_mtu3_pwm_channel *priv;
+> +	bool is_channel_en;
+> +	u8 val;
+> +
+> +	priv =3D rz_mtu3_get_channel(rz_mtu3_pwm, hwpwm);
+> +	is_channel_en =3D rz_mtu3_is_enabled(priv->mtu);
+> +	if (!is_channel_en)
+> +		return false;
+> +
+> +	if (priv->map->channel =3D=3D hwpwm)
+> +		val =3D rz_mtu3_8bit_ch_read(priv->mtu, RZ_MTU3_TIORH);
+> +	else
+> +		val =3D rz_mtu3_8bit_ch_read(priv->mtu, RZ_MTU3_TIORL);
+> +
+> +	return (is_channel_en && (val & RZ_MTU3_TIOR_IOA));
+
+Here you already know that is_channel_en =3D=3D true, so it can be dropped
+here.
+
+> +}
+> +
+> [...]
+> +static int rz_mtu3_pwm_enable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
+> +			      struct pwm_device *pwm)
+> +{
+> +	struct rz_mtu3_pwm_channel *priv;
+> +	u32 ch;
+> +	u8 val;
+> +	int rc;
+> +
+> +	rc =3D pm_runtime_resume_and_get(rz_mtu3_pwm->chip.dev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	priv =3D rz_mtu3_get_channel(rz_mtu3_pwm, pwm->hwpwm);
+> +	ch =3D priv - rz_mtu3_pwm->channel_data;
+> +	val =3D RZ_MTU3_TIOR_OC_IOB_TOGGLE | RZ_MTU3_TIOR_OC_IOA_H_COMP_MATCH;
+> +
+> +	rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_PWMMOD=
+E1);
+> +	if (priv->map->channel =3D=3D pwm->hwpwm)
+
+This condition identifies the first PWM of a channel. I was surprised
+here that the channel numbering has a hole after each channel that
+manages two IOs. OTOH, in the comment at the top of the driver there is:
+
+	(The channels are MTU{0..4, 6, 7}.)
+
+which I would have expected to see in channel_map. I think the first
+member of this struct is really the base pwm number and so is misnamed?
+
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TIORH, val);
+> +	else
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TIORL, val);
+> +
+> +	mutex_lock(&rz_mtu3_pwm->lock);
+> +	if (!rz_mtu3_pwm->enable_count[ch])
+> +		rz_mtu3_enable(priv->mtu);
+> +
+> +	rz_mtu3_pwm->enable_count[ch]++;
+> +	mutex_unlock(&rz_mtu3_pwm->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rz_mtu3_pwm_disable(struct rz_mtu3_pwm_chip *rz_mtu3_pwm,
+> +				struct pwm_device *pwm)
+> +{
+> +	struct rz_mtu3_pwm_channel *priv;
+> +	u32 ch;
+> +
+> +	priv =3D rz_mtu3_get_channel(rz_mtu3_pwm, pwm->hwpwm);
+> +	ch =3D priv - rz_mtu3_pwm->channel_data;
+> +
+> +	/* Return to normal mode and disable output pins of MTU3 channel */
+> +	if (rz_mtu3_pwm->user_count[ch] <=3D 1)
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TMDR1, RZ_MTU3_TMDR1_MD_NORMA=
+L);
+
+This never triggers if both PWMs of a channel are requested, even if
+both are disabled. Is this intended?
+
+> +	if (priv->map->channel =3D=3D pwm->hwpwm)
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TIORH, RZ_MTU3_TIOR_OC_RETAIN=
+);
+> +	else
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TIORL, RZ_MTU3_TIOR_OC_RETAIN=
+);
+> +
+> +	mutex_lock(&rz_mtu3_pwm->lock);
+> +	rz_mtu3_pwm->enable_count[ch]--;
+> +	if (!rz_mtu3_pwm->enable_count[ch])
+> +		rz_mtu3_disable(priv->mtu);
+> +
+> +	mutex_unlock(&rz_mtu3_pwm->lock);
+> +
+> +	pm_runtime_put_sync(rz_mtu3_pwm->chip.dev);
+> +}
+> +
+> [...]
+> +static int rz_mtu3_pwm_config(struct pwm_chip *chip, struct pwm_device *=
+pwm,
+> +			      const struct pwm_state *state)
+> +{
+> +	struct rz_mtu3_pwm_chip *rz_mtu3_pwm =3D to_rz_mtu3_pwm_chip(chip);
+> +	struct rz_mtu3_pwm_channel *priv;
+> +	unsigned long pv, dc;
+> +	u64 period_cycles;
+> +	u64 duty_cycles;
+> +	u8 prescale;
+> +	u8 val;
+> +
+> +	priv =3D rz_mtu3_get_channel(rz_mtu3_pwm, pwm->hwpwm);
+> +	period_cycles =3D mul_u64_u32_div(state->period, rz_mtu3_pwm->rate,
+> +					NSEC_PER_SEC);
+> +	prescale =3D rz_mtu3_pwm_calculate_prescale(rz_mtu3_pwm, period_cycles);
+> +
+> +	if (period_cycles >> (2 * prescale) <=3D U16_MAX)
+> +		pv =3D period_cycles >> (2 * prescale);
+> +	else
+> +		pv =3D U16_MAX;
+> +
+> +	duty_cycles =3D mul_u64_u32_div(state->duty_cycle, rz_mtu3_pwm->rate,
+> +				      NSEC_PER_SEC);
+> +	if (duty_cycles >> (2 * prescale) <=3D U16_MAX)
+> +		dc =3D duty_cycles >> (2 * prescale);
+> +	else
+> +		dc =3D U16_MAX;
+> +
+> +	/*
+> +	 * If the PWM channel is disabled, make sure to turn on the clock
+> +	 * before writing the register.
+> +	 */
+> +	if (!pwm->state.enabled)
+> +		pm_runtime_get_sync(chip->dev);
+> +
+> +	val =3D RZ_MTU3_TCR_CKEG_RISING | prescale;
+> +	if (priv->map->channel =3D=3D pwm->hwpwm) {
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TCR,
+> +				      RZ_MTU3_TCR_CCLR_TGRA | val);
+
+If the sibling PWM on the same channel is on, you're overwriting its
+prescale value here, are you not?
+
+> +		rz_mtu3_16bit_ch_write(priv->mtu, RZ_MTU3_TGRB, dc);
+> +		rz_mtu3_16bit_ch_write(priv->mtu, RZ_MTU3_TGRA, pv);
+> +	} else {
+> +		rz_mtu3_8bit_ch_write(priv->mtu, RZ_MTU3_TCR,
+> +				      RZ_MTU3_TCR_CCLR_TGRC | val);
+> +		rz_mtu3_16bit_ch_write(priv->mtu, RZ_MTU3_TGRD, dc);
+> +		rz_mtu3_16bit_ch_write(priv->mtu, RZ_MTU3_TGRC, pv);
+> +	}
+> +
+> +	/* If the PWM is not enabled, turn the clock off again to save power. */
+> +	if (!pwm->state.enabled)
+> +		pm_runtime_put(chip->dev);
+> +
+> +	return 0;
+> +}
+> +
+> [...]
+> +static int rz_mtu3_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct rz_mtu3 *ddata =3D dev_get_drvdata(pdev->dev.parent);
+
+Nitpick: I would have called that parent_ddata.
+
+> +	struct rz_mtu3_pwm_chip *rz_mtu3_pwm;
+> +	struct device *dev =3D &pdev->dev;
+> +	unsigned int i, j =3D 0;
+> +	int ret;
+> +
+> +	rz_mtu3_pwm =3D devm_kzalloc(&pdev->dev, sizeof(*rz_mtu3_pwm), GFP_KERN=
+EL);
+> +	if (!rz_mtu3_pwm)
+> +		return -ENOMEM;
+> +
+> +	rz_mtu3_pwm->clk =3D ddata->clk;
+> +
+> +	for (i =3D 0; i < RZ_MTU_NUM_CHANNELS; i++) {
+> +		if (i =3D=3D RZ_MTU3_CHAN_5 || i =3D=3D RZ_MTU3_CHAN_8)
+> +			continue;
+> +
+> +		rz_mtu3_pwm->channel_data[j].mtu =3D &ddata->channels[i];
+> +		rz_mtu3_pwm->channel_data[j].mtu->dev =3D dev;
+> +		rz_mtu3_pwm->channel_data[j].map =3D &channel_map[j];
+> +		j++;
+> +	}
+> +
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--l7awkgl2o3zkxwkd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ48iAACgkQj4D7WH0S
+/k6JGgf+Nd1UnIEzopIR516y/NNr9Zq+ZFDOdr4Out3p/QTal4dQuSSg+9CZvPka
+t7YY3mciU2InwbkZlYTOVbuoDxYpyZ59axKyUlzRFMNW8hCsZufxjkIrzickGbr3
+qMxWqWhl1jV6jDNGVNAJXUgIx9inziSNgcECZJS2do5JOO7cBSic1l+WWYPnqFpr
+NvoV6Nvc4/QasYP8lEzR/DyMgraDgCRmILutiWCcuaAzVN1PzUX7sXyygw10JED6
+liHIUYH8YZOKcScxmc7OXISoFCQippqQP0OGvEiow8C6QKuMCcX6j2RuDPN8a7Wi
+Ib3lXw34IH3Tikq4OmKq3V5lRAg6tw==
+=b/uM
+-----END PGP SIGNATURE-----
+
+--l7awkgl2o3zkxwkd--
