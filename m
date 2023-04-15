@@ -2,56 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ED6F6E3052
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Apr 2023 11:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF7536E316D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Apr 2023 14:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230214AbjDOJ6w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Apr 2023 05:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52936 "EHLO
+        id S229678AbjDOMtT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Apr 2023 08:49:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbjDOJ6h (ORCPT
+        with ESMTP id S229468AbjDOMtS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Apr 2023 05:58:37 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F1C9EC9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Apr 2023 02:58:26 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id dx24so7653604ejb.11
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Apr 2023 02:58:26 -0700 (PDT)
+        Sat, 15 Apr 2023 08:49:18 -0400
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C5744BA;
+        Sat, 15 Apr 2023 05:49:17 -0700 (PDT)
+Received: by mail-oo1-xc2e.google.com with SMTP id u13-20020a4ac38d000000b005426b196223so410725oop.8;
+        Sat, 15 Apr 2023 05:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681552706; x=1684144706;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1681562957; x=1684154957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Fr2pBCD6umNhczQxq97ewzN+14iVAoxszUR3df4m1JI=;
-        b=KBrssLMtLKmsLeebg43o7A5lMW1PVjr0FL9EGnzfptlfeJU2+O2WNhBQ0HFo977Iua
-         rcld+cXUs9Y3HxWGpMiWcxuAfuHnC6x2cl+2qmiauB6x3msu3sypy5NK/yx27mTj9y9H
-         Ewx0zS9sHKphX1IM5mkG+xkB6sHk7sfp4o4noyPWiYZEJSHxddoi/P8z/eEN6vWGUkfS
-         YvSlcUyBbUSaYJGQsDy8QWLzuLGdkAmSAIUuNvqPRl4XN5crob1qw9uZzXUe5YMUnJhX
-         g80zIJJQURIGeGysIlmkHk5jlgHtryhPW/OjPjPmOckvxXqsnLQS//OqqROjirbCPdRq
-         tmLw==
+        bh=TqQ3SiHws9LUFOFeaTF92+MKSqS3DlyruqkxUBl1iVE=;
+        b=sAInW4jdFWd18P0SfBBU1170JUXE7LLFld6YAm6j4OxSekPTZLOY5WVbySpiaUlsDL
+         cpJMSyT+1ai6GPaZ+GaWtYkHgOJajm9XTRgsMpGNHdNJpFSdVJ8eIclf7bq9/lqZwTjy
+         bYCndd0i63bDCsn6dTfSGaZPEXeKUTgVW8kEdsGMEbT0z3VpD/9H/GWrqqlAGE4Lefvt
+         8vN3ZbLwGvCs+1TSnnJ1en9utPQWCqfFfzI10I/VkrMacWt/iSTGLzvHIyVo4jDYeh3D
+         +Ov80e54jVnDI/UWw16z7QxZWBr9RpuXpXEUdPm8cjZeoDBTgzQd8mvnIFazu15hpi/D
+         Heqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681552706; x=1684144706;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681562957; x=1684154957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Fr2pBCD6umNhczQxq97ewzN+14iVAoxszUR3df4m1JI=;
-        b=W1u4wlIKc0NZPJHRQpOOi/+Oz93r86tMUqwJto04d1K0A3Pi7xaLlyyl9gVW712RfW
-         fbemlYKkND12Iozl/3ShCz7iX5DeetVLKs5+FxCYMGNEIa08o1uMV7+4cPOpvB7ZDOEp
-         jM3Fs71d3NQOZazXmmfxm5Ao6G8x8N4xpPIQPRpzwnFLW3efsuGVkw/GfXdBwYx3/IDC
-         xuef72HrJfMAMv/q0dtcH5Vg69RlpT1+ANfkOzMV54nMnTZ2nvMHnqb+BdzZE6HL9J+a
-         c7ch8xkStRoSJ4vgpinUKuP6nlqfCuYsO7EdysckTunYWaCdw3liybke4TyiKbm9KMCV
-         3JXA==
-X-Gm-Message-State: AAQBX9c1oqdnlPyI+MpbAAyKCJEOnRI2+PXfz3gRf7k6nBmw78NOSKCi
-        5glhBmMide2/uU9D6WPvsmU66Q==
-X-Google-Smtp-Source: AKy350bZWvNaGJptFPLSmIHH7cRbLl7V6f22Bt1WbL4mPTQOR4EbC2AYcFac6G7sc67vcTz0OtrFlQ==
-X-Received: by 2002:a17:906:b788:b0:94c:548f:f81d with SMTP id dt8-20020a170906b78800b0094c548ff81dmr1404066ejb.71.1681552705946;
-        Sat, 15 Apr 2023 02:58:25 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:a3bf:4ed:6c53:2a36])
-        by smtp.gmail.com with ESMTPSA id gn23-20020a1709070d1700b009373f1b5c4esm3594248ejc.161.2023.04.15.02.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 02:58:25 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        bh=TqQ3SiHws9LUFOFeaTF92+MKSqS3DlyruqkxUBl1iVE=;
+        b=ccoeXEI4b7ewJeMjgqXsh8232CkvgJsicaaSrI//J547pAIvcTUajnFxrRUe7BKp9D
+         GZICmkB6RdvIfZ3HKXdoGNmjd0uSGETmx5Ob4uqei1cQOcrTv+xXxvza5fWEDiJNQ0iE
+         CClVZrrPCD5088cyF6mq/N3RQ6bjFHwROIV/nIyb2Q58Yac0lK/aRlDeKDh/COk57hN1
+         Y4Tn6n0AhDdLx2Pe+94kO/PU293+hLykropyOOCCxtJ1cjhha5V3NbhrcV8xreOuYmmy
+         2R+w5jLAEBNcBTj87IAjX7Nwdtu779IpKe0Xil8nAmF7KKBKs2LMyZNr8dkak6k9s1dn
+         /yKg==
+X-Gm-Message-State: AAQBX9dnPFd1ZtLG2U4+oB246OXO3P/8DFgPefGHUs2uEeiznHwhg4CF
+        Neqtyt5GAk+RpOCnKAeYH6K9jk/JOOA+ADBPLAA=
+X-Google-Smtp-Source: AKy350aw1sitUTkN1aRNjH+bN0r38acxG6oBYdh1kAmyzRFvhhgzUT2uye2u9KKaOPwVKPk8KV+BJZuBzcqgjqA4HF4=
+X-Received: by 2002:a4a:d50d:0:b0:53b:7a81:fe64 with SMTP id
+ m13-20020a4ad50d000000b0053b7a81fe64mr2496510oos.0.1681562956798; Sat, 15 Apr
+ 2023 05:49:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230415095112.51257-1-krzysztof.kozlowski@linaro.org> <20230415095112.51257-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230415095112.51257-2-krzysztof.kozlowski@linaro.org>
+From:   Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date:   Sat, 15 Apr 2023 14:49:04 +0200
+Message-ID: <CAMhs-H8e_e29=DVU0vc42gp0EiB_zkQLcNw_rH5Om21Xbm=Fpg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] dt-bindings: watchdog: indentation, quotes and
+ white-space cleanup
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -87,12 +92,11 @@ To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         Fu Wei <fu.wei@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
         Eugen Hristev <eugen.hristev@collabora.com>,
         Justin Chen <justinpopo6@gmail.com>,
-        =?UTF-8?q?=82ecki?= <rafal@milecki.pl>,
+        =?UTF-8?B?4oCaZWNraQ==?= <rafal@milecki.pl>,
         Linus Walleij <linus.walleij@linaro.org>,
         Corentin Labbe <clabbe@baylibre.com>,
         Anson Huang <Anson.Huang@nxp.com>,
         Robert Marko <robert.marko@sartura.hr>,
-        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
         Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Jamie Iles <jamie@jamieiles.com>,
@@ -106,52 +110,31 @@ To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-renesas-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 6/6] dt-bindings: watchdog: realtek,otto-wdt: simplify requiring interrupt-names
-Date:   Sat, 15 Apr 2023 11:51:12 +0200
-Message-Id: <20230415095112.51257-6-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230415095112.51257-1-krzysztof.kozlowski@linaro.org>
-References: <20230415095112.51257-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Required properties should be listed in "required:" block.  Since
-interrupts are already there, the dependency of interrupt-names on the
-interrupts can be simplified.
+On Sat, Apr 15, 2023 at 11:58=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Minor cleanup without functional impact:
+> 1. Indent DTS examples to preferred four-spaces (more readable for DTS),
+> 2. Drop unneeded quotes,
+> 3. Add/drop blank lines to make the code readable.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../watchdog/mediatek,mt7621-wdt.yaml         |  6 ++--
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/watchdog/realtek,otto-wdt.yaml        | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-diff --git a/Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml b/Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml
-index 099245fe7b10..1f5390a67cdb 100644
---- a/Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml
-@@ -67,12 +67,10 @@ required:
-   - reg
-   - clocks
-   - interrupts
-+  - interrupt-names
- 
- unevaluatedProperties: false
- 
--dependencies:
--  interrupts: [ interrupt-names ]
--
- examples:
-   - |
-     watchdog: watchdog@3150 {
--- 
-2.34.1
-
+Thanks,
+    Sergio Paracuellos
