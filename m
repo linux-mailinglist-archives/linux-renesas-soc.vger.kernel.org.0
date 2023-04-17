@@ -2,412 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E418A6E41D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 09:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 751ED6E4233
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 10:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbjDQH6g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 03:58:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
+        id S230450AbjDQIJk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 04:09:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbjDQH6M (ORCPT
+        with ESMTP id S230401AbjDQIJg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 03:58:12 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2126.outbound.protection.outlook.com [40.107.113.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 999D83C10;
-        Mon, 17 Apr 2023 00:58:03 -0700 (PDT)
+        Mon, 17 Apr 2023 04:09:36 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2113.outbound.protection.outlook.com [40.107.114.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAF344C22;
+        Mon, 17 Apr 2023 01:09:27 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=neSprO52gWlMnghetTNGbAPCoC9plsnrC4Z92wqqjR7O4KowGe6wBidXeAubA+5/LPZ6fzrK6T8+NXuIYaVMPLQUWEGajwVlB/XcuBzWinBazGD2FWFjg23+fqED0eEBotBp0Nlnr5qtdwFV5VAEUEKw9vtt6f7fclrEe+yW+iz7mYLdNEveOR5zf1GZpoxorDzJk362NeE7aw4q4QBm/khsFKQGnw5BRj3qo7+dRWZMvDtRgz90wYTexD2OPRV5W0aljTP7JnsOtGNgMLEQpwXfXgAdGV8OIXhVjnasm+xyUOq9lAIFdzBWhfgcokLCrXfm0dti5VR6vsLonDo3JQ==
+ b=PJPTeJSprIK2iKpp3fQPM0FpyYUaFktTwcsev8GbkXCDk70AXoAcvO2h8usvAPgh3tyuSE4InN3CKlL24HmwwAZDl1+1Ch8xnuF4h34uZy0rZuJbo5kOnaMmicggs8yb6bdvfXEmpxEygpXt40q/DYaXk4UIiGDnTBlqfjN73mw7sq8KncCFFRbaSbaHKl+g1GmuGvC4zYQmZLHWam9crwA4vUlaiYPIX7WVfxcSYD+SB+nkYh6xcCPU4mNrqyzbqOdRU7Sfn4rXHeIyIK1796jQK+3c+QoOi3y04dq8e4PEs68Y5PGZpam4W9eSbr9jxXEEwtl+a29WmlwlqSNwtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mouMRBqXiaJ52r6lIr6h0qYK5yiLTjPe+IzV/5+aQUo=;
- b=e33ZPKcQG1cC624uiFx0hswYaSaIymfdxCPIg5OxRkq6qK+8bwLDV6M1m5Cc0IrIhFyShFZsg2ioMs23nrG2LkabmKjILaK2kji2PGkYL67Xwou+z8LNWh93AgvEx4C+VAcx/TOgovgUkPyjlKwaQ5V3/w6nj9PqUUghH2tdO8hjevmvadv2fJr7MIUuIT7qYdT4NmAdw5wiM/EeiEbij7aXf+dFnb0r20q5lr4sOeQYaCJqpUaNXJ/iAKxQEpbD8IwZFnZPFS1Ky4zLhr5rpTgMY3OJNNQbtNL03LCOc4HCjBj6c+0kGyG7UGUdnJuUyN1XT3L+zlw3PCYayN7uUw==
+ bh=RqkQNITwtuiJx+1H1LaW8LhfBx0I3NW81fEBmrCHl4E=;
+ b=RIFJ0cAdlsz3N3zJPVWcQMDitlO3h5QDdPdbXUnX+qUL59XVWV7d9K71eZX0kx34HBcjLk3KVztFxKYj2Ro6laT5hwKc1BWpCTXYhr5AUKgWWAaN0N+/CKQvj2GsQpLVi45GWLO+HV3oInR8u7n3cv8OB5MXnGQXupLKWmTgFphHEEpIxXI7mr6X7SwUU61s9pCZrjiD4IfwrHqiSepQTPoKKm+/dopooAb0d/UpWoiJDnkGNhoYzQZWe1LAPQD+sERrnj3wghlyndLgLQiYqJyBxR0QNlLpj8zDbrs2aqFRnYa7TLTdULIY0ewtw/Kv9g49+qTlXoYtkhRbUCcpvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mouMRBqXiaJ52r6lIr6h0qYK5yiLTjPe+IzV/5+aQUo=;
- b=uW0F5g133+xZJDNbfFNtjIrzKaUzc0ZbuDbCEF+UFjLOpth4ZY0EwvjHfdh1cVWNVIKIG2RwmkRBHNmIlP9+LXXkj5Uf53+nhe34eNWxSZszE5UeASxTRBS3sTiEKCZdu57PyCgRFjC/LaPrS3/pp3srZc+Xd77l9K7arWXrlWc=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS0PR01MB5892.jpnprd01.prod.outlook.com (2603:1096:604:b2::14) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=RqkQNITwtuiJx+1H1LaW8LhfBx0I3NW81fEBmrCHl4E=;
+ b=VtgZSuP4kw0KeMl3eu3YUE822uWDBUdtk704kgEVPi95NcctdnBWWg39s734jWGSOEx9r5W4n9f1i5RRHgVNnMjgRvtWj4fkXFFlKStXPG3PbNPO4v5Iqw15zAhDQYJGa5rkuZfzEqc0x4ew1FqqeyOk99DVqFa3D/njv4m6WNk=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYAPR01MB5802.jpnprd01.prod.outlook.com
+ (2603:1096:404:8053::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Mon, 17 Apr
- 2023 07:57:58 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%5]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
- 07:57:57 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     =?iso-8859-2?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Heiko Stuebner <heiko@sntech.de>,
-        Eddie James <eajames@linux.ibm.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Antti Palosaari <crope@iki.fi>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        =?iso-8859-2?Q?=A3ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Colin Ian King <colin.i.king@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Rory Liu <hellojacky0226@hotmail.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-amlogic@lists.infradead.org" 
-        <linux-amlogic@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Zhou Peng <eagle.zhou@nxp.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Carpenter <error27@gmail.com>, Sean Young <sean@mess.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Qiheng Lin <linqiheng@huawei.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
-        Scott Chao <scott_chao@wistron.corp-partner.google.com>,
+ 2023 08:09:25 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5198:fdcf:d9b1:6003]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5198:fdcf:d9b1:6003%5]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
+ 08:09:25 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        Andy Gross <agross@kernel.org>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Yong Deng <yong.deng@magewell.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        =?iso-8859-2?Q?Niklas_S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: RE: [PATCH 000/117] media: Convert to platform remove callback
- returning void
-Thread-Topic: [PATCH 000/117] media: Convert to platform remove callback
- returning void
-Thread-Index: AQHZcPI9ssr1bMQIp0GJY0WwrtVw6q8vBzwAgAAT74CAAAZPoA==
-Date:   Mon, 17 Apr 2023 07:57:57 +0000
-Message-ID: <OS0PR01MB59221153A63F64BBAD3ED20D869C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
- <20230417060203.le3izz56wt73si6k@pengutronix.de>
- <20230417061928.GD28551@pendragon.ideasonboard.com>
- <20230417073049.2b5b35hpjrjcrlge@pengutronix.de>
-In-Reply-To: <20230417073049.2b5b35hpjrjcrlge@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v12 11/19] PCI: dwc: Add support for triggering legacy
+ IRQs
+Thread-Topic: [PATCH v12 11/19] PCI: dwc: Add support for triggering legacy
+ IRQs
+Thread-Index: AQHZbpipW3pZkrA810e6mcDjXjm9h68rNVmAgAPuL9A=
+Date:   Mon, 17 Apr 2023 08:09:24 +0000
+Message-ID: <TYBPR01MB53411FDF1B8709F74B798852D89C9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20230414061622.2930995-12-yoshihiro.shimoda.uh@renesas.com>
+ <20230414194239.GA214436@bhelgaas>
+In-Reply-To: <20230414194239.GA214436@bhelgaas>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+ header.d=none;dmarc=none action=none header.from=renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS0PR01MB5892:EE_
-x-ms-office365-filtering-correlation-id: 1e971cb0-bcf7-4c7a-0e98-08db3f197550
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYAPR01MB5802:EE_
+x-ms-office365-filtering-correlation-id: 58598ae5-64be-4007-6b3d-08db3f1b0ee4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cTqgzF7G/UpuaqEllAJ12dE5zlw4f1cQXeUYerR8/W1fKClLO8MEwPdRVQJDHrZgp3qShfYj4qaK2HFV+i7ipIEnAsMeXk+67803Zn8SP8q+Mw3wrGu9o9vVl3tAwmDYcplUcKp0WJEm8vZMWYidb2Wn7mfTM6xI3X27o1r79YcMgf6JpFePYhMp0cza+hdOiMUYZnOogBf6l2jDClA/SvMCpfMSa8uGJlEq5Q0Pie/V5yrcY9cMHwCOHo4hufFqbcrulQu5ttRJc1RlAQSl/YWzrW+8ZVEVBWHRZ34YyFRFJnrcaKkB7HngoCne8XHYrdv+jvrx6duG1sWXYsDqzaSvQoGh+0srp/ul2AIUg/G/Rj/rcDQz9GVgKpR83WbbIYlzwx6QmgOW2yKeUOGdtRYe2bk0ft8PWCpwakFRTwJpIk18NPdD5CN2KWV6KQyVRu5LbzOQw2aqkNhV6UvuycUIKGLrGM1NbwrWMjQqPVZtNhkryYhB9YVQp/1kdwfkDmP4bnuCvfPaIGNAsyR6yxl2iiAtpWsaIgjbvgBdnnSIo5AIM1EvWclO2g6k2FdtBVT9qt0kU5dJ6x5JNddijxJ0jOZmiHlkvq18K/Pv8u2mlA9X+/tu2DzDPd4jisxG
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(451199021)(7336002)(7276002)(7406005)(7366002)(7416002)(52536014)(5660300002)(86362001)(83380400001)(66574015)(53546011)(186003)(26005)(6506007)(9686003)(122000001)(38100700002)(38070700005)(8676002)(8936002)(33656002)(54906003)(110136005)(478600001)(71200400001)(7696005)(316002)(41300700001)(55016003)(76116006)(64756008)(66446008)(66476007)(66556008)(4326008)(66946007)(2906002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: fN2ZPBowl+X5I4eK6fyZw1PDbRSmY9FYa2bB9rDl1QKvG+yUFDMrPIww6IpAxdoI+3bN5H/xlH+NKv+oyJI9aWO4SFMhp4eUpYYYp4+daHcDeAauPM78mFXg9oWDa2OeWcqUBf40yHrpKRdu0Gsp5Yp7q2vHROKoV9dNomMANgoCviicUnDc40gzQLozNtLKkD4J9d59jLYG56/LRBQauzR9quoy4Tdab9bIijOojyUBAuFQ69VCXN4vRBlb8aCHncmYS+9EEk4vImAoZ7bjm3ETaat2YD3pwGa8LKw7hFSkCr9IHUi0nvXUQGkR4pEvWLF2/Qfj9L3BFm//1Yv8Fn39S9npXuzhwpBsAT9SPLM330g6FZ44GBE34QPMV8AbyuQm+LRDuTwPslAACUj0m1Q7JO1hhEtoy5T9cazKcXH85t3FkRJyb01taBPjp/YTvmAyjfuh8KaizeKO/DITtXR2H1Xvoj38wcfwqcQB/Ehdatbno54x5gm6DkKpZJzog5hRhwW03ilVBiHEzTEewaumz20JPrWT+TMj1GilNnhr2jB4hVNkhQmqMDyLM19yqPAkMqwFvo+Akp7T/CswifVc8ZxpMbXKwqxGkyy73loQMxwBqj8yEHYFux/a+6rZ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199021)(7696005)(86362001)(478600001)(55016003)(71200400001)(83380400001)(33656002)(6506007)(186003)(9686003)(38100700002)(38070700005)(122000001)(64756008)(6916009)(76116006)(66446008)(66946007)(66476007)(66556008)(316002)(2906002)(4326008)(8936002)(8676002)(5660300002)(7416002)(52536014)(41300700001)(54906003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?RuPL71DTooOlSNxIti0kl3e2cf+TsZyTKT3S9F9WjG8ZmXlG1qIzWYQ9nS?=
- =?iso-8859-2?Q?nk9w/gvC6l0pjiJ1/FyUoQJF32405fnf2Bzq38czWWyAo5BpIMnBj64D4j?=
- =?iso-8859-2?Q?lbI0ksb+GQF5VpLalM7gof1/CHcdFkptbPJugklnwwnBDn0Kud/WljbzNm?=
- =?iso-8859-2?Q?muouyT7Ddwtpe7PJQWi87y+kbEl5yZUIlY33mPHaQIrxO+bmB6ltESAMtA?=
- =?iso-8859-2?Q?DF1Ct5XV1+0HH/BvW2TAMCizjPTXf8J82KU5A+EEHYVPaqB50eQEFiAfRb?=
- =?iso-8859-2?Q?rZPIVhbaBSnYl/ssdEFWKwzB6Ghch/4v9PaZ0RL5aG1QiXX18lZPyh1VZR?=
- =?iso-8859-2?Q?ci+DOFm0PD11GYU6ozi2xoSsU0AJ9sjADF6hXoJUVD+ncE6ko6vDjV+18T?=
- =?iso-8859-2?Q?2nX6zL4E1ASE6ejEyXUlVgAIzg8PtZ8AGS+JnhKY9+ax1m2qguHsCO8zOq?=
- =?iso-8859-2?Q?16Z6FqFbjMiN+SH9PYiyLKy1mod//pg0MBD2onmaonDuHzI4MjQz0D3MA1?=
- =?iso-8859-2?Q?bq78ud3hKNsV1IwznDXKQHQLSwJfvwo2gmHAThi2K4ku3CNh9QLwXI0+J3?=
- =?iso-8859-2?Q?pUNaVTPz9bGE6xnxsMGUYy/mthN4ytE3q6wA4MylGTNpiy5BhKl72EVqga?=
- =?iso-8859-2?Q?iMScyaLvLI1QK7QqNIwIBvesSBRcm1FGc8stHEn639XFsFvIuWJXk+udF+?=
- =?iso-8859-2?Q?VtEF3xzKX5Eg6TJAktitTtr1ljbpds5IIIoS6fP3qI6r9QyFGBczMoYVZ4?=
- =?iso-8859-2?Q?yBCxnr2Yy5XxqLBrENsI3oM9Cokgg/bM14N/zQvMloE6droab2dnBI+tOt?=
- =?iso-8859-2?Q?+sjtcPR7lr02YZ4RnUhoX/RUQFuZHQJNWoaeBEd5Qh8FvBo42Jjoz8YmCK?=
- =?iso-8859-2?Q?NFom8WQVe/yWJ3p5ojDefa2xK4m2CCydNCSzl9+LiMIvMFaWPY5MvNYpaO?=
- =?iso-8859-2?Q?Bqy9g5jI5ZbREgsKUcwLOaU5jniYmdROETrl0a5HIlonBwFLOivzrPX4VL?=
- =?iso-8859-2?Q?EHxai1D/HifkdEpXD5ci39XIEv+bbXHAq5WB6znhckUS9KQLhHMG5OHHl3?=
- =?iso-8859-2?Q?+9CPx0LNmP44k+VrbuhbXEh3qhCDQp6Iwh9wKHkJB+6KAFA+QjUIo04q4i?=
- =?iso-8859-2?Q?NnE1t5wBbaeZRXWFDz17jfinwUig7nig/uapuXE1IDggwa/RwV81Z4JDnC?=
- =?iso-8859-2?Q?pYvqGMhBqk6pcCgn7l0bTA4iNNaMcLubzPSVxPmJ24kicdaHWlvHLWdas1?=
- =?iso-8859-2?Q?+G4KdQ0n4ZbOxsDxfgRQFEovmf7q0p3EIfRKsSdlaLgvS5SfNy4H7qpy00?=
- =?iso-8859-2?Q?nryk9rkDT1xWpCKzrt1rY8/wlUOOxmj097P/71MPy3m1v1IQ/kGMw+TMV3?=
- =?iso-8859-2?Q?/Mb0KX2nPBexEazMsEF+ZZTkorz6/5V/JH1sHDpt0Ssf63Kmo7dqaD5dEx?=
- =?iso-8859-2?Q?xqu+KI/G5sR2RuE8VLFAmmq2JNrUDv3wmzTRHlUxeUd72JDipY2WCzTVgE?=
- =?iso-8859-2?Q?ud6anWawVlKGyE5pKrub2vD/15H4vEkuzYa0HDufnDES1gSx42iG0KECjX?=
- =?iso-8859-2?Q?vEIoh9juWCAu2lICQ+pXx3thzyPJ+hKqKR8rhNCGJTUWXqAR3sD6eJOW99?=
- =?iso-8859-2?Q?5Kr4baoDN8QMXqfH0tphRK+YG4VqVlF7c/?=
-Content-Type: text/plain; charset="iso-8859-2"
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?n6wIJMqkdKOmrh3naqDnmJovVY7fTnPtI8w9Yp2w0fyNxyDDUHEU8j/i85Ky?=
+ =?us-ascii?Q?0PgfZlh4T2w8MRQ6Rig8o8YxTDWk4yC+nICH3x2nY/bQvSnfR1cHx5u3SLpi?=
+ =?us-ascii?Q?WJXnA51C5K6aF+lmiEbtfIJ+IMkPIVpERgG1ECE4m2iawyjCae+0d3whf9oU?=
+ =?us-ascii?Q?HWL78YU+x641AkyKICmnmb/J8XB7kScWvHpDWSx9p2dygKEcfIiXJwWG+7am?=
+ =?us-ascii?Q?J1rWI5CUYktuxDl2dwbQTVGu4ZqVIrmZP+07wd4TdSAW/Rsjl11dCBsuDveV?=
+ =?us-ascii?Q?BoiiVkez6AcZ/E3lenBH5Tqz0L38eWVKfoD+4H+gdyKc4jGeT/KuHAjyk9rl?=
+ =?us-ascii?Q?IHaA3lvUywTu66eJ3d3GSELNYgmj53Xd727bMdfb06OVXs7pMQaAiVPWxfgH?=
+ =?us-ascii?Q?t5JWnSBjwsLKo70iyw8nHgWqA3GA1roPu3gmP/SfpKQNdchM2WdQK/RIsBPJ?=
+ =?us-ascii?Q?otQv3VkxaG2wXgs7y47n310z6NMRGBX5FolUCCtsM1HvPZuqT6KkLTEGEiGy?=
+ =?us-ascii?Q?HsS8uOaLarMZ1/IctTU0l+XhTe1lR4zqzFJvZ8fDq0gHSEJhBszZJwPpHVSx?=
+ =?us-ascii?Q?AhqwU0R8UapDUp3/qKWs+ZAIjafbMbzko4/TEKaXBAreNpEM7EWIO4BK33nc?=
+ =?us-ascii?Q?cktFHJYYDgig991QjBzo0A5hxiYocww97QeEeuml3NA9Dg9m6Hiu4rGPUV9+?=
+ =?us-ascii?Q?26v8rx96GKzADaXoTULFI8lntoZLBr8CadaVkJ0vVPQElCGxp9TdxvteaAjv?=
+ =?us-ascii?Q?UDxws6DOz/lmfbmCwEcesbnTbfY4ejhbWJaXQ6q51dx47uBPyZiu6sB5rMna?=
+ =?us-ascii?Q?Qf2ZixXYgyLqcSExUSSIPwnnfWH56tTi1XyO38q0mt8Xhl4+b5xF3FpdaZrT?=
+ =?us-ascii?Q?IBKP0VudgDtljs8fKrXo2WVap/TqlBeUrMYSxirfQvEFr4G8lJVAD1hW9uor?=
+ =?us-ascii?Q?UrMSVEH8cBMU8JkvDy7h31V+jk1dF6YOrqaFkF7df7h0zrW5CkneWUa6uISz?=
+ =?us-ascii?Q?zqXt+7nGY56Uq6lDkeY0euqVqRv5TAdFURY4lMbjct1bhYcMcLD0rQfUDs4K?=
+ =?us-ascii?Q?Hujd/BitV3xl17ojkDWEiUWF9iz+vEIws1YVCLvcYxDHLclDgBdCR7DAubx9?=
+ =?us-ascii?Q?7+LVrUnrFg129zEWG11EFOXadLeAJOrrltdYTX6Xivgl3135FMJnW1Cb2Nt7?=
+ =?us-ascii?Q?kbHfyBuudJNVqESkCCdNpGoLir1b+Sop7cILa14BrvnkLsa218LDDrnhzdn7?=
+ =?us-ascii?Q?PjDWguHpJeEhdPzA3tjf6ZwDzfLc+YI/OIyVOMHawSNCXvf9Veb86mAlwbtz?=
+ =?us-ascii?Q?mfiTilWTMZB9a9ZFJC2Bi1ad8dUR6qKN8sWLBgnZa62bQ2BFtCQEmecl3HJj?=
+ =?us-ascii?Q?qL6hl5aiYDLCq9Bb4psOrx7+qNdZXjo7IiaKUlbzEBMgR+Vi4tDEaIUIWbwC?=
+ =?us-ascii?Q?wcP/0XkifDFhDg2nR+a84gGd+/NP7dHzLoBpV9KWFdCMg7jEEr9X6oxWqqR4?=
+ =?us-ascii?Q?ggL4ZU2SNnPQ+PPPoWiyMKMuIO6AhGGoqcUH+BwgsKDAdunOXRTBB/tn+epT?=
+ =?us-ascii?Q?xCAMiCl4C9XrhKAM7ZvhJRfl3ujcmHO9ysW/HepZxaEIPQsm1nLk5Be25MLS?=
+ =?us-ascii?Q?F1sJQz1iE2/F9vy2rNYLFktKibWa5sjtpMAcUFJAbTLqZuO4tzRxi4/SQ8wF?=
+ =?us-ascii?Q?j20rag=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
+X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e971cb0-bcf7-4c7a-0e98-08db3f197550
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2023 07:57:57.7458
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58598ae5-64be-4007-6b3d-08db3f1b0ee4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2023 08:09:24.9132
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7uj1dc8SnMcuGNnj0aFSU06DqjuCApPwDauXuiuOm2bfXWX+3PdE0ZilZ1RT2l0rNWpvBiWNwYzLygj+bvf8qWpPhmI0xHz22ET++jZTtnM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5892
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-userprincipalname: B50LoQcZIP677iptmO1RwSjdu4oKBL5PJeyBLiLVjDdpb53Hm+SwINR6sbuMHmMPhYGUs/EKUpb3mLtlnVdlRTUTSNmKH8o5R+eChefgTkd+/2b1ijOF7Bbo763zL6/j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5802
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+Hi Bjorn,
 
-> -----Original Message-----
-> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> Sent: Monday, April 17, 2023 8:31 AM
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Heiko Stuebner <heiko@sntech.de>; Eddie James <eajames@linux.ibm.com>=
-;
-> Hans Verkuil <hverkuil@xs4all.nl>; Alim Akhtar <alim.akhtar@samsung.com>;
-> Dmitry Osipenko <digetx@gmail.com>; linux-stm32@st-md-
-> mailman.stormreply.com; Marek Szyprowski <m.szyprowski@samsung.com>; linu=
-x-
-> samsung-soc@vger.kernel.org; Robert Foss <rfoss@kernel.org>; Dafna
-> Hirschfeld <dafna@fastmail.com>; Samuel Holland <samuel@sholland.org>; Ke=
-vin
-> Hilman <khilman@baylibre.com>; Michal Simek <michal.simek@xilinx.com>; An=
-tti
-> Palosaari <crope@iki.fi>; NXP Linux Team <linux-imx@nxp.com>; Jerome Brun=
-et
-> <jbrunet@baylibre.com>; linux-sunxi@lists.linux.dev; ye xingchen
-> <ye.xingchen@zte.com.cn>; Sascha Hauer <s.hauer@pengutronix.de>; =A3ukasz
-> Stelmach <l.stelmach@samsung.com>; Eugen Hristev
-> <eugen.hristev@collabora.com>; Shuah Khan <skhan@linuxfoundation.org>; Hy=
-un
-> Kwon <hyun.kwon@xilinx.com>; Andrew Jeffery <andrew@aj.id.au>; Michael
-> Tretter <m.tretter@pengutronix.de>; Moudy Ho <moudy.ho@mediatek.com>;
-> kernel@pengutronix.de; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Claudiu
-> Beznea <claudiu.beznea@microchip.com>; Ming Qian <ming.qian@nxp.com>;
-> Andrew-CT Chen <andrew-ct.chen@mediatek.com>; Alexandre Belloni
-> <alexandre.belloni@bootlin.com>; Sylwester Nawrocki
-> <s.nawrocki@samsung.com>; linux-aspeed@lists.ozlabs.org; Yunfei Dong
-> <yunfei.dong@mediatek.com>; Lad, Prabhakar <prabhakar.csengg@gmail.com>;
-> Thierry Reding <thierry.reding@gmail.com>; Guenter Roeck
-> <groeck@chromium.org>; chrome-platform@lists.linux.dev; Jonathan Hunter
-> <jonathanh@nvidia.com>; linux-rockchip@lists.infradead.org; Fabien Dessen=
-ne
-> <fabien.dessenne@foss.st.com>; Ezequiel Garcia
-> <ezequiel@vanguardiasur.com.ar>; Alain Volmat <alain.volmat@foss.st.com>;
-> Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>; Colin Ian King
-> <colin.i.king@gmail.com>; linux-media@vger.kernel.org; Jacopo Mondi
-> <jacopo@jmondi.org>; Rory Liu <hellojacky0226@hotmail.com>; Martin
-> Blumenstingl <martin.blumenstingl@googlemail.com>; linux-arm-
-> msm@vger.kernel.org; Sean Wang <sean.wang@mediatek.com>; Maxime Ripard
-> <mripard@kernel.org>; Fabrizio Castro <fabrizio.castro.jz@renesas.com>;
-> linux-amlogic@lists.infradead.org; linux-arm-kernel@lists.infradead.org;
-> Neil Armstrong <neil.armstrong@linaro.org>; Zhou Peng <eagle.zhou@nxp.com=
->;
-> Paul Kocialkowski <paul.kocialkowski@bootlin.com>; Maxime Coquelin
-> <mcoquelin.stm32@gmail.com>; linux-mediatek@lists.infradead.org; Jacek
-> Anaszewski <jacek.anaszewski@gmail.com>; Dan Carpenter <error27@gmail.com=
->;
-> Sean Young <sean@mess.org>; Xavier Roumegue <xavier.roumegue@oss.nxp.com>=
-;
-> Ettore Chimenti <ek5.chimenti@gmail.com>; Vikash Garodia
-> <quic_vgarodia@quicinc.com>; linux-tegra@vger.kernel.org; Eduardo Valenti=
-n
-> <edubezval@gmail.com>; Andrzej Hajda <andrzej.hajda@intel.com>; Fabio
-> Estevam <festevam@gmail.com>; Jean-Christophe Trotin <jean-
-> christophe.trotin@foss.st.com>; Stanimir Varbanov
-> <stanimir.k.varbanov@gmail.com>; Kieran Bingham
-> <kieran.bingham@ideasonboard.com>; Jernej Skrabec
-> <jernej.skrabec@gmail.com>; Chen-Yu Tsai <wens@csie.org>; Jacob Chen <jac=
-ob-
-> chen@iotwrt.com>; Joel Stanley <joel@jms.id.au>; Yang Yingliang
-> <yangyingliang@huawei.com>; Patrice Chotard <patrice.chotard@foss.st.com>=
-;
-> Bin Liu <bin.liu@mediatek.com>; Nathan Chancellor <nathan@kernel.org>;
-> Sylwester Nawrocki <sylvester.nawrocki@gmail.com>; Mauro Carvalho Chehab
-> <mchehab@kernel.org>; Benson Leung <bleung@chromium.org>; Daniel W. S.
-> Almeida <dwlsalmeida@gmail.com>; Qiheng Lin <linqiheng@huawei.com>; Konra=
-d
-> Dybcio <konrad.dybcio@linaro.org>; Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com>; Yang Li
-> <yang.lee@linux.alibaba.com>; Sakari Ailus <sakari.ailus@linux.intel.com>=
-;
-> Ricardo Ribalda <ribalda@chromium.org>; Shawn Guo <shawnguo@kernel.org>;
-> Minghsiu Tsai <minghsiu.tsai@mediatek.com>; Daniel Almeida
-> <daniel.almeida@collabora.com>; Alexandre Torgue
-> <alexandre.torgue@foss.st.com>; Todor Tomov <todor.too@gmail.com>; Mirela
-> Rabulea <mirela.rabulea@nxp.com>; Ajye Huang <ajye_huang@compal.corp-
-> partner.google.com>; Scott Chao <scott_chao@wistron.corp-
-> partner.google.com>; linux-renesas-soc@vger.kernel.org; Hugues Fruchet
-> <hugues.fruchet@foss.st.com>; openbmc@lists.ozlabs.org; Andy Gross
-> <agross@kernel.org>; Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>=
-;
-> Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>; Benoit
-> Parrot <bparrot@ti.com>; Rui Miguel Silva <rmfrfs@gmail.com>; Christophe
-> JAILLET <christophe.jaillet@wanadoo.fr>; Yong Deng <yong.deng@magewell.co=
-m>;
-> Matthias Brugger <matthias.bgg@gmail.com>; Tiffany Lin
-> <tiffany.lin@mediatek.com>; AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com>; Bjorn Andersson
-> <andersson@kernel.org>; Nicolas Ferre <nicolas.ferre@microchip.com>; Houl=
-ong
-> Wei <houlong.wei@mediatek.com>; Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org>; Philipp Zabel <p.zabel@pengutronix.de>;
-> Niklas S=F6derlund <niklas.soderlund@ragnatech.se>
-> Subject: Re: [PATCH 000/117] media: Convert to platform remove callback
-> returning void
+> From: Bjorn Helgaas, Sent: Saturday, April 15, 2023 4:43 AM
 >=20
-> Hello Laurent,
+> On Fri, Apr 14, 2023 at 03:16:14PM +0900, Yoshihiro Shimoda wrote:
+> > Add support for triggering legacy IRQs by using outbound iATU.
+> > Outbound iATU is utilized to send assert and de-assert INTx TLPs.
+> > The message is generated based on the payloadless Msg TLP with type
+> > 0x14, where 0x4 is the routing code implying the terminated at
+> > Receiver message. The message code is specified as b1000xx for
+> > the INTx assertion and b1001xx for the INTx de-assertion.
 >=20
-> On Mon, Apr 17, 2023 at 09:19:28AM +0300, Laurent Pinchart wrote:
-> > On Mon, Apr 17, 2023 at 08:02:03AM +0200, Uwe Kleine-K=F6nig wrote:
-> > > On Sun, Mar 26, 2023 at 04:30:25PM +0200, Uwe Kleine-K=F6nig wrote:
-> > > > Hello,
-> > > >
-> > > > this series adapts the platform drivers below drivers/pci to use
-> > > > the
-> > >
-> > > copy&paste failure here: s/pci/media/ of course.
-> > >
-> > > > .remove_new() callback. Compared to the traditional .remove()
-> > > > callback
-> > > > .remove_new() returns no value. This is a good thing because the
-> > > > driver core doesn't (and cannot) cope for errors during remove.
-> > > > The only effect of a non-zero return value in .remove() is that
-> > > > the driver core emits a warning. The device is removed anyhow and
-> > > > an early return from .remove() usually yields a resource leak.
-> > > >
-> > > > By changing the remove callback to return void driver authors
-> > > > cannot reasonably assume any more that there is some kind of cleanu=
-p
-> later.
-> > > >
-> > > > Only three drivers needed some preparation first to make sure they
-> > > > return 0 unconditionally in their remove callback. Then all
-> > > > drivers could be trivially converted without side effects to
-> .remove_new().
-> > > >
-> > > > The changes to the individual drivers are all orthogonal. If I
-> > > > need to resend some patches because of some review feedback, I'd
-> > > > like to only send the patches that actually needed changes, so
-> > > > please pick up the remaining patches that don't need changing to
-> reduce the amount of mail.
-> > >
-> > > I didn't hear anything back about application of this series. Is
-> > > there a blocker somewhere?
-> >
-> > I think the series got applied to the master branch of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git.
-> > It should thus appear in v6.4.
->=20
-> I guess that linux-stable.git is a copy&paste failure (and it's not there=
-).
-> I don't see the series in the master branch of
-> git://linuxtv.org/media_tree.git either.
->=20
-> .. a bit later ...
->=20
-> ah, it's in git://linuxtv.org/mchehab/media-next.git
->=20
-> I guess I was just to quick and probably the series will be included in
-> today's next.
+> s/terminated at Receiver/Terminate at Receiver/, since I assume this
+> refers to the Message Routing mechanisms in Table 2-20 in sec 2.2.8.
 
-I believe patchwork <patchwork@linuxtv.org> will send notification to
-author and along with people who applied tags for that patch.
+I'll revise the description on v13.
 
-I normally get notification from patchwork <patchwork@linuxtv.org>
-When the state of patch changes.
+> I have a slight preference for using "INTx" instead of "legacy IRQ" in
+> subject, commit log, function names, etc because it's more specific.
+> "Legacy" is clear now, but tends to become obscure over time as more
+> and more features are added.  Eventually it just means "something old
+> that we don't like anymore."
 
-Cheers,
-Biju
+I got it. I'll use "INTx" instead of "legacy" on v13.
+
+> > +static int __dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 fun=
+c_no,
+> > +					 int intx)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret =3D dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_ASSERT_INTA + intx,
+> > +				  PCI_MSG_ROUTING_LOCAL);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	usleep_range(1000, 2000);
+>=20
+> Where do these values (1000, 2000) come from?  Spec reference would be
+> good if there is one.
+
+I referred the values from drivers/pci/controller/pcie-rcar-ep.c, but modif=
+ied
+the second value:
+	usleep_range(1000, 1001);
+
+Today I checked the documents of PCIe and this controller, but I could not
+find any specification about the period. So, I tried some cases a little.
+
+ No sleep: Always "NOT OKAY"
+ udelay(10): Sometimes "NOT OKAY"
+ usleep_range(50, 100): Always "OKAY"
+ usleep_range(100, 200): Always "OKAY"
+ usleep_range(1000, 2000): Always "OKAY"
+
+So, using (1000, 2000) seems too long. So, I'll change the values
+as (50, 100) and add comment like below:
+
+	/*
+	 * The documents of PCIe and the controller don't mention
+	 * how long the INTx should be asserted. If 10 usec, sometimes
+	 * it failed. So, asserted for 50 usec.
+	 */
+	usleep_range(50, 100);
+
+Best regards,
+Yoshihiro Shimoda
+
+> Bjorn
