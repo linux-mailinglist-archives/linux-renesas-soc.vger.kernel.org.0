@@ -2,192 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A072F6E3EC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 07:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 732996E3F4B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 08:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbjDQFF1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 01:05:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
+        id S229711AbjDQGCo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 02:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjDQFF0 (ORCPT
+        with ESMTP id S229763AbjDQGCn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 01:05:26 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2091.outbound.protection.outlook.com [40.107.114.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E04E3595;
-        Sun, 16 Apr 2023 22:05:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kI1xxIVW+GI3gmYWe0uxDpQLMrKPDL4DmBliPGKdmLiheVQUatRy+dvttPFe+ABFJCPynHJk8L7waWu2OgdzCtO+vX5u8BoV/UGLmjePIhewCdrY95l9yQahF+t4KTQegcpIFwoPFXzvLyIQXJG+urRV4BOzVXg7iZp4X8WHGNia1PDciz8USon+w5YxgfWkmoPYG1xBzt/KuxEGqosJQHMUC61N+Xas8KY5L5U/m0UTsroGdvk0XpyjDJFx0ZlDt7p+jEt+O/kuCCGZBr204Aeu68x9GQyJ3CCEJc/Us+5RMpHM93sAuhTvV7P58GQlnqmMWylWBmHAm6o5oDBe4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xNTRHy+h/0DBQ+7TZ17miFe0RxNO7M7u0cFmOXGLNv4=;
- b=mPTLAEXwvlWh99vTIw8Zlmc6p77sA8rQb8asQObmm6uSB1jV/cLENhRN+nL8reXIaF6PyUiOorGwKzbPjK7DTrY4KTDjdc+UdFGQL21RtIM4k/Fy1c5z6B3WNyHUQifGMg4gDo4ELvCL8GDrf/dX6kI6TfiIsn3XmpLwh2qhRtOO0ZMzETbiiDpW8DondWNIR+hcUEKcFiHI/Wt03ZQEZGCFJ3jE+jDlcAmQwtpCSadXlud1xQnDDp1xXCfcZ/U4GDlArsZYG25HZlBB2Wvauc6w0ShpU0ztynVFKszt55qimN/olWMsPMIj3OdmLKU8yYRO4RhCI4z9xClEFw6nPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xNTRHy+h/0DBQ+7TZ17miFe0RxNO7M7u0cFmOXGLNv4=;
- b=a/fiO8r6qUNNjWEt2SQgxumT7maJMJ6QQMThOR7plVg2T/XwV9x+o+eaNTDT/ptu9Ivj816GOeb7qLSyVSo1dF3ywJwuv5mUyUeXovZE3rA8/QVe9feGupBgFYN+g22etqvjht2cF7qAGZ0vLS5eMCx1Ey3ihxVJwMh/JbEmRCw=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TY3PR01MB11161.jpnprd01.prod.outlook.com
- (2603:1096:400:3d5::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Mon, 17 Apr
- 2023 05:05:19 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5198:fdcf:d9b1:6003]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5198:fdcf:d9b1:6003%5]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
- 05:05:19 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-CC:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v12 02/19] PCI: Add INtx Mechanism Messages macros
-Thread-Topic: [PATCH v12 02/19] PCI: Add INtx Mechanism Messages macros
-Thread-Index: AQHZbpio0JNG2maAWEOtiSp2Bn7znK8rKV6AgAPNiCA=
-Date:   Mon, 17 Apr 2023 05:05:19 +0000
-Message-ID: <TYBPR01MB53413B963258BAD0EF34D726D89C9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230414061622.2930995-3-yoshihiro.shimoda.uh@renesas.com>
- <20230414185947.GA212493@bhelgaas>
-In-Reply-To: <20230414185947.GA212493@bhelgaas>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TY3PR01MB11161:EE_
-x-ms-office365-filtering-correlation-id: 4f070c9e-7849-45f4-bfdc-08db3f015759
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ttf9phgCztDohJxw2SyuzDDAj8eWGoCNWH+QNIAVIrLrks474MAkLecKNfYp/Xccpv5nG/Y5F3lM5u8cMoYJbm7GsbHkwJB2QukWAcviegTI8Zx++mnc27WqrLRqn3G5//bjFZAVRJqawBMe6K9f/WSyEJ4f+iQSo8PHNyP+8KyU886AjTFEDQ2c43axyEnjBsg3N57B2Q6RYDmj/B7wcDsiet1NOcpEIfUtm5O2POVJ12OtAm+X++q6lUPPv9i4McflzKZ57PYmz/YZWJgw8UPLs/fhhVEz59BSwQzR1C+Oqh655VNCw3BPHxO5lqNJSDjM0hbPe5Ivqgy+8pkZ6y2DHldcsy3hHybTsDuo42mOmdajzi2IHPlZeAWoZcYhl/5S0InB245dJN1llRlROZwb+FqP4auAPLnTTD/RG+jlM4Akbl8eSpblpHGUxru518r85e3GKxQ8yiA4+qOYFGZHFORMRgFGFwdRlWYf1cNIAtCV+3/bb7+1ahPf7Ln3v2fcz2Znmu4i719ELvJ5aZZDFFf1mIchIdtILylXGz7RI8DlGIdjE7V6zVSwup/cgyGvbmgeU2pky7z0Ts9L2hlOhqHia2eXPgPYJn6KPZG/qmEQRVt52yfSxk7UdBKS
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(451199021)(54906003)(55016003)(7696005)(71200400001)(478600001)(41300700001)(316002)(83380400001)(6916009)(4326008)(64756008)(66556008)(186003)(66446008)(53546011)(6506007)(9686003)(76116006)(66946007)(66476007)(52536014)(5660300002)(15650500001)(7416002)(2906002)(8936002)(8676002)(38100700002)(38070700005)(122000001)(33656002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CnrWVD2DAX/6pbeKVwXGotey9DQlwkKKZkIr2ah4ea59R8/PSy1smnzFCdF7?=
- =?us-ascii?Q?bLOxLS4iPiSfS9P73/+rO5mJw0rROy1jTg8LwI8CQEENfmJeNTIhaB7JrZjc?=
- =?us-ascii?Q?Bc6klRud5uoMeErA8Q6sjWp4tJMSFWVu5Gix8bC/fpRNe1uJqLi/QBBbrOh+?=
- =?us-ascii?Q?lZEqpmLXdAhtfn8fY136CPZokFzvorAzJjUmxCkv7CkHpgeSlJnprjxM06ah?=
- =?us-ascii?Q?4Ehfs/Rk229al5cceVLeGaUHiUiTkspjkn1wMtbqy3S75B8j+7p34Zf9rADG?=
- =?us-ascii?Q?Xtx1eJrQLjeWaZcUN3nhYGvWWtQJECEGZhhcxNo0YTOrKkgZ5f7Dqk9Fpbiu?=
- =?us-ascii?Q?bG/PhTDf+zNUG59Cayy3rGQ/azIQ9vDKUttJo9KW8kuAYRPMzX0dbYdadzGB?=
- =?us-ascii?Q?VjaSGNCWrLgp3ogYiGp8GCl5cQObyUlSdMLxUbTRddoiabNf3NoLs+XWH4TH?=
- =?us-ascii?Q?70A2Q8DGVqDDQpe1vJU9Qt69wiNItGTw2CSPtDpkped+4xWruXxro2t03a+6?=
- =?us-ascii?Q?Afkgyo0uwwE3hYPLhipY+8msPE4eqSob8PSTdz4WH/GCSe/OFwH7iwuHQy+H?=
- =?us-ascii?Q?q6M7wUbY4OdpcQ5lIelTprM7Hzoxb/eovVAuyybpRqWS3X5TF7P9AuanYyn2?=
- =?us-ascii?Q?3yT0Ulps3cWRmMt90Y/pI1m6n1phlPxUaV5lkm0YdDh9SopP/ce+hJ64AUgN?=
- =?us-ascii?Q?n4LmgDa+i+fMEKcV99tj5dsAm/SuhMcT2RDeO8L8VU1Ym+4ELCnbweOajw0m?=
- =?us-ascii?Q?hJQlEBp6gvjcMqpDV5s7mnru28gQMPE3TJV61JLKLj4JF9TF1GuKcxPJmWGS?=
- =?us-ascii?Q?vFvBK8zG+oOGsCRINgCSfug/4ybnDvqzLlDMi1l0QzmSc/pJUfoiYJQBQ+MQ?=
- =?us-ascii?Q?LNJ50ivtuiclstgkSzm0gX8D9vSt1HdUfXcOIoVDEQXP96VRnyXHcqAFU1Dg?=
- =?us-ascii?Q?lEe2YfLBQQtQSB9yC2YswuG3l65ap/VGAkKSCLF3pgC9xojTINgFmU3xJ19Y?=
- =?us-ascii?Q?Ze/lLPcHEI4s20C0L4IJe4h9ku1VaYALvGF+ItyEIygc6zn0Jl6TPbx/CCyg?=
- =?us-ascii?Q?yygq6CNqj+8f7wogwdlIXVHu7Y8Wzvl0PQcCepZI/O9yDop88BISXyPWGdvm?=
- =?us-ascii?Q?YdmSCHK5QrwP2kIFJsiGdxZ+2NsoKA1R+Z5UAIyt4GWy++VM8JeNLHw9IFWm?=
- =?us-ascii?Q?OptWGQmJoWERhJ74g5V+voGB+66YlGmkh+nLRZr2tLFS+SChPwUl0TSlINdK?=
- =?us-ascii?Q?IuFcgzKOntyjr/bd+oLZwYeO+BtjhhG1Uj0xjWzzUDMtH0KcD5v6uDOuERNc?=
- =?us-ascii?Q?ABH8BQSnqmxiE2tpb5B5KUgh/vhGm4qFoZzd7A0NZTFsWc/mJ4npsMMdGlrR?=
- =?us-ascii?Q?bp4Oh9OjkLTEx2Esm6eG5G35OILKWCwhPWm7JOKPHGBKOwuALNxRDVzaBf3J?=
- =?us-ascii?Q?FXuFi0saVqE7PSV0bzx038J63KZwZWBi6n54yBXgSe/I/v8nKoUDUtoNqI8w?=
- =?us-ascii?Q?3jieiljcsnaQpg+kZQ/tfJiO6w70OD9/P9TkTE0jDXNiYtzUlRc5TmE1XB9C?=
- =?us-ascii?Q?7WDp5JC2Uku+InyCUbxfo5nAVHQl8R36JZsGytV8swgXokuz3sGjamQry89b?=
- =?us-ascii?Q?eRsjgtjZRxhs5+cFflxIb6Shf8YyRqhzTZlXZnyJ+1GgjURcVsGXOa3zvUEb?=
- =?us-ascii?Q?mr1vQQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 17 Apr 2023 02:02:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FB33580
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Apr 2023 23:02:42 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1poHwH-0002G1-KI; Mon, 17 Apr 2023 08:02:09 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1poHwE-00Bnsb-Cs; Mon, 17 Apr 2023 08:02:06 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1poHwD-00Dolu-4U; Mon, 17 Apr 2023 08:02:05 +0200
+Date:   Mon, 17 Apr 2023 08:02:03 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-aspeed@lists.ozlabs.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benson Leung <bleung@chromium.org>,
+        Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
+        Rory Liu <hellojacky0226@hotmail.com>,
+        Scott Chao <scott_chao@wistron.corp-partner.google.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Sean Young <sean@mess.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Antti Palosaari <crope@iki.fi>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+        Eddie James <eajames@linux.ibm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Qiheng Lin <linqiheng@huawei.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        =?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Guenter Roeck <groeck@chromium.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        openbmc@lists.ozlabs.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-rockchip@lists.infradead.org,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 000/117] media: Convert to platform remove callback
+ returning void
+Message-ID: <20230417060203.le3izz56wt73si6k@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f070c9e-7849-45f4-bfdc-08db3f015759
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2023 05:05:19.5753
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9XmMOYJpGXtydhLjwQTP5bIRDi44wXFoWLvwNZ8O87ubxAWZs6Red41VeoENy7YgKp0HPRpPt7s+K1krlV8JR7MEKS2eCroroPf+DoMZwHNVt7owCPLQrXQop80wPltb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11161
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ogmoi7vlr4vxdkq5"
+Content-Disposition: inline
+In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bjorn,
 
-> From: Bjorn Helgaas, Sent: Saturday, April 15, 2023 4:00 AM
-> Subject: Re: [PATCH v12 02/19] PCI: Add INtx Mechanism Messages macros
+--ogmoi7vlr4vxdkq5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Mauro
+
+On Sun, Mar 26, 2023 at 04:30:25PM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello,
 >=20
-> s/INtx/INTx/ in subject
+> this series adapts the platform drivers below drivers/pci to use the
 
-Oops. I'll fix it on v13.
+copy&paste failure here: s/pci/media/ of course.
 
-> On Fri, Apr 14, 2023 at 03:16:05PM +0900, Yoshihiro Shimoda wrote:
-> > Add "Message Routing" and "INTx Mechanism Messages" macros to send
-> > a message by a PCIe driver.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  include/linux/pci.h | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >
-> > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > index 0b57e37d8e77..ada1047035a8 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -1050,6 +1050,24 @@ enum {
-> >  #define PCI_IRQ_MSIX		(1 << 2) /* Allow MSI-X interrupts */
-> >  #define PCI_IRQ_AFFINITY	(1 << 3) /* Auto-assign affinity */
-> >
-> > +/* Message Routing */
-> > +#define PCI_MSG_ROUTING_RC	0
-> > +#define PCI_MSG_ROUTING_ADDR	1
-> > +#define PCI_MSG_ROUTING_ID	2
-> > +#define PCI_MSG_ROUTING_BC	3
-> > +#define PCI_MSG_ROUTING_LOCAL	4
-> > +#define PCI_MSG_ROUTING_GATHER	5
-> > +
-> > +/* INTx Mechanism Messages */
-> > +#define PCI_CODE_ASSERT_INTA	0x20
-> > +#define PCI_CODE_ASSERT_INTB	0x21
-> > +#define PCI_CODE_ASSERT_INTC	0x22
-> > +#define PCI_CODE_ASSERT_INTD	0x23
-> > +#define PCI_CODE_DEASSERT_INTA	0x24
-> > +#define PCI_CODE_DEASSERT_INTB	0x25
-> > +#define PCI_CODE_DEASSERT_INTC	0x26
-> > +#define PCI_CODE_DEASSERT_INTD	0x27
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver c=
+ore
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warnin=
+g. The
+> device is removed anyhow and an early return from .remove() usually yield=
+s a
+> resource leak.
 >=20
-> These look like things that should not be needed outside drivers/pci.
-> If that's the case, they should go in drivers/pci/pci.h, not
-> include/linux/pci.h.
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+>=20
+> Only three drivers needed some preparation first to make sure they
+> return 0 unconditionally in their remove callback. Then all drivers
+> could be trivially converted without side effects to .remove_new().
+>=20
+> The changes to the individual drivers are all orthogonal. If I need to
+> resend some patches because of some review feedback, I'd like to only
+> send the patches that actually needed changes, so please pick up the
+> remaining patches that don't need changing to reduce the amount of mail.
 
-I got it. I'll modify it on v13.
+I didn't hear anything back about application of this series. Is there a
+blocker somewhere?
 
-Best regards,
-Yoshihiro Shimoda
+Apart from the three preparatory patches that are a precondition to the
+conversion of the respective drivers, the patches are all pairwise
+orthogonal. So from my POV the best would be to apply all patches that
+still apply (which might be all), I will care for the fallout later
+then.
 
-> >  /* These external functions are only available when PCI support is ena=
-bled */
-> >  #ifdef CONFIG_PCI
-> >
-> > --
-> > 2.25.1
-> >
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ogmoi7vlr4vxdkq5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ84NoACgkQj4D7WH0S
+/k65OwgAkM/14eqkcxTg0/453d2uwhPt/jiDru0C14NvpnN4AFU0sa+yzp1GfYRO
+WfxjudHvw/OXq+eolRu8PrqJIpLHvQhOyjblYLXPqTB8RvdJSXI2Q1ZJjozYjCNJ
+WeBerHqAXGOnxd+2kbfCs2VZWYgmJpj1VCXeRYekMB7Kv1tmfXNXetaHIH7Rypw1
++Si1nhZN4Sk68bdXU+RaQc6UP5/E0VohPVWnSB1tsTQVL4sogBkjfDl4tueHEZxj
+959kirh12hfcFcqtz1mQ1u7V1dIc136PR+Kg/2b+GNaFbe/Zdsno5HbnbQl+NwL/
+GWFmd+GksqXkwA3k1tkqVdOFEPO4cQ==
+=K38Q
+-----END PGP SIGNATURE-----
+
+--ogmoi7vlr4vxdkq5--
