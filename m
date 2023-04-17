@@ -2,35 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 732996E3F4B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 08:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11C016E3F95
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 08:19:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbjDQGCo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 02:02:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43554 "EHLO
+        id S229667AbjDQGTe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 02:19:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbjDQGCn (ORCPT
+        with ESMTP id S229518AbjDQGTd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 02:02:43 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FB33580
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Apr 2023 23:02:42 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poHwH-0002G1-KI; Mon, 17 Apr 2023 08:02:09 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poHwE-00Bnsb-Cs; Mon, 17 Apr 2023 08:02:06 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poHwD-00Dolu-4U; Mon, 17 Apr 2023 08:02:05 +0200
-Date:   Mon, 17 Apr 2023 08:02:03 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-aspeed@lists.ozlabs.org,
+        Mon, 17 Apr 2023 02:19:33 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714BA3AA8;
+        Sun, 16 Apr 2023 23:19:21 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B70CC75B;
+        Mon, 17 Apr 2023 08:19:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681712352;
+        bh=hUS3oAOWF+giUHWBAsyfYtTSnpYPnmumb+DnGnesqJ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q+UHkgsqoMg+RbmFKgO/pKG4ltOgU+p0CEbmAeVPPRN4I/Z0MDEKluVIEqTeJBTh9
+         iHu44ev6JJI4FvruskDtoyatzHO41OXYRlqntM4853wlvujiEUW9lTQTFW+9URIaRu
+         Pthp2nfBkldHSvMHEeDw0JIfxddwHLTf+oIOMJpY=
+Date:   Mon, 17 Apr 2023 09:19:28 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-aspeed@lists.ozlabs.org,
         Alim Akhtar <alim.akhtar@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Benson Leung <bleung@chromium.org>,
@@ -47,7 +46,6 @@ Cc:     linux-aspeed@lists.ozlabs.org,
         Sean Young <sean@mess.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Yang Yingliang <yangyingliang@huawei.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -146,92 +144,71 @@ Cc:     linux-aspeed@lists.ozlabs.org,
         linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de
 Subject: Re: [PATCH 000/117] media: Convert to platform remove callback
  returning void
-Message-ID: <20230417060203.le3izz56wt73si6k@pengutronix.de>
+Message-ID: <20230417061928.GD28551@pendragon.ideasonboard.com>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+ <20230417060203.le3izz56wt73si6k@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ogmoi7vlr4vxdkq5"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230417060203.le3izz56wt73si6k@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Uwe,
 
---ogmoi7vlr4vxdkq5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Apr 17, 2023 at 08:02:03AM +0200, Uwe Kleine-König wrote:
+> Hello Mauro
+> 
+> On Sun, Mar 26, 2023 at 04:30:25PM +0200, Uwe Kleine-König wrote:
+> > Hello,
+> > 
+> > this series adapts the platform drivers below drivers/pci to use the
+> 
+> copy&paste failure here: s/pci/media/ of course.
+> 
+> > .remove_new() callback. Compared to the traditional .remove() callback
+> > .remove_new() returns no value. This is a good thing because the driver core
+> > doesn't (and cannot) cope for errors during remove. The only effect of a
+> > non-zero return value in .remove() is that the driver core emits a warning. The
+> > device is removed anyhow and an early return from .remove() usually yields a
+> > resource leak.
+> > 
+> > By changing the remove callback to return void driver authors cannot
+> > reasonably assume any more that there is some kind of cleanup later.
+> > 
+> > Only three drivers needed some preparation first to make sure they
+> > return 0 unconditionally in their remove callback. Then all drivers
+> > could be trivially converted without side effects to .remove_new().
+> > 
+> > The changes to the individual drivers are all orthogonal. If I need to
+> > resend some patches because of some review feedback, I'd like to only
+> > send the patches that actually needed changes, so please pick up the
+> > remaining patches that don't need changing to reduce the amount of mail.
+> 
+> I didn't hear anything back about application of this series. Is there a
+> blocker somewhere?
 
-Hello Mauro
+I think the series got applied to the master branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git.
+It should thus appear in v6.4.
 
-On Sun, Mar 26, 2023 at 04:30:25PM +0200, Uwe Kleine-K=F6nig wrote:
-> Hello,
->=20
-> this series adapts the platform drivers below drivers/pci to use the
+The corresponding series for staging media drivers has also been applied
+to the same branch as far as I can tell.
 
-copy&paste failure here: s/pci/media/ of course.
+> Apart from the three preparatory patches that are a precondition to the
+> conversion of the respective drivers, the patches are all pairwise
+> orthogonal. So from my POV the best would be to apply all patches that
+> still apply (which might be all), I will care for the fallout later
+> then.
 
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver c=
-ore
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warnin=
-g. The
-> device is removed anyhow and an early return from .remove() usually yield=
-s a
-> resource leak.
->=20
-> By changing the remove callback to return void driver authors cannot
-> reasonably assume any more that there is some kind of cleanup later.
->=20
-> Only three drivers needed some preparation first to make sure they
-> return 0 unconditionally in their remove callback. Then all drivers
-> could be trivially converted without side effects to .remove_new().
->=20
-> The changes to the individual drivers are all orthogonal. If I need to
-> resend some patches because of some review feedback, I'd like to only
-> send the patches that actually needed changes, so please pick up the
-> remaining patches that don't need changing to reduce the amount of mail.
+-- 
+Regards,
 
-I didn't hear anything back about application of this series. Is there a
-blocker somewhere?
-
-Apart from the three preparatory patches that are a precondition to the
-conversion of the respective drivers, the patches are all pairwise
-orthogonal. So from my POV the best would be to apply all patches that
-still apply (which might be all), I will care for the fallout later
-then.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ogmoi7vlr4vxdkq5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ84NoACgkQj4D7WH0S
-/k65OwgAkM/14eqkcxTg0/453d2uwhPt/jiDru0C14NvpnN4AFU0sa+yzp1GfYRO
-WfxjudHvw/OXq+eolRu8PrqJIpLHvQhOyjblYLXPqTB8RvdJSXI2Q1ZJjozYjCNJ
-WeBerHqAXGOnxd+2kbfCs2VZWYgmJpj1VCXeRYekMB7Kv1tmfXNXetaHIH7Rypw1
-+Si1nhZN4Sk68bdXU+RaQc6UP5/E0VohPVWnSB1tsTQVL4sogBkjfDl4tueHEZxj
-959kirh12hfcFcqtz1mQ1u7V1dIc136PR+Kg/2b+GNaFbe/Zdsno5HbnbQl+NwL/
-GWFmd+GksqXkwA3k1tkqVdOFEPO4cQ==
-=K38Q
------END PGP SIGNATURE-----
-
---ogmoi7vlr4vxdkq5--
+Laurent Pinchart
