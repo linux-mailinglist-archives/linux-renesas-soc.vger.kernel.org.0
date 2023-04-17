@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E7816E430A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 11:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865F26E430E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 11:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbjDQJCH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 05:02:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33862 "EHLO
+        id S230185AbjDQJCK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 05:02:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjDQJCG (ORCPT
+        with ESMTP id S229627AbjDQJCJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 05:02:06 -0400
+        Mon, 17 Apr 2023 05:02:09 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 086FBBB;
-        Mon, 17 Apr 2023 02:02:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A245ABB;
+        Mon, 17 Apr 2023 02:02:07 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,203,1677510000"; 
-   d="scan'208";a="159710146"
+   d="scan'208";a="159710155"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Apr 2023 18:02:04 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 17 Apr 2023 18:02:07 +0900
 Received: from localhost.localdomain (unknown [10.226.92.249])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AF5CE400720E;
-        Mon, 17 Apr 2023 18:02:01 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D88CB400CEF2;
+        Mon, 17 Apr 2023 18:02:04 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -30,42 +30,43 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/3] arm64: dts: renesas: r9a07g044: Add MTU3a node
-Date:   Mon, 17 Apr 2023 10:01:57 +0100
-Message-Id: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/3] arm64: dts: renesas: r9a07g054: Add MTU3a node
+Date:   Mon, 17 Apr 2023 10:01:58 +0100
+Message-Id: <20230417090159.191346-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
+References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75 autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add MTU3a node to R9A07G044 (RZ/G2L) SoC DTSI.
+Add MTU3a node to R9A07G054 (RZ/V2L) SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 Driver and binding patches are in next [1]
 [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?qt=grep&q=biju.das
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 70 ++++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 70 ++++++++++++++++++++++
  1 file changed, 70 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 1315be5167b9..6983be94d95b 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index cc11e5855d62..69d280e9b2e7 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
 @@ -174,6 +174,76 @@ soc: soc {
  		#size-cells = <2>;
  		ranges;
  
 +		mtu3: timer@10001200 {
-+			compatible = "renesas,r9a07g044-mtu3",
++			compatible = "renesas,r9a07g054-mtu3",
 +				     "renesas,rz-mtu3";
 +			reg = <0 0x10001200 0 0xb00>;
 +			interrupts = <GIC_SPI 170 IRQ_TYPE_EDGE_RISING>,
@@ -127,15 +128,15 @@ index 1315be5167b9..6983be94d95b 100644
 +					  "tgiv7",
 +					  "tgia8", "tgib8", "tgic8", "tgid8",
 +					  "tgiv8", "tgiu8";
-+			clocks = <&cpg CPG_MOD R9A07G044_MTU_X_MCK_MTU3>;
++			clocks = <&cpg CPG_MOD R9A07G054_MTU_X_MCK_MTU3>;
 +			power-domains = <&cpg>;
-+			resets = <&cpg R9A07G044_MTU_X_PRESET_MTU3>;
++			resets = <&cpg R9A07G054_MTU_X_PRESET_MTU3>;
 +			#pwm-cells = <2>;
 +			status = "disabled";
 +		};
 +
  		ssi0: ssi@10049c00 {
- 			compatible = "renesas,r9a07g044-ssi",
+ 			compatible = "renesas,r9a07g054-ssi",
  				     "renesas,rz-ssi";
 -- 
 2.25.1
