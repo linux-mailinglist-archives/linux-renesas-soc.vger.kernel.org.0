@@ -2,315 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C51A86E453B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 12:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DED6E4606
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 13:07:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbjDQKdW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 06:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35820 "EHLO
+        id S230434AbjDQLHw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 07:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbjDQKdV (ORCPT
+        with ESMTP id S229959AbjDQLHv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 06:33:21 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1765B8E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Apr 2023 03:32:24 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by laurent.telenet-ops.be with bizsmtp
-        id lmXe2900C1C8whw01mXeGh; Mon, 17 Apr 2023 12:31:48 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1poM8A-00GzWt-SH;
-        Mon, 17 Apr 2023 12:31:38 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1poM94-007KQx-FS;
-        Mon, 17 Apr 2023 12:31:38 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Bin Liu <bin.liu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] media: Add common header file with JPEG marker definitions
-Date:   Mon, 17 Apr 2023 12:31:35 +0200
-Message-Id: <bcb81f910f03eef4ed964d39883df0d33c762f9f.1681727493.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Mon, 17 Apr 2023 07:07:51 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B8AA5FC0;
+        Mon, 17 Apr 2023 04:06:58 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3294eacb2f6so3900725ab.3;
+        Mon, 17 Apr 2023 04:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681729512; x=1684321512;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ELltBzgQq2kMsFk/gBLyDUWGvL72bzaDJeO1HjsJ+nU=;
+        b=i0uxx4P8b7+jO8mRYbbxdG6Tfr1WANwEY6VPHvQYQbrvN/wUdd/DblekpGVF6pDzlY
+         voV/o3DikT2W9GSUxV8PGX7PgfRr+oJ2/26tGn5E6SCJHSidR3lWL+XGuQ8Y/E0uX/6o
+         yUYpESxqjjR+uiztIKF4TGwbKx82yutq9a+6+7lkrY3hhmlRRnSbAs4+nlLWIYosPCdr
+         VYPzJjqLIKc+QNtj2YBSCuC9SQtJSjUeIWNYZQzpZ97q2RCobF7EpuOXqia9CzHkptXH
+         uzHiB8VIFKT+R6a/v5sqMghm04M3C/3Y00UFKX3Y1H35WpHUnBybtY0az8JRLi/Xr97S
+         2Lpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681729512; x=1684321512;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ELltBzgQq2kMsFk/gBLyDUWGvL72bzaDJeO1HjsJ+nU=;
+        b=aaolkxrWArmJOxV3i487gmPkF0RamzX7OjscjsMe+vbJRVeAbZ76AS9VbdKVyKzuA6
+         8K8G28i9xGCr8z+d8tdWCJbnaoYdAKRDjHtxsq8i08TKWyD4JPONQYv3TahQiIZ5l+//
+         iNhC4Yv1u78eYL8wOB0VtVNh9H6DxYQasr9i80NGaLnM8tBb09D3vvjT0k4QslFFGkNe
+         dry/8cn7+vo9HShdqajlp2IfmBAkvyS0/RJNqnlrsg7Xq0N5+B1gwWL3R8DwvHbS0NC0
+         a8XGzSYdpg4Bkoe5laplj/tV36nNasXTiwQLLTjC5lzaNl9TPeKkwlWhFTmInMhYUGt5
+         L3qA==
+X-Gm-Message-State: AAQBX9dmbf1eploYHvOGhivNvIzqAmoskTLe3DBommOgGkxRELl6CMqX
+        RWRfOqyoA2aWrULfGWcLn2cJbYKNiIbbyUqw5gY=
+X-Google-Smtp-Source: AKy350ZM1nWgkQHtj558qYXfvl4irLs4ErPelGgapvsZkr0Tr0xC6WGBmnrJkha7B4Xh3iK8iVpXCIb6HF/fktL4JCE=
+X-Received: by 2002:a92:cf43:0:b0:32b:1c9f:3c48 with SMTP id
+ c3-20020a92cf43000000b0032b1c9f3c48mr1115197ilr.1.1681729512244; Mon, 17 Apr
+ 2023 04:05:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230412185608.64628-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230412185608.64628-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU9qrSaJqNL_PsrvbyrBAEB17yVMmLPon8AbvE3kjbTUQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdU9qrSaJqNL_PsrvbyrBAEB17yVMmLPon8AbvE3kjbTUQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 17 Apr 2023 12:04:46 +0100
+Message-ID: <CA+V-a8sVjK7jm6m=7XC9B8JBeUqL+aL_wvFjM-e=-p+4xWuszQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzv2l-smarc: Enable CRU, CSI support
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When compile-testing on mips/RB532 with W=1:
+Hi Geert,
 
-    arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-       13 | #define RST  (1 << 15)
-	  |
-    drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c:15: warning: "RST" redefined
-       15 | #define RST 0xd0
-	  |
-    drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST" redefined
-       77 | #define RST 0xd0
-	  |
+Thank you for the review.
 
-"RST" is indeed a name too short to be conflict-free.
+On Mon, Apr 17, 2023 at 9:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> Thanks for your patch!
+>
+> On Wed, Apr 12, 2023 at 8:56=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Enable CRU, CSI on RZ/V2L SMARC EVK and tie the CSI to the OV5645 senso=
+r
+> > using Device Tree overlay. RZ/G2L SMARC EVK and RZ/V2L SMARC EVK have t=
+he
+> > same connections for connecting the CSI to OV5645 sensor so just reuse
+> > the existing r9a07g044l2-smarc-cru-csi-ov5645.dtso and create a symboli=
+c
+> > link to this file for RZ/V2L SMARC EVK.
+>
+> Perhaps it makes more sense to rename r9a07g044l2-smarc-cru-csi-ov5645.dt=
+so
+> to rzg2l-smarc-cru-csi-ov5645.dtso instead?
+>
+ok, and then for g2lc [0] I add rzg2lc-smarc-cru-csi-ov5645.dtso ?
 
-Fix this by creating a common <media/jpeg.h> header file, containing
-definitions for all JPEG markers used, prefixed by "JPEG_MARKER_", based
-on the existing private definitions in the Samsung S5P JPEG driver, and
-convert all affected drivers.
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2023041311=
+4016.16068-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202304152346.hJOPxPRh-lkp@intel.com/
-Link: https://lore.kernel.org/oe-kbuild-all/202304150059.bHUyuriy-lkp@intel.com/
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-No change in generated code before/after.
----
- .../mediatek/jpeg/mtk_jpeg_dec_parse.c        | 17 ++----
- drivers/media/platform/renesas/rcar_jpu.c     | 55 +++++++++----------
- .../platform/samsung/s5p-jpeg/jpeg-core.h     | 12 +---
- include/media/jpeg.h                          | 20 +++++++
- 4 files changed, 52 insertions(+), 52 deletions(-)
- create mode 100644 include/media/jpeg.h
-
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c
-index b95c45791c29edc5..bb9cdc9e0e90912b 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c
-@@ -7,15 +7,10 @@
- 
- #include <linux/kernel.h>
- #include <linux/videodev2.h>
-+#include <media/jpeg.h>
- 
- #include "mtk_jpeg_dec_parse.h"
- 
--#define TEM	0x01
--#define SOF0	0xc0
--#define RST	0xd0
--#define SOI	0xd8
--#define EOI	0xd9
--
- struct mtk_jpeg_stream {
- 	u8 *addr;
- 	u32 size;
-@@ -83,7 +78,7 @@ static bool mtk_jpeg_do_parse(struct mtk_jpeg_dec_param *param, u8 *src_addr_va,
- 
- 		length = 0;
- 		switch (byte) {
--		case SOF0:
-+		case JPEG_MARKER_SOF0:
- 			/* length */
- 			if (read_word_be(&stream, &word))
- 				break;
-@@ -123,10 +118,10 @@ static bool mtk_jpeg_do_parse(struct mtk_jpeg_dec_param *param, u8 *src_addr_va,
- 
- 			notfound = !(i == param->comp_num);
- 			break;
--		case RST ... RST + 7:
--		case SOI:
--		case EOI:
--		case TEM:
-+		case JPEG_MARKER_RST ... JPEG_MARKER_RST + 7:
-+		case JPEG_MARKER_SOI:
-+		case JPEG_MARKER_EOI:
-+		case JPEG_MARKER_TEM:
- 			break;
- 		default:
- 			if (read_word_be(&stream, &word))
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index d1dda68bfb5e2087..25d3f0376d6709ba 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -28,6 +28,7 @@
- #include <linux/spinlock.h>
- #include <linux/string.h>
- #include <linux/videodev2.h>
-+#include <media/jpeg.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -71,19 +72,6 @@
- #define JPU_JPEG_DEFAULT_422_PIX_FMT V4L2_PIX_FMT_NV16M
- #define JPU_JPEG_DEFAULT_420_PIX_FMT V4L2_PIX_FMT_NV12M
- 
--/* JPEG markers */
--#define TEM	0x01
--#define SOF0	0xc0
--#define RST	0xd0
--#define SOI	0xd8
--#define EOI	0xd9
--#define DHP	0xde
--#define DHT	0xc4
--#define COM	0xfe
--#define DQT	0xdb
--#define DRI	0xdd
--#define APP0	0xe0
--
- #define JPU_RESET_TIMEOUT	100 /* ms */
- #define JPU_JOB_TIMEOUT		300 /* ms */
- #define JPU_MAX_QUALITY		4
-@@ -330,26 +318,32 @@ static const u8 zigzag[] = {
-  * Huffman tables; Padding with 0xff (33.3.27 R01UH0501EJ0100 Rev.1.00)
-  */
- #define JPU_JPEG_HDR_BLOB {                                                    \
--	0xff, SOI, 0xff, DQT, 0x00, JPU_JPEG_QTBL_SIZE + 0x3, JPU_JPEG_LUM,    \
--	[JPU_JPEG_QTBL_LUM_OFFSET ...                                          \
-+	0xff, JPEG_MARKER_SOI, 0xff, JPEG_MARKER_DQT, 0x00,		       \
-+	JPU_JPEG_QTBL_SIZE + 0x3, JPU_JPEG_LUM,				       \
-+	[JPU_JPEG_QTBL_LUM_OFFSET ...					       \
- 		JPU_JPEG_QTBL_LUM_OFFSET + JPU_JPEG_QTBL_SIZE - 1] = 0x00,     \
--	0xff, DQT, 0x00, JPU_JPEG_QTBL_SIZE + 0x3, JPU_JPEG_CHR,               \
-+	0xff, JPEG_MARKER_DQT, 0x00, JPU_JPEG_QTBL_SIZE + 0x3, JPU_JPEG_CHR,   \
- 	[JPU_JPEG_QTBL_CHR_OFFSET ... JPU_JPEG_QTBL_CHR_OFFSET +               \
--		JPU_JPEG_QTBL_SIZE - 1] = 0x00, 0xff, SOF0, 0x00, 0x11, 0x08,  \
-+		JPU_JPEG_QTBL_SIZE - 1] = 0x00,				       \
-+	0xff, JPEG_MARKER_SOF0, 0x00, 0x11, 0x08,			       \
- 	[JPU_JPEG_HEIGHT_OFFSET ... JPU_JPEG_HEIGHT_OFFSET + 1] = 0x00,        \
- 	[JPU_JPEG_WIDTH_OFFSET ... JPU_JPEG_WIDTH_OFFSET + 1] = 0x00,          \
- 	0x03, 0x01, [JPU_JPEG_SUBS_OFFSET] = 0x00, JPU_JPEG_LUM,               \
- 	0x02, 0x11, JPU_JPEG_CHR, 0x03, 0x11, JPU_JPEG_CHR,                    \
--	0xff, DHT, 0x00, JPU_JPEG_HDCTBL_SIZE + 0x3, JPU_JPEG_LUM|JPU_JPEG_DC, \
-+	0xff, JPEG_MARKER_DHT, 0x00, JPU_JPEG_HDCTBL_SIZE + 0x3,	       \
-+	JPU_JPEG_LUM | JPU_JPEG_DC,					       \
- 	[JPU_JPEG_HDCTBL_LUM_OFFSET ...                                        \
- 		JPU_JPEG_HDCTBL_LUM_OFFSET + JPU_JPEG_HDCTBL_SIZE - 1] = 0x00, \
--	0xff, DHT, 0x00, JPU_JPEG_HACTBL_SIZE + 0x3, JPU_JPEG_LUM|JPU_JPEG_AC, \
-+	0xff, JPEG_MARKER_DHT, 0x00, JPU_JPEG_HACTBL_SIZE + 0x3,	       \
-+	JPU_JPEG_LUM | JPU_JPEG_AC,					       \
- 	[JPU_JPEG_HACTBL_LUM_OFFSET ...                                        \
- 		JPU_JPEG_HACTBL_LUM_OFFSET + JPU_JPEG_HACTBL_SIZE - 1] = 0x00, \
--	0xff, DHT, 0x00, JPU_JPEG_HDCTBL_SIZE + 0x3, JPU_JPEG_CHR|JPU_JPEG_DC, \
-+	0xff, JPEG_MARKER_DHT, 0x00, JPU_JPEG_HDCTBL_SIZE + 0x3,	       \
-+	JPU_JPEG_CHR | JPU_JPEG_DC,					       \
- 	[JPU_JPEG_HDCTBL_CHR_OFFSET ...                                        \
- 		JPU_JPEG_HDCTBL_CHR_OFFSET + JPU_JPEG_HDCTBL_SIZE - 1] = 0x00, \
--	0xff, DHT, 0x00, JPU_JPEG_HACTBL_SIZE + 0x3, JPU_JPEG_CHR|JPU_JPEG_AC, \
-+	0xff, JPEG_MARKER_DHT, 0x00, JPU_JPEG_HACTBL_SIZE + 0x3,	       \
-+	JPU_JPEG_CHR | JPU_JPEG_AC,					       \
- 	[JPU_JPEG_HACTBL_CHR_OFFSET ...                                        \
- 		JPU_JPEG_HACTBL_CHR_OFFSET + JPU_JPEG_HACTBL_SIZE - 1] = 0x00, \
- 	[JPU_JPEG_PADDING_OFFSET ... JPU_JPEG_HDR_SIZE - 1] = 0xff             \
-@@ -613,7 +607,8 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
- 	 * basic size check and EOI - we don't want to let JPU cross
- 	 * buffer bounds in any case. Hope it's stopping by EOI.
- 	 */
--	if (size < JPU_JPEG_MIN_SIZE || *(u8 *)(buffer + size - 1) != EOI)
-+	if (size < JPU_JPEG_MIN_SIZE ||
-+	    *(u8 *)(buffer + size - 1) != JPEG_MARKER_EOI)
- 		return 0;
- 
- 	for (;;) {
-@@ -624,14 +619,14 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
- 			c = get_byte(&jpeg_buffer);
- 		while (c == 0xff || c == 0);
- 
--		if (!soi && c == SOI) {
-+		if (!soi && c == JPEG_MARKER_SOI) {
- 			soi = true;
- 			continue;
--		} else if (soi != (c != SOI))
-+		} else if (soi != (c != JPEG_MARKER_SOI))
- 			return 0;
- 
- 		switch (c) {
--		case SOF0: /* SOF0: baseline JPEG */
-+		case JPEG_MARKER_SOF0: /* SOF0: baseline JPEG */
- 			skip(&jpeg_buffer, 3); /* segment length and bpp */
- 			if (get_word_be(&jpeg_buffer, height) ||
- 			    get_word_be(&jpeg_buffer, width) ||
-@@ -640,11 +635,11 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
- 
- 			skip(&jpeg_buffer, 1);
- 			return get_byte(&jpeg_buffer);
--		case DHT:
--		case DQT:
--		case COM:
--		case DRI:
--		case APP0 ... APP0 + 0x0f:
-+		case JPEG_MARKER_DHT:
-+		case JPEG_MARKER_DQT:
-+		case JPEG_MARKER_COM:
-+		case JPEG_MARKER_DRI:
-+		case JPEG_MARKER_APP0 ... JPEG_MARKER_APP0 + 0x0f:
- 			if (get_word_be(&jpeg_buffer, &word))
- 				return 0;
- 			skip(&jpeg_buffer, (long)word - 2);
-diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-index 5570c79f122f5a09..4b665a3b630f8bf9 100644
---- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-@@ -11,6 +11,7 @@
- #define JPEG_CORE_H_
- 
- #include <linux/interrupt.h>
-+#include <media/jpeg.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fh.h>
- #include <media/v4l2-ctrls.h>
-@@ -36,17 +37,6 @@
- 
- #define EXYNOS3250_IRQ_TIMEOUT		0x10000000
- 
--/* a selection of JPEG markers */
--#define JPEG_MARKER_TEM				0x01
--#define JPEG_MARKER_SOF0				0xc0
--#define JPEG_MARKER_DHT				0xc4
--#define JPEG_MARKER_RST				0xd0
--#define JPEG_MARKER_SOI				0xd8
--#define JPEG_MARKER_EOI				0xd9
--#define	JPEG_MARKER_SOS				0xda
--#define JPEG_MARKER_DQT				0xdb
--#define JPEG_MARKER_DHP				0xde
--
- /* Flags that indicate a format can be used for capture/output */
- #define SJPEG_FMT_FLAG_ENC_CAPTURE	(1 << 0)
- #define SJPEG_FMT_FLAG_ENC_OUTPUT	(1 << 1)
-diff --git a/include/media/jpeg.h b/include/media/jpeg.h
-new file mode 100644
-index 0000000000000000..a01e142e99a7d001
---- /dev/null
-+++ b/include/media/jpeg.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef _MEDIA_JPEG_H_
-+#define _MEDIA_JPEG_H_
-+
-+/* JPEG markers */
-+#define JPEG_MARKER_TEM		0x01
-+#define JPEG_MARKER_SOF0	0xc0
-+#define JPEG_MARKER_DHT		0xc4
-+#define JPEG_MARKER_RST		0xd0
-+#define JPEG_MARKER_SOI		0xd8
-+#define JPEG_MARKER_EOI		0xd9
-+#define JPEG_MARKER_SOS		0xda
-+#define JPEG_MARKER_DQT		0xdb
-+#define JPEG_MARKER_DRI		0xdd
-+#define JPEG_MARKER_DHP		0xde
-+#define JPEG_MARKER_APP0	0xe0
-+#define JPEG_MARKER_COM		0xfe
-+
-+#endif /* _MEDIA_JPEG_H_ */
--- 
-2.34.1
-
+Cheers,
+Prabhakar
