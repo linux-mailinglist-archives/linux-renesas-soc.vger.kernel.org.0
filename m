@@ -2,150 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 011A66E3F9D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 08:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D29156E4036
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Apr 2023 08:54:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbjDQGUM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Apr 2023 02:20:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        id S229830AbjDQGyH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Apr 2023 02:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbjDQGUL (ORCPT
+        with ESMTP id S230117AbjDQGyH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Apr 2023 02:20:11 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC35E3AAF
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Apr 2023 23:20:08 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id xi5so61218260ejb.13
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Apr 2023 23:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681712407; x=1684304407;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cJzj86LhSJdAtbDEWAVBqUw/9fJfGhViwtTg9bTQuwI=;
-        b=UwxNUHi1Q2SgXqIq3683UkBdctv5eKKX4T6cw2UjfsXc5YW6Z3PBE6NlPjLW6oVX8G
-         kwN3WLBuMU05G6+iRNYz4AZAV6bHlfUVNFqrywbO0pBt8oD6KYzVcHpeWoGmx1hDTw2Z
-         KDBCiGit5JahQBASnL1rzyGRy43I70DwwKGxJ2LI1rlRjLOC+s/4sO1GLMxjvOkb1b/T
-         5+39CQS1xToB6e9McpvQoD7TYUklpGa9WnUh/ubH/roqVLknUgjocOXkSxqtFtXXR0PP
-         dC31xa56ppER0VHU4Dpk+mo3NIAVMs1Nf0+pr4opnCQ2wUQ7Noh4n4hLAjs8xQFRm2bX
-         ct0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681712407; x=1684304407;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJzj86LhSJdAtbDEWAVBqUw/9fJfGhViwtTg9bTQuwI=;
-        b=LOSBb/iw/qQXRblx6cKoFb18E/p2fXPZWRTRf02QpDnTi1TaO1MJP5+Z3eDkGuySpy
-         B1dQnyp8Wp9Q7eSYSrOYON8TwvuxWLXyQNa9fLMIXq4ZlzVobITV3lTvHpUUjW2czof1
-         clbGcUeap2NaF7G85qRNrtnKJfj5z2di2vTQ5zwgK0PprApHhHAhDWIo7Az/VmUSzpCg
-         6b87YjWPbZqYC79sbYR51R5lyiv7PQPR2Xv6PLxk6htCbqqPbk8aOokZgIP7KGD0+CQR
-         WRXWPtI6EmqDtCtmSFalYvbyXDeIGlD+hkF/NpdOUi3h6milAhjS5uPm3yAubPwFjOMB
-         +s2Q==
-X-Gm-Message-State: AAQBX9e955LMKlZJMeUH7yEciOCwJ/KxrTH5YwU579jWm/C5+ml4dHMd
-        HdVOrzznaR4L5Konezes51UN7Q==
-X-Google-Smtp-Source: AKy350b8SXOaVHs71B0PzryL6gYZwUkAWF9/MWVAL9BYOIq7rQp8WPjgG4lUStlvKPn23FMl4BQA3g==
-X-Received: by 2002:a17:907:a08d:b0:94f:8f37:d4e with SMTP id hu13-20020a170907a08d00b0094f8f370d4emr707144ejc.65.1681712407414;
-        Sun, 16 Apr 2023 23:20:07 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:b0ac:4d3b:966c:b33d? ([2a02:810d:15c0:828:b0ac:4d3b:966c:b33d])
-        by smtp.gmail.com with ESMTPSA id s15-20020a1709060c0f00b0094ca077c985sm6072788ejf.213.2023.04.16.23.20.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Apr 2023 23:20:06 -0700 (PDT)
-Message-ID: <9edfca01-4191-8eca-32c6-c95f7c7601ae@linaro.org>
-Date:   Mon, 17 Apr 2023 08:20:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 6/6] dt-bindings: watchdog: realtek,otto-wdt: simplify
- requiring interrupt-names
-Content-Language: en-US
-To:     Sander Vanheule <sander@svanheule.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Julius Werner <jwerner@chromium.org>,
-        Evan Benn <evanbenn@chromium.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Mon, 17 Apr 2023 02:54:07 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2D840E1;
+        Sun, 16 Apr 2023 23:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xkIPaj9erlzr3gawq1t3kzbVATkla0GqAxUj1VxbIyI=; b=4t76V2ZNgYjjefldKIZ754057h
+        6zVqGakkXtHT2jKf9JJT8XSNfGjqAqdgJRtLosZ+4W/0tL6CjO8c6lPIFCioNh6c7T7HbJGRV4lqZ
+        LLvRUsPCno/jWlfJnyl9BE43//H36poZswDwvJKKqxw32xdiueB2ZBap3zyPXFlKyqH15TCbwkMhB
+        LGoA0OUW5kYe6O1ZrRn1EQ/a3hlKAiil0qM/bmWP0RIjjgGkfqkQ0Xf4UuQcCdEanp8YY7avDwiXz
+        lZsg79ROepphs5KUhmeXJ2vgI+0ZC7ShueKt26MD3agDQ6QdbhfaZSx0e6wGPjdCckvttasXHOK/k
+        A3EgNWgw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1poIjl-00F6BL-2v;
+        Mon, 17 Apr 2023 06:53:17 +0000
+Date:   Sun, 16 Apr 2023 23:53:17 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Fu Wei <fu.wei@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Justin Chen <justinpopo6@gmail.com>, ?ecki <rafal@milecki.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Robert Marko <robert.marko@sartura.hr>,
-        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jamie Iles <jamie@jamieiles.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Christophe Roullier <christophe.roullier@foss.st.com>,
-        Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>,
-        Srinivas Neeli <srinivas.neeli@xilinx.com>,
-        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org
-References: <20230415095112.51257-1-krzysztof.kozlowski@linaro.org>
- <20230415095112.51257-6-krzysztof.kozlowski@linaro.org>
- <75148300a158ceb0f86043535b089838e1d1bb61.camel@svanheule.net>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <75148300a158ceb0f86043535b089838e1d1bb61.camel@svanheule.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Heiko Stuebner <heiko@sntech.de>, Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v8 0/7] Add non-coherent DMA support for AX45MP
+Message-ID: <ZDzs3eYIKPFcv0HQ@infradead.org>
+References: <20230412110900.69738-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230412-populate-busybody-4c6d7cfc4667@spud>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230412-populate-busybody-4c6d7cfc4667@spud>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16/04/2023 21:00, Sander Vanheule wrote:
-> Hi Krzysztof,
+On Wed, Apr 12, 2023 at 09:32:30PM +0100, Conor Dooley wrote:
+> On Wed, Apr 12, 2023 at 12:08:53PM +0100, Prabhakar wrote:
 > 
-> On Sat, 2023-04-15 at 11:51 +0200, Krzysztof Kozlowski wrote:
->> Required properties should be listed in "required:" block.  Since
->> interrupts are already there, the dependency of interrupt-names on the
->> interrupts can be simplified.
+> > Note,
+> > - This series requires testing on Cores with zicbom and T-Head SoCs
 > 
-> Maybe I'm not reading this right, but isn't the dependency stated in the binding
-> "interrupts requires interrupt-names to be present"? resource-names.txt
-> describes the reverse dependency ("interrupt-names is only meaningful with an
-> associated interrupts").
+> As I said last time, I dunno what actual Zicbom stuff exists, other than
+> perhaps the Ventana lads having something. I did some tyre kicking on my
+> D1 and it was fine, although nothing has actually changed materially for
+> either of them with this series in v8..
 
-The interrupts are already required by the binding, so the dependency,
-which makes interrupts depending on presence of interrupt-names,
-effectively was making the names required.
-
-Best regards,
-Krzysztof
-
+And as saying before, there is absolutely no reason to add non-standard
+non-coherent DMA support and let this cancer creep.  If you want Linux
+support implement Zicbom, be that in hardware or the SBI.
