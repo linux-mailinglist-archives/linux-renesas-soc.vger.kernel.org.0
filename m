@@ -2,81 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B706E5992
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 08:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D94506E5AB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 09:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbjDRGp2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Apr 2023 02:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41064 "EHLO
+        id S230244AbjDRHp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Apr 2023 03:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjDRGp1 (ORCPT
+        with ESMTP id S230325AbjDRHp7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Apr 2023 02:45:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A88D40DC;
-        Mon, 17 Apr 2023 23:45:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2702162723;
-        Tue, 18 Apr 2023 06:45:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD3DC433D2;
-        Tue, 18 Apr 2023 06:45:23 +0000 (UTC)
-Message-ID: <7f528964-36ae-71b9-0bd9-5c75b9d89594@xs4all.nl>
-Date:   Tue, 18 Apr 2023 08:45:22 +0200
+        Tue, 18 Apr 2023 03:45:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388364C1C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 00:45:56 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC6D7802;
+        Tue, 18 Apr 2023 09:45:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681803948;
+        bh=WXMqNLcsMzBdrCjOVU5w+1j2mj02wBkgJYuHzWk/1D4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fzNEKPtbSmPORakCx1oG+/uQWTelnSYg29fmE1KU+0dGA+AXDDnieD3kn+f3xLFJf
+         MSoilFG1a3qC6p9dvTB2bvYoCmSh1Bx1g+4FlC0ArX7nvJyUfb4yPy62IYl4q7of7L
+         rMljMSO+dEJBgDY6Joa3aPlOiY9/6rQyoAqRqUzM=
+Date:   Tue, 18 Apr 2023 10:46:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/5] drm: shmobile: Use %p4cc to print fourcc codes
+Message-ID: <20230418074605.GE4703@pendragon.ideasonboard.com>
+References: <cover.1681734821.git.geert+renesas@glider.be>
+ <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 0/3] media: rcar-csi2: Add support for V4H
-Content-Language: en-US
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Geert,
 
-On 11/02/2023 15:53, Niklas Söderlund wrote:
-> Hello,
-> 
-> This series adds support for Renesas R-Car V4H. The work depends on the 
-> series which adds the compatible value added to the bindings 
-> documentation, posted separately [1].
-> 
-> Patch 1/3 prepares the driver for R-Car Gen4 by creating function 
-> pointers for differences with Gen3. Patch 2/3 prepares for parsing CSI-2 
-> C-PHY properties. Finally patch 3/3 adds V4H support.
-> 
-> Tested on both Gen3 and Gen4 hardware without any regressions. Tested 
-> using both regular capture and v4l-compliance.
-> 
-> 1. [PATCH 0/3] media: dt-bindings: media: Add bindings for video capture on R-Car V4H
-> 
-> Niklas Söderlund (3):
->   media: rcar-csi2: Prepare for Gen4 support
->   media: rcar-csi2: Prepare for C-PHY support
->   media: rcar-csi2: Add support for C-PHY on R-Car V4H
-> 
->  .../platform/renesas/rcar-vin/rcar-csi2.c     | 394 +++++++++++++++++-
->  1 file changed, 379 insertions(+), 15 deletions(-)
-> 
+Thank you for the patch.
 
-Can you rebase and repost? This series no longer applies.
+On Mon, Apr 17, 2023 at 03:40:21PM +0200, Geert Uytterhoeven wrote:
+> Replace the printing of hexadecimal fourcc format codes by
+> pretty-printed format names, using the "%p4cc" format specifier.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Thanks!
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-	Hans
+> ---
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
+>  drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> index d354ab3077cecf94..713a7612244c647a 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
+> @@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
+>  
+>  	format = shmob_drm_format_info(crtc->primary->fb->format->format);
+>  	if (format == NULL) {
+> -		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
+> -			crtc->primary->fb->format->format);
+> +		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
+> +			&crtc->primary->fb->format->format);
+>  		return -EINVAL;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
+> @@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+>  
+>  	format = shmob_drm_format_info(mode_cmd->pixel_format);
+>  	if (format == NULL) {
+> -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
+> -			mode_cmd->pixel_format);
+> +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
+> +			&mode_cmd->pixel_format);
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
