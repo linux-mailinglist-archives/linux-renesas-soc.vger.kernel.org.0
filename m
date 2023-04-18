@@ -2,50 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D94506E5AB3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 09:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ECBC6E5BEA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 10:20:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbjDRHp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Apr 2023 03:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        id S230045AbjDRIUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Apr 2023 04:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbjDRHp7 (ORCPT
+        with ESMTP id S229681AbjDRIUP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Apr 2023 03:45:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388364C1C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 00:45:56 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC6D7802;
-        Tue, 18 Apr 2023 09:45:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681803948;
-        bh=WXMqNLcsMzBdrCjOVU5w+1j2mj02wBkgJYuHzWk/1D4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fzNEKPtbSmPORakCx1oG+/uQWTelnSYg29fmE1KU+0dGA+AXDDnieD3kn+f3xLFJf
-         MSoilFG1a3qC6p9dvTB2bvYoCmSh1Bx1g+4FlC0ArX7nvJyUfb4yPy62IYl4q7of7L
-         rMljMSO+dEJBgDY6Joa3aPlOiY9/6rQyoAqRqUzM=
-Date:   Tue, 18 Apr 2023 10:46:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/5] drm: shmobile: Use %p4cc to print fourcc codes
-Message-ID: <20230418074605.GE4703@pendragon.ideasonboard.com>
-References: <cover.1681734821.git.geert+renesas@glider.be>
- <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
+        Tue, 18 Apr 2023 04:20:15 -0400
+X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 18 Apr 2023 01:20:10 PDT
+Received: from mail5.swissbit.com (mail5.swissbit.com [148.251.244.252])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BFDB618A;
+        Tue, 18 Apr 2023 01:20:10 -0700 (PDT)
+Received: from mail5.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id 91F3C3A2A23;
+        Tue, 18 Apr 2023 10:03:22 +0200 (CEST)
+Received: from mail5.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id 0E6763A2691;
+        Tue, 18 Apr 2023 10:03:19 +0200 (CEST)
+X-TM-AS-ERS: 10.181.10.103-127.5.254.253
+X-TM-AS-SMTP: 1.0 bXgxLmRtei5zd2lzc2JpdC5jb20= Y2xvZWhsZUBoeXBlcnN0b25lLmNvb
+        Q==
+X-DDEI-TLS-USAGE: Used
+Received: from mx1.dmz.swissbit.com (mx1.dmz.swissbit.com [10.181.10.103])
+        by mail5.swissbit.com (Postfix) with ESMTPS;
+        Tue, 18 Apr 2023 10:03:19 +0200 (CEST)
+From:   Christian Loehle <CLoehle@hyperstone.com>
+To:     Richard Weinberger <richard@nod.at>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+CC:     linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
+        wsa+renesas <wsa+renesas@sang-engineering.com>,
+        ulf hansson <ulf.hansson@linaro.org>
+Subject: RE: Poor write performance to boot area using rcar-gen3-sdhi
+Thread-Topic: Poor write performance to boot area using rcar-gen3-sdhi
+Thread-Index: jiFrfBZIr7HKS7MkHilHFl02Bun/Q/AMgGyAaB0PmjP8vxGocA==
+Date:   Tue, 18 Apr 2023 07:48:17 +0000
+Message-ID: <02ceda502af34bf0af53d52598a0b71f@hyperstone.com>
+References: <1674847756.113858.1681762124503.JavaMail.zimbra@nod.at>
+ <OS0PR01MB5922B8343E772A762315F764869D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <971572458.117024.1681798584774.JavaMail.zimbra@nod.at>
+In-Reply-To: <971572458.117024.1681798584774.JavaMail.zimbra@nod.at>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <71cbb983e0d6b153f5c4e0664b795421b34b10fb.1681734821.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-TMASE-Version: DDEI-5.1-9.0.1002-27572.006
+X-TMASE-Result: 10--7.275500-10.000000
+X-TMASE-MatchedRID: HXSqh3WYKft+blH4Tb5ys6ekGZXOwUBujkDrBOJwwnSPaLJ/Ca3ST9dC
+        NuN/95BJbqm1oygU5OZtZw9agzfbzXZSumiWd5pP9dFc7Qbe8moC+vX9irgZJC62hjZS0WoY9td
+        qeh2SlxQEBblmchCoRdsAlO8W6PSg80zZ28YwZ5zAIZTerVmo07d2noO4P7rAycmFNidOeD3+y9
+        1WXLvD2b9FJ7YZqksBSStLDpMKadIZHQl0dvECsY61Z+HJnvsOfS0Ip2eEHnylPA9G9KhcvSKve
+        Q4wmYdMXWPmaFoiyJsgBwKKRHe+r72ey2/UX6Qxvqpffi3eBADLS4bIGFN+ls/C1AYnDTQsXky9
+        KQy89gc=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-TMASE-XGENCLOUD: dd1276e3-d085-4cfa-b48a-977c296dc4af-0-0-200-0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,59 +73,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+WW91ciBlTU1DIGxpa2VseSB0cmVhdHMgdGhlIGJvb3QgcGFydGl0aW9ucyBkaWZmZXJlbnRseSB0
+aGFuIHRoZSB1c2VyIGFyZWEsIGUuZy4gaW4gcmVnYXJkcyB0byBjYWNoZS4NCklzIHRoaXMgcmVw
+cm9kdWNpYmxlIGZvciBtb3JlIDRrIHdyaXRlcz8gV2hhdCBhYm91dCBsYXJnZXIgd3JpdGVzPw0K
+VGhlIGVNTUMgbWlnaHQgbm90IGV2ZW4gaGF2ZSB0aGUgbWFwcGluZyBhdmFpbGFibGUgYWZ0ZXIg
+Ym9vdCBhbmQgZmlyc3QgaGFzIHRvIGludGVybmFsbHkgc3dpdGNoIHRvIGl0LCBpbiBjb250cmFz
+dCB0byBhdCB1LWJvb3Qgc3RhZ2U/DQoNCkFueXdheSB0aGlzIGlzIHByb2JhYmx5IG1vcmUgYSBx
+dWVzdGlvbiB0byB5b3VyIGVNTUMgbWFudWZhY3R1cmVyIGFuZCBub3RoaW5nIHRoZSBob3N0IGlz
+IHRvIGJlIGJsYW1lZCwgYXMgeW91IG1lbnRpb25lZCB5b3Vyc2VsZiwgdGhlIHRpbWUgaXMgc3Bl
+bnQgYXQgQ01EMjUuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJk
+IFdlaW5iZXJnZXIgPHJpY2hhcmRAbm9kLmF0PiANClNlbnQ6IFR1ZXNkYXksIEFwcmlsIDE4LCAy
+MDIzIDg6MTYgQU0NClRvOiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQpD
+YzogbGludXgtbW1jIDxsaW51eC1tbWNAdmdlci5rZXJuZWwub3JnPjsgbGludXgtcmVuZXNhcy1z
+b2MgPGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZz47IHdzYStyZW5lc2FzIDx3c2Er
+cmVuZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNvbT47IHVsZiBoYW5zc29uIDx1bGYuaGFuc3NvbkBs
+aW5hcm8ub3JnPg0KU3ViamVjdDogUmU6IFBvb3Igd3JpdGUgcGVyZm9ybWFuY2UgdG8gYm9vdCBh
+cmVhIHVzaW5nIHJjYXItZ2VuMy1zZGhpDQoNCi0tLS0tIFVyc3Byw7xuZ2xpY2hlIE1haWwgLS0t
+LS0NCj4gVm9uOiAiQmlqdSBEYXMiIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4gTm90IHN1
+cmUsIHRoZSBmaWxlIHN5c3RlbSANCj4gdXNlZCBiZXR3ZWVuIC9kZXYvbW1jYmxrMWJvb3QxIGFu
+ZCAvZGV2L21tY2JsazFwMTMgaXMgbWFraW5nIA0KPiBkaWZmZXJlbmNlIGF0IExpbnV4Pw0KPiAN
+Cj4gSSBoYXZlIHNlZW4gcGVyZm9ybWFuY2UgZGlmZmVyZW5jZSBiZXR3ZWVuIEZBVCBhbmQgZXh0
+NC4NCg0KVGhlcmUgaXMgbm8gZmlsZXN5c3RlbSwgSSdtIHdyaXRpbmcgZGlyZWN0bHkgdXNpbmcg
+ZGQgdG8gdGhlIHJhdyBibG9jayBkZXZpY2UuDQoNClRoYW5rcywNCi8vcmljaGFyZA0KDQpIeXBl
+cnN0b25lIEdtYkggfCBSZWljaGVuYXVzdHIuIDM5YSAgfCA3ODQ2NyBLb25zdGFuegpNYW5hZ2lu
+ZyBEaXJlY3RvcjogRHIuIEphbiBQZXRlciBCZXJucy4KQ29tbWVyY2lhbCByZWdpc3RlciBvZiBs
+b2NhbCBjb3VydHM6IEZyZWlidXJnIEhSQjM4MTc4Mg==
 
-Thank you for the patch.
-
-On Mon, Apr 17, 2023 at 03:40:21PM +0200, Geert Uytterhoeven wrote:
-> Replace the printing of hexadecimal fourcc format codes by
-> pretty-printed format names, using the "%p4cc" format specifier.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
-> v2:
->   - Add Reviewed-by.
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_crtc.c | 4 ++--
->  drivers/gpu/drm/shmobile/shmob_drm_kms.c  | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> index d354ab3077cecf94..713a7612244c647a 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_crtc.c
-> @@ -355,8 +355,8 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
->  
->  	format = shmob_drm_format_info(crtc->primary->fb->format->format);
->  	if (format == NULL) {
-> -		dev_dbg(sdev->dev, "mode_set: unsupported format %08x\n",
-> -			crtc->primary->fb->format->format);
-> +		dev_dbg(sdev->dev, "mode_set: unsupported format %p4cc\n",
-> +			&crtc->primary->fb->format->format);
->  		return -EINVAL;
->  	}
->  
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> index 60a2c8d8a0d947d2..3c5fe3bc183c7c13 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-> @@ -96,8 +96,8 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->  
->  	format = shmob_drm_format_info(mode_cmd->pixel_format);
->  	if (format == NULL) {
-> -		dev_dbg(dev->dev, "unsupported pixel format %08x\n",
-> -			mode_cmd->pixel_format);
-> +		dev_dbg(dev->dev, "unsupported pixel format %p4cc\n",
-> +			&mode_cmd->pixel_format);
->  		return ERR_PTR(-EINVAL);
->  	}
->  
-
--- 
-Regards,
-
-Laurent Pinchart
