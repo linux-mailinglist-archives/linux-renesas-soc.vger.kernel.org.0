@@ -2,130 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81BC96E68DC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 18:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4427F6E6C61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 20:47:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232537AbjDRQCh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Apr 2023 12:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46200 "EHLO
+        id S231168AbjDRSrX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Apr 2023 14:47:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232516AbjDRQC2 (ORCPT
+        with ESMTP id S232635AbjDRSrU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Apr 2023 12:02:28 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3DA8118EB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 09:02:23 -0700 (PDT)
+        Tue, 18 Apr 2023 14:47:20 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D59A244
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 11:47:18 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.187.55])
-        by xavier.telenet-ops.be with bizsmtp
-        id mG2M2900B1C8whw01G2MCv; Tue, 18 Apr 2023 18:02:21 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id mJnE290011C8whw01JnE6D; Tue, 18 Apr 2023 20:47:15 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ponlk-00H7vg-Vl
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 18 Apr 2023 18:02:21 +0200
+        id 1poqH5-00H8P4-E9;
+        Tue, 18 Apr 2023 20:42:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ponmf-00EBQK-3v
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 18 Apr 2023 18:02:21 +0200
+        id 1poqHz-00EGQt-IY;
+        Tue, 18 Apr 2023 20:42:51 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2023-04-18-v6.3-rc7
-Date:   Tue, 18 Apr 2023 18:02:21 +0200
-Message-Id: <20230418160221.3380497-1-geert+renesas@glider.be>
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in fb_var
+Date:   Tue, 18 Apr 2023 20:42:46 +0200
+Message-Id: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2023-04-18-v6.3-rc7 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Fbtest contains some very simple validation of the fbdev userspace API
+contract.  When used with shmob-drm, it reports the following warnings
+and errors:
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+    height changed from 68 to 0
+    height was rounded down
+    width changed from 111 to 0
+    width was rounded down
+    accel_flags changed from 0 to 1
 
-Today's version is based on renesas-devel-2023-04-17-v6.3-rc7.
+The first part happens because __fill_var() resets the physical
+dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
+Fix this by retaining the original values.
 
-Included branches with driver code:
-  - renesas-clk-for-v6.4
-  - renesas-pinctrl-for-v6.4
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+flag on, while fbtest disables all acceleration on purpose, so it can
+draw safely to the frame buffer.  Fix this by setting accel_flags to
+zero, as DRM does not implement any text console acceleration.
+Note that this issue can also be seen in the output of fbset, which
+reports "accel true".
 
-Included fixes:
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car V3U
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Enable CAN transceiver PHY support
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 64458982be40c468..ed6ad787915f0b8f 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
+ 	}
+ }
+ 
+-static void __fill_var(struct fb_var_screeninfo *var,
++static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
+ 		       struct drm_framebuffer *fb)
+ {
+ 	int i;
+ 
+ 	var->xres_virtual = fb->width;
+ 	var->yres_virtual = fb->height;
+-	var->accel_flags = FB_ACCELF_TEXT;
++	var->accel_flags = 0;
+ 	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
+ 
+-	var->height = var->width = 0;
++	var->height = info->var.height;
++	var->width = info->var.width;
++
+ 	var->left_margin = var->right_margin = 0;
+ 	var->upper_margin = var->lower_margin = 0;
+ 	var->hsync_len = var->vsync_len = 0;
+@@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ 		return -EINVAL;
+ 	}
+ 
+-	__fill_var(var, fb);
++	__fill_var(var, info, fb);
+ 
+ 	/*
+ 	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
+@@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+ 	info->pseudo_palette = fb_helper->pseudo_palette;
+ 	info->var.xoffset = 0;
+ 	info->var.yoffset = 0;
+-	__fill_var(&info->var, fb);
++	__fill_var(&info->var, info, fb);
+ 	info->var.activate = FB_ACTIVATE_NOW;
+ 
+ 	drm_fb_helper_fill_pixel_fmt(&info->var, format);
+-- 
+2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
