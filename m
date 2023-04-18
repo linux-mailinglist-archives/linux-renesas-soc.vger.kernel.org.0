@@ -2,81 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2872E6E6196
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 14:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B713B6E62FB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 14:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbjDRM0F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Apr 2023 08:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34328 "EHLO
+        id S231747AbjDRMhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Apr 2023 08:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231252AbjDRMZx (ORCPT
+        with ESMTP id S231744AbjDRMhC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Apr 2023 08:25:53 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 03947A5F1;
-        Tue, 18 Apr 2023 05:25:26 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,207,1677510000"; 
-   d="scan'208";a="156404627"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Apr 2023 21:24:16 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E15D1423C45D;
-        Tue, 18 Apr 2023 21:24:15 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, mani@kernel.org,
-        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, kishon@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v13 22/22] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Tue, 18 Apr 2023 21:24:03 +0900
-Message-Id: <20230418122403.3178462-23-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230418122403.3178462-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230418122403.3178462-1-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 18 Apr 2023 08:37:02 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A8812CAA
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 05:36:56 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by andre.telenet-ops.be with bizsmtp
+        id mCci290131C8whw01CciYR; Tue, 18 Apr 2023 14:36:53 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pokZe-00H56B-Ey;
+        Tue, 18 Apr 2023 14:36:42 +0200
+Date:   Tue, 18 Apr 2023 14:36:42 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, llvm@lists.linux.dev,
+        Vineet Gupta <vgupta@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] [v2] mm: make arch_has_descending_max_zone_pfns()
+ static
+In-Reply-To: <20230415081904.969049-1-arnd@kernel.org>
+Message-ID: <cab7df5e-a7d7-ce15-20fa-31afe6f7180@linux-m68k.org>
+References: <20230415081904.969049-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+ 	Hi Arnd,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Sat, 15 Apr 2023, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> clang produces a build failure on x86 for some randconfig builds
+> after a change that moves around code to mm/mm_init.c:
+>
+> Cannot find symbol for section 2: .text.
+> mm/mm_init.o: failed
+>
+> I have not been able to figure out why this happens, but the __weak
+> annotation on arch_has_descending_max_zone_pfns() is the trigger here.
+>
+> Removing the weak function in favor of an open-coded Kconfig option
+> check avoids the problem and becomes clearer as well as better to
+> optimize by the compiler.
+>
+> Fixes: 9420f89db2dd ("mm: move most of core MM initialization to mm/mm_init.c")
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: fix logic bug reported-by: kernel test robot <oliver.sang@intel.com>,
+> see https://lore.kernel.org/oe-lkp/202304151422.5e4d380b-oliver.sang@intel.com
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index a7244de081ec..1d8f72b42c0a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -993,6 +994,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
--- 
-2.25.1
+Thanks, reverting commit 413d478d3b366d09 ("mm: make
+arch_has_descending_max_zone_pfns() static") in next-20230417 and
+applying your v2 makes Salvator-XS regain its DMA memory zone.
 
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
