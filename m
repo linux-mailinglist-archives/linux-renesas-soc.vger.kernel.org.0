@@ -2,58 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 829936E5B1C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 10:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 593EF6E5BAE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Apr 2023 10:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbjDRIAw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Apr 2023 04:00:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40354 "EHLO
+        id S229687AbjDRIKP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Apr 2023 04:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbjDRIAv (ORCPT
+        with ESMTP id S231673AbjDRIKN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Apr 2023 04:00:51 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122A7C5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 01:00:49 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-54fb615ac3dso234073997b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 01:00:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681804848; x=1684396848;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ae3jQh811jW+bT69kCowskcbhNDlXoH7aTMA8yYfQxs=;
-        b=K7Tenolttkvmc8/E0R+509WPo/dO3yJj+nUlAtBGUUssrE5lrqkXu3I5oFK4IVh4Kn
-         xjMMcemVf55yuon+JF/lZy3ZnL+9yxjkObxhA9NtQibjQVSHwNg4nVNECh9+y8I6OAux
-         E8h1J7oJCy14f9dXXujDk3EOtrtluE98OyzhwsDOfHFyK+Bjo0ixueUcnjPY/wIdWYgp
-         AW0uzm1ihJYJ4gJR4nsQWy09nrQnWSZ7eD8pnVjMj4KpFmjZECItLAi1GC7qEhjh0dEm
-         tJi/NdQ5/ZhhtzBNCUL+0LqYPXrkoxAfXB1amTbjFpK7JdEH0+lrJye1DYpYD3vteDRT
-         Qbpw==
-X-Gm-Message-State: AAQBX9fzRB7GB3+kjANgiIhJ4vyvnDLhCKeCA1k1nhqcX0NPbkDvNjyX
-        lN5Ai9NhTNVKOK77HyfRvWmMkYXrBY4biQ==
-X-Google-Smtp-Source: AKy350Y272JAidutVcPKSNTqs97Z+bjzN0WTZ/uf2mZDGXEzxfchArVwHnHdghDhGvZ7tDG+hDjR8A==
-X-Received: by 2002:a0d:d74e:0:b0:54f:b518:cbea with SMTP id z75-20020a0dd74e000000b0054fb518cbeamr18416142ywd.47.1681804848112;
-        Tue, 18 Apr 2023 01:00:48 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id cl22-20020a05690c0c1600b0054fbadd96c4sm3631422ywb.126.2023.04.18.01.00.47
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 01:00:47 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-552fb3c2bb7so38755917b3.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 01:00:47 -0700 (PDT)
-X-Received: by 2002:a0d:d8c1:0:b0:54f:8c00:58e7 with SMTP id
- a184-20020a0dd8c1000000b0054f8c0058e7mr15979059ywe.48.1681804846803; Tue, 18
- Apr 2023 01:00:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1681734821.git.geert+renesas@glider.be> <20230418075000.GF4703@pendragon.ideasonboard.com>
-In-Reply-To: <20230418075000.GF4703@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Apr 2023 10:00:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
-Message-ID: <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drm: shmobile: Fixes and enhancements
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Tue, 18 Apr 2023 04:10:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DFD86A1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 01:09:48 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 967E6802;
+        Tue, 18 Apr 2023 10:09:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681805350;
+        bh=NuC002o01Die+SqNlcXkQatYTWFiikr0m8g660PcWhM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fp6/1bosVgjbWXfJW+Rn8RnCehyQAXPszKmTtpnuCHdzOdhbEZatqNfhtgofoSCzu
+         oGQWLf7+VpSRdNuL68fkrhFjaloPbB+WVjXxFCr2vhqHXRpegITiDIfLiJuJ2p5BQ0
+         l+fOvytPYrXpmZ4GwSxjQCQx+NFj0wTKTvkWIQEo=
+Date:   Tue, 18 Apr 2023 11:09:28 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@gmail.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -61,56 +35,61 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Daniel Vetter <daniel@ffwll.ch>,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2 0/5] drm: shmobile: Fixes and enhancements
+Message-ID: <20230418080928.GA30837@pendragon.ideasonboard.com>
+References: <cover.1681734821.git.geert+renesas@glider.be>
+ <20230418075000.GF4703@pendragon.ideasonboard.com>
+ <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUqKCokNc-phYFoGKa0vFwCMDdy7RZ-kn6F8yqkvtfkfA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Geert,
 
-On Tue, Apr 18, 2023 at 9:49 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Apr 17, 2023 at 03:40:20PM +0200, Geert Uytterhoeven wrote:
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >   1. sh_mobile_lcdcfb, using the fbdev framework,
-> >   2. shmob_drm, using the DRM framework.
-> > However, only the former driver can be used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
+On Tue, Apr 18, 2023 at 10:00:35AM +0200, Geert Uytterhoeven wrote:
+> On Tue, Apr 18, 2023 at 9:49 AM Laurent Pinchart wrote:
+> > On Mon, Apr 17, 2023 at 03:40:20PM +0200, Geert Uytterhoeven wrote:
+> > > Currently, there are two drivers for the LCD controller on Renesas
+> > > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+> > >   1. sh_mobile_lcdcfb, using the fbdev framework,
+> > >   2. shmob_drm, using the DRM framework.
+> > > However, only the former driver can be used, as all platform support
+> > > integrates the former.  None of these drivers support DT-based systems.
+> > >
+> > > This patch series is a first step to enable the SH-Mobile DRM driver for
+> > > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next step planned is
+> > > to add DT support.
+> > >
+> > > Changes compared to v1:
+> > >   - Add Reviewed-by,
+> > >   - Drop dependency on ARM.
+> > >
+> > > This has been tested on the R-Mobile A1-based Atmark Techno
+> > > Armadillo-800-EVA development board, using a temporary
+> > > platform-enablement patch[1].
+> > >
+> > > Thanks for applying to drm-misc!
 > >
-> > This patch series is a first step to enable the SH-Mobile DRM driver for
-> > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next step planned is
-> > to add DT support.
-> >
-> > Changes compared to v1:
-> >   - Add Reviewed-by,
-> >   - Drop dependency on ARM.
-> >
-> > This has been tested on the R-Mobile A1-based Atmark Techno
-> > Armadillo-800-EVA development board, using a temporary
-> > platform-enablement patch[1].
-> >
-> > Thanks for applying to drm-misc!
->
-> Would you like to request drm-misc committer rights ? :-)
+> > Would you like to request drm-misc committer rights ? :-)
+> 
+> Don't the listed maintainers for drivers/gpu/drm/shmobile/ don't
+> have such access already?
 
-Don't the listed maintainers for drivers/gpu/drm/shmobile/ don't
-have such access already?
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Actually, as you're taking over maintenance for this driver, would you
+send a patch to update MAINTAINERS ?
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
