@@ -2,106 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4616E7EFF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 17:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57E216E7FC0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 18:38:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233738AbjDSP7K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Apr 2023 11:59:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
+        id S233266AbjDSQiE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Apr 2023 12:38:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232310AbjDSP7J (ORCPT
+        with ESMTP id S233044AbjDSQiD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Apr 2023 11:59:09 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A53C230DB
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 08:59:08 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-517bfdf55c3so1680169a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 08:59:08 -0700 (PDT)
+        Wed, 19 Apr 2023 12:38:03 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A570B4697
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 09:38:01 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-94a34c299d8so154749866b.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 09:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1681919948; x=1684511948;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AVtjPMREOOUQQbJrVJ+PVQx4OKxpFf/ZUEP61+e+1gQ=;
-        b=frYwdCwa+a/xzkbnVucoLlipi8ogEmqZ1qhEAg5zGCAQKrQTu1+DqFZRxnWj0pmuBe
-         vNEUyLRxzAchIdqSpVtXOZkJ8lOjJzLbes7827PH6Y1lnvYTaGbAQAedWGOjbyBL4SZw
-         dIdAGbt9VCLb5MfB/LgIGiKfZBvabTkYrw8r3YfoaGY9WTUz3J7ZgZWq8KuJUYtrMGDP
-         xTet/YdBWXQ5LLvyIroS0hsICAVEt9ZF07DLvdKFCq8K7PoktQZzEKVpjrEkYblFWcDT
-         bbUI2DI5Q1WludkRgqqFbZT6CmdyneApjgf/cVP5AC5x+KwMsxRp6zjZSe4yl7Nyx6pk
-         6MqQ==
+        d=ffwll.ch; s=google; t=1681922280; x=1684514280;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N5zzUvtufJ3eigi8dDFUvHUQC/l/1L/lCMl3qMEDwpA=;
+        b=K4oJI6Ff80Jpz9IgyXsis/Cz/4nGl18b3vCNG+r2UsSKG96Z5KDmga5aKo8UQO+LK4
+         GEZqoyVEi+xqXMeapoXdf7DemfUZOpaXW5TIxDo0wjKyNkQao2CqJ9jCbPa49gVG8tOG
+         /1t2iM/TYNJ7/Dt3IrK/GKDAb1oT53J45YaOo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681919948; x=1684511948;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AVtjPMREOOUQQbJrVJ+PVQx4OKxpFf/ZUEP61+e+1gQ=;
-        b=DwzHAeyKldwVE2nSKcnfeVzOu4bBQ0ml9OBg/TxgzoExpotTdKm+lbBzp33D8IEzt6
-         HLeDa1QbJHY4O1kILoGlE6BmgMzH9jJUdbIoC3D9mkRBFGeNvkBdvYvW6HdEWbZh9t5q
-         VTtkjHBF6uigYPZb0drqd3EFkg6DlB/MKoJB2dLqKRwIjb8ZY8Nh37V5xnHx3cg2/yJ7
-         Thd5/JqqP4RgT/fhnZrQNMLVvlO+ypef4AXsj8M/ssgPCGI+BcDJeZQLFkdioafMhIE4
-         Y9VmhyShzlamC1lA/r4vSJ4Zelz8yQvGLPzjzDOPMzetQApFgw21D+oSztT0ppdmqAUH
-         tUCQ==
-X-Gm-Message-State: AAQBX9enKAqBw1flkbU8PuSEMhE04XcN4aEcMjvRB9SwalWGXBqtOAzx
-        wk8PR6a1zuDeOg9CkNeZZUqNaQ==
-X-Google-Smtp-Source: AKy350Z2QE182sNm3aUj8RGCOEigVzYtoSb+0d9wOzIYohC9AAOYJzzfsi7c8UvRD0MGHAA7O2OL5w==
-X-Received: by 2002:a17:90a:930b:b0:24b:2e6a:24ed with SMTP id p11-20020a17090a930b00b0024b2e6a24edmr1085199pjo.37.1681919943842;
-        Wed, 19 Apr 2023 08:59:03 -0700 (PDT)
-Received: from localhost ([135.180.227.0])
-        by smtp.gmail.com with ESMTPSA id l9-20020a17090a49c900b002353082958csm1570643pjm.10.2023.04.19.08.59.02
+        d=1e100.net; s=20221208; t=1681922280; x=1684514280;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N5zzUvtufJ3eigi8dDFUvHUQC/l/1L/lCMl3qMEDwpA=;
+        b=F7f0yNsEr9+gcC7RsqLIm0VSzV1ifKqhXNLg/PIXxeWWOXjOVTa35D3vwD/y4wg6Z1
+         taZrKvhQRsqf3pLXKgo+HQ/IeQ9hgLCvKQGH1xI0qnkchLyXHDOLUfz7JpQeOES5zWNk
+         3SoI38WmDwS2ZOwDNX7Jllc6scgq+UqY38VxJdAAXkGBl6CJg81mjmZCHFgQ77r4o4PP
+         AsCgaIZYCkApUKmNIEtASlXnF1L86F1BM/ccuEIDL7MFc0j22tEU+5wgmS/ZNIqac2cH
+         r9gUKxQUXwdtiNHXzf/ZCUhISDay5KFB6J4zOoJEF0m/OyINEyR3PxMIfb7rsljBu36i
+         6nig==
+X-Gm-Message-State: AAQBX9dlaQanaGxKMLftsfjjpsS9Z7wpe+lAjn9LZl/X9FTYvUwZErfK
+        GskpYuoUSdyPb3sYMYV45Uz2Uw==
+X-Google-Smtp-Source: AKy350ZHiD1Lzmm2D/49Uq4yaW7v0gvUX/Cw4RwJO2/o1VSbh2lDapTUCoSiRl/GpVhDglYCUzOGnQ==
+X-Received: by 2002:a17:906:72dd:b0:92f:27c2:13c0 with SMTP id m29-20020a17090672dd00b0092f27c213c0mr17371020ejl.6.1681922280180;
+        Wed, 19 Apr 2023 09:38:00 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id t16-20020a170906269000b00932ba722482sm9759815ejc.149.2023.04.19.09.37.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 08:59:03 -0700 (PDT)
-Date:   Wed, 19 Apr 2023 08:59:03 -0700 (PDT)
-X-Google-Original-Date: Wed, 19 Apr 2023 08:57:41 PDT (-0700)
-Subject:     Re: [PATCH v8 0/7] Add non-coherent DMA support for AX45MP
-In-Reply-To: <ZDzs3eYIKPFcv0HQ@infradead.org>
-CC:     Conor Dooley <conor@kernel.org>, prabhakar.csengg@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        geert+renesas@glider.be, heiko@sntech.de, guoren@kernel.org,
-        ajones@ventanamicro.com, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, samuel@sholland.org,
-        linux-riscv@lists.infradead.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Message-ID: <mhng-e296c86c-71b1-46f8-88c6-16eda3590a3d@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Wed, 19 Apr 2023 09:37:59 -0700 (PDT)
+Date:   Wed, 19 Apr 2023 18:37:57 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in
+ fb_var
+Message-ID: <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert+renesas@glider.be>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 16 Apr 2023 23:53:17 PDT (-0700), Christoph Hellwig wrote:
-> On Wed, Apr 12, 2023 at 09:32:30PM +0100, Conor Dooley wrote:
->> On Wed, Apr 12, 2023 at 12:08:53PM +0100, Prabhakar wrote:
->>
->> > Note,
->> > - This series requires testing on Cores with zicbom and T-Head SoCs
->>
->> As I said last time, I dunno what actual Zicbom stuff exists, other than
->> perhaps the Ventana lads having something. I did some tyre kicking on my
->> D1 and it was fine, although nothing has actually changed materially for
->> either of them with this series in v8..
->
-> And as saying before, there is absolutely no reason to add non-standard
-> non-coherent DMA support and let this cancer creep.  If you want Linux
-> support implement Zicbom, be that in hardware or the SBI.
+On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
+> Fbtest contains some very simple validation of the fbdev userspace API
+> contract.  When used with shmob-drm, it reports the following warnings
+> and errors:
+> 
+>     height changed from 68 to 0
+>     height was rounded down
+>     width changed from 111 to 0
+>     width was rounded down
+>     accel_flags changed from 0 to 1
+> 
+> The first part happens because __fill_var() resets the physical
+> dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
+> Fix this by retaining the original values.
+> 
+> The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+> flag on, while fbtest disables all acceleration on purpose, so it can
+> draw safely to the frame buffer.  Fix this by setting accel_flags to
+> zero, as DRM does not implement any text console acceleration.
+> Note that this issue can also be seen in the output of fbset, which
+> reports "accel true".
+> 
+> Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 64458982be40c468..ed6ad787915f0b8f 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
+>  	}
+>  }
+>  
+> -static void __fill_var(struct fb_var_screeninfo *var,
+> +static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
+>  		       struct drm_framebuffer *fb)
+>  {
+>  	int i;
+>  
+>  	var->xres_virtual = fb->width;
+>  	var->yres_virtual = fb->height;
+> -	var->accel_flags = FB_ACCELF_TEXT;
+> +	var->accel_flags = 0;
+>  	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
+>  
+> -	var->height = var->width = 0;
+> +	var->height = info->var.height;
+> +	var->width = info->var.width;
+> +
+>  	var->left_margin = var->right_margin = 0;
+>  	var->upper_margin = var->lower_margin = 0;
+>  	var->hsync_len = var->vsync_len = 0;
+> @@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+>  		return -EINVAL;
+>  	}
+>  
+> -	__fill_var(var, fb);
+> +	__fill_var(var, info, fb);
+>  
+>  	/*
+>  	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
+> @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+>  	info->pseudo_palette = fb_helper->pseudo_palette;
+>  	info->var.xoffset = 0;
+>  	info->var.yoffset = 0;
+> -	__fill_var(&info->var, fb);
+> +	__fill_var(&info->var, info, fb);
 
-IMO we should just take the support in Linux: trying to hide stuff behind the
-SBI leads to more more headaches than it's worth, we end up with a bunch of
-broken firmware to try and work around.  We've already got a mess here because
-of the D1 support, we might as well just live with it.
+Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
+for info and catch that in __fill_var and then keep the explicit = 0;
 
-In practice there's just going to be a ton of mess in arch/riscv, as the ISA
-has been missing many core features for many years and hardware vendors are
-allowed to do whatever they want.  That's obviously a huge headache, but I
-think there's nothing we can really do about it.
+Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+>  	info->var.activate = FB_ACTIVATE_NOW;
+>  
+>  	drm_fb_helper_fill_pixel_fmt(&info->var, format);
+> -- 
+> 2.34.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
