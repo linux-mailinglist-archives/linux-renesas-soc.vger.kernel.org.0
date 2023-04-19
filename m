@@ -2,129 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BC3B6E72DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 08:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F30F6E74F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 10:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjDSGIk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Apr 2023 02:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54462 "EHLO
+        id S231735AbjDSIZB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Apr 2023 04:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231352AbjDSGIi (ORCPT
+        with ESMTP id S232447AbjDSIZA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Apr 2023 02:08:38 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67AE07EE8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Apr 2023 23:08:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681884517; x=1713420517;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFd6S826A5maJk4OGrAotGluTj43cfII7cPWpLVWpvc=;
-  b=j6TfU3DMkg2RPA3q5pEkp1t78+Z/4tHzTsNWW659YEayTJ+w+P4+YUCC
-   ClcWsl84LXcQ8fLPtFhRw/uUSRdvWQtswvku2hdUnWainhx5Yay6BMWaV
-   Ufwnb0FqKFsf2hOqd2XdhSR2e/yf4aMC8fiEXhGON8T7Ao1HqcjwraMGM
-   NSXkjz1jyRWgTRp/QL7vN+IrLEtdRIvnX9bwg/fUOFGNBcbvSNVXRFOuj
-   wWyl0MZcBD2611dHSu9e+ZjZJhsfswdK2K2rOOtMgN4MRQSvP4qw/SHXl
-   xqSgoGceKNXWrFKYs8WTbuaDbUh3hFuCfpeCspy/V/iNfhTAhbc6t7LL/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="408269843"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="408269843"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 23:08:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="693912304"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="693912304"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Apr 2023 23:08:35 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pp0za-000ebG-0q;
-        Wed, 19 Apr 2023 06:08:34 +0000
-Date:   Wed, 19 Apr 2023 14:07:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:master 32/47]
- drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of
- 'dw_edma_device_caps'
-Message-ID: <202304191404.hmYyn4RN-lkp@intel.com>
+        Wed, 19 Apr 2023 04:25:00 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F5919A7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 01:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=3Q8+vJIKMTdavrsl59FUFFHh5cq
+        sq8VNH5KnBH0GnBk=; b=kLN1O+SapUu0/jhctblaP79oW6cVwvfoiOW+1ixkZv3
+        hZoQPY0ZXw89uf+xB8w0Dp64sijYyBREj8KyjBnAelyk4grUq9zlM5jNzSdQqfSV
+        FbMDLbI41+ya24TGPFUVeyHjjXjtF+PQlMRtFRwcc65UIoc86LAvTGX1X0dhsSCU
+        =
+Received: (qmail 3619070 invoked from network); 19 Apr 2023 10:24:54 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Apr 2023 10:24:54 +0200
+X-UD-Smtp-Session: l3s3148p1@MW+WKKz56KkujnsI
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-spi@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
+Date:   Wed, 19 Apr 2023 10:24:32 +0200
+Message-Id: <20230419082432.33808-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   7e16ec08611059a1000cfa489ab5ae396d623e70
-commit: 9ba38c702dd57eb4403edf14467a620ed3d8cc23 [32/47] Merge remote-tracking branch 'pci/next' into renesas-drivers
-config: i386-randconfig-a015-20230417 (https://download.01.org/0day-ci/archive/20230419/202304191404.hmYyn4RN-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=9ba38c702dd57eb4403edf14467a620ed3d8cc23
-        git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-        git fetch --no-tags geert-renesas-drivers master
-        git checkout 9ba38c702dd57eb4403edf14467a620ed3d8cc23
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Documentation says only DTDL of 200 is allowed for this SoC.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191404.hmYyn4RN-lkp@intel.com/
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
 
-All errors (new ones prefixed by >>):
+Changes since v1:
+* fixed a whitespace issue
+* added tags
 
->> drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of 'dw_edma_device_caps'
-   static void dw_edma_device_caps(struct dma_chan *dchan,
-               ^
-   drivers/dma/dw-edma/dw-edma-core.c:213:13: note: previous definition is here
-   static void dw_edma_device_caps(struct dma_chan *dchan,
-               ^
-   1 error generated.
+ drivers/spi/spi-sh-msiof.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-
-vim +/dw_edma_device_caps +231 drivers/dma/dw-edma/dw-edma-core.c
-
-3883d64449ffe8 Serge Semin 2023-01-13  230  
-6f94141d8662ff Serge Semin 2023-01-13 @231  static void dw_edma_device_caps(struct dma_chan *dchan,
-6f94141d8662ff Serge Semin 2023-01-13  232  				struct dma_slave_caps *caps)
-6f94141d8662ff Serge Semin 2023-01-13  233  {
-6f94141d8662ff Serge Semin 2023-01-13  234  	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
-6f94141d8662ff Serge Semin 2023-01-13  235  
-6f94141d8662ff Serge Semin 2023-01-13  236  	if (chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
-6f94141d8662ff Serge Semin 2023-01-13  237  		if (chan->dir == EDMA_DIR_READ)
-6f94141d8662ff Serge Semin 2023-01-13  238  			caps->directions = BIT(DMA_DEV_TO_MEM);
-6f94141d8662ff Serge Semin 2023-01-13  239  		else
-6f94141d8662ff Serge Semin 2023-01-13  240  			caps->directions = BIT(DMA_MEM_TO_DEV);
-6f94141d8662ff Serge Semin 2023-01-13  241  	} else {
-6f94141d8662ff Serge Semin 2023-01-13  242  		if (chan->dir == EDMA_DIR_WRITE)
-6f94141d8662ff Serge Semin 2023-01-13  243  			caps->directions = BIT(DMA_DEV_TO_MEM);
-6f94141d8662ff Serge Semin 2023-01-13  244  		else
-6f94141d8662ff Serge Semin 2023-01-13  245  			caps->directions = BIT(DMA_MEM_TO_DEV);
-6f94141d8662ff Serge Semin 2023-01-13  246  	}
-6f94141d8662ff Serge Semin 2023-01-13  247  }
-6f94141d8662ff Serge Semin 2023-01-13  248  
-
-:::::: The code at line 231 was first introduced by commit
-:::::: 6f94141d8662ff9b164ea0c74a8325bbffc54183 dmaengine: dw-edma: Join read/write channels into a single device
-
-:::::: TO: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
-
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index 9bca3d076f05..51ceaa485724 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -30,12 +30,15 @@
+ 
+ #include <asm/unaligned.h>
+ 
++#define SH_MSIOF_FLAG_FIXED_DTDL_200	BIT(0)
++
+ struct sh_msiof_chipdata {
+ 	u32 bits_per_word_mask;
+ 	u16 tx_fifo_size;
+ 	u16 rx_fifo_size;
+ 	u16 ctlr_flags;
+ 	u16 min_div_pow;
++	u32 flags;
+ };
+ 
+ struct sh_msiof_spi_priv {
+@@ -1073,6 +1076,16 @@ static const struct sh_msiof_chipdata rcar_gen3_data = {
+ 	.min_div_pow = 1,
+ };
+ 
++static const struct sh_msiof_chipdata rcar_r8a7795_data = {
++	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
++			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
++	.tx_fifo_size = 64,
++	.rx_fifo_size = 64,
++	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
++	.min_div_pow = 1,
++	.flags = SH_MSIOF_FLAG_FIXED_DTDL_200,
++};
++
+ static const struct of_device_id sh_msiof_match[] = {
+ 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
+ 	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
+@@ -1083,6 +1096,7 @@ static const struct of_device_id sh_msiof_match[] = {
+ 	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
++	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+ 	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+@@ -1280,6 +1294,9 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
+ 		return -ENXIO;
+ 	}
+ 
++	if (chipdata->flags & SH_MSIOF_FLAG_FIXED_DTDL_200)
++		info->dtdl = 200;
++
+ 	if (info->mode == MSIOF_SPI_SLAVE)
+ 		ctlr = spi_alloc_slave(&pdev->dev,
+ 				       sizeof(struct sh_msiof_spi_priv));
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.30.2
+
