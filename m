@@ -2,204 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C2B6E7A37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 15:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DEE46E7C82
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 16:25:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232976AbjDSNCv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Apr 2023 09:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44538 "EHLO
+        id S232650AbjDSOYy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Apr 2023 10:24:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233044AbjDSNCt (ORCPT
+        with ESMTP id S233073AbjDSOYr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Apr 2023 09:02:49 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E4CDD
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 06:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=wQ1t3KQ2eAPlhZ6OlpW0kwKFvpz
-        SO9/aAnVf2UMgqWk=; b=Bh00Nw/SOS/ZpINn81N59Y66+mR3DVkNf/7Bk3s4Psx
-        6shp9BXgNKfZQ7R0gL+Dust34QUYIObeTA2zFCgsqKudUT/J4IdqojizKMSL1Dpd
-        4BzFr40EQnvCQqu2tm1zprUb8jjTuIRQbmp6STvLWInhEZGFL15h+NBagnZ467F4
-        =
-Received: (qmail 3697267 invoked from network); 19 Apr 2023 15:02:41 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Apr 2023 15:02:41 +0200
-X-UD-Smtp-Session: l3s3148p1@a7UFCrD5zM0ujnsI
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
-Date:   Wed, 19 Apr 2023 15:02:34 +0200
-Message-Id: <20230419130234.44321-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Wed, 19 Apr 2023 10:24:47 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B539750
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 07:24:10 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-2f46348728eso2068740f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 07:24:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681914239; x=1684506239;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k375mImuFX7RvFPMD+W8Uv0GumlkBkCMlh4NRkIhfPo=;
+        b=DhmzPMlsp3UGY7lGuPlcLaKkdspjY3pqaGycQ91WQuLnd9Zh3QyQrPh1HE0qRVoWID
+         J9mKGxoCpEQeO/HEHsEAU1KgUcpA8qtqOW+5QzDiALWN0JI371bWxhQU3DI688oveOMi
+         g7EuWiLzsTTzjqCz3a7GFVSrPElx4Vc/YVpAhHqv6r8k7gFkhzd4NMzhOJk+SYAAb243
+         piNFgkxAYviXg3EOPHz7yuzbq5QFIH+ARXNEgqGelW/Z7LoZlVtIDnTze3uROLELqmtF
+         NuYEdPNQAMi1wdrqEUBTFRUs7RJS/HVgj/HRe7l742p67coHYbnn/5yvWJY5c+sKxcgY
+         tt4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681914239; x=1684506239;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k375mImuFX7RvFPMD+W8Uv0GumlkBkCMlh4NRkIhfPo=;
+        b=ZPf3gANx82h7W9Qed88MSyNoivWkEVQRcybOIXNDR6mABAQujZtxVt/TiB/P0QQ+Zi
+         7PcDjzLbwUKl7lNuhJyxHPozdZJjZ8qoy//POhZrCA4UccXK2UkZVMUKoo5TTOqgjT26
+         XB64LA1TxaivaW1jC5NwZ2vPPYi2+g4HAFoIbjxL7snXHt+QfnyUvQ1KGGnHppHK/rgY
+         rjdFxirYMbZbju/F1an5OYbGGusqF91lrjLmqQy2hwoBlQhIrvrhNuKkgiJLvsMSHhOZ
+         JhWoKngN+rZVW8RK71HOGRX2Cm1X60ZnBaBJDUZGja4nCl0xsJh6fiyIlRvEy4Jd8w71
+         5bzw==
+X-Gm-Message-State: AAQBX9dk9dXvkB0TiDjWfroqHBfRaIuQsbi+XMY5FRBhmOaStV6veRLG
+        xkVSikT7rtJhShMpkeXV7VgT3Q==
+X-Google-Smtp-Source: AKy350ZMasfAd3+9m6Eg8aPN0o0uc3rX9l2h6oIk4fFVRJGRU1cw/FsFe2xAlFYTC9Z3gBxoCsSFYQ==
+X-Received: by 2002:a05:6000:18c6:b0:2fe:d6a1:f377 with SMTP id w6-20020a05600018c600b002fed6a1f377mr2181013wrq.33.1681914239396;
+        Wed, 19 Apr 2023 07:23:59 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z14-20020adff1ce000000b002f28de9f73bsm15890106wro.55.2023.04.19.07.23.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 07:23:58 -0700 (PDT)
+Date:   Wed, 19 Apr 2023 17:23:55 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     William Breathitt Gray <william.gray@linaro.org>,
+        Lee Jones <lee@kernel.org>, linux-iio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] counter: rz-mtu3-cnt: Unlock on error in
+ rz_mtu3_count_write()
+Message-ID: <93ec19d1-3b74-4644-9f67-b88c08e79752@kili.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
-setting is different on R-Car SoCs, i.e.
+The return -ERANGE error paths need to call mutex_unlock(&priv->lock);
+before returning.
 
-R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
-other R-Car Gen3: STRTIM[2:0] is set to 0x7
-other R-Car Gen4: STRTIM[3:0] is set to 0xf
-
-To fix this issue, a DT match data was added to specify the setting
-for special use cases.
-
-Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
-[wsa: rebased, restructured, added Gen4 support]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: 25d21447d896 ("counter: Add Renesas RZ/G2L MTU3a counter driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
+ drivers/counter/rz-mtu3-cnt.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-Change since v3:
-* rebased to latest changes in the driver
-
-The previous version was already reviewed by Geert and tested by
-Prabhakar. Since the rebase for v4 was not super trivial, I decided to
-drop the tags. It would be great if you could have another look. Thank
-you already. Happy hacking!
-
-
- drivers/memory/renesas-rpc-if.c | 53 ++++++++++++++++++++++++---------
- 1 file changed, 39 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 025bb628aaf3..75fcba45ec1b 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -7,6 +7,7 @@
-  * Copyright (C) 2019-2020 Cogent Embedded, Inc.
-  */
+diff --git a/drivers/counter/rz-mtu3-cnt.c b/drivers/counter/rz-mtu3-cnt.c
+index a371bab68499..aeadce5e2853 100644
+--- a/drivers/counter/rz-mtu3-cnt.c
++++ b/drivers/counter/rz-mtu3-cnt.c
+@@ -358,19 +358,23 @@ static int rz_mtu3_count_ceiling_write(struct counter_device *counter,
+ 	switch (count->id) {
+ 	case RZ_MTU3_16_BIT_MTU1_CH:
+ 	case RZ_MTU3_16_BIT_MTU2_CH:
+-		if (ceiling > U16_MAX)
+-			return -ERANGE;
++		if (ceiling > U16_MAX) {
++			ret = -ERANGE;
++			goto unlock;
++		}
+ 		priv->mtu_16bit_max[ch_id] = ceiling;
+ 		break;
+ 	case RZ_MTU3_32_BIT_CH:
+-		if (ceiling > U32_MAX)
+-			return -ERANGE;
++		if (ceiling > U32_MAX) {
++			ret = -ERANGE;
++			goto unlock;
++		}
+ 		priv->mtu_32bit_max = ceiling;
+ 		break;
+ 	default:
+ 		/* should never reach this path */
+-		mutex_unlock(&priv->lock);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto unlock;
+ 	}
  
-+#include <linux/bitops.h>
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
-@@ -163,6 +164,11 @@ static const struct regmap_access_table rpcif_volatile_table = {
- 	.n_yes_ranges	= ARRAY_SIZE(rpcif_volatile_ranges),
- };
+ 	pm_runtime_get_sync(ch->dev);
+@@ -381,9 +385,9 @@ static int rz_mtu3_count_ceiling_write(struct counter_device *counter,
  
-+struct rpcif_info {
-+	enum rpcif_type type;
-+	u8 strtim;
-+};
-+
- struct rpcif_priv {
- 	struct device *dev;
- 	void __iomem *base;
-@@ -171,7 +177,7 @@ struct rpcif_priv {
- 	struct reset_control *rstc;
- 	struct platform_device *vdev;
- 	size_t size;
--	enum rpcif_type type;
-+	const struct rpcif_info *info;
- 	enum rpcif_data_dir dir;
- 	u8 bus_size;
- 	u8 xfer_size;
-@@ -186,6 +192,26 @@ struct rpcif_priv {
- 	u32 ddr;		/* DRDRENR or SMDRENR */
- };
- 
-+static const struct rpcif_info rpcif_info_r8a7796 = {
-+	.type = RPCIF_RCAR_GEN3,
-+	.strtim = 6,
-+};
-+
-+static const struct rpcif_info rpcif_info_gen3 = {
-+	.type = RPCIF_RCAR_GEN3,
-+	.strtim = 7,
-+};
-+
-+static const struct rpcif_info rpcif_info_rz_g2l = {
-+	.type = RPCIF_RZ_G2L,
-+	.strtim = 7,
-+};
-+
-+static const struct rpcif_info rpcif_info_gen4 = {
-+	.type = RPCIF_RCAR_GEN4,
-+	.strtim = 15,
-+};
-+
- /*
-  * Custom accessor functions to ensure SM[RW]DR[01] are always accessed with
-  * proper width.  Requires rpcif_priv.xfer_size to be correctly set before!
-@@ -310,7 +336,7 @@ int rpcif_hw_init(struct device *dev, bool hyperflash)
- 	if (ret)
- 		return ret;
- 
--	if (rpc->type == RPCIF_RZ_G2L) {
-+	if (rpc->info->type == RPCIF_RZ_G2L) {
- 		ret = reset_control_reset(rpc->rstc);
- 		if (ret)
- 			return ret;
-@@ -324,12 +350,10 @@ int rpcif_hw_init(struct device *dev, bool hyperflash)
- 	/* DMA Transfer is not supported */
- 	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_HS, 0);
- 
--	if (rpc->type == RPCIF_RCAR_GEN3)
--		regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
--				   RPCIF_PHYCNT_STRTIM(7), RPCIF_PHYCNT_STRTIM(7));
--	else if (rpc->type == RPCIF_RCAR_GEN4)
--		regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
--				   RPCIF_PHYCNT_STRTIM(15), RPCIF_PHYCNT_STRTIM(15));
-+	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
-+			   /* create mask with all affected bits set */
-+			   RPCIF_PHYCNT_STRTIM(BIT(fls(rpc->info->strtim)) - 1),
-+			   RPCIF_PHYCNT_STRTIM(rpc->info->strtim));
- 
- 	regmap_update_bits(rpc->regmap, RPCIF_PHYOFFSET1, RPCIF_PHYOFFSET1_DDRTMG(3),
- 			   RPCIF_PHYOFFSET1_DDRTMG(3));
-@@ -340,7 +364,7 @@ int rpcif_hw_init(struct device *dev, bool hyperflash)
- 		regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
- 				   RPCIF_PHYINT_WPVAL, 0);
- 
--	if (rpc->type == RPCIF_RZ_G2L)
-+	if (rpc->info->type == RPCIF_RZ_G2L)
- 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
- 				   RPCIF_CMNCR_MOIIO(3) | RPCIF_CMNCR_IOFV(3) |
- 				   RPCIF_CMNCR_BSZ(3),
-@@ -729,9 +753,9 @@ static int rpcif_probe(struct platform_device *pdev)
- 	rpc->dirmap = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(rpc->dirmap))
- 		return PTR_ERR(rpc->dirmap);
--	rpc->size = resource_size(res);
- 
--	rpc->type = (uintptr_t)of_device_get_match_data(dev);
-+	rpc->size = resource_size(res);
-+	rpc->info = of_device_get_match_data(dev);
- 	rpc->rstc = devm_reset_control_get_exclusive(dev, NULL);
- 	if (IS_ERR(rpc->rstc))
- 		return PTR_ERR(rpc->rstc);
-@@ -764,9 +788,10 @@ static int rpcif_remove(struct platform_device *pdev)
+ 	rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR, RZ_MTU3_TCR_CCLR_TGRA);
+ 	pm_runtime_put(ch->dev);
++unlock:
+ 	mutex_unlock(&priv->lock);
+-
+-	return 0;
++	return ret;
  }
  
- static const struct of_device_id rpcif_of_match[] = {
--	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = (void *)RPCIF_RCAR_GEN3 },
--	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = (void *)RPCIF_RCAR_GEN4 },
--	{ .compatible = "renesas,rzg2l-rpc-if", .data = (void *)RPCIF_RZ_G2L },
-+	{ .compatible = "renesas,r8a7796-rpc-if", .data = &rpcif_info_r8a7796 },
-+	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = &rpcif_info_gen3 },
-+	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = &rpcif_info_gen4 },
-+	{ .compatible = "renesas,rzg2l-rpc-if", .data = &rpcif_info_rz_g2l },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rpcif_of_match);
+ static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter)
 -- 
-2.30.2
+2.39.2
 
