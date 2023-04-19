@@ -2,173 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57E216E7FC0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 18:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EEFA6E8270
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Apr 2023 22:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233266AbjDSQiE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Apr 2023 12:38:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
+        id S229634AbjDSUP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Apr 2023 16:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233044AbjDSQiD (ORCPT
+        with ESMTP id S229559AbjDSUP0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Apr 2023 12:38:03 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A570B4697
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 09:38:01 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-94a34c299d8so154749866b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 09:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681922280; x=1684514280;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N5zzUvtufJ3eigi8dDFUvHUQC/l/1L/lCMl3qMEDwpA=;
-        b=K4oJI6Ff80Jpz9IgyXsis/Cz/4nGl18b3vCNG+r2UsSKG96Z5KDmga5aKo8UQO+LK4
-         GEZqoyVEi+xqXMeapoXdf7DemfUZOpaXW5TIxDo0wjKyNkQao2CqJ9jCbPa49gVG8tOG
-         /1t2iM/TYNJ7/Dt3IrK/GKDAb1oT53J45YaOo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681922280; x=1684514280;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N5zzUvtufJ3eigi8dDFUvHUQC/l/1L/lCMl3qMEDwpA=;
-        b=F7f0yNsEr9+gcC7RsqLIm0VSzV1ifKqhXNLg/PIXxeWWOXjOVTa35D3vwD/y4wg6Z1
-         taZrKvhQRsqf3pLXKgo+HQ/IeQ9hgLCvKQGH1xI0qnkchLyXHDOLUfz7JpQeOES5zWNk
-         3SoI38WmDwS2ZOwDNX7Jllc6scgq+UqY38VxJdAAXkGBl6CJg81mjmZCHFgQ77r4o4PP
-         AsCgaIZYCkApUKmNIEtASlXnF1L86F1BM/ccuEIDL7MFc0j22tEU+5wgmS/ZNIqac2cH
-         r9gUKxQUXwdtiNHXzf/ZCUhISDay5KFB6J4zOoJEF0m/OyINEyR3PxMIfb7rsljBu36i
-         6nig==
-X-Gm-Message-State: AAQBX9dlaQanaGxKMLftsfjjpsS9Z7wpe+lAjn9LZl/X9FTYvUwZErfK
-        GskpYuoUSdyPb3sYMYV45Uz2Uw==
-X-Google-Smtp-Source: AKy350ZHiD1Lzmm2D/49Uq4yaW7v0gvUX/Cw4RwJO2/o1VSbh2lDapTUCoSiRl/GpVhDglYCUzOGnQ==
-X-Received: by 2002:a17:906:72dd:b0:92f:27c2:13c0 with SMTP id m29-20020a17090672dd00b0092f27c213c0mr17371020ejl.6.1681922280180;
-        Wed, 19 Apr 2023 09:38:00 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id t16-20020a170906269000b00932ba722482sm9759815ejc.149.2023.04.19.09.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 09:37:59 -0700 (PDT)
-Date:   Wed, 19 Apr 2023 18:37:57 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in
- fb_var
-Message-ID: <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
-Mail-Followup-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+        Wed, 19 Apr 2023 16:15:26 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F04DD
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Apr 2023 13:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=kuj7KDPlCuMlEeDlYKHWTEt8c/7
+        6r6LpQY864v0esxo=; b=uCqIKs/TEhXbvu4ihkcD/fFgCsx7OXU7eJ80s7h/lXS
+        fUxU+Vp6QkWQpBxesyNAJZvJ7QSVrxyiXsxd8k5+ipiEt6zptzJFDXguBVX+dAED
+        O8R4FIlvFV4ZR7vy50yhv8aj0SHI8/H36MJbK9woxzvWDVzbZdfyVh3giP8TXwOI
+        =
+Received: (qmail 3803799 invoked from network); 19 Apr 2023 22:15:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Apr 2023 22:15:20 +0200
+X-UD-Smtp-Session: l3s3148p1@IzYhFbb5ltMgAQnoAFlLAOz8KxVtMRMb
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] soc: renesas: rcar-rst: Allow WDT reset on R-Car V3U
+Date:   Wed, 19 Apr 2023 22:15:11 +0200
+Message-Id: <20230419201511.31648-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
-> Fbtest contains some very simple validation of the fbdev userspace API
-> contract.  When used with shmob-drm, it reports the following warnings
-> and errors:
-> 
->     height changed from 68 to 0
->     height was rounded down
->     width changed from 111 to 0
->     width was rounded down
->     accel_flags changed from 0 to 1
-> 
-> The first part happens because __fill_var() resets the physical
-> dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
-> Fix this by retaining the original values.
-> 
-> The last part happens because __fill_var() forces the FB_ACCELF_TEXT
-> flag on, while fbtest disables all acceleration on purpose, so it can
-> draw safely to the frame buffer.  Fix this by setting accel_flags to
-> zero, as DRM does not implement any text console acceleration.
-> Note that this issue can also be seen in the output of fbset, which
-> reports "accel true".
-> 
-> Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 64458982be40c468..ed6ad787915f0b8f 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
->  	}
->  }
->  
-> -static void __fill_var(struct fb_var_screeninfo *var,
-> +static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
->  		       struct drm_framebuffer *fb)
->  {
->  	int i;
->  
->  	var->xres_virtual = fb->width;
->  	var->yres_virtual = fb->height;
-> -	var->accel_flags = FB_ACCELF_TEXT;
-> +	var->accel_flags = 0;
->  	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
->  
-> -	var->height = var->width = 0;
-> +	var->height = info->var.height;
-> +	var->width = info->var.width;
-> +
->  	var->left_margin = var->right_margin = 0;
->  	var->upper_margin = var->lower_margin = 0;
->  	var->hsync_len = var->vsync_len = 0;
-> @@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->  		return -EINVAL;
->  	}
->  
-> -	__fill_var(var, fb);
-> +	__fill_var(var, info, fb);
->  
->  	/*
->  	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
-> @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
->  	info->pseudo_palette = fb_helper->pseudo_palette;
->  	info->var.xoffset = 0;
->  	info->var.yoffset = 0;
-> -	__fill_var(&info->var, fb);
-> +	__fill_var(&info->var, info, fb);
+V3U firmware misses to enable WDT resets. Because there won't be any
+updates to the firmware anymore, enable that in Linux.
 
-Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
-for info and catch that in __fill_var and then keep the explicit = 0;
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/soc/renesas/rcar-rst.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  	info->var.activate = FB_ACTIVATE_NOW;
->  
->  	drm_fb_helper_fill_pixel_fmt(&info->var, format);
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
+index e1c7e91f5a86..98fd97da6cd4 100644
+--- a/drivers/soc/renesas/rcar-rst.c
++++ b/drivers/soc/renesas/rcar-rst.c
+@@ -12,6 +12,7 @@
+ 
+ #define WDTRSTCR_RESET		0xA55A0002
+ #define WDTRSTCR		0x0054
++#define GEN4_WDTRSTCR		0x0010
+ 
+ #define CR7BAR			0x0070
+ #define CR7BAREN		BIT(4)
+@@ -27,6 +28,12 @@ static int rcar_rst_enable_wdt_reset(void __iomem *base)
+ 	return 0;
+ }
+ 
++static int rcar_rst_v3u_enable_wdt_reset(void __iomem *base)
++{
++	iowrite32(WDTRSTCR_RESET, base + GEN4_WDTRSTCR);
++	return 0;
++}
++
+ /*
+  * Most of the R-Car Gen3 SoCs have an ARM Realtime Core.
+  * Firmware boot address has to be set in CR7BAR before
+@@ -66,6 +73,12 @@ static const struct rst_config rcar_rst_gen3 __initconst = {
+ 	.set_rproc_boot_addr = rcar_rst_set_gen3_rproc_boot_addr,
+ };
+ 
++/* V3U firmware doesn't enable WDT reset and there won't be updates anymore */
++static const struct rst_config rcar_rst_v3u __initconst = {
++	.modemr = 0x00,		/* MODEMR0 and it has CPG related bits */
++	.configure = rcar_rst_v3u_enable_wdt_reset,
++};
++
+ static const struct rst_config rcar_rst_gen4 __initconst = {
+ 	.modemr = 0x00,		/* MODEMR0 and it has CPG related bits */
+ };
+@@ -101,7 +114,7 @@ static const struct of_device_id rcar_rst_matches[] __initconst = {
+ 	{ .compatible = "renesas,r8a77990-rst", .data = &rcar_rst_gen3 },
+ 	{ .compatible = "renesas,r8a77995-rst", .data = &rcar_rst_gen3 },
+ 	/* R-Car Gen4 */
+-	{ .compatible = "renesas,r8a779a0-rst", .data = &rcar_rst_gen4 },
++	{ .compatible = "renesas,r8a779a0-rst", .data = &rcar_rst_v3u },
+ 	{ .compatible = "renesas,r8a779f0-rst", .data = &rcar_rst_gen4 },
+ 	{ .compatible = "renesas,r8a779g0-rst", .data = &rcar_rst_gen4 },
+ 	{ /* sentinel */ }
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.1
+
