@@ -2,61 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5036E9704
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 410E06E977A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbjDTO2C convert rfc822-to-8bit (ORCPT
+        id S232076AbjDTOq1 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 10:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
+        Thu, 20 Apr 2023 10:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbjDTO2B (ORCPT
+        with ESMTP id S229515AbjDTOq0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 10:28:01 -0400
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37618271C;
-        Thu, 20 Apr 2023 07:28:00 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-54fc337a650so44554077b3.4;
-        Thu, 20 Apr 2023 07:28:00 -0700 (PDT)
+        Thu, 20 Apr 2023 10:46:26 -0400
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696374682;
+        Thu, 20 Apr 2023 07:46:24 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id l5so2286840ybe.7;
+        Thu, 20 Apr 2023 07:46:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682000879; x=1684592879;
+        d=1e100.net; s=20221208; t=1682001983; x=1684593983;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+SOFY2R5CmNUgUkHciJCCV1KTLZWvAaY7EL+I77EmoM=;
-        b=JT7fOY2C23I3g/cAFyNec6XoolyZmaa2ALUWtd7R0lht5Wrmkbql/pX3ufUl9rPGKP
-         jHpPA286rrpu85PsMfu5wp5qj6eJfYcUttcLz5J04+S88mSPPi3f4Q8KAQkuACzgWmM/
-         SNGeaoxALiRaw6ZDzpNgiayL3XUyB2Uh0NNZ2Siuz+6Khkscj2H+RSNc1m9xNEAMlNfx
-         QeM+8tw2ErymTDHT0E9QpfozJtMqoL+zogU5UYHwl4V9vV9Yy76ptnZleanSr4Y9BRx/
-         lkyWnz6gIGVuoWWQ1dwvKBQPU2MIb4mfmJehloUzjjNyN2sNxbYUlEF9zlG4EwcU6xmC
-         KUcQ==
-X-Gm-Message-State: AAQBX9eDWjdgULtP+jkqdxRdZO1U7ce/J4ji4ZCIPMCTcVaEUV6qwQfj
-        iFP9fzXpw7c8aegz2xnkdozFsi83PD2Xhb49
-X-Google-Smtp-Source: AKy350Y8ZchLVd0i6hFpZc2HFV9lP9PXFi5hUgf/Qewj8oT+wJdlkYiiI+ZFqZlfeog5f+bkd5WyKg==
-X-Received: by 2002:a0d:d753:0:b0:552:b9ad:f2e4 with SMTP id z80-20020a0dd753000000b00552b9adf2e4mr977861ywd.51.1682000879208;
-        Thu, 20 Apr 2023 07:27:59 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id i66-20020a0df845000000b0054601bc6ce2sm359010ywf.118.2023.04.20.07.27.58
+        bh=ucGFoKzyMkvbqBH4ukYaF9U0mjf0Vik4MYd/Gcx2gRc=;
+        b=QniObtIcQELZ6TJDRQr5zqlTYnkFO3udxnc3Q2dNZAEkic3p6EYb7KGMOaQf9vGX0I
+         YjUXeMii4Ao6FotQGG5tyrprXQPcJrJSDk2p8GUmQgLa4+vZio0OUtls+rtMi4Ax9/pz
+         TdX4e5N1uYFJYgMm3N+JFnH1kdWhR783SJBT6VCToNNsXN4At/OSikETanQH1sbLdZcZ
+         e3kpyLCyLoVqsXdtHn28RhkTHta9SYMWEb0Px3kpypYyKGLvve0NT4ZaQcReBtQeCfvb
+         iuxU4L3rZy5Z7Q9fcfTsXup+AehnHY7kEMDt7jmBg0MXh74p71e4+0mB4qW7X7inQ2JR
+         XGOw==
+X-Gm-Message-State: AAQBX9ceDOA3UhBxJrY14iHaSXCQiBMq5RLR3izM+jA3LYXUpMTd8n2B
+        au2ZCyVyFxrC3oZKk9aWKHYUYyDFSDmWbBRi
+X-Google-Smtp-Source: AKy350YriUWwhbd/fU600NJcI5ixhLW8jcQFJyCyS0y72jwIPckrYVFT865zl5fnFFaf1ajAbgZ4CQ==
+X-Received: by 2002:a05:6902:102a:b0:b95:630:1de1 with SMTP id x10-20020a056902102a00b00b9506301de1mr2050422ybt.46.1682001983423;
+        Thu, 20 Apr 2023 07:46:23 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id k184-20020a2524c1000000b00b8ed4e15acbsm326002ybk.63.2023.04.20.07.46.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 07:27:58 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-54f6a796bd0so43105857b3.12;
-        Thu, 20 Apr 2023 07:27:58 -0700 (PDT)
-X-Received: by 2002:a0d:d406:0:b0:555:d281:173 with SMTP id
- w6-20020a0dd406000000b00555d2810173mr962594ywd.47.1682000878519; Thu, 20 Apr
- 2023 07:27:58 -0700 (PDT)
+        Thu, 20 Apr 2023 07:46:22 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-552ae3e2cbeso43925117b3.13;
+        Thu, 20 Apr 2023 07:46:22 -0700 (PDT)
+X-Received: by 2002:a0d:c8c3:0:b0:54f:bb39:792b with SMTP id
+ k186-20020a0dc8c3000000b0054fbb39792bmr896173ywd.26.1682001982220; Thu, 20
+ Apr 2023 07:46:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
+References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com> <20230411120810.368437-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230411120810.368437-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 16:27:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW_jNor3mEw595OBK1B4UUBM-=iKAGBZZLM0M88atMo9A@mail.gmail.com>
-Message-ID: <CAMuHMdW_jNor3mEw595OBK1B4UUBM-=iKAGBZZLM0M88atMo9A@mail.gmail.com>
-Subject: Re: [PATCH -next] PCI: rcar-gen2: Use devm_platform_get_and_ioremap_resource()
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 20 Apr 2023 16:46:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVTR8-yDfX24V-_+fR-i4pv8XH9fhDinRok1MAp+80psw@mail.gmail.com>
+Message-ID: <CAMuHMdVTR8-yDfX24V-_+fR-i4pv8XH9fhDinRok1MAp+80psw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/8] dt-bindings: display: renesas,rzg2l-du: Document
+ RZ/V2L DU bindings
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -69,16 +77,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 10:24 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
-> According to commit 890cc39a8799 ("drivers: provide
-> devm_platform_get_and_ioremap_resource()"), convert
-> platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Apr 11, 2023 at 2:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document DU found in RZ/V2L SoC. The DU block is identical to RZ/G2L
+> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v7:
+>  * New patch.
+
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> @@ -16,8 +16,13 @@ description: |
+>
+>  properties:
+>    compatible:
+> -    enum:
+> -      - renesas,r9a07g044-du # RZ/G2{L,LC}
+> +    oneOf:
+> +      - enum:
+> +          - renesas,r9a07g044-du # RZ/G2{L,LC}
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g054-vsp2    # RZ/V2L
+> +          - const: renesas,r9a07g044-vsp2 # RZ/G2L fallback
+
+"*-vsp2", really? ;-)
+
+And with s/vsp2/du/, it doesn't match patch 6/8, where you use
+"renesas,r9a07g054-du" without the fallback.
 
 Gr{oetje,eeting}s,
 
