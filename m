@@ -2,59 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A19016E983F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 17:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCD056E9880
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 17:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjDTPZg convert rfc822-to-8bit (ORCPT
+        id S231553AbjDTPkV convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 11:25:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60426 "EHLO
+        Thu, 20 Apr 2023 11:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjDTPZe (ORCPT
+        with ESMTP id S230342AbjDTPkU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 11:25:34 -0400
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 791CB359B;
-        Thu, 20 Apr 2023 08:25:33 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4ec8133c59eso634400e87.0;
-        Thu, 20 Apr 2023 08:25:33 -0700 (PDT)
+        Thu, 20 Apr 2023 11:40:20 -0400
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7BC1727;
+        Thu, 20 Apr 2023 08:40:19 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id t16so2364547ybi.13;
+        Thu, 20 Apr 2023 08:40:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682004329; x=1684596329;
+        d=1e100.net; s=20221208; t=1682005218; x=1684597218;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d/WfTVgZ7cjo7IhLaMrIy3ZNMqKOacPl5jhauciw4fo=;
-        b=bhzWTIoqPjSHnBM2H/KKmhI2L3ppCK+ZzdV22JYy0VUu5nAMwOuzxvB1R3wuC62Es1
-         Aw8n7ByNnxc4AfRMOOp36RVJrXQXBfuL+9STYeTQNOfbmSSJMk/gaCBSfOKrsbckq08n
-         s4XZTCK0Xu/v1P1TM50d7vZRKEfKKIYWTfg7XW6Oe15YtX9gra9pu6FGx73prMcvlufn
-         R+uevCE2WpkA/oWjOSphxBLJ3KdXXA1tIATO6iiTuvSdxwoVD5OV80VbyrVJWkiT3ai0
-         TxwB6AsnPS64Lh4abdLcyOyNa2jlvN8u4UX29eEVZoiwSeX+G3pDBW/a49FyOsLqvwGR
-         h01w==
-X-Gm-Message-State: AAQBX9cQZxWorRXtA1YQK959J7g2IsJdOpECzy7gdQwZG6Plo9K9fDzW
-        d00ZzbwvtOR94qxHkdbRagvdNsMpVy/Alz4o
-X-Google-Smtp-Source: AKy350YFei/uQcRmxLU7tg96a2BWfjN8rCt27EDLVII2NHWLsvVtZA/Mek3YL5NbVBIeBx/w+/QsKg==
-X-Received: by 2002:a05:6512:98b:b0:4ed:c4c7:e636 with SMTP id w11-20020a056512098b00b004edc4c7e636mr564706lft.46.1682004329558;
-        Thu, 20 Apr 2023 08:25:29 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id l22-20020ac24316000000b004d8580b2470sm246790lfh.225.2023.04.20.08.25.26
+        bh=R1CbDl2sZnXbCY7AReBr1CM3aUijWiPVhGOXUZHxRKE=;
+        b=EO7Od2kM0MgMnSAJmUDP/X6Ll/jMADldzGbv9j40MLtHMqUbTkNBncjO6SmM2WWfvF
+         QYN5B5vK3AZXEUzUDG6GBHEMhLywc9KgtHryValH5hlcVCDZqGwcOt6EG5QTORMrx/3Q
+         WyRGoitIf7NR+W8Q9NrSO2nRB7uYhRdr3xTgdVL3svKhzjiAA8jJkB5o6i50Hh8t+Eu2
+         Vc0NpwtX4K31H7ZAVxg6X+L6qF3x1pgbgl3Yu5ODPixoz542Bg5Ya9wap0HP1/neW5pH
+         Iudf/G992qQom7SM1GrssvrRaSep3qd9UjhJRN0aIY11Cg809EPAUVN5nicCtH4SJlpS
+         HlHw==
+X-Gm-Message-State: AAQBX9fWA7J5/C424IRyDWf61Eg7BwpwFL4JXU2iuFqHCDoqXDNKmcct
+        HQT/jeuz5wJVYSi7Yvm5wtn8sCJCD0B9cqch
+X-Google-Smtp-Source: AKy350ZfraFBSDuTesG+HuCEdRFxv3uUxmzYQyRsqjfptlOGPsz2bwNTbHYpMkM6yCDZqUU5WpF4Wg==
+X-Received: by 2002:a25:e7c6:0:b0:b92:46ac:b6eb with SMTP id e189-20020a25e7c6000000b00b9246acb6ebmr1947698ybh.20.1682005218226;
+        Thu, 20 Apr 2023 08:40:18 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id d14-20020a81ab4e000000b0054f885d381esm393015ywk.135.2023.04.20.08.40.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 08:25:27 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4ec81245ae1so654078e87.0;
-        Thu, 20 Apr 2023 08:25:26 -0700 (PDT)
-X-Received: by 2002:a19:5202:0:b0:4ed:c6d3:9f7 with SMTP id
- m2-20020a195202000000b004edc6d309f7mr508450lfb.1.1682004326215; Thu, 20 Apr
- 2023 08:25:26 -0700 (PDT)
+        Thu, 20 Apr 2023 08:40:17 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-54f6a796bd0so46765127b3.12;
+        Thu, 20 Apr 2023 08:40:17 -0700 (PDT)
+X-Received: by 2002:a81:6fd4:0:b0:54e:ffbd:7a7e with SMTP id
+ k203-20020a816fd4000000b0054effbd7a7emr1082887ywc.45.1682005216897; Thu, 20
+ Apr 2023 08:40:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com> <20230417090159.191346-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230417090159.191346-2-biju.das.jz@bp.renesas.com>
+References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com> <20230417090159.191346-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230417090159.191346-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 17:25:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVgpP--UzotS-Cww6tjAES3YvWQ=ydmYARd8G2kb2umfg@mail.gmail.com>
-Message-ID: <CAMuHMdVgpP--UzotS-Cww6tjAES3YvWQ=ydmYARd8G2kb2umfg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r9a07g054: Add MTU3a node
+Date:   Thu, 20 Apr 2023 17:40:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQ9NLra76pknQ+ASNiRVK2RWSh2jG=Ub+tZpC6uiwK6g@mail.gmail.com>
+Message-ID: <CAMuHMdXQ9NLra76pknQ+ASNiRVK2RWSh2jG=Ub+tZpC6uiwK6g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable MTU3a
+ counter using DT overlay
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -70,13 +72,77 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
+
 On Mon, Apr 17, 2023 at 11:02 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add MTU3a node to R9A07G054 (RZ/V2L) SoC DTSI.
+> Enable mtu3 node using dt overlay and disable scif2 node and delete
+> {sd1_mux,sd1_mux_uhs} nodes as the pins are shared with mtu3 external
+> clock input pins and Z phase signal(MTIOC1A).
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.5.
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pmod.dtso
+> @@ -0,0 +1,43 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the RZ/{G2L,V2L} SMARC EVK PMOD parts
+
+Please add a comment here to document what exactly this provides.
+
+> + *
+> + * Copyright (C) 2023 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> +
+> +&mtu3 {
+> +       pinctrl-0 = <&mtu3_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +};
+> +
+> +&pinctrl {
+> +       mtu3_pins: mtu3 {
+> +               mtu3-zphase-clk {
+> +                       pinmux = <RZG2L_PORT_PINMUX(19, 0, 3)>; /* MTIOC1A */
+> +               };
+
+Unless I'm missing something, this signal is not available on the PMOD
+connector?
+
+> +
+> +               mtu3-ext-clk-input-pin {
+> +                       pinmux = <RZG2L_PORT_PINMUX(48, 0, 4)>, /* MTCLKA */
+> +                                <RZG2L_PORT_PINMUX(48, 1, 4)>; /* MTCLKB */
+> +               };
+
+So this provides two external clock inputs on the pins on the PMOD
+connector that usually provides a UART?
+
+> +       };
+> +};
+> +
+> +&scif2 {
+> +       status = "disabled";
+> +};
+> +
+> +&sdhi1_pins {
+> +       /delete-node/ sd1_mux;
+> +};
+> +
+> +&sdhi1_pins_uhs {
+> +       /delete-node/ sd1_mux_uhs;
+> +};
+
+As you disable CD functionality, don't you need to add "broken-cd" to
+the sdhi1 node?
 
 Gr{oetje,eeting}s,
 
