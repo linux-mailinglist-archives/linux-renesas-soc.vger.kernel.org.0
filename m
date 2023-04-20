@@ -2,92 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1475D6E9827
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 17:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1419C6E983D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 17:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbjDTPSI convert rfc822-to-8bit (ORCPT
+        id S229821AbjDTPZI convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 11:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57896 "EHLO
+        Thu, 20 Apr 2023 11:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbjDTPSH (ORCPT
+        with ESMTP id S229543AbjDTPZG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 11:18:07 -0400
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD4B189;
-        Thu, 20 Apr 2023 08:18:04 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 66703622623F;
-        Thu, 20 Apr 2023 17:18:01 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0wtnoQlLduK5; Thu, 20 Apr 2023 17:18:00 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 8EA7E6431C43;
-        Thu, 20 Apr 2023 17:18:00 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id tEXyg1ZuSMCe; Thu, 20 Apr 2023 17:18:00 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 6B6F5622623F;
-        Thu, 20 Apr 2023 17:18:00 +0200 (CEST)
-Date:   Thu, 20 Apr 2023 17:18:00 +0200 (CEST)
-From:   Richard Weinberger <richard@nod.at>
-To:     Christian Loehle <CLoehle@hyperstone.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
-        wsa+renesas <wsa+renesas@sang-engineering.com>,
-        ulf hansson <ulf.hansson@linaro.org>
-Message-ID: <1273293952.226564.1682003880265.JavaMail.zimbra@nod.at>
-In-Reply-To: <1186364892.150923.1681819136247.JavaMail.zimbra@nod.at>
-References: <1674847756.113858.1681762124503.JavaMail.zimbra@nod.at> <OS0PR01MB5922B8343E772A762315F764869D9@OS0PR01MB5922.jpnprd01.prod.outlook.com> <971572458.117024.1681798584774.JavaMail.zimbra@nod.at> <02ceda502af34bf0af53d52598a0b71f@hyperstone.com> <522326845.127346.1681805484949.JavaMail.zimbra@nod.at> <f50de2461dae4931abf3f0216b836fd1@hyperstone.com> <1186364892.150923.1681819136247.JavaMail.zimbra@nod.at>
-Subject: Re: Poor write performance to boot area using rcar-gen3-sdhi
+        Thu, 20 Apr 2023 11:25:06 -0400
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADB3D359B;
+        Thu, 20 Apr 2023 08:25:05 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2a7b02615f1so6145001fa.0;
+        Thu, 20 Apr 2023 08:25:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682004302; x=1684596302;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T9sa/2v4H2Njw0l2CceynxJxnblXmavqJ5TrXC53BDY=;
+        b=JoM399xm8Zjj/iOn5a/aa7eKJtGh4b3fC7taw6eZHQtZY22CDfvFUUlced+OoD+cdd
+         /oUzSUo8QkgHVUaBOCvl3g9OPo93gh/5Eto9tKudL+ZnemXxKv/Z08sapec7Ezq56fGa
+         w4vUclkX10bWaYrM4pfaLmO/3YYtJufrMnRiW3IVDVhok3n5eyzCeKFUOq0KHK+KsJVc
+         MOuKICdZ/yiSRDiOHRjze3FWGt39lKq+DxPVbkfd+lA+WT5SSXDvnb+p6GdLA/6Ha6oX
+         Vy5EGALVy0VCGng+CpXG380WFUuEbVGZlOdgIcsY7IF5E/cTiWRpi17YVVOdRQrwdXuZ
+         uqTQ==
+X-Gm-Message-State: AAQBX9cOHkF0s35J2BZP3Bk3c8Ua9Bqr6SudsOgVyI+P0HKp7A/3MncH
+        I/CK2TmDiod6BNB6+vGmfOlzpVOYZJ32p9iK
+X-Google-Smtp-Source: AKy350aT1e2nWXDuk/OL1if1BHKcmTmm8JyNtMVZgMzBjEtzRawOhdTCfzQIDCRfO/O9toLUSpR4Cw==
+X-Received: by 2002:ac2:59dc:0:b0:4ed:b329:5d85 with SMTP id x28-20020ac259dc000000b004edb3295d85mr586526lfn.15.1682004302462;
+        Thu, 20 Apr 2023 08:25:02 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id y20-20020ac24474000000b004e95f1c9e7dsm248202lfl.78.2023.04.20.08.24.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 08:25:01 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id r9so3196200ljp.9;
+        Thu, 20 Apr 2023 08:24:59 -0700 (PDT)
+X-Received: by 2002:a2e:b708:0:b0:2a1:d819:f0ae with SMTP id
+ j8-20020a2eb708000000b002a1d819f0aemr510014ljo.9.1682004299449; Thu, 20 Apr
+ 2023 08:24:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Apr 2023 17:24:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVuF6cHMNOo6j6sp0aOr+7=UMmRGhMYi_HaaQn6gojvAg@mail.gmail.com>
+Message-ID: <CAMuHMdVuF6cHMNOo6j6sp0aOr+7=UMmRGhMYi_HaaQn6gojvAg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a07g044: Add MTU3a node
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
-Thread-Topic: Poor write performance to boot area using rcar-gen3-sdhi
-Thread-Index: jiFrfBZIr7HKS7MkHilHFl02Bun/Q/AMgGyAaB0PmjP8vxGocEw2ct+x/Z5ZwOAvOJ8Zmh6KUsXr
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
------ Ursprüngliche Mail -----
-> ----- Ursprüngliche Mail -----
->> Von: "Christian Loehle" <CLoehle@hyperstone.com>
->>> Can it be that rcar-gen3-sdhi changes some timings after switching?
->>> Either in software or on hardware.
->> 
->> Neither should be aware of the notion of a boot or user area partition.
->> Anything below mmc/core isn't, if we exclude the boot operation which is read
->> only, so not applicable to your problem.
->> So also a
->> while true; do dd if=/dev/zero of=/dev/mmcblkXboot0 bs=128K status=progress;
->> done
->> gives you like ~50KB/s consistently?
-> 
-> Exactly.
-> 
-> On the other hand, the very same command on /dev/mmcblk1p13 gives me always
-> between
-> 17 and 20 MB/s.
+On Mon, Apr 17, 2023 at 11:02 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add MTU3a node to R9A07G044 (RZ/G2L) SoC DTSI.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-I did further tracing and on Linux I see clearly that tmio_mmc_irq() always much
-later when writing to the boot area.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.5.
 
-Another idea, since u-boot does not really support interrupts it polls various
-status bits to detect completion of commands and data transfers.
-Crazy idea: Maybe u-boot writes are faster than they should because it polls not always the
-right bits?
+Gr{oetje,eeting}s,
 
-...or Linux is too conservative and it matters for the boot area.
+                        Geert
 
-Thanks,
-//richard
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
