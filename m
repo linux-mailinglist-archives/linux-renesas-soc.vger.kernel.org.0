@@ -2,144 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F0C06E9905
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 18:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1B66E9A6A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 19:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232671AbjDTQDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 12:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
+        id S229887AbjDTRPj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Apr 2023 13:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231435AbjDTQDt (ORCPT
+        with ESMTP id S229563AbjDTRPi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 12:03:49 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C75F2713
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 09:03:47 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-54fc337a650so49191447b3.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 09:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682006626; x=1684598626;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tm7UM09pqDmlXaw6Tzr7qP2zDTs3fe2QxDAwCvAjZNE=;
-        b=s/szI3S3BNGYQK9FXOWp5Q12Spuk3y1VNrfdsdKoWaFd8d/OkTqF705YKadvZ3Vcw1
-         /uPwAeCBgmJCvQU38bCYJDv9g3ZO8/dWbm2GQrNX7ZlmN7/L1yowgC45dn566WbSV1Ag
-         QYO6gwJyIuIwIM2ZdNKNCpmBa4BDOBfEXMJRTamzsCOK1DCKKyUxMR52zge+hBm/hi8T
-         FrqRVw435uDvp98jfUeiYPRbX5tmpqY6aWTGTIki5VsV7Kvtd0CHIx4IUZ+P0A7qyr6R
-         rMWwzcHT4GZ0ZqJna60z3PGkdFDR2caFmV5wxAkrVK6Zb837Uv4XR5H7TZl13AY3TEhU
-         DOIA==
+        Thu, 20 Apr 2023 13:15:38 -0400
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CA9E67;
+        Thu, 20 Apr 2023 10:15:37 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id t15so2773008ybb.1;
+        Thu, 20 Apr 2023 10:15:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682006626; x=1684598626;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tm7UM09pqDmlXaw6Tzr7qP2zDTs3fe2QxDAwCvAjZNE=;
-        b=R0e7M4bIb8GkiWXmBEC9kJu5IU8ZogDpdmAwNSNrzcbPpcXkporNCiniPVut47VyXS
-         JvZXeyULBduvCR8SsXEs5fniWcvhsA9n9+uN7LscNdfbAyk8FL9c79ANCHg/gMRBOZSn
-         IxvV6X9WGl0ZBDO8GcP/1aQ/V50wPIFn8LEFZJfvVNcbsKD/elStOF58vxoTUaAX29TZ
-         LsgpFj8tXtt20+Zge+OtovrwjefXHc0wyWvwAoKlsmkMDNuSEbH1vzeBmHyeTXMMGZ+l
-         TMEdKjNRPZleD/aMrWDmTxDKhG51DIoxfqKo3VqFiDVxwOfqtZOzGcOjjh1Xz2tynP+U
-         ZRDA==
-X-Gm-Message-State: AAQBX9dtD+C8t/NrARc83Q2GnUic4hByYb4PmOmnEfMt20ask3SCyyUc
-        m1oiuZSl+douJf2A5OW7UvUchw==
-X-Google-Smtp-Source: AKy350Yu9IG1YHAMzYuvIvj7MAeXVpM+6S8RWIeEeZ8ZjVGUOX/x/OwISois3DxMyrDxF8jvlmRIBg==
-X-Received: by 2002:a0d:ca07:0:b0:54f:d538:cdde with SMTP id m7-20020a0dca07000000b0054fd538cddemr1117552ywd.39.1682006626202;
-        Thu, 20 Apr 2023 09:03:46 -0700 (PDT)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id u16-20020a0deb10000000b00545a0818495sm415121ywe.37.2023.04.20.09.03.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 09:03:45 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 12:03:42 -0400
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Lee Jones <lee@kernel.org>,
-        Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-iio@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH v2] counter: rz-mtu3-cnt: Unlock on error in
- rz_mtu3_count_ceiling_write()
-Message-ID: <ZEFiXnSKsnIB4XP9@fedora>
-References: <7b535d6b-6031-493a-84f6-82842089e637@kili.mountain>
+        d=1e100.net; s=20221208; t=1682010936; x=1684602936;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nktxe7Nutcq8Ww9pwUBsIcx5nRntV4WRUeu9cjwZvoE=;
+        b=MOjF35Xmkej/rRPhyU5b3w2siY+LAvheDMpql6hKzogq9lfE3mks9lBWSLbYWayS3I
+         28KGJGdFtw/3/Sginn4NSQntSdbpQ/ESNAz26QFI7wyJfFVZ4RYZmrT4UA5bQxF/PATJ
+         6015KDKdzjEQ92vFe4lfCdcnTLe3pyZ66vy3Cr9F/CUe2ALu5muFNTjZMVcNTvWPyccV
+         MQRysq7uu7T8fDGFWzusEdm+2Dx2k4LDVufmQy8mCWIToO3eC3Zb0blTbzAdljN6QIAi
+         6doPyaC92bg8gtWv9rz6KFgu2bXguQsW2129c2C4nK+ie0JJHISJ1D3rXYQ7LLcFMYnM
+         sXkA==
+X-Gm-Message-State: AAQBX9flLvfu4UubctKeqwv6rId1KV+AeLbcpFvEPPT1biKrssMJafUD
+        swl2mJSlH1LrfMgF+daE5bq56sc6TVvzYcGw
+X-Google-Smtp-Source: AKy350YhVj2Sm7bYFB3BA5gOLkLh6bYtLFfg47JKWRpN+7c/tHi/XbvWghPopR+uxvGyI23hOe2Fpw==
+X-Received: by 2002:a25:ae0b:0:b0:b8f:4490:3c with SMTP id a11-20020a25ae0b000000b00b8f4490003cmr1627519ybj.10.1682010936217;
+        Thu, 20 Apr 2023 10:15:36 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id j1-20020a258b81000000b00b923b9e0a82sm396174ybl.45.2023.04.20.10.15.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 10:15:35 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id l5so2674632ybe.7;
+        Thu, 20 Apr 2023 10:15:35 -0700 (PDT)
+X-Received: by 2002:a25:d689:0:b0:b77:2d0d:96b9 with SMTP id
+ n131-20020a25d689000000b00b772d0d96b9mr2130817ybg.25.1682010935295; Thu, 20
+ Apr 2023 10:15:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TsFbSMEL8oftP2/4"
-Content-Disposition: inline
-In-Reply-To: <7b535d6b-6031-493a-84f6-82842089e637@kili.mountain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
+ <20230417090159.191346-3-biju.das.jz@bp.renesas.com> <CAMuHMdXQ9NLra76pknQ+ASNiRVK2RWSh2jG=Ub+tZpC6uiwK6g@mail.gmail.com>
+ <OS0PR01MB59221C7EE8ECA83F1892360E86639@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59221C7EE8ECA83F1892360E86639@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Apr 2023 19:15:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVeeOGethjtSCUKjM2S+bhueLW25HtcDpSAY0xQcWgB5Q@mail.gmail.com>
+Message-ID: <CAMuHMdVeeOGethjtSCUKjM2S+bhueLW25HtcDpSAY0xQcWgB5Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable MTU3a
+ counter using DT overlay
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---TsFbSMEL8oftP2/4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Apr 20, 2023 at 5:49 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Sent: Thursday, April 20, 2023 4:40 PM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > <krzysztof.kozlowski+dt@linaro.org>; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; Magnus Damm <magnus.damm@gmail.com>; linux-
+> > renesas-soc@vger.kernel.org; devicetree@vger.kernel.org; Prabhakar Mahadev
+> > Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable MTU3a
+> > counter using DT overlay
+> >
+> > Hi Biju,
+> >
+> > On Mon, Apr 17, 2023 at 11:02 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > Enable mtu3 node using dt overlay and disable scif2 node and delete
+> > > {sd1_mux,sd1_mux_uhs} nodes as the pins are shared with mtu3 external
+> > > clock input pins and Z phase signal(MTIOC1A).
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Thu, Apr 20, 2023 at 06:02:11PM +0300, Dan Carpenter wrote:
-> These error paths need to call mutex_unlock(&priv->lock) before
-> returning.  The lock is taken in rz_mtu3_lock_if_counter_is_valid().
->=20
-> Fixes: 25d21447d896 ("counter: Add Renesas RZ/G2L MTU3a counter driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > --- /dev/null
+> > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pmod.dtso
+> > > @@ -0,0 +1,43 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Device Tree Source for the RZ/{G2L,V2L} SMARC EVK PMOD parts
+> > > + *
+> > > + * Copyright (C) 2023 Renesas Electronics Corp.
+> > > + */
+> > > +
+> > > +/dts-v1/;
+> > > +/plugin/;
+> > > +
+> > > +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> > > +
+> > > +&mtu3 {
+> > > +       pinctrl-0 = <&mtu3_pins>;
+> > > +       pinctrl-names = "default";
+> > > +
+> > > +       status = "okay";
+> > > +};
+> > > +
+> > > +&pinctrl {
+> > > +       mtu3_pins: mtu3 {
+> > > +               mtu3-zphase-clk {
+> > > +                       pinmux = <RZG2L_PORT_PINMUX(19, 0, 3)>; /* MTIOC1A
+> > */
+> > > +               };
+> >
+> > Unless I'm missing something, this signal is not available on the PMOD
+> > connector?
+>
+> Yes, it is not available on the PMOD connector. SD card detection signal,
+> is muxed with MTIOC1A (Z Phase signal). So for counter use case, we use it
+> as MTIOC1A pins.
 
-Acked-by: William Breathitt Gray <william.gray@linaro.org>
+As the signal is not available on the PMOD connector, can't you just ignore
+the Z Phase signal, and keep the SD card CD signal available instead?
 
-Despite this being a fix, I think this driver currently is only in the
-mfd tree, right? So I assume Lee Jones will pick this up for there.
+Gr{oetje,eeting}s,
 
-Thanks,
+                        Geert
 
-William Breathitt Gray
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> ---
-> v2: I had the wrong function in the subject.  Also style changes.
->=20
->  drivers/counter/rz-mtu3-cnt.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/counter/rz-mtu3-cnt.c b/drivers/counter/rz-mtu3-cnt.c
-> index a371bab68499..48c83933aa2f 100644
-> --- a/drivers/counter/rz-mtu3-cnt.c
-> +++ b/drivers/counter/rz-mtu3-cnt.c
-> @@ -358,13 +358,17 @@ static int rz_mtu3_count_ceiling_write(struct count=
-er_device *counter,
->  	switch (count->id) {
->  	case RZ_MTU3_16_BIT_MTU1_CH:
->  	case RZ_MTU3_16_BIT_MTU2_CH:
-> -		if (ceiling > U16_MAX)
-> +		if (ceiling > U16_MAX) {
-> +			mutex_unlock(&priv->lock);
->  			return -ERANGE;
-> +		}
->  		priv->mtu_16bit_max[ch_id] =3D ceiling;
->  		break;
->  	case RZ_MTU3_32_BIT_CH:
-> -		if (ceiling > U32_MAX)
-> +		if (ceiling > U32_MAX) {
-> +			mutex_unlock(&priv->lock);
->  			return -ERANGE;
-> +		}
->  		priv->mtu_32bit_max =3D ceiling;
->  		break;
->  	default:
-> --=20
-> 2.39.2
->=20
-
---TsFbSMEL8oftP2/4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCZEFiXgAKCRC1SFbKvhIj
-K+/IAQDB/u9EYoHlICtDCDuXq8he0TUmUBmmqPLAfORM5+FnTQD9E6U0q3fvZwy7
-ndnh8Hsiu9p+gANJR+a4CNd3NS8LXwQ=
-=XEv5
------END PGP SIGNATURE-----
-
---TsFbSMEL8oftP2/4--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
