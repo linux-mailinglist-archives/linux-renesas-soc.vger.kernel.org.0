@@ -2,170 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDA5A6E96E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5036E9704
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231521AbjDTOTD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 10:19:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40834 "EHLO
+        id S231386AbjDTO2C convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Apr 2023 10:28:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbjDTOSi (ORCPT
+        with ESMTP id S229849AbjDTO2B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 10:18:38 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F385B9022
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 07:18:02 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-555bc7f6746so43540967b3.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 07:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682000244; x=1684592244;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N4OthiTQi5MIchWRHYG+fyP1OoqMBojWRgyyG0qq6qA=;
-        b=fNW/7REMOGl8bXgyhZlXFxndSbuVW9aF1h8gobbj0hcW8289ZHmg8kT8EwDokrFtmF
-         Q9XO4QA0y9hbP6q/6B8OIEzPU7jnRWYVL2KqJTWGAWPPF5MBlClRBjk/NFco5ni8m0x9
-         Ej1ojUdxTh+kCXHKfaciBYHdPqUeHfORVu7nJCKShbiKzRWQZZ2TFkq9/bK/TDPmDnaD
-         M76Fbbq9sQDdMD/o0/xOOxxXS/kgSFoG/vD0HmVWTzkrOSw/wZ6v/1+00nsfWENwcyyJ
-         u5IHQNpTmPD/xADC7PYd0t57m1K6Cqj9ltSXO1Arkmp3gCowgAk5qiYodovOkO0mw50w
-         0NEg==
+        Thu, 20 Apr 2023 10:28:01 -0400
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37618271C;
+        Thu, 20 Apr 2023 07:28:00 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-54fc337a650so44554077b3.4;
+        Thu, 20 Apr 2023 07:28:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682000244; x=1684592244;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N4OthiTQi5MIchWRHYG+fyP1OoqMBojWRgyyG0qq6qA=;
-        b=P7ykzHH9Fpcg0fjUGkMRUa0U+WR9v82cVVWjAisFJ5CLJOYQFhuDSPwsTKNv5Hg4it
-         NOYrC1RO5C2w/CKxyEoW3khnA5VnvS9GqBWBwxlyEHG+4ALcc9NdSZlOh5UYGn4dg2Ej
-         kMhYGJRTNkLX8Y+kTAbs5f7QlSKexPmLZhcf9dyizMdC3khtoQld6Vagpq/In9YUkQU9
-         tq9w154WMNdau93yWU7YjshLJbEJ5FGwD7TST9k7wV2XvjtXtqDQwFh+fzxhPsEWJWhY
-         Uj8wvSPBFsixgz/ZKbVD/SATSixx9NugLKxkQaI3gnvUlFcqN7dD+1aYS5UVIqw0ufBI
-         dOBA==
-X-Gm-Message-State: AAQBX9etsEzMqzCKw7jgtN1h88Ouek0DI3FmWWcvRG47rQQ/e6U6gOyG
-        T/DrxwvvuYovuYeYu3VpMaEpfw==
-X-Google-Smtp-Source: AKy350YfTTxwKL6uu24U8dl2ICwdqz7fY1800aEL2ixgQRNkC5iEJHvea1OVRyMV0W4j0bKrCTmjGw==
-X-Received: by 2002:a0d:e442:0:b0:54b:fe8c:350 with SMTP id n63-20020a0de442000000b0054bfe8c0350mr806084ywe.19.1682000244204;
-        Thu, 20 Apr 2023 07:17:24 -0700 (PDT)
-Received: from fedora (69-109-179-158.lightspeed.dybhfl.sbcglobal.net. [69.109.179.158])
-        by smtp.gmail.com with ESMTPSA id h185-20020a0dc5c2000000b005463f6ae720sm356978ywd.68.2023.04.20.07.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 07:17:23 -0700 (PDT)
-Date:   Thu, 20 Apr 2023 10:17:21 -0400
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] counter: rz-mtu3-cnt: Unlock on error in
- rz_mtu3_count_write()
-Message-ID: <ZEFJcak7Gd/Xygf7@fedora>
-References: <93ec19d1-3b74-4644-9f67-b88c08e79752@kili.mountain>
+        d=1e100.net; s=20221208; t=1682000879; x=1684592879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+SOFY2R5CmNUgUkHciJCCV1KTLZWvAaY7EL+I77EmoM=;
+        b=JT7fOY2C23I3g/cAFyNec6XoolyZmaa2ALUWtd7R0lht5Wrmkbql/pX3ufUl9rPGKP
+         jHpPA286rrpu85PsMfu5wp5qj6eJfYcUttcLz5J04+S88mSPPi3f4Q8KAQkuACzgWmM/
+         SNGeaoxALiRaw6ZDzpNgiayL3XUyB2Uh0NNZ2Siuz+6Khkscj2H+RSNc1m9xNEAMlNfx
+         QeM+8tw2ErymTDHT0E9QpfozJtMqoL+zogU5UYHwl4V9vV9Yy76ptnZleanSr4Y9BRx/
+         lkyWnz6gIGVuoWWQ1dwvKBQPU2MIb4mfmJehloUzjjNyN2sNxbYUlEF9zlG4EwcU6xmC
+         KUcQ==
+X-Gm-Message-State: AAQBX9eDWjdgULtP+jkqdxRdZO1U7ce/J4ji4ZCIPMCTcVaEUV6qwQfj
+        iFP9fzXpw7c8aegz2xnkdozFsi83PD2Xhb49
+X-Google-Smtp-Source: AKy350Y8ZchLVd0i6hFpZc2HFV9lP9PXFi5hUgf/Qewj8oT+wJdlkYiiI+ZFqZlfeog5f+bkd5WyKg==
+X-Received: by 2002:a0d:d753:0:b0:552:b9ad:f2e4 with SMTP id z80-20020a0dd753000000b00552b9adf2e4mr977861ywd.51.1682000879208;
+        Thu, 20 Apr 2023 07:27:59 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id i66-20020a0df845000000b0054601bc6ce2sm359010ywf.118.2023.04.20.07.27.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 07:27:58 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-54f6a796bd0so43105857b3.12;
+        Thu, 20 Apr 2023 07:27:58 -0700 (PDT)
+X-Received: by 2002:a0d:d406:0:b0:555:d281:173 with SMTP id
+ w6-20020a0dd406000000b00555d2810173mr962594ywd.47.1682000878519; Thu, 20 Apr
+ 2023 07:27:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uEJ5we3pG0TuqLXx"
-Content-Disposition: inline
-In-Reply-To: <93ec19d1-3b74-4644-9f67-b88c08e79752@kili.mountain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Apr 2023 16:27:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_jNor3mEw595OBK1B4UUBM-=iKAGBZZLM0M88atMo9A@mail.gmail.com>
+Message-ID: <CAMuHMdW_jNor3mEw595OBK1B4UUBM-=iKAGBZZLM0M88atMo9A@mail.gmail.com>
+Subject: Re: [PATCH -next] PCI: rcar-gen2: Use devm_platform_get_and_ioremap_resource()
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Mar 23, 2023 at 10:24 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
+> According to commit 890cc39a8799 ("drivers: provide
+> devm_platform_get_and_ioremap_resource()"), convert
+> platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 
---uEJ5we3pG0TuqLXx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wed, Apr 19, 2023 at 05:23:55PM +0300, Dan Carpenter wrote:
-> The return -ERANGE error paths need to call mutex_unlock(&priv->lock);
-> before returning.
->=20
-> Fixes: 25d21447d896 ("counter: Add Renesas RZ/G2L MTU3a counter driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Gr{oetje,eeting}s,
 
-The changes in this patch are for rz_mtu3_count_ceiling_write(), so the
-title of this patch should be fixed.
+                        Geert
 
-> ---
->  drivers/counter/rz-mtu3-cnt.c | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/counter/rz-mtu3-cnt.c b/drivers/counter/rz-mtu3-cnt.c
-> index a371bab68499..aeadce5e2853 100644
-> --- a/drivers/counter/rz-mtu3-cnt.c
-> +++ b/drivers/counter/rz-mtu3-cnt.c
-> @@ -358,19 +358,23 @@ static int rz_mtu3_count_ceiling_write(struct count=
-er_device *counter,
->  	switch (count->id) {
->  	case RZ_MTU3_16_BIT_MTU1_CH:
->  	case RZ_MTU3_16_BIT_MTU2_CH:
-> -		if (ceiling > U16_MAX)
-> -			return -ERANGE;
-> +		if (ceiling > U16_MAX) {
-> +			ret =3D -ERANGE;
-> +			goto unlock;
-> +		}
->  		priv->mtu_16bit_max[ch_id] =3D ceiling;
->  		break;
->  	case RZ_MTU3_32_BIT_CH:
-> -		if (ceiling > U32_MAX)
-> -			return -ERANGE;
-> +		if (ceiling > U32_MAX) {
-> +			ret =3D -ERANGE;
-> +			goto unlock;
-> +		}
->  		priv->mtu_32bit_max =3D ceiling;
->  		break;
->  	default:
->  		/* should never reach this path */
-> -		mutex_unlock(&priv->lock);
-> -		return -EINVAL;
-> +		ret =3D -EINVAL;
-> +		goto unlock;
->  	}
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Normally, I like "goto unlock" patterns, but I think in this context it
-makes the flow of code confusing with the mix-match of the switch cases;
-default case jumps with a goto, but RZ_MTU3_* cases passes will break,
-yet RZ_MUT3_* failures have a goto path. Rather than a "goto unlock"
-pattern, I'd prefer to see simply mutex_lock() called for these ceiling
-checks. That also has the benefit of reducing the number of changes we
-have to make for this fix.
-
-William Breathitt Gray
-
-> =20
->  	pm_runtime_get_sync(ch->dev);
-> @@ -381,9 +385,9 @@ static int rz_mtu3_count_ceiling_write(struct counter=
-_device *counter,
-> =20
->  	rz_mtu3_8bit_ch_write(ch, RZ_MTU3_TCR, RZ_MTU3_TCR_CCLR_TGRA);
->  	pm_runtime_put(ch->dev);
-> +unlock:
->  	mutex_unlock(&priv->lock);
-> -
-> -	return 0;
-> +	return ret;
->  }
-> =20
->  static void rz_mtu3_32bit_cnt_setting(struct counter_device *counter)
-> --=20
-> 2.39.2
->=20
-
---uEJ5we3pG0TuqLXx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCZEFJcQAKCRC1SFbKvhIj
-KwaWAQDrtAE9A2EV+jVUpAgaX49P4TZY3wFhb63I7ZQGEAxUbQD/fM/ZD3XvATwM
-+l3FQ5J1LbG7YkKqDg+eF1CuSsNB/wc=
-=+Bjj
------END PGP SIGNATURE-----
-
---uEJ5we3pG0TuqLXx--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
