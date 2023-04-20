@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0C616E95F1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 15:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 576246E963C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 15:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjDTNi1 convert rfc822-to-8bit (ORCPT
+        id S229980AbjDTNtu convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 09:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44618 "EHLO
+        Thu, 20 Apr 2023 09:49:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbjDTNi0 (ORCPT
+        with ESMTP id S229515AbjDTNtt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 09:38:26 -0400
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B316855B5;
-        Thu, 20 Apr 2023 06:38:19 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-54f6a796bd0so40572537b3.12;
-        Thu, 20 Apr 2023 06:38:19 -0700 (PDT)
+        Thu, 20 Apr 2023 09:49:49 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B5F35BB;
+        Thu, 20 Apr 2023 06:49:49 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-54ee0b73e08so43542737b3.0;
+        Thu, 20 Apr 2023 06:49:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681997898; x=1684589898;
+        d=1e100.net; s=20221208; t=1681998588; x=1684590588;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+9SF7s7N8rxXE2x9SyfGpF8YzWancQe2O4/d9UmGOoU=;
-        b=cbJZiZOix48sIZbm5iuifFQPdxCTBmtlDL9B0BoQJdt4iC3KVz1A+90xL+Pz7G806D
-         IO8tdYMAV3rPFCfmMSJPylJdFtR15Xn/mEJnGA5AqECzQ9HRor9RUastPBy2/ak52WoU
-         pTJp3jHefl+RTzAxXUI/nwypODWcV9le9itz1CxFKqpGHPNXaIRZWrTbpdgYXh6nP5P6
-         5aGi8jp+GhcN1F+u1kRaR8MM3gYeu8vWBfhBz2FFYjLxRcIJsCSGWoW0iXHUiC3jShV8
-         LqHXLSxBvooMYNXOUCY0yuFLhO6J68WQiR3Xd3LUI5y8jv2ofhC8cvl7Us9jrpAeUiRn
-         aBAw==
-X-Gm-Message-State: AAQBX9cie4wOAI9rTVeTakuGWg9P2lfcwc/lTLYV5qY8ATlqBKS0kBI3
-        rPSQU2FrDbvNIYPAf4EwIC91wNrzFztuvbfI
-X-Google-Smtp-Source: AKy350YUVw+LTeyEt06DZf+YwL79C/p7EUvtXvx9F6ul6rnUvxZNG5CtF0I6r2ItzEXyn4ov3q8OTg==
-X-Received: by 2002:a81:d93:0:b0:552:b601:c814 with SMTP id 141-20020a810d93000000b00552b601c814mr5935803ywn.24.1681997898592;
-        Thu, 20 Apr 2023 06:38:18 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id u142-20020a818494000000b0054f6f65f258sm351097ywf.16.2023.04.20.06.38.17
+        bh=kFwAnymNU/xzoPTSiU/gkgBU1rweVN8hCuHcak3NWrQ=;
+        b=U7DnDH3GlysvNS9UpGVZfBW0kST+LFbB9+Ey1y/BE3BT0ZnSRG/YXWaOpXRw3SXvYf
+         nzFbwE9XqSuW71u+Xw5FUoXqsOtU++AqBV7dDq5eZENqkbRbj+RNQsgXZqyRLi0SFVuP
+         uvWFPD2f+bH4jg+f3WkG6ED7HhyOkueD9rs+lG+k0zweB6dObV/snaTI1I+YB9O5A7S2
+         wNRhx1aZ8gy3DRzwYNXyEepvGQ62bdiFkM76RocLVSRCdyv/TsZjvq1HR4MU0om93K7F
+         iZ8LXYfk198V7uI/GKX/lBklXfFYVvpRecDOP/YDSp4l7Eis1qr+Of2Bn63f9M9N3oWe
+         dEaQ==
+X-Gm-Message-State: AAQBX9eM2IQvwH31MWIKIeysi6MPjn+mq5UbWJZQ8Dpwmnr7aIgv+yPU
+        C5hzGAmXwiBoc9RsLZfkD+7I7L8HVKE06x8+
+X-Google-Smtp-Source: AKy350aHYAo4bOcjErXQ0AhMjkPP6hJu1QQSrbHoSqlkk/CEjLwiQEy3zHyoC/dWVr2MDHfXlICqMw==
+X-Received: by 2002:a0d:f5c2:0:b0:54f:ba86:9fb with SMTP id e185-20020a0df5c2000000b0054fba8609fbmr849775ywf.24.1681998588028;
+        Thu, 20 Apr 2023 06:49:48 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id x69-20020a81a048000000b0054c0f3fd3ddsm359780ywg.30.2023.04.20.06.49.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 06:38:18 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-555bc7f6746so41573597b3.6;
-        Thu, 20 Apr 2023 06:38:17 -0700 (PDT)
-X-Received: by 2002:a81:34a:0:b0:52e:e90b:5e2 with SMTP id 71-20020a81034a000000b0052ee90b05e2mr6431495ywd.1.1681997897692;
- Thu, 20 Apr 2023 06:38:17 -0700 (PDT)
+        Thu, 20 Apr 2023 06:49:47 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-54c12009c30so41648647b3.9;
+        Thu, 20 Apr 2023 06:49:47 -0700 (PDT)
+X-Received: by 2002:a0d:f5c2:0:b0:54f:ba86:9fb with SMTP id
+ e185-20020a0df5c2000000b0054fba8609fbmr849753ywf.24.1681998587380; Thu, 20
+ Apr 2023 06:49:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230412185608.64628-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230412185608.64628-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230412185608.64628-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230413114016.16068-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230413114016.16068-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 15:38:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVcSTeZdDezLEzc6vuw+8YXbLTeRsbn2Ne4O7XUzaW6wQ@mail.gmail.com>
-Message-ID: <CAMuHMdVcSTeZdDezLEzc6vuw+8YXbLTeRsbn2Ne4O7XUzaW6wQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g054: Add CSI and CRU nodes
+Date:   Thu, 20 Apr 2023 15:49:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUNfcu=opFMSTP2E_VkgWXHazHFL2_Z4B0gFvQ7k8z7ZA@mail.gmail.com>
+Message-ID: <CAMuHMdUNfcu=opFMSTP2E_VkgWXHazHFL2_Z4B0gFvQ7k8z7ZA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rg2lc-smarc: Enable CRU, CSI support
 To:     Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -71,10 +72,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 8:56 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Thu, Apr 13, 2023 at 1:40 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add CSI and CRU nodes to r9a07g054 (RZ/V2L) SoC DTSI.
+> Enable CRU, CSI on RZ/G2LC SMARC EVK and tie the CSI to the OV5645 sensor
+> using Device Tree overlay.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
