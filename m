@@ -2,113 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B0986E9789
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66F9F6E97C4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Apr 2023 16:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbjDTOsL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Apr 2023 10:48:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41220 "EHLO
+        id S231244AbjDTO6I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Apr 2023 10:58:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230510AbjDTOsK (ORCPT
+        with ESMTP id S231377AbjDTO6H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Apr 2023 10:48:10 -0400
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F17649EA;
-        Thu, 20 Apr 2023 07:48:09 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id t15so2386934ybb.1;
-        Thu, 20 Apr 2023 07:48:09 -0700 (PDT)
+        Thu, 20 Apr 2023 10:58:07 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94F1423C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 07:58:05 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-2f55ffdbaedso451831f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Apr 2023 07:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682002684; x=1684594684;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m26NCEtvxnDKnGDOaphgJmSpOW9a1HnF4PVE9T23Ik4=;
+        b=D5wQKkPSIsO/e/gN9d8t2lF30U1BTVfcoRBuXrMHbRe/mSBCUC01w1pbKVhNzcdAoc
+         QG/fYcM4jlIEPMHJRKcPAvb8l7/R7+vxiUkh1dkAilMvxWOTwfvsmtgBfnvuiNSLRcX4
+         AodhDik8Ze1+UgmxwHBoZ7hHgCYSGCCpc1k16pkHspoyiTRDzy+jqPB5ObnW18rnJb2k
+         SGCd7v3LWFIuD7VdEg94XSl/EiNKTf4z/WgQEDqfO9hwGMxAegUKBSZX2EBnsi/5dBHX
+         BrWl4zKFmAhSHGakxocOK6A39JX74skjmUuRhEjkl3cbVgNxSvU730pSnWj+Ne5TQQPG
+         AXEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682002088; x=1684594088;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HmDRYCu7Jt3gKtDxjGvoyq8djfPIkMFFRvz5U28UbdA=;
-        b=RR3rzs+PLTL82Qt8XkW3K5uY9dCVZXEo9UBWlAmzBFQPAmQR6euI3yJXWCNcSCz34P
-         +vhruw8LUgS3Vh3NZHFwJ5RRRuPpo48lkSKoDEe+oht2wXV9XZC7fod+S+MlnYqkV2XX
-         OdQE6PDBjZvIvxbiCIEkvyItWtE8E415F5BlzcjVZeTVJYIFm4VNWDu9hRz0L3Z0QCnw
-         bFslnbnVnDR12FW/qz0tC9ZMweYLxITJEFs/w5+3oS56vceI5Rpu3KJowm8qmlgJ/j84
-         638SDNipkZr8UNnacwaxsBwH/n/wj8CuvYKjYQim4vFveNk3odu6ea+1zm6lEJAaeTK3
-         sLcw==
-X-Gm-Message-State: AAQBX9cgKKhkaCV+rMHY0las0e6hgH5LwHX6Z5UpgcjXAUrl5olR3P+K
-        OTVZug/Hrqnn0YZgoACHxDAT4aTq1q6nAMId
-X-Google-Smtp-Source: AKy350YH1aRn+xnhJFHoVei8B4cPuzRlzuwZa6FxejeJAAIhMsbumu6r+Ih+OjcKLEnkFtm8CGyV6A==
-X-Received: by 2002:a25:343:0:b0:b67:3785:823c with SMTP id 64-20020a250343000000b00b673785823cmr1340487ybd.36.1682002087260;
-        Thu, 20 Apr 2023 07:48:07 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id p68-20020a254247000000b00b9570d01d27sm329995yba.56.2023.04.20.07.48.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 07:48:06 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-54fbb713301so44313037b3.11;
-        Thu, 20 Apr 2023 07:48:06 -0700 (PDT)
-X-Received: by 2002:a0d:df95:0:b0:54c:27e7:b1fd with SMTP id
- i143-20020a0ddf95000000b0054c27e7b1fdmr1072994ywe.37.1682002086443; Thu, 20
- Apr 2023 07:48:06 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682002684; x=1684594684;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m26NCEtvxnDKnGDOaphgJmSpOW9a1HnF4PVE9T23Ik4=;
+        b=fQx+p9lhadzhftCNkekeMnn2CS+O7KV2dUtXKTVH+KM5b8e6rk7/XuN6B/Rx4+u6VM
+         PfAEiUGqgi+8szyZZ+b7Zg1dTPJgClOSY0DveSpc86SQu5dtitLtWlByJNVJdTpmsJ7h
+         w40yolNHM8Ja3LFdgipVU5dOruNUY5oHF5BXwObB6oeTLK5/zpsD1s1vIvHB7WgGr5UC
+         spEr/4Cn+z0uCJrNc6fK30y+OYG0esgMp96ies3FYinyqM9axHVKXG+tDdjkfWTWJRUp
+         iz1b5o8YIrgio51G5bDeKQhlDdcu59Mdh985xxycUjL1LaYW8nj+9jH13bM5ZH1zdrTX
+         hbIw==
+X-Gm-Message-State: AAQBX9eprumjPjkpG1k5OadmnNwW/Y6DcsQQv7LwvBDEoidlMmtBJoDj
+        c3/n53hiKUXCc+PlZLXcJHnXPg==
+X-Google-Smtp-Source: AKy350alY+YV/JyBnkHXvwjRVGmDc8mU5weLjwGUlMJaA+sj96d5HrEXWEeVSupq72D14Ub+HVRwdQ==
+X-Received: by 2002:a05:6000:1c9:b0:2f9:7841:f960 with SMTP id t9-20020a05600001c900b002f97841f960mr1478308wrx.21.1682002684313;
+        Thu, 20 Apr 2023 07:58:04 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j3-20020a5d6183000000b002faaa9a1721sm2141118wru.58.2023.04.20.07.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 07:58:03 -0700 (PDT)
+Date:   Thu, 20 Apr 2023 17:58:01 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     William Breathitt Gray <william.gray@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] counter: rz-mtu3-cnt: Unlock on error in
+ rz_mtu3_count_write()
+Message-ID: <25a095bc-2e95-4fc4-80f6-66c4ab402ef9@kili.mountain>
+References: <93ec19d1-3b74-4644-9f67-b88c08e79752@kili.mountain>
+ <ZEFJcak7Gd/Xygf7@fedora>
 MIME-Version: 1.0
-References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com> <20230411120810.368437-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230411120810.368437-5-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 16:47:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU4NTcNL6MYEqTmRtPP3iTSNTfnoEttPwevFyXZ_Vk4aA@mail.gmail.com>
-Message-ID: <CAMuHMdU4NTcNL6MYEqTmRtPP3iTSNTfnoEttPwevFyXZ_Vk4aA@mail.gmail.com>
-Subject: Re: [PATCH v7 4/8] drm: rzg2l-du: Add RZ/V2L DU Support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZEFJcak7Gd/Xygf7@fedora>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Thu, Apr 20, 2023 at 10:17:21AM -0400, William Breathitt Gray wrote:
+> On Wed, Apr 19, 2023 at 05:23:55PM +0300, Dan Carpenter wrote:
+> > The return -ERANGE error paths need to call mutex_unlock(&priv->lock);
+> > before returning.
+> > 
+> > Fixes: 25d21447d896 ("counter: Add Renesas RZ/G2L MTU3a counter driver")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> The changes in this patch are for rz_mtu3_count_ceiling_write(), so the
+> title of this patch should be fixed.
+> 
 
-On Tue, Apr 11, 2023 at 2:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add support for RZ/V2L DU. The RZ/V2L DU block is identical to
-> RZ/G2L SoC.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v7:
->  * New patch.
+Huh.  That's weird...  I don't know why I got that wrong.
 
-Thanks for your patch!
+> > ---
+> >  drivers/counter/rz-mtu3-cnt.c | 20 ++++++++++++--------
+> >  1 file changed, 12 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/counter/rz-mtu3-cnt.c b/drivers/counter/rz-mtu3-cnt.c
+> > index a371bab68499..aeadce5e2853 100644
+> > --- a/drivers/counter/rz-mtu3-cnt.c
+> > +++ b/drivers/counter/rz-mtu3-cnt.c
+> > @@ -358,19 +358,23 @@ static int rz_mtu3_count_ceiling_write(struct counter_device *counter,
+> >  	switch (count->id) {
+> >  	case RZ_MTU3_16_BIT_MTU1_CH:
+> >  	case RZ_MTU3_16_BIT_MTU2_CH:
+> > -		if (ceiling > U16_MAX)
+> > -			return -ERANGE;
+> > +		if (ceiling > U16_MAX) {
+> > +			ret = -ERANGE;
+> > +			goto unlock;
+> > +		}
+> >  		priv->mtu_16bit_max[ch_id] = ceiling;
+> >  		break;
+> >  	case RZ_MTU3_32_BIT_CH:
+> > -		if (ceiling > U32_MAX)
+> > -			return -ERANGE;
+> > +		if (ceiling > U32_MAX) {
+> > +			ret = -ERANGE;
+> > +			goto unlock;
+> > +		}
+> >  		priv->mtu_32bit_max = ceiling;
+> >  		break;
+> >  	default:
+> >  		/* should never reach this path */
+> > -		mutex_unlock(&priv->lock);
+> > -		return -EINVAL;
+> > +		ret = -EINVAL;
+> > +		goto unlock;
+> >  	}
+> 
+> Normally, I like "goto unlock" patterns, but I think in this context it
+> makes the flow of code confusing with the mix-match of the switch cases;
+> default case jumps with a goto, but RZ_MTU3_* cases passes will break,
+> yet RZ_MUT3_* failures have a goto path. Rather than a "goto unlock"
+> pattern, I'd prefer to see simply mutex_lock() called for these ceiling
+> checks. That also has the benefit of reducing the number of changes we
+> have to make for this fix.
 
-> --- a/drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
-> @@ -53,6 +53,7 @@ static const struct rcar_du_device_info rzg2l_du_r9a07g044_info = {
->
->  static const struct of_device_id rzg2l_du_of_table[] = {
->         { .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
-> +       { .compatible = "renesas,r9a07g054-du", .data = &rzg2l_du_r9a07g044_info },
->         { /* sentinel */ }
+Sure.  I'll resend.
 
-So this change implies no fallback compatible value, OK.
+regards,
+dan carpenter
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
