@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A34286EAA55
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 14:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A236EAA56
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 14:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjDUMZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Apr 2023 08:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34862 "EHLO
+        id S229543AbjDUM01 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Apr 2023 08:26:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjDUMZx (ORCPT
+        with ESMTP id S229464AbjDUM00 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Apr 2023 08:25:53 -0400
+        Fri, 21 Apr 2023 08:26:26 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C9AD8A53
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 05:25:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D8D9786B0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 05:26:24 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,214,1677510000"; 
-   d="scan'208";a="160286529"
+   d="scan'208";a="160286574"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Apr 2023 21:25:48 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 21 Apr 2023 21:26:24 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A23FE42327D5;
-        Fri, 21 Apr 2023 21:25:48 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 446C942332B8;
+        Fri, 21 Apr 2023 21:26:24 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com
-Cc:     iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+To:     geert+renesas@glider.be, magnus.damm@gmail.com
+Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] iommu/ipmmu-vmsa: Allow PCIe devices
-Date:   Fri, 21 Apr 2023 21:25:38 +0900
-Message-Id: <20230421122538.3389336-1-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] arm64: dts: renesas: Add IOMMU related properties into PCIe host nodes
+Date:   Fri, 21 Apr 2023 21:26:08 +0900
+Message-Id: <20230421122608.3389397-1-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,80 +42,219 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add PCIe devices of R-Car Gen3/4 into devices_allowlist. For a PCI
-device, ipmmu_attach_device() has to avoid enabling uTLB because
-the uTLB has already been enabled by the parent device. Otherwise,
-enable a wrong uTLB ID. Also ipmmu_device_is_allowed() has to
-check whether the parent device is the PCIe host controller or not,
-to use the IOMMU's dma_ops from a PCI device.
+Add iommus and iommu-map properties into PCIe host nodes. Also
+change dma-ranges arguments for IOMMU. Notes that the dma-ranges
+can be used on non-IOMMU environment.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/iommu/ipmmu-vmsa.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi |  6 ++++--
+ 5 files changed, 36 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 9f64c5c9f5b9..c635c9b192f4 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -19,6 +19,7 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/of_platform.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
-@@ -624,6 +625,10 @@ static int ipmmu_attach_device(struct iommu_domain *io_domain,
- 	if (ret < 0)
- 		return ret;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index 10b91e9733bf..6061fb61492a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -2778,8 +2778,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2790,6 +2790,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommus = <&ipmmu_hc 0>;
++			iommu-map = <0 &ipmmu_hc 0 0x10000>;
+ 			status = "disabled";
+ 		};
  
-+	/* Avoid to enable utlb if this is a PCI device */
-+	if (dev_is_pci(dev))
-+		return 0;
-+
- 	for (i = 0; i < fwspec->num_ids; ++i)
- 		ipmmu_utlb_enable(domain, fwspec->ids[i]);
+@@ -2805,8 +2807,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2817,6 +2819,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommus = <&ipmmu_hc 1>;
++			iommu-map = <0 &ipmmu_hc 1 0x10000>;
+ 			status = "disabled";
+ 		};
  
-@@ -702,10 +707,14 @@ static const struct soc_device_attribute soc_denylist[] = {
- };
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 3ea8572e917f..8e56a6bcfc0e 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -2565,8 +2565,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2577,6 +2577,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommus = <&ipmmu_hc 0>;
++			iommu-map = <0 &ipmmu_hc 0 0x10000>;
+ 			status = "disabled";
+ 		};
  
- static const char * const devices_allowlist[] = {
-+	"e65d0000.pcie",	/* R-Car Gen4 */
-+	"e65d8000.pcie",	/* R-Car Gen4 */
- 	"ee100000.mmc",
- 	"ee120000.mmc",
- 	"ee140000.mmc",
--	"ee160000.mmc"
-+	"ee160000.mmc",
-+	"ee800000.pcie",	/* R-Car Gen3 */
-+	"fe000000.pcie",	/* R-Car Gen3 */
- };
+@@ -2592,8 +2594,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2604,6 +2606,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommus = <&ipmmu_hc 1>;
++			iommu-map = <0 &ipmmu_hc 1 0x10000>;
+ 			status = "disabled";
+ 		};
  
- static bool ipmmu_device_is_allowed(struct device *dev)
-@@ -723,12 +732,22 @@ static bool ipmmu_device_is_allowed(struct device *dev)
- 	if (soc_device_match(soc_denylist))
- 		return false;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index d52cb0b67d80..ecb210096fe2 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2445,8 +2445,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2457,6 +2457,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommus = <&ipmmu_hc 0>;
++			iommu-map = <0 &ipmmu_hc 0 0x10000>;
+ 			status = "disabled";
+ 		};
  
-+retry:
- 	/* Check whether this device can work with the IPMMU */
- 	for (i = 0; i < ARRAY_SIZE(devices_allowlist); i++) {
- 		if (!strcmp(dev_name(dev), devices_allowlist[i]))
- 			return true;
- 	}
+@@ -2472,8 +2474,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2484,6 +2486,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommus = <&ipmmu_hc 1>;
++			iommu-map = <0 &ipmmu_hc 1 0x10000>;
+ 			status = "disabled";
+ 		};
  
-+	/*
-+	 * Check whether this device has the parent device like a PCI device
-+	 * except "soc".
-+	 */
-+	if (dev->parent && strcmp(dev_name(dev->parent), "soc")) {
-+		dev = dev->parent;
-+		goto retry;
-+	}
-+
- 	/* Otherwise, do not allow use of IPMMU */
- 	return false;
- }
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 9584115c6b17..e50fa81dd7d2 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -2423,8 +2423,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2435,6 +2435,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommus = <&ipmmu_hc 0>;
++			iommu-map = <0 &ipmmu_hc 0 0x10000>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2450,8 +2452,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2462,6 +2464,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommus = <&ipmmu_hc 1>;
++			iommu-map = <0 &ipmmu_hc 1 0x10000>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index 4529e9b57c33..49bcd033a6b2 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -1870,8 +1870,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1882,6 +1882,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommus = <&ipmmu_hc 0>;
++			iommu-map = <0 &ipmmu_hc 0 0x10000>;
+ 			status = "disabled";
+ 		};
+ 
 -- 
 2.25.1
 
