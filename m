@@ -2,175 +2,507 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BB86EA8A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 12:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A11C6EA9D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 14:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231636AbjDUKzL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Apr 2023 06:55:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42610 "EHLO
+        id S229751AbjDUMAJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Apr 2023 08:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230424AbjDUKzJ (ORCPT
+        with ESMTP id S230331AbjDUL7t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Apr 2023 06:55:09 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2098.outbound.protection.outlook.com [40.107.114.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2298A69;
-        Fri, 21 Apr 2023 03:55:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jUgs3n+/P+KyKo1Pb7vcrGhwnQm48nchZi1BlUp8Ual2pLMRLoS3xUfbxLx4eoT1urgUvTL7ccYZUJsIXIyZfECXgmIM42Oidw3h6Ja3GpHGR1p4ObyP0mJmEJlYSG9kDck0iDYMSML69JM6vu4BQSC8UT+CBfS6XstpHFwwSdEBrcNVG/ZS/2Rr+uQ8roq0hq8yvPWXEekDCmscY1Z2v3I8l5aJEvLUcsYjEnlObmUzfy0MZ/RVynD8wOrr0qPtsZCWfTuAYl8VV7wywYAj3jRgjrEB4jDhrk5HyUx7PwAwruT4fHDv8dB9pBQSx/J1c8WWPmLawYDdhAm2mcy6fQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xRIZh74H/WPy9R0wctx1sj4fGUgA2mUMlasj3ENk1RU=;
- b=YYleoPLqc5ouPp7WRHUrsDlSSYgRdskRGcQ1RBykFF0w7vnTvsjd5+rmsFW9tlgjprE+FJgtgiR2ekMng0uA4oifjNFNRNQoZ6Brg0WJr/CBq14iiKbzR+dTZis1ayOpq6OzC2JYc0j8u9A7ErtkfUYTEB677KTUYgyLS+LhYRONy7oQBci/sGtzVHzNUkKrOlSt2FgYePPcT1mNfXZ1DVbY6oW1VaqyufxB04EPD4XYdiNLlt2WPpTIUyYpjE4pkw+y9+d16sUk4hWyZ2z8HEfi2iCYICqtNGXrhiJcmX9EdYbdUiTQ7d4n9mS93WxtiZgkyITStozm9A2XLXmTww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xRIZh74H/WPy9R0wctx1sj4fGUgA2mUMlasj3ENk1RU=;
- b=v54LB/EJOcC6LfjxToH5ltjyAsOgfy/MGdam6zh1sIMohkoVbpb3xQQwH2EXZZ/3c4MVZZcxmgDVUmzntr2220iF32j8eR85ByMplB62wZI7w7lwFQhZIfYLcAOETf01ZwlCiXaLBe/SzqlpH4hsBMuuI0m3nKl+HFMb1WamSwQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB10105.jpnprd01.prod.outlook.com (2603:1096:604:1e4::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Fri, 21 Apr
- 2023 10:55:05 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6319.022; Fri, 21 Apr 2023
- 10:55:05 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v4 5/5] tty: serial: sh-sci: Fix end of transmission on
- SCI
-Thread-Topic: [PATCH v4 5/5] tty: serial: sh-sci: Fix end of transmission on
- SCI
-Thread-Index: AQHZbU46vLY3hndEL0KAfF75mCWnea81ko8AgAARyMA=
-Date:   Fri, 21 Apr 2023 10:55:04 +0000
-Message-ID: <OS0PR01MB59225DDBD14DC30FFABD909886609@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230412145053.114847-1-biju.das.jz@bp.renesas.com>
- <20230412145053.114847-6-biju.das.jz@bp.renesas.com>
- <CAMuHMdUQ05U9oiepVJsShg8xFoHTD6M7XczQ2=Qce+pE+0RPag@mail.gmail.com>
-In-Reply-To: <CAMuHMdUQ05U9oiepVJsShg8xFoHTD6M7XczQ2=Qce+pE+0RPag@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB10105:EE_
-x-ms-office365-filtering-correlation-id: e9a3bf6c-a609-462a-852e-08db4256dd47
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IGKGccdOP81xTFuxvjjQUB90vatFfbXeGFQ5sD3pueqiLUXMxX3PUcqklh7uk/Hhpsovz/FCc8AvPavk36wkqrmfr0tpB2XO26tTRlkOlyOMfTg+y1YjsFofBFamdEM4sSorKJRDN217OTWAZzX9k+QT/G++rMDvSXTLLGxnftk4gYUXTfxP1oq95o7jMhDqX4CrKfCKXDbG4xTqw3SJy7DDPyF2sstm5sPKG3tjjHdA7P4lvE31p+Vy6AANIV1RSX6+bRLJay9KG04Nm0Z/gMHJP+BEtVt5/jj5Ipc7R8ydoBgANy2uY53qm6KAr59HUiUHP+FL2gcSu5zMTdlWoq32bnXIAmNs/Y9j/aXOUsdGZATslM9pjfBCfKKKaaDPEyRzDSUvBt7Hr0PQmxH5yqbNz2wUQjHP0PaqyJjQT89zMEE8s42cIdv4Zm+htSu49DUIjf/lM020/QF5j2WKKYGJGNDsWkY4lfNqav/xmIbyHSBJ2u95ZBZUOyeyA6UhhtKmgXKldD/FZ1BaZJn4tT3HarmAPEMOoosKDpZB+QGMUs47/0p99yInA24ESGNexe789vdVd8y/ylqJF/zr9GSuOv1pJZdpRd45JCfs1ssgw9TIOFF9QcGf+A+yQpkc
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(39860400002)(376002)(396003)(366004)(451199021)(83380400001)(186003)(7696005)(478600001)(54906003)(71200400001)(66556008)(76116006)(66946007)(38100700002)(66446008)(64756008)(66476007)(8676002)(8936002)(5660300002)(52536014)(122000001)(6916009)(4326008)(41300700001)(316002)(38070700005)(55016003)(26005)(9686003)(2906002)(6506007)(33656002)(53546011)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YlJZOFlSREpVUkY2Yk1LRCs0VDcyZWxZV3Q2cEpHWW9FbmtTRHM5aDJTOWtl?=
- =?utf-8?B?ZTV0bFUzRjc4OUNTMWRtK1ZqMEVZYmNVTTI0cThabzN6Vk1hRlA1eEdDV01i?=
- =?utf-8?B?TG9DZzBFU08wTDhIc3FUaEY3cFM1N0V3SlEzTHhRQ2NYY0x1U0Vkd05SYVda?=
- =?utf-8?B?b3dqY2ViSE5haGllZjNPUFZ0R0g0emduVmhieGdndlprd1VjVUs0TGZBdFFn?=
- =?utf-8?B?NWdXYkRiYmRVZm5pVVorNzcwU09DV1JRTjB2WFNFZERmbENMNEZaSlRNd3g4?=
- =?utf-8?B?cnRHVUJ0Yk9hdWlkTXppN0FISEkrZjFLMXpOV3NjVGVscVd0cXdVbDdrK1pG?=
- =?utf-8?B?NlNBSUFKSHJFb240U0p4bnRtUnUvOWJhZkQ2U0N3WXl2ck1qbUdONXZnZ1Jw?=
- =?utf-8?B?TmJ3d2FlNE5GV1BKQ3oyZWU5UFo2Z0laclJKdGlDVHpVUmcwOGRzcFRiWXNE?=
- =?utf-8?B?bE41ZHhJRmprRytqZ3lpOFB5SkJ5T1JHSWFIaFlyckhSTS92L0ZVWDdjQ08y?=
- =?utf-8?B?TFpxWVhjbTlNMHFCN2lvMXlCRGsyRjE5Q013UmNicWpsQmxBdUViZXpZbzZS?=
- =?utf-8?B?UUgzUzhUUnNodEI4ZEVHem9zb2lBNmNBWHBrbVI5ZW5Ja3NEKzVseW5JeHRV?=
- =?utf-8?B?RUV5Sm1nOXZDRkJhdlJua2RsRkJLQVA3TzVEbk1BOHlJRk1xQm9Jb1R3OEZz?=
- =?utf-8?B?aWEyaEhNZnVmZjM4NCtVNlExeUowNVJaWmlQRE5LSkFib2I2NzZ2S3JtYmRC?=
- =?utf-8?B?ZGQwaG5NRkFKMlh4ZkYzN0RhcG93UFhGeFBQa2txblRycVB4WFRicTV1ZGU0?=
- =?utf-8?B?Q1BnZm1ETzg3ZU81L09Ia0dYemJOREVGbGRjbnkyTCtqdlJBUCtodEdvMXFU?=
- =?utf-8?B?MFkxWW44cmxUbjFDMTFTRGcxRytpY2xiVVVBM3dtTXZTWTh1ekpQS3grS0lv?=
- =?utf-8?B?cGtlT25hQUtZZ0h3MnJrUU44TEFPODhxVHg1TVZETXdpemRaRm4vbERJcU96?=
- =?utf-8?B?Rk1XMWtpcUQ0cjV6cTU5bllRQWtMU2J3dTZaTjJXa2V5cHE5U3F6bU54c0lL?=
- =?utf-8?B?Mk1yUmM0Ui9xZ3J5MkRSTkdMdUxXdWVIajJOWktldkVrTzFwWDlkRTRFZWV2?=
- =?utf-8?B?MGMzZ1ZUeXR5eWJMK2kyV1BLRjVCTSttb2ZyYkV4bHJUMDZCV3NGOVA4aHUw?=
- =?utf-8?B?UnR0RmlyVGVYU1FVZ3gvT0F3WWFyMVR4d1hyL3RQWWtRUkg3U1dDMXpCNHYw?=
- =?utf-8?B?UHdWMmI4OVRaUnc5RXVjeE5WeXhSamIydm5oKzlBNXJMQXEzbm1FdjhxYmQr?=
- =?utf-8?B?dW1XdVBGeVNUMVlXUk1QUmR1MGJrRmJ3cm1XNTZjWmc4TzNXZG1MTEp1c04y?=
- =?utf-8?B?RHdEWDI3QVVsNUVrWVBiOGVYVWliY2t2WVZTaWlxdDRGQURwckNRYkZQdW80?=
- =?utf-8?B?UVhKVjNhYTZHZ2wrVWZITVFyMmVSazEyaVAwQXZ5RHRMT2s2QXl5RHZmZmVV?=
- =?utf-8?B?RkppMTJZS1N6WjhCYUhpcG9UanhxY0JGVnM5SFNnTWdWWVJYTnY3dDkrZXNz?=
- =?utf-8?B?U1lDcGNRR0xvekNNV2lmczE4V3RYZU9vcXYzVWJ0Q3JVcnphNytWYWJqQ2wz?=
- =?utf-8?B?a0R6cXJnOFdFcTRPVlllTU9QRVl4VU55bzFBQzFPTWYxR2hXTjBFNkpqekp3?=
- =?utf-8?B?K09TRHU4SDZSZWtjc1BsNEp4VnE2S0ZDcDdRK3NtenV2YnQvQWdvcllFeUtY?=
- =?utf-8?B?OHpnbzlXemxoOEhGVnhFYjZWZ1NnaGN2YmRodTRlQzZJZzFKdG5lUlg2aEM4?=
- =?utf-8?B?cHB3cUxOY3dWRlRIakNHVnRNeUNSNzBjVDlZb3J5Mk93UTBEZjNNM2FRUGxF?=
- =?utf-8?B?SmxVSlpYZXE2RUNBbk9iVkUvbHZ2UTRNLzZlZ0h5WHZRSDQ4VG85WkZ4eDF2?=
- =?utf-8?B?bkZJWiszMEgwTExTK3o5bnRUSnBiTkJWTjE2V2ZvcHg3eFczc1l4KzNzYXFE?=
- =?utf-8?B?N0kyR1ppQmVGWTV5eWlVS3dWZFZ5M3FpdlRKejRqWTRZNUtMSmtyRE81Z1Ry?=
- =?utf-8?B?Vjl0anJtYjRvZ3QvbXNLUzhNTnhRT0l1SzBsTmZPNDMraFBRTkc4dTZRcEs1?=
- =?utf-8?B?Q0ZBR3RFNGpIOVFndWJZbENsdXBPdm9WclcwRk9PTHBCMldNS1o1S0NsS25W?=
- =?utf-8?B?SGc9PQ==?=
+        Fri, 21 Apr 2023 07:59:49 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 168AD7D80
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 04:59:45 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-24799a2ee83so1445694a91.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 04:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1682078384; x=1684670384;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=/3Gqheq5NIlDwCpQdWYGUvnafRbWUgPLHiDCVWCwNFU=;
+        b=e4kt80iymnypr1pRtY7nse4FzStysx9mfRKxjLTLQYKhu3vYcKHV+lY4UxuTzfOaus
+         3VWrkmjn5Rgqanu9gaIDizuMSHz1ePn1tUDBDmRixck1KhDwiB7mNknAen5/aIsIRSuZ
+         WTwPXX583g579ExbuRtOiX34rtOh9BpU3RY07JwJYuI6F1JAyggZW4rFGiDKFXGmoI7p
+         yWtaAPT1LS1/8zxfvRyVoMIrfS6taugyIH0lCLczHPSyplD30vJ98ou6LdxVDMEJhejZ
+         qtvOQCGlHRu7vPMUvjH9un1haS2EM1QjVfiZFCDQTaPw3gAlejkNjLB+qP605JoRvkSX
+         ak2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682078384; x=1684670384;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/3Gqheq5NIlDwCpQdWYGUvnafRbWUgPLHiDCVWCwNFU=;
+        b=lr7NXC761MiSdTvU3UOEkiPDi8oQsfGGd5iV+npy42Tphc9lbZMY5t1UgrBZQl/MGS
+         bm3TqXxzIEvKGYNMak/mqskTRO9SLduZPDzBkMW4aXpmDpI0bfJ3JifnbMC8T4OVpzjM
+         76kmAm5WZFl74JiPABbtqBDHzM2MfaiRYDVHcslMNGmjy1HVYRv4/t5pGog8Og7gHbU1
+         Xr/H+pSVEDYTugau2BtKMl00Z/WthvaabQYZzpsP7haL61l5RmQ/NBRGYxf2DFEF1I4o
+         dp9k15sewrSzQDX4eJp63l+/an6Cu3jw7g+hvHLRxCrruSBjhFA/RQfq+Uj6bbvntx/b
+         vGqA==
+X-Gm-Message-State: AAQBX9fXkHyK8ZHL812Eo17Qj/vB5+CKAw5JztI8M/gVQnstUeXNxVp5
+        XEp1zz5Y4YpK+CLA6vO6Uc367J3uY06PZa+QeOHCkxQN
+X-Google-Smtp-Source: AKy350YFkRtlYgXopUN9cABfBXGdrD/JVGil+uptrsyP+lbx2QS++lOxVFKVRY9Z+dgrXByObea/RA==
+X-Received: by 2002:a17:90b:3e8b:b0:246:c3e1:c931 with SMTP id rj11-20020a17090b3e8b00b00246c3e1c931mr4428432pjb.23.1682078384222;
+        Fri, 21 Apr 2023 04:59:44 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id gd12-20020a17090b0fcc00b00246578736bbsm2622504pjb.8.2023.04.21.04.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 04:59:43 -0700 (PDT)
+Message-ID: <64427aaf.170a0220.c7603.58a2@mx.google.com>
+Date:   Fri, 21 Apr 2023 04:59:43 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9a3bf6c-a609-462a-852e-08db4256dd47
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2023 10:55:04.7923
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t3sDOquQ0QGisiU9vdB6gFGKtMcNch0AxeyyLzjITNYjDCn5UTVwj9hrPvTAJD2e77CSWapBFWyvp+puYsw8mw17VPFYtPljW60WCgUVTp0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10105
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-04-21-v6.3-rc7
+X-Kernelci-Report-Type: test
+Subject: renesas/master igt-kms-rockchip: 1 runs,
+ 10 regressions (renesas-devel-2023-04-21-v6.3-rc7)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQg
-VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gU2VudDogRnJpZGF5LCBBcHJp
-bCAyMSwgMjAyMyAxMDo1MCBBTQ0KPiBUbzogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVz
-YXMuY29tPg0KPiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9u
-Lm9yZz47IEppcmkgU2xhYnkNCj4gPGppcmlzbGFieUBrZXJuZWwub3JnPjsgWW9zaGlub3JpIFNh
-dG8gPHlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwPjsgbGludXgtDQo+IHNlcmlhbEB2Z2VyLmtl
-cm5lbC5vcmc7IFByYWJoYWthciBNYWhhZGV2IExhZCA8cHJhYmhha2FyLm1haGFkZXYtDQo+IGxh
-ZC5yakBicC5yZW5lc2FzLmNvbT47IGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZw0K
-PiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDUvNV0gdHR5OiBzZXJpYWw6IHNoLXNjaTogRml4IGVu
-ZCBvZiB0cmFuc21pc3Npb24gb24NCj4gU0NJDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gV2Vk
-LCBBcHIgMTIsIDIwMjMgYXQgNDo1MeKAr1BNIEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5l
-c2FzLmNvbT4gd3JvdGU6DQo+ID4gV2UgbmVlZCB0byBzZXQgVEUgdG8gIjAiIChpLmUuLCBkaXNh
-YmxlIHNlcmlhbCB0cmFuc21pc3Npb24pIHRvIGdldA0KPiA+IHRoZSBleHBlY3RlZCBiZWhhdmlv
-ciBvZiB0aGUgZW5kIG9mIHNlcmlhbCB0cmFuc21pc3Npb24uDQo+ID4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IA0KPiBUaGFua3Mg
-Zm9yIHlvdXIgcGF0Y2ghDQo+IA0KPiA+IC0tLSBhL2RyaXZlcnMvdHR5L3NlcmlhbC9zaC1zY2ku
-Yw0KPiA+ICsrKyBiL2RyaXZlcnMvdHR5L3NlcmlhbC9zaC1zY2kuYw0KPiA+IEBAIC04NDcsNiAr
-ODQ3LDExIEBAIHN0YXRpYyB2b2lkIHNjaV90cmFuc21pdF9jaGFycyhzdHJ1Y3QgdWFydF9wb3J0
-DQo+ICpwb3J0KQ0KPiA+ICAgICAgICAgICAgICAgICB9IGVsc2UgaWYgKCF1YXJ0X2NpcmNfZW1w
-dHkoeG1pdCkgJiYgIXN0b3BwZWQpIHsNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBjID0g
-eG1pdC0+YnVmW3htaXQtPnRhaWxdOw0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIHhtaXQt
-PnRhaWwgPSAoeG1pdC0+dGFpbCArIDEpICYNCj4gPiAoVUFSVF9YTUlUX1NJWkUgLSAxKTsNCj4g
-PiArICAgICAgICAgICAgICAgfSBlbHNlIGlmIChwb3J0LT50eXBlID09IFBPUlRfU0NJICYmDQo+
-IHVhcnRfY2lyY19lbXB0eSh4bWl0KSkgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGN0
-cmwgPSBzZXJpYWxfcG9ydF9pbihwb3J0LCBTQ1NDUik7DQo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgY3RybCAmPSB+U0NTQ1JfVEU7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgc2Vy
-aWFsX3BvcnRfb3V0KHBvcnQsIFNDU0NSLCBjdHJsKTsNCj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICByZXR1cm47DQo+IA0KPiBTbyBub3RoaW5nIGFmdGVyIHRoZSB3aGlsZSBsb29wIHNob3Vs
-ZCBiZSBkb25lIGFueW1vcmU/DQo+IFdoYXQgYWJvdXQgY2xlYXJpbmcgU0NTQ1JfVEUgaW4gc2Np
-X3N0b3BfdHgoKSAod2hpY2ggaXMgY2FsbGVkIGFmdGVyIHRoZQ0KPiB3aGlsZSBsb29wKSBpbnN0
-ZWFkPw0KDQo+IA0KPiA+ICAgICAgICAgICAgICAgICB9IGVsc2Ugew0KPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICAgIGJyZWFrOw0KPiA+ICAgICAgICAgICAgICAgICB9DQo+IA0KPiBTbyBjb21i
-aW5lZCB3aXRoIG15IGNvbW1lbnRzIG9uIHBhdGNoIDQvNSwgdGhhdCB3b3VsZCBiZWNvbWUNCj4g
-DQo+IC0gICAgaWYgKHBvcnQtPnR5cGUgPT0gUE9SVF9TQ0kpDQo+ICsgICAgaWYgKHBvcnQtPnR5
-cGUgPT0gUE9SVF9TQ0kpIHsNCj4gICAgICAgICAgICAgIGN0cmwgfD0gU0NTQ1JfVEVJRTsNCj4g
-KyAgICAgICAgICAgIGN0cmwgJj0gflNDU0NSX1RFOw0KPiArICAgIH0NCj4gDQo+IGluIHNjaV9z
-dG9wX3R4KCkuDQoNCkkgZ2V0IHN0cmF5IGNoYXJzIGF0IHRoZSBlbmQgYW5kIENhcnJpYWdlIHJl
-dHVybiBub3QgaGFwcGVuaW5nLg0KDQpCYXNpY2FsbHkgdHggaXMgbm90IHdvcmtpbmcgYXMgZXhw
-ZWN0ZWQuDQoNCkNoZWVycywNCkJpanUNCg==
+renesas/master igt-kms-rockchip: 1 runs, 10 regressions (renesas-devel-2023=
+-04-21-v6.3-rc7)
+
+Regressions Summary
+-------------------
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 10         =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-04-21-v6.3-rc7/plan/igt-kms-rockchip/
+
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-04-21-v6.3-rc7
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      58c481b761fe2bc4936caea1c712d28e30488ef4
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  28d9a3c4fb4c99aafc31b288b3f735e19e728d64
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  7fab01340a3f360abacd7914015be1ad485363d7 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 10         =
+
+
+  Details:     https://kernelci.org/test/plan/id/64427007581a689c3e2e85ec
+
+  Results:     66 PASS, 23 FAIL, 148 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-04-21-v6.3-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ig=
+t-kms-rockchip-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-04-21-v6.3-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/ig=
+t-kms-rockchip-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
+t/20230414.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-wait-forked-busy: https://kernelci.o=
+rg/test/case/id/64427008581a689c3e2e8679
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:12:05.198490  Test requirement: !(pipe >=3D display->n_pi=
+pes || <8>[   67.476821] <LAVA_SIGNAL_TESTCASE TEST_CASE_ID=3Dpipe-A-wait-b=
+usy-hang RESULT=3Dskip>
+
+    2023-04-21T11:12:05.200953  !display->pipes[pipe].enabled)
+
+    2023-04-21T11:12:05.204612  Pipe F does not exist or not enabled
+
+    2023-04-21T11:12:05.221999  <6>[   67.506692] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:12:05.227050  <14>[   67.513462] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:12:05.241356  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   67.519328] [IGT] kms_vblank: starting subtest =
+pipe-A-wait-forked-busy
+
+    2023-04-21T11:12:05.241447  )
+
+    2023-04-21T11:12:05.246329  Starting subtest: pipe-A-wait-forked-busy
+
+    2023-04-21T11:12:05.331326  Beginning pipe-A-wait-forked-busy on pipe A=
+, connector eDP-1
+
+    2023-04-21T11:12:05.570984  (kms_vblank:609) CRITICAL: Test assertion f=
+ailure function vblank_wait, file ../tests/kms_vblank.c:343:
+ =
+
+    ... (111 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-wait-busy: https://kernelci.org/test=
+/case/id/64427008581a689c3e2e867b
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:12:03.931314  c:2411:
+
+    2023-04-21T11:12:03.939163  Test requirement: !(pipe >=3D display->n_pi=
+pes || !display->pipes[pipe].enabled)
+
+    2023-04-21T11:12:03.943353  Pipe E does not exist or not enabled
+
+    2023-04-21T11:12:03.951348  Test requirement not met in function igt_re=
+quire_pipe, file ../lib/igt_kms.c:2411:
+
+    2023-04-21T11:12:03.959162  Test requirement: !(pipe >=3D display->n_pi=
+pes || !display->pipes[pipe].enabled)
+
+    2023-04-21T11:12:03.968230  Pipe F does not exist or not <6>[   66.2502=
+37] Console: switching to colour dummy device 80x25
+
+    2023-04-21T11:12:03.969496  enabled
+
+    2023-04-21T11:12:03.973957  <14>[   66.259624] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:12:03.987354  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   66.266512] [IGT] kms_vblank: starting subtest =
+pipe-A-wait-busy
+
+    2023-04-21T11:12:03.987630  )
+ =
+
+    ... (89 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-wait-forked: https://kernelci.org/te=
+st/case/id/64427008581a689c3e2e867d
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:12:02.734081  <6>[   65.018114] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:12:02.738195  <14>[   65.024747] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:12:02.752845  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   65.030459] [IGT] kms_vblank: starting subtest =
+pipe-A-wait-forked
+
+    2023-04-21T11:12:02.752957  )
+
+    2023-04-21T11:12:02.756587  Starting subtest: pipe-A-wait-forked
+
+    2023-04-21T11:12:02.831652  Beginning pipe-A-wait-forked on pipe A, con=
+nector eDP-1
+
+    2023-04-21T11:12:03.105293  (kms_vblank:592) CRITICAL: Test assertion f=
+ailure function vblank_wait, file ../tests/kms_vblank.c:343:
+
+    2023-04-21T11:12:03.114925  (kms_vblank:588) CRITICAL: Test assertion f=
+ailure function vblank_wait, file ../tests/kms_vblank.c:343:
+
+    2023-04-21T11:12:03.125782  (kms_vblank:591) CRITICAL: Test assertion f=
+ailure function vblank_wait, file ../tests/kms_vblank.c:343:
+
+    2023-04-21T11:12:03.132756  (kms_vblank:592) CRITICAL: Failed assertion=
+: wait_vblank(fd, &vbl) =3D=3D 0
+ =
+
+    ... (110 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-wait-idle: https://kernelci.org/test=
+/case/id/64427008581a689c3e2e867f
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:12:01.430209  Test requirement: !(pipe >=3D display->n_pi=
+pes || !display->pipes[pipe].enabled)<8>[   63.708463] <LAVA_SIGNAL_TESTCAS=
+E TEST_CASE_ID=3Dpipe-A-query-forked-busy-hang RESULT=3Dskip>
+
+    2023-04-21T11:12:01.430311  =
+
+
+    2023-04-21T11:12:01.433713  Pipe E does not exist or not enabled
+
+    2023-04-21T11:12:01.442462  Test requirement not met in function igt_re=
+quire_pipe, file ../lib/igt_kms.c:2411:
+
+    2023-04-21T11:12:01.449972  Test requirement: !(pipe >=3D display->n_pi=
+pes || !display->pipes[pipe].enabled)
+
+    2023-04-21T11:12:01.453571  Pipe F does not exist or not enabled
+
+    2023-04-21T11:12:01.472310  <6>[   63.756900] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:12:01.477948  <14>[   63.764196] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:12:01.491232  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   63.770542] [IGT] kms_vblank: starting subtest =
+pipe-A-wait-idle
+
+    2023-04-21T11:12:01.491705  )
+ =
+
+    ... (89 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-query-forked-busy: https://kernelci.=
+org/test/case/id/64427008581a689c3e2e8681
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:12:00.109535  <8>[   62.390299] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dpipe-A-query-busy-hang RESULT=3Dskip>
+
+    2023-04-21T11:12:00.142147  <6>[   62.426487] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:12:00.147744  <14>[   62.433668] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:12:00.161745  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   62.440169] [IGT] kms_vblank: starting subtest =
+pipe-A-query-forked-busy
+
+    2023-04-21T11:12:00.162570  )
+
+    2023-04-21T11:12:00.166933  Starting subtest: pipe-A-query-forked-busy
+
+    2023-04-21T11:12:00.249630  Beginning pipe-A-query-forked-busy on pipe =
+A, connector eDP-1
+
+    2023-04-21T11:12:00.570673  (kms_vblank:570) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+
+    2023-04-21T11:12:00.581258  (kms_vblank:573) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+
+    2023-04-21T11:12:00.591309  (kms_vblank:572) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+ =
+
+    ... (115 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-query-busy: https://kernelci.org/tes=
+t/case/id/64427008581a689c3e2e8684
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:11:58.899173  requirement not met in function igt_require=
+_pipe, file ../lib/igt_kms.c:2411:
+
+    2023-04-21T11:11:58.907398  Test requirement: !(pipe >=3D display->n_pi=
+pes || !display->pipes[pipe].enabled)
+
+    2023-04-21T11:11:58.916606  Pipe D does not exist or not enab<6>[   61.=
+200883] Console: switching to colour dummy device 80x25
+
+    2023-04-21T11:11:58.917658  led
+
+    2023-04-21T11:11:58.927739  Test requirement not met in function igt_re=
+quire_pipe, file<14>[   61.207980] [IGT] kms_vblank: executing
+
+    2023-04-21T11:11:58.930524   ../lib/igt_kms.c:2411:
+
+    2023-04-21T11:11:58.940870  Test requirement: !(pipe >=3D display->n_<1=
+4>[   61.219825] [IGT] kms_vblank: starting subtest pipe-A-query-busy
+
+    2023-04-21T11:11:58.945800  pipes || !display->pipes[pipe].enabled)
+
+    2023-04-21T11:11:58.948905  Pipe E does not exist or not enabled
+
+    2023-04-21T11:11:58.957591  Test requirement not met in function igt_re=
+quire_pipe, file ../lib/igt_kms.c:2411:
+ =
+
+    ... (92 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-query-forked: https://kernelci.org/t=
+est/case/id/64427008581a689c3e2e8686
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:11:57.542489  led
+
+    2023-04-21T11:11:57.577670  <6>[   59.861101] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:11:57.582332  <14>[   59.868183] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:11:57.596109  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   59.874536] [IGT] kms_vblank: starting subtest =
+pipe-A-query-forked
+
+    2023-04-21T11:11:57.596787  )
+
+    2023-04-21T11:11:57.600594  Starting subtest: pipe-A-query-forked
+
+    2023-04-21T11:11:57.683435  Beginning pipe-A-query-forked on pipe A, co=
+nnector eDP-1
+
+    2023-04-21T11:11:58.071340  (kms_vblank:551) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+
+    2023-04-21T11:11:58.081720  (kms_vblank:552) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+
+    2023-04-21T11:11:58.092223  (kms_vblank:553) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+ =
+
+    ... (112 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-query-idle: https://kernelci.org/tes=
+t/case/id/64427008581a689c3e2e8688
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:11:56.254360  <8>[   58.535013] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dpipe-A-accuracy-idle RESULT=3Dfail>
+
+    2023-04-21T11:11:56.277672  <6>[   58.561982] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:11:56.283103  <14>[   58.568650] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:11:56.296876  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   58.574572] [IGT] kms_vblank: starting subtest =
+pipe-A-query-idle
+
+    2023-04-21T11:11:56.297362  )
+
+    2023-04-21T11:11:56.300046  Starting subtest: pipe-A-query-idle
+
+    2023-04-21T11:11:56.383058  Beginning pipe-A-query-idle on pipe A, conn=
+ector eDP-1
+
+    2023-04-21T11:11:56.788841  (kms_vblank:544) CRITICAL: Test assertion f=
+ailure function vblank_query, file ../tests/kms_vblank.c:314:
+
+    2023-04-21T11:11:56.795653  (kms_vblank:544) CRITICAL: Failed assertion=
+: wait_vblank(fd, &vbl) =3D=3D 0
+
+    2023-04-21T11:11:56.802350  (kms_vblank:544) CRITICAL: Last errno: 22, =
+Invalid argument
+ =
+
+    ... (84 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-A-accuracy-idle: https://kernelci.org/=
+test/case/id/64427008581a689c3e2e8689
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:11:55.022236  <6>[   57.306315] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:11:55.026887  <14>[   57.313004] [IGT] kms_vblank: execut=
+ing
+
+    2023-04-21T11:11:55.040913  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   57.319028] [IGT] kms_vblank: starting subtest =
+pipe-A-accuracy-idle
+
+    2023-04-21T11:11:55.041171  )
+
+    2023-04-21T11:11:55.045185  Starting subtest: pipe-A-accuracy-idle
+
+    2023-04-21T11:11:55.117330  Beginning pipe-A-accuracy-idle on pipe A, c=
+onnector eDP-1
+
+    2023-04-21T11:11:55.605880  (kms_vblank:541) CRITICAL: Test assertion f=
+ailure function accuracy, file ../tests/kms_vblank.c:279:
+
+    2023-04-21T11:11:55.612910  (kms_vblank:541) CRITICAL: Failed assertion=
+: wait_vblank(fd, &vbl) =3D=3D 0
+
+    2023-04-21T11:11:55.619334  (kms_vblank:541) CRITICAL: Last errno: 22, =
+Invalid argument
+
+    2023-04-21T11:11:55.623637  (kms_vblank:541) CRITICAL: error: -22 !=3D 0
+ =
+
+    ... (82 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_setmode.basic: https://kernelci.org/test/case/id/6=
+4427008581a689c3e2e8691
+        failing since 307 days (last pass: renesas-devel-2022-06-06-v5.19-r=
+c1, first fail: renesas-devel-2022-06-17-v5.19-rc2)
+
+    2023-04-21T11:11:51.057978  <8>[   53.343707] <LAVA_SIGNAL_TESTSET STOP>
+
+    2023-04-21T11:11:51.097205  <8>[   53.382000] <LAVA_SIGNAL_TESTSET STAR=
+T kms_setmode>
+
+    2023-04-21T11:11:51.132565  <6>[   53.416387] Console: switching to col=
+our dummy device 80x25
+
+    2023-04-21T11:11:51.137023  <14>[   53.423048] [IGT] kms_setmode: execu=
+ting
+
+    2023-04-21T11:11:51.150161  IGT-Version: 1.27.1-g7fab013 (aarch64) (Lin=
+ux: 6.3.0-rc7 aarch64<14>[   53.428284] [IGT] kms_setmode: starting subtest=
+ basic
+
+    2023-04-21T11:11:51.150640  )
+
+    2023-04-21T11:11:51.152681  Starting subtest: basic
+
+    2023-04-21T11:11:51.156653  Testing: basic 1 connector combinations
+
+    2023-04-21T11:11:51.253975  <14>[   53.536511] [IGT] kms_setmode: start=
+ing dynamic subtest pipe-A-eDP-1
+
+    2023-04-21T11:11:51.257382  Starting dynamic subtest: pipe-A-eDP-1
+ =
+
+    ... (77 line(s) more)  =
+
+ =20
