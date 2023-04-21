@@ -2,126 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9E86EAAF9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 14:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 812126EAC17
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 15:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231636AbjDUMxw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Apr 2023 08:53:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56766 "EHLO
+        id S229712AbjDUNxm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Apr 2023 09:53:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbjDUMxu (ORCPT
+        with ESMTP id S229612AbjDUNxl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Apr 2023 08:53:50 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A198AAD34;
-        Fri, 21 Apr 2023 05:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682081629; x=1713617629;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=40yFO2isFfj0uBmtH69VPOZjEsJTEo1olV7IUMUdoNs=;
-  b=jk7QBg4pMFhuquznAlYb0vMAKTUTBOBR7sxP9soWSsE5ZJIZ9lOUaCOc
-   jCZuxfW4Mn9zgS6sLC6VYTQxUmLq459NcBlsqIujhtcIo1bko8qdqvMeO
-   UwSn3yTEgUZEWcxrPkbNPXfz6XeyBgMEyz7HQA9ykYU2LUjUF5q1ByhYu
-   OuBtMBR4Hur1dllfA2RlzsB2dvXz89GNjqob9XWUynPPX4T2a84U9TaQL
-   f290AsyZ0ECOeK6y60Ms7GPgYqTdph2aE9oz0ZAbxF7jLe+BNlGSLmyRG
-   zpBeMKzhAkks7UxlOURLEqR2nHVr7wYw8pArMZF37sjEq28GMcf3WwOv4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="408924037"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="408924037"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 05:53:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="724811655"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="724811655"
-Received: from nram1-mobl.ger.corp.intel.com ([10.251.214.219])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 05:53:46 -0700
-Date:   Fri, 21 Apr 2023 15:53:33 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] tty: serial: sh-sci: Fix end of transmission on
- SCI
-In-Reply-To: <CAMuHMdUQ05U9oiepVJsShg8xFoHTD6M7XczQ2=Qce+pE+0RPag@mail.gmail.com>
-Message-ID: <1860434a-8915-3ea4-60e1-5f7d4598a16@linux.intel.com>
-References: <20230412145053.114847-1-biju.das.jz@bp.renesas.com> <20230412145053.114847-6-biju.das.jz@bp.renesas.com> <CAMuHMdUQ05U9oiepVJsShg8xFoHTD6M7XczQ2=Qce+pE+0RPag@mail.gmail.com>
+        Fri, 21 Apr 2023 09:53:41 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7B73E5251
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 06:53:39 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE2071480;
+        Fri, 21 Apr 2023 06:54:22 -0700 (PDT)
+Received: from [10.57.23.51] (unknown [10.57.23.51])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 266323F587;
+        Fri, 21 Apr 2023 06:53:38 -0700 (PDT)
+Message-ID: <c972e852-7630-5843-fabe-59664361df87@arm.com>
+Date:   Fri, 21 Apr 2023 14:53:33 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-352577639-1682080734=:1951"
-Content-ID: <51b37d64-afdf-b262-3129-d2f41b4ba260@linux.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] iommu/ipmmu-vmsa: Allow PCIe devices
+Content-Language: en-GB
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        joro@8bytes.org, will@kernel.org
+Cc:     iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+References: <20230421122538.3389336-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230421122538.3389336-1-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-352577639-1682080734=:1951
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <97f35493-426e-62b5-86c9-6337f87dbc49@linux.intel.com>
-
-On Fri, 21 Apr 2023, Geert Uytterhoeven wrote:
-
-> Hi Biju,
+On 2023-04-21 13:25, Yoshihiro Shimoda wrote:
+> Add PCIe devices of R-Car Gen3/4 into devices_allowlist. For a PCI
+> device, ipmmu_attach_device() has to avoid enabling uTLB because
+> the uTLB has already been enabled by the parent device. Otherwise,
+> enable a wrong uTLB ID. Also ipmmu_device_is_allowed() has to
+> check whether the parent device is the PCIe host controller or not,
+> to use the IOMMU's dma_ops from a PCI device.
 > 
-> On Wed, Apr 12, 2023 at 4:51 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > We need to set TE to "0" (i.e., disable serial transmission) to
-> > get the expected behavior of the end of serial transmission.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>   drivers/iommu/ipmmu-vmsa.c | 21 ++++++++++++++++++++-
+>   1 file changed, 20 insertions(+), 1 deletion(-)
 > 
-> Thanks for your patch!
-> 
-> > --- a/drivers/tty/serial/sh-sci.c
-> > +++ b/drivers/tty/serial/sh-sci.c
-> > @@ -847,6 +847,11 @@ static void sci_transmit_chars(struct uart_port *port)
-> >                 } else if (!uart_circ_empty(xmit) && !stopped) {
-> >                         c = xmit->buf[xmit->tail];
-> >                         xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
-> > +               } else if (port->type == PORT_SCI && uart_circ_empty(xmit)) {
-> > +                       ctrl = serial_port_in(port, SCSCR);
-> > +                       ctrl &= ~SCSCR_TE;
-> > +                       serial_port_out(port, SCSCR, ctrl);
-> > +                       return;
-> 
-> So nothing after the while loop should be done anymore?
-> What about clearing SCSCR_TE in sci_stop_tx() (which is called after
-> the while loop) instead?
+> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+> index 9f64c5c9f5b9..c635c9b192f4 100644
+> --- a/drivers/iommu/ipmmu-vmsa.c
+> +++ b/drivers/iommu/ipmmu-vmsa.c
+> @@ -19,6 +19,7 @@
+>   #include <linux/of.h>
+>   #include <linux/of_device.h>
+>   #include <linux/of_platform.h>
+> +#include <linux/pci.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/sizes.h>
+>   #include <linux/slab.h>
+> @@ -624,6 +625,10 @@ static int ipmmu_attach_device(struct iommu_domain *io_domain,
+>   	if (ret < 0)
+>   		return ret;
+>   
+> +	/* Avoid to enable utlb if this is a PCI device */
+> +	if (dev_is_pci(dev))
+> +		return 0;
 
-Yes, this added fragment doesn't really seem to belong into the tx loop.
+Addressing that "TODO: Reference-count the microTLB..." comment instead 
+would be even nicer :)
 
-The right direction would be to aim towards converting the whole tx loop 
-into using uart_port_tx_limited().
+> +
+>   	for (i = 0; i < fwspec->num_ids; ++i)
+>   		ipmmu_utlb_enable(domain, fwspec->ids[i]);
+>   
+> @@ -702,10 +707,14 @@ static const struct soc_device_attribute soc_denylist[] = {
+>   };
+>   
+>   static const char * const devices_allowlist[] = {
+> +	"e65d0000.pcie",	/* R-Car Gen4 */
+> +	"e65d8000.pcie",	/* R-Car Gen4 */
+>   	"ee100000.mmc",
+>   	"ee120000.mmc",
+>   	"ee140000.mmc",
+> -	"ee160000.mmc"
+> +	"ee160000.mmc",
+> +	"ee800000.pcie",	/* R-Car Gen3 */
+> +	"fe000000.pcie",	/* R-Car Gen3 */
 
--- 
- i.
+This would seem to imply that you have not only an "iommu-map" property 
+representing the PCI devices, but also an "iommus" property representing 
+that the SoC side of the root complex has its own DMA path to an IOMMU, 
+distinct from the traffic coming over the PCI bridge. That can 
+occasionally be true (e.g. if the root complex IP includes a standalone 
+DMA engine), but more often it's just a mistake.
 
-> >                 } else {
-> >                         break;
-> >                 }
-> 
-> So combined with my comments on patch 4/5, that would become
-> 
-> -    if (port->type == PORT_SCI)
-> +    if (port->type == PORT_SCI) {
->              ctrl |= SCSCR_TEIE;
-> +            ctrl &= ~SCSCR_TE;
-> +    }
-> 
-> in sci_stop_tx().
---8323329-352577639-1682080734=:1951--
+>   };
+>   
+>   static bool ipmmu_device_is_allowed(struct device *dev)
+> @@ -723,12 +732,22 @@ static bool ipmmu_device_is_allowed(struct device *dev)
+>   	if (soc_device_match(soc_denylist))
+>   		return false;
+>   
+> +retry:
+>   	/* Check whether this device can work with the IPMMU */
+>   	for (i = 0; i < ARRAY_SIZE(devices_allowlist); i++) {
+>   		if (!strcmp(dev_name(dev), devices_allowlist[i]))
+>   			return true;
+>   	}
+>   
+> +	/*
+> +	 * Check whether this device has the parent device like a PCI device
+> +	 * except "soc".
+> +	 */
+> +	if (dev->parent && strcmp(dev_name(dev->parent), "soc")) {
+> +		dev = dev->parent;
+> +		goto retry;
+> +	}
+
+This is the place where a simple dev_is_pci() check would seem ideal.
+
+Thanks,
+Robin.
+
+> +
+>   	/* Otherwise, do not allow use of IPMMU */
+>   	return false;
+>   }
