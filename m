@@ -2,113 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ECDB6EA5EE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 10:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929436EA66B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Apr 2023 11:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231449AbjDUIew (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Apr 2023 04:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
+        id S229959AbjDUJA3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Apr 2023 05:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjDUIev (ORCPT
+        with ESMTP id S229900AbjDUJAZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Apr 2023 04:34:51 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 705EA7DA8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 01:34:49 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-94a342f15e4so183860166b.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 01:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682066088; x=1684658088;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JLrpYppJRBZnm4293v5qlzP26kcaV844cal3A2By+/4=;
-        b=WmqsnnE8cSF2LkSO+3yYmUeQvDPnjfEkEtmHmzbkHE+ri/yyS8It/xq4CIUR4TIWJI
-         wH6tIJj8gQtF4wbhYMvcOIxjYo4nn7wLPYH5brs7giYUZ5dEe1Dy8BsQsyebLYm4dCLR
-         WrBwwC8YNVvp0WNn+v2PsRS4j1TylV3Ban+2ek5vmN+Efo5GqtqGvoybxLX8C9eUn1PW
-         GTv44XBbEaVO5UE1e7AUR2eb4xvp+/e1eCyU3dd7K937TamRC8Ys2bwTJIbuwCU2c8Jf
-         Z2+bhW0FGGf295VyBxnt8F1k+48pznYHl3VMOeTAnp7etg7gRfwEP6GjLD2QKtxJ+Het
-         atOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682066088; x=1684658088;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JLrpYppJRBZnm4293v5qlzP26kcaV844cal3A2By+/4=;
-        b=j4UgEHvSculiQMnvcu4YH8UZHi+YxIwxFNBBOZPiT02TP0Jig8BWnSlRgSjSeqsxUH
-         8DWOY/SSGsbDRtP+ZV/KuwJkRSOW04GKdNc505lLM6wYDzdQiiJeI+JNKvSv6BXDIlyY
-         FWrhbMZsD4PPfwP514Gvg2Q252TYdYmzDQZjmuCSlwZqGoyV8MDzEKGRZoLbM7lr7jsj
-         4OmJPphIwxoQicL+nxzAWobxmIUO2I9DH4W29gfSJYOTvy3+QbxmoPjq0skm0en8o+Ln
-         Oo7acEFljq7u4Nq0XLd4gHaemcfRxlLSO7o8EBvthIBfPSF6QiLbCLJAE2/psDYoyFWV
-         LuKA==
-X-Gm-Message-State: AAQBX9fofDfKSBl84sKgHe4yp05BNcS+ettSdXF/Aqmp2Yl4um7v1xEA
-        Macw6P72UKFL2hSkGnKxuFzvXg==
-X-Google-Smtp-Source: AKy350ZWzTa+6dzxFcNGIlO21Ew9EETMq6dUqln7SS4w2bvqzBSO/XL24kivsmI/kDkUJ6hAtEBFzA==
-X-Received: by 2002:a17:907:a809:b0:94e:68a5:b7b8 with SMTP id vo9-20020a170907a80900b0094e68a5b7b8mr1506381ejc.76.1682066087953;
-        Fri, 21 Apr 2023 01:34:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:668b:1e57:3caa:4d06? ([2a02:810d:15c0:828:668b:1e57:3caa:4d06])
-        by smtp.gmail.com with ESMTPSA id de23-20020a1709069bd700b0094f02ebedf5sm1763209ejc.64.2023.04.21.01.34.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Apr 2023 01:34:47 -0700 (PDT)
-Message-ID: <7492e42e-c8c4-7222-d990-d6ed5b894625@linaro.org>
-Date:   Fri, 21 Apr 2023 10:34:46 +0200
+        Fri, 21 Apr 2023 05:00:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713EC9028
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 02:00:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A1E7616B6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 09:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6FE4DC433EF
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 09:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682067622;
+        bh=8NyrkO1ueh3PucxiYtaK3DfysoqdhmVkX2FEmn2sNJA=;
+        h=Subject:From:Date:To:From;
+        b=RCj0VjcjKhNunWDfNs7VCO5HTHDAY/UWh8awlyxY0yu3FG7ovHtnITsFX73Q1GDGq
+         ei+aYhrlBxAdBYnmrfjwBi0hF/3x6ulG0glalKajDDxZC6JnnS85ImgJIy3Bbkn1J7
+         l+XOZJm1DqA0xLywi91lF7MU+lqBip0l56p+o5+SzNv6onZwZt2z2+qqjz0GWK5jbA
+         sbX+FiQ3UT7N022Vp9R9q3A09XuRq8UDjjXG9WvRjgPpI7yfZ8z0qn5BXCMS85cId/
+         FseAgDM7q4Jq+OV2JhQrscKCfdrjrV1kXqc6YFztTwfMfyPxlqYo7135DqAEAoiNE/
+         kHsyeDW733iCA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 57854C395EA
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 09:00:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4] memory: renesas-rpc-if: Fix PHYCNT.STRTIM setting
-Content-Language: en-US
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Cong Dang <cong.dang.xn@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>,
-        linux-kernel@vger.kernel.org
-References: <20230419130234.44321-1-wsa+renesas@sang-engineering.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230419130234.44321-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <168206762223.2497.14466093786247793063.git-patchwork-summary@kernel.org>
+Date:   Fri, 21 Apr 2023 09:00:22 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 19/04/2023 15:02, Wolfram Sang wrote:
-> According to the datasheets, the Strobe Timing Adjustment bit (STRTIM)
-> setting is different on R-Car SoCs, i.e.
-> 
-> R-Car M3 ES1.*  : STRTIM[2:0] is set to 0x6
-> other R-Car Gen3: STRTIM[2:0] is set to 0x7
-> other R-Car Gen4: STRTIM[3:0] is set to 0xf
-> 
-> To fix this issue, a DT match data was added to specify the setting
-> for special use cases.
-> 
-> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-> Signed-off-by: Hai Pham  <hai.pham.ud@renesas.com>
-> [wsa: rebased, restructured, added Gen4 support]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Change since v3:
-> * rebased to latest changes in the driver
-> 
-> The previous version was already reviewed by Geert and tested by
-> Prabhakar. Since the rebase for v4 was not super trivial, I decided to
-> drop the tags. It would be great if you could have another look. Thank
-> you already. Happy hacking!
+Hello:
 
-Thank you for the patch.
-It is too late in the cycle for me to pick it up. I will take it after
-the merge window.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Series: Enable DSI and ADV7535 on RZ/G2{L, LC} and RZ/V2L platforms
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=738700
+  Lore link: https://lore.kernel.org/r/20230411100346.299768-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/8] arm64: dts: renesas: r9a07g044: Add fcpvd node
+             [v2,2/8] arm64: dts: renesas: r9a07g054: Add fcpvd node
+             [v2,3/8] arm64: dts: renesas: r9a07g044: Add vspd node
+             [v2,4/8] arm64: dts: renesas: r9a07g054: Add vspd node
+             [v2,5/8] arm64: dts: renesas: r9a07g044: Add DSI node
+             [v2,6/8] arm64: dts: renesas: r9a07g054: Add DSI node
+             [v2,7/8] arm64: dts: renesas: rzg2l-smarc: Link DSI with ADV7535
+             [v2,8/8] arm64: dts: renesas: rzg2lc-smarc: Link DSI with ADV7535
+
+Series: Enable DSI and ADV7535 on RZ/G2{L, LC} and RZ/V2L platforms.
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=698239
+  Lore link: https://lore.kernel.org/r/20221122213529.2103849-1-biju.das.jz@bp.renesas.com
+    Patches: [1/7] arm64: dts: renesas: r9a07g044: Add fcpvd node
+             [5/7] arm64: dts: renesas: r9a07g054: Add fcpvd node
+
+Series: [1/3] arm64: dts: renesas: r9a07g044: Add MTU3a node
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=740394
+  Lore link: https://lore.kernel.org/r/20230417090159.191346-1-biju.das.jz@bp.renesas.com
+    Patches: [1/3] arm64: dts: renesas: r9a07g044: Add MTU3a node
+             [2/3] arm64: dts: renesas: r9a07g054: Add MTU3a node
+
+Patch: arm64: dts: renesas: rg2lc-smarc: Enable CRU, CSI support
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=739473
+  Lore link: https://lore.kernel.org/r/20230413114016.16068-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Series: RZ/V2L: Add CRU, CSI support
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=739243
+  Lore link: https://lore.kernel.org/r/20230412185608.64628-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/2] arm64: dts: renesas: r9a07g054: Add CSI and CRU nodes
+             [2/2] arm64: dts: renesas: rzv2l-smarc: Enable CRU, CSI support
 
 
-Best regards,
-Krzysztof
+Total patches: 15
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
