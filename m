@@ -2,61 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1929C6EB460
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Apr 2023 00:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D830B6EB8AD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Apr 2023 12:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233258AbjDUWDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Apr 2023 18:03:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48578 "EHLO
+        id S229530AbjDVK5S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Apr 2023 06:57:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233046AbjDUWDf (ORCPT
+        with ESMTP id S229451AbjDVK5S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Apr 2023 18:03:35 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27ED410F2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Apr 2023 15:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682114614; x=1713650614;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1P0gNtdE9I6Vrm0BOKZLQeYAFtrzIEyUFP4aSM3OVRE=;
-  b=CPt1AijxxztifLbvIjUCWJnKnhF/P+C+gkCUl8UzdozVc3RLqdqHcj+6
-   S5nyOEx251kRNDpZ7X43ORnAvlF2Gr2SsdSued9ZhDFmXixLpDp0dyyMt
-   l0zeGbHdPnKAqem1wc0gcUdfRUPMd1Os2CIaN9dt2OBxaX5KOFiNmLep4
-   JcIZQfTs76b0WN5nwyuSRHC+yL35aIzQRuJx6HELfqtOuz0jtpcmWJEBh
-   ptvBehW1TYTO10sGAEJ4MHZLSy3TrfBwSJ840NzhuEYeX00S8PEQvEkjQ
-   2DKRNhZ2YQyA37wQCUHAvVZHA1rYSXWpd5ijA8UcQDd0AYrljb2knkWK6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="330294195"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="330294195"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 15:03:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="761715876"
-X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
-   d="scan'208";a="761715876"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2023 15:03:30 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ppyqi-000grQ-29;
-        Fri, 21 Apr 2023 22:03:24 +0000
-Date:   Sat, 22 Apr 2023 06:03:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 58c481b761fe2bc4936caea1c712d28e30488ef4
-Message-ID: <6443082a.k/BgYqE/DiXDP1Qi%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 22 Apr 2023 06:57:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9061732;
+        Sat, 22 Apr 2023 03:57:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2908060FF0;
+        Sat, 22 Apr 2023 10:57:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD476C433D2;
+        Sat, 22 Apr 2023 10:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682161034;
+        bh=v3sGaJG8B87hpRE4daQ7EA3CCn7RlOrEJyDk0J1Mj2k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mLz3JjCVnn98r4gUJvDtaFXi9OS+0di2mciadSLUKaPwjqkFRmCJjjXR6CB9wLdrE
+         Xqwn2ssq//u6lW0fFbxTdsQxMFkLyRRu4/OlsuibE1dax5FOkjhgz42vw4AqgzXeLI
+         TjXF6B0/4PT85YrjxWuNpNG7rPqK6B6q74oL6U9oShELHlY5ZNKCUkEN/WkP/MfZNg
+         xEnTWJWwUwrmeCdX3kOEFUVTx8S93nEeUXAvzlPAD+bPj9IRyIJ3seg95NzD1W9yRC
+         nGqspQCKNWfjpS8kQ8/ToVOFgYsoLJ0UVm2e4YkC+Hh3nywDDLCPVDIbHhUaTEffpb
+         sBX8aGkwA92DA==
+Date:   Sat, 22 Apr 2023 16:26:49 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     jingoohan1@gmail.com, mani@kernel.org,
+        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, kishon@kernel.org,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Minghuan Lian <minghuan.Lian@nxp.com>,
+        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Srikanth Thokala <srikanth.thokala@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v13 04/22] PCI: Rename PCI_EPC_IRQ_LEGACY with
+ PCI_EPC_IRQ_INTX
+Message-ID: <20230422105649.GA4769@thinkpad>
+References: <20230418122403.3178462-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230418122403.3178462-5-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230418122403.3178462-5-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,295 +81,307 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 58c481b761fe2bc4936caea1c712d28e30488ef4  Merge branch 'renesas-dts-for-v6.5' into renesas-devel
+On Tue, Apr 18, 2023 at 09:23:45PM +0900, Yoshihiro Shimoda wrote:
 
-elapsed time: 727m
+Subject should be:
 
-configs tested: 275
-configs skipped: 24
+PCI: Rename PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Using "INTx" instead of "legacy" is more specific. So, rename
+> PCI_EPC_IRQ_LEGACY with PCI_EPC_IRQ_INTX.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r001-20230421   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r004-20230421   gcc  
-alpha                randconfig-r016-20230416   gcc  
-alpha                randconfig-r023-20230416   gcc  
-alpha                randconfig-r023-20230421   gcc  
-alpha                randconfig-r033-20230416   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                         haps_hs_defconfig   gcc  
-arc                  randconfig-r003-20230421   gcc  
-arc                  randconfig-r005-20230416   gcc  
-arc                  randconfig-r006-20230421   gcc  
-arc                  randconfig-r015-20230421   gcc  
-arc                  randconfig-r022-20230421   gcc  
-arc                  randconfig-r023-20230419   gcc  
-arc                  randconfig-r031-20230421   gcc  
-arc                  randconfig-r033-20230421   gcc  
-arc                  randconfig-r043-20230416   gcc  
-arc                  randconfig-r043-20230417   gcc  
-arc                  randconfig-r043-20230420   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         bcm2835_defconfig   clang
-arm          buildonly-randconfig-r004-20230421   gcc  
-arm                                 defconfig   gcc  
-arm                          moxart_defconfig   clang
-arm                  randconfig-r005-20230421   clang
-arm                  randconfig-r015-20230417   gcc  
-arm                  randconfig-r022-20230416   clang
-arm                  randconfig-r046-20230416   clang
-arm                  randconfig-r046-20230417   gcc  
-arm                  randconfig-r046-20230420   clang
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r002-20230416   clang
-arm64        buildonly-randconfig-r002-20230417   gcc  
-arm64        buildonly-randconfig-r004-20230416   clang
-arm64        buildonly-randconfig-r004-20230421   gcc  
-arm64        buildonly-randconfig-r005-20230421   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r005-20230421   gcc  
-arm64                randconfig-r006-20230416   clang
-arm64                randconfig-r023-20230418   gcc  
-arm64                randconfig-r025-20230417   clang
-arm64                randconfig-r026-20230417   clang
-arm64                randconfig-r031-20230421   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r001-20230417   gcc  
-csky                 randconfig-r002-20230417   gcc  
-csky                 randconfig-r003-20230417   gcc  
-csky                 randconfig-r012-20230421   gcc  
-csky                 randconfig-r015-20230421   gcc  
-csky                 randconfig-r023-20230421   gcc  
-csky                 randconfig-r024-20230419   gcc  
-csky                 randconfig-r024-20230421   gcc  
-csky                 randconfig-r025-20230421   gcc  
-csky                 randconfig-r026-20230416   gcc  
-csky                 randconfig-r036-20230421   gcc  
-hexagon      buildonly-randconfig-r001-20230421   clang
-hexagon      buildonly-randconfig-r002-20230421   clang
-hexagon      buildonly-randconfig-r004-20230417   clang
-hexagon              randconfig-r022-20230421   clang
-hexagon              randconfig-r031-20230416   clang
-hexagon              randconfig-r041-20230416   clang
-hexagon              randconfig-r041-20230417   clang
-hexagon              randconfig-r041-20230420   clang
-hexagon              randconfig-r041-20230421   clang
-hexagon              randconfig-r045-20230416   clang
-hexagon              randconfig-r045-20230417   clang
-hexagon              randconfig-r045-20230420   clang
-hexagon              randconfig-r045-20230421   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230417   gcc  
-i386                 randconfig-a002-20230417   gcc  
-i386                          randconfig-a002   clang
-i386                 randconfig-a003-20230417   gcc  
-i386                 randconfig-a004-20230417   gcc  
-i386                          randconfig-a004   clang
-i386                 randconfig-a005-20230417   gcc  
-i386                 randconfig-a006-20230417   gcc  
-i386                          randconfig-a006   clang
-i386                          randconfig-a011   clang
-i386                          randconfig-a012   gcc  
-i386                          randconfig-a013   clang
-i386                          randconfig-a014   gcc  
-i386                          randconfig-a015   clang
-i386                          randconfig-a016   gcc  
-i386                 randconfig-r036-20230417   gcc  
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r005-20230421   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r001-20230421   gcc  
-ia64                 randconfig-r013-20230416   gcc  
-ia64                 randconfig-r015-20230416   gcc  
-ia64                 randconfig-r022-20230421   gcc  
-ia64                 randconfig-r034-20230421   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r002-20230421   gcc  
-loongarch            randconfig-r011-20230421   gcc  
-loongarch            randconfig-r012-20230419   gcc  
-loongarch            randconfig-r035-20230421   gcc  
-loongarch            randconfig-r036-20230421   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                 randconfig-r004-20230421   gcc  
-m68k                 randconfig-r014-20230421   gcc  
-m68k                 randconfig-r016-20230421   gcc  
-m68k                 randconfig-r021-20230418   gcc  
-m68k                 randconfig-r023-20230421   gcc  
-m68k                 randconfig-r034-20230417   gcc  
-microblaze   buildonly-randconfig-r003-20230417   gcc  
-microblaze   buildonly-randconfig-r005-20230417   gcc  
-microblaze           randconfig-r004-20230421   gcc  
-microblaze           randconfig-r011-20230419   gcc  
-microblaze           randconfig-r012-20230421   gcc  
-microblaze           randconfig-r013-20230421   gcc  
-microblaze           randconfig-r015-20230421   gcc  
-microblaze           randconfig-r021-20230421   gcc  
-microblaze           randconfig-r024-20230421   gcc  
-microblaze           randconfig-r034-20230421   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                      fuloong2e_defconfig   gcc  
-mips                     loongson1b_defconfig   gcc  
-mips                          malta_defconfig   clang
-mips                 randconfig-r001-20230421   clang
-mips                 randconfig-r012-20230421   gcc  
-mips                 randconfig-r013-20230421   gcc  
-mips                 randconfig-r014-20230421   gcc  
-mips                 randconfig-r022-20230421   gcc  
-mips                 randconfig-r024-20230418   clang
-nios2        buildonly-randconfig-r002-20230421   gcc  
-nios2        buildonly-randconfig-r003-20230416   gcc  
-nios2        buildonly-randconfig-r005-20230421   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r002-20230416   gcc  
-nios2                randconfig-r006-20230421   gcc  
-nios2                randconfig-r011-20230417   gcc  
-nios2                randconfig-r014-20230416   gcc  
-nios2                randconfig-r022-20230419   gcc  
-nios2                randconfig-r025-20230418   gcc  
-nios2                randconfig-r026-20230421   gcc  
-nios2                randconfig-r035-20230416   gcc  
-nios2                randconfig-r035-20230421   gcc  
-openrisc                         alldefconfig   gcc  
-openrisc     buildonly-randconfig-r002-20230421   gcc  
-openrisc     buildonly-randconfig-r003-20230421   gcc  
-openrisc     buildonly-randconfig-r006-20230421   gcc  
-openrisc                  or1klitex_defconfig   gcc  
-openrisc             randconfig-r031-20230421   gcc  
-openrisc             randconfig-r032-20230421   gcc  
-openrisc             randconfig-r035-20230417   gcc  
-parisc       buildonly-randconfig-r002-20230421   gcc  
-parisc       buildonly-randconfig-r004-20230421   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r014-20230421   gcc  
-parisc               randconfig-r024-20230421   gcc  
-parisc               randconfig-r026-20230419   gcc  
-parisc               randconfig-r036-20230421   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r006-20230421   clang
-powerpc                       eiger_defconfig   gcc  
-powerpc                     kmeter1_defconfig   clang
-powerpc                     ksi8560_defconfig   clang
-powerpc              randconfig-r002-20230421   gcc  
-powerpc              randconfig-r003-20230421   gcc  
-powerpc              randconfig-r006-20230420   clang
-powerpc              randconfig-r006-20230421   gcc  
-powerpc              randconfig-r011-20230416   gcc  
-powerpc              randconfig-r022-20230421   clang
-powerpc              randconfig-r025-20230416   gcc  
-powerpc              randconfig-r025-20230421   clang
-powerpc              randconfig-r026-20230421   clang
-powerpc              randconfig-r032-20230421   gcc  
-powerpc              randconfig-r033-20230421   gcc  
-powerpc              randconfig-r034-20230421   gcc  
-powerpc                     skiroot_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                             allnoconfig   gcc  
-riscv        buildonly-randconfig-r001-20230416   gcc  
-riscv        buildonly-randconfig-r004-20230421   clang
-riscv        buildonly-randconfig-r005-20230416   gcc  
-riscv        buildonly-randconfig-r005-20230421   clang
-riscv                               defconfig   gcc  
-riscv                randconfig-r002-20230421   gcc  
-riscv                randconfig-r012-20230417   clang
-riscv                randconfig-r031-20230417   gcc  
-riscv                randconfig-r035-20230421   gcc  
-riscv                randconfig-r042-20230416   gcc  
-riscv                randconfig-r042-20230417   clang
-riscv                randconfig-r042-20230420   gcc  
-riscv                randconfig-r042-20230421   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r003-20230421   clang
-s390                                defconfig   gcc  
-s390                 randconfig-r023-20230421   clang
-s390                 randconfig-r024-20230416   gcc  
-s390                 randconfig-r044-20230416   gcc  
-s390                 randconfig-r044-20230417   clang
-s390                 randconfig-r044-20230420   gcc  
-s390                 randconfig-r044-20230421   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r006-20230421   gcc  
-sh                     magicpanelr2_defconfig   gcc  
-sh                   randconfig-r011-20230421   gcc  
-sh                   randconfig-r012-20230421   gcc  
-sh                   randconfig-r013-20230419   gcc  
-sh                   randconfig-r026-20230418   gcc  
-sh                            shmin_defconfig   gcc  
-sparc        buildonly-randconfig-r004-20230421   gcc  
-sparc        buildonly-randconfig-r005-20230421   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r001-20230420   gcc  
-sparc                randconfig-r005-20230421   gcc  
-sparc                randconfig-r016-20230417   gcc  
-sparc                randconfig-r021-20230421   gcc  
-sparc                randconfig-r032-20230416   gcc  
-sparc                randconfig-r033-20230417   gcc  
-sparc                randconfig-r034-20230421   gcc  
-sparc64      buildonly-randconfig-r001-20230421   gcc  
-sparc64              randconfig-r003-20230416   gcc  
-sparc64              randconfig-r006-20230417   gcc  
-sparc64              randconfig-r013-20230417   gcc  
-sparc64              randconfig-r014-20230417   gcc  
-sparc64              randconfig-r016-20230421   gcc  
-sparc64              randconfig-r025-20230421   gcc  
-sparc64              randconfig-r032-20230417   gcc  
-sparc64              randconfig-r035-20230421   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230417   gcc  
-x86_64                        randconfig-a001   clang
-x86_64               randconfig-a002-20230417   gcc  
-x86_64               randconfig-a003-20230417   gcc  
-x86_64                        randconfig-a003   clang
-x86_64               randconfig-a004-20230417   gcc  
-x86_64               randconfig-a005-20230417   gcc  
-x86_64                        randconfig-a005   clang
-x86_64               randconfig-a006-20230417   gcc  
-x86_64               randconfig-a011-20230417   clang
-x86_64                        randconfig-a011   gcc  
-x86_64               randconfig-a012-20230417   clang
-x86_64                        randconfig-a012   clang
-x86_64               randconfig-a013-20230417   clang
-x86_64                        randconfig-a013   gcc  
-x86_64               randconfig-a014-20230417   clang
-x86_64                        randconfig-a014   clang
-x86_64               randconfig-a015-20230417   clang
-x86_64                        randconfig-a015   gcc  
-x86_64               randconfig-a016-20230417   clang
-x86_64                        randconfig-a016   clang
-x86_64               randconfig-r021-20230417   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa               randconfig-r005-20230421   gcc  
-xtensa               randconfig-r011-20230421   gcc  
-xtensa               randconfig-r012-20230416   gcc  
-xtensa               randconfig-r013-20230421   gcc  
-xtensa               randconfig-r014-20230419   gcc  
-xtensa               randconfig-r021-20230416   gcc  
-xtensa               randconfig-r021-20230421   gcc  
+s/with/to
+
+> 
+> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+With above changes,
+
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+
+- Mani
+
+> Cc: Tom Joseph <tjoseph@cadence.com>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: Richard Zhu <hongxing.zhu@nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Minghuan Lian <minghuan.Lian@nxp.com>
+> Cc: Mingkai Hu <mingkai.hu@nxp.com>
+> Cc: Roy Zang <roy.zang@nxp.com>
+> Cc: Jesper Nilsson <jesper.nilsson@axis.com>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Serge Semin <fancer.lancer@gmail.com>
+> Cc: Srikanth Thokala <srikanth.thokala@intel.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Kishon Vijay Abraham I <kishon@kernel.org>
+> ---
+>  drivers/pci/controller/cadence/pcie-cadence-ep.c  |  2 +-
+>  drivers/pci/controller/dwc/pci-dra7xx.c           |  2 +-
+>  drivers/pci/controller/dwc/pci-imx6.c             |  2 +-
+>  drivers/pci/controller/dwc/pci-keystone.c         |  2 +-
+>  drivers/pci/controller/dwc/pci-layerscape-ep.c    |  2 +-
+>  drivers/pci/controller/dwc/pcie-artpec6.c         |  2 +-
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |  2 +-
+>  drivers/pci/controller/dwc/pcie-keembay.c         |  2 +-
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c         |  2 +-
+>  drivers/pci/controller/dwc/pcie-tegra194.c        |  2 +-
+>  drivers/pci/controller/dwc/pcie-uniphier-ep.c     |  2 +-
+>  drivers/pci/controller/pcie-rcar-ep.c             |  2 +-
+>  drivers/pci/controller/pcie-rockchip-ep.c         |  2 +-
+>  drivers/pci/endpoint/functions/pci-epf-test.c     | 12 ++++++------
+>  include/linux/pci-epc.h                           |  4 ++--
+>  15 files changed, 21 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+> index b8b655d4047e..2af8eb4e6d91 100644
+> --- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
+> +++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+> @@ -539,7 +539,7 @@ static int cdns_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn, u8 vfn,
+>  	struct device *dev = pcie->dev;
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		if (vfn > 0) {
+>  			dev_err(dev, "Cannot raise legacy interrupts for VF\n");
+>  			return -EINVAL;
+> diff --git a/drivers/pci/controller/dwc/pci-dra7xx.c b/drivers/pci/controller/dwc/pci-dra7xx.c
+> index 4ae807e7cf79..b42fb1cc8bc8 100644
+> --- a/drivers/pci/controller/dwc/pci-dra7xx.c
+> +++ b/drivers/pci/controller/dwc/pci-dra7xx.c
+> @@ -410,7 +410,7 @@ static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		dra7xx_pcie_raise_legacy_irq(dra7xx);
+>  		break;
+>  	case PCI_EPC_IRQ_MSI:
+> diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
+> index 52906f999f2b..1f39e733ce19 100644
+> --- a/drivers/pci/controller/dwc/pci-imx6.c
+> +++ b/drivers/pci/controller/dwc/pci-imx6.c
+> @@ -1062,7 +1062,7 @@ static int imx6_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> index 78818853af9e..3806f5530937 100644
+> --- a/drivers/pci/controller/dwc/pci-keystone.c
+> +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> @@ -908,7 +908,7 @@ static int ks_pcie_am654_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct keystone_pcie *ks_pcie = to_keystone_pcie(pci);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		ks_pcie_am654_raise_legacy_irq(ks_pcie);
+>  		break;
+>  	case PCI_EPC_IRQ_MSI:
+> diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> index c640db60edc6..ab3306e206d8 100644
+> --- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> +++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> @@ -65,7 +65,7 @@ static int ls_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> diff --git a/drivers/pci/controller/dwc/pcie-artpec6.c b/drivers/pci/controller/dwc/pcie-artpec6.c
+> index 98102079e26d..128cb1118e3a 100644
+> --- a/drivers/pci/controller/dwc/pcie-artpec6.c
+> +++ b/drivers/pci/controller/dwc/pcie-artpec6.c
+> @@ -357,7 +357,7 @@ static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		dev_err(pci->dev, "EP cannot trigger legacy IRQs\n");
+>  		return -EINVAL;
+>  	case PCI_EPC_IRQ_MSI:
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> index 1fcfb840f238..fc3b02949218 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-plat.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> @@ -48,7 +48,7 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> diff --git a/drivers/pci/controller/dwc/pcie-keembay.c b/drivers/pci/controller/dwc/pcie-keembay.c
+> index f90f36bac018..ceb940b327cb 100644
+> --- a/drivers/pci/controller/dwc/pcie-keembay.c
+> +++ b/drivers/pci/controller/dwc/pcie-keembay.c
+> @@ -290,7 +290,7 @@ static int keembay_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		/* Legacy interrupts are not supported in Keem Bay */
+>  		dev_err(pci->dev, "Legacy IRQ is not supported\n");
+>  		return -EINVAL;
+> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> index 19b32839ea26..077afce48d0b 100644
+> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> @@ -658,7 +658,7 @@ static int qcom_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index 09825b4a075e..4adba379b83d 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -1980,7 +1980,7 @@ static int tegra_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct tegra_pcie_dw *pcie = to_tegra_pcie(pci);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return tegra_pcie_ep_raise_legacy_irq(pcie, interrupt_num);
+>  
+>  	case PCI_EPC_IRQ_MSI:
+> diff --git a/drivers/pci/controller/dwc/pcie-uniphier-ep.c b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> index 4d0a587c0ba5..7787eedf87f4 100644
+> --- a/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> @@ -262,7 +262,7 @@ static int uniphier_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return uniphier_pcie_ep_raise_legacy_irq(ep);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return uniphier_pcie_ep_raise_msi_irq(ep, func_no,
+> diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+> index f9682df1da61..fbdf3d85301c 100644
+> --- a/drivers/pci/controller/pcie-rcar-ep.c
+> +++ b/drivers/pci/controller/pcie-rcar-ep.c
+> @@ -408,7 +408,7 @@ static int rcar_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn, u8 vfn,
+>  	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return rcar_pcie_ep_assert_intx(ep, fn, 0);
+>  
+>  	case PCI_EPC_IRQ_MSI:
+> diff --git a/drivers/pci/controller/pcie-rockchip-ep.c b/drivers/pci/controller/pcie-rockchip-ep.c
+> index d1a200b93b2b..ef9d1f6c382a 100644
+> --- a/drivers/pci/controller/pcie-rockchip-ep.c
+> +++ b/drivers/pci/controller/pcie-rockchip-ep.c
+> @@ -477,7 +477,7 @@ static int rockchip_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn, u8 vfn,
+>  	struct rockchip_pcie_ep *ep = epc_get_drvdata(epc);
+>  
+>  	switch (type) {
+> -	case PCI_EPC_IRQ_LEGACY:
+> +	case PCI_EPC_IRQ_INTX:
+>  		return rockchip_pcie_ep_send_legacy_irq(ep, fn, 0);
+>  	case PCI_EPC_IRQ_MSI:
+>  		return rockchip_pcie_ep_send_msi_irq(ep, fn, interrupt_num);
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> index 172e5ac0bd96..36a2a8120653 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> @@ -19,11 +19,11 @@
+>  #include <linux/pci-epf.h>
+>  #include <linux/pci_regs.h>
+>  
+> -#define IRQ_TYPE_LEGACY			0
+> +#define IRQ_TYPE_INTX			0
+>  #define IRQ_TYPE_MSI			1
+>  #define IRQ_TYPE_MSIX			2
+>  
+> -#define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+> +#define COMMAND_RAISE_INTX_IRQ		BIT(0)
+>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+>  #define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+>  #define COMMAND_READ			BIT(3)
+> @@ -606,9 +606,9 @@ static void pci_epf_test_raise_irq(struct pci_epf_test *epf_test, u8 irq_type,
+>  	reg->status |= STATUS_IRQ_RAISED;
+>  
+>  	switch (irq_type) {
+> -	case IRQ_TYPE_LEGACY:
+> +	case IRQ_TYPE_INTX:
+>  		pci_epc_raise_irq(epc, epf->func_no, epf->vfunc_no,
+> -				  PCI_EPC_IRQ_LEGACY, 0);
+> +				  PCI_EPC_IRQ_INTX, 0);
+>  		break;
+>  	case IRQ_TYPE_MSI:
+>  		pci_epc_raise_irq(epc, epf->func_no, epf->vfunc_no,
+> @@ -649,10 +649,10 @@ static void pci_epf_test_cmd_handler(struct work_struct *work)
+>  		goto reset_handler;
+>  	}
+>  
+> -	if (command & COMMAND_RAISE_LEGACY_IRQ) {
+> +	if (command & COMMAND_RAISE_INTX_IRQ) {
+>  		reg->status = STATUS_IRQ_RAISED;
+>  		pci_epc_raise_irq(epc, epf->func_no, epf->vfunc_no,
+> -				  PCI_EPC_IRQ_LEGACY, 0);
+> +				  PCI_EPC_IRQ_INTX, 0);
+>  		goto reset_handler;
+>  	}
+>  
+> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+> index 301bb0e53707..c2572a93d73d 100644
+> --- a/include/linux/pci-epc.h
+> +++ b/include/linux/pci-epc.h
+> @@ -21,7 +21,7 @@ enum pci_epc_interface_type {
+>  
+>  enum pci_epc_irq_type {
+>  	PCI_EPC_IRQ_UNKNOWN,
+> -	PCI_EPC_IRQ_LEGACY,
+> +	PCI_EPC_IRQ_INTX,
+>  	PCI_EPC_IRQ_MSI,
+>  	PCI_EPC_IRQ_MSIX,
+>  };
+> @@ -54,7 +54,7 @@ pci_epc_interface_string(enum pci_epc_interface_type type)
+>   *	     MSI-X capability register
+>   * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
+>   *	     from the MSI-X capability register
+> - * @raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
+> + * @raise_irq: ops to raise an INTx, MSI or MSI-X interrupt
+>   * @map_msi_irq: ops to map physical address to MSI address and return MSI data
+>   * @start: ops to start the PCI link
+>   * @stop: ops to stop the PCI link
+> -- 
+> 2.25.1
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+மணிவண்ணன் சதாசிவம்
