@@ -2,118 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A67A6ED566
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Apr 2023 21:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 475E86ED796
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 00:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232316AbjDXThQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Apr 2023 15:37:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
+        id S233224AbjDXWLE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Apr 2023 18:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbjDXThP (ORCPT
+        with ESMTP id S232473AbjDXWLD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Apr 2023 15:37:15 -0400
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CFF5596;
-        Mon, 24 Apr 2023 12:37:14 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b992e28c141so5884936276.0;
-        Mon, 24 Apr 2023 12:37:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682365033; x=1684957033;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GZol4aEZCkmHs4ejc2LNc9FEqv9LZk1pju+lVxytN+s=;
-        b=lc5vN4yo0zDeUasfcdRjFaKNyWBieWqeNOmep5frIrHqynr/QwiL4ATDE0Aq5LI3cX
-         zQzXTPp7Eh6cPxgag6XbKHzaM+9qLh+5cfwgVCbPZVog+RGwmAZL/3bp9kCHi772YfcY
-         nBPZ73tOBmvxlPIqZtoReaehpRyC9fnlr3R2Ymshhz7wVjBxpynE8a1QuuMXbQbl1O56
-         NFo4Ih8EOtvEdD2S2nhJeR5Isuuh2JvUALtcO0EiEyGgMmN3NMgFUesixxeaHr4LS3+d
-         ktYSRkIfNbh8iJWIkveEEXuZQ52J96Qpc62c307DonOeuP24xGz0lTEIQVy5JB7U+kyq
-         vIYg==
-X-Gm-Message-State: AC+VfDyFp1RjYo45KgYPZwH2qTcaonvoIUkg3M4uzk9cNpCD6BC3C5ZA
-        OP1ioJfKedGOnL0ROBkC0MA2Ph3O9bQyhw==
-X-Google-Smtp-Source: ACHHUZ4xNY++x32fGVy8DGJyETJvQ/ZYNHqro/Tk08jYihjXy/cx7a+sJ4ampNDx4gjUjUMnAt7WyQ==
-X-Received: by 2002:a25:5344:0:b0:b99:9c3d:7d22 with SMTP id h65-20020a255344000000b00b999c3d7d22mr2555846ybb.27.1682365033136;
-        Mon, 24 Apr 2023 12:37:13 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id u44-20020a25ab2f000000b00b999ed81794sm803519ybi.0.2023.04.24.12.37.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Apr 2023 12:37:12 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-54fc6949475so54805787b3.3;
-        Mon, 24 Apr 2023 12:37:12 -0700 (PDT)
-X-Received: by 2002:a81:488e:0:b0:552:f3d5:c156 with SMTP id
- v136-20020a81488e000000b00552f3d5c156mr8701161ywa.13.1682365032620; Mon, 24
- Apr 2023 12:37:12 -0700 (PDT)
+        Mon, 24 Apr 2023 18:11:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA976974B;
+        Mon, 24 Apr 2023 15:10:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F6BB629A5;
+        Mon, 24 Apr 2023 22:10:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C2BDC4339B;
+        Mon, 24 Apr 2023 22:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682374235;
+        bh=FnGcqvrEdLbzUlljWiXhCsHy+qSn4AIL5KgH7iNawGA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vD/FFfAqifz1nnj6u1cKoYA6GH2xWLs1V+ea4SuOBpAHQh0NGFjWQSVbhpBcJcyWf
+         5aOCD+ypac0Bq6YZR1YiJlplzcuSYM9Rj/cS7VNwTmIarJqdDGwq0siT8Z1Rx3pyFd
+         uIF6CG+ld0p/DXJ2MDysgwFGm33oDzMbh8FK4uTfw2dpxgA6gSYi2UnPj9+YrUqTUc
+         RO+7Hri8oZZphp3UiJzPteyEuQ/oIqhua7BNO+3B52D/6VB2MsknlXdeKRKeWTnwr9
+         uVKS0ASFJVltj9jRqGi5XDys6F6NjS3eMd3J8yY7nKHNNoZ64TPWpTB1RlyDqpRbtD
+         Lm7Fysb+fVYSQ==
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-b980e16b27bso3718565276.2;
+        Mon, 24 Apr 2023 15:10:35 -0700 (PDT)
+X-Gm-Message-State: AAQBX9e8RY653WnzJwPFBtySWK8SDqDKskKBHG4OclBLZPLx0oNeIpjt
+        tthT9PFunoYSbPqfR7D/8H8g516mKNGGuZB6Mw==
+X-Google-Smtp-Source: AKy350Z8fwjeT6uilQZV5elUBNHPlU26+hD27eSWPRlQhPwmqTcN2nXurF+nyFvBNi+9INgYk5eGXnlLE8/dW8JHY5k=
+X-Received: by 2002:a0d:e2c9:0:b0:54f:752e:9b63 with SMTP id
+ l192-20020a0de2c9000000b0054f752e9b63mr9341801ywe.15.1682374234531; Mon, 24
+ Apr 2023 15:10:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
- <20230307163041.3815-6-wsa+renesas@sang-engineering.com> <CAMuHMdVQiMbupkCYhZ86WHND25E==iA1DyVwGf2rg32zJLcV2g@mail.gmail.com>
- <ZEbVyhjKs15Rj+5h@sai>
-In-Reply-To: <ZEbVyhjKs15Rj+5h@sai>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Apr 2023 21:37:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW9F4adqsWj7BpvTSGMamPdM-OM+oY_nM0-xTMnuaFr-A@mail.gmail.com>
-Message-ID: <CAMuHMdW9F4adqsWj7BpvTSGMamPdM-OM+oY_nM0-xTMnuaFr-A@mail.gmail.com>
-Subject: Re: [PATCH 05/11] media: renesas: fdp1: remove R-Car H3 ES1.* handling
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+In-Reply-To: <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 24 Apr 2023 17:10:23 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+Message-ID: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+        linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,WEIRD_QUOTING
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Mon, Apr 24, 2023 at 9:17 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > > -#define FD1_IP_H3_ES1                  0x02010101
+On Tue, Mar 29, 2022 at 8:27=E2=80=AFAM Ansuel Smith <ansuelsmth@gmail.com>=
+ wrote:
 >
-> ...
->
-> > Apparently 0x02010101 is also used on (at least) R-Car M2-W ES1.0,
-> > causing the following annoying (but further harmless?) messages
-> > during boot:
+> On Tue, Mar 29, 2022 at 03:20:18PM +0200, Krzysztof Kozlowski wrote:
+> > On 28/03/2022 02:09, Ansuel Smith wrote:
+> > > Hi,
+> > > as the title say, the intention of this ""series"" is to finally cate=
+gorize
+> > > the ARM dts directory in subdirectory for each oem.
+> > >
+> > > The main reason for this is that it became unpractical to handle 2600
+> > > dts files and try to even understand/edit/check the situation for a
+> > > specific target.
+> > >
+> > > In arm64 we already have this kind of separation and I honestly think
+> > > that this was never proposed for ARM due to the fact that there are
+> > > 2600+ files to sort and the fact that it will be a mess to merge this
+> > > entirely but IMHO with a little bit of effort we can finally solve th=
+is
+> > > problem and have a well organized directory just like arm64.
+> > >
+> > > Some prerequisite on how this work was done:
+> > > - This comes entirely from a python script created by me for the task=
+.
+> > >   linked here [1]
+> > > - I had to manually categorize all the different arch in the makefile
+> > >   based on the oem. I searched every arch on the internet trying to
+> > >   understand the correct oem. I hope they are correct but I would lov=
+e
+> > >   some comments about them.
+> > > - This current ""series"" is all squashed in one big commit to better
+> > >   receive comments for this. The final version ideally would have all
+> > >   changes in separate commits. The script can already do this, it's j=
+ust
+> > >   commented.
+> > >
+> > > Here is a list of some discoveries while doing all the sorting.
+> > > These are totally additional reason why we need this.
+> > >
+> > > While creating the script I discovered some funny things:
+> > > - We have orphan dts! There are dts that are never compiled and are
+> > >   there just for reference. We would never have noticed this without =
+this
+> > >   change and probably nobody noticed it. They are currently all liste=
+d
+> > >   in the python script.
+> > > - We have dtsi shared across different oem. My current solution for t=
+hem
+> > >   is: NOT SORT THEM and leave them in the generic directory and creat=
+e a
+> > >   link in each oem dts that points to these dtsi. This is to try in
+> > >   every way possible to skip any additional changes to the dts.
+> > >   Current dtsi that suffers from this are only 3. (listed in the scri=
+pt)
+> > > - arm64 dts and dtsi reference ARM dts. Obviously this change would c=
+ause
+> > >   broken include for these special dtsi. The script creates a depende=
+ncy
+> > >   table of the entire arm64 directory and fix every broken dependency
+> > >   (hoping they all use a sane include logic... regex is used to parse
+> > >   all the different dependency)
+> > >
+> > > So in short the script does the following steps:
+> > > 1. Enumerate all the action to do... (dts to move, scan dependency fo=
+r
+> > >    the dts...)
+> > > 2. Generate the arm64 dependency
+> > > 3. Creates the Makefile
+> > > 4. Generate the Makefiles for the current oem
+> > > 5. Move all the related dts and dtsi for the current oem
+> > > 6. Check broken dependency and fix them by editing the dts and writin=
+g
+> > >    the correct include (or fix any symbolic link)
+> > >
+> > > This is an output that describes all the things done by the script [2=
+]
+> > >
+> > > I really hope I didn't commit any logic mistake in the script but mos=
+t
+> > > of the work should be done.
+> > >
 > >
-> >     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
-> >     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
+> > +Cc Arnd and Olof,
+> >
+> > Ansuel,
+> > Thanks for you patch. Please cc the SoC maintainers in such submissions=
+.
+> > It seems that you got some quite nice discussion, but still the core
+> > folks are not Cced, so no one would be able to take your patch...
+> >
 >
-> Hmm, that means before my removal patch, Gen2 has been incorrectly
-> defined as H3 ES1?
-
-Indeed, but the driver doesn't seem to do anything with the detected
-version, except for printing a debug or error message.
-
-> > Note that the R-Car Gen2 documentation states the register's contents
-> > are all zeroes.  But that value would trigger the error message, too.
+> I had some problem with gmail and sending mail too much users. I put Rob
+> and You and all the various list to try to workaround the "gmail spam
+> protection"
 >
-> Bad, but well...
+> > I am pretty sure we were discussing such split idea in the past and it
+> > did not get traction, but I cannot recall the exact discussion.
+> >
 >
-> > Sorry for not noticing before. Apparently I never booted a kernel
-> > with this patch on koelsch...
->
-> We could re-add this version and just let it print "FDP1 Initial
-> Version" or something? I could test this on my Lager board.
+> I think the main issue here is how to handle bot and how problematic is
+> to merge this. As written in the cover letter the final version of this
+> should be a big series of 50+ patch with every commit specific to each
+> oem. In theory we should be able to merge the different oem separately
+> and try to at least start the categorization.
+> Another idea I got to at least have a "migration path" is to convert
+> every dts in the dts/ directory to a symbolic link that target the dts
+> in the correct oem. But I assume that would fix only part of the problem
+> and git am will still be problematic.
 
-I plan to test it on a few other boards, too...
-Just wanted to let you know ASAP...
+I have a script[1] that does the conversion written the last time this
+came up. Just have to agree on directory names. I think the easiest
+would be for Arnd/Olof to run it at the end of a merge window before
+rc1.
 
-Gr{oetje,eeting}s,
+I'm very much in favor of this happening especially before *any*
+overlays are added to add to the mess (it's probably already
+happened).
 
-                        Geert
+Rob
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
