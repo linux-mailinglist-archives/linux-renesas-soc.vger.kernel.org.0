@@ -2,67 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E76FF6EE76F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 20:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DF976EE845
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 21:30:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234253AbjDYSPK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Apr 2023 14:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34932 "EHLO
+        id S235502AbjDYTai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Apr 2023 15:30:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234499AbjDYSPG (ORCPT
+        with ESMTP id S235508AbjDYTah (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Apr 2023 14:15:06 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB03A3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 11:15:04 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-54fb9384c2dso72227267b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 11:15:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682446503; x=1685038503;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=89TnOb+8J19nGch/gfQeLXk1qLE4HzVciatlcIx2XME=;
-        b=LZuHX3jjTC5w/vxq2KznqPphx+baTNhZTLaS2d7JAte7zj9S+9wVPxzNkst/BykyGm
-         vKkiW7aM32o3U/DTjqQ5zqxqSuGgwbaaakYWVCemUZkl+tk/5CEhM7eYGwanlrKr9syy
-         rVz04FZK8UvWCr9Jr5FMjHbm7LbIDYbFxkWhO+pswmkPhMAs0LR3BFJ7NxiN1upA1OQi
-         B+yFSTWoMHnODkmhFqIWaQPBgRktsvhp+tQxBC4raFUK5OvRJwMTmeOEyvXApuQS7VJI
-         g8az/21UprLyyosG0p1Xce1vVoHc7PqLOnvN7qAZFQVz+ZWU3vnsWf6T+MxU/SqaHY1G
-         o/PA==
-X-Gm-Message-State: AAQBX9fIL4MOdyT2/mZkmnJ+JF71tGfOM9gy+bouSKbAIConYS1FBzcR
-        ISARIEKsuAaq8hGdAQ0W3cfqYF5Itf8v5w==
-X-Google-Smtp-Source: AKy350bZbX316KtVhMOM7WTqF8007jzdmNIbFiFwUOd/0aMaAVxN8Pup05YikVoZN2xb7oMo9lysug==
-X-Received: by 2002:a81:49ce:0:b0:54c:14d3:dcfa with SMTP id w197-20020a8149ce000000b0054c14d3dcfamr11164953ywa.41.1682446503444;
-        Tue, 25 Apr 2023 11:15:03 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id n207-20020a0dcbd8000000b00555df877a4csm3672162ywd.102.2023.04.25.11.15.02
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 11:15:03 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-54f99770f86so72177877b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 11:15:02 -0700 (PDT)
-X-Received: by 2002:a0d:dc46:0:b0:54f:ddb9:95e7 with SMTP id
- f67-20020a0ddc46000000b0054fddb995e7mr10480804ywe.34.1682446502684; Tue, 25
- Apr 2023 11:15:02 -0700 (PDT)
+        Tue, 25 Apr 2023 15:30:37 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BB02D70
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 12:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=nbGpmVWQIaPTFwdaqQ8da+YgUxNs
+        05I7Ipa2cSbCS7w=; b=H9iI8VI0o/FU+06wcD9/E+np3Re9YKySXYeet/MOCbUi
+        UxkkRumqpS6/h5f1CGTPiR8GBB2tsSPKKhEsIEZngC2cWKNXKazyXXXgSi98psgh
+        o7pS/e49b+HLWJXK7wzQ6U5jR2LXhCKze7DxIA/5XSTmkcp/idLFtOnfYzv+VP4=
+Received: (qmail 1468238 invoked from network); 25 Apr 2023 21:30:29 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2023 21:30:29 +0200
+X-UD-Smtp-Session: l3s3148p1@UQz5Jy76CuAujnsI
+Date:   Tue, 25 Apr 2023 21:30:28 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: fdp1: Identify R-Car Gen2 versions
+Message-ID: <ZEgqVJo4yRWvb/7G@sai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <202304260234.QTHOuoZG-lkp@intel.com>
-In-Reply-To: <202304260234.QTHOuoZG-lkp@intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Apr 2023 20:14:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJqFxtxYvGN9oDXm3H6s6qeVFVAiCm8-my=w0QLB_KLg@mail.gmail.com>
-Message-ID: <CAMuHMdWJqFxtxYvGN9oDXm3H6s6qeVFVAiCm8-my=w0QLB_KLg@mail.gmail.com>
-Subject: Re: [geert-renesas-drivers:master 32/48] drivers/dma/dw-edma/dw-edma-core.c:231:13:
- error: redefinition of 'dw_edma_device_caps'
-To:     kernel test robot <lkp@intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q+Z7SO+65lv9FBFe"
+Content-Disposition: inline
+In-Reply-To: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,70 +60,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 25, 2023 at 8:10 PM kernel test robot <lkp@intel.com> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-> head:   109f3e0b7f96d5fdf923b8002a68961774c25a6e
-> commit: 96f65c7bbf0f2e3f2913180b739a926d3b3ddc9c [32/48] Merge remote-tracking branch 'pci/next' into renesas-drivers
-> config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230426/202304260234.QTHOuoZG-lkp@intel.com/config)
-> compiler: ia64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=96f65c7bbf0f2e3f2913180b739a926d3b3ddc9c
->         git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
->         git fetch --no-tags geert-renesas-drivers master
->         git checkout 96f65c7bbf0f2e3f2913180b739a926d3b3ddc9c
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/dma/dw-edma/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202304260234.QTHOuoZG-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of 'dw_edma_device_caps'
->      231 | static void dw_edma_device_caps(struct dma_chan *dchan,
->          |             ^~~~~~~~~~~~~~~~~~~
->    drivers/dma/dw-edma/dw-edma-core.c:213:13: note: previous definition of 'dw_edma_device_caps' with type 'void(struct dma_chan *, struct dma_slave_caps *)'
->      213 | static void dw_edma_device_caps(struct dma_chan *dchan,
->          |             ^~~~~~~~~~~~~~~~~~~
->    drivers/dma/dw-edma/dw-edma-core.c:213:13: warning: 'dw_edma_device_caps' defined but not used [-Wunused-function]
 
-Thanks, looks like a borked merge conflict on my side.
+--q+Z7SO+65lv9FBFe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> vim +/dw_edma_device_caps +231 drivers/dma/dw-edma/dw-edma-core.c
->
-> 3883d64449ffe8 Serge Semin 2023-01-13  230
-> 6f94141d8662ff Serge Semin 2023-01-13 @231  static void dw_edma_device_caps(struct dma_chan *dchan,
-> 6f94141d8662ff Serge Semin 2023-01-13  232                              struct dma_slave_caps *caps)
-> 6f94141d8662ff Serge Semin 2023-01-13  233  {
-> 6f94141d8662ff Serge Semin 2023-01-13  234      struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
-> 6f94141d8662ff Serge Semin 2023-01-13  235
-> 6f94141d8662ff Serge Semin 2023-01-13  236      if (chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) {
-> 6f94141d8662ff Serge Semin 2023-01-13  237              if (chan->dir == EDMA_DIR_READ)
-> 6f94141d8662ff Serge Semin 2023-01-13  238                      caps->directions = BIT(DMA_DEV_TO_MEM);
-> 6f94141d8662ff Serge Semin 2023-01-13  239              else
-> 6f94141d8662ff Serge Semin 2023-01-13  240                      caps->directions = BIT(DMA_MEM_TO_DEV);
-> 6f94141d8662ff Serge Semin 2023-01-13  241      } else {
-> 6f94141d8662ff Serge Semin 2023-01-13  242              if (chan->dir == EDMA_DIR_WRITE)
-> 6f94141d8662ff Serge Semin 2023-01-13  243                      caps->directions = BIT(DMA_DEV_TO_MEM);
-> 6f94141d8662ff Serge Semin 2023-01-13  244              else
-> 6f94141d8662ff Serge Semin 2023-01-13  245                      caps->directions = BIT(DMA_MEM_TO_DEV);
-> 6f94141d8662ff Serge Semin 2023-01-13  246      }
-> 6f94141d8662ff Serge Semin 2023-01-13  247  }
-> 6f94141d8662ff Serge Semin 2023-01-13  248
+On Tue, Apr 25, 2023 at 05:15:02PM +0200, Geert Uytterhoeven wrote:
+> On R-Car M2-W:
+>=20
+>     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+>     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
+>=20
+> Although the IP Internal Data Register on R-Car Gen2 is documented to
+> contain all zeros, the actual register contents seem to match the FDP1
+> version ID of R-Car H3 ES1.*, which has just been removed.
+> Fortunately this version is not used for any other purposes yet.
+>=20
+> Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
+>=20
+> Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* han=
+dling")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-                        Geert
+>  /* Internal Data (HW Version) */
+>  #define FD1_IP_INTDATA			0x0800
+> +#define FD1_IP_GEN2			0x02010101
+
+Maybe add a comment here saying that this is needed despite the
+information in the datasheets?
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--q+Z7SO+65lv9FBFe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRIKlQACgkQFA3kzBSg
+Kbb59g//aMlIWbSWMrMeTQTAlH7+J9Qum4Ck7XV5E6VqzS0mCGgcGBXNouzE2L4X
+z0MWMrMlehPZKQIGFZoCvioyFzdl5Hh/EdJw+RhF1HOoiLXrp6XzYPQ4Br/w++bP
+qHjRmpgT7MOYc/5JQMmzuk9MErxRaxxc9/Q5lPGo71yVGyc0NNetjdOKqBZrFdB/
+c8fQVfiHxFVSAfMFiP3ZeVLj0kEhQNKoBddKCz6orHfhpNvXgoFqhwPanQ7C54pH
+a3l7c99OW/r+cPjn+24Myfj0X+fTKvOw+YUg9s3XJT2oW1f/u99NYLBGnOl1CN1J
+up9sWyt5tteXURdJtcH7alSHrHWA7rHkGxSc7NLc/b74QPeft5PaM4lAulfV5BNQ
+QCWbZ79XM4Trx52LsdUtEjkiuRUXzYV7W1W+CZxpuFbrwVnSvk8mF4GCvFkrrJyc
+/aiRWO0HFm46XwJTQBaUEqthTHCS8RlRkfeuxi13ABH33xzpOopSfVzfpS4PdQEY
+PtWp5GAdmU6Z+RBt6LU8uNV8gunWYTYwucOI1SVnIFg4/jpsj3jYr3ng9fGUw95b
+bwlCyi1n9cCgu8je9NJXXhKrI0GyKg4uxJAiv/VUPv67BMjNWWSRUi/W2Rk4FTZ/
+6oVymCZ5v8d3Mu0F1mw7VXLGf9xNU+YaicM8QGk8nuEs/v1J50A=
+=rJ+e
+-----END PGP SIGNATURE-----
+
+--q+Z7SO+65lv9FBFe--
