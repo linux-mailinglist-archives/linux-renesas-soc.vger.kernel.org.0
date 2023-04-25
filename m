@@ -2,67 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 424136EDD1A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 09:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DBB16EDD48
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 09:55:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233259AbjDYHs7 convert rfc822-to-8bit (ORCPT
+        id S232240AbjDYHzl convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Apr 2023 03:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
+        Tue, 25 Apr 2023 03:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233373AbjDYHsZ (ORCPT
+        with ESMTP id S231646AbjDYHzk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Apr 2023 03:48:25 -0400
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD7CE4E;
-        Tue, 25 Apr 2023 00:47:44 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-b992ed878ebso16582930276.0;
-        Tue, 25 Apr 2023 00:47:44 -0700 (PDT)
+        Tue, 25 Apr 2023 03:55:40 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B6D093
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 00:55:39 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-54f8b46d031so61420787b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 00:55:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682408864; x=1685000864;
+        d=1e100.net; s=20221208; t=1682409338; x=1685001338;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fXATlI8zQFpvioDHoFlOVVEH9bB1ha5NF20/P873Yjo=;
-        b=Wsoxl8OtAm49xICjgfwSLaBGb/f2ApthJMa6P3BoK8JjPOZ+DubtQ+G2XCQPbBbEli
-         ob1bXJqwUp3CbO8Bbai5TPiik8mnc1VrsqBa+lPMOFyETQbG66JdQC/sXEHU3yERBDtr
-         WdsXQVwApzMYkWBY8bX3JiZOPWavteBFs6mQIYaKzIpuP9Lg4aD0CDIWg2S8XvBhMTx3
-         OVF7hZqLOAj/RV9Okg157dPtrdlKcDU9jvNqtScsxV/JxX3UIlIsS/wgbrItCvsQZt4i
-         ftH8cifKWRAujUwOJ9piIxMgf/AqiF6O6BICO2gEymvQ8h7WikZSUpAlXFtx27XHf/AN
-         NVBg==
-X-Gm-Message-State: AAQBX9cS8E7qKGOFrb2mSzXptev5s+UNjMY6hdkeXFiOx/Q5bMqvCUxt
-        ANgjEShIDmVmXjWwp/A6gbIqW3zEDkG18g==
-X-Google-Smtp-Source: AKy350ZVUgvHsPzFXK0RogZ2Cimji6GU4ae2ZikBl5XD9WeUAjh5V9T7sBZKHgHNo1vC68Rms4yVCQ==
-X-Received: by 2002:a25:abf3:0:b0:b8f:3586:dd25 with SMTP id v106-20020a25abf3000000b00b8f3586dd25mr11211809ybi.24.1682408863755;
-        Tue, 25 Apr 2023 00:47:43 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id d189-20020a254fc6000000b00b8bfb4c4f1esm3310637ybb.62.2023.04.25.00.47.42
+        bh=32lcqM6Fq0qcXElBsoyKk2B7Vu57XT2++1XOz45oKjQ=;
+        b=gkg2EOru/8vnLN7wCit6rLklEr0ivstQKhwwB92xHTQ4LhkoOkcmnLodHXsYGHNJ5n
+         /e3GNy7spT7DByQtHkNZt9Zd0sulPV8qgJUOZEIOHP2PxV8N5zCGSUmI56xSoPVBUeyX
+         U9v1T4QQ7E8ljI3Ehgx5bV52vyDm5iHNekKiJBMTwhB1VFTz21tV+L7M6TAYtZGkkE/b
+         2Qgii0NCUwBesavfdKWB0rVk1zW0vaEirNxHoIyR4UsRPJmzppKDeNlLbIOnuZjPHDEb
+         ozYcQCaxYN+pDkcRLEFhGWZUyIUjEXZbEVUI+rrGRcj1LMgsdaobIoT2ipNyHctMJttE
+         wpgg==
+X-Gm-Message-State: AAQBX9eDOZgQb5QQSTHpVwYwew3tiJchagaMNVrksXiQcwIrGQ25o4Aw
+        029IZrDQPopVjw9TVbrWZWvGv67LQvisCQ==
+X-Google-Smtp-Source: AKy350bU8y4E81TDZbL78b6eSDkc1cSKZCV2GQL+Rvxq/nxi2MahCVeGuZUyD7X7s9ojnHT8+xWqXA==
+X-Received: by 2002:a0d:c644:0:b0:54f:895e:70ff with SMTP id i65-20020a0dc644000000b0054f895e70ffmr9606573ywd.21.1682409338386;
+        Tue, 25 Apr 2023 00:55:38 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id s128-20020a817786000000b00545a08184b8sm3418234ywc.72.2023.04.25.00.55.37
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 00:47:42 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-b95c3b869dcso18603940276.1;
-        Tue, 25 Apr 2023 00:47:42 -0700 (PDT)
-X-Received: by 2002:a0d:dbcb:0:b0:54f:8636:2152 with SMTP id
- d194-20020a0ddbcb000000b0054f86362152mr10417319ywe.15.1682408861984; Tue, 25
- Apr 2023 00:47:41 -0700 (PDT)
+        Tue, 25 Apr 2023 00:55:37 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-54fbee69fc4so61348407b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 00:55:37 -0700 (PDT)
+X-Received: by 2002:a0d:ccc9:0:b0:546:4626:bfc5 with SMTP id
+ o192-20020a0dccc9000000b005464626bfc5mr10570998ywd.31.1682409337504; Tue, 25
+ Apr 2023 00:55:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com> <20230424161024.136316-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230424161024.136316-4-biju.das.jz@bp.renesas.com>
+References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com> <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Apr 2023 09:47:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVx65YSb7THMKVFjWt8BnvsR5yOXhR1T2PZ=coPPARXpw@mail.gmail.com>
-Message-ID: <CAMuHMdVx65YSb7THMKVFjWt8BnvsR5yOXhR1T2PZ=coPPARXpw@mail.gmail.com>
-Subject: Re: [PATCH v8 3/5] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/V2L DU bindings
+Date:   Tue, 25 Apr 2023 09:55:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWR1XE3SqCwqG=81WLDc_rY8Ec_rH7mjt6_5cL7=JA=TQ@mail.gmail.com>
+Message-ID: <CAMuHMdWR1XE3SqCwqG=81WLDc_rY8Ec_rH7mjt6_5cL7=JA=TQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] MAINTAINERS: Add maintainer for RZ DU drivers
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh@kernel.org>
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -75,18 +72,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
+
 On Mon, Apr 24, 2023 at 6:10 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document DU found in RZ/V2L SoC. The DU block is identical to RZ/G2L
-> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
+> Add my self as maintainer for RZ DU drivers.
+> While at it, update the entries for rcar-du and shmobile.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> v7->v8:
->  * Fixed the typo vsp2->du
->  * Added Rb tag from Rob as the change is trivial.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6948,7 +6948,7 @@ F:        drivers/gpu/host1x/
+>  F:     include/linux/host1x.h
+>  F:     include/uapi/drm/tegra_drm.h
+>
+> -DRM DRIVERS FOR RENESAS
+> +DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE
+>  M:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>  M:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>  L:     dri-devel@lists.freedesktop.org
+> @@ -6959,9 +6959,18 @@ F:       Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>  F:     Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+>  F:     Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+>  F:     Documentation/devicetree/bindings/display/renesas,du.yaml
+> -F:     drivers/gpu/drm/renesas/
+> +F:     drivers/gpu/drm/renesas/rcar-du/
+> +F:     drivers/gpu/drm/renesas/shmobile/
+>  F:     include/linux/platform_data/shmob_drm.h
+>
+> +DRM DRIVERS FOR RENESAS RZ
+> +M:     Biju Das <biju.das.jz@bp.renesas.com>
+> +L:     dri-devel@lists.freedesktop.org
+> +L:     linux-renesas-soc@vger.kernel.org
+> +S:     Maintained
+> +F:     Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +F:     drivers/gpu/drm/renesas/rz-du/
+> +
+>  DRM DRIVERS FOR ROCKCHIP
+>  M:     Sandy Huang <hjc@rock-chips.com>
+>  M:     Heiko Stübner <heiko@sntech.de>
+
+Who's gonna maintain the common parts under drivers/gpu/drm/renesas/?
 
 Gr{oetje,eeting}s,
 
