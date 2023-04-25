@@ -2,111 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 314D06EDA67
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 04:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6C8E6EDC9F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Apr 2023 09:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjDYC7y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Apr 2023 22:59:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40126 "EHLO
+        id S233424AbjDYHbA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Apr 2023 03:31:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjDYC7w (ORCPT
+        with ESMTP id S233440AbjDYHa1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Apr 2023 22:59:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DC7319BC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Apr 2023 19:59:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3652375B;
-        Tue, 25 Apr 2023 04:59:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682391580;
-        bh=cvn4DhnPBPMal8Tb5PuWsyC0mX3H2c28QvPlu4ba/Ik=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ahw99SUp1Q8PGl1UoX5Sn8kXQOijNZs8iwyLV/GGnonr/Yv7knOCIg4tVXHrcQESQ
-         mWzvj5s1A8bKMhbU47hvlDthi4oGfTnXFwEWCDJ2ZFHYjUYqqNzd9rDTjBSzXbjxO1
-         9tcixpkbLIHb0kJ8MEBt/FS7ZR6ylC7+fhIxxmO8=
-Date:   Tue, 25 Apr 2023 06:00:01 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 5/5] MAINTAINERS: Add maintainer for RZ DU drivers
-Message-ID: <20230425030001.GC11371@pendragon.ideasonboard.com>
-References: <20230424161024.136316-1-biju.das.jz@bp.renesas.com>
- <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
+        Tue, 25 Apr 2023 03:30:27 -0400
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33B6CC20;
+        Tue, 25 Apr 2023 00:29:40 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-b980ec2a95cso7303620276.2;
+        Tue, 25 Apr 2023 00:29:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682407685; x=1684999685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uGl5U27dIAVcoPRAhAw7M++MtUvlNkzHHP3i/+uz8BM=;
+        b=JYKizE66VSNqk5+1rs6sGyGTMjtlTOaCyB+c1fpagSzmf9+tqopSPJJQI5Li9X+jNX
+         nFQHurC6+/HAxlVm6eyyqcyNLgyP5bZRDFTWi/5IzHFeyianD5FsL7gZdVFN+dNPbWeU
+         4b8758BGfTGRX0rXGSto7sUGIArTlq0Ka21NjhK/PKfe2uHgo94HINjAh36NjfVDFApH
+         LSHzL7Zv7ZgwCRzIqVzJWOsWXKK3tukiKGbABeJb+Psk2luRKl616zX6Y4lbmu6/zeAR
+         YaKgK1i246LiqfNABF02XKzwoXpz6/mp3pOEE4sKt7zxhXIMHb/3j/0vL7QvRktIs43g
+         /VnQ==
+X-Gm-Message-State: AC+VfDwgPMnDM9RPL9pZR1XSlacG+YFn2RdRTYM2wpbpuVE1w8XFutFU
+        isHYrBhkbqfbU6ROfyFAQ8iiJLkNokolwg==
+X-Google-Smtp-Source: ACHHUZ76kZCkvJroi+i+A+za1T8isl2CHK+/By1hCHAeElXKKBjgyrIjfTUFOfJHMklv8rTU3JI+kg==
+X-Received: by 2002:a25:d750:0:b0:b99:f35f:9086 with SMTP id o77-20020a25d750000000b00b99f35f9086mr828369ybg.33.1682407685655;
+        Tue, 25 Apr 2023 00:28:05 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 194-20020a2502cb000000b00b95b616caf2sm3370718ybc.6.2023.04.25.00.28.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Apr 2023 00:28:04 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-54f8f459b34so63728427b3.0;
+        Tue, 25 Apr 2023 00:28:04 -0700 (PDT)
+X-Received: by 2002:a81:4e4a:0:b0:54c:9c2:d1be with SMTP id
+ c71-20020a814e4a000000b0054c09c2d1bemr10102189ywb.13.1682407684508; Tue, 25
+ Apr 2023 00:28:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230424161024.136316-6-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 25 Apr 2023 09:27:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+Message-ID: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Ansuel Smith <ansuelsmth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+        linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Rob,
 
-Thank you for the patch.
+On Tue, Apr 25, 2023 at 12:16 AM Rob Herring <robh+dt@kernel.org> wrote:
+> I have a script[1] that does the conversion written the last time this
+> came up. Just have to agree on directory names. I think the easiest
+> would be for Arnd/Olof to run it at the end of a merge window before
+> rc1.
 
-On Mon, Apr 24, 2023 at 05:10:24PM +0100, Biju Das wrote:
-> Add my self as maintainer for RZ DU drivers.
-> While at it, update the entries for rcar-du and shmobile.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+"emev2" and "sh7" are missing for renesas.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Does your script also cater for .dts files not matching any pattern,
+but including a .dtsi file that does match a pattern?
 
-> ---
-> v8:
->  * New patch
-> ---
->  MAINTAINERS | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1218a2ec6d97..42db5be4482c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6948,7 +6948,7 @@ F:	drivers/gpu/host1x/
->  F:	include/linux/host1x.h
->  F:	include/uapi/drm/tegra_drm.h
->  
-> -DRM DRIVERS FOR RENESAS
-> +DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->  M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->  L:	dri-devel@lists.freedesktop.org
-> @@ -6959,9 +6959,18 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->  F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
->  F:	Documentation/devicetree/bindings/display/renesas,du.yaml
-> -F:	drivers/gpu/drm/renesas/
-> +F:	drivers/gpu/drm/renesas/rcar-du/
-> +F:	drivers/gpu/drm/renesas/shmobile/
->  F:	include/linux/platform_data/shmob_drm.h
->  
-> +DRM DRIVERS FOR RENESAS RZ
-> +M:	Biju Das <biju.das.jz@bp.renesas.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +L:	linux-renesas-soc@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +F:	drivers/gpu/drm/renesas/rz-du/
-> +
->  DRM DRIVERS FOR ROCKCHIP
->  M:	Sandy Huang <hjc@rock-chips.com>
->  M:	Heiko Stübner <heiko@sntech.de>
+> I'm very much in favor of this happening especially before *any*
+> overlays are added to add to the mess (it's probably already
+> happened).
+
+;-)
+
+> [1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
