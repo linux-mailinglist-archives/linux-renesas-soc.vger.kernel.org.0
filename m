@@ -2,262 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A59F26EECA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Apr 2023 05:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CBE36EED21
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Apr 2023 06:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238586AbjDZDRb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Apr 2023 23:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45288 "EHLO
+        id S239402AbjDZE4L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Apr 2023 00:56:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234044AbjDZDRa (ORCPT
+        with ESMTP id S239385AbjDZE4K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Apr 2023 23:17:30 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993C410C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Apr 2023 20:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682479049; x=1714015049;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=O7O6ReQVaDfKCgVHbKbsPSB9Pm1R3DvN0InR7ghuC2k=;
-  b=JfKBECXu+v2FTFSEx0aBROMxFPDL4LAFhvUbo6WUw0zzhyf0suJOK9p/
-   N7k1mVgmap3ILUPc2qKs0qTDm1CZJIt3k7phLjHmbNqKGGV8MKAPwsqPK
-   yDk4EI1PC8mIct8iwRb8cifQKR1OupuT1YnMAggaZFb1OqU4i2cd264El
-   hup7KnPQB2lO7mOTdXqIgiOuY2IFbZie3BqSCq0b4uvof4hZfLgqzxVXz
-   CoY8376IV5unnMOb5TBdo1u44VgX6AMxB0VFqZ+5ECyARV869F6T3bayW
-   zlmVFXNPl61FgYoqtV6Il3kLc7jtfMXN6FqmZLaLIEb+5pUdZkXxzkgvA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="326587122"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="326587122"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 20:17:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="693779681"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="693779681"
-Received: from lkp-server01.sh.intel.com (HELO 98ee5a99fc83) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 25 Apr 2023 20:17:27 -0700
-Received: from kbuild by 98ee5a99fc83 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1prVeo-00002a-32;
-        Wed, 26 Apr 2023 03:17:26 +0000
-Date:   Wed, 26 Apr 2023 11:16:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD REGRESSION
- 109f3e0b7f96d5fdf923b8002a68961774c25a6e
-Message-ID: <6448979f.LDKrJi5RAYmSumBi%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 26 Apr 2023 00:56:10 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED7F6273E;
+        Tue, 25 Apr 2023 21:56:05 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.99,227,1677510000"; 
+   d="scan'208";a="157312767"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 26 Apr 2023 13:56:04 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CF00E4175EC6;
+        Wed, 26 Apr 2023 13:56:04 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     jingoohan1@gmail.com, mani@kernel.org,
+        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, kishon@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v14 00/21] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Wed, 26 Apr 2023 13:55:36 +0900
+Message-Id: <20230426045557.3613826-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 109f3e0b7f96d5fdf923b8002a68961774c25a6e  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-Error/Warning reports:
+Changes from v13:
+https://lore.kernel.org/linux-pci/20230418122403.3178462-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230424.
+ - (no change, JFYI) Based on the following cleanups patches:
+   [PATCH v4 00/14] PCI: dwc: Relatively simple fixes and cleanups
+   https://lore.kernel.org/linux-pci/20230414021832.13167-1-Sergey.Semin@baikalelectronics.ru/
+ - Fix typos in the patch 4/22 and 5/22.
+ - Reviewed-by or Acked-by from Manivannan in the patch {4,5,10,16,18,21,22}/22.
+ - Acked-by from Jesper in the patch 5/22.
+ - Acked-by from Rob in the patch 16/22.
+ - Merge the patch 8/22 to the 6/22.
+ - Change the subject in the patch 9/22.
+ - Fix incorrect implementation in the patch 11/22.
+ - Fix issues in the patch 12/22.
+ - Revise the descriptions in the patch 1[34569]/22.
+ - Update copyright in the patch 1[78]/22.
+ - Fix examples in the patch 1[78]/22.
+ - Fix some minor issues in the patch 22/22.
 
-https://lore.kernel.org/oe-kbuild-all/202304191404.hmYyn4RN-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202304260234.QTHOuoZG-lkp@intel.com
+Changes from v12:
+https://lore.kernel.org/linux-pci/20230414061622.2930995-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230414
+ - (no change, JFYI) Based on the following cleanups patches:
+   [PATCH v4 00/14] PCI: dwc: Relatively simple fixes and cleanups
+   https://lore.kernel.org/linux-pci/20230414021832.13167-1-Sergey.Semin@baikalelectronics.ru/
+ - Use PCI_HEADER_TYPE_MULTI_FUNC on probe.c and quirks.c.
+ - Rename "Legacy IRQ" with "INTx".
+ - Change order of patches. (INTx related patches at first.)
+ - Change maxItems of reg and reg-names on the dt-bindings doc.
+ - Fix minor typos.
+ - Change waiting period in the INTx function and add comment.
 
-Error/Warning: (recently discovered and may have been fixed)
+Yoshihiro Shimoda (21):
+  PCI: Add PCI_EXP_LNKCAP_MLW macros
+  PCI: Add PCI_HEADER_TYPE_MULTI_FUNC
+  PCI: Add INTx Mechanism Messages macros
+  PCI: Rename PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX
+  PCI: dwc: Rename "legacy_irq" to "INTx_irq" in DWC core
+  PCI: dwc: Change arguments of dw_pcie_prog_ep_outbound_atu()
+  PCI: dwc: Add members into struct dw_pcie_outbound_atu
+  PCI: dwc: Add support for triggering INTx IRQs from endpoint drivers
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Add dw_pcie_link_set_max_width()
+  PCI: dwc: Add dw_pcie_link_set_max_cap_width()
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Introduce .ep_pre_init() and .ep_deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
 
-drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of 'dw_edma_device_caps'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arc-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arc-randconfig-r023-20230424
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-buildonly-randconfig-r005-20230424
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-randconfig-r012-20230424
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-randconfig-s053-20230423
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- loongarch-randconfig-r014-20230423
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- riscv-randconfig-r042-20230424
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- s390-randconfig-s041-20230421
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- sparc-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-`-- xtensa-randconfig-r004-20230424
-    `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-clang_recent_errors
-`-- s390-randconfig-r002-20230424
-    `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-
-elapsed time: 722m
-
-configs tested: 146
-configs skipped: 10
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r006-20230423   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r005-20230423   gcc  
-alpha                randconfig-r035-20230424   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                         haps_hs_defconfig   gcc  
-arc                  randconfig-r016-20230424   gcc  
-arc                  randconfig-r023-20230424   gcc  
-arc                  randconfig-r043-20230423   gcc  
-arc                  randconfig-r043-20230424   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r002-20230424   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r015-20230424   clang
-arm                  randconfig-r046-20230423   gcc  
-arm                  randconfig-r046-20230424   clang
-arm                         wpcm450_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r005-20230423   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r016-20230423   clang
-arm64                randconfig-r034-20230423   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r003-20230423   gcc  
-csky                 randconfig-r031-20230424   gcc  
-csky                 randconfig-r035-20230423   gcc  
-hexagon              randconfig-r006-20230424   clang
-hexagon              randconfig-r011-20230423   clang
-hexagon              randconfig-r041-20230423   clang
-hexagon              randconfig-r041-20230424   clang
-hexagon              randconfig-r045-20230423   clang
-hexagon              randconfig-r045-20230424   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230424   clang
-i386                 randconfig-a002-20230424   clang
-i386                 randconfig-a003-20230424   clang
-i386                 randconfig-a004-20230424   clang
-i386                 randconfig-a005-20230424   clang
-i386                 randconfig-a006-20230424   clang
-i386                 randconfig-a011-20230424   gcc  
-i386                 randconfig-a012-20230424   gcc  
-i386                 randconfig-a013-20230424   gcc  
-i386                 randconfig-a014-20230424   gcc  
-i386                 randconfig-a015-20230424   gcc  
-i386                 randconfig-a016-20230424   gcc  
-i386                 randconfig-r036-20230424   clang
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r005-20230424   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r012-20230424   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r002-20230423   gcc  
-loongarch            randconfig-r014-20230423   gcc  
-loongarch            randconfig-r014-20230424   gcc  
-m68k                             alldefconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                 randconfig-r004-20230423   gcc  
-m68k                 randconfig-r033-20230424   gcc  
-microblaze   buildonly-randconfig-r004-20230423   gcc  
-microblaze           randconfig-r003-20230424   gcc  
-microblaze           randconfig-r013-20230424   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ip28_defconfig   clang
-mips                      pic32mzda_defconfig   clang
-mips                 randconfig-r005-20230424   gcc  
-nios2        buildonly-randconfig-r004-20230424   gcc  
-nios2        buildonly-randconfig-r006-20230424   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r001-20230423   gcc  
-openrisc                            defconfig   gcc  
-parisc                           alldefconfig   gcc  
-parisc       buildonly-randconfig-r003-20230423   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r012-20230423   gcc  
-parisc               randconfig-r021-20230423   gcc  
-parisc               randconfig-r023-20230423   gcc  
-parisc               randconfig-r031-20230423   gcc  
-parisc               randconfig-r036-20230423   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r001-20230423   clang
-powerpc      buildonly-randconfig-r002-20230423   clang
-powerpc                      chrp32_defconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc              randconfig-r032-20230423   gcc  
-powerpc              randconfig-r032-20230424   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r011-20230424   gcc  
-riscv                randconfig-r042-20230423   clang
-riscv                randconfig-r042-20230424   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r002-20230424   clang
-s390                 randconfig-r022-20230424   gcc  
-s390                 randconfig-r025-20230423   clang
-s390                 randconfig-r044-20230423   clang
-s390                 randconfig-r044-20230424   gcc  
-sh                               allmodconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                   randconfig-r013-20230423   gcc  
-sh                           sh2007_defconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64              randconfig-r006-20230423   gcc  
-sparc64              randconfig-r015-20230423   gcc  
-sparc64              randconfig-r021-20230424   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230424   clang
-x86_64               randconfig-a002-20230424   clang
-x86_64               randconfig-a003-20230424   clang
-x86_64               randconfig-a004-20230424   clang
-x86_64               randconfig-a005-20230424   clang
-x86_64               randconfig-a006-20230424   clang
-x86_64               randconfig-a011-20230424   gcc  
-x86_64               randconfig-a012-20230424   gcc  
-x86_64               randconfig-a013-20230424   gcc  
-x86_64               randconfig-a014-20230424   gcc  
-x86_64               randconfig-a015-20230424   gcc  
-x86_64               randconfig-a016-20230424   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r001-20230424   gcc  
-xtensa               randconfig-r004-20230424   gcc  
-xtensa               randconfig-r024-20230423   gcc  
-xtensa               randconfig-r025-20230424   gcc  
-xtensa               randconfig-r026-20230423   gcc  
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        |  98 +++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 109 ++++++++++
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   2 +-
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ drivers/pci/controller/dwc/pci-dra7xx.c       |   2 +-
+ drivers/pci/controller/dwc/pci-imx6.c         |   4 +-
+ drivers/pci/controller/dwc/pci-keystone.c     |   2 +-
+ .../pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c     |   2 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   | 104 +++++++--
+ .../pci/controller/dwc/pcie-designware-plat.c |   4 +-
+ drivers/pci/controller/dwc/pcie-designware.c  | 202 +++++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h  |  31 ++-
+ drivers/pci/controller/dwc/pcie-keembay.c     |   2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     |   4 +-
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 166 ++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 141 ++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 187 ++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  48 +++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   2 +-
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c |   2 +-
+ drivers/pci/controller/pcie-rcar-ep.c         |   2 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |  12 +-
+ drivers/pci/pci.h                             |  19 ++
+ drivers/pci/probe.c                           |   2 +-
+ drivers/pci/quirks.c                          |   4 +-
+ include/linux/pci-epc.h                       |   4 +-
+ include/uapi/linux/pci_regs.h                 |   7 +
+ 34 files changed, 1071 insertions(+), 132 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
