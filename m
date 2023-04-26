@@ -2,39 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B5C6EF1AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Apr 2023 12:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F28256EF1B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Apr 2023 12:09:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240108AbjDZKIx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Apr 2023 06:08:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47712 "EHLO
+        id S240405AbjDZKJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Apr 2023 06:09:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240403AbjDZKIo (ORCPT
+        with ESMTP id S240398AbjDZKJf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Apr 2023 06:08:44 -0400
+        Wed, 26 Apr 2023 06:09:35 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 547FD44A0;
-        Wed, 26 Apr 2023 03:08:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C8C8349F0;
+        Wed, 26 Apr 2023 03:09:33 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,227,1677510000"; 
-   d="scan'208";a="157361422"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Apr 2023 19:08:39 +0900
+   d="scan'208";a="157361507"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 26 Apr 2023 19:09:33 +0900
 Received: from renesas-ubuntu18.ree.adwin.renesas.com (unknown [10.226.93.103])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 52FCC4001DC5;
-        Wed, 26 Apr 2023 19:08:36 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1825A41ED0B0;
+        Wed, 26 Apr 2023 19:09:28 +0900 (JST)
 From:   Chris Paterson <chris.paterson2@renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Chris Paterson <chris.paterson2@renesas.com>
-Subject: [PATCH] dt-bindings: pinctrl: renesas,rzv2m: Change maintainer to Fabrizio Castro
-Date:   Wed, 26 Apr 2023 11:08:32 +0100
-Message-Id: <20230426100832.11945-1-chris.paterson2@renesas.com>
+Subject: [PATCH] dt-bindings: clock: r9a06g032-sysctrl: Change maintainer to Fabrizio Castro
+Date:   Wed, 26 Apr 2023 11:09:25 +0100
+Message-Id: <20230426100925.12063-1-chris.paterson2@renesas.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,27 +48,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Phil no longer works for Renesas.
+Gareth no longer works for Renesas.
 
 Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
 ---
- .../devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml      | 2 +-
+ .../devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
-index 03f084292d68..c87161f2954f 100644
---- a/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
-@@ -7,8 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Renesas RZ/V2M combined Pin and GPIO controller
+diff --git a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
+index 95bf485c6cec..99686085f751 100644
+--- a/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
++++ b/Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Renesas RZ/N1D (R9A06G032) System Controller
  
  maintainers:
+-  - Gareth Williams <gareth.williams.jx@renesas.com>
 +  - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
    - Geert Uytterhoeven <geert+renesas@glider.be>
--  - Phil Edworthy <phil.edworthy@renesas.com>
  
- description:
-   The Renesas RZ/V2M SoC features a combined Pin and GPIO controller.
+ properties:
 -- 
 2.40.0
 
