@@ -2,101 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D429A6F0223
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Apr 2023 09:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 164446F038F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Apr 2023 11:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242987AbjD0HtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Apr 2023 03:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
+        id S243235AbjD0JoE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Apr 2023 05:44:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243068AbjD0HtD (ORCPT
+        with ESMTP id S243100AbjD0JoD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Apr 2023 03:49:03 -0400
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4BFD1DD;
-        Thu, 27 Apr 2023 00:48:47 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id AA15480A4;
-        Thu, 27 Apr 2023 07:48:46 +0000 (UTC)
-Date:   Thu, 27 Apr 2023 10:48:45 +0300
-From:   Tony Lindgren <tony@atomide.com>
+        Thu, 27 Apr 2023 05:44:03 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4845F449A
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Apr 2023 02:44:01 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-504d149839bso1955954a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Apr 2023 02:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1682588640; x=1685180640;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9h6Btw8PHhXUr3L5p9rqPUrFBGBJRem5mhcTJAFeicc=;
+        b=Y9rOx+v2OjHfDAzkBBWQLdEZjt5mPqrsIx+pVlefyRrj6VNmwN4JeAiAUO7L+c6BcA
+         XmkSIVfT+SVnA6LBr+6rhotImic+iSOmdCH0plrL/+uzgY4IGYXyELCdDN8V8S4Hhxnz
+         FMoFmwbHgYz9UCBL+AJ7EjqAa1zeFw0WWT/Bw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682588640; x=1685180640;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9h6Btw8PHhXUr3L5p9rqPUrFBGBJRem5mhcTJAFeicc=;
+        b=NHFMJ78F2cyFkVr+FKbh4BwQ904wfWbv9BrlghATjEaHvaCKQDn+UB2g1Ty+fXCnWY
+         lH8Siha3WUuoInDCtgNfs7buvtp2zx4da56wqF3JUV2F0YBnx+xUQW+fYnKongW/WNvx
+         I0Ck2sokhpbo/hsAWzCjGWK1+8+Tu1PmZre553hgx4iKSRJr2ecDe7KTITUQIc1kpfc4
+         huJzSFSoVcY+tUkrfHkJD+uZz+haqBjMgUzEbTLjeQSzZ6sIUde4o8/2Z418qgEhRb4s
+         RfZfmJD/5umFA/Bwlhx289xhEZVjDmATsGkuFiZIdvedYmB3K3FcUpGCQ2552OBnnP59
+         zjMA==
+X-Gm-Message-State: AC+VfDxMvy7p8k/vT56HF/4gYO075VMOhPaOcQHEUFWmPb7Y2fOb3PGb
+        xTeTARPmhteDr4qlO1UsfzUlXw==
+X-Google-Smtp-Source: ACHHUZ6VAmexrUu0fojeJELeltvCH9VnpMyeG2fW/GKlGgRxjxerL3jAv+fxsEx651bYl1RCOHnZ5Q==
+X-Received: by 2002:a05:6402:518d:b0:502:1f7b:f069 with SMTP id q13-20020a056402518d00b005021f7bf069mr1128721edd.2.1682588639727;
+        Thu, 27 Apr 2023 02:43:59 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id b13-20020aa7df8d000000b004fa012332ecsm7743325edy.1.2023.04.27.02.43.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 02:43:59 -0700 (PDT)
+Date:   Thu, 27 Apr 2023 11:43:57 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Ansuel Smith <ansuelsmth@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <20230427074845.GG14287@atomide.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <1cfc224b-f8b0-3143-42d2-188b56368c61@gmail.com>
- <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/fb-helper: Fix height, width, and accel_flags in
+ fb_var
+Message-ID: <ZEpD3atNuBycOcLX@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
+ <ZEAY5Sf/V10ipDZk@phenom.ffwll.local>
+ <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAMuHMdWbsFHP7Amoz16o5ge5a=wv5u2x0B+yP7e-0bRJufqrQQ@mail.gmail.com>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-* Geert Uytterhoeven <geert@linux-m68k.org> [230427 07:47]:
-> On Thu, Apr 27, 2023 at 9:37 AM Matthias Brugger <matthias.bgg@gmail.com> wrote:
-> > On 25/04/2023 17:57, Rob Herring wrote:
-> > > On Tue, Apr 25, 2023 at 2:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >> On Tue, Apr 25, 2023 at 12:16 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > >>> I have a script[1] that does the conversion written the last time this
-> > >>> came up. Just have to agree on directory names. I think the easiest
-> > >>> would be for Arnd/Olof to run it at the end of a merge window before
-> > >>> rc1.
-> > >>
-> > >> "emev2" and "sh7" are missing for renesas.
-> > >
-> > > No doubt it's been bitrotting (or I may have missed some).
-> > >
-> > >> Does your script also cater for .dts files not matching any pattern,
-> > >> but including a .dtsi file that does match a pattern?
-> > >
-> > > I assume I built everything after moving, but maybe not...
-> > >
-> > > That's all just "details". First, we need agreement on a) moving
-> > > things to subdirs and b) doing it 1-by-1 or all at once. So far we've
-> > > been stuck on a) for being 'too much churn'.
-> > >
-> >
-> > I think it makes sense to move them and probably the best way to do so is, as
-> > you proposed: that Arnd or Olof run the script to move them just before -rc1
+On Thu, Apr 20, 2023 at 11:15:24AM +0200, Geert Uytterhoeven wrote:
+> Hi Daniel,
 > 
-> FTR, no objections from my side.
+> On Wed, Apr 19, 2023 at 6:38 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Tue, Apr 18, 2023 at 08:42:46PM +0200, Geert Uytterhoeven wrote:
+> > > Fbtest contains some very simple validation of the fbdev userspace API
+> > > contract.  When used with shmob-drm, it reports the following warnings
+> > > and errors:
+> > >
+> > >     height changed from 68 to 0
+> > >     height was rounded down
+> > >     width changed from 111 to 0
+> > >     width was rounded down
+> > >     accel_flags changed from 0 to 1
+> > >
+> > > The first part happens because __fill_var() resets the physical
+> > > dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
+> > > Fix this by retaining the original values.
+> > >
+> > > The last part happens because __fill_var() forces the FB_ACCELF_TEXT
+> > > flag on, while fbtest disables all acceleration on purpose, so it can
+> > > draw safely to the frame buffer.  Fix this by setting accel_flags to
+> > > zero, as DRM does not implement any text console acceleration.
+> > > Note that this issue can also be seen in the output of fbset, which
+> > > reports "accel true".
+> > >
+> > > Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+> > >       info->pseudo_palette = fb_helper->pseudo_palette;
+> > >       info->var.xoffset = 0;
+> > >       info->var.yoffset = 0;
+> > > -     __fill_var(&info->var, fb);
+> > > +     __fill_var(&info->var, info, fb);
+> >
+> > Bit a bikeshed since it zeroed-allocated anyway, but I'd pass NULL here
+> > for info and catch that in __fill_var and then keep the explicit = 0;
+> 
+> Yeah, it's a bit unfortunate this is done in two places, and
+> info->var.{height,width} are initialized by drm_setup_crtcs_fb()
+> only later.
+> 
+> Most of the var contents cannot change as mode changes are not
+> supported, so drm_fb_helper_check_var() should just do
+> 
+>     if (var->foo > info->var.foo)
+>             return -EINVAL;
+>     var->foo = info->var.foo;
+> 
+> For the parts that can change, based on earlier discussions I saw pass
+> by, I believe there should be a call into atomic try-modesetting at
+> the end of drm_fb_helper_check_var()?
 
-Sounds good to me.
+Yeah ideally that's what we do. And I guess we could limit that to
+atomic-only drivers since with legacy kms there's really no way to
+correctly implement any fbdev mode changes (because there's just no
+check/commit split there and fbdev wants that).
 
-Regards,
+I guess the trickier part is reworking the drm fbdev code so that it won't
+tamper with it's internal structures (or roll them back) when only doing a
+TEST_ONLY commit.
 
-Tony
+And in theory we could then actually support proper mode changes through
+fbdev, as long as it fits into the fb we allocated at least. Reallocating
+fbs would be a lot more intrusive but also not impossible.
+-Daniel
+
+> > Either way Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
