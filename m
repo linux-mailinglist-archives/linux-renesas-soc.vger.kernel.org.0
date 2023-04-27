@@ -2,143 +2,225 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7C06EF647
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Apr 2023 16:21:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 422636F01CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Apr 2023 09:35:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241358AbjDZOVy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Apr 2023 10:21:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
+        id S243020AbjD0HfK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Apr 2023 03:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241341AbjDZOVv (ORCPT
+        with ESMTP id S242667AbjD0HfJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Apr 2023 10:21:51 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2101.outbound.protection.outlook.com [40.107.113.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 191647298;
-        Wed, 26 Apr 2023 07:21:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l5kT+WG8nS3EHSbdRQ5klKkozpHotFpZLKjqJx/OlgDMOWDxFsJhcEOLBINq41MUj/Ojrn7mDKXcKMf/jVr7stpkYysKV1oAVKweG1UWVsy6lT3CX4JUcR4M1V7kPxDLtvFJW2rCNWD6t/w0Hx6/UhmcfZCtZxKdhiUnyuWYzEK3GwUNMJBc7G1DhOoiE70tGgVzlxwYlyRhiJgwJ4DrTVxfvEcKZfVXoyNfTITdC0kyMauzN/gPvwKuPVq7l/4IpzvIZQBytLawYtR5mhWm4hLsubfHk4HkXzWWpYN3A/CG8WCkC+v/KfQKjKg1wEAHM6dfN68TUrX76qgkHWZNMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BFQd8FiwDy5NJDHjLbBvFzp9L8rv9W1diZJ65EgoTmw=;
- b=NvpfU7PcMpPhTKMwBTY8cf1PZZJHtCSLrE6SpvdiSADl55EC5XhDh0spviYG/QKegK/Ffva1qjt7hraRfjP3Eox3GkN5kwwODbI1A6pR95Avst1a1cWepTPO/JPpgFH8goEu97ACSnK56LzG2OIZ2yo81Ay9jI5yzAiuW2IMdriBCO/fW264CPkB3eDz+kR6ZWFfjnlZD/52QlUg70K/2+c6HWtRsv9KsfS2R3UBQ6Np4fCxsCkLgM11Z3WwJTYLHpZiwLq31WK8h/LOtbtYNEWb+OH28cqhfOECQmxDM8RxSfUzQD3e8gRpTMy/u8sb15oDnSJA+uQZUAGQNsTd1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BFQd8FiwDy5NJDHjLbBvFzp9L8rv9W1diZJ65EgoTmw=;
- b=K3y1KLHwvvOzVsETdNO9H4LbfeDB4L+8rcz4hhNjzK0LYc+mPwEHe3z9Zeiai6T+sRm1/cGw5qE0l3kZYJYhZcHs8GVBk+lj6gKZKbNaf59Qryk/RjTayP7EZ1YZxRjlRk4fnrP4lYTMSK9Qn8pFntFnwdda4B9mfvzT+Ln8G/c=
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com (2603:1096:400:169::11)
- by TYCPR01MB12041.jpnprd01.prod.outlook.com (2603:1096:400:387::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.21; Wed, 26 Apr
- 2023 14:21:18 +0000
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::f687:2c30:bf97:7ca2]) by TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::f687:2c30:bf97:7ca2%7]) with mapi id 15.20.6340.021; Wed, 26 Apr 2023
- 14:21:18 +0000
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: RE: [PATCH] dt-bindings: clock: r9a06g032-sysctrl: Change maintainer
- to Fabrizio Castro
-Thread-Topic: [PATCH] dt-bindings: clock: r9a06g032-sysctrl: Change maintainer
- to Fabrizio Castro
-Thread-Index: AQHZeCczhR3i6SSgIkq7aIkiZrlJa689pD4w
-Date:   Wed, 26 Apr 2023 14:21:17 +0000
-Message-ID: <TYWPR01MB8775B41054C570A70EB65BCAC2659@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-References: <20230426100925.12063-1-chris.paterson2@renesas.com>
-In-Reply-To: <20230426100925.12063-1-chris.paterson2@renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYWPR01MB8775:EE_|TYCPR01MB12041:EE_
-x-ms-office365-filtering-correlation-id: 46eef19e-5f63-4b30-9403-08db46618041
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3Ze/iC+1EWD6/KmyXrH0Z9LWnCHcWOE75xx29yV87P7pV6tI/ORVROVA+Ao4MAmpjT01BEkZQMxb/byOnecOkRJjeafXAwJQo5esm4R4tLtiuWMxEYKzJxtVOU5/4enLykAkqKUAE79lF7lOssHVzou2/J5pwtvSdkD/pkWiPm2mDooIjXDlaR5Ar9Ck1fkjMxtLMgaTZBSod2vTLZuWQax4EmKNVBvB/190KbGtYGaED++H4U6hh02vrYZdFY9Wq6HoC3n6Q4A6KFsl4FJ142duWm2Zrl2zRUEDTIORroMUf2Ci0L146qC3x2RtEQtQmnY9+6GX8vY+o0ZuQ1aGPqrzAb43P9yi4ZWPllvvQFzEUsvVacju84SLCVd6C0QU6IPRB4eNVXPfLZ1oahGhYChDWC/rWTdSd4Ng8wO2idaSW1M3djETLkhr0siVYWVHlBfwvPvj4wVabtvwdXX/gYL+g762Y/8VzNIBYzPDCRtqgKZQHhCvjIsLsc1DbZ7G6FEsWhTPmdOIqdXeuzymeEQrpGwCGTkWGwQD2TOp0K79o2PjK4wssr9Eb5LQTZDSrUGJvKgtMPlugtr2IW3cteotnYV3rPVHfB5+ojewBI0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB8775.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(451199021)(7696005)(33656002)(5660300002)(52536014)(7416002)(122000001)(558084003)(2906002)(38100700002)(71200400001)(478600001)(55016003)(316002)(41300700001)(38070700005)(4326008)(66946007)(66556008)(66446008)(64756008)(66476007)(76116006)(86362001)(186003)(107886003)(6506007)(9686003)(54906003)(83380400001)(26005)(8936002)(8676002)(110136005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/vaiwMtk6o4EtntnLMVFB5YULdaW4XtFDZx2kZ1x+gPgZ17aIU/Ors3gwZRU?=
- =?us-ascii?Q?pKXxHWt6RJyCQUVkKIfiotRfjUSbHeZQq+oQz/2waGXrQ0LtraIRpnc0GBEG?=
- =?us-ascii?Q?3dNms8N3WwonY0nLgtNGmIW0yBE/schIljY8xwL9IAVSigUhDnXO+3znqGDn?=
- =?us-ascii?Q?JyPH4nqHDos4Oz3IR2qwLEmCUW3G/qxDJt4QP/awn1IGOMA1FSGor6kfbeo7?=
- =?us-ascii?Q?idxyXrRJUQjVwKxKwq/YJaN5mcsuq6KjefCWy+n27tP4PjXgNTSV9VDqBy6s?=
- =?us-ascii?Q?roq0/W0Y2DcDnoCYnKHwIMM2AJ/qgEK6qEQijq7qzYXSraxlxgVDS8caNOK/?=
- =?us-ascii?Q?4u16v3DSA39a/aPozVMWi8GIGKqye2VvmYk/CQhpLSNBHDd6gwxUkrvmxArg?=
- =?us-ascii?Q?ie82f5FdG5yYAbG0mhJhDELxELo33CdE79kZHMoDIK7o3mJz588W+sHbDhGU?=
- =?us-ascii?Q?ZwFOjiVeziwHabsbGP2abKQhpD9gYETg9CBUGq5RUD1qyh4OUcMcesfOyMHf?=
- =?us-ascii?Q?Wo99hI07FX0B9Tg8DOzotF9ANbmX8lCkmLNziY2iMmITs32F0kmq/2vbOiNG?=
- =?us-ascii?Q?QAfmZ573Q8ar2hcTh/yowntk/5u1cHXzg85s1wMqvuv+B6F31hXseoUTOHNu?=
- =?us-ascii?Q?xOdgbpD4GuTGFiJpc3OcNqiZIebItFxAkw3QzINaU6Q2BGctHl/ZrF0KR+ag?=
- =?us-ascii?Q?6+oOSjkhdXIZfzTwIUyJsNA5LXOeT1K2BjHabN3qTzV45itFmOBIlo6hdI+e?=
- =?us-ascii?Q?aNkKtRD7GZ0ATNzDKGLjTKUZqXfMBcOMPqa77HWBJZiyCjQBQwO6di5uhTW9?=
- =?us-ascii?Q?4hZO5no8zQyQrjsd2+KIW3fSgPGlDtkB2Mt9o2tWlYZ2Oa4vspOhA+IClfhs?=
- =?us-ascii?Q?83QDMErtjRPzTtGbA0V361AcgTDxrpTMRNSGB7zpMR3Fb/IeBqlQcoUaNiQm?=
- =?us-ascii?Q?hPT/co+JUZgdTc+4dwweAmaX3ozRPZIi+8hI5caP2uN8IO1N9DK1dIN+P698?=
- =?us-ascii?Q?PSqCjl4vwoZtm9aOLkhmNJo7UqnfFfRMN5PDgmCXFEVjXm7vAc3ntQhCPONY?=
- =?us-ascii?Q?uaaYklTFZuxQNbPpH+bqx+DI0GQrBepkxYw/OO89xaOpWh9zy073Jr62Qgag?=
- =?us-ascii?Q?NYIijG64Yy1ph6bVg6vIkGfi3ucSj3DXJm6NT4DTRez9ba7e3I/43JC+oh8p?=
- =?us-ascii?Q?h64oYN8BgOLDtltuH28W3WzunyOyHEg6eGj9zlHzaurg23TKhbmbCwlZlnsj?=
- =?us-ascii?Q?bvGl5XeS340FKoTpIFnxWrmu7p+5+MiI9gBWUuBCYPQBHNNEcTRGrF9jzgSb?=
- =?us-ascii?Q?2VL1h0HiJeKB4yqMKK/O1I5VipoQ++VBItjoI2Ft6juV0n7uPLxjTnNw1Y7N?=
- =?us-ascii?Q?UmDZpFlmGHxoJCTzvwY+Quoq6kcsGKbXhWx+qDFZdR+5WLts8Rm26gHlGVFe?=
- =?us-ascii?Q?F0re+ir9sNPxzAclYoV/R6rj3nkv63FK2M2OihZ5rtmi/FXQJ39yFPEyCCfr?=
- =?us-ascii?Q?PZfoCqVH+7gPS6/iqr63pv7mxFHEfsm6RlAReM01UdWMt+iMRSM8wtl78jUe?=
- =?us-ascii?Q?A+8TTnSEbZELsZ+Q4fpQOR1znLSdMgEiUFKMZuZ6dP2yvBnyGdr6X/JGyaeJ?=
- =?us-ascii?Q?QQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 27 Apr 2023 03:35:09 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66BE1735;
+        Thu, 27 Apr 2023 00:35:04 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-2f7c281a015so5017143f8f.1;
+        Thu, 27 Apr 2023 00:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682580903; x=1685172903;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eehz0WgMbOurSIoTnBIR5YZf1U7dK+275MjB8D7bXEc=;
+        b=SwqylI/doMt0gYknw43Bx8zjaJNyMHrvEpQkGw+g4Ib3newQ9JpdkJdmZ6ipTs96no
+         Dp3r9iKTeeSQhoUjZ13+SEzNOuXyfwaeeI3lFai0HnN7CHm4LPqyG3S0CSqPNSDY9uk1
+         50e6Ja8Qkwh2mSWflVAqgnvGn4/Ol9tEQzZ/2KRvb/kmEGIm7injuF78ugqsmZTkt5ra
+         cgQVDE3ESBQZEbqh/ZnC/8EzgPtaX312ttnjQfSh6+FvJtzF0Rbug8+RvOsuz3znKPBp
+         TFF1UATHxOHVncKtTmITIMvSyjNA7tCQM9YzgOaEM4MhQbcOyu7OrnZz5u8J4Q7NUi4x
+         MDVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682580903; x=1685172903;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eehz0WgMbOurSIoTnBIR5YZf1U7dK+275MjB8D7bXEc=;
+        b=kMGoT0NSnQDe0iDAjHDVq+KLrrjS+/9YFrswCY6uG5efC75ug8q6eYPwnjNCl7MH7l
+         MF/gJuGEDTHBT1rFQHzbeAOXOoHiAnewx7FEYOiOYnXCXtVD31a9vs5vhQVPDsADZNqa
+         FL96uTVTjCFkhzpwWxCCNzYlhYtGKc2Undno6kWEkdBumZqQLz/rovjkfwZSTPVddaV3
+         RB0vJ2XRcoFyj1jCcej0iC5LZDQivOt55o1NF6e+QNMsf855XBpzqPc4zsT7c1LjgeBJ
+         OH3M1NlI8AiUIlqAV/TmcJiHy6BJGnSXhOlpXd6Q71AqrNKUmMO/wYjSzDiyDlijTufB
+         J0JQ==
+X-Gm-Message-State: AC+VfDywJ/aLmhNpaKznpHocxyO/xaQh4osi9jya0h4Ec+W7MwFCgYhB
+        j48mHRF1DMTumsdOFiYdQpzdbFI5MtBWFg==
+X-Google-Smtp-Source: ACHHUZ59rjOQWXhXKCgkzaGgJ+NbkVRQ83Bem9iGHGoCtXBjm4Ktg2fzITEfCQryin68ol70bxlnKA==
+X-Received: by 2002:a05:6000:510:b0:2f1:d17f:cf95 with SMTP id a16-20020a056000051000b002f1d17fcf95mr500077wrf.12.1682580902709;
+        Thu, 27 Apr 2023 00:35:02 -0700 (PDT)
+Received: from [192.168.1.135] ([207.188.167.132])
+        by smtp.gmail.com with ESMTPSA id b9-20020adfee89000000b002f777345d21sm17659980wro.95.2023.04.27.00.35.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Apr 2023 00:35:01 -0700 (PDT)
+Message-ID: <273a9ff1-ceb2-bcf6-b3a5-be34746ed45f@gmail.com>
+Date:   Thu, 27 Apr 2023 09:34:58 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB8775.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46eef19e-5f63-4b30-9403-08db46618041
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2023 14:21:18.0057
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dQVVSNgP9WlA8ZPU8JM81kUxaSdMNtyUnNMGorC6K0AmuWONa0eXx1GU5JD6zF2nR6zqH3RZzDm4U/hN5BpPvMyDnEwDMp35Vh4dqUn4hK4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB12041
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Content-Language: en-US, ca-ES, es-ES
+To:     Ansuel Smith <ansuelsmth@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+        linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+ <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CA+_ehUw3eAEHRsi1ATSKeK4jtX+EoVSwUodNL3bcpTJaX-r9cA@mail.gmail.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <CA+_ehUw3eAEHRsi1ATSKeK4jtX+EoVSwUodNL3bcpTJaX-r9cA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chris,
 
-Thanks for your patch.
 
-> From: Chris Paterson <chris.paterson2@renesas.com>
-> Subject: [PATCH] dt-bindings: clock: r9a06g032-sysctrl: Change
-> maintainer to Fabrizio Castro
->=20
-> Gareth no longer works for Renesas.
->=20
-> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+On 25/04/2023 00:23, Ansuel Smith wrote:
+> Il giorno mar 25 apr 2023 alle ore 00:10 Rob Herring
+> <robh+dt@kernel.org> ha scritto:
+>>
+>> On Tue, Mar 29, 2022 at 8:27 AM Ansuel Smith <ansuelsmth@gmail.com> wrote:
+>>>
+>>> On Tue, Mar 29, 2022 at 03:20:18PM +0200, Krzysztof Kozlowski wrote:
+>>>> On 28/03/2022 02:09, Ansuel Smith wrote:
+>>>>> Hi,
+>>>>> as the title say, the intention of this ""series"" is to finally categorize
+>>>>> the ARM dts directory in subdirectory for each oem.
+>>>>>
+>>>>> The main reason for this is that it became unpractical to handle 2600
+>>>>> dts files and try to even understand/edit/check the situation for a
+>>>>> specific target.
+>>>>>
+>>>>> In arm64 we already have this kind of separation and I honestly think
+>>>>> that this was never proposed for ARM due to the fact that there are
+>>>>> 2600+ files to sort and the fact that it will be a mess to merge this
+>>>>> entirely but IMHO with a little bit of effort we can finally solve this
+>>>>> problem and have a well organized directory just like arm64.
+>>>>>
+>>>>> Some prerequisite on how this work was done:
+>>>>> - This comes entirely from a python script created by me for the task.
+>>>>>    linked here [1]
+>>>>> - I had to manually categorize all the different arch in the makefile
+>>>>>    based on the oem. I searched every arch on the internet trying to
+>>>>>    understand the correct oem. I hope they are correct but I would love
+>>>>>    some comments about them.
+>>>>> - This current ""series"" is all squashed in one big commit to better
+>>>>>    receive comments for this. The final version ideally would have all
+>>>>>    changes in separate commits. The script can already do this, it's just
+>>>>>    commented.
+>>>>>
+>>>>> Here is a list of some discoveries while doing all the sorting.
+>>>>> These are totally additional reason why we need this.
+>>>>>
+>>>>> While creating the script I discovered some funny things:
+>>>>> - We have orphan dts! There are dts that are never compiled and are
+>>>>>    there just for reference. We would never have noticed this without this
+>>>>>    change and probably nobody noticed it. They are currently all listed
+>>>>>    in the python script.
+>>>>> - We have dtsi shared across different oem. My current solution for them
+>>>>>    is: NOT SORT THEM and leave them in the generic directory and create a
+>>>>>    link in each oem dts that points to these dtsi. This is to try in
+>>>>>    every way possible to skip any additional changes to the dts.
+>>>>>    Current dtsi that suffers from this are only 3. (listed in the script)
+>>>>> - arm64 dts and dtsi reference ARM dts. Obviously this change would cause
+>>>>>    broken include for these special dtsi. The script creates a dependency
+>>>>>    table of the entire arm64 directory and fix every broken dependency
+>>>>>    (hoping they all use a sane include logic... regex is used to parse
+>>>>>    all the different dependency)
+>>>>>
+>>>>> So in short the script does the following steps:
+>>>>> 1. Enumerate all the action to do... (dts to move, scan dependency for
+>>>>>     the dts...)
+>>>>> 2. Generate the arm64 dependency
+>>>>> 3. Creates the Makefile
+>>>>> 4. Generate the Makefiles for the current oem
+>>>>> 5. Move all the related dts and dtsi for the current oem
+>>>>> 6. Check broken dependency and fix them by editing the dts and writing
+>>>>>     the correct include (or fix any symbolic link)
+>>>>>
+>>>>> This is an output that describes all the things done by the script [2]
+>>>>>
+>>>>> I really hope I didn't commit any logic mistake in the script but most
+>>>>> of the work should be done.
+>>>>>
+>>>>
+>>>> +Cc Arnd and Olof,
+>>>>
+>>>> Ansuel,
+>>>> Thanks for you patch. Please cc the SoC maintainers in such submissions.
+>>>> It seems that you got some quite nice discussion, but still the core
+>>>> folks are not Cced, so no one would be able to take your patch...
+>>>>
+>>>
+>>> I had some problem with gmail and sending mail too much users. I put Rob
+>>> and You and all the various list to try to workaround the "gmail spam
+>>> protection"
+>>>
+>>>> I am pretty sure we were discussing such split idea in the past and it
+>>>> did not get traction, but I cannot recall the exact discussion.
+>>>>
+>>>
+>>> I think the main issue here is how to handle bot and how problematic is
+>>> to merge this. As written in the cover letter the final version of this
+>>> should be a big series of 50+ patch with every commit specific to each
+>>> oem. In theory we should be able to merge the different oem separately
+>>> and try to at least start the categorization.
+>>> Another idea I got to at least have a "migration path" is to convert
+>>> every dts in the dts/ directory to a symbolic link that target the dts
+>>> in the correct oem. But I assume that would fix only part of the problem
+>>> and git am will still be problematic.
+>>
+>> I have a script[1] that does the conversion written the last time this
+>> came up. Just have to agree on directory names. I think the easiest
+>> would be for Arnd/Olof to run it at the end of a merge window before
+>> rc1.
+>>
+>> I'm very much in favor of this happening especially before *any*
+>> overlays are added to add to the mess (it's probably already
+>> happened).
+>>
+>> Rob
+>>
+>> [1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
+> 
+> Hi Rob,
+> thanks for recovering this. I remember also providing a script.
+> 
+> Anyway considering the amount of stuff to move, I feel like some
+> OEM might be problematic to move due to rebase and merging problems.
+> 
+> We should consider accepting moving only some and keep other
+> in the unsorted path. And move them at the first time possible with
+> the help of the maintainers.
+> 
+> One main blocker of this is some qcom dts that are linked to arm64
+> directory, so for some dts special care is needed.
+> 
 
-Acked-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Same happens for broadcom RaspberryPi DTS. The arm64 ones include the arm ones.
+
+Regards,
+Matthias
