@@ -2,154 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87ACB6F22C1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Apr 2023 05:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4E1E6F24DF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Apr 2023 15:37:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbjD2DuG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Apr 2023 23:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
+        id S230516AbjD2NhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 29 Apr 2023 09:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjD2DuF (ORCPT
+        with ESMTP id S231126AbjD2NhH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Apr 2023 23:50:05 -0400
-X-Greylist: delayed 254 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Apr 2023 20:50:04 PDT
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3E61726B8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Apr 2023 20:50:03 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:49174.1309328384
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id A7CD410023C;
-        Sat, 29 Apr 2023 11:45:43 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-85667d6c59-fm8l8 with ESMTP id c58e0e2cda1648ceab62faa32009eb89 for geert+renesas@glider.be;
-        Sat, 29 Apr 2023 11:45:47 CST
-X-Transaction-ID: c58e0e2cda1648ceab62faa32009eb89
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <ce073f1d-0f40-aad9-5509-1f44d3887984@189.cn>
-Date:   Sat, 29 Apr 2023 11:45:42 +0800
+        Sat, 29 Apr 2023 09:37:07 -0400
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BAFF1FDC
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Apr 2023 06:37:05 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-32f240747cdso109777845ab.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Apr 2023 06:37:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682775425; x=1685367425;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i+7gtFde1uJ31JhRfXbVrkLj5gYnzZd9OD9Pbp43K4c=;
+        b=c1bcVd0hyo/I8eMnwcYkvwDGpNrArPkUSnNJNxqxzTFA0jyOurWV2CJsp+i6fPzuRO
+         aJ+MEsf7PSzgsq5wD0Lf91G5RVk4UJLu7YgAmCPvwF4IfFJ6nkPdmhAJQHa4Oi8Rf2qw
+         +g5BBlmOJipldHGVPFu2ZFqObJ5ryf3HDr6bl1VsFJ3114ojz87O6IdrFMqm5B3NokCY
+         N/D2SLYsaKtggUr3P7xh8uZQZHv2ILcGDEdyhJU0nBwY8Q9GWFfD7FGMMxFtKKL7rqWT
+         5Qy6iz7fBPHMzPr2vsnj0R1eaTpAPxyh5QpoR9ws6YJ6/RfBlf+parYGjRngucjDFOFa
+         ltVw==
+X-Gm-Message-State: AC+VfDyKW1oJ5t2R86VZhwB7Nl47DXe6xkter2ntGmnNbgyRdgEEvIPw
+        3dAKqbwhlB+JwncHzCYaDhGf4AoKFQF8zWGiDwcExHDvs8N4
+X-Google-Smtp-Source: ACHHUZ7wMg/4Gx/whiLyBKTbzzTcMMt3Lr2bijgLBv3BWF29l5EAoCkMFpY9KAfVfRKhYnazhyWS/tICWVfv5So/EH5zXtTZuDUX
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: drm/fb-helper: Fix height, width, and accel_flags in fb_var
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
-Content-Language: en-US
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a05:6e02:1352:b0:329:66f6:470c with SMTP id
+ k18-20020a056e02135200b0032966f6470cmr8718325ilr.3.1682775424942; Sat, 29 Apr
+ 2023 06:37:04 -0700 (PDT)
+Date:   Sat, 29 Apr 2023 06:37:04 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000070ccd705fa79afe9@google.com>
+Subject: [syzbot] upstream boot error: BUG: unable to handle kernel paging
+ request in gic_handle_irq
+From:   syzbot <syzbot+4aee2040dfac273d198e@syzkaller.appspotmail.com>
+To:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com,
+        maz@kernel.org, syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hello,
 
-I have just tested this patch on a LoongArch(3a5000+ls7a2000 evb) machine,
+syzbot found the following issue on:
 
-both fbtest and the fbdev test of IGT finished.
+HEAD commit:    cec24b8b6bb8 Merge tag 'char-misc-6.4-rc1' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11334c30280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c159a5b5ee7dcf56
+dashboard link: https://syzkaller.appspot.com/bug?extid=4aee2040dfac273d198e
+compiler:       arm-linux-gnueabi-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4aee2040dfac273d198e@syzkaller.appspotmail.com
+
+8<--- cut here ---
+Unable to handle kernel paging request at virtual address df80a00c when read
+[df80a00c] *pgd=80000080007003, *pmd=82893003, *pte=80216680
+Internal error: Oops: 207 [#1] PREEMPT SMP ARM
+Modules linked in:
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.3.0-syzkaller #0
+Hardware name: ARM-Versatile Express
+PC is at __raw_readl arch/arm/include/asm/io.h:113 [inline]
+PC is at gic_handle_irq+0x1c/0x7c drivers/irqchip/irq-gic.c:344
+LR is at generic_handle_arch_irq+0x60/0x80 kernel/irq/handle.c:238
+pc : [<8086e724>]    lr : [<817e3dd0>]    psr: 20000193
+sp : 82401e70  ip : 82401e90  fp : 82401e8c
+r10: 825dfffd  r9 : 8241ae40  r8 : 00000000
+r7 : df80a00c  r6 : 81f1590c  r5 : df80a000  r4 : 8240cde8
+r3 : 8086e708  r2 : 00904870  r1 : 81f4ff24  r0 : 82401eb8
+Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+Control: 30c5387d  Table: 80003000  DAC: fffffffd
+Register r0 information:
+8<--- cut here ---
+Unable to handle kernel paging request at virtual address fffffff7 when read
+[fffffff7] *pgd=80000080007003, *pmd=deffd003, *pte=00000000
+Internal error: Oops: 207 [#2] PREEMPT SMP ARM
 
 
-fbtest say test001: ~ test013: PASSED,
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-After apply your patch, the warn log `accel_flags changed from 0 to 1` 
-disappeared while  running it.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-So,
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
 
-
-On 2023/4/19 02:42, Geert Uytterhoeven wrote:
-> Fbtest contains some very simple validation of the fbdev userspace API
-> contract.  When used with shmob-drm, it reports the following warnings
-> and errors:
->
->      height changed from 68 to 0
->      height was rounded down
->      width changed from 111 to 0
->      width was rounded down
->      accel_flags changed from 0 to 1
->
-> The first part happens because __fill_var() resets the physical
-> dimensions of the first connector, as filled in by drm_setup_crtcs_fb().
-> Fix this by retaining the original values.
->
-> The last part happens because __fill_var() forces the FB_ACCELF_TEXT
-> flag on, while fbtest disables all acceleration on purpose, so it can
-> draw safely to the frame buffer.  Fix this by setting accel_flags to
-> zero, as DRM does not implement any text console acceleration.
-> Note that this issue can also be seen in the output of fbset, which
-> reports "accel true".
->
-> Fixes: ee4cce0a8f03a333 ("drm/fb-helper: fix input validation gaps in check_var")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   drivers/gpu/drm/drm_fb_helper.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 64458982be40c468..ed6ad787915f0b8f 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1537,17 +1537,19 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
->   	}
->   }
->   
-> -static void __fill_var(struct fb_var_screeninfo *var,
-> +static void __fill_var(struct fb_var_screeninfo *var, struct fb_info *info,
->   		       struct drm_framebuffer *fb)
->   {
->   	int i;
->   
->   	var->xres_virtual = fb->width;
->   	var->yres_virtual = fb->height;
-> -	var->accel_flags = FB_ACCELF_TEXT;
-> +	var->accel_flags = 0;
->   	var->bits_per_pixel = drm_format_info_bpp(fb->format, 0);
->   
-> -	var->height = var->width = 0;
-> +	var->height = info->var.height;
-> +	var->width = info->var.width;
-> +
->   	var->left_margin = var->right_margin = 0;
->   	var->upper_margin = var->lower_margin = 0;
->   	var->hsync_len = var->vsync_len = 0;
-> @@ -1610,7 +1612,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->   		return -EINVAL;
->   	}
->   
-> -	__fill_var(var, fb);
-> +	__fill_var(var, info, fb);
->   
->   	/*
->   	 * fb_pan_display() validates this, but fb_set_par() doesn't and just
-> @@ -2066,7 +2068,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
->   	info->pseudo_palette = fb_helper->pseudo_palette;
->   	info->var.xoffset = 0;
->   	info->var.yoffset = 0;
-> -	__fill_var(&info->var, fb);
-> +	__fill_var(&info->var, info, fb);
->   	info->var.activate = FB_ACTIVATE_NOW;
->   
->   	drm_fb_helper_fill_pixel_fmt(&info->var, format);
+If you want to undo deduplication, reply with:
+#syz undup
