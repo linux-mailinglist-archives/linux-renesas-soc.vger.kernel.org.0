@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C256F2CB0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 May 2023 05:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E276F2D10
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 May 2023 05:06:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbjEADDF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Apr 2023 23:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49402 "EHLO
+        id S232621AbjEADGs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Apr 2023 23:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232488AbjEADCq (ORCPT
+        with ESMTP id S232805AbjEADFH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Apr 2023 23:02:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951763C01;
-        Sun, 30 Apr 2023 20:00:11 -0700 (PDT)
+        Sun, 30 Apr 2023 23:05:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBAE526E;
+        Sun, 30 Apr 2023 20:02:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60FA3616E2;
-        Mon,  1 May 2023 02:59:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A25BC4339E;
-        Mon,  1 May 2023 02:59:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A5288616DD;
+        Mon,  1 May 2023 03:02:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B9DC433D2;
+        Mon,  1 May 2023 03:02:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682909963;
-        bh=rmsCnKggDewOdf7wQ1OM7mfPKrYhNDatX383oeO2poU=;
+        s=k20201202; t=1682910129;
+        bh=CMwkRhntSidbkhsgmDwVaSaNAdS2OgnCXuiIjtx12LY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gAaDo/mUuGXFd8tcosY/t9knOHQw1HQcyoJ1aZNasnq6uc7KjFwxVS9mlnb4aKXJx
-         G3/dIDL5qZ8DsCinbue0M8UvYXAXHGoLUXxhu2VTaEutEWS2O/CNIszqkSpKCJeHj3
-         T6bmDtuS5hVaTkfgftiWhnnl+dtNBzJglFS3EWluY3FpAl0Z3R4uNKVZatIKUjQVN/
-         qbjFOOFnweXatNYjuPAJLv7Ox1vbcgmal6zgG+xK2jccAhIZI2HbVZMpvnbgAugXm1
-         n6mKc2WXPh0j9i6JiOFz1drs61tZqjPCuGJhwK3tlxW7drXAa1UYLSHMhs1aMi/5Ly
-         wZfLFXMdYZXWQ==
+        b=Mqv1VuaGqg90jO22fSFy2F1ByvX+fzQ/GeENr/QAGr/5NrxVBhm0Y15Or4N51WkEU
+         Mv0NJE+QcAOFs/W2KV12rj4JGaMpZXtUapsbYWIF3pq0ymGDd2eNXDmW7OM0+witFM
+         kzXSRopgivoVyUVaqdKVxSdKHxnZd+44EFbRK17oubQ5qLObj1ADl99LXhET9CBFNu
+         iHViDNJnkzRhBpyIXJ7s3AVuFjHfyvHEPFKHCa9O53Y79eSLL5hxKJJNqVU6x0mYu3
+         bn3q/I6u3HUlUAvM5aoQapq9OHwYrJ7h1m62b7S1bkEw6DregYRua3I3rMpAPdjLbs
+         gFTxu529aX3ig==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,18 +48,18 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.3 40/44] media: Prefer designated initializers over memset for subdev pad ops
-Date:   Sun, 30 Apr 2023 22:56:28 -0400
-Message-Id: <20230501025632.3253067-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 35/37] media: Prefer designated initializers over memset for subdev pad ops
+Date:   Sun, 30 Apr 2023 22:59:43 -0400
+Message-Id: <20230501025945.3253774-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
-References: <20230501025632.3253067-1-sashal@kernel.org>
+In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
+References: <20230501025945.3253774-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -401,10 +401,10 @@ index 411e907b68eba..b545750ca5262 100644
  		if (ret)
  			continue;
 diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index 05548eab7daad..74fb0d185a8ff 100644
+index 0ad70faa9ba0f..2502794e2b850 100644
 --- a/drivers/staging/media/omap4iss/iss_video.c
 +++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -237,7 +237,9 @@ static int
+@@ -242,7 +242,9 @@ static int
  __iss_video_get_format(struct iss_video *video,
  		       struct v4l2_mbus_framefmt *format)
  {
@@ -415,7 +415,7 @@ index 05548eab7daad..74fb0d185a8ff 100644
  	struct v4l2_subdev *subdev;
  	u32 pad;
  	int ret;
-@@ -246,9 +248,7 @@ __iss_video_get_format(struct iss_video *video,
+@@ -251,9 +253,7 @@ __iss_video_get_format(struct iss_video *video,
  	if (!subdev)
  		return -EINVAL;
  
