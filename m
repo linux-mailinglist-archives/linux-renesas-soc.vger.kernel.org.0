@@ -2,253 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A496F4AC3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 22:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE7586F4B4D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 22:24:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjEBUCR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 May 2023 16:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38052 "EHLO
+        id S229972AbjEBUYi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 May 2023 16:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjEBUCQ (ORCPT
+        with ESMTP id S229938AbjEBUYh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 May 2023 16:02:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1706F198C;
-        Tue,  2 May 2023 13:02:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 58D3C62866;
-        Tue,  2 May 2023 20:02:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A606CC433D2;
-        Tue,  2 May 2023 20:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683057733;
-        bh=z65CXUdNhixlNpdcU4cX9MnAhBOpBsEMQ9BKqmjTFr0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HyuoeVi2h5vX+j5IW8pycatuUewSXr3NeuUPOSs/I37n7qS/vc4fMybMESDh9jPBI
-         4FJ83i+yxidNuezkHy3yrXC173LFNnftU6kPLMCB9tuPxERwsDu4NYPns+wr4YSE21
-         gpcWsrKk3Jl22MO0gvxUlmuou+tbdesX2a5K575kTKdKSgJEmPGOpJapGlktKI8I65
-         gG6CVdb7AZZe5XVqQznvR1MRxW2h9ly9o0/hbOH4UOjKURJ52+ifQjgPVzANSziT4T
-         seOSJHMW3E30u/+HFBr4rrpBrtok0Fc1sAGtUrlAz85EF3NBm/dk3oC+kikEm+JU0y
-         DHrd3NwwfYNng==
-Message-ID: <2783a3ba-8fcb-7e5f-3147-91d02e573ba4@kernel.org>
-Date:   Tue, 2 May 2023 22:02:03 +0200
+        Tue, 2 May 2023 16:24:37 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4618C19BE
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 May 2023 13:24:34 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-94f109b1808so842613966b.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 May 2023 13:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683059073; x=1685651073;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FAP5+T0AQPPWVGjUzj6Gp3mW/JMTiKuIUYsnFgYhswQ=;
+        b=NJYkk3wI7OyuRtfmOnLkIalgQ/aeDFtg/tFwISZUM+cbGyarbrNG1tv90RzlvaHp7e
+         i6/hFBOUjgwMzcDmRjkH1UmrDTdteDYUTpXW22cX+hGKVkg7Uh95XthqmeE3uZgVU45J
+         aaDB01HafyigQNTc3/rmL5bbac1yevcnsVlof/nUruQnUrJ7Q2M8rFTPUkJhNlaaxIrx
+         7ML7NRtt/TRZm8VALjqmIqyDnrLT/dkz8jyUzjSwFte98W+qxhABY4yQUeXLg/8nGSl+
+         hKRB2oE/AdkJV+NjLQyPSB9LSvVbxTIv9x5UvXBDbG3NYnyA/Go5W8/4Yxs5KJYH/aTg
+         xKPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683059073; x=1685651073;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FAP5+T0AQPPWVGjUzj6Gp3mW/JMTiKuIUYsnFgYhswQ=;
+        b=lTVDPq9/HPKkictrRgzSvWlP9M5ut4gMnx8ZHtj+IvkdYjMMQDRpjqTUrLmfDssSQl
+         yrNDzBFvlu4Mz86sEkRIpdzVjATyRgq+rpMf+sIZEQgFC2GAW/W7YjsYkJvkbXDeUoUx
+         C0vMcIr7mgGv5MU81DqvbjJXkwAAQPgNf3jsXaPWh9/GMsLUmXUI3o5bsZSm51RaaCxs
+         sf2SiH8rvefHwpfLepYZY++3wrGPJ2kk5VUyPeML5SIdVI4Q3Od4pDFvjp8H7AixcPeU
+         tifKWTqp/J78zVyPEB57ZvHRM9shF6tPu46hjvZvxTaEWWxOTi54zI/jPhP8mf3/M2Qg
+         wMPA==
+X-Gm-Message-State: AC+VfDzoyTxR7d/pGw+YKEfTyoQnaxC/LbOEVGoKIP2UMiuBbo14xwzM
+        kvRgbHVLCVDXc/KIWLbaJP85XA==
+X-Google-Smtp-Source: ACHHUZ6tGZigxA9xLQcXsvRYC/KR4pGA5kUj0slFpPi+DJmR6Nm5T0wU5/IY39X96VZ+ZX/LSSA2zg==
+X-Received: by 2002:a17:907:2cc5:b0:88a:1ea9:a5ea with SMTP id hg5-20020a1709072cc500b0088a1ea9a5eamr1051052ejc.65.1683059072786;
+        Tue, 02 May 2023 13:24:32 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:37be:eda5:e303:19e0? ([2a02:810d:15c0:828:37be:eda5:e303:19e0])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170906a18400b0094f1d0bad81sm16378503ejy.139.2023.05.02.13.24.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 13:24:32 -0700 (PDT)
+Message-ID: <68d2fa14-5504-cee1-5278-bd138c499b9a@linaro.org>
+Date:   Tue, 2 May 2023 22:24:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-To:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Olof Johansson <olof@lixom.net>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-sunxi@lists.linux.dev,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
-        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org,
-        Shawn Guo <shawnguo@kernel.org>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Add Versa3 clock generator support
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230413152648.89089-1-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB59220C350DFB9C221C801907866F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB59220C350DFB9C221C801907866F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02/05/2023 21:40, Rob Herring wrote:
-> On Tue, May 2, 2023 at 3:15 AM Arnd Bergmann <arnd@arndb.de> wrote:
->>
->> On Tue, Apr 25, 2023, at 17:57, Rob Herring wrote:
->>> On Tue, Apr 25, 2023 at 2:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>
->>>> Does your script also cater for .dts files not matching any pattern,
->>>> but including a .dtsi file that does match a pattern?
->>>
->>> I assume I built everything after moving, but maybe not...
->>>
->>> That's all just "details". First, we need agreement on a) moving
->>> things to subdirs and b) doing it 1-by-1 or all at once. So far we've
->>> been stuck on a) for being 'too much churn'.
->>
->> Sorry for missing most of the discussion last week. The script sounds
->> fine to me, the only reason I didn't want to do this in the past is that
->> we had the plan to move platforms out of the kernel tree to an external
->> repository and I wanted to do this platform at a time and also only move
->> each one once. I don't think that is going to happen anytime soon now,
->> so let's just do your script.
->>
->> Can you send me the script and/or a pull request of the resulting
->> tree based on my soc/dt branch? Everything is merged upstream,
->> and I think git-merge would handle the remaining merges with any
->> other changes in mainline.
+On 02/05/2023 16:18, Biju Das wrote:
+> Hi All,
 > 
-> I've dusted off my script and made a branch[1] with the result.
-> There's just a couple of fixes needed after the script is run (see the
-> top commit). The cross arch includes are all fixed up by the script.
-> dtbs_install maintains a flat install. I compared the number of .dtbs
-> before and after to check the script.
-> 
-> I think the only issue remaining is finalizing the mapping of
-> platforms to subdirs. What I have currently is a mixture of SoC
-> families and vendors. The most notable are all the Freescale/NXP
-> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
-> either. Once that's finalized, I still need to go update MAINTAINERS.
-> 
-> Here's the current mapping:
-> 
-> vendor_map = {
->     'alphascale' : 'alphascale',
->     'alpine' : 'alpine',
->     'artpec' : 'axis',
->     'axm' : 'lsi',
->     'cx9' : 'cnxt',
->     'ecx' : 'calxeda',
->     'highbank' : 'calxeda',
->     'ep7' : 'cirrus',
->     'mxs': 'mxs',
->     'imx23': 'mxs',
->     'imx28': 'mxs',
->     'sun' : 'allwinner',
->     'imx': 'imx',
->     'e6' : 'imx',
->     'e7' : 'imx',
->     'mba6' : 'imx',
->     'ls': 'fsl',
->     'vf': 'fsl',
+> Gentle Ping.
 
-If I remember correctly, Vybrid are a bit closer to iMX than to LS
-(Layerscape), but it should be Shawn's call (+Cc).
-
->     'qcom': 'qcom',
->     'am3' : 'ti',
->     'am4' : 'ti',
->     'am5' : 'ti',
->     'dra' : 'ti',
->     'keystone' : 'ti',
->     'omap' : 'ti',
->     'compulab' : 'ti',
->     'logicpd' : 'ti',
->     'elpida' : 'ti',
->     'motorola' : 'ti',
->     'twl' : 'ti',
->     'da' : 'ti',
->     'dm' : 'ti',
->     'nspire' : 'nspire',
->     'armada' : 'marvell',
->     'dove' : 'marvell',
->     'kirkwood' : 'marvell',
->     'orion' : 'marvell',
->     'mvebu' : 'marvell',
->     'mmp' : 'marvell',
->     'berlin' : 'berlin',
->     'pxa2' : 'pxa',
->     'pxa3' : 'pxa',
->     'pxa' : 'marvell',
->     'arm-' : 'arm',
->     'integ' : 'arm',
->     'mps' : 'arm',
->     've' : 'arm',
->     'aspeed' : 'aspeed',
->     'ast2' : 'aspeed',
->     'facebook' : 'aspeed',
->     'ibm' : 'aspeed',
->     'openbmc' : 'aspeed',
->     'en7' : 'airoha',
->     'at91' : 'microchip',
->     'sama' : 'microchip',
->     'sam9' : 'microchip',
->     'usb_' : 'microchip',
->     'tny_' : 'microchip',
->     'mpa1600' : 'microchip',
->     'animeo_ip' : 'microchip',
->     'aks-cdu' : 'microchip',
->     'ethernut5' : 'microchip',
->     'evk-pro3' : 'microchip',
->     'pm9g45' : 'microchip',
->     'ge86' : 'microchip',
->     'bcm' : 'brcm',
->     'exynos' : 'samsung',
->     's3c' : 'samsung',
->     's5p' : 'samsung',
-
-For samsung looks good.
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
->     'gemini' : 'gemini',
->     'hi3' : 'hisilicon',
->     'hip' : 'hisilicon',
->     'hisi' : 'hisilicon',
->     'sd5' : 'hisilicon',
->     'hpe' : 'hpe',
->     'intel': 'intel',
->     'mt' : 'mediatek',
->     'meson' : 'meson',
->     'moxa' : 'moxa',
->     'mstar' : 'mstar',
->     'nuvo' : 'nuvoton',
->     'lpc' : 'lpc',
->     'lan96' : 'microchip',
->     'owl' : 'actions',
->     'ox8' : 'oxsemi',
->     'rda' : 'rda',
->     'rtd' : 'realtek',
->     'r7' : 'renesas',
->     'r8' : 'renesas',
->     'r9' : 'renesas',
->     'emev2' : 'renesas',
->     'sh73a' : 'renesas',
->     'gr-' : 'renesas',
->     'iwg' : 'renesas',
->     'rk' : 'rockchip',
->     'rv11' : 'rockchip',
->     'rockchip' : 'rockchip',
->     'socfpga' : 'socfpga',
->     'stm' : 'stm32',
->     'sti' : 'sti',
->     'st-pin' : 'sti',
->     'ste' : 'st-ericsson',
->     'spear' : 'spear',
->     'axp' : 'allwinner',
->     'tegra' : 'nvidia',
->     'milbeaut' : 'socionext',
->     'uniph' : 'socionext',
->     'vt8500' : 'vt8500',
->     'wm8' : 'vt8500',
->     'xen' : 'xen',
->     'zx' : 'zte',
->     'zynq' : 'xilinx',
-
-The rest looks good to me, but I don't know half of these :)
+It's merge window. Ping, or better resend, after it finishes.
 
 Best regards,
 Krzysztof
