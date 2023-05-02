@@ -2,103 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 741CD6F40C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 12:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C00B6F41C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 12:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233682AbjEBKKE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 May 2023 06:10:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
+        id S233912AbjEBKgp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 May 2023 06:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233761AbjEBKKD (ORCPT
+        with ESMTP id S233922AbjEBKgA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 May 2023 06:10:03 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0F0859DA
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 May 2023 03:09:44 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,243,1677510000"; 
-   d="scan'208";a="161412837"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 02 May 2023 19:09:44 +0900
-Received: from localhost.localdomain (unknown [10.226.92.229])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EBDC0411041A;
-        Tue,  2 May 2023 19:09:40 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v9 RESEND 5/5] MAINTAINERS: Add maintainer for RZ DU drivers
-Date:   Tue,  2 May 2023 11:09:12 +0100
-Message-Id: <20230502100912.143114-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
-References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+        Tue, 2 May 2023 06:36:00 -0400
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7165B90
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 May 2023 03:35:41 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so24116965276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 May 2023 03:35:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683023741; x=1685615741;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yXBCQfzhmt+vVpn5XDbII3We6EY10VoCIWZYwiBToeI=;
+        b=TY6HN5FUn71eBV+omp3OeWzDXjntiuONxtEs6bVM6nQ49R2WjYnLATg8WWQuh4+LP0
+         FMftLvxwAz6kWJJpYAleZ7rWoSVRr9O3LBtC1p/u4qjjzg5sAOzFH+woqBQ3R6r/0vmK
+         7iIS/NFqODWHzJBGqDmMfXs8nKe/oHc9cgbIPRPUDLfXJV14rZuCNxB3IxZQ70tWTUew
+         D4klPAHXl4YfzUBzV2rt6QUeu6gGCpBp4IZWJKhB4W0crIAY7ZXNe7JbjU4jcFFdUIK6
+         ABhUex8R/9oi5KgyH5FNEVGescqntcr5P0/wAYpWIapJxxou2bkKLgv+YLlTClqr8K16
+         FeFA==
+X-Gm-Message-State: AC+VfDxUA8/C1rAx1pbWSpyQOWN1bhkW5v+kKzedaEN7kAAo7+qALGHZ
+        OlKAi17KP3TG2rVPERkMElKoUfyTPM776g==
+X-Google-Smtp-Source: ACHHUZ6ld3d9qTylqyGZvh7BWA7HShJHu08Ib590jLDKdlTDrJdy1SyrUP/d75oF7/wpGk+9xng1gg==
+X-Received: by 2002:a25:dcf:0:b0:b9e:7dd0:e9bc with SMTP id 198-20020a250dcf000000b00b9e7dd0e9bcmr701105ybn.4.1683023740694;
+        Tue, 02 May 2023 03:35:40 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id x6-20020a25b906000000b00b99cfb2ab6esm4505060ybj.18.2023.05.02.03.35.40
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 03:35:40 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so24116897276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 May 2023 03:35:40 -0700 (PDT)
+X-Received: by 2002:a25:4d8a:0:b0:b9a:867b:462a with SMTP id
+ a132-20020a254d8a000000b00b9a867b462amr13847489ybb.7.1683023740001; Tue, 02
+ May 2023 03:35:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
+ <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com> <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 2 May 2023 12:35:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
+Message-ID: <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
+Subject: Re: Future renesas-drivers releases
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add my self as maintainer for RZ DU drivers.
-While at it, update the entries for common parts, rcar-du and shmobile.
+On Tue, Apr 11, 2023 at 12:50 PM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>   - renesas-drivers-2023-04-25-v6.3 (TBD),
+>   - renesas-drivers-2023-05-02-v6.3 (TBD).
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-v8->v9:
- * Added Rb tag from Laurent.
- * Updated entries for common parts(Makefile and Kconfig).
-v8:
- * New patch
----
- MAINTAINERS | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+So that became the former.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1218a2ec6d97..ac57d8aa3a26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6948,7 +6948,7 @@ F:	drivers/gpu/host1x/
- F:	include/linux/host1x.h
- F:	include/uapi/drm/tegra_drm.h
- 
--DRM DRIVERS FOR RENESAS
-+DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
- M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
- L:	dri-devel@lists.freedesktop.org
-@@ -6959,9 +6959,20 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
- F:	Documentation/devicetree/bindings/display/renesas,du.yaml
--F:	drivers/gpu/drm/renesas/
-+F:	drivers/gpu/drm/renesas/Kconfig
-+F:	drivers/gpu/drm/renesas/Makefile
-+F:	drivers/gpu/drm/renesas/rcar-du/
-+F:	drivers/gpu/drm/renesas/shmobile/
- F:	include/linux/platform_data/shmob_drm.h
- 
-+DRM DRIVERS FOR RENESAS RZ
-+M:	Biju Das <biju.das.jz@bp.renesas.com>
-+L:	dri-devel@lists.freedesktop.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+F:	drivers/gpu/drm/renesas/rz-du/
-+
- DRM DRIVERS FOR ROCKCHIP
- M:	Sandy Huang <hjc@rock-chips.com>
- M:	Heiko Stübner <heiko@sntech.de>
+Next planned releases, if all goes well:
+  - renesas-drivers-2023-05-09-v6.4-rc1,
+  - renesas-drivers-2023-05-23-v6.4-rc3,
+  - renesas-drivers-2023-06-06-v6.4-rc5,
+  - renesas-drivers-2023-06-20-v6.4-rc7,
+  - renesas-drivers-2023-06-27-v6.4 (TBD, oops during EOSS),
+  - renesas-drivers-2023-07-04-v6.4 (TBD).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
