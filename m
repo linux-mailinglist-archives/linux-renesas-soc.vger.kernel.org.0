@@ -2,147 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 472A36F3D98
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 08:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10BB26F3EDF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 May 2023 10:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233416AbjEBGiw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 May 2023 02:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
+        id S233001AbjEBIPe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 May 2023 04:15:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233373AbjEBGiv (ORCPT
+        with ESMTP id S229379AbjEBIPd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 May 2023 02:38:51 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DEFD30CD
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 May 2023 23:38:49 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f1217f16e9so1032e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 May 2023 23:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1683009527; x=1685601527;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jBnKG88FbOtu4DyujgxvWWXru5qVkGeMGCnWkCLNuM4=;
-        b=S2yk3LQbBnxcOzVurIfQwWTX+SaRIVWzrpyo1gXHhKp8RXjID11CwVMUz1vIueF0Vo
-         MsaP/W/IOfubuAlMN5Khy4zssu0w997WqHSUB1KzLAguG3zySG920BPOm4V8uJuymARS
-         mqyUXtP8/pCXEfkQDhlbKg6fDc7/jwbga6gRXzgkYOAzsAvoFH1FKpKWXxQnKnu7VNIR
-         cFWMzG8p15cwp0YD6ramdAVC4BwCkTLPa/13AyKEIj+dmarFasViaFHby/9/MurBejKU
-         by3f5nc81UyFiJ+/xm0gBFSy/ERVlm5Tycx3gAmk6PLLx/Qhayal11ULDGW04Ip74uED
-         YtxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683009527; x=1685601527;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jBnKG88FbOtu4DyujgxvWWXru5qVkGeMGCnWkCLNuM4=;
-        b=LG40Wxg8u32Nf7csGAnlooR9xipP6wK+XerlPLPy+l555+lKSHYbZqp4+6YBmPdDoZ
-         Ebd7i0EU85vXW2zBbpFE6epEQwMz8nFQN94SpApA2oUSaQwO6uk8jt0IcrxzBYTsiFZT
-         R4cXmojnxSE2Lt/ma3jls3WkTjUaJEFx0TUDE57LL2oUVf/oDKtNld3ofkvntMnegf9x
-         u4qf1sJTSAZ5pYTrq05LOhYPrFM1NihvGLuGzCh8e7bltgelUadMG9JxaoFDmZNSWpwb
-         /xdc6CxmdSOhM+uugndkCrT5TazgNbKIGMa0mKG5eYmW4irq9qVX4PVwyXo4eCCPp3vi
-         uJMQ==
-X-Gm-Message-State: AC+VfDwhGbrj+S0qIZGBRGNG8pDOBoT/8K32m5rDF5M2uOox+yJrX1Zn
-        fjJym36RxI/5RNmEEgZeFannGetSu94XEY6B6lk2fQ==
-X-Google-Smtp-Source: ACHHUZ6/n9AVg/H9dSG2L8bTpRxnxtyZ6DmqZqsblEL9aNbQG6772mk7CDCWOIQp3YwUFxaEbf9kTWXrUQ98j0WBQSs=
-X-Received: by 2002:a05:6512:3d90:b0:4ea:e5e2:c893 with SMTP id
- k16-20020a0565123d9000b004eae5e2c893mr79590lfv.1.1683009527427; Mon, 01 May
- 2023 23:38:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <00000000000070ccd705fa79afe9@google.com>
-In-Reply-To: <00000000000070ccd705fa79afe9@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Tue, 2 May 2023 08:38:35 +0200
-Message-ID: <CACT4Y+Y6qkdhEtTb1XNrhd759ybEHk6138o7yK7kr-+OKcDHKQ@mail.gmail.com>
-Subject: Re: [syzbot] upstream boot error: BUG: unable to handle kernel paging
- request in gic_handle_irq
-To:     syzbot <syzbot+4aee2040dfac273d198e@syzkaller.appspotmail.com>
-Cc:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com,
-        maz@kernel.org, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Tue, 2 May 2023 04:15:33 -0400
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74801DD;
+        Tue,  2 May 2023 01:15:30 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 0A58D5803C3;
+        Tue,  2 May 2023 04:15:27 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 02 May 2023 04:15:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1683015327; x=1683022527; bh=ghjR7QqLTKl0Wa6Qp/pmJnR12EKA7bqxYQW
+        ouqZ3mAY=; b=G/ReWH/CR4stPP8pBvKE2oH2tiIxeT1Y9djsugPvcan1vwLCNKB
+        +CmHc2S3racpCMakxZ1qQRdhDmpzbTSxPsJLCIAsBgFwKTe+QJwmoUIe5cxfT6Wy
+        tgZI7GBK40sokCJo7woyfvbYgCDiIcu9MJqEUid0mCHXVNlzPDjNZzJJBtLrLhF9
+        X/mbJHalC7bJ1Xs6/CKvhniyT1ORP+ioH4B0Q9MMwa1hEm8wfe270mide7U5ucC4
+        jYc1KiyRZtz0ezseY2LvXW4OKb5R6V9gMew5kODf8MnejtSKgLd/xIANaAqpsh7o
+        O3SUD5day0+7MZzwDONO0PUZT+hvXwYxYyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1683015327; x=1683022527; bh=ghjR7QqLTKl0Wa6Qp/pmJnR12EKA7bqxYQW
+        ouqZ3mAY=; b=Y/xWbzku7vrNHNzte8uy72nMxc+pbAIi4IeA/XfvwUvtiZV9Est
+        bPyNKEthPJpnwnx5/Y68ss9jDEmHmeNI9uaomvywj4LEhNdN2/6OUB0Ap6qjjHvb
+        OQIPRGrLOJBmcaLg/XgkHAzTOPE5Xwu/E3de9zryJ4QMstqpCG+bbbWHvXXdfXgL
+        L+W8t5CYwFrU7f8XrnzjjIYPTrCSQ2/hUzXAWg8+DhkBUcIkmt6eVQO+8Sms9yZ1
+        Z+nDtml+a4kCprv84LWaOxgu+YrgM2G6hBbX6r3CD52Qvxv2Jvyac8zhWROAt9xl
+        Ftb8duEVIIhaiX5H6fsUSxaLGjuOvtdmUyw==
+X-ME-Sender: <xms:nsZQZGG99LYs7t6dhgAngkbsv9osgUeFMS5nCv0_eqkMW790xp5pVg>
+    <xme:nsZQZHXku8NWvKl4XxdR48yR-0RVaLsU5fwZmJq18kazWD7vv8gAEIoPKVDAKkTuy
+    5prPVni2U8mfnd5sN8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedviecutefuodetggdotefrodftvfcurf
+    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfgjeev
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:nsZQZAK8fS_X5YYcPQ8tmCY5TK5FJ7gjlJsS0RCSCVoEK-Zwdrq3Yw>
+    <xmx:nsZQZAFFLoJhNSVEvLGVyQfmt0zeZphfcdHG8-tw9pYY47GFwhKrNA>
+    <xmx:nsZQZMUL4rbP96pvZI76ZCUHun2qRq8vNtMGMdc-nT5M5xb0isYJ2g>
+    <xmx:n8ZQZPq1o7msWppgt2EUHhnFGcmwGcb09Ud671-g5_97NEtVzT49Eg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 1C690B60086; Tue,  2 May 2023 04:15:26 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
+Mime-Version: 1.0
+Message-Id: <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
+In-Reply-To: <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+ <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+Date:   Tue, 02 May 2023 10:15:03 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Rob Herring" <robh+dt@kernel.org>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Olof Johansson" <olof@lixom.net>
+Cc:     "Christian Marangi" <ansuelsmth@gmail.com>,
+        "Krzysztof Kozlowski" <krzk@kernel.org>,
+        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 29 Apr 2023 at 15:37, syzbot
-<syzbot+4aee2040dfac273d198e@syzkaller.appspotmail.com> wrote:
+On Tue, Apr 25, 2023, at 17:57, Rob Herring wrote:
+> On Tue, Apr 25, 2023 at 2:28=E2=80=AFAM Geert Uytterhoeven <geert@linu=
+x-m68k.org> wrote:
 >
-> Hello,
+>> Does your script also cater for .dts files not matching any pattern,
+>> but including a .dtsi file that does match a pattern?
 >
-> syzbot found the following issue on:
+> I assume I built everything after moving, but maybe not...
 >
-> HEAD commit:    cec24b8b6bb8 Merge tag 'char-misc-6.4-rc1' of git://git.ke..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11334c30280000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=c159a5b5ee7dcf56
-> dashboard link: https://syzkaller.appspot.com/bug?extid=4aee2040dfac273d198e
-> compiler:       arm-linux-gnueabi-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> userspace arch: arm
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+4aee2040dfac273d198e@syzkaller.appspotmail.com
+> That's all just "details". First, we need agreement on a) moving
+> things to subdirs and b) doing it 1-by-1 or all at once. So far we've
+> been stuck on a) for being 'too much churn'.
 
+Sorry for missing most of the discussion last week. The script sounds
+fine to me, the only reason I didn't want to do this in the past is that
+we had the plan to move platforms out of the kernel tree to an external
+repository and I wanted to do this platform at a time and also only move
+each one once. I don't think that is going to happen anytime soon now,
+so let's just do your script.
 
-+arm mailing list
+Can you send me the script and/or a pull request of the resulting
+tree based on my soc/dt branch? Everything is merged upstream,
+and I think git-merge would handle the remaining merges with any
+other changes in mainline.
 
-Kernel started falling apart on arm during boot in various strange ways.
-
-#syz set subsystems: arm
-
-> 8<--- cut here ---
-> Unable to handle kernel paging request at virtual address df80a00c when read
-> [df80a00c] *pgd=80000080007003, *pmd=82893003, *pte=80216680
-> Internal error: Oops: 207 [#1] PREEMPT SMP ARM
-> Modules linked in:
-> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.3.0-syzkaller #0
-> Hardware name: ARM-Versatile Express
-> PC is at __raw_readl arch/arm/include/asm/io.h:113 [inline]
-> PC is at gic_handle_irq+0x1c/0x7c drivers/irqchip/irq-gic.c:344
-> LR is at generic_handle_arch_irq+0x60/0x80 kernel/irq/handle.c:238
-> pc : [<8086e724>]    lr : [<817e3dd0>]    psr: 20000193
-> sp : 82401e70  ip : 82401e90  fp : 82401e8c
-> r10: 825dfffd  r9 : 8241ae40  r8 : 00000000
-> r7 : df80a00c  r6 : 81f1590c  r5 : df80a000  r4 : 8240cde8
-> r3 : 8086e708  r2 : 00904870  r1 : 81f4ff24  r0 : 82401eb8
-> Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
-> Control: 30c5387d  Table: 80003000  DAC: fffffffd
-> Register r0 information:
-> 8<--- cut here ---
-> Unable to handle kernel paging request at virtual address fffffff7 when read
-> [fffffff7] *pgd=80000080007003, *pmd=deffd003, *pte=00000000
-> Internal error: Oops: 207 [#2] PREEMPT SMP ARM
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> If the bug is already fixed, let syzbot know by replying with:
-> #syz fix: exact-commit-title
->
-> If you want to change bug's subsystems, reply with:
-> #syz set subsystems: new-subsystem
-> (See the list of subsystem names on the web dashboard)
->
-> If the bug is a duplicate of another bug, reply with:
-> #syz dup: exact-subject-of-another-report
->
-> If you want to undo deduplication, reply with:
-> #syz undup
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000070ccd705fa79afe9%40google.com.
+        Arnd
