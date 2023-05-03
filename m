@@ -2,72 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2E606F54DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 11:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF346F54E9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 11:38:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjECJgf convert rfc822-to-8bit (ORCPT
+        id S229911AbjECJiU convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 05:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
+        Wed, 3 May 2023 05:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjECJge (ORCPT
+        with ESMTP id S229889AbjECJiR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 05:36:34 -0400
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E843C14;
-        Wed,  3 May 2023 02:36:33 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-b9dcd91a389so6225109276.2;
-        Wed, 03 May 2023 02:36:32 -0700 (PDT)
+        Wed, 3 May 2023 05:38:17 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173F84C30;
+        Wed,  3 May 2023 02:38:15 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-b9d881ad689so7178702276.2;
+        Wed, 03 May 2023 02:38:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683106592; x=1685698592;
+        d=1e100.net; s=20221208; t=1683106694; x=1685698694;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DO3OiKhgV1UuDV72p/Gb85s0jVsqtaRbi+yl4EZNxWM=;
-        b=IfiWGqVqim8W0dgIWrTCrIXV0UfD/5LLv3NeDEa70EcRuhkVlSCROhv7pHUwqtN78s
-         HG8Uyj71DhCYQy5z3uyk5+BlQb+YGeHLPtpfO1OlbeJqK3yfsA3gfwNICTK17PS1AJYJ
-         PcaKlwuTQBUxfJCDsyFo49g0/wnWItgW4Rqm1yvUMTG29bsbPVUXD1ikUe7tb9daBN9p
-         PX+EFuhc+L5XHNMI9k9Y2bv/2+p1Y8N4adb28SNKJM8kC/9KHkegKgyX6OUajitq4zn9
-         91gGFJyHAsaY8eGLOSRMqiMvf3FrWn9/4nnzUuH0EUXG0AINTF9+6WS18uRLzMwcghmd
-         umvQ==
-X-Gm-Message-State: AC+VfDwCh2unQqZeXRnA+9nbNKTcOf92TlQj3yhv+Qsk8Dh9l30umF1D
-        9kllrsJ/JF22jqM35mqt4SGOLGnU2EHNEQ==
-X-Google-Smtp-Source: ACHHUZ7i8Mpz4+g/GB7wHaFypKEUNE/HU+Gyz/8DmVZbyUtIlCkxln4k3V5Sbq5OcSHwKZyon/vMhA==
-X-Received: by 2002:a25:d7d7:0:b0:b9a:66b7:673e with SMTP id o206-20020a25d7d7000000b00b9a66b7673emr21768668ybg.43.1683106592089;
-        Wed, 03 May 2023 02:36:32 -0700 (PDT)
+        bh=eW0wVbbFVwT7CJWHMvXuGero0OkZGhjRfMobpeD3hIU=;
+        b=B5jM8GnsdtBDdfqPHiLcoVqvrTnptL5VWgcGpdyysHdkh6jRf9a6W3r4wg9w7tGKWg
+         C4qicxRUiJ/GMO0BE44x9l9S9x61IIWwny3w66wn2ctL36Z8MB+PfRAc8bCnie0geVU+
+         hZ6PB637+hUvWxEqso9ycN+qDhkdOJwuZnDYSLkdOb+pV9Qs4yqz78g+G5SQ48z8le9p
+         /IsA6GQlYynWeoGAGZ9jsZRHzMTHng8AGPFkze3ZJS2gSuf6JqiRHY2gbcjctccrhHCC
+         NfUkuErB4iu+a/kX+R6Jnx8b8C7zfPrvPtN1iYieS0XftUZlUckew0RecvyNJnBB95qI
+         92lQ==
+X-Gm-Message-State: AC+VfDyE5PLbj//MSHtRabTFoNCwhSIYcVr8xg2nbavvX8g0dvekUWLH
+        W+WNv2eCKdjPxX3+qKWbL0dzrofDh6Kq8Q==
+X-Google-Smtp-Source: ACHHUZ7bYv4gtZfhB8ybXZ5ALpV6U8ayipHocjEy2CT7X631wR62ILKXzSL1B9i6Aa6NgnBOOprDTg==
+X-Received: by 2002:a25:e74f:0:b0:b99:9335:87f6 with SMTP id e76-20020a25e74f000000b00b99933587f6mr19790344ybh.27.1683106694062;
+        Wed, 03 May 2023 02:38:14 -0700 (PDT)
 Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id e2-20020a251e02000000b00b9def138173sm1906541ybe.1.2023.05.03.02.36.31
+        by smtp.gmail.com with ESMTPSA id b205-20020a2534d6000000b00b8bfb4c4f1esm1692229yba.62.2023.05.03.02.38.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 02:36:31 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-b9246a5f3feso7900170276.1;
-        Wed, 03 May 2023 02:36:31 -0700 (PDT)
-X-Received: by 2002:a25:51c1:0:b0:ba1:67e4:e62b with SMTP id
- f184-20020a2551c1000000b00ba167e4e62bmr465115ybb.13.1683106590911; Wed, 03
- May 2023 02:36:30 -0700 (PDT)
+        Wed, 03 May 2023 02:38:13 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-b9d8e8898eeso7058475276.1;
+        Wed, 03 May 2023 02:38:13 -0700 (PDT)
+X-Received: by 2002:a25:a263:0:b0:b9e:889:420f with SMTP id
+ b90-20020a25a263000000b00b9e0889420fmr12655820ybi.12.1683106693325; Wed, 03
+ May 2023 02:38:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com> <20230503084608.14008-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230503084608.14008-5-biju.das.jz@bp.renesas.com>
+References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com> <20230503084608.14008-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230503084608.14008-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 3 May 2023 11:36:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrH5R4mAjm1c9zRqiGhNsfT7Y13xxaV-v05T-MCJ6=RQ@mail.gmail.com>
-Message-ID: <CAMuHMdVrH5R4mAjm1c9zRqiGhNsfT7Y13xxaV-v05T-MCJ6=RQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/6] dt-bindings: rtc: isl1208: Document built-in RTC
- device on PMIC RAA215300
+Date:   Wed, 3 May 2023 11:38:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQa3-Qnyru_3=hccWjEZwZxriUHc8-5PrpwzQaxsy5Hw@mail.gmail.com>
+Message-ID: <CAMuHMdXQa3-Qnyru_3=hccWjEZwZxriUHc8-5PrpwzQaxsy5Hw@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/6] dt-bindings: mfd: Add Renesas RAA215300 PMIC bindings
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Trent Piepho <tpiepho@gmail.com>
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -76,68 +73,97 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-CC Trent's latest address
-
 On Wed, May 3, 2023 at 10:46 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The Built-in RTC device found on PMIC RAA215300 is similar to the isl1208
-> IP. However, RTC is enabled by PMIC RAA215300 and the polarity of the
-> external oscillator is determined by the PMIC revision.
+> Document Renesas RAA215300 PMIC bindings.
 >
-> Document renesas,raa215300-isl1208 compatible and renesas,raa215300-pmic
-> property to handle these differences.
+> The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
+> Memory, with Built-In Charger and RTC.
+>
+> It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
+> The internally compensated regulators, built-in Real-Time Clock (RTC),
+> 32kHz crystal oscillator, and coin cell battery charger provide a
+> highly integrated, small footprint power solution ideal for
+> System-On-Module (SOM) applications. A spread spectrum feature
+> provides an ease-of-use solution for noise-sensitive audio or RF
+> applications.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/rtc/isil,isl1208.yaml       | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
-> index 04d51887855f..888a832ed1db 100644
-> --- a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
-> @@ -18,6 +18,7 @@ properties:
->            - isil,isl1209
->            - isil,isl1218
->            - isil,isl1219
-> +          - renesas,raa215300-isl1208
 
-That sounds a bit over-complicated.
-What about just "renesas,raa215300-rtc"?
-If you consider them sufficiently compatible, you could add
-"isil,isl1208" as a fallback.
+Thanks for your patch!
 
->
->    reg:
->      maxItems: 1
-> @@ -40,6 +41,10 @@ properties:
->          <0> : Enable internal pull-up
->          <1> : Disable internal pull-up
->
-> +  renesas,raa215300-pmic:
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/renesas,raa215300.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RAA215300 Power Management Integrated Circuit (PMIC)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  The RAA215300 is a high-performance, low-cost 9-channel PMIC designed for
+> +  32-bit and 64-bit MCU and MPU applications. It supports DDR3, DDR3L, DDR4,
+> +  and LPDDR4 memory power requirements. The internally compensated regulators,
+> +  built-in Real-Time Clock (RTC), 32kHz crystal oscillator, and coin cell
+> +  battery charger provide a highly integrated, small footprint power solution
+> +  ideal for System-On-Module (SOM) applications. A spread spectrum feature
+> +  provides an ease-of-use solution for noise-sensitive audio or RF applications.
+> +
+> +  This device exposes two devices via I2C. One for the integrated RTC IP, and
+> +  one for everything else.
+> +
+> +  Link to datasheet:
+> +  https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,raa215300
 
-"renesas,pmic"?
+renesas,raa215300-pmic?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  renesas,raa215300-rtc:
+
+renesas,rtc?
+
 
 > +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to the pmic device with isl1208 built-in RTC.
+> +    description: phandle to the built-in RTC device.
 > +
->  required:
->    - compatible
->    - reg
-> @@ -58,6 +63,14 @@ allOf:
->          - interrupts-extended
->          - interrupt-names
->          - isil,ev-evienb
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,raa215300-isl1208
-> +    then:
-> +      required:
-> +        - renesas,raa215300-pmic
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pmic: raa215300@12 {
+> +            compatible = "renesas,raa215300";
+> +            reg = <0x12>;
+> +
+> +            renesas,raa215300-rtc = <&rtc_raa215300>;
+> +        };
+> +    };
+> --
+> 2.25.1
 >
->  unevaluatedProperties: false
 
+
+--
 Gr{oetje,eeting}s,
 
                         Geert
