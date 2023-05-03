@@ -2,103 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB42D6F5F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 21:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8056F6002
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 22:25:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjECTiw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 15:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S229642AbjECUZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 16:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjECTiv (ORCPT
+        with ESMTP id S229584AbjECUZy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 15:38:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47AFA619E;
-        Wed,  3 May 2023 12:38:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35231755;
-        Wed,  3 May 2023 21:38:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1683142726;
-        bh=z9h1L4FSJYTgSOT7AfLs56rIVm5AivZZhOhg4sKWHi4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=a8Mde7Wq+kgQROwZsD+KBym+sRVMmdVzsbm78XhQs8EE7NJkZ0lG+URWyI5p8j4Xh
-         k46gSixmYinJf4E/ZrlihlPlNqybD1M7a15X9NrluEJr4IETUu8km27IHLR1yrnCCz
-         b8vEQnjmgX4JdOv4MzaLB+2ReSPEMTuIt/9a29q0=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 3 May 2023 16:25:54 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21A083E3
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  3 May 2023 13:25:52 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-b9d8b458e10so7782176276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 May 2023 13:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683145552; x=1685737552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1gEz7yCW0YNWEyofUMW+bM1YB2JKr4lLhGCi/13fTrc=;
+        b=Mzh0ZV1liVt0pO7T3ehH+wp5tHq2eHIvxMQvgVLhBNtjThUcDrX/+aDvPu0tBZ/9ee
+         EXtPp3wMLIa74YOBsQ0e08IZyzEb9z2PtCzmiGLSL5FFkcqFzSprSbu/p4OtMtm5Z8vg
+         QTb+851VnqyKufW9AlhGHuA8W1rOsuyTf/U1ngEssyK7U0XiMTLfkIYXQJ/3BWdZ/+nL
+         IlkiQndW7FfaXvB3Wtdi5hEfH46S40YPblPeGAPLxeQ85pZXExi718VSSliADLafDbtF
+         EIagwxP3z0ZUYRpd+UFfoZPqXzZHPfYekCM7c+V8IvPd0peQzIxx4yrWJn2aqzP6n/mT
+         v8JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683145552; x=1685737552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1gEz7yCW0YNWEyofUMW+bM1YB2JKr4lLhGCi/13fTrc=;
+        b=OzK59rG+6A2kE2vIvyOTVNddDoKJVRxaH/KXOLqPtlmvDrc9sLHszcCpYQFyq0gwE2
+         efKXZOzQtPNl5DZpM+8uMJE9vMd3sVQgzP6RWzsDueS2iuBzAOLYqk/73BLeZu5NeHGB
+         Bv91GYkeD8UMnuqHSVPOPYeJ6gR8/DczobQRmFI3k3kq+yqdjM9LRLD5krk60lK4z5Dq
+         Qf6ALhyJml457tD/O8P6Bp2H09wJ80uUc6XEU4TInNjZbrTP/XU3rCWq8RBRj9lY219y
+         7XYTffPUV3iDPyYNeoSfzcSSUuKnFbLZag6LKX+K3mk6OkPO5upZYceU0aKHCTL4263M
+         z+WQ==
+X-Gm-Message-State: AC+VfDybPr+2Z12L8Mi3pj4kGNog8PNteyZBrpFTyuiLVL8aBaoWX4eW
+        TITomSXtcYkZs++qn9TWsATFate2leCUKe0vr5kVpA==
+X-Google-Smtp-Source: ACHHUZ6bWBOMBfCcUnb1ZA+ngbZpzrLgmQlXt3j9zhiGPRBmWSduiRqy3n8tV6EAdgHxuWzjmwHy1P//RM78ldQ0LkU=
+X-Received: by 2002:a25:fc0c:0:b0:b9e:7ec8:5d41 with SMTP id
+ v12-20020a25fc0c000000b00b9e7ec85d41mr5902733ybd.55.1683145551966; Wed, 03
+ May 2023 13:25:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+ <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com> <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+ <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
+In-Reply-To: <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 3 May 2023 22:25:39 +0200
+Message-ID: <CACRpkdaZdxNZ3amHxE44NZOZcVMpBa4Kx126+7WW3XHGM2NU=A@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Olof Johansson <olof@lixom.net>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMuHMdV0iZJwNDRTxZXr-Rg_=VDN1hYw2gbSwwys1EDrzgC7Ew@mail.gmail.com>
-References: <20230502170618.55967-1-wsa+renesas@sang-engineering.com> <20230502170618.55967-3-wsa+renesas@sang-engineering.com> <CAMuHMdV0iZJwNDRTxZXr-Rg_=VDN1hYw2gbSwwys1EDrzgC7Ew@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add PWM nodes
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Phong Hoang <phong.hoang.wz@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Date:   Wed, 03 May 2023 20:38:46 +0100
-Message-ID: <168314272625.1880445.3765065467307871846@Monstersaurus>
-User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2023-05-03 11:14:52)
-> Hi Wolfram,
->=20
-> On Tue, May 2, 2023 at 7:06=E2=80=AFPM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > From: Phong Hoang <phong.hoang.wz@renesas.com>
-> >
-> > This patch adds PWM nodes for R-Car V3U (r8a779a0) SoC.
-> >
-> > Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> > [wsa: rebased]
-> > Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->=20
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.5.
->=20
-> > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > @@ -1108,6 +1108,56 @@ msiof5: spi@e6c28000 {
-> >                         status =3D "disabled";
-> >                 };
-> >
-> > +               pwm0: pwm@e6e30000 {
->=20
-> I'll move this before serial@e6e60000 while applying, to preserve sort
-> order (by unit address).
+On Wed, May 3, 2023 at 1:03=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
 
-I still wonder when we can have nice tools that will sort DT and format
-DT files for us!
+> >     'gemini' : 'gemini',
+>
+> This one is also a product name, not a company. Apparently,
+> gemini was originally made by Storm Semiconductor, and then
+> by Cortina, which was subsequently acquired by Inphi, and that ended
+> up in Marvell after the product was already discontinued.
+>
+> Out of the four, I'd probably go with 'cortina' as the
+> directory name.
+>
 
+StorLink was the initial company, thus SL3516, SL3512
+the name of the chips.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Then that company changed name to Storm Semiconductor.
 
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+Git acquired by Cortina.
+
+Then Inphi acquired Cortina.
+
+Then Marvell scooped up the IP.
+
+If we *have* to use a company name I would use storlink,
+because the chips are named after that.
+
+Yours,
+Linus Walleij
