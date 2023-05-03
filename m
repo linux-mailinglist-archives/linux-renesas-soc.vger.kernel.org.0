@@ -2,96 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 191906F538C
+	by mail.lfdr.de (Postfix) with ESMTP id B9EE56F538E
 	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 10:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbjECIqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 04:46:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36310 "EHLO
+        id S229574AbjECIqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 04:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjECIqS (ORCPT
+        with ESMTP id S229441AbjECIqV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 04:46:18 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 992583C29;
-        Wed,  3 May 2023 01:46:16 -0700 (PDT)
+        Wed, 3 May 2023 04:46:21 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E800E40CF;
+        Wed,  3 May 2023 01:46:19 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,246,1677510000"; 
-   d="scan'208";a="161494686"
+   d="scan'208";a="158019816"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 May 2023 17:46:15 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 May 2023 17:46:19 +0900
 Received: from localhost.localdomain (unknown [10.226.92.153])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4D9E641C667B;
-        Wed,  3 May 2023 17:46:12 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 72CDE41C6679;
+        Wed,  3 May 2023 17:46:16 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Lee Jones <lee@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH RFC 0/6] Add Renesas PMIC RAA215300 and built-in RTC support
-Date:   Wed,  3 May 2023 09:46:02 +0100
-Message-Id: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH RFC 1/6] dt-bindings: mfd: Add Renesas RAA215300 PMIC bindings
+Date:   Wed,  3 May 2023 09:46:03 +0100
+Message-Id: <20230503084608.14008-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
+References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series aims to add support for Renesas PMIC RAA215300 and
-built-in RTC found on this PMIC device.
+Document Renesas RAA215300 PMIC bindings.
 
-The details of PMIC can be found here[1].
+The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
+Memory, with Built-In Charger and RTC.
 
-The built-in RTC is the same as ISL-1208. Enabling of the
-RTC is done by the PMIC module. The RAA215300 exposes two devices via I2C,
-one for the RTC IP, and one for everything else. The RTC IP has to be
-enabled by the other I2C device.
+It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
+The internally compensated regulators, built-in Real-Time Clock (RTC),
+32kHz crystal oscillator, and coin cell battery charger provide a
+highly integrated, small footprint power solution ideal for
+System-On-Module (SOM) applications. A spread spectrum feature
+provides an ease-of-use solution for noise-sensitive audio or RF
+applications.
 
-Also, the polarity of the external oscillator is different between PMIC
-versions. So the PMIC version is shared between the PMIC driver and the
-RTC driver.
-
-Please share your thoughts on this patch series.
-
-[1]
-https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
-
-Biju Das (6):
-  dt-bindings: mfd: Add Renesas RAA215300 PMIC bindings
-  mfd: Add Renesas PMIC RAA215300 driver
-  dt-bindings: rtc: isl1208: Convert to json-schema
-  dt-bindings: rtc: isl1208: Document built-in RTC device on PMIC
-    RAA215300
-  rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
-  arm64: dts: renesas: rzg2l-smarc-som: Enable PMIC and built-in RTC
-
- .../bindings/mfd/renesas,raa215300.yaml       | 57 ++++++++++++
- .../devicetree/bindings/rtc/isil,isl1208.txt  | 38 --------
- .../devicetree/bindings/rtc/isil,isl1208.yaml | 87 ++++++++++++++++++
- .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 16 ++++
- drivers/mfd/Kconfig                           |  8 ++
- drivers/mfd/Makefile                          |  2 +
- drivers/mfd/raa215300.c                       | 91 +++++++++++++++++++
- drivers/rtc/rtc-isl1208.c                     | 50 ++++++++++
- 8 files changed, 311 insertions(+), 38 deletions(-)
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ .../bindings/mfd/renesas,raa215300.yaml       | 57 +++++++++++++++++++
+ 1 file changed, 57 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
- delete mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.txt
- create mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
- create mode 100644 drivers/mfd/raa215300.c
 
+diff --git a/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
+new file mode 100644
+index 000000000000..1e65f7618333
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
+@@ -0,0 +1,57 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/renesas,raa215300.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas RAA215300 Power Management Integrated Circuit (PMIC)
++
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++
++description: |
++  The RAA215300 is a high-performance, low-cost 9-channel PMIC designed for
++  32-bit and 64-bit MCU and MPU applications. It supports DDR3, DDR3L, DDR4,
++  and LPDDR4 memory power requirements. The internally compensated regulators,
++  built-in Real-Time Clock (RTC), 32kHz crystal oscillator, and coin cell
++  battery charger provide a highly integrated, small footprint power solution
++  ideal for System-On-Module (SOM) applications. A spread spectrum feature
++  provides an ease-of-use solution for noise-sensitive audio or RF applications.
++
++  This device exposes two devices via I2C. One for the integrated RTC IP, and
++  one for everything else.
++
++  Link to datasheet:
++  https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
++
++properties:
++  compatible:
++    enum:
++      - renesas,raa215300
++
++  reg:
++    maxItems: 1
++
++  renesas,raa215300-rtc:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: phandle to the built-in RTC device.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pmic: raa215300@12 {
++            compatible = "renesas,raa215300";
++            reg = <0x12>;
++
++            renesas,raa215300-rtc = <&rtc_raa215300>;
++        };
++    };
 -- 
 2.25.1
 
