@@ -2,63 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 638206F559D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 12:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1F56F55A2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 12:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjECKJq convert rfc822-to-8bit (ORCPT
+        id S229554AbjECKL2 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 06:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
+        Wed, 3 May 2023 06:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbjECKJp (ORCPT
+        with ESMTP id S229756AbjECKL1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 06:09:45 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1353E1A5;
-        Wed,  3 May 2023 03:09:43 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-55a79671a4dso39920847b3.2;
-        Wed, 03 May 2023 03:09:43 -0700 (PDT)
+        Wed, 3 May 2023 06:11:27 -0400
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33B41A5;
+        Wed,  3 May 2023 03:11:26 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so2515052276.0;
+        Wed, 03 May 2023 03:11:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683108582; x=1685700582;
+        d=1e100.net; s=20221208; t=1683108686; x=1685700686;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sawd4wpoRtHE8s6UvEovoP3gm1uY3ejIUgCGBfkkyLU=;
-        b=ZYtGy04apyTkfG5MjQFhd9tmehcu813IpBOeqxVap0RZ46CfL+cbFHDKSOlo7XL69Z
-         wXBhwpg80jWmCTlUwIPW5fjRKp15WD6ybZYVvj8IrkOAplFKvxJSfIJmta98AebAcGeC
-         II52QXGVsV2WYfZTJDlhfGT8JFMG5T2d8+Q6BO76CAX+A7ZkcXtTEo+Q6+LdcGeSG4qw
-         32DBWJ+lvQwOnMPl+UkIGgY2WgtsAeC+a9dxcOvfT7XWJ8aB+Csinmmj0Ylkl0PkEvJP
-         xVsXunslfSLyZTqfPCbaW4DjnpfcZDrPnqyx0xmOzElJ/NBrYITOpBw02vMiF+ToUZ8N
-         oZvw==
-X-Gm-Message-State: AC+VfDw4VwPb8gcZOpqdHwPO+jkndYQPotaykWCpKoMcmjQRtw/u4cxn
-        Ho6R5H2JiuX4Rk3Ay+upEXDdZiynyUO4FA==
-X-Google-Smtp-Source: ACHHUZ54oosSzxi/8tOiAnFCUh2kjyZhlP4God13vC+klLQhjpuO8Nx6cCe31zYrr6p0+7bBuiPtjw==
-X-Received: by 2002:a81:8886:0:b0:55a:592d:9ec0 with SMTP id y128-20020a818886000000b0055a592d9ec0mr10060051ywf.20.1683108582047;
-        Wed, 03 May 2023 03:09:42 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id y206-20020a81a1d7000000b0055a07585a91sm2494527ywg.11.2023.05.03.03.09.41
+        bh=8ZtrVLKnAX2pxnlVF4pY/ZydKFTcmn+Q19HXitjOZjU=;
+        b=ZOnCyP+Yv2IF+OUAsQAolALAArMqRrDRe/X5oE2UWiYQiLhXEOyIlVYVf4zwIER8UI
+         R6quEHkssFnBGseKKsB6hNpZ9yQTWlw6dF8Oxuh9id4HHxlkGVUqfQ/3h88+oFmAcfvd
+         jJ8b6XZkWxBIT44tj3uIYqQu8UMWE+aWWzh9Nk9rTkoVQL1L+oV+Gc1JTKp7IdKmU6WL
+         IvATSn9ZRMMjL/4m/URXcEc2bBjPL4ofCtGalidtXRf6aUp+hk++TYD242X4ud5vVPKc
+         dOf7qmJdBxIi6d+JFxoCizKZ77f/q7VxlznFQ+VYOmA1kydj5wwt11Lg4eMB8CGotOUw
+         Tm9g==
+X-Gm-Message-State: AC+VfDzc7KHiANtb708LSDKaZd0Ne3sgzh9KL2XDCKWxZb00vRNk4Qnl
+        GaYjJppfA0IBKhQDWS1MP2+gf7JAYUZOpQ==
+X-Google-Smtp-Source: ACHHUZ7D0fYYJ5jbojmA5YPHIjazHXSLmdQDImO1vrcPdUrDh4T2AgDndA3GvLlfYnsnN8IwkoLTGg==
+X-Received: by 2002:a81:160a:0:b0:552:a4af:da with SMTP id 10-20020a81160a000000b00552a4af00damr1537309yww.10.1683108685776;
+        Wed, 03 May 2023 03:11:25 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id z188-20020a8165c5000000b00545a08184d0sm8584840ywb.96.2023.05.03.03.11.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 03:09:41 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-55af4277904so14442667b3.1;
-        Wed, 03 May 2023 03:09:41 -0700 (PDT)
-X-Received: by 2002:a81:84d2:0:b0:55a:6551:7ea8 with SMTP id
- u201-20020a8184d2000000b0055a65517ea8mr9163012ywf.42.1683108581083; Wed, 03
- May 2023 03:09:41 -0700 (PDT)
+        Wed, 03 May 2023 03:11:25 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b9a6f17f2b6so2433565276.1;
+        Wed, 03 May 2023 03:11:24 -0700 (PDT)
+X-Received: by 2002:a0d:e894:0:b0:55d:626e:3dcf with SMTP id
+ r142-20020a0de894000000b0055d626e3dcfmr396904ywe.12.1683108684523; Wed, 03
+ May 2023 03:11:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230502170618.55967-1-wsa+renesas@sang-engineering.com> <20230502170618.55967-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230502170618.55967-2-wsa+renesas@sang-engineering.com>
+References: <20230502165330.55769-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230502165330.55769-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 3 May 2023 12:09:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW9OP-C2iN97ntNJ7hjgmtY+=NQ=Hi38kPrd8ZUoafFjw@mail.gmail.com>
-Message-ID: <CAMuHMdW9OP-C2iN97ntNJ7hjgmtY+=NQ=Hi38kPrd8ZUoafFjw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: renesas: r8a779a0: Add PWM clock
+Date:   Wed, 3 May 2023 12:11:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVh73ZzNy0Gv4hchQxzWwfMy5JinZz_972QoaZ2Obiy7A@mail.gmail.com>
+Message-ID: <CAMuHMdVh73ZzNy0Gv4hchQxzWwfMy5JinZz_972QoaZ2Obiy7A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pwm: Add R-Car V3U device tree bindings
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
+Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -71,31 +74,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Tue, May 2, 2023 at 7:06 PM Wolfram Sang
+On Tue, May 2, 2023 at 6:53 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 > Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> @@ -170,6 +170,7 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
->         DEF_MOD("msi3",         621,    R8A779A0_CLK_MSO),
->         DEF_MOD("msi4",         622,    R8A779A0_CLK_MSO),
->         DEF_MOD("msi5",         623,    R8A779A0_CLK_MSO),
-> +       DEF_MOD("pwm",          628,    R8A779A0_CLK_S1D8),
-
-Do you mind if I rename this to "pwm0" while applying, to match the docs?
-
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.5.
-
->         DEF_MOD("rpc-if",       629,    R8A779A0_CLK_RPCD2),
->         DEF_MOD("scif0",        702,    R8A779A0_CLK_S1D8),
->         DEF_MOD("scif1",        703,    R8A779A0_CLK_S1D8),
 
 Gr{oetje,eeting}s,
 
