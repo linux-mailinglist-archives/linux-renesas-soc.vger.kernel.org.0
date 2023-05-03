@@ -2,53 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22FF16F56A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 12:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443166F56D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 13:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbjECK5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 06:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57528 "EHLO
+        id S229821AbjECLDU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 07:03:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbjECK5B (ORCPT
+        with ESMTP id S229577AbjECLDS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 06:57:01 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD11A3C01;
-        Wed,  3 May 2023 03:56:56 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3E5E91C000C;
-        Wed,  3 May 2023 10:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1683111414;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CEImU2OtlqI7/+mhE+uS0nyEZGmW4Lt1EbENk6B3Q58=;
-        b=KOjVQnR50buLkGjEL7Wd4oalR34sBdp2WhfpEYG1/s2fz/HXtJCSee+EsSze/uyzaBrfnx
-        Zt4uBy66BwRPjfxpYm5OcWLPB2mVLLONCXBHnIO6kTUI7/P27EUdNKt7MK8w8yo6v5nwym
-        mOgGfSKKZ/IljqzsCuI3lNEoP2+bgXW9PkarzZWP4tIIqIlPff8goHQfdYBs3GQOx/3cne
-        gZb6tRXDjs4EyZpFjE3O2xztJgMXAsGh0tgmF4EuSaFH0o10dQD2fDXeolNVM66Lby0Q24
-        5AX/ChmywKwFjPYm+flovvijceV01+XLOYVFmlh9BHqIDiBtM4dQi+rGGxAlxQ==
-Date:   Wed, 3 May 2023 12:56:49 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH RFC 5/6] rtc: isl1208: Add support for the built-in RTC
- on the PMIC RAA215300
-Message-ID: <20230503105649cd039d9a@mail.local>
-References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
- <20230503084608.14008-6-biju.das.jz@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230503084608.14008-6-biju.das.jz@bp.renesas.com>
+        Wed, 3 May 2023 07:03:18 -0400
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E86DE5B9A;
+        Wed,  3 May 2023 04:03:00 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 6C7392B0671E;
+        Wed,  3 May 2023 07:02:32 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 03 May 2023 07:02:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+        1683111752; x=1683118952; bh=MMamfdw2Idw7oZk+/E3mvL+dBo0TUHD8cWv
+        2z+u/0pc=; b=WBctjyvS2xYVsNx/PXLCezyBfk6d0fNGJLAbjyR93iv+JntYfRw
+        1FknZqmA6tsFPUoOxwPIzC92Rp5Y6yMCdnzeprisuAEmk/2FwjwhujnyjmXpkimB
+        SppIL5oaBfr59F6AzPecb7p3PngCPKwbucj2v1SwZaiAn0b8V6yRvxWIATOoB1yT
+        kTJFFdKrKoLxDca9M6vO2wD00yP0v9E+Y6cH9ws5eKi/SUd2UHkyPleSrFe3oyLX
+        8GenDC9VkDzpl0DM3D3MJqCCidmbvb4oXCVvEsbwuVU7zsrm1wOjex4kRkPwyRT1
+        Y3o5kMbVVaclWgwF5PhZKyT7r7Y+YHslZ1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1683111752; x=1683118952; bh=MMamfdw2Idw7oZk+/E3mvL+dBo0TUHD8cWv
+        2z+u/0pc=; b=AH+K36zaN4zYugn+q+n765d7RqYhBnYAkyeBKpd/jUwnO4cc17N
+        sOtk4fgnjqgBRejjoUPfmgWTaKFP4N6l86PC9yWkTl7qSHDYKt8zUNrMJm7hgsac
+        MAKOY5kQ55a0V+cd6KgpG+xKpJy4SWbnKyPbmZiW4Z0r+3tL/pAww5DKoBXtHvDI
+        i273D40wtniWtgLX4sC5ApVUdClgCvIzPssLKxyAw/v9JuPv2gH8vOUO3lADSDBb
+        NaXuK10560hVSSAb2s815TRFlAaY6HIsVEB4nLwDJq5pD3D+mqkoaNJij4p9s68c
+        FZWuHfNk6rEKY5SsKc3Dqj2x0oLyHX/paVw==
+X-ME-Sender: <xms:Rj9SZKlTTnbDiHX55Z0zVK4RRHqTtD34Ic0kr9gu8LXRZUd5vW1sNQ>
+    <xme:Rj9SZB2RRbTSlfnvoyCiq-CjuDURcGdNgs5GoDJl4qCHFJ5-ZHoIvp9bWKCYjpXN-
+    ODT0WgrXyw40LeC0sc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvkedgfeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Rj9SZIovGybcnhaYiLbWAMPNr2wtxMzL-NEtbKfgejz2jVx79Q3BOw>
+    <xmx:Rj9SZOmlZGrdb2-rGVi2XdPxahue8H13hkdPES4NDGwCeY-jXgd-ew>
+    <xmx:Rj9SZI2--fY13skOLwZ1x9wt_VRgsao0yXJv8XyToKLEhPijWfOSBw>
+    <xmx:SD9SZMJstDJSwk6E9VhGeSPmli8W6KuMDF8H4lCfg1AWmdfP8FfC5WnUfw0>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B77FBB6008D; Wed,  3 May 2023 07:02:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-386-g2404815117-fm-20230425.001-g24048151
+Mime-Version: 1.0
+Message-Id: <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
+In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+ <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+ <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
+ <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+Date:   Wed, 03 May 2023 13:02:10 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Rob Herring" <robh+dt@kernel.org>
+Cc:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Olof Johansson" <olof@lixom.net>,
+        "Christian Marangi" <ansuelsmth@gmail.com>,
+        "Krzysztof Kozlowski" <krzk@kernel.org>,
+        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,132 +113,91 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 03/05/2023 09:46:07+0100, Biju Das wrote:
-> The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
-> However, the external oscillator polarity is determined by the
-> PMIC version. For eg: the PMIC version has inverted polarity for
-> the external oscillator and the corresponding bit in RTC need to
-> be inverted(XTOSCB). This info needs to be shared from PMIC driver
-> to RTC driver, so that it can support all versions without any code
-> changes.
-> 
-> Add a new compatible renesas,raa215300-isl1208 to support RTC found
-> on PMIC RAA215300 and renesas,raa215300-pmic property to support
-> different versions.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/rtc/rtc-isl1208.c | 50 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-> index 73cc6aaf9b8b..f4ea19691ac1 100644
-> --- a/drivers/rtc/rtc-isl1208.c
-> +++ b/drivers/rtc/rtc-isl1208.c
-> @@ -74,6 +74,7 @@ enum isl1208_id {
->  	TYPE_ISL1209,
->  	TYPE_ISL1218,
->  	TYPE_ISL1219,
-> +	TYPE_RAA215300_ISL1208,
->  	ISL_LAST_ID
->  };
->  
-> @@ -83,11 +84,13 @@ static const struct isl1208_config {
->  	unsigned int	nvmem_length;
->  	unsigned	has_tamper:1;
->  	unsigned	has_timestamp:1;
-> +	unsigned	has_pmic_parent:1;
->  } isl1208_configs[] = {
->  	[TYPE_ISL1208] = { "isl1208", 2, false, false },
->  	[TYPE_ISL1209] = { "isl1209", 2, true,  false },
->  	[TYPE_ISL1218] = { "isl1218", 8, false, false },
->  	[TYPE_ISL1219] = { "isl1219", 2, true,  true },
-> +	[TYPE_RAA215300_ISL1208] = { "isl1208", 2, false, false, true },
->  };
->  
->  static const struct i2c_device_id isl1208_id[] = {
-> @@ -104,6 +107,10 @@ static const __maybe_unused struct of_device_id isl1208_of_match[] = {
->  	{ .compatible = "isil,isl1209", .data = &isl1208_configs[TYPE_ISL1209] },
->  	{ .compatible = "isil,isl1218", .data = &isl1208_configs[TYPE_ISL1218] },
->  	{ .compatible = "isil,isl1219", .data = &isl1208_configs[TYPE_ISL1219] },
-> +	{
-> +		.compatible = "renesas,raa215300-isl1208",
-> +		.data = &isl1208_configs[TYPE_RAA215300_ISL1208]
-> +	},
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, isl1208_of_match);
-> @@ -166,6 +173,43 @@ isl1208_i2c_validate_client(struct i2c_client *client)
->  	return 0;
->  }
->  
-> +static bool isl1208_is_xtosc_polarity_inverted(struct i2c_client *client)
+On Tue, May 2, 2023, at 21:40, Rob Herring wrote:
+> On Tue, May 2, 2023 at 3:15=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> w=
+rote:
 
-I'd remove polarity from the name of this function
+> vendor_map =3D {
+>     'alphascale' : 'alphascale',
+>     'alpine' : 'alpine',
 
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct i2c_client *pmic_dev;
-> +	unsigned int *pmic_version;
-> +	struct device_node *np;
-> +	bool ret = false;
-> +
-> +	np = of_parse_phandle(dev->of_node, "renesas,raa215300-pmic", 0);
-> +	if (np)
-> +		pmic_dev = of_find_i2c_device_by_node(np);
-> +
-> +	of_node_put(np);
-> +	if (!pmic_dev)
-> +		return ret;
-> +
-> +	pmic_version = dev_get_drvdata(&pmic_dev->dev);
-> +	/* External Oscillator polarity is inverted on revision 0x12 onwards */
+I would make this one 'amazon' if we go with current manufacturers.
 
-s/polarity/bit/
+>     'nspire' : 'nspire',
 
-My understanding is that the bit meaning is inverted. It is still a
-on/off bit.
+nspire is the name of the end-user product, so that doesn't quite
+fit. The SoC was apparently an LSI logic Zevio, which is now owned
+by Broadcom.
 
-> +	if (*pmic_version >= 0x12)
-> +		ret = true;
-> +
-> +	put_device(&pmic_dev->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static int
-> +isl1208_set_ext_osc_based_on_pmic_version(struct i2c_client *client, int rc)
-> +{
-> +	if (isl1208_is_xtosc_polarity_inverted(client))
-> +		rc &= ~ISL1208_REG_SR_XTOSCB;
-> +	else
-> +		rc |= ISL1208_REG_SR_XTOSCB;
-> +
-> +	return i2c_smbus_write_byte_data(client, ISL1208_REG_SR, rc);
-> +}
-> +
->  static int
->  isl1208_i2c_get_sr(struct i2c_client *client)
->  {
-> @@ -845,6 +889,12 @@ isl1208_probe(struct i2c_client *client)
->  		return rc;
->  	}
->  
-> +	if (isl1208->config->has_pmic_parent) {
-> +		rc = isl1208_set_ext_osc_based_on_pmic_version(client, rc);
-> +		if (rc)
-> +			return rc;
-> +	}
-> +
->  	if (rc & ISL1208_REG_SR_RTCF)
->  		dev_warn(&client->dev, "rtc power failure detected, "
->  			 "please set clock.\n");
-> -- 
-> 2.25.1
-> 
+>     'mvebu' : 'marvell',
+>     'mmp' : 'marvell',
+>     'berlin' : 'berlin',
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+While berlin is related to pxa/mmp, this one is now owned
+by Synaptics, and the 64-bit versions are already in the
+synaptics subdir, so I'd go with teh same here.
+
+>     'openbmc' : 'aspeed',
+>     'en7' : 'airoha',
+
+airoha is a separate company now, but the hardware is still
+shared with mediatek, so we could consider lumping it into
+that subdir, but a separate one may be better long-term.
+
+>     'gemini' : 'gemini',
+
+This one is also a product name, not a company. Apparently,
+gemini was originally made by Storm Semiconductor, and then
+by Cortina, which was subsequently acquired by Inphi, and that ended
+up in Marvell after the product was already discontinued.
+
+Out of the four, I'd probably go with 'cortina' as the
+directory name.
+
+>     'meson' : 'meson',
+
+-> amlogic
+
+>     'moxa' : 'moxa',
+>     'mstar' : 'mstar',
+
+-> sigmastar
+
+>     'nuvo' : 'nuvoton',
+>     'lpc' : 'lpc',
+
+-> nxp
+
+>     'lan96' : 'microchip',
+>     'owl' : 'actions',
+>     'ox8' : 'oxsemi',
+>     'rda' : 'rda',
+
+-> unisoc
+
+>     'rtd' : 'realtek',
+>     'r7' : 'renesas',
+>     'r8' : 'renesas',
+>     'r9' : 'renesas',
+>     'emev2' : 'renesas',
+>     'sh73a' : 'renesas',
+>     'gr-' : 'renesas',
+>     'iwg' : 'renesas',
+>     'rk' : 'rockchip',
+>     'rv11' : 'rockchip',
+>     'rockchip' : 'rockchip',
+>     'socfpga' : 'socfpga',
+
+-> intel
+
+>     'stm' : 'stm32',
+>     'sti' : 'sti',
+>     'st-pin' : 'sti',
+>     'ste' : 'st-ericsson',
+>     'spear' : 'spear',
+
+I would put all five of these into 'st'. The ux500 was developed
+in st-ericsson, but last sold by st, and the other ones are all
+original st products.
+
+      Arnd
