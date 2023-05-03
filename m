@@ -2,205 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 486FA6F5390
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 10:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054E86F5391
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 10:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbjECIqY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 04:46:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36356 "EHLO
+        id S229733AbjECIq3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 04:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjECIqX (ORCPT
+        with ESMTP id S229660AbjECIq2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 04:46:23 -0400
+        Wed, 3 May 2023 04:46:28 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 824D949FC
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  3 May 2023 01:46:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7127E49CA;
+        Wed,  3 May 2023 01:46:26 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,246,1677510000"; 
-   d="scan'208";a="158019821"
+   d="scan'208";a="158019835"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 May 2023 17:46:22 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 May 2023 17:46:26 +0900
 Received: from localhost.localdomain (unknown [10.226.92.153])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BFED741C667B;
-        Wed,  3 May 2023 17:46:19 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CCA6D41C6679;
+        Wed,  3 May 2023 17:46:22 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Alessandro Zummo <a.zummo@towertech.it>,
+To:     Alessandro Zummo <a.zummo@towertech.it>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH RFC 2/6] mfd: Add Renesas PMIC RAA215300 driver
-Date:   Wed,  3 May 2023 09:46:04 +0100
-Message-Id: <20230503084608.14008-3-biju.das.jz@bp.renesas.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Trent Piepho <tpiepho@impinj.com>, linux-rtc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH RFC 3/6] dt-bindings: rtc: isl1208: Convert to json-schema
+Date:   Wed,  3 May 2023 09:46:05 +0100
+Message-Id: <20230503084608.14008-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
 References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RAA215300 is a 9-channel PMIC that consists of
- * Internally compensated regulators
- * built-in Real Time Clock (RTC)
- * 32kHz crystal oscillator
- * coin cell battery charger
+Convert the isl1208 RTC device tree binding documentation to json-schema.
 
-The RTC on RAA215300 is similar to the IP found in the ISL1208.
-The existing driver for the ISL1208 works for this PMIC too,
-however the RAA215300 exposes two devices via I2C, one for the RTC
-IP, and one for everything else. The RTC IP has to be enabled
-by the other I2C device, therefore this driver is necessary to get
-the RTC to work.
-
-Add PMIC RAA215300 driver for enabling RTC and sharing PMIC version
-to RTC driver.
+Update the example to match reality.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/mfd/Kconfig     |  8 ++++
- drivers/mfd/Makefile    |  2 +
- drivers/mfd/raa215300.c | 91 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 101 insertions(+)
- create mode 100644 drivers/mfd/raa215300.c
+ .../devicetree/bindings/rtc/isil,isl1208.txt  | 38 ----------
+ .../devicetree/bindings/rtc/isil,isl1208.yaml | 74 +++++++++++++++++++
+ 2 files changed, 74 insertions(+), 38 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.txt
+ create mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index e90463c4441c..3e2a7f033b26 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -311,6 +311,14 @@ config MFD_CS47L92
- 	help
- 	  Support for Cirrus Logic CS42L92, CS47L92 and CS47L93 Smart Codecs
- 
-+config PMIC_RAA215300
-+	tristate "Renesas RAA215300 driver"
-+	select REGMAP_I2C
-+	depends on I2C
-+	help
-+	  Select this to get support for the Renesas RAA215300 PMIC and to
-+	  enable the built-in RTC.
-+
- config PMIC_DA903X
- 	bool "Dialog Semiconductor DA9030/DA9034 PMIC Support"
- 	depends on I2C=y
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 1d2392f06f78..d9c601120bfd 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -126,6 +126,8 @@ ifeq ($(CONFIG_SA1100_ASSABET),y)
- obj-$(CONFIG_MCP_UCB1200)	+= ucb1x00-assabet.o
- endif
- 
-+obj-$(CONFIG_PMIC_RAA215300)	+= raa215300.o
-+
- obj-$(CONFIG_PMIC_DA903X)	+= da903x.o
- 
- obj-$(CONFIG_PMIC_DA9052)	+= da9052-irq.o
-diff --git a/drivers/mfd/raa215300.c b/drivers/mfd/raa215300.c
+diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.txt b/Documentation/devicetree/bindings/rtc/isil,isl1208.txt
+deleted file mode 100644
+index 51f003006f04..000000000000
+--- a/Documentation/devicetree/bindings/rtc/isil,isl1208.txt
++++ /dev/null
+@@ -1,38 +0,0 @@
+-Intersil ISL1209/19 I2C RTC/Alarm chip with event in
+-
+-ISL12X9 have additional pins EVIN and #EVDET for tamper detection, while the
+-ISL1208 and ISL1218 do not.  They are all use the same driver with the bindings
+-described here, with chip specific properties as noted.
+-
+-Required properties supported by the device:
+- - "compatible": Should be one of the following:
+-		- "isil,isl1208"
+-		- "isil,isl1209"
+-		- "isil,isl1218"
+-		- "isil,isl1219"
+- - "reg": I2C bus address of the device
+-
+-Optional properties:
+- - "interrupt-names": list which may contains "irq" and "evdet"
+-	evdet applies to isl1209 and isl1219 only
+- - "interrupts": list of interrupts for "irq" and "evdet"
+-	evdet applies to isl1209 and isl1219 only
+- - "isil,ev-evienb": Enable or disable internal pull on EVIN pin
+-	Applies to isl1209 and isl1219 only
+-	Possible values are 0 and 1
+-	Value 0 enables internal pull-up on evin pin, 1 disables it.
+-	Default will leave the non-volatile configuration of the pullup
+-	as is.
+-
+-Example isl1219 node with #IRQ pin connected to SoC gpio1 pin12 and #EVDET pin
+-connected to SoC gpio2 pin 24 and internal pull-up enabled in EVIN pin.
+-
+-	isl1219: rtc@68 {
+-		compatible = "isil,isl1219";
+-		reg = <0x68>;
+-		interrupt-names = "irq", "evdet";
+-		interrupts-extended = <&gpio1 12 IRQ_TYPE_EDGE_FALLING>,
+-			<&gpio2 24 IRQ_TYPE_EDGE_FALLING>;
+-		isil,ev-evienb = <1>;
+-	};
+-
+diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
 new file mode 100644
-index 000000000000..33f93bd9ef17
+index 000000000000..04d51887855f
 --- /dev/null
-+++ b/drivers/mfd/raa215300.c
-@@ -0,0 +1,91 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RAA215300 PMIC driver
-+ *
-+ * Copyright (C) 2023 Renesas Electronics Corporation
-+ */
++++ b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/rtc/isil,isl1208.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regmap.h>
++title: Intersil ISL12{08,09,18,19} I2C RTC/Alarm chip
 +
-+#define RAA215300_REG_BLOCK_EN	0x6c
-+#define RAA215300_HW_REV	0xf8
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++  - Trent Piepho <tpiepho@impinj.com>
 +
-+#define RAA215300_REG_BLOCK_EN_RTC_EN	BIT(6)
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - isil,isl1208
++          - isil,isl1209
++          - isil,isl1218
++          - isil,isl1219
 +
-+static bool raa215300_is_volatile_reg(struct device *dev, unsigned int reg)
-+{
-+	return true;
-+}
++  reg:
++    maxItems: 1
 +
-+static const struct regmap_config raa215300_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xff,
-+	.volatile_reg = raa215300_is_volatile_reg,
-+	.cache_type = REGCACHE_FLAT,
-+};
++  interrupts:
++    minItems: 1
++    maxItems: 2
 +
-+static int raa215300_i2c_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	unsigned int *pmic_version;
-+	struct device_node *np;
-+	struct regmap *regmap;
-+	int ret;
++  interrupt-names:
++    items:
++      - const: irq
++      - const: evdet
 +
-+	pmic_version = devm_kzalloc(dev, sizeof(*pmic_version), GFP_KERNEL);
-+	if (!pmic_version)
-+		return -ENOMEM;
++  isil,ev-evienb:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [ 0, 1 ]
++    default: 0
++    description: |
++      Enable or disable internal pull on EVIN pin:
++        <0> : Enable internal pull-up
++        <1> : Disable internal pull-up
 +
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-+		return -EOPNOTSUPP;
++required:
++  - compatible
++  - reg
 +
-+	regmap = devm_regmap_init_i2c(client, &raa215300_regmap_config);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(dev, PTR_ERR(regmap),
-+				     "regmap i2c init failed\n");
++allOf:
++  - $ref: rtc.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - isil,isl1209
++              - isil,isl1219
++    then:
++      required:
++        - interrupts-extended
++        - interrupt-names
++        - isil,ev-evienb
 +
-+	ret = regmap_read(regmap, RAA215300_HW_REV, pmic_version);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "HW rev read failed\n");
++unevaluatedProperties: false
 +
-+	dev_set_drvdata(dev, pmic_version);
-+	dev_dbg(dev, "RAA215300 PMIC version 0x%04x\n", *pmic_version);
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+	/* Enable RTC block */
-+	np = of_parse_phandle(dev->of_node, "renesas,raa215300-rtc", 0);
-+	if (np)
-+		regmap_update_bits(regmap, RAA215300_REG_BLOCK_EN,
-+				   RAA215300_REG_BLOCK_EN_RTC_EN,
-+				   RAA215300_REG_BLOCK_EN_RTC_EN);
-+
-+	of_node_put(np);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id raa215300_dt_match[] = {
-+	{ .compatible = "renesas,raa215300" },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, raa215300_dt_match);
-+
-+static struct i2c_driver raa215300_i2c_driver = {
-+	.driver = {
-+		.name = "raa215300",
-+		.of_match_table = raa215300_dt_match,
-+	},
-+	.probe_new = raa215300_i2c_probe,
-+};
-+
-+module_i2c_driver(raa215300_i2c_driver);
-+
-+MODULE_DESCRIPTION("Renesas RAA215300 PMIC driver");
-+MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
-+MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_SOFTDEP("post: rtc_isl1208");
++        rtc_twi: rtc@6f {
++            compatible = "isil,isl1208";
++            reg = <0x6f>;
++        };
++    };
 -- 
 2.25.1
 
