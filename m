@@ -2,107 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A253C6F577E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 14:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 621756F5795
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 14:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbjECMBT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 08:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
+        id S229673AbjECMIh convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 08:08:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbjECMBS (ORCPT
+        with ESMTP id S229484AbjECMIV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 08:01:18 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF0E5275;
-        Wed,  3 May 2023 05:01:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1683115277;
-  x=1714651277;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Ix7N5q3ZVqpzch8HgBmAf+2RPj4ErJP5ku/rS3Udqzo=;
-  b=QqDjY6KvkSk1XMuKbnwQhp+uqFFWayRAnDO1RcdBff3rGtt+cwCAwe4r
-   nEb150tN4CS9Ak+XwIY3pvj/KcbdQaoS7mw5i9EHG8oOnjbnbZgyANWVr
-   w4mc56DUSUNlCw172TDeKZ2O4sl9nVgufSkVd18PBUPkBtwi1Jm52We27
-   yZsXXaQN2jzVsHDvjud0g5jZbmPHffsU8s9YhhdJep614K35iB/uopD4Z
-   oW2xxcR/v/GdC6nIDM74czDwFNTMCJ0pEyHDYLwNGdh/ATlfNdY5ORMM5
-   BrsYNwnO7/IttKPR6ZDl54TjsxYeTTsJJgYz8JhcdbPjr2xh5NzjWsOzV
-   A==;
-Date:   Wed, 3 May 2023 14:01:12 +0200
-From:   Jesper Nilsson <jesper.nilsson@axis.com>
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     Arnd Bergmann <arnd@arndb.de>, <linux-aspeed@lists.ozlabs.org>,
-        <linux-realtek-soc@lists.infradead.org>,
-        <linux-arm-kernel@axis.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <chrome-platform@lists.linux.dev>,
-        <linux-samsung-soc@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        <linux-sunxi@lists.linux.dev>, <devicetree@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-actions@lists.infradead.org>,
-        <linux-unisoc@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        <kernel@dh-electronics.com>, "Olof Johansson" <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "linux-oxnas@groups.io" <linux-oxnas@groups.io>
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <20230503120112.GC19396@axis.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+        Wed, 3 May 2023 08:08:21 -0400
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2DE95275;
+        Wed,  3 May 2023 05:08:20 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-55a76ed088aso42191997b3.2;
+        Wed, 03 May 2023 05:08:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683115699; x=1685707699;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bpsHFL7YRssR1zdtRWNSlgPS/yovpaWATc7ePeWkLLo=;
+        b=aqkQsUX2sqZa1mn6F3g/gfPdvdXTEOvpy4l0+oUmrdWRW/FdFxjn8xydI8Ovi8FtFe
+         CHVw+tMXLsBIJMw6npf0czxv1Qa9zH4XhP8YeHGfrK+Mv4oihP+r/UInBsheYtrC3PE0
+         77WfRjs5CvGebJkUJCmgVvb89ZQeRVvMYLj/1xi2m+/sgkze8qkTaws9lDhPuCIILu/X
+         0U1i1I0+20jsnVGp74QPBPW1rIxzdsXt8ZiZA5h8rIB5RvIOYDhCIGgP+BLnKy8ge5Lk
+         VBBjl2I4zDvdUIaQjUFvyf+/oJ62SXmgw4JIzz+YQXTjr0+Ir3XqmArXk7je5199kuVb
+         /4NQ==
+X-Gm-Message-State: AC+VfDx9993t2thz7Mxn8a0ue0r8D5AXNrwj/MaOOw2inkicIr/gvahT
+        76RlwHEV/bLLoZ48oYn8KzROcZCZnHiV3Q==
+X-Google-Smtp-Source: ACHHUZ4o5vkv5oUC1O7UHYp2YTLYb4EPujz/W1vTF29uUFyxrCUTQvET4Qj/yGUOP55zaJCyTCy9Gg==
+X-Received: by 2002:a25:d807:0:b0:b9d:c877:b302 with SMTP id p7-20020a25d807000000b00b9dc877b302mr13366943ybg.10.1683115699673;
+        Wed, 03 May 2023 05:08:19 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id z82-20020a256555000000b00b9a82c1b070sm3611869ybb.27.2023.05.03.05.08.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 May 2023 05:08:18 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-55a64f0053fso45269777b3.3;
+        Wed, 03 May 2023 05:08:18 -0700 (PDT)
+X-Received: by 2002:a0d:c783:0:b0:556:c778:9d60 with SMTP id
+ j125-20020a0dc783000000b00556c7789d60mr20051582ywd.43.1683115698169; Wed, 03
+ May 2023 05:08:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
+ <20230503084608.14008-5-biju.das.jz@bp.renesas.com> <CAMuHMdVrH5R4mAjm1c9zRqiGhNsfT7Y13xxaV-v05T-MCJ6=RQ@mail.gmail.com>
+ <OS0PR01MB5922FDA33F631ADD1B9962C3866C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922FDA33F631ADD1B9962C3866C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 3 May 2023 14:08:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX9Dsymn530q9_qJ2ZBinx33S=kXDuiisBDJOcV4_msFA@mail.gmail.com>
+Message-ID: <CAMuHMdX9Dsymn530q9_qJ2ZBinx33S=kXDuiisBDJOcV4_msFA@mail.gmail.com>
+Subject: Re: [PATCH RFC 4/6] dt-bindings: rtc: isl1208: Document built-in RTC
+ device on PMIC RAA215300
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Trent Piepho <tpiepho@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
-> On Tue, May 2, 2023 at 3:15 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> I've dusted off my script and made a branch[1] with the result.
-> There's just a couple of fixes needed after the script is run (see the
-> top commit). The cross arch includes are all fixed up by the script.
-> dtbs_install maintains a flat install. I compared the number of .dtbs
-> before and after to check the script.
-> 
-> I think the only issue remaining is finalizing the mapping of
-> platforms to subdirs. What I have currently is a mixture of SoC
-> families and vendors. The most notable are all the Freescale/NXP
-> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
-> either. Once that's finalized, I still need to go update MAINTAINERS.
-> 
-> Here's the current mapping:
-> 
-> vendor_map = {
-> [...]
->     'artpec' : 'axis',
+Hi Biju,
 
-Looks good for our platforms also, thanks!
+On Wed, May 3, 2023 at 12:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH RFC 4/6] dt-bindings: rtc: isl1208: Document built-in
+> > RTC device on PMIC RAA215300
+> > On Wed, May 3, 2023 at 10:46 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > The Built-in RTC device found on PMIC RAA215300 is similar to the
+> > > isl1208 IP. However, RTC is enabled by PMIC RAA215300 and the polarity
+> > > of the external oscillator is determined by the PMIC revision.
+> > >
+> > > Document renesas,raa215300-isl1208 compatible and
+> > > renesas,raa215300-pmic property to handle these differences.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  .../devicetree/bindings/rtc/isil,isl1208.yaml       | 13 +++++++++++++
+> > >  1 file changed, 13 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > > b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > > index 04d51887855f..888a832ed1db 100644
+> > > --- a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > > +++ b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > > @@ -18,6 +18,7 @@ properties:
+> > >            - isil,isl1209
+> > >            - isil,isl1218
+> > >            - isil,isl1219
+> > > +          - renesas,raa215300-isl1208
+> >
+> > That sounds a bit over-complicated.
+> > What about just "renesas,raa215300-rtc"?
+>
+> OK, good to me.
+>
+> > If you consider them sufficiently compatible, you could add "isil,isl1208"
+> > as a fallback.
+>
+> The pmic has to enable RTC block to make it functional.
+> The registers and functionality are compatible.
+> But the configuration of Oscillator polarity is different on PMIC version.
+> So we need to handle it here.
+>
+> You mean like below?
+>
+> +      - items:
+> +          - enum:
+> +              - renesas, raa215300-rtc
+> +          - const: isil,isl1208
 
-/^JN - Jesper Nilsson
+That's indeed what I meant.  But given the inverted osc bit, I think the
+fallback is not appropriate.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-               Jesper Nilsson -- jesper.nilsson@axis.com
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
