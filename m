@@ -2,83 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 032B56F5399
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 10:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A44D6F53C8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 10:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjECIqi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 04:46:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36612 "EHLO
+        id S229705AbjECI4n convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 May 2023 04:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjECIqi (ORCPT
+        with ESMTP id S229496AbjECI4m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 04:46:38 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E2FE946AF;
-        Wed,  3 May 2023 01:46:36 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,246,1677510000"; 
-   d="scan'208";a="158019857"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 May 2023 17:46:36 +0900
-Received: from localhost.localdomain (unknown [10.226.92.153])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 30C5441C691B;
-        Wed,  3 May 2023 17:46:33 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH RFC 6/6] arm64: dts: renesas: rzg2l-smarc-som: Enable PMIC and built-in RTC
-Date:   Wed,  3 May 2023 09:46:08 +0100
-Message-Id: <20230503084608.14008-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
-References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
+        Wed, 3 May 2023 04:56:42 -0400
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F92C10D9;
+        Wed,  3 May 2023 01:56:41 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-b9a6ab9ede3so6855179276.2;
+        Wed, 03 May 2023 01:56:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683104200; x=1685696200;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nLIjSxvkFoShCDz7/AeeChAXiJ9TCtnKs3s5wZ5JN+8=;
+        b=FRpPJUrL5Hb3oc5BuMFQBhZ4kfNvTcKqJqUBY8MtwS3Rxd1E/6kRj/uMVORK4XtsJ8
+         NhiwCMkJGlulmZqTPkIQyNhEEZ8EgaL7peQWqoPL3svLDhFi2Jqf2h5Ot6oasv9w+0AB
+         43Hv5gwYZe1Qp1QTybQAbVsGPZGWdnBUo0e6KC8Psinp4ZtqJgRNnOgsG6LzyADMvOxy
+         fAvNvDamkFZAkAYlw7Wvt0/SnTk/idRl/OAV9CcxctVAaCWZYGFHr5z3Kp053v189/XA
+         47rgAz865l5z2iKIKXN6mo0MF95H6hO3+F0PH38RPzxt/VI1fo4sps6cZGAJ8VpDduRL
+         kBVg==
+X-Gm-Message-State: AC+VfDz+F4ErOC3guT9EWPgPM52AB/CRV7nShJgRHVsL5DEjIgN89qKT
+        CrL0BCLU8ge1LiLBdE/gez5cG15lQPK6ew==
+X-Google-Smtp-Source: ACHHUZ6toUWOAd7Hr3Z+9B+MCMog8Eb57DYlvSZrBCsL/ydWUww26o17p03f5N8yRj9DSX3eTb0+BQ==
+X-Received: by 2002:a25:e68d:0:b0:b9e:7f1b:ea9d with SMTP id d135-20020a25e68d000000b00b9e7f1bea9dmr4464171ybh.33.1683104200482;
+        Wed, 03 May 2023 01:56:40 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id z12-20020a5b020c000000b00b7767ca7485sm7179350ybl.34.2023.05.03.01.56.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 May 2023 01:56:39 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-b9a6ab9ede3so6855147276.2;
+        Wed, 03 May 2023 01:56:39 -0700 (PDT)
+X-Received: by 2002:a25:fc1b:0:b0:b9a:6f77:9018 with SMTP id
+ v27-20020a25fc1b000000b00b9a6f779018mr19158460ybd.41.1683104199175; Wed, 03
+ May 2023 01:56:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+ <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com> <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 3 May 2023 10:56:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXjKwfBizmH8cZYEmVC2ZYLLqQG4kyrHm6Ct0j4EK4eQg@mail.gmail.com>
+Message-ID: <CAMuHMdXjKwfBizmH8cZYEmVC2ZYLLqQG4kyrHm6Ct0j4EK4eQg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable PMIC RAA215300 and the built-in RTC on the RZ/{G2L,V2L} SMARC
-EVK.
+Hi Rob,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+On Tue, May 2, 2023 at 9:40 PM Rob Herring <robh+dt@kernel.org> wrote:
+>     'r7' : 'renesas',
+>     'r8' : 'renesas',
+>     'r9' : 'renesas',
+>     'emev2' : 'renesas',
+>     'sh73a' : 'renesas',
+>     'gr-' : 'renesas',
+>     'iwg' : 'renesas',
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-index fbbb4f03440b..c9805d76ebb0 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-@@ -351,3 +351,19 @@ &wdt1 {
- 	status = "okay";
- 	timeout-sec = <60>;
- };
-+
-+&i2c3 {
-+	pmic: raa215300@12 {
-+		compatible = "renesas,raa215300";
-+		reg = <0x12>;
-+
-+		renesas,raa215300-rtc = <&rtc_raa215300>;
-+	};
-+
-+	rtc_raa215300: rtc@6f {
-+		compatible = "renesas,raa215300-isl1208";
-+		reg = <0x6f>;
-+
-+		renesas,raa215300-pmic = <&pmic>;
-+	};
-+};
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
