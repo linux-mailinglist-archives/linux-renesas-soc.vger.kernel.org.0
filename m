@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA236F562B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 12:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2855A6F5646
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 May 2023 12:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbjECK2t convert rfc822-to-8bit (ORCPT
+        id S229569AbjECKf5 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 May 2023 06:28:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43438 "EHLO
+        Wed, 3 May 2023 06:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbjECK2s (ORCPT
+        with ESMTP id S229528AbjECKf4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 May 2023 06:28:48 -0400
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B3446AB;
-        Wed,  3 May 2023 03:28:39 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so2582941276.0;
-        Wed, 03 May 2023 03:28:39 -0700 (PDT)
+        Wed, 3 May 2023 06:35:56 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DF649EE;
+        Wed,  3 May 2023 03:35:56 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-55a8019379fso26030347b3.0;
+        Wed, 03 May 2023 03:35:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683109719; x=1685701719;
+        d=1e100.net; s=20221208; t=1683110155; x=1685702155;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M6mIyoG8owmj6PBUhfaWTHiSZaVdfwfoIHsOejx0Z00=;
-        b=TOvRMatXwUIQ0GMAVNY8XY+SZBnvRFiv6iI8H8JAzOaEfNoX6RQGvalqPssJWCDcD+
-         L1la2Tc21X6+rE/LorddSeTh5vS5vMt68MUI3P34NqOKpBVsWTCeqcHSNeNEcuJjvMZk
-         tfrQEtVppgnvwN5ayuWYzeCuSv/nSB4FWw6NhsvJyvFgBAastX1IMzAPdgEegK45naEG
-         FThNxX8a5wQMMJKFrAY+nLH4msuerubnkuMRHdgZxrWGPDDHL9eKlm/9iD4/j+sNh9cb
-         YLLqiWXQxQnX19aVnfOEF2DHj5Knl2ipfUOWTncx78ObGX7gXzpDiGEVE0qRo824G8gh
-         42hw==
-X-Gm-Message-State: AC+VfDxBv7ie4lXmsLIpAK8Sm1WHCFWvh2MJtJrSPId57tmExT+AIvD5
-        g07JVnhZ+UsAAHEqSvFoT06IvZH5N5yckg==
-X-Google-Smtp-Source: ACHHUZ4lK68Ty3KziDB3kymXv5iCONHmQgqkheNFU2//8ASrIptEujm98cBoxPKufhIiBFREiTSGvg==
-X-Received: by 2002:a25:fc18:0:b0:b9f:fcc6:b491 with SMTP id v24-20020a25fc18000000b00b9ffcc6b491mr1758683ybd.11.1683109718785;
-        Wed, 03 May 2023 03:28:38 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id z12-20020a5b020c000000b00b7767ca7485sm7211225ybl.34.2023.05.03.03.28.38
+        bh=SzgtCmMtCQLvlMkdI2n+R1kMt6S1df/66NRq9y9X0Ao=;
+        b=ZQCaOstH7DFD5P25G+oXWzE53M1+P3k4u2oCEtZNL7hytizn1dy6WgoRlFXjIPR/jH
+         5oeNmsVwuZ7NE/m2zA2e75AjY8jh2gEkf9ueLwkrTB1px4WDWiZqWxFjkP0WdkVn4lB1
+         H38+5XVX05ZZL86M3j520yN38H6decylcbfQIkCfzM3TuDiPp72vRywW9Wc8+F1rq4Y6
+         ESm59BFIF5pzoM4qL7FkpBpUWz0tLAcQT9V2ADW4Mpj8rVJzEz/6jniGGOQI94DjN0bV
+         Kxj/VynGP/AM/Bu4IwTGpVYRKtQNeKA32+duAhX9+vqODa/xTSk+yXyzLe7FiVw8jxA9
+         0tGw==
+X-Gm-Message-State: AC+VfDywKDRQlnCGGPF26Ojh0wY+/g02bnueY6kj9CsOfwFl2kyoQIwc
+        aO5NcaRHfXgFLoiQ1ZaxkGvRezpfZuhQmg==
+X-Google-Smtp-Source: ACHHUZ5yg9daaNtbWdwlR+5voLLdPpjIDwVphxuo7P6ipTOTIbiLcaAFsghzgq6COjhjXR4u0/vuTQ==
+X-Received: by 2002:a81:4f4f:0:b0:55a:aa57:5660 with SMTP id d76-20020a814f4f000000b0055aaa575660mr4669134ywb.20.1683110154939;
+        Wed, 03 May 2023 03:35:54 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id n143-20020a0dcb95000000b00555df877a4csm1362642ywd.102.2023.05.03.03.35.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 03:28:38 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-b9a6f17f2b6so2500522276.1;
-        Wed, 03 May 2023 03:28:38 -0700 (PDT)
-X-Received: by 2002:a81:6c8f:0:b0:54e:ac2b:8a8c with SMTP id
- h137-20020a816c8f000000b0054eac2b8a8cmr1410672ywc.24.1683109718110; Wed, 03
- May 2023 03:28:38 -0700 (PDT)
+        Wed, 03 May 2023 03:35:54 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-b9a6d9dcbebso4083238276.2;
+        Wed, 03 May 2023 03:35:54 -0700 (PDT)
+X-Received: by 2002:a25:f828:0:b0:b9c:715a:9a97 with SMTP id
+ u40-20020a25f828000000b00b9c715a9a97mr17569988ybd.29.1683110154053; Wed, 03
+ May 2023 03:35:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230425155237.357592-1-biju.das.jz@bp.renesas.com> <20230425155237.357592-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230425155237.357592-2-biju.das.jz@bp.renesas.com>
+References: <20230424163908.137535-1-biju.das.jz@bp.renesas.com> <20230424163908.137535-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230424163908.137535-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 3 May 2023 12:28:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUs=F3ePP1P5OTbf9cut1wrbov=YEsyZEnKToBaFK0qNA@mail.gmail.com>
-Message-ID: <CAMuHMdUs=F3ePP1P5OTbf9cut1wrbov=YEsyZEnKToBaFK0qNA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Add gpu cooling device
+Date:   Wed, 3 May 2023 12:35:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUUFusEk4kQLmUTBTF6CMm+8AO7Y_U8ZZrPyqnhXiir4Q@mail.gmail.com>
+Message-ID: <CAMuHMdUUFusEk4kQLmUTBTF6CMm+8AO7Y_U8ZZrPyqnhXiir4Q@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] arm64: dts: renesas: rzg2l-smarc: Enable DU and
+ link with DSI
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -73,45 +74,61 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Tue, Apr 25, 2023 at 5:52 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add gpu cooling device for passive control.
+On Mon, Apr 24, 2023 at 6:39 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable DU and link with DSI on RZ/{G2L,V2L} SMARC EVK.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> @@ -970,6 +970,7 @@ gpu: gpu@11840000 {
->                                  <&cpg R9A07G044_GPU_ACE_RESETN>;
->                         reset-names = "rst", "axi_rst", "ace_rst";
->                         operating-points-v2 = <&gpu_opp_table>;
-> +                       #cooling-cells = <2>;
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> @@ -49,6 +49,7 @@ ports {
+>                 port@0 {
+>                         reg = <0>;
+>                         dsi0_in: endpoint {
+> +                               remote-endpoint = <&du_out_dsi>;
+>                         };
 >                 };
 >
->                 gic: interrupt-controller@11900000 {
-> @@ -1245,6 +1246,11 @@ map0 {
->                                         cooling-device = <&cpu0 0 2>;
->                                         contribution = <1024>;
->                                 };
-> +
-> +                               map1 {
-> +                                       trip = <&target>;
-> +                                       cooling-device = <&gpu 0 2>;
-
-Perhaps this needs a "contribution" property, as the CPU device in
-the same zone has one?
-
-> +                               };
->                         };
+> @@ -62,6 +63,26 @@ dsi0_out: endpoint {
+>         };
+>  };
 >
->                         trips {
+> +&du {
+> +       status = "okay";
+> +
+> +       ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               port@0 {
+> +                       reg = <0>;
+> +                       du_out_dsi: endpoint {
+> +                               remote-endpoint = <&dsi0_in>;
+> +                       };
+> +               };
+> +
+> +               port@1 {
+> +                       reg = <1>;
+> +               };
+
+Do you need port@1 if it is not connected to anything?
+If yes, don't the port@ subnodes and reg properties belong in the
+SoC-specific .dtsi?
+
+> +       };
+> +};
+> +
+>  &i2c1 {
+>         adv7535: hdmi@3d {
+>                 compatible = "adi,adv7535";
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
