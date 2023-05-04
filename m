@@ -2,146 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFDDF6F670C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 May 2023 10:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99A226F68DC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 May 2023 12:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbjEDIO1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 May 2023 04:14:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55662 "EHLO
+        id S229950AbjEDKMH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 May 2023 06:12:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbjEDIMz (ORCPT
+        with ESMTP id S229714AbjEDKMF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 May 2023 04:12:55 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE3D40F5
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  4 May 2023 01:10:34 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-50bc1612940so248954a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 May 2023 01:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683187833; x=1685779833;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5wRI/V0QYUmMTdZtjU5QAUWi8YTe7VYR3YoE2fbr0uY=;
-        b=F7JbaNf9rfAEFgyXNHxd07Nto4BeqGXHS3SMc1b3XtN3NsGlRH+sAVNfhCIQZe009O
-         /8v6DZtRpVOTI5w7AGTHpEe7n32li8nbtYOVQfDcBQwcRZbecU3i9scjYa+yNlwu1iS8
-         Fh0al9PHCU80mgW22f33y1HJgbjGYQJPgd5CTtJdDIDwqMLsgPCn35ifl/ilD42Bq4OH
-         KKNYYmq1tiactNu+zmZ32MhRKaLmBrxgZHyFGCpQB9DKgfan4E95ZzD3JV2gqaAYgAPg
-         oJFpPJWLsCzVlZChRUHgqeTQ1QgpOeB2cE1EZuib/jD+CZkUOV4sRpfkkR6SZWegljMB
-         Dqnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683187833; x=1685779833;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5wRI/V0QYUmMTdZtjU5QAUWi8YTe7VYR3YoE2fbr0uY=;
-        b=EbBSXXDOt+Ook3lrUeIkQTRI7seDEEs8QKK/O9CuMkj7D4QWDt/HuSyX8xKl1qxkca
-         7w05VCyRv+2ZZKg1gQIIufDqT8p5e71VQTr+cyn5ACPx47K/4BtzpJiajimvB7N1NaT3
-         A0il8/8eHPcbJfpG7xdonAjTULynLJ3MsnGnFBN+eE+kXbPR3yLL86CSgGUawO99QCbj
-         7suAkFPJ9Kj/v44gudSEX/XWT8IBmya+8olLTletbwlY4H8CpnuY7/n24BmUXSdRaZIB
-         QbWR1aZFAXMMRBYzJzmgnYKQbyjeX41EQ1YJDlAHf93oe1WFLbgT/JwEA6pNYkTwB2hx
-         VnGQ==
-X-Gm-Message-State: AC+VfDycx5d13tjQ0KIs5KGMeY7uHvjvDngj/mSbbFlJhcaWu/9FXcac
-        nQxM8THhZgZiM6dOkColT5UNUw==
-X-Google-Smtp-Source: ACHHUZ7o1xz1G094JLRpXVK8atuEDiJxNMnfsG3ePzcSVoQ7q8+HOTLwQN7AQK23FwfRuup1yiivcw==
-X-Received: by 2002:a05:6402:391:b0:506:7d65:c1fb with SMTP id o17-20020a056402039100b005067d65c1fbmr811720edv.30.1683187832940;
-        Thu, 04 May 2023 01:10:32 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:cbf1:e7ef:fb81:e912? ([2a02:810d:15c0:828:cbf1:e7ef:fb81:e912])
-        by smtp.gmail.com with ESMTPSA id b15-20020aa7cd0f000000b005067d6b06efsm1556607edw.17.2023.05.04.01.10.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 01:10:32 -0700 (PDT)
-Message-ID: <47f5498d-2c7c-7e27-c93d-a2787e720b42@linaro.org>
-Date:   Thu, 4 May 2023 10:10:31 +0200
+        Thu, 4 May 2023 06:12:05 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 107A849C6;
+        Thu,  4 May 2023 03:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=f9IPUEpyBrx41XXxSrkiHV0HEd6PMWxGjklTbCAmGKM=; b=Q2NqYN/Fkihy43H/8u3aGt/ofV
+        0Y3XG6lm1CdWYvSiyatBQ0G5rRbPax1/SdmoCS8XzIq+LwlMiGRbgHOk4KJPHv71XsXkaJq2rJ5Aj
+        oxG9AvHjaWpZz4law9GcRvdMWb5N2Wifr9JYNfIetVLNCPLXypTpm6Is4LWo3d1NTmynlrimN4Eny
+        cZnL0m6aof24zIK6IikSgO1ZfVrw6maAcn74DcOlxGeJrmSHo3wewf0gylo8qjrdlLr+aqmrpi/tX
+        7yIxxbUSVIgoGy+PMVarbqsZ8KOUU+VZLp5gLcuM3Hi+fibA8zNzcOqtUa8fp+v1dquHPB76oUNO6
+        /bHPZLnw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49876)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1puVwF-0004T3-Sb; Thu, 04 May 2023 11:11:51 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1puVwB-0002mb-S8; Thu, 04 May 2023 11:11:47 +0100
+Date:   Thu, 4 May 2023 11:11:47 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Olof Johansson <olof@lixom.net>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+        linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Message-ID: <ZFOE4wd31hpJh0ro@shell.armlinux.org.uk>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+ <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+ <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
+ <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH RFC 4/6] dt-bindings: rtc: isl1208: Document built-in RTC
- device on PMIC RAA215300
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Trent Piepho <tpiepho@impinj.com>, linux-rtc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
- <20230503084608.14008-5-biju.das.jz@bp.renesas.com>
- <db7ae5f9-393a-b892-dd6f-08c4f25ce7a8@linaro.org>
- <CAMuHMdVMsdvwq3t50ifKuCJ6LvPUcDjSu14tkdrSquizA=TsTw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdVMsdvwq3t50ifKuCJ6LvPUcDjSu14tkdrSquizA=TsTw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 04/05/2023 09:47, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Thu, May 4, 2023 at 9:11 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 03/05/2023 10:46, Biju Das wrote:
->>> The Built-in RTC device found on PMIC RAA215300 is similar to the isl1208
->>> IP. However, RTC is enabled by PMIC RAA215300 and the polarity of the
->>> external oscillator is determined by the PMIC revision.
->>>
->>> Document renesas,raa215300-isl1208 compatible and renesas,raa215300-pmic
->>> property to handle these differences.
->>>
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>> ---
->>>  .../devicetree/bindings/rtc/isil,isl1208.yaml       | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
->>> index 04d51887855f..888a832ed1db 100644
->>> --- a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
->>> +++ b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
->>> @@ -18,6 +18,7 @@ properties:
->>>            - isil,isl1209
->>>            - isil,isl1218
->>>            - isil,isl1219
->>> +          - renesas,raa215300-isl1208
->>>
->>>    reg:
->>>      maxItems: 1
->>> @@ -40,6 +41,10 @@ properties:
->>>          <0> : Enable internal pull-up
->>>          <1> : Disable internal pull-up
->>>
->>> +  renesas,raa215300-pmic:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description: phandle to the pmic device with isl1208 built-in RTC.
->>
->> No. You don't need cross-linking. We do not represent one device as two
->> and then fix this by cross-linking them. The existing binding does not
->> have it, so it should be a hint for you.
-> 
-> Makes sense.
-> So there should be a single device node with 2 reg cells, and
-> a "renesas,raa215300" compatible value.
+On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
+> I think the only issue remaining is finalizing the mapping of
+> platforms to subdirs. What I have currently is a mixture of SoC
+> families and vendors. The most notable are all the Freescale/NXP
+> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
+> either. Once that's finalized, I still need to go update MAINTAINERS.
 
-Yes.
+I haven't followed this discussion at all, so here's a question.
 
-> 
-> On the Linux side, the "renesas,raa215300" MFD driver can instantiate
-> a PMIC and an RTC cell, the latter served by the (enhanced) existing
-> rtc-isl1208 driver.
+What does this mean for the _installed_ dtb files? Do they move
+location? If they do, lots is going to break, because there will
+be u-boot configurations and other scripts that assume the flat
+directory structure for the installed dtb files.
 
-Right.
+I don't think changing the installed dtb structure is acceptable
+at this point in time. It's something that _should_ have been
+thought about when ARM was converted to dtb, it's too late to be
+changing that now.
 
-Best regards,
-Krzysztof
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
