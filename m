@@ -2,216 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0126F65EF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 May 2023 09:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5B7B6F663A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 May 2023 09:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229768AbjEDHkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 May 2023 03:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
+        id S229609AbjEDHsN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 May 2023 03:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbjEDHkT (ORCPT
+        with ESMTP id S229522AbjEDHsM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 May 2023 03:40:19 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A591FD2
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  4 May 2023 00:40:18 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-51b4ef5378bso70169a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 May 2023 00:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683186018; x=1685778018;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NS2xyi1K/xIQXV/MtOd9V6Q+UyexdGSAq4agAp5XonY=;
-        b=AAgdJOt/eH6vZKo2I9MGQ0WP3CWbmnT84ckG7hO8sO19fuxqUJ9p23g4dL/eVUwhuv
-         kbhaZwqQJPhNENytJr52lcDE5cPggIjS9y+nVnsaAta+1L7tAzeT3O6/QfXBvSkhDAaV
-         iR1gqW9NcnwAETwZEYMORXGe73yMMzlbOqPSaEOcK9v3kVldYGugMb++9lKG3ZNIrPcI
-         fytfWdvPxkqTwh3asQC+SzHYKF5jVFKDFrgsHkfDERDsEW5mbC+EmiJ67Y0UganyB/Vk
-         lY/7YwvRqdW2oIJdT+dvwKUrem3rMmc2Kso4S4m6W6MOpxq4McVp+BMJWjAXnlgYzmty
-         hVxw==
+        Thu, 4 May 2023 03:48:12 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F63D30FB;
+        Thu,  4 May 2023 00:47:59 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-55c939fb24dso582597b3.2;
+        Thu, 04 May 2023 00:47:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683186018; x=1685778018;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NS2xyi1K/xIQXV/MtOd9V6Q+UyexdGSAq4agAp5XonY=;
-        b=MBPW150XNxR5+SJq+iaItpXsFpjP8ZJTDyRBt3+T/OxW0LUByOTUVdV39zUCJcMuh1
-         hAACse1uFA1o8as7PfzxZB+dgXmIGKjTW386lZlqJkuSknEgyRfEHFXLg9ZFXY2fGjea
-         DiDqFYyX6mXt/VDNR8glyKEsTP4fBimQTpQrY2qQV2FI2x+x2+c3ITE8iqpcH6lW38l9
-         pSXGFU6aUQVSBj6MvXgsT6cDMU1CASSR4e53E57V3ThM+A43g54cGqagmsNjJgyo0S2s
-         S31KotZr1YmdF7dC8fsQNhd0ev8RJExiAem0zTcv0L66tB3Zj+8IlBoCzYZq4e8v3ZXb
-         4TMg==
-X-Gm-Message-State: AC+VfDw29KSw+DsDeVnykYLbIVMuf3XwTetHWVSCfDO+seOEjtQ2K62X
-        BjnZ/xllPQWmBcR4bEF6bnkQ
-X-Google-Smtp-Source: ACHHUZ4YY9uvlLkLChjXVMSyElLac77b8G37lyh0f3kT3dipOGMOwCavcWJS9y+TLl4aj6wRMFNnZQ==
-X-Received: by 2002:a17:902:6b8b:b0:1ac:2d81:3cf2 with SMTP id p11-20020a1709026b8b00b001ac2d813cf2mr877710plk.58.1683186017786;
-        Thu, 04 May 2023 00:40:17 -0700 (PDT)
-Received: from thinkpad ([120.138.12.87])
-        by smtp.gmail.com with ESMTPSA id ix7-20020a170902f80700b001aaecc15d66sm7632475plb.289.2023.05.04.00.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 00:40:17 -0700 (PDT)
-Date:   Thu, 4 May 2023 13:10:12 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2] arm64: dts: renesas: Add IOMMU related properties
- into PCIe host nodes
-Message-ID: <20230504074012.GA4162@thinkpad>
-References: <20230426082812.3621678-1-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdXBq0XZwgSUTQSrdYiQ0C0WBaHETqNLfF766TiXoCkKhg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1683186478; x=1685778478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m9LICh5eVGQYl7Vd8WDHBQlr+z/LAV3M6z3s9DeJXLI=;
+        b=PmneL4HyQe9OJmf+p5P7Csog9u8zFglPGENsuKD9tzFWaFP4dLmWeGYmMi1EUTy8uJ
+         gFr34CRWA/0TvY5HpTqIthSaFL6FaLFhZ5HKCAiJpAiT2NfETeNImA59pZ5WKy4WrNen
+         iuEKbpB/ofWQ7+bBNOtLhModvMrzcwvIhMz1wYiU4tHxECuGjKwwqWgliAJNEU8Tw0tp
+         qjzbiOtqeKtoratDY50bUyjoNnN8OXlF3jxnHRdaCzUhktqNP34kk1n//jg6Sq+BUo4C
+         kLFiuNWmuESwss/hujls4H2E+n/3fXkNspDt2lmmuMJkvSifYc41XQJqI8UwMXw5+8WM
+         rKQg==
+X-Gm-Message-State: AC+VfDxdCUn5vgUi09QPz6VKVWwU81Vyog5NbGspuU6MAQuH9qd3TtbT
+        Edl7ehIyeqI70dwTagwO6FM1wrw6xrf2bw==
+X-Google-Smtp-Source: ACHHUZ5eVY5vvXBBMryU5gNR68k7hiPxdNJbaTzO6QrOEy6ivZVT1W9GlxV29CEUxxaCNsjjGhlQrQ==
+X-Received: by 2002:a81:a082:0:b0:55a:2cb9:c79c with SMTP id x124-20020a81a082000000b0055a2cb9c79cmr1391983ywg.9.1683186478137;
+        Thu, 04 May 2023 00:47:58 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id j137-20020a81928f000000b0055a486140b6sm2642843ywg.36.2023.05.04.00.47.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 00:47:57 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-b9e27684b53so164754276.0;
+        Thu, 04 May 2023 00:47:57 -0700 (PDT)
+X-Received: by 2002:a81:a082:0:b0:55a:2cb9:c79c with SMTP id
+ x124-20020a81a082000000b0055a2cb9c79cmr1391945ywg.9.1683186476971; Thu, 04
+ May 2023 00:47:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXBq0XZwgSUTQSrdYiQ0C0WBaHETqNLfF766TiXoCkKhg@mail.gmail.com>
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+References: <20230503084608.14008-1-biju.das.jz@bp.renesas.com>
+ <20230503084608.14008-5-biju.das.jz@bp.renesas.com> <db7ae5f9-393a-b892-dd6f-08c4f25ce7a8@linaro.org>
+In-Reply-To: <db7ae5f9-393a-b892-dd6f-08c4f25ce7a8@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 4 May 2023 09:47:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVMsdvwq3t50ifKuCJ6LvPUcDjSu14tkdrSquizA=TsTw@mail.gmail.com>
+Message-ID: <CAMuHMdVMsdvwq3t50ifKuCJ6LvPUcDjSu14tkdrSquizA=TsTw@mail.gmail.com>
+Subject: Re: [PATCH RFC 4/6] dt-bindings: rtc: isl1208: Document built-in RTC
+ device on PMIC RAA215300
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Trent Piepho <tpiepho@impinj.com>, linux-rtc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 03, 2023 at 02:38:49PM +0200, Geert Uytterhoeven wrote:
-> Hi Shimoda-san,
-> 
-> CC linux-pci
-> 
-> On Wed, Apr 26, 2023 at 10:28 AM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > Add iommu-map and iommu-map-mask properties into PCIe host nodes.
-> > Note that iommu-map-mask should be zero because the IPMMU assigns
-> > one micro TLB ID only to the PCIe host.
-> >
+Hi Krzysztof,
 
-What do you mean by "only to the PCIe host"? Are you referring to the host
-bridge in the SoC?
-
-> > Also change dma-ranges arguments for IOMMU. Notes that the dma-ranges
-> > can be used if IOMMU is disabled.
+On Thu, May 4, 2023 at 9:11 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 03/05/2023 10:46, Biju Das wrote:
+> > The Built-in RTC device found on PMIC RAA215300 is similar to the isl1208
+> > IP. However, RTC is enabled by PMIC RAA215300 and the polarity of the
+> > external oscillator is determined by the PMIC revision.
 > >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> 
-> Thanks for your patch!
-> 
-> This is not really my area of expertise, but you can still find some
-> questions and comments below...
-> 
+> > Document renesas,raa215300-isl1208 compatible and renesas,raa215300-pmic
+> > property to handle these differences.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > ---
-> >  Changes from v1:
-> > https://lore.kernel.org/all/20230421122608.3389397-1-yoshihiro.shimoda.uh@renesas.com/
-> >  - Drop iommus property.
-> >  - Add iommu-map-mask property.
-> >  - Revise the commit description.
+> >  .../devicetree/bindings/rtc/isil,isl1208.yaml       | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
 > >
-> >  arch/arm64/boot/dts/renesas/r8a77951.dtsi | 12 ++++++++----
-> >  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 12 ++++++++----
-> >  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 ++++++++----
-> >  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 12 ++++++++----
-> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi |  6 ++++--
-> >  5 files changed, 36 insertions(+), 18 deletions(-)
+> > diff --git a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > index 04d51887855f..888a832ed1db 100644
+> > --- a/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > +++ b/Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+> > @@ -18,6 +18,7 @@ properties:
+> >            - isil,isl1209
+> >            - isil,isl1218
+> >            - isil,isl1219
+> > +          - renesas,raa215300-isl1208
 > >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> > index 10b91e9733bf..2adec8b6c93f 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> > @@ -2778,8 +2778,8 @@ pciec0: pcie@fe000000 {
-> >                                  <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-> >                                  <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-> >                                  <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-> > -                       /* Map all possible DDR as inbound ranges */
-> > -                       dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
-> > +                       /* Map all possible DDR/IOMMU as inbound ranges */
-> > +                       dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
-> 
-> So this is limited to the first 4 GiB of DDR (DDR0), i.e. to 32-bit
-> address space? Shouldn't this include DDR1/2/3?
-> 
-> >                         interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
-> >                                 <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-> >                                 <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-> > @@ -2790,6 +2790,8 @@ pciec0: pcie@fe000000 {
-> >                         clock-names = "pcie", "pcie_bus";
-> >                         power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> >                         resets = <&cpg 319>;
-> > +                       iommu-map = <0 &ipmmu_hc 0 0x10000>;
-> 
-> Reading
-> https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bindings/pci/pci-iommu.txt#L35
-> the above means you map 65536 RIDs n in the range 0..65535
-> to  <&ipmmu_hc n>, while only micro-TLBs 0 and 1 are assigned to PCIe?
-> 
-> Hence I think this should be:
-> 
->     iommu-map = <0 &ipmmu_hc 0 1>;
-> 
-
-If there are no PCI-PCI bridges in the SoC, then the devices connected to the
-host bridge should share the same bus number i.e., 00:00.0 to 00.1f.8. In that
-case, you should have the iommu-map as per Geert's suggestion. Paired with
-iommu-map-mask of 0, this implies that all the devices and functions of bus 0
-will share the same RID.
-
-This holds true for other instance as well.
-
-- Mani
-
-> > +                       iommu-map-mask = <0>;
-> >                         status = "disabled";
-> >                 };
+> >    reg:
+> >      maxItems: 1
+> > @@ -40,6 +41,10 @@ properties:
+> >          <0> : Enable internal pull-up
+> >          <1> : Disable internal pull-up
 > >
-> > @@ -2805,8 +2807,8 @@ pciec1: pcie@ee800000 {
-> >                                  <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
-> >                                  <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
-> >                                  <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
-> > -                       /* Map all possible DDR as inbound ranges */
-> > -                       dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
-> > +                       /* Map all possible DDR/IOMMU as inbound ranges */
-> > +                       dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
-> 
-> Likewise.
-> 
-> >                         interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
-> >                                 <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-> >                                 <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
-> > @@ -2817,6 +2819,8 @@ pciec1: pcie@ee800000 {
-> >                         clock-names = "pcie", "pcie_bus";
-> >                         power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> >                         resets = <&cpg 318>;
-> > +                       iommu-map = <0 &ipmmu_hc 1 0x10000>;
-> 
-> Likewise, the above means you map 65536 RIDs n in the range 0..65535
-> to  <&ipmmu_hc (1 + n)>?
-> 
-> Hence I think this should be:
-> 
->     iommu-map = <0 &ipmmu_hc 1 1>;
-> 
-> > +                       iommu-map-mask = <0>;
-> >                         status = "disabled";
-> >                 };
-> 
-> Same comment for all other changes.
-> 
-> In addition, we need similar changes to r8a774{a1,b1,c0,e1}.dtsi,
-> and slightly different changes (using ipmmu_vi0 uTLB 5) to r8a77980.dtsi.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> > +  renesas,raa215300-pmic:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: phandle to the pmic device with isl1208 built-in RTC.
+>
+> No. You don't need cross-linking. We do not represent one device as two
+> and then fix this by cross-linking them. The existing binding does not
+> have it, so it should be a hint for you.
+
+Makes sense.
+So there should be a single device node with 2 reg cells, and
+a "renesas,raa215300" compatible value.
+
+On the Linux side, the "renesas,raa215300" MFD driver can instantiate
+a PMIC and an RTC cell, the latter served by the (enhanced) existing
+rtc-isl1208 driver.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
