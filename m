@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A9F66F878E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 May 2023 19:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011C36F878F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 May 2023 19:25:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231501AbjEERZt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 May 2023 13:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57832 "EHLO
+        id S232137AbjEERZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 May 2023 13:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232493AbjEERZs (ORCPT
+        with ESMTP id S231616AbjEERZv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 May 2023 13:25:48 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA8AA1A13F;
-        Fri,  5 May 2023 10:25:46 -0700 (PDT)
+        Fri, 5 May 2023 13:25:51 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 37D27160BE
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  5 May 2023 10:25:50 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,252,1677510000"; 
-   d="scan'208";a="158275157"
+   d="scan'208";a="161757935"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 06 May 2023 02:25:46 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 06 May 2023 02:25:49 +0900
 Received: from localhost.localdomain (unknown [10.226.92.145])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id AB80A4073785;
-        Sat,  6 May 2023 02:25:43 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3483B4073785;
+        Sat,  6 May 2023 02:25:46 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Lee Jones <lee@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-rtc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v2 3/5] rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
-Date:   Fri,  5 May 2023 18:25:28 +0100
-Message-Id: <20230505172530.357455-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 4/5] mfd: Add Renesas PMIC RAA215300 RTC driver
+Date:   Fri,  5 May 2023 18:25:29 +0100
+Message-Id: <20230505172530.357455-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230505172530.357455-1-biju.das.jz@bp.renesas.com>
 References: <20230505172530.357455-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -48,144 +49,188 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
-However, the external oscillator bit is inverted on PMIC version
-0x12 and later. This info needs to be shared from the PMIC driver
-to the RTC driver so that it can support all versions without any
-code changes.
+Currently, it is not possible to instantiate the i2c client driver using
+MFD cell as it is not a platform driver. Add support for Renesas PMIC
+RAA215300 RTC platform driver, so that it can be instantiated by MFD API.
+The rtc device is created by using i2c_new_ancillary_device() and 
+it register as the rtc device by the helper function provided by
+rtc-isl2108 driver.
 
-Add support for RTC found on PMIC RAA215300 by adding a helper
-function for registering the RTC device.
+The PMIC driver enables RTC device and share the PMIC revision to
+RTC platform driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-RFC->v2:
- * Dropped compatible "renesas,raa215300-isl1208" and "renesas,raa215300-pmic" property.
- * Updated the comment polarity->bit for External Oscillator.
- * Added raa215300_rtc_probe_helper() for registering raa215300_rtc device and
-   added the helper function isl1208_probe_helper() to share the code.
+v2:
+ * New patch
 ---
- drivers/rtc/rtc-isl1208.c   | 61 ++++++++++++++++++++++++++++++-------
- include/linux/rtc/isl1208.h |  9 ++++++
- 2 files changed, 59 insertions(+), 11 deletions(-)
- create mode 100644 include/linux/rtc/isl1208.h
+ drivers/mfd/Kconfig         |  7 +++++
+ drivers/mfd/Makefile        |  1 +
+ drivers/mfd/raa215300-rtc.c | 52 +++++++++++++++++++++++++++++++++++++
+ drivers/mfd/raa215300.c     | 38 ++++++++++++++++++++++++---
+ 4 files changed, 95 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/mfd/raa215300-rtc.c
 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index 73cc6aaf9b8b..f2dc96d3e4e1 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -166,6 +166,19 @@ isl1208_i2c_validate_client(struct i2c_client *client)
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 9071b0f27b62..cec20c1f143d 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -318,6 +318,13 @@ config PMIC_RAA215300
+ 	help
+ 	  Support for the Renesas RAA215300 PMIC.
+ 
++config PMIC_RAA215300_RTC
++	tristate "Renesas RAA215300 RTC driver"
++	depends on PMIC_RAA215300
++	select RTC_DRV_ISL1208
++	help
++	  Select this to get support for the Renesas RAA215300 RTC
++
+ config PMIC_DA903X
+ 	bool "Dialog Semiconductor DA9030/DA9034 PMIC Support"
+ 	depends on I2C=y
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index d9c601120bfd..ed4b760e564e 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -127,6 +127,7 @@ obj-$(CONFIG_MCP_UCB1200)	+= ucb1x00-assabet.o
+ endif
+ 
+ obj-$(CONFIG_PMIC_RAA215300)	+= raa215300.o
++obj-$(CONFIG_PMIC_RAA215300_RTC)	+= raa215300-rtc.o
+ 
+ obj-$(CONFIG_PMIC_DA903X)	+= da903x.o
+ 
+diff --git a/drivers/mfd/raa215300-rtc.c b/drivers/mfd/raa215300-rtc.c
+new file mode 100644
+index 000000000000..309ed34d6cd7
+--- /dev/null
++++ b/drivers/mfd/raa215300-rtc.c
+@@ -0,0 +1,52 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RAA215300 RTC Driver
++ *
++ * Copyright (C) 2023 Renesas Electronics Corporation
++ */
++
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/rtc/isl1208.h>
++
++#define RAA215300_RTC_DEFAULT_ADDR 0x6f
++
++static void raa215300_rtc_unregister_device(void *data)
++{
++	i2c_unregister_device(data);
++}
++
++static int raa215300_rtc_probe(struct platform_device *pdev)
++{
++	unsigned int *pmic_version = dev_get_drvdata(pdev->dev.parent);
++	struct i2c_client *client;
++	int ret;
++
++	client = i2c_new_ancillary_device(to_i2c_client(pdev->dev.parent),
++					  "rtc", RAA215300_RTC_DEFAULT_ADDR);
++	if (IS_ERR(client))
++		return PTR_ERR(client);
++
++	ret = devm_add_action_or_reset(&pdev->dev,
++				       raa215300_rtc_unregister_device, client);
++	if (ret < 0)
++		return ret;
++
++	return raa215300_rtc_probe_helper(client, *pmic_version);
++}
++
++static struct platform_driver raa215300_rtc_driver = {
++	.probe = raa215300_rtc_probe,
++	.driver = {
++		.name = "raa215300-rtc",
++	},
++};
++module_platform_driver(raa215300_rtc_driver);
++
++MODULE_DESCRIPTION("Renesas RAA215300 MFD RTC Driver");
++MODULE_ALIAS("platform:raa215300-rtc");
++MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
++MODULE_LICENSE("GPL");
++MODULE_SOFTDEP("post: rtc_isl1208");
+diff --git a/drivers/mfd/raa215300.c b/drivers/mfd/raa215300.c
+index 5cdd3213e99c..c8bdf96b203f 100644
+--- a/drivers/mfd/raa215300.c
++++ b/drivers/mfd/raa215300.c
+@@ -8,6 +8,7 @@
+ #include <linux/err.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/mfd/core.h>
+ #include <linux/of.h>
+ #include <linux/regmap.h>
+ 
+@@ -29,13 +30,26 @@ static const struct regmap_config raa215300_regmap_config = {
+ 	.cache_type = REGCACHE_FLAT,
+ };
+ 
++static const struct mfd_cell raa215300_rtc_dev[] = {
++	{ .name = "raa215300-rtc" }
++};
++
++static void raa215300_remove_devices(void *data)
++{
++	mfd_remove_devices(data);
++}
++
+ static int raa215300_i2c_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	unsigned int pmic_version;
++	unsigned int *pmic_version;
+ 	struct regmap *regmap;
+ 	int ret;
+ 
++	pmic_version = devm_kzalloc(dev, sizeof(*pmic_version), GFP_KERNEL);
++	if (!pmic_version)
++		return -ENOMEM;
++
+ 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+ 		return -EOPNOTSUPP;
+ 
+@@ -44,11 +58,29 @@ static int raa215300_i2c_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, PTR_ERR(regmap),
+ 				     "regmap i2c init failed\n");
+ 
+-	ret = regmap_read(regmap, RAA215300_HW_REV, &pmic_version);
++	ret = regmap_read(regmap, RAA215300_HW_REV, pmic_version);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret, "HW rev read failed\n");
+ 
+-	dev_dbg(dev, "RAA215300 PMIC version 0x%04x\n", pmic_version);
++	dev_dbg(dev, "RAA215300 PMIC version 0x%04x\n", *pmic_version);
++	dev_set_drvdata(dev, pmic_version);
++
++	if (of_property_read_bool(dev->of_node, "renesas,rtc-enabled"))  {
++		/* Enable RTC block */
++		regmap_update_bits(regmap, RAA215300_REG_BLOCK_EN,
++				   RAA215300_REG_BLOCK_EN_RTC_EN,
++				   RAA215300_REG_BLOCK_EN_RTC_EN);
++
++		ret = mfd_add_devices(dev, 0, raa215300_rtc_dev,
++				      ARRAY_SIZE(raa215300_rtc_dev), NULL,
++				      0, NULL);
++		if (ret < 0)
++			return ret;
++
++		ret = devm_add_action_or_reset(dev, raa215300_remove_devices, dev);
++		if (ret < 0)
++			return ret;
++	}
+ 
  	return 0;
  }
- 
-+static int
-+isl1208_set_ext_osc_based_on_pmic_version(struct i2c_client *client, int rc,
-+					  unsigned int pmic_version)
-+{
-+	/* External Oscillator bit is inverted on revision 0x12 and later */
-+	if (pmic_version >= 0x12)
-+		rc &= ~ISL1208_REG_SR_XTOSCB;
-+	else
-+		rc |= ISL1208_REG_SR_XTOSCB;
-+
-+	return i2c_smbus_write_byte_data(client, ISL1208_REG_SR, rc);
-+}
-+
- static int
- isl1208_i2c_get_sr(struct i2c_client *client)
- {
-@@ -797,7 +810,8 @@ static int isl1208_setup_irq(struct i2c_client *client, int irq)
- }
- 
- static int
--isl1208_probe(struct i2c_client *client)
-+isl1208_probe_helper(struct i2c_client *client, bool is_raa215300_rtc,
-+		     unsigned int pmic_version)
- {
- 	int rc = 0;
- 	struct isl1208_state *isl1208;
-@@ -815,17 +829,22 @@ isl1208_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 	i2c_set_clientdata(client, isl1208);
- 
--	/* Determine which chip we have */
--	if (client->dev.of_node) {
--		isl1208->config = of_device_get_match_data(&client->dev);
--		if (!isl1208->config)
--			return -ENODEV;
-+	if (is_raa215300_rtc) {
-+		isl1208->config = &isl1208_configs[TYPE_ISL1208];
- 	} else {
--		const struct i2c_device_id *id = i2c_match_id(isl1208_id, client);
--
--		if (id->driver_data >= ISL_LAST_ID)
--			return -ENODEV;
--		isl1208->config = &isl1208_configs[id->driver_data];
-+		/* Determine which chip we have */
-+		if (client->dev.of_node) {
-+			isl1208->config = of_device_get_match_data(&client->dev);
-+			if (!isl1208->config)
-+				return -ENODEV;
-+		} else {
-+			const struct i2c_device_id *id = i2c_match_id(isl1208_id,
-+								      client);
-+
-+			if (id->driver_data >= ISL_LAST_ID)
-+				return -ENODEV;
-+			isl1208->config = &isl1208_configs[id->driver_data];
-+		}
- 	}
- 
- 	isl1208->rtc = devm_rtc_allocate_device(&client->dev);
-@@ -845,6 +864,13 @@ isl1208_probe(struct i2c_client *client)
- 		return rc;
- 	}
- 
-+	if (is_raa215300_rtc) {
-+		rc = isl1208_set_ext_osc_based_on_pmic_version(client, rc,
-+							       pmic_version);
-+		if (rc)
-+			return rc;
-+	}
-+
- 	if (rc & ISL1208_REG_SR_RTCF)
- 		dev_warn(&client->dev, "rtc power failure detected, "
- 			 "please set clock.\n");
-@@ -903,6 +929,19 @@ isl1208_probe(struct i2c_client *client)
- 	return devm_rtc_register_device(isl1208->rtc);
- }
- 
-+static int
-+isl1208_probe(struct i2c_client *client)
-+{
-+	return isl1208_probe_helper(client, false, 0);
-+}
-+
-+int
-+raa215300_rtc_probe_helper(struct i2c_client *client, unsigned int pmic_version)
-+{
-+	return isl1208_probe_helper(client, true, pmic_version);
-+}
-+EXPORT_SYMBOL(raa215300_rtc_probe_helper);
-+
- static struct i2c_driver isl1208_driver = {
- 	.driver = {
- 		.name = "rtc-isl1208",
-diff --git a/include/linux/rtc/isl1208.h b/include/linux/rtc/isl1208.h
-new file mode 100644
-index 000000000000..1dee540f9ab4
---- /dev/null
-+++ b/include/linux/rtc/isl1208.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _LINUX_ISL1208_H_
-+#define _LINUX_ISL1208_H_
-+
-+int raa215300_rtc_probe_helper(struct i2c_client *client,
-+			       unsigned int pmic_version);
-+
-+#endif /* _LINUX_ISL1208_H_ */
 -- 
 2.25.1
 
