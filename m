@@ -2,102 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63F4E6FB115
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC8F6FB182
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbjEHNPR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 May 2023 09:15:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33106 "EHLO
+        id S234273AbjEHN33 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 May 2023 09:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233699AbjEHNPP (ORCPT
+        with ESMTP id S234291AbjEHN3T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 May 2023 09:15:15 -0400
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C82431550
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 May 2023 06:15:01 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-55a10577911so64765847b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 May 2023 06:15:01 -0700 (PDT)
+        Mon, 8 May 2023 09:29:19 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 189342BCF0;
+        Mon,  8 May 2023 06:29:12 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1aad6f2be8eso42390825ad.3;
+        Mon, 08 May 2023 06:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683552551; x=1686144551;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v3PaC+u4I8/xCvBzjXljSbT+ExOFEPX4hvoclskNFFw=;
+        b=MWzI31C4XaHMcFzzVuAi/60gb6uwvtco6/TBowcdMuXPSg6ouaWHsUC+w3hk0vsXS6
+         oPTulJVX1PGaYLCMzcH3+8oB8oL6BeHvikIF2RUuD8i87DyMG4PNHYh6Z2Ue8r+V/LO4
+         4+SpbLukuQnI/I/HwQtnPFwDtuQ15FAhlMf2Uwry1bPCxSzZ23nAsjh8ONAQObnmWMZ9
+         PYMtxSD454r+qxmt021fSN5+vt7owtGLGVc/NwhGChX6bn9RWyQe6MCrEzPSANGHkeeX
+         em9zjjCOXakgtbHs6pbRHIsAlOQ8q974MBE6f7as19Vz+C21I3sbbgtVOo4hoAnCHtHQ
+         f9mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683551700; x=1686143700;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683552551; x=1686144551;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E5LaiI9Qf78wWAuCEXEQ4PsyMcCaCQGaBXqW3f6eYiY=;
-        b=VB0C3CdDi52vXGLIQAG6MdCFKOBq5Z2XwNxIOp8CrGf6AcE3xiFAs7retkInbSXoxZ
-         kqRWZoaACiz0L1xG7TqEZublwbkTbbucjT6FJHqX+d3AcNX6xETUHSWW9wcyjLI3B1sA
-         fRo7U2KXpwWn3NBX0UY/C0EJu5+s6wKed00hO8ATYUNIFl5zw5ZO44wYfcO3+8G3pU9c
-         fxczwHiiEEIs9lhJQ6Ht7bhnMOZg649Uwple9jE5xQ5FRDvK5rqRo5qyudTu2QC1OR+Z
-         fwsV1Nf3eTFr0T7FoE2Z0f6B6qPSXO7DyEfb/ypmS0Z/FntAKQ/oX295O78H5tHLiNJ7
-         l/lw==
-X-Gm-Message-State: AC+VfDyrsfHcAd9ttEUqRGFy2ripDqBAaqFPK+D/eiEfarhzUcsLws9h
-        eDmMp3RdTGnG+srLpliWKABxLVXc35TxeQ==
-X-Google-Smtp-Source: ACHHUZ4qsLZAybgXSN6pwrNFF5fvwVc0q1zVAtTnpvg3aq5EPDZbjG2HyitgvhjegkCOOww+g+udEA==
-X-Received: by 2002:a25:4f0b:0:b0:b8f:4bff:d54d with SMTP id d11-20020a254f0b000000b00b8f4bffd54dmr10519427ybb.63.1683551700089;
-        Mon, 08 May 2023 06:15:00 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id 144-20020a250596000000b00b8bfb4c4f1esm2308145ybf.62.2023.05.08.06.14.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 May 2023 06:14:59 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-b9e6ec482b3so5978788276.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 May 2023 06:14:58 -0700 (PDT)
-X-Received: by 2002:a25:b315:0:b0:b9d:f4df:b0ef with SMTP id
- l21-20020a25b315000000b00b9df4dfb0efmr11607033ybj.42.1683551698679; Mon, 08
- May 2023 06:14:58 -0700 (PDT)
+        bh=v3PaC+u4I8/xCvBzjXljSbT+ExOFEPX4hvoclskNFFw=;
+        b=NXQn1n3QVjc9ilpFkgZhS1iMk5wmIsfS2s0nwo1g7iO8ZHXmTquLkiCKL1s+ZqaNHx
+         +zFJag+fGjf2HyT7P0FrYV9G8aTvSLQ8RyJBBuL3rKKzw8wgTkFzv57zSBcYMsGlBiI8
+         LvzwK3hW6UaQNRv5TJh1lvCgz242b8x9WDzy90P/Jn4H+MBWhsazBxOj6G5GsQ+lGtUf
+         OrvRb4pa/KU8UQrj0/liXvJaNp1ntUaSPW3DnMUqtANvfYwYunNF8ZyH58xDkJSVEGZY
+         6/oTEtf4tBRQh+3rT2/prEcbZhKuen7+e/q56A+TSUBWu43tAlQp5IBsPGorUzHHx0Nu
+         fj6g==
+X-Gm-Message-State: AC+VfDzEWlyAZzTJZ/llpri3blYzd4DOMFFkgjWAEUiXzWclnuFPuRvv
+        yTy7R/0fw/C8fu8LfCjSzeo=
+X-Google-Smtp-Source: ACHHUZ7KAFR45h+/U8HBtUfGhPJcOvkhRnZ3gz7CGtsMf4W1x4+mYkZaOv9TKK1YDMVLKRQ2r39hPw==
+X-Received: by 2002:a17:902:8a95:b0:1aa:cddd:57d8 with SMTP id p21-20020a1709028a9500b001aacddd57d8mr9863298plo.30.1683552551322;
+        Mon, 08 May 2023 06:29:11 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v13-20020a170903238d00b001aafdf8063dsm7253193plh.157.2023.05.08.06.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 May 2023 06:29:10 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 8 May 2023 06:29:09 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 1/3] watchdog: rzg2l_wdt: Fix reboot for RZ/V2M
+Message-ID: <7d3b2991-f755-42e5-87ca-727fd8fb9164@roeck-us.net>
+References: <20221103223956.50575-1-fabrizio.castro.jz@renesas.com>
+ <20221103223956.50575-2-fabrizio.castro.jz@renesas.com>
+ <20221115132811.GA4189373@roeck-us.net>
+ <TYWPR01MB87753203F46FA9C744FEF7E6C2069@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+ <20230507153625.GA3135@www.linux-watchdog.org>
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de> <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 May 2023 15:14:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
-Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
-Subject: Re: [PATCH 37/53] drm/rcar-du: Convert to platform remove callback
- returning void
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230507153625.GA3135@www.linux-watchdog.org>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, May 7, 2023 at 6:31 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->
-> Trivially convert the rcar-du drm driver from always returning zero in
-> the remove callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Sun, May 07, 2023 at 05:36:25PM +0200, Wim Van Sebroeck wrote:
+> Hi Fabrizio,
+> 
+> Based on below e-mail I excluded this patch from the merge window.
+> I saw that Guenter still has it in his branch.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for the note. I'll drop it.
 
-Gr{oetje,eeting}s,
+Guenter
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> So can we have an update on this please?
+> 
+> Thanks in advance,
+> Wim.
+> 
+> > Hi Geert and Guenter,
+> > 
+> > Thank you for your reviews!
+> > 
+> > As it turns out, the rzg2l_wdt driver has some reset related issues
+> > (currently not addressed by the driver) for the RZ/V2M and RZ/Five
+> > SoCs. More specifically to this patch, there is a better way to fix
+> > the restart callback by addressing the way the reset is handled
+> > for the watchdog IP.
+> > 
+> > I am dropping this patch, and I'll send out a series to address
+> > the above concerns (which will tackle the issues with the restart
+> > callback in a better way).
+> > 
+> > 
+> > Thanks,
+> > Fab
+> > 
+> > 
+> > > From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+> > > Sent: 15 November 2022 13:28
+> > > Subject: Re: [PATCH 1/3] watchdog: rzg2l_wdt: Fix reboot for RZ/V2M
+> > > 
+> > > On Thu, Nov 03, 2022 at 10:39:54PM +0000, Fabrizio Castro wrote:
+> > > > The setting for the RZ/V2M watchdog cannot be changed once
+> > > > the watchdog has been enabled, unless the IP gets reset.
+> > > > The current implementation of the restart callback assumes
+> > > > that the watchdog is not enabled, but that's not always the
+> > > > case, and it leads to longer than necessary reboot times if
+> > > > the watchdog is already running.
+> > > >
+> > > > Always reset the RZ/V2M watchdog first, so that we can always
+> > > > restart quickly.
+> > > >
+> > > > Fixes: ec122fd94eeb ("watchdog: rzg2l_wdt: Add rzv2m support")
+> > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > 
+> > > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> > > 
+> > > > ---
+> > > >  drivers/watchdog/rzg2l_wdt.c | 11 ++++++++---
+> > > >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
+> > > > index 974a4194a8fd..00438ceed17a 100644
+> > > > --- a/drivers/watchdog/rzg2l_wdt.c
+> > > > +++ b/drivers/watchdog/rzg2l_wdt.c
+> > > > @@ -145,10 +145,10 @@ static int rzg2l_wdt_restart(struct
+> > > watchdog_device *wdev,
+> > > >  {
+> > > >  	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
+> > > >
+> > > > -	clk_prepare_enable(priv->pclk);
+> > > > -	clk_prepare_enable(priv->osc_clk);
+> > > > -
+> > > >  	if (priv->devtype == WDT_RZG2L) {
+> > > > +		clk_prepare_enable(priv->pclk);
+> > > > +		clk_prepare_enable(priv->osc_clk);
+> > > > +
+> > > >  		/* Generate Reset (WDTRSTB) Signal on parity error */
+> > > >  		rzg2l_wdt_write(priv, 0, PECR);
+> > > >
+> > > > @@ -157,6 +157,11 @@ static int rzg2l_wdt_restart(struct watchdog_device
+> > > *wdev,
+> > > >  	} else {
+> > > >  		/* RZ/V2M doesn't have parity error registers */
+> > > >
+> > > > +		reset_control_reset(priv->rstc);
+> > > > +
+> > > > +		clk_prepare_enable(priv->pclk);
+> > > > +		clk_prepare_enable(priv->osc_clk);
+> > > > +
+> > > >  		wdev->timeout = 0;
+> > > >
+> > > >  		/* Initialize time out */
+> > > > --
+> > > > 2.34.1
+> > > >
