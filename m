@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF6796FB1D3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A4056FB1F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:45:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233204AbjEHNlM convert rfc822-to-8bit (ORCPT
+        id S234302AbjEHNpk convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 May 2023 09:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57376 "EHLO
+        Mon, 8 May 2023 09:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbjEHNlL (ORCPT
+        with ESMTP id S234338AbjEHNpi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 May 2023 09:41:11 -0400
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E65FF2CD23;
-        Mon,  8 May 2023 06:41:10 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-55a6efe95c9so66296967b3.1;
-        Mon, 08 May 2023 06:41:10 -0700 (PDT)
+        Mon, 8 May 2023 09:45:38 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB39348B9;
+        Mon,  8 May 2023 06:45:34 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-55a6efe95c9so66378117b3.1;
+        Mon, 08 May 2023 06:45:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683553270; x=1686145270;
+        d=1e100.net; s=20221208; t=1683553533; x=1686145533;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YHDxuNfTo4R9AHTimDxxB6DeeQKHVQC82igHr1lClPc=;
-        b=GWE6XrhWERdxGacrg1uG4Y/z4w9xfLsW8jdP3AOGpjWUhfk7rXHCfNZgB1WR7SIZFu
-         bNn5hzeMXV9K9soVkCZ2X+LIEjLKoKmlGZ4mgJiUr4m0IbcWx4fLczyq775lB72H7s54
-         fklvLEoUmoPQpFDJOM44uoioQLCIYtR6jdYNup4mGYTVIcI/oZay5vTGKRBhV0QE8jhD
-         W9zu+ItXgYgm/svCRY9dMojziEndsRwXJEVnz8eZALL7C+hMBc+t/eln8z/gt72YX96O
-         FkX3H/fRejtM7mDmaKUmxM2C8TDXxvN078a+mVid97sjrdeeUHKGnqgtYlmDF+Xq/v1P
-         rnVg==
-X-Gm-Message-State: AC+VfDw9i0htujxKNj+UN8S3gOauXW71P79esca+k8kAouo6S3hHdLxB
-        EKC2gZUd/K1M+zT+lGwXKgr9OLboIVw7Mw==
-X-Google-Smtp-Source: ACHHUZ7yd+AlhN83OylSLZrUuIScApde5FXnt4/h1SNGMKjAiG7es/KsaFWJX7HABjObw/5seLNLcQ==
-X-Received: by 2002:a0d:df94:0:b0:55a:5616:ba35 with SMTP id i142-20020a0ddf94000000b0055a5616ba35mr10025827ywe.37.1683553269813;
-        Mon, 08 May 2023 06:41:09 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id x186-20020a81a0c3000000b0054eff15530asm2509848ywg.90.2023.05.08.06.41.08
+        bh=P/+FqXMV4ArCmDq7qgtI4IzpiR25k00ePFNuL3jyw0o=;
+        b=QWtmwA20Am7zvIGRO/JfsueTYEN4Sli9cBNjtPMv9gzbEIcf/vBR6iDJdnDwsNynUx
+         6WgcRkI7ZDVztWUUVdtJtxR1cRZ2F/Rhcl+iddQ65YHZPldxdwNf4rQBQ4ltLgfEH4+R
+         /iMe/c/Hxa3+91u1+4CPIVIvjYgDiQEcJuO2yQU+JQczcIp/uTzkFgh5wdUlwLkd1dy6
+         c2A6P6xfawMeAlmscl4BnsboL+q1EcuLxaX7zz8RkOVCml/QAYqzvI/rj9DByB3m01Uv
+         Atl+DvL4JPKcQkQYQino1Mddx6tFDjfQ97LV1+xQ9y9yRo+iHAxNS9Oi3pwSINqBH9W0
+         msXQ==
+X-Gm-Message-State: AC+VfDxdkq9rZJW+njyMa/4LcAYac/fObTqE0ykUi5chW/2No7E5kcZB
+        5JksUlUGWVMvC4Ge7xP4iOqna0vSAaOUwQ==
+X-Google-Smtp-Source: ACHHUZ4jo1o50IJ8sNJ3FRW+umPGnI4yPX9qE8clMvMkRHHBVLC71T1ZUXb5L9j25JEVR7WaRNTI2w==
+X-Received: by 2002:a81:75c6:0:b0:55a:7c68:c0f7 with SMTP id q189-20020a8175c6000000b0055a7c68c0f7mr11143007ywc.7.1683553533343;
+        Mon, 08 May 2023 06:45:33 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id y205-20020a0dd6d6000000b0055a6f26fbbasm2545359ywd.38.2023.05.08.06.45.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 May 2023 06:41:09 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-b99efd7c335so5989131276.0;
-        Mon, 08 May 2023 06:41:08 -0700 (PDT)
-X-Received: by 2002:a25:d141:0:b0:b9e:72b0:da22 with SMTP id
- i62-20020a25d141000000b00b9e72b0da22mr9683626ybg.64.1683553268612; Mon, 08
- May 2023 06:41:08 -0700 (PDT)
+        Mon, 08 May 2023 06:45:32 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-559e317eef1so66609437b3.0;
+        Mon, 08 May 2023 06:45:32 -0700 (PDT)
+X-Received: by 2002:a25:d616:0:b0:b9e:6537:4f3f with SMTP id
+ n22-20020a25d616000000b00b9e65374f3fmr10430975ybg.61.1683553531815; Mon, 08
+ May 2023 06:45:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230508104557.47889-1-wsa+renesas@sang-engineering.com> <20230508104557.47889-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230508104557.47889-2-wsa+renesas@sang-engineering.com>
+References: <20230508104557.47889-1-wsa+renesas@sang-engineering.com> <20230508104557.47889-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230508104557.47889-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 May 2023 15:40:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWGaDT_XGpeVm-915hbxa8-w5303QWg0a0iCjqk998unQ@mail.gmail.com>
-Message-ID: <CAMuHMdWGaDT_XGpeVm-915hbxa8-w5303QWg0a0iCjqk998unQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] dt-bindings: PCI: rcar-pci-host: add optional regulators
+Date:   Mon, 8 May 2023 15:45:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUZUTJmrE==zf2OxaBdQGa-zS2VC7hTtcE9aD+MD7JYDQ@mail.gmail.com>
+Message-ID: <CAMuHMdUZUTJmrE==zf2OxaBdQGa-zS2VC7hTtcE9aD+MD7JYDQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] PCI: rcar-host: add support for optional regulators
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
@@ -59,10 +59,8 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
         Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -77,51 +75,43 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram,
 
-On Mon, May 8, 2023 at 12:46 PM Wolfram Sang
+On Mon, May 8, 2023 at 12:47 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Support regulators found on the e.g. KingFisher board.
-
-... for the mini-PCIe slot.
-
+>
+> The KingFisher board has regulators. They just need to be en-/disabled,
+> so we can leave the handling to devm.
+>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-> @@ -68,6 +68,12 @@ properties:
->    phy-names:
->      const: pcie
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+
+> @@ -992,6 +993,14 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>         pcie->dev = dev;
+>         platform_set_drvdata(pdev, host);
 >
-> +  vpcie1v5-supply:
-> +    description: The 1.5v regulator to use for PCIe.
+> +       err = devm_regulator_get_enable_optional(dev, "vpcie3v3");
+> +       if (err < 0 && err != -ENODEV)
+> +               dev_err_probe(dev, err, "error enabling 3.3V regulator");
+> +
+> +       err = devm_regulator_get_enable_optional(dev, "vpcie1v5");
+> +       if (err < 0 && err != -ENODEV)
+> +               dev_err_probe(dev, err, "error enabling 1.5V regulator");
 
-+1.5V is only present on mini-PCIe slots...
+As per my comment on patch 1/3, I think you want to grab
+"vpcie12v0-supply", too.
+And perhaps factor out the voltage as a parameter in the error message,
+to increase string sharing?
+
+I don't know if PCIe specifies some ordering w.r.t. power supply
+enablement.
 
 > +
-> +  vpcie3v3-supply:
-> +    description: The 3.3v regulator to use for PCIe.
-
-... while +3.3V is present on PCIe, mini-PCIe, and M2 PCIe slots.
-
-In addition, normal PCIe slots also have +12V.
-So I think it would be prudent to add a vpcie12v0-supply property, too.
-
-W.r.t. to the actual naming, I don't know if there's already a (de facto)
-standard for that?
-
-> +
->  required:
->    - compatible
->    - reg
-> @@ -121,5 +127,7 @@ examples:
->               clock-names = "pcie", "pcie_bus";
->               power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
->               resets = <&cpg 319>;
-> +             vpcie1v5-supply = <&pcie_1v5>;
-> +             vpcie3v3-supply = <&pcie_3v3>;
->           };
->      };
+>         pm_runtime_enable(pcie->dev);
+>         err = pm_runtime_get_sync(pcie->dev);
+>         if (err < 0) {
 
 Gr{oetje,eeting}s,
 
