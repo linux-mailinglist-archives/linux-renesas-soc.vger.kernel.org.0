@@ -2,321 +2,225 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DCA36FA0E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 09:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E873E6FA182
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 09:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233163AbjEHHUu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 May 2023 03:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36280 "EHLO
+        id S233584AbjEHHuv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 May 2023 03:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233155AbjEHHUt (ORCPT
+        with ESMTP id S233483AbjEHHur (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 May 2023 03:20:49 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2105.outbound.protection.outlook.com [40.107.114.105])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11F0E56;
-        Mon,  8 May 2023 00:20:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oYYO3Q16i27TiQsxM948sVCGvruznoOfMQ3ik9Vh25+XqZ758/I6yXVJ4Nr2voI98DTX5quvRvD7IvPfxPanyjYMgNpB1LBYkWtyJK3cY1fhMFdE6ZvPJGfnDGA4KquhIHbFahKIbcH3OrKwq1+Jdyi+qJeBIipGIllg8Z0b93aEBmXXmXzHEkL/cIZGsbqbkr0cG1tBEeRfrkYnOUE/17JqjGybvS42OJrDsj4xdv0v4LQeC6GYZi+juBScEwPd+nBKi+V+Fgw4CjzMsTcknviFgJ13fXTwCqp2srPPeWyVT8wLk70lZoo7/UzyyxnrREmO5GAba6Y1IQPo9XOTeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bXoyD+kib8FcMlbYZXIZ8J8hhRvbDI6Jr5QQ4LuWmFQ=;
- b=CmjPtN+Y/J3F/TIZiDNUF8wnFmXhScvR3NEO2NxMkU+444j+2X6Onf8l9ZECByYowE+fZeSV+8S40F5SMiH3F6SIENGt0FFUvQq2/k30URxfAtK6lr97SdAyYWuXIKCR1Fvsa+POF/P0LY23kq8MekQaaHVSiVQeWL5nDrRnNd50l6KdftUOXKnByWUXQfPCtK5a3SQAmL1/x2kc71997fU+FL6XBmseFCyTTQZGBMPNYOqxIfkAT8UEC43wjap77IbST4w6rOoSEa51qrJkpzQdYnOzoIwAvJxO3Qig380LBsLyIXrYxNOSHuKkc8iB9RoIdXTUk4h79bjtVeCEkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bXoyD+kib8FcMlbYZXIZ8J8hhRvbDI6Jr5QQ4LuWmFQ=;
- b=DZ0Zrtcho706PQm/SOfNl66SPE6no6wdyF9y77tlS8TKQXuMgJTShKts0/XFkB1AtgUBiTeBQ/hxKk0cCRmxZ6yf00IW2vCUr5PJV1VOU3kPKwNsnTvsq0fA6Wxwa3HzS19DfZ6ccuKIps83UHnKvIJu0Q8k5IO/4ghta3ZjbE0=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OS3PR01MB8538.jpnprd01.prod.outlook.com
- (2603:1096:604:199::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Mon, 8 May
- 2023 07:20:38 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5198:fdcf:d9b1:6003]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::5198:fdcf:d9b1:6003%7]) with mapi id 15.20.6363.032; Mon, 8 May 2023
- 07:20:38 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Serge Semin <fancer.lancer@gmail.com>
-CC:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v14 08/21] PCI: dwc: Add support for triggering INTx IRQs
- from endpoint drivers
-Thread-Topic: [PATCH v14 08/21] PCI: dwc: Add support for triggering INTx IRQs
- from endpoint drivers
-Thread-Index: AQHZd/trWnOtmE0+REezr2H1c/jFhq9F1SmAgAoz2lA=
-Date:   Mon, 8 May 2023 07:20:38 +0000
-Message-ID: <TYBPR01MB5341D386A010D10367769A72D8719@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230426045557.3613826-1-yoshihiro.shimoda.uh@renesas.com>
- <20230426045557.3613826-9-yoshihiro.shimoda.uh@renesas.com>
- <20230501192435.hn6j4ihiejcm5lzp@mobilestation>
-In-Reply-To: <20230501192435.hn6j4ihiejcm5lzp@mobilestation>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OS3PR01MB8538:EE_
-x-ms-office365-filtering-correlation-id: 296146d8-5610-4013-b413-08db4f94b96c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Tv/Hawx3qc/cDadMNKjRBvqdER+FhIWVHZzKRvXxscvPk5QpvJnz3CdhBvUhZxtlOmb+JS21Y6Zm2XZFWhOVe3Tal6KjtwefGv0ep7yqagZXa8T0OCb860yCaLIsQTYAFJX8v2TzXZAXnRBypKFjQYFHZqLuB2YvnYu3F0AgbyV8hCY/tiCC0G3/gdqRc4G5XXfoAFfGVt3nGeNaDjtf1CmJqYgisZ8/N3Rc1scvH2EkumtrZRZgMUTwKTnh3aLEh7RM1UZpfjLJjmlJCTsbl8eT+lOkLjJe9hbmYbNe8BR5fDr05s2/DZp2O0nh0U3ptWL9Hzy/dERheO3IY69bbkmIzMwL6kg3qN9dIm0wNIYZgsINgWkuMLllYdvwMSSPxE11AP3XJojZQvWbrQzGa6qm8K0y2JDOnHKQjKWPCxTgvUlxwPtSygONjdraTY5WW2yRIqmrdYGQmNRt2PbtfEGZARreohbjTfqyNUuRXBNLT45kcXDEhY5lRaOhagiHN2nf7+aTTCFgdqjZUbnPYQ7qejD+ZC93thRP7jd9G0hS/U6P5i3RVpe6AseAIBblE7V8asNtrAIureFVCa1BMTLYHhCbWiWI3RCklDuYz1W8noxCOPwkJfhf786jMJxS
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(39860400002)(376002)(346002)(451199021)(76116006)(7416002)(66556008)(64756008)(5660300002)(6916009)(66446008)(4326008)(478600001)(8936002)(8676002)(66476007)(54906003)(66946007)(2906002)(71200400001)(316002)(41300700001)(52536014)(7696005)(6506007)(9686003)(186003)(55016003)(83380400001)(38070700005)(33656002)(38100700002)(86362001)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ATgCXtB50RbXvfQlH4/sdsFquOcgq/o3Z1chXMj+KJdvOeMaycWg8aCDxfMX?=
- =?us-ascii?Q?bjlVQXagHMfEsPKfdJOdpA3yPdEBObuT6sfgueQhr3bx6if/qrQiL30994t5?=
- =?us-ascii?Q?11Qo68pnSkwEfT2A1NphoyijMR9AKvaLWU+38BC6zFxgfrUQLhzMCVS3pyCh?=
- =?us-ascii?Q?Nf4eHKICw0cWukiw5KFihSwlwZ7pk1aaiti8OEc2Ke2F4AFrcHR8/FFzRJvB?=
- =?us-ascii?Q?5UZ2XKRhsU5pb84HSu/qmiVE0sVHDz8jVMLvKAgtG0bezSZbpvHbc7cciTHh?=
- =?us-ascii?Q?7mq6MAJAXirhRpvoQH0fSnKJEZGxgH5cqlscinPpYN62BU6hJ7PhBPANvZ/h?=
- =?us-ascii?Q?uAAU3T5S32H50McLbBAxnN3xDl39aoVVqRfHgP6Wajb5yOvNPLBhfwa84pKh?=
- =?us-ascii?Q?O8AMol6QSbLSFJJdGsTw3frLehL8vSumSwrx+Q0eeNfYR0Bnx4+lisniUj6O?=
- =?us-ascii?Q?frKCBZHTZOTy85kjFfRLtbK2lVTV4h2GnttuJis53sHFc1P1iHRm4+gu56fW?=
- =?us-ascii?Q?nXgfWir5wPY6jjoM3iTNEpuiFscJsJQkeK7KcsC+ZHgGR2GWTPVqZMNvX2nP?=
- =?us-ascii?Q?qwTnzTlysd5AflBfcv8vOGuz5uavK7PHOlcKOm48j0auX3gQY7bF3HJNYyPk?=
- =?us-ascii?Q?4s1Q9Mm6umtzxOoZtgV/QtsP5Wh2yHLd83dtL1/OvboW5lntXbewN2gR9Fup?=
- =?us-ascii?Q?jci2gP34ECyYAmS8cbcfxUzm3XiOCKuPOFz4GrUDyHdbs7TfbsOqPTc2WZ9t?=
- =?us-ascii?Q?aTUSSUxAySG+KZQ59uTjzy1Es0qKKvPQj0hZHRd4xqFwWxmeXXBCDfW+CB6g?=
- =?us-ascii?Q?YAvZMvObqnXEUaM8pBgYfzS5xed52tgEjuqN5KK+olZvafJ/WogSauCbH1ei?=
- =?us-ascii?Q?qaYiTHHXw1ycfD2kMztWWENW0hru9sZRpNOheJpRvtFggCrvQzj1liWo5Znm?=
- =?us-ascii?Q?hTkzbxJ+KC9jPiJyn7U8UsyBGIZH/txwLdA4A+XcW5RErl2YWZ/qBSyoVk2D?=
- =?us-ascii?Q?hvnlB8cT8vo/R5eyRa/WyU0ka41u68MILwUWQhtz5CWulbaf1um3M3V4uDlK?=
- =?us-ascii?Q?oMAblyfPcAjURp/ITJ4dZF19cNQ9HZk+HBMhGev1ffpvLUklJUS9k/l17CBO?=
- =?us-ascii?Q?0qUYRgNjByU5YafD9Yn4A/x57TboswdsMZPU4zPI/kaUPUUKZU9j+7WmCbkB?=
- =?us-ascii?Q?lyPVUhCVR8KCDKkJuq8srtRdUeVXnTgqUwAOzrbemgMYWHiVtsOlO7yJWYTY?=
- =?us-ascii?Q?XdlHtWJicxY6RuvyXjZSrch9iaddFPx9iwAfP0NsUSTpUVToYY7nRzn8kWAR?=
- =?us-ascii?Q?0gQm2yqJ9kNhU/CxaMA2SrQ74zf2mYsWhHMlUOqCIx60HM+rawzOP5SNlwwc?=
- =?us-ascii?Q?8aSyvLW+IF5E/7De/a87bKyHzuW3Jm/oVJ7HgvrliNS3HRfI9oilGq3benJc?=
- =?us-ascii?Q?Lu2a3H3h7ZlHPtl5Ni8abpg0913zZuzsc26qaiMUvqfrqQ2pQvlcV1Vd0J3m?=
- =?us-ascii?Q?Kvcq7koj0NmQnnxP5+b6dvOg6M6k6IPqR4L3LnIzTWIRWvdzzxOcMQvKZ4he?=
- =?us-ascii?Q?LvsPt3ZxzXqmKpNKDIA0nIn3w0CKKMTpCwHRIck7Dzq8TS9GjF+GJlQFjriW?=
- =?us-ascii?Q?cMh948j1/m2pmexyuM+FVRW5t9DPNYwd+6WZrAhppA5LMTdz4wLkTyxBricU?=
- =?us-ascii?Q?3doM1g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 8 May 2023 03:50:47 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6E21A637
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 May 2023 00:50:45 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pvvdN-000352-R3; Mon, 08 May 2023 09:50:13 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pvvdK-001wDu-Ru; Mon, 08 May 2023 09:50:10 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pvvdJ-002Kte-5G; Mon, 08 May 2023 09:50:09 +0200
+Date:   Mon, 8 May 2023 09:50:09 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     "James (Qian) Wang" <james.qian.wang@arm.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Joel Stanley <joel@jms.id.au>, Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Rahul T R <r-ravikumar@ti.com>,
+        Jayshri Pawar <jpawar@cadence.com>,
+        Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Mark Brown <broonie@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Alison Wang <alison.wang@nxp.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Danilo Krummrich <dakr@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Kuogee Hsieh <quic_khsieh@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marek Vasut <marex@denx.de>, Ben Skeggs <bskeggs@redhat.com>,
+        Karol Herbst <kherbst@redhat.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        Yuan Can <yuancan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
+        Liang He <windhl@126.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+        Steven Price <steven.price@arm.com>,
+        linux-rockchip@lists.infradead.org,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        kernel@pengutronix.de, Yongqin Liu <yongqin.liu@linaro.org>,
+        freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
+ void
+Message-ID: <20230508075009.4l4ghdrwopfhmcao@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+ <935faac5-280b-b2e0-3fdb-d0424990e43a@suse.de>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 296146d8-5610-4013-b413-08db4f94b96c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2023 07:20:38.7569
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Rf3Kon2rq6t7nxK7V0NbNWXx4Z8bWK8o7oy0Vg0DatXAuo7i0DkJuq08x0jHkhJaRKDdB7uCB0vrrWkdhfjZQD6Nd2xjIXPvjHM0Yt94S6tqYuR2//rgUShvKGicoxfx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8538
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3pf3cmic5n6cdkye"
+Content-Disposition: inline
+In-Reply-To: <935faac5-280b-b2e0-3fdb-d0424990e43a@suse.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Serge,
 
-> From: Serge Semin, Sent: Tuesday, May 2, 2023 4:25 AM
+--3pf3cmic5n6cdkye
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+[A few addressed bounced and my script to find the recipents for a patch
+series broke and invented some addresses. I fixed all the problem I'm
+aware of in this mail.]
+
+On Mon, May 08, 2023 at 09:06:27AM +0200, Thomas Zimmermann wrote:
+> for the whole series:
 >=20
-> On Wed, Apr 26, 2023 at 01:55:44PM +0900, Yoshihiro Shimoda wrote:
-> > Add support for triggering INTx IRQs by using outbound iATU.
-> > Outbound iATU is utilized to send assert and de-assert INTx TLPs.
-> > The message is generated based on the payloadless Msg TLP with type
-> > 0x14, where 0x4 is the routing code implying the Terminate at
-> > Receiver message. The message code is specified as b1000xx for
-> > the INTx assertion and b1001xx for the INTx de-assertion.
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> [PATCH v14 08/21] PCI: dwc: Add support for triggering INTx IRQs from end=
-point drivers
+> Please see my comment on the patches to tiny/.
 >=20
-> What about shortening the subject out a bit:
-> "PCI: designware-ep: Add INTx IRQs support"
-> ?
+> Let me know if you want me to merge this patchset into drm-misc-next.
 
-Thank you for the suggestion. I'll modify the subject.
+Thanks, I'd wait a bit for more acks/reviews to come in and then plan to
+resend later, also addressing the feedback you sent.
 
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  .../pci/controller/dwc/pcie-designware-ep.c   | 71 +++++++++++++++++--
-> >  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
-> >  2 files changed, 69 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/=
-pci/controller/dwc/pcie-designware-ep.c
-> > index 96375b0aba82..b35ed2b06193 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > @@ -6,6 +6,7 @@
-> >   * Author: Kishon Vijay Abraham I <kishon@ti.com>
-> >   */
-> >
-> > +#include <linux/delay.h>
-> >  #include <linux/of.h>
-> >  #include <linux/platform_device.h>
-> >
-> > @@ -485,14 +486,63 @@ static const struct pci_epc_ops epc_ops =3D {
-> >  	.get_features		=3D dw_pcie_ep_get_features,
-> >  };
-> >
-> > +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 c=
-ode,
-> > +			       u8 routing)
-> > +{
-> > +	struct dw_pcie_outbound_atu atu =3D { 0 };
-> > +	struct pci_epc *epc =3D ep->epc;
-> > +	int ret;
-> > +
-> > +	atu.func_no =3D func_no;
-> > +	atu.code =3D code;
-> > +	atu.routing =3D routing;
-> > +	atu.type =3D PCIE_ATU_TYPE_MSG;
-> > +	atu.cpu_addr =3D ep->intx_mem_phys;
-> > +	atu.size =3D epc->mem->window.page_size;
-> > +
-> > +	ret =3D dw_pcie_ep_outbound_atu(ep, &atu);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	writel(0, ep->intx_mem);
-> > +
-> > +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
-> > +
-> > +	return 0;
-> > +}
-> > +
->=20
-> > +static int __dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_=
-no,
-> > +					 int intx)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret =3D dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_ASSERT_INTA + intx,
-> > +				  PCI_MSG_ROUTING_LOCAL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * The documents of PCIe and the controller don't mention how long
-> > +	 * the INTx should be asserted. If 10 usec, sometimes it failed.
-> > +	 * So, asserted for 50 usec.
-> > +	 */
-> > +	usleep_range(50, 100);
-> > +
-> > +	return dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_DEASSERT_INTA + intx=
-,
-> > +				   PCI_MSG_ROUTING_LOCAL);
-> > +}
->=20
-> Why do you need the underscored version of the method? I don't see it
-> being utilized anywhere but in the dw_pcie_ep_raise_intx_irq()
-> function.
+Best regards
+Uwe
 
-I thought that readability can be improved a bit if a function was separate=
-d.
-But, it seemed wrong.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> Thus its body can be completely moved to
-> dw_pcie_ep_raise_intx_irq().
+--3pf3cmic5n6cdkye
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I got it.
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Yoshihiro Shimoda
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRYqbAACgkQj4D7WH0S
+/k4JeggAnBHUxma4vQ+/T0T9qJC+5c7iGOJ+hg1VKQdu3RFYOsfEdBVHywMuX8Fb
+bkfMbL4jsyN80KX3Sc7XeT0GkuA6n1bkIfJsTz16Dl8pPUTDBLPKYKNT82+brNvg
+XIif/963gu+RJ+x6ME2cdKET84LGmQwhonW2LUxGiRX5JD3FroDO8qaiLtFzkxEg
+zhCTMEQJUy1J6coFLDsxnhLFu4R/6ngT6tZOJfRAB4OiIEFmKVVH0/Y2Ko/ggJ/d
+50TcQO/0MoAzPrToLpaLaT3VtMocbAxQf7XRwpqF4MDvhu7dVfsJIhcWtBYjocz+
+WfD1B59vo0hWYb/QXlkA6OY3tzlBQQ==
+=Fhn+
+-----END PGP SIGNATURE-----
 
-> -Serge(y)
->=20
-> > +
-> >  int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
-> >  {
-> >  	struct dw_pcie *pci =3D to_dw_pcie_from_ep(ep);
-> >  	struct device *dev =3D pci->dev;
-> >
-> > -	dev_err(dev, "EP cannot trigger INTx IRQs\n");
-> > +	if (!ep->intx_mem) {
-> > +		dev_err(dev, "INTx not supported\n");
-> > +		return -EOPNOTSUPP;
-> > +	}
-> >
-> > -	return -EINVAL;
-> > +	return __dw_pcie_ep_raise_intx_irq(ep, func_no, 0);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_intx_irq);
-> >
-> > @@ -623,6 +673,10 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
-> >
-> >  	dw_pcie_edma_remove(pci);
-> >
-> > +	if (ep->intx_mem)
-> > +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> > +				      epc->mem->window.page_size);
-> > +
-> >  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
-> >  			      epc->mem->window.page_size);
-> >
-> > @@ -794,9 +848,14 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
-> >  		goto err_exit_epc_mem;
-> >  	}
-> >
-> > +	ep->intx_mem =3D pci_epc_mem_alloc_addr(epc, &ep->intx_mem_phys,
-> > +					      epc->mem->window.page_size);
-> > +	if (!ep->intx_mem)
-> > +		dev_warn(dev, "Failed to reserve memory for INTx\n");
-> > +
-> >  	ret =3D dw_pcie_edma_detect(pci);
-> >  	if (ret)
-> > -		goto err_free_epc_mem;
-> > +		goto err_free_epc_mem_intx;
-> >
-> >  	if (ep->ops->get_features) {
-> >  		epc_features =3D ep->ops->get_features(ep);
-> > @@ -813,7 +872,11 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
-> >  err_remove_edma:
-> >  	dw_pcie_edma_remove(pci);
-> >
-> > -err_free_epc_mem:
-> > +err_free_epc_mem_intx:
-> > +	if (ep->intx_mem)
-> > +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> > +				      epc->mem->window.page_size);
-> > +
-> >  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
-> >  			      epc->mem->window.page_size);
-> >
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci=
-/controller/dwc/pcie-designware.h
-> > index 954d504890a1..8c08159ea08e 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware.h
-> > +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> > @@ -369,6 +369,8 @@ struct dw_pcie_ep {
-> >  	unsigned long		*ob_window_map;
-> >  	void __iomem		*msi_mem;
-> >  	phys_addr_t		msi_mem_phys;
-> > +	void __iomem		*intx_mem;
-> > +	phys_addr_t		intx_mem_phys;
-> >  	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
-> >  };
-> >
-> > --
-> > 2.25.1
-> >
+--3pf3cmic5n6cdkye--
