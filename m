@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CDC56FB0E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C63486FB0E4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 May 2023 15:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232292AbjEHNFs convert rfc822-to-8bit (ORCPT
+        id S233170AbjEHNGN convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 May 2023 09:05:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58118 "EHLO
+        Mon, 8 May 2023 09:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbjEHNFr (ORCPT
+        with ESMTP id S232161AbjEHNGM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 May 2023 09:05:47 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE6FF3;
-        Mon,  8 May 2023 06:05:46 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-559e53d1195so64468297b3.2;
-        Mon, 08 May 2023 06:05:46 -0700 (PDT)
+        Mon, 8 May 2023 09:06:12 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2377EB3;
+        Mon,  8 May 2023 06:06:11 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-55a44a2637bso66843667b3.2;
+        Mon, 08 May 2023 06:06:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683551146; x=1686143146;
+        d=1e100.net; s=20221208; t=1683551170; x=1686143170;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+uSJGYV9GFIdCZLe/s3OwzCYwqA6eu909gh54b0Td/s=;
-        b=HHmFr0ds6jFoptLSRp+TwXZiDFJckdveSQ4q8XgME3i3gU7FUKkMUZgqdLqpzk3Czf
-         DV9X/Xf1nxU/oiB1jXbRik2uL5EXC5H6fnnCesBzU2qkag43hjiMYYnO1fqe/i9eqDZ6
-         tr/ZaR2J4woonIe852g+wzpku2tW+nNFJ+dvAt2VTNy5WxWHiuVT2199tN/JNklW38HS
-         1b/LeVWJx9hKI1DcODeLBfgBVPaVSFj95Mh1NlqAo+XS0A8wXpyFBdQ6stb5OHN4nxsN
-         iWC8Wv/OOBit0H7PgOlyn8iGJn0USjtwO+OqbhFdknblp6ndk4P99SH0DcQUremiO7Jx
-         YiOg==
-X-Gm-Message-State: AC+VfDzpDOY7tUMYl1jiNWg9B6uhsufSSK4Icxv92QV5WwrxySzCjiNA
-        naGe+4oYmWA/qZ8G9SbE+hULZp7Wf1GEJA==
-X-Google-Smtp-Source: ACHHUZ608sMjklnVZunVOnXY0fj1ThMwXbc2mXpRlETsU+NTN+TY/5iLJR43X4jZlZT+fiVUHUMF9w==
-X-Received: by 2002:a81:b409:0:b0:541:694a:4c69 with SMTP id h9-20020a81b409000000b00541694a4c69mr11775896ywi.52.1683551145714;
-        Mon, 08 May 2023 06:05:45 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id k66-20020a0dc845000000b00545a081847fsm2500901ywd.15.2023.05.08.06.05.45
+        bh=sd9+twaj+RB0M0pmh2VaaClvtKIhAj9F7sjdY05FZ20=;
+        b=XDWcoz0zDoiOjMIx7Em9sZHXF6v79+y9Pg+FCOeBPkPMnq3dyOa0Pr88/cG1wzlim0
+         Nur6uY3Get0NysuogSmyJM4WD88s6rfuRU86K5K1QfoQXRWdN65Hgw5ztYTpowkmaRI8
+         S8FAXphjgfSUubG9ev4di7L5CSpHVn2jjupbKko7ZMfU2XltR7ymLWIqRPTUVvrX+gvK
+         MGq5qDgjBV9MQ2hOeGdm7zmgcSQiDKHAqtDKCDvY57NvIwzPa/9ZGNryW0LVGJDDYLNq
+         dg5+o79vqI2WkFsb9k4qCalqPne3f2FuvQRMxcIkr6/DDywTwjv7qRlcW69MYoIcAh+s
+         1Irw==
+X-Gm-Message-State: AC+VfDzCo/CuzUWSVm8oXKnBt3G0Wz12NPJ03uxQfJcNucV80TW3s+Ep
+        +qTNCaPfSNPRx0V+Q2zQsoLwHXqbycL94g==
+X-Google-Smtp-Source: ACHHUZ5RyrT6Z+hYbjHUXhKLLrEMTP0h5YwezuwueK9qoz86HiGNTaneRk+Phbv5C3lW62jIiUL+cw==
+X-Received: by 2002:a81:a106:0:b0:55a:2cdb:55c9 with SMTP id y6-20020a81a106000000b0055a2cdb55c9mr10301313ywg.3.1683551170013;
+        Mon, 08 May 2023 06:06:10 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id o138-20020a0dcc90000000b0054fb931adefsm2500916ywd.4.2023.05.08.06.06.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 May 2023 06:05:45 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-b983027d0faso5969623276.0;
-        Mon, 08 May 2023 06:05:45 -0700 (PDT)
-X-Received: by 2002:a05:6902:1204:b0:b9d:da66:e689 with SMTP id
- s4-20020a056902120400b00b9dda66e689mr14410112ybu.39.1683551144273; Mon, 08
- May 2023 06:05:44 -0700 (PDT)
+        Mon, 08 May 2023 06:06:09 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-55a44a2637bso66843157b3.2;
+        Mon, 08 May 2023 06:06:09 -0700 (PDT)
+X-Received: by 2002:a25:db07:0:b0:b8f:62b7:e03c with SMTP id
+ g7-20020a25db07000000b00b8f62b7e03cmr11713538ybf.1.1683551168990; Mon, 08 May
+ 2023 06:06:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230507133906.15061-1-marek.vasut+renesas@mailbox.org> <20230507133906.15061-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20230507133906.15061-2-marek.vasut+renesas@mailbox.org>
+References: <20230507133906.15061-1-marek.vasut+renesas@mailbox.org> <20230507133906.15061-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20230507133906.15061-3-marek.vasut+renesas@mailbox.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 May 2023 15:05:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWtaOMK_PDhmh3LvpOSpdqePhrDi18z6hJdyQBSSg8CXQ@mail.gmail.com>
-Message-ID: <CAMuHMdWtaOMK_PDhmh3LvpOSpdqePhrDi18z6hJdyQBSSg8CXQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: vc7: Fix .driver_data content in i2c_device_id
+Date:   Mon, 8 May 2023 15:05:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW34j2dq+frYCOw9a8F+sbNpWsEw4NJRbadeFQPnSH+8A@mail.gmail.com>
+Message-ID: <CAMuHMdW34j2dq+frYCOw9a8F+sbNpWsEw4NJRbadeFQPnSH+8A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] clk: rs9: Fix .driver_data content in i2c_device_id
 To:     Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc:     linux-clk@vger.kernel.org,
         Alex Helms <alexander.helms.jy@renesas.com>,
@@ -84,7 +84,7 @@ On Sun, May 7, 2023 at 3:39 PM Marek Vasut
 > The i2c_device_id table is now converted from of_device_id using
 > 's@.compatible = "renesas,\([^"]\+"\), .data = \(.*\)@"\1, .driver_data = (kernel_ulong_t)\2@'
 >
-> Fixes: 48c5e98fedd9 ("clk: Renesas versaclock7 ccf device driver")
+> Fixes: 892e0ddea1aa ("clk: rs9: Add Renesas 9-series PCIe clock generator driver")
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
