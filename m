@@ -2,73 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A43BC6FC385
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 May 2023 12:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C63D6FC3BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 May 2023 12:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234971AbjEIKK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 May 2023 06:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48242 "EHLO
+        id S231467AbjEIKUz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 May 2023 06:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjEIKK2 (ORCPT
+        with ESMTP id S235061AbjEIKUy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 May 2023 06:10:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D3C525E
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 03:10:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C3ED62808
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 10:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7ADD9C433EF
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 10:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683627023;
-        bh=+EKwL9JmnZ2R5/Sef2a9NZpmCJvJya1u0QzoxxPgSxg=;
-        h=Subject:From:Date:To:From;
-        b=k1Ugf5M+CBze+CFokAdPQ8ww/w8Pdr7j5ApZPhzMYXSgDoBu6UF9uwpfmMvimQxF0
-         z9SYO5FFMpBuvLyKZ0XIdHEBpfSerpVUbsrD63g0FT38VykblVTj8hZUEoK9V/q5c9
-         Xn2GN5ET824My+EK39ePkHjTgEl7dE6C5G+/Z8QRUVyGuGWmDpINrRcPvQbX1FrL/i
-         jxfemLKmkRVI0dvt9GqvmAqKMAr3c6jSvZqyYD+m85Ip4dRWgVOfLXtFlXAnlVIQ/3
-         sswV1B0uYXkK9XLVj/Clv6TBddw69bWwDeh0LFI7RMKZwCWBdC6s9NYhOfABSMrOx5
-         ZZNXc71/9W/hw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5AB4AE26D20
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 10:10:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 9 May 2023 06:20:54 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB18D2E7
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 03:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=P6Olt4QFOU/QFInNW9J3fmj152gv
+        eLBp7EYTA0uPfnw=; b=wKVbIUQGfL7aLUupwIJYjPd5j8MZ2Vbvpk4Cm+9raVVZ
+        eCKQWmwF/v2R+nl+a6y5ThnCuq4h9d/mbTCiYt0SvAQijvywVFtEtyAUdY3rN+lZ
+        uz2XTu8xvyM5j8IgxvuAzpyH7WGzLC2jA92keVlpB03AdUQQMBnVyr+fWGLLCKI=
+Received: (qmail 2038819 invoked from network); 9 May 2023 12:20:46 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 May 2023 12:20:46 +0200
+X-UD-Smtp-Session: l3s3148p1@IXbPG0D7WL0ujnsI
+Date:   Tue, 9 May 2023 12:20:46 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/3] PCI: rcar-host: add support for optional
+ regulators
+Message-ID: <ZFoeftCOnSDYFfHb@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230508104557.47889-1-wsa+renesas@sang-engineering.com>
+ <20230508104557.47889-3-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUZUTJmrE==zf2OxaBdQGa-zS2VC7hTtcE9aD+MD7JYDQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <168362702330.356.15051178553170353123.git-patchwork-summary@kernel.org>
-Date:   Tue, 09 May 2023 10:10:23 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="DvudHUKh+55nlmsU"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUZUTJmrE==zf2OxaBdQGa-zS2VC7hTtcE9aD+MD7JYDQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Enable CAN transceiver PHY support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=736749
-  Lore link: https://lore.kernel.org/r/12a4bf9526b12c9b2751aa1b35a5e09dfe211e1a.1680600884.git.geert+renesas@glider.be
+--DvudHUKh+55nlmsU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
-Total patches: 1
+> I don't know if PCIe specifies some ordering w.r.t. power supply
+> enablement.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I found this which is good enough for me:
+
+"There is no requirement for supply sequencing in either
+PCI Express or PCI Express Mini Card; the supplies may
+come up or go down in any order." [1]
+
+Thanks, Linear Technology!
+
+[1] https://www.analog.com/media/en/reference-design-documentation/design-notes/dn346f.pdf
 
 
+--DvudHUKh+55nlmsU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRaHnoACgkQFA3kzBSg
+KbaGsg/+KdqT90l9mzXpWEtpc9NGGpXyONO9E3Y7Xqdipr0RaQRZ2N8THpD90hTR
+fmk3yZq6H9KPN6ZaUcLmRYoBUy9zV39I4i+MGB44rZEdpETlmZdOPhMHPKQhnmCz
+QSEPEeVzjrG8Ag0oqLpQEtHCXCVmzjoK0he/eJ0f09Dq5HPbZQafDedNJE9fhuOD
+uZbN2md+5ZW+Hauc6StzAPKgv1Whm9XOn8lmSVtVPqr3nyvmi28LOWvR2fz4nnkB
+nvKFLSNolH4baL2D8GnO5ArCjuHl/MpROYbL0EhGyDWkbsrMdfbvaomUscdtgxpT
+BxIZdlCndtz8o6NDBg9/cOYWyMADZfzo2GIgRQFln9eezTmFiHYlHpjvMMd1D7yZ
+RIEvmbrD9ldOyZCY3WrkHcy52IfY+KvI8HAzjAtK/Obb1HqH3uf2HCUfl2HNV/oG
+/n5/QSOWY0euRuzcesH5Ntfl6MkIEpIQ3CNa4dq5bbb9GcDvJ4uwBjCELtuiPBfh
+s3oq9wPc8wyH86NfyhJ25kEhTY2aZ5dLQ33OXqekEQtmoeuymfEWQVAYGi+Q4XPE
+sK54gPMZ6XESGL84t5VnaqeBRQXk3lLCqPySJBlNG7Gw9gKMNG7oWJgr3gbnjzBz
+KcY77ELwSf4MXXthI8yBlvi58/ZCws49cnLjHh/e/a+Wp3sVjyA=
+=XPyg
+-----END PGP SIGNATURE-----
+
+--DvudHUKh+55nlmsU--
