@@ -2,142 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB42C6FCE41
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 May 2023 21:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76E06FCE4B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 May 2023 21:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235227AbjEITEd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 May 2023 15:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40110 "EHLO
+        id S234609AbjEITJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 May 2023 15:09:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235177AbjEITEV (ORCPT
+        with ESMTP id S234995AbjEITJH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 May 2023 15:04:21 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F3B765AF;
-        Tue,  9 May 2023 12:03:55 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-b9e7058d52aso1069103276.0;
-        Tue, 09 May 2023 12:03:55 -0700 (PDT)
+        Tue, 9 May 2023 15:09:07 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3232B40E0
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 12:08:58 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2ac7f53ae44so68989231fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 May 2023 12:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683659034; x=1686251034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a4pVhTnaf8Rl6eAFxrJXshWawOfUXvMxZ4DJbfzuGoM=;
-        b=Y9LrrkBW+xnGZbwiVXHxWIiGMG6bEk6q3g57gDBWTCNDQ/ZHUCrlD70BcrwFEy0mSn
-         D1ansrRYfwTla1W+OUslExa4rHsGq9eqYYrU15arkTpFK1szJ6Q1R8vyq6fEKuZOWdGx
-         WaucgGgNKrIoveb7erEUO+8enyVwS5Ef2sen7y3KE8DziiU3brELKSq+ZlZBhdNesDZM
-         uFae13J2RIBJsqTRF5Zsj9C+oBsp3iMdwAc7S/uQ2UXKubb9QLBIDBTt30vJ2fFqGdgi
-         AJX9jeiD45O5uwlnWKevM0MY1vnnSqX/I6vkCqlhszdSQTU+u0iTzCec6zjCIB8O/Ww0
-         cTqQ==
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1683659336; x=1686251336;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yt5KfNcwqfPOoZbh4G0tprFNP82FtMS+mCj5x/3lqoM=;
+        b=py8vpq4m4DgHLkKm3vP5cYjp26ITVSxj9BXSX+YBMkAtUTfEDwZ4FqdgYznUs6hniV
+         BundZP82BBtZeljTcqeuB0FoN7XdFMvuladY/ba7eDzKu1llh8a0IWgzyRwNdFi0zEue
+         uFNAD+fYYU+sWcnoP4i7/RaITp33GQRVIjVFVzJQSfginCfRyejmHlgROcMVP3psLrcB
+         G4+XjXz10XLjYx1ZtUYYnIyEgpd0o29JMQlUqc0xcc8ZfPwG6lCmZKFxDhG/afx6HCwS
+         cMgrOhRMvD3zgxTFRZ3Wuu/IlDA8Zkhq0rNjphpTt36dtwRfrX2tq8jLo6j+yIHS6JwY
+         57CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683659034; x=1686251034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a4pVhTnaf8Rl6eAFxrJXshWawOfUXvMxZ4DJbfzuGoM=;
-        b=OLDjCxQ6JGzV3rUT93c6DBbLFl8o133DnJMCTqOpC2DGmYBvp7OWKx2lnXukCJ2Lx5
-         KxPpLJSiaUQjOSUj/yZSIc0BB1QEFVaMyUNa0p+zPTUHwcP78uZqVraY8UizmEBmxghH
-         6o41lmbX4acdWRk8FRNe4rB5BLd1h4QOEQeak+DcX5HrKm49wI154ZFSO3SFIeLU3nU5
-         XcZH0OksZY7ZFVESNhC1YwGLYHdDaBXSSJwLpyuCl47t3NY8c+AqJ456eHt6gHPJ65X/
-         TVsskKCh06uDBV24DZux3guL1LKIpyxZ6YTUy5iGz83aE1tBxHA65w907kDHYexvBlz+
-         gaeQ==
-X-Gm-Message-State: AC+VfDy18/C9VnfkEAGk2B49Es6KoxPblXocz4wD3n2yOHds5ayZf3NV
-        YMrl0xfIM+EcyBPgEVkazK58Ip888+RrwkPIRwk=
-X-Google-Smtp-Source: ACHHUZ71Tzmgnmxn5VXmX3i32j1vEJ1X6Wx/UBAs56zZxdx36a7QG5VKqTKCeMr5GAvN0ZJb4WFqNWzuFo43c7aJfhA=
-X-Received: by 2002:a25:c784:0:b0:b99:4a9:2f5e with SMTP id
- w126-20020a25c784000000b00b9904a92f5emr15102664ybe.0.1683659033781; Tue, 09
- May 2023 12:03:53 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683659336; x=1686251336;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yt5KfNcwqfPOoZbh4G0tprFNP82FtMS+mCj5x/3lqoM=;
+        b=gsWAsxy6fUocTZexs7y2ItcURPaeYNrkWRjLkbJ1/qAm6qh7AEB13BsHLwv9uhw5g6
+         +jO3qjWqfGct/91V3RglTzSDoPsrLuktrvA78VXnh7ZmZ7sPcbXhjI+jXFVnzy8JVID0
+         9/WTbyxDm5msp82ImbarEPrgxdX/ix8JCsjYL29Aw1rlyxkYDBTI2h9INrGr/rGzAzcY
+         p8D6l6dpVSWvIpCy+bl+6t6DesinMAhEUsWYR6/GLegDiPgyTvW3kjwyp7F5P3hQfMZf
+         j+7DFoTM36kfV4X9pTJVZwrYizBCjZnW01tb8H4onhrmjCc2FrdElPpIVVAfx06kQ+pX
+         5C9A==
+X-Gm-Message-State: AC+VfDzVgz5TbMmu+e5KwfZptsCyk8TlmMhm+MhePHPg0ainfwe6OApy
+        73aV8cWmA1KF1wb4xhlEG6Q9Pg==
+X-Google-Smtp-Source: ACHHUZ6SfDbrM+ZFCsW7U0WMeEVFVd1D2dXTh44iWO8snGCslvSIBmIZ6fPHiVimk7EppA1ODc1OGQ==
+X-Received: by 2002:a2e:9d97:0:b0:2a9:c61f:dcaf with SMTP id c23-20020a2e9d97000000b002a9c61fdcafmr1158754ljj.33.1683659336440;
+        Tue, 09 May 2023 12:08:56 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id j4-20020a2e8004000000b002a8a5afb87csm1669732ljg.20.2023.05.09.12.08.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 12:08:55 -0700 (PDT)
+Date:   Tue, 9 May 2023 21:08:54 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-isp: Add support for R-Car V4H
+Message-ID: <ZFqaRnaMprXcWkTI@oden.dyn.berto.se>
+References: <20230211145436.3820935-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20230509131249.80456-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230509131249.80456-1-biju.das.jz@bp.renesas.com>
-From:   Trent Piepho <tpiepho@gmail.com>
-Date:   Tue, 9 May 2023 12:03:42 -0700
-Message-ID: <CA+7tXig2nwCk3DKwFEKGKVko=YD4e4KCpRVUMMM2pgPRpNgiiQ@mail.gmail.com>
-Subject: Re: [PATCH v4] dt-bindings: rtc: isl1208: Convert to json-schema
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230211145436.3820935-1-niklas.soderlund+renesas@ragnatech.se>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 9, 2023 at 6:12=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
-> +
-> +  interrupt-names:
+Hi Hans,
 
-Shouldn't this have minItems: 1 and maxItems: 2 as well?
+A gentle ping on this patch, the binding was merged in v6.4-rc1.
 
-> +    items:
-> +      - const: irq
-> +      - const: evident
+On 2023-02-11 15:54:36 +0100, Niklas Söderlund wrote:
+> Add support for R-Car V4H. The ISP Channel Selector is used to route
+> channels to the different VIN modules. The ISP CS found in the V4H is
+> very similar to the one found on the V3U.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/renesas/rcar-isp.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
+> index 10b3474f93a4..ed9d8ca56730 100644
+> --- a/drivers/media/platform/renesas/rcar-isp.c
+> +++ b/drivers/media/platform/renesas/rcar-isp.c
+> @@ -433,6 +433,7 @@ static int risp_probe_resources(struct rcar_isp *isp,
+>  
+>  static const struct of_device_id risp_of_id_table[] = {
+>  	{ .compatible = "renesas,r8a779a0-isp" },
+> +	{ .compatible = "renesas,r8a779g0-isp" },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, risp_of_id_table);
+> -- 
+> 2.39.1
+> 
 
-
-> +
-> +  isil,ev-evienb:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [ 0, 1 ]
-> +    description: |
-> +      Enable or disable internal pull on EVIN pin
-> +      Default will leave the non-volatile configuration of the pullup
-> +      as is.
-> +        <0> : Enables internal pull-up on evin pin
-> +        <1> : Disables internal pull-up on evin pin
-
-It appears this was not clear at first.  The default is not to use the
-reset value, which is 0, but to leave the existing value unchanged.
-The RTC settings are battery-backed and the RTC is not reset on boot
-by the kernel.  The value might have been set on a previous boot, or
-might have already been configured by the bootloader or BIOS.  This
-was a common design in Linux RTC drivers.  The bootloader would
-configure the RTC and then Linux driver was only design to be able to
-get/set the time and alarms.  Stuff like programming the interrupt
-pull-ups or setting calibration registers wasn't done by the kernel.
-
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 2
-> +    else:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
-
-Add interrupt-names here too.
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        rtc_twi: rtc@6f {
-> +            compatible =3D "isil,isl1208";
-> +            reg =3D <0x6f>;
-> +        };
-> +    };
-
-I agree with Geert's original comment about switching from the most
-complex to the simplest example.  It's better to show as much as
-possible.
-
-If it's not possible to make a valid example that shows interrupts and
-evdet pull enable, then doesn't that mean the bindings don't work?
+-- 
+Kind Regards,
+Niklas Söderlund
