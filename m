@@ -2,93 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95E556FD2D5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 00:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D846FD2EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 01:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjEIWzM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 May 2023 18:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
+        id S233293AbjEIXA6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 May 2023 19:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjEIWzL (ORCPT
+        with ESMTP id S229559AbjEIXA6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 May 2023 18:55:11 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59AEC59E7;
-        Tue,  9 May 2023 15:55:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1683672871; i=j.neuschaefer@gmx.net;
-        bh=IjOsP3Hl5WOUcxHtKpSlXVU2zmb5sAncILY7B0EhNVs=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=ndYA2tf/LPtkgltTOvt7X2+Zi6uiTPSZbAqw/mXBwe2s3qEMYWIHbVw2U7syYOtiu
-         0ByeTgk6m0fQkzncsA2uFg7rs+4GDkYCaq3zleDHMNFIszwJSYZevaNUwCstSv1xs2
-         q2XsYVKyF7xXnp4qsykgKdmrMBdtxCsRttws9I9ls8dUQV5PBqFxC2CHyOsYGjarJ/
-         Rr2m1bZj51r337gAlDvnDkQfA5v+OxXvevYZAHhLDsYKtlfaLNIq481n2v1Dl3mPUG
-         +ciwlK0+ezWRctjT6rrS4cmxjRJOY33gMIuTSxMpaalo6ZUK907KGn7D4ZZQnJjuQD
-         xm3g+5vkab4wA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ml6m4-1qdIgl1tr2-00lTxs; Wed, 10
- May 2023 00:54:31 +0200
-Date:   Wed, 10 May 2023 00:54:29 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
-        linux-realtek-soc@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-        openbmc@lists.ozlabs.org, Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-rockchip@lists.infradead.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-unisoc@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        kernel@dh-electronics.com, Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "linux-oxnas@groups.io" <linux-oxnas@groups.io>
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <ZFrPJQdwoxqFpzUO@probook>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ue5Z9u7UyMsdbJpp"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-X-Provags-ID: V03:K1:aR+k41JkL+Jax7RkQK1pXFPVqGsXbknpTCCf601eNGl3xQsbw4B
- lW4IptIuDnFJb+jaCScKg4f1qDLjuoiDEqEJsUWT/Ek6YzDXkULOeXYq9EqgQyN8A6axbG1
- JRKm5mq+iW4e1K1v2w2BOTrGSmAwegcfBLrzES8HGqnWOqrguxalKWu6+fqbhobKFkw7JNy
- qeUuaRpvcFFSSatMddRDg==
-UI-OutboundReport: notjunk:1;M01:P0:NarrxlSjiwo=;5z5rCQykqX1e+FbZ2ba6e5Rh6DH
- bfvBGeIXFywNjKNr0Tn58UPG96wezZLM4+H12pkCrjAC7Mqwg2PXJ70aoM1kBI8o+tAa0/419
- 3XnQYa+XRlKna2zFjBCJKWpZoYii5XtCMCKO105lV0P6vMHckC89sxCK/LdwCvu0lF7OfocC+
- 2ouaaWRHCt4YshSvfh5z/Ja+IC5J4jOv8eNZ6b4Ga79LPwxkC/RJjnB/nQ4E0edaxrobbRSOn
- Mpc/31AKJOkyrRi41IgtGWTEODyE2XZV00pU1y5sHoF3JU/eGsc2doa+Rrzh30STHQZStIaTS
- 0sulR/BBWHEsrZf3LZvhDzOcbQ+0mpl9BfQXNLiDuCZay2ePoIqaUwts7JSoeIsxQHjZrbVOf
- h75oej0aNqoFhgx0M6WDh9xZydkRj4bbDxKZdwcWTSlHLDLbE26jSZC/2Oe+gjXSYJFSqcTIo
- y61XXOKn0w6OleXfF53iuFeaDOuP15yxKD4yYijJGDa3gETH/hjoY9RV4RF3njrNZ9cpp0pyL
- Wt5sq1md9IKuXv5zDNciEDB062aPPEfIdiuOL3ekvbmUkb/y0X/5vyJogDfXW1s/BcAt1Lw7O
- 3fGQXfFWHtWSvKoTsdKwCQNoGLoqEX0ymmlOjO2H6zmOGgpDD61I3NBO058aLG0Ir0rXeho5F
- meMuCSguMavkm9x2cC+ehI31nsDXo/+BF4SlfWoDxIdTlxFojtrUwUJw55+y8lR/UsTKS8nM4
- UfuLe8Un7sHRz/mdblkfo8MYekpfSGy5OF1q4F6ySdpHLnN9/KLwguD2QRIXgxNbN+S3apSzh
- 3RdOKnqeNprc0VYDcOdrgnL7BqsQDF2Rl2MSPh0TxeAydGQ6S6Uk6WUGWH/J/uB0ZIvQUETeq
- 5wpcXi+kJF8q+LL66lQwIIQV2De+d1d5U2u4IhbVKY+H63H0/8T+2HkkllmX/vS+xMdVykkpc
- +lGd2EXuA+PHYRD1FvmkNVjxg7g=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Tue, 9 May 2023 19:00:58 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DC640E4
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 16:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683673257; x=1715209257;
+  h=date:from:to:cc:subject:message-id;
+  bh=x2VfyYDD6QZkqSVgyt/VGMdxGCZPS+MLiHUSwTX5EbI=;
+  b=mUp+xtReoWe8em+QLOWLfoE+wHxawRxBMabMDvc4CB3EYAq79y08CiV2
+   oXtGJld4sze0bflBUno7lTkW0a3NQ/xvzzCvqVylZQnTAGM0XHEYAgJMX
+   aR+4nJ9k5iM/Dp3E9JWYMUBKvK2C9z75NAidnNUhd1N6775U3hJZ+tQyg
+   Em114+SnDqKDWszKoVNV9KNMraO6fg8H74uJtvA6lhxv/LafY8f4p8KVk
+   oQW9x50a8m/dKd7u4VZUju4tkYS4ebmBDZImKygobx/iyVfD/NSJFZdOQ
+   CAbzyWuy95/ynPo5T2gcByiw0KcIqo7ViHmR/XDK5M6aO267QXw/I/STb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350110630"
+X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
+   d="scan'208";a="350110630"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 16:00:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="676631620"
+X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
+   d="scan'208";a="676631620"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 09 May 2023 16:00:54 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pwWKE-0002bK-0k;
+        Tue, 09 May 2023 23:00:54 +0000
+Date:   Wed, 10 May 2023 07:00:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
+ 9a6e18e0660bc859cecae6305170bf704293b246
+Message-ID: <20230509230041.mkObu%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,77 +60,156 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
+branch HEAD: 9a6e18e0660bc859cecae6305170bf704293b246  arm64: renesas: defconfig: Enable CAN transceiver PHY support
 
---ue5Z9u7UyMsdbJpp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 725m
 
-On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
-[...]
-> I've dusted off my script and made a branch[1] with the result.
-> There's just a couple of fixes needed after the script is run (see the
-> top commit). The cross arch includes are all fixed up by the script.
-> dtbs_install maintains a flat install. I compared the number of .dtbs
-> before and after to check the script.
->=20
-> I think the only issue remaining is finalizing the mapping of
-> platforms to subdirs. What I have currently is a mixture of SoC
-> families and vendors. The most notable are all the Freescale/NXP
-> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
-> either. Once that's finalized, I still need to go update MAINTAINERS.
->=20
-> Here's the current mapping:
->=20
-> vendor_map =3D {
-[...]
->     'aspeed' : 'aspeed',
->     'ast2' : 'aspeed',
->     'facebook' : 'aspeed',
->     'ibm' : 'aspeed',
+configs tested: 137
+configs skipped: 8
 
->     'openbmc' : 'aspeed',
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-The openbmc flash layouts are currently only used by aspeed devicetrees,
-but they don't really depend on any aspeed details. It would be possible
-to reuse them in Nuvoton BMC devicetrees in the future, for example.
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r005-20230509   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r005-20230509   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r031-20230509   gcc  
+arc                  randconfig-r043-20230509   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                         orion5x_defconfig   clang
+arm                  randconfig-r014-20230509   gcc  
+arm                  randconfig-r024-20230509   gcc  
+arm                  randconfig-r046-20230509   gcc  
+arm                           stm32_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r006-20230509   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230509   clang
+arm64                randconfig-r015-20230509   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r032-20230509   gcc  
+hexagon              randconfig-r001-20230509   clang
+hexagon              randconfig-r002-20230509   clang
+hexagon              randconfig-r024-20230509   clang
+hexagon              randconfig-r031-20230509   clang
+hexagon              randconfig-r041-20230509   clang
+hexagon              randconfig-r045-20230509   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                 randconfig-a012-20230508   gcc  
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r013-20230509   gcc  
+ia64                 randconfig-r023-20230509   gcc  
+ia64                 randconfig-r025-20230509   gcc  
+ia64                 randconfig-r035-20230509   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r005-20230509   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r021-20230509   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5475evb_defconfig   gcc  
+microblaze   buildonly-randconfig-r002-20230509   gcc  
+microblaze           randconfig-r001-20230509   gcc  
+microblaze           randconfig-r003-20230509   gcc  
+microblaze           randconfig-r036-20230509   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r001-20230509   clang
+mips                      loongson3_defconfig   gcc  
+mips                 randconfig-r006-20230509   clang
+mips                 randconfig-r012-20230509   gcc  
+mips                 randconfig-r031-20230509   clang
+mips                 randconfig-r035-20230509   clang
+nios2        buildonly-randconfig-r001-20230509   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r003-20230509   gcc  
+nios2                randconfig-r006-20230509   gcc  
+nios2                randconfig-r026-20230509   gcc  
+nios2                randconfig-r036-20230509   gcc  
+openrisc             randconfig-r004-20230509   gcc  
+openrisc             randconfig-r022-20230509   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r015-20230509   gcc  
+parisc               randconfig-r024-20230509   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r002-20230509   clang
+riscv        buildonly-randconfig-r004-20230509   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r021-20230509   clang
+riscv                randconfig-r022-20230509   clang
+riscv                randconfig-r034-20230509   gcc  
+riscv                randconfig-r042-20230509   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r002-20230509   gcc  
+s390                 randconfig-r011-20230509   clang
+s390                 randconfig-r015-20230509   clang
+s390                 randconfig-r023-20230509   clang
+s390                 randconfig-r033-20230509   gcc  
+s390                 randconfig-r034-20230509   gcc  
+s390                 randconfig-r044-20230509   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r014-20230509   gcc  
+sh                           se7705_defconfig   gcc  
+sparc        buildonly-randconfig-r004-20230509   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r012-20230509   gcc  
+sparc                randconfig-r016-20230509   gcc  
+sparc64      buildonly-randconfig-r003-20230509   gcc  
+sparc64              randconfig-r016-20230509   gcc  
+sparc64              randconfig-r032-20230509   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r001-20230509   gcc  
+xtensa               randconfig-r004-20230509   gcc  
+xtensa               randconfig-r035-20230509   gcc  
 
-In that sense, I think putting them in a separate "openbmc" directory
-would be slightly better.
-
-
-Jonathan
-
-
-
-[...]
->     'nuvo' : 'nuvoton',
-[...]
-> }
->=20
-> Rob
->=20
-> [1] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm-dts-=
-move-v2
-
---ue5Z9u7UyMsdbJpp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmRazv0ACgkQCDBEmo7z
-X9tB/A//Y5MU9b+r/mxCUuxjsa0CB4Ewu8xmc+YTd1pdMEIrJYfgdpXFskBmzFsg
-QFYR1gBnq7P4mhusW4RaYWxpzD3M45B2vIuhgL6t8lqIWae0UuNbPEO4rbCIbvGZ
-PCx1dTAGZ2vg+mxRK0OYouuCE9EvgrC9PGmOcgDkqCLngGsr11gXz0GMNebggmie
-TX8iauQHnzfGaSQWtwIdQRu1gj2d/VO5NSn4CrgvMIuLCSwhTwY+e9H9/+CcrqHK
-wNiMG0W8yY5CMO7ZSYf7EkEidunJ0htwqJmUoLfpqN4NZ/21yno69v+L36ZRu/lq
-+KrZJeaXC3Ar39R2x75Pns5em46uwJJdI5aXumj9xPU3A3rgWCQcrECZJ7i/HEoK
-hzhnsQhJNP4jAPVxdiaWJTYUXHRwafI6/GVvj1BvfgqZ9VHE28iGdDcgVvOfmkDx
-eRZQxcJzFaWZeWTOeM05/dHUDUJXFrYvDsj0+FgneBU/oqEc+H4bR9AP2ttU24hU
-4jBq2I2FlDyKlC0ARS22oRQlZG6KS50d1Nvx6cLr7lxeOHmcW09dPCqHijQVtX3V
-f/Z7MYrDEXgTK8r1wJk6PuvVN+jFX/l/Ali5L/OJqUsZB4bgteXKEWXWMmgik1/I
-d3nr3gTYEaykVkjCJORFKu4G2FHrzWgWpFYsl8Mu+safGLa+rdA=
-=Jzyt
------END PGP SIGNATURE-----
-
---ue5Z9u7UyMsdbJpp--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
