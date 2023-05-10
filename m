@@ -2,82 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0576A6FD6ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 08:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C6C16FD76E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 08:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236008AbjEJGW6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 May 2023 02:22:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
+        id S235979AbjEJGw7 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 May 2023 02:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236072AbjEJGWv (ORCPT
+        with ESMTP id S235524AbjEJGw6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 May 2023 02:22:51 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D22D92D56;
-        Tue,  9 May 2023 23:22:47 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,263,1677510000"; 
-   d="scan'208";a="158801611"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 May 2023 15:22:39 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 259694010E3C;
-        Wed, 10 May 2023 15:22:39 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, mani@kernel.org,
-        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, kishon@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v16 22/22] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Wed, 10 May 2023 15:22:34 +0900
-Message-Id: <20230510062234.201499-23-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 10 May 2023 02:52:58 -0400
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCF2186;
+        Tue,  9 May 2023 23:52:57 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-55a83e80262so101745797b3.3;
+        Tue, 09 May 2023 23:52:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683701576; x=1686293576;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pHNhcog5yZvb+qwa+23yNz4Orm9rMjJVnLW53pWGImM=;
+        b=CXG9EHG0hSihIwuv+Wql+j1wMLZQii6uFAs6O13GozrwY+WlPis+Gbo4uI0T9XNsL/
+         BDq5UD+ftZv6CFk240SHs5+WLSw9siE+pYIIm9tKUn7HRQYqmRxbaXQGVOVVQdy8e2MH
+         LtFABxMD4Ggh7FasrK9dfV0BKFjb1hBwZpydOroo8a/oQuxGTgJH+zmC1qutZCfhZaKs
+         zjyGHLWZ0EBmGN5buQkR86CBMeLbyAnJaNrs8+pr5IuhHerp+7zisBwnWP57WAgxlL73
+         GHW6aX+24TxfhuauZnQz0H48GAw9kjRjUK4FKijBZFzF5697C/boztqTp4Tx9tkSAByk
+         sviQ==
+X-Gm-Message-State: AC+VfDxafoEMAu1ul+QCy0czPMHrbqzFhvQ52hKTkoSgigC746l/Qk3z
+        ylg7lK5r1GaKRBWDXTNSn77zu3UY8uNGGQ==
+X-Google-Smtp-Source: ACHHUZ6FJ2q3IfQMuuqLQo0DY4ggXV7jUGjZiBz1LA37aiiwHEAIAvhUBJEL3YwHAhBGNqEezX7P6A==
+X-Received: by 2002:a0d:c641:0:b0:556:ceb2:c462 with SMTP id i62-20020a0dc641000000b00556ceb2c462mr17785352ywd.2.1683701576698;
+        Tue, 09 May 2023 23:52:56 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id f3-20020a816a03000000b0054f9dc9c7f2sm3875551ywc.44.2023.05.09.23.52.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 May 2023 23:52:56 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-55a44a2637bso101806187b3.2;
+        Tue, 09 May 2023 23:52:56 -0700 (PDT)
+X-Received: by 2002:a25:37d2:0:b0:b9e:e00:5ea7 with SMTP id
+ e201-20020a2537d2000000b00b9e0e005ea7mr15669295yba.33.1683701576105; Tue, 09
+ May 2023 23:52:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230509131249.80456-1-biju.das.jz@bp.renesas.com> <CA+7tXig2nwCk3DKwFEKGKVko=YD4e4KCpRVUMMM2pgPRpNgiiQ@mail.gmail.com>
+In-Reply-To: <CA+7tXig2nwCk3DKwFEKGKVko=YD4e4KCpRVUMMM2pgPRpNgiiQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 May 2023 08:52:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUOdJrPdcx684zKaSNFMqkRWL_y3jdAor_D0AeDRpRhJQ@mail.gmail.com>
+Message-ID: <CAMuHMdUOdJrPdcx684zKaSNFMqkRWL_y3jdAor_D0AeDRpRhJQ@mail.gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: rtc: isl1208: Convert to json-schema
+To:     Trent Piepho <tpiepho@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+Hi Trent,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Tue, May 9, 2023 at 9:03 PM Trent Piepho <tpiepho@gmail.com> wrote:
+> On Tue, May 9, 2023 at 6:12 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > +
+> > +  interrupt-names:
+>
+> Shouldn't this have minItems: 1 and maxItems: 2 as well?
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ed4d0ef5e5c3..150083dab71a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -990,6 +991,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          maxItems: 2
+> > +    else:
+> > +      properties:
+> > +        interrupts:
+> > +          maxItems: 1
+>
+> Add interrupt-names here too.
+
+Isn't the relation interrupts <=> interrupt-names enforced by the
+tooling?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
