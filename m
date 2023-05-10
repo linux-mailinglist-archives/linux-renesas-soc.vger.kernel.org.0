@@ -2,91 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD856FDEBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 15:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1E1C6FDF02
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 15:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231355AbjEJNkC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 May 2023 09:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
+        id S237244AbjEJNr4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 May 2023 09:47:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236450AbjEJNkB (ORCPT
+        with ESMTP id S237264AbjEJNrx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 May 2023 09:40:01 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E55A1718
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 May 2023 06:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=O7LXmYPBtxp5BzJaTHggGremtMLA
-        R92mCzjm2h9pUHE=; b=xzdZul8bygOouA3ykaCHLxx+c1toQN2rrrhrr2RnrsD+
-        uXlDzsc4gO2G5ZRrHXv2QY1wbvw0RlxaCiENNnQRLT/h9ZZTxpf+sYZxowYDwbXC
-        5zHmGISeHTztA+VgzWJMiyuHmlmkat38McNa4rkFG2RKI/Ixhz4HYB7dPjOFGno=
-Received: (qmail 2448991 invoked from network); 10 May 2023 15:39:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 May 2023 15:39:56 +0200
-X-UD-Smtp-Session: l3s3148p1@s6PgAVf70OEujnsI
-Date:   Wed, 10 May 2023 15:39:55 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] soc: renesas: rcar-rst: Allow WDT reset on R-Car V3U
-Message-ID: <ZFueq63/vf/0tfOU@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org
-References: <20230419201511.31648-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdX4vqSR8vBA5BiRBYL0PccZxDayes9yXNu5C-wyMKxXZQ@mail.gmail.com>
+        Wed, 10 May 2023 09:47:53 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570BE449C;
+        Wed, 10 May 2023 06:47:24 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-55a8019379fso67188277b3.0;
+        Wed, 10 May 2023 06:47:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683726430; x=1686318430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GsvbCwwIGv4dAIbBM02PnYE01RolXqtsmvWU0E9eNRk=;
+        b=jmB2YYUS0hRXfIEBYkN3my+TfTVmkiqj07hlSZZXMxEKYAZRJRzOv13c5MmLUH2UwR
+         w7fQ9w8GgCOVry4Pjgfu8/IXfN/jWF5Pyq/Opwue8R3UH/xf7HtyQ2CVXFy7kOBBJW46
+         vNKhGgqSfZUvqLDtKf8THVIeA2xIevsY5IhU/NTCwiAbGc1ViSckFf8HDwaJrmum+uJW
+         XF23I/pRlgsVc3OWPvvK+zy3p//97MgZUK5IiB0PaVkfyQ2JA6Vo2lX6AuED5iAo96u6
+         sD9lYnC8F05rfUpsnOMPGThZruyTCbUpS0u2mhIcqAft7JJ+7Y5yNGq5kR+S88yuVqhp
+         ByzQ==
+X-Gm-Message-State: AC+VfDxp+l0ONyI05s3Z3clF8/rN+yHe5IVQuYD+VwDKZLpnkrtRhfla
+        oUj0egyfG8hzx2OpyDEKdy2j8PnHsvJ59Q==
+X-Google-Smtp-Source: ACHHUZ7V9poDkTGqNR7uVc53kNrwN1umkv4zjUS2A20wMoCEcHPBPYTQSu8Um2rwSE4OowDfC2h4Nw==
+X-Received: by 2002:a25:54b:0:b0:b99:f279:10dc with SMTP id 72-20020a25054b000000b00b99f27910dcmr17719598ybf.28.1683726430167;
+        Wed, 10 May 2023 06:47:10 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id 130-20020a250888000000b00ba1a0346360sm3743231ybi.13.2023.05.10.06.47.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 May 2023 06:47:09 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-b9a6d9dcbebso6359671276.2;
+        Wed, 10 May 2023 06:47:08 -0700 (PDT)
+X-Received: by 2002:a25:c74c:0:b0:b95:9b76:34a5 with SMTP id
+ w73-20020a25c74c000000b00b959b7634a5mr16457612ybe.64.1683726428473; Wed, 10
+ May 2023 06:47:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mGa100CaMqBWnijH"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX4vqSR8vBA5BiRBYL0PccZxDayes9yXNu5C-wyMKxXZQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+References: <cover.1683722688.git.geert+renesas@glider.be> <8db63020d18fc22e137e4a8f0aa15e6b9949a6f6.1683722688.git.geert+renesas@glider.be>
+ <02ce0541-08cf-4e14-a9b1-c53efea85178@app.fastmail.com>
+In-Reply-To: <02ce0541-08cf-4e14-a9b1-c53efea85178@app.fastmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 May 2023 15:46:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUg0gk3QUmC+OiBDQuZAWdJ2cbPpwaDX+TGoq1EPO1v-A@mail.gmail.com>
+Message-ID: <CAMuHMdUg0gk3QUmC+OiBDQuZAWdJ2cbPpwaDX+TGoq1EPO1v-A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] iopoll: Do not use timekeeping in read_poll_timeout_atomic()
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Arnd,
 
---mGa100CaMqBWnijH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-> > V3U firmware misses to enable WDT resets. Because there won't be any
-> > updates to the firmware anymore, enable that in Linux.
+On Wed, May 10, 2023 at 3:36 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Wed, May 10, 2023, at 15:23, Geert Uytterhoeven wrote:
+> > read_poll_timeout_atomic() uses ktime_get() to implement the timeout
+> > feature, just like its non-atomic counterpart.  However, there are
+> > several issues with this, due to its use in atomic contexts:
 > >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->=20
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.5.
+> >   1. When called in the s2ram path (as typically done by clock or PM
+> >      domain drivers), timekeeping may be suspended, triggering the
+> >      WARN_ON(timekeeping_suspended) in ktime_get():
+> >
+> >       WARNING: CPU: 0 PID: 654 at kernel/time/timekeeping.c:843 ktime_get+0x28/0x78
+> >
+> >      Calling ktime_get_mono_fast_ns() instead of ktime_get() would get
+> >      rid of that warning.  However, that would break timeout handling,
+> >      as (at least on systems with an ARM architectured timer), the time
+> >      returned by ktime_get_mono_fast_ns() does not advance while
+> >      timekeeping is suspended.
+> >      Interestingly, (on the same ARM systems) the time returned by
+> >      ktime_get() does advance while timekeeping is suspended, despite
+> >      the warning.
+> >
+> >   2. Depending on the actual clock source, and especially before a
+> >      high-resolution clocksource (e.g. the ARM architectured timer)
+> >      becomes available, time may not advance in atomic contexts, thus
+> >      breaking timeout handling.
+> >
+> > Fix this by abandoning the idea that one can rely on timekeeping to
+> > implement timeout handling in all atomic contexts, and switch from a
+> > global time-based to a locally-estimated timeout handling.  In most
+> > (all?) cases the timeout condition is exceptional and an error
+> > condition, hence any additional delays due to underestimating wall clock
+> > time are irrelevant.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> This looks reasonable to me,
+>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-\o/ Thank you, Geert!
+Thanks!
 
+> I assume you sent this because you ran into the bug on a
+> particular driver. It might help to be more specific about
+> how this can be reproduced.
 
---mGa100CaMqBWnijH
-Content-Type: application/pgp-signature; name="signature.asc"
+I first ran into it when converting open-coded loops to
+read*_poll_timeout_atomic().
+Later, I also saw the issue with the existing
+read*_poll_timeout_atomic() calls in the R-Car SYSC driver, but only
+after applying additional patches from the BSP that impact the moment
+PM Domains are powered during s2ram.
+The various pointers to existing mitigations in the cover letter should
+give you other suggestions for how to reproduce...
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRbnqcACgkQFA3kzBSg
-Kbb8ZQ/+L/N4+kB5ayF04Ep/2tvqWD5kxgq0hH3ZOv7wiIMtfSq39JSepOpnREQq
-v9cGueRUBoQyOnniofvyghFpUw4aon4WJCw44NK9Xgyze1yZpJcoxU2x1NBht+GZ
-UzTA348rrRn6d6XJSaYU4smOfMPX3+k4Hcu6hznpoPcPdnR0EQPfgTSpCZTDY979
-zH0fkPmxcQUqOYrh93vudaJENbhJuavhPqoq0nTi9pMnxn1/b53qAPTw+SSlndwl
-u9ZbWqqwCkyaMZeTuLw0GYxonFNeuj/S/FDkksRdOTXqgson2dW/Zeqr6Z8Rbc5O
-YdZkXNoQNb0S2nvYAgZQJJ5eg5wMnyp79NS6yIQQZzY+ePo9skYnO0b/5zDEB/nC
-p4x48gmceJ1jX9SYgcvmBQUxEg2qdeM1Gb51XqdT4r2PiVgh+aUMOuICvcPGt1S4
-SpeQUzzmhvOZiSWnzZnqMsgzPs5ItZCtG6e3VU0Pr5TngPUZ5pmwm+KCC3h7P6xk
-UrHiU7XNcLI9/yyQyWTHWJu3XEcfMc0eDZQT17iHl/k5mw0idhnTWlobcPup+9NH
-X9xlwKCHrQp2q77uSXqZvd9nFXTS8bBgL0zCNiWX45Ma9CxlUD38FLMlKTw5JLeh
-C1UXsUGs0MyRY+qw41OiteNXZO3tkbhGwg9QNpYX5tzGDVCySBY=
-=v4Qh
------END PGP SIGNATURE-----
+                        Geert
 
---mGa100CaMqBWnijH--
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
