@@ -2,282 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C958E6FD5EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 07:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 239136FD6AD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 08:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235913AbjEJFIW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 May 2023 01:08:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58890 "EHLO
+        id S235893AbjEJGWj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 May 2023 02:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235755AbjEJFIU (ORCPT
+        with ESMTP id S235571AbjEJGWi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 May 2023 01:08:20 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E82244ED3
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 May 2023 22:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683695298; x=1715231298;
-  h=date:from:to:cc:subject:message-id;
-  bh=oBCtkwesWyL2JW4MufFJm5vw5nL+3ueP9jY6fzVkCB4=;
-  b=k3jzKCa7y6QBj5CIt22N9zOnDKv3UdT9poDq6KYUN3pG5UYTPn4HJw29
-   fttwlV7bBPThlTtpmP8ce88YZzR723ZuSY3gTapQSNIrPEDefAeL3YyD9
-   Ah0sjWysXClw2kfFEaFStKGzkMFAAJxhlyt1vyTSPILSG1uTOof//14Am
-   dXThFjmmQrObSK8HFZFiJqtpmBmfJtexRSOz1RmfwCVpAdS62Yt5PSbgM
-   yvU1NW/XGy33w7wRsYJfzQKXVRAhdonnA2GhRRjmOQLRJ1gxEQTN1LOv2
-   fNVf8AxE9c2Hn2ZzxNBUAWWIttAN7x8qfl9ib+DleIuRqaSzJzwlTMDKB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="378224634"
-X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="378224634"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 22:08:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="732022340"
-X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="732022340"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 May 2023 22:08:16 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pwc3j-0002vW-2T;
-        Wed, 10 May 2023 05:08:15 +0000
-Date:   Wed, 10 May 2023 13:07:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.5] BUILD
- SUCCESS 5d32cead772c3d074947cb7277dea7532133037b
-Message-ID: <20230510050745.0Btds%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 10 May 2023 02:22:38 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CF8A11730;
+        Tue,  9 May 2023 23:22:36 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.99,263,1677510000"; 
+   d="scan'208";a="162314815"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 10 May 2023 15:22:35 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D8F454010E3C;
+        Wed, 10 May 2023 15:22:35 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     jingoohan1@gmail.com, mani@kernel.org,
+        gustavo.pimentel@synopsys.com, fancer.lancer@gmail.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, kishon@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v16 00/22] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Wed, 10 May 2023 15:22:12 +0900
+Message-Id: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.5
-branch HEAD: 5d32cead772c3d074947cb7277dea7532133037b  pinctrl: renesas: Fix spaces followed by tabs
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-elapsed time: 792m
+Changes from v15:
+https://lore.kernel.org/linux-pci/20230509124156.150200-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230509 + pci.git / next branch (the commit 174977dc80b7
+   ("Merge branch 'pci/controller/vmd'"))
+ - (no change, JFYI) Based on the following cleanups patches:
+   [PATCH v4 00/14] PCI: dwc: Relatively simple fixes and cleanups
+   https://lore.kernel.org/linux-pci/20230414021832.13167-1-Sergey.Semin@baikalelectronics.ru/
+ - Modify the code comments in patch 8/22.
 
-configs tested: 204
-configs skipped: 16
+Changes from v14:
+https://lore.kernel.org/linux-pci/20230426045557.3613826-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230508.
+ - (no change, JFYI) Based on the following cleanups patches:
+   [PATCH v4 00/14] PCI: dwc: Relatively simple fixes and cleanups
+   https://lore.kernel.org/linux-pci/20230414021832.13167-1-Sergey.Semin@baikalelectronics.ru/
+ - Add Reviewed-by from Serge in the patch {4,5,15,}/21.
+ - Drop PCI_EXP_LNKCAP_MLW handling of pcie-tegra194.c because
+   pcie-designware.c takes care of it.
+ - Change subjects in the patch {5,6,7,8,10}/21.
+ - Drop dw_pcie_prog_ep_outbound_atu().
+ - Modify dw_pcie_link_set_max_link_width() to improve code readability.
+ - Move the retrain code to .start_link().
+ - Fix some minor issues.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Yoshihiro Shimoda (22):
+  PCI: Add PCI_EXP_LNKCAP_MLW macros
+  PCI: Add PCI_HEADER_TYPE_MULTI_FUNC
+  PCI: Add INTx Mechanism Messages macros
+  PCI: Rename PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX
+  PCI: dwc: Rename "legacy_irq" to "INTx_irq"
+  PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+  PCI: dwc: Add outbound MSG TLPs support
+  PCI: designware-ep: Add INTx IRQs support
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Modify PCIE_PORT_LINK_CONTROL handling
+  PCI: dwc: Add dw_pcie_link_set_max_cap_width()
+  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting.
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Introduce .ep_pre_init() and .ep_deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r005-20230509   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r005-20230509   gcc  
-alpha                randconfig-r016-20230509   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r004-20230509   gcc  
-arc          buildonly-randconfig-r005-20230509   gcc  
-arc          buildonly-randconfig-r006-20230509   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r011-20230509   gcc  
-arc                  randconfig-r014-20230509   gcc  
-arc                  randconfig-r023-20230509   gcc  
-arc                  randconfig-r025-20230509   gcc  
-arc                  randconfig-r036-20230509   gcc  
-arc                  randconfig-r043-20230509   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r003-20230509   gcc  
-arm                                 defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                           h3600_defconfig   gcc  
-arm                          moxart_defconfig   clang
-arm                        neponset_defconfig   clang
-arm                  randconfig-r005-20230509   clang
-arm                  randconfig-r014-20230509   gcc  
-arm                  randconfig-r024-20230509   gcc  
-arm                  randconfig-r046-20230509   gcc  
-arm                         s5pv210_defconfig   clang
-arm                           sama5_defconfig   gcc  
-arm                          sp7021_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r006-20230509   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r003-20230509   gcc  
-arm64                randconfig-r004-20230509   gcc  
-arm64                randconfig-r011-20230509   clang
-arm64                randconfig-r012-20230509   clang
-arm64                randconfig-r014-20230509   clang
-arm64                randconfig-r032-20230509   gcc  
-arm64                randconfig-r036-20230509   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r006-20230509   gcc  
-csky                 randconfig-r011-20230509   gcc  
-csky                 randconfig-r014-20230509   gcc  
-hexagon      buildonly-randconfig-r003-20230509   clang
-hexagon              randconfig-r001-20230509   clang
-hexagon              randconfig-r002-20230509   clang
-hexagon              randconfig-r024-20230509   clang
-hexagon              randconfig-r041-20230509   clang
-hexagon              randconfig-r041-20230510   clang
-hexagon              randconfig-r045-20230509   clang
-hexagon              randconfig-r045-20230510   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                          randconfig-a001   gcc  
-i386                          randconfig-a002   clang
-i386                          randconfig-a003   gcc  
-i386                          randconfig-a004   clang
-i386                          randconfig-a005   gcc  
-i386                          randconfig-a006   clang
-i386                          randconfig-a011   clang
-i386                          randconfig-a012   gcc  
-i386                          randconfig-a013   clang
-i386                          randconfig-a014   gcc  
-i386                          randconfig-a015   clang
-i386                          randconfig-a016   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                      gensparse_defconfig   gcc  
-ia64                 randconfig-r012-20230509   gcc  
-ia64                 randconfig-r013-20230509   gcc  
-ia64                 randconfig-r015-20230509   gcc  
-ia64                 randconfig-r026-20230509   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r005-20230509   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r013-20230509   gcc  
-loongarch            randconfig-r021-20230509   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r004-20230509   gcc  
-m68k                 randconfig-r013-20230509   gcc  
-m68k                 randconfig-r021-20230509   gcc  
-m68k                 randconfig-r023-20230509   gcc  
-m68k                 randconfig-r025-20230509   gcc  
-m68k                 randconfig-r034-20230509   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze   buildonly-randconfig-r002-20230509   gcc  
-microblaze   buildonly-randconfig-r003-20230509   gcc  
-microblaze           randconfig-r001-20230509   gcc  
-microblaze           randconfig-r003-20230509   gcc  
-microblaze           randconfig-r035-20230509   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips         buildonly-randconfig-r001-20230509   clang
-mips         buildonly-randconfig-r006-20230509   clang
-mips                           gcw0_defconfig   gcc  
-mips                 randconfig-r006-20230509   clang
-mips                 randconfig-r012-20230509   gcc  
-mips                 randconfig-r022-20230509   gcc  
-mips                 randconfig-r031-20230509   clang
-mips                 randconfig-r031-20230510   clang
-mips                 randconfig-r035-20230509   clang
-nios2        buildonly-randconfig-r001-20230509   gcc  
-nios2        buildonly-randconfig-r006-20230509   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r003-20230509   gcc  
-nios2                randconfig-r006-20230509   gcc  
-nios2                randconfig-r021-20230509   gcc  
-nios2                randconfig-r026-20230509   gcc  
-nios2                randconfig-r033-20230509   gcc  
-openrisc             randconfig-r004-20230509   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r015-20230509   gcc  
-parisc               randconfig-r022-20230509   gcc  
-parisc               randconfig-r034-20230509   gcc  
-parisc               randconfig-r035-20230509   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r005-20230509   clang
-powerpc                       eiger_defconfig   gcc  
-powerpc                      makalu_defconfig   gcc  
-powerpc                 mpc8560_ads_defconfig   clang
-powerpc              randconfig-r005-20230509   gcc  
-powerpc              randconfig-r024-20230509   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv        buildonly-randconfig-r002-20230509   clang
-riscv        buildonly-randconfig-r004-20230509   clang
-riscv                               defconfig   gcc  
-riscv                randconfig-r021-20230509   clang
-riscv                randconfig-r031-20230509   gcc  
-riscv                randconfig-r042-20230509   clang
-riscv                randconfig-r042-20230510   clang
-riscv                          rv32_defconfig   gcc  
-s390                             alldefconfig   clang
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r005-20230509   clang
-s390                                defconfig   gcc  
-s390                 randconfig-r002-20230509   gcc  
-s390                 randconfig-r015-20230509   clang
-s390                 randconfig-r044-20230509   clang
-s390                 randconfig-r044-20230510   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r004-20230509   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                          landisk_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                   randconfig-r003-20230509   gcc  
-sh                   randconfig-r014-20230509   gcc  
-sh                   randconfig-r015-20230509   gcc  
-sh                   randconfig-r032-20230509   gcc  
-sh                   secureedge5410_defconfig   gcc  
-sh                   sh7724_generic_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc        buildonly-randconfig-r002-20230509   gcc  
-sparc        buildonly-randconfig-r004-20230509   gcc  
-sparc        buildonly-randconfig-r005-20230509   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r003-20230509   gcc  
-sparc                randconfig-r012-20230509   gcc  
-sparc                randconfig-r015-20230509   gcc  
-sparc                randconfig-r016-20230509   gcc  
-sparc                randconfig-r024-20230509   gcc  
-sparc                randconfig-r026-20230509   gcc  
-sparc64      buildonly-randconfig-r003-20230509   gcc  
-sparc64              randconfig-r005-20230509   gcc  
-sparc64              randconfig-r006-20230509   gcc  
-sparc64              randconfig-r016-20230509   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                        randconfig-a001   clang
-x86_64                        randconfig-a002   gcc  
-x86_64                        randconfig-a003   clang
-x86_64                        randconfig-a004   gcc  
-x86_64                        randconfig-a005   clang
-x86_64                        randconfig-a006   gcc  
-x86_64                        randconfig-a011   gcc  
-x86_64                        randconfig-a012   clang
-x86_64                        randconfig-a013   gcc  
-x86_64                        randconfig-a014   clang
-x86_64                        randconfig-a015   gcc  
-x86_64                        randconfig-a016   clang
-x86_64                        randconfig-k001   clang
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r001-20230509   gcc  
-xtensa       buildonly-randconfig-r004-20230509   gcc  
-xtensa                generic_kc705_defconfig   gcc  
-xtensa               randconfig-r002-20230509   gcc  
-xtensa               randconfig-r004-20230509   gcc  
-xtensa               randconfig-r022-20230509   gcc  
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        |  98 +++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 109 ++++++++++
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   2 +-
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ drivers/pci/controller/dwc/pci-dra7xx.c       |   2 +-
+ drivers/pci/controller/dwc/pci-imx6.c         |   4 +-
+ drivers/pci/controller/dwc/pci-keystone.c     |   2 +-
+ .../pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c     |   2 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   |  98 +++++++--
+ .../pci/controller/dwc/pcie-designware-host.c |  52 +++--
+ .../pci/controller/dwc/pcie-designware-plat.c |   4 +-
+ drivers/pci/controller/dwc/pcie-designware.c  | 160 ++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h  |  33 ++-
+ drivers/pci/controller/dwc/pcie-keembay.c     |   2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     |   4 +-
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 166 +++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 141 +++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 190 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  46 +++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   8 +-
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c |   2 +-
+ drivers/pci/controller/pcie-rcar-ep.c         |   2 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |  10 +-
+ drivers/pci/pci.h                             |  18 ++
+ drivers/pci/probe.c                           |   2 +-
+ drivers/pci/quirks.c                          |   4 +-
+ include/linux/pci-epc.h                       |   4 +-
+ include/uapi/linux/pci_regs.h                 |   7 +
+ 35 files changed, 1061 insertions(+), 152 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
