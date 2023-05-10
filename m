@@ -2,126 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4BE36FE459
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 21:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB0766FE60A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 23:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236088AbjEJTDE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 May 2023 15:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
+        id S235540AbjEJVSJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 May 2023 17:18:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235944AbjEJTDC (ORCPT
+        with ESMTP id S229561AbjEJVSI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 May 2023 15:03:02 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24F726AD
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 May 2023 12:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=3taFMXyeiauZAm
-        we2U0oqG8pmLpO1VOso9VSsKUPGo0=; b=mgPZkKUZM4+DWwZqRDxrLV8Jd05qwp
-        V/aJ8aTB7RKW8v/xmadKYm9mj4danB06uWtFALH6S8uDjPBZZmOrEoDXAEkILk1K
-        5d+lBw8oKne7RiCQJ6jojQmyAcqezdsnGo7ST9m4/XPHxNKyUo/XtKcuzcqt43wx
-        tq5+YFbkwCyOg=
-Received: (qmail 2541527 invoked from network); 10 May 2023 21:02:57 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 May 2023 21:02:57 +0200
-X-UD-Smtp-Session: l3s3148p1@vIwThVv72O0ujnsI
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
+        Wed, 10 May 2023 17:18:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69FD2D57;
+        Wed, 10 May 2023 14:18:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C82763187;
+        Wed, 10 May 2023 21:18:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6407AC433D2;
+        Wed, 10 May 2023 21:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683753486;
+        bh=VCNTjcY6TGn4IZKxQIZHrLKokc7SqJrIfm9SgJpidDo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=BWyVj5R5crj1X0h/tzLNbPQMGYGCApQJ5kRCDF9iOZZ9lF3Fp+CHSM21iDNb781N+
+         /oBeDgWs9tv6+ceZoscB68UAWp21UV8XOuet+yCjrb2Z1jkYhasR6BFAKAkCBCajgN
+         o62/6whNHyxsIfbAjsIoIXIV7I/g2ixsMCqKlp8k0jmWnbkZGGt+5Css3av785JZKd
+         8TIiQkMOb61jibUqzq8mp4XmT79iEH6HP+VrCkd4IMdZl3xD5XXgV/YvCrDuMPQwT7
+         mhThliUcuXvlT3MooemgJm1330hqZ16QiIUtyJt0eS+ae0FXHCqq2AqGwwfTJHqB2W
+         L5DIftRr4QwBg==
+Date:   Wed, 10 May 2023 16:18:04 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
         Rob Herring <robh@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] PCI: rcar-host: add support for optional regulators
-Date:   Wed, 10 May 2023 21:02:52 +0200
-Message-Id: <20230510190252.19030-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230510190252.19030-1-wsa+renesas@sang-engineering.com>
-References: <20230510190252.19030-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH 2/2] PCI: rcar-host: add support for optional regulators
+Message-ID: <ZFwKDDnWWDowYiIz@bhelgaas>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAMuHMdVHydQUBD6+zyLneuczd-3ixFbcF5z0toxZmhePT+ShSw@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The KingFisher board has regulators. They just need to be en-/disabled,
-so we can leave the handling to devm. Order variables in reverse-xmas
-while we are here.
+On Wed, May 10, 2023 at 09:27:46AM +0200, Geert Uytterhoeven wrote:
+> On Wed, May 10, 2023 at 8:59 AM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> ...
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Changes since v1:
+> >  static int rcar_pcie_probe(struct platform_device *pdev)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> >         struct rcar_pcie_host *host;
+> >         struct rcar_pcie *pcie;
+> >         u32 data;
+> > -       int err;
+> > +       int i, err;
+> 
+> unsigned int i?
+> 
+> >         struct pci_host_bridge *bridge;
+> 
+> The (lack of) reverse-Xmas-tree ordering is hurting my OCD, but that's
+> not your fault...
 
-* use unsigned int for i
-* use reverse-xmas for variable declaration
-* really bail out now on error
+I usually put things in order of use, with initializations from
+parameters first.  Happily, that is often a pretty good approximation
+of reverse-Xmas-tree, as it is here, so I'm all in favor of moving
+"struct pci_host_bridge" up there :)
 
-Thank you, Geert, for the review!
-
-
- drivers/pci/controller/pcie-rcar-host.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index e80e56b2a842..119c894a995c 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -29,6 +29,7 @@
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- 
- #include "pcie-rcar.h"
- 
-@@ -974,14 +975,20 @@ static const struct of_device_id rcar_pcie_of_match[] = {
- 	{},
- };
- 
-+/* Design note 346 from Linear Technology says order is not important */
-+static const char * const rcar_pcie_supplies[] = {
-+	"vpcie12v", "vpcie3v3", "vpcie1v5"
-+};
-+
- static int rcar_pcie_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct pci_host_bridge *bridge;
- 	struct rcar_pcie_host *host;
- 	struct rcar_pcie *pcie;
-+	unsigned int i;
- 	u32 data;
- 	int err;
--	struct pci_host_bridge *bridge;
- 
- 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*host));
- 	if (!bridge)
-@@ -992,6 +999,15 @@ static int rcar_pcie_probe(struct platform_device *pdev)
- 	pcie->dev = dev;
- 	platform_set_drvdata(pdev, host);
- 
-+	for (i = 0; i < ARRAY_SIZE(rcar_pcie_supplies); i++) {
-+		err = devm_regulator_get_enable_optional(dev, rcar_pcie_supplies[i]);
-+		if (err < 0 && err != -ENODEV) {
-+			dev_err_probe(dev, err, "error enabling regulator %s\n",
-+				      rcar_pcie_supplies[i]);
-+			return err;
-+		}
-+	}
-+
- 	pm_runtime_enable(pcie->dev);
- 	err = pm_runtime_get_sync(pcie->dev);
- 	if (err < 0) {
--- 
-2.30.2
-
+Bjorn
