@@ -2,117 +2,458 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A066D6FD8C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 09:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E1C36FDA5D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 May 2023 11:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236525AbjEJH6F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 May 2023 03:58:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
+        id S236936AbjEJJEW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 May 2023 05:04:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236517AbjEJH6B (ORCPT
+        with ESMTP id S236959AbjEJJEO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 May 2023 03:58:01 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174656EA6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 May 2023 00:57:47 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:5484:c4b7:4aff:589c])
-        by albert.telenet-ops.be with bizsmtp
-        id uvxh2900W2rLuoZ06vxhaa; Wed, 10 May 2023 09:57:41 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pwehZ-001lUL-UH;
-        Wed, 10 May 2023 09:57:41 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pwehh-00F2TZ-LB;
-        Wed, 10 May 2023 09:57:41 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
+        Wed, 10 May 2023 05:04:14 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 693C07EEA
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 May 2023 02:04:02 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.99,264,1677510000"; 
+   d="scan'208";a="158827520"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 10 May 2023 18:04:01 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 74BC4400516F;
+        Wed, 10 May 2023 18:04:01 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     geert+renesas@glider.be, magnus.damm@gmail.com
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.4-rc1
-Date:   Wed, 10 May 2023 09:57:38 +0200
-Message-Id: <e32e3f5387be128bd913b3b7ffcb327dcd2c2205.1683705413.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3] arm64: dts: renesas: Add IOMMU related properties into PCIe host nodes
+Date:   Wed, 10 May 2023 18:03:58 +0900
+Message-Id: <20230510090358.261266-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75 autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Refresh the defconfig for Renesas ARM64 systems:
-  - Disable CONFIG_ROCKCHIP_ERRATUM_3588001 (not applicable),
-  - Move CONFIG_PCI_HOST_GENERIC=y (moved in commit 81c362e798d41592
-    ("PCI: Sort controller Kconfig entries by vendor")),
-  - Drop CONFIG_SERIAL_8250_PCI1XXXX=n (no longer auto-enabled since
-    commit 5d943b5d69c032de ("serial: 8250_pci1xxxx: Disable
-    SERIAL_8250_PCI1XXXX config by default")),
-  - Enable Renesas RZ/G2L Multi-Function Timer Pulse Unit 3 Counter
-    support (RZ/G2L SMARC EVK).
+Add iommu-map and iommu-map-mask properties into PCIe host nodes.
+Note that iommu-map-mask should be zero because the IPMMU assigns
+one micro TLB ID only, to the PCIe host.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Also change dma-ranges arguments for IOMMU. Notes that the dma-ranges
+can be used if IOMMU is disabled.
+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
-Not intended for upstream merge.
-To be applied to the topic/renesas-defconfig branch.
+Changes from v2:
+https://lore.kernel.org/all/20230426082812.3621678-1-yoshihiro.shimoda.uh@renesas.com/
+ - Revise the commit description.
+ - Change the fourth argument of iommu-map.
+ - Add IOMMU related propreties into r8a77980 and r8a774{a1,b1,c0,e1}.dtsi.
 
- arch/arm64/configs/renesas_defconfig | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Changes from v1:
+https://lore.kernel.org/all/20230421122608.3389397-1-yoshihiro.shimoda.uh@renesas.com/
+ - Drop iommus property.
+ - Add iommu-map-mask property.
+ - Revise the commit description.
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index d11d890647013c5c..231139e2b8646062 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -47,6 +47,7 @@ CONFIG_ARCH_RENESAS=y
- # CONFIG_QCOM_QDF2400_ERRATUM_0065 is not set
- # CONFIG_QCOM_FALKOR_ERRATUM_E1041 is not set
- # CONFIG_NVIDIA_CARMEL_CNP_ERRATUM is not set
-+# CONFIG_ROCKCHIP_ERRATUM_3588001 is not set
- # CONFIG_SOCIONEXT_SYNQUACER_PREITS is not set
- CONFIG_ARM64_VA_BITS_48=y
- CONFIG_SCHED_MC=y
-@@ -103,9 +104,9 @@ CONFIG_PCIEPORTBUS=y
- CONFIG_HOTPLUG_PCI_PCIE=y
- CONFIG_PCI_IOV=y
- CONFIG_HOTPLUG_PCI=y
-+CONFIG_PCI_HOST_GENERIC=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_PCIE_RCAR_EP=y
--CONFIG_PCI_HOST_GENERIC=y
- CONFIG_PCI_ENDPOINT=y
- CONFIG_PCI_ENDPOINT_CONFIGFS=y
- CONFIG_PCI_EPF_TEST=y
-@@ -159,7 +160,6 @@ CONFIG_SERIAL_8250_CONSOLE=y
- # CONFIG_SERIAL_8250_PCI is not set
- CONFIG_SERIAL_8250_NR_UARTS=2
- CONFIG_SERIAL_8250_RUNTIME_UARTS=2
--# CONFIG_SERIAL_8250_PCI1XXXX is not set
- CONFIG_SERIAL_8250_EM=y
- # CONFIG_SERIAL_8250_PERICOM is not set
- CONFIG_SERIAL_SH_SCI=y
-@@ -193,6 +193,7 @@ CONFIG_WATCHDOG=y
- CONFIG_RENESAS_WDT=y
- CONFIG_RENESAS_RZG2LWDT=y
- CONFIG_MFD_BD9571MWV=y
-+CONFIG_RZ_MTU3=y
- CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_REGULATOR_BD9571MWV=y
-@@ -393,6 +394,8 @@ CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_PHY_RCAR_GEN3_USB3=y
- CONFIG_TEE=y
- CONFIG_OPTEE=y
-+CONFIG_COUNTER=y
-+CONFIG_RZ_MTU3_CNT=y
- CONFIG_EXT4_FS=y
- CONFIG_EXT4_FS_POSIX_ACL=y
- CONFIG_FANOTIFY=y
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi |  6 ++++--
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 12 ++++++++----
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi |  5 ++++-
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi |  6 ++++--
+ 10 files changed, 68 insertions(+), 33 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+index c21b78685123..9065dc243428 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+@@ -2359,8 +2359,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2371,6 +2371,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2386,8 +2388,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2398,6 +2400,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+index 82216ce7a92a..75776decd218 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+@@ -2238,8 +2238,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2250,6 +2250,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2265,8 +2267,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2277,6 +2279,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+index 10abfde329d0..ad2e87b039ac 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+@@ -1704,8 +1704,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1716,6 +1716,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+index 2828e05b40b3..2acf4067ab2f 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+@@ -2471,8 +2471,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2483,6 +2483,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2498,8 +2500,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2510,6 +2512,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index 10b91e9733bf..6d15229d25ab 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -2778,8 +2778,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2790,6 +2790,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2805,8 +2807,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2817,6 +2819,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 3ea8572e917f..17062ec506be 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -2565,8 +2565,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2577,6 +2577,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2592,8 +2594,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2604,6 +2606,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index d52cb0b67d80..d3f47da1b626 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2445,8 +2445,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2457,6 +2457,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2472,8 +2474,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2484,6 +2486,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 9584115c6b17..c75820038491 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -2423,8 +2423,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2435,6 +2435,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -2450,8 +2452,8 @@ pciec1: pcie@ee800000 {
+ 				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
+ 				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
+ 				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -2462,6 +2464,8 @@ pciec1: pcie@ee800000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+ 			resets = <&cpg 318>;
++			iommu-map = <0 &ipmmu_hc 1 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+index c4ac28a0f716..5ed2daaca1f0 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+@@ -1386,7 +1386,8 @@ pciec: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x0200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x8000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x8000000>;
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1399,6 +1400,8 @@ pciec: pcie@fe000000 {
+ 			resets = <&cpg 319>;
+ 			phys = <&pcie_phy>;
+ 			phy-names = "pcie";
++			iommu-map = <0 &ipmmu_vi0 5 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index 4529e9b57c33..1be0b99c15ed 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -1870,8 +1870,8 @@ pciec0: pcie@fe000000 {
+ 				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
+ 				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
+ 				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
+-			/* Map all possible DDR as inbound ranges */
+-			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
++			/* Map all possible DDR/IOMMU as inbound ranges */
++			dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+ 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1882,6 +1882,8 @@ pciec0: pcie@fe000000 {
+ 			clock-names = "pcie", "pcie_bus";
+ 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+ 			resets = <&cpg 319>;
++			iommu-map = <0 &ipmmu_hc 0 1>;
++			iommu-map-mask = <0>;
+ 			status = "disabled";
+ 		};
+ 
 -- 
-2.34.1
+2.25.1
 
