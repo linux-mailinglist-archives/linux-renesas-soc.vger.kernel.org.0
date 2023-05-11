@@ -2,187 +2,295 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAB566FEEFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 11:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B5B6FEF13
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 11:46:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237277AbjEKJgO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 May 2023 05:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56486 "EHLO
+        id S237704AbjEKJqE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 May 2023 05:46:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237590AbjEKJgB (ORCPT
+        with ESMTP id S229609AbjEKJqD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 May 2023 05:36:01 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2CEA26F;
-        Thu, 11 May 2023 02:35:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bhaQ1sPZeF0D0Ojlunob+q54Wl7qcYMiS34oQ8IAbAsXZLSn7JNogx0q+w/E+/FClgR1Pj5eROgsa0iOZXW+dbaHiYGgzs1a/kYW90KRIJ6KQoDSNx6T5TpEvQMenrivYeJxAcMuJjqzycw2o1rKNAM9sX5hyGWCMf3tls9mV3XCEbTWATAR0Ta5jDqJTIpdlAT6eBrGGbQBn3rsy8i0SPgS/L+myq2p7uBWhyQWJFx2fl0epOZFNzmMdQIqplDAVSxJGXR81D76xxWtLifleI5nlzlRggZb90VkSzb644xBozDz/o8qzfwuhRwHZPjpdP/a4HaMNHAh0xRBZFm8qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DWSYvHK7vKIdO64Z0gZ2dZPsjAtDaq3s+yYvNUfc5d0=;
- b=LkVBYgiPhFrlEZmlr/5TbHwi3dZaE5wNidEufz6tIwCUzoQLdMEhikoK2Z9Z9Gle5IeaswWwvOD/+IW9Op0M3ArkNrrF5qQB2DzWF65NeJck4I9BiST7Tcz1Kfwap63IE4f435sdFv6aR77F4m2SO+msy04rG+G0mbtf1+SW9d7S3wBOMdRlMbA/8sVjJrFtUPNs8MRN7S4i+jckrGb2V+JGKwMausyLtstBrP19SZbJr0Kk01D4IB2Am2526OMOnlFTZg3BuJWv8YwH4RlyfYMgwlqk7CDUC+ZCn+MHgCFbh1yP44set5Bz4hvRwVCtLdNkEQNNZN6zfSbjRQFc1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWSYvHK7vKIdO64Z0gZ2dZPsjAtDaq3s+yYvNUfc5d0=;
- b=gTXNxnEhJwy3MdLek5mmkGL2hG4tlf5WHm2uKGIUfIOK6BMcSptfIemQg01kf5XKFtKpXxZUav91huT3oqHt1nWytaJbmEnE+z+ITGMHEWi7q4j0uCFRe1yO+e2Ko93Rf812C/HU3iWHLtIy7FwC6FcOt3UScnEH/35LDutmjQk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2621.namprd12.prod.outlook.com (2603:10b6:805:73::15)
- by PH0PR12MB5450.namprd12.prod.outlook.com (2603:10b6:510:e8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Thu, 11 May
- 2023 09:35:46 +0000
-Received: from SN6PR12MB2621.namprd12.prod.outlook.com
- ([fe80::ef8d:bf8a:d296:ec2c]) by SN6PR12MB2621.namprd12.prod.outlook.com
- ([fe80::ef8d:bf8a:d296:ec2c%7]) with mapi id 15.20.6363.033; Thu, 11 May 2023
- 09:35:46 +0000
-Message-ID: <c5ed90c7-7126-0757-a0e3-e3d1fcab2ecc@amd.com>
-Date:   Thu, 11 May 2023 10:35:37 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-From:   Ayan Kumar Halder <ayankuma@amd.com>
-Subject: Need suggestions for smp related properties in cpus.yaml to support
- smpboot for cortex-r52 based platform
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        konrad.dybcio@linaro.org, andersson@kernel.org,
-        mazziesaccount@gmail.com, conor.dooley@microchip.com, j@jannau.net,
-        mailingradian@gmail.com, me@iskren.info, lpieralisi@kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 11 May 2023 05:46:03 -0400
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA615BAE;
+        Thu, 11 May 2023 02:46:01 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 1DB1658046F;
+        Thu, 11 May 2023 05:45:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 11 May 2023 05:45:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1683798358; x=1683805558; bh=+n
+        y1Afea5R0LOsb4Ol/qv4DwWMag5LYnjc/55L4/zj0=; b=a0a1Rny1fJ4G40ROVP
+        p6PM59GR8lWf+QDz80KYNEFeugiu06rC7qXIkbxBgIPj+fnHgADOQ64y/5uCwHCp
+        ND9TQdCBKeHcr01DP6q2O1PoMPgeXBLAh0RjsUVJlH+ligR1m5ygaiHk1JYfr5/b
+        6A5rA9smFHn3zR+T7W1pjsKYaXutCZ8DcO5zlGPSNYCmACecxhzMW6Io20Sek8ia
+        5Hzy2ES3fW2PM/dVnjCcvBUBaB9XXPBFRdGU8oaYDIXugWL2u/m5RD1IGjAZgeDL
+        Ys6++ImgdON8U42Ak5RKwWzJ4l0j2C1g9pCsxZFAjQ4DGx6IcJuqHXLDNYHSyCh+
+        e5nA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1683798358; x=1683805558; bh=+ny1Afea5R0LO
+        sb4Ol/qv4DwWMag5LYnjc/55L4/zj0=; b=LFY23qSKl94UZOFuJkhpGEQyasRby
+        gbLbyefMBRT4PHfaH6XkZ/rsSJL1fhXl5Re1rHJJnufX1e8Ff5yaTAa+0ed6d4uW
+        95KjZizvZWx73mJmN9B6v1Mpzz+DiGGQTF0ThlwvQKQdmYJeHGroCpTvaBoNOBnR
+        UFhpVmU7gsIXKI6OasqGZ7w6ABmjxxXCBndQbVZzgQYZZKfDFcW1tFpwP7AhA/+s
+        a0Rl4SZ8A0+rEwO3Vh54J0hTXP8yZSv9SrOrHu5bF687MQB2r6sYOMdpdiA1kwBS
+        KduLItK8Us0sRRMcA8oSZjbsBqo0MsVpsgbUdIlRPRygOcN7p0/FqdJxA==
+X-ME-Sender: <xms:VLlcZGJVw0ZFHGVEz1kscSfJdJJXnN-TSM-V95Ff4Ctlc9pjeMDCMg>
+    <xme:VLlcZOKCL5q-tMt6tcn0vAscmNATB7rYoM-EtfoSqE8SGtH_zNIhZ3jFqsl_K60In
+    yFrILW2iTk3ZVOiDEg>
+X-ME-Received: <xmr:VLlcZGseivHmMWqVb1OuVX_cXeveSNbIlR_VP_5mkZsAJgAWttluVtJrrjzLJIymBC740bbDgW8KvsJ-w-7GBg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:VLlcZLaBqggMF920o1RrZkXQR5WlFDgcp9oqhhV5oKPXDaeCOHXlbg>
+    <xmx:VLlcZNaCLoXRnpwnUS4klYEv95-jdtjx1TnWjWgpXPJZ0nY-i1d61g>
+    <xmx:VLlcZHCViDDrk4Pz_ZQ6l_qK2lbm3BNWgwwXCSplVHHAxYXZRmYXgA>
+    <xmx:VrlcZIjbcbR6-ocUtg6G1yyfYRrVst63f1irq8-6dnFMlLckdA-lWg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 May 2023 05:45:55 -0400 (EDT)
+Date:   Thu, 11 May 2023 11:45:53 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Dinh Nguyen <dinguyen@kernel.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        David Lechner <david@lechnology.com>,
+        Sekhar Nori <nsekhar@ti.com>, Abel Vesa <abelvesa@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         linux-arm-kernel@lists.infradead.org,
+        linux-actions@lists.infradead.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
         linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, Julien Grall <julien@xen.org>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Michal Orzel <michal.orzel@amd.com>,
-        Michal Simek <michal.simek@xilinx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0015.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::18) To SN6PR12MB2621.namprd12.prod.outlook.com
- (2603:10b6:805:73::15)
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org
+Subject: Re: [PATCH v3 29/65] clk: socfpga: gate: Add a determine_rate hook
+Message-ID: <x4xc7kjkphbejmjj35ohlk6u33vshysr4jii4fmu7ogbzrk6zg@2dry3apxjhad>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-29-9a1358472d52@cerno.tech>
+ <679921ee-98d4-d6ef-5934-e009fd4b31fc@kernel.org>
+ <sjlp5ubnpvulgwhhymmfkmmobkgxacyqwagqozodkee3di2qik@3igj6k3zgbk6>
+ <57dd81d0-510e-0fab-670d-1109eb8dd974@kernel.org>
+ <tgtfisqxubin4cjj6q26fboirbcnjzcazt5y3m322lw5lskz6l@d3tgz4hdfnk2>
+ <1b766164-b5e8-61ac-bf73-6d2c49c72409@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2621:EE_|PH0PR12MB5450:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c3e89f5-2b1a-4b77-4bd1-08db52031901
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HTerL+xn1kvy9U04ktRLCJbDNPYTeRULK9UV9C69xKz+3Lb+MZy3tQHRPIXH/cU0aqLzSganY+uCm6JIxMQWX6pBf05IQTTXoEGl6VTQodT9v2KBIo9EAu/GbCphem9DmlUd0OgjPgAWKQ9Auex88OTtVXtAm95aByoteVLXhJcqYPMO6yzvf0mIsPeb0dbYNWyBKwO8dS7VU7dVaLDUlaRC+GNdjUYfyOnbhWh6sRhhWABJqunT9U7mkgUAeFmF2UIw7zKnTFGOKQ71O+zmp9NZsYFWvf9S9fR1MQ5yWDzYMCgm4xhueOvepxA8qtgE0OvByNKGqGTA3hjoAa2PVKAfEB3wxgT3E942wFJJAX5OClsBaTaHI/v2ENFeeJJGAaKOxH80KbDK59YQJWM6m2dTdRodbgIf++jLJjA38IS6EFBlaJL6gEwS6vEcO1hWPg90c3pTKY1SNL7S657gLosriyYtzWf2xtrMdJHC4He9X9ueOGdjV8wBUHOr/rJq54Ypa1Ac2ASmjFmQa632HzWTeFyeWEPqmr/KteOeGV27PDYL1EbBFPIC1u5QXQ9X/F4V4z1+CgcIWDVWvup+rjtYEaH8DdTPR3hUEyBT3FnP42a21WYg7k1TV3p8S5PjMiZa7pADLHPm96IbnG6XH93B+VzzrjjZtv1iG8nc5a+XEajVZjbhpUGre4RvSsiZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2621.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(376002)(346002)(366004)(396003)(451199021)(6486002)(83380400001)(6666004)(41300700001)(6506007)(966005)(26005)(5660300002)(8676002)(6512007)(8936002)(7416002)(2906002)(186003)(36756003)(2616005)(31696002)(921005)(38100700002)(54906003)(478600001)(66946007)(66556008)(66476007)(316002)(4326008)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFRTNzVjUGpiNnU1aS9QeEtjS1AveUF1aDkwZ1h6UFg1NEpCUjNuaUh3eDFT?=
- =?utf-8?B?UXRGQzREeVQ5WWdMU3hlamVKakdLKytWVXd6Mzl3MzljTUxYRzVuZWYzZ2h3?=
- =?utf-8?B?MEJNaGFNTnVZUmIyT1hQdzk5Z0R4bXVuZG9YaFFpTnNTdER6ZzJtQ1QwNSt1?=
- =?utf-8?B?Y3ZQUzJxRld4cFNxSDJ6czRFZVYxZUhSNFpjRWJZM29rRTB5Y3NUYnNwa3lT?=
- =?utf-8?B?WUJ4cUVFUDJ2ai9jREdRZGoyM2JHWjZFc28xa0t5T3hPc1lUN0hXVGFycm9K?=
- =?utf-8?B?ajdaZStuemtqOXAvWW5JWHc1Mlp2L2tBYitTNkFIejdHYUx1TENpOWZ1enRa?=
- =?utf-8?B?Z21kRkh2NWtDVXRjWjlEbmFDdEVoSGRRNzJId1I5UU9DcmlPVmlVWXkxd3ZU?=
- =?utf-8?B?MUFJa3k2TStLWFJzbDNtYjFkS0ZWRUErRGxENENPWXZUV2dOdzR2OVp4TTBX?=
- =?utf-8?B?UlJSbTJ1VlRoV0d2ZmdzMHhvZjdTSUQyU00rNW5WNGJxbTdzbEcydHRBa0F1?=
- =?utf-8?B?WUxSZVRxbHpiNE9TZXFMZCtERDViZ1J4ckYwM2wybCtNSVZqczlRZ2VHN1N4?=
- =?utf-8?B?ZVZiN0VXMnMzMEYzVnFXOG5RZWZScDluVks4dWFhajVLRkZSc1FRSW1QUGZD?=
- =?utf-8?B?UUZRVHV4ME5Ud0U4M0FyclFOMWIvZkJ6cUtmN0orTFNKeFJsZG85Q1dmUmw1?=
- =?utf-8?B?UTdaSkd3SHU5UFphRjc3RVhydkV1Mk1QcHMvRG5HTmk3NXZLUkNmMW5IYnFq?=
- =?utf-8?B?VGtXRFI1WmYzaUpiby80UVZGeSt4WFk0RG16U1BtRUxSekhxZG9JZDZRL0c2?=
- =?utf-8?B?bkFrZThlNk1SVTZHVzNPSk9Xb2NuRi9SekpGODdOdElvcjdzVXJHTUg5cFhz?=
- =?utf-8?B?aFJyT0IrL2NzT0JhLzVuUlBiOWVOUlNBS1BIWDFxY2QyeVNwUThMbC9RdWQz?=
- =?utf-8?B?eS80UWM0MnF5aXM0ZnBKTlZNK1BDL2dEVEFLMFZ3RUVUaWNBN01QYWp2eU9R?=
- =?utf-8?B?SXZJQVNmbzRSVDJTWWtwSWJNN0taSkRVMk5DUHJmbjBZZVA2dHpUd3c2VzFN?=
- =?utf-8?B?RU5YSUFtT29DVGhrb0VrNU5zaXF2R1R3ZnhzWVlLQ0NNS29lWTZ4ODJ4YlYz?=
- =?utf-8?B?ZVBMYnNjaUlKUTJTMmMxNDVVZ1dSNm5GdXlRRGUvWWNBWm5kOXVxRTVHVHFZ?=
- =?utf-8?B?RmVySGp2R09jWVpZRWJKcUNzZ2VPMzU2MTFnckd0SERtb0pEZUNZYUQyM1Rq?=
- =?utf-8?B?UGJqeUZ6QXVqbjRDUG0vSUJQY0dwMWpSR0QraTdONDJQemljZy8xZU9Pc3l6?=
- =?utf-8?B?ci83UkRRb1JFY3ZRa3l4TDhGMHdsQkllUjlhcmxFZDA2SHI0aDdDbVZhNkd6?=
- =?utf-8?B?Y1JINFl4MFc1WjdDV05jbXloTnl4dDBabmZuM253czNRd21WTGFxcm5GRHkx?=
- =?utf-8?B?dXdnS0daWFEyajFmYkVPd3ZITTJDRHkxTHBKS3VmQUQ2WDlLNlJtc3cwREZS?=
- =?utf-8?B?UEd0Nyt3ZEpKT0hnUVFqTU5jdkNNNzZrYVN6djJhaTZGOEt4TDNNK2syTm1v?=
- =?utf-8?B?WnNtOTJMK0NydU9SK1VYaTM1WHp4NS9Pc3ZqTElPVlN4aGMyVW9USkU5WitB?=
- =?utf-8?B?WTZkVXhlYUNZcTQra3VqSzRLTlRXM0NMZkpyMmYwSUJXdWtVbVMwQnJCU2Zs?=
- =?utf-8?B?NXlqanJWeUJaRmdybWxJdlhEYkxQeGlRQkRXb3Q5a3F0VXl0NmhlaVp3ZlJv?=
- =?utf-8?B?cmhsODdDaENoK2RSeUcrR09xYVpBeTE0M2Y5U0lPU1paa2pKMVovbXdFd3Q1?=
- =?utf-8?B?K2pXK2dXSDRFZ3Z6UVhDcmtjMUV3MU9yekhvd1lOanpacGdnZ2xpdlRoaXAy?=
- =?utf-8?B?a0lId0JFVkFaNjdlbDNYcGtWOU9tNW9MV29ZQVpDRzh1Q3o3NWZGYXpDWjIr?=
- =?utf-8?B?TjViTVE3emM1SGhZeEhyeGo0bTVHTndNYlJTZGYxaUVtMDFVMHJzQ1lXZzNj?=
- =?utf-8?B?c3l5SGRTUlRTb1JTRlNqM1dSdXBPTlpNdTNlWjVtdmYzYlFGQ0xDL1RYR2Zi?=
- =?utf-8?B?VlZpT25VU2NlWVJUTG83eVhUTkVIUW9rVlY3ZDEzdTM2ZlNSeWI0b0Rtb3dL?=
- =?utf-8?Q?7PS8EmqohDrMlRXhdNB5qhfEJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c3e89f5-2b1a-4b77-4bd1-08db52031901
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2621.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 09:35:46.3895
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9kfOkxhb/CQ0e3+JTz6Lys3gt3OlnsIAzI1yVPNTxus8jqZdeiZwoa76/q/B+rj/1xJRG6xk9AStywsLgeRZMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5450
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jwj5rc6xyemnxcyt"
+Content-Disposition: inline
+In-Reply-To: <1b766164-b5e8-61ac-bf73-6d2c49c72409@kernel.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Device Tree engineers,
 
+--jwj5rc6xyemnxcyt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Recently I have ported Xen on Cortex-R52 (AArch32-V8R processor) for our 
-AMD platform.
+Hi Dinh,
 
-I was discussing with xen-devel community about how we can properly 
-support smpboot when I was suggested that this might be the correct 
-forum for discussion.
+On Tue, May 09, 2023 at 12:37:39PM -0500, Dinh Nguyen wrote:
+> Hi Maxime,
+>=20
+> On 5/4/23 12:04, Maxime Ripard wrote:
+> > Hi Dinh,
+> >=20
+> > On Thu, Apr 27, 2023 at 02:09:48PM -0500, Dinh Nguyen wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On 4/25/23 09:48, Maxime Ripard wrote:
+> > > > Hi Dinh,
+> > > >=20
+> > > > On Mon, Apr 24, 2023 at 01:32:28PM -0500, Dinh Nguyen wrote:
+> > > > > On 4/4/23 05:11, Maxime Ripard wrote:
+> > > > > > The SoCFGPA gate clock implements a mux with a set_parent hook,=
+ but
+> > > > > > doesn't provide a determine_rate implementation.
+> > > > > >=20
+> > > > > > This is a bit odd, since set_parent() is there to, as its name =
+implies,
+> > > > > > change the parent of a clock. However, the most likely candidat=
+e to
+> > > > > > trigger that parent change is a call to clk_set_rate(), with
+> > > > > > determine_rate() figuring out which parent is the best suited f=
+or a
+> > > > > > given rate.
+> > > > > >=20
+> > > > > > The other trigger would be a call to clk_set_parent(), but it's=
+ far less
+> > > > > > used, and it doesn't look like there's any obvious user for tha=
+t clock.
+> > > > > >=20
+> > > > > > So, the set_parent hook is effectively unused, possibly because=
+ of an
+> > > > > > oversight. However, it could also be an explicit decision by the
+> > > > > > original author to avoid any reparenting but through an explici=
+t call to
+> > > > > > clk_set_parent().
+> > > > > >=20
+> > > > > > The latter case would be equivalent to setting the flag
+> > > > > > CLK_SET_RATE_NO_REPARENT, together with setting our determine_r=
+ate hook
+> > > > > > to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> > > > > > implementation is provided, clk_round_rate() (through
+> > > > > > clk_core_round_rate_nolock()) will call itself on the parent if
+> > > > > > CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> > > > > > otherwise. __clk_mux_determine_rate() has the exact same behavi=
+or when
+> > > > > > CLK_SET_RATE_NO_REPARENT is set.
+> > > > > >=20
+> > > > > > And if it was an oversight, then we are at least explicit about=
+ our
+> > > > > > behavior now and it can be further refined down the line.
+> > > > > >=20
+> > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > > > ---
+> > > > > >     drivers/clk/socfpga/clk-gate.c | 3 ++-
+> > > > > >     1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > > >=20
+> > > > > > diff --git a/drivers/clk/socfpga/clk-gate.c b/drivers/clk/socfp=
+ga/clk-gate.c
+> > > > > > index 32ccda960f28..cbba8462a09e 100644
+> > > > > > --- a/drivers/clk/socfpga/clk-gate.c
+> > > > > > +++ b/drivers/clk/socfpga/clk-gate.c
+> > > > > > @@ -110,6 +110,7 @@ static unsigned long socfpga_clk_recalc_rat=
+e(struct clk_hw *hwclk,
+> > > > > >     static struct clk_ops gateclk_ops =3D {
+> > > > > >     	.recalc_rate =3D socfpga_clk_recalc_rate,
+> > > > > > +	.determine_rate =3D __clk_mux_determine_rate,
+> > > > > >     	.get_parent =3D socfpga_clk_get_parent,
+> > > > > >     	.set_parent =3D socfpga_clk_set_parent,
+> > > > > >     };
+> > > > > > @@ -166,7 +167,7 @@ void __init socfpga_gate_init(struct device=
+_node *node)
+> > > > > >     	init.name =3D clk_name;
+> > > > > >     	init.ops =3D ops;
+> > > > > > -	init.flags =3D 0;
+> > > > > > +	init.flags =3D CLK_SET_RATE_NO_REPARENT;
+> > > > > >     	init.num_parents =3D of_clk_parent_fill(node, parent_name,=
+ SOCFPGA_MAX_PARENTS);
+> > > > > >     	if (init.num_parents < 2) {
+> > > > > >=20
+> > > > >=20
+> > > > > This patch broke SoCFPGA boot serial port. The characters are man=
+gled.
+> > > >=20
+> > > > Do you have any other access to that board? If so, could you dump
+> > > > clk_summary in debugfs with and without that patch?
+> > > >=20
+> > >=20
+> > > That dump from the clk_summary are identical for both cases.
+> >=20
+> > Thanks for testing
+> >=20
+> > I'm a bit confused, there should be no difference in behaviour, and if
+> > there was any difference I would expect the clock tree to be somewhat
+> > different.
+> >=20
+> > Could you still paste the clk_summary (and dmesg) output? Which UART
+> > driver is being used?
+> >=20
+> > Also, is there a way for me to test it somehow?
+> >=20
+>=20
+> Apologies, but there is a diff with/without this patch:
+>=20
+> With patch:
+> <           l4_sp_clk                   3        3        0   100000000
+> 0     0  50000         ?
+> ---
+> Without patch:
+> >           l4_sp_clk                   4        4        0   100000000
+> 0     0  50000         ?
+>=20
+> The enable/prepare count is 4 instead of 3 in the case of a working UART.
+> The debug uart is using the lp_sp_clk.
 
-Please refer 
-https://lists.xenproject.org/archives/html/xen-devel/2023-05/msg00224.html 
-and the follow-ups for context.
+This is pretty weird, the enable count shouldn't change, really, we're
+only changing something in the rate rounding path... Is it using the
+snps,dw-apb-uart driver?
 
+Nothing shows up in dmesg?
 
-The way smpboot works on our platform is as follows:-
+> The Cyclone5 devkits are pretty cheap if you want to get one.
 
-1. core0 writes to register (say regA) the address of the secondary core 
-initialization routine.
+Are you talking about the DE10-Nano? It seems out of stock everywhere in
+Europe :/
 
-2. core0 writes to another register (say regB) the value "0x1" to put 
-the secondary core in reset mode.
+Thanks!
+Maxime
 
-3. core0 writes to regB the value "0x0" to pull the secondary core out 
-of reset mode.
+--jwj5rc6xyemnxcyt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-regA, regB will differ for core1, core2, core3 and so on.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZFy5UQAKCRDj7w1vZxhR
+xQIDAP4vmB3HyvWG6uvwLSOB1WMHUejwVKumXbB/B6a/fLmtBQEApiEQi3pLDYQt
+OaahdgfV4a9cmtvor4QvkqvX+jEBuwE=
+=ETpg
+-----END PGP SIGNATURE-----
 
-Currently, I am trying to bringup core1 only.
-
-
-I am thinking to use "enable-method=spin-table" in the cpu node for 
-core1.  So that I can use "cpu-release-address" for regA.
-
-For regB, I am thinking of introducing a new property 
-"amd-cpu-reset-addr" in the cpu node.
-
-Please let me know your thoughts on this approach. I am also open to any 
-alternative suggestions.
-
-
-Also I see that in 
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/devicetree/bindings/arm/cpus.yaml#L87 
-, "arm,cortex-r52" is missing.
-
-Can I submit a patch (a one line change) to add this ?
-
-
-Kind regards,
-
-Ayan
-
-
+--jwj5rc6xyemnxcyt--
