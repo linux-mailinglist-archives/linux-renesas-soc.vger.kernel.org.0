@@ -2,154 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A706FFA0F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 21:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E21C96FFBE3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 23:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239174AbjEKTWf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 May 2023 15:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47804 "EHLO
+        id S239096AbjEKVfT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 May 2023 17:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239139AbjEKTWd (ORCPT
+        with ESMTP id S239319AbjEKVfS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 May 2023 15:22:33 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62ED07EC3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 12:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=k1; bh=G
-        7Fp/9JaQTJP0QCT0OfcvzIGyQ3ciiYzkRomf4h+i28=; b=NBnbQHjkg5ax5Sqw1
-        wHYzfN3po4gvT83g4gzPa8gZpa7ac4JnbwpnAqx1g8ofMHy1NjfBPVSljf4hKXAa
-        jOTHWA6wg9Y0XJHtvdu4KIMsEH48k9ADDlC2hhRLPKxcRpbogIWtJ+FvWKR7/gD+
-        LiWhxrOJ19tmhcBB3VlR6vJbI0=
-Received: (qmail 2935254 invoked from network); 11 May 2023 21:22:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 May 2023 21:22:30 +0200
-X-UD-Smtp-Session: l3s3148p1@LunX6G/7fuAujnsI
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RFT v3 3/3] drivers/thermal/rcar_gen3_thermal: add reading fuses for Gen4
-Date:   Thu, 11 May 2023 21:22:19 +0200
-Message-Id: <20230511192220.7523-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230511192220.7523-1-wsa+renesas@sang-engineering.com>
-References: <20230511192220.7523-1-wsa+renesas@sang-engineering.com>
+        Thu, 11 May 2023 17:35:18 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4E25BA6;
+        Thu, 11 May 2023 14:35:15 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3078cc99232so6073346f8f.3;
+        Thu, 11 May 2023 14:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683840913; x=1686432913;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K5gez4trhN47bLnS5W9sj8CmKovqhNPW+LkbL9c6i6w=;
+        b=MB52x6G3crxSmz8AqmoSpzhJ3pHvztb5EKJA/NlbRcNunnzBPPtziH5X37dQBbYPem
+         SBPP5TDxS6rR+5tCRUVc0qLuwiJSEGYGj0i9uuDemFK5HVDBBEJ9XQQGh+LHKAmH4Wl/
+         dlvCDbzDVjwAfGcic5MBfq+s6b1vyqIwOvplhhLR0/yskJBTSa5i2d8gy2r8BvayATzM
+         gdBsUZFgMrkWnHfw/usyYQMW6x8y8/Cev9potAAANmBYlLKYGKVXvSk25peOqNhkmMKi
+         ApGNq0my/MdtbNAo6aoWAj1wFqCV6+0sDnseBWc8/s/9SZDH6O5SHYswYJltHCfUo7DS
+         m0HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683840913; x=1686432913;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5gez4trhN47bLnS5W9sj8CmKovqhNPW+LkbL9c6i6w=;
+        b=JfQXMzECem685lpHnQbzEp3PvZ+2aHHX9qQbQgij+SJE8f3onRqcBL+d0RNdZJmTr4
+         QStcb5IXfIxxl+RdeLnZ7Mnw8Zfa356FhthDWz2YuAInVRz2kh8Uh2Flu15dFGrzwR9d
+         qj8Fm1mYr0sgDBsgO1LhasbmI9VA+HqYeEDW/DESk8ThRXIVWYEO/19fWXRkiUeLU7O0
+         ku84LJ1PrJG1M25IXgbtq4kRgVhk0BIFRGe6gmA+hCzqOOKJrLPyBKotrliSksFzgOIt
+         0eh5ExqffBmoaJpmsRo1DPKp0/AoJDDmQbKVbZootqZ2rKdEy5sDOm3DmglGJ4CYfqOj
+         4v/A==
+X-Gm-Message-State: AC+VfDxyJHkqoBBmtB7gJconkCAIrcay/2uKSkSwVeqMiK9LEtw3S6RF
+        UPnL8hQec+Aa9tU0l56UXksGFLVavMzeoA==
+X-Google-Smtp-Source: ACHHUZ4TlFFMOmoEpYPHYtfUH6OsqWuPEJi0l97YBZwnxIW5DzBvlcN6RkUWVxgsiUJho/HJHsP26g==
+X-Received: by 2002:adf:dd02:0:b0:2f9:9911:93d1 with SMTP id a2-20020adfdd02000000b002f9991193d1mr17469315wrm.24.1683840913373;
+        Thu, 11 May 2023 14:35:13 -0700 (PDT)
+Received: from skbuf ([188.27.184.189])
+        by smtp.gmail.com with ESMTPSA id b15-20020a5d4b8f000000b003064600cff9sm21440858wrt.38.2023.05.11.14.35.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 14:35:13 -0700 (PDT)
+Date:   Fri, 12 May 2023 00:35:10 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     alexis.lothore@bootlin.com
+Cc:     andrew@lunn.ch, f.fainelli@gmail.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        herve.codina@bootlin.com, miquel.raynal@bootlin.com,
+        milan.stevanovic@se.com, jimmy.lalande@se.com,
+        pascal.eberhard@se.com,
+        =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Subject: Re: [PATCH net v2 1/3] net: dsa: rzn1-a5psw: enable management
+ frames for CPU port
+Message-ID: <20230511213510.anpb6cj6d2zdyotz@skbuf>
+References: <20230511170202.742087-1-alexis.lothore@bootlin.com>
+ <20230511170202.742087-2-alexis.lothore@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230511170202.742087-2-alexis.lothore@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The registers are differently named and at different offsets, but their
-functionality is the same as for Gen3.
+On Thu, May 11, 2023 at 07:02:00PM +0200, alexis.lothore@bootlin.com wrote:
+> From: Clément Léger <clement.leger@bootlin.com>
+> 
+> Currently, management frame were discarded before reaching the CPU port due
+> to a misconfiguration of the MGMT_CONFIG register. Enable them by setting
+> the correct value in this register in order to correctly receive management
+> frame and handle STP.
+> 
+> Fixes: 888cdb892b61 ("net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver")
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+> ---
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_gen3_thermal.c | 44 +++++++++++++++++++++++++++--
- 1 file changed, 42 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 39b382ee08c8..9029d01e029b 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -35,6 +35,12 @@
- #define REG_GEN3_PTAT2		0x60
- #define REG_GEN3_PTAT3		0x64
- #define REG_GEN3_THSCP		0x68
-+#define REG_GEN4_THSFMON00	0x180
-+#define REG_GEN4_THSFMON01	0x184
-+#define REG_GEN4_THSFMON02	0x188
-+#define REG_GEN4_THSFMON15	0x1BC
-+#define REG_GEN4_THSFMON16	0x1C0
-+#define REG_GEN4_THSFMON17	0x1C4
- 
- /* IRQ{STR,MSK,EN} bits */
- #define IRQ_TEMP1		BIT(0)
-@@ -55,6 +61,7 @@
- 
- #define MCELSIUS(temp)	((temp) * 1000)
- #define GEN3_FUSE_MASK	0xFFF
-+#define GEN4_FUSE_MASK	0xFFF
- 
- #define TSC_MAX_NUM	5
- 
-@@ -272,6 +279,34 @@ static void rcar_gen3_thermal_read_fuses_gen3(struct rcar_gen3_thermal_priv *pri
- 	}
- }
- 
-+static void rcar_gen3_thermal_read_fuses_gen4(struct rcar_gen3_thermal_priv *priv)
-+{
-+	unsigned int i;
-+
-+	/*
-+	 * Set the pseudo calibration points with fused values.
-+	 * PTAT is shared between all TSCs but only fused for the first
-+	 * TSC while THCODEs are fused for each TSC.
-+	 */
-+	priv->ptat[0] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON16) &
-+		GEN4_FUSE_MASK;
-+	priv->ptat[1] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON17) &
-+		GEN4_FUSE_MASK;
-+	priv->ptat[2] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN4_THSFMON15) &
-+		GEN4_FUSE_MASK;
-+
-+	for (i = 0; i < priv->num_tscs; i++) {
-+		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
-+
-+		tsc->thcode[0] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON01) &
-+			GEN4_FUSE_MASK;
-+		tsc->thcode[1] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON02) &
-+			GEN4_FUSE_MASK;
-+		tsc->thcode[2] = rcar_gen3_thermal_read(tsc, REG_GEN4_THSFMON00) &
-+			GEN4_FUSE_MASK;
-+	}
-+}
-+
- static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
- {
- 	unsigned int i;
-@@ -343,6 +378,11 @@ static const struct rcar_thermal_info rcar_gen3_thermal_info = {
- 	.read_fuses = rcar_gen3_thermal_read_fuses_gen3,
- };
- 
-+static const struct rcar_thermal_info rcar_gen4_thermal_info = {
-+	.ths_tj_1 = 126,
-+	.read_fuses = rcar_gen3_thermal_read_fuses_gen4,
-+};
-+
- static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
- 	{
- 		.compatible = "renesas,r8a774a1-thermal",
-@@ -382,11 +422,11 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
- 	},
- 	{
- 		.compatible = "renesas,r8a779f0-thermal",
--		.data = &rcar_gen3_thermal_info,
-+		.data = &rcar_gen4_thermal_info,
- 	},
- 	{
- 		.compatible = "renesas,r8a779g0-thermal",
--		.data = &rcar_gen3_thermal_info,
-+		.data = &rcar_gen4_thermal_info,
- 	},
- 	{},
- };
--- 
-2.35.1
-
+Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
