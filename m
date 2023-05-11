@@ -2,57 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AD3E6FEF24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 11:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6336FEFE1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 12:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbjEKJsv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 May 2023 05:48:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35232 "EHLO
+        id S237826AbjEKK1Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 May 2023 06:27:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232333AbjEKJsu (ORCPT
+        with ESMTP id S237436AbjEKK1X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 May 2023 05:48:50 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5273E5FCA
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 02:48:48 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-b9d8b2e1576so10691566276.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 02:48:48 -0700 (PDT)
+        Thu, 11 May 2023 06:27:23 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A582E1FDA
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 03:27:21 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-ba1815e12efso7187407276.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 03:27:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683798527; x=1686390527;
+        d=linaro.org; s=google; t=1683800841; x=1686392841;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vx18VK8gbasjrWf/cSU+rJppsMri3t7m3OEVcEQZqnI=;
-        b=y0vL277mhdkg0IVyKVF9Xj5BrJGL4T4KRCytU0vWSXUL5Nn/ZM6nF9bPbE+GHaEanR
-         OGyLRpkxZ2ZfGnIxVlL77bgBiljl86Gtt6NOj2l6MIA1yxcI4yLkOJ6diCpZ8GI5e2wI
-         twdCy5OEhLwuCtSv+5ktrCeaiC13IB5JFArPrF6YbimlRI7PvfV4UIiGlT9YTxQ0hPWG
-         PaHwdRQYt7VM5HYCHMzGcT1URzrGtyfXDAmTLlgAqncsbaHtUBU5yMJmdk2zfMon4/eg
-         JDsb6oRzQrZUYyWjJPmfmKHYYcEJXXhsX47A6PIJkoPGjX5aT01vVdf11bChcrs+BrtI
-         WB5w==
+        bh=uykYdwxNJpjM8txnz6tWDxYllRH8wMK2T/tdDLN4Ol4=;
+        b=k/46rzEyfOxnON6yLO9CfMB5FqAsBVFG1sHshkK7KaD1GjosC8TzgS3DTnGhaFdhQX
+         vdcHO8v8xmXHkclpRwhy8+p9H8pQc5VQYuscQY7kEEy5kXg8fPdiElNgGYv/8vi5Db/N
+         hX0TcDA9W7wikOR/eeUWlj6XUgYNY1gHj6TYzsk7TKyQTjV4UUb8ztswx55M2kl2SAV0
+         6jsyzoEpqLJllmlzGqchSVxYDQQtD6i8bfpIPygHpHZV2VuuOApDz3SpTGwwzprvBaYx
+         7kO1d6zIaT5psMTM4NCTzRHaZlu9ZcgmVPE5bVqjQut3rGZve5umxv0iWA3xtgyvwaAy
+         RzrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683798527; x=1686390527;
+        d=1e100.net; s=20221208; t=1683800841; x=1686392841;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vx18VK8gbasjrWf/cSU+rJppsMri3t7m3OEVcEQZqnI=;
-        b=IogSgzKx/jPNFtmmDr7LQZqVdOjuh4c7qzj5n0DwKkkLcntnc0VmjPyZapAvbMYPJD
-         I0IjKBRYE0eGHaLIYT+qlyWc6futSr4uQKqdeoW016/hAx5Nrvzg8kDbSboZBslElVRC
-         ctFFTAKEc7n506a0Gvoh6t9ymF7cgIv5eyMBDKiq/mguP2DXMMx1/t1r8+ihxdNPMHg9
-         4EBH6si7dKc0FWYOp3fnl2I8wBSnNbrnMseYsMOXGGwZDAO7XIKyCDPYluctaffT8BQC
-         I5uUMLOMfbfm3M1iHfoDqR28eYEL8ECBd63a9hXtpVzUywQGanFhNuq81lXSk+fm27De
-         /l6g==
-X-Gm-Message-State: AC+VfDwMTDclSwaTqfbzeNslCxS6jYBAylmTC2klVlf42cPben+q11Ag
-        DaG1ICbFVdVWvwM11HZk4ouUvvkBnQjPlKhVdcEizQ==
-X-Google-Smtp-Source: ACHHUZ6zKEPk0T0Rs0M+OLTRj/ZtKnufURKamigf+d5W/5pl3IhfOKJmLsK4V4GYDqd2RzyNOgNTx3ByvndgzekpG5k=
-X-Received: by 2002:a25:d710:0:b0:ba6:bb9a:3e30 with SMTP id
- o16-20020a25d710000000b00ba6bb9a3e30mr696571ybg.6.1683798527480; Thu, 11 May
- 2023 02:48:47 -0700 (PDT)
+        bh=uykYdwxNJpjM8txnz6tWDxYllRH8wMK2T/tdDLN4Ol4=;
+        b=PTFIT05r9S9X/FZoTiUzPMCNi9Bvq88T0c7T7SJVmtHGFdbrXjljmij74O2OqI+rNM
+         Z0ZKC9Qqbi+aObNcnrDSN91A/fbu4W05nSEjOZ3yRODaRa/KG+1tOJGLH/nrBNCuNEyw
+         /Jh8/Aw8qBXSa5QNqTm96MdE1d7JlTwQRM/0s+ClsxOltLbxZu0p61I6o3iTDnIhQAyq
+         L/DFY65V13c6b5bhsFkskAkzIbwHtguRvoF+cgZRYg16n1HzjaWtj4tfWSP+6/BC//Cd
+         KMpdwItvJ0AvqF06qc+ncNm9NaM0ea3LTV8TwRbPe64K+XdZknQQJ98rAy/1K/ENRS5a
+         sjYw==
+X-Gm-Message-State: AC+VfDyf1GhXMtJFl/9ayxjlxTnQE3Z2JMwzFVLL/AfMvwEF9l5BZMT5
+        Z78pHrp9Fei3uE/PJ6vlD6g0eiomasDrCTVO7OF6rw==
+X-Google-Smtp-Source: ACHHUZ6xHzX4VWPXbZ/KG1bAyRceepuq625gxgPDakbctcB0w7Y1RDt2WG0rJpTuCElIUyAMQ2sGtSXZHVxcvC6HSI4=
+X-Received: by 2002:a05:6902:10c3:b0:b9a:3dd2:d21f with SMTP id
+ w3-20020a05690210c300b00b9a3dd2d21fmr23165555ybu.56.1683800840848; Thu, 11
+ May 2023 03:27:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1683722688.git.geert+renesas@glider.be> <fe235a1f65bb6c86d2afcdf52d85f80ae728dcc5.1683722688.git.geert+renesas@glider.be>
-In-Reply-To: <fe235a1f65bb6c86d2afcdf52d85f80ae728dcc5.1683722688.git.geert+renesas@glider.be>
+References: <cover.1683722688.git.geert+renesas@glider.be> <8db63020d18fc22e137e4a8f0aa15e6b9949a6f6.1683722688.git.geert+renesas@glider.be>
+In-Reply-To: <8db63020d18fc22e137e4a8f0aa15e6b9949a6f6.1683722688.git.geert+renesas@glider.be>
 From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 11 May 2023 11:48:11 +0200
-Message-ID: <CAPDyKFoAr47m0cKjwgCLFwEUDoHDzssHnz=33KDb47xrC=1iew@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] iopoll: Call cpu_relax() in busy loops
+Date:   Thu, 11 May 2023 12:26:44 +0200
+Message-ID: <CAPDyKFoTJFoDtSdPcXXQN_zi+TCQwr3UjLYu5jMCq_1sCnnG3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] iopoll: Do not use timekeeping in read_poll_timeout_atomic()
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Stephen Boyd <sboyd@kernel.org>,
         Tomasz Figa <tomasz.figa@gmail.com>,
@@ -89,79 +89,118 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Wed, 10 May 2023 at 15:23, Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 >
-> It is considered good practice to call cpu_relax() in busy loops, see
-> Documentation/process/volatile-considered-harmful.rst.  This can not
-> only lower CPU power consumption or yield to a hyperthreaded twin
-> processor, but also allows an architecture to mitigate hardware issues
-> (e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
-> architecture-specific cpu_relax() implementation.
+> read_poll_timeout_atomic() uses ktime_get() to implement the timeout
+> feature, just like its non-atomic counterpart.  However, there are
+> several issues with this, due to its use in atomic contexts:
 >
-> In addition, cpu_relax() is also a compiler barrier.  It is not
-> immediately obvious that the @op argument "function" will result in an
-> actual function call (e.g. in case of inlining).
+>   1. When called in the s2ram path (as typically done by clock or PM
+>      domain drivers), timekeeping may be suspended, triggering the
+>      WARN_ON(timekeeping_suspended) in ktime_get():
 >
-> Where a function call is a C sequence point, this is lost on inlining.
-> Therefore, with agressive enough optimization it might be possible for
-> the compiler to hoist the:
+>         WARNING: CPU: 0 PID: 654 at kernel/time/timekeeping.c:843 ktime_get+0x28/0x78
 >
->         (val) = op(args);
+>      Calling ktime_get_mono_fast_ns() instead of ktime_get() would get
+>      rid of that warning.  However, that would break timeout handling,
+>      as (at least on systems with an ARM architectured timer), the time
+>      returned by ktime_get_mono_fast_ns() does not advance while
+>      timekeeping is suspended.
+>      Interestingly, (on the same ARM systems) the time returned by
+>      ktime_get() does advance while timekeeping is suspended, despite
+>      the warning.
+
+Interesting, looks like we should spend some time to further
+investigate this behaviour.
+
 >
-> "load" out of the loop because it doesn't see the value changing. The
-> addition of cpu_relax() would inhibit this.
+>   2. Depending on the actual clock source, and especially before a
+>      high-resolution clocksource (e.g. the ARM architectured timer)
+>      becomes available, time may not advance in atomic contexts, thus
+>      breaking timeout handling.
 >
-> As the iopoll helpers lack calls to cpu_relax(), people are sometimes
-> reluctant to use them, and may fall back to open-coded polling loops
-> (including cpu_relax() calls) instead.
->
-> Fix this by adding calls to cpu_relax() to the iopoll helpers:
->   - For the non-atomic case, it is sufficient to call cpu_relax() in
->     case of a zero sleep-between-reads value, as a call to
->     usleep_range() is a safe barrier otherwise.  However, it doesn't
->     hurt to add the call regardless, for simplicity, and for similarity
->     with the atomic case below.
->   - For the atomic case, cpu_relax() must be called regardless of the
->     sleep-between-reads value, as there is no guarantee all
->     architecture-specific implementations of udelay() handle this.
+> Fix this by abandoning the idea that one can rely on timekeeping to
+> implement timeout handling in all atomic contexts, and switch from a
+> global time-based to a locally-estimated timeout handling.  In most
+> (all?) cases the timeout condition is exceptional and an error
+> condition, hence any additional delays due to underestimating wall clock
+> time are irrelevant.
+
+I wonder if this isn't an oversimplification of the situation. Don't
+we have timeout-error-conditions that we expected to happen quite
+frequently?
+
+If so, in these cases, we really don't want to continue looping longer
+than actually needed, as then we will remain in the atomic context
+longer than necessary.
+
+I guess some information about how big these additional delays could
+be, would help to understand better. Of course, it's not entirely easy
+to get that data, but did you run some tests to see how this changes?
+
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-
-Makes sense to me! Feel free to add:
-
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-Kind regards
-Uffe
-
 > ---
+> Alternatively, one could use a mixed approach (use both
+> ktime_get_mono_fast_ns() and a local (under)estimate, and timeout on the
+> earliest occasion), but I think that would complicate things without
+> much gain.
+
+Another option could be to provide two different polling APIs for the
+atomic use-case.
+
+One that keeps using ktime, which is more accurate and generally
+favourable - and another, along the lines of what you propose, that
+should be used by those that can't rely on timekeeping.
+
+>
 > v2:
->   - Add Acked-by,
->   - Add compiler barrier and inlining explanation (thanks, Peter!).
+>   - New.
 > ---
->  include/linux/iopoll.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  include/linux/iopoll.h | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
 >
 > diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
-> index 2c8860e406bd8cae..0417360a6db9b0d6 100644
+> index 0417360a6db9b0d6..bb2e1d9117e96679 100644
 > --- a/include/linux/iopoll.h
 > +++ b/include/linux/iopoll.h
-> @@ -53,6 +53,7 @@
+> @@ -81,22 +81,30 @@
+>                                         delay_before_read, args...) \
+>  ({ \
+>         u64 __timeout_us = (timeout_us); \
+> +       s64 __left_ns = __timeout_us * NSEC_PER_USEC; \
+>         unsigned long __delay_us = (delay_us); \
+> -       ktime_t __timeout = ktime_add_us(ktime_get(), __timeout_us); \
+> -       if (delay_before_read && __delay_us) \
+> +       u64 __delay_ns = __delay_us * NSEC_PER_USEC; \
+> +       if (delay_before_read && __delay_us) { \
+>                 udelay(__delay_us); \
+> +               if (__timeout_us) \
+> +                       __left_ns -= __delay_ns; \
+> +       } \
+>         for (;;) { \
+>                 (val) = op(args); \
+>                 if (cond) \
+>                         break; \
+> -               if (__timeout_us && \
+> -                   ktime_compare(ktime_get(), __timeout) > 0) { \
+> +               if (__timeout_us && __left_ns < 0) { \
+>                         (val) = op(args); \
+>                         break; \
 >                 } \
->                 if (__sleep_us) \
->                         usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
-> +               cpu_relax(); \
->         } \
->         (cond) ? 0 : -ETIMEDOUT; \
->  })
-> @@ -95,6 +96,7 @@
->                 } \
->                 if (__delay_us) \
+> -               if (__delay_us) \
+> +               if (__delay_us) { \
 >                         udelay(__delay_us); \
-> +               cpu_relax(); \
+> +                       if (__timeout_us) \
+> +                               __left_ns -= __delay_ns; \
+> +               } \
+>                 cpu_relax(); \
+> +               if (__timeout_us) \
+> +                       __left_ns--; \
 >         } \
 >         (cond) ? 0 : -ETIMEDOUT; \
 >  })
 > --
 > 2.34.1
 >
+
+Kind regards
+Uffe
