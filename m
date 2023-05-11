@@ -2,80 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B966FEFFB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 12:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB7D16FF01C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 May 2023 12:49:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237149AbjEKKfV convert rfc822-to-8bit (ORCPT
+        id S237709AbjEKKtG convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 May 2023 06:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
+        Thu, 11 May 2023 06:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236816AbjEKKfU (ORCPT
+        with ESMTP id S237858AbjEKKtC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 May 2023 06:35:20 -0400
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7030EA7;
-        Thu, 11 May 2023 03:35:17 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id E8988615C9F5;
-        Thu, 11 May 2023 12:35:04 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id LDkxuyXXLkqL; Thu, 11 May 2023 12:35:04 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 545BD61B8B4D;
-        Thu, 11 May 2023 12:35:04 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id u3mttOWBUBDr; Thu, 11 May 2023 12:35:04 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 30A9B615C9F5;
-        Thu, 11 May 2023 12:35:04 +0200 (CEST)
-Date:   Thu, 11 May 2023 12:35:04 +0200 (CEST)
-From:   Richard Weinberger <richard@nod.at>
-To:     Christian Loehle <CLoehle@hyperstone.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
-        wsa+renesas <wsa+renesas@sang-engineering.com>,
-        ulf hansson <ulf.hansson@linaro.org>
-Message-ID: <673489738.9276814.1683801304117.JavaMail.zimbra@nod.at>
-In-Reply-To: <94f03374781b4e978a39699815b21803@hyperstone.com>
-References: <1674847756.113858.1681762124503.JavaMail.zimbra@nod.at> <522326845.127346.1681805484949.JavaMail.zimbra@nod.at> <f50de2461dae4931abf3f0216b836fd1@hyperstone.com> <1186364892.150923.1681819136247.JavaMail.zimbra@nod.at> <1273293952.226564.1682003880265.JavaMail.zimbra@nod.at> <398e244a4d3746f1bd7b4c32d1ea70e3@hyperstone.com> <615854031.8233438.1683631700226.JavaMail.zimbra@nod.at> <94f03374781b4e978a39699815b21803@hyperstone.com>
-Subject: Re: Poor write performance to boot area using rcar-gen3-sdhi
+        Thu, 11 May 2023 06:49:02 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1605759E0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 May 2023 03:48:41 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-202-iCHHTVxWNbqcZ3-yAECREg-1; Thu, 11 May 2023 11:48:39 +0100
+X-MC-Unique: iCHHTVxWNbqcZ3-yAECREg-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 11 May
+ 2023 11:48:37 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Thu, 11 May 2023 11:48:37 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Tony Lindgren' <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Stephen Boyd <sboyd@kernel.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Krzysztof Kozlowski" <krzk@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        "Ulf Hansson" <ulf.hansson@linaro.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 1/2] iopoll: Call cpu_relax() in busy loops
+Thread-Topic: [PATCH v2 1/2] iopoll: Call cpu_relax() in busy loops
+Thread-Index: AQHZg9SqgvUK/klkyEy9n2eMPFqMgK9U5DUg
+Date:   Thu, 11 May 2023 10:48:37 +0000
+Message-ID: <494a000774b546e4aae00ae0a7dfeae4@AcuMS.aculab.com>
+References: <cover.1683722688.git.geert+renesas@glider.be>
+ <fe235a1f65bb6c86d2afcdf52d85f80ae728dcc5.1683722688.git.geert+renesas@glider.be>
+ <20230511064839.GG14287@atomide.com>
+In-Reply-To: <20230511064839.GG14287@atomide.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
-Thread-Topic: Poor write performance to boot area using rcar-gen3-sdhi
-Thread-Index: jiFrfBZIr7HKS7MkHilHFl02Bun/Q/AMgGyAaB0PmjP8vxGocEw2ct+x/Z5ZwOAvOJ8Zmh6KUsXr/ZciBcB4n5SQpfxaAwsASMB9OoY=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_BAD_THREAD_QP_64,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
------ Ursprüngliche Mail -----
-> Von: "Christian Loehle" <CLoehle@hyperstone.com>
->> While u-boot does basically all IO with one op code, Linux's writeback via page
->> cache writes 4k wise which leads to catastrophic performance.
->> Using O_DIRECT mitigates the issue, though.
+From: Tony Lindgren
+> Sent: 11 May 2023 07:49
 > 
-> Interesting, without having tried it out I would expect the 4k writebacks to be
-> merged to a bigger IO, too? Given that they are filled sequentially, which is
-> the case.
-> But good that you got it working.
-> If I find the time I will play with it a bit.
+> * Geert Uytterhoeven <geert+renesas@glider.be> [230510 13:23]:
+> > It is considered good practice to call cpu_relax() in busy loops, see
+> > Documentation/process/volatile-considered-harmful.rst.  This can not
+> > only lower CPU power consumption or yield to a hyperthreaded twin
+> > processor, but also allows an architecture to mitigate hardware issues
+> > (e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
+> > architecture-specific cpu_relax() implementation.
 
-I think due to the nature of rcar-gen3-sdhi merging of these BIOs is not possible.
-There seems to be support for some variants, though:
-https://elinux.org/R-Car/Merging-MMC-block-requests
+Don't you also need to call cond_resched() (at least some times).
+Otherwise the process can't be pre-empted and a RT process
+that last ran on that cpu will never be scheduled.
 
-Not sure whether I find the time to dig down that rabbit whole too. ;-)
+	David
 
-Thanks,
-//richard
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
