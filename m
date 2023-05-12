@@ -2,206 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABFF7001E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 May 2023 09:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2456700207
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 May 2023 10:00:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240276AbjELHzA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 May 2023 03:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        id S240074AbjELIAA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 May 2023 04:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240347AbjELHyh (ORCPT
+        with ESMTP id S240067AbjELH74 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 May 2023 03:54:37 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9936A1161C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 May 2023 00:54:13 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-559e2051d05so139142467b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 May 2023 00:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683878051; x=1686470051;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bYNwvt4ygEmwWz8bQkGTZsHwBw2LQJ0FGs8uf5nofMA=;
-        b=ictDbm8V1jhuniWNoQbZT3Yyb8YlucqQ1F9qBEzbqNsoBVWt6eNz47yTDwe+3WrbAi
-         iTvKhFbbp9a1nKzyY4ifqeyi1V9ZRU6y/pjmjN0XphCa/Oo6ceVtWdjvrF+rGYqGNCRh
-         jmTkiqNfcpOgYrly6IkZK1YTOM9zje1fDPDnS6Yfo6ZNa4PZ+kvXpenHfoWUytNAAswQ
-         rtYTMtLLYZ0W1xwlGdZ4bUGTxpnbYq33qLlR0HT5vroBaRlzlwX4b1b6wxB5CQRv6qPf
-         isZxJC5u3iBtqInc1/WGSQGryWK5+ayL95sA5NPmyCoAZROCHdIzlmFwO6N9kTlTXOZZ
-         tFhQ==
+        Fri, 12 May 2023 03:59:56 -0400
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327B01BCA;
+        Fri, 12 May 2023 00:59:49 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-b9d8b2e1576so12446999276.2;
+        Fri, 12 May 2023 00:59:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683878051; x=1686470051;
+        d=1e100.net; s=20221208; t=1683878388; x=1686470388;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bYNwvt4ygEmwWz8bQkGTZsHwBw2LQJ0FGs8uf5nofMA=;
-        b=QoBTdWlPnjvq96DOhhZnUNpzNfT0687gCCz8mPvsIPbKoN5AMx8Ab8vv1t1aJzgOjz
-         Y92gyeJmx1Oguw6qUQgYzs+jP+G4B2Msj1JHB5se/TnZc3CcDJlyv3aZ33EXjc3cNy42
-         r9kfNSuMT67Ix+mWRlAoYrKRdH0pEJ9E96ZuMexaDbtztbgTjYYf3dal66PXVngsPq3p
-         yx5+gUNsDkQdsG6IW5DMdJSRZBSL0zt2LZbIHEBfnizBz4+UfwH6a5Exj5Me6re3+ce1
-         kf7Lnk9L4WdBQQ/dMgnJAydxO5QPGkawFYGx0dmxIDC38gNG7yxUKm9OdaCRmlpDegIL
-         +w0A==
-X-Gm-Message-State: AC+VfDyDmoaQLXSb+hGFUsyKHEQcmjX4yEAi8plnQ7M08i4QHj/MdGoV
-        J9DX+qRGr7+ljydom/7nEZ9zUNNAtaqD/LO2zq5LVA==
-X-Google-Smtp-Source: ACHHUZ4f5mzgwJ9scRqmDDAqQE6kFZyey+kWWc+0gd28idNHti6TeOtCDSeRcD4t1elHGRr8qxBvJlt2bB5qbh4nkrQ=
-X-Received: by 2002:a0d:c281:0:b0:536:cb48:9059 with SMTP id
- e123-20020a0dc281000000b00536cb489059mr24762932ywd.50.1683878051035; Fri, 12
- May 2023 00:54:11 -0700 (PDT)
+        bh=YtW83Y+m5xLXXaQjQs9WIAKFJ8f7EcydpaDqhfcPeeY=;
+        b=kAdvvmcZephp/4Ct2GQ7iMra27TJxNA5OidUfsexF86L4ZnIy2+xIOAL1Z+ZOZ1LlF
+         S9NPwBwsSiMVZfK25k7Rs9/wCZXSV8f5v8IXkBnb5Mnmwg0EouljsYqNzjDynhQrX/bw
+         fVms2n1TBG5p0uNJLWhB2MK8YyOEn3Tqrfn2uH1d4nA8s4FDPZr7fWMmYFC/JQoROT4m
+         x7KEdHxdXfW8A5+gDSYG5ppC81NJsVUB1Snu2X+Z66r15XMrCoI2RcaGmFYM3ggrFJop
+         Ieoyp2lGcYeidI+RsdjqeIwPIxBzmGYnAiGZZqZykdsXoQXt8kjw13/l1RUyLDtsDVK3
+         Dhjw==
+X-Gm-Message-State: AC+VfDw61OyBf0fPAb+UTEs85yj1oWAim0tu2Z91fip0P5rjbhEvtpOX
+        BtUDQxbIp11cofPL2KVG5+TBbBFg+TKEY1dE
+X-Google-Smtp-Source: ACHHUZ5gJ6pS5BzG1V6rCRbA8+uRAtCvqZnXa2PjQB6N94o2VTsGaaqpDxLdiEHSo1RGg1cucuzYZg==
+X-Received: by 2002:a25:ad19:0:b0:b9e:6c59:aa0b with SMTP id y25-20020a25ad19000000b00b9e6c59aa0bmr21082448ybi.13.1683878388016;
+        Fri, 12 May 2023 00:59:48 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id y187-20020a0dd6c4000000b0054fdb1dad0fsm5478024ywd.43.2023.05.12.00.59.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 May 2023 00:59:47 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-55af4277904so146186797b3.1;
+        Fri, 12 May 2023 00:59:47 -0700 (PDT)
+X-Received: by 2002:a0d:d643:0:b0:561:1812:4d11 with SMTP id
+ y64-20020a0dd643000000b0056118124d11mr1532909ywd.3.1683878386953; Fri, 12 May
+ 2023 00:59:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1683722688.git.geert+renesas@glider.be> <8db63020d18fc22e137e4a8f0aa15e6b9949a6f6.1683722688.git.geert+renesas@glider.be>
- <CAPDyKFoTJFoDtSdPcXXQN_zi+TCQwr3UjLYu5jMCq_1sCnnG3Q@mail.gmail.com> <CAMuHMdV6e84fbbm6m1Rn6f-1xdS10VkHaj5jOB0Sy1uKfacnNw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV6e84fbbm6m1Rn6f-1xdS10VkHaj5jOB0Sy1uKfacnNw@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 12 May 2023 09:53:34 +0200
-Message-ID: <CAPDyKFr0o_GYauvxorBwg_0uEPYzt4YztohTAHHnYVPtgM4W=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] iopoll: Do not use timekeeping in read_poll_timeout_atomic()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Dejin Zheng <zhengdejin5@gmail.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Lindgren <tony@atomide.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <000000000000da2a8505fb71d81b@google.com>
+In-Reply-To: <000000000000da2a8505fb71d81b@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 12 May 2023 09:59:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVsWdwaAUZ4DTiLFxgVEETx=YwOnrZ6qeOyBWE8=tKQw@mail.gmail.com>
+Message-ID: <CAMuHMdVVsWdwaAUZ4DTiLFxgVEETx=YwOnrZ6qeOyBWE8=tKQw@mail.gmail.com>
+Subject: Re: [syzbot] upstream boot error: BUG: unable to handle kernel NULL
+ pointer dereference in gic_eoi_irq
+To:     syzbot <syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        magnus.damm@gmail.com, maz@kernel.org,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
+        syzkaller@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 11 May 2023 at 14:44, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
+On Thu, May 11, 2023 at 11:41 PM syzbot
+<syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com> wrote:
+> syzbot found the following issue on:
 >
-> Hi Ulf,
+> HEAD commit:    ac9a78681b92 Linux 6.4-rc1
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=102a3f6a280000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=cc86fee67199911d
+> dashboard link: https://syzkaller.appspot.com/bug?extid=afc1d968649e7e851562
+> compiler:       arm-linux-gnueabi-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> userspace arch: arm
 >
-> On Thu, May 11, 2023 at 12:27=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.=
-org> wrote:
-> > On Wed, 10 May 2023 at 15:23, Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > read_poll_timeout_atomic() uses ktime_get() to implement the timeout
-> > > feature, just like its non-atomic counterpart.  However, there are
-> > > several issues with this, due to its use in atomic contexts:
-> > >
-> > >   1. When called in the s2ram path (as typically done by clock or PM
-> > >      domain drivers), timekeeping may be suspended, triggering the
-> > >      WARN_ON(timekeeping_suspended) in ktime_get():
-> > >
-> > >         WARNING: CPU: 0 PID: 654 at kernel/time/timekeeping.c:843 kti=
-me_get+0x28/0x78
-> > >
-> > >      Calling ktime_get_mono_fast_ns() instead of ktime_get() would ge=
-t
-> > >      rid of that warning.  However, that would break timeout handling=
-,
-> > >      as (at least on systems with an ARM architectured timer), the ti=
-me
-> > >      returned by ktime_get_mono_fast_ns() does not advance while
-> > >      timekeeping is suspended.
-> > >      Interestingly, (on the same ARM systems) the time returned by
-> > >      ktime_get() does advance while timekeeping is suspended, despite
-> > >      the warning.
-> >
-> > Interesting, looks like we should spend some time to further
-> > investigate this behaviour.
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/c35b5b2731d2/non_bootable_disk-ac9a7868.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/c04bec59d77d/vmlinux-ac9a7868.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/070113b307f3/zImage-ac9a7868.xz
 >
-> Probably, I was a bit surprised by this behavior, too.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com
 >
-> > >   2. Depending on the actual clock source, and especially before a
-> > >      high-resolution clocksource (e.g. the ARM architectured timer)
-> > >      becomes available, time may not advance in atomic contexts, thus
-> > >      breaking timeout handling.
-> > >
-> > > Fix this by abandoning the idea that one can rely on timekeeping to
-> > > implement timeout handling in all atomic contexts, and switch from a
-> > > global time-based to a locally-estimated timeout handling.  In most
-> > > (all?) cases the timeout condition is exceptional and an error
-> > > condition, hence any additional delays due to underestimating wall cl=
-ock
-> > > time are irrelevant.
-> >
-> > I wonder if this isn't an oversimplification of the situation. Don't
-> > we have timeout-error-conditions that we expected to happen quite
-> > frequently?
->
-> We may have some.  But they definitely do not happen when time
-> does not advance, or they would have been mitigated long ago
-> (the loop would never terminate).
+> 8<--- cut here ---
+> Unable to handle kernel NULL pointer dereference at virtual address 000005f4 when read
+> [000005f4] *pgd=80000080004003, *pmd=00000000
+> Internal error: Oops: 207 [#1] PREEMPT SMP ARM
+> Modules linked in:
+> CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.4.0-rc1-syzkaller #0
+> Hardware name: ARM-Versatile Express
+> PC is at gic_eoi_irq+0x64/0x70 drivers/irqchip/irq-gic.c:228
 
-Right, I was merely thinking of the case when ktime isn't suspended,
-which of course is the most common case.
+Why is this sent to the renesas-soc maintainers?
 
->
-> > If so, in these cases, we really don't want to continue looping longer
-> > than actually needed, as then we will remain in the atomic context
-> > longer than necessary.
-> >
-> > I guess some information about how big these additional delays could
-> > be, would help to understand better. Of course, it's not entirely easy
-> > to get that data, but did you run some tests to see how this changes?
->
-> I did some timings (when timekeeping is available), and the differences
-> are rather minor.  The delay and timeout parameters are in =C2=B5s, and
-> 1 =C2=B5s is already a few orders of magnitude larger than the cycle time
-> of a contemporary CPU.
+> If you want to change bug's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
 
-Ohh, I was certainly expecting a bigger spread. If it's in that
-ballpark we should certainly be fine.
+While I see the list of subsystems there, how do I find out the (wrong?)
+current bug's subsystem?
 
-I will run some tests at my side too, as I am curious to see the
-behaviour. I will let you know, whatever the result is, of course.
+Thanks for fixing!
 
->
-> Under-estimates are due to the time spent in op() (depends on the
-> user, typical use is a hardware device register read), udelay()
-> (architecture/platform-dependent accuracy), and general loop overhead.
+Gr{oetje,eeting}s,
 
-Yes, you are right. My main concern is the accuracy of the udelay, but
-I may be totally wrong here.
+                        Geert
 
->
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > Alternatively, one could use a mixed approach (use both
-> > > ktime_get_mono_fast_ns() and a local (under)estimate, and timeout on =
-the
-> > > earliest occasion), but I think that would complicate things without
-> > > much gain.
-> >
-> > Another option could be to provide two different polling APIs for the
-> > atomic use-case.
-> >
-> > One that keeps using ktime, which is more accurate and generally
-> > favourable - and another, along the lines of what you propose, that
-> > should be used by those that can't rely on timekeeping.
->
-> At the risk of people picking the wrong one, leading to hard to
-> find bugs?
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I agree, If we don't need two APIs, it's certainly better to stick with one=
-.
-
-My main point is that we should not sacrifice "performance" for the
-most common case, just to keep things simple, right?
-
-Kind regards
-Uffe
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
