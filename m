@@ -2,99 +2,282 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0D3700274
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 May 2023 10:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2984570061B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 May 2023 12:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239803AbjELI1z convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 May 2023 04:27:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48276 "EHLO
+        id S240918AbjELK5j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 May 2023 06:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232659AbjELI1y (ORCPT
+        with ESMTP id S240708AbjELK5h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 May 2023 04:27:54 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FEA9013;
-        Fri, 12 May 2023 01:27:52 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-55a76ed088aso143439997b3.2;
-        Fri, 12 May 2023 01:27:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683880071; x=1686472071;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lsh0CzIrWqCG186SiBPK7PDZFJUtrBsuQOICQ+f77wQ=;
-        b=cwjLKTrepLU0mCe6XHC0u9tr9xVwW3sMpUFDqvuD4/DW3sNWm914eQ+Bb3ERugk/qF
-         pN/W9agCEDq9hD4CIMM3ceXAHymSDbxQXo66ohsVKVzpPMgExyhMVfiufrn4Pb+mM8or
-         dKFUVlNodvUVkZehm9aaMYtHBeQXD9HjFoWrLvvoLEoay2ebba87Dz6jy13ah4n6V9du
-         pdTDeNC5tWpU7wMXtPS/wsy/l/yShlCSV5hOQ2cGQvEaNirKd0oBLOFpOxj8m1tmR2H1
-         HMXvtKkOBjZAuxOeYLPkK/Ge9L52nggob8yzPtMPF4d1Qsp1m3qa4kReeUiViInjM9xD
-         T4eg==
-X-Gm-Message-State: AC+VfDxvnarVaOEVMR1YqarU9va95BfV2yiPr9oO5xdcGZ8FLCQem4Kg
-        HrFgIU/7Vk47E/8p/Hpge2STXGoNMreR5g==
-X-Google-Smtp-Source: ACHHUZ5qWnrpBr5JbBlZKBQdoOD3rNfWqGWVLROapUYTwzpN1eQ6Kd2OdQFEAbK3a8bWH4yUgdbc2A==
-X-Received: by 2002:a81:a1c9:0:b0:559:f85e:44e8 with SMTP id y192-20020a81a1c9000000b00559f85e44e8mr25289546ywg.29.1683880070837;
-        Fri, 12 May 2023 01:27:50 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id w9-20020a0dd409000000b0054f50f71834sm5506505ywd.124.2023.05.12.01.27.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 01:27:50 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-ba71cd7ce7fso422799276.1;
-        Fri, 12 May 2023 01:27:50 -0700 (PDT)
-X-Received: by 2002:a0d:ccd8:0:b0:55a:9b5a:1d9f with SMTP id
- o207-20020a0dccd8000000b0055a9b5a1d9fmr25268012ywd.11.1683880070312; Fri, 12
- May 2023 01:27:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230512075241.2770-1-wsa+renesas@sang-engineering.com> <20230512075241.2770-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230512075241.2770-3-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 May 2023 10:27:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWfUVus7LOfEZCV8=pqFQTC6308eLAsGCvZoJYM3++XSg@mail.gmail.com>
-Message-ID: <CAMuHMdWfUVus7LOfEZCV8=pqFQTC6308eLAsGCvZoJYM3++XSg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] PCI: rcar-host: add support for optional regulators
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Fri, 12 May 2023 06:57:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2212A3C2A;
+        Fri, 12 May 2023 03:57:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5825161A0F;
+        Fri, 12 May 2023 10:57:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE15C433EF;
+        Fri, 12 May 2023 10:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683889053;
+        bh=dg8aubaLyHfwcSh3xXZkMsr1MCu72NyvHKS1EZUNlhE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=LrLKXa7BKZW4ABBMxSYcln3tUQ/g958WFW/RMwLFvt9VCL6UjaMa8JBKgzi4/ZPko
+         oh1QV1QwMYNt7zn/PcmWdk8JLq6ROoo//gqVF7aezuG7bCYfcVmqqh7WcQXRbm19Hh
+         MNM9/6wujUpXXrz+x7vJs4gAzATYxoA97mITr3b9dyfYT65tYAKY84PLh5XisE1UmP
+         iDeXLdoJTSoy5whtsLNNzcItHFXf0El+3xs+izfWfX5L4Hh/I/xHXH64nRnuLD3sdW
+         Mr/sOlMfh3duzGllf2GETLTE9m27IDwdCyPK0V+agIvXigKnOGBxt0hepzLoo3ffpe
+         37ziPplRgDbOA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pxQSp-00EYIH-GD;
+        Fri, 12 May 2023 11:57:31 +0100
+Date:   Fri, 12 May 2023 11:57:31 +0100
+Message-ID: <86pm75n7fo.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     syzbot <syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com>
+Cc:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Subject: Re: [syzbot] upstream boot error: BUG: unable to handle kernel NULL pointer dereference in gic_eoi_irq
+In-Reply-To: <000000000000da2a8505fb71d81b@google.com>
+References: <000000000000da2a8505fb71d81b@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com, geert+renesas@glider.be, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com, syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 12, 2023 at 9:55 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> The KingFisher board has regulators. They just need to be en-/disabled,
-> so we can leave the handling to devm. Order variables in reverse-xmas
-> while we are here.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> Changes since v2:
->
-> * return directly with dev_err_probe
-> * reworded the error message to avoid repeating 'error'
+On Thu, 11 May 2023 22:41:11 +0100,
+syzbot <syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com> wrote:
+>=20
+> Hello,
+>=20
+> syzbot found the following issue on:
+>=20
+> HEAD commit:    ac9a78681b92 Linux 6.4-rc1
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=3D102a3f6a280000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dcc86fee671999=
+11d
+> dashboard link: https://syzkaller.appspot.com/bug?extid=3Dafc1d968649e7e8=
+51562
+> compiler:       arm-linux-gnueabi-gcc (Debian 10.2.1-6) 10.2.1 20210110, =
+GNU ld (GNU Binutils for Debian) 2.35.2
+> userspace arch: arm
+>=20
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/c=
+35b5b2731d2/non_bootable_disk-ac9a7868.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/c04bec59d77d/vmlinu=
+x-ac9a7868.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/070113b307f3/z=
+Image-ac9a7868.xz
+>=20
+> IMPORTANT: if you fix the issue, please add the following tag to the comm=
+it:
+> Reported-by: syzbot+afc1d968649e7e851562@syzkaller.appspotmail.com
+>=20
+> 8<--- cut here ---
+> Unable to handle kernel NULL pointer dereference at virtual address 00000=
+5f4 when read
+> [000005f4] *pgd=3D80000080004003, *pmd=3D00000000
+> Internal error: Oops: 207 [#1] PREEMPT SMP ARM
+> Modules linked in:
+> CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.4.0-rc1-syzkaller #0
+> Hardware name: ARM-Versatile Express
+> PC is at gic_eoi_irq+0x64/0x70 drivers/irqchip/irq-gic.c:228
+> LR is at handle_percpu_devid_irq+0xb8/0x2d4 kernel/irq/chip.c:944
+> pc : [<8087e328>]    lr : [<802bf798>]    psr: 20000193
+> sp : df805f60  ip : df805f78  fp : df805f74
+> r10: 00000000  r9 : 831f4680  r8 : 00000001
+> r7 : 0000001c  r6 : 81b0febc  r5 : 000005f0  r4 : 8309a218
+> r3 : 000005f0  r2 : 0009127a  r1 : ddde8b00  r0 : 8309a218
+> Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> Control: 30c5387d  Table: 84804d80  DAC: 00000000
+> Register r0 information: slab kmalloc-256 start 8309a200 pointer offset 2=
+4 size 256
+> Register r1 information: non-slab/vmalloc memory
+> Register r2 information:
+> 8<--- cut here ---
+> Unable to handle kernel NULL pointer dereference at virtual address 00000=
+1ff when read
+> [000001ff] *pgd=3D80000080004003, *pmd=3D00000000
+> Internal error: Oops: 207 [#2] PREEMPT SMP ARM
+> Modules linked in:
+> CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.4.0-rc1-syzkaller #0
+> Hardware name: ARM-Versatile Express
+> PC is at __find_vmap_area mm/vmalloc.c:841 [inline]
+> PC is at find_vmap_area mm/vmalloc.c:1862 [inline]
+> PC is at find_vm_area mm/vmalloc.c:2623 [inline]
+> PC is at vmalloc_dump_obj+0x38/0xb4 mm/vmalloc.c:4221
+> LR is at __raw_spin_lock include/linux/spinlock_api_smp.h:132 [inline]
+> LR is at _raw_spin_lock+0x18/0x58 kernel/locking/spinlock.c:154
+> pc : [<8047a2ec>]    lr : [<81801fd4>]    psr: 20000193
+> sp : df805df0  ip : df805dd8  fp : df805e04
+> r10: 831f4680  r9 : 8261c9a4  r8 : 8285041c
+> r7 : 60000193  r6 : 00000003  r5 : 00092000  r4 : 00000207
+> r3 : 830e13a0  r2 : 00001dda  r1 : 00000000  r0 : 00000001
+> Flags: nzCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> Control: 30c5387d  Table: 84804d80  DAC: 00000000
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[hoping this will be read by a human and not one of these AI]
 
-Gr{oetje,eeting}s,
+You keep sending me these reports because the GIC is in a
+stacktrace.
 
-                        Geert
+But the root cause it probably somewhere else, as the multiple runs of
+the same kernel result in very different exceptions, most of which
+never reach the point where it explodes in your stacktrace. Here's one
+of them:
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[    1.572514][    T1] Freeing unused kernel image (initmem) memory: 2048K
+[    1.624529][    T1] Failed to set sysctl parameter 'vm.nr_hugepages=3D4'=
+: parameter not found
+[    1.626239][    T1] Failed to set sysctl parameter 'vm.nr_overcommit_hug=
+epages=3D4': parameter not found
+[    1.628105][    T1] Failed to set sysctl parameter 'max_rcu_stall_to_pan=
+ic=3D1': parameter not found
+[    1.630034][    T1] Run /sbin/init as init process
+[    1.663886][    T0] Insufficient stack space to handle exception!
+[    1.663894][    T0] Task stack:     [0xdf8a0000..0xdf8a2000]
+[    1.666697][    T0] IRQ stack:      [0xdf804000..0xdf806000]
+[    1.668019][    T0] Overflow stack: [0x830eb000..0x830ec000]
+[    1.669327][    T0] Internal error: kernel stack overflow: 0 [#1] PREEMP=
+T SMP ARM
+[    1.671033][    T0] Modules linked in:
+[    1.671894][    T0] CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.4.0-rc1-=
+syzkaller #0
+[    1.673749][    T0] Hardware name: =EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BDx=
+=EF=BF=BD=EF=BF=BD=EF=BF=BDdf!=EF=BF=BD=EF=BF=BD`!=EF=BF=BD system
+[    1.675020][    T0] PC is at __dabt_svc+0x14/0x60
+[    1.676176][    T0] LR is at arch_cpu_idle+0x38/0x3c
+[    1.677328][    T0] pc : [<80200a74>]    lr : [<80208eb8>]    psr: 00000=
+193
+[    1.678918][    T0] sp : df8a0010  ip : df8a1f60  fp : df8a1f5c
+[    1.680268][    T0] r10: 00000000  r9 : 827e1666  r8 : 00000000
+[    1.681630][    T0] r7 : 8260c4e0  r6 : 00000001  r5 : 8260c498  r4 : 83=
+1cc680
+[    1.683282][    T0] r3 : 8021b8c0  r2 : 00433fc1  r1 : 81f9d24c  r0 : 82=
+850250
+[    1.684957][    T0] Flags: nzcv  IRQs off  FIQs on  Mode SVC_32  ISA ARM=
+  Segment user
+[    1.686771][    T0] Control: 30c5383d  Table: 80003000  DAC: dbadc0de
+[    1.688354][    T0] Register r0 information:
+[    1.713870][    T0] 8<--- cut here ---
+[    1.715765][    T0] Unhandled fault: unknown 3 (0xa03) at 0xdf8b9004
+[    1.717219][    T0] [df8b9004] *pgd=3D80000080007003, *pmd=3D83097003, *=
+pte=3D802160e8fe83d71f
+[    2.073879][    C0] 8<--- cut here ---
+[    2.074748][    C0] Unable to handle kernel paging request at virtual ad=
+dress 830a2000 when execute
+[    2.076808][    C0] [830a2000] *pgd=3D80000080006003, *pmd=3D40000083000=
+71d(bad)
+[    6.553998][    T0] Insufficient stack space to handle exception!
+[    6.554004][    T0] Task stack:     [0xdf8a4000..0xdf8a6000]
+[    6.556644][    T0] IRQ stack:      [0xdf808000..0xdf80a000]
+[    6.557922][    T0] Overflow stack: [0x830b8000..0x830b9000]
+[   18.824252][    T0] 8<--- cut here ---
+[   18.824265][    C4] 8<--- cut here ---
+[   18.824317][    T0] Insufficient stack space to handle exception!
+[   18.824320][    T0] Task stack:     [0xdf8a8000..0xdf8aa000]
+[   18.824323][    T0] IRQ stack:      [0xdf80c000..0xdf80e000]
+[   18.824326][    T0] Overflow stack: [0x830b9000..0x830ba000]
+[   18.825383][    T0] Unhandled fault: unknown 3 (0xa03) at 0xdf8b1004
+[   18.826484][    C4] Unable to handle kernel paging request at virtual ad=
+dress df84000c when read
+[   18.828182][    T0] [df8b1004] *pgd=3D80000080007003
+[   18.829838][    C4] [df84000c] *pgd=3D80000080007003
+[   18.831330][    T0] , *pmd=3D83097003
+[   18.832710][    C4] , *pmd=3D83097003
+[   18.834800][    T0] , *pte=3D8261d0a8fe83971f
+[   18.836939][    C4] , *pte=3D802160c4
+[   18.838162][    T0]=20
+[   18.843536][    C4]=20
+[    1.663886][    T0] Insufficient stack space to handle exception!
+[    1.663894][    T0] Task stack:     [0xdf8a0000..0xdf8a2000]
+[    1.666697][    T0] IRQ stack:      [0xdf804000..0xdf806000]
+[    1.668019][    T0] Overflow stack: [0x830eb000..0x830ec000]
+[    1.669327][    T0] Internal error: kernel stack overflow: 0 [#1] PREEMP=
+T SMP ARM
+[    1.671033][    T0] Modules linked in:
+[    1.671894][    T0] CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.4.0-rc1-=
+syzkaller #0
+[    1.673749][    T0] Hardware name: =EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BDx=
+=EF=BF=BD=EF=BF=BD=EF=BF=BDdf!=EF=BF=BD=EF=BF=BD`!=EF=BF=BD system
+[    1.675020][    T0] PC is at __dabt_svc+0x14/0x60
+[    1.676176][    T0] LR is at arch_cpu_idle+0x38/0x3c
+[    1.677328][    T0] pc : [<80200a74>]    lr : [<80208eb8>]    psr: 00000=
+193
+[    1.678918][    T0] sp : df8a0010  ip : df8a1f60  fp : df8a1f5c
+[    1.680268][    T0] r10: 00000000  r9 : 827e1666  r8 : 00000000
+[    1.681630][    T0] r7 : 8260c4e0  r6 : 00000001  r5 : 8260c498  r4 : 83=
+1cc680
+[    1.683282][    T0] r3 : 8021b8c0  r2 : 00433fc1  r1 : 81f9d24c  r0 : 82=
+850250
+[    1.684957][    T0] Flags: nzcv  IRQs off  FIQs on  Mode SVC_32  ISA ARM=
+  Segment user
+[    1.686771][    T0] Control: 30c5383d  Table: 80003000  DAC: dbadc0de
+[    1.688354][    T0] Register r0 information:
+[    1.713870][    T0] 8<--- cut here ---
+[    1.715765][    T0] Unhandled fault: unknown 3 (0xa03) at 0xdf8b9004
+[    1.717219][    T0] [df8b9004] *pgd=3D80000080007003, *pmd=3D83097003, *=
+pte=3D802160e8fe83d71f
+[    2.073879][    C0] 8<--- cut here ---
+[    2.074748][    C0] Unable to handle kernel paging request at virtual ad=
+dress 830a2000 when execute
+[    2.076808][    C0] [830a2000] *pgd=3D80000080006003, *pmd=3D40000083000=
+71d(bad)
+[    6.553998][    T0] Insufficient stack space to handle exception!
+[    6.554004][    T0] Task stack:     [0xdf8a4000..0xdf8a6000]
+[    6.556644][    T0] IRQ stack:      [0xdf808000..0xdf80a000]
+[    6.557922][    T0] Overflow stack: [0x830b8000..0x830b9000]
+[   18.824252][    T0] 8<--- cut here ---
+[   18.824265][    C4] 8<--- cut here ---
+[   18.824317][    T0] Insufficient stack space to handle exception!
+[   18.824320][    T0] Task stack:     [0xdf8a8000..0xdf8aa000]
+[   18.824323][    T0] IRQ stack:      [0xdf80c000..0xdf80e000]
+[   18.824326][    T0] Overflow stack: [0x830b9000..0x830ba000]
+[   18.825383][    T0] Unhandled fault: unknown 3 (0xa03) at 0xdf8b1004
+[   18.826484][    C4] Unable to handle kernel paging request at virtual ad=
+dress df84000c when read
+[   18.828182][    T0] [df8b1004] *pgd=3D80000080007003
+[   18.829838][    C4] [df84000c] *pgd=3D80000080007003
+[   18.831330][    T0] , *pmd=3D83097003
+[   18.832710][    C4] , *pmd=3D83097003
+[   18.834800][    T0] , *pte=3D8261d0a8fe83971f
+[   18.836939][    C4] , *pte=3D802160c4
+[   18.838162][    T0]=20
+[   18.843536][    C4]=20
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So not much to do with the GIC, but more to do with general stack
+overflow/corruption. I'd appreciate it if you could stop barking up
+the wrong tree and get someone who is still interested in 32bit ARM to
+look into it.
+
+Thanks,
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
