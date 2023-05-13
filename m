@@ -2,136 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D91A701850
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 May 2023 18:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B83D8701851
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 May 2023 18:52:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjEMQwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 13 May 2023 12:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
+        id S230369AbjEMQw7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 13 May 2023 12:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjEMQwx (ORCPT
+        with ESMTP id S230085AbjEMQw6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 13 May 2023 12:52:53 -0400
+        Sat, 13 May 2023 12:52:58 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E60113A86;
-        Sat, 13 May 2023 09:52:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8636630C7;
+        Sat, 13 May 2023 09:52:52 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,272,1677510000"; 
-   d="scan'208";a="162745876"
+   d="scan'208";a="162745883"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 14 May 2023 01:52:48 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 14 May 2023 01:52:51 +0900
 Received: from localhost.localdomain (unknown [10.226.92.8])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7BEDF40062D0;
-        Sun, 14 May 2023 01:52:45 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C85CC40065DF;
+        Sun, 14 May 2023 01:52:48 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v3 2/5] rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
-Date:   Sat, 13 May 2023 17:52:24 +0100
-Message-Id: <20230513165227.13117-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 3/5] dt-bindings: mfd: Add Renesas RAA215300 PMIC bindings
+Date:   Sat, 13 May 2023 17:52:25 +0100
+Message-Id: <20230513165227.13117-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
 References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
-However, the external oscillator bit is inverted on PMIC version
-0x11. The PMIC driver detects PMIC version and instantiate appropriate
-RTC device based on i2c_device_id.
+Document Renesas RAA215300 PMIC bindings.
+
+The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
+Memory, with Built-In Charger and RTC.
+
+It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
+The internally compensated regulators, built-in Real-Time Clock (RTC),
+32kHz crystal oscillator, and coin cell battery charger provide a
+highly integrated, small footprint power solution ideal for
+System-On-Module (SOM) applications. A spread spectrum feature
+provides an ease-of-use solution for noise-sensitive audio or RF
+applications.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2->v3:
- * RTC device is instantiated by PMIC driver and dropped isl1208_probe_helper().
- * Added "TYPE_RAA215300_RTC_A0" to handle inverted oscillator bit case.
+ * Added more detailed description for renesas,rtc-enabled property.
 RFC->v2:
- * Dropped compatible "renesas,raa215300-isl1208" and "renesas,raa215300-pmic" property.
- * Updated the comment polarity->bit for External Oscillator.
- * Added raa215300_rtc_probe_helper() for registering raa215300_rtc device and
-   added the helper function isl1208_probe_helper() to share the code.
+ * Updated reg property
+ * Added optional reg-names, interrupts and renesas,rtc-enabled
+   properties.
+ * Fixed the node name in the example
+ * Dropped the cross link property renesas,raa215300-rtc.
+ * Updated the example
 ---
- drivers/rtc/rtc-isl1208.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ .../bindings/mfd/renesas,raa215300.yaml       | 70 +++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index 73cc6aaf9b8b..d6425780d834 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -74,6 +74,7 @@ enum isl1208_id {
- 	TYPE_ISL1209,
- 	TYPE_ISL1218,
- 	TYPE_ISL1219,
-+	TYPE_RAA215300_RTC_A0,
- 	ISL_LAST_ID
- };
- 
-@@ -83,11 +84,13 @@ static const struct isl1208_config {
- 	unsigned int	nvmem_length;
- 	unsigned	has_tamper:1;
- 	unsigned	has_timestamp:1;
-+	unsigned	has_inverted_osc_bit:1;
- } isl1208_configs[] = {
- 	[TYPE_ISL1208] = { "isl1208", 2, false, false },
- 	[TYPE_ISL1209] = { "isl1209", 2, true,  false },
- 	[TYPE_ISL1218] = { "isl1218", 8, false, false },
- 	[TYPE_ISL1219] = { "isl1219", 2, true,  true },
-+	[TYPE_RAA215300_RTC_A0] = { "rtc_a0", 2, false, false, true },
- };
- 
- static const struct i2c_device_id isl1208_id[] = {
-@@ -95,6 +98,7 @@ static const struct i2c_device_id isl1208_id[] = {
- 	{ "isl1209", TYPE_ISL1209 },
- 	{ "isl1218", TYPE_ISL1218 },
- 	{ "isl1219", TYPE_ISL1219 },
-+	{ "rtc_a0", TYPE_RAA215300_RTC_A0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, isl1208_id);
-@@ -166,6 +170,16 @@ isl1208_i2c_validate_client(struct i2c_client *client)
- 	return 0;
- }
- 
-+static int
-+isl1208_set_external_oscillator(struct i2c_client *client, int rc,
-+				bool is_inverted_oscillator_bit)
-+{
-+	if (is_inverted_oscillator_bit)
-+		rc |= ISL1208_REG_SR_XTOSCB;
+diff --git a/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
+new file mode 100644
+index 000000000000..04d34e5be23e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/renesas,raa215300.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	return i2c_smbus_write_byte_data(client, ISL1208_REG_SR, rc);
-+}
++title: Renesas RAA215300 Power Management Integrated Circuit (PMIC)
 +
- static int
- isl1208_i2c_get_sr(struct i2c_client *client)
- {
-@@ -845,6 +859,13 @@ isl1208_probe(struct i2c_client *client)
- 		return rc;
- 	}
- 
-+	if (isl1208->config->has_inverted_osc_bit) {
-+		rc = isl1208_set_external_oscillator(client, rc,
-+						     isl1208->config->has_inverted_osc_bit);
-+		if (rc)
-+			return rc;
-+	}
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
 +
- 	if (rc & ISL1208_REG_SR_RTCF)
- 		dev_warn(&client->dev, "rtc power failure detected, "
- 			 "please set clock.\n");
++description: |
++  The RAA215300 is a high-performance, low-cost 9-channel PMIC designed for
++  32-bit and 64-bit MCU and MPU applications. It supports DDR3, DDR3L, DDR4,
++  and LPDDR4 memory power requirements. The internally compensated regulators,
++  built-in Real-Time Clock (RTC), 32kHz crystal oscillator, and coin cell
++  battery charger provide a highly integrated, small footprint power solution
++  ideal for System-On-Module (SOM) applications. A spread spectrum feature
++  provides an ease-of-use solution for noise-sensitive audio or RF applications.
++
++  This device exposes two devices via I2C. One for the integrated RTC IP, and
++  one for everything else.
++
++  Link to datasheet:
++  https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
++
++properties:
++  compatible:
++    enum:
++      - renesas,raa215300
++
++  reg:
++    minItems: 1
++    maxItems: 2
++
++  reg-names:
++    items:
++      - const: main
++      - const: rtc
++
++  interrupts:
++    maxItems: 1
++
++  renesas,rtc-enabled:
++    description:
++      To indicate RTC is enabled on the PMIC.
++      Enabling of the RTC is based on system design. System designers may
++      choose not to populate built-in RTC by grounding XIN and XOUT pins.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        raa215300: pmic@12 {
++            compatible = "renesas,raa215300";
++            reg = <0x12>, <0x6f>;
++            reg-names = "main", "rtc";
++
++            renesas,rtc-enabled;
++        };
++    };
 -- 
 2.25.1
 
