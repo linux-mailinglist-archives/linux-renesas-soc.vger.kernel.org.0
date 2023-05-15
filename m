@@ -2,88 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97E8370287C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 May 2023 11:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF8B702A12
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 May 2023 12:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240152AbjEOJ2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 May 2023 05:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33722 "EHLO
+        id S240930AbjEOKIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 May 2023 06:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238641AbjEOJ1T (ORCPT
+        with ESMTP id S240413AbjEOKI0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 May 2023 05:27:19 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D6C10D5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 May 2023 02:27:15 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-ba67d34350aso7728696276.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 May 2023 02:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684142834; x=1686734834;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4D8nUrI0/GVZUihdtNaUuevI8IcxKFnE2SuuoPSClT0=;
-        b=cv9MIT0jYldnuFeGkeH6zI/uSwaWWodEs+ESq5M4AM08AXn/8/o++/BB0YlAJly5dh
-         tZ/2qXTV5MSO26MSAKRA4iF+pFWQ6XtWBIztmmJIB8TXKLOZSLX0dO8bwnAch2WjEh5t
-         BlLQdCg1vfj7F3UIF8fj5tEzcT1+axfYRYhFqRDBZVgjv7UEdbYs8g5iLJi5he+kUlwU
-         Scy52OZFIsDe2/FKYqEi/P27CVbafOgHnj8VRhskeLmdwUUZ/y2V/+T4iBQRNBIlkCyb
-         QNzXtDqNHBh/kHUGLFUMdLtpdFUp0Qki9MLRQtyjGwXGzQHkfbRsFmHT9E8GfopaB608
-         1jTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684142834; x=1686734834;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4D8nUrI0/GVZUihdtNaUuevI8IcxKFnE2SuuoPSClT0=;
-        b=L4I+vy3DDs37t8VbFKPkx8jrtOfWro0loQQ7m65HTj3Kll+8gHyIVkSO+2i+lRjG9r
-         9NcHSpZYjrxGk1y2kmd6EAUsPvFdCpxBp1kFmGi8uzbGGs7nnOPc7yrxN4+5wcDpO0De
-         NKGWeNiVaPEVZSvdnfMfysdEo2z5WsjwCdYd8BG88Z51bX0Ol8uxiO9joZ1C3/p74bcT
-         ne6fOm9BqoLrGiOBsboXO1wyQuZKkLVyg7wrfXqmA/42wEEfw5g/aEmIMY1PCyOsCGDv
-         aBuD7XJcbzlp54BooIIks5i1SpEFA9w5mlMSWJmZy4iNYYnfftrHMF7JO2CyK3qdpYR4
-         SXvA==
-X-Gm-Message-State: AC+VfDx+wQFUh3ncjYcC3P+7ZGtIMVlkdXPfCVUC+mXlIJIw8hKckHNz
-        gyqA89pAjISKmO2VBChea7p0cXn8Cw3cUrPOSkSm2w==
-X-Google-Smtp-Source: ACHHUZ5dcmVKznCdPQ6LG8FeKzsLYf33bfNB0QZ6tMfujNuJ3pDibxHBtgywI3MUVAzK/i9R07BIHbNNNochJUX1eWQ=
-X-Received: by 2002:a25:25cf:0:b0:ba7:4ef5:1ffc with SMTP id
- l198-20020a2525cf000000b00ba74ef51ffcmr5965295ybl.41.1684142834473; Mon, 15
- May 2023 02:27:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1683722688.git.geert+renesas@glider.be> <8db63020d18fc22e137e4a8f0aa15e6b9949a6f6.1683722688.git.geert+renesas@glider.be>
- <CAPDyKFoTJFoDtSdPcXXQN_zi+TCQwr3UjLYu5jMCq_1sCnnG3Q@mail.gmail.com>
- <CAMuHMdV6e84fbbm6m1Rn6f-1xdS10VkHaj5jOB0Sy1uKfacnNw@mail.gmail.com>
- <CAPDyKFr0o_GYauvxorBwg_0uEPYzt4YztohTAHHnYVPtgM4W=Q@mail.gmail.com> <CAMuHMdXEP97-hYKx83Bk02=gofsZMJwiHAsz6KzkKeD3Swxf3A@mail.gmail.com>
-In-Reply-To: <CAMuHMdXEP97-hYKx83Bk02=gofsZMJwiHAsz6KzkKeD3Swxf3A@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 15 May 2023 11:26:38 +0200
-Message-ID: <CAPDyKFrz+mv9E5AMgQJBW0exQmO+PYpUWf6ihDvH7q0wkTjpsw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] iopoll: Do not use timekeeping in read_poll_timeout_atomic()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Dejin Zheng <zhengdejin5@gmail.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Lindgren <tony@atomide.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
+        Mon, 15 May 2023 06:08:26 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3CD781FE2;
+        Mon, 15 May 2023 03:08:16 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 765DB2F4;
+        Mon, 15 May 2023 03:09:00 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFD0E3F67D;
+        Mon, 15 May 2023 03:08:12 -0700 (PDT)
+Date:   Mon, 15 May 2023 11:08:10 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Ayan Kumar Halder <ayankuma@amd.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com,
+        konrad.dybcio@linaro.org, andersson@kernel.org,
+        mazziesaccount@gmail.com, conor.dooley@microchip.com, j@jannau.net,
+        mailingradian@gmail.com, me@iskren.info, lpieralisi@kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, Julien Grall <julien@xen.org>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Michal Orzel <michal.orzel@amd.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: Need suggestions for smp related properties in cpus.yaml to
+ support smpboot for cortex-r52 based platform
+Message-ID: <20230515100810.ctebdbqlienbcf7t@bogus>
+References: <c5ed90c7-7126-0757-a0e3-e3d1fcab2ecc@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c5ed90c7-7126-0757-a0e3-e3d1fcab2ecc@amd.com>
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,158 +56,69 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 12 May 2023 at 10:03, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
+On Thu, May 11, 2023 at 10:35:37AM +0100, Ayan Kumar Halder wrote:
+> Hi Device Tree engineers,
 >
-> Hi Ulf,
+> Recently I have ported Xen on Cortex-R52 (AArch32-V8R processor) for our AMD
+> platform.
 >
-> On Fri, May 12, 2023 at 9:54=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> > On Thu, 11 May 2023 at 14:44, Geert Uytterhoeven <geert@linux-m68k.org>=
- wrote:
-> > > On Thu, May 11, 2023 at 12:27=E2=80=AFPM Ulf Hansson <ulf.hansson@lin=
-aro.org> wrote:
-> > > > On Wed, 10 May 2023 at 15:23, Geert Uytterhoeven
-> > > > <geert+renesas@glider.be> wrote:
-> > > > > read_poll_timeout_atomic() uses ktime_get() to implement the time=
-out
-> > > > > feature, just like its non-atomic counterpart.  However, there ar=
-e
-> > > > > several issues with this, due to its use in atomic contexts:
-> > > > >
-> > > > >   1. When called in the s2ram path (as typically done by clock or=
- PM
-> > > > >      domain drivers), timekeeping may be suspended, triggering th=
-e
-> > > > >      WARN_ON(timekeeping_suspended) in ktime_get():
-> > > > >
-> > > > >         WARNING: CPU: 0 PID: 654 at kernel/time/timekeeping.c:843=
- ktime_get+0x28/0x78
-> > > > >
-> > > > >      Calling ktime_get_mono_fast_ns() instead of ktime_get() woul=
-d get
-> > > > >      rid of that warning.  However, that would break timeout hand=
-ling,
-> > > > >      as (at least on systems with an ARM architectured timer), th=
-e time
-> > > > >      returned by ktime_get_mono_fast_ns() does not advance while
-> > > > >      timekeeping is suspended.
-> > > > >      Interestingly, (on the same ARM systems) the time returned b=
-y
-> > > > >      ktime_get() does advance while timekeeping is suspended, des=
-pite
-> > > > >      the warning.
-> > > >
-> > > > Interesting, looks like we should spend some time to further
-> > > > investigate this behaviour.
-> > >
-> > > Probably, I was a bit surprised by this behavior, too.
-> > >
-> > > > >   2. Depending on the actual clock source, and especially before =
-a
-> > > > >      high-resolution clocksource (e.g. the ARM architectured time=
-r)
-> > > > >      becomes available, time may not advance in atomic contexts, =
-thus
-> > > > >      breaking timeout handling.
-> > > > >
-> > > > > Fix this by abandoning the idea that one can rely on timekeeping =
-to
-> > > > > implement timeout handling in all atomic contexts, and switch fro=
-m a
-> > > > > global time-based to a locally-estimated timeout handling.  In mo=
-st
-> > > > > (all?) cases the timeout condition is exceptional and an error
-> > > > > condition, hence any additional delays due to underestimating wal=
-l clock
-> > > > > time are irrelevant.
-> > > >
-> > > > I wonder if this isn't an oversimplification of the situation. Don'=
-t
-> > > > we have timeout-error-conditions that we expected to happen quite
-> > > > frequently?
-> > >
-> > > We may have some.  But they definitely do not happen when time
-> > > does not advance, or they would have been mitigated long ago
-> > > (the loop would never terminate).
-> >
-> > Right, I was merely thinking of the case when ktime isn't suspended,
-> > which of course is the most common case.
-> >
-> > >
-> > > > If so, in these cases, we really don't want to continue looping lon=
-ger
-> > > > than actually needed, as then we will remain in the atomic context
-> > > > longer than necessary.
-> > > >
-> > > > I guess some information about how big these additional delays coul=
-d
-> > > > be, would help to understand better. Of course, it's not entirely e=
-asy
-> > > > to get that data, but did you run some tests to see how this change=
-s?
-> > >
-> > > I did some timings (when timekeeping is available), and the differenc=
-es
-> > > are rather minor.  The delay and timeout parameters are in =C2=B5s, a=
-nd
-> > > 1 =C2=B5s is already a few orders of magnitude larger than the cycle =
-time
-> > > of a contemporary CPU.
-> >
-> > Ohh, I was certainly expecting a bigger spread. If it's in that
-> > ballpark we should certainly be fine.
-> >
-> > I will run some tests at my side too, as I am curious to see the
-> > behaviour. I will let you know, whatever the result is, of course.
-> >
-> > >
-> > > Under-estimates are due to the time spent in op() (depends on the
-> > > user, typical use is a hardware device register read), udelay()
-> > > (architecture/platform-dependent accuracy), and general loop overhead=
-.
-> >
-> > Yes, you are right. My main concern is the accuracy of the udelay, but
-> > I may be totally wrong here.
-> >
-> > >
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > ---
-> > > > > Alternatively, one could use a mixed approach (use both
-> > > > > ktime_get_mono_fast_ns() and a local (under)estimate, and timeout=
- on the
-> > > > > earliest occasion), but I think that would complicate things with=
-out
-> > > > > much gain.
-> > > >
-> > > > Another option could be to provide two different polling APIs for t=
-he
-> > > > atomic use-case.
-> > > >
-> > > > One that keeps using ktime, which is more accurate and generally
-> > > > favourable - and another, along the lines of what you propose, that
-> > > > should be used by those that can't rely on timekeeping.
-> > >
-> > > At the risk of people picking the wrong one, leading to hard to
-> > > find bugs?
-> >
-> > I agree, If we don't need two APIs, it's certainly better to stick with=
- one.
-> >
-> > My main point is that we should not sacrifice "performance" for the
-> > most common case, just to keep things simple, right?
+
+I remember that there was some exploration on feasibility of using PSCI
+here. What happened to that ? Any summary why that was dropped ?
+
+> I was discussing with xen-devel community about how we can properly support
+> smpboot when I was suggested that this might be the correct forum for
+> discussion.
 >
-> Most of these loops run just 1 or 2 cycles.
-> Performance mostly kicks in when timing out, but note that not
-> calling ktime_get() also reduces loop overhead...
+> Please refer
+> https://lists.xenproject.org/archives/html/xen-devel/2023-05/msg00224.html
+> and the follow-ups for context.
+>
+>
+> The way smpboot works on our platform is as follows:-
+>
+> 1. core0 writes to register (say regA) the address of the secondary core
+> initialization routine.
+>
+> 2. core0 writes to another register (say regB) the value "0x1" to put the
+> secondary core in reset mode.
+>
+> 3. core0 writes to regB the value "0x0" to pull the secondary core out of
+> reset mode.
+>
+> regA, regB will differ for core1, core2, core3 and so on.
+>
 
-That's a good point too!
+Sounds OK but will you ever need to support power management on these cores ?
+If so, just start with PSCI or provide reasons as why it doesn't fit well
+before exploring and extending the existing spin table bindings.
 
-It sure sounds like the benefits are superior to the potential
-downside. Let me not stand in the way of getting this applied.
-Instead, feel free to add my:
+>
+> Currently, I am trying to bringup core1 only.
+>
+>
+> I am thinking to use "enable-method=spin-table" in the cpu node for core1. 
+> So that I can use "cpu-release-address" for regA.
+>
+> For regB, I am thinking of introducing a new property "amd-cpu-reset-addr"
+> in the cpu node.
+>
+> Please let me know your thoughts on this approach. I am also open to any
+> alternative suggestions.
+>
+>
+> Also I see that in https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/devicetree/bindings/arm/cpus.yaml#L87
+> , "arm,cortex-r52" is missing.
+>
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Yes that should be fine IMO.
 
-Kind regards
-Uffe
+> Can I submit a patch (a one line change) to add this ?
+>
+
+Of course, it makes it easy to accept or reject rather than this question
+hidden as part of other discussion.
+
+--
+Regards,
+Sudeep
