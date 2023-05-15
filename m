@@ -2,479 +2,354 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F353570266C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 May 2023 09:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C53C702689
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 May 2023 09:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238839AbjEOHwQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 May 2023 03:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
+        id S239874AbjEOH6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 May 2023 03:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239954AbjEOHvv (ORCPT
+        with ESMTP id S239887AbjEOH6b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 May 2023 03:51:51 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD9A8E41;
-        Mon, 15 May 2023 00:51:35 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-50bc040c7b8so18709685a12.2;
-        Mon, 15 May 2023 00:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684137094; x=1686729094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cfDqT6X1hpnQXZe1MRUmzHPyHIv4YDADYndQ1imD+oM=;
-        b=QEzBGKrSjRdyzYe6ieOdJODPeNUdYdnBUcfXpn0/moCF5bU4GDKao8GZRQQbw0ScSj
-         hEalhWz2jHazrnbym08knKa0kriRSwPike6V7qFdb0SYkq5ZdsbY7DsO7FPGWFcQZc4I
-         yx7v9MO0EFs1BsS1BzlrMU/49f38+CFEbN6cwavsTi/YNhpLd6/f7T/SGEGYx3nr8Hyq
-         96GIg2iw6p9BedFsBmDM+AKZnAYeClMxXQ4dl34JgRS9vWkoZvXTodDnKACwzKvENSpl
-         oGu3By0XqyO1n0TJjlvlzyTkzr2Q3JL9FS6JcHCYIaNwZPRY3PgIiLlR3XqzyirohV+9
-         19TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684137094; x=1686729094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cfDqT6X1hpnQXZe1MRUmzHPyHIv4YDADYndQ1imD+oM=;
-        b=Wc0qS/fepLVwQlBozgtruKy1xBJsLfls1viPlOpbvl83pIeNcrd5h6pWBxKN7Wqi/d
-         LriERB6am+oFdeibT6vv5QDmT3zB/wshhx4Jyg8xkiX2WjzNjUMIBao7kXVYBW2OlBwq
-         qd0swZP4Ttt0aaZp4S8BJWObTKY1NzCkIyeG+oDFwPORncKhbU7dHQxPiznw8xvOBF4Q
-         9eEtaK5s4+gui8kwIpfigy3wl5ZTCY87yVXcBHAubpNI1IUUFYKqRyrURNWHsOHqveeP
-         VSOH8bPKSz4A9MFCNAXJynbrzOpLd0uGOA8dWIy4jmYMvRTQ2zlfkx/zvTUX+K1LOXx1
-         QAYQ==
-X-Gm-Message-State: AC+VfDxZBRcXO0G2ObIkXfZaX1nv+iHOHYWCHHjZhxITYSNMTrne8N/Q
-        pZy5lEEvL/2GSh7z9f3+ij7t4bmKrGkuBNcbprg=
-X-Google-Smtp-Source: ACHHUZ73K81XIZGLByuufDfxqMz465SRmfWrwBUtXlzEFG2IITIGcj/PIpOa0fmbOAVOCPKBAxevZY68jzd4AtlbsQg=
-X-Received: by 2002:a17:907:7211:b0:96b:4ed5:a1c9 with SMTP id
- dr17-20020a170907721100b0096b4ed5a1c9mr1098991ejc.51.1684137093827; Mon, 15
- May 2023 00:51:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-From:   Inki Dae <daeinki@gmail.com>
-Date:   Mon, 15 May 2023 16:50:57 +0900
-Message-ID: <CAAQKjZP5jhwFg9sNndpa6_7G6HoV76heQbt=knoOEZZskexrhg@mail.gmail.com>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning void
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     James@pengutronix.de, Liviu Dudau <liviu.dudau@arm.com>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        Joel Stanley <joel@jms.id.au>, Sam Ravnborg <sam@ravnborg.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Rahul T R <r-ravikumar@ti.com>,
-        Jayshri Pawar <jpawar@cadence.com>,
-        Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Mark Brown <broonie@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Alison Wang <alison.wang@nxp.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Danilo Krummrich <dakr@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Mon, 15 May 2023 03:58:31 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2134.outbound.protection.outlook.com [40.107.114.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5FD170E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 May 2023 00:57:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OD5qhZZTL6yz7m9PZ6EI42oLQwbyRdKznfx9HbK6kHDEyx55Ri0x2FPxJAk2BryIr+KW5WyFKxZWnxJYunqF3khc0lywuoReATdlkaeoudNzS+Dkn3Jw4C8r4hbHO6ZCqMlYcgXNZRKvwwZWvmCP/Xf8YWPQEKyV3ZmrHf/ov7B1Rs9329gKp3AySbs05lseGT+CbNW33x9LRKcFWKhQOo4P6uMrxl9grBwf8xFlzHKiJvszvITJeYWOI2+CSRarxK1J/Bclqox0Xn+YwD+TiA9qs2RxqCfoto7WrnVw2mnooGc3WIHkJbyN6xlozwQw5qX9snSWaS/PVjETK5dJ3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ExFUzSR3gOdeKTmjIjbTP3TFtj9JDC4c/ouuWgQn/IY=;
+ b=fiyIAwdb675Pd7lEfH8ImNdC2fYid9feE1DjwP0lLawoQB0toboW47F3ELsCbG0qm6Xd+3wpmeoCEDAKID6u1UzDac6Pt1V0Ad7qYmX05kKPtY8q+n7pGf+Fzkt3+aCp5jCjJ1jN9zqGxPOOfqZf7DrVOy2ot24FqnePjRLIStCUqlr6Hzg/A3V1AQy41zYggReRkKWXYkw8ohcjY45Se1xP3rDMHNsulK815xvdppR8aarmX7QB9VDrmZliQz+nGnlLGQKxOIsEy5E483TaywRdsTLB1I8vfgfHqaumVdw9DctI/tkuEhe2VuV7usfH74DWiTjnRPK1catr8tT4mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ExFUzSR3gOdeKTmjIjbTP3TFtj9JDC4c/ouuWgQn/IY=;
+ b=gYX4e7bq/dMTWUYPcb3o7uznUEWjboFgpNEkgLVvEoBwz1tw6xiIdJlMi4AVInK/xup0KWrLwq40DeWNOu+H8exs0Bs11QlP9BPW17Pn3FJVDNE4rfhfchkQPK995btg0CKrpAmL7aLUhFRmgaObsyd2XuCVRcFqTB8NlsW7PUs=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYVPR01MB10829.jpnprd01.prod.outlook.com (2603:1096:400:2af::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
+ 2023 07:57:35 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6387.030; Mon, 15 May 2023
+ 07:57:35 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Johan Hovold <johan+linaro@kernel.org>, Joel@pengutronix.de,
-        Stephen Boyd <swboyd@chromium.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Liu Shixin <liushixin2@huawei.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        Kuogee Hsieh <quic_khsieh@quicinc.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marek Vasut <marex@denx.de>, Ben Skeggs <bskeggs@redhat.com>,
-        Karol Herbst <kherbst@redhat.com>,
-        Lyude Paul <lyude@redhat.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Guo Zhengkui <guozhengkui@vivo.com>,
-        Yuan Can <yuancan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
-        Liang He <windhl@126.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Deepak R Varma <drv@mailo.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
-        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
-        Andrew Jeffery <andrew@aj.id.au>,
-        linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        etnaviv@lists.freedesktop.org,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Yongqin Liu <yongqin.liu@linaro.org>,
-        John Stultz <jstultz@google.com>, linux-mips@vger.kernel.org,
-        lima@lists.freedesktop.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Topic: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Index: AQHZfN4p/b5orSrwk0ai5QpLpQqzGK9bCteA
+Date:   Mon, 15 May 2023 07:57:35 +0000
+Message-ID: <OS0PR01MB59220E8306506F3E0B17968A86789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYVPR01MB10829:EE_
+x-ms-office365-filtering-correlation-id: 548ce80c-74ad-4091-add0-08db551a0b7e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Z643srN1Es99iFkeKk2E+YZy1JJzBWGOGinjwdLx2aldHLwbp8SxA0jThUzCAjO6LWFljinC6ti9bRfSbVKCbEN1Ev4M5UeR8ok336u9qCwwV/9GnGmjSXOcuSpS9qmZmvCcgw12eOpcePOCi33BWrxN0OUk9odROPsV7o+pnkXA/v56fGlseMEhhCf0b9MWRcbV9P0q4avTUBowcj7fI4mQaCaOBzKQGeH61xpJNXZvXSY8RfgeuQMpHnbukB3Uq0xr0gRX9YPTFu+gGU6N5agJDzTe09mZmR5oJthtrSqIL/bANt5ASNqfoqYL9SsRWfQDYhbry/xefU1jdvwI/oI1UiqAqvd5HCgEO1zhZr1x2PzPea4euMz6EGHiRkvHubG6zuLrXVPycilC7wfPDml2qZsivuFHtha60bBPlV0Cny6aKR8CMpIptERMeXgH2mNjMo65Y9Ftid14PVTvG4hDao/W7UtagXjfXvz6qs+yxEByjW4fXpFpLaUXIcS0pbTkFrl4943MQmWVPYD9ZiZoJrvHo0JrGMowdnk7F8AZs8HAbYJ3yRRqrIzsNAFGdEaiwgbKuNq8dZSXXhGFKcQvylmdhAt6x+sehqBQNcj8QT5dBlnI6ykdkEBdee7v
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(451199021)(316002)(64756008)(4326008)(66946007)(2906002)(76116006)(5660300002)(52536014)(8936002)(8676002)(30864003)(66556008)(66476007)(66446008)(41300700001)(86362001)(54906003)(110136005)(478600001)(55016003)(7696005)(71200400001)(26005)(186003)(33656002)(6506007)(83380400001)(107886003)(122000001)(9686003)(38070700005)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8k3zQUI9yL9Ff95+X4bBGXuyqu2s0DivnJ3fXGrwoD+jpGR2Kx29JlBodw5h?=
+ =?us-ascii?Q?07EZXPCuRDpPvV5q9l0zGZFVzjxJ9IHSizKOc9AIeJ+AXDkmV3YyJuR3aNug?=
+ =?us-ascii?Q?2UCygiEmSj2okrSndXiSwF1rGorgu1karvMuslTVD9lddNZhmeBb72NRT0EL?=
+ =?us-ascii?Q?wWwunJfYVoXETD2xdZAGleNhtViCYJy5Uf24D36JQ8TpYbAwEiJ/uftG7XFq?=
+ =?us-ascii?Q?XRKykSr7AGoJchsv7bXfj3X+SGvgMh999RI/Mtl8f+0ZhUp6SGYdnShiQRAu?=
+ =?us-ascii?Q?e0yAm9/LdAn0PwBL6hClsvLwMio5LJNbmPPcNir2rSeXveKc3XN4eDqAmjAf?=
+ =?us-ascii?Q?ZHX0UNpU9gDFdZfxQ1Q1wFQOfknAN51qD9c8zyRN2zD8r5DrvhdEQHDJoQvs?=
+ =?us-ascii?Q?tBOuLpCYIOH4LQ7jMNaKb/fKmAsXAPsiXh4h0te6LsDTJKUuE3xOy4qfO+Oh?=
+ =?us-ascii?Q?AP8J9wB8tq1euxW92AuCqc5AdXSNyOrq1OE75IEf6SKCrT5pkptLdRwznzlS?=
+ =?us-ascii?Q?zqA1m0IzflkxYjfg7Jj/CXEP5Ia27dD5xMWl+INDYdP9o8/53QEQq+At20ei?=
+ =?us-ascii?Q?zt8+HbVDffyGzw/k32BNtekV/h6Rai9SCDWyKzZNOHXWZKrqb8qhF5vi9i5W?=
+ =?us-ascii?Q?TwMbL2MDwGro+rDruVm2roatmvJA5sikvwS3SaJTkdrxihe6Qu3YYt17vQ7o?=
+ =?us-ascii?Q?XGXVrXXdFtrriLNnGsc4/BnORmNoIt24JZiyF9u76YOE5uxseEBKb76/CEPl?=
+ =?us-ascii?Q?hxcUQwL7Ay5+5kNLOv6s7mpoP4DHakWJ7P0L8U0qeW/NW8o0S1e+CGPsvjlo?=
+ =?us-ascii?Q?NEa//hG659OdrojB0AJX9fitFnfu/Z8Lg9Vitth/Cps3xnDZNleTB88SIxS0?=
+ =?us-ascii?Q?or9LDH4eOQeXAb+nljw08TXjqc9SckQ5HufbPmGT2dJpKy+KycAC1LTqH7fl?=
+ =?us-ascii?Q?Ur4GDrbwS8vjhi2UBmcX1C1b2DAaV0lTr4mp76Ah/GyYjtaRHFQZtsAUEFQE?=
+ =?us-ascii?Q?ABR7bCh/FN0iwA8Ph/+3tD/yAKnW4x0tDFprWfiwGu0lwBK5W5S7eHMOGr5q?=
+ =?us-ascii?Q?v7Hy06SuH4IFCbKSvEvfwIL2k3iMc/Tuua2vMM5+8hja/aUPOLmZpb8btwW0?=
+ =?us-ascii?Q?d+hkbq2uEphVBvUYlywo9cLGvLpJsfGQmZra48mhT6nGh3//vdlJ/T+L2lkj?=
+ =?us-ascii?Q?QmvlxNj2bpiK9bu6xblD/CeJeozckCXnJNhrHQEltEpbJNBKxTBKPFpAhTHt?=
+ =?us-ascii?Q?vH6AXJCK0MlN55wGaniDnR85DNC3YhgM7ui28riLyiY2nyaDiXr2ve9O3rMz?=
+ =?us-ascii?Q?6CU7cnivD7udWMDH6yARpOAAJwvrCemWxKRchMCVwK3seH3nTSi5IF7/8srj?=
+ =?us-ascii?Q?x8Rw1JG3oNOdUDO2p02oPDuSPMC4ZZumolw+n0X1BODAr8osHiTTvP00kupg?=
+ =?us-ascii?Q?U4vUZkScrWpsjFssgV5S9Lh2On1oKBeiiFI4+kdismr24G3oeFwsERe8rs/0?=
+ =?us-ascii?Q?SaM0qVhwYz1xkMbn5CjJ0x9pNKvzVoBAHwHM/y9+Oh6YGDUI+M+n6AfIdI6Q?=
+ =?us-ascii?Q?0ud+yxaf86HG13QFOQPh4fhJ83q5+/rENpWpumrb?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 548ce80c-74ad-4091-add0-08db551a0b7e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2023 07:57:35.3141
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rRKY0+bnoS96yc/sGh3dFyPr04XI4K1ir5XNLBtxfTvR0jzCzh9okOasGBy+wON3xmjGmVcFCLfHEULhIcS3ROEQ2uOvk7xCbX5mv1116x8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10829
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi All,
 
-2023=EB=85=84 5=EC=9B=94 8=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 1:32, Uw=
-e Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=
-=9E=91=EC=84=B1:
->
-> Hello,
->
-> this patch series adapts the platform drivers below drivers/gpu/drm
-> to use the .remove_new() callback. Compared to the traditional .remove()
-> callback .remove_new() returns no value. This is a good thing because
+Gentle ping. Are we happy with this patch series?
 
-First of all, I apologize for the delay in providing my review comments.
+Cheers,
+Biju
 
-Not related to this patch but seems that the "remove_new" callback
-naming implicitly implies that there is no need to return anything
-since its return type is void. To help users understand the intended
-behavior based on the callback name, how about considering a modified
-naming convention like "remove_no_return" or something similar?
-
-The relevant patch has already been merged as outlined below,
-author Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> 2022-12-09
-16:09:14 +0100
-committer Greg Kroah-Hartman <gregkh@linuxfoundation.org> 2023-01-17
-19:04:17 +0100
-commit 5c5a7680e67ba6fbbb5f4d79fa41485450c1985c (patch)
-tree 0b6dbc003a6bb4a3f7fb084d31326bbfa3ba3f7c
-parent 7bbb89b420d9e290cb34864832de8fcdf2c140dc (diff)
-download linux-5c5a7680e67ba6fbbb5f4d79fa41485450c1985c.tar.gz
-platform: Provide a remove callback that returns no value
-
-Maybe a trivial thing but how about renaming it? I think the postfix,
-'new', is a very generic word. I think you could introduce another
-patch for it if you think it's reasonable.
-
-Thanks,
-Inki Dae
-
-> the driver core doesn't (and cannot) cope for errors during remove. The
-> only effect of a non-zero return value in .remove() is that the driver
-> core emits a warning. The device is removed anyhow and an early return
-> from .remove() usually yields a resource leak.
+> Subject: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+> support
+>=20
+> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> Video signal processor (VSPD) and Display unit(DU). The output of LCDC
+> is connected to Display parallel interface and MIPI link video
+> interface.
+>=20
+> The output from DSI is connected to ADV7535.
+>=20
+> Created a vendor specific directory renesas and moved all renesas drm
+> drivers to it (rcar-du and shmobile). Then added support for RZ/G2L DU
+> DRM driver by creating rz_du directory.
+>=20
+> Ref:
+>=20
+>=20
+> v8->v9:
+>  * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+>  * Added Rb tag from Laurent and Geert for patch#3.
+>  * Dropped reset_control_assert() from error patch for
+> rzg2l_du_crtc_get() as
+>    suggested by Philipp Zabel.
+>  * Added Rb tag from Laurent oatch#5.
+>  * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+> v7->v8:
+>  * Moved rcar-du and shmobile DRM drivers to renesas specific vendor
+> directory.
+>  * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+>  * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+>  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating
+> rz_du folder.
+>  * Updated MAINTAINERS entries.
+> v6->v7:
+>  * Split DU lib and  RZ/G2L du driver as separate patch series as
+>    DU support added to more platforms based on RZ/G2L alike SoCs.
+>  * Rebased to latest drm-tip.
+>  * Added patch #2 for binding support for RZ/V2L DU
+>  * Added patch #4 for driver support for RZ/V2L DU
+>  * Added patch #5 for SoC DTSI support for RZ/G2L DU
+>  * Added patch #6 for SoC DTSI support for RZ/V2L DU
+>  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L}
+> SoCs.
+>  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+> v5->v6:
+>  * Merged DU lib and RZ/G2L du driver in same patch series
+>  * Rebased to latest drm-misc.
+>  * Merged patch#1 to RZ/G2L Driver patch.
+>  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+>  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+>=20
+> v4->v5:
+>  * Added Rb tag from Rob for binding patch.
+>  * Started using RCar DU libs(kms, vsp and encoder)
+>  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+>    rcar_du_format_info and rcar_du_encoder.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-
+> du
+>  * started using same compatible for RZ/G2{L,LC}
+>  * Removed rzg2l_du_group.h and struct rzg2l_du_group
+>  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+>  * Removed rzg2l_du_group_restart
+>  * Updated rzg2l_du_crtc_set_display_timing
+>  * Removed mode_valid callback.
+>  * Updated rzg2l_du_crtc_create() parameters
+>  * Updated compatible
+>  * Removed RZG2L_DU_MAX_GROUPS
+> V2->v3:
+>  * Added new bindings for RZ/G2L DU
+>  * Removed indirection and created new DRM driver based on R-Car DU
+> v1->v2:
+>  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+>  * Updated commit description for bindings
+>  * Removed LCDC references from bindings
+>  * Changed clock name from du.0->aclk from bindings
+>  * Changed reset name from du.0->du from bindings
+>  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+>  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+>  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+>  * Added forward declaration for struct reset_control
+>=20
+> [1]
+>=20
+> Biju Das (5):
+>   drm: Place Renesas drivers in a separate dir
+>   dt-bindings: display: Document Renesas RZ/G2L DU bindings
+>   dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+>   drm: Add RZ/G2L DU Support
+>   MAINTAINERS: Add maintainer for RZ DU drivers
+>=20
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 129 +++
+>  MAINTAINERS                                   |  16 +-
+>  drivers/gpu/drm/Kconfig                       |   4 +-
+>  drivers/gpu/drm/Makefile                      |   3 +-
+>  drivers/gpu/drm/renesas/Kconfig               |   5 +
+>  drivers/gpu/drm/renesas/Makefile              |   5 +
+>  drivers/gpu/drm/{ =3D> renesas}/rcar-du/Kconfig |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/Makefile    |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_cmm.c  |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_cmm.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_crtc.c  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_crtc.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_drv.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_drv.h   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_encoder.c   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_encoder.h   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_group.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_group.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_kms.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_kms.h   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_plane.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_plane.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_regs.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_vsp.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_vsp.h   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_writeback.c |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_writeback.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_dw_hdmi.c  |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_lvds.c |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_lvds.h |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_lvds_regs.h    |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_mipi_dsi.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_mipi_dsi.h |   0
+>  .../rcar-du/rcar_mipi_dsi_regs.h              |   0
+>  .../{ =3D> renesas}/rcar-du/rzg2l_mipi_dsi.c    |   0
+>  .../rcar-du/rzg2l_mipi_dsi_regs.h             |   0
+>  drivers/gpu/drm/renesas/rz-du/Kconfig         |  20 +
+>  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 714 ++++++++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  99 +++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 188 +++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  89 ++
+> .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 112 +++
+> .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  28 +
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 770 ++++++++++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 430 ++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  94 +++
+>  .../gpu/drm/{ =3D> renesas}/shmobile/Kconfig    |   0
+>  .../gpu/drm/{ =3D> renesas}/shmobile/Makefile   |   0
+>  .../shmobile/shmob_drm_backlight.c            |   0
+>  .../shmobile/shmob_drm_backlight.h            |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_crtc.c   |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_crtc.h   |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_drv.c    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_drv.h    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_kms.c    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_kms.h    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_plane.c  |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_plane.h  |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_regs.h   |   0
+>  62 files changed, 2816 insertions(+), 8 deletions(-)  create mode
+> 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+>  create mode 100644 drivers/gpu/drm/renesas/Kconfig  create mode 100644
+> drivers/gpu/drm/renesas/Makefile  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/Kconfig (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/Makefile (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_cmm.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_cmm.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_crtc.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_crtc.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_drv.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_drv.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_encoder.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_encoder.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_group.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_group.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_kms.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_kms.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_plane.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_plane.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_regs.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_vsp.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_vsp.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_writeback.c (100%)  rename drivers/gpu/drm/{ =3D=
 >
-> By changing the remove callback to return void driver authors cannot
-> reasonably (but wrongly) assume any more that there happens some kind of
-> cleanup later.
+> renesas}/rcar-du/rcar_du_writeback.h (100%)  rename drivers/gpu/drm/{ =3D=
 >
-> Best regards
-> Uwe
->
-> Uwe Kleine-K=C3=B6nig (53):
->   drm/komeda: Convert to platform remove callback returning void
->   drm/arm/hdlcd: Convert to platform remove callback returning void
->   drm/arm/malidp: Convert to platform remove callback returning void
->   drm/armada: Convert to platform remove callback returning void
->   drm/aspeed: Convert to platform remove callback returning void
->   drm/atmel-hlcdc: Convert to platform remove callback returning void
->   drm/bridge: cdns-dsi: Convert to platform remove callback returning
->     void
->   drm/bridge: display-connector: Convert to platform remove callback
->     returning void
->   drm/bridge: fsl-ldb: Convert to platform remove callback returning
->     void
->   drm/imx/imx8*: Convert to platform remove callback returning void
->   drm/bridge: lvds-codec: Convert to platform remove callback returning
->     void
->   drm/bridge: nwl-dsi: Convert to platform remove callback returning
->     void
->   drm/bridge: simple-bridge: Convert to platform remove callback
->     returning void
->   drm/bridge: synopsys: Convert to platform remove callback returning
->     void
->   drm/bridge: thc63lvd1024: Convert to platform remove callback
->     returning void
->   drm/bridge: tfp410: Convert to platform remove callback returning void
->   drm/etnaviv: Convert to platform remove callback returning void
->   drm/exynos: Convert to platform remove callback returning void
->   drm/fsl-dcu: Convert to platform remove callback returning void
->   drm/hisilicon: Convert to platform remove callback returning void
->   drm/imx/dcss: Convert to platform remove callback returning void
->   drm/imx/ipuv3: Convert to platform remove callback returning void
->   drm/ingenic: Convert to platform remove callback returning void
->   drm/kmb: Convert to platform remove callback returning void
->   drm/lima: Convert to platform remove callback returning void
->   drm/logicvc: Convert to platform remove callback returning void
->   drm/mcde: Convert to platform remove callback returning void
->   drm/mediatek: Convert to platform remove callback returning void
->   drm/mediatek: Convert to platform remove callback returning void
->   drm/meson: Convert to platform remove callback returning void
->   drm/msm: Convert to platform remove callback returning void
->   drm/mxsfb: Convert to platform remove callback returning void
->   drm/nouveau: Convert to platform remove callback returning void
->   drm/omap: Convert to platform remove callback returning void
->   drm/panel: Convert to platform remove callback returning void
->   drm/panfrost: Convert to platform remove callback returning void
->   drm/rcar-du: Convert to platform remove callback returning void
->   drm/rockchip: Convert to platform remove callback returning void
->   drm/shmobile: Convert to platform remove callback returning void
->   drm/sprd: Convert to platform remove callback returning void
->   drm/sti: Convert to platform remove callback returning void
->   drm/stm: Convert to platform remove callback returning void
->   drm/sun4i: Convert to platform remove callback returning void
->   drm/tegra: Convert to platform remove callback returning void
->   drm/tests: helpers: Convert to platform remove callback returning void
->   drm/tidss: Convert to platform remove callback returning void
->   drm/tilcdc: Convert to platform remove callback returning void
->   drm/tiny: Convert to platform remove callback returning void
->   drm/tiny: Convert to platform remove callback returning void
->   drm/tve200: Convert to platform remove callback returning void
->   drm/v3d: Convert to platform remove callback returning void
->   drm/vc4: Convert to platform remove callback returning void
->   drm/xlnx/zynqmp_dpsub: Convert to platform remove callback returning
->     void
->
->  drivers/gpu/drm/arm/display/komeda/komeda_drv.c     | 5 ++---
->  drivers/gpu/drm/arm/hdlcd_drv.c                     | 5 ++---
->  drivers/gpu/drm/arm/malidp_drv.c                    | 5 ++---
->  drivers/gpu/drm/armada/armada_crtc.c                | 5 ++---
->  drivers/gpu/drm/armada/armada_drv.c                 | 5 ++---
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c             | 6 ++----
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c        | 6 ++----
->  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c      | 6 ++----
->  drivers/gpu/drm/bridge/display-connector.c          | 6 ++----
->  drivers/gpu/drm/bridge/fsl-ldb.c                    | 6 ++----
->  drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c         | 6 ++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c        | 6 ++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 6 ++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     | 6 ++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        | 6 ++----
->  drivers/gpu/drm/bridge/lvds-codec.c                 | 6 ++----
->  drivers/gpu/drm/bridge/nwl-dsi.c                    | 5 ++---
->  drivers/gpu/drm/bridge/simple-bridge.c              | 6 ++----
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 ++----
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c       | 6 ++----
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c  | 6 ++----
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c | 6 ++----
->  drivers/gpu/drm/bridge/thc63lvd1024.c               | 6 ++----
->  drivers/gpu/drm/bridge/ti-tfp410.c                  | 6 ++----
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 6 ++----
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c               | 5 ++---
->  drivers/gpu/drm/exynos/exynos5433_drm_decon.c       | 6 ++----
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c          | 6 ++----
->  drivers/gpu/drm/exynos/exynos_dp.c                  | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_drv.c             | 5 ++---
->  drivers/gpu/drm/exynos/exynos_drm_dsi.c             | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_fimc.c            | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c            | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c             | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c             | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_mic.c             | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_rotator.c         | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_scaler.c          | 6 ++----
->  drivers/gpu/drm/exynos/exynos_hdmi.c                | 6 ++----
->  drivers/gpu/drm/exynos/exynos_mixer.c               | 6 ++----
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c           | 6 ++----
->  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c        | 6 ++----
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c     | 5 ++---
->  drivers/gpu/drm/imx/dcss/dcss-drv.c                 | 6 ++----
->  drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c             | 6 ++----
->  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c            | 5 ++---
->  drivers/gpu/drm/imx/ipuv3/imx-ldb.c                 | 5 ++---
->  drivers/gpu/drm/imx/ipuv3/imx-tve.c                 | 5 ++---
->  drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c              | 5 ++---
->  drivers/gpu/drm/imx/ipuv3/parallel-display.c        | 6 ++----
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c           | 6 ++----
->  drivers/gpu/drm/ingenic/ingenic-ipu.c               | 5 ++---
->  drivers/gpu/drm/kmb/kmb_drv.c                       | 5 ++---
->  drivers/gpu/drm/lima/lima_drv.c                     | 5 ++---
->  drivers/gpu/drm/logicvc/logicvc_drm.c               | 6 ++----
->  drivers/gpu/drm/mcde/mcde_drv.c                     | 6 ++----
->  drivers/gpu/drm/mcde/mcde_dsi.c                     | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_cec.c                  | 5 ++---
->  drivers/gpu/drm/mediatek/mtk_disp_aal.c             | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c           | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_color.c           | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c           | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_merge.c           | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c             | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c            | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_dp.c                   | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_dpi.c                  | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c              | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_dsi.c                  | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_hdmi.c                 | 5 ++---
->  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 6 ++----
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c             | 5 ++---
->  drivers/gpu/drm/meson/meson_drv.c                   | 6 ++----
->  drivers/gpu/drm/meson/meson_dw_hdmi.c               | 6 ++----
->  drivers/gpu/drm/msm/adreno/adreno_device.c          | 5 ++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c             | 6 ++----
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c            | 6 ++----
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c            | 5 ++---
->  drivers/gpu/drm/msm/dp/dp_display.c                 | 6 ++----
->  drivers/gpu/drm/msm/dsi/dsi.c                       | 6 ++----
->  drivers/gpu/drm/msm/hdmi/hdmi.c                     | 6 ++----
->  drivers/gpu/drm/msm/hdmi/hdmi_phy.c                 | 6 ++----
->  drivers/gpu/drm/msm/msm_drv.c                       | 6 ++----
->  drivers/gpu/drm/msm/msm_mdss.c                      | 6 ++----
->  drivers/gpu/drm/mxsfb/lcdif_drv.c                   | 6 ++----
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c                   | 6 ++----
->  drivers/gpu/drm/nouveau/nouveau_platform.c          | 5 ++---
->  drivers/gpu/drm/omapdrm/dss/dispc.c                 | 5 ++---
->  drivers/gpu/drm/omapdrm/dss/dsi.c                   | 6 ++----
->  drivers/gpu/drm/omapdrm/dss/dss.c                   | 6 ++----
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c                 | 5 ++---
->  drivers/gpu/drm/omapdrm/dss/hdmi5.c                 | 5 ++---
->  drivers/gpu/drm/omapdrm/dss/venc.c                  | 5 ++---
->  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c            | 9 +++------
->  drivers/gpu/drm/omapdrm/omap_drv.c                  | 6 ++----
->  drivers/gpu/drm/panel/panel-lvds.c                  | 6 ++----
->  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c         | 6 ++----
->  drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c     | 6 ++----
->  drivers/gpu/drm/panel/panel-simple.c                | 6 ++----
->  drivers/gpu/drm/panfrost/panfrost_drv.c             | 5 ++---
->  drivers/gpu/drm/rcar-du/rcar_cmm.c                  | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c               | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c              | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_lvds.c                 | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c             | 6 ++----
->  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c            | 6 ++----
->  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c     | 6 ++----
->  drivers/gpu/drm/rockchip/cdn-dp-core.c              | 6 ++----
->  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c     | 6 ++----
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c         | 6 ++----
->  drivers/gpu/drm/rockchip/inno_hdmi.c                | 6 ++----
->  drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 6 ++----
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c         | 6 ++----
->  drivers/gpu/drm/rockchip/rockchip_lvds.c            | 6 ++----
->  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c        | 6 ++----
->  drivers/gpu/drm/rockchip/rockchip_vop_reg.c         | 6 ++----
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c            | 6 ++----
->  drivers/gpu/drm/sprd/sprd_dpu.c                     | 6 ++----
->  drivers/gpu/drm/sprd/sprd_drm.c                     | 5 ++---
->  drivers/gpu/drm/sprd/sprd_dsi.c                     | 6 ++----
->  drivers/gpu/drm/sti/sti_compositor.c                | 5 ++---
->  drivers/gpu/drm/sti/sti_drv.c                       | 6 ++----
->  drivers/gpu/drm/sti/sti_dvo.c                       | 5 ++---
->  drivers/gpu/drm/sti/sti_hda.c                       | 5 ++---
->  drivers/gpu/drm/sti/sti_hdmi.c                      | 6 ++----
->  drivers/gpu/drm/sti/sti_hqvdp.c                     | 5 ++---
->  drivers/gpu/drm/sti/sti_tvout.c                     | 5 ++---
->  drivers/gpu/drm/stm/drv.c                           | 6 ++----
->  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c               | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_backend.c               | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_drv.c                   | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_frontend.c              | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c              | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_tcon.c                  | 6 ++----
->  drivers/gpu/drm/sun4i/sun4i_tv.c                    | 6 ++----
->  drivers/gpu/drm/sun4i/sun6i_drc.c                   | 6 ++----
->  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c              | 6 ++----
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c               | 6 ++----
->  drivers/gpu/drm/sun4i/sun8i_mixer.c                 | 6 ++----
->  drivers/gpu/drm/sun4i/sun8i_tcon_top.c              | 6 ++----
->  drivers/gpu/drm/tegra/dpaux.c                       | 6 ++----
->  drivers/gpu/drm/tests/drm_kunit_helpers.c           | 5 ++---
->  drivers/gpu/drm/tidss/tidss_drv.c                   | 6 ++----
->  drivers/gpu/drm/tilcdc/tilcdc_panel.c               | 6 ++----
->  drivers/gpu/drm/tiny/arcpgu.c                       | 6 ++----
->  drivers/gpu/drm/tiny/ofdrm.c                        | 6 ++----
->  drivers/gpu/drm/tiny/simpledrm.c                    | 6 ++----
->  drivers/gpu/drm/tve200/tve200_drv.c                 | 6 ++----
->  drivers/gpu/drm/v3d/v3d_drv.c                       | 6 ++----
->  drivers/gpu/drm/vc4/vc4_crtc.c                      | 5 ++---
->  drivers/gpu/drm/vc4/vc4_dpi.c                       | 5 ++---
->  drivers/gpu/drm/vc4/vc4_drv.c                       | 6 ++----
->  drivers/gpu/drm/vc4/vc4_dsi.c                       | 6 ++----
->  drivers/gpu/drm/vc4/vc4_hdmi.c                      | 5 ++---
->  drivers/gpu/drm/vc4/vc4_hvs.c                       | 5 ++---
->  drivers/gpu/drm/vc4/vc4_txp.c                       | 5 ++---
->  drivers/gpu/drm/vc4/vc4_v3d.c                       | 5 ++---
->  drivers/gpu/drm/vc4/vc4_vec.c                       | 5 ++---
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c                 | 6 ++----
->  159 files changed, 319 insertions(+), 597 deletions(-)
->
->
-> base-commit: 457391b0380335d5e9a5babdec90ac53928b23b4
+> renesas}/rcar-du/rcar_dw_hdmi.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds_regs.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi_regs.h (100%)  rename drivers/gpu/drm/{
+> =3D> renesas}/rcar-du/rzg2l_mipi_dsi.c (100%)  rename drivers/gpu/drm/{ =
+=3D>
+> renesas}/rcar-du/rzg2l_mipi_dsi_regs.h (100%)  create mode 100644
+> drivers/gpu/drm/renesas/rz-du/Kconfig
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+>  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/Kconfig (100%)  rename
+> drivers/gpu/drm/{ =3D> renesas}/shmobile/Makefile (100%)  rename
+> drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_backlight.c (100%)
+> rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_backlight.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_crtc.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_crtc.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_drv.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_drv.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_kms.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_kms.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_plane.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_plane.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_regs.h
+> (100%)
+>=20
 > --
-> 2.39.2
->
+> 2.25.1
+
