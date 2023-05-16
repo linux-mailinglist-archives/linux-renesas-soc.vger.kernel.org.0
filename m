@@ -2,83 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37EFA7046D7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 May 2023 09:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A98704740
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 May 2023 10:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbjEPHsG convert rfc822-to-8bit (ORCPT
+        id S230385AbjEPIAk convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 May 2023 03:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46526 "EHLO
+        Tue, 16 May 2023 04:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbjEPHsF (ORCPT
+        with ESMTP id S230372AbjEPIAj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 May 2023 03:48:05 -0400
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4784330F8;
-        Tue, 16 May 2023 00:48:04 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-ba6d024a196so4754024276.2;
-        Tue, 16 May 2023 00:48:04 -0700 (PDT)
+        Tue, 16 May 2023 04:00:39 -0400
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7975219B9;
+        Tue, 16 May 2023 01:00:38 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-55a214572e8so202590147b3.0;
+        Tue, 16 May 2023 01:00:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684223283; x=1686815283;
+        d=1e100.net; s=20221208; t=1684224037; x=1686816037;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f07seKr4m5/OlhMAPO3dIAn75k2cEFtJb88wHoo4wJk=;
-        b=DwSMOLKrO0Q+bPw8lZhiQtcEcePWeXgTBYQG7PRg3QS5sSaovyPeHUNB8Mth+FFzal
-         Wjc5S1JfKHzGiaM52+srZwgLRauVWBoiFaLkLqs0N5xpHvOmrmW3sn6iKfMg5EWUysgB
-         j8Bz/srMCTUzwVORVGVPsPaLfOXHf7lhGvKtqugmmopx1Ezxr+DzJGGjq2pA19sHseOu
-         VrWfbaFtGdZXuEWEOYVOFLBUCBdpZGXblq1/o7pgUZ3ZWLBXEx18mmTeJgyPbS1xjRH+
-         LIwTrRF9ykQDstDmg1aAqlhL8U+z3V7boi+DTK0jylQcVujddsFf18l6kob3mNlRfTT/
-         Dw5A==
-X-Gm-Message-State: AC+VfDzpm/qbGhJq2ldHKcP/Kpr670VyKXxis6H7gTaihn4TxUi8lLdZ
-        bt51pyk+lQHONKLYPX4Nahl61lCdIp4/KQ==
-X-Google-Smtp-Source: ACHHUZ4Yo0dwPK7wYz4qOo3GLc7igKcdc78KtvLDgXPjDV5r7LcWYwJFncJKQ4C3e6VeXZDEMqPn5g==
-X-Received: by 2002:a81:4897:0:b0:55a:e0db:5604 with SMTP id v145-20020a814897000000b0055ae0db5604mr33791437ywa.26.1684223283091;
-        Tue, 16 May 2023 00:48:03 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id o8-20020a817308000000b00559f9e9eabcsm420982ywc.98.2023.05.16.00.48.00
+        bh=b0h6qVIfbUBDrUxA2PTLniEHIyTzUxs5niagrHQ6PpI=;
+        b=TEGx5VgLbAH3yRjcQM+deGbHuLavr/fHf5asGhwiT1TyDvrmXc/lh3ybhtejGjPa3S
+         4lobjLgBbhrSlUtGjfyxuw8gh5+bxa9/OllffOpvonZIN8zpFxTnUhnKqmOZ+p2HLhcD
+         WaY4/UMk4qvjcH59sR21aUWPJoL7acJmYkLks4zATp+Rsf5hu+M/KzmDJk2+LCJPZENp
+         DjGv0skV5k4oQUhQ6ekpbx6fwDtsfsS8ILVO7iFZ6E6lumxGydQ5BWRgckDX4KS9zQ94
+         J4Eldl0gOutZ84RaV/FDC8VAPkUk4jmISm3c39VXxisvWp4N5p0D9AqR+bHYD5fCi3nX
+         YCDQ==
+X-Gm-Message-State: AC+VfDx/tZPXS+GCXDWqsEyvIGJP30WLWEJUwce6n4Q2E6CpOTGimhuC
+        9OamEJkHBsI2KXpuj5qoMhJz7dZ9oTtAnw==
+X-Google-Smtp-Source: ACHHUZ7bmEuXo6vdwkvKjwTbNZhWlcKQ3iIasuAbqpk/DcqxkTsXsB2asJ5bOT7808jBtIfkjLVbhQ==
+X-Received: by 2002:a81:9486:0:b0:55a:f410:4ffe with SMTP id l128-20020a819486000000b0055af4104ffemr36744305ywg.19.1684224037291;
+        Tue, 16 May 2023 01:00:37 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id w191-20020a0dd4c8000000b0054f56baf3f2sm420419ywd.122.2023.05.16.01.00.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 00:48:00 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-55dc3431c64so111243467b3.2;
-        Tue, 16 May 2023 00:48:00 -0700 (PDT)
-X-Received: by 2002:a0d:df45:0:b0:55a:671b:4685 with SMTP id
- i66-20020a0ddf45000000b0055a671b4685mr32388112ywe.46.1684223280201; Tue, 16
- May 2023 00:48:00 -0700 (PDT)
+        Tue, 16 May 2023 01:00:36 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-ba8253f635cso505097276.0;
+        Tue, 16 May 2023 01:00:36 -0700 (PDT)
+X-Received: by 2002:a81:4a0a:0:b0:55a:40d3:4d6f with SMTP id
+ x10-20020a814a0a000000b0055a40d34d6fmr31853835ywa.26.1684224036141; Tue, 16
+ May 2023 01:00:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com> <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com> <20230513165227.13117-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230513165227.13117-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 May 2023 09:47:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
+Date:   Tue, 16 May 2023 10:00:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXpHgU3p1OE5_Vea8feqdyFbiSuyporhw6gEUwn=HX73Q@mail.gmail.com>
+Message-ID: <CAMuHMdXpHgU3p1OE5_Vea8feqdyFbiSuyporhw6gEUwn=HX73Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] dt-bindings: mfd: Add Renesas RAA215300 PMIC bindings
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Lee Jones <lee@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+Cc:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -94,91 +73,46 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Sat, May 13, 2023 at 6:52 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-> device and another for rtc device.
 >
-> Enhance i2c_new_ancillary_device() to instantiate a real device.
-> (eg: Instantiate rtc device from PMIC driver)
+> Document Renesas RAA215300 PMIC bindings.
+>
+> The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
+> Memory, with Built-In Charger and RTC.
+>
+> It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
+> The internally compensated regulators, built-in Real-Time Clock (RTC),
+> 32kHz crystal oscillator, and coin cell battery charger provide a
+> highly integrated, small footprint power solution ideal for
+> System-On-Module (SOM) applications. A spread spectrum feature
+> provides an ease-of-use solution for noise-sensitive audio or RF
+> applications.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v3:
->  * New patch
+> v2->v3:
+>  * Added more detailed description for renesas,rtc-enabled property.
 
 Thanks for your patch!
 
-Looks correct to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/renesas,raa215300.yaml
 
-Some suggestions for improvement below...
+> +  renesas,rtc-enabled:
+> +    description:
+> +      To indicate RTC is enabled on the PMIC.
+> +      Enabling of the RTC is based on system design. System designers may
+> +      choose not to populate built-in RTC by grounding XIN and XOUT pins.
+> +    type: boolean
 
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
->         }
->
->         dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-> -       return i2c_new_dummy_device(client->adapter, addr);
-> +
-> +       if (aux_device_name) {
-> +               struct i2c_board_info info;
-> +               size_t aux_device_name_len = strlen(aux_device_name);
-> +
-> +               if (aux_device_name_len > I2C_NAME_SIZE - 1) {
-> +                       dev_err(&client->adapter->dev, "Invalid device name\n");
-> +                       return ERR_PTR(-EINVAL);
-> +               }
+Perhaps you should go full DT monty and replace this logic by a clocks
+property pointing to the external crystal?
 
-strscpy() return value?
+However, as I only have the Short-Form Datasheet, I am wondering what
+"Built-in 32kHz crystal oscillator (with bypass)" really means?
+Does this mean the RTC can work without an external crystal, using an
+on-chip oscillator?
 
-> +
-> +               memset(&info, 0, sizeof(struct i2c_board_info));
-
-The call to memset() would not be needed if info would be initialized
-at declaration time, i.e.
-
-    struct i2c_board_info info = { .addr = addr };
-
-Or, use I2C_BOARD_INFO(), to guarantee initialization is aligned
-with whatever future changes made to i2c_board_info? But that relies
-on providing the name at declaration time, which we already have in
-i2c_new_dummy_device().
-
-So I suggest to add a name parameter to i2c_new_dummy_device(),
-rename it to __i2c_new_dummy_device(), and create a wrapper for
-compatibility with existing users:
-
-    struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter
-*adapter, u16 address,
-                                             const char *name)
-    {
-            struct i2c_board_info info = {
-                    I2C_BOARD_INFO("dummy", address),
-            };
-
-            if (name) {
-                    ssize_ret = strscpy(info.type, name, sizeof(info.type));
-
-                    if (ret < 0)
-                            return ERR_PTR(dev_err_probe(&client->adapter->dev,
-                                           ret, "Invalid device name\n");
-            }
-
-            return i2c_new_client_device(adapter, &info);
-    }
-
-> +
-> +               memcpy(info.type, aux_device_name, aux_device_name_len);
-> +               info.addr = addr;
-> +
-> +               i2c_aux_client = i2c_new_client_device(client->adapter, &info);
-> +       } else {
-> +               i2c_aux_client = i2c_new_dummy_device(client->adapter, addr);
-> +       }
-> +
-> +       return i2c_aux_client;
->  }
->  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+Thanks!
 
 Gr{oetje,eeting}s,
 
