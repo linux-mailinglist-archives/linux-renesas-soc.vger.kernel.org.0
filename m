@@ -2,206 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5538570485A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 May 2023 10:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EED5704940
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 May 2023 11:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231754AbjEPI6u convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 May 2023 04:58:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40934 "EHLO
+        id S230425AbjEPJaR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 May 2023 05:30:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbjEPI6s (ORCPT
+        with ESMTP id S230203AbjEPJaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 May 2023 04:58:48 -0400
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 610D12702;
-        Tue, 16 May 2023 01:58:42 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-ba6fffc5524so7054153276.3;
-        Tue, 16 May 2023 01:58:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684227521; x=1686819521;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gjgpnkjku8nUjiinbZgknofprCrVYPpoO0rFmHukAdM=;
-        b=gx4qirsGQjWWGC0bCrnp6m2NCyr4WGyh+1vvY91myaVTdsV0OxH1qpLVKJLK9VdNrM
-         q3q9+Jq8UchZLcdnybhkqnWIqwZPIYDRzXV0Gvqi/355XABtKipN29fb9iqrGKTrWMA/
-         6wgFFUMdczjEFfyA4dARWrQuByhOq+drO6zdUpuNBZOC/09e6RoGIvs6fQobrdh5YG1Q
-         BmrWyq7amg4j1r9NmOiXZdld51uO0KQNW7FamiO+2XRMIrhP4gSPQ4Fg5xf2sZ6HVBRI
-         zWtCiHLz5Lyei6p5lRvAONpYnCDrGDl3c2LXLpSgfb5hSRl/WODuZR/TwD+KEbmLrzeR
-         1Ppg==
-X-Gm-Message-State: AC+VfDzbsnxw4iTwg1ULA5pDI6YNeBJxTEq7sIYOPnN2Qx6qZ1zE9cDm
-        5DESaUuZ1pZW2dw9JKwZkpX0GUzOtY9cqg==
-X-Google-Smtp-Source: ACHHUZ5FsiF/lz+MQdWDBwzxDrRc35NRheRLT4GubzXZrV0866rCp/S676jxCHBd0U3AnXU5YR69fw==
-X-Received: by 2002:a25:14d4:0:b0:ba6:b197:33e7 with SMTP id 203-20020a2514d4000000b00ba6b19733e7mr10019185ybu.23.1684227521313;
-        Tue, 16 May 2023 01:58:41 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id u9-20020a252e09000000b00ba81e857711sm251828ybu.34.2023.05.16.01.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 01:58:40 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-55a64f0053fso201559667b3.3;
-        Tue, 16 May 2023 01:58:39 -0700 (PDT)
-X-Received: by 2002:a81:6c13:0:b0:561:94ac:43e with SMTP id
- h19-20020a816c13000000b0056194ac043emr778251ywc.26.1684227519603; Tue, 16 May
- 2023 01:58:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
- <20230513165227.13117-3-biju.das.jz@bp.renesas.com> <CAMuHMdWWsNdewjug8JEpbwy1jFQqVEoioBctvQEHzjiLQzx7uQ@mail.gmail.com>
- <OS0PR01MB592259C10181D3A9B590CA8186799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592259C10181D3A9B590CA8186799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 May 2023 10:58:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWv45YhBtAX-4sAvgp2wkwPP7Q95Cs-tZFWDLQKMcJo=w@mail.gmail.com>
-Message-ID: <CAMuHMdWv45YhBtAX-4sAvgp2wkwPP7Q95Cs-tZFWDLQKMcJo=w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] rtc: isl1208: Add support for the built-in RTC on
- the PMIC RAA215300
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Tue, 16 May 2023 05:30:16 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2111.outbound.protection.outlook.com [40.107.113.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC51FD;
+        Tue, 16 May 2023 02:30:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aXKthydgdYd5ZGiJ0XiiPZMwlVdHCmFLeEwCgKLYVEZPhAUjfbACy06f+y5oYp1bQsfiF2Uh5visV9w+Wb6CX3GY5wISPyG9ha+QgcLk7WGZd2PRdB8jdTxyYCnByTn0VwbShctjYMHaJttSMA6JYZ05EwQ/hBEt2wpXjjPdnVQZDbHqDHuhrJNMYXdGS1UBDGdnSk6/JeiTbzKbmNWba+GallJAFx7eUfd7HaH3fSUJTXw6AUY0lQso+ptA9hg5K20ndO91/1uAv+asnKwVPdx7/W7d8+2tncERnPMP7dDxOODqwU+drqA9nemwSvyvYn9Yly5QvIgAGc/YwBEXtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1xPc+6wSSPVgqMJUH8P3PRpxAb1UUAYLWPs+cXIRU/g=;
+ b=Pzq6DjmBUfYw4dsUn8RFhD5/prIxxGoIVF8971laQqdq0e76uzIM41EfA0Qow+AK1b4q7BYMqFcki9FpIJRkWAIVwIb4IZPKSCC62VAFy0Q38TqOR6OrZ7NwUPTukkqFvwOFuu/YsTNvXPiPVSO9lV0amReRtYYB5eiM2WKoAR/okF/4p0EyLzsBQbMozXrTHjGXKBlISnsvfxHlW/3V9cdvuH1rvKGA5aWMiT6XHA72ej5Ob2IMw9f1cuzZyQzR7f5lNkxYCDotQHnvR99wfLJagqnCo/sgul/fBQBAdSA9QffqQ4PFwpjabEk5kha/cjLAoAbwYoYLOA7Sp+eSGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1xPc+6wSSPVgqMJUH8P3PRpxAb1UUAYLWPs+cXIRU/g=;
+ b=Rzy6B47BR6vZYn9WHL1FrWhF6xbuzX+ki/OQJQKaCEldQNevly2V7f6dHFt0Y2BJkYnao32z1jCMCb8N5PR+emT357f5aQfn4rbggISsNKA6gTd3DkkJhKH2oyp/jdYMlyTBnkE3gflZ8NOvcPBi8gOinTikO1G0YyzDrsUFDoQ=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB8294.jpnprd01.prod.outlook.com (2603:1096:400:15a::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.32; Tue, 16 May
+ 2023 09:30:11 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6387.032; Tue, 16 May 2023
+ 09:30:11 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Subject: RE: [PATCH v3 3/5] dt-bindings: mfd: Add Renesas RAA215300 PMIC
+ bindings
+Thread-Topic: [PATCH v3 3/5] dt-bindings: mfd: Add Renesas RAA215300 PMIC
+ bindings
+Thread-Index: AQHZhbtbMOqhbQvWykaInHFTxQ/ddq9cjXkAgAAOw6A=
+Date:   Tue, 16 May 2023 09:30:11 +0000
+Message-ID: <OS0PR01MB59222B5EE44743343B34BE7D86799@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
+ <20230513165227.13117-4-biju.das.jz@bp.renesas.com>
+ <CAMuHMdXpHgU3p1OE5_Vea8feqdyFbiSuyporhw6gEUwn=HX73Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdXpHgU3p1OE5_Vea8feqdyFbiSuyporhw6gEUwn=HX73Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB8294:EE_
+x-ms-office365-filtering-correlation-id: e0b5b834-1775-4300-1249-08db55f0258d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tjUsihJ9NHB822R1L9W9GM5tP210mFNSOggU2HdE0v88TEkL9RmmnIMypwjVkPKp5k6KhJvPXqxaSpYSTlKu2M4X3t+j37kK32GMB04lvJXveB95Bg6n5NGv3B/mWsJ0IfTxiD8/On9gsM/PmwQaS8YxvrvqfTGnjXkKwe7L8YwErclcrKimkTnZ5wshrhIVna3b5W1ST1YIA0smXD3E0u6pjMD/H26wJ5m8wnFFxVcmZ3XayZG1rzjkmamcAuQhaDnuPr8qnXUtUWupYyScwgc2XGDX4TRdFZE5gkDSW2EwyT0XEYC7LPaP8K6Zl+MEE8llkVzYXgqnyp/orW/uYJ4aOv47U0nLJ5A2EIiDxxuuM9sYvTnak4y9I7m1ffcRuHpp41pgmj12ijB57+zzlBa/MZolvSuxhgw8pnQyHzi10xNSR5RrppE/HuUHEHntnDanz3XAj5JLsnApG9AY8B4su1oF5RA2/nN04ozVPjRwKGBx5tYqCNwztSmKEuXb18CeJoRSJmQx9kXsN804KaaouZ0oTCE8sNGy3a+fXzumVO18eqrJZGBVPIUduQN42C6GsSGzlBdGukJcb5PNyo4Dr1mTeZAdOC32ok71QOPe32T7FOlEjOHnw/5xudpR
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(376002)(396003)(39860400002)(366004)(451199021)(66899021)(478600001)(71200400001)(6916009)(66446008)(4326008)(66556008)(52536014)(76116006)(64756008)(66476007)(66946007)(5660300002)(33656002)(8936002)(83380400001)(2906002)(8676002)(41300700001)(316002)(122000001)(38100700002)(55016003)(86362001)(54906003)(6506007)(9686003)(186003)(26005)(53546011)(107886003)(38070700005)(7696005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SWw5cGczdDB3UVliTnRYMDExTEZwUHB2cEl5VU56TFFTUWx5SXRpRXFTWTkz?=
+ =?utf-8?B?RFg5UW1Bd3VTbkRaMnJYTzZ1Mktia0RHMTN4Y2FLNWl6VXhSOXFrbmRHV3k2?=
+ =?utf-8?B?MGNFTEFUY3JsZzlnSzNQbkZUK3psTlVnTEJCbFRLL0MyNk1iUStyeTk0QlNJ?=
+ =?utf-8?B?M2s5djhCZkZJRkFkdW4xb0VzSlRVdFllak9vb09mQmlOQ1J3NFU5WnRMd1dj?=
+ =?utf-8?B?Y2syN053ZUgxbFNQN0M2N0VzUW9WSFBHNnd4Y2JmQmh1bEtiRENOMkpsY3Ja?=
+ =?utf-8?B?QTgyK2doWHo3bFBTdW5XVkc4UWRQcXM4Sjg1R0xlMDFFYXlaZ3pJQThNRldu?=
+ =?utf-8?B?dWh4cWozVUpWcE5nNU9Zb0tHOE1tWXNkRmY2NFMyNVROSzVUb3Y4N3k4RjZT?=
+ =?utf-8?B?bFVsZDg3U0h5V1VlYWVFTmRTVlpobXYyT1lVSGFsOUVKSHBjMWxYMG82a2R4?=
+ =?utf-8?B?SE9EaE0xajh6S2s0K1BRUE1MNEJZby9wVWVteTBTcVEyS3ZDd0hGN0dNck9s?=
+ =?utf-8?B?ejN2dE9JNVhMeUlNWlB1QU5XVmZKdHcydFI1UHdtRXdIOUFwSUZ3bTROdlEy?=
+ =?utf-8?B?cGgyb1p2UEtxdEhkRk1FYnpSQk94Y2dFYnBWZUZieVhGaDdtc1laa0tSb014?=
+ =?utf-8?B?UjJUMFI3RU1nRTgxa3ZZTXViR01YTWFxbEZISEpIQzhwNUEzbTRScDU3QXdJ?=
+ =?utf-8?B?NHpkU0xkbDZFS0l0NElES1VtN1RXYUhkN0U3ZGtPOCtMVmhPdlZaaVpYUVNE?=
+ =?utf-8?B?T0h6aVlyOTlNTEl5aURneDZPV2E3TExNaitNZXNKL3V4czdXRkE2U0FQZDdY?=
+ =?utf-8?B?cU1oc3BDdit0djB2MEY5Sy9XY0lNYlFsQlg2Z0ZUaUhubXdjbkRoVE0xUUpX?=
+ =?utf-8?B?NzBQaitmMFlWZlltWEdndEFKdEtyc0tJeXh6dDMrUGtUNkkvNUYraTJ0NEs5?=
+ =?utf-8?B?STdwZ2d0ZGwvZmhicFRKQWpMUnBDejhUa1FKbU9KSENDYWROV1AwVFE4Mmox?=
+ =?utf-8?B?T0hvc0I4SlhXOTBST0ZhRDdZcE5URklyaE5wck85RFFIekZ5U21GR0JMZXI2?=
+ =?utf-8?B?Qmp1L1ZvMmxhVUtlY011alYvanZRSU80OHJJaFpQTFo2WGt5QzB4Q2VReHNj?=
+ =?utf-8?B?L1RJZDZWZGgvRzlxVnNhdDJIeFEwZzZYN3h1Wm9qRkI0aU91Q2lSUzV1UVFP?=
+ =?utf-8?B?RW9nNy95Q1dGYlFrOVE4M1FLajZpSWc5UDBCejJHQjJyZml5QllHRS9IbHNj?=
+ =?utf-8?B?cFBnazZwZUtVU2wycUhnNS80aHFHbm83ZTF5NXoxQmhpVVJVU1U4VGJpL0hI?=
+ =?utf-8?B?VGtPTzNyVGViR3I5WE9qN091Ni8zSzFtVXVhQkNXdXRpZU5hN0V1Zjh0VHBa?=
+ =?utf-8?B?cUN4KzVNUjVnd0RyaVJWK2RwQ3dUM0EyZXFBakI3VkpoVTEwR2QrSnM0MWJy?=
+ =?utf-8?B?NGhONmxXUmFMMFJWT2N3NDVxcGRiV3RnYUZWdU82WmN2aC9LRUFXSEw2em4x?=
+ =?utf-8?B?TS96emgyWDNEaVE1bG1MVi93cWJEVVQyUktvMytXTDNnWitKaEYyZU1hejRX?=
+ =?utf-8?B?NlVKQnpTQ3B6NXVFNWpvZE5JN2FWaWRtVmRwb1MyM0djS2FQWk5Vc2RaS2NJ?=
+ =?utf-8?B?eW9jK29ucVJJTkRWYzJtY3dBOHJleWFZcVQyZ0RWNHlUUnRmV0dFdDJwTXBx?=
+ =?utf-8?B?bC9rREVqbEdyeDBabGRCSjdjcjE2RWtFWGVKNC9nVXRXbk43NFhDZ3lxTzU4?=
+ =?utf-8?B?YWFnV1kxbzV0c0V4b0RHbmM2VHlYSjJOWjJsV0Z3L081RnZSMEI5ZE9INDVs?=
+ =?utf-8?B?UnVDZllYU3RScDlUbjVwWEEwdGJuUi9uOGJZSVdQcEZZdG5lMnV5MWtFUFRp?=
+ =?utf-8?B?U1hMV1Fhd2h5ZS9TSFoxKytTTTZsN0IwYzFEeUJIeFJacjdkaVFPU0prcGNX?=
+ =?utf-8?B?cVpITzN6MEpLVDdoRFpXREpOSHhRbWVRV3g4dFFWSG5Tc2UyVkI5ODBLSnJT?=
+ =?utf-8?B?VUlQNnhZYzFKdXRqRnc1YlN4Tkova1FtTFFoaUllWEtkT1RIK3NvRTdHdHJK?=
+ =?utf-8?B?ZzhoL01ZQ3Z0QkRzSGJ6SzlCZGpjcUtnN2oyU2xwZHFPQWFhaTRFelcvYTAy?=
+ =?utf-8?Q?ThmuDePQUV3UO0LwyCeDroypw?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0b5b834-1775-4300-1249-08db55f0258d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2023 09:30:11.3415
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ns9AxdPULJ46GA13ikLuPP+1q56o136opuSk5Wa3wpRrQWtvxKFHwtRNN4xL8sgWpKhhCjW/0ecPDsZ06dleYgRnzEFrSK+P0dKaDDExqGc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8294
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Tue, May 16, 2023 at 10:46 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v3 2/5] rtc: isl1208: Add support for the built-in
-> > RTC on the PMIC RAA215300
-> > On Sat, May 13, 2023 at 6:52 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
-> > > However, the external oscillator bit is inverted on PMIC version 0x11.
-> > > The PMIC driver detects PMIC version and instantiate appropriate RTC
-> > > device based on i2c_device_id.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v2->v3:
-> > >  * RTC device is instantiated by PMIC driver and dropped
-> > isl1208_probe_helper().
-> > >  * Added "TYPE_RAA215300_RTC_A0" to handle inverted oscillator bit
-> > case.
-> > > RFC->v2:
-> > >  * Dropped compatible "renesas,raa215300-isl1208" and
-> > "renesas,raa215300-pmic" property.
-> > >  * Updated the comment polarity->bit for External Oscillator.
-> > >  * Added raa215300_rtc_probe_helper() for registering raa215300_rtc
-> > device and
-> > >    added the helper function isl1208_probe_helper() to share the code.
-> >
-> > Thanks for the update!
-> >
-> > > --- a/drivers/rtc/rtc-isl1208.c
-> > > +++ b/drivers/rtc/rtc-isl1208.c
-> > > @@ -74,6 +74,7 @@ enum isl1208_id {
-> > >         TYPE_ISL1209,
-> > >         TYPE_ISL1218,
-> > >         TYPE_ISL1219,
-> > > +       TYPE_RAA215300_RTC_A0,
-> > >         ISL_LAST_ID
-> > >  };
-> > >
-> > > @@ -83,11 +84,13 @@ static const struct isl1208_config {
-> > >         unsigned int    nvmem_length;
-> > >         unsigned        has_tamper:1;
-> > >         unsigned        has_timestamp:1;
-> > > +       unsigned        has_inverted_osc_bit:1;
-> > >  } isl1208_configs[] = {
-> > >         [TYPE_ISL1208] = { "isl1208", 2, false, false },
-> > >         [TYPE_ISL1209] = { "isl1209", 2, true,  false },
-> > >         [TYPE_ISL1218] = { "isl1218", 8, false, false },
-> > >         [TYPE_ISL1219] = { "isl1219", 2, true,  true },
-> > > +       [TYPE_RAA215300_RTC_A0] = { "rtc_a0", 2, false, false, true },
-> > >  };
-> > >
-> > >  static const struct i2c_device_id isl1208_id[] = { @@ -95,6 +98,7 @@
-> > > static const struct i2c_device_id isl1208_id[] = {
-> > >         { "isl1209", TYPE_ISL1209 },
-> > >         { "isl1218", TYPE_ISL1218 },
-> > >         { "isl1219", TYPE_ISL1219 },
-> > > +       { "rtc_a0", TYPE_RAA215300_RTC_A0 },
-> >
-> > "rtc_a0" is IMHO a too-generic name.
->
-> I tried to squeeze with string length "8".
->
-> What about changing it to "raa215300_a0" and changing length to
-> "12"? as version A0 of RAA215300 pmic chip have this inverted oscillator bit.
-
-Ah, because of the size limit of isl1208_config.name[]?
-Note that that field is only initialized, but further unused, so you
-can just drop it.
-
-BTW, isl1208_id[].driver_data could store a pointer to the config,
-like for DT-based matching, making I2C and DT-based matching
-more similar.
-
-> > >  isl1208_i2c_get_sr(struct i2c_client *client)  { @@ -845,6 +859,13 @@
-> > > isl1208_probe(struct i2c_client *client)
-> > >                 return rc;
-> > >         }
-> > >
-> > > +       if (isl1208->config->has_inverted_osc_bit) {
-> > > +               rc = isl1208_set_external_oscillator(client, rc,
-> >
-> > Passing "rc" is confusing, this is really the status register value
-> > obtained above...
->
-> I am planning to drop this function in next version and will use the below logic instead.
-> Is it ok?
->
->          if (isl1208->config->has_inverted_osc_bit) {
->                     int sr;
->
->                  sr = i2c_smbus_write_byte_data(client, ISL1208_REG_SR,
->                                               rc | ISL1208_REG_SR_XTOSCB);
->                  if (sr)
->                          return sr;
-
-Isn't this more confusing: "rc" is the Status Register value, and "sr"
-is the Return Code?
-
-
->          }
->
->
-> >
-> > > +                                                    isl1208->config-
-> > >has_inverted_osc_bit);
-> > > +               if (rc)
-> > > +                       return rc;
-> >
-> > If we get here, rc is always zero ...
-> >
-> > > +       }
-> > > +
-> > >         if (rc & ISL1208_REG_SR_RTCF)
-> >
-> > ... thus breaking this check..
->
-> Oops, missed it.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IC0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
+ay5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIE1heSAxNiwgMjAyMyA5OjAwIEFNDQo+IFRvOiBCaWp1
+IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IENjOiBMZWUgSm9uZXMgPGxlZUBr
+ZXJuZWwub3JnPjsgUm9iIEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47DQo+IEtyenlzenRv
+ZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9yZz47IE1hZ251cyBE
+YW1tDQo+IDxtYWdudXMuZGFtbUBnbWFpbC5jb20+OyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9y
+ZzsgbGludXgtcmVuZXNhcy0NCj4gc29jQHZnZXIua2VybmVsLm9yZzsgRmFicml6aW8gQ2FzdHJv
+IDxmYWJyaXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
+djMgMy81XSBkdC1iaW5kaW5nczogbWZkOiBBZGQgUmVuZXNhcyBSQUEyMTUzMDAgUE1JQw0KPiBi
+aW5kaW5ncw0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFNhdCwgTWF5IDEzLCAyMDIzIGF0IDY6
+NTLigK9QTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0K
+PiA+DQo+ID4gRG9jdW1lbnQgUmVuZXNhcyBSQUEyMTUzMDAgUE1JQyBiaW5kaW5ncy4NCj4gPg0K
+PiA+IFRoZSBSQUEyMTUzMDAgaXMgYSBoaWdoIFBlcmZvcm1hbmNlIDktQ2hhbm5lbCBQTUlDIHN1
+cHBvcnRpbmcgRERSDQo+ID4gTWVtb3J5LCB3aXRoIEJ1aWx0LUluIENoYXJnZXIgYW5kIFJUQy4N
+Cj4gPg0KPiA+IEl0IHN1cHBvcnRzIEREUjMsIEREUjNMLCBERFI0LCBhbmQgTFBERFI0IG1lbW9y
+eSBwb3dlciByZXF1aXJlbWVudHMuDQo+ID4gVGhlIGludGVybmFsbHkgY29tcGVuc2F0ZWQgcmVn
+dWxhdG9ycywgYnVpbHQtaW4gUmVhbC1UaW1lIENsb2NrIChSVEMpLA0KPiA+IDMya0h6IGNyeXN0
+YWwgb3NjaWxsYXRvciwgYW5kIGNvaW4gY2VsbCBiYXR0ZXJ5IGNoYXJnZXIgcHJvdmlkZSBhDQo+
+ID4gaGlnaGx5IGludGVncmF0ZWQsIHNtYWxsIGZvb3RwcmludCBwb3dlciBzb2x1dGlvbiBpZGVh
+bCBmb3INCj4gPiBTeXN0ZW0tT24tTW9kdWxlIChTT00pIGFwcGxpY2F0aW9ucy4gQSBzcHJlYWQg
+c3BlY3RydW0gZmVhdHVyZQ0KPiA+IHByb3ZpZGVzIGFuIGVhc2Utb2YtdXNlIHNvbHV0aW9uIGZv
+ciBub2lzZS1zZW5zaXRpdmUgYXVkaW8gb3IgUkYNCj4gPiBhcHBsaWNhdGlvbnMuDQo+ID4NCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+
+ID4gLS0tDQo+ID4gdjItPnYzOg0KPiA+ICAqIEFkZGVkIG1vcmUgZGV0YWlsZWQgZGVzY3JpcHRp
+b24gZm9yIHJlbmVzYXMscnRjLWVuYWJsZWQgcHJvcGVydHkuDQo+IA0KPiBUaGFua3MgZm9yIHlv
+dXIgcGF0Y2ghDQo+IA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvbWZkL3JlbmVzYXMscmFhMjE1MzAwLnlhbWwNCj4gDQo+ID4g
+KyAgcmVuZXNhcyxydGMtZW5hYmxlZDoNCj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAg
+ICBUbyBpbmRpY2F0ZSBSVEMgaXMgZW5hYmxlZCBvbiB0aGUgUE1JQy4NCj4gPiArICAgICAgRW5h
+Ymxpbmcgb2YgdGhlIFJUQyBpcyBiYXNlZCBvbiBzeXN0ZW0gZGVzaWduLiBTeXN0ZW0gZGVzaWdu
+ZXJzDQo+IG1heQ0KPiA+ICsgICAgICBjaG9vc2Ugbm90IHRvIHBvcHVsYXRlIGJ1aWx0LWluIFJU
+QyBieSBncm91bmRpbmcgWElOIGFuZCBYT1VUDQo+IHBpbnMuDQo+ID4gKyAgICB0eXBlOiBib29s
+ZWFuDQo+IA0KPiBQZXJoYXBzIHlvdSBzaG91bGQgZ28gZnVsbCBEVCBtb250eSBhbmQgcmVwbGFj
+ZSB0aGlzIGxvZ2ljIGJ5IGEgY2xvY2tzDQo+IHByb3BlcnR5IHBvaW50aW5nIHRvIHRoZSBleHRl
+cm5hbCBjcnlzdGFsPw0KDQpPSyBmb3IgbWUuIEtyenlzenRvZiBLb3psb3dza2ksIFJvYiBhcmUg
+eW91IG9rIHdpdGggdGhpcz8NCg0KPiANCj4gSG93ZXZlciwgYXMgSSBvbmx5IGhhdmUgdGhlIFNo
+b3J0LUZvcm0gRGF0YXNoZWV0LCBJIGFtIHdvbmRlcmluZyB3aGF0DQo+ICJCdWlsdC1pbiAzMmtI
+eiBjcnlzdGFsIG9zY2lsbGF0b3IgKHdpdGggYnlwYXNzKSIgcmVhbGx5IG1lYW5zPw0KDQpJdCBp
+cyBub3QgbWVudGlvbmVkIGluIG9yaWdpbmFsIGRvYyBhcyB3ZWxsLg0KDQo+IERvZXMgdGhpcyBt
+ZWFuIHRoZSBSVEMgY2FuIHdvcmsgd2l0aG91dCBhbiBleHRlcm5hbCBjcnlzdGFsLCB1c2luZyBh
+bg0KPiBvbi1jaGlwIG9zY2lsbGF0b3I/DQoNCkkgYW0gY2hlY2tpbmcgd2l0aCBoYXJkd2FyZSB0
+ZWFtLiBJIHdpbGwgdXBkYXRlIHlvdSBvbmNlIEkgZ2V0IHRoaXMgaW5mby4NCg0KQ2hlZXJzLA0K
+QmlqdQ0K
