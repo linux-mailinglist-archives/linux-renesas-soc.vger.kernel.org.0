@@ -2,35 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5182D708566
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 May 2023 17:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85ADF708567
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 May 2023 17:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbjERP5B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 May 2023 11:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
+        id S231727AbjERP5J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 May 2023 11:57:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230415AbjERP5B (ORCPT
+        with ESMTP id S230476AbjERP5D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 May 2023 11:57:01 -0400
+        Thu, 18 May 2023 11:57:03 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B216E3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 May 2023 08:56:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CEE4BEC
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 May 2023 08:57:02 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,285,1677510000"; 
-   d="scan'208";a="159865406"
+   d="scan'208";a="159865415"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 May 2023 00:56:59 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 May 2023 00:57:02 +0900
 Received: from localhost.localdomain (unknown [10.226.92.79])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 60547400F7FC;
-        Fri, 19 May 2023 00:56:57 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 939F0400F7E0;
+        Fri, 19 May 2023 00:56:59 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH RFC 2/3] reset: renesas: Add rzg2l_usbphy_ctrl_select_vbus_ctrl()
-Date:   Thu, 18 May 2023 16:56:48 +0100
-Message-Id: <20230518155649.516346-3-biju.das.jz@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH RFC 3/3] phy: renesas: phy-rcar-gen3-usb2: Control VBUSEN selection
+Date:   Thu, 18 May 2023 16:56:49 +0100
+Message-Id: <20230518155649.516346-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230518155649.516346-1-biju.das.jz@bp.renesas.com>
 References: <20230518155649.516346-1-biju.das.jz@bp.renesas.com>
@@ -47,85 +50,57 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 As per RZ/G2L HW(Rev.1.30 May2023) manual, VBUSEN can be controlled by
 the Port Power bit of the EHCI/OHCI operational register or by the VBOUT
-bit of the VBUS Control Register. VBUSEN selection is determined by the
-VBUSEN control (VBENCTL) register in USBPHY Control.
-
-Add support for VBUSEN selection.
+bit of the VBUS Control Register. Control VBUSEN selection such that bit
+is set to 0 (Port Power bit of the EHCI/OHCI operational register) for
+host operation and set the bit to 1 (VBOUT bit of the VBUS Control
+Register) for device operation.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/reset/reset-rzg2l-usbphy-ctrl.c | 27 +++++++++++++++++++++++++
- include/linux/reset/rzg2l-usbphy-ctrl.h | 16 +++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 include/linux/reset/rzg2l-usbphy-ctrl.h
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-index a8dde4606360..83de261bf460 100644
---- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-+++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-@@ -14,6 +14,7 @@
- #include <linux/reset-controller.h>
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index d4e2ee7e4efb..429b1d44eee7 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -21,6 +21,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
++#include <linux/reset/rzg2l-usbphy-ctrl.h>
+ #include <linux/string.h>
+ #include <linux/usb/of.h>
+ #include <linux/workqueue.h>
+@@ -113,6 +115,7 @@ struct rcar_gen3_chan {
+ 	struct extcon_dev *extcon;
+ 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
+ 	struct regulator *vbus;
++	struct reset_control *rstc;
+ 	struct work_struct work;
+ 	struct mutex lock;	/* protects rphys[...].powered */
+ 	enum usb_dr_mode dr_mode;
+@@ -190,6 +193,7 @@ static void rcar_gen3_enable_vbus_ctrl(struct rcar_gen3_chan *ch, int vbus)
  
- #define RESET			0x000
-+#define VBENCTL			0x03c
+ 	dev_vdbg(ch->dev, "%s: %08x, %d\n", __func__, val, vbus);
+ 	if (ch->soc_no_adp_ctrl) {
++		rzg2l_usbphy_ctrl_select_vbus_ctrl(ch->rstc, vbus ? 0 : 1);
+ 		vbus_ctrl_reg = USB2_VBCTRL;
+ 		vbus_ctrl_val = USB2_VBCTRL_VBOUT;
+ 	}
+@@ -670,6 +674,11 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 	if (IS_ERR(channel->base))
+ 		return PTR_ERR(channel->base);
  
- #define RESET_SEL_PLLRESET	BIT(12)
- #define RESET_PLLRESET		BIT(8)
-@@ -88,6 +89,32 @@ static int rzg2l_usbphy_ctrl_status(struct reset_controller_dev *rcdev,
- 	return !!(readl(priv->base + RESET) & port_mask);
- }
- 
-+int rzg2l_usbphy_ctrl_select_vbus_ctrl(struct reset_control *rstc, bool vbctrl)
-+{
-+	struct reset_controller_dev *rcdev = reset_controller_get_dev(rstc);
-+	struct rzg2l_usbphy_ctrl_priv *priv;
-+	unsigned long flags;
-+	u32 val;
++	channel->rstc = devm_reset_control_get_optional_shared(&pdev->dev,
++							       NULL);
++	if (IS_ERR(channel->rstc))
++		return PTR_ERR(channel->rstc);
 +
-+	if (!rstc)
-+		return 0;
-+
-+	priv = rcdev_to_priv(rcdev);
-+
-+	spin_lock_irqsave(&priv->lock, flags);
-+	val = readl(priv->base + VBENCTL);
-+	if (vbctrl)
-+		val |= BIT(0);
-+	else
-+		val &= ~BIT(0);
-+
-+	writel(val, priv->base + VBENCTL);
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(rzg2l_usbphy_ctrl_select_vbus_ctrl);
-+
- static const struct of_device_id rzg2l_usbphy_ctrl_match_table[] = {
- 	{ .compatible = "renesas,rzg2l-usbphy-ctrl" },
- 	{ /* Sentinel */ }
-diff --git a/include/linux/reset/rzg2l-usbphy-ctrl.h b/include/linux/reset/rzg2l-usbphy-ctrl.h
-new file mode 100644
-index 000000000000..c531bd4a6a63
---- /dev/null
-+++ b/include/linux/reset/rzg2l-usbphy-ctrl.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_RESET_RZG2L_USBPHY_CTRL_H_
-+#define _LINUX_RESET_RZG2L_USBPHY_CTRL_H_
-+
-+#if IS_ENABLED(CONFIG_RESET_RZG2L_USBPHY_CTRL)
-+int rzg2l_usbphy_ctrl_select_vbus_ctrl(struct reset_control *rstc,
-+				       bool vbctrl);
-+#else
-+static inline int
-+rzg2l_usbphy_ctrl_select_vbus_ctrl(struct reset_control *rstc, bool vbctrl)
-+{
-+	return 0;
-+}
-+#endif
-+
-+#endif /* _LINUX_RESET_RZG2L_USBPHY_CTRL_H_ */
+ 	channel->obint_enable_bits = USB2_OBINT_BITS;
+ 	/* get irq number here and request_irq for OTG in phy_init */
+ 	channel->irq = platform_get_irq_optional(pdev, 0);
 -- 
 2.25.1
 
