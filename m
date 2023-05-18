@@ -2,38 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94D107084C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 May 2023 17:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AA087084CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 May 2023 17:23:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbjERPUP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 May 2023 11:20:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51712 "EHLO
+        id S231486AbjERPXp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 May 2023 11:23:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjERPUO (ORCPT
+        with ESMTP id S230223AbjERPXo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 May 2023 11:20:14 -0400
+        Thu, 18 May 2023 11:23:44 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9A398101;
-        Thu, 18 May 2023 08:20:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E38AB123;
+        Thu, 18 May 2023 08:23:39 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.99,285,1677510000"; 
-   d="scan'208";a="159862665"
+   d="scan'208";a="159862872"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 May 2023 00:20:11 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 May 2023 00:23:39 +0900
 Received: from localhost.localdomain (unknown [10.226.92.79])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 62C484006C62;
-        Fri, 19 May 2023 00:20:08 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2A9404006A89;
+        Fri, 19 May 2023 00:23:36 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Vinod Koul <vkoul@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dmaengine@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
-Subject: [PATCH] dmaengine: sh: rz-dmac: Improve probe()/remove()
-Date:   Thu, 18 May 2023 16:20:04 +0100
-Message-Id: <20230518152004.513675-1-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH] clk: renesas: rzg2l: Fix CPG_SIPLL5_CLK1 register write
+Date:   Thu, 18 May 2023 16:23:34 +0100
+Message-Id: <20230518152334.514922-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,57 +45,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We usually do cleanup in reverse order of init. Currently, in case of
-error, this is not followed in rz_dmac_probe() and similar case for
-remove().
+As per RZ/G2L HW(Rev.1.30 May2023) manual, there is no "write enable"
+bits for CPG_SIPLL5_CLK1 register. So fix the CPG_SIPLL5_CLK register
+write by removing "write enable" bits.
 
-This patch improves error handling in probe() error path and
-in remove() do cleanup in reverse order of init.
-
-Reported-by: Pavel Machek <pavel@denx.de>
+Fixes: 1561380ee72f ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk support")
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/dma/sh/rz-dmac.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 9479f29692d3..229f642fde6b 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -947,7 +947,6 @@ static int rz_dmac_probe(struct platform_device *pdev)
- dma_register_err:
- 	of_dma_controller_free(pdev->dev.of_node);
- err:
--	reset_control_assert(dmac->rstc);
- 	channel_num = i ? i - 1 : 0;
- 	for (i = 0; i < channel_num; i++) {
- 		struct rz_dmac_chan *channel = &dmac->channels[i];
-@@ -958,6 +957,7 @@ static int rz_dmac_probe(struct platform_device *pdev)
- 				  channel->lmdesc.base_dma);
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 93b02cdc98c2..ca8b921c7762 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -603,10 +603,8 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
  	}
  
-+	reset_control_assert(dmac->rstc);
- err_pm_runtime_put:
- 	pm_runtime_put(&pdev->dev);
- err_pm_disable:
-@@ -971,6 +971,8 @@ static int rz_dmac_remove(struct platform_device *pdev)
- 	struct rz_dmac *dmac = platform_get_drvdata(pdev);
- 	unsigned int i;
+ 	/* Output clock setting 1 */
+-	writel(CPG_SIPLL5_CLK1_POSTDIV1_WEN | CPG_SIPLL5_CLK1_POSTDIV2_WEN |
+-	       CPG_SIPLL5_CLK1_REFDIV_WEN  | (params.pl5_postdiv1 << 0) |
+-	       (params.pl5_postdiv2 << 4) | (params.pl5_refdiv << 8),
+-	       priv->base + CPG_SIPLL5_CLK1);
++	writel((params.pl5_postdiv1 << 0) | (params.pl5_postdiv2 << 4) |
++	       (params.pl5_refdiv << 8), priv->base + CPG_SIPLL5_CLK1);
  
-+	dma_async_device_unregister(&dmac->engine);
-+	of_dma_controller_free(pdev->dev.of_node);
- 	for (i = 0; i < dmac->n_channels; i++) {
- 		struct rz_dmac_chan *channel = &dmac->channels[i];
- 
-@@ -979,8 +981,6 @@ static int rz_dmac_remove(struct platform_device *pdev)
- 				  channel->lmdesc.base,
- 				  channel->lmdesc.base_dma);
- 	}
--	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&dmac->engine);
- 	reset_control_assert(dmac->rstc);
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
+ 	/* Output clock setting, SSCG modulation value setting 3 */
+ 	writel((params.pl5_fracin << 8), priv->base + CPG_SIPLL5_CLK3);
 -- 
 2.25.1
 
