@@ -2,73 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BA1C7097DC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 May 2023 14:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F4E7097E5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 May 2023 15:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231866AbjESM7a convert rfc822-to-8bit (ORCPT
+        id S229737AbjESNCS convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 May 2023 08:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38442 "EHLO
+        Fri, 19 May 2023 09:02:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231826AbjESM73 (ORCPT
+        with ESMTP id S229456AbjESNCR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 May 2023 08:59:29 -0400
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8EB6E7F;
-        Fri, 19 May 2023 05:58:56 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5648e904593so1640097b3.3;
-        Fri, 19 May 2023 05:58:56 -0700 (PDT)
+        Fri, 19 May 2023 09:02:17 -0400
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F19B6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 06:02:16 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-ba827c74187so4451349276.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 06:02:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684501125; x=1687093125;
+        d=1e100.net; s=20221208; t=1684501335; x=1687093335;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pLPr5UuUBNCVrV62IdjI3b1017A2XQE4lrIxbUuKJas=;
-        b=cVqLhOaIWBcrru4yfh/OO5NC3rAYt1LnvYUd6CwsfmnvlStZZDxa9WQSkPUbnbqu97
-         bjXSGaVx/u4OXO+GkNuQsH8KavTxqUJMUWZwlLo25ifBqAIJntFdkPx2bPDEkoACxtXd
-         LMvFkTakwVldi8Ue5RqpJLleVLzc3t662qXEXmas0oOP7YRHeuwWdkXHy702UWssZXPu
-         X2etRgolPZS56jzRO2SPLbB9dQQ5h6ipP4aGsWHxPfaj1qeoD2uwKTOk+6WOBbNjOXqk
-         w5Yi4IXK/PY2b4FtK0hkESs0MbIZUx4n5rHIYBAWLy8UoxeL+F/A4IhpEodJQ3rim0SO
-         rFcw==
-X-Gm-Message-State: AC+VfDwxrwIj9lyfPjztnC8e74qhQ1kYgXLwO2XpANo0X8MTCKFfZYVZ
-        CCiMBJrEeXo9o9nZy5b+40gHzjHhiYL5RQ==
-X-Google-Smtp-Source: ACHHUZ7mYudGyZxGxAW6PnSAsu18aKfyp3RqqQUd+reRLpKP7KDPMzAWBqr8lXDeoP60j9yMjMMA+A==
-X-Received: by 2002:a0d:fe85:0:b0:54f:adff:bd7a with SMTP id o127-20020a0dfe85000000b0054fadffbd7amr2308566ywf.8.1684501124666;
-        Fri, 19 May 2023 05:58:44 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id r125-20020a0dcf83000000b0054fa1fbda6fsm1139553ywd.25.2023.05.19.05.58.43
+        bh=8YJbeBbAAMYblfEX6K2EngY8kH0aTU6JyKQofpw73og=;
+        b=Azw4DvsCsqtrq0DVf7oygbCYu+d7aX38fAoT48639LWzMW4E64KtJJ6gV4QmDcm+++
+         NvPIrC+I6gXsP9NiCz6s63A+6ZoH0NzKVQya3iDGd5r6aydvaoJ9SKNkfuvKqC8lSo5O
+         i6OhYkGbUTn3JNdOaZ3NKPpw5cuxbWuV/5RyVZ1/3dt734a6evEFAKR8p/DdXhS91Chp
+         66cc5LtPOVlUw5h0McIP2AFLM74xRnvgEYzWlqqojviGWkNYvyOFZtMFw7p7v+tqWwdQ
+         becC3VYwm5CN9bq8xFtOZXffXbqXpXC3TtcuGVakx32GOxi4FjzvNWHh+qb3FzvhKhBW
+         veLA==
+X-Gm-Message-State: AC+VfDzihiiCc75aavbRpgLbSOF2isKed0zJ/BkbvIeuwfjSzMjPLXd5
+        f0+ldxK96X7BvOGJIlQP5tqkSbDbode0yg==
+X-Google-Smtp-Source: ACHHUZ7c1g9+0fNfpkxKFONvEZqaKfuc9bcV6VtQJXuwA/hbFN6lVUq3vq9snc/qTVt+wTMn32U1Vw==
+X-Received: by 2002:a05:6902:154b:b0:ba8:15a2:f44d with SMTP id r11-20020a056902154b00b00ba815a2f44dmr2094570ybu.13.1684501334694;
+        Fri, 19 May 2023 06:02:14 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id f17-20020a5b0c11000000b00b9dc4620f95sm1014100ybq.6.2023.05.19.06.02.13
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 05:58:43 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-561b65b34c4so44095807b3.1;
-        Fri, 19 May 2023 05:58:43 -0700 (PDT)
-X-Received: by 2002:a0d:c841:0:b0:559:e954:edf8 with SMTP id
- k62-20020a0dc841000000b00559e954edf8mr1939413ywd.6.1684501123545; Fri, 19 May
- 2023 05:58:43 -0700 (PDT)
+        Fri, 19 May 2023 06:02:14 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-561c1ae21e7so43815577b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 06:02:13 -0700 (PDT)
+X-Received: by 2002:a81:54d4:0:b0:55a:5b19:ca9 with SMTP id
+ i203-20020a8154d4000000b0055a5b190ca9mr1722603ywb.36.1684501333277; Fri, 19
+ May 2023 06:02:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com> <20230518113643.420806-10-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230518113643.420806-10-biju.das.jz@bp.renesas.com>
+References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com> <20230518113643.420806-11-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230518113643.420806-11-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 May 2023 14:58:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUsNYhD8VQWpwPqn_AV6cw85m+vg_DMXQP+ggGOz3RF0Q@mail.gmail.com>
-Message-ID: <CAMuHMdUsNYhD8VQWpwPqn_AV6cw85m+vg_DMXQP+ggGOz3RF0Q@mail.gmail.com>
-Subject: Re: [PATCH v4 09/11] regulator: dt-bindings: Add Renesas RAA215300
- PMIC bindings
+Date:   Fri, 19 May 2023 15:02:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX3p5O_LpSGNm342XjFZYfE3DavpXUJRrrnYp62gpLxiQ@mail.gmail.com>
+Message-ID: <CAMuHMdX3p5O_LpSGNm342XjFZYfE3DavpXUJRrrnYp62gpLxiQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] regulator: Add Renesas PMIC RAA215300 driver
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,100 +74,74 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Thu, May 18, 2023 at 1:37 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document Renesas RAA215300 PMIC bindings.
 >
-> The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
-> Memory, with Built-In Charger and RTC.
+> The RAA215300 is a 9-channel PMIC that consists of
+>  * Internally compensated regulators
+>  * built-in Real Time Clock (RTC)
+>  * 32kHz crystal oscillator
+>  * coin cell battery charger
 >
-> It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
-> The internally compensated regulators, built-in Real-Time Clock (RTC),
-> 32kHz crystal oscillator, and coin cell battery charger provide a
-> highly integrated, small footprint power solution ideal for
-> System-On-Module (SOM) applications. A spread spectrum feature
-> provides an ease-of-use solution for noise-sensitive audio or RF
-> applications.
+> The RTC on RAA215300 is similar to the IP found in the ISL1208.
+> The existing driver for the ISL1208 works for this PMIC too,
+> however the RAA215300 exposes two devices via I2C, one for the RTC
+> IP, and one for everything else. The RTC IP has to be enabled
+> by the other I2C device, therefore this driver is necessary to get
+> the RTC to work.
+>
+> The external oscillator bit is inverted on PMIC version 0x11.
+>
+> Add PMIC RAA215300 driver for enabling RTC block and instantiating
+> RTC device based on PMIC version.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v3->v4:
->  * Moved bindings from mfd->regulator.
->  * Dropped minItems from reg.
->  * Dropped renesas,rtc-enabled property and instead used clock-names property
->    to find RTC is enabled or not.
->  * Added reg-names in required property.
->  * Updated the example.
+>  * Moved from mfd->regulator as it doesn't use MFD APIs
+>  * Dropped handling "renesas,rtc-enabled" property and instead used
+>    clock-names to determine RTC is enabled or not and then instantiating
+>    RTC device.
 
 Thanks for your patch!
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/regulator/renesas,raa215300.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/regulator/renesas,raa215300.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RAA215300 Power Management Integrated Circuit (PMIC)
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +description: |
-> +  The RAA215300 is a high-performance, low-cost 9-channel PMIC designed for
-> +  32-bit and 64-bit MCU and MPU applications. It supports DDR3, DDR3L, DDR4,
-> +  and LPDDR4 memory power requirements. The internally compensated regulators,
-> +  built-in Real-Time Clock (RTC), 32kHz crystal oscillator, and coin cell
-> +  battery charger provide a highly integrated, small footprint power solution
-> +  ideal for System-On-Module (SOM) applications. A spread spectrum feature
-> +  provides an ease-of-use solution for noise-sensitive audio or RF applications.
-> +
-> +  This device exposes two devices via I2C. One for the integrated RTC IP, and
-> +  one for everything else.
-> +
-> +  Link to datasheet:
-> +  https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,raa215300
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: main
-> +      - const: rtc
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
+> +++ b/drivers/regulator/raa215300.c
 
-Perhaps add a description to make it clear that not providing clocks
-is supported, and means the RTC is disabled?
-
+> +       xin = devm_clk_get_optional(&client->dev, "xin");
+> +       if (IS_ERR_OR_NULL(xin)) {
+> +               clkin = devm_clk_get(&client->dev, "clkin");
+> +               if (IS_ERR(clkin))
+> +                       return PTR_ERR(clkin);
 > +
-> +  clock-names:
-> +    description: |
-> +      Use xin, if connected to an external crystal.
-> +      Use clkin, if connected to an external clock signal.
-> +    oneOf:
-> +      - items:
-> +          - const: xin
-> +      - items:
-> +          - const: clkin
-
-Please replace oneOf+items by enum.
-
+> +               int_osc_en = false;
+> +               xin = NULL;
+> +       } else {
+> +               clkin = NULL;
+> +       }
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
+> +       if (xin || clkin)  {
+
+Perhaps just "if (of_property_present(np, "clocks"))"?
+
+> +               struct i2c_client *rtc_client;
+> +
+> +               /* Enable RTC block */
+> +               regmap_update_bits(regmap, RAA215300_REG_BLOCK_EN,
+> +                                  RAA215300_REG_BLOCK_EN_RTC_EN,
+> +                                  RAA215300_REG_BLOCK_EN_RTC_EN);
+> +
+> +               rtc_client = i2c_new_ancillary_device(client, "rtc",
+> +                                                     RAA215300_RTC_DEFAULT_ADDR,
+> +                                                     pmic_version >= 0x12 ?
+> +                                                     "isl1208" : "raa215300_a0");
+> +               if (IS_ERR(rtc_client))
+> +                       return PTR_ERR(rtc_client);
+> +
+> +               ret = devm_add_action_or_reset(dev,
+> +                                              raa215300_rtc_unregister_device,
+> +                                              rtc_client);
+> +               if (ret < 0)
+> +                       return ret;
+> +       }
 
 Gr{oetje,eeting}s,
 
