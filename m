@@ -2,69 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D2C70979C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 May 2023 14:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BA1C7097DC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 May 2023 14:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjESMye convert rfc822-to-8bit (ORCPT
+        id S231866AbjESM7a convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 May 2023 08:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34600 "EHLO
+        Fri, 19 May 2023 08:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbjESMyd (ORCPT
+        with ESMTP id S231826AbjESM73 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 May 2023 08:54:33 -0400
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839BF106;
-        Fri, 19 May 2023 05:54:32 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-ba8cf3cb34fso1227508276.1;
-        Fri, 19 May 2023 05:54:32 -0700 (PDT)
+        Fri, 19 May 2023 08:59:29 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8EB6E7F;
+        Fri, 19 May 2023 05:58:56 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5648e904593so1640097b3.3;
+        Fri, 19 May 2023 05:58:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684500871; x=1687092871;
+        d=1e100.net; s=20221208; t=1684501125; x=1687093125;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WmJ+cBnObchQE46qIKaN4HsO5ILX8r+HzJyhWcq/1bg=;
-        b=jwjWDZxQPyZ7EGOo1n+8FwyaVkvPHlR87gpVJzg+l5ER9wNKNPDTnF4EnTkt/OJA9g
-         yGJJbGKaJe2OCUmQqfYKGIBBDBQ1hXBHA7zLqSXdK/1tbMltDtY7naynYM909Jp405YE
-         zV0ZgkskQcvBVP89GIJQs+6sIOW+JwalRLtNp+R+D1irLghrB25grUlebFW5oTzymzW0
-         LUPzPvLpBVw75TZSEjH9D7nsdJ7CAwRHCJMnMOj7kJCE3bzJqsQyJe2+loCct4KwzjzU
-         0wAip5t7LYktHcOcLBouNLCPbeexK9EGDW1RbGeIPcYZtT07pJrSMwrX2+5j6cxdzTmS
-         5lSg==
-X-Gm-Message-State: AC+VfDz8aqXTQe7c7t7I4gyky7VJykgqthMs8Sg8Hi+NNVqzeMIZ7hdh
-        FYAIgt/VUs2e7Vh3fVx8E5wWdU2cgCE/Kw==
-X-Google-Smtp-Source: ACHHUZ4x3nSPoG4rLOWDTni/AbvtyuKOSMKwLnXZSGiK8jHF9Fnr24tex24ljc+sOEgvdaVhzrH15Q==
-X-Received: by 2002:a25:acc5:0:b0:ba8:24c4:ec02 with SMTP id x5-20020a25acc5000000b00ba824c4ec02mr1846260ybd.25.1684500871351;
-        Fri, 19 May 2023 05:54:31 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id f126-20020a256a84000000b00ba7fd64e113sm1023350ybc.36.2023.05.19.05.54.30
+        bh=pLPr5UuUBNCVrV62IdjI3b1017A2XQE4lrIxbUuKJas=;
+        b=cVqLhOaIWBcrru4yfh/OO5NC3rAYt1LnvYUd6CwsfmnvlStZZDxa9WQSkPUbnbqu97
+         bjXSGaVx/u4OXO+GkNuQsH8KavTxqUJMUWZwlLo25ifBqAIJntFdkPx2bPDEkoACxtXd
+         LMvFkTakwVldi8Ue5RqpJLleVLzc3t662qXEXmas0oOP7YRHeuwWdkXHy702UWssZXPu
+         X2etRgolPZS56jzRO2SPLbB9dQQ5h6ipP4aGsWHxPfaj1qeoD2uwKTOk+6WOBbNjOXqk
+         w5Yi4IXK/PY2b4FtK0hkESs0MbIZUx4n5rHIYBAWLy8UoxeL+F/A4IhpEodJQ3rim0SO
+         rFcw==
+X-Gm-Message-State: AC+VfDwxrwIj9lyfPjztnC8e74qhQ1kYgXLwO2XpANo0X8MTCKFfZYVZ
+        CCiMBJrEeXo9o9nZy5b+40gHzjHhiYL5RQ==
+X-Google-Smtp-Source: ACHHUZ7mYudGyZxGxAW6PnSAsu18aKfyp3RqqQUd+reRLpKP7KDPMzAWBqr8lXDeoP60j9yMjMMA+A==
+X-Received: by 2002:a0d:fe85:0:b0:54f:adff:bd7a with SMTP id o127-20020a0dfe85000000b0054fadffbd7amr2308566ywf.8.1684501124666;
+        Fri, 19 May 2023 05:58:44 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id r125-20020a0dcf83000000b0054fa1fbda6fsm1139553ywd.25.2023.05.19.05.58.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 05:54:30 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-56190515833so12444587b3.0;
-        Fri, 19 May 2023 05:54:30 -0700 (PDT)
-X-Received: by 2002:a81:984e:0:b0:55d:ebd7:2944 with SMTP id
- p75-20020a81984e000000b0055debd72944mr1800330ywg.2.1684500870121; Fri, 19 May
- 2023 05:54:30 -0700 (PDT)
+        Fri, 19 May 2023 05:58:43 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-561b65b34c4so44095807b3.1;
+        Fri, 19 May 2023 05:58:43 -0700 (PDT)
+X-Received: by 2002:a0d:c841:0:b0:559:e954:edf8 with SMTP id
+ k62-20020a0dc841000000b00559e954edf8mr1939413ywd.6.1684501123545; Fri, 19 May
+ 2023 05:58:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com> <20230518113643.420806-9-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230518113643.420806-9-biju.das.jz@bp.renesas.com>
+References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com> <20230518113643.420806-10-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230518113643.420806-10-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 May 2023 14:54:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVNJbiao8Xsk5dQXMH9qtnZyRPaYOSEttwmmkuHqYV6=A@mail.gmail.com>
-Message-ID: <CAMuHMdVNJbiao8Xsk5dQXMH9qtnZyRPaYOSEttwmmkuHqYV6=A@mail.gmail.com>
-Subject: Re: [PATCH v4 08/11] rtc: isl1208: Add support for the built-in RTC
- on the PMIC RAA215300
+Date:   Fri, 19 May 2023 14:58:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUsNYhD8VQWpwPqn_AV6cw85m+vg_DMXQP+ggGOz3RF0Q@mail.gmail.com>
+Message-ID: <CAMuHMdUsNYhD8VQWpwPqn_AV6cw85m+vg_DMXQP+ggGOz3RF0Q@mail.gmail.com>
+Subject: Re: [PATCH v4 09/11] regulator: dt-bindings: Add Renesas RAA215300
+ PMIC bindings
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-rtc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,90 +78,106 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Thu, May 18, 2023 at 1:37 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
-> However, the external oscillator bit is inverted on PMIC version
-> 0x11. The PMIC driver detects PMIC version and instantiate appropriate
-
-instantiates the
-
-> RTC device based on i2c_device_id.
+> Document Renesas RAA215300 PMIC bindings.
 >
-> Enhance isl1208_set_xtoscb() to handle inverted bit and internal oscillator
-> is enabled or not is determined by the parent clock name.
+> The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
+> Memory, with Built-In Charger and RTC.
+>
+> It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
+> The internally compensated regulators, built-in Real-Time Clock (RTC),
+> 32kHz crystal oscillator, and coin cell battery charger provide a
+> highly integrated, small footprint power solution ideal for
+> System-On-Module (SOM) applications. A spread spectrum feature
+> provides an ease-of-use solution for noise-sensitive audio or RF
+> applications.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v3->v4:
->  * Added support for internal oscillator enable/disable.
+>  * Moved bindings from mfd->regulator.
+>  * Dropped minItems from reg.
+>  * Dropped renesas,rtc-enabled property and instead used clock-names property
+>    to find RTC is enabled or not.
+>  * Added reg-names in required property.
+>  * Updated the example.
 
-Thanks for the update!
+Thanks for your patch!
 
-> --- a/drivers/rtc/rtc-isl1208.c
-> +++ b/drivers/rtc/rtc-isl1208.c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/renesas,raa215300.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/renesas,raa215300.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RAA215300 Power Management Integrated Circuit (PMIC)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  The RAA215300 is a high-performance, low-cost 9-channel PMIC designed for
+> +  32-bit and 64-bit MCU and MPU applications. It supports DDR3, DDR3L, DDR4,
+> +  and LPDDR4 memory power requirements. The internally compensated regulators,
+> +  built-in Real-Time Clock (RTC), 32kHz crystal oscillator, and coin cell
+> +  battery charger provide a highly integrated, small footprint power solution
+> +  ideal for System-On-Module (SOM) applications. A spread spectrum feature
+> +  provides an ease-of-use solution for noise-sensitive audio or RF applications.
+> +
+> +  This device exposes two devices via I2C. One for the integrated RTC IP, and
+> +  one for everything else.
+> +
+> +  Link to datasheet:
+> +  https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,raa215300
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: main
+> +      - const: rtc
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
 
-> @@ -852,11 +865,25 @@ isl1208_probe(struct i2c_client *client)
->                 isl1208->config = (struct isl1208_config *)id->driver_data;
->         }
->
-> -       xin = devm_clk_get(&client->dev, "xin");
-> -       if (IS_ERR(xin)) {
-> -               clkin = devm_clk_get(&client->dev, "clkin");
-> -               if (!IS_ERR(clkin))
-> +       if (client->dev.parent->type == &i2c_client_type) {
-> +               xin = of_clk_get_by_name(client->dev.parent->of_node, "xin");
-> +               if (IS_ERR(xin)) {
-
--ENOENT means clock not present, so continue below.
-Any other error codes are to be propagated upstream.
-
-> +                       clkin = of_clk_get_by_name(client->dev.parent->of_node, "clkin");
-> +                       if (IS_ERR(clkin))
-
-Likewise.
-
-> +                               return -ENODEV;
-
-Clock not present is not an error, as the clock is optional for DT
-backwards compatibility.
+Perhaps add a description to make it clear that not providing clocks
+is supported, and means the RTC is disabled?
 
 > +
->                         int_osc_en = false;
-> +                       clk_put(clkin);
-> +               } else {
-> +                       clk_put(xin);
-> +               }
-> +       } else {
-> +               xin = devm_clk_get(&client->dev, "xin");
-> +               if (IS_ERR(xin)) {
-> +                       clkin = devm_clk_get(&client->dev, "clkin");
-> +                       if (!IS_ERR(clkin))
-> +                               int_osc_en = false;
-> +               }
->         }
->
->         isl1208->rtc = devm_rtc_allocate_device(&client->dev);
-> @@ -876,7 +903,8 @@ isl1208_probe(struct i2c_client *client)
->                 return sr;
->         }
->
-> -       rc = isl1208_set_xtoscb(client, sr, int_osc_en);
-> +       rc = isl1208_set_xtoscb(client, sr, int_osc_en,
-> +                               isl1208->config->has_inverted_osc_bit);
+> +  clock-names:
+> +    description: |
+> +      Use xin, if connected to an external crystal.
+> +      Use clkin, if connected to an external clock signal.
+> +    oneOf:
+> +      - items:
+> +          - const: xin
+> +      - items:
+> +          - const: clkin
 
-No need to change isl1208_set_xtoscb() (but perhaps rename
-the int_osc_en parameter?) if you would pass
-"int_osc_en ^ isl1208->config->has_inverted_osc_bit".
-(beware: C has no logical ^^, only bitwise ^).
+Please replace oneOf+items by enum.
 
-
->         if (rc)
->                 return rc;
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
