@@ -2,163 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88E1870A00C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 May 2023 21:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7C270A4D4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 May 2023 05:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231330AbjESTnX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 May 2023 15:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40786 "EHLO
+        id S229522AbjETDND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 May 2023 23:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbjESTnW (ORCPT
+        with ESMTP id S229568AbjETDNC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 May 2023 15:43:22 -0400
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EFE186;
-        Fri, 19 May 2023 12:43:20 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-ba8a0500f4aso2009313276.3;
-        Fri, 19 May 2023 12:43:20 -0700 (PDT)
+        Fri, 19 May 2023 23:13:02 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62004EA
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 20:13:01 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1ae4c5e12edso31113245ad.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 20:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684552380; x=1687144380;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J8Y40lrBbVfk8kPi/ZJlDDf/jFXU/FknjxlFku6ubIE=;
+        b=IwqpwGPrlSR4B0k3v3fezngvp+iZvN8hFJucAQuYTCuu10u4zpkrCuHTbE/6yB6rDg
+         t329PWb2xM2u/Z4SDvHkcvrlv6SGQl8VYG/hoQVrnlCZmryByN0c32NiZtlTdYhomFGm
+         C67D5ALTGp3sMKXAZyTOm5BT2gXuR8KSsj7rRx7lJG1ErpJJCYD3v1DpgxBxETiNa7o/
+         VXxn9QN89i5wPcU8DxkHqvV7r7tUfLtpJ1mur2KVuE71losLDVJONIpWVh7qtny7+V/6
+         ugONO/mzrTSRirhM3ZfoDEZlMKnEFC75hv+u3CLQ1jQuAZK5TO+SO0Pzb6tDxOYXZ5g3
+         N0Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684525399; x=1687117399;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9et77NNtLM13BT6ergjBq42lTZvxFJR1mV3vZHucDTI=;
-        b=iOWvwLQixyzDZoJweS9QaBGyF5NmuIsDzwiGChOqj1m9PUI1gRgumz9ELvtsq8NENM
-         +z/MdJZCsZeqsIy6LAkbppI+U8gBUFThk307rHRuOvCqvAZWPEc+Ge7HwSFFsWUAZcWg
-         RVXtH4yOlZyd+ZlkRUfb8ljWu1joh4Vj0PvsokbW8uYhPtMU8Bv/OYf5L0BiUZTjAMOd
-         ZpiTc6XrQasnAjdAP34WBFFithTEW1xm64iKOUtgAhrblVAON/k0QqsARJFDy6iH6+xF
-         08vfEmnQQqV10uAviHcNJMAM66H+wW/Hq8VM4Gh4VFfdYq9PF/IlAREpxAqlZ3l/zT3n
-         LUaA==
-X-Gm-Message-State: AC+VfDyCND6ET5XxlauYgdCtWj8QEML3vLUF4XDNLEw397jdBll/gk9E
-        8jm0FXysiwMCHAiPuhLKbZjfGV60Pw/MGA==
-X-Google-Smtp-Source: ACHHUZ6u+y88Qs0PWs6rIDNSGVSi1C9i63PhJ04ClOmqDbDKuACPFI4vvP2eo0lBgRa2c8bCLK4QKw==
-X-Received: by 2002:a81:5289:0:b0:561:e7bb:1b24 with SMTP id g131-20020a815289000000b00561e7bb1b24mr3397500ywb.6.1684525399479;
-        Fri, 19 May 2023 12:43:19 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id u11-20020a25840b000000b00ba02bbed468sm1225664ybk.28.2023.05.19.12.43.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 12:43:18 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-561e5014336so29382157b3.1;
-        Fri, 19 May 2023 12:43:18 -0700 (PDT)
-X-Received: by 2002:a81:4e8f:0:b0:549:2623:6f65 with SMTP id
- c137-20020a814e8f000000b0054926236f65mr3222885ywb.33.1684525398750; Fri, 19
- May 2023 12:43:18 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684552380; x=1687144380;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J8Y40lrBbVfk8kPi/ZJlDDf/jFXU/FknjxlFku6ubIE=;
+        b=mAEKiJucrbF9+IedhIA0HFHWhQ3uiOPw7FArH+lhTC9lJWAPXwADczTM3rdly5AeZn
+         C/wylk4Jtknr0yqM+Dhes/4nN2JWI09tWsJPUDdsO/0Ols7vcVuWOI+2O8RgV0AtNDog
+         TrdlkQaJvYed82EvWYILLaYTY7Bj1oWuHBniMLUxW5eSIDM/6wSYEwP21D9BT0ACFpGh
+         mOillAh9pjMGmFWb9SMv+Br0GWR50RbFyCkn6wjyGbVQkYg5/qa9wu1AYoTGycDgN7SV
+         +K7jIgEwfAg0vcdr/iPPMTZmRgT2cewoJpCFafL6h5akIHwoHb+QcAtaHYdjWghTPoR+
+         ymAQ==
+X-Gm-Message-State: AC+VfDw8tPJzL2r9fN6TWCRK+VTifsoIuR206pKAxrvJivLv4kGYfV/s
+        gsv5CIrSZSoJRnV57Zcg9VUTj6mzqrg/1GSJhdnxGGChU30=
+X-Google-Smtp-Source: ACHHUZ5MrLQ1i7wGLNfscvWDXbbwRE8HfUEtGNLQlbxBZooH1CR07gKSZrBr0HvTaldVw8M5/1eTxWLWzNnUS9a7bIQ=
+X-Received: by 2002:a17:902:684c:b0:1ae:1237:8754 with SMTP id
+ f12-20020a170902684c00b001ae12378754mr4226332pln.68.1684552380327; Fri, 19
+ May 2023 20:13:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com>
- <20230518113643.420806-6-biju.das.jz@bp.renesas.com> <CAMuHMdXaJtZVxp5faw=vovsdukdwiXH8RbaJfiKAoOKTLWrZzA@mail.gmail.com>
- <OS0PR01MB5922AFB243478AA9FA2B0CBC867C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922AFB243478AA9FA2B0CBC867C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 May 2023 21:43:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWnvceN5+9D+7HK5h4Guxtu12HwkUUy8rns_RW-pGhvYw@mail.gmail.com>
-Message-ID: <CAMuHMdWnvceN5+9D+7HK5h4Guxtu12HwkUUy8rns_RW-pGhvYw@mail.gmail.com>
-Subject: Re: [PATCH v4 05/11] rtc: isl1208: Make similar I2C and DT-based
- matching table
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 19 May 2023 22:12:48 -0500
+Message-ID: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
+Subject: RZ/G2M Power Domain Errors with GPU
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        cstevens@beaconembedded.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju.
+Hi all,
 
-On Fri, May 19, 2023 at 6:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Sent: Friday, May 19, 2023 1:39 PM
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Cc: Alessandro Zummo <a.zummo@towertech.it>; Alexandre Belloni
-> > <alexandre.belloni@bootlin.com>; linux-rtc@vger.kernel.org; Fabrizio
-> > Castro <fabrizio.castro.jz@renesas.com>; linux-renesas-
-> > soc@vger.kernel.org
-> > Subject: Re: [PATCH v4 05/11] rtc: isl1208: Make similar I2C and DT-
-> > based matching table
-> >
-> > On Thu, May 18, 2023 at 1:37 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > The isl1208_id[].driver_data could store a pointer to the config, like
-> > > for DT-based matching, making I2C and DT-based matching more similar.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v4:
-> > >  * New patch.
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > > @@ -822,9 +822,9 @@ isl1208_probe(struct i2c_client *client)
-> > >         } else {
-> > >                 const struct i2c_device_id *id =
-> > > i2c_match_id(isl1208_id, client);
-> > >
-> > > -               if (id->driver_data >= ISL_LAST_ID)
-> > > +               if (!id)
-> > >                         return -ENODEV;
-> > > -               isl1208->config = &isl1208_configs[id->driver_data];
-> > > +               isl1208->config = (struct isl1208_config
-> > > + *)id->driver_data;
-> >
-> > It's a pity there's no i2c_get_match_data() yet...
->
-> You mean, introduce [1] and optimize ??
->
->         if (client->dev.of_node)
->                 isl1208->config = of_device_get_match_data(&client->dev);
->         else
->                 isl1208->config = i2c_get_match_data(isl1208_id, client);
->
->         if (!isl1208->config)
->                 return -ENODEV;
+I am trying to see if the Open Source PowerVR driver [1]  for the 6250
+can be made to work on the RZ/G2M, and I am having difficulty getting
+the power domain to turn on.
 
-Exactly.  Might be better to do that later, to avoid stalling this series.
+In the GPU node, I set:
+power-domains = <&sysc R8A774A1_PD_3DG_B>;
 
->
-> [1]
-> const void * i2c_get_match_data(const struct i2c_device_id *id, const struct i2c_client *client)
-> {
->         if (!(id && client))
->                 return NULL;
->
->         while (id->name[0]) {
->                 if (strcmp(client->name, id->name) == 0)
->                         return id->driver_data;
->                 id++;
->         }
->         return NULL;
+Unfortunately,  when it boots, I get the following error message:
 
-Please reuse the existing i2c_match_id(), just like of_device_get_match_data()
-reuses of_match_device().
+[    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add to
+PM domain 3dg-b
+[    8.320822] powervr: probe of fd000000.gpu failed with error -2
 
-> }
-> EXPORT_SYMBOL(i2c_get_match_data);
->
-> Cheers,
-> Biju
+Is there something I need to do in order to use this?  it appears the
+3DG_B starts 3DG_A if I understand this correctly.
+
+Unfortunately, I don't see the parent child relationship between the
+3DG_B and the GPU
+
+root@beacon-rzg2m:~# cat /sys/kernel/debug/pm_genpd/pm_genpd_summary
+domain                          status          children
+            performance
+    /device                                             runtime status
+----------------------------------------------------------------------------------------------
+clock-controller                on
+            0
+3dg-b                           off-0
+            0
+3dg-a                           off-0
+            0
+                                                3dg-b
+
+If anyone has any suggestions, I'd like to try to get this
+operational.  I would also expect this to be similar for the
+corresponding RCAR-GEN3 SoC as well.  It appears that Mesa has
+mainline support for PowerVR 6250 as well and it looks like the Mesa
+side looks like it's been merged about a year ago. [2]
 
 
+adam
 
--- 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1] - https://gitlab.freedesktop.org/frankbinns/powervr
+[2] - https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15243
