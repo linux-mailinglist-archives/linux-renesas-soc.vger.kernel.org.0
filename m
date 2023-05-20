@@ -2,112 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7C270A4D4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 May 2023 05:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D56CA70A838
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 May 2023 14:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjETDND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 May 2023 23:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
+        id S230498AbjETM6S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 20 May 2023 08:58:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjETDNC (ORCPT
+        with ESMTP id S229523AbjETM6R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 May 2023 23:13:02 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62004EA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 20:13:01 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1ae4c5e12edso31113245ad.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 May 2023 20:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684552380; x=1687144380;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J8Y40lrBbVfk8kPi/ZJlDDf/jFXU/FknjxlFku6ubIE=;
-        b=IwqpwGPrlSR4B0k3v3fezngvp+iZvN8hFJucAQuYTCuu10u4zpkrCuHTbE/6yB6rDg
-         t329PWb2xM2u/Z4SDvHkcvrlv6SGQl8VYG/hoQVrnlCZmryByN0c32NiZtlTdYhomFGm
-         C67D5ALTGp3sMKXAZyTOm5BT2gXuR8KSsj7rRx7lJG1ErpJJCYD3v1DpgxBxETiNa7o/
-         VXxn9QN89i5wPcU8DxkHqvV7r7tUfLtpJ1mur2KVuE71losLDVJONIpWVh7qtny7+V/6
-         ugONO/mzrTSRirhM3ZfoDEZlMKnEFC75hv+u3CLQ1jQuAZK5TO+SO0Pzb6tDxOYXZ5g3
-         N0Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684552380; x=1687144380;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J8Y40lrBbVfk8kPi/ZJlDDf/jFXU/FknjxlFku6ubIE=;
-        b=mAEKiJucrbF9+IedhIA0HFHWhQ3uiOPw7FArH+lhTC9lJWAPXwADczTM3rdly5AeZn
-         C/wylk4Jtknr0yqM+Dhes/4nN2JWI09tWsJPUDdsO/0Ols7vcVuWOI+2O8RgV0AtNDog
-         TrdlkQaJvYed82EvWYILLaYTY7Bj1oWuHBniMLUxW5eSIDM/6wSYEwP21D9BT0ACFpGh
-         mOillAh9pjMGmFWb9SMv+Br0GWR50RbFyCkn6wjyGbVQkYg5/qa9wu1AYoTGycDgN7SV
-         +K7jIgEwfAg0vcdr/iPPMTZmRgT2cewoJpCFafL6h5akIHwoHb+QcAtaHYdjWghTPoR+
-         ymAQ==
-X-Gm-Message-State: AC+VfDw8tPJzL2r9fN6TWCRK+VTifsoIuR206pKAxrvJivLv4kGYfV/s
-        gsv5CIrSZSoJRnV57Zcg9VUTj6mzqrg/1GSJhdnxGGChU30=
-X-Google-Smtp-Source: ACHHUZ5MrLQ1i7wGLNfscvWDXbbwRE8HfUEtGNLQlbxBZooH1CR07gKSZrBr0HvTaldVw8M5/1eTxWLWzNnUS9a7bIQ=
-X-Received: by 2002:a17:902:684c:b0:1ae:1237:8754 with SMTP id
- f12-20020a170902684c00b001ae12378754mr4226332pln.68.1684552380327; Fri, 19
- May 2023 20:13:00 -0700 (PDT)
+        Sat, 20 May 2023 08:58:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13682116;
+        Sat, 20 May 2023 05:58:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FC3760AFF;
+        Sat, 20 May 2023 12:58:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB432C433EF;
+        Sat, 20 May 2023 12:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684587496;
+        bh=WzLOnS8kzGIbprSfZlyNNfBG8QnbzdeZRhoxDyMoyrI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mf2dfG3VsMC1BsJB1sEqHWWCtB10GCwOHoOSVHXJ292fbuU5Kyca+wdtI/bOfoiON
+         cp+Po2AmQ4XYhaSjtLDDQIQg1Xw9aWhden/JXJ0GC74U5UP6UXPxyfpelNNgsC9jau
+         uVPMXhhnA7pObFVj9S0g1K4q+EZnM3qElYuHPlkBFWypl0qLYDLn5+Sa9l0rs8oiMa
+         QBHCs0VqEJmsjwMxrCIz94XlG2IOfnhefks9jVjeVFqcecKtPKchPyYaZY+zU+EuCv
+         JpM0xdCUa1h09imlYDaXrh1LpVYcPH+HPnMYVJza9/5i7VOEmoDolPhJKiejTMqPQb
+         1itPcuuC9EjFw==
+Date:   Sat, 20 May 2023 13:58:10 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Ayan Kumar Halder <ayan.kumar.halder@amd.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        geert+renesas@glider.be, mazziesaccount@gmail.com,
+        conor.dooley@microchip.com, j@jannau.net, mailingradian@gmail.com,
+        me@iskren.info, lpieralisi@kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: arm: Add Cortex-R52 to the list of enum
+Message-ID: <20230520-apple-hamstring-2118e172cd71@spud>
+References: <20230518152730.82954-1-ayan.kumar.halder@amd.com>
 MIME-Version: 1.0
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 19 May 2023 22:12:48 -0500
-Message-ID: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
-Subject: RZ/G2M Power Domain Errors with GPU
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        cstevens@beaconembedded.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="CdlCP2MJ8bAkn4CQ"
+Content-Disposition: inline
+In-Reply-To: <20230518152730.82954-1-ayan.kumar.halder@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi all,
 
-I am trying to see if the Open Source PowerVR driver [1]  for the 6250
-can be made to work on the RZ/G2M, and I am having difficulty getting
-the power domain to turn on.
+--CdlCP2MJ8bAkn4CQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the GPU node, I set:
-power-domains = <&sysc R8A774A1_PD_3DG_B>;
+On Thu, May 18, 2023 at 04:27:30PM +0100, Ayan Kumar Halder wrote:
+> As a pre-requisite for porting Xen on a Cortex-R52 based System-on-chip, =
+we
+> need to add "cortex-r52" to the list of enum.
+>=20
+> Signed-off-by: Ayan Kumar Halder <ayan.kumar.halder@amd.com>
 
-Unfortunately,  when it boots, I get the following error message:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-[    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add to
-PM domain 3dg-b
-[    8.320822] powervr: probe of fd000000.gpu failed with error -2
+Thanks,
+Conor.
 
-Is there something I need to do in order to use this?  it appears the
-3DG_B starts 3DG_A if I understand this correctly.
+--CdlCP2MJ8bAkn4CQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Unfortunately, I don't see the parent child relationship between the
-3DG_B and the GPU
+-----BEGIN PGP SIGNATURE-----
 
-root@beacon-rzg2m:~# cat /sys/kernel/debug/pm_genpd/pm_genpd_summary
-domain                          status          children
-            performance
-    /device                                             runtime status
-----------------------------------------------------------------------------------------------
-clock-controller                on
-            0
-3dg-b                           off-0
-            0
-3dg-a                           off-0
-            0
-                                                3dg-b
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGjD3gAKCRB4tDGHoIJi
+0rjPAQCXFLPt8nqDKNxhLc4OHCKpGilLHIsGf9pazW0V6WETfAEAn5HPPzB8bsOn
+KnyAv7J5eKStm1VkRXJQIFGwpDAvAQQ=
+=n1vn
+-----END PGP SIGNATURE-----
 
-If anyone has any suggestions, I'd like to try to get this
-operational.  I would also expect this to be similar for the
-corresponding RCAR-GEN3 SoC as well.  It appears that Mesa has
-mainline support for PowerVR 6250 as well and it looks like the Mesa
-side looks like it's been merged about a year ago. [2]
-
-
-adam
-
-[1] - https://gitlab.freedesktop.org/frankbinns/powervr
-[2] - https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15243
+--CdlCP2MJ8bAkn4CQ--
