@@ -2,113 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9473A70E10C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 17:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D37F170E2F1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 19:46:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237666AbjEWPw4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 11:52:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52498 "EHLO
+        id S238000AbjEWRgU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 May 2023 13:36:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237650AbjEWPwv (ORCPT
+        with ESMTP id S238239AbjEWRgE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 11:52:51 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01890E5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 08:52:49 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:b0ac:7afd:272:4cff])
-        by laurent.telenet-ops.be with bizsmtp
-        id 0Fsn2A00N0Jkz7G01FsnZc; Tue, 23 May 2023 17:52:48 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q1UJN-002t6k-At;
-        Tue, 23 May 2023 17:52:47 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q1UJb-00CksO-NR;
-        Tue, 23 May 2023 17:52:47 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] PCI: rcar-host: Remove unused static pcie_base and pcie_dev
-Date:   Tue, 23 May 2023 17:52:44 +0200
-Message-Id: <f29a8c37bd906dfbe23208cc2b089da17e339a75.1684857051.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 23 May 2023 13:36:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2835E41;
+        Tue, 23 May 2023 10:35:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E54D63547;
+        Tue, 23 May 2023 17:35:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9C8C433D2;
+        Tue, 23 May 2023 17:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684863349;
+        bh=V6La7xHuyVytMAyfQCoW1fs5fxMyIO2p76AI2SCUOEA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GtPdzUJqCnuCdbrKHnn6ERa4f+5zTE+NOlHT2B2jd36yEoOXyZEbzZGuHV6/xr73A
+         FXH4S5r69z3TpvH5ecaYAKiR9+zuR4vRRQy2LmCkz/cGZt3LNgpnQ+VdFufEwgc+aZ
+         y+8dhTUguas7Ej+7mZ3fCjz+I4XOtDxm3kysvSLUl8bib7rwnOO961Gh14b5OslPA2
+         jnZQTEnr176dhlZWml11cjIcPJ0CDW6KM203OioUtuzMuv3HkJ6qmMRtFYvHZ3s6/c
+         CLRezJz/AoZ6jI9uEi9DTSItUODShygq9vv5BEwMW4JFGG+R9DEjOz79RWSUHSXO1i
+         3Vn6LiKRGOa/A==
+Date:   Tue, 23 May 2023 18:35:44 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
+ required
+Message-ID: <20230523-outlying-repulsive-efc0f9e1435e@spud>
+References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nG5CKQOdzr5W/qlH"
+Content-Disposition: inline
+In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After the L1 link state transition exception handler rework, the static
-copies of the remapped PCIe controller address and the PCIe device
-pointer became unused.  Remove them.
 
-Fixes: 6e36203bc14ce147 ("PCI: rcar: Use PCI_SET_ERROR_RESPONSE after read which triggered an exception")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-Probably this was not noticed before due to two function parameters with
-the same name, thus shadowing the static globals.
+--nG5CKQOdzr5W/qlH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-  - Add Reviewed-by.
----
- drivers/pci/controller/pcie-rcar-host.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+On Tue, May 23, 2023 at 05:38:37PM +0200, Geert Uytterhoeven wrote:
+> make dtbs_check:
+>=20
+>     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-su=
+pply' is a required property
+> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-ba=
+cklight.yaml
+>=20
+> As that backlight device node already has an "enable-gpios" property to
+> control the power supplied to the backlight, it sounds a bit silly to
+> have to add a "power-supply" property just to silence this warning.  In
+> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
+> on a disabled PWM emiting inactive state"), the Linux driver considers
+> the power supply optional.
+>=20
+> Fix this by synchronizing the bindings with actual driver behavior by
+> making the "power-supply" optional.
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index e80e56b2a84243e5..7ffcd0f5aa45c989 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -41,21 +41,6 @@ struct rcar_msi {
- 	int irq2;
- };
- 
--#ifdef CONFIG_ARM
--/*
-- * Here we keep a static copy of the remapped PCIe controller address.
-- * This is only used on aarch32 systems, all of which have one single
-- * PCIe controller, to provide quick access to the PCIe controller in
-- * the L1 link state fixup function, called from the ARM fault handler.
-- */
--static void __iomem *pcie_base;
--/*
-- * Static copy of PCIe device pointer, so we can check whether the
-- * device is runtime suspended or not.
-- */
--static struct device *pcie_dev;
--#endif
--
- /* Structure representing the PCIe interface */
- struct rcar_pcie_host {
- 	struct rcar_pcie	pcie;
-@@ -879,12 +864,6 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
- 	}
- 	host->msi.irq2 = i;
- 
--#ifdef CONFIG_ARM
--	/* Cache static copy for L1 link state fixup hook on aarch32 */
--	pcie_base = pcie->base;
--	pcie_dev = pcie->dev;
--#endif
--
- 	return 0;
- 
- err_irq2:
--- 
-2.34.1
+That seems to follow from reading the aforementioned commit.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Thanks,
+Conor.
+
+>=20
+> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM=
+ emiting inactive state")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
+> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
+> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
+>=20
+> Thanks!
+> ---
+>  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlig=
+ht.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.ya=
+ml
+> index 5ec47a8c6568b60e..53569028899020d6 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> @@ -68,7 +68,6 @@ dependencies:
+>  required:
+>    - compatible
+>    - pwms
+> -  - power-supply
+> =20
+>  additionalProperties: false
+> =20
+> --=20
+> 2.34.1
+>=20
+
+--nG5CKQOdzr5W/qlH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGz5cAAKCRB4tDGHoIJi
+0mDPAQDCdFT25r3FjLLlJyhgTRdLJpa3ifbcKQxOZ20+M4dpXQD/dsHStncq/F4X
+8OY2cqOzQwlc8EIm4K1E801mM1/RQwA=
+=HU1s
+-----END PGP SIGNATURE-----
+
+--nG5CKQOdzr5W/qlH--
