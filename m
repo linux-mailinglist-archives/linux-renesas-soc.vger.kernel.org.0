@@ -2,101 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27FE570E0B7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 17:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F52670E0C4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 17:42:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237607AbjEWPkE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 11:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45114 "EHLO
+        id S237105AbjEWPm2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 May 2023 11:42:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237617AbjEWPjz (ORCPT
+        with ESMTP id S237610AbjEWPm1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 11:39:55 -0400
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355DC121
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 08:39:54 -0700 (PDT)
+        Tue, 23 May 2023 11:42:27 -0400
 Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4QQdmT01VHz4x2B7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 17:39:53 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BF0126
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 08:42:25 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:b0ac:7afd:272:4cff])
         by andre.telenet-ops.be with bizsmtp
-        id 0Fen2A00H0Jkz7G01FenNV; Tue, 23 May 2023 17:38:52 +0200
+        id 0FiN2A00R0Jkz7G01FiNDk; Tue, 23 May 2023 17:42:24 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q1U5o-002t4X-Th;
-        Tue, 23 May 2023 17:38:47 +0200
+        id 1q1U9I-002t5J-7V;
+        Tue, 23 May 2023 17:42:22 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q1U63-00CkgO-BR;
-        Tue, 23 May 2023 17:38:47 +0200
+        id 1q1U9W-00Ckk7-KA;
+        Tue, 23 May 2023 17:42:22 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: backlight: pwm: Make power-supply not required
-Date:   Tue, 23 May 2023 17:38:37 +0200
-Message-Id: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v3] media: renesas: fdp1: Identify R-Car Gen2 versions
+Date:   Tue, 23 May 2023 17:42:21 +0200
+Message-Id: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-make dtbs_check:
+On R-Car M2-W:
 
-    arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-supply' is a required property
-	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+    rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+    rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
 
-As that backlight device node already has an "enable-gpios" property to
-control the power supplied to the backlight, it sounds a bit silly to
-have to add a "power-supply" property just to silence this warning.  In
-addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
-on a disabled PWM emiting inactive state"), the Linux driver considers
-the power supply optional.
+Although the IP Internal Data Register on R-Car Gen2 is documented to
+contain all zeros, the actual register contents seem to match the FDP1
+version ID of R-Car H3 ES1.*, which has just been removed.
+Fortunately this version is not used for any other purposes yet.
 
-Fix this by synchronizing the bindings with actual driver behavior by
-making the "power-supply" optional.
+Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
 
-Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM emiting inactive state")
+Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
-As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
-the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
-RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
+Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
+ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
 
-Thanks!
+v3:
+  - Add Reviewed-by,
+
+v2:
+  - Add Reviewed-by,
+  - Add comment.
 ---
- .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-index 5ec47a8c6568b60e..53569028899020d6 100644
---- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-@@ -68,7 +68,6 @@ dependencies:
- required:
-   - compatible
-   - pwms
--  - power-supply
+diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+index f43e458590b8cada..ab39cd2201c85d84 100644
+--- a/drivers/media/platform/renesas/rcar_fdp1.c
++++ b/drivers/media/platform/renesas/rcar_fdp1.c
+@@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
  
- additionalProperties: false
+ /* Internal Data (HW Version) */
+ #define FD1_IP_INTDATA			0x0800
++/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
++#define FD1_IP_GEN2			0x02010101
+ #define FD1_IP_M3W			0x02010202
+ #define FD1_IP_H3			0x02010203
+ #define FD1_IP_M3N			0x02010204
+@@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
  
+ 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
+ 	switch (hw_version) {
++	case FD1_IP_GEN2:
++		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
++		break;
+ 	case FD1_IP_M3W:
+ 		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
+ 		break;
 -- 
 2.34.1
 
