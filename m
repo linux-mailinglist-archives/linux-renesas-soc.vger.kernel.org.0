@@ -2,44 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA87A70D42B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 08:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29A6870D53E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 09:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232386AbjEWGna (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 02:43:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40888 "EHLO
+        id S235577AbjEWHhM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 May 2023 03:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235217AbjEWGn0 (ORCPT
+        with ESMTP id S235583AbjEWHgn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 02:43:26 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0554E133
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 May 2023 23:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=WgJBO0a3r+m+5K
-        tE0tD9/pNvayuhXV3mB7/3fne0NLw=; b=xTa4KBJ4yCn+Et/74u/NAT31G1pAkp
-        C5YckhHdLNdWKUeNfGeFZmnO7r45T/ddjHVuRWKPnIhtRe0AdkwIGjLU+uSKa6aC
-        So1NJAQ40sxMaBTIlXQs5K5KWtEDhMjdwEPK291H3nkbHzV2xbOnANXTzJXYYq1H
-        JHYf6e2Wh0D24=
-Received: (qmail 2628313 invoked from network); 23 May 2023 08:43:23 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 May 2023 08:43:23 +0200
-X-UD-Smtp-Session: l3s3148p1@vt8gtFb8DskujnsI
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFC PATCH 5/5] arm64: dts: renesas: ulcb-kf: add node for GPS
-Date:   Tue, 23 May 2023 08:43:10 +0200
-Message-Id: <20230523064310.3005-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230523064310.3005-1-wsa+renesas@sang-engineering.com>
-References: <20230523064310.3005-1-wsa+renesas@sang-engineering.com>
+        Tue, 23 May 2023 03:36:43 -0400
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6051BB;
+        Tue, 23 May 2023 00:35:36 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-ba82956d3e0so6567097276.0;
+        Tue, 23 May 2023 00:35:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684827335; x=1687419335;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5+dC08pX0/tIIqa2IQ59EpZ+jAMVvJj02nvq1d4VL18=;
+        b=X9ZHL/bniT61HdavOItx+T1WIquKJrexE+DFjGxu/p6nlPWX3NuBK3onVOvHX8sNW1
+         hs+KmnluB2DuJBlZg5BGRYPDKalmMA+k7GRhj8nKYXdbj3AG5KcDxEmL5oboc7XW5tHB
+         X1wpDylGO6k7A69xLe7gg6w9UZEUw6E6L5+DoO3pIdifvXNaalj2FeR+GbegYS8M8m2E
+         a6HA2lQoplGz0uXwfaxIYmHBJYWZpWYD6SYZ87wKjDOc0cG8b1sbiGiRBP0TdpnXQy5X
+         8U41Yw+bltCQlEoQ7WZuopOU5PWnzZQSsCLvEL9KSUkdMK2jC+UmLomb9RQyH8R0U8/S
+         dUxA==
+X-Gm-Message-State: AC+VfDxjRd0JEXdsnnguebfWS6VZwDc02Jt3GIcfezn9s4wyFbEmWzYW
+        S7zOfVGW/Pa1E+iRubBi0sJSyQj0R/U/dg==
+X-Google-Smtp-Source: ACHHUZ63dGDl+mcVAAI9TRP8BVbsNuq+ha2aSaR+g1PrhopXLYfg/alKwcZYYasC6CmbR787jepwcA==
+X-Received: by 2002:a25:328e:0:b0:b9d:88a7:dbf with SMTP id y136-20020a25328e000000b00b9d88a70dbfmr14953535yby.4.1684827335335;
+        Tue, 23 May 2023 00:35:35 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id c12-20020a25880c000000b00ba7da8f72ebsm1946195ybl.0.2023.05.23.00.35.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 May 2023 00:35:34 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-ba8cf3cb34fso6554631276.1;
+        Tue, 23 May 2023 00:35:34 -0700 (PDT)
+X-Received: by 2002:a25:211:0:b0:b25:a1e1:5b65 with SMTP id
+ 17-20020a250211000000b00b25a1e15b65mr13676838ybc.5.1684827004960; Tue, 23 May
+ 2023 00:30:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+References: <cover.1683722688.git.geert+renesas@glider.be> <fe235a1f65bb6c86d2afcdf52d85f80ae728dcc5.1683722688.git.geert+renesas@glider.be>
+ <20230511064839.GG14287@atomide.com> <494a000774b546e4aae00ae0a7dfeae4@AcuMS.aculab.com>
+In-Reply-To: <494a000774b546e4aae00ae0a7dfeae4@AcuMS.aculab.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 23 May 2023 09:29:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXttS3mkA+BNC69e6MYniRyGtR2vde35BYgBZ_+SuYs_Q@mail.gmail.com>
+Message-ID: <CAMuHMdXttS3mkA+BNC69e6MYniRyGtR2vde35BYgBZ_+SuYs_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] iopoll: Call cpu_relax() in busy loops
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Tony Lindgren <tony@atomide.com>, Stephen Boyd <sboyd@kernel.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -48,44 +91,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the node for the GPS receiver and remove flow control for SCIF1
-which is not present. The schematics are a bit misleading. The pins are
-sometimes named SCIF1 but they are for HSCIF1.
+Hi David,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+On Thu, May 11, 2023 at 12:49 PM David Laight <David.Laight@aculab.com> wrote:
+> > * Geert Uytterhoeven <geert+renesas@glider.be> [230510 13:23]:
+> > > It is considered good practice to call cpu_relax() in busy loops, see
+> > > Documentation/process/volatile-considered-harmful.rst.  This can not
+> > > only lower CPU power consumption or yield to a hyperthreaded twin
+> > > processor, but also allows an architecture to mitigate hardware issues
+> > > (e.g. ARM Erratum 754327 for Cortex-A9 prior to r2p0) in the
+> > > architecture-specific cpu_relax() implementation.
+>
+> Don't you also need to call cond_resched() (at least some times).
+> Otherwise the process can't be pre-empted and a RT process
+> that last ran on that cpu will never be scheduled.
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index efc80960380f..f6705cad78e4 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -367,7 +367,7 @@ hscif0_pins: hscif0 {
- 	};
- 
- 	scif1_pins: scif1 {
--		groups = "scif1_data_b", "scif1_ctrl";
-+		groups = "scif1_data_b";
- 		function = "scif1";
- 	};
- 
-@@ -397,9 +397,14 @@ &sound_clk_pins
- &scif1 {
- 	pinctrl-0 = <&scif1_pins>;
- 	pinctrl-names = "default";
--	uart-has-rtscts;
- 
- 	status = "okay";
-+
-+	gnss {
-+		compatible = "u-blox,neo-m8";
-+		reset-gpios = <&gpio_exp_75 6 GPIO_ACTIVE_LOW>;
-+		current-speed = <9600>;
-+	};
- };
- 
- &sdhi3 {
+According to [1], cond_resched() must be called at least once per few
+tens of milliseconds.
+
+read_poll_timeout() uses usleep_range(), which calls schedule_hrtimeout_range().
+read_poll_timeout_atomic() should not be used with multi-ms timeouts anyway.
+
+So I guess we're OK?
+
+[1] https://elixir.bootlin.com/linux/latest/source/Documentation/RCU/Design/Requirements/Requirements.rst#L2348
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.35.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
