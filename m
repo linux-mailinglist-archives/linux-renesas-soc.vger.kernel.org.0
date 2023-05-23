@@ -2,110 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F52670E0C4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 17:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9473A70E10C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 17:52:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237105AbjEWPm2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 11:42:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
+        id S237666AbjEWPw4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 May 2023 11:52:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237610AbjEWPm1 (ORCPT
+        with ESMTP id S237650AbjEWPwv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 11:42:27 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BF0126
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 08:42:25 -0700 (PDT)
+        Tue, 23 May 2023 11:52:51 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01890E5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 08:52:49 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:b0ac:7afd:272:4cff])
-        by andre.telenet-ops.be with bizsmtp
-        id 0FiN2A00R0Jkz7G01FiNDk; Tue, 23 May 2023 17:42:24 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id 0Fsn2A00N0Jkz7G01FsnZc; Tue, 23 May 2023 17:52:48 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q1U9I-002t5J-7V;
-        Tue, 23 May 2023 17:42:22 +0200
+        id 1q1UJN-002t6k-At;
+        Tue, 23 May 2023 17:52:47 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q1U9W-00Ckk7-KA;
-        Tue, 23 May 2023 17:42:22 +0200
+        id 1q1UJb-00CksO-NR;
+        Tue, 23 May 2023 17:52:47 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v3] media: renesas: fdp1: Identify R-Car Gen2 versions
-Date:   Tue, 23 May 2023 17:42:21 +0200
-Message-Id: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
+To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] PCI: rcar-host: Remove unused static pcie_base and pcie_dev
+Date:   Tue, 23 May 2023 17:52:44 +0200
+Message-Id: <f29a8c37bd906dfbe23208cc2b089da17e339a75.1684857051.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On R-Car M2-W:
+After the L1 link state transition exception handler rework, the static
+copies of the remapped PCIe controller address and the PCIe device
+pointer became unused.  Remove them.
 
-    rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
-    rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
-
-Although the IP Internal Data Register on R-Car Gen2 is documented to
-contain all zeros, the actual register contents seem to match the FDP1
-version ID of R-Car H3 ES1.*, which has just been removed.
-Fortunately this version is not used for any other purposes yet.
-
-Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
-
-Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
+Fixes: 6e36203bc14ce147 ("PCI: rcar: Use PCI_SET_ERROR_RESPONSE after read which triggered an exception")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
-Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
-ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
-
-v3:
-  - Add Reviewed-by,
+Probably this was not noticed before due to two function parameters with
+the same name, thus shadowing the static globals.
 
 v2:
-  - Add Reviewed-by,
-  - Add comment.
+  - Add Reviewed-by.
 ---
- drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/pci/controller/pcie-rcar-host.c | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-index f43e458590b8cada..ab39cd2201c85d84 100644
---- a/drivers/media/platform/renesas/rcar_fdp1.c
-+++ b/drivers/media/platform/renesas/rcar_fdp1.c
-@@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index e80e56b2a84243e5..7ffcd0f5aa45c989 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -41,21 +41,6 @@ struct rcar_msi {
+ 	int irq2;
+ };
  
- /* Internal Data (HW Version) */
- #define FD1_IP_INTDATA			0x0800
-+/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
-+#define FD1_IP_GEN2			0x02010101
- #define FD1_IP_M3W			0x02010202
- #define FD1_IP_H3			0x02010203
- #define FD1_IP_M3N			0x02010204
-@@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
+-#ifdef CONFIG_ARM
+-/*
+- * Here we keep a static copy of the remapped PCIe controller address.
+- * This is only used on aarch32 systems, all of which have one single
+- * PCIe controller, to provide quick access to the PCIe controller in
+- * the L1 link state fixup function, called from the ARM fault handler.
+- */
+-static void __iomem *pcie_base;
+-/*
+- * Static copy of PCIe device pointer, so we can check whether the
+- * device is runtime suspended or not.
+- */
+-static struct device *pcie_dev;
+-#endif
+-
+ /* Structure representing the PCIe interface */
+ struct rcar_pcie_host {
+ 	struct rcar_pcie	pcie;
+@@ -879,12 +864,6 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+ 	}
+ 	host->msi.irq2 = i;
  
- 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
- 	switch (hw_version) {
-+	case FD1_IP_GEN2:
-+		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
-+		break;
- 	case FD1_IP_M3W:
- 		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
- 		break;
+-#ifdef CONFIG_ARM
+-	/* Cache static copy for L1 link state fixup hook on aarch32 */
+-	pcie_base = pcie->base;
+-	pcie_dev = pcie->dev;
+-#endif
+-
+ 	return 0;
+ 
+ err_irq2:
 -- 
 2.34.1
 
