@@ -2,156 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8C670F5CF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 14:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A26270F675
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 14:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjEXMDD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 May 2023 08:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
+        id S229510AbjEXMcX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 May 2023 08:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjEXMDC (ORCPT
+        with ESMTP id S230384AbjEXMcX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 May 2023 08:03:02 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40207130;
-        Wed, 24 May 2023 05:03:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id DDE172214D;
-        Wed, 24 May 2023 12:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1684929779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=a5xYZJ0VdlqE3V6heUq7XBrAWSEtAc4ezP/9YYY5cYs=;
-        b=1QK0bFGIceIfQpuPdKPKuSsPxT9Rny41ebYp5RpcmAx1JMHsOniEOLNDBasQESs/UQTYHA
-        YWl9h6yIpNKTjOo4Yw7kOlaVv9hxtBAID2odf2XvmStpakGDu99eWY+lyIeDTBxyqCS+qP
-        75WnDvcF18Hr8dWc+milZsSnk80OKkE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1684929779;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=a5xYZJ0VdlqE3V6heUq7XBrAWSEtAc4ezP/9YYY5cYs=;
-        b=5/87DbykeY08SalUEIlDgeTsq15ohzj0Zvuh2kUddnAb0qKrnIG9cji8yCf0r4noaezyDy
-        /do2Ekj6SXErbDAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA56113425;
-        Wed, 24 May 2023 12:02:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SNC2LPP8bWQkWQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 12:02:59 +0000
-Message-ID: <35df2c16-6e5b-bc8a-e65c-9244a815dcbd@suse.de>
-Date:   Wed, 24 May 2023 14:02:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Wed, 24 May 2023 08:32:23 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F85189
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 May 2023 05:32:19 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:59b9:3473:f0ae:e2b7])
+        by xavier.telenet-ops.be with bizsmtp
+        id 0cYD2A00R5NiV2701cYDMx; Wed, 24 May 2023 14:32:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q1neo-002xwy-FN;
+        Wed, 24 May 2023 14:32:13 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q1nf3-00DPL5-E7;
+        Wed, 24 May 2023 14:32:13 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <cover.1684854992.git.geert+renesas@glider.be>
- <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
- <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------lXvjdDXFSdYAgrnKqVpjeokC"
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] drm/panel: simple: Add support for Ampire AM-800480L1TMQW-T00H
+Date:   Wed, 24 May 2023 14:32:09 +0200
+Message-Id: <cover.1684931026.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------lXvjdDXFSdYAgrnKqVpjeokC
-Content-Type: multipart/mixed; boundary="------------rYFRJinNdx4AkL6RbYDYq5yv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <35df2c16-6e5b-bc8a-e65c-9244a815dcbd@suse.de>
-Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
-References: <cover.1684854992.git.geert+renesas@glider.be>
- <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
- <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+	Hi all,
 
---------------rYFRJinNdx4AkL6RbYDYq5yv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This patch series adds support for the Ampire AM-800480L1TMQW-T00H 5"
+WVGA TFT LCD panel, which can be found on e.g. the Atmark Techno
+Armadillo-800-EVA development board.
 
-DQoNCkFtIDI0LjA1LjIzIHVtIDEzOjU0IHNjaHJpZWIgR2VlcnQgVXl0dGVyaG9ldmVuOg0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBXZWQsIE1heSAyNCwgMjAyMyBhdCAxOjQy4oCvUE0g
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
-MjMuMDUuMjMgdW0gMTc6MzEgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gQ3Vy
-cmVudGx5LCB0aGVyZSBhcmUgdHdvIGRyaXZlcnMgZm9yIHRoZSBMQ0QgY29udHJvbGxlciBv
-biBSZW5lc2FzDQo+Pj4gU3VwZXJILWJhc2VkIGFuZCBBUk0tYmFzZWQgU0gtTW9iaWxlIGFu
-ZCBSLU1vYmlsZSBTb0NzOg0KPj4+ICAgICAxLiBzaF9tb2JpbGVfbGNkY2ZiLCB1c2luZyB0
-aGUgZmJkZXYgZnJhbWV3b3JrLA0KPj4+ICAgICAyLiBzaG1vYl9kcm0sIHVzaW5nIHRoZSBE
-Uk0gZnJhbWV3b3JrLg0KPj4+IEhvd2V2ZXIsIG9ubHkgdGhlIGZvcm1lciBkcml2ZXIgY2Fu
-IGJlIHVzZWQsIGFzIGFsbCBwbGF0Zm9ybSBzdXBwb3J0DQo+Pj4gaW50ZWdyYXRlcyB0aGUg
-Zm9ybWVyLiAgTm9uZSBvZiB0aGVzZSBkcml2ZXJzIHN1cHBvcnQgRFQtYmFzZWQgc3lzdGVt
-cy4NCj4+Pg0KPj4+IFRoaXMgcGF0Y2ggc2VyaWVzIGlzIGEgZmlyc3Qgc3RlcCB0byBlbmFi
-bGUgdGhlIFNILU1vYmlsZSBEUk0gZHJpdmVyIGZvcg0KPj4+IFJlbmVzYXMgQVJNLWJhc2Vk
-IFNILU1vYmlsZSBhbmQgUi1Nb2JpbGUgU29Dcy4gIFRoZSBuZXh0IHN0ZXBzIHBsYW5uZWQg
-YXJlDQo+Pj4gdG8gKDEpIGFkZCBEVCBzdXBwb3J0ICh3b3JrcywgYnV0IG5lZWRzIGEgaGFj
-ayBkdWUgdG8gbGFjayBvZiAoMikpLCBhbmQgKDIpDQo+Pj4gY29udmVydCB0aGUgZHJpdmVy
-IHRvIGF0b21pYyBtb2Rlc2V0dGluZy4NCj4+Pg0KPj4+IENoYW5nZXMgY29tcGFyZWQgdG8g
-djJbMV06DQo+Pj4gICAgIC0gQWRkIFJldmlld2VkLWJ5Lg0KPj4+DQo+Pj4gQ2hhbmdlcyBj
-b21wYXJlZCB0byB2MVsyXToNCj4+PiAgICAgLSBBZGQgUmV2aWV3ZWQtYnksDQo+Pj4gICAg
-IC0gRHJvcCBkZXBlbmRlbmN5IG9uIEFSTS4NCj4+Pg0KPj4+IFRoaXMgaGFzIGJlZW4gdGVz
-dGVkIG9uIHRoZSBSLU1vYmlsZSBBMS1iYXNlZCBBdG1hcmsgVGVjaG5vDQo+Pj4gQXJtYWRp
-bGxvLTgwMC1FVkEgZGV2ZWxvcG1lbnQgYm9hcmQsIHVzaW5nIGEgdGVtcG9yYXJ5DQo+Pj4g
-cGxhdGZvcm0tZW5hYmxlbWVudCBwYXRjaFszXS4NCj4+Pg0KPj4+IFRoYW5rcyBmb3IgYXBw
-bHlpbmcgdG8gZHJtLW1pc2MhDQo+Pg0KPj4gSXQncyBhbGwgYmVlbiByZXZpZXdlZC4gRG8g
-eW91IHdhbnQgbWUgdG8gbWVyZ2UgdGhlIHBhdGNoc2V0Pw0KPiANCj4gVGhhdCB3b3VsZCBi
-ZSBncmVhdCEgVGhhbmtzIQ0KDQpEb25lLiBUaGFua3MgZm9yIHRoZSBwYXRjaGVzLg0KDQo+
-IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICBHZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFu
-a2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rl
-diwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJC
-IDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+It has been tested with a WIP DT-enhanced version of the shmob-drm
+driver.
 
---------------rYFRJinNdx4AkL6RbYDYq5yv--
+Thanks for your comments!
 
---------------lXvjdDXFSdYAgrnKqVpjeokC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Geert Uytterhoeven (2):
+  dt-bindings: display: panel-simple: Add Ampire AM-800480L1TMQW-T00H
+  drm/panel: simple: Add Ampire AM-800480L1TMQW-T00H
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 33 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRt/PMFAwAAAAAACgkQlh/E3EQov+AV
-+xAAvgVs+mqCTd9xD8v9SpRrPCRJVbevcqghZYd1/s6HOcnNGtyU6kMB2t663z4adoVPSFLqN+cP
-oEKoVJ9J6IR573tm2PBKqZIP6Y+0pV03XGGFG09V54NhGO+8qW8UsQqz4jqfHWKc7dJG2ISh9YTL
-2c+v3iWj4QTB5k87ytg1sDOapzmrnBqCDaVhKeNy73ep25FZEkqKhpA69xpZSqGoa0IXpBQulSBI
-6nt+CkuFZDH+/AkRAsXYJp7DdjJYFdKP7GgYNj4xH1B7Q6TfYFBCyfiJkUEVgAG1k0i6RJGcFpXs
-qJ6g0v6eAGTiNMYblzFTCaRBD2Aa7yONL1kVNpDPo9RRVoIC/p2tkvLH1/0txNl9kKOPlOky8cnE
-UoLQZW42EjWUac6B7xv/aixp4Cgd9Iz69L3kKAOyTydJgzwMPcXLVGWuvTgSwz8v5Oc1xsFXy4DJ
-LO7e/kwGGmrmtZLzadPh6ZdVrYnXceN0DeoxbvKRhOxy/5Nl1YR31gSHzOlFT4yOvV0WT0LDMvoE
-a1q+VwNSQzpsFAJ5nZDpIw6fQsKy+Cv8WhFCfRTrtiOVWYdjY5miRlwtKUG/B/9bBRGMd6mAFfxE
-fKlPhy9/o4X3Joucz3N365EZ9tL8IgE5AVH6TtzMMzW7ImLo8TBOX7NrLXqJNEP8x/iyiIlPzUJo
-4FA=
-=gfft
------END PGP SIGNATURE-----
+-- 
+2.34.1
 
---------------lXvjdDXFSdYAgrnKqVpjeokC--
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
