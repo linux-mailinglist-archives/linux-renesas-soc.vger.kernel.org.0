@@ -2,290 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D1870EA67
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 02:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFDF70F387
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 11:54:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbjEXAlv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 20:41:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
+        id S232128AbjEXJyG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 May 2023 05:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234494AbjEXAlt (ORCPT
+        with ESMTP id S230227AbjEXJxt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 20:41:49 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F25E5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 17:41:44 -0700 (PDT)
+        Wed, 24 May 2023 05:53:49 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8907119C;
+        Wed, 24 May 2023 02:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684888904; x=1716424904;
-  h=date:from:to:cc:subject:message-id;
-  bh=dnttJGlWXPGaTi7EERkMf08KdQ47/IB1jk+AHSNn89Y=;
-  b=hHcwLqh0e8JW0NxUGnsEbNFgubr9sjTRD/NZ5rcgQ2EPonwX0N40aOEf
-   mQxSToLMrpI+5maYpZTXp5lFfp5slHnAAReCjDuV5Wzda0dcyNqvXS5uv
-   XY3PTCjiYgO8SWFRmK3ZhuqFv50CqEzoCEJsSV5tr+XOipDzzEvQe2jQh
-   7GTG5UA+cVsOXQmlJHLwt75y83nlyi2I0hJ6ALLkXt54lgS6ME58zXgfp
-   7/9WcHsSLx/zUW1M4+ZYDNJ+jmCy38IYMb83+8fvvpHZ+x3JgBV4fUgXk
-   C2JdwxPjewh00KddjYUnpZNK6GWbzHYldAcAv5PxYowEMS0aEJ6EnEf3W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="333772307"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; 
-   d="scan'208";a="333772307"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 17:41:40 -0700
+  t=1684922017; x=1716458017;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EwKt2AKev8JsslSeP6fLzQlunynMmrUAsnEW9t+BUP8=;
+  b=lxiDloLsyWhf9DdBW+PbQb+ji/ascef6eNVyCg19jLxPrILHq23Jtoge
+   57Br6tO6DKXoru1+zKBJE7XDBAPa9HLMXtVFX5J3fKiuVbkxHHLav5eWB
+   SQB96itAEl4vx/OuR3T8iITm6uEYPBKeHeuLLNNwDryxQ/gr71iHoVL03
+   Jmy+sGCT+JfCJ5MZUwjBsRwab+2rQ3/36APO6iCPjT4HMYedr8RGSmbos
+   zQtbpHADBIMLAd3XfC1RrklrM4WQd/33CdE7EKIqi0BxchELSDwLoWVmM
+   7upuO10Tc9/HIwhi9K5zSuA6VX4xo8JPpGuYFp90fI/T+D3FmNriZU4kD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="355874659"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="355874659"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 02:53:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="707245600"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; 
-   d="scan'208";a="707245600"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 23 May 2023 17:41:39 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q1cZO-000EEd-1R;
-        Wed, 24 May 2023 00:41:38 +0000
-Date:   Wed, 24 May 2023 08:41:03 +0800
-From:   kernel test robot <lkp@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="794128661"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="794128661"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 02:53:34 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 203B41202A8;
+        Wed, 24 May 2023 12:53:32 +0300 (EEST)
+Date:   Wed, 24 May 2023 09:53:32 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD REGRESSION
- abbb9265eae965fe3b8d34a68b71b3aeacaa3a11
-Message-ID: <20230524004103.lQ2jP%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v3] media: renesas: fdp1: Identify R-Car Gen2 versions
+Message-ID: <ZG3enBHbEkS//A+H@kekkonen.localdomain>
+References: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: INFO setup_repo_specs: /db/releases/20230524001904/lkp-src/repo/*/geert-renesas-drivers
-https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: abbb9265eae965fe3b8d34a68b71b3aeacaa3a11  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Hi Geert,
 
-Error/Warning reports:
+On Tue, May 23, 2023 at 05:42:21PM +0200, Geert Uytterhoeven wrote:
+> On R-Car M2-W:
+> 
+>     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+>     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
+> 
+> Although the IP Internal Data Register on R-Car Gen2 is documented to
+> contain all zeros, the actual register contents seem to match the FDP1
+> version ID of R-Car H3 ES1.*, which has just been removed.
+> Fortunately this version is not used for any other purposes yet.
+> 
+> Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
+> 
+> Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> ---
+> Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
+> ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
+> 
+> v3:
+>   - Add Reviewed-by,
 
-https://lore.kernel.org/oe-kbuild-all/202304260234.QTHOuoZG-lkp@intel.com
+V2 is already in my PR to Mauro. I hope that's fine!
 
-Error/Warning: (recently discovered and may have been fixed)
-
-drivers/dma/dw-edma/dw-edma-core.c:231:13: error: redefinition of 'dw_edma_device_caps'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arc-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arm-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arm-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arm-randconfig-r046-20230522
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- arm64-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- i386-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-randconfig-r002-20230521
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- ia64-randconfig-r025-20230522
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- loongarch-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- loongarch-randconfig-r001-20230521
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- mips-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- mips-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- powerpc-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- riscv-allmodconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- s390-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-|-- sparc-allyesconfig
-|   `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-`-- x86_64-allyesconfig
-    `-- drivers-dma-dw-edma-dw-edma-core.c:error:redefinition-of-dw_edma_device_caps
-
-elapsed time: 728m
-
-configs tested: 165
-configs skipped: 12
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r001-20230522   gcc  
-alpha                randconfig-r025-20230521   gcc  
-alpha                randconfig-r036-20230522   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r005-20230521   gcc  
-arc                  randconfig-r024-20230521   gcc  
-arc                  randconfig-r043-20230521   gcc  
-arc                  randconfig-r043-20230522   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r005-20230521   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r003-20230521   gcc  
-arm                  randconfig-r024-20230522   gcc  
-arm                  randconfig-r034-20230521   gcc  
-arm                  randconfig-r046-20230521   clang
-arm                  randconfig-r046-20230522   gcc  
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r004-20230521   clang
-arm64                               defconfig   gcc  
-arm64                randconfig-r011-20230522   clang
-arm64                randconfig-r021-20230522   clang
-arm64                randconfig-r023-20230521   gcc  
-arm64                randconfig-r033-20230521   clang
-csky         buildonly-randconfig-r001-20230521   gcc  
-csky         buildonly-randconfig-r002-20230521   gcc  
-csky         buildonly-randconfig-r003-20230522   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r004-20230521   gcc  
-csky                 randconfig-r026-20230522   gcc  
-csky                 randconfig-r036-20230521   gcc  
-hexagon      buildonly-randconfig-r004-20230522   clang
-hexagon              randconfig-r014-20230521   clang
-hexagon              randconfig-r015-20230521   clang
-hexagon              randconfig-r031-20230522   clang
-hexagon              randconfig-r041-20230521   clang
-hexagon              randconfig-r041-20230522   clang
-hexagon              randconfig-r045-20230521   clang
-hexagon              randconfig-r045-20230522   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230522   gcc  
-i386                 randconfig-a002-20230522   gcc  
-i386                 randconfig-a003-20230522   gcc  
-i386                 randconfig-a004-20230522   gcc  
-i386                 randconfig-a005-20230522   gcc  
-i386                 randconfig-a006-20230522   gcc  
-i386                 randconfig-i051-20230523   clang
-i386                 randconfig-i052-20230523   clang
-i386                 randconfig-i053-20230523   clang
-i386                 randconfig-i054-20230523   clang
-i386                 randconfig-i055-20230523   clang
-i386                 randconfig-i056-20230523   clang
-i386                 randconfig-i061-20230523   clang
-i386                 randconfig-i062-20230523   clang
-i386                 randconfig-i063-20230523   clang
-i386                 randconfig-i064-20230523   clang
-i386                 randconfig-i065-20230523   clang
-i386                 randconfig-i066-20230523   clang
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r002-20230521   gcc  
-ia64                 randconfig-r021-20230521   gcc  
-ia64                 randconfig-r025-20230522   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r001-20230521   gcc  
-loongarch            randconfig-r022-20230522   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r032-20230522   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r016-20230521   clang
-nios2                               defconfig   gcc  
-openrisc     buildonly-randconfig-r006-20230522   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r033-20230522   gcc  
-parisc               randconfig-r034-20230522   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r003-20230521   gcc  
-powerpc      buildonly-randconfig-r005-20230522   clang
-powerpc              randconfig-r004-20230522   gcc  
-powerpc              randconfig-r012-20230522   clang
-powerpc              randconfig-r023-20230522   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r013-20230521   gcc  
-riscv                randconfig-r013-20230522   clang
-riscv                randconfig-r015-20230522   clang
-riscv                randconfig-r042-20230521   gcc  
-riscv                randconfig-r042-20230522   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r001-20230522   clang
-s390         buildonly-randconfig-r002-20230522   clang
-s390                                defconfig   gcc  
-s390                 randconfig-r011-20230521   gcc  
-s390                 randconfig-r044-20230521   gcc  
-s390                 randconfig-r044-20230522   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r003-20230522   gcc  
-sh                   randconfig-r006-20230521   gcc  
-sh                   randconfig-r014-20230522   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r035-20230522   gcc  
-sparc64              randconfig-r032-20230521   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230522   gcc  
-x86_64               randconfig-a002-20230522   gcc  
-x86_64               randconfig-a003-20230522   gcc  
-x86_64               randconfig-a004-20230522   gcc  
-x86_64               randconfig-a005-20230522   gcc  
-x86_64               randconfig-a006-20230522   gcc  
-x86_64               randconfig-a011-20230522   clang
-x86_64               randconfig-a012-20230522   clang
-x86_64               randconfig-a013-20230522   clang
-x86_64               randconfig-a014-20230522   clang
-x86_64               randconfig-a015-20230522   clang
-x86_64               randconfig-a016-20230522   clang
-x86_64               randconfig-x051-20230522   clang
-x86_64               randconfig-x052-20230522   clang
-x86_64               randconfig-x053-20230522   clang
-x86_64               randconfig-x054-20230522   clang
-x86_64               randconfig-x055-20230522   clang
-x86_64               randconfig-x056-20230522   clang
-x86_64                        randconfig-x061   gcc  
-x86_64                        randconfig-x062   clang
-x86_64                        randconfig-x063   gcc  
-x86_64                        randconfig-x064   clang
-x86_64                        randconfig-x065   gcc  
-x86_64                        randconfig-x066   clang
-x86_64               randconfig-x071-20230522   gcc  
-x86_64               randconfig-x072-20230522   gcc  
-x86_64               randconfig-x073-20230522   gcc  
-x86_64               randconfig-x074-20230522   gcc  
-x86_64               randconfig-x075-20230522   gcc  
-x86_64               randconfig-x076-20230522   gcc  
-x86_64               randconfig-x081-20230522   gcc  
-x86_64               randconfig-x082-20230522   gcc  
-x86_64               randconfig-x083-20230522   gcc  
-x86_64               randconfig-x084-20230522   gcc  
-x86_64               randconfig-x085-20230522   gcc  
-x86_64               randconfig-x086-20230522   gcc  
-x86_64               randconfig-x091-20230523   gcc  
-x86_64               randconfig-x092-20230523   gcc  
-x86_64               randconfig-x093-20230523   gcc  
-x86_64               randconfig-x094-20230523   gcc  
-x86_64               randconfig-x095-20230523   gcc  
-x86_64               randconfig-x096-20230523   gcc  
-x86_64                               rhel-8.3   gcc  
+> 
+> v2:
+>   - Add Reviewed-by,
+>   - Add comment.
+> ---
+>  drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+> index f43e458590b8cada..ab39cd2201c85d84 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
+>  
+>  /* Internal Data (HW Version) */
+>  #define FD1_IP_INTDATA			0x0800
+> +/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
+> +#define FD1_IP_GEN2			0x02010101
+>  #define FD1_IP_M3W			0x02010202
+>  #define FD1_IP_H3			0x02010203
+>  #define FD1_IP_M3N			0x02010204
+> @@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
+>  
+>  	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
+>  	switch (hw_version) {
+> +	case FD1_IP_GEN2:
+> +		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
+> +		break;
+>  	case FD1_IP_M3W:
+>  		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
+>  		break;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Kind regards,
+
+Sakari Ailus
