@@ -2,101 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 271CE70F8A9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 16:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C08DA70FE76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 21:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234870AbjEXO1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 May 2023 10:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55900 "EHLO
+        id S235479AbjEXTV6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 May 2023 15:21:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjEXO1H (ORCPT
+        with ESMTP id S229504AbjEXTVy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 May 2023 10:27:07 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AA711D;
-        Wed, 24 May 2023 07:27:06 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        Wed, 24 May 2023 15:21:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFAE198;
+        Wed, 24 May 2023 12:21:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 91B9522041;
-        Wed, 24 May 2023 14:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1684938424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tXGazCQJhB+4Gbe14ojDjDepmPElagpzQVjU1cq9coM=;
-        b=CvxJjiwUfSN+kySKUn/EWA67pNGj3pzmDi1HbwCtE90AFBLWe7vv+d8M1Ij3FkSbIz4VTI
-        gWvmGqepcrFlLCBiRAAf+FLKtDv7IxP6DOFYzfABdT3HuVDKFvuPv4HouAx5CI/XFNBevQ
-        b0eo4MDqgOjEmRFkWmGBuHZT8lU/dcs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1684938424;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tXGazCQJhB+4Gbe14ojDjDepmPElagpzQVjU1cq9coM=;
-        b=pq5m/8gWb5XY3U0bzLALdtiUNBu4jqNs3ujyoKqIbmne//9yJpXq+qLIx07FO9Z84ILL6b
-        c/7V1xSDO+g6aHAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1777E13425;
-        Wed, 24 May 2023 14:27:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id VWz9BLgebmSqKAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Wed, 24 May 2023 14:27:04 +0000
-Message-ID: <4f690e97-b26c-1705-51e7-0d7ebc77d819@suse.cz>
-Date:   Wed, 24 May 2023 16:27:03 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F070F61993;
+        Wed, 24 May 2023 19:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FB2C4339B;
+        Wed, 24 May 2023 19:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684956099;
+        bh=Sd1Ura2M9buJQSOCvciUHD2sqlFtpG56/2/gPbm9J28=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qok6UoeSp3jwvMlC7HfMf2T3bU/c9zak6yUZL8CGMvuQ7/qSRGAgchHhGYUnyXlpp
+         xTj3foph1OeS7CC+H+W6Bdu6AAE9adZArZ8y7q3KOD1hcbSdZFZP9xHG/IYrIBgbo7
+         c/x7++wsglFYVGCF3wtUw8l/DjCmA6FAikwWnMe/pJhW5+7ayOnC5ImDJd88RE02R/
+         3TRQd9kdynkgbUq4KVSL+ruUKb6GajJX3WYzIdHcxTh8PCeTZgqw8uB9QBDY4CANX7
+         M5gODvF+r9M8b9I9WHSRQf1lQMrin8Gh/IcbNhI2X3qVgDAZo/1+qMbdTLi9DPkibu
+         ZaWIzBUmgq7QQ==
+Date:   Wed, 24 May 2023 20:21:34 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel-simple: Add Ampire
+ AM-800480L1TMQW-T00H
+Message-ID: <20230524-posing-pouncing-f197846768ac@spud>
+References: <cover.1684931026.git.geert+renesas@glider.be>
+ <422adef8c4941fa56fdadacb3d362a9fb387455e.1684931026.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] mm/slab: rename CONFIG_SLAB to CONFIG_SLAB_DEPRECATED
-Content-Language: en-US
-To:     David Rientjes <rientjes@google.com>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-mm@kvack.org
-References: <20230523091139.21449-1-vbabka@suse.cz>
- <be109b49-8510-5887-72ae-738db9945619@google.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <be109b49-8510-5887-72ae-738db9945619@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="NKQCStFFZ1gwgZRL"
+Content-Disposition: inline
+In-Reply-To: <422adef8c4941fa56fdadacb3d362a9fb387455e.1684931026.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -105,36 +67,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 5/24/23 02:29, David Rientjes wrote:
-> On Tue, 23 May 2023, Vlastimil Babka wrote:
-> 
->> As discussed at LSF/MM [1] [2] and with no objections raised there,
->> deprecate the SLAB allocator. Rename the user-visible option so that
->> users with CONFIG_SLAB=y get a new prompt with explanation during make
->> oldconfig, while make olddefconfig will just switch to SLUB.
->> 
->> In all defconfigs with CONFIG_SLAB=y remove the line so those also
->> switch to SLUB. Regressions due to the switch should be reported to
->> linux-mm and slab maintainers.
->> 
->> [1] https://lore.kernel.org/all/4b9fc9c6-b48c-198f-5f80-811a44737e5f@suse.cz/
->> [2] https://lwn.net/Articles/932201/
->> 
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> 
-> Acked-by: David Rientjes <rientjes@google.com>
 
-Thanks.
+--NKQCStFFZ1gwgZRL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The Kconfig option says that SLAB will be removed in a few cycles.  I 
-> think we should wait until at least the next LTS kernel is forked at the 
-> end of the year so that users who upgrade to only the LTS releases can be 
-> prompted for this change and surface any concerns.  Slab allocation is a 
-> critical subsystem, so I presume this is the safest and most responsible 
-> way to do the SLAB deprecation.  Hopefully that timeline works for 
-> everybody.
+On Wed, May 24, 2023 at 02:32:10PM +0200, Geert Uytterhoeven wrote:
+> Document support for the Ampire AM-800480L1TMQW-T00H 5" WVGA TFT LCD
+> panel.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Sure, and in fact looking at predicted release dates [1], if the deprecation
-goes into 6.5 then 6.7 ("few" == 2) is already end of January 2024, anyway.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-[1] https://hansen.beer/~dave/phb/
+Thanks,
+Conor.
+
+--NKQCStFFZ1gwgZRL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG5jvgAKCRB4tDGHoIJi
+0oO/AQDeTcFWWpQENvchjFkwbz1TuanTTaaJI3Nk9bUVe0a0HwD+O53CJKVeO+hr
+x/Cbf/39qxSEbaY36E6RZ371qVEk5wU=
+=6wyM
+-----END PGP SIGNATURE-----
+
+--NKQCStFFZ1gwgZRL--
