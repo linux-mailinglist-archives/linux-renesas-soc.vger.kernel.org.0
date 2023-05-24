@@ -2,117 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25EC270F5B0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 13:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8C670F5CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 14:03:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbjEXLyU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 May 2023 07:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36068 "EHLO
+        id S229739AbjEXMDD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 May 2023 08:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjEXLyT (ORCPT
+        with ESMTP id S229531AbjEXMDC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 May 2023 07:54:19 -0400
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7E9130;
-        Wed, 24 May 2023 04:54:18 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-ba829e17aacso1332617276.0;
-        Wed, 24 May 2023 04:54:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684929257; x=1687521257;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mB+yJW9GxDPC7vWCyTgkNtqkSRQGKRDyuctXyoPIN+0=;
-        b=Y2+fmgJTPEZXQE0T1YaGGIniNCWNMYLAPCZbQt11SrboYMsAH7nY9ffJuBghP33BU2
-         gYtXPANKugy5Qu3B2N3JauJzBzDDDnxO2fJsKchUqYHp+//rJS28tavK7cleJfZj4ZJG
-         PM6qs5twP+4RtSi1BAGWqNcgGZvEPdwZT6qQ2GfKkUTpLISOrwQFMVhaxKeMGSN+cTP8
-         CEGvx9pg1dcj5L3LCx8g3m+HeQpymiU6IxJrbWAx8AhQzBim6tp2IbeGlk1M1lPrcisF
-         Ibak8MvbmpYRTSiZI9yYL7DhJn8MkiPJbwjFEkqUVnnpxK6LFMLQ7DLaqjm2aOa618Pp
-         Tk5g==
-X-Gm-Message-State: AC+VfDxuGGTC/+jzD+e+yQnOTE408GiEbNd8W2XUdbz4AupQQs2SJFTE
-        XsWwesBhinG2UGztYIcWxOvWxcix/EI6Pg==
-X-Google-Smtp-Source: ACHHUZ4URujJT/VuMXlr7/M/3PHGt78GqQjWgeHLmoXaViuBJm26DxxDcg/XokClTYsXEKitekVXdw==
-X-Received: by 2002:a25:f80b:0:b0:ba8:707a:7ff4 with SMTP id u11-20020a25f80b000000b00ba8707a7ff4mr1623342ybd.62.1684929256901;
-        Wed, 24 May 2023 04:54:16 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id e7-20020a259247000000b00b9def138173sm2633333ybo.1.2023.05.24.04.54.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 May 2023 04:54:16 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-561e919d355so12116427b3.0;
-        Wed, 24 May 2023 04:54:15 -0700 (PDT)
-X-Received: by 2002:a25:342:0:b0:ba8:5009:db33 with SMTP id
- 63-20020a250342000000b00ba85009db33mr17581461ybd.59.1684929255682; Wed, 24
- May 2023 04:54:15 -0700 (PDT)
+        Wed, 24 May 2023 08:03:02 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40207130;
+        Wed, 24 May 2023 05:03:01 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id DDE172214D;
+        Wed, 24 May 2023 12:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1684929779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=a5xYZJ0VdlqE3V6heUq7XBrAWSEtAc4ezP/9YYY5cYs=;
+        b=1QK0bFGIceIfQpuPdKPKuSsPxT9Rny41ebYp5RpcmAx1JMHsOniEOLNDBasQESs/UQTYHA
+        YWl9h6yIpNKTjOo4Yw7kOlaVv9hxtBAID2odf2XvmStpakGDu99eWY+lyIeDTBxyqCS+qP
+        75WnDvcF18Hr8dWc+milZsSnk80OKkE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1684929779;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=a5xYZJ0VdlqE3V6heUq7XBrAWSEtAc4ezP/9YYY5cYs=;
+        b=5/87DbykeY08SalUEIlDgeTsq15ohzj0Zvuh2kUddnAb0qKrnIG9cji8yCf0r4noaezyDy
+        /do2Ekj6SXErbDAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA56113425;
+        Wed, 24 May 2023 12:02:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id SNC2LPP8bWQkWQAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 12:02:59 +0000
+Message-ID: <35df2c16-6e5b-bc8a-e65c-9244a815dcbd@suse.de>
+Date:   Wed, 24 May 2023 14:02:59 +0200
 MIME-Version: 1.0
-References: <cover.1684854992.git.geert+renesas@glider.be> <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
-In-Reply-To: <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 24 May 2023 13:54:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <cover.1684854992.git.geert+renesas@glider.be>
+ <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
+ <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------lXvjdDXFSdYAgrnKqVpjeokC"
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------lXvjdDXFSdYAgrnKqVpjeokC
+Content-Type: multipart/mixed; boundary="------------rYFRJinNdx4AkL6RbYDYq5yv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <35df2c16-6e5b-bc8a-e65c-9244a815dcbd@suse.de>
+Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
+References: <cover.1684854992.git.geert+renesas@glider.be>
+ <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
+ <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
 
-On Wed, May 24, 2023 at 1:42 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 23.05.23 um 17:31 schrieb Geert Uytterhoeven:
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >    1. sh_mobile_lcdcfb, using the fbdev framework,
-> >    2. shmob_drm, using the DRM framework.
-> > However, only the former driver can be used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
-> >
-> > This patch series is a first step to enable the SH-Mobile DRM driver for
-> > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next steps planned are
-> > to (1) add DT support (works, but needs a hack due to lack of (2)), and (2)
-> > convert the driver to atomic modesetting.
-> >
-> > Changes compared to v2[1]:
-> >    - Add Reviewed-by.
-> >
-> > Changes compared to v1[2]:
-> >    - Add Reviewed-by,
-> >    - Drop dependency on ARM.
-> >
-> > This has been tested on the R-Mobile A1-based Atmark Techno
-> > Armadillo-800-EVA development board, using a temporary
-> > platform-enablement patch[3].
-> >
-> > Thanks for applying to drm-misc!
->
-> It's all been reviewed. Do you want me to merge the patchset?
+--------------rYFRJinNdx4AkL6RbYDYq5yv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-That would be great! Thanks!
+DQoNCkFtIDI0LjA1LjIzIHVtIDEzOjU0IHNjaHJpZWIgR2VlcnQgVXl0dGVyaG9ldmVuOg0K
+PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBXZWQsIE1heSAyNCwgMjAyMyBhdCAxOjQy4oCvUE0g
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
+MjMuMDUuMjMgdW0gMTc6MzEgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gQ3Vy
+cmVudGx5LCB0aGVyZSBhcmUgdHdvIGRyaXZlcnMgZm9yIHRoZSBMQ0QgY29udHJvbGxlciBv
+biBSZW5lc2FzDQo+Pj4gU3VwZXJILWJhc2VkIGFuZCBBUk0tYmFzZWQgU0gtTW9iaWxlIGFu
+ZCBSLU1vYmlsZSBTb0NzOg0KPj4+ICAgICAxLiBzaF9tb2JpbGVfbGNkY2ZiLCB1c2luZyB0
+aGUgZmJkZXYgZnJhbWV3b3JrLA0KPj4+ICAgICAyLiBzaG1vYl9kcm0sIHVzaW5nIHRoZSBE
+Uk0gZnJhbWV3b3JrLg0KPj4+IEhvd2V2ZXIsIG9ubHkgdGhlIGZvcm1lciBkcml2ZXIgY2Fu
+IGJlIHVzZWQsIGFzIGFsbCBwbGF0Zm9ybSBzdXBwb3J0DQo+Pj4gaW50ZWdyYXRlcyB0aGUg
+Zm9ybWVyLiAgTm9uZSBvZiB0aGVzZSBkcml2ZXJzIHN1cHBvcnQgRFQtYmFzZWQgc3lzdGVt
+cy4NCj4+Pg0KPj4+IFRoaXMgcGF0Y2ggc2VyaWVzIGlzIGEgZmlyc3Qgc3RlcCB0byBlbmFi
+bGUgdGhlIFNILU1vYmlsZSBEUk0gZHJpdmVyIGZvcg0KPj4+IFJlbmVzYXMgQVJNLWJhc2Vk
+IFNILU1vYmlsZSBhbmQgUi1Nb2JpbGUgU29Dcy4gIFRoZSBuZXh0IHN0ZXBzIHBsYW5uZWQg
+YXJlDQo+Pj4gdG8gKDEpIGFkZCBEVCBzdXBwb3J0ICh3b3JrcywgYnV0IG5lZWRzIGEgaGFj
+ayBkdWUgdG8gbGFjayBvZiAoMikpLCBhbmQgKDIpDQo+Pj4gY29udmVydCB0aGUgZHJpdmVy
+IHRvIGF0b21pYyBtb2Rlc2V0dGluZy4NCj4+Pg0KPj4+IENoYW5nZXMgY29tcGFyZWQgdG8g
+djJbMV06DQo+Pj4gICAgIC0gQWRkIFJldmlld2VkLWJ5Lg0KPj4+DQo+Pj4gQ2hhbmdlcyBj
+b21wYXJlZCB0byB2MVsyXToNCj4+PiAgICAgLSBBZGQgUmV2aWV3ZWQtYnksDQo+Pj4gICAg
+IC0gRHJvcCBkZXBlbmRlbmN5IG9uIEFSTS4NCj4+Pg0KPj4+IFRoaXMgaGFzIGJlZW4gdGVz
+dGVkIG9uIHRoZSBSLU1vYmlsZSBBMS1iYXNlZCBBdG1hcmsgVGVjaG5vDQo+Pj4gQXJtYWRp
+bGxvLTgwMC1FVkEgZGV2ZWxvcG1lbnQgYm9hcmQsIHVzaW5nIGEgdGVtcG9yYXJ5DQo+Pj4g
+cGxhdGZvcm0tZW5hYmxlbWVudCBwYXRjaFszXS4NCj4+Pg0KPj4+IFRoYW5rcyBmb3IgYXBw
+bHlpbmcgdG8gZHJtLW1pc2MhDQo+Pg0KPj4gSXQncyBhbGwgYmVlbiByZXZpZXdlZC4gRG8g
+eW91IHdhbnQgbWUgdG8gbWVyZ2UgdGhlIHBhdGNoc2V0Pw0KPiANCj4gVGhhdCB3b3VsZCBi
+ZSBncmVhdCEgVGhhbmtzIQ0KDQpEb25lLiBUaGFua3MgZm9yIHRoZSBwYXRjaGVzLg0KDQo+
+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICBHZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFu
+a2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rl
+diwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJC
+IDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Gr{oetje,eeting}s,
+--------------rYFRJinNdx4AkL6RbYDYq5yv--
 
-                        Geert
+--------------lXvjdDXFSdYAgrnKqVpjeokC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRt/PMFAwAAAAAACgkQlh/E3EQov+AV
++xAAvgVs+mqCTd9xD8v9SpRrPCRJVbevcqghZYd1/s6HOcnNGtyU6kMB2t663z4adoVPSFLqN+cP
+oEKoVJ9J6IR573tm2PBKqZIP6Y+0pV03XGGFG09V54NhGO+8qW8UsQqz4jqfHWKc7dJG2ISh9YTL
+2c+v3iWj4QTB5k87ytg1sDOapzmrnBqCDaVhKeNy73ep25FZEkqKhpA69xpZSqGoa0IXpBQulSBI
+6nt+CkuFZDH+/AkRAsXYJp7DdjJYFdKP7GgYNj4xH1B7Q6TfYFBCyfiJkUEVgAG1k0i6RJGcFpXs
+qJ6g0v6eAGTiNMYblzFTCaRBD2Aa7yONL1kVNpDPo9RRVoIC/p2tkvLH1/0txNl9kKOPlOky8cnE
+UoLQZW42EjWUac6B7xv/aixp4Cgd9Iz69L3kKAOyTydJgzwMPcXLVGWuvTgSwz8v5Oc1xsFXy4DJ
+LO7e/kwGGmrmtZLzadPh6ZdVrYnXceN0DeoxbvKRhOxy/5Nl1YR31gSHzOlFT4yOvV0WT0LDMvoE
+a1q+VwNSQzpsFAJ5nZDpIw6fQsKy+Cv8WhFCfRTrtiOVWYdjY5miRlwtKUG/B/9bBRGMd6mAFfxE
+fKlPhy9/o4X3Joucz3N365EZ9tL8IgE5AVH6TtzMMzW7ImLo8TBOX7NrLXqJNEP8x/iyiIlPzUJo
+4FA=
+=gfft
+-----END PGP SIGNATURE-----
+
+--------------lXvjdDXFSdYAgrnKqVpjeokC--
