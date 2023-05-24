@@ -2,140 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D37F170E2F1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 May 2023 19:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40C5070EA42
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 May 2023 02:29:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238000AbjEWRgU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 May 2023 13:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        id S238596AbjEXA3f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 May 2023 20:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238239AbjEWRgE (ORCPT
+        with ESMTP id S238786AbjEXA3e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 May 2023 13:36:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2835E41;
-        Tue, 23 May 2023 10:35:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E54D63547;
-        Tue, 23 May 2023 17:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9C8C433D2;
-        Tue, 23 May 2023 17:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684863349;
-        bh=V6La7xHuyVytMAyfQCoW1fs5fxMyIO2p76AI2SCUOEA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GtPdzUJqCnuCdbrKHnn6ERa4f+5zTE+NOlHT2B2jd36yEoOXyZEbzZGuHV6/xr73A
-         FXH4S5r69z3TpvH5ecaYAKiR9+zuR4vRRQy2LmCkz/cGZt3LNgpnQ+VdFufEwgc+aZ
-         y+8dhTUguas7Ej+7mZ3fCjz+I4XOtDxm3kysvSLUl8bib7rwnOO961Gh14b5OslPA2
-         jnZQTEnr176dhlZWml11cjIcPJ0CDW6KM203OioUtuzMuv3HkJ6qmMRtFYvHZ3s6/c
-         CLRezJz/AoZ6jI9uEi9DTSItUODShygq9vv5BEwMW4JFGG+R9DEjOz79RWSUHSXO1i
-         3Vn6LiKRGOa/A==
-Date:   Tue, 23 May 2023 18:35:44 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
- required
-Message-ID: <20230523-outlying-repulsive-efc0f9e1435e@spud>
-References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+        Tue, 23 May 2023 20:29:34 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B155196
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 17:29:19 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1ae64580e9fso6705ad.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 May 2023 17:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684888159; x=1687480159;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
+        b=oCPd/VMBzehzBIwxKD0CUQlcv9XnCqSIGnZFpfNhT9159UiXp4+4s0dt1T5T+r2N8u
+         ejdMVEW9GWrQK3u8D/R+OgCl4fi8an2VY0K+/eeCPWT2cGGSET/E3kHkr5iqimXeopNz
+         1LhLEfNIl9101bv8HdubYyq2hpbrF89XLwyNahFvZOtnckCP7CoEZsh2L+2+OK9q9Yjc
+         K9vC86dI9TWXu3/6r3ILFI/gvIY8hkiVXH1FcP052iNl13PiuUL4NAyi+n5JDzxUMMjc
+         YVmWP+V4GT0WZnv89R5QJMFswFGyufptXG7L83ZUIfYIL/yWyXKcEjeZvi21gEBg088G
+         o5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684888159; x=1687480159;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
+        b=MVRSqP7XPrYjSkcp9nztFcTGQDP+51inM6m7eZBLBCXiUDYqCKKi9CDde5IRCPDAJc
+         Et9DXy7p+J4eCNdAy7kDXYamCKG0Kbg8tiviBSX11nUtNvSXpgAPtGY4MyL8PqQLwQ2s
+         /zcM+RmMHqbevl5d2BAdsSGel1aXx+qRoN7g5rQXgQXVUkfCJwe7XaRpSwkvTg/Fd80j
+         HTzBkAIXwT2CkXtpvePoL9ouP7PZGwAn89mGKijkPl0lBpjJQPunFhvMnwkN7N7+WXr2
+         9fF7miLZnYjfNpJsXsljdiIwWhVjI+y6yY9PbFGThKIsPg45plvsat+Okjr+GlbvtiWO
+         bTrA==
+X-Gm-Message-State: AC+VfDwp8TG+hn2dhSrTpiQIH5JcD5jnWiO6hpuObvIj4NzA9cuxDZsD
+        20SMmXv8LjczFNqUQkCikrfDyA==
+X-Google-Smtp-Source: ACHHUZ4WC86fv/HCojVq6Z7bo1LnEN2P8Qa/JJdhSbqAvm7x1JKXoIG4BePTyVsmdwlyiuzkRQj4Vw==
+X-Received: by 2002:a17:902:e847:b0:1af:90ce:5263 with SMTP id t7-20020a170902e84700b001af90ce5263mr107385plg.26.1684888158675;
+        Tue, 23 May 2023 17:29:18 -0700 (PDT)
+Received: from [2620:0:1008:11:c789:c1fb:6667:1766] ([2620:0:1008:11:c789:c1fb:6667:1766])
+        by smtp.gmail.com with ESMTPSA id n20-20020a17090a929400b0024de0de6ec8sm137193pjo.17.2023.05.23.17.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 17:29:18 -0700 (PDT)
+Date:   Tue, 23 May 2023 17:29:17 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Qin Jian <qinjian@cqplus1.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/slab: rename CONFIG_SLAB to CONFIG_SLAB_DEPRECATED
+In-Reply-To: <20230523091139.21449-1-vbabka@suse.cz>
+Message-ID: <be109b49-8510-5887-72ae-738db9945619@google.com>
+References: <20230523091139.21449-1-vbabka@suse.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nG5CKQOdzr5W/qlH"
-Content-Disposition: inline
-In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, 23 May 2023, Vlastimil Babka wrote:
 
---nG5CKQOdzr5W/qlH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> As discussed at LSF/MM [1] [2] and with no objections raised there,
+> deprecate the SLAB allocator. Rename the user-visible option so that
+> users with CONFIG_SLAB=y get a new prompt with explanation during make
+> oldconfig, while make olddefconfig will just switch to SLUB.
+> 
+> In all defconfigs with CONFIG_SLAB=y remove the line so those also
+> switch to SLUB. Regressions due to the switch should be reported to
+> linux-mm and slab maintainers.
+> 
+> [1] https://lore.kernel.org/all/4b9fc9c6-b48c-198f-5f80-811a44737e5f@suse.cz/
+> [2] https://lwn.net/Articles/932201/
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-On Tue, May 23, 2023 at 05:38:37PM +0200, Geert Uytterhoeven wrote:
-> make dtbs_check:
->=20
->     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-su=
-pply' is a required property
-> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-ba=
-cklight.yaml
->=20
-> As that backlight device node already has an "enable-gpios" property to
-> control the power supplied to the backlight, it sounds a bit silly to
-> have to add a "power-supply" property just to silence this warning.  In
-> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
-> on a disabled PWM emiting inactive state"), the Linux driver considers
-> the power supply optional.
->=20
-> Fix this by synchronizing the bindings with actual driver behavior by
-> making the "power-supply" optional.
+Acked-by: David Rientjes <rientjes@google.com>
 
-That seems to follow from reading the aforementioned commit.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
->=20
-> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM=
- emiting inactive state")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
-> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
-> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
->=20
-> Thanks!
-> ---
->  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlig=
-ht.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.ya=
-ml
-> index 5ec47a8c6568b60e..53569028899020d6 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> @@ -68,7 +68,6 @@ dependencies:
->  required:
->    - compatible
->    - pwms
-> -  - power-supply
-> =20
->  additionalProperties: false
-> =20
-> --=20
-> 2.34.1
->=20
-
---nG5CKQOdzr5W/qlH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGz5cAAKCRB4tDGHoIJi
-0mDPAQDCdFT25r3FjLLlJyhgTRdLJpa3ifbcKQxOZ20+M4dpXQD/dsHStncq/F4X
-8OY2cqOzQwlc8EIm4K1E801mM1/RQwA=
-=HU1s
------END PGP SIGNATURE-----
-
---nG5CKQOdzr5W/qlH--
+The Kconfig option says that SLAB will be removed in a few cycles.  I 
+think we should wait until at least the next LTS kernel is forked at the 
+end of the year so that users who upgrade to only the LTS releases can be 
+prompted for this change and surface any concerns.  Slab allocation is a 
+critical subsystem, so I presume this is the safest and most responsible 
+way to do the SLAB deprecation.  Hopefully that timeline works for 
+everybody.
