@@ -2,107 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49456712187
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 09:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18153712191
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 09:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242569AbjEZHvf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 May 2023 03:51:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S242476AbjEZHzm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 May 2023 03:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242563AbjEZHve (ORCPT
+        with ESMTP id S242147AbjEZHzl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 May 2023 03:51:34 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6DCB6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 00:51:32 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-30ab87a1897so198251f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 00:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685087491; x=1687679491;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vSVgumf2aYp2qt988Utmhrty6r7JgjUMOf1vhbwIgVM=;
-        b=HH5IiCPntBHLkYgsL6QiZABhfwdHOLeWhFCRMFlSrGxNr0L6dthPHyJdIRMAKrNra4
-         63y/pgAi76VZNZg0zBgqvC9gEtmELmw4909Dch4ly3pRBSSU2o29JYoYKWcrkNRt8rZQ
-         sVNEXmvWppWi8rxFncKzKQkDXggzNOdrZejLBhQerNkXnXtIys5WvpDo7R6dYYm8ezzB
-         XggJyDbjjVC/FF0fuEVFdSofvxpKLGVkZWpojkWVvPqwEFmY4u+PNhbxdmPf52zHA0sp
-         tQzdzBATgOL+W8yHTaJaYx4x8bI0xNJPhLLNeLe0mxq2KEmTR7EV+y9z7GawBx2M/h3E
-         hMVA==
+        Fri, 26 May 2023 03:55:41 -0400
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32EBD125;
+        Fri, 26 May 2023 00:55:40 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-561bd0d31c1so5200697b3.0;
+        Fri, 26 May 2023 00:55:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685087491; x=1687679491;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1685087739; x=1687679739;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vSVgumf2aYp2qt988Utmhrty6r7JgjUMOf1vhbwIgVM=;
-        b=a7yzCE/5bI3a8KaS6mhvr/EJ/4dJygB0c2nwMgBf4/1WFOm9V6Fhwz2KmhaWSpdA2a
-         a3oM9SuwfWttmuj5aWuAGQB8iLkScg/3yBUy5nhc2Tur2bk8ujcpEnxghFHiGU92VhTU
-         884wFwfE37ZsBcbZRIwnQj+HERYJ+Qa7EEBzeypia/pLV7iJyRzfc48ousI3YT4GRll+
-         aiVtKXZ/+/lvjdxWVsReNLjOJ41mWCPgh/A7jBB+KVcjLMLlh6NFKrASmA6rE9h2PHBN
-         fE93qIucN8oQY8DoshSh3eN2LaegcXtPWeUry0pIDj4uk++ME7QkaauQm5WX5v3K9zcT
-         m+ZQ==
-X-Gm-Message-State: AC+VfDzfUZi9fVaEHEXiYSE4ojS2budZdz7mSZ4hF7t4KpSTjX6urGfo
-        NWghu9Taa0k/T/MoK1NsgfhmSw==
-X-Google-Smtp-Source: ACHHUZ5BAKGgVMedwMdSbhQAr3bu64t8rjg7+27iN2I67Zd0S3+ppfH0i4SJBLQfQVLsllKAFRx2Cw==
-X-Received: by 2002:a5d:4d02:0:b0:30a:c2c4:7133 with SMTP id z2-20020a5d4d02000000b0030ac2c47133mr621730wrt.49.1685087490812;
-        Fri, 26 May 2023 00:51:30 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id f7-20020a7bc8c7000000b003f42158288dsm7873151wml.20.2023.05.26.00.51.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 00:51:30 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-To:     Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
+        bh=d5Db8Jd59mFLPRBkBeMn6BXutz9qAM7zTWla/wvQcpY=;
+        b=lYpr1bRelIwQDT0yF4k8nPfLl4T1sbLXKwDWA6tY8ydBwDLM1+qpmKfDM9oQYVQAp/
+         Xe/Td74bMCM7zxvdujla8Ks3FikfRQOIbhnAHdbChHVzNpEYQSuULC0HTUC6BdB2tNGY
+         m8chwoG+RegrP47RMKjW0ok5IZDyxpa2dfh4J2zKMKeWOQe+yBh4QIN1qEX8sDgbqts1
+         Tds1YW/GgnTgV2I3sRO/U7jvtduQ9fe9VfLaYDQVeY5oy5NnHX73OadVxhRnk19Cy62+
+         osvVRgVYTW+yCmiBc1+zYJDInR8kQ8fFCWqRFYPHznj8cVhOYQOci9yLJnTSVDj8EucP
+         iASg==
+X-Gm-Message-State: AC+VfDzmsv8ifS4IQUlOPOccr1bIFFswIS9qNHk6nOc6mq0YVIFgUP23
+        krvBPT7BmbiutPP+xP1/j1M9p4xUtOo0/g==
+X-Google-Smtp-Source: ACHHUZ7pAlDIyLJBf+XvE5tu+1Ch8A04T1lFJq5NB/fARNU+fq95TxJIwrKGNXPKHw7uakrLeooGeQ==
+X-Received: by 2002:a0d:d54c:0:b0:565:9fc5:f0a1 with SMTP id x73-20020a0dd54c000000b005659fc5f0a1mr1220915ywd.36.1685087739091;
+        Fri, 26 May 2023 00:55:39 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id w131-20020a817b89000000b00565374c5962sm1006063ywc.98.2023.05.26.00.55.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 May 2023 00:55:38 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-561bd0d31c1so5200587b3.0;
+        Fri, 26 May 2023 00:55:38 -0700 (PDT)
+X-Received: by 2002:a81:dd06:0:b0:561:dd6a:b84 with SMTP id
+ e6-20020a81dd06000000b00561dd6a0b84mr1149993ywn.26.1685087738002; Fri, 26 May
+ 2023 00:55:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com> <20230522101849.297499-12-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230522101849.297499-12-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 26 May 2023 09:55:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWAkyHYhUfNLB-wkDeqmzAxARCcxqiBVYLdG_Udnj5bvA@mail.gmail.com>
+Message-ID: <CAMuHMdWAkyHYhUfNLB-wkDeqmzAxARCcxqiBVYLdG_Udnj5bvA@mail.gmail.com>
+Subject: Re: [PATCH v5 11/11] arm64: dts: renesas: rzg2l-smarc-som: Enable
+ PMIC and built-in RTC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <cover.1684931026.git.geert+renesas@glider.be>
-References: <cover.1684931026.git.geert+renesas@glider.be>
-Subject: Re: [PATCH 0/2] drm/panel: simple: Add support for Ampire
- AM-800480L1TMQW-T00H
-Message-Id: <168508748966.1489292.6504449064133741624.b4-ty@linaro.org>
-Date:   Fri, 26 May 2023 09:51:29 +0200
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Biju,
 
-On Wed, 24 May 2023 14:32:09 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series adds support for the Ampire AM-800480L1TMQW-T00H 5"
-> WVGA TFT LCD panel, which can be found on e.g. the Atmark Techno
-> Armadillo-800-EVA development board.
-> 
-> It has been tested with a WIP DT-enhanced version of the shmob-drm
-> driver.
-> 
-> [...]
+Thanks for your patch!
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+On Mon, May 22, 2023 at 12:19 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable PMIC RAA215300 and the built-in RTC on the RZ/{G2L,V2L} SMARC
+> EVK.
 
-[1/2] dt-bindings: display: panel-simple: Add Ampire AM-800480L1TMQW-T00H
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d3a6c2b60f07c64631b9437032d8f079341b7a16
-[2/2] drm/panel: simple: Add Ampire AM-800480L1TMQW-T00H
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=410bb21319f69c2ec28aeafe530d00ed2f6a1c54
+Looking at the schematics for the RZ/{G2L,G2LC,V2L} SOMs, it seems not
+all SOMs have this PMIC? The ones that do have the PMIC are annotated
+"PMIC Version" on the title page.
+
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> @@ -73,6 +73,13 @@ vccq_sdhi0: regulator-vccq-sdhi0 {
+>                 gpios = <&pinctrl RZG2L_GPIO(39, 0) GPIO_ACTIVE_HIGH>;
+>                 regulator-always-on;
+>         };
+> +
+> +       /* 32.768kHz crystal */
+> +       x2: clock-xtal {
+
+"clock-extal" is a too generic name, and might cause conflicts.
+"x2-clk"?
+
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               clock-frequency = <32768>;
+> +       };
+>  };
+>
+>  &adc {
+> @@ -351,3 +358,14 @@ &wdt1 {
+>         status = "okay";
+>         timeout-sec = <60>;
+>  };
+> +
+> +&i2c3 {
+
+Please obey alphabetical sort order.
+
+> +       raa215300: pmic@12 {
+> +               compatible = "renesas,raa215300";
+> +               reg = <0x12>, <0x6f>;
+> +               reg-names = "main", "rtc";
+> +
+> +               clocks = <&x2>;
+> +               clock-names = "xin";
+> +       };
+> +};
+> --
+> 2.25.1
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Neil
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
