@@ -2,43 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77ABF712403
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 11:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB1F971240F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 11:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243229AbjEZJs6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 May 2023 05:48:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49346 "EHLO
+        id S242870AbjEZJx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 May 2023 05:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243225AbjEZJsu (ORCPT
+        with ESMTP id S236264AbjEZJxY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 May 2023 05:48:50 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DCB5E41
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 02:48:39 -0700 (PDT)
+        Fri, 26 May 2023 05:53:24 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC09D9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 02:53:23 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:ae30:9d2b:3228:d21])
-        by andre.telenet-ops.be with bizsmtp
-        id 1Moc2A00A4eYoVn01MocrB; Fri, 26 May 2023 11:48:36 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id 1MtM2A00E4eYoVn06MtMno; Fri, 26 May 2023 11:53:22 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q2U3X-0038ju-KZ;
-        Fri, 26 May 2023 11:48:36 +0200
+        id 1q2U89-0038kI-9X;
+        Fri, 26 May 2023 11:53:21 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q2U3o-00EFZc-5E;
-        Fri, 26 May 2023 11:48:36 +0200
+        id 1q2U8P-00EFcz-OQ;
+        Fri, 26 May 2023 11:53:21 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/3] Renesas DTS updates for v6.5
-Date:   Fri, 26 May 2023 11:48:31 +0200
-Message-Id: <cover.1685094244.git.geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v6.5
+Date:   Fri, 26 May 2023 11:53:19 +0200
+Message-Id: <cover.1685094576.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1685094238.git.geert+renesas@glider.be>
-References: <cover.1685094238.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
@@ -50,59 +47,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi Mike, Stephen,
+
 The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
 
   Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dts-for-v6.5-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.5-tag1
 
-for you to fetch changes up to 18cbbdd846c5d74bd56fd1f229d074e1f7068fc8:
+for you to fetch changes up to d1c20885d3b01e6a62e920af4b227abd294d22f3:
 
-  arm64: dts: renesas: r8a779a0: Add PWM nodes (2023-05-08 09:21:51 +0200)
-
-----------------------------------------------------------------
-Renesas DTS updates for v6.5
-
-  - Add partial display support for the RZ/G2L and RZ/V2L SoCs and the
-    RZ/G2L{,C} SMARC EVK development boards,
-  - Add camera support for the RZ/GV2L SoC and the RZ/V2L and RZ/G2LC
-    SMARC EVK development boards,
-  - Add Multi-Function Timer Pulse Unit 3 support for the RZ/G2L and
-    RZ/V2L SoCs,
-  - Add PWM support for the R-Car V3U SoC.
+  clk: renesas: rzg2l: Fix CPG_SIPLL5_CLK1 register write (2023-05-23 09:06:50 +0200)
 
 ----------------------------------------------------------------
-Biju Das (10):
-      arm64: dts: renesas: r9a07g044: Add fcpvd node
-      arm64: dts: renesas: r9a07g054: Add fcpvd node
-      arm64: dts: renesas: r9a07g044: Add vspd node
-      arm64: dts: renesas: r9a07g054: Add vspd node
-      arm64: dts: renesas: r9a07g044: Add DSI node
-      arm64: dts: renesas: r9a07g054: Add DSI node
-      arm64: dts: renesas: rzg2l-smarc: Link DSI with ADV7535
-      arm64: dts: renesas: rzg2lc-smarc: Link DSI with ADV7535
-      arm64: dts: renesas: r9a07g044: Add MTU3a node
-      arm64: dts: renesas: r9a07g054: Add MTU3a node
+clk: renesas: Updates for v6.5
 
-Lad Prabhakar (3):
-      arm64: dts: renesas: r9a07g054: Add CSI and CRU nodes
-      arm64: dts: renesas: rzv2l-smarc: Enable CRU, CSI support
-      arm64: dts: renesas: rzg2lc-smarc: Enable CRU, CSI support
+  - Add PWM clock on R-Car V3U,
+  - Fix PLL5 on RZ/G2L and RZ/V2L.
 
-Phong Hoang (1):
-      arm64: dts: renesas: r8a779a0: Add PWM nodes
+Thanks for pulling!
 
- arch/arm64/boot/dts/renesas/Makefile               |   2 +
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi          |  50 +++++
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi         | 123 +++++++++++++
- .../renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso  |  21 +++
- .../renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtso  |   2 +-
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi         | 203 +++++++++++++++++++++
- .../renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtso  |   1 +
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi       |  79 ++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi      |  79 ++++++++
- 9 files changed, 559 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtso
- create mode 120000 arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtso
+----------------------------------------------------------------
+Biju Das (1):
+      clk: renesas: rzg2l: Fix CPG_SIPLL5_CLK1 register write
+
+Wolfram Sang (1):
+      clk: renesas: r8a779a0: Add PWM clock
+
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c | 1 +
+ drivers/clk/renesas/rzg2l-cpg.c         | 6 ++----
+ drivers/clk/renesas/rzg2l-cpg.h         | 3 ---
+ 3 files changed, 3 insertions(+), 7 deletions(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
