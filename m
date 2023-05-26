@@ -2,131 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA7BB711386
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 May 2023 20:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E71C711EA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 06:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233837AbjEYSSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 May 2023 14:18:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43600 "EHLO
+        id S232792AbjEZEHb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 May 2023 00:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240853AbjEYSR5 (ORCPT
+        with ESMTP id S231691AbjEZEH3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 May 2023 14:17:57 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276789E;
-        Thu, 25 May 2023 11:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1685038584; i=deller@gmx.de;
-        bh=K2LpqUproNVaEYfciKE2xUVes3IFu6inT1ojIZWxRK0=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=opM6ZycxGEnfKtweb5YWEWAN530UjohDS09mCOh47Kc3Snfr/ROPCfIOylBQndoe0
-         ZLTz1BjU2i+TZdc+BU0Vd8M8Wn96D0zdWLphkPmTjGKyUODaFFapwbEBfZpLnQWf0d
-         dDNTogpfAaB7eMI+zlKffM1IsnD9yA9fQ0FHEdBH+OCQx/CffzuPXvfzk6u5LnAuUt
-         M067+FohpOaj7qFR3mAh+CzlDbYZH+jOmfokYU4AbodaT2hf0dXJVQ7hiMqViMf2tP
-         X5HK8oTI4EYl71gYwno969NU7xlpu9Y0wSDTgqCs8agQDFU6yDz7gbf40EgYGT/v/B
-         FHSBhye0W50Pw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.173]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Ml6mE-1qPBBj3Htk-00lXgN; Thu, 25
- May 2023 20:16:23 +0200
-Message-ID: <dda2616a-f4d0-fca0-5c5c-7a0f49f947e3@gmx.de>
-Date:   Thu, 25 May 2023 20:16:13 +0200
+        Fri, 26 May 2023 00:07:29 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F089187
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 May 2023 21:07:28 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1ae4be0b1f3so2105065ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 May 2023 21:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685074048; x=1687666048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XtT54NzABpl3dWP4rZxWFiwVLZpQQc3PL7NcKwTY/30=;
+        b=FxXQonj5/wTuvNOundZEhhOveR4JZB2GvudURCDzoIBynjccsZN5Tr/+jJ77dnLoJu
+         8GIS25Gnwo+MnSV0Ho44rtAqAC9St5LdcV+0DEqiYvT24p6hD0PTix10aQQhf4f/19x2
+         +TklRCrImV5jKFrBMuU10sAKh/ocwFrNYdF5OB5Ne6ao8BFsnkQNvjovnTFolWBCXAOv
+         tR9ojuRCSttf8Ft86W+mGRcZ5Eie7lGbEW2MlkgmlTGrV5NhfSJCCii81JiSwcFF38C0
+         ZE/kAr8FBIU0pkyOeYrFOXGFZNOC+oZOWMHN+lF7AE8Ij+iLV9S5/24M0a90FxuLtW0g
+         y7kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685074048; x=1687666048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XtT54NzABpl3dWP4rZxWFiwVLZpQQc3PL7NcKwTY/30=;
+        b=O2vGiYkQbFniLMy7bhQFnZEKqROGXEl7ZgVPJrGrdJWANOXESRP5LE4SotdeWelZLm
+         D+s6mK/MYSGoObMca5SG8z+xhvGrCPTqstRucCa3eIieGoLTIKhGb1DERRv2m+pbH20U
+         AKpDe7Iaqpfs8tNarsVQ39cved16g95neGMsIM7KUnY7wLY4V59aI5b5y+aQpkEqQRby
+         DBrOLM52GZ4QoJpTAs4x4OPWGY4PajdVaOttJp9+wlt1oNZCCqHgU8g/MKVpVhdCJlyS
+         wlw5+8bimc/Fn+Qe8QBUJpaY8/T2RTwCFhE9TJ22zFgD2FdUORkd/P/aa9noxg3PcZ7e
+         9joQ==
+X-Gm-Message-State: AC+VfDzgGBoLwH9hfJyyJGCmeNd0JB/UA5KloTPQdGWQ9/cNUJ593IG0
+        0xq+dZ8Tk9QeTgfztoGA3ozhysyJAj3FyF3YQkY=
+X-Google-Smtp-Source: ACHHUZ6n5S6R1ao+qVGDISlNnvvMFck9ChOLJzDD/XLPYvLQSUn8BwypZ9z4Byc2qP/RPQKQg4GTG3zNwwkGW0idX+s=
+X-Received: by 2002:a17:902:7408:b0:1ac:b2c4:46cc with SMTP id
+ g8-20020a170902740800b001acb2c446ccmr991162pll.20.1685074047624; Thu, 25 May
+ 2023 21:07:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] mm/slab: rename CONFIG_SLAB to CONFIG_SLAB_DEPRECATED
-Content-Language: en-US
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Qin Jian <qinjian@cqplus1.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-mm@kvack.org,
-        David Rientjes <rientjes@google.com>
-References: <20230523091139.21449-1-vbabka@suse.cz>
- <be109b49-8510-5887-72ae-738db9945619@google.com>
-From:   Helge Deller <deller@gmx.de>
-In-Reply-To: <be109b49-8510-5887-72ae-738db9945619@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
+ <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Thu, 25 May 2023 23:07:16 -0500
+Message-ID: <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com>
+Subject: Re: RZ/G2M Power Domain Errors with GPU
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        cstevens@beaconembedded.com,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Ulrich Hecht <uli@fpond.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:K1zdwa4g6OWygvqnRQK3gXolaxN9hnmaCD/sfFOygFxv5gAj6ei
- THk+aQNQMiH0oWH34qhfh7vFSX4rOi68z08hA0sfnE3E8jQpgoB8aCeQFBdovw6CWb27TGJ
- akSe+X2hZ+TCagNXuXGocolM7BrEtSmVXxnNOhc988TLQvzcbu0JUSnRiyxetx0lbRk6hr6
- RCFXL34mSj82AxaBd7hHw==
-UI-OutboundReport: notjunk:1;M01:P0:yGqLH3vcUq4=;IeBJUDWQ4H8EmLJY7QSDptEyjrX
- /7ngAukTu5+WessWpw6c7f8qrRpW4JGSC7nPNRjj+Y5miQDY0dsuPzsAcCL6qd/PR5VCMHBPS
- E8JgPITjt58RQW+LXkgbHua0lJgufsN2sZTZLtGxRxzIcjbZzYGkvgfhxHpgnt1Qc4bI1F2jH
- IlNjipVfrrLZ9EknTVNXHpIbNmuaggtQUROs1GNscWNeOXuTbRtIElWCD3lG/2SaGCh2bJZ0H
- 4daYHz9js01cfK0Y+vipU98eZ+G9vFObXuVLs5A3ULpfabkfcqLBZBw47hiC7xjVhjH7LOQkC
- dgWx2wGHzp3Uf6q3Kt/Ea3Ycn9D/fCFtoYWAXLQh48dMj9o8wz7g8bC7D5QYUlEygTpq8uBVG
- UFrzmA5nd/gCh75Ei+6B1JKixUNOmUNdJZ++9RhNrF4FX0zlIuzQH/PcKIrCoZRsURDQt8ZuO
- wQkku4i+G0xieBvC3yyOQImF2uBxMLYG8UTDEWH+4+T+JUp9BWFsxXeAwg56xS7I7McvJrLLz
- tUA5Hn6e2vx6UPn4nvHeA6JSXM/5pOX7X7Kw5IGoWspGzdY+X1OI9nDxRatfMk0dBppo9VdoD
- LsvM4IGmGM9hJZJKrBm1b+lfQwisdHfAjHTHjE9g8ZrflyBl4SP2kv+7cQBSyjCzWpKHDt+OE
- PvlYbD52GIneTph324pRyi2niQIt6l7SOhAz7514Iox403svHi9vqbyrQWNteeRl8zG3kL3FN
- U6AGRE18ei2676TvUjU+wckhBVDKBIKQhctOycQFMN3fBiyv3XJQGOJlofBh6wSrv2FEmF678
- 2NOdbX/20joBRFq4wL6mUlvDxvkNv/7q5ukMbQ9BdHyNMmcbfWCFUx4p+LIcsJ/taNp/x4e3S
- 3D9bXJ7icV9nFtl0BFX9I8mT1bHrL1rslN/dCd4iHansWfGb+Pursh6OC6oYejd2RljJ8UM/1
- WDrEhvOseS9Yb+a/0lFfWeAlRuI=
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 5/24/23 02:29, David Rientjes wrote:
-> On Tue, 23 May 2023, Vlastimil Babka wrote:
+On Mon, May 22, 2023 at 3:06=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
->> As discussed at LSF/MM [1] [2] and with no objections raised there,
->> deprecate the SLAB allocator. Rename the user-visible option so that
->> users with CONFIG_SLAB=3Dy get a new prompt with explanation during mak=
-e
->> oldconfig, while make olddefconfig will just switch to SLUB.
->>
->> In all defconfigs with CONFIG_SLAB=3Dy remove the line so those also
->> switch to SLUB. Regressions due to the switch should be reported to
->> linux-mm and slab maintainers.
->>
->> [1] https://lore.kernel.org/all/4b9fc9c6-b48c-198f-5f80-811a44737e5f@su=
-se.cz/
->> [2] https://lwn.net/Articles/932201/
->>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Hi Adam,
 >
-> Acked-by: David Rientjes <rientjes@google.com>
+> On Sat, May 20, 2023 at 5:13=E2=80=AFAM Adam Ford <aford173@gmail.com> wr=
+ote:
+> > I am trying to see if the Open Source PowerVR driver [1]  for the 6250
+> > can be made to work on the RZ/G2M, and I am having difficulty getting
+> > the power domain to turn on.
+> >
+> > In the GPU node, I set:
+> > power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
+>
+> LGTM...
+>
+> > Unfortunately,  when it boots, I get the following error message:
+> >
+> > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add to
+> > PM domain 3dg-b
+>
+> That means genpd_add_device() failed (but why?)...
 
-I did tested SLUB on parisc with 32- and 64-bit kernel, so you may add:
+With a pointer from Marek V, I appear to have the necessary clock and
+the power domain operational by borrowing from the down-stream RZ/G2
+kernel.  Even if I cannot get the PVR driver working with this kernel,
+would you accept the clock and power domain patch now, or do you want
+me to wait until we have a user of these (aka PVR) working?
 
-Acked-by: Helge Deller <deller@gmx.de> # parisc
-
-Helge
+adam
+>
+> > [    8.320822] powervr: probe of fd000000.gpu failed with error -2
+> >
+> > Is there something I need to do in order to use this?  it appears the
+> > 3DG_B starts 3DG_A if I understand this correctly.
+> >
+> > Unfortunately, I don't see the parent child relationship between the
+> > 3DG_B and the GPU
+> >
+> > root@beacon-rzg2m:~# cat /sys/kernel/debug/pm_genpd/pm_genpd_summary
+> > domain                          status          children
+> >             performance
+> >     /device                                             runtime status
+> > -----------------------------------------------------------------------=
+-----------------------
+> > clock-controller                on
+> >             0
+> > 3dg-b                           off-0
+> >             0
+> > 3dg-a                           off-0
+> >             0
+> >                                                 3dg-b
+>
+> ... hence the relationship does not show up.
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
