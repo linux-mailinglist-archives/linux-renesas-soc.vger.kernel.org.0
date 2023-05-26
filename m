@@ -2,110 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC7B6712147
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 09:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49456712187
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 09:52:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242154AbjEZHij convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 May 2023 03:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
+        id S242569AbjEZHvf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 May 2023 03:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242495AbjEZHig (ORCPT
+        with ESMTP id S242563AbjEZHve (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 May 2023 03:38:36 -0400
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9602AE61;
-        Fri, 26 May 2023 00:38:11 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-b9daef8681fso430787276.1;
-        Fri, 26 May 2023 00:38:11 -0700 (PDT)
+        Fri, 26 May 2023 03:51:34 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6DCB6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 00:51:32 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-30ab87a1897so198251f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 00:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685087491; x=1687679491;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vSVgumf2aYp2qt988Utmhrty6r7JgjUMOf1vhbwIgVM=;
+        b=HH5IiCPntBHLkYgsL6QiZABhfwdHOLeWhFCRMFlSrGxNr0L6dthPHyJdIRMAKrNra4
+         63y/pgAi76VZNZg0zBgqvC9gEtmELmw4909Dch4ly3pRBSSU2o29JYoYKWcrkNRt8rZQ
+         sVNEXmvWppWi8rxFncKzKQkDXggzNOdrZejLBhQerNkXnXtIys5WvpDo7R6dYYm8ezzB
+         XggJyDbjjVC/FF0fuEVFdSofvxpKLGVkZWpojkWVvPqwEFmY4u+PNhbxdmPf52zHA0sp
+         tQzdzBATgOL+W8yHTaJaYx4x8bI0xNJPhLLNeLe0mxq2KEmTR7EV+y9z7GawBx2M/h3E
+         hMVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685086640; x=1687678640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1685087491; x=1687679491;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZplzPX/qZytJO01Mxnn0loHjJum7pyoDyw30fwHhRDI=;
-        b=LWvRGxSgY3g5prltk3Ms/LU6Ux7Bic0V7SXRkOYf4J6Xrf/0i/BHFvdsdTWIuz2bhN
-         7Y/UeqrjfQiNwFJDKfHyDEfFIRYTrszyIIZLP3I90RW1YgBvM1UDH4OOAI+zr/5OG9Ei
-         bqXRT9joASJiQVss7LKiqYBPGQwuo7cjZn6nXpKhVcFcTglHvqXcI+J3E8QIDmp/WZ1o
-         H3WHqasJnszkOeyc5fF/miOuYz3ZZXW+ii4SSIHc0uCJjb8O9VmsqMqr79aoONcNrbYe
-         aVSw6Y08jcKMNMUyTOOzONSN3PY7GG863ia7C60mtXk6Kw8R/GSA8hLuJaIm+1UUl1je
-         +8GA==
-X-Gm-Message-State: AC+VfDxy4fcRaf/5JXFo5uMTCUzNJcx6N+ip+gkO2tFSo9XeBlMm2htL
-        RaFfovxqYtwIUh4m//u0rpnh2x7IN3mqDw==
-X-Google-Smtp-Source: ACHHUZ5+VSN5PS5BON9IDesMs9tZ6jn32z4JJPGfGJ8C9PFYy9x/eiD8bcbPf9x+xkXkfaQLcvGQ6Q==
-X-Received: by 2002:a81:c305:0:b0:559:f181:1a7d with SMTP id r5-20020a81c305000000b00559f1811a7dmr1189558ywk.27.1685086639846;
-        Fri, 26 May 2023 00:37:19 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id y123-20020a0def81000000b0055aaccfa2c7sm990143ywe.91.2023.05.26.00.37.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 00:37:19 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-563b1e5f701so4992097b3.3;
-        Fri, 26 May 2023 00:37:18 -0700 (PDT)
-X-Received: by 2002:a0d:cb83:0:b0:561:d21d:8ce4 with SMTP id
- n125-20020a0dcb83000000b00561d21d8ce4mr1107854ywd.19.1685086638668; Fri, 26
- May 2023 00:37:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com> <20230522101849.297499-10-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230522101849.297499-10-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 May 2023 09:37:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVgbMYPRXcH=SESmuHntF_HPKi9rSnsXza7BP5ZvDZDsQ@mail.gmail.com>
-Message-ID: <CAMuHMdVgbMYPRXcH=SESmuHntF_HPKi9rSnsXza7BP5ZvDZDsQ@mail.gmail.com>
-Subject: Re: [PATCH v5 09/11] regulator: dt-bindings: Add Renesas RAA215300
- PMIC bindings
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        bh=vSVgumf2aYp2qt988Utmhrty6r7JgjUMOf1vhbwIgVM=;
+        b=a7yzCE/5bI3a8KaS6mhvr/EJ/4dJygB0c2nwMgBf4/1WFOm9V6Fhwz2KmhaWSpdA2a
+         a3oM9SuwfWttmuj5aWuAGQB8iLkScg/3yBUy5nhc2Tur2bk8ujcpEnxghFHiGU92VhTU
+         884wFwfE37ZsBcbZRIwnQj+HERYJ+Qa7EEBzeypia/pLV7iJyRzfc48ousI3YT4GRll+
+         aiVtKXZ/+/lvjdxWVsReNLjOJ41mWCPgh/A7jBB+KVcjLMLlh6NFKrASmA6rE9h2PHBN
+         fE93qIucN8oQY8DoshSh3eN2LaegcXtPWeUry0pIDj4uk++ME7QkaauQm5WX5v3K9zcT
+         m+ZQ==
+X-Gm-Message-State: AC+VfDzfUZi9fVaEHEXiYSE4ojS2budZdz7mSZ4hF7t4KpSTjX6urGfo
+        NWghu9Taa0k/T/MoK1NsgfhmSw==
+X-Google-Smtp-Source: ACHHUZ5BAKGgVMedwMdSbhQAr3bu64t8rjg7+27iN2I67Zd0S3+ppfH0i4SJBLQfQVLsllKAFRx2Cw==
+X-Received: by 2002:a5d:4d02:0:b0:30a:c2c4:7133 with SMTP id z2-20020a5d4d02000000b0030ac2c47133mr621730wrt.49.1685087490812;
+        Fri, 26 May 2023 00:51:30 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id f7-20020a7bc8c7000000b003f42158288dsm7873151wml.20.2023.05.26.00.51.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 00:51:30 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+To:     Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <cover.1684931026.git.geert+renesas@glider.be>
+References: <cover.1684931026.git.geert+renesas@glider.be>
+Subject: Re: [PATCH 0/2] drm/panel: simple: Add support for Ampire
+ AM-800480L1TMQW-T00H
+Message-Id: <168508748966.1489292.6504449064133741624.b4-ty@linaro.org>
+Date:   Fri, 26 May 2023 09:51:29 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 22, 2023 at 12:19 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document Renesas RAA215300 PMIC bindings.
->
-> The RAA215300 is a high Performance 9-Channel PMIC supporting DDR
-> Memory, with Built-In Charger and RTC.
->
-> It supports DDR3, DDR3L, DDR4, and LPDDR4 memory power requirements.
-> The internally compensated regulators, built-in Real-Time Clock (RTC),
-> 32kHz crystal oscillator, and coin cell battery charger provide a
-> highly integrated, small footprint power solution ideal for
-> System-On-Module (SOM) applications. A spread spectrum feature
-> provides an ease-of-use solution for noise-sensitive audio or RF
-> applications.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> v4->v5:
->  * Added description for clocks.
->  * Replaced Oneof->enum in clock-names as it is simpler.
->  * Added Rb tag from Conor.
+Hi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, 24 May 2023 14:32:09 +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This patch series adds support for the Ampire AM-800480L1TMQW-T00H 5"
+> WVGA TFT LCD panel, which can be found on e.g. the Atmark Techno
+> Armadillo-800-EVA development board.
+> 
+> It has been tested with a WIP DT-enhanced version of the shmob-drm
+> driver.
+> 
+> [...]
 
-Gr{oetje,eeting}s,
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-                        Geert
+[1/2] dt-bindings: display: panel-simple: Add Ampire AM-800480L1TMQW-T00H
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d3a6c2b60f07c64631b9437032d8f079341b7a16
+[2/2] drm/panel: simple: Add Ampire AM-800480L1TMQW-T00H
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=410bb21319f69c2ec28aeafe530d00ed2f6a1c54
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Neil
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
