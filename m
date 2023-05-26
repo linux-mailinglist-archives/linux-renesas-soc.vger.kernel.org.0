@@ -2,134 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDF197127E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 15:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C89571288C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 16:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243502AbjEZN6X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 May 2023 09:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45348 "EHLO
+        id S237436AbjEZOhj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 May 2023 10:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbjEZN6V (ORCPT
+        with ESMTP id S243748AbjEZOhh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 May 2023 09:58:21 -0400
+        Fri, 26 May 2023 10:37:37 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1AD1C195;
-        Fri, 26 May 2023 06:57:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C19D3E42;
+        Fri, 26 May 2023 07:37:17 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.00,194,1681138800"; 
-   d="scan'208";a="160955052"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 26 May 2023 22:57:56 +0900
+   d="scan'208";a="160957158"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 26 May 2023 23:36:20 +0900
 Received: from localhost.localdomain (unknown [10.226.93.166])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2E7AB42229AE;
-        Fri, 26 May 2023 22:57:52 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 60F9F4009BE8;
+        Fri, 26 May 2023 23:36:17 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-i2c@vger.kernel.org,
+        Zheng Wang <zyytlz.wz@163.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-usb@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
-Subject: [PATCH RESEND v2 3/3] i2c: rzv2m: Disable the operation of unit in case of error
-Date:   Fri, 26 May 2023 14:57:38 +0100
-Message-Id: <20230526135738.348294-4-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M {modprobe,bind} error
+Date:   Fri, 26 May 2023 15:36:15 +0100
+Message-Id: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230526135738.348294-1-biju.das.jz@bp.renesas.com>
-References: <20230526135738.348294-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.3 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The remove and suspend callbacks disable the operation of the unit.
-Do the same in probe() in case of error.
+Currently {modprobe, bind} after {rmmod, unbind} results in probe failure.
 
-While at it, introduce a helper function rzv2m_i2c_disable() for
-disabling the operation of the unit and this function is shared
-between probe error path, remove and suspend callbacks.
+genirq: Flags mismatch irq 22. 00000004 (85070400.usb3drd) vs. 00000004 (85070400.usb3drd)
+renesas_usb3: probe of 85070000.usb3peri failed with error -16
 
-Reported-by: Pavel Machek <pavel@denx.de>
+Fix this issue by replacing "parent dev"->"dev" as the irq resource
+is managed by this driver.
+
+Fixes: 9cad72dfc556 ("usb: gadget: Add support for RZ/V2M USB3DRD driver"
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v1->v2:
- * Introduced rzv2m_i2c_disable() and shared the code between
-   probe error path, remove and suspend callbacks.
- * Updated commit description.
----
- drivers/i2c/busses/i2c-rzv2m.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/usb/gadget/udc/renesas_usb3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/i2c/busses/i2c-rzv2m.c b/drivers/i2c/busses/i2c-rzv2m.c
-index b97e29871558..7acde5133e51 100644
---- a/drivers/i2c/busses/i2c-rzv2m.c
-+++ b/drivers/i2c/busses/i2c-rzv2m.c
-@@ -389,6 +389,20 @@ static u32 rzv2m_i2c_func(struct i2c_adapter *adap)
- 	       I2C_FUNC_10BIT_ADDR;
- }
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index aac8bc185afa..4a37b2e4b9b3 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -2877,7 +2877,7 @@ static int renesas_usb3_probe(struct platform_device *pdev)
+ 		struct rzv2m_usb3drd *ddata = dev_get_drvdata(pdev->dev.parent);
  
-+static int rzv2m_i2c_disable(struct device *dev, struct rzv2m_i2c_priv *priv)
-+{
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
-+	pm_runtime_put(dev);
-+
-+	return 0;
-+}
-+
- static const struct i2c_adapter_quirks rzv2m_i2c_quirks = {
- 	.flags = I2C_AQ_NO_ZERO_LEN,
- };
-@@ -461,8 +475,10 @@ static int rzv2m_i2c_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, priv);
- 
- 	ret = i2c_add_numbered_adapter(adap);
--	if (ret < 0)
-+	if (ret < 0) {
-+		rzv2m_i2c_disable(dev, priv);
- 		pm_runtime_disable(dev);
-+	}
- 
- 	return ret;
- }
-@@ -473,7 +489,7 @@ static int rzv2m_i2c_remove(struct platform_device *pdev)
- 	struct device *dev = priv->adap.dev.parent;
- 
- 	i2c_del_adapter(&priv->adap);
--	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
-+	rzv2m_i2c_disable(dev, priv);
- 	pm_runtime_disable(dev);
- 
- 	return 0;
-@@ -482,16 +498,8 @@ static int rzv2m_i2c_remove(struct platform_device *pdev)
- static int rzv2m_i2c_suspend(struct device *dev)
- {
- 	struct rzv2m_i2c_priv *priv = dev_get_drvdata(dev);
--	int ret;
--
--	ret = pm_runtime_resume_and_get(dev);
--	if (ret < 0)
--		return ret;
--
--	bit_clrl(priv->base + IICB0CTL0, IICB0IICE);
--	pm_runtime_put(dev);
- 
--	return 0;
-+	return rzv2m_i2c_disable(dev, priv);
- }
- 
- static int rzv2m_i2c_resume(struct device *dev)
+ 		usb3->drd_reg = ddata->reg;
+-		ret = devm_request_irq(ddata->dev, ddata->drd_irq,
++		ret = devm_request_irq(&pdev->dev, ddata->drd_irq,
+ 				       renesas_usb3_otg_irq, 0,
+ 				       dev_name(ddata->dev), usb3);
+ 		if (ret < 0)
 -- 
 2.25.1
 
