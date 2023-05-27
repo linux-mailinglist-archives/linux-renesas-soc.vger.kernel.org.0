@@ -2,71 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9764A712DF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 May 2023 21:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 981C1713351
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 May 2023 10:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjEZT7R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 May 2023 15:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36058 "EHLO
+        id S231586AbjE0I0x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 27 May 2023 04:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237083AbjEZT7Q (ORCPT
+        with ESMTP id S229708AbjE0I0w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 May 2023 15:59:16 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE9819D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 12:59:14 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-25332b3915bso951833a91.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 May 2023 12:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685131154; x=1687723154;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8jod9ubhN/oluv5/f0RkzUi/+S4Oj2Npy8/g51/MYJ4=;
-        b=Qu1LBAwWfHFIQK/oTNd3vtdHmwouhUCo4kpiQj0dliV+BOJR1i6YLxBIx3gHs7HbCY
-         ShoBVSsaMOsz33N4aktobbZtB4hnhkiJ9WUVOXl6hXvzKpurI/g57q1Jkv++91ShrsSq
-         q83em/fLvdOoT/2oFTgvL2kIBKzD0CqhGpJp7epq/x54ywPPp8iB7IJVInBKZp8Ly8HE
-         Hq5TdP0GwJQz5/OUCMIWJeCYdIu0E2b1HhpHV95LthP+UAfajmfR58kSlounpv7eFZ6p
-         g1BPlnZ3FC1JDoJXHcQqxCReR8rLmeVNgfBOGqx5NgXfgy57cS0RyNC6UMhMcVfMNGFZ
-         f/Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685131154; x=1687723154;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8jod9ubhN/oluv5/f0RkzUi/+S4Oj2Npy8/g51/MYJ4=;
-        b=AWxf1dI4DT12MZ0Ko+HPJgYEqZMPNw3nRFp0x6dOybTE+6WBCvXdIpoell9UM9ANsZ
-         HEeSGHvVDahfIavOOQJubDczdKPlxEUswdpl5cxm88IqyfMEKT1LLj2zLQ2iDzmzpn92
-         A9k/Tf1K3opcZUeCbp6HvV05HlOJ4e39ND8C0gtW3hGNeeSiLQPu5y/CHUWiese4orCg
-         pdNb6uPWLuDPn3MUgUlj1L2eDVZd60bn9uxUHkXZI2GmNmNO0liUrTQKqLK4ueb3QiX6
-         VsSZV2hKzS2h0OSjhEkI4au8qMOomkoNVZXbHHFTPT33z5KDi0O1EGgMSvpV6o55s5ry
-         0ZNA==
-X-Gm-Message-State: AC+VfDw8dNgq6/GOO21QR3h7wg0hyb6L5b+bz4xFtsZ/ZA22mvmZ9sfu
-        34dfxDwSCb7dmqE6xnRqgnD21AqFiwogHfhZATk=
-X-Google-Smtp-Source: ACHHUZ4HfBmTDB6nXkA8r87ZNsXMxnNkNoU97KSdIaNXxENEj3Ea605R9TT+RMrfurcgZsgCypcBljBQtSkEpPUakdc=
-X-Received: by 2002:a17:902:da91:b0:1af:db10:333b with SMTP id
- j17-20020a170902da9100b001afdb10333bmr4921123plx.59.1685131154133; Fri, 26
- May 2023 12:59:14 -0700 (PDT)
+        Sat, 27 May 2023 04:26:52 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F6EB1;
+        Sat, 27 May 2023 01:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685176012; x=1716712012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bpnXRwupjfIYm1tkD0cA3h4+Qspmuh3JFATiktRdi3g=;
+  b=RiBjw2xEmMu38dy2wHdrnxyCahcnlImBKKCVocgS/t6LgypxgF7FD53j
+   a4ZHa+yjFFFqSHbNvlfFq79WjNahHeTKUQ8hoLLrT2obQuo1rga4POYJc
+   6hvKgrds17gpXRp3xD4Ln3VMb3wxzSYU3sIg+l/2UdwOu6080ugXfXvsV
+   L8sT6hJwhxUHPO4Wn7/Tgq97ayNDTv5tbO19Q2SdbXsiUzkNfgZ6K10rx
+   beKwEE+dWwEzWPmn4UKj+AOJJu3Xow4rB8s3iivykPZH+C9O6NXoEXdp2
+   provvRS7H0NEzAmATwTmc2+S+ps7n8UN9TReO95i0RqrEh0xiBgvf2llv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382628045"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="382628045"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 01:26:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="952135078"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="952135078"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 27 May 2023 01:26:49 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1q2pGC-000Ipq-0Z;
+        Sat, 27 May 2023 11:26:48 +0300
+Date:   Sat, 27 May 2023 11:26:47 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-i2c@vger.kernel.org, Pavel Machek <pavel@denx.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/3] RZ/V2M I2Cdriver clean ups
+Message-ID: <ZHG+x9J+AAYYTumR@smile.fi.intel.com>
+References: <20230525135226.240732-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
- <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
- <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com> <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com>
-In-Reply-To: <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 26 May 2023 14:59:03 -0500
-Message-ID: <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com>
-Subject: Re: RZ/G2M Power Domain Errors with GPU
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        cstevens@beaconembedded.com,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Ulrich Hecht <uli@fpond.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230525135226.240732-1-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,71 +70,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 26, 2023 at 2:13=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Adam,
->
-> On Fri, May 26, 2023 at 6:07=E2=80=AFAM Adam Ford <aford173@gmail.com> wr=
-ote:
-> > On Mon, May 22, 2023 at 3:06=E2=80=AFAM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Sat, May 20, 2023 at 5:13=E2=80=AFAM Adam Ford <aford173@gmail.com=
-> wrote:
-> > > > I am trying to see if the Open Source PowerVR driver [1]  for the 6=
-250
-> > > > can be made to work on the RZ/G2M, and I am having difficulty getti=
-ng
-> > > > the power domain to turn on.
-> > > >
-> > > > In the GPU node, I set:
-> > > > power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
-> > >
-> > > LGTM...
-> > >
-> > > > Unfortunately,  when it boots, I get the following error message:
-> > > >
-> > > > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add t=
-o
-> > > > PM domain 3dg-b
-> > >
-> > > That means genpd_add_device() failed (but why?)...
-> >
-> > With a pointer from Marek V, I appear to have the necessary clock and
-> > the power domain operational by borrowing from the down-stream RZ/G2
-> > kernel.  Even if I cannot get the PVR driver working with this kernel,
-> > would you accept the clock and power domain patch now, or do you want
-> > me to wait until we have a user of these (aka PVR) working?
->
-> I don't think it makes much sense to add the clock and power domain
-> patches upstream now, as they impact system behavior, while we don't
-> know if they are sufficient to make the PVR work.
-> The clock patches are probably (more or less) OK, and they do not have
-> much impact when the PVR is not enabled or not used.
-> For the power domain patches, it's different: some of them are quite
-> intrusive, and we still don't know the full rationale behind them.
-> Out of curiosity, which power domain patch(es) did you have to apply?
+On Thu, May 25, 2023 at 02:52:26PM +0100, Biju Das wrote:
+> This patch series aims to do the following clean ups based on feedback
+> from Pavel while backporting this driver to 5.10.y-cip kernel.
+> 
+> Drop extra space from config help description, Rename macro names in all
+> uppercase and finally in probe disable the operation of unit in case of
+> error.
 
-I didn't really have to change the power domains per se, but I had to
-add the clocks that the GPU power domains needed and I refereneced the
-power-domain from the GPU node.
+This mail is detached from the series.
+I suppose you forgot to use --cover-letter option and/or --thread.
 
-Do you want me to send the patch as an RFC?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-adam
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+
