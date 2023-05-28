@@ -2,120 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37F097135AD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 May 2023 18:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8834E71393C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 May 2023 13:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjE0QPZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 27 May 2023 12:15:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51186 "EHLO
+        id S229477AbjE1Lhq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 28 May 2023 07:37:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjE0QPY (ORCPT
+        with ESMTP id S229451AbjE1Lhp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 27 May 2023 12:15:24 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF60E1;
-        Sat, 27 May 2023 09:15:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lcUl5SrKxhfjbQh9ZEwgMf+y3dwGLkpmz1C4dl3cZSIKuS7mproWcJHVLWJ560UpJYNbJ2/ZERDHqk8dpwD9CDI5jBdy9GoMGNvEQi73bWy8XWIY1vSAGrbpckI2eapcFJZpzVi7sh4RHM6H8qFzkq1M2+xU/DwG0NyXyTOy3NteajDspb8wqEkWEPjEUYbXzFigtYIcnN29URYsYzo119+nsF9PlwFRyp8sBYuIcNUsOU+IZC8UDeBzj6xDsVOdbMGPB2ZBTJpPYP3ifU6Ah3I6e65KA/GrYL0J5y1E1toIV3wyExEBD/jrIgrKMh54GnV40zw4+yhHR3IQSp3svA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c8ZkYrUjDjsAiaNeR29WyXMjpa5+MR3t1Lb36vrXk4E=;
- b=C+AZvp7fQHz5CbsU8SGrmR2x9eS+R4rd+sjKmuOU7fO8MMwLTDkx6Ep+dpAXUmaVd+cQ6765+XryFWcbQoeCoRb+025iOUWbQ/2nZIfL7/oWNPowyD8UXP6I6VMur9Eg7lFY2JkbNLrMGbOiy8TXsEaDaYaEYOP4cnK56sz9S86XGJ/yhHG/8iD2nf3J40Us2bCWxnkupMTOwwuzXzdr2pCW7l/uZ4gzdZS2y3iOALGQK2mz9/lbOjycVhcZaDx/Xe7lYKpONLPOx0F/yWTezaTTEbmGHgYMz+w/kMVz6vjuuHFbkHAjKnQG8ikb18Xzcxcewh6r5GyzmTqIyTsm0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c8ZkYrUjDjsAiaNeR29WyXMjpa5+MR3t1Lb36vrXk4E=;
- b=wd5SAYw7PhVF6PrJJEkVt1+T1PNupDM923oM/Hd1QfAfcfD9g4FCgcZFRbTTL7vT1NHzIjbVHTfrBOFiutKQZLT+68u0If5/d/Ta2yBvvHYRGfM9UMwPwXlepVTgY2mXO7x7CFuYRuwbcDTnWpXJo2RxcTAKZpgj15ipVL+P/PA=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB10197.jpnprd01.prod.outlook.com (2603:1096:400:1ed::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.19; Sat, 27 May
- 2023 16:15:17 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6433.020; Sat, 27 May 2023
- 16:15:14 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     Wolfram Sang <wsa@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
+        Sun, 28 May 2023 07:37:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03383BB;
+        Sun, 28 May 2023 04:37:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F17F6146E;
+        Sun, 28 May 2023 11:37:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CFAFC433D2;
+        Sun, 28 May 2023 11:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1685273862;
+        bh=BIru6hlSNmRQGDEmy/Ww2n/Ov46kOSzrO8WVSVMyVwk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EKY74s2BqKVHsqdLZEJDtyzRLP27oRRAE5LsCzf35joLA4Bv8NFE6KwFSXzjEcDAc
+         /QHhhuwz8E4i4TDH5lCtMbNH7ouvxh60fkkTD/Otlm/A+C79fe6sGqqSkaxM+fI2/7
+         xnKqQUPfkVoUXTG/Y91VsilUBchm/3mfEM5jOOP0=
+Date:   Sun, 28 May 2023 12:37:17 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Prashanth K <quic_prashk@quicinc.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Lei YU <yulei.sh@bytedance.com>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        Henry Tian <tianxiaofeng@bytedance.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Justin Chen <justinpopo6@gmail.com>,
+        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Kalle Valo <kvalo@kernel.org>, Kang Chen <void0red@gmail.com>,
+        Shaomin Deng <dengshaomin@cdjrlc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Richard Leitner <richard.leitner@linux.dev>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 0/3] RZ/V2M I2Cdriver clean ups
-Thread-Topic: [PATCH 0/3] RZ/V2M I2Cdriver clean ups
-Thread-Index: AQHZjxAnYpF+4f6x3E2z+KY20oJWUq9ty9OAgACB74A=
-Date:   Sat, 27 May 2023 16:15:14 +0000
-Message-ID: <OS0PR01MB59222CF103A34FCA5471B97E86449@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230525135226.240732-1-biju.das.jz@bp.renesas.com>
- <ZHG+x9J+AAYYTumR@smile.fi.intel.com>
-In-Reply-To: <ZHG+x9J+AAYYTumR@smile.fi.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB10197:EE_
-x-ms-office365-filtering-correlation-id: 1c18f295-6fda-4a3b-39cc-08db5ecd8de1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +uIUpFye9p/Dtek8GxUMyTCArdAEX7rUMSMjh4Pvst6/H1rckNxtkyLWa2VQrF9Ev5gIn3ZqXTkjgGH76XfzMRREYukNgdjXqCSL+3SVCKQ9973C6rOG6htrr8fEkRFnk1a1Y7Os6HLh6N0nFDiukaHV/yWKzabUhqs+KDpyG402+e2ab3gpfQUy0qYUqkps+iPOOmRgAb/v7p3Be2zpb2E4U7gUKgBtJ40PoEKSRMjgpjxVFPSyCmWbg3yN6zeLPKMoAWWbA/VnBuCRM/b9aqrJszIx8THoCTjRIC4ifySiZWfTCXNB30FZc2vKtAn7HbXCGTWNm/h5pQyW9G7bHvfgbapNWMohA7xc/dr8bHQFm5EHNgVj74HU3BZMzIPbOy2SeQk0TVveVe4J8NZSZKvA3XYpQnE5/CcqZeBWscJY5LbVjfcHFrhXeYM9nYZG/l8WqGjOwlZHivW2J3XLr3c+GcUk9cpRbd7uexU8KzRi62UdHaXNkBChtQa7XWUivd7Fg+T7HUM4jwEoUBnrgX/kTirYw9kGjeEmZGyOUPx2nzPTYWqbhHgVBlP9Ueg/K1+DmxrIR5mgS3fzUKIhOT/1KN4Di8NmI95MoM0kCCM=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(376002)(39860400002)(136003)(396003)(451199021)(41300700001)(7696005)(38100700002)(316002)(8936002)(38070700005)(8676002)(33656002)(86362001)(186003)(2906002)(4744005)(5660300002)(6506007)(9686003)(26005)(966005)(52536014)(55016003)(478600001)(66446008)(66556008)(66476007)(76116006)(64756008)(66946007)(54906003)(122000001)(6916009)(71200400001)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?G1rsIhonxkOP+XtOehbydHCygE6wv++iOor5/bn3DXcs3Y4tEEcgn/J0jvqX?=
- =?us-ascii?Q?2Mlia4dntoeVONXFJ0d6EdAnk7FzdojwG3WAUULGQ0i0RYOn/ejmW9XEWRXL?=
- =?us-ascii?Q?j0IDVel4WuHKiSnMFLB2kQs/pjQowsitd0vhkTHDdLZByEfXS2OvFvGl9uwt?=
- =?us-ascii?Q?uZRsMke1szrmU+rmMfLnGHfusfoSnB2BG614cERqGAqMrRW04YK/W+5S35H8?=
- =?us-ascii?Q?CQvzWI6muCcaOZOQFu+DUZZvcyGy7SXM855IeDN3MUt79CbZOPX0d4Jcx9fY?=
- =?us-ascii?Q?nQaO42F3bWc7L+3RYwqU/8gX6A5UQ0iY1F/0BOS21DQ78C8w1FbSsvd+NDyI?=
- =?us-ascii?Q?+SWvNCybdRTEgLq2jVN5d/sxdzLnf0NuxkXIW3P2UFoB6PTWyDnbrD1IReZp?=
- =?us-ascii?Q?0GMDbp0IhXIL6iBCCqHOZxo+0viiNwJ7Chqw5vfIF0kekbO+oFbiKlqyJNlc?=
- =?us-ascii?Q?2lrWluXl5plph5X7WiaQT6iKx4L4cKdQD/quz7oNFZRv2RcwYmyxMIJt+oG+?=
- =?us-ascii?Q?s12cJUwF3y4wXK1h2SEB+nCLTwEWgiT9Mr5qL0doO7beqK/JvgwN1Xf6lPkW?=
- =?us-ascii?Q?5AJT9xpONlQJedAVQFIviCu6OHmDfppzDtQ1MlW9VlEf4cLbi1yCoUzK5yvv?=
- =?us-ascii?Q?Z+ClM60l0iFn9EFq4E8nAhdU//MZQyi+ue+3ETyFxkUuuvPuBHdvmJteCwiR?=
- =?us-ascii?Q?h4Zia9g2tSU2M/86ea093ggcs5hLnseqLGbpbG8HLD+IS6wJj4uxjFMkCQiX?=
- =?us-ascii?Q?FxcNuyZ1TUAeZx5gn86/Aqfnf43Dls6jP6RJnW9kmSG6n9uPOpDYc2ySA2XP?=
- =?us-ascii?Q?ZGn1WRJ2NFC5rUehrkMReFFhRI/CULdpnqXFnpsxis69OOypfXB6zAcN0edT?=
- =?us-ascii?Q?A9fARHrfLuiq/IrXNDg1cxPpoYsLttqbMtmmwAK1vswV2mxoVb3LgX9y+jOQ?=
- =?us-ascii?Q?PKRipwTn5SD7lVKVwdhdTvqQ5k9iALLn27vXkiNqSYgCrVamuM9Wa0XmCjKs?=
- =?us-ascii?Q?9voHtBK/pGUPSZ00DgHxqrv2q1uVUrHXc1oHmT6qL85KqJ8svi2Fqv27eZyi?=
- =?us-ascii?Q?/P+kCkYVFUzqP2AYKnHh7exUCqVcBZSxcH6LQvwMF1OFn3cP5K0gqGqtTaft?=
- =?us-ascii?Q?F3/pEWc1hZuMCUyPgF8E/oT+qFtA+Cw91NmGfo/bbHwLrWJTgfWZpl3ndgeM?=
- =?us-ascii?Q?TtJaS6O8iJG+OXft8UNEITcKEudMKyIUTBdfc/EeILiY94NTDaIYQiYgl/in?=
- =?us-ascii?Q?eajFJLgE5oxRFb0ZGLJ0t4kWltVggtUuu50Dmf+9MyvsxkQiCyigKxkf6HSD?=
- =?us-ascii?Q?N5lyANWRdR5zKako7ErjPoKkjgtZ4GxOlrRPetiHzOmKWjDGchB9FKVJQ0wu?=
- =?us-ascii?Q?YEYlmxPWijisosnhOORjzBVdivISHPpelr1Xhej1md8ET4XsKl0OPCnaHPyl?=
- =?us-ascii?Q?u1XnKsLm4gG7+RsrPwba+E4plwfsKD7dhYg4tooQSGfF31d7/Zae+i+dSoUx?=
- =?us-ascii?Q?tbMt6u7U5TMkIIgl4GWCUXCvX5396eciYjo3mRfIGH/LVU/DhOl9B4GH1mOe?=
- =?us-ascii?Q?sTUxqCMy3dKp9JH5oKQ8j73pTv6NJIVa+TTDvVMT?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Zheng Wang <zyytlz.wz@163.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Rob Herring <robh@kernel.org>, Wayne Chang <waynec@nvidia.com>,
+        Haotien Hsu <haotienh@nvidia.com>, Jim Lin <jilin@nvidia.com>,
+        Tang Bin <tangbin@cmss.chinamobile.com>,
+        Sing-Han Chen <singhanc@nvidia.com>,
+        Piyush Mehta <piyush.mehta@amd.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Darren Stevens <darren@stevens-zone.net>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Olav Kongas <ok@artecdesign.ee>,
+        Artur Bujdoso <artur.bujdoso@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dan Carpenter <error27@gmail.com>,
+        Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org,
+        kernel@pengutronix.de, Roger Quadros <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        linux-aspeed@lists.ozlabs.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        openbmc@lists.ozlabs.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, Hongren Zheng <i@zenithal.me>
+Subject: Re: [PATCH 00/97] usb: Convert to platform remove callback returning
+ void
+Message-ID: <2023052848-patronage-zen-de4b@gregkh>
+References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c18f295-6fda-4a3b-39cc-08db5ecd8de1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2023 16:15:14.4565
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8PY+zRWY3c5pvPhW7kp3UjiIPktR+ks9dQiEnbHx0/XgJMErC3JzIp0kp/YDP00C5uEjkZpLsnInVihTUUCjVzLdc5qbc+3C9517mVzdgFc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10197
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -123,31 +156,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy Shevchenko,
+On Thu, May 18, 2023 at 01:01:02AM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> this series convers the drivers below drivers/usb to the .remove_new()
+> callback of struct platform_driver(). The motivation is to make the
+> remove callback less prone for errors and wrong assumptions. See commit
+> 5c5a7680e67b ("platform: Provide a remove callback that returns no
+> value") for a more detailed rationale.
+> 
+> All drivers converted here already returned zero unconditionally in their
+> .remove() callback, so converting them to .remove_new() is trivial.
 
-Thanks for the feedback.
+All but 2 patches applied, as one was for a driver that wasn't in the
+tree anymore, and the dwc2 patch didn't apply at all.
 
-> Subject: Re: [PATCH 0/3] RZ/V2M I2Cdriver clean ups
->=20
-> On Thu, May 25, 2023 at 02:52:26PM +0100, Biju Das wrote:
-> > This patch series aims to do the following clean ups based on feedback
-> > from Pavel while backporting this driver to 5.10.y-cip kernel.
-> >
-> > Drop extra space from config help description, Rename macro names in
-> > all uppercase and finally in probe disable the operation of unit in
-> > case of error.
->=20
-> This mail is detached from the series.
-> I suppose you forgot to use --cover-letter option and/or --thread.
+thanks,
 
-I missed adding email addresses for cover letter patch, while sending
-out with the series.
-
-So, I send the cover letter patch separate.
-
-New version of patch series can be found here [1]
-[1] https://lore.kernel.org/linux-renesas-soc/20230526135738.348294-1-biju.=
-das.jz@bp.renesas.com/T/#mbc7757b1417e301a56d30b8533ac36493c19d693
-
-Cheers,
-Biju
+greg k-h
