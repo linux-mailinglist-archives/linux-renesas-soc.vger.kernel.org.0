@@ -2,52 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4891C71505D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 22:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24CD371509E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 22:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjE2ULb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 May 2023 16:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45968 "EHLO
+        id S229502AbjE2Uis (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 May 2023 16:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjE2ULb (ORCPT
+        with ESMTP id S229478AbjE2Uir (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 May 2023 16:11:31 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0E3CF;
-        Mon, 29 May 2023 13:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=1rAW9JT281DChV4HgV3bBJET8wRpN/l5/QpeY2saKK4=; b=tgYM3BPPfiTWa7K5TW6BetLEez
-        UirQhVdsxWYdKw+k5lbfh70FSMm0fgtIr8kavdXtmEpLJidWTrxYnkBXEiYrJ02+j2KGdX/BiPHUa
-        mP3rrLR5RvjSZCDVWZvuu34F43680MPnlOH0CZhzBPznsRbv1ioge6t0hE5ohLdS0ToY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1q3jCy-00EG3B-2g; Mon, 29 May 2023 22:11:12 +0200
-Date:   Mon, 29 May 2023 22:11:12 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mon, 29 May 2023 16:38:47 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDA9CF;
+        Mon, 29 May 2023 13:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685392725; x=1716928725;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80zeTr03g4xomq5pu4ZYCNKAnqlmEy16OLjNfIzV/lQ=;
+  b=Xk+tIqnDRWDUujY9xQp55i5ExqSV3aTLRFjdtIxQIh1AoncGe8nyNol0
+   SDpYImF+dwBIR7yzZx1A7hfgy248+zrzB1GnsO4EnZuSbsDLi4QNyn4WF
+   +Fqn6KAGgSlY2XCbkeU8C+I7Nyw07mfrGJ22XsVsXJbBo+OfcnK/AvM4m
+   Jyr3WKdIneRYBpMHN6Z4YWRx9e5C0KkvK0nfBuiuAscXnlNJE7NQRgBml
+   GQkCvhcSXB5a01tp48rywyKJKrR2YSzzv8AUYDzkYOtuCKJaQGVFAUkdV
+   WztW341nz2ZgrbPcicDjcxmXuB0AWmv+i5LU5C8AYvm9tMtRMucdnmJgi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="357142639"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="357142639"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 13:38:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683681859"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="683681859"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 13:38:41 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q3jdZ-000L7e-0V;
+        Mon, 29 May 2023 20:38:41 +0000
+Date:   Tue, 30 May 2023 04:37:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
         kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next 1/5] dt-bindings: net: r8a779f0-ether-switch:
- Add ACLK
-Message-ID: <15fece9d-a716-44d6-bd88-876979acedf1@lunn.ch>
-References: <20230529080840.1156458-1-yoshihiro.shimoda.uh@renesas.com>
- <20230529080840.1156458-2-yoshihiro.shimoda.uh@renesas.com>
- <20230529-cassette-carnivore-4109a31ccd11@spud>
+        geert+renesas@glider.be, magnus.damm@gmail.com
+Cc:     oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
+ limiter
+Message-ID: <202305300454.Kyjag1oy-lkp@intel.com>
+References: <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230529-cassette-carnivore-4109a31ccd11@spud>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,41 +71,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 29, 2023 at 07:36:03PM +0100, Conor Dooley wrote:
-> Hey,
-> 
-> On Mon, May 29, 2023 at 05:08:36PM +0900, Yoshihiro Shimoda wrote:
-> > Add ACLK of GWCA which needs to calculate registers' values for
-> > rate limiter feature.
-> > 
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  .../bindings/net/renesas,r8a779f0-ether-switch.yaml    | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> > index e933a1e48d67..cbe05fdcadaf 100644
-> > --- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> > +++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
-> > @@ -75,7 +75,12 @@ properties:
-> >        - const: rmac2_phy
-> >  
-> >    clocks:
-> > -    maxItems: 1
-> > +    maxItems: 2
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: fck
-> > +      - const: aclk
-> 
-> Since having both clocks is now required, please add some detail in the
-> commit message about why that is the case. Reading it sounds like this
-> is an optional new feature & not something that is required.
+Hi Yoshihiro,
 
-This is something i wondered about, backwards compatibility with old
-DT blobs. In the C code it is optional, and has a default clock rate
-if the clock is not present. So the yaml should not enforce an aclk
-member.
+kernel test robot noticed the following build errors:
 
-	Andrew
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/dt-bindings-net-r8a779f0-ether-switch-Add-ACLK/20230529-161010
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230529080840.1156458-6-yoshihiro.shimoda.uh%40renesas.com
+patch subject: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate limiter
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230530/202305300454.Kyjag1oy-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/64502944471d5b6fac76f49c06c29edfbbe43935
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yoshihiro-Shimoda/dt-bindings-net-r8a779f0-ether-switch-Add-ACLK/20230529-161010
+        git checkout 64502944471d5b6fac76f49c06c29edfbbe43935
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305300454.Kyjag1oy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: drivers/net/ethernet/renesas/rswitch.o: in function `rswitch_open':
+>> rswitch.c:(.text.rswitch_open+0x1a4): undefined reference to `__udivdi3'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
