@@ -2,101 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D0F71441F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 08:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57AD714501
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 08:39:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbjE2GSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 May 2023 02:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46348 "EHLO
+        id S231643AbjE2Gji (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 May 2023 02:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbjE2GSE (ORCPT
+        with ESMTP id S230338AbjE2Gjh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 May 2023 02:18:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DBABB;
-        Sun, 28 May 2023 23:17:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126255106133.24.openmobile.ne.jp [126.255.106.133])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64758327;
-        Mon, 29 May 2023 08:16:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685341013;
-        bh=ePDUQ1RxSGIiUwSjzwXWcufWMgi1VE2eUijFb3TRkwY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zzz3vH36L52xfvHGSjW3lpi7qd17V3umlChwmpVSlhD3g165Hetyz/QeQmMZFlCtE
-         xDdTFgNdn5sEbnXeyvRzebEJt3g8ehrnMWmfgzkGAbAqDTXk4lNo+aLlblK6sfE152
-         JUE+Nrc4h2l1QP6RjU1dwOonbuFbSQGE89kycv38=
-Date:   Mon, 29 May 2023 09:17:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zheng Wang <zyytlz.wz@163.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-usb@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
- {modprobe,bind} error
-Message-ID: <20230529061714.GA25984@pendragon.ideasonboard.com>
-References: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
+        Mon, 29 May 2023 02:39:37 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5D97B90
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 May 2023 23:39:36 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.00,200,1681138800"; 
+   d="scan'208";a="164758752"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 29 May 2023 15:39:35 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A0292400A8BD;
+        Mon, 29 May 2023 15:39:35 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com
+Cc:     iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3] iommu/ipmmu-vmsa: Allow PCIe devices
+Date:   Mon, 29 May 2023 15:39:28 +0900
+Message-Id: <20230529063928.1030014-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+IPMMU hardware on R-Car Gen3 and RZ/G2 is simple. Each bus-master
+device like eMMC host and PCIe controllers has a micro-TLB of
+The IPMMU, and after enabled it, all transactions of the device are
+under the IPMMU.
 
-Thank you for the patch.
+ eMMC host ---(micro-TLB of eMMC)--- IPMMU cache --- IPMMU main
+ PCIe --------(micro-TLB of PCIe)--- IPMMU cache --- IPMMU main
 
-On Fri, May 26, 2023 at 03:36:15PM +0100, Biju Das wrote:
-> Currently {modprobe, bind} after {rmmod, unbind} results in probe failure.
-> 
-> genirq: Flags mismatch irq 22. 00000004 (85070400.usb3drd) vs. 00000004 (85070400.usb3drd)
-> renesas_usb3: probe of 85070000.usb3peri failed with error -16
-> 
-> Fix this issue by replacing "parent dev"->"dev" as the irq resource
-> is managed by this driver.
+Now this IPMMU driver allows eMMC host, and it is safe to use
+the IPMMU. So, we can assume that it is safe to use the IPMMU
+from PCIe devices too, because all PCIe devices transactions will
+go to the micro-TLB of PCIe. So, add a new condition whether
+the device is a PCIe device or not in the ipmmu_device_is_allowed()
+which will be called if the PCIe host controller has iommu-map
+property.
 
-If the dev pointer passed to devm_request_irq() is not the correct one,
-how does it work the first time the driver is loaded ?
+This can improve CPU load because the PCIe controllers only have
+a capability for lower 32-bit memory area so that this can avoid
+using swiotlb.
 
-> Fixes: 9cad72dfc556 ("usb: gadget: Add support for RZ/V2M USB3DRD driver"
+Note that IPMMU on R-Car Gen4 is different than R-Car Gen3 and
+RZ/G2's one, especially OS-ID. But, for now, the IPMMU driver
+takes care of OS-ID 0 only. In other words, all PCIe devices will
+go to the micro-TLB of PCIe.
 
-There's a missing ')' at the end of the line.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from v2:
+https://lore.kernel.org/all/20230426082511.3621484-1-yoshihiro.shimoda.uh@renesas.com/
+ - Add descriptions why it is safe to add PCIe devices and why
+   this is needed.
 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/usb/gadget/udc/renesas_usb3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-> index aac8bc185afa..4a37b2e4b9b3 100644
-> --- a/drivers/usb/gadget/udc/renesas_usb3.c
-> +++ b/drivers/usb/gadget/udc/renesas_usb3.c
-> @@ -2877,7 +2877,7 @@ static int renesas_usb3_probe(struct platform_device *pdev)
->  		struct rzv2m_usb3drd *ddata = dev_get_drvdata(pdev->dev.parent);
->  
->  		usb3->drd_reg = ddata->reg;
-> -		ret = devm_request_irq(ddata->dev, ddata->drd_irq,
-> +		ret = devm_request_irq(&pdev->dev, ddata->drd_irq,
->  				       renesas_usb3_otg_irq, 0,
->  				       dev_name(ddata->dev), usb3);
+ drivers/iommu/ipmmu-vmsa.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Shouldn't you use dev_name(&pdev->dev) too ?
-
->  		if (ret < 0)
-
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index 9f64c5c9f5b9..6efc99382edb 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -19,6 +19,7 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/of_platform.h>
++#include <linux/pci.h>
+ #include <linux/platform_device.h>
+ #include <linux/sizes.h>
+ #include <linux/slab.h>
+@@ -723,6 +724,10 @@ static bool ipmmu_device_is_allowed(struct device *dev)
+ 	if (soc_device_match(soc_denylist))
+ 		return false;
+ 
++	/* Check whether this device is a PCI device */
++	if (dev_is_pci(dev))
++		return true;
++
+ 	/* Check whether this device can work with the IPMMU */
+ 	for (i = 0; i < ARRAY_SIZE(devices_allowlist); i++) {
+ 		if (!strcmp(dev_name(dev), devices_allowlist[i]))
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
