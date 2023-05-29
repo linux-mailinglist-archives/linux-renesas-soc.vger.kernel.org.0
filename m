@@ -2,144 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE957150B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 22:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B01715261
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 01:42:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjE2Uoq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 May 2023 16:44:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
+        id S229674AbjE2XmE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 May 2023 19:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjE2Uop (ORCPT
+        with ESMTP id S229551AbjE2XmD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 May 2023 16:44:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C101EC9;
-        Mon, 29 May 2023 13:44:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D7086287E;
-        Mon, 29 May 2023 20:44:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE44C433D2;
-        Mon, 29 May 2023 20:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685393073;
-        bh=CxcZNzFtJ0OjwhQEzIXvr8CgGHHZsHpJhb4n+27D/dc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LH9JjXv1UM7H1Cgclyv5KyzfLjnEYyjj9D4UYftXNbytATxxQ8XGzl52CEo29e5rj
-         zcugpB5ompIDbNgu4LnWZ00+wf6PX2MD8a4rE8LgBZ+In0O0CICkeVXc8geZEsnlWK
-         nwWCbl/yirYJrT0hEdngr4Gb0LCmFJFVgUFvBWGJAO6eZnVh+dTjuEBVv9SqIMa1Bf
-         27b5uMJ1lxFpncVIl18B/tyNSt75KOBjHTq5Fu0Z6EmLxstPLzKngr7NNQYR3j2gc4
-         Oc5KiQbxaX+r7eJKH3CgLSn+ialr8eqrj+u4x8TSF/AtcKFn/EjMYDrgWDFx9YxmOG
-         pn4WbrS09to0w==
-Date:   Mon, 29 May 2023 21:44:28 +0100
-From:   Conor Dooley <conor@kernel.org>
+        Mon, 29 May 2023 19:42:03 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2090.outbound.protection.outlook.com [40.107.114.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A539BE;
+        Mon, 29 May 2023 16:42:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E7sdpxq7NjV0SvSZoGUE4hiATL5x0x70KGmtWnJhRN6+Alz2ocLdYRENOIc2Dh+rzkhKHDMpcQYGdq589/Ir5+cjY2WsB4IqycOtZi9ZKW8n/Cz5p+GoVSztSswwz/0pB592krKrL+9KEtlinqji8fI/C4zdbtPummqnmTtosXCl1RloxKeOi+s84R8ggwu9SK8j0tPsRfJ7JY0GZF4D7OWQswwk6J5c/R1UJdGq4nlj6orJHneG/9Misc0Q62BtrWlk+WpiMVpMNzQHrd0Y/vNtKzXfYq9EmWDVYKA/uwyYsM/v1NgvgGfemN4BS5eNX2ZxTCy+hKZeg/3Efqmnbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gCkGcTwAQ9EP1b2KjLyssxJdytFcPV7ur0tqUG/utz0=;
+ b=bWIxfb2rPe2JZS9R0Na4OXVyP7/mKjAAhHyTqwxWWZrYpijFNqfk1IcGlxkN9LEIdTiob3Kpq0bBVs0ahQjgmmavi+Allr/M9u++e9YoQCNUQf1Lc057N6FQwc6GnIr0eUuM5gAY0tawbKNUrX0x4OfSDWZjYdDeNyz5XTlzuK5hH1xiFa/o/xlhMqM4j0R5zaHxreX5Gbi54lUcGOobbtUCfJlgqkth/1ytGoIzFQjmkPX4MRFlLclEMwDch/RMDrXomLGCy1GQss7xJrK2ze9ZuA10WSuJYxH65g1d0Ey4m+y04RVVdpD+QNIC+6HA+tBWMR+3ST2UQrHFxZKvuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gCkGcTwAQ9EP1b2KjLyssxJdytFcPV7ur0tqUG/utz0=;
+ b=V93yXNGxHViE1/pgB2xn/AnbZjFuTBLl3NZnV36U4RxRmCVGx0kmtw0uI999sfW3TFOVv+NGe+M41oIAAD2FEMWCoC67JSfdlcrTYX01entg2eQPIQpQPhCnwxWreQ/1XDgqBa8MwhUA5n1zWBoYyoh4zh/s6peIRPxUxI7Br2M=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYVPR01MB11358.jpnprd01.prod.outlook.com
+ (2603:1096:400:366::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Mon, 29 May
+ 2023 23:41:57 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5198:fdcf:d9b1:6003]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::5198:fdcf:d9b1:6003%6]) with mapi id 15.20.6433.022; Mon, 29 May 2023
+ 23:41:57 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next 1/5] dt-bindings: net: r8a779f0-ether-switch:
- Add ACLK
-Message-ID: <20230529-ambiance-profile-d45c01caacc3@spud>
+CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH net-next 0/5] net: renesas: rswitch: Improve performance
+ of TX
+Thread-Topic: [PATCH net-next 0/5] net: renesas: rswitch: Improve performance
+ of TX
+Thread-Index: AQHZkgTNMorIrPLDk0OhAM55NFvA7K9xb4iAgAB6hXA=
+Date:   Mon, 29 May 2023 23:41:57 +0000
+Message-ID: <TYBPR01MB534186213A583356F53F07E7D84A9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 References: <20230529080840.1156458-1-yoshihiro.shimoda.uh@renesas.com>
- <20230529080840.1156458-2-yoshihiro.shimoda.uh@renesas.com>
- <20230529-cassette-carnivore-4109a31ccd11@spud>
- <15fece9d-a716-44d6-bd88-876979acedf1@lunn.ch>
+ <a181cce3-c553-4635-a039-021be50f2a51@lunn.ch>
+In-Reply-To: <a181cce3-c553-4635-a039-021be50f2a51@lunn.ch>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYVPR01MB11358:EE_
+x-ms-office365-filtering-correlation-id: 5e940b15-75df-41bd-3750-08db609e4aaf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EYYPSEJpJNBfbaM510/6ze1BJ8H4vfEBDZkul2zzp7zvEaewCk3ReOTzeNlIVlDcLWRfIhCNOY+YIfUgbPZ3EeKKW8P0LSZ8g26Vin+rR1NCrIJVs/K4MjBwaJiBT5CYdB1vP9wwBUtLiohaM17GeNNjmHyE6ZPSrG6QVcXnXgZBNIMNrKN7QWTcLNXwnlkFQLf646e3zhZZvY42gSt/a6BDsVwGlsZSLF5CdIiYvZ++zlYKdMt1D1OR+BbQ+YyS7lxcgfmBzO1jqlnR7OMOGo+gzXDRT8ivI4rJ1uoxWEbgSXSRDj8p+ibTMNet9yOlahjFa82lLJvcbS56Y4el1xLfhyBa9JSQlgSziiv7LPGYJz67L45IXAjWnKO6dT603XxFsHLxYTfM9B35uYaBfndlM1iWSx7utMp4b402QSHNsPtwzkV3LaSvE24Vh4dvgyO4kZ9NiJI9pJEixE0YFSHFeY70oEYlazrgrCtMDlwXX98Ay1vCMa91r1k7PpOlaecrXazzxExdsNpoD5UApRVISGl/xwM180kak+W9MWwjSEtlKpbN4LM5NiTBGan0HkCZ8NPG1eGpOG0vh8aer25NM1oFJQVqPBhgBPI2u9Mv1v1Hlr2q5NKpwTrPDimS
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(451199021)(2906002)(4744005)(186003)(38070700005)(122000001)(38100700002)(55016003)(8936002)(8676002)(52536014)(7416002)(5660300002)(86362001)(478600001)(66476007)(66446008)(66556008)(66946007)(6916009)(4326008)(64756008)(76116006)(41300700001)(7696005)(71200400001)(316002)(9686003)(6506007)(33656002)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?uswRSSMvY1ezVi9ojpJr6Nxb2zXH3g/igSQFpHRolv5x2R5Eb63hl516ZFUt?=
+ =?us-ascii?Q?at4htadmIuB0kR+yBgTQYIIpIesbQsUQV65gXCsOC9ZKbZHE2uuPEfLUwvNr?=
+ =?us-ascii?Q?lq/yy0ALk96XeazpWacvV33zXobUaFmLJwHHrogj3xTvPxUdIGG03IftdtwB?=
+ =?us-ascii?Q?Sz8o0WD5NPnBazcvJ0fsnyWeyCQG/Gu7ElSyvD/DGNud+FmhL6YGP3E13hCO?=
+ =?us-ascii?Q?DErYulxF7Y9s3eP7s2GHB2R+x5OVkpTXxfSsEzr+4QEEi2TCeBPplC7FhTmI?=
+ =?us-ascii?Q?kbP/ElsyTAE2Zmk+PCL7R3rPfl5iAGYkk9ToP5s1bNtcvC1hFeiA3796tDsx?=
+ =?us-ascii?Q?ZjAENEbEvFv0jHPifUPwj/wl2nlQ0NloZfcs8768foKbE4cld5TVFjAP/Pz9?=
+ =?us-ascii?Q?OMBj/8EHp879/OkSHoXsF+Jyagc+Wj3qwLHnChRXz34/EIHGmPoItiY9IwTN?=
+ =?us-ascii?Q?jp3FGk3pvfhwH/X8NexzXgxvF0FY6e2wsuXYmpZSmTQ5AZ2ngDEfsJ9eMdp0?=
+ =?us-ascii?Q?XVvCn+iLLrnjmY1SgbAiubNPTdJ15gGjFaUc8uD/q2r6Rj4GHe5APzIGeWG/?=
+ =?us-ascii?Q?fQ27ldyG4lynCBFxfCwOtQEN+tybFF0j/R3bpZQKmhQpce3yom0TyneFu8+a?=
+ =?us-ascii?Q?7C1WQTXKwLmmn3wkiv0Qg7oE0z+P2nRrY8pPrBV3seRhxVgdhip75UIN1EXh?=
+ =?us-ascii?Q?GsF2NYy6GjrUhl7E85uQLZ/dhNt3selAY2Eu0Qx93OXkLRAVHoZwepkfnKLJ?=
+ =?us-ascii?Q?zA0Br6wVd1WOmir1xhflViX4KrPSEnUcd3fq23/sUShsS8UEIxxgIJOdQv+4?=
+ =?us-ascii?Q?2BT+25VxdD6ayIkIcn22niWpEBtV4sx8FgaGnOnhipIUyygmD5JGqZatYka7?=
+ =?us-ascii?Q?7mQ4jV87zAW8iY6s2LfMQHqITD0QT2blGz+kDUD/EgqhRucjhTrwaJ/f27iq?=
+ =?us-ascii?Q?ht7zC9gzUByba01pF3Oc5XBenWiEZtzuHfzYkPAkL0A1AZMTMRf8RuTTWABj?=
+ =?us-ascii?Q?6KlJcjCCKT+mHDJ+QOglLveuQuJO4lhoKfqFpdo5T1CmGlfzA9/vgRVtyzMZ?=
+ =?us-ascii?Q?owyWMmoH2d+rbrED7X4Iv5mMOYOGQEVDFSfbv3+EJ3Kws8tcE7bq+pQ+J0PK?=
+ =?us-ascii?Q?UACettPvLHq92H/Hdq07tWHMrzTOpwrLDeBey1h/5547SBmhdUsTtOrFX41U?=
+ =?us-ascii?Q?c6OuzUcQ2A4gV39/ID2eLO6yhTH68C4VEOCznPlonMaslvDrWZhXbKSklIZS?=
+ =?us-ascii?Q?3hjYrnfARCuTwdhaZlJst1x7+iuQ1weWsMtkWKv2ScH6T+DVozd1Q7PcK0Y6?=
+ =?us-ascii?Q?uevmORI3BPH2XB2e6a+HD1ZcybCnyQpkjWKBR+H7zTiaiDuB5GfsH+fOKrSP?=
+ =?us-ascii?Q?Jm/jqOiq3oXDWOvcCs9I1F6OK8ndX/sUtUXtMYsBvhKbqnd3z7jwoqxLtvP8?=
+ =?us-ascii?Q?7L1TA0GsWIxViy6Znpcc3edVrg7h5QDAxrYVWlhO2InvCDvGdVwRWmGDqyxK?=
+ =?us-ascii?Q?FFkLnLHWyI2fuz3YoQ94lq0GmK+6SW4b4JdP6vDqmmBFY/Q6Nb4UgKroF+D5?=
+ =?us-ascii?Q?avrAR2yeyh/jtFXQhPsqZxoV3LcNMUpIiVLSqk9IZ23Ay82aovc7OX7ZlJCl?=
+ =?us-ascii?Q?TbYI+F+6F0A8gxyVPygnnBY5G128xIgGYy97luIn0ULB5UDMr2t8IvcdJilF?=
+ =?us-ascii?Q?du7zYw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="LyQJ+oosq6xedgH0"
-Content-Disposition: inline
-In-Reply-To: <15fece9d-a716-44d6-bd88-876979acedf1@lunn.ch>
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e940b15-75df-41bd-3750-08db609e4aaf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2023 23:41:57.6671
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MRtYU6ssWj6n96kwTcu6TXnDEsMkSAumzAu+D4EhdCQu31BR8MQQCvZGzTNATgF9OuWamXlKlFwAzNEdmNW5rQd2ykpDvln1W5JeTlhdM5u+J6c2FDx88M99Wo3SXJZT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB11358
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Andrew,
 
---LyQJ+oosq6xedgH0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 29, 2023 at 10:11:12PM +0200, Andrew Lunn wrote:
-> On Mon, May 29, 2023 at 07:36:03PM +0100, Conor Dooley wrote:
-> > On Mon, May 29, 2023 at 05:08:36PM +0900, Yoshihiro Shimoda wrote:
-> > > Add ACLK of GWCA which needs to calculate registers' values for
-> > > rate limiter feature.
-> > >=20
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > ---
-> > >  .../bindings/net/renesas,r8a779f0-ether-switch.yaml    | 10 ++++++++=
---
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-e=
-ther-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-e=
-ther-switch.yaml
-> > > index e933a1e48d67..cbe05fdcadaf 100644
-> > > --- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-sw=
-itch.yaml
-> > > +++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-sw=
-itch.yaml
-> > > @@ -75,7 +75,12 @@ properties:
-> > >        - const: rmac2_phy
-> > > =20
-> > >    clocks:
-> > > -    maxItems: 1
-> > > +    maxItems: 2
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: fck
-> > > +      - const: aclk
-> >=20
-> > Since having both clocks is now required, please add some detail in the
-> > commit message about why that is the case. Reading it sounds like this
-> > is an optional new feature & not something that is required.
+> From: Andrew Lunn, Sent: Tuesday, May 30, 2023 1:23 AM
 >=20
-> This is something i wondered about, backwards compatibility with old
-> DT blobs. In the C code it is optional, and has a default clock rate
-> if the clock is not present.
+> On Mon, May 29, 2023 at 05:08:35PM +0900, Yoshihiro Shimoda wrote:
+> > This patch series is based on next-20230525.
+>=20
+> Hi Yoshihiro
+>=20
+> Patches for networking should be based on the HEAD of net-next/main.
 
-Yeah, I did the cursory check of the code to make sure that an old dtb
-would still function, which is part of why I am asking for the
-explanation of the enforcement here. I'm not clear on what the
-consequences of getting the default rate is. Perhaps if I read the whole
-series and understood the code I would be, but this commit should
-explain the why anyway & save me the trouble ;)
+Oops. I got it. I'll rebase on the HEAD of net-next/main.
 
-> So the yaml should not enforce an aclk member.
+Best regards,
+Yoshihiro Shimoda
 
-This however I could go either way on. If the thing isn't going to
-function properly with the fallback rate, but would just limp on on
-in whatever broken way it has always done, I would agree with making
-the second clock required so that no new devicetrees are written in a
-way that would put the hardware into that broken state.
-On the other hand, if it works perfectly fine for some use cases without
-the second clock & just using the default rathe then I don't think the
-presence of the second clock should be enforced.
-
-Cheers,
-Conor.
-
---LyQJ+oosq6xedgH0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHUOrAAKCRB4tDGHoIJi
-0giwAP0SSbeFi966FE7XkVpoO7WWhUj/nhu0mvqp7cEjcwZGtQD/TYJ8J9KRo8x1
-z9MY3uNX40ZiyQ+6IKwzr18/cRcEnQk=
-=Hehz
------END PGP SIGNATURE-----
-
---LyQJ+oosq6xedgH0--
+> 	Andrew
