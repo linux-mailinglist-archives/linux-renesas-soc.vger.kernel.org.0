@@ -2,33 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 176AB714763
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 11:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89A8C714784
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 11:56:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231818AbjE2Jq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 May 2023 05:46:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45444 "EHLO
+        id S230165AbjE2J4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 May 2023 05:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231836AbjE2JqW (ORCPT
+        with ESMTP id S229960AbjE2J4N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 May 2023 05:46:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F39D11B;
-        Mon, 29 May 2023 02:46:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126255106133.24.openmobile.ne.jp [126.255.106.133])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C872836;
-        Mon, 29 May 2023 11:45:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685353546;
-        bh=TT/snRJLAoOn4RVjC28Kh1xo1OqyvjswybFySU26Hp0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Tabb/LkBabZ6GaiVejXq/7SGPpIv2C0P/IaVHGvrEAat4HXnDHOjIU+VBuhqB8PB9
-         o0wNH+QE8BEWT7+1LBrcd0HbrxMj3DULePbjDoXAiahAaknOcS6V8hjPvCIpcG0Jz1
-         2JN1CR48M2fRbya6FEVJkWIYljT0ECVitCsoYtOo=
-Date:   Mon, 29 May 2023 12:46:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Mon, 29 May 2023 05:56:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEC9A7;
+        Mon, 29 May 2023 02:56:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 93D5A6145E;
+        Mon, 29 May 2023 09:56:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3EE4C433D2;
+        Mon, 29 May 2023 09:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685354171;
+        bh=XYVh6RzQFkPOqtivE4ll/PWG350C32gRKH4S8zFV7ak=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=t9kOBPL4e5ky2rlmxcimmyy2YD73bM4aNV9F9U6z/v0ObtWoiK8vCoa24M9XwAG2k
+         WxokabhdoeapKQ2KmwuytFBsCfAH0on1zNCzYtuARbsLhvjazecdpUN9AouocEAqcR
+         2O5hUy6UVpgVhAybCFzgk07pkWUJw3jy+Bp5NqCDahTSCdc3z+b8kJ7wQF8uetwq6r
+         RFUxWs+aI/lgDCNMYXuzVJZLfV4QUVIXUxK5mO1J8J6z1FpgHe7xJ/eaqEJWK3y//n
+         Aj+D9HiBMHja47OvAJTapjeS85/rvSXhbrtaMnpIDfwZ3mvBu3M3Mq1/nwQLptCzBi
+         TaHWIfLw9yBDw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1q3Zbj-0012eN-DS;
+        Mon, 29 May 2023 10:56:08 +0100
+Date:   Mon, 29 May 2023 10:56:02 +0100
+Message-ID: <87353flavh.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Zheng Wang <zyytlz.wz@163.com>,
@@ -40,38 +54,59 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
- {modprobe,bind} error
-Message-ID: <20230529094607.GN25984@pendragon.ideasonboard.com>
-References: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
- <20230529061714.GA25984@pendragon.ideasonboard.com>
- <OS0PR01MB592296756992262EC6D382D0864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <86bki3cxm2.wl-maz@kernel.org>
- <OS0PR01MB59227E69FF1DE67327BDEF77864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M {modprobe,bind} error
 In-Reply-To: <OS0PR01MB59227E69FF1DE67327BDEF77864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
+        <20230529061714.GA25984@pendragon.ideasonboard.com>
+        <OS0PR01MB592296756992262EC6D382D0864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <86bki3cxm2.wl-maz@kernel.org>
+        <OS0PR01MB59227E69FF1DE67327BDEF77864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: biju.das.jz@bp.renesas.com, laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, zyytlz.wz@163.com, geert+renesas@glider.be, yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com, krzysztof.kozlowski@linaro.org, linux-usb@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 29, 2023 at 09:39:50AM +0000, Biju Das wrote:
+On Mon, 29 May 2023 10:39:50 +0100,
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> 
+> Hi Marc Zyngier,
+> 
+> Thanks for the feedback.
+> 
 > > Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
 > > {modprobe,bind} error
 > > 
-> > On Mon, 29 May 2023 09:42:34 +0100, Biju Das wrote:
+> > On Mon, 29 May 2023 09:42:34 +0100,
+> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > >
+> > > Hi Laurent,
+> > >
+> > > Thanks for the feedback.
 > > >
 > > > > Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
 > > > > {modprobe,bind} error
 > > > >
+> > > > Hi Biju,
+> > > >
+> > > > Thank you for the patch.
+> > > >
 > > > > On Fri, May 26, 2023 at 03:36:15PM +0100, Biju Das wrote:
-> > > > > Currently {modprobe, bind} after {rmmod, unbind} results in probe failure.
+> > > > > Currently {modprobe, bind} after {rmmod, unbind} results in probe
+> > > > failure.
 > > > > >
 > > > > > genirq: Flags mismatch irq 22. 00000004 (85070400.usb3drd) vs.
 > > > > > 00000004 (85070400.usb3drd)
@@ -96,12 +131,10 @@ On Mon, May 29, 2023 at 09:39:50AM +0000, Biju Das wrote:
 > 
 > This not true. It is registering only one IRQ, but with parent device handle.
 
-It uses devm_request_irq() with the parent device, so the interrupt
-handler won't be unregistered when the usb3-peri device is unbound. The
-next probe will register the same interrupt handler a second time. This
-has nothing to do with genirq, it's related to devm_*.
+And you're doing that *TWICE*. Once per load of this driver.
 
-> > and the interrupt is not configured with the SHARED
+>
+>  and the interrupt is not configured with the SHARED
 > > flag.
 > 
 > I haven't added SHARED flag as there is only one IRQ registration.
@@ -115,73 +148,11 @@ has nothing to do with genirq, it's related to devm_*.
 > 
 > But while parent is active, why genirq is giving error during reload?
 > It should show same behaviour like initial probe.
-> 
-> > And that's probably because the device object used when requesting the
-> > interrupt isn't the one you load/unload, as indicated by the message.
-> > On the first load of "usb3peri", you register an interrupt with
-> > "usb3drd" as the requester device. You then unload "usb3peri", which of
-> > course has no effect whatsoever on the interrupt.
-> > 
-> > You could simply have done a "cat /proc/interrupt" and see that
-> > interrupt was still there after unload.
-> 
-> Yes, interrupt still there after unload.
-> 
-> With devm_request_irq(ddata->dev..), after unload
-> =================================================
-> 
-> root@rzv2m:~# cat /proc/interrupts | grep usb
->  22:          0     GICv2 274 Level     85070400.usb3drd
->  28:          0     GICv2 278 Level     85070000.usb3peri
-> root@rzv2m:~# lsmod
-> Module                  Size  Used by
-> hd3ss3220              12288  0
-> typec                  73728  1 hd3ss3220
-> renesas_usb3           32768  1
-> i2c_rzv2m              12288  0
-> crct10dif_ce           12288  1
-> ipv6                  450560  16
-> root@rzv2m:~# rmmod hd3ss3220
-> root@rzv2m:~# rmmod renesas_usb3
-> root@rzv2m:~# cat /proc/interrupts | grep usb
->  22:          0     GICv2 274 Level     85070400.usb3drd
-> root@rzv2m:~#
-> 
-> With devm_request_irq(&pdev->dev..), after unload
-> ================================================
-> 
-> root@rzv2m:~# cat /proc/interrupts | grep usb
->  22:          0     GICv2 274 Level     85070400.usb3drd
->  28:          0     GICv2 278 Level     85070000.usb3peri
-> root@rzv2m:~# lsmod
-> Module                  Size  Used by
-> hd3ss3220              12288  0
-> typec                  73728  1 hd3ss3220
-> renesas_usb3           32768  1
-> crct10dif_ce           12288  1
-> i2c_rzv2m              12288  0
-> ipv6                  450560  16
-> root@rzv2m:~# rmmod hd3ss3220
-> root@rzv2m:~# rmmod renesas_usb3
-> root@rzv2m:~# cat /proc/interrupts | grep usb
-> root@rzv2m:~#
-> 
-> > So the only bug here is in the handling of the interrupt request. And
-> > that bug firmly lies in your code. My "expert" advise is to debug the
-> > problem rather than suspecting some random failure modes.
-> 
-> With devm_request_irq(&pdev->dev..) the above issue is fixed.
-> 
-> Or
-> 
-> the correct way is passing SHARED flag with devm_request_irq(ddata ->dev..), 
-> as the resource is owned by the parent??
 
-No you shouldn't pass the SHARED flag. This patch is a step in the right
-direction, but the proper fix would be to register the interrupt handler
-in the usb3drd driver.
+Do you understand the meaning of the "dev" parameter you pass to
+devm_request_irq()?
+
+	M.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Without deviation from the norm, progress is not possible.
