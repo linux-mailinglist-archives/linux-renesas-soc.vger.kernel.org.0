@@ -2,176 +2,248 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E65714A29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 15:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01C6F714AAD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 May 2023 15:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjE2NU0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 May 2023 09:20:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
+        id S229773AbjE2NuY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 May 2023 09:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbjE2NUX (ORCPT
+        with ESMTP id S229505AbjE2NuX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 May 2023 09:20:23 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2090.outbound.protection.outlook.com [40.107.113.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424FE91;
-        Mon, 29 May 2023 06:20:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TzLqV+iKVedAC39Uenx0GtdztQrUFbpe+eGMp7r+munsY88UzFX7TzJkUHE7Vz7bzh5Bb+FkhSTqPLbhN/rFtvJ3uWPjCfeQ2fSqJ1fg94ef3z7DcLLKNlBQMBYRxHv/jmXJOergQgzolbHdjSmKXPNldfbGRVP3ZtH14dFyfT8hLQM/ixmyIoBMSFd3UaAp8Y2bFylwyO7gBVJ6fmuMPXg9RG6ExqyIlvDNCYrlkyKXL7hWgxjQMP11gcjoHRMqOxmnTg28CqAhwcdVQhI+EVQxCGgTbY5cDQQGOztMsubuiQDcid3HNb6+i9h9nL8mHcO3wvYcdDQcKJWY+tgtvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3HLDgnVMAa2veByrcpjrg8efs9G1nCaB6jn39HaQ13o=;
- b=AWWmla9dtiZtqn8aftWuuSRWsNqtvSzQ/MT+XMONfjI8/5DhNSxdDZ04/PZvIrgzyZHGCHcGhXTwu5JsV2v981xblGqUWM3LhEkQodpWuztDtZdBWjqf2CNt+6NUYI6G3obpOKxCxyQNqO13aH9eK9VWAl3+UA4BDqQdUa04qwKzbR21N8fYOFlLH0rIe0xreywNMNVLuYP9Qzvh4A1c47egyYkjvXLIWG5Wfoy1Mf8S0LcGrPNNirBZIrFHAkGfg6hUybKrjatpjSaiGIklkUjW1pyNXGdI2Utm+4He9UJHbmDzuKEaW8ig2vGZX4RGZmhqSiO8oZ9Sa0pH3Rb2dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3HLDgnVMAa2veByrcpjrg8efs9G1nCaB6jn39HaQ13o=;
- b=h34cjedJjCqRhwllOpNWyNPrePDT9SDBuSYZp798UbN1cubukWEuLw+s4OlPR+S042yVRxAKDvwrd3Z8LUE8RH+JgVNF+FNsYLapnbARZcslSV39QgLHuE+6q18EUhMasjWXK1L+av1fznZxUb6JUdRctFzXIFarRklMga3c/Sc=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB9953.jpnprd01.prod.outlook.com (2603:1096:400:1d4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Mon, 29 May
- 2023 13:20:17 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6433.020; Mon, 29 May 2023
- 13:20:17 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Marc Zyngier <maz@kernel.org>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zheng Wang <zyytlz.wz@163.com>,
+        Mon, 29 May 2023 09:50:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D385107;
+        Mon, 29 May 2023 06:50:14 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126255106133.24.openmobile.ne.jp [126.255.106.133])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 614A0836;
+        Mon, 29 May 2023 15:49:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685368191;
+        bh=Z5YaI4FQ4nsu1kJlSC+REgzPugOlcWreD0VGwhXFugU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DfUOhJEn3jJ8hZGyuHKR6cZM1Pk9DNtw6KtaAouAzEjQpD9TFVN0U31Dr9+zXGG2S
+         2ppxSsf70NTxWVukFTs0J/EEN1hME65gkv0tSZx+pO8qTT9BSrz3guMMWhhNBjGh6x
+         0ZMQsLmYUdWs0rBrw5sOuYx0+QuLJhVCoCDyewfk=
+Date:   Mon, 29 May 2023 16:49:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
- {modprobe,bind} error
-Thread-Topic: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
- {modprobe,bind} error
-Thread-Index: AQHZj99wvrGBFYOn5Ea9mIuOTwGccK9wyqwAgAAi9sCAAA05gIAAAIqAgAAMaQCAAAEC8IAAFTIAgAAgWiA=
-Date:   Mon, 29 May 2023 13:20:17 +0000
-Message-ID: <OS0PR01MB5922CCF2F3DD6763EAF1F2E3864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230526143615.372338-1-biju.das.jz@bp.renesas.com>
-        <20230529061714.GA25984@pendragon.ideasonboard.com>
-        <OS0PR01MB592296756992262EC6D382D0864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-        <86bki3cxm2.wl-maz@kernel.org>
-        <OS0PR01MB59227E69FF1DE67327BDEF77864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-        <87353flavh.wl-maz@kernel.org>
-        <OS0PR01MB59227D8298776A092F024F2A864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <871qizl771.wl-maz@kernel.org>
-In-Reply-To: <871qizl771.wl-maz@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB9953:EE_
-x-ms-office365-filtering-correlation-id: dcf57535-c741-497c-8d2c-08db604771f1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Le+uqaItw190eiUcaY/+2HISq5n95iMw3CNtzfWe8t7SRai8g900slsL6rI4z+Xyx82YTXSecHg41SYGL8pTwQzm4NekNIsJsOg2mm8w6Iacs81kM6I+vYcjMfZsmfCTp04z6ujHNPAWhjMUJH4xZAtY0Owq75yHu/Cy6Oy6ueM0TtjQgRrH7wPRksSmcY3YqySHkqhOmWBgpFeCYaqE8vJmpPoEUe5vZw4DnfLdkUrBvOGKD3zqH0yY5nHIExnst2rTdyy1/TdMeWN262+sPe6Ah7dC56xSwFTJnP7YXWJqC1gBbgTEVGLHAwiSpDiQpb/5DtIlLWGQVjoy1YMJOqqaU8Bnm/GDDU9E0ZSw1WL46yRuKLGHjaycMEVuNR2utsDcR9bQKmmwyH6T3FjRMOKx+r9B2C/uriMXUDVp6688tghTBZv8fqKNd0YaOMsS53xpVC8PI9mY5pStFV4Po2FjqpG/g0rkOQMdM+fjKcRyUq4baThFH2oMb/JvSDPQQZupg8q9Et4EeO+filwJ/wYqLEalOvKPl8aP9c2CKe4O0O2nwkeu+LBDqgGfgr4918cIE7OD/AajWxj8W0wNH4ZsYOxDRS3Dp5jkI4xBs0xdh7zeMxKzE+Q6tdi1MwFU
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(366004)(346002)(396003)(39860400002)(451199021)(83380400001)(33656002)(71200400001)(5660300002)(316002)(76116006)(64756008)(66946007)(66446008)(66476007)(66556008)(7416002)(52536014)(6916009)(4326008)(122000001)(8676002)(8936002)(41300700001)(38100700002)(86362001)(7696005)(55016003)(54906003)(2906002)(6506007)(38070700005)(9686003)(186003)(478600001)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gQSk8TdxRQIatbJ0MK3a8udYmeaTPGAMbSAI1GzYwi2nCCdwRL79xJ3c0Cjv?=
- =?us-ascii?Q?Lzqxt/3Kr4T1xn8SvWuYoA/uvjqKjOoOhOIN+FrxJ5ex5CRVhUDpxf6bIhaA?=
- =?us-ascii?Q?tOF6Q696caeDAy16xSL8ilyHql/LUozr5gfJcv14navPvTVcwVivd2BWyxJW?=
- =?us-ascii?Q?QK5NHWF0Yr16YQvGGzF3QvQIlKxQ2nCKFepsBnWIncMYoH+WASTJrceH2073?=
- =?us-ascii?Q?0ndA19r4nm/U1zI3fRwoMo5VdUQF4OpHk2OzEI3CuI2iVC41TsemfbQ2ofl+?=
- =?us-ascii?Q?+iRO7iAhiyduKrvyAR64WLnJfgUv+x36Ue7/yQYPaNq8eMwiznn4nM5PuxW+?=
- =?us-ascii?Q?p1I5rMPf4lti53AgN4qDCdxVjq0R2aS30dLR0saMexmP/c76TqzLuCP8kqIs?=
- =?us-ascii?Q?5PWjd79DfgQ6NoJY0VDzcolreMdcLmYNlndARvSgCl8qofmhEzSy+/ww503u?=
- =?us-ascii?Q?WyWNVjAn5LDvyQVFb0Ps8gnd73kuS1xq5hG5pgnsS97CMwjUJJMWNBDIy07N?=
- =?us-ascii?Q?uH4bSeKDSsEtwImnUT8VIa5xKIHuvZz3gF5GgKliA3q0Y/NmftoVAsWoaR8N?=
- =?us-ascii?Q?ZY3IeNRjCwS6bMa7ntVQUd/JPq6Z8Arm9VhOtvd58H2MAIM02Qu2h2Op8pdz?=
- =?us-ascii?Q?lb1oj7XWJuGXIhiTUG+d3GgVKsB87gSKpQxDCcA22GvJqbdOxTYlli2/Q9zS?=
- =?us-ascii?Q?7yZYSzSrOhOvtVvm17l39tyqvhM9Jt3JUcoAsFPFqldJs0vTuM7nDFetCeYb?=
- =?us-ascii?Q?GfQe7aRZSB60+wykU+FC1fCX84UhIrCobgqaMm3kLhv3HAU+h+tWRACswbak?=
- =?us-ascii?Q?IzDf0gQETzVsSMXNNSWICxK3ZtTuNOSuHwk2VSwmIw3SmMTuf4+6aY6+IUQp?=
- =?us-ascii?Q?M69PbOKzsraNNa5IorHyABRXVfFSWsecww1MTFMOQ9vbDGtmLyX3b111e1u1?=
- =?us-ascii?Q?EH4+rQpxLL/EGw3t7mgS3Ilblq1iNrbKEGl5mkkiP/8QS26wcH3TKQI3ecjM?=
- =?us-ascii?Q?Bht8p2zrPpIB7Vz4PzfVSwtNb7biUrK0TNx/OfIlu7YghpIs5Ty0PGOHrLoI?=
- =?us-ascii?Q?MsztOye8XUDzhTn8WHdbMPSldfHT/U4SmOvMmxBC0JD9utmQGjTFWSWcAXml?=
- =?us-ascii?Q?5dyrV69Xs/+FruYfiBw5Zn/ysJBnLYwsM0hXs/qYMDN+uExyWp2BYDYkaawP?=
- =?us-ascii?Q?Dcj9+HAB/zvpEJPGLGetuSsOqEmyrpk+TpbvBhU5lXrj68KjSjQZlIp+WJqV?=
- =?us-ascii?Q?vUl4XwhxvKEKXGU/VS1RoT6lgs0IB4LjOXlUA+qjguCuMtsdwuTBczvkcOu6?=
- =?us-ascii?Q?zH7WrkvhL3I3EtS6SENbBFzSt2ku0rzMgMKWax3Lqd08eoPrQ6www1K3uGwN?=
- =?us-ascii?Q?AgYUHuOwmuq/CoIpGGt1xQGcSBjmh3XeUlh6lHHv3Uvl0l8VH15U3hq4mJVQ?=
- =?us-ascii?Q?e+3QUJsynTlRARfRTRMiLFg9SB+WnX5zF6jAlkPvRLPNEzjDpn7S2dxDNnXF?=
- =?us-ascii?Q?rdH6ybFXE220EnMLkq2BQiunquq+77tQMOpV20lgG5fwYlNf0iUjxdK9ExXH?=
- =?us-ascii?Q?64hkpoMpdeD8eXo272+JYJbb2GnCSKbhCLyugy0N?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v9 RESEND 2/5] dt-bindings: display: Document Renesas
+ RZ/G2L DU bindings
+Message-ID: <20230529134959.GA27467@pendragon.ideasonboard.com>
+References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+ <20230502100912.143114-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dcf57535-c741-497c-8d2c-08db604771f1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2023 13:20:17.3262
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GUGCtBmKU36IvOJOt9M7iQ2CYJDhQH99SXTVju2TD5dsnUZRpuXLA0GRKStbyy1oYDQ2SeaqrhMm7WUIDfq+FbcMcmPdHVGvzC4MNyOag8I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9953
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230502100912.143114-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+Hi Biju,
 
-> Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix RZ/V2M
-> {modprobe,bind} error
->=20
-> On Mon, 29 May 2023 11:03:27 +0100,
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> >
-> > > Do you understand the meaning of the "dev" parameter you pass to
-> > > devm_request_irq()?
-> >
-> > Yes, the resource is managed with particular device.
->=20
-> So what does it tell you about the life cycle of the interrupt you
-> request with the *wrong* device?
+Thank you for the patch.
 
-It is not *wrong* device, it just parent device, which is telling
-its child to manage it.
+On Tue, May 02, 2023 at 11:09:09AM +0100, Biju Das wrote:
+> The RZ/G2L LCD controller is composed of Frame Compression Processor
+> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
+> 
+> The DU module supports the following hardware features
+> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
+> − Display timing master
+> − Generates video timings
+> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> − Supports Progressive
+> − Input data format (from VSPD): RGB888, RGB666
+> − Output data format: same as Input data format
+> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
+> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
+> 
+> This patch document DU module found on RZ/G2L LCDC.
 
-I agree, using parent device is wrong here.
+s/document/documents the/
 
->=20
-> > I should not use devm_request_irq here. rather should use request_irq
-> > and free_irq during unload with parent device handle.
->=20
-> No, that's just papering over the real issue. You should just get the
-> driver that handles the interrupt to request it. Anything else is a
-> design bug.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> v8->v9:
+>  * No change
+> v7->v8:
+>  * No change
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * Added Rb tag from Rob.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+> v3: New patch
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 124 ++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> new file mode 100644
+> index 000000000000..ab99e7d57a7d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> @@ -0,0 +1,124 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/renesas,rzg2l-du.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L Display Unit (DU)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  These DT bindings describe the Display Unit embedded in the Renesas RZ/G2L
+> +  and RZ/V2L SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r9a07g044-du # RZ/G2{L,LC}
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Main clock
+> +      - description: Register access clock
+> +      - description: Video clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: pclk
+> +      - const: vclk
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
+> +      The connections to the DU output video ports are modeled using the OF
+> +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
 
-Got it, but I guess, by using devm_request_irq() with child device is not a=
- design bug
+The file has moved to graph.yaml in the dt-schema repo. I'll drop the
+last part of the sentence, starting with "specified by".
 
-In a real life situation, for eg: A parent owns a property,=20
+> +      The number of ports and their assignment are model-dependent. Each port
+> +      shall have a single endpoint.
+> +
+> +    patternProperties:
+> +      "^port@[0-1]$":
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        unevaluatedProperties: false
+> +
+> +    required:
+> +      - port@0
+> +
+> +    unevaluatedProperties: false
+> +
+> +  renesas,vsps:
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +    items:
+> +      items:
+> +        - description: phandle to VSP instance that serves the DU channel
+> +        - description: Channel index identifying the LIF instance in that VSP
+> +    description:
+> +      A list of phandle and channel index tuples to the VSPs that handle the
+> +      memory interfaces for the DU channels.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - power-domains
+> +  - ports
+> +  - renesas,vsps
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # RZ/G2L DU
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    display@10890000 {
+> +        compatible = "renesas,r9a07g044-du";
+> +        reg = <0x10890000 0x10000>;
+> +        interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
+> +                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
+> +                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
+> +        clock-names = "aclk", "pclk", "vclk";
+> +        resets = <&cpg R9A07G044_LCDC_RESET_N>;
+> +        power-domains = <&cpg>;
+> +
+> +        renesas,vsps = <&vspd0 0>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                endpoint {
+> +                    remote-endpoint = <&dsi0_in>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                };
 
-Parent is thinking it is efficient to handle the property by its child
-rather than him. So it can tell its child to manage the property.=20
-The parent share the property details and child manages it efficiently.
+Endpoints shouldn't be empty, you can just drop the endpoint here.
 
-Cheers,
-Biju
+I'll fix all this locally.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
