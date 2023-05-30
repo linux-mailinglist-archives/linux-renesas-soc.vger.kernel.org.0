@@ -2,66 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF3A67156FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 09:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC067157BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 09:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbjE3Hih convert rfc822-to-8bit (ORCPT
+        id S229729AbjE3H4q convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 03:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35320 "EHLO
+        Tue, 30 May 2023 03:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbjE3Hib (ORCPT
+        with ESMTP id S229753AbjE3H4l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 03:38:31 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6A8100
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:22 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-568bb833462so9272307b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:22 -0700 (PDT)
+        Tue, 30 May 2023 03:56:41 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B92618E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:56:22 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-565a022ef06so58131757b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:56:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685432301; x=1688024301;
+        d=1e100.net; s=20221208; t=1685433381; x=1688025381;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=opmKHuYD+8yAmyiJnqgJMNtQDmzEUCfLzLGznqoKu04=;
-        b=UTBlJmb3dfxXLzaxzXMbEn8B4IhrBjzFvWXhifSW/4nY2YMxoNplw8DJiqDOeft2RW
-         iHxCiz2ZEBKjk8JJNDstwssYV4Dz662kZce1FYuBV9BkRHmu6Q6HM0K6VMlcd5YRcItP
-         eXjn7HUjxNscts5rrjTzzksjNhdDKqKQd57RMqhZhqANR2lczLsrQYn5A3oyKwx2HsXy
-         kiLP0QZKIpd3IH0R3RitfvzAktQ2DFm2UVJmReOf6FqNpbuiVVoSLICl/iq/NzG6eqvY
-         J2jbFzD+r/yn33LpR1pPRzuZf3zUmxoQsTn6bwD7T98157VEq+u3EsKO/gn3RSeNuwQI
-         8/HQ==
-X-Gm-Message-State: AC+VfDye1x5MNehtTJORTEcQ7oiWbtJ07MyV2Xo+QTEVZFKdsrSVwxaG
-        eDQWUP5hoO/TWp7AEfyxcGOVIc+EujJvrw==
-X-Google-Smtp-Source: ACHHUZ7bZIVDLLhtnrOV/ehioR8czo1eVpq8c6OXtzO2TOGo/OiALVNjKhusjzdqdGykaQycVdnRpw==
-X-Received: by 2002:a0d:d706:0:b0:565:b751:8f46 with SMTP id z6-20020a0dd706000000b00565b7518f46mr1465641ywd.2.1685432301119;
-        Tue, 30 May 2023 00:38:21 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id w7-20020a81a207000000b0055aad7d3f34sm4177206ywg.142.2023.05.30.00.38.20
+        bh=h6mNBWTnhwOlvY83mMvstfrzzooiFAd7uquWu7nVUeI=;
+        b=BXKP60a2XB07y1dB2StJnWJZE2tGfpTgUyxOSf+KOMF9Y/F0ArALJUoNVoTGzObtUf
+         xSHUOjdKwVVC8KaiyAfLkLCZH0SZ4q0Y7AKLVCYN6d9VPIEZru9I3TcsjzeqHIBWNK9T
+         4pILksBMYfTnw77OZjA/8SZniuyak++G4wmRomzLva4DvTZB8P5oHVPYAWQkxAQUi3QF
+         MSu6WIZC1VSt5gIraO+eynb7hShfWmfqAJVKUXqRgkHqqVRmnBPrIMsARFRZ/Or6u0ni
+         14fXettlkT/m2ZlDgaRa1kbyIyQQ6xy8Oyqd1o7Nh9RtD3rAbKRj++n0gbTaGm938acH
+         QlcA==
+X-Gm-Message-State: AC+VfDyRp+Rcl0TTxoXZZ4RZTmXaq7WQSeDMbYd9dMk5wGSiT/33fXDo
+        c2TQlSlkNtKsR8C8OV8LrV8oIqhp6CQULg==
+X-Google-Smtp-Source: ACHHUZ4h+hN6mb5pmdnv8J/kuw8BcTNPAJt/Iop99yrSMm5E1rUbFfKZ2186jkYPtQFug1qchTmfsQ==
+X-Received: by 2002:a81:4993:0:b0:561:e7bb:1b27 with SMTP id w141-20020a814993000000b00561e7bb1b27mr1231494ywa.52.1685433381377;
+        Tue, 30 May 2023 00:56:21 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id t12-20020a0dea0c000000b0055a373a7e5asm1568858ywe.131.2023.05.30.00.56.20
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 00:38:21 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-565d354b59fso36700897b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:20 -0700 (PDT)
-X-Received: by 2002:a0d:cc13:0:b0:55a:5870:3d47 with SMTP id
- o19-20020a0dcc13000000b0055a58703d47mr1321911ywd.26.1685432300746; Tue, 30
- May 2023 00:38:20 -0700 (PDT)
+        Tue, 30 May 2023 00:56:20 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-565a3cdba71so58392587b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:56:20 -0700 (PDT)
+X-Received: by 2002:a0d:d684:0:b0:566:386b:75fc with SMTP id
+ y126-20020a0dd684000000b00566386b75fcmr1606627ywd.18.1685433380203; Tue, 30
+ May 2023 00:56:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
- <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
- <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com>
- <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com> <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com>
-In-Reply-To: <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com>
+References: <20230417100607.309068-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230417100607.309068-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 09:38:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
-Message-ID: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
-Subject: Re: RZ/G2M Power Domain Errors with GPU
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        cstevens@beaconembedded.com,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Ulrich Hecht <uli@fpond.eu>
+Date:   Tue, 30 May 2023 09:55:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWP=9DV=uAP9WXufgaxqpkXOmnd-sfS1c72u5u-uGbC6A@mail.gmail.com>
+Message-ID: <CAMuHMdWP=9DV=uAP9WXufgaxqpkXOmnd-sfS1c72u5u-uGbC6A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Enable Renesas MTU3a counter config
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Thierry Reding <treding@nvidia.com>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Mark Brown <broonie@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        linux-arm-kernel@lists.infradead.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -74,60 +79,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+Hi Biju,
 
-On Fri, May 26, 2023 at 9:59 PM Adam Ford <aford173@gmail.com> wrote:
-> On Fri, May 26, 2023 at 2:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, May 26, 2023 at 6:07 AM Adam Ford <aford173@gmail.com> wrote:
-> > > On Mon, May 22, 2023 at 3:06 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Sat, May 20, 2023 at 5:13 AM Adam Ford <aford173@gmail.com> wrote:
-> > > > > I am trying to see if the Open Source PowerVR driver [1]  for the 6250
-> > > > > can be made to work on the RZ/G2M, and I am having difficulty getting
-> > > > > the power domain to turn on.
-> > > > >
-> > > > > In the GPU node, I set:
-> > > > > power-domains = <&sysc R8A774A1_PD_3DG_B>;
-> > > >
-> > > > LGTM...
-> > > >
-> > > > > Unfortunately,  when it boots, I get the following error message:
-> > > > >
-> > > > > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add to
-> > > > > PM domain 3dg-b
-> > > >
-> > > > That means genpd_add_device() failed (but why?)...
-> > >
-> > > With a pointer from Marek V, I appear to have the necessary clock and
-> > > the power domain operational by borrowing from the down-stream RZ/G2
-> > > kernel.  Even if I cannot get the PVR driver working with this kernel,
-> > > would you accept the clock and power domain patch now, or do you want
-> > > me to wait until we have a user of these (aka PVR) working?
-> >
-> > I don't think it makes much sense to add the clock and power domain
-> > patches upstream now, as they impact system behavior, while we don't
-> > know if they are sufficient to make the PVR work.
-> > The clock patches are probably (more or less) OK, and they do not have
-> > much impact when the PVR is not enabled or not used.
-> > For the power domain patches, it's different: some of them are quite
-> > intrusive, and we still don't know the full rationale behind them.
-> > Out of curiosity, which power domain patch(es) did you have to apply?
+On Mon, Apr 17, 2023 at 12:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable MFD & counter related configs for Renesas MTU3a Counter as
+> it is populated on RZ/{G2L, LC, UL} and RZ/V2L SMARC EVKs.
 >
-> I didn't really have to change the power domains per se, but I had to
-> add the clocks that the GPU power domains needed and I refereneced the
-> power-domain from the GPU node.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> This patch is based on linux-next.
 
-OK.
+Thanks for your patch!
 
-> Do you want me to send the patch as an RFC?
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -690,6 +690,7 @@ CONFIG_MFD_SPMI_PMIC=y
+>  CONFIG_MFD_RK808=y
+>  CONFIG_MFD_SEC_CORE=y
+>  CONFIG_MFD_SL28CPLD=y
+> +CONFIG_RZ_MTU3=y
 
-I guess you mean patch series[1], submitted by Marek?
-That one is marked "Chances Requested" in patchwork[2].  Moving it
-forward means fixing the issues pointed out.
+It's a pity this can't be modular. Care to fix that?
 
-Thanks!
+>  CONFIG_MFD_TPS65219=y
+>  CONFIG_MFD_ROHM_BD718XX=y
+>  CONFIG_MFD_WCD934X=m
+> @@ -1421,6 +1422,8 @@ CONFIG_INTERCONNECT_QCOM_SM8250=m
+>  CONFIG_INTERCONNECT_QCOM_SM8350=m
+>  CONFIG_INTERCONNECT_QCOM_SM8450=y
+>  CONFIG_INTERCONNECT_QCOM_SM8550=y
+> +CONFIG_COUNTER=m
+> +CONFIG_RZ_MTU3_CNT=m
+>  CONFIG_HTE=y
+>  CONFIG_HTE_TEGRA194=y
+>  CONFIG_HTE_TEGRA194_TEST=m
 
-[1] https://lore.kernel.org/all/20220314220012.218731-1-marek.vasut@gmail.com/
-[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=623329&state=*
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.5.
 
 Gr{oetje,eeting}s,
 
