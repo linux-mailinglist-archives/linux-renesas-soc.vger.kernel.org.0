@@ -2,63 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20C117156DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 09:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF3A67156FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 09:38:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbjE3Hej convert rfc822-to-8bit (ORCPT
+        id S231240AbjE3Hih convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 03:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59698 "EHLO
+        Tue, 30 May 2023 03:38:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231167AbjE3HeW (ORCPT
+        with ESMTP id S230500AbjE3Hib (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 03:34:22 -0400
+        Tue, 30 May 2023 03:38:31 -0400
 Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B09E10FC;
-        Tue, 30 May 2023 00:33:29 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-565de553de1so37770767b3.0;
-        Tue, 30 May 2023 00:33:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6A8100
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:22 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-568bb833462so9272307b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685432008; x=1688024008;
+        d=1e100.net; s=20221208; t=1685432301; x=1688024301;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G7iyMopwXqfUGzT29EQG9rJ3RGW+uo/AYfLgt0y1pc8=;
-        b=ctKJzrCQXe0qxqFMvn0i2oqSpTloDW4+0pzakl+NO7V5QDBS4MM8+KvLvJ7DLQROd4
-         UdVB9M5015wAvfR9pkVZuBSjDHUJ4ZOnjgGc1kELaPrMhpKkrZ2JySMRFI/sA+tEHta1
-         bLJInerUg9l5kriIf/6SAJ1k6zVfGEPI/FIj17JSObbbnBIANryL0HTLradvOECT42oF
-         EshHAQSGYctGSkIeeSNTpuwSyimRx+bHWEroNG9u0uL4BNFNX1okdym71j/b8RD3ixO3
-         Sf6OZJ9G4hKx5SIcnYzn7cCNbXQh1c7jE1KlC58Q0pRnS4eiId1MiyQjPYTzk9a6/m1q
-         Ou0w==
-X-Gm-Message-State: AC+VfDxb4tab9oxruy8yX/JN8xdYj71k1TWF+F7w/y2vfV2RPyjGKynW
-        RamPtrk98J9Wz8y48vLRTYeZ25s4QuaJ0w==
-X-Google-Smtp-Source: ACHHUZ5pCRQckc1Qt9a+ItPRglkuMY+1n48fCMQm+BYsLl9oo/ZNe/0miZhPa1UqAfXPsbRlbTcoQg==
-X-Received: by 2002:a05:690c:f83:b0:568:b105:751 with SMTP id df3-20020a05690c0f8300b00568b1050751mr4338153ywb.2.1685432008279;
-        Tue, 30 May 2023 00:33:28 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id j187-20020a0dc7c4000000b00561b76b72d7sm4257704ywd.40.2023.05.30.00.33.27
+        bh=opmKHuYD+8yAmyiJnqgJMNtQDmzEUCfLzLGznqoKu04=;
+        b=UTBlJmb3dfxXLzaxzXMbEn8B4IhrBjzFvWXhifSW/4nY2YMxoNplw8DJiqDOeft2RW
+         iHxCiz2ZEBKjk8JJNDstwssYV4Dz662kZce1FYuBV9BkRHmu6Q6HM0K6VMlcd5YRcItP
+         eXjn7HUjxNscts5rrjTzzksjNhdDKqKQd57RMqhZhqANR2lczLsrQYn5A3oyKwx2HsXy
+         kiLP0QZKIpd3IH0R3RitfvzAktQ2DFm2UVJmReOf6FqNpbuiVVoSLICl/iq/NzG6eqvY
+         J2jbFzD+r/yn33LpR1pPRzuZf3zUmxoQsTn6bwD7T98157VEq+u3EsKO/gn3RSeNuwQI
+         8/HQ==
+X-Gm-Message-State: AC+VfDye1x5MNehtTJORTEcQ7oiWbtJ07MyV2Xo+QTEVZFKdsrSVwxaG
+        eDQWUP5hoO/TWp7AEfyxcGOVIc+EujJvrw==
+X-Google-Smtp-Source: ACHHUZ7bZIVDLLhtnrOV/ehioR8czo1eVpq8c6OXtzO2TOGo/OiALVNjKhusjzdqdGykaQycVdnRpw==
+X-Received: by 2002:a0d:d706:0:b0:565:b751:8f46 with SMTP id z6-20020a0dd706000000b00565b7518f46mr1465641ywd.2.1685432301119;
+        Tue, 30 May 2023 00:38:21 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id w7-20020a81a207000000b0055aad7d3f34sm4177206ywg.142.2023.05.30.00.38.20
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 00:33:27 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-565de553de1so37770497b3.0;
-        Tue, 30 May 2023 00:33:27 -0700 (PDT)
-X-Received: by 2002:a05:690c:84a:b0:561:fc3a:30f3 with SMTP id
- bz10-20020a05690c084a00b00561fc3a30f3mr11642082ywb.8.1685432007266; Tue, 30
- May 2023 00:33:27 -0700 (PDT)
+        Tue, 30 May 2023 00:38:21 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-565d354b59fso36700897b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 00:38:20 -0700 (PDT)
+X-Received: by 2002:a0d:cc13:0:b0:55a:5870:3d47 with SMTP id
+ o19-20020a0dcc13000000b0055a58703d47mr1321911ywd.26.1685432300746; Tue, 30
+ May 2023 00:38:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230529080840.1156458-1-yoshihiro.shimoda.uh@renesas.com> <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
+References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
+ <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
+ <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com>
+ <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com> <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com>
+In-Reply-To: <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 09:33:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVsu+aZG9Vhb5fPwzR9J8uPPQ658Kz_g1hZXAzB5qi2+Q@mail.gmail.com>
-Message-ID: <CAMuHMdVsu+aZG9Vhb5fPwzR9J8uPPQ658Kz_g1hZXAzB5qi2+Q@mail.gmail.com>
-Subject: Re: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate limiter
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+Date:   Tue, 30 May 2023 09:38:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
+Message-ID: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
+Subject: Re: RZ/G2M Power Domain Errors with GPU
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        cstevens@beaconembedded.com,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Ulrich Hecht <uli@fpond.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -71,77 +74,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Adam,
 
-On Mon, May 29, 2023 at 10:08 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Use per-queue rate limiter instead of global rate limiter. Otherwise
-> TX performance will be low when we use multiple ports at the same time.
+On Fri, May 26, 2023 at 9:59 PM Adam Ford <aford173@gmail.com> wrote:
+> On Fri, May 26, 2023 at 2:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, May 26, 2023 at 6:07 AM Adam Ford <aford173@gmail.com> wrote:
+> > > On Mon, May 22, 2023 at 3:06 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Sat, May 20, 2023 at 5:13 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > > I am trying to see if the Open Source PowerVR driver [1]  for the 6250
+> > > > > can be made to work on the RZ/G2M, and I am having difficulty getting
+> > > > > the power domain to turn on.
+> > > > >
+> > > > > In the GPU node, I set:
+> > > > > power-domains = <&sysc R8A774A1_PD_3DG_B>;
+> > > >
+> > > > LGTM...
+> > > >
+> > > > > Unfortunately,  when it boots, I get the following error message:
+> > > > >
+> > > > > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to add to
+> > > > > PM domain 3dg-b
+> > > >
+> > > > That means genpd_add_device() failed (but why?)...
+> > >
+> > > With a pointer from Marek V, I appear to have the necessary clock and
+> > > the power domain operational by borrowing from the down-stream RZ/G2
+> > > kernel.  Even if I cannot get the PVR driver working with this kernel,
+> > > would you accept the clock and power domain patch now, or do you want
+> > > me to wait until we have a user of these (aka PVR) working?
+> >
+> > I don't think it makes much sense to add the clock and power domain
+> > patches upstream now, as they impact system behavior, while we don't
+> > know if they are sufficient to make the PVR work.
+> > The clock patches are probably (more or less) OK, and they do not have
+> > much impact when the PVR is not enabled or not used.
+> > For the power domain patches, it's different: some of them are quite
+> > intrusive, and we still don't know the full rationale behind them.
+> > Out of curiosity, which power domain patch(es) did you have to apply?
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> I didn't really have to change the power domains per se, but I had to
+> add the clocks that the GPU power domains needed and I refereneced the
+> power-domain from the GPU node.
 
-Thanks for your patch!
+OK.
 
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -156,22 +156,31 @@ static int rswitch_gwca_axi_ram_reset(struct rswitch_private *priv)
->         return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR);
->  }
->
-> -static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, int rate)
-> +static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv,
-> +                                       struct rswitch_gwca_queue *txq)
->  {
-> -       u32 gwgrlulc, gwgrlc;
-> +       u64 period_ps;
-> +       unsigned long rate;
-> +       u32 gwrlc;
->
-> -       switch (rate) {
-> -       case 1000:
-> -               gwgrlulc = 0x0000005f;
-> -               gwgrlc = 0x00010260;
-> -               break;
-> -       default:
-> -               dev_err(&priv->pdev->dev, "%s: This rate is not supported (%d)\n", __func__, rate);
-> -               return;
-> -       }
-> +       rate = clk_get_rate(priv->aclk);
-> +       if (!rate)
-> +               rate = RSWITCH_ACLK_DEFAULT;
-> +
-> +       period_ps = div64_u64(1000000000000ULL, rate);
+> Do you want me to send the patch as an RFC?
 
-div64_ul, as rate is unsigned long.
+I guess you mean patch series[1], submitted by Marek?
+That one is marked "Chances Requested" in patchwork[2].  Moving it
+forward means fixing the issues pointed out.
 
-> +
-> +       /* GWRLC value = 256 * ACLK_period[ns] * maxBandwidth[Gbps] */
-> +       gwrlc = 256 * period_ps * txq->speed / 1000000;
+Thanks!
 
-This contains an open-coded 64-by-32 division, causing link failures
-on 32-bit platforms, so you should use div_u64() instead.  However,
-because of the premultiplication by speed, which is 32-bit, you can
-use the mul_u64_u32_div() helper.
-
-Combining this with the calculation of period_ps above, you can simplify
-this to:
-
-    gwrlc = div64_ul(256000000ULL * txq->speed, rate);
-
-> +
-> +       /* To avoid overflow internally, the value should be 97% */
-> +       gwrlc = gwrlc * 97 / 100;
->
-> -       iowrite32(gwgrlulc, priv->addr + GWGRLULC);
-> -       iowrite32(gwgrlc, priv->addr + GWGRLC);
-> +       dev_dbg(&priv->pdev->dev,
-> +               "%s: index = %d, speed = %d, rate = %ld, gwrlc = %08x\n",
-> +               __func__, txq->index_trim, txq->speed, rate, gwrlc);
-> +
-> +       iowrite32(GWRLULC_NOT_REQUIRED, priv->addr + GWRLULC(txq->index_trim));
-> +       iowrite32(gwrlc | GWRLC_RLE, priv->addr + GWRLC(txq->index_trim));
->  }
->
+[1] https://lore.kernel.org/all/20220314220012.218731-1-marek.vasut@gmail.com/
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=623329&state=*
 
 Gr{oetje,eeting}s,
 
