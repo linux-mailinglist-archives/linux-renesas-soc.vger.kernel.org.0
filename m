@@ -2,73 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D58715A18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF610715A52
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbjE3J2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 05:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
+        id S229520AbjE3JjA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 May 2023 05:39:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbjE3J13 (ORCPT
+        with ESMTP id S229875AbjE3Ji7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 05:27:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1024D10CE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:26:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126205206011.34.openmobile.ne.jp [126.205.206.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AE8F7F3;
-        Tue, 30 May 2023 11:26:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685438778;
-        bh=zA4sTK2Jca312XTfJFlyixKDKl3jwNdf4ulN9FP63o4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DASpM/W+4WTaKmHn2/R6A4Ko4dr9b6AMrzguOfsw9cf2lXf92d5NddTFdRTO6GvmU
-         W+EoNgBJnKsYjF10MJkbpzbYuBJpCPuHFGTUWwVjl+KlUoVjfvnwD0RBLUeu++Mp6t
-         h5kh+RARNnxQqi3yw0P1SmZyuazpjFFoElZs6098=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] drm: rcar-du: Replace DRM_INFO() with drm_info()
-Date:   Tue, 30 May 2023 12:26:39 +0300
-Message-Id: <20230530092639.18374-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.3
+        Tue, 30 May 2023 05:38:59 -0400
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C5F393
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:38:58 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-565e6beb7aaso36929937b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:38:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685439537; x=1688031537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EtzfKWVbN7jaIx42M6eciXxIXho9ZJ7/2HvWUUp93A4=;
+        b=Ontya0k9c2DW79AXwHzWhaVdSKbRU0CM3s+VBjatF5lUnkNJvpHao1jXVmjguWuBpZ
+         aeW9fBXEHDqgto6Xecno8B7Q9eEbmZLnKHoe7pRwBvgCu31YGJH5peoH9BIQXxgfimXp
+         UWV5sUWpJQoVgl5+fKCnUSmhH3FVMWUTFwZ2iZW+eLFiz2pAYS459TX5UCFv6U7wAXKl
+         SyFhAA+y/mQeFgvPENlvU8xPQmemvW5ySD0K7qH71cTGqEi/lN+NJtz9Nwc0u5nnZ5OW
+         rhOI94f/dZYUWv9l06QdW0YkXk/f62+aZc9uuKFeDt7Z1alEsc8jDTRTDATZ1/s3QCe/
+         W5lw==
+X-Gm-Message-State: AC+VfDwpyHMWr10wdwz4Sn58F9quHYbU05GSyQGIIQtJv80n9Ekurkgk
+        46oLOTcXmJLixpCOWZ0U3gdEN9CvIYSVdQ==
+X-Google-Smtp-Source: ACHHUZ4K/og2vfE+Z6+2NBX/lNwzPTfTupAz7JhaFXQiow5wIqfNLfhimDhpj0iNCO83+QP2nE82mg==
+X-Received: by 2002:a0d:df51:0:b0:55a:3560:8ee0 with SMTP id i78-20020a0ddf51000000b0055a35608ee0mr1560862ywe.20.1685439537399;
+        Tue, 30 May 2023 02:38:57 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id j126-20020a816e84000000b005659a869a64sm3053621ywc.43.2023.05.30.02.38.57
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 02:38:57 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-568ba7abc11so12778867b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:38:57 -0700 (PDT)
+X-Received: by 2002:a81:a155:0:b0:568:d586:77bd with SMTP id
+ y82-20020a81a155000000b00568d58677bdmr455434ywg.1.1685439536879; Tue, 30 May
+ 2023 02:38:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230530092629.18329-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20230530092629.18329-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 30 May 2023 11:38:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUQ+WS=DS3n-7Kb=DFkqFD=gX0zpy85XZJ1TaMuSoZzqQ@mail.gmail.com>
+Message-ID: <CAMuHMdUQ+WS=DS3n-7Kb=DFkqFD=gX0zpy85XZJ1TaMuSoZzqQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Use dev_err_probe()
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-drm_info() adds proper context to the kernel log message, as it receives
-the drm_device pointer. It is thus preferred over DRM_INFO(). Replace
-the latter with the former.
+Hi Laurent,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, May 30, 2023 at 11:34 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> Replace manual handling of EPROBE_DEFER with dev_err_probe() to simplify
+> the code.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-index 91095f9deb8b..fe4d3b3c9b0c 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-@@ -713,7 +713,7 @@ static int rcar_du_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto error;
- 
--	DRM_INFO("Device %s probed\n", dev_name(&pdev->dev));
-+	drm_info(&rcdu->ddev, "Device %s probed\n", dev_name(&pdev->dev));
- 
- 	drm_fbdev_generic_setup(&rcdu->ddev, 32);
- 
+Thanks for your patch!
+
+I sent a similar patch before:
+https://lore.kernel.org/linux-renesas-soc/62adddea1fc5e9133766af2d953be7334f4622aa.1638959417.git.geert+renesas@glider.be
+leading to your comment that the deeper paths should be fixed instead.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
