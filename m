@@ -2,58 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E92C9715997
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 592A3715998
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbjE3JL7 convert rfc822-to-8bit (ORCPT
+        id S229455AbjE3JMj convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 05:11:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
+        Tue, 30 May 2023 05:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjE3JL6 (ORCPT
+        with ESMTP id S229650AbjE3JMh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 05:11:58 -0400
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA849BE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:56 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-568ba7abc11so12452177b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:56 -0700 (PDT)
+        Tue, 30 May 2023 05:12:37 -0400
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9B5EC
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:36 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bacf7060678so6304909276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685437916; x=1688029916;
+        d=1e100.net; s=20221208; t=1685437955; x=1688029955;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aBFk39ySgkQeFFuuQhVektz36jOk9oVo63yATv3qwoQ=;
-        b=hue9yTGP8qGlPvUKKS7YJzPYf9bBrEfVvgTIK09HZKJ3RvvNhY2mVpR265h7NbwfDo
-         2HsZv24lt1TO8JKxTgKNjyz1fmbvoZOyan+wiyQfKFk3WD5QIvBEUp6zlR+vOPn5v7x4
-         ZJvajgzehrPa7PE3PsFnDRrp2P8F4VI6uzP0i6saqwaB6fMRtnJH7bbuiEyoaVSrAThD
-         kF7AuuwM8H7EtYe1iCl7mZYeYj85krGs/5lRcTscsI5O8j8jXJOxCLADjRmybCuGsPvJ
-         mVpA3ovcPFCDCfauaM3oUx6J18UYeHLggsPIaSnt4svvt0PtCla/lP+V/g/B70nbTQeZ
-         schg==
-X-Gm-Message-State: AC+VfDyWx11P4FoClfTLp0EdB2aQ+crZnKuAEksAQR+imOOWgYbtMq7w
-        jq22iT3/SXfuOqGDQsjDetfa00Yx0pfOKA==
-X-Google-Smtp-Source: ACHHUZ6cigMxhsckA1ip07bshW4c5xORoTPKG3Btb1s86gUQi9E/d8eu9t2sXJseRWhBWp16oKKMdg==
-X-Received: by 2002:a81:720a:0:b0:565:de67:1584 with SMTP id n10-20020a81720a000000b00565de671584mr1346035ywc.40.1685437915916;
-        Tue, 30 May 2023 02:11:55 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id h63-20020a0df742000000b005612fc707bfsm4314818ywf.120.2023.05.30.02.11.55
+        bh=kZhK2M1Cfa1iJzk10nePeejfDL9JBpHmZ+wG1SkXTeE=;
+        b=eElFt9wcd3phAgOD+XfxPLg0706ABB5Faa2NBu8n8dVyfiOPleT92IhlYrFkUHpzSr
+         nZ+dlnhhhnrj/akiHi9rfGFOOPF8uzsBGrGbzzapYZAmntXDrDZy46h0zBSG4Q4Z145q
+         O3/A7zUpR6JONG/AFzoZurtt2Vqr+jvz/mE/3OQdF5kMV6jG6STBYqT0MT0/e0lAnOU8
+         T3+3CacBJBcwzi9tU37GJp+N1mgwxp+WHbQWFK5yJqtksMU1cjr85UacHb+VrRs8fBj3
+         q+Y9S5XT7ovI4ISWNAjk49sxHbopOvhlGN8Af+nkIXm5MT3jb5Pq4ewo3hTgxuJkrGt7
+         PdGw==
+X-Gm-Message-State: AC+VfDywGceLg3ECS4DmRjVBx/2fZM35asJC/L76ogaC4RmJs4keZkPW
+        cMoTTGHaE8u0fhtvT0yaVqo5k3s3uxNukg==
+X-Google-Smtp-Source: ACHHUZ6K3+FQa/bJO0TulPljkjfjSEakK3iMq5rqn0jI684WSFFaJn8DW54AaqXsrM2To9c3bQDafQ==
+X-Received: by 2002:a25:1986:0:b0:b9a:5606:a6bb with SMTP id 128-20020a251986000000b00b9a5606a6bbmr1678999ybz.0.1685437955506;
+        Tue, 30 May 2023 02:12:35 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id f12-20020a25b08c000000b00ba6ffc7ef35sm3395689ybj.65.2023.05.30.02.12.34
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 02:11:55 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-561c1436c75so61220747b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:55 -0700 (PDT)
-X-Received: by 2002:a0d:d64e:0:b0:565:c966:60dd with SMTP id
- y75-20020a0dd64e000000b00565c96660ddmr1450118ywd.48.1685437915599; Tue, 30
- May 2023 02:11:55 -0700 (PDT)
+        Tue, 30 May 2023 02:12:35 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-561b7729a12so73458897b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:34 -0700 (PDT)
+X-Received: by 2002:a81:a20a:0:b0:565:b76d:82c8 with SMTP id
+ w10-20020a81a20a000000b00565b76d82c8mr1807431ywg.5.1685437954717; Tue, 30 May
+ 2023 02:12:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230525084823.4195-1-wsa+renesas@sang-engineering.com> <20230525084823.4195-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230525084823.4195-2-wsa+renesas@sang-engineering.com>
+References: <20230525084823.4195-1-wsa+renesas@sang-engineering.com> <20230525084823.4195-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230525084823.4195-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 11:11:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVMOG-PtZtstOLZU9LWJ8v3Rh9QSdKWZVa7iFs54Lha8A@mail.gmail.com>
-Message-ID: <CAMuHMdVMOG-PtZtstOLZU9LWJ8v3Rh9QSdKWZVa7iFs54Lha8A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: ulcb-kf: remove flow control
- for SCIF1
+Date:   Tue, 30 May 2023 11:12:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhRp5fOrsZveH1HN+SbYBgQVx1hVePhWVLNm=5tk2GCA@mail.gmail.com>
+Message-ID: <CAMuHMdUhRp5fOrsZveH1HN+SbYBgQVx1hVePhWVLNm=5tk2GCA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: ulcb-kf: add HSCIF1 node
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -70,10 +69,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, May 25, 2023 at 10:48 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> The schematics are misleading, the flow control is for HSCIF1. We need
-> SCIF1 for GNSS/GPS which does not use flow control.
+> Exposed on CN4. Tested by connecting it to a Renesas Ebisu board.
 >
-> Fixes: c6c816e22bc8 ("arm64: dts: ulcb-kf: enable SCIF1")
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
