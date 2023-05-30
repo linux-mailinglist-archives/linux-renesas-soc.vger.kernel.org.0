@@ -2,174 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1BAA715CD7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 13:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9111D715CF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 13:21:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbjE3LQw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 07:16:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
+        id S230353AbjE3LVH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 May 2023 07:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbjE3LQv (ORCPT
+        with ESMTP id S231620AbjE3LVE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 07:16:51 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE37A0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 04:16:49 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-64d2b42a8f9so3354930b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 04:16:49 -0700 (PDT)
+        Tue, 30 May 2023 07:21:04 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C36A8114;
+        Tue, 30 May 2023 04:21:02 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-77487fcb522so120287939f.2;
+        Tue, 30 May 2023 04:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685445409; x=1688037409;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5RqkMLB5GbN4wsd0u88geZgUt7w9wYWIrq5UAKfJ774=;
-        b=UBAr0l9KWIwXAaYdwYwhwiv5eHjnujqfUWczZzkq9rmu2EPUwNZMkO6AXKcTFEc3Im
-         TAjksA6WW7gIMqt4hmtiqXWG8FP1PwmxcM4dLqVlaqAh4ODsA+TCDGnMBL8hIDDXfPn3
-         okSQZOz2yZ8VaQP1cnnlQRXZx3txuPjMDd9W4JkknIRNUQ1NEoKUJxIGulFw5LGml/pR
-         kppLJoH4skV/g6Xpj+DWde82jTyhdMEM+VdppM+rf6zK0l41+6CEjGsegor6LWwl4ltH
-         lBowMTvTCDwopCauTy7VKaoHCkgbxX7ZlosU+QDaOAkOeIbVFJ0OlA0NoL7akHdGoI6M
-         OuqQ==
+        d=gmail.com; s=20221208; t=1685445662; x=1688037662;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKOVEGYHxWU1Tm4Om2FNng9wfK8qi7L3C4EYFqaB2Vo=;
+        b=ruJ+IgmgaxQKj1pFMEOfoVBkLMWGbox8DDd1SeHiVjY5Pek9v7/rtEvrleVSjmP/ED
+         /XnCx3Uaa5sLI6dyxItIGW+aS6CemTOIyxynjqJDYp1ZIRoxk+a4zWLooWBOwaoDUSDJ
+         fcaK7RxxdbN83lAgK8rsay8+5b4Bpfq610J3Jppk9l87ssGgSmTnANIlXStO2+K1dWEJ
+         FsE/qWR/FkgVnePqIwv2J+nzBG5fcc853ZkJLsBXOUNPbTpKp1s//FmswpDpmdGG9/Ef
+         q2DASnrNNxBfXDCLnh7Ajms798mGPHSIUELdlgBFrzqUNS5j3E3C862V0vmkZGxEGDRf
+         rT9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685445409; x=1688037409;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5RqkMLB5GbN4wsd0u88geZgUt7w9wYWIrq5UAKfJ774=;
-        b=ay6WKEPSigFlTl+ED31dccarnkhnr6EiYLOdoYANP3/wqZcMyZf6aae3hxTMr1oQYi
-         yaxE8o7FaR9smxadajs4TFURlWVjvygdmZM2TIZQSv4pptOvJfsnsidqdIRyckM3WeXp
-         tvo4iHx8csLIoHYehZsPY6b1VW/MrpVzxE1e9gp6563Sw7/WO83AMgPxrIRNpA42Ah2g
-         I7zHpzdvgRirnzQIK1Pl7O2AbPh6miPGtfALRBcmEswrQOLqPFNez40NM8nlfT+Qdr+x
-         gl6vSrsRJX1nP47xE4LTv8BCOMNAPz7n/fV4r3f40K4j4Mmi6pNdTADmOWnQux6cYUvF
-         fyjg==
-X-Gm-Message-State: AC+VfDzy63xVUmRtoeTxT+C2VhHfye8SRFqDTpFpEuWClsPmOs95cbgp
-        mFKVPgPJfKK0zftglnQAIIhqQDURflW6jG2y7th3Ap3b
-X-Google-Smtp-Source: ACHHUZ7AWjuSEU97d1iQYmuklH9E5GRubZB6SwQNIlEtyY0wxeqXQnmtR9lH1YK0YBqsn2jAqkJH8MMaRPzAGL14AzU=
-X-Received: by 2002:a17:903:41c3:b0:1ae:6cf0:94eb with SMTP id
- u3-20020a17090341c300b001ae6cf094ebmr2043729ple.5.1685445408960; Tue, 30 May
- 2023 04:16:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
- <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
- <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com>
- <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com>
- <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com> <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
-In-Reply-To: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1685445662; x=1688037662;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TKOVEGYHxWU1Tm4Om2FNng9wfK8qi7L3C4EYFqaB2Vo=;
+        b=VQSc+JGqzOh4k2YFMEf+cT8AQJqQqpa5onbzJXODH14cbBEan9ZVOwe9ObT7GlR1aw
+         qZBQVdwi0Wh+4srXe2/F8LqcQLvhSpsJ3i8MRXYbn9ngmN7DISjHmDFEHzjJTNpQ18bc
+         zhOxA3/3rO53Leho1iN8AcyAocdzKRTZXQ++Y56dGE6Muo3cDU0kyBE276Zzw8q2+yt9
+         drOXgd36Anby7+v6BpgviAQmlvCTpmtT19suzoEJ6NymhRlM5GXJ8Y5ecScTIxp0GcuA
+         J2qGvTwq3RyBlQsVcTXoegeD8+59CMxDgL4I7B75sR/UmgazbZ5VnJ2INoJgSLlP1x8z
+         9R3w==
+X-Gm-Message-State: AC+VfDx2zdJ6CL2409ESnJH48F6RZxPIFCSIrJnG3ybzIfs11dwczRnS
+        bI4DLxN0Cbj7FcbMwTY+jCRNOQ6tnkg=
+X-Google-Smtp-Source: ACHHUZ7W0qid6AdPyodyq/TeyV+NlOb+jn7jEYueEwTbtsu8yqV2BotTe962efGWUmqO4tQHst5jFQ==
+X-Received: by 2002:a6b:6402:0:b0:776:f992:78cf with SMTP id t2-20020a6b6402000000b00776f99278cfmr1246448iog.12.1685445661517;
+        Tue, 30 May 2023 04:21:01 -0700 (PDT)
+Received: from aford-B741.lan ([2601:447:d001:897f:a5e7:c9e9:bb20:39c1])
+        by smtp.gmail.com with ESMTPSA id co17-20020a0566383e1100b003c4e02148e5sm634363jab.53.2023.05.30.04.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 04:21:01 -0700 (PDT)
 From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 30 May 2023 06:16:36 -0500
-Message-ID: <CAHCN7x+kGYeUYD4CrzPz15Xa1=BTpjnGvVs58Yv1cKZjOxdLhg@mail.gmail.com>
-Subject: Re: RZ/G2M Power Domain Errors with GPU
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        cstevens@beaconembedded.com,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Ulrich Hecht <uli@fpond.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     biju.das.jz@bp.renesas.com, marek.vasut+renesas@gmail.com,
+        cstevens@beaconembedded.com, aford@beaconembedded.com,
+        Adam Ford <aford173@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [RFC 1/3] clk: renesas: rcar-gen3: Add support for ZG clock
+Date:   Tue, 30 May 2023 06:20:47 -0500
+Message-Id: <20230530112050.5635-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 30, 2023 at 2:38=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Adam,
->
-> On Fri, May 26, 2023 at 9:59=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
-ote:
-> > On Fri, May 26, 2023 at 2:13=E2=80=AFAM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Fri, May 26, 2023 at 6:07=E2=80=AFAM Adam Ford <aford173@gmail.com=
-> wrote:
-> > > > On Mon, May 22, 2023 at 3:06=E2=80=AFAM Geert Uytterhoeven <geert@l=
-inux-m68k.org> wrote:
-> > > > > On Sat, May 20, 2023 at 5:13=E2=80=AFAM Adam Ford <aford173@gmail=
-.com> wrote:
-> > > > > > I am trying to see if the Open Source PowerVR driver [1]  for t=
-he 6250
-> > > > > > can be made to work on the RZ/G2M, and I am having difficulty g=
-etting
-> > > > > > the power domain to turn on.
-> > > > > >
-> > > > > > In the GPU node, I set:
-> > > > > > power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
-> > > > >
-> > > > > LGTM...
-> > > > >
-> > > > > > Unfortunately,  when it boots, I get the following error messag=
-e:
-> > > > > >
-> > > > > > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to a=
-dd to
-> > > > > > PM domain 3dg-b
-> > > > >
-> > > > > That means genpd_add_device() failed (but why?)...
-> > > >
-> > > > With a pointer from Marek V, I appear to have the necessary clock a=
-nd
-> > > > the power domain operational by borrowing from the down-stream RZ/G=
-2
-> > > > kernel.  Even if I cannot get the PVR driver working with this kern=
-el,
-> > > > would you accept the clock and power domain patch now, or do you wa=
-nt
-> > > > me to wait until we have a user of these (aka PVR) working?
-> > >
-> > > I don't think it makes much sense to add the clock and power domain
-> > > patches upstream now, as they impact system behavior, while we don't
-> > > know if they are sufficient to make the PVR work.
-> > > The clock patches are probably (more or less) OK, and they do not hav=
-e
-> > > much impact when the PVR is not enabled or not used.
-> > > For the power domain patches, it's different: some of them are quite
-> > > intrusive, and we still don't know the full rationale behind them.
-> > > Out of curiosity, which power domain patch(es) did you have to apply?
-> >
-> > I didn't really have to change the power domains per se, but I had to
-> > add the clocks that the GPU power domains needed and I refereneced the
-> > power-domain from the GPU node.
->
-> OK.
->
-> > Do you want me to send the patch as an RFC?
->
-> I guess you mean patch series[1], submitted by Marek?
-> That one is marked "Chances Requested" in patchwork[2].  Moving it
-> forward means fixing the issues pointed out.
+A clock used for the 3D graphics appears to be common
+among multiple SoC's, so add a generic gen3 clock
+for clocking the graphics.
 
-I edited different files based on the downstream kernel from Renesas.
-It also modifies different files, but in a similar way.  I was doing
-this on an r8a774a1 (RZ/G2M).  I tried to address the concerns you
-sent to Marek.
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-I'll post the RFC momentarily.  It's a 3-part update to add a generic
-Rcar-gen3 clock, add the 3dge clock, then the add GPU node.
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index b3ef62fa612e..7abfbf77a497 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -301,6 +301,39 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+ 	return clk;
+ }
+ 
++static struct clk * __init cpg_zg_clk_register(const char *name,
++					       const char *parent_name,
++					       void __iomem *reg,
++					       unsigned int div,
++					       unsigned int offset)
++{
++	struct clk_init_data init;
++	struct cpg_z_clk *zclk;
++	struct clk *clk;
++
++	zclk = kzalloc(sizeof(*zclk), GFP_KERNEL);
++	if (!zclk)
++		return ERR_PTR(-ENOMEM);
++
++	init.name = name;
++	init.ops = &cpg_z_clk_ops;
++	init.flags = 0;
++	init.parent_names = &parent_name;
++	init.num_parents = 1;
++
++	zclk->reg = reg + CPG_FRQCRB;
++	zclk->kick_reg = reg + CPG_FRQCRB;
++	zclk->hw.init = &init;
++	zclk->mask = GENMASK(offset + 4, offset);
++	zclk->fixed_div = div; /* PLLVCO x 1/div1 x 3DGE divider x 1/div2 */
++
++	clk = clk_register(NULL, &zclk->hw);
++	if (IS_ERR(clk))
++		kfree(zclk);
++
++	return clk;
++}
++
+ static const struct clk_div_table cpg_rpcsrc_div_table[] = {
+ 	{ 2, 5 }, { 3, 6 }, { 0, 0 },
+ };
+@@ -502,6 +535,9 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 	case CLK_TYPE_GEN3_RPCD2:
+ 		return cpg_rpcd2_clk_register(core->name, base + CPG_RPCCKCR,
+ 					      __clk_get_name(parent));
++	case CLK_TYPE_GEN3_ZG:
++		return cpg_zg_clk_register(core->name, __clk_get_name(parent),
++					   base, core->div, core->offset);
+ 
+ 	default:
+ 		return ERR_PTR(-EINVAL);
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.h b/drivers/clk/renesas/rcar-gen3-cpg.h
+index 9028bf4295ce..bfdc649bdf12 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.h
++++ b/drivers/clk/renesas/rcar-gen3-cpg.h
+@@ -22,6 +22,7 @@ enum rcar_gen3_clk_types {
+ 	CLK_TYPE_GEN3_R,
+ 	CLK_TYPE_GEN3_MDSEL,	/* Select parent/divider using mode pin */
+ 	CLK_TYPE_GEN3_Z,
++	CLK_TYPE_GEN3_ZG,
+ 	CLK_TYPE_GEN3_OSC,	/* OSC EXTAL predivider and fixed divider */
+ 	CLK_TYPE_GEN3_RCKSEL,	/* Select parent/divider using RCKCR.CKSEL */
+ 	CLK_TYPE_GEN3_RPCSRC,
+-- 
+2.39.2
 
-adam
->
-> Thanks!
->
-> [1] https://lore.kernel.org/all/20220314220012.218731-1-marek.vasut@gmail=
-.com/
-> [2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=
-=3D623329&state=3D*
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
