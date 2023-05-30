@@ -2,76 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D89F715881
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 10:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E92C9715997
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:11:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbjE3I3Z convert rfc822-to-8bit (ORCPT
+        id S229552AbjE3JL7 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 04:29:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
+        Tue, 30 May 2023 05:11:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbjE3I3Y (ORCPT
+        with ESMTP id S229524AbjE3JL6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 04:29:24 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971DCCD;
-        Tue, 30 May 2023 01:29:19 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-565a77af71fso34482767b3.2;
-        Tue, 30 May 2023 01:29:19 -0700 (PDT)
+        Tue, 30 May 2023 05:11:58 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA849BE
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:56 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-568ba7abc11so12452177b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685435358; x=1688027358;
+        d=1e100.net; s=20221208; t=1685437916; x=1688029916;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I9QLzEEeHcOqfv4kFNr/Qspw8g1QoGyjW4Pr7IpYvTM=;
-        b=HmLBLykRk2RZbJ1VM2RLnDXjnTjK1HKxNv+80cWg83/tBpfa9QZRPV0o+smfdtN7h4
-         xi8aaHiDI5SMjGxAigtqDqJqML48r8FnP9CQK+RuqBJ4t1gw4ZDKJeWODMMVt7XUt/vl
-         VY3AwALLCtQ1yWc6Rme1qOUBPPakoNC0IVYSogRU9hrZU19yp1p3T37PUy8Rf+OHIA2M
-         54N101BRto7RZUgSDD4bPvNcK4TINbYw+sJSpv0vbiO6Nwg8GHElSu4N1Hq/eNdBCfgs
-         YPO9dBA2oEZTzaRVh4zn0Pw00Y4mqiWplZk5N5OXCFyAuYN7rbVJ1qExi6iudI4bBlHK
-         0hLA==
-X-Gm-Message-State: AC+VfDx03wnICdhmLcsE83IedloyGHe0aZevM9TKJdB9WYFXfldpWNsQ
-        LbbNyULHIdnawUCVmqAc1UVp9qnwh4kx/g==
-X-Google-Smtp-Source: ACHHUZ64vHPCsX0YBghfFYc9KuFKOi4BGAb4a8K44e5vuZKAWkciK3Mvk10XmYwAvjcMCXdk4Orszw==
-X-Received: by 2002:a0d:eb92:0:b0:565:de9d:be6b with SMTP id u140-20020a0deb92000000b00565de9dbe6bmr1658761ywe.21.1685435358348;
-        Tue, 30 May 2023 01:29:18 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id d17-20020a0ddb11000000b00565ef2c105asm2137823ywe.118.2023.05.30.01.29.16
+        bh=aBFk39ySgkQeFFuuQhVektz36jOk9oVo63yATv3qwoQ=;
+        b=hue9yTGP8qGlPvUKKS7YJzPYf9bBrEfVvgTIK09HZKJ3RvvNhY2mVpR265h7NbwfDo
+         2HsZv24lt1TO8JKxTgKNjyz1fmbvoZOyan+wiyQfKFk3WD5QIvBEUp6zlR+vOPn5v7x4
+         ZJvajgzehrPa7PE3PsFnDRrp2P8F4VI6uzP0i6saqwaB6fMRtnJH7bbuiEyoaVSrAThD
+         kF7AuuwM8H7EtYe1iCl7mZYeYj85krGs/5lRcTscsI5O8j8jXJOxCLADjRmybCuGsPvJ
+         mVpA3ovcPFCDCfauaM3oUx6J18UYeHLggsPIaSnt4svvt0PtCla/lP+V/g/B70nbTQeZ
+         schg==
+X-Gm-Message-State: AC+VfDyWx11P4FoClfTLp0EdB2aQ+crZnKuAEksAQR+imOOWgYbtMq7w
+        jq22iT3/SXfuOqGDQsjDetfa00Yx0pfOKA==
+X-Google-Smtp-Source: ACHHUZ6cigMxhsckA1ip07bshW4c5xORoTPKG3Btb1s86gUQi9E/d8eu9t2sXJseRWhBWp16oKKMdg==
+X-Received: by 2002:a81:720a:0:b0:565:de67:1584 with SMTP id n10-20020a81720a000000b00565de671584mr1346035ywc.40.1685437915916;
+        Tue, 30 May 2023 02:11:55 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id h63-20020a0df742000000b005612fc707bfsm4314818ywf.120.2023.05.30.02.11.55
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 01:29:16 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-568af2f6454so9997287b3.1;
-        Tue, 30 May 2023 01:29:16 -0700 (PDT)
-X-Received: by 2002:a0d:ca83:0:b0:556:ea38:eb07 with SMTP id
- m125-20020a0dca83000000b00556ea38eb07mr1308427ywd.50.1685435356175; Tue, 30
- May 2023 01:29:16 -0700 (PDT)
+        Tue, 30 May 2023 02:11:55 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-561c1436c75so61220747b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:11:55 -0700 (PDT)
+X-Received: by 2002:a0d:d64e:0:b0:565:c966:60dd with SMTP id
+ y75-20020a0dd64e000000b00565c96660ddmr1450118ywd.48.1685437915599; Tue, 30
+ May 2023 02:11:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230515131353.v2.cover@dianders> <20230515131353.v2.2.I88dc0a0eb1d9d537de61604cd8994ecc55c0cac1@changeid>
-In-Reply-To: <20230515131353.v2.2.I88dc0a0eb1d9d537de61604cd8994ecc55c0cac1@changeid>
+References: <20230525084823.4195-1-wsa+renesas@sang-engineering.com> <20230525084823.4195-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230525084823.4195-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 10:29:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWM_t7uQqkesM3fnSK7THrmLszA7U54==A0-98xPH90Bw@mail.gmail.com>
-Message-ID: <CAMuHMdWM_t7uQqkesM3fnSK7THrmLszA7U54==A0-98xPH90Bw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] irqchip/gic-v3: Disable pseudo NMIs on Mediatek
- devices w/ firmware issues
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Eddie Huang <eddie.huang@mediatek.com>,
-        Hsin-Hsiung Wang <hsin-hsiung.wang@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, wenst@chromium.org,
-        yidilin@chromium.org, Tinghan Shen <tinghan.shen@mediatek.com>,
-        jwerner@chromium.org, Weiyi Lu <weiyi.lu@mediatek.com>,
-        Ben Ho <Ben.Ho@mediatek.com>,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 30 May 2023 11:11:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVMOG-PtZtstOLZU9LWJ8v3Rh9QSdKWZVa7iFs54Lha8A@mail.gmail.com>
+Message-ID: <CAMuHMdVMOG-PtZtstOLZU9LWJ8v3Rh9QSdKWZVa7iFs54Lha8A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: ulcb-kf: remove flow control
+ for SCIF1
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -84,142 +68,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Douglas,
+On Thu, May 25, 2023 at 10:48 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The schematics are misleading, the flow control is for HSCIF1. We need
+> SCIF1 for GNSS/GPS which does not use flow control.
+>
+> Fixes: c6c816e22bc8 ("arm64: dts: ulcb-kf: enable SCIF1")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Mon, May 15, 2023 at 10:16 PM Douglas Anderson <dianders@chromium.org> wrote:
-> Some Chromebooks with Mediatek SoCs have a problem where the firmware
-> doesn't properly save/restore certain GICR registers. Newer
-> Chromebooks should fix this issue and we may be able to do firmware
-> updates for old Chromebooks. At the moment, the only known issue with
-> these Chromebooks is that we can't enable "pseudo NMIs" since the
-> priority register can be lost. Enabling "pseudo NMIs" on Chromebooks
-> with the problematic firmware causes crashes and freezes.
->
-> Let's detect devices with this problem and then disable "pseudo NMIs"
-> on them. We'll detect the problem by looking for the presence of the
-> "mediatek,broken-save-restore-fw" property in the GIC device tree
-> node. Any devices with fixed firmware will not have this property.
->
-> Our detection plan works because we never bake a Chromebook's device
-> tree into firmware. Instead, device trees are always bundled with the
-> kernel. We'll update the device trees of all affected Chromebooks and
-> then we'll never enable "pseudo NMI" on a kernel that is bundled with
-> old device trees. When a firmware update is shipped that fixes this
-> issue it will know to patch the device tree to remove the property.
->
-> In order to make this work, the quick detection mechanism of the GICv3
-> code is extended to be able to look for properties in addition to
-> looking at "compatible".
->
-> Reviewed-by: Julius Werner <jwerner@chromium.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> Changes in v2:
-> - mediatek,gicr-save-quirk => mediatek,broken-save-restore-fw
-
-Thanks for your patch, which is now commit 44bd78dd2b8897f5
-("irqchip/gic-v3: Disable pseudo NMIs on Mediatek devices w/
-firmware issues") in v6.4-rc4.
-
-This causes enabling an unrelated workaround on R-Car V4H:
-
-    GIC: enabling workaround for GICv3: Cavium erratum 38539
-
-> --- a/drivers/irqchip/irq-gic-common.c
-> +++ b/drivers/irqchip/irq-gic-common.c
-> @@ -16,7 +16,11 @@ void gic_enable_of_quirks(const struct device_node *np,
->                           const struct gic_quirk *quirks, void *data)
->  {
->         for (; quirks->desc; quirks++) {
-> -               if (!of_device_is_compatible(np, quirks->compatible))
-> +               if (quirks->compatible &&
-> +                   !of_device_is_compatible(np, quirks->compatible))
-> +                       continue;
-> +               if (quirks->property &&
-> +                   !of_property_read_bool(np, quirks->property))
->                         continue;
-
-Presumably the loop should continue if none of quirks-compatible
-or quirks->property is set?
-
->                 if (quirks->init(data))
->                         pr_info("GIC: enabling workaround for %s\n",
-> @@ -28,7 +32,7 @@ void gic_enable_quirks(u32 iidr, const struct gic_quirk *quirks,
->                 void *data)
->  {
->         for (; quirks->desc; quirks++) {
-> -               if (quirks->compatible)
-> +               if (quirks->compatible || quirks->property)
->                         continue;
->                 if (quirks->iidr != (quirks->mask & iidr))
->                         continue;
-> diff --git a/drivers/irqchip/irq-gic-common.h b/drivers/irqchip/irq-gic-common.h
-> index 27e3d4ed4f32..3db4592cda1c 100644
-> --- a/drivers/irqchip/irq-gic-common.h
-> +++ b/drivers/irqchip/irq-gic-common.h
-> @@ -13,6 +13,7 @@
->  struct gic_quirk {
->         const char *desc;
->         const char *compatible;
-> +       const char *property;
->         bool (*init)(void *data);
->         u32 iidr;
->         u32 mask;
-> diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-> index 6fcee221f201..a605aa79435a 100644
-> --- a/drivers/irqchip/irq-gic-v3.c
-> +++ b/drivers/irqchip/irq-gic-v3.c
-> @@ -39,6 +39,7 @@
->
->  #define FLAGS_WORKAROUND_GICR_WAKER_MSM8996    (1ULL << 0)
->  #define FLAGS_WORKAROUND_CAVIUM_ERRATUM_38539  (1ULL << 1)
-> +#define FLAGS_WORKAROUND_MTK_GICR_SAVE         (1ULL << 2)
->
->  #define GIC_IRQ_TYPE_PARTITION (GIC_IRQ_TYPE_LPI + 1)
->
-> @@ -1720,6 +1721,15 @@ static bool gic_enable_quirk_msm8996(void *data)
->         return true;
->  }
->
-> +static bool gic_enable_quirk_mtk_gicr(void *data)
-> +{
-> +       struct gic_chip_data *d = data;
-> +
-> +       d->flags |= FLAGS_WORKAROUND_MTK_GICR_SAVE;
-> +
-> +       return true;
-> +}
-> +
->  static bool gic_enable_quirk_cavium_38539(void *data)
->  {
->         struct gic_chip_data *d = data;
-> @@ -1792,6 +1802,11 @@ static const struct gic_quirk gic_quirks[] = {
->                 .compatible = "qcom,msm8996-gic-v3",
->                 .init   = gic_enable_quirk_msm8996,
->         },
-> +       {
-> +               .desc   = "GICv3: Mediatek Chromebook GICR save problem",
-> +               .property = "mediatek,broken-save-restore-fw",
-> +               .init   = gic_enable_quirk_mtk_gicr,
-> +       },
->         {
->                 .desc   = "GICv3: HIP06 erratum 161010803",
->                 .iidr   = 0x0204043b,
-> @@ -1834,6 +1849,11 @@ static void gic_enable_nmi_support(void)
->         if (!gic_prio_masking_enabled())
->                 return;
->
-> +       if (gic_data.flags & FLAGS_WORKAROUND_MTK_GICR_SAVE) {
-> +               pr_warn("Skipping NMI enable due to firmware issues\n");
-> +               return;
-> +       }
-> +
->         ppi_nmi_refs = kcalloc(gic_data.ppi_nr, sizeof(*ppi_nmi_refs), GFP_KERNEL);
->         if (!ppi_nmi_refs)
->                 return;
-> --
-> 2.40.1.606.ga4b1b128d6-goog
+Thanks, will queue in renesas-devel for v6.5.
 
 Gr{oetje,eeting}s,
 
