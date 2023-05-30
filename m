@@ -2,87 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 592A3715998
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99EE8715A15
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:27:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbjE3JMj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 05:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35266 "EHLO
+        id S230233AbjE3J1n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 May 2023 05:27:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbjE3JMh (ORCPT
+        with ESMTP id S230283AbjE3J1U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 05:12:37 -0400
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9B5EC
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:36 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bacf7060678so6304909276.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685437955; x=1688029955;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kZhK2M1Cfa1iJzk10nePeejfDL9JBpHmZ+wG1SkXTeE=;
-        b=eElFt9wcd3phAgOD+XfxPLg0706ABB5Faa2NBu8n8dVyfiOPleT92IhlYrFkUHpzSr
-         nZ+dlnhhhnrj/akiHi9rfGFOOPF8uzsBGrGbzzapYZAmntXDrDZy46h0zBSG4Q4Z145q
-         O3/A7zUpR6JONG/AFzoZurtt2Vqr+jvz/mE/3OQdF5kMV6jG6STBYqT0MT0/e0lAnOU8
-         T3+3CacBJBcwzi9tU37GJp+N1mgwxp+WHbQWFK5yJqtksMU1cjr85UacHb+VrRs8fBj3
-         q+Y9S5XT7ovI4ISWNAjk49sxHbopOvhlGN8Af+nkIXm5MT3jb5Pq4ewo3hTgxuJkrGt7
-         PdGw==
-X-Gm-Message-State: AC+VfDywGceLg3ECS4DmRjVBx/2fZM35asJC/L76ogaC4RmJs4keZkPW
-        cMoTTGHaE8u0fhtvT0yaVqo5k3s3uxNukg==
-X-Google-Smtp-Source: ACHHUZ6K3+FQa/bJO0TulPljkjfjSEakK3iMq5rqn0jI684WSFFaJn8DW54AaqXsrM2To9c3bQDafQ==
-X-Received: by 2002:a25:1986:0:b0:b9a:5606:a6bb with SMTP id 128-20020a251986000000b00b9a5606a6bbmr1678999ybz.0.1685437955506;
-        Tue, 30 May 2023 02:12:35 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id f12-20020a25b08c000000b00ba6ffc7ef35sm3395689ybj.65.2023.05.30.02.12.34
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 02:12:35 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-561b7729a12so73458897b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:12:34 -0700 (PDT)
-X-Received: by 2002:a81:a20a:0:b0:565:b76d:82c8 with SMTP id
- w10-20020a81a20a000000b00565b76d82c8mr1807431ywg.5.1685437954717; Tue, 30 May
- 2023 02:12:34 -0700 (PDT)
+        Tue, 30 May 2023 05:27:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24904135
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 02:26:31 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126205206011.34.openmobile.ne.jp [126.205.206.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 000007EC;
+        Tue, 30 May 2023 11:26:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685438769;
+        bh=xyWNyLfZ4XMMC+JRf20PcpUZeFT54eA0T5pwZvOMi8M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hcgal3qzvMOVEXUXhheG63dfeAIILx4VcY8tCjF/i1xva6aSWwW4kVRxWzi/jhq93
+         mXxoq3U3WFWTOuy4ThzI3sDiwQx+2JG4g+J7LT3qk8dc/hCng3WrE4pNVkgU6mEa/v
+         VaJVfbPdZDQEL9e/UCCCxDtrH+v0jpRC7gCpG4jE=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] drm: rcar-du: Use dev_err_probe()
+Date:   Tue, 30 May 2023 12:26:29 +0300
+Message-Id: <20230530092629.18329-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-References: <20230525084823.4195-1-wsa+renesas@sang-engineering.com> <20230525084823.4195-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230525084823.4195-3-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 11:12:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUhRp5fOrsZveH1HN+SbYBgQVx1hVePhWVLNm=5tk2GCA@mail.gmail.com>
-Message-ID: <CAMuHMdUhRp5fOrsZveH1HN+SbYBgQVx1hVePhWVLNm=5tk2GCA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: ulcb-kf: add HSCIF1 node
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 25, 2023 at 10:48 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Exposed on CN4. Tested by connecting it to a Renesas Ebisu board.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Replace manual handling of EPROBE_DEFER with dev_err_probe() to simplify
+the code.
 
-Thanks, will queue in renesas-devel for v6.5.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+index 1ffde19cb87f..91095f9deb8b 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+@@ -701,9 +701,7 @@ static int rcar_du_probe(struct platform_device *pdev)
+ 	/* DRM/KMS objects */
+ 	ret = rcar_du_modeset_init(rcdu);
+ 	if (ret < 0) {
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&pdev->dev,
+-				"failed to initialize DRM/KMS (%d)\n", ret);
++		dev_err_probe(&pdev->dev, ret, "failed to initialize DRM/KMS\n");
+ 		goto error;
+ 	}
+ 
 
-                        Geert
-
+base-commit: 85d712f033d23bb56a373e29465470c036532d46
+prerequisite-patch-id: 74c948ef7587221bcc859d7e0b38b54b7c404163
+prerequisite-patch-id: 41d31c65b9895beb2f15c1dd2b89e435657a639c
+prerequisite-patch-id: bd71c64e0d7f9a6a5212ef9ad499fb7cdc718425
+prerequisite-patch-id: a01de55d9563b98ab2d86d78db436da198bc4649
+prerequisite-patch-id: 2faeeea13f349cae2470b09926ed52e5743f1579
+prerequisite-patch-id: 783a84269c3d66600ec31046bee76e2aabcb32ad
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
+
