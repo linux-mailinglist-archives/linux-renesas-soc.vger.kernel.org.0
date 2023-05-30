@@ -2,181 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D76E8715AE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 11:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1BAA715CD7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 May 2023 13:16:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbjE3J66 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 May 2023 05:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
+        id S230034AbjE3LQw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 May 2023 07:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbjE3J64 (ORCPT
+        with ESMTP id S229825AbjE3LQv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 May 2023 05:58:56 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9AA102;
-        Tue, 30 May 2023 02:58:49 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5664b14966bso28903967b3.1;
-        Tue, 30 May 2023 02:58:49 -0700 (PDT)
+        Tue, 30 May 2023 07:16:51 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE37A0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 04:16:49 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-64d2b42a8f9so3354930b3a.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 May 2023 04:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685445409; x=1688037409;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5RqkMLB5GbN4wsd0u88geZgUt7w9wYWIrq5UAKfJ774=;
+        b=UBAr0l9KWIwXAaYdwYwhwiv5eHjnujqfUWczZzkq9rmu2EPUwNZMkO6AXKcTFEc3Im
+         TAjksA6WW7gIMqt4hmtiqXWG8FP1PwmxcM4dLqVlaqAh4ODsA+TCDGnMBL8hIDDXfPn3
+         okSQZOz2yZ8VaQP1cnnlQRXZx3txuPjMDd9W4JkknIRNUQ1NEoKUJxIGulFw5LGml/pR
+         kppLJoH4skV/g6Xpj+DWde82jTyhdMEM+VdppM+rf6zK0l41+6CEjGsegor6LWwl4ltH
+         lBowMTvTCDwopCauTy7VKaoHCkgbxX7ZlosU+QDaOAkOeIbVFJ0OlA0NoL7akHdGoI6M
+         OuqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685440728; x=1688032728;
+        d=1e100.net; s=20221208; t=1685445409; x=1688037409;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6WSkehpACbIBkuvPEqFsXs2d/6yWL321TN10hmtC+Jg=;
-        b=KnHNtBP25sM7TGn2UT+1wPmqEKbqiQfLzEa3lWsknCLUc4am2lQFR/pnEE/d9CCUqz
-         gFwstweUJicjv8H0WxQPW3UaV9sH4AWEept6Fe9uSXNBxTi4xWjPkbVuF5xTW+LneVJN
-         s7ln9fHxa2Xz3SliKdPXmX7xJUKhjWWSX6uk88JYTVWbjQSRFgVjqvJgYhVjPULeUfql
-         nHeAs4p8JpqCPCUo7oNwywuMWTEiJlaxL+oKVHWXkhAOakfViuFelRnkuHDf9vHl1Va6
-         ZPw0x/a12g2Sgn68lmkSd579zWwhNvTOmlQVxvaFWm2ygu+qBh/zge/nn88QTnnxU/UM
-         T+pQ==
-X-Gm-Message-State: AC+VfDx62HiQHodhd8MKMzCvqhUJBgYJrJgXlSjlMzA53g1ukn94gBiV
-        WYiQyIUl4HdyCPQM9tFpnqJTPKt8zINElg==
-X-Google-Smtp-Source: ACHHUZ7d1rrI+2ZXOORb+PSg08PjbGfw/yB2w4Cji3hPQ7cJWemWEU62Q4oGdrajon0MSbh92xr+kg==
-X-Received: by 2002:a0d:db42:0:b0:561:e561:9fd7 with SMTP id d63-20020a0ddb42000000b00561e5619fd7mr1707228ywe.39.1685440728369;
-        Tue, 30 May 2023 02:58:48 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id o15-20020a81de4f000000b00568bc0bbf8esm619116ywl.71.2023.05.30.02.58.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 02:58:47 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-ba829e17aacso6031913276.0;
-        Tue, 30 May 2023 02:58:47 -0700 (PDT)
-X-Received: by 2002:a25:1585:0:b0:b9e:7ec8:5d45 with SMTP id
- 127-20020a251585000000b00b9e7ec85d45mr1954396ybv.55.1685440727022; Tue, 30
- May 2023 02:58:47 -0700 (PDT)
+        bh=5RqkMLB5GbN4wsd0u88geZgUt7w9wYWIrq5UAKfJ774=;
+        b=ay6WKEPSigFlTl+ED31dccarnkhnr6EiYLOdoYANP3/wqZcMyZf6aae3hxTMr1oQYi
+         yaxE8o7FaR9smxadajs4TFURlWVjvygdmZM2TIZQSv4pptOvJfsnsidqdIRyckM3WeXp
+         tvo4iHx8csLIoHYehZsPY6b1VW/MrpVzxE1e9gp6563Sw7/WO83AMgPxrIRNpA42Ah2g
+         I7zHpzdvgRirnzQIK1Pl7O2AbPh6miPGtfALRBcmEswrQOLqPFNez40NM8nlfT+Qdr+x
+         gl6vSrsRJX1nP47xE4LTv8BCOMNAPz7n/fV4r3f40K4j4Mmi6pNdTADmOWnQux6cYUvF
+         fyjg==
+X-Gm-Message-State: AC+VfDzy63xVUmRtoeTxT+C2VhHfye8SRFqDTpFpEuWClsPmOs95cbgp
+        mFKVPgPJfKK0zftglnQAIIhqQDURflW6jG2y7th3Ap3b
+X-Google-Smtp-Source: ACHHUZ7AWjuSEU97d1iQYmuklH9E5GRubZB6SwQNIlEtyY0wxeqXQnmtR9lH1YK0YBqsn2jAqkJH8MMaRPzAGL14AzU=
+X-Received: by 2002:a17:903:41c3:b0:1ae:6cf0:94eb with SMTP id
+ u3-20020a17090341c300b001ae6cf094ebmr2043729ple.5.1685445408960; Tue, 30 May
+ 2023 04:16:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230515131353.v2.cover@dianders> <20230515131353.v2.2.I88dc0a0eb1d9d537de61604cd8994ecc55c0cac1@changeid>
- <CAMuHMdWM_t7uQqkesM3fnSK7THrmLszA7U54==A0-98xPH90Bw@mail.gmail.com> <868rd6cfsy.wl-maz@kernel.org>
-In-Reply-To: <868rd6cfsy.wl-maz@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 May 2023 11:58:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW6E9JR9A1LxzXMWS8o06L7hawQ9e20=ysjeviv+EOrtA@mail.gmail.com>
-Message-ID: <CAMuHMdW6E9JR9A1LxzXMWS8o06L7hawQ9e20=ysjeviv+EOrtA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] irqchip/gic-v3: Disable pseudo NMIs on Mediatek
- devices w/ firmware issues
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Eddie Huang <eddie.huang@mediatek.com>,
-        Hsin-Hsiung Wang <hsin-hsiung.wang@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, wenst@chromium.org,
-        yidilin@chromium.org, Tinghan Shen <tinghan.shen@mediatek.com>,
-        jwerner@chromium.org, Weiyi Lu <weiyi.lu@mediatek.com>,
-        Ben Ho <Ben.Ho@mediatek.com>,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <CAHCN7xKsejKgF5E+veu-G_1ygTF+gkV6uTJrU0AG3ohD2WiiuQ@mail.gmail.com>
+ <CAMuHMdVKm6Cf16Rs54DMfD30NvRFcG9JCXTNT2yb-eLN_60eyw@mail.gmail.com>
+ <CAHCN7xJ4LzsAXitcvouYf-Z6bDu3n6o5=L_KNwfBi5hoZG0pUg@mail.gmail.com>
+ <CAMuHMdVQQ+M=iuo0uhRXRMUijjLskGRhbk0PD-jWdNaYT7dJ7w@mail.gmail.com>
+ <CAHCN7xJiFzEm60PxWSG2_kr+2N-pFS8_JSMhs7Q5W+qnzCzvpw@mail.gmail.com> <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
+In-Reply-To: <CAMuHMdW2QyV_pkD3=xiHpDm3-xd2gFAneChqN+hntCLCvDEYsg@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Tue, 30 May 2023 06:16:36 -0500
+Message-ID: <CAHCN7x+kGYeUYD4CrzPz15Xa1=BTpjnGvVs58Yv1cKZjOxdLhg@mail.gmail.com>
+Subject: Re: RZ/G2M Power Domain Errors with GPU
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        cstevens@beaconembedded.com,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Ulrich Hecht <uli@fpond.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
-
-On Tue, May 30, 2023 at 11:46 AM Marc Zyngier <maz@kernel.org> wrote:
-> On Tue, 30 May 2023 09:29:02 +0100,
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, May 15, 2023 at 10:16 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > > Some Chromebooks with Mediatek SoCs have a problem where the firmware
-> > > doesn't properly save/restore certain GICR registers. Newer
-> > > Chromebooks should fix this issue and we may be able to do firmware
-> > > updates for old Chromebooks. At the moment, the only known issue with
-> > > these Chromebooks is that we can't enable "pseudo NMIs" since the
-> > > priority register can be lost. Enabling "pseudo NMIs" on Chromebooks
-> > > with the problematic firmware causes crashes and freezes.
-> > >
-> > > Let's detect devices with this problem and then disable "pseudo NMIs"
-> > > on them. We'll detect the problem by looking for the presence of the
-> > > "mediatek,broken-save-restore-fw" property in the GIC device tree
-> > > node. Any devices with fixed firmware will not have this property.
-> > >
-> > > Our detection plan works because we never bake a Chromebook's device
-> > > tree into firmware. Instead, device trees are always bundled with the
-> > > kernel. We'll update the device trees of all affected Chromebooks and
-> > > then we'll never enable "pseudo NMI" on a kernel that is bundled with
-> > > old device trees. When a firmware update is shipped that fixes this
-> > > issue it will know to patch the device tree to remove the property.
-> > >
-> > > In order to make this work, the quick detection mechanism of the GICv3
-> > > code is extended to be able to look for properties in addition to
-> > > looking at "compatible".
-> > >
-> > > Reviewed-by: Julius Werner <jwerner@chromium.org>
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > >
-> > > Changes in v2:
-> > > - mediatek,gicr-save-quirk => mediatek,broken-save-restore-fw
-> >
-> > Thanks for your patch, which is now commit 44bd78dd2b8897f5
-> > ("irqchip/gic-v3: Disable pseudo NMIs on Mediatek devices w/
-> > firmware issues") in v6.4-rc4.
-> >
-> > This causes enabling an unrelated workaround on R-Car V4H:
-> >
-> >     GIC: enabling workaround for GICv3: Cavium erratum 38539
-> >
-> > > --- a/drivers/irqchip/irq-gic-common.c
-> > > +++ b/drivers/irqchip/irq-gic-common.c
-> > > @@ -16,7 +16,11 @@ void gic_enable_of_quirks(const struct device_node *np,
-> > >                           const struct gic_quirk *quirks, void *data)
-> > >  {
-> > >         for (; quirks->desc; quirks++) {
-> > > -               if (!of_device_is_compatible(np, quirks->compatible))
-> > > +               if (quirks->compatible &&
-> > > +                   !of_device_is_compatible(np, quirks->compatible))
-> > > +                       continue;
-> > > +               if (quirks->property &&
-> > > +                   !of_property_read_bool(np, quirks->property))
-> > >                         continue;
-> >
-> > Presumably the loop should continue if none of quirks-compatible
-> > or quirks->property is set?
+On Tue, May 30, 2023 at 2:38=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Indeed, thanks for pointing that out. Can you give the following hack
-> a go (compile tested only)?
+> Hi Adam,
 >
-> diff --git a/drivers/irqchip/irq-gic-common.c b/drivers/irqchip/irq-gic-common.c
-> index de47b51cdadb..7b591736ab58 100644
-> --- a/drivers/irqchip/irq-gic-common.c
-> +++ b/drivers/irqchip/irq-gic-common.c
-> @@ -16,6 +16,8 @@ void gic_enable_of_quirks(const struct device_node *np,
->                           const struct gic_quirk *quirks, void *data)
->  {
->         for (; quirks->desc; quirks++) {
-> +               if (!quirks->compatible && !quirks->property)
-> +                       continue;
->                 if (quirks->compatible &&
->                     !of_device_is_compatible(np, quirks->compatible))
->                         continue;
+> On Fri, May 26, 2023 at 9:59=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
+ote:
+> > On Fri, May 26, 2023 at 2:13=E2=80=AFAM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Fri, May 26, 2023 at 6:07=E2=80=AFAM Adam Ford <aford173@gmail.com=
+> wrote:
+> > > > On Mon, May 22, 2023 at 3:06=E2=80=AFAM Geert Uytterhoeven <geert@l=
+inux-m68k.org> wrote:
+> > > > > On Sat, May 20, 2023 at 5:13=E2=80=AFAM Adam Ford <aford173@gmail=
+.com> wrote:
+> > > > > > I am trying to see if the Open Source PowerVR driver [1]  for t=
+he 6250
+> > > > > > can be made to work on the RZ/G2M, and I am having difficulty g=
+etting
+> > > > > > the power domain to turn on.
+> > > > > >
+> > > > > > In the GPU node, I set:
+> > > > > > power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
+> > > > >
+> > > > > LGTM...
+> > > > >
+> > > > > > Unfortunately,  when it boots, I get the following error messag=
+e:
+> > > > > >
+> > > > > > [    8.313305] powervr fd000000.gpu: error -ENOENT: failed to a=
+dd to
+> > > > > > PM domain 3dg-b
+> > > > >
+> > > > > That means genpd_add_device() failed (but why?)...
+> > > >
+> > > > With a pointer from Marek V, I appear to have the necessary clock a=
+nd
+> > > > the power domain operational by borrowing from the down-stream RZ/G=
+2
+> > > > kernel.  Even if I cannot get the PVR driver working with this kern=
+el,
+> > > > would you accept the clock and power domain patch now, or do you wa=
+nt
+> > > > me to wait until we have a user of these (aka PVR) working?
+> > >
+> > > I don't think it makes much sense to add the clock and power domain
+> > > patches upstream now, as they impact system behavior, while we don't
+> > > know if they are sufficient to make the PVR work.
+> > > The clock patches are probably (more or less) OK, and they do not hav=
+e
+> > > much impact when the PVR is not enabled or not used.
+> > > For the power domain patches, it's different: some of them are quite
+> > > intrusive, and we still don't know the full rationale behind them.
+> > > Out of curiosity, which power domain patch(es) did you have to apply?
+> >
+> > I didn't really have to change the power domains per se, but I had to
+> > add the clocks that the GPU power domains needed and I refereneced the
+> > power-domain from the GPU node.
 >
-> If that works for you, I'll queue it ASAP.
+> OK.
+>
+> > Do you want me to send the patch as an RFC?
+>
+> I guess you mean patch series[1], submitted by Marek?
+> That one is marked "Chances Requested" in patchwork[2].  Moving it
+> forward means fixing the issues pointed out.
 
-Thanks, that fixes the issue for me on Renesas White-Hawk (R-Car V4H).
-No regressions on Koelsch (R-Car M2-W) and Salvator-XS (R-Car H3 ES2.0).
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I edited different files based on the downstream kernel from Renesas.
+It also modifies different files, but in a similar way.  I was doing
+this on an r8a774a1 (RZ/G2M).  I tried to address the concerns you
+sent to Marek.
 
-Gr{oetje,eeting}s,
+I'll post the RFC momentarily.  It's a 3-part update to add a generic
+Rcar-gen3 clock, add the 3dge clock, then the add GPU node.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+adam
+>
+> Thanks!
+>
+> [1] https://lore.kernel.org/all/20220314220012.218731-1-marek.vasut@gmail=
+.com/
+> [2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=
+=3D623329&state=3D*
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
