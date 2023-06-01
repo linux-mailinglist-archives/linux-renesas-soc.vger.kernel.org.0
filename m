@@ -2,63 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAAC2719B7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jun 2023 14:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C452719BB7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jun 2023 14:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233179AbjFAMJB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jun 2023 08:09:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52970 "EHLO
+        id S232163AbjFAMOm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jun 2023 08:14:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbjFAMJA (ORCPT
+        with ESMTP id S233316AbjFAMOi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jun 2023 08:09:00 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2116.outbound.protection.outlook.com [40.107.114.116])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D049D
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jun 2023 05:08:53 -0700 (PDT)
+        Thu, 1 Jun 2023 08:14:38 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on20721.outbound.protection.outlook.com [IPv6:2a01:111:f403:7010::721])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBDC139;
+        Thu,  1 Jun 2023 05:14:15 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PDKKmmq1exXJcqumZtUczrK/axFfb/AQHo6yWLS/toX9zPPf39M8Bj4FzQy16nMYQ4aZyaw8mkFGvT/xf7NuXORx42txHwd639JTBlBRyzCVC7zyB2xi7IKBW3RYYa4EamvxMTqQRpudkWYMkxC9kd1Iebn0dl0g/0VKsKD4AZUAAFV5SGo8KD7fpztZAAXUYQ/8TP4hjo1lifSRHrzMMwTD1Nby9OzHenJFWzt2Kc6HESF6PDYuESQXtf8IPBVSLs1eGeS2iPxMMszvkHdspzPKzrNbS/wk2FyRfU+uvxB6QPGP2xMpCWAUa2iUbrrH9ueRWPJmc018GWkzQEhNhA==
+ b=SbEyM9yZtDBEd+wHl+2Js49aSgF25MLqmQve68UrUoTsAeBfD8D38LlMp+i9yaRR7jq7YpdMr0r95dyI5IT6N923x8fPFJB12YBv9NLql4HtwEYe+vuXI+nO2TcZ6z5gpNvxdUbh3H9I/Mxi1gmQhlisi1hFAJXMhp+mi9liMkfxK4ORK45OpMjsiqiC7TY8wIF/+8nGoDxaBvs77NBVANC1nrnpu1j+ZIkvK5fgSt+rivUxvyhmT1rjxZ4nNwXN1TtpxPH8GUp7wzMw3XeTT+eMsIH+EApr6Ism1J/LRcMGi2g/w4urm/QtQqrEs3azgq8I1/zbwKXgRYN1r/ZAwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OPzKIKkuF540P9n8tprKgOb6txSfGZaIb1S6YUauQ0E=;
- b=BYMMW1uTImoM5KjilRR0ktMH0RfdsCiBGbyEcymCiNGOFzUw9425AFccwINBcEKI/5asFP7crjg0HLP0WW+Zc4feIdTAWNri0N8wqyDO9PxixPNNzeWBPktoKBVmxNHrKVeXPeDG05gdxP3flF+slqcVoTVKvAGX1NIaz9bYcf+u+XCWoPxKovVml0zomOQXa6xmWb1cH6Qf7upGmBmZaB0OtPJKMUC1q6s6brn6igsbLW9tHf/pw0/XlITlF8FnzrmVuZtVIlkpYWfnbas1i847Q5bayvrZEzA2ll1+jjCs2VfYeLWuVDTHouzZJEaZSJ9Ir33AOXyx64FjVvJAEQ==
+ bh=qQbOqdfkW829j+jnU4F44BYYqTljG1CgyAikb8+59LQ=;
+ b=ciVU72AeaYLNUN2Yvd53gZ6nYRxxwjwtdIZkXdRholPnhgM45EESLfM6rjBV3d1q8M9gseIgblVJSz5NbMGJh+9Yyta60V+7KN3Ye8Pdq9HfsF6kv8BHndZVd+aguJjN2IJ4ujzwTHlFNFMCDq98gwreJELy2+DZn07qKWdZjVkKpUfOgQQFGthPwHG6upvlq6nFtAMfUs6816LgJ4YYwBNH9LsflTizpAex3u16l4NsV9m+ulDJYw/tvAgAqfJmUXfubnq6Q6MWWwJgy2fPwh+fEuFzCoSzTyNubQt4IULZQRKd4tWqEOrkjbWdEEYVquYL38N8ApkYhfI61IuCdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OPzKIKkuF540P9n8tprKgOb6txSfGZaIb1S6YUauQ0E=;
- b=D9rdz/80941GJEaKEznGY+2uXs1knbbUFpTS926R4NX0eXur0wyMvJO2D+UqGDE7lB/i5G6rBF/aAECDS3o0MD6k+n/Muz4RSIz8Zm6wlWqTRK2IiS4hJBZiEmsxfDQTmmqtFPcAc44Nh+zkdhulNAN8Wd1sFRvhB1+OdH5dn44=
+ bh=qQbOqdfkW829j+jnU4F44BYYqTljG1CgyAikb8+59LQ=;
+ b=KMRRbKSkKbXc2ff5+YsPc1B9hMWFaOI9CxaFymPttYdNZE2vQaM9YiKAVr2EAh9NzhqHP6XoGkeHr2kHswuucGh3q9BAonCf9l8F4E2LM/vmmEYfic9PpYidzsUYTtvcBgDJoorbNlMvQKtGl6N6iEdZYz7oN51KAIig5PFKKqg=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
  by TYBPR01MB5550.jpnprd01.prod.outlook.com (2603:1096:404:8024::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.23; Thu, 1 Jun
- 2023 12:08:48 +0000
+ 2023 12:12:59 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.020; Thu, 1 Jun 2023
- 12:08:45 +0000
+ 12:12:59 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Philipp Zabel <p.zabel@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v9 RESEND 4/5] drm: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v9 RESEND 4/5] drm: Add RZ/G2L DU Support
-Thread-Index: AQHZfN42vFEZgG4dzkicin0/DbOzxq9xjseAgAR2VhA=
-Date:   Thu, 1 Jun 2023 12:08:44 +0000
-Message-ID: <OS0PR01MB5922ED8C626E23D80D1458E386499@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Topic: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Index: AQHZfN4p/b5orSrwk0ai5QpLpQqzGK9bCteAgBAjuzCABkdFgIAAARaggAAYaACABHqVQA==
+Date:   Thu, 1 Jun 2023 12:12:59 +0000
+Message-ID: <OS0PR01MB59222EFBB7C6549620192AAF86499@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
- <20230502100912.143114-5-biju.das.jz@bp.renesas.com>
- <20230529154305.GB15264@pendragon.ideasonboard.com>
-In-Reply-To: <20230529154305.GB15264@pendragon.ideasonboard.com>
+ <OS0PR01MB59220E8306506F3E0B17968A86789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922CC640A93CF85033FB47086469@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230529141349.GA15264@pendragon.ideasonboard.com>
+ <OS0PR01MB5922B66349F301074C51018F864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230529154504.GC15264@pendragon.ideasonboard.com>
+In-Reply-To: <20230529154504.GC15264@pendragon.ideasonboard.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -67,1543 +73,370 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYBPR01MB5550:EE_
-x-ms-office365-filtering-correlation-id: 5c5e28d3-168f-4dc1-066d-08db6298f2c2
+x-ms-office365-filtering-correlation-id: 4215c333-6eb2-459d-4641-08db62998a3f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gZlPsCy0VmVLIVPtq/iRGz/R7NB2QXacMJRsGxsPS76WlVg/6dtwmTfm37HCgoCsaqXK2PPdViX5YOwwRHf53EosnrEVpGDMRdk4K+/rNiCRWraMAO5OEVU+LkijQqZRz3nUBm+jVaj/h0jLqt1XtUe1SYCRen8dfIX/7u1M28okcwsUoKvzJkt+tyL/33DjurZVHIDC5+4jKKYfJh004NEcG9fXkiEFJV6klzX+rpwv0CFB1Y09ymbrdl+9kJAKmFD2zhHTz76UHNehiVK1V8bsb7L9VEQoPG8vyH6BDcMhB5kBttzhQRSy5JjjkjzYbUUr425tbzoLaFGI0M4Sp8GjZFAaO1wgSQlJqANWxMPhx+tj0/qbb3dfcmpfinF0E7QqXtgFG0vhCLlffxwQNNdFkynC2xc0Hgw3jlGrPEwTYGjwWYu/y+Cfj74/t0pvIg0W0JxVTNNvtUOYV7ZvpOXm4p1kYLKkPKjLmVXUEcMJrnyaOK3eNQp/85oMSa0EdvY+gB7tlrxM32LDXtQ5MuXXSeJjdFSKlKQ+aiZayCiCul8LqLdiv64mwSSX7MtGwMELAePHsT6qDw4/uf+TTtN7/lAT4uFRJgUKiRPFt0M=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199021)(966005)(71200400001)(7696005)(478600001)(33656002)(186003)(26005)(6506007)(9686003)(83380400001)(38100700002)(38070700005)(86362001)(122000001)(55016003)(107886003)(316002)(6916009)(4326008)(41300700001)(66946007)(66556008)(76116006)(66476007)(66446008)(64756008)(30864003)(2906002)(8936002)(8676002)(5660300002)(52536014)(54906003)(579004)(559001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: VmI3aqQl5y6U+XPNmUtZ1Zqy3s0UnWIkwa/NI1uBSOnqskNNAFG6b15FjijjN973pnnVSXmzc6k6Ht/LSU4LGkmE1Sz686XfgDIwoHVjgew4AppVPa4D3rXgDy5YRJAUtiCcemrAemMcLHi/dcFa1hfKfIj58nG2Ka1cTprDmGpm7r2zZ/DF/z69tfyEI6esnDz0Gu8wBMdyOHl9vKg9ZpE9P81+dRaMSa1LYC14tq5O6RKC3JIV1KA2gQlE3MgsLrcQPNRsqzmy+Ii1xJJ2SoWzp8JpaR5UZ9vVMZuL9jGc2KANk97zXPXHGkOowfP8ok2JzdLOLwm8dP0sXnsMjYO1w09xYJGCwY+wuwFC2fUpMU5i/5lrliWlUoWM7qUnqct9y8Bfz/l9ibvXV7oENo5cXkU/+YBmJUqntw1Ik40pu31AhtSv1TIVAWxTx29muUAcDAr9s0H94NrbAh1jyClYXPoOj0YFFaw11OQxjC81f3sCNrG4108ZsZqOroDsPeCPYIpiauvQYbzO/7B47mGSLxUsc5SkUYm34y3Y38FGwFoQxlPSvQ93BrWPuuLOeyXViCCJNqv72EYamiGZszpTMUnhhHd00dVdYZmfkxSUkmbJXSoyOY5BzFSdWHjV
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199021)(71200400001)(7696005)(478600001)(33656002)(186003)(26005)(6506007)(53546011)(9686003)(83380400001)(38100700002)(38070700005)(86362001)(122000001)(55016003)(316002)(6916009)(4326008)(41300700001)(66946007)(66556008)(76116006)(66476007)(66446008)(64756008)(30864003)(2906002)(8936002)(8676002)(5660300002)(52536014)(54906003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pXLnk5lqgUa3siwvpvG3Fy8/AtCCP54uR1LZJqnmpQhw5JDrb9mbXGQJTcgG?=
- =?us-ascii?Q?WCNkCJyAt9paK+4f1eer8/nWbV2W++px7G16N0hWfIkcE6yiSzqMRWxb+pQX?=
- =?us-ascii?Q?5l5TP+NKtUuDIEGjWW2TBdvm8Lk5NCRsX8PqO9QKBPXrucJAAfxdea1wmCQg?=
- =?us-ascii?Q?0e8UK63+eisldqkN29BK6JaMtDs0+wEb17gIFXSb4RnqUWXndsIcdHuGgX5Q?=
- =?us-ascii?Q?MLSMXglh2M7wcjtPebbvMLLkwhm3TNDrY5c75feSisiFLtdcXja8efQAZLom?=
- =?us-ascii?Q?550N7tAqJJqbGEDAEiNS4PWb1TbOPDbghd5IMqdG+mh0kOCsfTVISWyG2SaL?=
- =?us-ascii?Q?2Tq/ASJQ2hp0pSDEOnz0q9SfaHNIWsd4Qw8Jmy8nIKZ2XX07m3SXwaOEUxsh?=
- =?us-ascii?Q?RmacfHmNcnM/TVw8ItBJv//vU+Eoyav9xbCrKtLXVaGzdhl7cCR+9Zg/SDgf?=
- =?us-ascii?Q?vvqdQRmj1Xy1SP9AcLrQruOH6P41eQmtFWmzNVEq8vl1rMxnC3ktKv4WWiyR?=
- =?us-ascii?Q?YMzUDJIvJDwnc9J98vSyeg573LTXnJWCIuDu8QTsnXUqdq2J8oEmt3LTM1TI?=
- =?us-ascii?Q?bK9Q2dRdXgAtlChTsGEud7NSvH31teqFK/0U78ob2sXrZ9dek4qQQWqcH7jN?=
- =?us-ascii?Q?yWRNRAgc9Df9PZK+24Ed3vJpmChz1iIDHNct6Kn38XwkXYi4V6J8I3ZGGNkD?=
- =?us-ascii?Q?z/cZc/wUIamR/0ldPY2nY4sk8Un8e9+GDxzKQdInIph8Wy5rxHLEtvLUsako?=
- =?us-ascii?Q?+Q/tpWjeR9pxff8TTXiFmLevs54bzPNO6WfPiqUd85JH2tU4fZrHS/LvPO8H?=
- =?us-ascii?Q?scrbcs9Ibb/lZypS8tOhKczgP+GRe/tfrupEPGA720W7lGuc0/Qu553xvoUo?=
- =?us-ascii?Q?rOfuLqWTrvlc722OcgKRA/cclMxKMIlXWV2dzbbX3VaIToZiK7i45UBqcrPH?=
- =?us-ascii?Q?zaiTu+0iE9JOXqQpTXibbxHdRdqAx7xN4MmcCb34WErQ6FLKW6VJvc7X4aCh?=
- =?us-ascii?Q?eDNqClsoEWsZGXCf5h3fSOd2ZjKKNyNaoesgFvzFu0HH7q0IHvK3+xMNjtKQ?=
- =?us-ascii?Q?4lSZGMvNpPCo8M5DCbum+RXx96C2zzVqWtuv+jCQ4r9VQ1wz8h7F3YUj4q4U?=
- =?us-ascii?Q?R0sT5eBiT0NeU93iv4em8DQoiuylVVK58naHBoiGoH7hy6xXWtsqULgVyrDp?=
- =?us-ascii?Q?hdBTl70IDgp/6qbUipjE2pB8gYcUGYb+IPqvf4ZV0cd4MX4D5X9Unmz7OTdQ?=
- =?us-ascii?Q?MjGg3MrRq9/WiIrgE5mnVoOVXxQyrynuJrUk2QiIX6LzGbSnEmvlDOfEqNBU?=
- =?us-ascii?Q?nyhe5oqMghqwg3IZ4xfDUJ3l9lqM2b95/KCeukdjuRdOqNlzKZcuAZYksg9y?=
- =?us-ascii?Q?iM28/puJQ6veJyHI3kbFivgLGvq3/VgZWVbLxpzNxPFIYmf+ezQiuWlWithX?=
- =?us-ascii?Q?oMbmS72I344uomAo78Ix7i0Bw8FDXz0UUmU9u49tIh035f/jNz3ZtBMXAmq/?=
- =?us-ascii?Q?GPI3Rhn5Ju6iYY1rjSPA03prl74HohQwzRKZdyBb5TqYq1zY0H/anfF71W5S?=
- =?us-ascii?Q?bCXybiV2MYJvvrqbO9OQhEqzD4npvI4infP5Ph9p9WQwi8gPoX4ns9jll36L?=
- =?us-ascii?Q?3Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aEpHRzJndzlpeWFKcHBFOE1GL1NzSU1sa3JlNHY5OUs1amZQNGUwSG0vdTVt?=
+ =?utf-8?B?YzE2Z2F0eGdMdjNMNDJJOEFTUUpNaDV1ODUvY2lPbW1KSE5FcXgrNmlPOGs4?=
+ =?utf-8?B?SU5CeWhmWnNaaVdIcGFNNWc0Qzd1U3V0UDRKRmc3MFV4a2hRbE1uQnpOcTdJ?=
+ =?utf-8?B?WDlyUnB2UEttamRNdllCSEdJekxzd0ZwTHg1MXdaaEpmUDQ3WkU3Q09IS1Jm?=
+ =?utf-8?B?enZienBJUndlMlllUi9zU3dDa2k3bGgrR3NHc1c5M2RoWndvUGsyMjVlbmI0?=
+ =?utf-8?B?cXg2b0s3SzQrSGJodEFQd2MvMnpWdmY1dGtrQ1hxWVJJQ2ZISHJFWmphSVhG?=
+ =?utf-8?B?a3dpQTNGTGJtOGg5TG1aRVo4c2NxV0FBSktlL3hYTEtRZ0lGbU1nNGdJdE9E?=
+ =?utf-8?B?RWwrZ3kvbHNoVmJuVGk3b29UTVMwWXJJWjh3WUlFTmJzbHIxL2kwOWZIWE0z?=
+ =?utf-8?B?SjlZbllYcHJzMS9FdHRnK3RaSGtMbFJNV2RHOWpZSWc2TGNsUGZUeEpVNVZa?=
+ =?utf-8?B?T21kUEd4Y2p6MUx3M2pONFJsYlpQeDRjMEVsSVVoSEU0dEkyUFJJRUZTck1v?=
+ =?utf-8?B?NWZTRVd1cjBmeWpZeURZVHJxcWN3cHZud3F4SHEyVVJFNWJhR0pRWGh6Z3Fx?=
+ =?utf-8?B?OWFMNFZjdjZtN1JrMzlEdFgxdVdFM3Zwbk9MN0lqejJZVHBDSWd1eHd2UWZs?=
+ =?utf-8?B?bkRVV0pMaGY4czdSTzE4bzlkQnhoN2NMeW1VOHd3Nm9NWmtzZDZvL2VUZ0Zq?=
+ =?utf-8?B?TWJsSE9CcFFoTVkvN0ROTy9FR2lnT1NNQ2NPTEJuczVmYURHTTdBaTlqNFpT?=
+ =?utf-8?B?QlZqSDlpcGpzQXNyUGRzLy93WXgwVTEvdks0VGgwS2xkT29RUllsQ1VoOHJh?=
+ =?utf-8?B?KytBeEoyMlcvb3A1ZndTcE92dXFuTnlVQmhnbjIzOHFRcGN0VVZWMDVFOTh6?=
+ =?utf-8?B?UDIyOXdwbWRRbmVMY2crM0E5aWVXT1dCcVRrdTV5WWpFKzFBZ2RoTFRmNldT?=
+ =?utf-8?B?QzR4S1ZYSGh6S0tlN1lZdEsvblQ4eG8xalFwVlJ2Tlp6dXhuNW9SQnVMR2d0?=
+ =?utf-8?B?cGNCY0ZzcThPU1oxb0FzZkJrd2t3bURWNmhocDBaTGVGOWM2Z1RzZ3RCRHp3?=
+ =?utf-8?B?ekpIK256TlRVZjJTRWV6SDd1U0ZIb21SRDNmdW9ETmxPY2ZER3JDbTJyNURM?=
+ =?utf-8?B?SjdNVWVQY3JoanNVdWtlR2hVZ3U2bU9aWFRwNVZGMVRLVlhrTU9UazdPZUZn?=
+ =?utf-8?B?dTArTzIranVBeWpDVCtZUjhhZXBGSXVrTHRqVlFPSkQ3NUxtQXVVbDhOSlE2?=
+ =?utf-8?B?SCtoQS8rcm9KcUhCZTRjckxJSy9GN2ZSVWNQdnV3bjdnMGhOVmFrTDJTVW8x?=
+ =?utf-8?B?dWQ1NjhjZmZDR1lXbkxyczJmVnlXMUFWN0FmZDM3elBQUWxOVVFnMkluTEY2?=
+ =?utf-8?B?WGcyMkZsdnQydmdBaWtPTFI2SG9QanhZMVNmUUFYZDVBY1UvdkV2YlNCL2t2?=
+ =?utf-8?B?SGd5L0xnNWc2elVTNTZKb2pleXIvUjdGUTBvTmJTTEJNRktNWXIvL2Nsb3lr?=
+ =?utf-8?B?dVUyNVJvbkQrTjZUY1Q2NklOM202Nk1GT0lFUTdRWk1BVk1lb0VwamhtYU1E?=
+ =?utf-8?B?V2NqT2k4OHZweUxXRXU2MEVrRGpKSUk5cFF4R3I4ekZ6K0x5ZVVmeVlDNVo2?=
+ =?utf-8?B?ZDRyV1JZRStvbzNuQlp3L285dnE2cXp5YWl4U2p3S2tjaW9CRHF3bGFpNTJN?=
+ =?utf-8?B?RTIzL0ZXaTZITkx4MTNkSUpPSG1LVis3UDNkdG12Q0QyTnc3UVg0M3JZRWxZ?=
+ =?utf-8?B?N2JrT1dLWm4zQUgwdy9oMkhKWDVnZzIveWtyZTRFa2hYK1k4bTZrdjhVQ0k2?=
+ =?utf-8?B?ZVRQRmFleFhXNHhsSVBhMzdUTWFOcGxtM2EzaEdvcCtWbXRUTXA3QkxoZHda?=
+ =?utf-8?B?K21kbmxlTjdrZGdMV3pCb1pER29FdVFTRzJDYmZ3aDIvRlhvRHpNamQ2a3Mx?=
+ =?utf-8?B?cVp0TWNDVlR6TitOemtqVWNpZXBFZXBva3R5QUtjdWlPaWtwVjVySDhSOW1N?=
+ =?utf-8?B?eUtydXYydThQR2RyQXZwRGNZNGsyb3NtUi9wVkhuR3Bvbmpja2ozR2QvQkhY?=
+ =?utf-8?B?WDBjZDZmRTB1bFJTZC9QNEFnbjJTVUdzZWtEQmo0c2VxSE9xdGhsVHJwME9m?=
+ =?utf-8?B?dHc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c5e28d3-168f-4dc1-066d-08db6298f2c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2023 12:08:45.0388
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4215c333-6eb2-459d-4641-08db62998a3f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2023 12:12:59.1550
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /7XQZrQDN2im+y9fPk+AB3oYXXZls4wyWXUKgzwQMryoIZSB63k9bLufA2yinoSFbdY5u1++orfqxX3N7K4HkQ5pz714pujQ62GHhaN7bXI=
+X-MS-Exchange-CrossTenant-userprincipalname: k38pF//52hN+C6xbpgxuyPxaP8eS/gKL6Ju1LGwrVCOR7NWX90MyNiy+ehnWNqimaaFQ2bUQaJDAA9xMy7JzSkUw/d09+QFzf9Q6ll+YlNw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5550
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v9 RESEND 4/5] drm: Add RZ/G2L DU Support
->=20
-> Hi Biju,
->=20
-> Thank you for the patch.
->=20
-> This is a partial review, because the driver is big, and because some
-> changes in v10 will (hopefully) simplify the code and make review
-> easier.
-
-I agree v10 will simplify the code as I have do clean-ups based on your
-review commnet.
-
->=20
-> On Tue, May 02, 2023 at 11:09:11AM +0100, Biju Das wrote:
-> > The LCD controller is composed of Frame Compression Processor (FCPVD),
-> > Video Signal Processor (VSPD), and Display Unit (DU).
-> >
-> > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-> > along with 2 RPFs to support the blending of two picture layers and
-> > raster operations (ROPs).
-> >
-> > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
-> > alike SoCs.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > Ref:
-> >
-> > v8->v9:
-> >  * Dropped reset_control_assert() from error patch for
-> rzg2l_du_crtc_get() as
-> >    suggested by Philipp Zabel.
-> > v7->v8:
-> >  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating
-> rz_du folder.
-> >  * Updated KConfig and Makefile.
-> > v6->v7:
-> >  * Split DU lib and  RZ/G2L du driver as separate patch series as
-> >    DU support added to more platforms based on RZ/G2L alike SoCs.
-> >  * Rebased to latest drm-tip.
-> >  * Added patch #2 for binding support for RZ/V2L DU
-> >  * Added patch #4 for driver support for RZ/V2L DU
-> >  * Added patch #5 for SoC DTSI support for RZ/G2L DU
-> >  * Added patch #6 for SoC DTSI support for RZ/V2L DU
-> >  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L}
-> SoCs.
-> >  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
-> > ---
-> >  drivers/gpu/drm/renesas/Kconfig               |   1 +
-> >  drivers/gpu/drm/renesas/Makefile              |   1 +
-> >  drivers/gpu/drm/renesas/rz-du/Kconfig         |  20 +
-> >  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 714 ++++++++++++++++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  99 +++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 188 +++++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  89 ++
-> >  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 112 +++
-> >  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  28 +
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 770
-> ++++++++++++++++++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 430 ++++++++++
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  94 +++
-> >  15 files changed, 2664 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
-> >
-> > diff --git a/drivers/gpu/drm/renesas/Kconfig
-> b/drivers/gpu/drm/renesas/Kconfig
-> > index 3777dad17f81..21862a8ef710 100644
-> > --- a/drivers/gpu/drm/renesas/Kconfig
-> > +++ b/drivers/gpu/drm/renesas/Kconfig
-> > @@ -1,4 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >
-> >  source "drivers/gpu/drm/renesas/rcar-du/Kconfig"
-> > +source "drivers/gpu/drm/renesas/rz-du/Kconfig"
-> >  source "drivers/gpu/drm/renesas/shmobile/Kconfig"
-> > diff --git a/drivers/gpu/drm/renesas/Makefile
-> b/drivers/gpu/drm/renesas/Makefile
-> > index ec0e89e7a592..b8d8bc53967f 100644
-> > --- a/drivers/gpu/drm/renesas/Makefile
-> > +++ b/drivers/gpu/drm/renesas/Makefile
-> > @@ -1,4 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >
-> >  obj-y +=3D rcar-du/
-> > +obj-y +=3D rz-du/
-> >  obj-$(CONFIG_DRM_SHMOBILE) +=3D shmobile/
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/Kconfig
-> b/drivers/gpu/drm/renesas/rz-du/Kconfig
-> > new file mode 100644
-> > index 000000000000..90b1bf72e23b
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
-> > @@ -0,0 +1,20 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +config DRM_RZG2L_DU
-> > +	tristate "DRM Support for RZ/G2L Display Unit"
-> > +	depends on DRM && OF
-> > +	depends on ARM64
->=20
-> Does the driver fail to compile on !ARM64 platforms ? If no, I'd drop
-> this.
-
-Agreed.
-
->=20
-> > +	depends on DRM_RCAR_VSP
-> > +	depends on ARCH_RZG2L || COMPILE_TEST
-> > +	select DRM_KMS_HELPER
-> > +	select DRM_GEM_DMA_HELPER
->=20
-> Alphabetical order please.
-
-Ok.
-
->=20
-> > +	select VIDEOMODE_HELPERS
-> > +	help
-> > +	  Choose this option if you have an RZ/G2L alike chipset.
-> > +	  If M is selected the module will be called rzg2l-du-drm.
-> > +
-> > +config DRM_RCAR_VSP
-> > +	bool "R-Car DU VSP Compositor Support" if ARM
-> > +	default y if ARM64
-> > +	depends on VIDEO_RENESAS_VSP1
-> > +	help
-> > +	  Enable support to expose the R-Car VSP Compositor as KMS planes.
->=20
-> This duplicates the config symbol in
-> drivers/gpu/drm/renesas/rcar-du/Kconfig.
->=20
-> Unlike on R-Car, where some SoC generations can operate without the VSP,
-> RZ/G2L requires the VSP. You can drop this configuration option and just
-> make DRM_RZG2L_DU depend on VIDEO_RENESAS_VSP1.
-
-OK, Will make DRM_RZG2L_DU depend on VIDEO_RENESAS_VSP1.
-
->=20
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/Makefile
-> b/drivers/gpu/drm/renesas/rz-du/Makefile
-> > new file mode 100644
-> > index 000000000000..2cdf3ccd0459
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/Makefile
-> > @@ -0,0 +1,8 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +rzg2l-du-drm-y :=3D rzg2l_du_crtc.o \
-> > +		  rzg2l_du_drv.o \
-> > +		  rzg2l_du_encoder.o \
-> > +		  rzg2l_du_kms.o \
-> > +
-> > +rzg2l-du-drm-$(CONFIG_DRM_RCAR_VSP)	+=3D rzg2l_du_vsp.o
-> > +obj-$(CONFIG_DRM_RZG2L_DU)		+=3D rzg2l-du-drm.o
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> > new file mode 100644
-> > index 000000000000..d61d433d72e6
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> > @@ -0,0 +1,714 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * RZ/G2L Display Unit CRTCs
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corporation
-> > + *
-> > + * Based on rcar_du_crtc.c
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/reset.h>
-> > +
-> > +#include <drm/drm_atomic.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_device.h>
-> > +#include <drm/drm_framebuffer.h>
-> > +#include <drm/drm_gem_dma_helper.h>
-> > +#include <drm/drm_vblank.h>
-> > +
-> > +#include "rzg2l_du_crtc.h"
-> > +#include "rzg2l_du_drv.h"
-> > +#include "rzg2l_du_encoder.h"
-> > +#include "rzg2l_du_kms.h"
-> > +#include "rzg2l_du_vsp.h"
-> > +#include "rzg2l_du_regs.h"
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Hardware Setup
-> > + */
-> > +
-> > +static void rzg2l_du_crtc_set_display_timing(struct rzg2l_du_crtc
-> *rcrtc)
-> > +{
-> > +	const struct drm_display_mode *mode =3D &rcrtc->crtc.state-
-> >adjusted_mode;
-> > +	struct rzg2l_du_device *rcdu =3D rcrtc->dev;
-> > +	unsigned long mode_clock =3D mode->clock * 1000;
-> > +	u32 ditr0, ditr1, ditr2, ditr3, ditr4, ditr5, pbcr0;
-> > +	struct clk *parent_clk;
-> > +
-> > +	parent_clk =3D clk_get_parent(rcrtc->rzg2l_clocks.dclk);
-> > +	clk_set_rate(parent_clk, mode_clock);
->=20
-> Shouldn't the clock framework configure the parent correctly if you set
-> the dclk rate ?
-
-Yes it will do.
-
->=20
-> > +
-> > +	clk_prepare_enable(rcrtc->rzg2l_clocks.dclk);
-> > +
-> > +	ditr0 =3D (DU_DITR0_DEMD_HIGH
-> > +		 | ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DU_DITR0_VSPOL :
-> 0)
-> > +		 | ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? DU_DITR0_HSPOL :
-> 0));
->=20
-> No need for the outer parentheses.
->=20
-> I usually align the | under the =3D, but that's up to you.
-
-OK will align | under the =3D
-
->=20
-> > +
-> > +	ditr1 =3D DU_DITR1_VSA(mode->vsync_end - mode->vsync_start)
-> > +		| DU_DITR1_VACTIVE(mode->vdisplay);
-> > +
-> > +	ditr2 =3D DU_DITR2_VBP(mode->vtotal - mode->vsync_end)
-> > +		| DU_DITR2_VFP(mode->vsync_start - mode->vdisplay);
-> > +
-> > +	ditr3 =3D DU_DITR3_HSA(mode->hsync_end - mode->hsync_start)
-> > +		| DU_DITR3_HACTIVE(mode->hdisplay);
-> > +
-> > +	ditr4 =3D DU_DITR4_HBP(mode->htotal - mode->hsync_end)
-> > +		| DU_DITR4_HFP(mode->hsync_start - mode->hdisplay);
-> > +
-> > +	ditr5 =3D DU_DITR5_VSFT(0) | DU_DITR5_HSFT(0);
-> > +
-> > +	pbcr0 =3D DU_PBCR0_PB_DEP(0x1f);
-> > +
-> > +	writel(ditr0, rcdu->mmio + DU_DITR0);
->=20
-> Please implement read/write wrappers that take an rcdu pointer and add
-> the offset. It will simplify the callers.
-
-I have implemented write as there is no user for read.
-
->=20
-> > +	writel(ditr1, rcdu->mmio + DU_DITR1);
-> > +	writel(ditr2, rcdu->mmio + DU_DITR2);
-> > +	writel(ditr3, rcdu->mmio + DU_DITR3);
-> > +	writel(ditr4, rcdu->mmio + DU_DITR4);
-> > +	writel(ditr5, rcdu->mmio + DU_DITR5);
-> > +	writel(pbcr0, rcdu->mmio + DU_PBCR0);
-> > +
-> > +	/* Enable auto resume when underrun */
-> > +	writel(DU_MCR1_PB_AUTOCLR, rcdu->mmio + DU_MCR1);
-> > +}
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Page Flip
-> > + */
-> > +
-> > +void rzg2l_du_crtc_finish_page_flip(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	struct drm_pending_vblank_event *event;
-> > +	struct drm_device *dev =3D rcrtc->crtc.dev;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&dev->event_lock, flags);
-> > +	event =3D rcrtc->event;
-> > +	rcrtc->event =3D NULL;
-> > +	spin_unlock_irqrestore(&dev->event_lock, flags);
-> > +
-> > +	if (!event)
-> > +		return;
-> > +
-> > +	spin_lock_irqsave(&dev->event_lock, flags);
-> > +	drm_crtc_send_vblank_event(&rcrtc->crtc, event);
-> > +	wake_up(&rcrtc->flip_wait);
-> > +	spin_unlock_irqrestore(&dev->event_lock, flags);
-> > +
-> > +	drm_crtc_vblank_put(&rcrtc->crtc);
-> > +}
-> > +
-> > +static bool rzg2l_du_crtc_page_flip_pending(struct rzg2l_du_crtc
-> *rcrtc)
-> > +{
-> > +	struct drm_device *dev =3D rcrtc->crtc.dev;
-> > +	unsigned long flags;
-> > +	bool pending;
-> > +
-> > +	spin_lock_irqsave(&dev->event_lock, flags);
-> > +	pending =3D rcrtc->event;
-> > +	spin_unlock_irqrestore(&dev->event_lock, flags);
-> > +
-> > +	return pending;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_wait_page_flip(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	struct rzg2l_du_device *rcdu =3D rcrtc->dev;
-> > +
-> > +	if (wait_event_timeout(rcrtc->flip_wait,
-> > +			       !rzg2l_du_crtc_page_flip_pending(rcrtc),
-> > +			       msecs_to_jiffies(50)))
-> > +		return;
-> > +
-> > +	dev_warn(rcdu->dev, "page flip timeout\n");
-> > +
-> > +	rzg2l_du_crtc_finish_page_flip(rcrtc);
-> > +}
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Start/Stop and Suspend/Resume
-> > + */
-> > +
-> > +static void rzg2l_du_crtc_setup(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	/* Configure display timings and output routing */
-> > +	rzg2l_du_crtc_set_display_timing(rcrtc);
-> > +
-> > +	/* Enable the VSP compositor. */
-> > +	rzg2l_du_vsp_enable(rcrtc);
-> > +
-> > +	/* Turn vertical blanking interrupt reporting on. */
-> > +	drm_crtc_vblank_on(&rcrtc->crtc);
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Guard against double-get, as the function is called from both
-> the
-> > +	 * .atomic_enable() and .atomic_begin() handlers.
-> > +	 */
-> > +	if (rcrtc->initialized)
-> > +		return 0;
-> > +
-> > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
-> > +	if (ret < 0)
-> > +		goto error_bus_clock;
-> > +
-> > +	ret =3D reset_control_deassert(rcrtc->rstc);
-> > +	if (ret < 0)
-> > +		goto error_peri_clock;
-> > +
-> > +	rzg2l_du_crtc_setup(rcrtc);
-> > +	rcrtc->initialized =3D true;
-> > +
-> > +	return 0;
-> > +
-> > +error_peri_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
-> > +error_bus_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
-> > +	return ret;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.dclk);
-> > +	reset_control_assert(rcrtc->rstc);
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
-> > +
-> > +	rcrtc->initialized =3D false;
-> > +}
-> > +
-> > +static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool
-> start)
-> > +{
-> > +	struct rzg2l_du_device *rcdu =3D rcrtc->dev;
-> > +
-> > +	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	rzg2l_du_start_stop(rcrtc, true);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_disable_planes(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	struct rzg2l_du_device *rcdu =3D rcrtc->dev;
-> > +	struct drm_crtc *crtc =3D &rcrtc->crtc;
-> > +
-> > +	/* Make sure vblank interrupts are enabled. */
-> > +	drm_crtc_vblank_get(crtc);
-> > +
-> > +	if (!wait_event_timeout(rcrtc->vblank_wait, rcrtc->vblank_count =3D=
-=3D
-> 0,
-> > +				msecs_to_jiffies(100)))
-> > +		dev_warn(rcdu->dev, "vertical blanking timeout\n");
-> > +
-> > +	drm_crtc_vblank_put(crtc);
->=20
-> This while function seems dubious given that vblank_count is never set
-> to a non-zero value. I think you need to revisit the CRTC enable/disable
-> code to match the needs of your hardware, which seems to be different
-> than what the R-Car DU needs.
-
-OK, will drop this function.
-
->=20
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_stop(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	struct drm_crtc *crtc =3D &rcrtc->crtc;
-> > +
-> > +	/*
-> > +	 * Disable all planes and wait for the change to take effect. This
-> is
-> > +	 * required as the plane enable registers are updated on vblank,
-> and no
-> > +	 * vblank will occur once the CRTC is stopped. Disabling planes
-> when
-> > +	 * starting the CRTC thus wouldn't be enough as it would start
-> scanning
-> > +	 * out immediately from old frame buffers until the next vblank.
-> > +	 *
-> > +	 * This increases the CRTC stop delay, especially when multiple
-> CRTCs
-> > +	 * are stopped in one operation as we now wait for one vblank per
-> CRTC.
-> > +	 * Whether this can be improved needs to be researched.
-> > +	 */
-> > +	rzg2l_du_crtc_disable_planes(rcrtc);
-> > +
-> > +	/*
-> > +	 * Disable vertical blanking interrupt reporting. We first need to
-> wait
-> > +	 * for page flip completion before stopping the CRTC as userspace
-> > +	 * expects page flips to eventually complete.
-> > +	 */
-> > +	rzg2l_du_crtc_wait_page_flip(rcrtc);
-> > +	drm_crtc_vblank_off(crtc);
-> > +
-> > +	/* Disable the VSP compositor. */
-> > +	rzg2l_du_vsp_disable(rcrtc);
-> > +
-> > +	rzg2l_du_start_stop(rcrtc, false);
-> > +}
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * CRTC Functions
-> > + */
-> > +
-> > +int __rzg2l_du_crtc_plane_atomic_check(struct drm_plane *plane,
-> > +				       struct drm_plane_state *state,
-> > +				       const struct rzg2l_du_format_info
-> **format)
->=20
-> This function is only called from rzg2l_du_vsp_plane_atomic_check(), I
-> would inline it there.
-
-Agreed.
-
->=20
-> > +{
-> > +	struct drm_device *dev =3D plane->dev;
-> > +	struct drm_crtc_state *crtc_state;
-> > +	int ret;
-> > +
-> > +	if (!state->crtc) {
-> > +		/*
-> > +		 * The visible field is not reset by the DRM core but only
-> > +		 * updated by drm_plane_helper_check_state(), set it
-> manually.
-> > +		 */
-> > +		state->visible =3D false;
-> > +		*format =3D NULL;
-> > +		return 0;
-> > +	}
-> > +
-> > +	crtc_state =3D drm_atomic_get_crtc_state(state->state, state->crtc);
-> > +	if (IS_ERR(crtc_state))
-> > +		return PTR_ERR(crtc_state);
-> > +
-> > +	ret =3D drm_atomic_helper_check_plane_state(state, crtc_state,
-> > +						  DRM_PLANE_NO_SCALING,
-> > +						  DRM_PLANE_NO_SCALING,
-> > +						  true, true);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	if (!state->visible) {
-> > +		*format =3D NULL;
-> > +		return 0;
-> > +	}
-> > +
-> > +	*format =3D rzg2l_du_format_info(state->fb->format->format);
-> > +	if (*format =3D=3D NULL) {
->=20
-> Can this happen, or does the DRM core already checks that the
-> framebuffer format is supported by the plane ?
-
-This will make sure the format is as per rzg2l_du_format_info,
-Otherwise print unsupported format.
-
->=20
-> > +		dev_dbg(dev->dev, "%s: unsupported format %08x\n", __func__,
-> > +			state->fb->format->format);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_atomic_check(struct drm_crtc *crtc,
-> > +				      struct drm_atomic_state *state)
-> > +{
-> > +	struct drm_crtc_state *crtc_state =3D
-> drm_atomic_get_new_crtc_state(state,
-> > +									  crtc);
-> > +	struct rzg2l_du_crtc_state *rstate =3D
-> to_rzg2l_crtc_state(crtc_state);
-> > +	struct drm_encoder *encoder;
-> > +
-> > +	/* Store the routes from the CRTC output to the DU outputs. */
-> > +	rstate->outputs =3D 0;
-> > +
-> > +	drm_for_each_encoder_mask(encoder, crtc->dev,
-> > +				  crtc_state->encoder_mask) {
-> > +		struct rzg2l_du_encoder *renc;
-> > +
-> > +		/* Skip the writeback encoder. */
-> > +		if (encoder->encoder_type =3D=3D DRM_MODE_ENCODER_VIRTUAL)
-> > +			continue;
-> > +
-> > +		renc =3D to_rzg2l_encoder(encoder);
-> > +		rstate->outputs |=3D BIT(renc->output);
-> > +	}
->=20
-> Unless I'm mistaken, once you drop dpad0_source, this whole function can
-> be dropped too.
-
-I agree. Will drop it.
-
->=20
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_atomic_enable(struct drm_crtc *crtc,
-> > +					struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	rzg2l_du_crtc_get(rcrtc);
-> > +
-> > +	rzg2l_du_crtc_start(rcrtc);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_atomic_disable(struct drm_crtc *crtc,
-> > +					 struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	rzg2l_du_crtc_stop(rcrtc);
-> > +	rzg2l_du_crtc_put(rcrtc);
-> > +
-> > +	spin_lock_irq(&crtc->dev->event_lock);
-> > +	if (crtc->state->event) {
-> > +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-> > +		crtc->state->event =3D NULL;
-> > +	}
-> > +	spin_unlock_irq(&crtc->dev->event_lock);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_atomic_begin(struct drm_crtc *crtc,
-> > +				       struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	WARN_ON(!crtc->state->enable);
-> > +
-> > +	/*
-> > +	 * If a mode set is in progress we can be called with the CRTC
-> disabled.
-> > +	 * We thus need to first get and setup the CRTC in order to
-> configure
-> > +	 * planes. We must *not* put the CRTC in .atomic_flush(), as it
-> must be
-> > +	 * kept awake until the .atomic_enable() call that will follow.
-> The get
-> > +	 * operation in .atomic_enable() will in that case be a no-op, and
-> the
-> > +	 * CRTC will be put later in .atomic_disable().
-> > +	 *
-> > +	 * If a mode set is not in progress the CRTC is enabled, and the
-> > +	 * following get call will be a no-op. There is thus no need to
-> balance
-> > +	 * it in .atomic_flush() either.
-> > +	 */
->=20
-> This should also be reconsidered based on the needs of your hardware,
-> given that you don't need to setup planes like in the R-Car DU driver.
-> The CRTC handling can most likely be simplified a lot.
-
-
-OK will drop this function and move the below code to flush.
-
-WARN_ON(!crtc->state->enable);
-rzg2l_du_crtc_get(rcrtc);=20
-
->=20
-> > +	rzg2l_du_crtc_get(rcrtc);
-> > +
-> > +	rzg2l_du_vsp_atomic_begin(rcrtc);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
-> > +				       struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +	struct drm_device *dev =3D rcrtc->crtc.dev;
-> > +	unsigned long flags;
-> > +
-> > +	if (crtc->state->event) {
-> > +		WARN_ON(drm_crtc_vblank_get(crtc) !=3D 0);
-> > +
-> > +		spin_lock_irqsave(&dev->event_lock, flags);
-> > +		rcrtc->event =3D crtc->state->event;
-> > +		crtc->state->event =3D NULL;
-> > +		spin_unlock_irqrestore(&dev->event_lock, flags);
-> > +	}
-> > +
-> > +	rzg2l_du_vsp_atomic_flush(rcrtc);
-> > +}
-> > +
-> > +static const struct drm_crtc_helper_funcs crtc_helper_funcs =3D {
-> > +	.atomic_check =3D rzg2l_du_crtc_atomic_check,
-> > +	.atomic_begin =3D rzg2l_du_crtc_atomic_begin,
-> > +	.atomic_flush =3D rzg2l_du_crtc_atomic_flush,
-> > +	.atomic_enable =3D rzg2l_du_crtc_atomic_enable,
-> > +	.atomic_disable =3D rzg2l_du_crtc_atomic_disable,
-> > +};
-> > +
-> > +static void rzg2l_du_crtc_crc_init(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	const char **sources;
-> > +	unsigned int count;
-> > +	int i =3D -1;
-> > +
-> > +	/* Reserve 1 for "auto" source. */
-> > +	count =3D rcrtc->vsp->num_planes + 1;
-> > +
-> > +	sources =3D kmalloc_array(count, sizeof(*sources), GFP_KERNEL);
-> > +	if (!sources)
-> > +		return;
-> > +
-> > +	sources[0] =3D kstrdup("auto", GFP_KERNEL);
-> > +	if (!sources[0])
-> > +		goto error;
-> > +
-> > +	for (i =3D 0; i < rcrtc->vsp->num_planes; ++i) {
-> > +		struct drm_plane *plane =3D &rcrtc->vsp->planes[i].plane;
-> > +		char name[16];
-> > +
-> > +		sprintf(name, "plane%u", plane->base.id);
-> > +		sources[i + 1] =3D kstrdup(name, GFP_KERNEL);
-> > +		if (!sources[i + 1])
-> > +			goto error;
-> > +	}
-> > +
-> > +	rcrtc->sources =3D sources;
-> > +	rcrtc->sources_count =3D count;
-> > +	return;
-> > +
-> > +error:
-> > +	while (i >=3D 0) {
-> > +		kfree(sources[i]);
-> > +		i--;
-> > +	}
-> > +	kfree(sources);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_crc_cleanup(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	if (!rcrtc->sources)
-> > +		return;
-> > +
-> > +	for (i =3D 0; i < rcrtc->sources_count; i++)
-> > +		kfree(rcrtc->sources[i]);
-> > +	kfree(rcrtc->sources);
-> > +
-> > +	rcrtc->sources =3D NULL;
-> > +	rcrtc->sources_count =3D 0;
-> > +}
-> > +
-> > +static struct drm_crtc_state *
-> > +rzg2l_du_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc_state *state;
-> > +	struct rzg2l_du_crtc_state *copy;
-> > +
-> > +	if (WARN_ON(!crtc->state))
-> > +		return NULL;
-> > +
-> > +	state =3D to_rzg2l_crtc_state(crtc->state);
-> > +	copy =3D kmemdup(state, sizeof(*state), GFP_KERNEL);
-> > +	if (!copy)
-> > +		return NULL;
-> > +
-> > +	__drm_atomic_helper_crtc_duplicate_state(crtc, &copy->state);
-> > +
-> > +	return &copy->state;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-> > +					       struct drm_crtc_state *state)
-> > +{
-> > +	__drm_atomic_helper_crtc_destroy_state(state);
-> > +	kfree(to_rzg2l_crtc_state(state));
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_cleanup(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	rzg2l_du_crtc_crc_cleanup(rcrtc);
-> > +
-> > +	return drm_crtc_cleanup(crtc);
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_reset(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc_state *state;
-> > +
-> > +	if (crtc->state) {
-> > +		rzg2l_du_crtc_atomic_destroy_state(crtc, crtc->state);
-> > +		crtc->state =3D NULL;
-> > +	}
-> > +
-> > +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
-> > +	if (!state)
-> > +		return;
-> > +
-> > +	state->crc.source =3D VSP1_DU_CRC_NONE;
-> > +	state->crc.index =3D 0;
-> > +
-> > +	__drm_atomic_helper_crtc_reset(crtc, &state->state);
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable =3D true;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable =3D false;
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_parse_crc_source(struct rzg2l_du_crtc
-> *rcrtc,
-> > +					  const char *source_name,
-> > +					  enum vsp1_du_crc_source *source)
-> > +{
-> > +	unsigned int index;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Parse the source name. Supported values are "plane%u" to
-> compute the
-> > +	 * CRC on an input plane (%u is the plane ID), and "auto" to
-> compute the
-> > +	 * CRC on the composer (VSP) output.
-> > +	 */
-> > +
-> > +	if (!source_name) {
-> > +		*source =3D VSP1_DU_CRC_NONE;
-> > +		return 0;
-> > +	} else if (!strcmp(source_name, "auto")) {
-> > +		*source =3D VSP1_DU_CRC_OUTPUT;
-> > +		return 0;
-> > +	} else if (strstarts(source_name, "plane")) {
-> > +		unsigned int i;
-> > +
-> > +		*source =3D VSP1_DU_CRC_PLANE;
-> > +
-> > +		ret =3D kstrtouint(source_name + strlen("plane"), 10, &index);
-> > +		if (ret < 0)
-> > +			return ret;
-> > +
-> > +		for (i =3D 0; i < rcrtc->vsp->num_planes; ++i) {
-> > +			if (index =3D=3D rcrtc->vsp->planes[i].plane.base.id)
-> > +				return i;
-> > +		}
-> > +	}
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_verify_crc_source(struct drm_crtc *crtc,
-> > +					   const char *source_name,
-> > +					   size_t *values_cnt)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +	enum vsp1_du_crc_source source;
-> > +
-> > +	if (rzg2l_du_crtc_parse_crc_source(rcrtc, source_name, &source) <
-> 0) {
-> > +		DRM_DEBUG_DRIVER("unknown source %s\n", source_name);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	*values_cnt =3D 1;
-> > +	return 0;
-> > +}
-> > +
-> > +static const char *const *
-> > +rzg2l_du_crtc_get_crc_sources(struct drm_crtc *crtc, size_t *count)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +
-> > +	*count =3D rcrtc->sources_count;
-> > +	return rcrtc->sources;
-> > +}
-> > +
-> > +static int rzg2l_du_crtc_set_crc_source(struct drm_crtc *crtc,
-> > +					const char *source_name)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > +	struct drm_modeset_acquire_ctx ctx;
-> > +	struct drm_crtc_state *crtc_state;
-> > +	struct drm_atomic_state *state;
-> > +	enum vsp1_du_crc_source source;
-> > +	unsigned int index;
-> > +	int ret;
-> > +
-> > +	ret =3D rzg2l_du_crtc_parse_crc_source(rcrtc, source_name, &source);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	index =3D ret;
-> > +
-> > +	/* Perform an atomic commit to set the CRC source. */
-> > +	drm_modeset_acquire_init(&ctx, 0);
-> > +
-> > +	state =3D drm_atomic_state_alloc(crtc->dev);
-> > +	if (!state) {
-> > +		ret =3D -ENOMEM;
-> > +		goto unlock;
-> > +	}
-> > +
-> > +	state->acquire_ctx =3D &ctx;
-> > +
-> > +retry:
-> > +	crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> > +	if (!IS_ERR(crtc_state)) {
-> > +		struct rzg2l_du_crtc_state *rcrtc_state;
-> > +
-> > +		rcrtc_state =3D to_rzg2l_crtc_state(crtc_state);
-> > +		rcrtc_state->crc.source =3D source;
-> > +		rcrtc_state->crc.index =3D index;
-> > +
-> > +		ret =3D drm_atomic_commit(state);
-> > +	} else {
-> > +		ret =3D PTR_ERR(crtc_state);
-> > +	}
-> > +
-> > +	if (ret =3D=3D -EDEADLK) {
-> > +		drm_atomic_state_clear(state);
-> > +		drm_modeset_backoff(&ctx);
-> > +		goto retry;
-> > +	}
-> > +
-> > +	drm_atomic_state_put(state);
-> > +
-> > +unlock:
-> > +	drm_modeset_drop_locks(&ctx);
-> > +	drm_modeset_acquire_fini(&ctx);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct drm_crtc_funcs crtc_funcs_rz =3D {
-> > +	.reset =3D rzg2l_du_crtc_reset,
-> > +	.destroy =3D rzg2l_du_crtc_cleanup,
-> > +	.set_config =3D drm_atomic_helper_set_config,
-> > +	.page_flip =3D drm_atomic_helper_page_flip,
-> > +	.atomic_duplicate_state =3D rzg2l_du_crtc_atomic_duplicate_state,
-> > +	.atomic_destroy_state =3D rzg2l_du_crtc_atomic_destroy_state,
-> > +	.enable_vblank =3D rzg2l_du_crtc_enable_vblank,
-> > +	.disable_vblank =3D rzg2l_du_crtc_disable_vblank,
-> > +	.set_crc_source =3D rzg2l_du_crtc_set_crc_source,
-> > +	.verify_crc_source =3D rzg2l_du_crtc_verify_crc_source,
-> > +	.get_crc_sources =3D rzg2l_du_crtc_get_crc_sources,
-> > +};
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Initialization
-> > + */
-> > +
-> > +int rzg2l_du_crtc_create(struct rzg2l_du_device *rcdu)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc =3D &rcdu->crtcs[0];
-> > +	struct drm_crtc *crtc =3D &rcrtc->crtc;
-> > +	struct drm_plane *primary;
-> > +	int ret;
-> > +
-> > +	rcrtc->rstc =3D devm_reset_control_get_shared(rcdu->dev, NULL);
-> > +	if (IS_ERR(rcrtc->rstc)) {
-> > +		dev_err(rcdu->dev, "can't get cpg reset\n");
-> > +		return PTR_ERR(rcrtc->rstc);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.aclk =3D devm_clk_get(rcdu->dev, "aclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.aclk)) {
-> > +		dev_err(rcdu->dev, "no axi clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.aclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.pclk =3D devm_clk_get(rcdu->dev, "pclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.pclk)) {
-> > +		dev_err(rcdu->dev, "no peripheral clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.pclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.dclk =3D devm_clk_get(rcdu->dev, "vclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.dclk)) {
-> > +		dev_err(rcdu->dev, "no video clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.dclk);
-> > +	}
-> > +
-> > +	init_waitqueue_head(&rcrtc->flip_wait);
-> > +	init_waitqueue_head(&rcrtc->vblank_wait);
-> > +	spin_lock_init(&rcrtc->vblank_lock);
-> > +
-> > +	rcrtc->dev =3D rcdu;
-> > +	rcrtc->index =3D 0;
-> > +
-> > +	primary =3D &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
-> > +
-> > +	ret =3D drm_crtc_init_with_planes(&rcdu->ddev, crtc, primary, NULL,
-> > +					&crtc_funcs_rz, NULL);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-> > +
-> > +	rzg2l_du_crtc_crc_init(rcrtc);
-> > +
-> > +	return 0;
-> > +}
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
-> b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
-> > new file mode 100644
-> > index 000000000000..290b5ea99545
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
-> > @@ -0,0 +1,99 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * RZ/G2L Display Unit CRTCs
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corporation
-> > + *
-> > + * Based on rcar_du_crtc.h
-> > + */
-> > +
-> > +#ifndef __RZG2L_DU_CRTC_H__
-> > +#define __RZG2L_DU_CRTC_H__
-> > +
-> > +#include <linux/mutex.h>
-> > +#include <linux/spinlock.h>
-> > +#include <linux/wait.h>
-> > +
-> > +#include <drm/drm_crtc.h>
-> > +#include <drm/drm_writeback.h>
-> > +
-> > +#include <media/vsp1.h>
-> > +
->=20
-> Missing struct clk. Please go through the headers and add missing
-> forward declarations, or drop unneeded ones.
-
-OK will do.
-
->=20
-> > +struct reset_control;
-> > +struct rzg2l_du_vsp;
-> > +struct rzg2l_du_format_info;
-> > +
-> > +/**
-> > + * struct rzg2l_du_crtc - the CRTC, representing a DU superposition
-> processor
-> > + * @crtc: base DRM CRTC
-> > + * @dev: the DU device
-> > + * @mmio_offset: offset of the CRTC registers in the DU MMIO block
-> > + * @index: CRTC hardware index
-> > + * @initialized: whether the CRTC has been initialized and clocks
-> enabled
-> > + * @vblank_enable: whether vblank events are enabled on this CRTC
-> > + * @event: event to post when the pending page flip completes
-> > + * @flip_wait: wait queue used to signal page flip completion
-> > + * @vblank_lock: protects vblank_wait and vblank_count
-> > + * @vblank_wait: wait queue used to signal vertical blanking
-> > + * @vblank_count: number of vertical blanking interrupts to wait for
-> > + * @vsp: VSP feeding video to this CRTC
-> > + * @vsp_pipe: index of the VSP pipeline feeding video to this CRTC
-> > + * @rstc: reset controller
-> > + * @rzg2l_clocks: the bus, main and video clock
-> > + */
-> > +struct rzg2l_du_crtc {
-> > +	struct drm_crtc crtc;
-> > +
-> > +	struct rzg2l_du_device *dev;
-> > +	unsigned int mmio_offset;
->=20
-> Not used. Please go through all structure fields and drop the unused
-> ones (including both the fully unused fields, and the fields that are
-> written but never read).
-
-Agreed.
-
->=20
-> > +	unsigned int index;
-> > +	bool initialized;
-> > +
-> > +	bool vblank_enable;
-> > +	struct drm_pending_vblank_event *event;
-> > +	wait_queue_head_t flip_wait;
-> > +
-> > +	spinlock_t vblank_lock;
-> > +	wait_queue_head_t vblank_wait;
-> > +	unsigned int vblank_count;
-> > +
-> > +	struct rzg2l_du_vsp *vsp;
-> > +	unsigned int vsp_pipe;
-> > +
-> > +	const char *const *sources;
-> > +	unsigned int sources_count;
-> > +
-> > +	struct reset_control *rstc;
-> > +	struct {
-> > +		struct clk *aclk;
-> > +		struct clk *pclk;
-> > +		struct clk *dclk;
-> > +	} rzg2l_clocks;
-> > +};
-> > +
-> > +#define to_rzg2l_crtc(c)	container_of(c, struct rzg2l_du_crtc,
-> crtc)
->=20
-> A static inline would be better than a macro, it's more type-safe. Same
-> for to_rzg2l_crtc_state() and to_rzg2l_encoder().
-
-Will use static inline.
->=20
-> > +
-> > +/**
-> > + * struct rzg2l_du_crtc_state - Driver-specific CRTC state
-> > + * @state: base DRM CRTC state
-> > + * @crc: CRC computation configuration
-> > + * @outputs: bitmask of the outputs (enum rzg2l_du_output) driven by
-> this CRTC
-> > + */
-> > +struct rzg2l_du_crtc_state {
-> > +	struct drm_crtc_state state;
-> > +
-> > +	struct vsp1_du_crc_config crc;
-> > +	unsigned int outputs;
-> > +};
-> > +
-> > +#define to_rzg2l_crtc_state(s)	container_of(s, struct
-> rzg2l_du_crtc_state, state)
-> > +
-> > +int rzg2l_du_crtc_create(struct rzg2l_du_device *rcdu);
-> > +
-> > +void rzg2l_du_crtc_finish_page_flip(struct rzg2l_du_crtc *rcrtc);
-> > +
-> > +int __rzg2l_du_crtc_plane_atomic_check(struct drm_plane *plane,
-> > +				       struct drm_plane_state *state,
-> > +				       const struct rzg2l_du_format_info
-> **format);
-> > +
-> > +#endif /* __RZG2L_DU_CRTC_H__ */
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> > new file mode 100644
-> > index 000000000000..0fea1fea837c
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-> > @@ -0,0 +1,188 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * RZ/G2L Display Unit DRM driver
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corporation
-> > + *
-> > + * Based on rcar_du_drv.c
-> > + */
-> > +
-> > +#include <linux/clk.h>
->=20
-> Not needed.
-
-OK.
-
->=20
-> > +#include <linux/dma-mapping.h>
-> > +#include <linux/io.h>
->=20
-> Not needed either. Could you check if the other headers are needed ?
-
-OK will do.
->=20
-> > +#include <linux/mm.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/wait.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_fbdev_generic.h>
-> > +#include <drm/drm_gem_dma_helper.h>
-> > +#include <drm/drm_managed.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +
-> > +#include "rzg2l_du_drv.h"
-> > +#include "rzg2l_du_kms.h"
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Device Information
-> > + */
-> > +
-> > +static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info =3D {
-> > +	.channels_mask =3D BIT(0),
-> > +	.routes =3D {
-> > +		[RZG2L_DU_OUTPUT_DSI0] =3D {
-> > +			.possible_crtcs =3D BIT(0),
-> > +			.port =3D 0,
-> > +		},
-> > +		[RZG2L_DU_OUTPUT_DPAD0] =3D {
-> > +			.possible_crtcs =3D BIT(0),
-> > +			.port =3D 1,
-> > +		}
-> > +	}
-> > +};
-> > +
-> > +static const struct of_device_id rzg2l_du_of_table[] =3D {
-> > +	{ .compatible =3D "renesas,r9a07g044-du", .data =3D
-> &rzg2l_du_r9a07g044_info },
-> > +	{ /* sentinel */ }
-> > +};
-> > +
-> > +MODULE_DEVICE_TABLE(of, rzg2l_du_of_table);
-> > +
-> > +const char *rzg2l_du_output_name(enum rzg2l_du_output output)
-> > +{
-> > +	static const char * const names[] =3D {
-> > +		[RZG2L_DU_OUTPUT_DSI0] =3D "DSI0",
-> > +		[RZG2L_DU_OUTPUT_DPAD0] =3D "DPAD0"
-> > +	};
-> > +
-> > +	if (output >=3D ARRAY_SIZE(names))
-> > +		return "UNKNOWN";
-> > +
-> > +	return names[output];
-> > +}
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * DRM operations
-> > + */
-> > +
-> > +DEFINE_DRM_GEM_DMA_FOPS(rzg2l_du_fops);
-> > +
-> > +static const struct drm_driver rzg2l_du_driver =3D {
-> > +	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> > +	.dumb_create		=3D rzg2l_du_dumb_create,
-> > +	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
-> > +	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
-> > +	.gem_prime_import_sg_table =3D rzg2l_du_gem_prime_import_sg_table,
-> > +	.gem_prime_mmap		=3D drm_gem_prime_mmap,
-> > +	.fops			=3D &rzg2l_du_fops,
-> > +	.name			=3D "rzg2l-du",
-> > +	.desc			=3D "Renesas RZ/G2L Display Unit",
-> > +	.date			=3D "20230410",
-> > +	.major			=3D 1,
-> > +	.minor			=3D 0,
-> > +};
-> > +
-> > +/* ------------------------------------------------------------------
-> -----------
-> > + * Platform driver
-> > + */
-> > +
-> > +static int rzg2l_du_remove(struct platform_device *pdev)
-> > +{
-> > +	struct rzg2l_du_device *rcdu =3D platform_get_drvdata(pdev);
-> > +	struct drm_device *ddev =3D &rcdu->ddev;
-> > +
-> > +	drm_dev_unregister(ddev);
-> > +	drm_atomic_helper_shutdown(ddev);
-> > +
-> > +	drm_kms_helper_poll_fini(ddev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void rzg2l_du_shutdown(struct platform_device *pdev)
-> > +{
-> > +	struct rzg2l_du_device *rcdu =3D platform_get_drvdata(pdev);
-> > +
-> > +	drm_atomic_helper_shutdown(&rcdu->ddev);
-> > +}
-> > +
-> > +static int rzg2l_du_probe(struct platform_device *pdev)
-> > +{
-> > +	struct rzg2l_du_device *rcdu;
-> > +	int ret;
-> > +
-> > +	if (drm_firmware_drivers_only())
-> > +		return -ENODEV;
-> > +
-> > +	/* Allocate and initialize the RZ/G2L device structure. */
-> > +	rcdu =3D devm_drm_dev_alloc(&pdev->dev, &rzg2l_du_driver,
-> > +				  struct rzg2l_du_device, ddev);
-> > +	if (IS_ERR(rcdu))
-> > +		return PTR_ERR(rcdu);
-> > +
-> > +	rcdu->dev =3D &pdev->dev;
-> > +	rcdu->info =3D of_device_get_match_data(rcdu->dev);
-> > +
-> > +	platform_set_drvdata(pdev, rcdu);
-> > +
-> > +	/* I/O resources */
-> > +	rcdu->mmio =3D devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(rcdu->mmio))
-> > +		return PTR_ERR(rcdu->mmio);
-> > +
-> > +	/*
-> > +	 * When sourcing frames from a VSP the DU doesn't perform any
-> memory
-> > +	 * access so set the DMA coherent mask to 40 bits to accept all
-> buffers.
-> > +	 */
-> > +	ret =3D dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* DRM/KMS objects */
-> > +	ret =3D rzg2l_du_modeset_init(rcdu);
-> > +	if (ret < 0) {
-> > +		if (ret !=3D -EPROBE_DEFER)
-> > +			dev_err(&pdev->dev,
-> > +				"failed to initialize DRM/KMS (%d)\n", ret);
->=20
-> Use dev_err_probe()
-
-As per your patch [1], I guess it is not required
-
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2023053015=
-3251.22302-1-laurent.pinchart+renesas@ideasonboard.com/
-
->=20
-> > +		goto error;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Register the DRM device with the core and the connectors with
-> > +	 * sysfs.
-> > +	 */
-> > +	ret =3D drm_dev_register(&rcdu->ddev, 0);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> > +	DRM_INFO("Device %s probed\n", dev_name(&pdev->dev));
->=20
-> Use drm_info().
-
-Agreed.
-
->=20
-> > +
-> > +	drm_fbdev_generic_setup(&rcdu->ddev, 32);
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	drm_kms_helper_poll_fini(&rcdu->ddev);
-> > +	return ret;
-> > +}
-> > +
-> > +static struct platform_driver rzg2l_du_platform_driver =3D {
-> > +	.probe		=3D rzg2l_du_probe,
-> > +	.remove		=3D rzg2l_du_remove,
-> > +	.shutdown	=3D rzg2l_du_shutdown,
-> > +	.driver		=3D {
-> > +		.name	=3D "rzg2l-du",
-> > +		.of_match_table =3D rzg2l_du_of_table,
-> > +	},
-> > +};
-> > +
-> > +module_platform_driver(rzg2l_du_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-> > +MODULE_DESCRIPTION("Renesas RZ/G2L Display Unit DRM Driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> > new file mode 100644
-> > index 000000000000..3b84e91aa64a
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
-> > @@ -0,0 +1,89 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * RZ/G2L Display Unit DRM driver
-> > + *
-> > + * Copyright (C) 2023 Renesas Electronics Corporation
-> > + *
-> > + * Based on rcar_du_drv.h
-> > + */
-> > +
-> > +#ifndef __RZG2L_DU_DRV_H__
-> > +#define __RZG2L_DU_DRV_H__
-> > +
-> > +#include <linux/kernel.h>
-> > +#include <linux/wait.h>
->=20
-> Not needed.
-
-OK.
-
->=20
-> > +
-> > +#include <drm/drm_device.h>
-> > +
-> > +#include "rzg2l_du_crtc.h"
-> > +#include "rzg2l_du_vsp.h"
-> > +
-> > +struct clk;
->=20
-> Not used in this header.
-
-Will remove.
-
->=20
-> > +struct device;
-> > +struct drm_bridge;
-> > +struct drm_property;
-> > +struct rzg2l_du_device;
->=20
-> Not needed.
-
-Ooops. Will take out.
-
->=20
-> > +
-> > +enum rzg2l_du_output {
-> > +	RZG2L_DU_OUTPUT_DSI0,
-> > +	RZG2L_DU_OUTPUT_DPAD0,
-> > +	RZG2L_DU_OUTPUT_MAX,
-> > +};
-> > +
-> > +/*
-> > + * struct rzg2l_du_output_routing - Output routing specification
-> > + * @possible_crtcs: bitmask of possible CRTCs for the output
-> > + * @port: device tree port number corresponding to this output route
-> > + *
-> > + * The DU has 2 possible outputs (DPAD0, DSI0). Output routing data
-> > + * specify the valid SoC outputs, which CRTCs can drive the output,
-> and the type
-> > + * of in-SoC encoder for the output.
-> > + */
-> > +struct rzg2l_du_output_routing {
-> > +	unsigned int possible_crtcs;
-> > +	unsigned int port;
-> > +};
-> > +
-> > +/*
-> > + * struct rzg2l_du_device_info - DU model-specific information
-> > + * @channels_mask: bit mask of available DU channels
-> > + * @routes: array of CRTC to output routes, indexed by output
-> (RZG2L_DU_OUTPUT_*)
-> > + */
-> > +struct rzg2l_du_device_info {
-> > +	unsigned int channels_mask;
-> > +	struct rzg2l_du_output_routing routes[RZG2L_DU_OUTPUT_MAX];
-> > +};
->=20
-> The driver supports a single SoC, with two outputs, connected to the
-> same DU channel. Do you really need to copy the rzg2l_du_device_info
-> abstraction from the rcar-du driver, or could you simplify the code ?
-
-After adding basic support, as an optimization
-will simplify the code later. Hope it is ok for you??
-
-
-> > +
-> > +#define RZG2L_DU_MAX_CRTCS		1
-> > +#define RZG2L_DU_MAX_VSPS		1
-> > +#define RZG2L_DU_MAX_DSI		1
-> > +
-> > +struct rzg2l_du_device {
-> > +	struct device *dev;
-> > +	const struct rzg2l_du_device_info *info;
-> > +
-> > +	void __iomem *mmio;
-> > +
-> > +	struct drm_device ddev;
-> > +
-> > +	struct rzg2l_du_crtc crtcs[RZG2L_DU_MAX_CRTCS];
-> > +	unsigned int num_crtcs;
-> > +
-> > +	struct rzg2l_du_vsp vsps[RZG2L_DU_MAX_VSPS];
-> > +	struct drm_bridge *dsi[RZG2L_DU_MAX_DSI];
->=20
-> This is written but never read. You can drop the field.
-
-Agreed.
-
->=20
-> > +
-> > +	struct {
-> > +		struct drm_property *colorkey;
-> > +	} props;
-> > +
-> > +	unsigned int dpad0_source;
->=20
-> This is written but never read. You can drop the field.
-
-Agreed. Will add later when we add support for DPI.
-
-Cheers,
-Biju
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
+IFtQQVRDSCB2OSBSRVNFTkQgMC81XSBBZGQgUlove0cyTCxHMkxDfSBhbmQgUlovVjJMIERpc3Bs
+YXkNCj4gVW5pdCBzdXBwb3J0DQo+IA0KPiBPbiBNb24sIE1heSAyOSwgMjAyMyBhdCAwMjoyMjow
+NlBNICswMDAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiBISSBMYXVyZW50LA0KPiA+DQo+ID4gVGhh
+bmtzIGZvciB0aGUgZmVlZGJhY2suDQo+ID4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjkg
+UkVTRU5EIDAvNV0gQWRkIFJaL3tHMkwsRzJMQ30gYW5kIFJaL1YyTA0KPiA+ID4gRGlzcGxheSBV
+bml0IHN1cHBvcnQNCj4gPiA+DQo+ID4gPiBIaSBCaWp1LA0KPiA+ID4NCj4gPiA+IE9uIFRodSwg
+TWF5IDI1LCAyMDIzIGF0IDAyOjMwOjEwUE0gKzAwMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+ID4g
+PiBIaSBEUk0gbWFpbnRhaW5lcnMsDQo+ID4gPiA+DQo+ID4gPiA+IEdlbnRsZSBwaW5nLg0KPiA+
+ID4NCj4gPiA+IFNvcnJ5LCBJIHdhcyBvbiBob2xpZGF5cyB0aGUgbGFzdCB0d28gd2Vla3MuDQo+
+ID4gPg0KPiA+ID4gPiBBcmUgd2UgaGFwcHkgd2l0aCBtb3ZpbmcgYWxsIFJlbmVzYXMgZHJtIGRy
+aXZlcnMgdG8gUmVuZXNhcw0KPiA+ID4gPiBzcGVjaWZpYyBkaXJlY3Rvcnkgb3IgcHJlZmVyZW5j
+ZSBpcyBmb3Igc2VwYXJhdGUgb25lPz8NCj4gPiA+DQo+ID4gPiBUaGlzIHdvcmtzIGZvciBtZS4N
+Cj4gPiA+DQo+ID4gPiA+IElmIGl0IGlzIGxhdGVyLCBJIGNhbiBzZW5kIFJaL0cyTCBkcm0gZHJp
+dmVyIHNlcGFyYXRlLg0KPiA+ID4gPg0KPiA+ID4gPiBPdGhlcndpc2UsIEkgbmVlZCB0byByZWJh
+c2UgYW5kIHJlc2VuZC4NCj4gPiA+DQo+ID4gPiBZb3VyIHNlcmllcyBhcHBsaWVzIGNsZWFubHkg
+b24gdG9wIG9mIHRoZSBsYXRlc3QgZHJtLW5leHQgYnJhbmNoLiBJcw0KPiA+ID4gdGhlcmUgYSBz
+cGVjaWZpYyBuZWVkIHRvIHJlYmFzZSBhbmQgcmVzZW5kID8NCj4gPg0KPiA+IE5vcGUuIEFmdGVy
+IG15IHBhdGNoIHNlcmllcyB0aGVyZSB3ZXJlIHNvbWUgcGF0Y2hlcyBmcm9tIEdlZXJ0IGZvcg0K
+PiA+IGRybS9zaG1vYmlsZSBtZXJnZWQgdG8gZHJtLW1pc2MtbmV4dCBieSBUaG9tYXMuDQo+ID4N
+Cj4gPiBNYXliZSBnaXQgbWFuYWdlZCB0aGlzIGF1dG9tYXRpY2FsbHk/Pw0KPiANCj4gUHJvYmFi
+bHksIGdpdCBpcyBuaWNlIDotKQ0KPiANCj4gPiA+IEkgaGF2ZW4ndCBoYWQgdGltZSB0byByZXZp
+ZXcgcGF0Y2ggNC81ICh0aGUgZHJpdmVyKSB5ZXQuIEFsbCB0aGUNCj4gPiA+IHJlc3QgbG9va3Mg
+Z29vZCB0byBtZS4gU2hvdWxkIEkgYWxyZWFkeSBpbmNsdWRlIDEvNSBpbiBteSBuZXh0IHB1bGwN
+Cj4gcmVxdWVzdCA/DQo+ID4NCj4gPiBZZXMsIHBsZWFzZS4NCj4gDQo+IE9LLCBJIHdpbGwgZG8g
+c28uIEkndmUgcmV2aWV3ZWQgNC81IGluIHRoZSBtZWFudGltZSwgYnV0IGNoYW5nZXMgYXJlDQo+
+IG5lZWRlZCwgc28gSSB3b24ndCB3YWl0IGZvciB2MTAgYmVmb3JlIGFwcGx5aW5nIDEvNS4NCj4g
+DQoNCkkgaGF2ZSBpbmNvcnBvcmF0ZWQgcmV2aWV3IGNvbW1lbnRzIGZvciB2OS4gSSBuZWVkIHRv
+IHJlYmFzZSBteSBjaGFuZ2VzLg0KDQpJcyB0aGUgcHVsbCByZXF1ZXN0IGJlaW5nIGRvbmUgdG8g
+ZHJtLW1pc2MtbmV4dD8NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+ID4gPiA+IFBsZWFzZSBsZXQgbWUg
+a25vdyB5b3VyIHByZWZlcmVuY2UuDQo+ID4gPiA+DQo+ID4gPiA+IENoZWVycywNCj4gPiA+ID4g
+QmlqdQ0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
+LS0tDQo+ID4gPiA+ID4gRnJvbTogQmlqdSBEYXMNCj4gPiA+ID4gPiBTZW50OiBNb25kYXksIE1h
+eSAxNSwgMjAyMyA4OjU4IEFNDQo+ID4gPiA+ID4gVG86IERhdmlkIEFpcmxpZSA8YWlybGllZEBn
+bWFpbC5jb20+OyBEYW5pZWwgVmV0dGVyDQo+ID4gPiA+ID4gPGRhbmllbEBmZndsbC5jaD47IFBo
+aWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+OyBHZWVydA0KPiA+ID4gPiA+IFV5
+dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBMYXVyZW50IFBpbmNoYXJ0DQo+
+ID4gPiA+ID4gPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IEtpZXJhbiBCaW5n
+aGFtDQo+ID4gPiA+ID4gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4N
+Cj4gPiA+ID4gPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsNCj4gPiA+ID4g
+PiBsaW51eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPiA+ID4gRmFicml6aW8g
+Q2FzdHJvIDxmYWJyaXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+OyBQcmFiaGFrYXINCj4gPiA+
+ID4gPiBNYWhhZGV2IExhZCA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29t
+Pg0KPiA+ID4gPiA+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggdjkgUkVTRU5EIDAvNV0gQWRkIFJaL3tH
+MkwsRzJMQ30gYW5kIFJaL1YyTA0KPiA+ID4gPiA+IERpc3BsYXkgVW5pdCBzdXBwb3J0DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPiBIaSBBbGwsDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBHZW50bGUgcGlu
+Zy4gQXJlIHdlIGhhcHB5IHdpdGggdGhpcyBwYXRjaCBzZXJpZXM/DQo+ID4gPiA+ID4NCj4gPiA+
+ID4gPiBDaGVlcnMsDQo+ID4gPiA+ID4gQmlqdQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBTdWJq
+ZWN0OiBbUEFUQ0ggdjkgUkVTRU5EIDAvNV0gQWRkIFJaL3tHMkwsRzJMQ30gYW5kIFJaL1YyTA0K
+PiA+ID4gPiA+ID4gRGlzcGxheSBVbml0IHN1cHBvcnQNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4g
+PiBSWi9HMkwgTENEIGNvbnRyb2xsZXIgY29tcG9zZWQgb2YgRnJhbWUgY29tcHJlc3Npb24NCj4g
+PiA+ID4gPiA+IFByb2Nlc3NvcihGQ1BWRCksIFZpZGVvIHNpZ25hbCBwcm9jZXNzb3IgKFZTUEQp
+IGFuZCBEaXNwbGF5DQo+ID4gPiA+ID4gPiB1bml0KERVKS4gVGhlIG91dHB1dCBvZiBMQ0RDIGlz
+IGNvbm5lY3RlZCB0byBEaXNwbGF5IHBhcmFsbGVsDQo+ID4gPiA+ID4gPiBpbnRlcmZhY2UgYW5k
+IE1JUEkgbGluayB2aWRlbyBpbnRlcmZhY2UuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gVGhl
+IG91dHB1dCBmcm9tIERTSSBpcyBjb25uZWN0ZWQgdG8gQURWNzUzNS4NCj4gPiA+ID4gPiA+DQo+
+ID4gPiA+ID4gPiBDcmVhdGVkIGEgdmVuZG9yIHNwZWNpZmljIGRpcmVjdG9yeSByZW5lc2FzIGFu
+ZCBtb3ZlZCBhbGwNCj4gPiA+ID4gPiA+IHJlbmVzYXMgZHJtIGRyaXZlcnMgdG8gaXQgKHJjYXIt
+ZHUgYW5kIHNobW9iaWxlKS4gVGhlbiBhZGRlZA0KPiA+ID4gPiA+ID4gc3VwcG9ydCBmb3IgUlov
+RzJMIERVIERSTSBkcml2ZXIgYnkgY3JlYXRpbmcgcnpfZHUgZGlyZWN0b3J5Lg0KPiA+ID4gPiA+
+ID4NCj4gPiA+ID4gPiA+IFJlZjoNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+
+ID4gdjgtPnY5Og0KPiA+ID4gPiA+ID4gICogQWRkZWQgUmIgdGFnIGZyb20gTGF1cmVudCBhbmQg
+QWNrZWQtYnkgdGFnIGZyb20gS2llcmFuIGZvcg0KPiA+ID4gcGF0Y2gjMS4NCj4gPiA+ID4gPiA+
+ICAqIEFkZGVkIFJiIHRhZyBmcm9tIExhdXJlbnQgYW5kIEdlZXJ0IGZvciBwYXRjaCMzLg0KPiA+
+ID4gPiA+ID4gICogRHJvcHBlZCByZXNldF9jb250cm9sX2Fzc2VydCgpIGZyb20gZXJyb3IgcGF0
+Y2ggZm9yDQo+ID4gPiA+ID4gPiByemcybF9kdV9jcnRjX2dldCgpIGFzDQo+ID4gPiA+ID4gPiAg
+ICBzdWdnZXN0ZWQgYnkgUGhpbGlwcCBaYWJlbC4NCj4gPiA+ID4gPiA+ICAqIEFkZGVkIFJiIHRh
+ZyBmcm9tIExhdXJlbnQgb2F0Y2gjNS4NCj4gPiA+ID4gPiA+ICAqIFVwZGF0ZWQgTUFJTlRBSU5F
+UlMgZW50cmllcyBmb3IgY29tbW9uIHBhcnRzKE1ha2VmaWxlIGFuZA0KPiA+ID4gS2NvbmZpZyku
+DQo+ID4gPiA+ID4gPiB2Ny0+djg6DQo+ID4gPiA+ID4gPiAgKiBNb3ZlZCByY2FyLWR1IGFuZCBz
+aG1vYmlsZSBEUk0gZHJpdmVycyB0byByZW5lc2FzIHNwZWNpZmljDQo+ID4gPiA+ID4gPiB2ZW5k
+b3IgZGlyZWN0b3J5Lg0KPiA+ID4gPiA+ID4gICogRml4ZWQgdGhlIHR5cG8gdnNwMi0+ZHUgaW4g
+UlovVjJMIERVIGJpbmRpbmdzIHBhdGNoLg0KPiA+ID4gPiA+ID4gICogQWRkZWQgUmIgdGFnIGZy
+b20gUm9iIGZvciBSWi9WMkwgRFUgYmluZGluZ3MgcGF0Y2guDQo+ID4gPiA+ID4gPiAgKiBEcm9w
+cGVkIFJDYXIgZHUgbGliIGFuZCBjcmVhdGVkIFJaL0cyTCBEVSBEUk0gZHJpdmVyIGJ5DQo+ID4g
+PiA+ID4gPiBjcmVhdGluZyByel9kdSBmb2xkZXIuDQo+ID4gPiA+ID4gPiAgKiBVcGRhdGVkIE1B
+SU5UQUlORVJTIGVudHJpZXMuDQo+ID4gPiA+ID4gPiB2Ni0+djc6DQo+ID4gPiA+ID4gPiAgKiBT
+cGxpdCBEVSBsaWIgYW5kICBSWi9HMkwgZHUgZHJpdmVyIGFzIHNlcGFyYXRlIHBhdGNoIHNlcmll
+cw0KPiBhcw0KPiA+ID4gPiA+ID4gICAgRFUgc3VwcG9ydCBhZGRlZCB0byBtb3JlIHBsYXRmb3Jt
+cyBiYXNlZCBvbiBSWi9HMkwgYWxpa2UNCj4gU29Dcy4NCj4gPiA+ID4gPiA+ICAqIFJlYmFzZWQg
+dG8gbGF0ZXN0IGRybS10aXAuDQo+ID4gPiA+ID4gPiAgKiBBZGRlZCBwYXRjaCAjMiBmb3IgYmlu
+ZGluZyBzdXBwb3J0IGZvciBSWi9WMkwgRFUNCj4gPiA+ID4gPiA+ICAqIEFkZGVkIHBhdGNoICM0
+IGZvciBkcml2ZXIgc3VwcG9ydCBmb3IgUlovVjJMIERVDQo+ID4gPiA+ID4gPiAgKiBBZGRlZCBw
+YXRjaCAjNSBmb3IgU29DIERUU0kgc3VwcG9ydCBmb3IgUlovRzJMIERVDQo+ID4gPiA+ID4gPiAg
+KiBBZGRlZCBwYXRjaCAjNiBmb3IgU29DIERUU0kgc3VwcG9ydCBmb3IgUlovVjJMIERVDQo+ID4g
+PiA+ID4gPiAgKiBBZGRlZCBwYXRjaCAjNyBmb3IgRW5hYmxpbmcgRFUgb24gU01BUkMgRVZLIGJh
+c2VkIG9uDQo+ID4gPiA+ID4gPiBSWi97RzJMLFYyTH0gU29Dcy4NCj4gPiA+ID4gPiA+ICAqIEFk
+ZGVkIHBhdGNoICM4IGZvciBFbmFibGluZyBEVSBvbiBTTUFSQyBFVksgYmFzZWQgb24NCj4gPiA+
+ID4gPiA+IFJaL0cyTEMNCj4gPiA+IFNvQy4NCj4gPiA+ID4gPiA+IHY1LT52NjoNCj4gPiA+ID4g
+PiA+ICAqIE1lcmdlZCBEVSBsaWIgYW5kIFJaL0cyTCBkdSBkcml2ZXIgaW4gc2FtZSBwYXRjaCBz
+ZXJpZXMNCj4gPiA+ID4gPiA+ICAqIFJlYmFzZWQgdG8gbGF0ZXN0IGRybS1taXNjLg0KPiA+ID4g
+PiA+ID4gICogTWVyZ2VkIHBhdGNoIzEgdG8gUlovRzJMIERyaXZlciBwYXRjaC4NCj4gPiA+ID4g
+PiA+ICAqIFVwZGF0ZWQgS0NvbmZpZyBkZXBlbmRlbmN5IGZyb20gQVJDSF9SRU5FU0FTLT5BUkNI
+X1JaRzJMLg0KPiA+ID4gPiA+ID4gICogT3B0aW1pemVkIHJ6ZzJsX2R1X291dHB1dF9uYW1lKCkg
+YnkgcmVtb3ZpbmcgdW5zdXBwb3J0ZWQNCj4gPiA+IG91dHB1dHMuDQo+ID4gPiA+ID4gPg0KPiA+
+ID4gPiA+ID4gdjQtPnY1Og0KPiA+ID4gPiA+ID4gICogQWRkZWQgUmIgdGFnIGZyb20gUm9iIGZv
+ciBiaW5kaW5nIHBhdGNoLg0KPiA+ID4gPiA+ID4gICogU3RhcnRlZCB1c2luZyBSQ2FyIERVIGxp
+YnMoa21zLCB2c3AgYW5kIGVuY29kZXIpDQo+ID4gPiA+ID4gPiAgKiBTdGFydGVkIHVzaW5nIHJj
+YXJfZHVfZGV2aWNlLCByY2FyX2R1X3dyaXRlLCByY2FyX2R1X2NydGMsDQo+ID4gPiA+ID4gPiAg
+ICByY2FyX2R1X2Zvcm1hdF9pbmZvIGFuZCByY2FyX2R1X2VuY29kZXIuDQo+ID4gPiA+ID4gPiB2
+My0+djQ6DQo+ID4gPiA+ID4gPiAgKiBDaGFuZ2VkIGNvbXBhdGlibGUgbmFtZSBmcm9tDQo+ID4g
+PiA+ID4gPiByZW5lc2FzLGR1LXI5YTA3ZzA0NC0+cmVuZXNhcyxyOWEwN2cwNDQtDQo+ID4gPiA+
+ID4gPiBkdQ0KPiA+ID4gPiA+ID4gICogc3RhcnRlZCB1c2luZyBzYW1lIGNvbXBhdGlibGUgZm9y
+IFJaL0cye0wsTEN9DQo+ID4gPiA+ID4gPiAgKiBSZW1vdmVkIHJ6ZzJsX2R1X2dyb3VwLmggYW5k
+IHN0cnVjdCByemcybF9kdV9ncm91cA0KPiA+ID4gPiA+ID4gICogUmVuYW1lZCBfX3J6ZzJsX2R1
+X2dyb3VwX3N0YXJ0X3N0b3AtPnJ6ZzJsX2R1X3N0YXJ0X3N0b3ANCj4gPiA+ID4gPiA+ICAqIFJl
+bW92ZWQgcnpnMmxfZHVfZ3JvdXBfcmVzdGFydA0KPiA+ID4gPiA+ID4gICogVXBkYXRlZCByemcy
+bF9kdV9jcnRjX3NldF9kaXNwbGF5X3RpbWluZw0KPiA+ID4gPiA+ID4gICogUmVtb3ZlZCBtb2Rl
+X3ZhbGlkIGNhbGxiYWNrLg0KPiA+ID4gPiA+ID4gICogVXBkYXRlZCByemcybF9kdV9jcnRjX2Ny
+ZWF0ZSgpIHBhcmFtZXRlcnMNCj4gPiA+ID4gPiA+ICAqIFVwZGF0ZWQgY29tcGF0aWJsZQ0KPiA+
+ID4gPiA+ID4gICogUmVtb3ZlZCBSWkcyTF9EVV9NQVhfR1JPVVBTDQo+ID4gPiA+ID4gPiBWMi0+
+djM6DQo+ID4gPiA+ID4gPiAgKiBBZGRlZCBuZXcgYmluZGluZ3MgZm9yIFJaL0cyTCBEVQ0KPiA+
+ID4gPiA+ID4gICogUmVtb3ZlZCBpbmRpcmVjdGlvbiBhbmQgY3JlYXRlZCBuZXcgRFJNIGRyaXZl
+ciBiYXNlZCBvbg0KPiA+ID4gPiA+ID4gUi1DYXIgRFUNCj4gPiA+ID4gPiA+IHYxLT52MjoNCj4g
+PiA+ID4gPiA+ICAqIEJhc2VkIG9uIFsxXSwgYWxsIHJlZmVyZW5jZXMgdG8gJ3J6ZzJsX2xjZGMn
+IHJlcGxhY2VkIHdpdGgNCj4gPiA+ID4gPiAncnpnMmxfZHUnDQo+ID4gPiA+ID4gPiAgKiBVcGRh
+dGVkIGNvbW1pdCBkZXNjcmlwdGlvbiBmb3IgYmluZGluZ3MNCj4gPiA+ID4gPiA+ICAqIFJlbW92
+ZWQgTENEQyByZWZlcmVuY2VzIGZyb20gYmluZGluZ3MNCj4gPiA+ID4gPiA+ICAqIENoYW5nZWQg
+Y2xvY2sgbmFtZSBmcm9tIGR1LjAtPmFjbGsgZnJvbSBiaW5kaW5ncw0KPiA+ID4gPiA+ID4gICog
+Q2hhbmdlZCByZXNldCBuYW1lIGZyb20gZHUuMC0+ZHUgZnJvbSBiaW5kaW5ncw0KPiA+ID4gPiA+
+ID4gICogUmVwbGFjZWQgY3J0Y19oZWxwZXJfZnVuY3MtPnJjYXJfY3J0Y19oZWxwZXJfZnVuY3MN
+Cj4gPiA+ID4gPiA+ICAqIFVwZGF0ZWQgbWFjcm8gRFJNX1JaRzJMX0xDREMtPkRSTV9SWkcyTF9E
+VQ0KPiA+ID4gPiA+ID4gICogUmVwbGFjZWQgcnpnMmwtbGNkYy1kcm0tPnJ6ZzJsLWR1LWRybQ0K
+PiA+ID4gPiA+ID4gICogQWRkZWQgZm9yd2FyZCBkZWNsYXJhdGlvbiBmb3Igc3RydWN0IHJlc2V0
+X2NvbnRyb2wNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBbMV0NCj4gPiA+ID4gPiA+DQo+ID4g
+PiA+ID4gPiBCaWp1IERhcyAoNSk6DQo+ID4gPiA+ID4gPiAgIGRybTogUGxhY2UgUmVuZXNhcyBk
+cml2ZXJzIGluIGEgc2VwYXJhdGUgZGlyDQo+ID4gPiA+ID4gPiAgIGR0LWJpbmRpbmdzOiBkaXNw
+bGF5OiBEb2N1bWVudCBSZW5lc2FzIFJaL0cyTCBEVSBiaW5kaW5ncw0KPiA+ID4gPiA+ID4gICBk
+dC1iaW5kaW5nczogZGlzcGxheTogcmVuZXNhcyxyemcybC1kdTogRG9jdW1lbnQgUlovVjJMIERV
+DQo+ID4gPiBiaW5kaW5ncw0KPiA+ID4gPiA+ID4gICBkcm06IEFkZCBSWi9HMkwgRFUgU3VwcG9y
+dA0KPiA+ID4gPiA+ID4gICBNQUlOVEFJTkVSUzogQWRkIG1haW50YWluZXIgZm9yIFJaIERVIGRy
+aXZlcnMNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvcmVu
+ZXNhcyxyemcybC1kdS55YW1sICAgIHwgMTI5ICsrKw0KPiA+ID4gPiA+ID4gIE1BSU5UQUlORVJT
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNiArLQ0KPiA+ID4gPiA+ID4g
+IGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICB8ICAgNCArLQ0K
+PiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAg
+ICB8ICAgMyArLQ0KPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL0tjb25maWcg
+ICAgICAgICAgICAgICB8ICAgNSArDQo+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL3JlbmVz
+YXMvTWFrZWZpbGUgICAgICAgICAgICAgIHwgICA1ICsNCj4gPiA+ID4gPiA+ICBkcml2ZXJzL2dw
+dS9kcm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L0tjb25maWcgfCAgIDANCj4gPiA+ID4gPiA+ICAu
+Li4vZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvTWFrZWZpbGUgICAgfCAgIDANCj4gPiA+
+ID4gPiA+ICAuLi4vZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9jbW0uYyAgfCAg
+IDANCj4gPiA+ID4gPiA+ICAuLi4vZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9j
+bW0uaCAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9y
+Y2FyX2R1X2NydGMuYyAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30v
+cmNhci1kdS9yY2FyX2R1X2NydGMuaCAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4g
+cmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X2Rydi5jICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4v
+ZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X2Rydi5oICAgfCAgIDANCj4gPiA+ID4g
+PiA+ICAuLi4veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfZW5jb2Rlci5jICAgfCAgIDAN
+Cj4gPiA+ID4gPiA+ICAuLi4veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfZW5jb2Rlci5o
+ICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2Fy
+X2R1X2dyb3VwLmMgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNh
+ci1kdS9yY2FyX2R1X2dyb3VwLmggfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVu
+ZXNhc30vcmNhci1kdS9yY2FyX2R1X2ttcy5jICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJt
+L3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X2ttcy5oICAgfCAgIDANCj4gPiA+ID4gPiA+
+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmMgfCAgIDANCj4g
+PiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmgg
+fCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1
+X3JlZ3MuaCAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1k
+dS9yY2FyX2R1X3ZzcC5jICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNh
+c30vcmNhci1kdS9yY2FyX2R1X3ZzcC5oICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4veyA9PiBy
+ZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfd3JpdGViYWNrLmMgfCAgIDANCj4gPiA+ID4gPiA+ICAu
+Li4veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfd3JpdGViYWNrLmggfCAgIDANCj4gPiA+
+ID4gPiA+ICAuLi4vZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R3X2hkbWkuYyAgfCAg
+IDANCj4gPiA+ID4gPiA+ICAuLi4vZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9s
+dmRzLmMgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXIt
+ZHUvcmNhcl9sdmRzLmggfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4veyA9PiByZW5lc2FzfS9yY2Fy
+LWR1L3JjYXJfbHZkc19yZWdzLmggICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vZHJtL3sgPT4g
+cmVuZXNhc30vcmNhci1kdS9yY2FyX21pcGlfZHNpLmMgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4v
+ZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX21pcGlfZHNpLmggfCAgIDANCj4gPiA+ID4g
+PiA+ICAuLi4vcmNhci1kdS9yY2FyX21pcGlfZHNpX3JlZ3MuaCAgICAgICAgICAgICAgfCAgIDAN
+Cj4gPiA+ID4gPiA+ICAuLi4veyA9PiByZW5lc2FzfS9yY2FyLWR1L3J6ZzJsX21pcGlfZHNpLmMg
+ICAgfCAgIDANCj4gPiA+ID4gPiA+ICAuLi4vcmNhci1kdS9yemcybF9taXBpX2RzaV9yZWdzLmgg
+ICAgICAgICAgICAgfCAgIDANCj4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9y
+ei1kdS9LY29uZmlnICAgICAgICAgfCAgMjAgKw0KPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9yZW5lc2FzL3J6LWR1L01ha2VmaWxlICAgICAgICB8ICAgOCArDQo+ID4gPiA+ID4gPiAgZHJp
+dmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfY3J0Yy5jIHwgNzE0DQo+ID4gPiA+
+ID4gPiArKysrKysrKysrKysrKysrIGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJs
+X2R1X2NydGMuaA0KPiA+ID4gPiA+ID4gKysrKysrKysrKysrKysrKyB8DQo+ID4gPiA+ID4gPiA5
+OSArKysgZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfZHJ2LmMgIHwgMTg4
+DQo+ID4gPiA+ID4gPiArKysrKyBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9k
+dV9kcnYuaCAgfCAgODkgKysNCj4gPiA+ID4gPiA+IC4uLi9ncHUvZHJtL3JlbmVzYXMvcnotZHUv
+cnpnMmxfZHVfZW5jb2Rlci5jICB8IDExMiArKysNCj4gPiA+ID4gPiA+IC4uLi9ncHUvZHJtL3Jl
+bmVzYXMvcnotZHUvcnpnMmxfZHVfZW5jb2Rlci5oICB8ICAyOCArDQo+ID4gPiA+ID4gPiBkcml2
+ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9rbXMuYyAgfCA3NzANCj4gPiA+ID4g
+PiA+ICsrKysrKysrKysrKysrKysrKyBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcy
+bF9kdV9rbXMuDQo+ID4gPiA+ID4gPiArKysrKysrKysrKysrKysrKysgaCAgfA0KPiA+ID4gPiA+
+ID4gNDMgKyBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9yZWdzLmggfCAg
+NjcgKysNCj4gPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJsX2R1
+X3ZzcC5jICB8IDQzMCArKysrKysrKysrDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0vcmVu
+ZXNhcy9yei1kdS9yemcybF9kdV92c3AuaCAgfCAgOTQgKysrDQo+ID4gPiA+ID4gPiAgLi4uL2dw
+dS9kcm0veyA9PiByZW5lc2FzfS9zaG1vYmlsZS9LY29uZmlnICAgIHwgICAwDQo+ID4gPiA+ID4g
+PiAgLi4uL2dwdS9kcm0veyA9PiByZW5lc2FzfS9zaG1vYmlsZS9NYWtlZmlsZSAgIHwgICAwDQo+
+ID4gPiA+ID4gPiAgLi4uL3NobW9iaWxlL3NobW9iX2RybV9iYWNrbGlnaHQuYyAgICAgICAgICAg
+IHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3NobW9iaWxlL3NobW9iX2RybV9iYWNrbGlnaHQuaCAg
+ICAgICAgICAgIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30vc2htb2JpbGUv
+c2htb2JfZHJtX2NydGMuYyAgIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30v
+c2htb2JpbGUvc2htb2JfZHJtX2NydGMuaCAgIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4g
+cmVuZXNhc30vc2htb2JpbGUvc2htb2JfZHJtX2Rydi5jICAgIHwgICAwDQo+ID4gPiA+ID4gPiAg
+Li4uL3sgPT4gcmVuZXNhc30vc2htb2JpbGUvc2htb2JfZHJtX2Rydi5oICAgIHwgICAwDQo+ID4g
+PiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30vc2htb2JpbGUvc2htb2JfZHJtX2ttcy5jICAgIHwg
+ICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30vc2htb2JpbGUvc2htb2JfZHJtX2tt
+cy5oICAgIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30vc2htb2JpbGUvc2ht
+b2JfZHJtX3BsYW5lLmMgIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVuZXNhc30vc2ht
+b2JpbGUvc2htb2JfZHJtX3BsYW5lLmggIHwgICAwDQo+ID4gPiA+ID4gPiAgLi4uL3sgPT4gcmVu
+ZXNhc30vc2htb2JpbGUvc2htb2JfZHJtX3JlZ3MuaCAgIHwgICAwDQo+ID4gPiA+ID4gPiAgNjIg
+ZmlsZXMgY2hhbmdlZCwgMjgxNiBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKSAgY3JlYXRl
+DQo+ID4gPiA+ID4gPiBtb2RlDQo+ID4gPiA+ID4gPiAxMDA2NDQNCj4gPiA+ID4gPiA+IERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JlbmVzYXMscnpnMmwtZHUueWFt
+DQo+ID4gPiA+ID4gPiBsICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JlbmVz
+YXMvS2NvbmZpZyAgY3JlYXRlDQo+ID4gPiA+ID4gPiBtb2RlDQo+ID4gPiA+ID4gPiAxMDA2NDQg
+ZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvTWFrZWZpbGUgIHJlbmFtZQ0KPiA+ID4gPiA+ID4gZHJp
+dmVycy9ncHUvZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9LY29uZmlnICgxMDAlKSAgcmVuYW1l
+DQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L01ha2Vm
+aWxlICgxMDAlKSAgcmVuYW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0veyA9PiByZW5l
+c2FzfS9yY2FyLWR1L3JjYXJfY21tLmMgKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5hbWUgZHJpdmVy
+cy9ncHUvZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2NtbS5oICgxMDAlKQ0KPiA+ID4g
+PiA+ID4gcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9k
+dV9jcnRjLmMNCj4gPiA+ID4gPiA+ICgxMDAlKSAgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+
+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfY3J0Yy5oICgxMDAlKSAgcmVu
+YW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L3Jj
+YXJfZHVfZHJ2LmMgKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5hbWUgZHJpdmVycy9ncHUvZHJtL3sg
+PT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X2Rydi5oDQo+ID4gPiA+ID4gPiAoMTAwJSkgIHJl
+bmFtZSBkcml2ZXJzL2dwdS9kcm0veyA9Pg0KPiA+ID4gPiA+ID4gcmVuZXNhc30vcmNhci1kdS9y
+Y2FyX2R1X2VuY29kZXIuYyAoMTAwJSkgcmVuYW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9k
+cm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfZW5jb2Rlci5oDQo+ID4gPiA+ID4gPiAo
+MTAwJSkgIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0veyA9Pg0KPiA+ID4gPiA+ID4gcmVuZXNhc30v
+cmNhci1kdS9yY2FyX2R1X2dyb3VwLmMgKDEwMCUpICByZW5hbWUNCj4gPiA+ID4gPiA+IGRyaXZl
+cnMvZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9kdV9ncm91cC5oICgxMDAlKQ0K
+PiA+ID4gPiA+ID4gcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+IHJlbmVzYXN9L3JjYXItZHUv
+cmNhcl9kdV9rbXMuYw0KPiA+ID4gPiA+ID4gKDEwMCUpICByZW5hbWUgZHJpdmVycy9ncHUvZHJt
+L3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9kdV9rbXMuaCAoMTAwJSkg
+IHJlbmFtZQ0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3sgPT4gcmVuZXNhc30vcmNhci1k
+dS9yY2FyX2R1X3BsYW5lLmMgKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5hbWUgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmgNCj4gPiA+ID4gPiA+ICgx
+MDAlKSAgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9y
+Y2FyLWR1L3JjYXJfZHVfcmVncy5oICgxMDAlKSAgcmVuYW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJz
+L2dwdS9kcm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMgKDEwMCUpDQo+ID4g
+PiA+ID4gPiByZW5hbWUgZHJpdmVycy9ncHUvZHJtL3sgPT4gcmVuZXNhc30vcmNhci1kdS9yY2Fy
+X2R1X3ZzcC5oDQo+ID4gPiA+ID4gPiAoMTAwJSkgIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0veyA9
+Pg0KPiA+ID4gPiA+ID4gcmVuZXNhc30vcmNhci1kdS9yY2FyX2R1X3dyaXRlYmFjay5jICgxMDAl
+KSAgcmVuYW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0veyA9PiByZW5lc2FzfS9yY2Fy
+LWR1L3JjYXJfZHVfd3JpdGViYWNrLmgNCj4gPiA+ID4gPiA+ICgxMDAlKSByZW5hbWUgZHJpdmVy
+cy9ncHUvZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9kd19oZG1p
+LmMgKDEwMCUpIHJlbmFtZQ0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3sgPT4gcmVuZXNh
+c30vcmNhci1kdS9yY2FyX2x2ZHMuYyAoMTAwJSkNCj4gPiA+ID4gPiA+IHJlbmFtZSBkcml2ZXJz
+L2dwdS9kcm0veyA9PiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfbHZkcy5oDQo+ID4gPiA+ID4gPiAo
+MTAwJSkgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9y
+Y2FyLWR1L3JjYXJfbHZkc19yZWdzLmgNCj4gPiA+ID4gPiA+ICgxMDAlKSAgcmVuYW1lIGRyaXZl
+cnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9yY2FyLWR1L3JjYXJfbWlwaV9k
+c2kuYyAoMTAwJSkgIHJlbmFtZQ0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3sgPT4gcmVu
+ZXNhc30vcmNhci1kdS9yY2FyX21pcGlfZHNpLmggKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5hbWUg
+ZHJpdmVycy9ncHUvZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3JjYXItZHUvcmNhcl9t
+aXBpX2RzaV9yZWdzLmggKDEwMCUpIHJlbmFtZQ0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJt
+L3sgPT4gcmVuZXNhc30vcmNhci1kdS9yemcybF9taXBpX2RzaS5jDQo+ID4gPiA+ID4gPiAoMTAw
+JSkgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9yY2Fy
+LWR1L3J6ZzJsX21pcGlfZHNpX3JlZ3MuaA0KPiA+ID4gPiA+ID4gKDEwMCUpICBjcmVhdGUgbW9k
+ZSAxMDA2NDQNCj4gPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L0tjb25m
+aWcNCj4gPiA+ID4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JlbmVz
+YXMvcnotZHUvTWFrZWZpbGUNCj4gPiA+ID4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiA+
+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJsX2R1X2NydGMuYw0KPiA+
+ID4gPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJt
+L3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfY3J0Yy5oDQo+ID4gPiA+ID4gPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0DQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9k
+dV9kcnYuYw0KPiA+ID4gPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ID4gZHJp
+dmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfZHJ2LmgNCj4gPiA+ID4gPiA+ICBj
+cmVhdGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6
+LWR1L3J6ZzJsX2R1X2VuY29kZXIuYw0KPiA+ID4gPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0K
+PiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfZW5jb2Rl
+ci5oDQo+ID4gPiA+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4gPiA+ID4gPiBkcml2ZXJz
+L2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9rbXMuYw0KPiA+ID4gPiA+ID4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUv
+cnpnMmxfZHVfa21zLmgNCj4gPiA+ID4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4g
+PiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJsX2R1X3JlZ3MuaA0KPiA+ID4g
+PiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ID4gZHJpdmVycy9ncHUvZHJtL3Jl
+bmVzYXMvcnotZHUvcnpnMmxfZHVfdnNwLmMNCj4gPiA+ID4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQNCj4gPiA+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJsX2R1X3Zz
+cC5oDQo+ID4gPiA+ID4gPiAgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+IHJlbmVzYXN9L3No
+bW9iaWxlL0tjb25maWcgKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5hbWUgZHJpdmVycy9ncHUvZHJt
+L3sgPT4gcmVuZXNhc30vc2htb2JpbGUvTWFrZWZpbGUgKDEwMCUpDQo+ID4gPiA+ID4gPiByZW5h
+bWUgZHJpdmVycy9ncHUvZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3NobW9iaWxlL3No
+bW9iX2RybV9iYWNrbGlnaHQuYyAoMTAwJSkgcmVuYW1lDQo+ID4gPiA+ID4gPiBkcml2ZXJzL2dw
+dS9kcm0veyA9PiByZW5lc2FzfS9zaG1vYmlsZS9zaG1vYl9kcm1fYmFja2xpZ2h0LmgNCj4gPiA+
+ID4gPiA+ICgxMDAlKSAgcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiBy
+ZW5lc2FzfS9zaG1vYmlsZS9zaG1vYl9kcm1fY3J0Yy5jDQo+ID4gPiA+ID4gPiAoMTAwJSkgIHJl
+bmFtZSBkcml2ZXJzL2dwdS9kcm0veyA9Pg0KPiA+ID4gPiA+ID4gcmVuZXNhc30vc2htb2JpbGUv
+c2htb2JfZHJtX2NydGMuaA0KPiA+ID4gPiA+ID4gKDEwMCUpICByZW5hbWUgZHJpdmVycy9ncHUv
+ZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3NobW9iaWxlL3NobW9iX2RybV9kcnYuYw0K
+PiA+ID4gPiA+ID4gKDEwMCUpICByZW5hbWUgZHJpdmVycy9ncHUvZHJtL3sgPT4NCj4gPiA+ID4g
+PiA+IHJlbmVzYXN9L3NobW9iaWxlL3NobW9iX2RybV9kcnYuaA0KPiA+ID4gPiA+ID4gKDEwMCUp
+ICByZW5hbWUgZHJpdmVycy9ncHUvZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3NobW9i
+aWxlL3NobW9iX2RybV9rbXMuYw0KPiA+ID4gPiA+ID4gKDEwMCUpICByZW5hbWUgZHJpdmVycy9n
+cHUvZHJtL3sgPT4NCj4gPiA+ID4gPiA+IHJlbmVzYXN9L3NobW9iaWxlL3NobW9iX2RybV9rbXMu
+aA0KPiA+ID4gPiA+ID4gKDEwMCUpICByZW5hbWUgZHJpdmVycy9ncHUvZHJtL3sgPT4NCj4gPiA+
+ID4gPiA+IHJlbmVzYXN9L3NobW9iaWxlL3NobW9iX2RybV9wbGFuZS5jDQo+ID4gPiA+ID4gPiAo
+MTAwJSkgIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0veyA9Pg0KPiA+ID4gPiA+ID4gcmVuZXNhc30v
+c2htb2JpbGUvc2htb2JfZHJtX3BsYW5lLmgNCj4gPiA+ID4gPiA+ICgxMDAlKSAgcmVuYW1lIGRy
+aXZlcnMvZ3B1L2RybS97ID0+DQo+ID4gPiA+ID4gPiByZW5lc2FzfS9zaG1vYmlsZS9zaG1vYl9k
+cm1fcmVncy5oDQo+ID4gPiA+ID4gPiAoMTAwJSkNCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+IA0K
+PiBMYXVyZW50IFBpbmNoYXJ0DQo=
