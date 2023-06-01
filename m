@@ -2,121 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3142771F07B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jun 2023 19:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 401D871F4EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jun 2023 23:40:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232724AbjFARRb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jun 2023 13:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
+        id S231398AbjFAVku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jun 2023 17:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232670AbjFARRX (ORCPT
+        with ESMTP id S232809AbjFAVks (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jun 2023 13:17:23 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0BFCD1;
-        Thu,  1 Jun 2023 10:17:17 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.00,210,1681138800"; 
-   d="scan'208";a="165365583"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Jun 2023 02:17:17 +0900
-Received: from localhost.localdomain (unknown [10.226.93.19])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A99954001DDC;
-        Fri,  2 Jun 2023 02:17:14 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-i2c@vger.kernel.org,
-        linux-rtc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] i2c: Add i2c_get_match_data()
-Date:   Thu,  1 Jun 2023 18:17:11 +0100
-Message-Id: <20230601171711.221430-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 1 Jun 2023 17:40:48 -0400
+X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Jun 2023 14:40:29 PDT
+Received: from fgw23-7.mail.saunalahti.fi (fgw23-7.mail.saunalahti.fi [62.142.5.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABC79E4A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jun 2023 14:40:29 -0700 (PDT)
+Received: from localhost (88-113-26-95.elisa-laajakaista.fi [88.113.26.95])
+        by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+        id c73ded7f-00c4-11ee-b972-005056bdfda7;
+        Fri, 02 Jun 2023 00:39:25 +0300 (EEST)
+From:   andy.shevchenko@gmail.com
+Date:   Fri, 2 Jun 2023 00:39:25 +0300
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v8 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <ZHkQDTvk6I2q-9CF@surfacebook>
+References: <20220329091126.4730-1-wsa+renesas@sang-engineering.com>
+ <20220329091126.4730-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329091126.4730-2-wsa+renesas@sang-engineering.com>
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add i2c_get_match_data() similar to of_device_get_match_data(),
-so that we can optimize the driver code that uses both I2C and
-DT-based matching.
+Tue, Mar 29, 2022 at 11:11:26AM +0200, Wolfram Sang kirjoitti:
+> This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> isolate a CPU for polling. While this is definitely not a production
+> level analyzer, it can be a helpful first view when remote debugging.
+> Read the documentation for details.
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Dropped parameter const struct i2c_device_id *id and the helper function.
+One note since I have done recent review and realize one issue with debugfs.
 
-eg: The RTC pcf85063/isl1208 driver code can be optimized with this patch.
--       if (client->dev.of_node) {
-+       if (client->dev.of_node)
-                config = of_device_get_match_data(&client->dev);
--               if (!config)
--                       return -ENODEV;
--       } else {
--               enum pcf85063_type type =
--                       i2c_match_id(pcf85063_ids, client)->driver_data;
--               if (type >= PCF85063_LAST_ID)
--                       return -ENODEV;
--               config = &pcf85063_cfg[type];
--       }
-+       else
-+               config = i2c_get_match_data(client);
-+
-+       if (!config)
-+               return -ENODEV;
----
- drivers/i2c/i2c-core-base.c | 14 ++++++++++++++
- include/linux/i2c.h         |  2 ++
- 2 files changed, 16 insertions(+)
+...
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ae3af738b03f..8576a1647785 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -114,6 +114,20 @@ const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
- }
- EXPORT_SYMBOL_GPL(i2c_match_id);
- 
-+const void *i2c_get_match_data(const struct i2c_client *client)
-+{
-+	struct device_driver *drv = client->dev.driver;
-+	struct i2c_driver *driver = to_i2c_driver(drv);
-+	const struct i2c_device_id *match;
-+
-+	match = i2c_match_id(driver->id_table, client);
-+	if (!match)
-+		return NULL;
-+
-+	return (const void *)match->driver_data;
-+}
-+EXPORT_SYMBOL(i2c_get_match_data);
-+
- static int i2c_device_match(struct device *dev, struct device_driver *drv)
- {
- 	struct i2c_client	*client = i2c_verify_client(dev);
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 13a1ce38cb0c..3430cc2b05a6 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -367,6 +367,8 @@ struct i2c_adapter *i2c_verify_adapter(struct device *dev);
- const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
- 					 const struct i2c_client *client);
- 
-+const void *i2c_get_match_data(const struct i2c_client *client);
-+
- static inline struct i2c_client *kobj_to_i2c_client(struct kobject *kobj)
- {
- 	struct device * const dev = kobj_to_dev(kobj);
+> +	priv->debug_dir = debugfs_create_dir(devname, gpio_la_poll_debug_dir);
+
+If this fails with NULL...
+
+> +	debugfs_create_blob("meta_data", 0400, priv->debug_dir, &priv->meta);
+> +	debugfs_create_ulong("delay_ns", 0600, priv->debug_dir, &priv->delay_ns);
+> +	debugfs_create_ulong("delay_ns_acquisition", 0400, priv->debug_dir, &priv->acq_delay);
+> +	debugfs_create_file_unsafe("buf_size", 0600, priv->debug_dir, priv, &fops_buf_size);
+> +	debugfs_create_file_unsafe("capture", 0200, priv->debug_dir, priv, &fops_capture);
+> +	debugfs_create_file_unsafe("trigger", 0200, priv->debug_dir, priv, &fops_trigger);
+
+...and any of these is not, we will end up with the file in a root folder of debugfs...
+
+> +	dev_info(dev, "initialized");
+
+...
+
+> +static int gpio_la_poll_remove(struct platform_device *pdev)
+> +{
+> +	struct gpio_la_poll_priv *priv = platform_get_drvdata(pdev);
+> +
+> +	mutex_lock(&priv->lock);
+> +	debugfs_remove_recursive(priv->debug_dir);
+
+...and this one won't remove it.
+
+> +	mutex_unlock(&priv->lock);
+> +	mutex_destroy(&priv->lock);
+> +
+> +	return 0;
+> +}
+
+...
+
+However, I haven't checked if it's pure theoretical issue with the current code
+base of debugfs or a potential problem. Easy fix is to check an error code and
+skip the files creation. Not sure if driver will be useful in that case.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
