@@ -2,134 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A75A71FB1F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 09:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D0C71FC08
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 10:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233894AbjFBHkw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jun 2023 03:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44972 "EHLO
+        id S234478AbjFBI1s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jun 2023 04:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232239AbjFBHku (ORCPT
+        with ESMTP id S234470AbjFBI1P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jun 2023 03:40:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D37E195;
-        Fri,  2 Jun 2023 00:40:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8AFE664D00;
-        Fri,  2 Jun 2023 07:40:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A21A1C433EF;
-        Fri,  2 Jun 2023 07:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1685691648;
-        bh=QWLCTnUxuk/bgCq8TXw/6CiD075kLmr0khRTXCmFoDk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ia+ogJXFPRRxmNYYif7JFvwThMXOpsbSDPPDX31kmuuHTFWlXqQM31dRsedh0P9+1
-         Nwe0teuf+kbxrzMKrFXNKAPiqlU2KVQhHGD0EbOiKRf/UnP32b8OCFkqDw7W401o6w
-         hUfegvmYvdCE211kxJDqH3J54QRitYAaN845R4Hc=
-Date:   Fri, 2 Jun 2023 08:40:45 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     andy.shevchenko@gmail.com,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v8 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <2023060209-scouts-affection-f54d@gregkh>
-References: <20220329091126.4730-1-wsa+renesas@sang-engineering.com>
- <20220329091126.4730-2-wsa+renesas@sang-engineering.com>
- <ZHkQDTvk6I2q-9CF@surfacebook>
- <CAMuHMdUaugQ5+Zhmg=oe=X2wvhazMiT=K-su0EJYKzD4Hdyn3Q@mail.gmail.com>
+        Fri, 2 Jun 2023 04:27:15 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A586C170D
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jun 2023 01:26:31 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q5076-0007g1-OA; Fri, 02 Jun 2023 10:26:24 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q5075-004Xlj-60; Fri, 02 Jun 2023 10:26:23 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q5074-00APUw-AD; Fri, 02 Jun 2023 10:26:22 +0200
+Date:   Fri, 2 Jun 2023 10:26:22 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v17] pwm: Add Renesas RZ/G2L MTU3a PWM driver
+Message-ID: <20230602082622.vs3boxqgek4jmb7b@pengutronix.de>
+References: <20230522171449.688814-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nf4fj3vubftysrlc"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUaugQ5+Zhmg=oe=X2wvhazMiT=K-su0EJYKzD4Hdyn3Q@mail.gmail.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230522171449.688814-1-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 02, 2023 at 08:51:50AM +0200, Geert Uytterhoeven wrote:
-> Hi Andy,
-> 
-> CC GregKH
-> 
-> On Thu, Jun 1, 2023 at 11:40 PM <andy.shevchenko@gmail.com> wrote:
-> > Tue, Mar 29, 2022 at 11:11:26AM +0200, Wolfram Sang kirjoitti:
-> > > This is a sloppy logic analyzer using GPIOs. It comes with a script to
-> > > isolate a CPU for polling. While this is definitely not a production
-> > > level analyzer, it can be a helpful first view when remote debugging.
-> > > Read the documentation for details.
-> >
-> > One note since I have done recent review and realize one issue with debugfs.
-> >
-> > ...
-> >
-> > > +     priv->debug_dir = debugfs_create_dir(devname, gpio_la_poll_debug_dir);
-> >
-> > If this fails with NULL...
-> >
-> > > +     debugfs_create_blob("meta_data", 0400, priv->debug_dir, &priv->meta);
-> > > +     debugfs_create_ulong("delay_ns", 0600, priv->debug_dir, &priv->delay_ns);
-> > > +     debugfs_create_ulong("delay_ns_acquisition", 0400, priv->debug_dir, &priv->acq_delay);
-> > > +     debugfs_create_file_unsafe("buf_size", 0600, priv->debug_dir, priv, &fops_buf_size);
-> > > +     debugfs_create_file_unsafe("capture", 0200, priv->debug_dir, priv, &fops_capture);
-> > > +     debugfs_create_file_unsafe("trigger", 0200, priv->debug_dir, priv, &fops_trigger);
-> >
-> > ...and any of these is not, we will end up with the file in a root folder of debugfs...
-> >
-> > > +     dev_info(dev, "initialized");
 
-Nit, please remove this line.  Drivers are quiet when they work
-properly, don't add to a mess in the kernel log.
+--nf4fj3vubftysrlc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > ...
-> >
-> > > +static int gpio_la_poll_remove(struct platform_device *pdev)
-> > > +{
-> > > +     struct gpio_la_poll_priv *priv = platform_get_drvdata(pdev);
-> > > +
-> > > +     mutex_lock(&priv->lock);
-> > > +     debugfs_remove_recursive(priv->debug_dir);
-> >
-> > ...and this one won't remove it.
-> >
-> > > +     mutex_unlock(&priv->lock);
-> > > +     mutex_destroy(&priv->lock);
-> > > +
-> > > +     return 0;
-> > > +}
-> >
-> > ...
-> >
-> > However, I haven't checked if it's pure theoretical issue with the current code
-> > base of debugfs or a potential problem. Easy fix is to check an error code and
-> 
-> I think debugfs_create_dir() can only fail reasonably due to OOM.
-> 
-> > skip the files creation. Not sure if driver will be useful in that case.
-> 
-> Having to add such error checks would really be unfortunate, because
-> one of the design principles of debugfs is that there is never a need
-> to check for errors.
+Hello,
 
-If you really want, you can check the return value of the directory
-creation and just return and keep going forward (do NOT propagate an
-error upwards as drivers need to keep working if debugfs is hosed).
+On Mon, May 22, 2023 at 06:14:49PM +0100, Biju Das wrote:
+> base-commit: 9f258af06b6268be8e960f63c3f66e88bdbbbdb0
+> prerequisite-patch-id: 7d5c55db908971d16a58eb46b25d42dfb0f680ec
+> prerequisite-patch-id: 6c15d33bb612750523d14af87a5cf9e6ff142540
+> prerequisite-patch-id: e5e4d86a0a012a59f585b84ce7ae0d3f047787dc
+> prerequisite-patch-id: d62b4e1326f1518fd30eb98a37bfb4998573979a
+> prerequisite-patch-id: 15bf63b610cab275387a2bbee7ab2a0a48414f75
 
-But really, the only way the call can fail is if you did something wrong
-and tried to create a directory that was already there, so don't even
-worry about checking the return value, all is fine.
+My working copy doesn't contain
+9f258af06b6268be8e960f63c3f66e88bdbbbdb0, so I wonder what is the base
+you used here. Also the other prerequisite patches are unclear to me and
+I didn't find them[1]. I assume it's stuff around
 
-thanks,
+	654c293e1687 mfd: Add Renesas RZ/G2L MTU3a core driver
 
-greg k-h
+(which is in v6.4-rc1)? I recommend duplicating this information in
+human readable form in the cover letter (or below the --- if it's only a
+single patch).
+
+So this patch was probably not tested by the build bots.
+
+Otherwise I think this is good enough to go in now, so:
+
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Thanks
+Uwe
+
+[1] git log -p v6.2..next/master | git patch-id | grep 6c15d33bb612750523d1=
+4af87a5cf9e6ff142540
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--nf4fj3vubftysrlc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmR5p60ACgkQj4D7WH0S
+/k4fewgArLtkF/a7qmldtJ3eVJUdAH04DG9lgeDDZWeyXgIJj577f94aYfeXn5Ls
+6i4cOubitXFiGlLm7w6pujol60azn6B7qibm24clYqWOgTSlNaq8i30Uq3zjEkD2
+GdNRunTgtHjNTs3qKjAg+VUdw9YnhXAHVBJJM8DocRvXnGPgcO9J0ZmMKibg501a
+ndTADGgBnO0sCEGBDNolpYTmG0upRErooPv6e0xRCzp7tbR5O6ChnCMwuQQtLuVI
+giTDu+5QY1P1EZNNQ2k2ewjQ1V+39NKR1uTbXT7zHOeM/stKZtgL+FjtCFpsofXn
+i66MD2rXoUljqzFkB7f0+NqfCi8QbQ==
+=pbdN
+-----END PGP SIGNATURE-----
+
+--nf4fj3vubftysrlc--
