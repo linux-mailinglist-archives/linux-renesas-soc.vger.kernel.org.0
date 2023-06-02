@@ -2,71 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 755BF720B50
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 23:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B40720B52
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 23:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236422AbjFBV7I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jun 2023 17:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52622 "EHLO
+        id S236081AbjFBV7b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jun 2023 17:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232032AbjFBV7H (ORCPT
+        with ESMTP id S236492AbjFBV73 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jun 2023 17:59:07 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F941A5
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jun 2023 14:59:05 -0700 (PDT)
+        Fri, 2 Jun 2023 17:59:29 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B6D1A5
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jun 2023 14:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685743145; x=1717279145;
+  t=1685743166; x=1717279166;
   h=date:from:to:cc:subject:message-id;
-  bh=xynEv+Yvz81Olmn+uufX/xHDEp5Xwdn4dffjnGpb2P4=;
-  b=Boe7SYZRLFAxx2+Rmw+yG3zL5x2c412G+CL4PrtQ+9uKXPv9Rbm/SMf+
-   pn7UsjrdaVul2PZCNJYNK0iPwVSKUthwVeIzk0XT5AYXp53ZbsUpYiWhv
-   l5etB3AtA0fLO1PiUy2zVl4FjH29rbGezJJDhnxq8OxOBhcRXIeU8n711
-   8JwdQdyF1pv0YEXRB8ANbQzyMR7kZMhAz/0Axl8Mv87DboyqZ2rdhkphy
-   hbMW98VhPp3SIa8/ligvsBCHhSnidqBZtMmFQYjNLIHbQdJulM7ytjEs6
-   J4ap1RETyJAsa4XGKDmeXJ1WgzP4QpTyj0FLre7fk8X6io3DMDtIPn4QD
+  bh=fhxRgSdfg9SwU5xZdzqHwHifgutJOCSjW44DkIN8oOY=;
+  b=Zpv4oafP6fL6EdH2EuzJid7QkN0wsvJW8uyCILVHhZ14mbgZutSDxg+K
+   xW4eMPu4h9qSQRRSAKmY9O7X8ujoG384I1IIDCyeQhkB9HHEObNOJVuBm
+   i9TO+yA86gnI+iMewNrXWRZ2II3OkxpkNxMSj0dp3OqsaaBZFomSr1aGR
+   DD1MONoCMwCTfap+a5fcHR5OyzpL9eJ3QNIYJJzFmABAxxN1GzpZymwKG
+   Mogdd85g9mVGl/MCqV3wt1Us61HBpgQcWv4bYB+GrSae0ciUSLjo8410H
+   PIYu2TUK858LKwH61IEWZmklPuq4Eeg4Av1H/D70qtVgq14+yThHv7eK0
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345562231"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="421795298"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="345562231"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 14:59:05 -0700
+   d="scan'208";a="421795298"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 14:59:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="954636700"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="740953724"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="954636700"
+   d="scan'208";a="740953724"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Jun 2023 14:59:04 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Jun 2023 14:59:04 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1q5CnX-00010f-1e;
+        id 1q5CnX-00010l-1q;
         Fri, 02 Jun 2023 21:59:03 +0000
-Date:   Sat, 03 Jun 2023 05:58:56 +0800
+Date:   Sat, 03 Jun 2023 05:59:03 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.5] BUILD SUCCESS
- c776a2128dee50a9f10eace4a14ff894e1432a31
-Message-ID: <20230602215856.gWkxt%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v6.5] BUILD
+ SUCCESS cacde5cc9dbc1af46a5d35efd17365bc3324b4fb
+Message-ID: <20230602215903.Qlhfu%lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.5
-branch HEAD: c776a2128dee50a9f10eace4a14ff894e1432a31  arm64: dts: renesas: ulcb-kf: Add HSCIF1 node
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v6.5
+branch HEAD: cacde5cc9dbc1af46a5d35efd17365bc3324b4fb  arm64: defconfig: Enable Renesas MTU3a counter config
 
-elapsed time: 721m
+elapsed time: 722m
 
-configs tested: 214
+configs tested: 215
 configs skipped: 167
 
 The following configs have been built successfully.
@@ -104,6 +103,7 @@ arm                             rpc_defconfig   gcc
 arm                           sunxi_defconfig   gcc  
 arm64                            alldefconfig   gcc  
 arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r001-20230531   gcc  
 arm64        buildonly-randconfig-r005-20230531   gcc  
 arm64                               defconfig   gcc  
 arm64                randconfig-r004-20230602   gcc  
