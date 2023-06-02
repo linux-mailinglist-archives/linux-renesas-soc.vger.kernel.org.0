@@ -2,204 +2,292 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CDB57209CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 21:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 755BF720B50
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 23:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235277AbjFBTaB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jun 2023 15:30:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37128 "EHLO
+        id S236422AbjFBV7I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jun 2023 17:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234300AbjFBT3w (ORCPT
+        with ESMTP id S232032AbjFBV7H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jun 2023 15:29:52 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2133.outbound.protection.outlook.com [40.107.114.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51729CE
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jun 2023 12:29:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UeLaNkcsLgaU9H63QIg4qGp/Pb2J9ChXYMbjP/f4ifUz3r1DFwdT2ggfryXwR7JKcZ/47DiTPh1lk+FiLAT3KhtjmTtv2web1HoPyz6CTZfjJqCmh5+eQTJxyh9w4E995uBCC2zVI6d2KTrjjO8dbUCsnkQ4vkQMXvLTnV2JtjPWYYIlQT2V7TJ/5T9TATQbwX0QNM/KvgxpfeVeAx/qruJWt9svL4HBa7SEOwjdEt7DzPu4Vzqci/momjGleku0eNIIivWVBfRcHPxUwWWxX6mEoy1EaMPkgBQLl6F+wdUXSDvEWyXxvMwGE6KtRmzwNtN7jyuYjTl4LsdA4arfoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MlZD0eju3rcWVxkcZHAMM1ra4yeMRvHBWpCZgN3WP8Q=;
- b=OhVKxvuBREuZdrMTjO8/10N3oABeJ3QRWcYkyD4sv2Z4/JIDxmjr1hjJkM21iuVYQXD/LeALPXk5jT/U4yB4/BHG7ccACxORUcwtMrGRDDiNOS0+mZ9dN/Kte0dpxW0lY81mZL/t0mE29kPlFeSYtW3j10Ab36NDH0S/olAsf+l0B4dUrXH46y2kAMmllZXPn6prZBxIBGd/N4QQNApSE5QneT8DgxMBdysjTk1FDGJRRo2ILZ6sfIQkKHeBtrCMGgHJbNZE+eJZkph0H4up7QKBxr8pjygGpicyQz1A89e5tjKW57ktIc0/snMdAh0uzzNVnpggbPCphQC9bsHBfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MlZD0eju3rcWVxkcZHAMM1ra4yeMRvHBWpCZgN3WP8Q=;
- b=p9ZteS1OLGw35YlwT0CatIL4sj70+DA9v9LdqChgt/VLn5mdxps2Ki0eQGH1+VjSqKE8tGvttsT8aRJoQqVo27icsNd842KPNvCMasXexxpppjYYMhgwn/jo+P0eQrMS+BEB4fW8buVbuP/ofss2YzJ/aFraUVTmU0eUl6bY+8A=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYVPR01MB11116.jpnprd01.prod.outlook.com (2603:1096:400:368::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Fri, 2 Jun
- 2023 19:29:45 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.020; Fri, 2 Jun 2023
- 19:29:45 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: RE: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of
- KMS init errors
-Thread-Topic: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of
- KMS init errors
-Thread-Index: AQHZkwwGOSF2+7QhD06cC0ftzXjWg6936mFQ
-Date:   Fri, 2 Jun 2023 19:29:45 +0000
-Message-ID: <OS0PR01MB592200F03BE4C64092321EB3864EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230530153251.22302-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20230530153251.22302-1-laurent.pinchart+renesas@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYVPR01MB11116:EE_
-x-ms-office365-filtering-correlation-id: f803cefd-8aa8-4bf0-4751-08db639fb8d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bP1JQlZ3u9Liz8HnKBInWEBkNtYF+8Kaz+eyf4fBo/yD7Cqc+JSvpwgHIWFDNFEdKuqzwP4GdPm6FdFyxeZtG94otXSDzjf9FBYTrbiMDbo0QhuxVJFFLWnJGP3nhrqete9zS+Rr3VM6eHjMf8luCR1+P1V2RsZ32BA6CV8l+wcf2jBObyQnN+Z+ckTZ5mrE3jdzOvJTW8BFQpTTpqD6HwZX9wt0fGqo53GnpwBT8ACFYBTEVJ2jTi5hHou09UjiqFpl4QcbC/gOGQ3v8F3A2lfPQV5D4ED3F3sYXHG+/usLq4NVUYGrP1yvNZGXBOih27c4IilpG/4fUDXMh6+Xwwd90FihQmJn1PXFTmgA2nm6R1xyw1Vn8EqMhdowBPC8MeMyW7bPjKdCWROgZqrAEkwnIfPfM3evG1U7o1NxxMd+bYOfTdthUq84ZZlYrXUpFQZER1hdIu90w8j54ETDHBHUraGULk+Rs1AdQoZa4yHqEnj/BrK4WpaN4nFs7mEze9ZU8IlbtgjN11c9LGYHpJ8uOnhpCcqIrYMD3VhKCiJHVUhMREdqY7bAohuUwwE4QXD6oAUdE7tQRZ7pvlC52Cq+9iE7v0gVewDzZMytKCAPz5UkJa7NbErilsCCQ/hq
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(451199021)(41300700001)(86362001)(2906002)(38070700005)(83380400001)(52536014)(5660300002)(8936002)(8676002)(33656002)(38100700002)(66946007)(64756008)(316002)(66556008)(122000001)(4326008)(66476007)(76116006)(66446008)(54906003)(110136005)(186003)(6506007)(26005)(9686003)(478600001)(55016003)(7696005)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DRPUkul7bHciSDx2ScwWq224YmRIDajRx2PNGIQzlQ+0Ec8mzVCl7pHurPCQ?=
- =?us-ascii?Q?xQQv58oYWcH6M2hP9MHXCstuDdy0zzR2njoOcmj90RHcJg4HSu3SmXWQN79Z?=
- =?us-ascii?Q?VKOY6vYAfjRSyDUkIdwvHB8QWHmghpgIWBPobR6zH1R/+adGCF4Zjl27HaZK?=
- =?us-ascii?Q?++jWHPBa19JzKttAgnLw4tOb2QxfcF0VTH2chV7MftTGpZ8k+9c8GN3je2fQ?=
- =?us-ascii?Q?HeWUNtVobHzT6iESB0/QcYCwQErDzCDr6EOIZI3mlWSZrbcvbdSYq4yJbocD?=
- =?us-ascii?Q?xxnNDH2Y7Tp/Lig1WOzRxh3LeXb+Jy/KgDS9cbwH68QbBtzJFs4mPTCPMGYV?=
- =?us-ascii?Q?16RhGqds8RLd+sF5MwM8QBtXWfU7HzSyFmWyTNjvHyh09PUC233RVae++JeP?=
- =?us-ascii?Q?HIOXxRMWs5bg4E5EfZmnl8MR7RmdQ83CLJVOrq30Q3/SykHXJoZmg53ph339?=
- =?us-ascii?Q?2aSJCqM2aO7iqTpPtAuxBSBfWWjpP3eGyP7qAwVzODR7YoO+KselegaqNH9H?=
- =?us-ascii?Q?DjUwWciZWPaRzRi3zmGDA9XDvh/zGr2yHcbOG8aXb18TVZqsYYpCOXN3ux1B?=
- =?us-ascii?Q?zh+c2FXjIcfrmg7zHTHnQ7rWK9OF2J+R3/vINp6saO0QtcLneE0sYpEUHxB1?=
- =?us-ascii?Q?O8BijRpfz0M+ckfDgjz/l1sBYh96mIYuRXVDkiELHCoA+IZk0oFkkY630fNy?=
- =?us-ascii?Q?nyHqRodYVjKN5aj8ASGLWr7/9Aey4PBkY/mzmrRArwLCEw89+ziV2Nei3pO6?=
- =?us-ascii?Q?2acPQOqYrj0csO4YBhL4kpVJQ2wqZ6q1l6Pe7ositt6ec5ZiRC0FXPHvLguE?=
- =?us-ascii?Q?jKtEDFSklEQqlPYdUuJG1WT5LkDr/x+1VBVEOhMAF0E/xdza+AmjgT96kGeH?=
- =?us-ascii?Q?Ct0fhLr2c8f9MIBWk1MB2AYaETYfhuDDji+qa5XtnuM5HVvudpo5oiyM+KgG?=
- =?us-ascii?Q?s7pptvTHxOlptoi+RUEhiuEOW1CEkG+cbrIoO3uF6pW/zfVHbKuBG0hCQRpd?=
- =?us-ascii?Q?PlYLDdRllUjDN9QhbVpKRj1o6NkgQavCutjpHuEA7lSBwe8cfzvsKSjx1oL5?=
- =?us-ascii?Q?Pa0eyTRaAkfXgXTrs0nLmcGvMq+fKekAZR7f6LmrEk/yMJymCyMLKPU5orKO?=
- =?us-ascii?Q?FxRgBoy6V4+ydkB1q376dy0bPcH6rLgktaiIHXVrYH3jcyA9QT+pl9J0a+O1?=
- =?us-ascii?Q?n+bFNs1BE0WALDDJbw0y329gV5BRbcwzIZCedkRrovlK0JCOx1+7UVs6704H?=
- =?us-ascii?Q?GIwwexzc11dNFBDjsP/winh+GKSzcrevQKD+i4FdmWCKCNVY+47G6/Hhl8Ms?=
- =?us-ascii?Q?JOhyTjS/fPsw69j9vIUk4y8Y3wMjzbWf8qmGdqP6sYmtCOWS9Om19hdC1Fx/?=
- =?us-ascii?Q?Vv4cQjiRuHYH74/I/fnY2EYbRquQOCk3SRPxLAxIMosVz5cVrfB9P+0jY8GF?=
- =?us-ascii?Q?sGg4dzje3KrI2C07B6JD1L+RQHvOLEVLxtP67/fBmI4kzcv/yC9J96KXeRGu?=
- =?us-ascii?Q?tib/VUzYFtj5Jb0H3254sSRby4YfL+M3v+D8zG7GJVZqDXKVZSnaUY+S7nGg?=
- =?us-ascii?Q?lTX19fgB08Sipqe1R2HL+P+BYVFKozI2U/oP5uNK?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f803cefd-8aa8-4bf0-4751-08db639fb8d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2023 19:29:45.5080
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: heMp1zFRm/SG0hego1vKbxXprAnvYA4hHebyRRd4UEcLe860ozub49jWb9LFw/gZET2q7mSpsc1+nN7VFR85KWzZl1xPHH/G5IjGGyYyAxM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB11116
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 2 Jun 2023 17:59:07 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F941A5
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jun 2023 14:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685743145; x=1717279145;
+  h=date:from:to:cc:subject:message-id;
+  bh=xynEv+Yvz81Olmn+uufX/xHDEp5Xwdn4dffjnGpb2P4=;
+  b=Boe7SYZRLFAxx2+Rmw+yG3zL5x2c412G+CL4PrtQ+9uKXPv9Rbm/SMf+
+   pn7UsjrdaVul2PZCNJYNK0iPwVSKUthwVeIzk0XT5AYXp53ZbsUpYiWhv
+   l5etB3AtA0fLO1PiUy2zVl4FjH29rbGezJJDhnxq8OxOBhcRXIeU8n711
+   8JwdQdyF1pv0YEXRB8ANbQzyMR7kZMhAz/0Axl8Mv87DboyqZ2rdhkphy
+   hbMW98VhPp3SIa8/ligvsBCHhSnidqBZtMmFQYjNLIHbQdJulM7ytjEs6
+   J4ap1RETyJAsa4XGKDmeXJ1WgzP4QpTyj0FLre7fk8X6io3DMDtIPn4QD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345562231"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="345562231"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 14:59:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="954636700"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="954636700"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 02 Jun 2023 14:59:04 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q5CnX-00010f-1e;
+        Fri, 02 Jun 2023 21:59:03 +0000
+Date:   Sat, 03 Jun 2023 05:58:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.5] BUILD SUCCESS
+ c776a2128dee50a9f10eace4a14ff894e1432a31
+Message-ID: <20230602215856.gWkxt%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.5
+branch HEAD: c776a2128dee50a9f10eace4a14ff894e1432a31  arm64: dts: renesas: ulcb-kf: Add HSCIF1 node
 
-Thanks for the patch.
+elapsed time: 721m
 
-> Subject: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of
-> KMS init errors
->=20
-> The (large) rcar_du_modeset_init() function can fail for many reasons,
-> two of two involving probe deferral. Use dev_err_probe() in those code
-> paths to record the cause of the probe deferral, in order to help
-> debugging probe issues.
->=20
-> Signed-off-by: Laurent Pinchart
-> <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 ++++
-> drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 8 ++++++--
->  2 files changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> index 12a8839fe3be..5b752adb1b02 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -701,6 +701,10 @@ static int rcar_du_probe(struct platform_device
-> *pdev)
->  	/* DRM/KMS objects */
->  	ret =3D rcar_du_modeset_init(rcdu);
->  	if (ret < 0) {
-> +		/*
-> +		 * Don't use dev_err_probe(), as it would overwrite the
-> probe
-> +		 * deferral reason recorded in rcar_du_modeset_init().
-> +		 */
->  		if (ret !=3D -EPROBE_DEFER)
->  			dev_err(&pdev->dev,
->  				"failed to initialize DRM/KMS (%d)\n", ret);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> index adfb36b0e815..a9b01027bf03 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -932,8 +932,10 @@ int rcar_du_modeset_init(struct rcar_du_device
-> *rcdu)
->=20
->  	/* Initialize the Color Management Modules. */
->  	ret =3D rcar_du_cmm_init(rcdu);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_err_probe(rcdu->dev, "failed to initialize CMM\n", ret);
-	=09
-	dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n");
+configs tested: 214
+configs skipped: 167
 
-	similarly for below one.
-Cheers,
-Biju
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  		return ret;
-> +	}
->=20
->  	/* Create the CRTCs. */
->  	for (swindex =3D 0, hwindex =3D 0; swindex < rcdu->num_crtcs;
-> ++hwindex) { @@ -952,8 +954,10 @@ int rcar_du_modeset_init(struct
-> rcar_du_device *rcdu)
->=20
->  	/* Initialize the encoders. */
->  	ret =3D rcar_du_encoders_init(rcdu);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		dev_err_probe(rcdu->dev, "failed to initialize encoders\n",
-> ret);
->  		return ret;
-> +	}
->=20
->  	if (ret =3D=3D 0) {
->  		dev_err(rcdu->dev, "error: no encoder could be
-> initialized\n");
-> --
-> Regards,
->=20
-> Laurent Pinchart
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r001-20230531   gcc  
+alpha        buildonly-randconfig-r005-20230531   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r001-20230531   gcc  
+alpha                randconfig-r002-20230531   gcc  
+alpha                randconfig-r013-20230531   gcc  
+alpha                randconfig-r015-20230601   gcc  
+alpha                randconfig-r031-20230531   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc          buildonly-randconfig-r005-20230531   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r003-20230531   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                            hisi_defconfig   gcc  
+arm                            mmp2_defconfig   clang
+arm                        multi_v5_defconfig   clang
+arm                             mxs_defconfig   clang
+arm                          pxa910_defconfig   gcc  
+arm                  randconfig-r016-20230601   clang
+arm                  randconfig-r021-20230531   gcc  
+arm                  randconfig-r022-20230531   gcc  
+arm                  randconfig-r024-20230531   gcc  
+arm                  randconfig-r046-20230531   gcc  
+arm                             rpc_defconfig   gcc  
+arm                           sunxi_defconfig   gcc  
+arm64                            alldefconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r005-20230531   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r004-20230602   gcc  
+arm64                randconfig-r012-20230602   clang
+arm64                randconfig-r026-20230531   clang
+arm64                randconfig-r034-20230602   gcc  
+csky         buildonly-randconfig-r002-20230531   gcc  
+csky         buildonly-randconfig-r003-20230531   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230602   gcc  
+csky                 randconfig-r012-20230601   gcc  
+csky                 randconfig-r023-20230531   gcc  
+csky                 randconfig-r025-20230531   gcc  
+csky                 randconfig-r035-20230531   gcc  
+hexagon              randconfig-r031-20230531   clang
+hexagon              randconfig-r036-20230531   clang
+hexagon              randconfig-r041-20230531   clang
+hexagon              randconfig-r045-20230531   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r001-20230531   gcc  
+i386         buildonly-randconfig-r001-20230602   gcc  
+i386         buildonly-randconfig-r002-20230531   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230531   gcc  
+i386                 randconfig-i002-20230531   gcc  
+i386                 randconfig-i003-20230531   gcc  
+i386                 randconfig-i004-20230531   gcc  
+i386                 randconfig-i005-20230531   gcc  
+i386                 randconfig-i006-20230531   gcc  
+i386                 randconfig-i051-20230531   gcc  
+i386                 randconfig-i052-20230531   gcc  
+i386                 randconfig-i053-20230531   gcc  
+i386                 randconfig-i054-20230531   gcc  
+i386                 randconfig-i055-20230531   gcc  
+i386                 randconfig-i056-20230531   gcc  
+i386                 randconfig-i061-20230531   gcc  
+i386                 randconfig-i061-20230602   gcc  
+i386                 randconfig-i062-20230531   gcc  
+i386                 randconfig-i062-20230602   gcc  
+i386                 randconfig-i063-20230531   gcc  
+i386                 randconfig-i063-20230602   gcc  
+i386                 randconfig-i064-20230531   gcc  
+i386                 randconfig-i064-20230602   gcc  
+i386                 randconfig-i065-20230531   gcc  
+i386                 randconfig-i065-20230602   gcc  
+i386                 randconfig-i066-20230531   gcc  
+i386                 randconfig-i066-20230602   gcc  
+i386                 randconfig-r003-20230531   gcc  
+i386                 randconfig-r004-20230531   gcc  
+i386                 randconfig-r006-20230531   gcc  
+ia64                            zx1_defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r006-20230602   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r002-20230531   gcc  
+loongarch            randconfig-r033-20230602   gcc  
+m68k                             allmodconfig   gcc  
+m68k                         amcore_defconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k         buildonly-randconfig-r004-20230531   gcc  
+m68k         buildonly-randconfig-r006-20230531   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5249evb_defconfig   gcc  
+m68k                        m5307c3_defconfig   gcc  
+m68k                 randconfig-r002-20230531   gcc  
+m68k                 randconfig-r016-20230601   gcc  
+m68k                 randconfig-r021-20230531   gcc  
+m68k                 randconfig-r031-20230531   gcc  
+m68k                 randconfig-r034-20230531   gcc  
+m68k                 randconfig-r036-20230531   gcc  
+m68k                          sun3x_defconfig   gcc  
+microblaze                      mmu_defconfig   gcc  
+microblaze           randconfig-r003-20230531   gcc  
+microblaze           randconfig-r014-20230601   gcc  
+microblaze           randconfig-r015-20230531   gcc  
+microblaze           randconfig-r021-20230531   gcc  
+microblaze           randconfig-r022-20230531   gcc  
+microblaze           randconfig-r025-20230531   gcc  
+microblaze           randconfig-r031-20230602   gcc  
+microblaze           randconfig-r032-20230531   gcc  
+microblaze           randconfig-r036-20230602   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r003-20230531   clang
+mips                           ci20_defconfig   gcc  
+mips                          rb532_defconfig   gcc  
+nios2                            alldefconfig   gcc  
+nios2        buildonly-randconfig-r002-20230531   gcc  
+nios2        buildonly-randconfig-r004-20230531   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230531   gcc  
+nios2                randconfig-r012-20230601   gcc  
+nios2                randconfig-r024-20230531   gcc  
+nios2                randconfig-r026-20230531   gcc  
+openrisc     buildonly-randconfig-r003-20230531   gcc  
+openrisc             randconfig-r002-20230531   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r003-20230531   gcc  
+parisc               randconfig-r005-20230531   gcc  
+parisc               randconfig-r006-20230531   gcc  
+parisc               randconfig-r016-20230531   gcc  
+parisc               randconfig-r026-20230531   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      arches_defconfig   gcc  
+powerpc                      chrp32_defconfig   gcc  
+powerpc                      mgcoge_defconfig   gcc  
+powerpc                   motionpro_defconfig   gcc  
+powerpc                 mpc836x_rdk_defconfig   clang
+powerpc                     mpc83xx_defconfig   gcc  
+powerpc                      ppc44x_defconfig   clang
+powerpc              randconfig-r002-20230602   gcc  
+powerpc              randconfig-r011-20230601   gcc  
+powerpc                     tqm8555_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r006-20230531   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r005-20230531   gcc  
+riscv                randconfig-r033-20230531   gcc  
+riscv                randconfig-r034-20230531   gcc  
+riscv                randconfig-r036-20230531   gcc  
+riscv                randconfig-r042-20230531   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r004-20230531   gcc  
+s390                 randconfig-r011-20230601   gcc  
+s390                 randconfig-r016-20230602   clang
+s390                 randconfig-r033-20230531   gcc  
+s390                 randconfig-r044-20230531   clang
+sh                               allmodconfig   gcc  
+sh                            hp6xx_defconfig   gcc  
+sh                   randconfig-r005-20230602   gcc  
+sh                          rsk7264_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7721_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           se7751_defconfig   gcc  
+sh                             sh03_defconfig   gcc  
+sh                              ul2_defconfig   gcc  
+sh                          urquell_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc        buildonly-randconfig-r002-20230602   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r002-20230531   gcc  
+sparc                randconfig-r016-20230601   gcc  
+sparc                randconfig-r035-20230602   gcc  
+sparc64              randconfig-r013-20230601   gcc  
+sparc64              randconfig-r025-20230531   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r003-20230531   gcc  
+x86_64       buildonly-randconfig-r005-20230602   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230531   gcc  
+x86_64               randconfig-a002-20230531   gcc  
+x86_64               randconfig-a003-20230531   gcc  
+x86_64               randconfig-a004-20230531   gcc  
+x86_64               randconfig-a005-20230531   gcc  
+x86_64               randconfig-a006-20230531   gcc  
+x86_64               randconfig-r004-20230531   gcc  
+x86_64               randconfig-r006-20230531   gcc  
+x86_64               randconfig-r032-20230602   gcc  
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-kvm   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                           rhel-8.3-syz   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                              defconfig   gcc  
+xtensa               randconfig-r001-20230531   gcc  
+xtensa               randconfig-r023-20230531   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
