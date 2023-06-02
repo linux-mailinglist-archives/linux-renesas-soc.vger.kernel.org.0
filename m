@@ -2,64 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52B2A71FA4A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 08:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F65971FA5D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jun 2023 08:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234034AbjFBGqP convert rfc822-to-8bit (ORCPT
+        id S233825AbjFBGwl convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jun 2023 02:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49178 "EHLO
+        Fri, 2 Jun 2023 02:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234041AbjFBGqL (ORCPT
+        with ESMTP id S233473AbjFBGwL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jun 2023 02:46:11 -0400
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFF91B8;
-        Thu,  1 Jun 2023 23:46:08 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-bacf9edc87bso1765092276.1;
-        Thu, 01 Jun 2023 23:46:08 -0700 (PDT)
+        Fri, 2 Jun 2023 02:52:11 -0400
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A60EEB;
+        Thu,  1 Jun 2023 23:52:10 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f4b0a0b557so2245966e87.1;
+        Thu, 01 Jun 2023 23:52:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685688367; x=1688280367;
+        d=1e100.net; s=20221208; t=1685688728; x=1688280728;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZBvNnozAj/TxuO9hzx+eUqb+0I9jnSWpjdQGiWjymEA=;
-        b=dML0uqQSRBuuJBWn3zi7AwF2o6OBGB0RzJK2/bWwK6sKxDR4gSoR5Bj0/B8Lc0M7g5
-         rDzv4lKjMMRBF5ZLBdqc4ShHtiQHNpXpU5N9i+WoFQUvYm9yeeP14COOYG95zyLu1FpU
-         FqAGdWRoj0Mx4V8LsnmLcKqN3ppwPbKuQ8cG9uBC/Q0jv0Qq/pSrECvKnd0INzsYbLKh
-         nvdwOdK/0Y/ybVxrAWZxHE4nR1h/xGgxCOK9iIai/6O/7hlsm8j9U0qzWQxqaTiRIUS/
-         9Mm/hdnnG+VpsVRvN+6fY1hINOX7fQk3DAtw1osrKAybNMGMIR9y4d6zEkDz3ATWcdkY
-         mjZQ==
-X-Gm-Message-State: AC+VfDwluXj/p52f3JtBfp6156CVcZBd5JlGNqp+vfiEQJ2MRWmd7lB7
-        xsaAjpBUcJP8Sb8muxAW0Tq6Kq4oTH6ETg==
-X-Google-Smtp-Source: ACHHUZ6iuKFf4ntn34Podde34WH9HJTehkrQTHhPUbvrldP/KUEZYKG1uQOZHiT6iOdihMucRzXYsA==
-X-Received: by 2002:a25:26d2:0:b0:bac:5d73:7f0a with SMTP id m201-20020a2526d2000000b00bac5d737f0amr2111822ybm.17.1685688366967;
-        Thu, 01 Jun 2023 23:46:06 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id r5-20020a5b06c5000000b00bb1d8f2a593sm128214ybq.45.2023.06.01.23.46.04
+        bh=T9DWVlf1ssnI9gx+MVSnTE5Fm8P+7zFjGjwuixjorcE=;
+        b=PCOqk2ns7tyP4Bo88GqKNiSL5aLD4DswOnPGtNzMHmY7xBwgove5qbW7KmQnT/X1Zn
+         nm7pNNek0LqEDlGvSUo61MLNu91bSu9fCzbDEYsFCNP+UuROQa5dbQK7WxUG7UhiuIc2
+         1/ezreUgEWhMEXVjXez1GgQYRHK1HoS5VVsYRjZ2gsLdux6G+L7qN/Qzqk074D2lwBoL
+         8LuCyzpFn/gbu2uGeUvs8EInI92n9tEh+CkPZi6gEGhhgIoMM1IxRNO7KujPVGoFIr5C
+         J5B/sFS+QGUUrkNR/PdUuM4v9GC82C6zxBuf6VNoC6XgPDXZKv85VAS3PPHXYzZToP0j
+         N26Q==
+X-Gm-Message-State: AC+VfDwIqWQN2Q+ELNldiF+acdPonxJeReyesMZ9/EsxdFeO9m2ppIqX
+        IM0bSyzqX1UcAFWwG8gxGxMA/aQMDg4wo61z
+X-Google-Smtp-Source: ACHHUZ6299qgCzP4n9ikrNBatD5GiNuvjlQOfLgk8dtIHX4b06fzaN9YZhz6NVv89G42ZOKAsfJHhQ==
+X-Received: by 2002:ac2:46d0:0:b0:4f1:30cc:3dae with SMTP id p16-20020ac246d0000000b004f130cc3daemr1405815lfo.10.1685688727739;
+        Thu, 01 Jun 2023 23:52:07 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id a14-20020a056512390e00b004f5e681eec1sm64898lfu.92.2023.06.01.23.52.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 23:46:05 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5659d85876dso15643097b3.2;
-        Thu, 01 Jun 2023 23:46:04 -0700 (PDT)
-X-Received: by 2002:a81:7105:0:b0:568:fe3a:46a2 with SMTP id
- m5-20020a817105000000b00568fe3a46a2mr6129479ywc.18.1685688364384; Thu, 01 Jun
- 2023 23:46:04 -0700 (PDT)
+        Thu, 01 Jun 2023 23:52:06 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4f6148f9679so64861e87.3;
+        Thu, 01 Jun 2023 23:52:06 -0700 (PDT)
+X-Received: by 2002:a05:6512:11ef:b0:4f3:b49b:e246 with SMTP id
+ p15-20020a05651211ef00b004f3b49be246mr1353520lfs.5.1685688726700; Thu, 01 Jun
+ 2023 23:52:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230601171711.221430-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230601171711.221430-1-biju.das.jz@bp.renesas.com>
+References: <20220329091126.4730-1-wsa+renesas@sang-engineering.com>
+ <20220329091126.4730-2-wsa+renesas@sang-engineering.com> <ZHkQDTvk6I2q-9CF@surfacebook>
+In-Reply-To: <ZHkQDTvk6I2q-9CF@surfacebook>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 2 Jun 2023 08:45:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU9gT97SUusrteKnGuHh-fhyq9V_DwzUQXDLyc_pvfgLw@mail.gmail.com>
-Message-ID: <CAMuHMdU9gT97SUusrteKnGuHh-fhyq9V_DwzUQXDLyc_pvfgLw@mail.gmail.com>
-Subject: Re: [PATCH v2] i2c: Add i2c_get_match_data()
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-i2c@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+Date:   Fri, 2 Jun 2023 08:51:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUaugQ5+Zhmg=oe=X2wvhazMiT=K-su0EJYKzD4Hdyn3Q@mail.gmail.com>
+Message-ID: <CAMuHMdUaugQ5+Zhmg=oe=X2wvhazMiT=K-su0EJYKzD4Hdyn3Q@mail.gmail.com>
+Subject: Re: [PATCH v8 1/1] gpio: add sloppy logic analyzer using polling
+To:     andy.shevchenko@gmail.com
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -72,18 +71,65 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 1, 2023 at 7:17 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add i2c_get_match_data() similar to of_device_get_match_data(),
-> so that we can optimize the driver code that uses both I2C and
-> DT-based matching.
->
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Dropped parameter const struct i2c_device_id *id and the helper function.
+Hi Andy,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+CC GregKH
+
+On Thu, Jun 1, 2023 at 11:40 PM <andy.shevchenko@gmail.com> wrote:
+> Tue, Mar 29, 2022 at 11:11:26AM +0200, Wolfram Sang kirjoitti:
+> > This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> > isolate a CPU for polling. While this is definitely not a production
+> > level analyzer, it can be a helpful first view when remote debugging.
+> > Read the documentation for details.
+>
+> One note since I have done recent review and realize one issue with debugfs.
+>
+> ...
+>
+> > +     priv->debug_dir = debugfs_create_dir(devname, gpio_la_poll_debug_dir);
+>
+> If this fails with NULL...
+>
+> > +     debugfs_create_blob("meta_data", 0400, priv->debug_dir, &priv->meta);
+> > +     debugfs_create_ulong("delay_ns", 0600, priv->debug_dir, &priv->delay_ns);
+> > +     debugfs_create_ulong("delay_ns_acquisition", 0400, priv->debug_dir, &priv->acq_delay);
+> > +     debugfs_create_file_unsafe("buf_size", 0600, priv->debug_dir, priv, &fops_buf_size);
+> > +     debugfs_create_file_unsafe("capture", 0200, priv->debug_dir, priv, &fops_capture);
+> > +     debugfs_create_file_unsafe("trigger", 0200, priv->debug_dir, priv, &fops_trigger);
+>
+> ...and any of these is not, we will end up with the file in a root folder of debugfs...
+>
+> > +     dev_info(dev, "initialized");
+>
+> ...
+>
+> > +static int gpio_la_poll_remove(struct platform_device *pdev)
+> > +{
+> > +     struct gpio_la_poll_priv *priv = platform_get_drvdata(pdev);
+> > +
+> > +     mutex_lock(&priv->lock);
+> > +     debugfs_remove_recursive(priv->debug_dir);
+>
+> ...and this one won't remove it.
+>
+> > +     mutex_unlock(&priv->lock);
+> > +     mutex_destroy(&priv->lock);
+> > +
+> > +     return 0;
+> > +}
+>
+> ...
+>
+> However, I haven't checked if it's pure theoretical issue with the current code
+> base of debugfs or a potential problem. Easy fix is to check an error code and
+
+I think debugfs_create_dir() can only fail reasonably due to OOM.
+
+> skip the files creation. Not sure if driver will be useful in that case.
+
+Having to add such error checks would really be unfortunate, because
+one of the design principles of debugfs is that there is never a need
+to check for errors.
 
 Gr{oetje,eeting}s,
 
