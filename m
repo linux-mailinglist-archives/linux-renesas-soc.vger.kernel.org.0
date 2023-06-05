@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74DB9722427
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 13:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD62572245B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 13:15:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjFELG3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 07:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36362 "EHLO
+        id S232064AbjFELPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 07:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232308AbjFELGW (ORCPT
+        with ESMTP id S231996AbjFELPy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 07:06:22 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E055BD;
-        Mon,  5 Jun 2023 04:06:21 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b1c30a1653so16859311fa.2;
-        Mon, 05 Jun 2023 04:06:21 -0700 (PDT)
+        Mon, 5 Jun 2023 07:15:54 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E4CAB8;
+        Mon,  5 Jun 2023 04:15:46 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f61b45ee0dso2236144e87.0;
+        Mon, 05 Jun 2023 04:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685963179; x=1688555179;
+        d=gmail.com; s=20221208; t=1685963744; x=1688555744;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7M30gPRF1S9FmsectECqP03XbemHmNsuKOYVOI7zWc=;
-        b=YETGDHrlvlPXeuRrT+vezPoWYnsr7Xid2LpIK5AyVz3kNTn9HUBGpXZdHE0PoAupVc
-         uPEp2hIwRV6QqQXRkdj3HAnCZ4l9o0zjcpR+OPa7yNPle1K3A5T15RWP3hTP4Xuh+kep
-         ABMBanCYpppHk/rzmN+6jlJNcVwPS8gMU5aGELd+nhh3/qrxUBEWhVT++C2FHM9zpM9h
-         zavp90/YNL80eTU3ndAWSCmGoaUoiD4WhuZiTQZlZpvFSHi5YjoERSBWXS1XMBEEENR4
-         fTFQHItGpLes1oaXrzRNUK/OCejNTuGu7o/0Hz+fjMo+Qi40UwvTP+Gzwvb8USbSrOGE
-         P/sQ==
+        bh=ipUAqk5N5TaomtE4YOav9jh5920OM/6bRcdglUb8rJY=;
+        b=ZfCISteK0Ys2VDeuZm/CRKcvpV/XKeCHnKVXvNHO+vAqt3l4bRRznMv3fHqT66FuVK
+         5JdE0hWyccgIls/Kxi7xgEiwrxHqz3i+Jv5Yx/Gc3eWIRP6aw6zdTHvaMXwHSqbwzcPq
+         Exyr5wU4tvlCqXN3er0/2mf8p96oQc93SfRoTE/B/ePG1tepag3byYcYsjbZFrkD1WqZ
+         arsjoGUqCllqSiekTV7NKgqh3+xJ1ekWZEhbMksF5D5daGQ0n65x0gEVfhzi0l/QIMEi
+         q7cxGjFTMOJNv1XJTj+pMlpWMlfTLvpufeyU7r0NC1WjezEFiZOzF7Ok5MxubB43Csuf
+         ppxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685963179; x=1688555179;
+        d=1e100.net; s=20221208; t=1685963744; x=1688555744;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H7M30gPRF1S9FmsectECqP03XbemHmNsuKOYVOI7zWc=;
-        b=k9y8KM1NlbRR60gOEdSA8QMpl5z8vOWcTfekpJ3b3yomFcMBk2XKDpMRgSlyMo9ts5
-         tbMF5YYTNEFG/tzHfWpwuUZgWVqtzNOblLQmiiiL4+QuXLi552zrmM9BxQQ3p3QRIKhh
-         z69EWKaUv1A564BgqV2J50RH1tWHYYhRA6kWHy93QpJU8lzhSXlBgPzbtfFHlRNtdbSM
-         1gnVT619trVwXjS8/CrD3ZSgAqyobamc+1prCR7L1g4SwditVMoQBE1HF5D83Arf4mP/
-         rlnfP6SZPhdDa4mvvLhO3FtqB9H49UrHqYeL7QgoM02Kzxl1sqYHV14b4c8T418ZnbRL
-         VJsQ==
-X-Gm-Message-State: AC+VfDx/WzR3r88gneJuwGwCdXOOaUJM4n/8vdwg/J4vxdsot0F9a6YX
-        TwQxaGyW7/FBLjDqmDQSkv4=
-X-Google-Smtp-Source: ACHHUZ4W/mP7rRFDsy2/31Pt+q8ndVpZ9XK1lT5mr7917K/HPvUfBLgNp/FOioqFsZIVqOyNWeRuiA==
-X-Received: by 2002:a2e:3502:0:b0:2b1:eb62:ffc8 with SMTP id z2-20020a2e3502000000b002b1eb62ffc8mr293673ljz.6.1685963179228;
-        Mon, 05 Jun 2023 04:06:19 -0700 (PDT)
+        bh=ipUAqk5N5TaomtE4YOav9jh5920OM/6bRcdglUb8rJY=;
+        b=BTGP/Wp/VRbDdhDuWOxcwWJkH8savPMb5nA/4dkg1MbbTwOa1H1cW3sh4TeH4KhXPC
+         r8Om3J7S76szKQunVFi+RWKesddph1voSQeDs1oRQeJLidP0PGLPAl2VQAnWyqemGrS+
+         /0aczikAYYyy87b3dC4y45NxolsDrxVnwL2XcStjHZLkoC0cjoxM9wqWfJb4RtwZhhNp
+         eq0b4IsigWbOg8DnDjcwtf1ybbcr9pFHK5enncLEA3V2Ny+YbM1vxXBAFv7y6TiUJqvR
+         iQGzmIxwn3+/rap4aRlz3JtJAXNGgBdd8QZDq7EGNCO0yszIzi9KiBPUmvCPNuDuwJgo
+         6NgA==
+X-Gm-Message-State: AC+VfDzSKHtVt5JHSiE1VuFaX3qyMwALGzvBjQ4c4knQm5OMNFSy119k
+        kx8tnzq9aaAYH7I+H123V2M=
+X-Google-Smtp-Source: ACHHUZ6vFSdacuvwRlJ8e+cnVGLfUTu6uwhfOSJIv7sLPBeFOfPkBbowH5QmVdUtDjrBudDzyvCT6w==
+X-Received: by 2002:a19:ee0e:0:b0:4f3:b61a:a941 with SMTP id g14-20020a19ee0e000000b004f3b61aa941mr4746615lfb.51.1685963744230;
+        Mon, 05 Jun 2023 04:15:44 -0700 (PDT)
 Received: from mobilestation ([95.79.140.35])
-        by smtp.gmail.com with ESMTPSA id n21-20020a2e82d5000000b002a8c1462ecbsm1413836ljh.137.2023.06.05.04.06.18
+        by smtp.gmail.com with ESMTPSA id u14-20020ac2518e000000b004f11eb32f20sm1094805lfi.13.2023.06.05.04.15.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 04:06:18 -0700 (PDT)
-Date:   Mon, 5 Jun 2023 14:06:16 +0300
+        Mon, 05 Jun 2023 04:15:43 -0700 (PDT)
+Date:   Mon, 5 Jun 2023 14:15:41 +0300
 From:   Serge Semin <fancer.lancer@gmail.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     jingoohan1@gmail.com, mani@kernel.org,
@@ -57,17 +57,15 @@ Cc:     jingoohan1@gmail.com, mani@kernel.org,
         robh+dt@kernel.org, kw@linux.com, bhelgaas@google.com,
         kishon@kernel.org, marek.vasut+renesas@gmail.com,
         linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH v16 12/22] PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting.
-Message-ID: <20230605110616.k7l2o7fwwiy62jau@mobilestation>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v16 13/22] PCI: dwc: Add EDMA_UNROLL capability flag
+Message-ID: <20230605111541.sup6ebomse75iae2@mobilestation>
 References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
- <20230510062234.201499-13-yoshihiro.shimoda.uh@renesas.com>
+ <20230510062234.201499-14-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230510062234.201499-13-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230510062234.201499-14-yoshihiro.shimoda.uh@renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -78,46 +76,71 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 10, 2023 at 03:22:24PM +0900, Yoshihiro Shimoda wrote:
-> dw_pcie_setup() will set PCI_EXP_LNKSTA_NLW to PCI_EXP_LNKCAP register
-> so that drop such setting from tegra_pcie_dw_host_init().
+On Wed, May 10, 2023 at 03:22:25PM +0900, Yoshihiro Shimoda wrote:
+> Renesas R-Car Gen4 PCIe controllers have an unexpected register value on
+> the dbi+0x97b register. So, add a new capability flag "EDMA_UNROLL"
+> which would force the unrolled eDMA mapping for the problematic
+> device, 
+
+> as suggested by Serge Semin.
+
+Drop this. Suggested-by tag already means that.
+
 > 
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 8 +++++++-
+>  drivers/pci/controller/dwc/pcie-designware.h | 5 +++--
+>  2 files changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 8b2978c6eb23..e405bfae0191 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -881,8 +881,14 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	 * Indirect eDMA CSRs access has been completely removed since v5.40a
+>  	 * thus no space is now reserved for the eDMA channels viewport and
+>  	 * former DMA CTRL register is no longer fixed to FFs.
+> +	 *
+> +	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
 
-AFAICS this update isn't supposed to bring any regression since the
-tegra_pcie_dw_host_init() call is always followed by the
-dw_pcie_setup_rc() method invocation which thanks to your patches now
-fully performs the link width setups. So from my point of view:
+> +	 * may have zeros in the eDMA CTRL register even though the HW-manual
 
+s/may have/have
+(your comment is about a particular device which for sure has the
+denoted problem.)
+
+Other than that the change looks good. Thanks!
 Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-
-Though testing this on a real hw would be very welcome.
 
 -Serge(y)
 
-> ---
->  drivers/pci/controller/dwc/pcie-tegra194.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index 4adba379b83d..723a22ccd58c 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -901,12 +901,6 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
->  		AMBA_ERROR_RESPONSE_CRS_SHIFT);
->  	dw_pcie_writel_dbi(pci, PORT_LOGIC_AMBA_ERROR_RESPONSE_DEFAULT, val);
+> +	 * explicitly states there must FFs if the unrolled mapping is enabled.
+> +	 * For such cases the low-level drivers are supposed to manually
+> +	 * activate the unrolled mapping to bypass the auto-detection procedure.
+>  	 */
+> -	if (dw_pcie_ver_is_ge(pci, 540A))
+> +	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
+>  		val = 0xFFFFFFFF;
+>  	else
+>  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index 06e044e2163a..2639206b4c18 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -54,8 +54,9 @@
 >  
-> -	/* Configure Max lane width from DT */
-> -	val = dw_pcie_readl_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKCAP);
-> -	val &= ~PCI_EXP_LNKCAP_MLW;
-> -	val |= (pcie->num_lanes << PCI_EXP_LNKSTA_NLW_SHIFT);
-> -	dw_pcie_writel_dbi(pci, pcie->pcie_cap_base + PCI_EXP_LNKCAP, val);
-> -
->  	/* Clear Slot Clock Configuration bit if SRNS configuration */
->  	if (pcie->enable_srns) {
->  		val_16 = dw_pcie_readw_dbi(pci, pcie->pcie_cap_base +
+>  /* DWC PCIe controller capabilities */
+>  #define DW_PCIE_CAP_REQ_RES		0
+> -#define DW_PCIE_CAP_IATU_UNROLL		1
+> -#define DW_PCIE_CAP_CDM_CHECK		2
+> +#define DW_PCIE_CAP_EDMA_UNROLL		1
+> +#define DW_PCIE_CAP_IATU_UNROLL		2
+> +#define DW_PCIE_CAP_CDM_CHECK		3
+>  
+>  #define dw_pcie_cap_is(_pci, _cap) \
+>  	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
 > -- 
 > 2.25.1
 > 
