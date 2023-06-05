@@ -2,310 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E13722A34
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 17:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0BBE722A76
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 17:09:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjFEPGV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 11:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        id S230503AbjFEPJN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 11:09:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbjFEPGU (ORCPT
+        with ESMTP id S234356AbjFEPIs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 11:06:20 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFAD9E8;
-        Mon,  5 Jun 2023 08:06:18 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4f6255ad8aeso1853624e87.2;
-        Mon, 05 Jun 2023 08:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685977577; x=1688569577;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=djUMnxDhUR7H+UsxaryKNGaByhR97uj7IQdbkLvRhf8=;
-        b=bwnNIyc68UVCr0rLRnzNVjXWMgRQh9e1HwiC6q98ZgnthwylUiLYkAeuPmQQhRYt+3
-         gQ9UJrpEe4OIHZ/5ylqyupa7Sk/FJw3AZGC5o6wNG42Yl6sCQSJ3iumwzjfQH6zSSVsi
-         awVObw8Xunkv9LEKIXVsIigxVVjns2bRnKg+Q4rNJwHO+gKIiOdZuSjX6b7aCrt8gJ/V
-         GmSyTosbawrei16FWgDcqA21HE2f3Ir3tWpa6raNNw21RNyX4Qh9aKqBW3yyuiuOJjTH
-         TL+OU1iSDu4zJwFvN4lPrGFprdCGZ4VM5KgGlIM8mQiqyuX48BaTn/Ghkn5Q2lpqKgt8
-         73gw==
+        Mon, 5 Jun 2023 11:08:48 -0400
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FC7E8;
+        Mon,  5 Jun 2023 08:08:47 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-652d76be8c2so4031464b3a.3;
+        Mon, 05 Jun 2023 08:08:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685977577; x=1688569577;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=djUMnxDhUR7H+UsxaryKNGaByhR97uj7IQdbkLvRhf8=;
-        b=HaIceu1cKtNUiIiMVjyCnSV3+8GQUd8vhRVFx25GsexrzAZYMc6Ub3d5SxLRTVgqSz
-         Z0CZ23t4p7gFoL6ge6BPJNosLu5b2rQGzWHt+fMokfSUdJ5Q0XRSx13Q/+l+pQNCrxjz
-         fWaRK9n6PaHXpJkUmfFZdSIGk9xZ73rUAgCEOIXQ0Pe/NhrQz64HkVGcAnO4H85O2wzq
-         Kza55Dqz5c66CwKdMeqb7v3dEbD/Q+YPxNNTyoH3chFBlr1nrHwfLHAvUeYTzbiDOieA
-         iFBgqOZL2nFoPS85Et4fpCUUsxmMz735dDhVP78Iy+BeHCdhu5X7C+92kavS/PQa/REq
-         XcjQ==
-X-Gm-Message-State: AC+VfDwjYJMIiHpNCScZ3z48QZeooxf/n3RG9ZhayHal7HhGUAY8uivS
-        7CXG5naPeI5uCXIr5F0Uuyw=
-X-Google-Smtp-Source: ACHHUZ4SezC2f8QhANiDtF2rVFmvu2yK7HD1Unmd3gwmxDUJqMJ+M4CXJv06gDfKej2WOghQvm0abg==
-X-Received: by 2002:ac2:42c6:0:b0:4f3:9930:5b8c with SMTP id n6-20020ac242c6000000b004f399305b8cmr5153828lfl.25.1685977576615;
-        Mon, 05 Jun 2023 08:06:16 -0700 (PDT)
-Received: from mobilestation ([95.79.140.35])
-        by smtp.gmail.com with ESMTPSA id g21-20020ac25395000000b004f14535a962sm1162292lfh.174.2023.06.05.08.06.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 08:06:15 -0700 (PDT)
-Date:   Mon, 5 Jun 2023 18:06:13 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     jingoohan1@gmail.com, mani@kernel.org,
-        gustavo.pimentel@synopsys.com, lpieralisi@kernel.org,
-        robh+dt@kernel.org, kw@linux.com, bhelgaas@google.com,
-        kishon@kernel.org, marek.vasut+renesas@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v16 20/22] PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe
- Endpoint support
-Message-ID: <20230605150613.gvr5ayz3bisvylap@mobilestation>
-References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
- <20230510062234.201499-21-yoshihiro.shimoda.uh@renesas.com>
+        d=1e100.net; s=20221208; t=1685977727; x=1688569727;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Aiwp/bDLmwSr5erFDhpBQgGpKXSsi00J2xGn70rauW0=;
+        b=i/t6YyMlsjxqkrnXcHZz40E0tIOs/MX1dkTUnkQFq3Whz5BuqPrf8MmlMlfTUTIeq5
+         GzgzH6ufZFkL8dUCo86PsKTMhdtrki3W8CWh6JmdrFxKh+Tmve4A9RrKYgXkelwFFRPV
+         05JQHomJITaILvFidLUhVK7fLCbtTe0jCbQn2D18vcqrn9LtD3qnMFy7xQnj/SGQESIT
+         G8ckZm8GVVpLogGt1Nf65lCfZQiUVroc/Muf6Stka0dTMEltCgABJ2/1eVehkOT406W0
+         t0sg41pWIQcd3sQMALvLyygMJUHjP2jtild2HauQlIty+Af4Q5VWE1v92N/a+TYQj82E
+         O9UQ==
+X-Gm-Message-State: AC+VfDz7JqZcupCyyg8bHRmkBkhgsw/iX7sW9c87/IEUK9eqWbOm2jvp
+        OCani0oj7Wb0BoANli1zgm5Jlxu5fkuFlQ==
+X-Google-Smtp-Source: ACHHUZ4MY6YnuUEHDcUmTbFEAZ6SSspWqZ1lBBkbZm3P116kLzJ54SkD8Rf/7C8YgiKfKUsZ330efg==
+X-Received: by 2002:a05:6a20:7490:b0:109:c161:a679 with SMTP id p16-20020a056a20749000b00109c161a679mr9141445pzd.19.1685977726567;
+        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com. [209.85.210.173])
+        by smtp.gmail.com with ESMTPSA id q16-20020a62e110000000b0063d29df1589sm5302851pfh.136.2023.06.05.08.08.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6532671ccc7so3740863b3a.2;
+        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
+X-Received: by 2002:a05:6870:3e4:b0:19e:86e4:55b0 with SMTP id
+ h36-20020a05687003e400b0019e86e455b0mr54853oaf.1.1685977705560; Mon, 05 Jun
+ 2023 08:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230510062234.201499-21-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1685692810.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1685692810.git.geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 5 Jun 2023 17:08:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXrgyWT=RtS6cuUP6sT-Ta9Oa4cU2kHP10ah-U50DOSsg@mail.gmail.com>
+Message-ID: <CAMuHMdXrgyWT=RtS6cuUP6sT-Ta9Oa4cU2kHP10ah-U50DOSsg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] iopoll: Busy loop and timeout improvements + conversions
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 10, 2023 at 03:22:32PM +0900, Yoshihiro Shimoda wrote:
-> Add R-Car Gen4 PCIe Endpoint support. This controller is based on
-> Synopsys DesignWare PCIe.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/dwc/Kconfig            |   9 +
->  drivers/pci/controller/dwc/Makefile           |   2 +
->  .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 166 ++++++++++++++++++
->  3 files changed, 177 insertions(+)
->  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
-> 
-> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-> index 64d4d37bc891..4d877cd18374 100644
-> --- a/drivers/pci/controller/dwc/Kconfig
-> +++ b/drivers/pci/controller/dwc/Kconfig
-> @@ -424,4 +424,13 @@ config PCIE_RCAR_GEN4
->  	  Say Y here if you want PCIe host controller support on R-Car Gen4 SoCs.
->  	  This uses the DesignWare core.
->  
-> +config PCIE_RCAR_GEN4_EP
-> +	tristate "Renesas R-Car Gen4 PCIe Endpoint controller"
-> +	depends on ARCH_RENESAS || COMPILE_TEST
-> +	depends on PCI_ENDPOINT
-> +	select PCIE_DW_EP
-> +	help
-> +	  Say Y here if you want PCIe endpoint controller support on R-Car Gen4
-> +	  SoCs. This uses the DesignWare core.
-> +
->  endmenu
-> diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
-> index 486cf706b53d..0fb0bde26ac4 100644
-> --- a/drivers/pci/controller/dwc/Makefile
-> +++ b/drivers/pci/controller/dwc/Makefile
-> @@ -28,6 +28,8 @@ obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
->  obj-$(CONFIG_PCIE_VISCONTI_HOST) += pcie-visconti.o
->  pcie-rcar-gen4-host-drv-objs := pcie-rcar-gen4.o pcie-rcar-gen4-host.o
->  obj-$(CONFIG_PCIE_RCAR_GEN4) += pcie-rcar-gen4-host-drv.o
-> +pcie-rcar-gen4-ep-drv-objs := pcie-rcar-gen4.o pcie-rcar-gen4-ep.o
-> +obj-$(CONFIG_PCIE_RCAR_GEN4_EP) += pcie-rcar-gen4-ep-drv.o
->  
->  # The following drivers are for devices that use the generic ACPI
->  # pci_root.c driver but don't support standard ECAM config access.
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c b/drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
-> new file mode 100644
-> index 000000000000..710bbc9e61a5
-> --- /dev/null
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
-> @@ -0,0 +1,166 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * PCIe Endpoint driver for Renesas R-Car Gen4 Series SoCs
-> + * Copyright (C) 2022-2023 Renesas Electronics Corporation
-> + */
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "pcie-rcar-gen4.h"
-> +#include "pcie-designware.h"
-> +
-> +static void rcar_gen4_pcie_ep_pre_init(struct dw_pcie_ep *ep)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_ep(ep);
-> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +	u8 val;
-> +
-> +	rcar_gen4_pcie_set_device_type(rcar, false, dw->num_lanes);
-> +
-> +	dw_pcie_dbi_ro_wr_en(dw);
-> +
+On Fri, Jun 2, 2023 at 10:51 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> When implementing a polling loop, a common review comment is to use one
+> of the read*_poll_timeout*() helpers.  Unfortunately this is not always
+> possible, or might introduce subtle bugs.  This patch series aims to
+> improve these helpers, so they can gain wider use.
+>
+>   1. The first patch improves busy-looping behavior of both the atomic
+>      and non-atomic read*_poll_timeout*() helpers.
+>      The issue addressed by this patch was discussed before[1-2], but I
+>      am not aware of any patches moving forward.
+>
+>   2. The second patch fixes timeout handling of the atomic variants.
+>      Some of the issues addressed by this patch were mitigated in
+>      various places[3-5], and some of these findings may be of interest
+>      to the authors of [6-8].
+>
+> The first two patches were sent before, and already received some acks
+> and reviews.  I plan to queue these in an immutable and tagged branch
+> after the weekend, for consumption by myself, and by other interested
+> parties.
 
-> +	/* Single function */
-> +	val = dw_pcie_readb_dbi(dw, PCI_HEADER_TYPE);
-> +	val &= ~PCI_HEADER_TYPE_MULTI_FUNC;
-> +	dw_pcie_writeb_dbi(dw, PCI_HEADER_TYPE, val);
+FTR...
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
 
-Just wondering. Did you try to implement the multi-function-ness
-support? It don't seem to be much problematic (implementing
-func_conf_select() callback and possibly some trick to distinguish dbi
-and dbi2 spaces).
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
 
-BTW based on your End-point DT-bindings the "max-functions" property
-is permitted to have value 2. Thus your platforms may have both functions
-activated and exposed to user-space meanwhile your driver doesn't seem
-to support it...
+are available in the Git repository at:
 
--Serge(y)
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+tags/iopoll-busy-loop-timeout-tag
 
-> +
-> +	dw_pcie_dbi_ro_wr_dis(dw);
-> +
-> +	writel(PCIEDMAINTSTSEN_INIT, rcar->base + PCIEDMAINTSTSEN);
-> +}
-> +
-> +static void rcar_gen4_pcie_ep_deinit(struct dw_pcie_ep *ep)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_ep(ep);
-> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +
-> +	writel(0, rcar->base + PCIEDMAINTSTSEN);
-> +}
-> +
-> +static int rcar_gen4_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
-> +				       enum pci_epc_irq_type type,
-> +				       u16 interrupt_num)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_ep(ep);
-> +
-> +	switch (type) {
-> +	case PCI_EPC_IRQ_INTX:
-> +		return dw_pcie_ep_raise_intx_irq(ep, func_no);
-> +	case PCI_EPC_IRQ_MSI:
-> +		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
-> +	default:
-> +		dev_err(dw->dev, "Unknown IRQ type\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
-> +	.linkup_notifier = false,
-> +	.msi_capable = true,
-> +	.msix_capable = false,
-> +	.reserved_bar = 1 << BAR_5,
-> +	.align = SZ_1M,
-> +};
-> +
-> +static const struct pci_epc_features*
-> +rcar_gen4_pcie_ep_get_features(struct dw_pcie_ep *ep)
-> +{
-> +	return &rcar_gen4_pcie_epc_features;
-> +}
-> +
-> +static const struct dw_pcie_ep_ops pcie_ep_ops = {
-> +	.ep_pre_init = rcar_gen4_pcie_ep_pre_init,
-> +	.ep_deinit = rcar_gen4_pcie_ep_deinit,
-> +	.raise_irq = rcar_gen4_pcie_ep_raise_irq,
-> +	.get_features = rcar_gen4_pcie_ep_get_features,
-> +};
-> +
-> +static int rcar_gen4_add_pcie_ep(struct rcar_gen4_pcie *rcar,
-> +				 struct platform_device *pdev)
-> +{
-> +	struct dw_pcie_ep *ep = &rcar->dw.ep;
-> +	int ret;
-> +
-> +	ep->ops = &pcie_ep_ops;
-> +
-> +	ret = dw_pcie_ep_init(ep);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to initialize endpoint\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void rcar_gen4_remove_pcie_ep(struct rcar_gen4_pcie *rcar)
-> +{
-> +	dw_pcie_ep_exit(&rcar->dw.ep);
-> +}
-> +
-> +static int rcar_gen4_pcie_ep_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct rcar_gen4_pcie *rcar;
-> +	int err;
-> +
-> +	rcar = rcar_gen4_pcie_devm_alloc(dev);
-> +	if (!rcar)
-> +		return -ENOMEM;
-> +
-> +	err = rcar_gen4_pcie_get_resources(rcar, pdev);
-> +	if (err < 0) {
-> +		dev_err(dev, "Failed to request resource: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, rcar);
-> +
-> +	err = rcar_gen4_pcie_prepare(rcar);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	err = rcar_gen4_add_pcie_ep(rcar, pdev);
-> +	if (err < 0)
-> +		goto err_add;
-> +
-> +	return 0;
-> +
-> +err_add:
-> +	rcar_gen4_pcie_unprepare(rcar);
-> +
-> +	return err;
-> +}
-> +
-> +static int rcar_gen4_pcie_ep_remove(struct platform_device *pdev)
-> +{
-> +	struct rcar_gen4_pcie *rcar = platform_get_drvdata(pdev);
-> +
-> +	rcar_gen4_remove_pcie_ep(rcar);
-> +	rcar_gen4_pcie_unprepare(rcar);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id rcar_gen4_pcie_of_match[] = {
-> +	{ .compatible = "renesas,rcar-gen4-pcie-ep", },
-> +	{},
-> +};
-> +
-> +static struct platform_driver rcar_gen4_pcie_ep_driver = {
-> +	.driver = {
-> +		.name = "pcie-rcar-gen4-ep",
-> +		.of_match_table = rcar_gen4_pcie_of_match,
-> +	},
-> +	.probe = rcar_gen4_pcie_ep_probe,
-> +	.remove = rcar_gen4_pcie_ep_remove,
-> +};
-> +module_platform_driver(rcar_gen4_pcie_ep_driver);
-> +
-> +MODULE_DESCRIPTION("Renesas R-Car Gen4 PCIe endpoint controller driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.25.1
-> 
+for you to fetch changes up to 7349a69cf3125e92d48e442d9f400ba446fa314f:
+
+  iopoll: Do not use timekeeping in read_poll_timeout_atomic()
+(2023-06-05 15:35:27 +0200)
+
+----------------------------------------------------------------
+iopoll: Busy loop and timeout improvements
+
+----------------------------------------------------------------
+Geert Uytterhoeven (2):
+      iopoll: Call cpu_relax() in busy loops
+      iopoll: Do not use timekeeping in read_poll_timeout_atomic()
+
+ include/linux/iopoll.h | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
