@@ -2,343 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8550F722044
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 09:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9AD722075
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 10:05:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbjFEHz4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 03:55:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45388 "EHLO
+        id S231213AbjFEIFr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 04:05:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231694AbjFEHzi (ORCPT
+        with ESMTP id S229490AbjFEIFq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 03:55:38 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B051A8
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jun 2023 00:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=qNV9qf6rhJyxF+PFiRZlT81q/Mvm
-        db/EcAsD5Y7RO4A=; b=o54X53HfsxbpVsf5OsUMs5hqfUKh1FtMAgIvGYf/ao8X
-        OfgN/S/1QbXgW8iXetNizszdV6LmLLnwJIh/Ml2IAWrSsKhBUlY5kCxt0pa+RfrM
-        Hgft1OFLr+tM1Ea0Ob4WmgW4UT5YMSDHvFkIuQkEfMYIGIj3rB9wkDUyFzgsx04=
-Received: (qmail 2935631 invoked from network); 5 Jun 2023 09:54:54 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Jun 2023 09:54:54 +0200
-X-UD-Smtp-Session: l3s3148p1@qaPYN1391MQujnt4
-Date:   Mon, 5 Jun 2023 09:54:53 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Thor Thayer <thor.thayer@linux.intel.com>,
-        Elie Morisse <syniurge@gmail.com>,
-        Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jochen Friedrich <jochen@scram.de>,
-        Benson Leung <bleung@chromium.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chris Pringle <chris.pringle@phabrix.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
-        Khalil Blaiech <kblaiech@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Michael Shych <michaelsh@nvidia.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Qii Wang <qii.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stefan Roese <sr@denx.de>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Andrew Lunn <andrew@lunn.ch>, Robert Richter <rric@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Vignesh R <vigneshr@ti.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Hector Martin <marcan@marcan.st>,
-        Sven Peter <sven@svenpeter.dev>, Rob Herring <robh@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Wei Chen <harperchen1110@gmail.com>,
-        George Cherian <gcherian@marvell.com>,
-        Peter Rosin <peda@axentia.se>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        linux-aspeed@lists.ozlabs.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jan Dabros <jsd@semihalf.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-riscv@lists.infradead.org,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-        Benjamin Fair <benjaminfair@google.com>,
-        linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Nancy Yuen <yuenn@google.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Patrick Venture <venture@google.com>,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
-        kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 00/89] i2c: Convert to platform remove callback returning
- void
-Message-ID: <ZH2UzYLPEQay3MBT@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Thor Thayer <thor.thayer@linux.intel.com>,
-        Elie Morisse <syniurge@gmail.com>,
-        Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jochen Friedrich <jochen@scram.de>,
-        Benson Leung <bleung@chromium.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Chris Pringle <chris.pringle@phabrix.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
-        Khalil Blaiech <kblaiech@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Michael Shych <michaelsh@nvidia.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Qii Wang <qii.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stefan Roese <sr@denx.de>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
-        Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
-        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Rob Herring <robh@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Wei Chen <harperchen1110@gmail.com>,
-        George Cherian <gcherian@marvell.com>,
-        Peter Rosin <peda@axentia.se>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        linux-aspeed@lists.ozlabs.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jan Dabros <jsd@semihalf.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-        Benjamin Fair <benjaminfair@google.com>,
-        linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Nancy Yuen <yuenn@google.com>,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
-        kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
-        linux-i2c@vger.kernel.org
-References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
- <20230601073322.ww25ajaurktqsryr@pengutronix.de>
- <ZHijKtBbH2sCSuT4@shikoro>
+        Mon, 5 Jun 2023 04:05:46 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C776A1;
+        Mon,  5 Jun 2023 01:05:45 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f4b80bf93aso5545213e87.0;
+        Mon, 05 Jun 2023 01:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685952343; x=1688544343;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e+P17w6os3VlVktb8tzavWx48OAiemwkjf6b5gb7S80=;
+        b=ATLKkK7Byb9mQFYPEefddnjKblvkT3hYp3IR/K9EXn12TfUhuOyXeVfuBrL7wi8jaV
+         jaYhIHq6gAssvsl6Mo0jRjiNYTPYJEmwqBhnpok5BejMMwhg6weMWjJWwvhohyAmXQ01
+         LnfOeM+mK5D19qO+bUnqMGqs7Ii7c0llDyH+mGwDOihyGiKTG2TFHY3IAoSC4sKIVTIu
+         xeYbhJKi/cS1UovqD9xLG2zeR9i+LhcndcvQxgUgbHv2u4WZRPazHswXjnP9hLjfNiP7
+         mxrijGCLHh09wQTI+ad+Noox5ctWEyPiJ1Ic2AAt0NG7d/0dXKiOfL0I+YbLRPbZsNu2
+         kv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685952343; x=1688544343;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e+P17w6os3VlVktb8tzavWx48OAiemwkjf6b5gb7S80=;
+        b=a4C2y5O2/iL3TxRvk7mghthyOqrLpDe10cvFa7W5KBeIscse2Wr2P8wpWdR9qrt2y8
+         lL6eWH8to9G/lq6BJiAH8c/a902S+WWUQksROK82HIHnnG1HDUl0uFCFITP2iX6R4xe/
+         zYUn3iEd20yEqJdSW86asFPme5Xc8/KTbyNB9uVF3iY98TfYPDHZsLTNcTin1k2LbwL4
+         +OdRXBOd9sQuzCsE1OUC80A9oCPo7uI0reQp6hf9MNNXolAdZKA8VccciM5NlkjG2Tm0
+         CbFZMuEBBn0nJj0DBdWi8IAIQOeK682aqzUDwGmf4vBT7sz0CDqCOspk7mDu/dW6w5/o
+         qOxw==
+X-Gm-Message-State: AC+VfDxTL6hObLqra8el6dfpRrtfLXOJNGTqkzun8J+j+DJX/fuHYctE
+        WGGNyMvOSepBQ6nMKAbmgR4=
+X-Google-Smtp-Source: ACHHUZ7TG7uY2wGNnpHdmzkXGDqwicdkIgnj02shvhhVGbq2eWqmEy0ftrf8sGjc3fVWZfZ89K/FBQ==
+X-Received: by 2002:ac2:4c31:0:b0:4f6:10e9:c507 with SMTP id u17-20020ac24c31000000b004f610e9c507mr3921078lfq.23.1685952342983;
+        Mon, 05 Jun 2023 01:05:42 -0700 (PDT)
+Received: from mobilestation ([95.79.140.35])
+        by smtp.gmail.com with ESMTPSA id i21-20020ac25235000000b004f0199e8770sm1040382lfl.65.2023.06.05.01.05.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 01:05:42 -0700 (PDT)
+Date:   Mon, 5 Jun 2023 11:05:40 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     jingoohan1@gmail.com, mani@kernel.org,
+        gustavo.pimentel@synopsys.com, lpieralisi@kernel.org,
+        robh+dt@kernel.org, kw@linux.com, bhelgaas@google.com,
+        kishon@kernel.org, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v16 08/22] PCI: designware-ep: Add INTx IRQs support
+Message-ID: <20230605080540.hz6hn45zciqsun7o@mobilestation>
+References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230510062234.201499-9-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pOTGJ+ASVLoKQ1Xi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZHijKtBbH2sCSuT4@shikoro>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230510062234.201499-9-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, May 10, 2023 at 03:22:20PM +0900, Yoshihiro Shimoda wrote:
+> Add support for triggering INTx IRQs by using outbound iATU.
+> Outbound iATU is utilized to send assert and de-assert INTx TLPs.
+> The message is generated based on the payloadless Msg TLP with type
+> 0x14, where 0x4 is the routing code implying the Terminate at
+> Receiver message. The message code is specified as b1000xx for
+> the INTx assertion and b1001xx for the INTx de-assertion.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  .../pci/controller/dwc/pcie-designware-ep.c   | 66 +++++++++++++++++--
+>  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
+>  2 files changed, 64 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index fe2e0d765be9..0abc0073b1cf 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -6,9 +6,11 @@
+>   * Author: Kishon Vijay Abraham I <kishon@ti.com>
+>   */
+>  
+> +#include <linux/delay.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  
+> +#include "../../pci.h"
+>  #include "pcie-designware.h"
+>  #include <linux/pci-epc.h>
+>  #include <linux/pci-epf.h>
+> @@ -484,14 +486,57 @@ static const struct pci_epc_ops epc_ops = {
+>  	.get_features		= dw_pcie_ep_get_features,
+>  };
+>  
+> +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 code,
+> +			       u8 routing)
+> +{
+> +	struct dw_pcie_ob_atu_cfg atu = { 0 };
+> +	struct pci_epc *epc = ep->epc;
+> +	int ret;
+> +
+> +	atu.func_no = func_no;
+> +	atu.code = code;
+> +	atu.routing = routing;
+> +	atu.type = PCIE_ATU_TYPE_MSG;
+> +	atu.cpu_addr = ep->intx_mem_phys;
+> +	atu.size = epc->mem->window.page_size;
+> +
+> +	ret = dw_pcie_ep_outbound_atu(ep, &atu);
+> +	if (ret)
+> +		return ret;
+> +
+> +	writel(0, ep->intx_mem);
+> +
+> +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
+> +
+> +	return 0;
+> +}
+> +
+>  int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  	struct device *dev = pci->dev;
+> +	int ret;
+>  
+> -	dev_err(dev, "EP cannot trigger INTx IRQs\n");
+> +	if (!ep->intx_mem) {
+> +		dev_err(dev, "INTx not supported\n");
+> +		return -EOPNOTSUPP;
+> +	}
+>  
+> -	return -EINVAL;
+> +	/*
 
---pOTGJ+ASVLoKQ1Xi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +	 * According to the document of PCIe, the INTx emulation should be
+> +	 * level-triggered. However, the Linux PCIe Endpoint framework only
+> +	 * supports edge-triggered for now. So, this function asserts INTx for
+> +	 * 50 usec, and then deasserts it.
 
-On Thu, Jun 01, 2023 at 03:54:50PM +0200, Wolfram Sang wrote:
->=20
-> > I wonder how this series will go in. My expectation was that Wolfram
-> > picks up the whole series via his tree?!
->=20
-> Will do. I am currently super-busy, though.
+"Document of PCIe"?)
+What about the next message:
+Even though the PCI bus specification implies the level-triggered INTx
+interrupts the kernel PCIe endpoint framework has a single
+PCI_EPC_IRQ_INTx flag defined for the legacy IRQs simulation. Thus
+this function sends the Deassert_INTx PCIe TLP after the Assert_INTx
+message with the 50 usec duration basically implementing the
+rising-edge triggering IRQ. Hopefully the interrupt controller will
+still be able to register the incoming IRQ event...
 
-Whole series applied to for-next. I squashed all the commits into one.
-These are mostly simple changes which we won't revert anyhow, but fix
-incrementally if we ever find an issue.
+Other than that the change looks good.
 
+-Serge(y)
 
---pOTGJ+ASVLoKQ1Xi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR9lM0ACgkQFA3kzBSg
-KbZSPhAAsfk7pusys7GFW8hUTH1/MqaEtjs2e4zgiR1STw1eeim+O6Ayd8LuEdGz
-eXWZfv2E4SYhFi1+lXo4jFP3tPkCynMqn8BLbfRwq6XzXboMRQtEOXXnmRM7aOKN
-5x2CbAPlQQZ3A4Bbht92ESvKN54WRDM8V5wg0YUkowAlK6wtG0H8ajUOqYJdfVeN
-OPftzfdxQUDphHtitAoIYgHrz8UDxZSuASIjHBbb5ppBwZNtxc81DQYuIE42ajf8
-uYRrujqm1lKaRKdWvbZrOwZ42he5QLFl88mVLpQ9OmuhexOuBryk/847XdGDUMP6
-LdI40mazpIk+X2txyOySPbR0e3nCmq8gHBUKw1VQ3FMcCwAf60CxaO6fz0WLKPnU
-ezWsW6ETk7l52upnb0oSFnTH7ZHBN30Ebtb6xqMoDWs4i6RX/DX//leVHoHb+rD1
-tj0EV3wgmvXgyo2wcha8I05YeTYiFofK5PmHq3L3yXBDusslXdEsyVdFU/Mjy01G
-vFMWb2wJliDaJy3u9c2LkNBeWdlScTUM7U978o1sakXd6k4AcFJ9iufF0QDoTKqF
-iZmdoZaQuVCiGtwB/gUFMtbQDnikh1r2XxLSeeIIe1Fj2yfWr/GzVUq2tCzWu2J/
-D0nf7ftd8Y/SK1BYHfuuHox68zo4O8+CNB9WKjgkdt4JsXBlV0U=
-=xv1r
------END PGP SIGNATURE-----
-
---pOTGJ+ASVLoKQ1Xi--
+> +	 */
+> +	ret = dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_ASSERT_INTA,
+> +				  PCI_MSG_ROUTING_LOCAL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	usleep_range(50, 100);
+> +
+> +	return dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_DEASSERT_INTA,
+> +				   PCI_MSG_ROUTING_LOCAL);
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_intx_irq);
+>  
+> @@ -622,6 +667,10 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+>  
+>  	dw_pcie_edma_remove(pci);
+>  
+> +	if (ep->intx_mem)
+> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
+> +				      epc->mem->window.page_size);
+> +
+>  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+>  			      epc->mem->window.page_size);
+>  
+> @@ -793,9 +842,14 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  		goto err_exit_epc_mem;
+>  	}
+>  
+> +	ep->intx_mem = pci_epc_mem_alloc_addr(epc, &ep->intx_mem_phys,
+> +					      epc->mem->window.page_size);
+> +	if (!ep->intx_mem)
+> +		dev_warn(dev, "Failed to reserve memory for INTx\n");
+> +
+>  	ret = dw_pcie_edma_detect(pci);
+>  	if (ret)
+> -		goto err_free_epc_mem;
+> +		goto err_free_epc_mem_intx;
+>  
+>  	if (ep->ops->get_features) {
+>  		epc_features = ep->ops->get_features(ep);
+> @@ -812,7 +866,11 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  err_remove_edma:
+>  	dw_pcie_edma_remove(pci);
+>  
+> -err_free_epc_mem:
+> +err_free_epc_mem_intx:
+> +	if (ep->intx_mem)
+> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
+> +				      epc->mem->window.page_size);
+> +
+>  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+>  			      epc->mem->window.page_size);
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index c83d1d176e62..06e044e2163a 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -369,6 +369,8 @@ struct dw_pcie_ep {
+>  	unsigned long		*ob_window_map;
+>  	void __iomem		*msi_mem;
+>  	phys_addr_t		msi_mem_phys;
+> +	void __iomem		*intx_mem;
+> +	phys_addr_t		intx_mem_phys;
+>  	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
+>  };
+>  
+> -- 
+> 2.25.1
+> 
