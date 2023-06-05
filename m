@@ -2,239 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD9AD722075
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 10:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 097BF7221E4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 11:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231213AbjFEIFr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 04:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49614 "EHLO
+        id S230130AbjFEJSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 05:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjFEIFq (ORCPT
+        with ESMTP id S230348AbjFEJRp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 04:05:46 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C776A1;
-        Mon,  5 Jun 2023 01:05:45 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f4b80bf93aso5545213e87.0;
-        Mon, 05 Jun 2023 01:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685952343; x=1688544343;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+P17w6os3VlVktb8tzavWx48OAiemwkjf6b5gb7S80=;
-        b=ATLKkK7Byb9mQFYPEefddnjKblvkT3hYp3IR/K9EXn12TfUhuOyXeVfuBrL7wi8jaV
-         jaYhIHq6gAssvsl6Mo0jRjiNYTPYJEmwqBhnpok5BejMMwhg6weMWjJWwvhohyAmXQ01
-         LnfOeM+mK5D19qO+bUnqMGqs7Ii7c0llDyH+mGwDOihyGiKTG2TFHY3IAoSC4sKIVTIu
-         xeYbhJKi/cS1UovqD9xLG2zeR9i+LhcndcvQxgUgbHv2u4WZRPazHswXjnP9hLjfNiP7
-         mxrijGCLHh09wQTI+ad+Noox5ctWEyPiJ1Ic2AAt0NG7d/0dXKiOfL0I+YbLRPbZsNu2
-         kv0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685952343; x=1688544343;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e+P17w6os3VlVktb8tzavWx48OAiemwkjf6b5gb7S80=;
-        b=a4C2y5O2/iL3TxRvk7mghthyOqrLpDe10cvFa7W5KBeIscse2Wr2P8wpWdR9qrt2y8
-         lL6eWH8to9G/lq6BJiAH8c/a902S+WWUQksROK82HIHnnG1HDUl0uFCFITP2iX6R4xe/
-         zYUn3iEd20yEqJdSW86asFPme5Xc8/KTbyNB9uVF3iY98TfYPDHZsLTNcTin1k2LbwL4
-         +OdRXBOd9sQuzCsE1OUC80A9oCPo7uI0reQp6hf9MNNXolAdZKA8VccciM5NlkjG2Tm0
-         CbFZMuEBBn0nJj0DBdWi8IAIQOeK682aqzUDwGmf4vBT7sz0CDqCOspk7mDu/dW6w5/o
-         qOxw==
-X-Gm-Message-State: AC+VfDxTL6hObLqra8el6dfpRrtfLXOJNGTqkzun8J+j+DJX/fuHYctE
-        WGGNyMvOSepBQ6nMKAbmgR4=
-X-Google-Smtp-Source: ACHHUZ7TG7uY2wGNnpHdmzkXGDqwicdkIgnj02shvhhVGbq2eWqmEy0ftrf8sGjc3fVWZfZ89K/FBQ==
-X-Received: by 2002:ac2:4c31:0:b0:4f6:10e9:c507 with SMTP id u17-20020ac24c31000000b004f610e9c507mr3921078lfq.23.1685952342983;
-        Mon, 05 Jun 2023 01:05:42 -0700 (PDT)
-Received: from mobilestation ([95.79.140.35])
-        by smtp.gmail.com with ESMTPSA id i21-20020ac25235000000b004f0199e8770sm1040382lfl.65.2023.06.05.01.05.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 01:05:42 -0700 (PDT)
-Date:   Mon, 5 Jun 2023 11:05:40 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     jingoohan1@gmail.com, mani@kernel.org,
-        gustavo.pimentel@synopsys.com, lpieralisi@kernel.org,
-        robh+dt@kernel.org, kw@linux.com, bhelgaas@google.com,
-        kishon@kernel.org, marek.vasut+renesas@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v16 08/22] PCI: designware-ep: Add INTx IRQs support
-Message-ID: <20230605080540.hz6hn45zciqsun7o@mobilestation>
-References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
- <20230510062234.201499-9-yoshihiro.shimoda.uh@renesas.com>
+        Mon, 5 Jun 2023 05:17:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4232E6F;
+        Mon,  5 Jun 2023 02:17:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA71761224;
+        Mon,  5 Jun 2023 09:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C92C433D2;
+        Mon,  5 Jun 2023 09:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685956649;
+        bh=HFuN7ZHrRSEdo3gTrnQf15xc/5r9QIJNaX3GZWmzyQ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=se7ad2hC619nvHSa+FzvkNpAw96OUyOqpjNh2EFzyV0umvzrHysZzzc4i3pteng2k
+         6Ing/iKOyJJp3roOqAxP6h9QDek7ThY7P3k3exvZMQiOCI1i+LmCf4Zzmw/m8skM9z
+         baLYY2V0rOoJfE6S5AdDBafY5a3JeQ2p2/VXFM1vNxBjxCgzQzmskJLQOM/eW9tqD7
+         lCjTmtfxYwEZ5g/2qZMbjPuhU3rMzoOm6LYIGmmHNEzuLkTLGpimcY0FU67aZNsOyu
+         x6LDmav2qmE8LXwMFJJc+qeGLTJ8aoPAH6u551IfoH5tqSyXU6ykkNwJVaIo/m+i9k
+         /FVIf9mBVZCGQ==
+Date:   Mon, 5 Jun 2023 11:17:25 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        William Zhang <william.zhang@broadcom.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>,
+        Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>,
+        Nick Hawkins <nick.hawkins@hpe.com>,
+        Tyrone Ting <kfting@nuvoton.com>, linux-i2c@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
+Subject: Re: [PATCH RESEND v2 1/3] i2c: rzv2m: Drop extra space
+Message-ID: <ZH2oJRLFVrxDMsb7@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        William Zhang <william.zhang@broadcom.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>,
+        Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>,
+        Nick Hawkins <nick.hawkins@hpe.com>,
+        Tyrone Ting <kfting@nuvoton.com>, linux-i2c@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>
+References: <20230526135738.348294-1-biju.das.jz@bp.renesas.com>
+ <20230526135738.348294-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LI77/prlI2TATS1z"
 Content-Disposition: inline
-In-Reply-To: <20230510062234.201499-9-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230526135738.348294-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 10, 2023 at 03:22:20PM +0900, Yoshihiro Shimoda wrote:
-> Add support for triggering INTx IRQs by using outbound iATU.
-> Outbound iATU is utilized to send assert and de-assert INTx TLPs.
-> The message is generated based on the payloadless Msg TLP with type
-> 0x14, where 0x4 is the routing code implying the Terminate at
-> Receiver message. The message code is specified as b1000xx for
-> the INTx assertion and b1001xx for the INTx de-assertion.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  .../pci/controller/dwc/pcie-designware-ep.c   | 66 +++++++++++++++++--
->  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
->  2 files changed, 64 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> index fe2e0d765be9..0abc0073b1cf 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> @@ -6,9 +6,11 @@
->   * Author: Kishon Vijay Abraham I <kishon@ti.com>
->   */
->  
-> +#include <linux/delay.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  
-> +#include "../../pci.h"
->  #include "pcie-designware.h"
->  #include <linux/pci-epc.h>
->  #include <linux/pci-epf.h>
-> @@ -484,14 +486,57 @@ static const struct pci_epc_ops epc_ops = {
->  	.get_features		= dw_pcie_ep_get_features,
->  };
->  
-> +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 code,
-> +			       u8 routing)
-> +{
-> +	struct dw_pcie_ob_atu_cfg atu = { 0 };
-> +	struct pci_epc *epc = ep->epc;
-> +	int ret;
-> +
-> +	atu.func_no = func_no;
-> +	atu.code = code;
-> +	atu.routing = routing;
-> +	atu.type = PCIE_ATU_TYPE_MSG;
-> +	atu.cpu_addr = ep->intx_mem_phys;
-> +	atu.size = epc->mem->window.page_size;
-> +
-> +	ret = dw_pcie_ep_outbound_atu(ep, &atu);
-> +	if (ret)
-> +		return ret;
-> +
-> +	writel(0, ep->intx_mem);
-> +
-> +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
-> +
-> +	return 0;
-> +}
-> +
->  int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
->  {
->  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->  	struct device *dev = pci->dev;
-> +	int ret;
->  
-> -	dev_err(dev, "EP cannot trigger INTx IRQs\n");
-> +	if (!ep->intx_mem) {
-> +		dev_err(dev, "INTx not supported\n");
-> +		return -EOPNOTSUPP;
-> +	}
->  
-> -	return -EINVAL;
-> +	/*
 
-> +	 * According to the document of PCIe, the INTx emulation should be
-> +	 * level-triggered. However, the Linux PCIe Endpoint framework only
-> +	 * supports edge-triggered for now. So, this function asserts INTx for
-> +	 * 50 usec, and then deasserts it.
+--LI77/prlI2TATS1z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"Document of PCIe"?)
-What about the next message:
-Even though the PCI bus specification implies the level-triggered INTx
-interrupts the kernel PCIe endpoint framework has a single
-PCI_EPC_IRQ_INTx flag defined for the legacy IRQs simulation. Thus
-this function sends the Deassert_INTx PCIe TLP after the Assert_INTx
-message with the 50 usec duration basically implementing the
-rising-edge triggering IRQ. Hopefully the interrupt controller will
-still be able to register the incoming IRQ event...
+On Fri, May 26, 2023 at 02:57:36PM +0100, Biju Das wrote:
+> Drop extra space from the I2C_RZV2M config help description.
+>=20
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Other than that the change looks good.
+Applied to for-next, thanks!
 
--Serge(y)
 
-> +	 */
-> +	ret = dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_ASSERT_INTA,
-> +				  PCI_MSG_ROUTING_LOCAL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(50, 100);
-> +
-> +	return dw_pcie_ep_send_msg(ep, func_no, PCI_CODE_DEASSERT_INTA,
-> +				   PCI_MSG_ROUTING_LOCAL);
->  }
->  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_intx_irq);
->  
-> @@ -622,6 +667,10 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
->  
->  	dw_pcie_edma_remove(pci);
->  
-> +	if (ep->intx_mem)
-> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> +				      epc->mem->window.page_size);
-> +
->  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
->  			      epc->mem->window.page_size);
->  
-> @@ -793,9 +842,14 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->  		goto err_exit_epc_mem;
->  	}
->  
-> +	ep->intx_mem = pci_epc_mem_alloc_addr(epc, &ep->intx_mem_phys,
-> +					      epc->mem->window.page_size);
-> +	if (!ep->intx_mem)
-> +		dev_warn(dev, "Failed to reserve memory for INTx\n");
-> +
->  	ret = dw_pcie_edma_detect(pci);
->  	if (ret)
-> -		goto err_free_epc_mem;
-> +		goto err_free_epc_mem_intx;
->  
->  	if (ep->ops->get_features) {
->  		epc_features = ep->ops->get_features(ep);
-> @@ -812,7 +866,11 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->  err_remove_edma:
->  	dw_pcie_edma_remove(pci);
->  
-> -err_free_epc_mem:
-> +err_free_epc_mem_intx:
-> +	if (ep->intx_mem)
-> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> +				      epc->mem->window.page_size);
-> +
->  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
->  			      epc->mem->window.page_size);
->  
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> index c83d1d176e62..06e044e2163a 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.h
-> +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> @@ -369,6 +369,8 @@ struct dw_pcie_ep {
->  	unsigned long		*ob_window_map;
->  	void __iomem		*msi_mem;
->  	phys_addr_t		msi_mem_phys;
-> +	void __iomem		*intx_mem;
-> +	phys_addr_t		intx_mem_phys;
->  	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
->  };
->  
-> -- 
-> 2.25.1
-> 
+--LI77/prlI2TATS1z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR9qCAACgkQFA3kzBSg
+KbaMvBAAsYv8o5bKZR+Z0rew/1xWBmLzw8Ff6Jv4bfc/MiQPiQpOc5bVpT/NKuLK
+9d7gfD3hfYc85LmQZX9dYgEbKuNXI922Xg14cBeFv/tqejLCMRt8PH44ERSe2fm5
+XYrWXU3Rj1rO83fdlnIgqt74iO1+bZFDFGO8tgyYCL8pfdUhfsgUHft4EP1dTWEP
+xl/gV3E3L1ZFJJPzkwnJBIY5wKefC+Me7+k97/lrdlk/nIU1ndHTs8px4BWbIBk4
+PfHgGXCnvfgAc9iPgKzQ/5BW18SmY5e4uxrg94rbMBtlv3+KQCY6ll+EE78xwcfh
+LrlYeJRKy2p3+xKKiS0kkGi+LvUFiJDx8limDlvy3Puf69mhEgUrYw2ZrMhokicm
+82QBTvsnDI5MQ2mc4Wrjj5Fgnou/f3KtY1z1QBPMZauJ8n6wkrCJj2g2+bUYK2L8
+5E+zdQU8wCyzCBR31AEGmNobIY+PXBSWwNANCv4qjSYM50Z/y7ONqm+Y7oFn/xuO
+rR4IOXSUn/hDp27AogI4NrAqLlCErtanc4uA5cAelSM3xD9ZnRtNJewhgCqNXdC2
+ZQeAhtLA58vE+ZnyRY4A6AQDoD9XTphRJ/SfL7WIFNubnvc5dk+vBbYNs05pRG1E
+fN1Zl4792CG4B6X3RvM1vcLL4LHQbeJLD6RVl/CYBlKOJQyLLP4=
+=ToqI
+-----END PGP SIGNATURE-----
+
+--LI77/prlI2TATS1z--
