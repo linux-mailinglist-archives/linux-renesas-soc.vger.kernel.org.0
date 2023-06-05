@@ -2,152 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0BBE722A76
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 17:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13B5B722B29
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 17:35:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbjFEPJN convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 11:09:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48184 "EHLO
+        id S229570AbjFEPfx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 11:35:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234356AbjFEPIs (ORCPT
+        with ESMTP id S232259AbjFEPfw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 11:08:48 -0400
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FC7E8;
-        Mon,  5 Jun 2023 08:08:47 -0700 (PDT)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-652d76be8c2so4031464b3a.3;
-        Mon, 05 Jun 2023 08:08:47 -0700 (PDT)
+        Mon, 5 Jun 2023 11:35:52 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E4A9D2
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jun 2023 08:35:51 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so4359104a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Jun 2023 08:35:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1685979350; x=1688571350;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=/c2hScU9+lajTzTKITq65bMpxOhEF20MnQCTR0h3Jvc=;
+        b=TKAVYK+eUBVLzyuVzNHF6vhCIbN9pVtiRdSX0dSrfj7kzI/C1MehRLoALsFTSGcCqb
+         DmbI2fY7S9IPSP2EI/AsGLXILNWAGxc0eNxvyX2sjJpgihhmcOAeQ3CaUVz5GP0GgK1S
+         9cn30i261YqrrqFKXvoEslz1v9xTopM2SX3ufjXATxLnnfLxYamhPEpDUy0Ll59yPGmI
+         VXdLJYrEYy+DziN/8aX6fRqP+21rDB6N115/SJ+VcooEGo4mWp6fkbuLw7AwcOWRR8ai
+         8TqA1zonoSKNmgPJzlMYShMe3z0cYPwSjJva07ow4n4Ol4Qewo1YDj1TYinAUFA064z1
+         dqGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685977727; x=1688569727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Aiwp/bDLmwSr5erFDhpBQgGpKXSsi00J2xGn70rauW0=;
-        b=i/t6YyMlsjxqkrnXcHZz40E0tIOs/MX1dkTUnkQFq3Whz5BuqPrf8MmlMlfTUTIeq5
-         GzgzH6ufZFkL8dUCo86PsKTMhdtrki3W8CWh6JmdrFxKh+Tmve4A9RrKYgXkelwFFRPV
-         05JQHomJITaILvFidLUhVK7fLCbtTe0jCbQn2D18vcqrn9LtD3qnMFy7xQnj/SGQESIT
-         G8ckZm8GVVpLogGt1Nf65lCfZQiUVroc/Muf6Stka0dTMEltCgABJ2/1eVehkOT406W0
-         t0sg41pWIQcd3sQMALvLyygMJUHjP2jtild2HauQlIty+Af4Q5VWE1v92N/a+TYQj82E
-         O9UQ==
-X-Gm-Message-State: AC+VfDz7JqZcupCyyg8bHRmkBkhgsw/iX7sW9c87/IEUK9eqWbOm2jvp
-        OCani0oj7Wb0BoANli1zgm5Jlxu5fkuFlQ==
-X-Google-Smtp-Source: ACHHUZ4MY6YnuUEHDcUmTbFEAZ6SSspWqZ1lBBkbZm3P116kLzJ54SkD8Rf/7C8YgiKfKUsZ330efg==
-X-Received: by 2002:a05:6a20:7490:b0:109:c161:a679 with SMTP id p16-20020a056a20749000b00109c161a679mr9141445pzd.19.1685977726567;
-        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com. [209.85.210.173])
-        by smtp.gmail.com with ESMTPSA id q16-20020a62e110000000b0063d29df1589sm5302851pfh.136.2023.06.05.08.08.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6532671ccc7so3740863b3a.2;
-        Mon, 05 Jun 2023 08:08:46 -0700 (PDT)
-X-Received: by 2002:a05:6870:3e4:b0:19e:86e4:55b0 with SMTP id
- h36-20020a05687003e400b0019e86e455b0mr54853oaf.1.1685977705560; Mon, 05 Jun
- 2023 08:08:25 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685979350; x=1688571350;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/c2hScU9+lajTzTKITq65bMpxOhEF20MnQCTR0h3Jvc=;
+        b=dZiSTnrTdHIccYHIeNp4jAJlYFyYcNIV+IeFhfyLO9Wzgn2qRYPDKCB9p9DXF3Jb2z
+         xqPOiDLTZAGTKFpVvYOIusHTlVoEw0TzS8TAuYu9/lmQKnBaZ9ntv+wtbgcR89LyLWvz
+         JtB+wWqA5S621HKjdOOWdHUZmeITFj+mTLnrmeece+06AGzvzjIiDMCb8gBfENqwtF0/
+         wNQVv6meJUVhG6OmXc/AI+egFLUoFB9Hi3C2N5PqM408ndT7iuJ3ajW4QLgIqRnJYKxH
+         EPh9DYDIiFLP1wmDLisW3CexWB/XRuxQ5xfa5M7wtnXdrBdd7SNIwtweqbIcuZ6rR2a+
+         mbVw==
+X-Gm-Message-State: AC+VfDyOFhuZ+9s71A3s24Uzi7g5CEHvZXUwoMKl9CLFC5LGh+rlh8tG
+        FpZEgkWLI+J9BXMdOkUThddbctD1Ze+2yu3mGAhO9Q==
+X-Google-Smtp-Source: ACHHUZ57zjjimJBcn6zDnVANVQNav5mYwwcdonYVPsszVntaQgbP6Ylf3Qtanw+FyqG8gsCUgNdLvg==
+X-Received: by 2002:a17:902:e886:b0:1b0:f8:9b2d with SMTP id w6-20020a170902e88600b001b000f89b2dmr10469221plg.29.1685979350380;
+        Mon, 05 Jun 2023 08:35:50 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x21-20020a17090300d500b001ae469ca0c0sm6733248plc.245.2023.06.05.08.35.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 08:35:49 -0700 (PDT)
+Message-ID: <647e00d5.170a0220.4a29e.b7bf@mx.google.com>
+Date:   Mon, 05 Jun 2023 08:35:49 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <cover.1685692810.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1685692810.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 5 Jun 2023 17:08:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXrgyWT=RtS6cuUP6sT-Ta9Oa4cU2kHP10ah-U50DOSsg@mail.gmail.com>
-Message-ID: <CAMuHMdXrgyWT=RtS6cuUP6sT-Ta9Oa4cU2kHP10ah-U50DOSsg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] iopoll: Busy loop and timeout improvements + conversions
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Dejin Zheng <zhengdejin5@gmail.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Lindgren <tony@atomide.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2023-06-05-v6.4-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master cros-ec: 10 runs,
+ 2 regressions (renesas-devel-2023-06-05-v6.4-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 2, 2023 at 10:51 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> When implementing a polling loop, a common review comment is to use one
-> of the read*_poll_timeout*() helpers.  Unfortunately this is not always
-> possible, or might introduce subtle bugs.  This patch series aims to
-> improve these helpers, so they can gain wider use.
->
->   1. The first patch improves busy-looping behavior of both the atomic
->      and non-atomic read*_poll_timeout*() helpers.
->      The issue addressed by this patch was discussed before[1-2], but I
->      am not aware of any patches moving forward.
->
->   2. The second patch fixes timeout handling of the atomic variants.
->      Some of the issues addressed by this patch were mitigated in
->      various places[3-5], and some of these findings may be of interest
->      to the authors of [6-8].
->
-> The first two patches were sent before, and already received some acks
-> and reviews.  I plan to queue these in an immutable and tagged branch
-> after the weekend, for consumption by myself, and by other interested
-> parties.
+renesas/master cros-ec: 10 runs, 2 regressions (renesas-devel-2023-06-05-v6=
+.4-rc5)
 
-FTR...
-The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+Regressions Summary
+-------------------
 
-  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
 
-are available in the Git repository at:
+mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-tags/iopoll-busy-loop-timeout-tag
 
-for you to fetch changes up to 7349a69cf3125e92d48e442d9f400ba446fa314f:
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-06-05-v6.4-rc5/plan/cros-ec/
 
-  iopoll: Do not use timekeeping in read_poll_timeout_atomic()
-(2023-06-05 15:35:27 +0200)
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-06-05-v6.4-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      f669ef29adafb15e4632ab82c733cdf32339a90e
 
-----------------------------------------------------------------
-iopoll: Busy loop and timeout improvements
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://github.com/kernelci/cros-ec-tests.git
+      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
 
-----------------------------------------------------------------
-Geert Uytterhoeven (2):
-      iopoll: Call cpu_relax() in busy loops
-      iopoll: Do not use timekeeping in read_poll_timeout_atomic()
 
- include/linux/iopoll.h | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
 
-Gr{oetje,eeting}s,
+Test Regressions
+---------------- =
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647deea4378f5939eff5de25
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-05-v6.4-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-05-v6.4-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/647deea4378f5939eff5de=
+26
+        failing since 27 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
+rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647dec91dc99675cdcf5de71
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-05-v6.4-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8192-asurada-spherion-r0.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-05-v6.4-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8192-asurada-spherion-r0.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/647dec91dc99675cdcf5de=
+72
+        failing since 27 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
+rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
+
+ =20
