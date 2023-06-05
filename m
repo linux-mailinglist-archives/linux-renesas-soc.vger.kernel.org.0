@@ -2,161 +2,178 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F2D72235A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 12:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58D947223E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 12:53:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231986AbjFEKYc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 06:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47762 "EHLO
+        id S230034AbjFEKxb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 06:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbjFEKYb (ORCPT
+        with ESMTP id S229570AbjFEKxa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 06:24:31 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2104.outbound.protection.outlook.com [40.107.114.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CFE1A1;
-        Mon,  5 Jun 2023 03:24:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SygqvLRFmz8Hm9CksL4FTVOzLM/mNK/6K73wLcgOyTI0qABG+GGH/C/8OL6nOzN6rtTxe1UZWPkM6/V6yVptM3mYOie9qIJLhE8DdfkXihMCkfiTpWWgMlYTfwGWUmn+hNTtBoiUet/zIwyawLxfik1NpkMLWyRNkAYLBcts/tEFoOrkzDV2BGh4YKZVEQV7sPcCWmoUI3zCDoajsLJw8Z/cTrfQBluJCwqBQzZDhMc4J1+aelZPgE61Np3F6EmHEmWVDTZlOE28w91GnfDdbHfkwPAwubW0LkB0xSX6zg2Pkc1DV3YjS1fEiyQSzq0L/bFP8n740NFlpVGdsez8IQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7y+JuiOJ7AM28ezoK+6hnjryCXu8QVwuSlDpjpqLNPA=;
- b=dgNEbfRPFr50X3ZwWw0bsWX8w47riC9RyuLvFLEd1llFmIaVRSxckqQagHpyvH8VLAGrbJ3v8eI8wXFLLd7jX79jKgtuOrvICFZfgEZAm+8OtA4VCWR8NPi5kAF5gimpeh8yMpzPGx5Q7WHF8E7FCQal4jSP0Ea6vzIPL6JzA9cPqBaYHjLqLdCY+MvTyH2bUIkyyRqwIIA/pm38+w38bk6buaKcue8H9uXRdz2Zy/qnDWzsso/I3sBudch0sDZleTnwn1pcFGZtCE5vOoV9q0varAhj222xPjAwCIP6L1IWoqoJMCbouzqKTrR8lHHxO+juWF0PMQuV6WR+9XCDgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7y+JuiOJ7AM28ezoK+6hnjryCXu8QVwuSlDpjpqLNPA=;
- b=G3iDsI1bbE7JqG286c8vPfr+DeeS2PDiZtfXgCvjySmwmfc+/Z+tIR8OShaxhNH3MBQJkSYx5pJXOt4rwLkZ/2n30vXabHWJw1DHBCd74GrJvYPwjofw3G79FZWRvSyKQ0thP5qdcnfGsuHe3ekj4k5xQZI4FO5qP25d+X+Qjs8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB8316.jpnprd01.prod.outlook.com (2603:1096:400:163::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
- 2023 10:24:26 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
- 10:24:26 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>
-CC:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2] i2c: Add i2c_get_match_data()
-Thread-Topic: [PATCH v2] i2c: Add i2c_get_match_data()
-Thread-Index: AQHZlKzrKxpdhC80OUSwaqoUiGHLGK979dwAgAAEDsCAAAYRAIAABRHQ
-Date:   Mon, 5 Jun 2023 10:24:26 +0000
-Message-ID: <OS0PR01MB59228279E7F1163901B64180864DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230601171711.221430-1-biju.das.jz@bp.renesas.com>
- <ZH2p7iWYizLsxZ1g@shikoro>
- <OS0PR01MB5922300F70EF37359C53D646864DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZH2ybOmr8fyWOtmg@shikoro>
-In-Reply-To: <ZH2ybOmr8fyWOtmg@shikoro>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB8316:EE_
-x-ms-office365-filtering-correlation-id: 5bcd4d00-6ba3-4b9d-7761-08db65af0a1f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bLZvDbexVvpWD9XB2MDzfvSq+VlyHRCN3YbwDk9cEQtm6ZOKiHfGs11zeidZtm681/UlL9a+7U7dyb4I3B1m3ykHNzewGF9UgFDolfs1JR1sQtNUDO5cR2vXUJcf6i9hfsxDX7WKSc6xceAvYFl6ybWMQFbG6QcEBXFP4CXxPBgY3sej/DJ4/RpSTCAHwHQ1t9TMiOBy+3seTYQSkebEh2epgfUPWzmTvzHZ3+2mSsytUwrrw/664byqb3BNW/zK87/gxbwWzV04Gptaaxys4ioEkpscuK/ndVa90NTWsgNXCV6jE+tNMZn+fFpDddH0YkEYxFkMti7pXnkAoBAjKJk+RI+AeCv4vgmjMpLh5p/HCV7fX9qRYSv/IL6M/n51aQApCSD0vxva+EqjC4DcvybXAzzrDd+ASVOAFUgNL+4s4/Sxm1pkDTarRjQsoleC5IeH6GruZb7TYOhQJYBEKz/8/IQ6RVnDxef4XA5rRyd7fLzZLVird+AuTapqFGpnAPqEnXaI3sxSPBZWRg/9vz2Fi2og/XK70D9x1IJROtq4tBAZym3LnK+cly3M0Y0Zc8ttapP3brQ7Wp0VgyJWXZrM9y1D1nS3BQ6jMCEKSGi1v3kwInLPPFzvOxz53zqc
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(346002)(39860400002)(451199021)(54906003)(33656002)(55016003)(478600001)(8676002)(8936002)(41300700001)(38070700005)(316002)(66476007)(66446008)(66946007)(76116006)(64756008)(66556008)(52536014)(122000001)(5660300002)(38100700002)(6916009)(86362001)(4326008)(7696005)(71200400001)(2906002)(4744005)(186003)(9686003)(6506007)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cr93mw+AoV3Hp28UZ/oOudAM+8GJTfniQ9yd4CddRuspxDk7xZ9NFGuecamA?=
- =?us-ascii?Q?z8bKsnkvEqd2KYqV/JIRJeBLnDtmznyovdDErBlQ1rz//j5UFrc7Sm3nR6GK?=
- =?us-ascii?Q?I2dmF+R3jJPKPadinP3xKayElOukC88otALx5erTMHpV+Mv9tan/JivgvMKZ?=
- =?us-ascii?Q?RE7Xq8bhYlRpeuiTt7HjlNRGXDSTXngaKl2z//uH86N3v9t3NhqUGGxIr9YF?=
- =?us-ascii?Q?MfhelTes5b9XllQamWgbVO6F6Zztd/SEJ6ulmu7pCOAO9RaQPWGFeOnnS19r?=
- =?us-ascii?Q?zYE/+Qdsx3pDXfwvas65kpDtI6+QrfV9zJqOjNOCt33chpLPpBGHQ81OrsTu?=
- =?us-ascii?Q?vdPPP3VM1j+ZW3tsGeFPSNweLcrmHFAdn/ZuYRWbBVekX9LiZ9DJ04f8Yhf0?=
- =?us-ascii?Q?z4qQEg7HoL8me6xctM5d7EVmgzo6xXNUTt6/6InfExQx3UnIS0SccEqP/WDM?=
- =?us-ascii?Q?VmihS0DWhC6/ZcbYMaMLLA9EIF1wC0Em+GX8VCqO+ab8UfXQAvZKgkP+40wM?=
- =?us-ascii?Q?K3hwqjBw3K2BtnTW/39V2MEolPhg8JwqrhLUDvuTmqvWZij0o0K2EjJHVDX5?=
- =?us-ascii?Q?4l14kEzlCL3t1Af9a0YnDE3e1g1Wk+r61+XxKbeigc3Gntr2gGns8O5XTulj?=
- =?us-ascii?Q?qqQoWv8qy8RvWfidoKps9DO6Q707NE+yhm5KxufYY6n8u//PxTNpZAxAU83Z?=
- =?us-ascii?Q?JhjvEySDZy46LHMfM1wSlGtxDXZwPJH96/V8dio42m6gPqTXCVnqF8qFNLGU?=
- =?us-ascii?Q?zSxgDdqMPT4+/+XaZb9b33HAkymsXq2xun27/AfXAmUjpt3JGWI1cvbbQXZ0?=
- =?us-ascii?Q?ZZT0leFqI41npxYujNnd++31RLCQ/IqyoR2Cxry5Nx4jiQrshd5wrN2GgVEQ?=
- =?us-ascii?Q?sUeN4qXnHsEaUDsSZaYRtohiStAnvQNe2bWuEHca/ex9X4RlTY75NhFpFicF?=
- =?us-ascii?Q?D7g5Oi+J4EP3B2DRCWPIJuCxQgX8RcPJFUZJsBIXGkVO1d8Gw/DUDfmvciFS?=
- =?us-ascii?Q?/DRclZYCXUEULrT6DO3RJ4VEhfsRDyz1HLetHbs7HyS3ELXlXxBo3RevXjfi?=
- =?us-ascii?Q?U4Z1z5lLNBvi0HnqgL2F9Z5eW0LimCpJE2fY3EGiDHYKyvosBwfhxATvDcGI?=
- =?us-ascii?Q?8FTQC9ps9lOivjZ1H6zpikmoYXBD+SXCfOOlcq57B5ono4z1FBsqLK0jFEfJ?=
- =?us-ascii?Q?LhLBWGYRIy3HYjGlURAssnkSoCRR9CGO4iyxVP84i40z1G0uecZJ66Np4qgI?=
- =?us-ascii?Q?8lHcF2Tb0DBw39nb++xOArolazr3XsBVeqbCFUiqwwomlK7YmTIQmhFqJBq9?=
- =?us-ascii?Q?n+lbziaQA7q1er2LuofonzSp10eJmuQMpTEb0nX2AzybLM2G+2E/1iU5OFdu?=
- =?us-ascii?Q?PG+LUwbYb1YuWohVc2EKb39TywFCQwwdqZcK4SSXP0ywCgz6GZ7GZxrCgOPO?=
- =?us-ascii?Q?+mcvlHBjniT7hDhLaFBg/5Bx5Nl7SddWaCKGxVR2MpKKRI4fzM27RD5Yv+Vu?=
- =?us-ascii?Q?oK8lSrtF/kXJrOa1MQoeRJZwX5/+/K2QsEktrhxSoA96gzL27rfiFhsY8qJm?=
- =?us-ascii?Q?4xK4npuFizfGq6yv5qJ8dgezMNY2rnB1N7TB1DJy?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 5 Jun 2023 06:53:30 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBF0EA;
+        Mon,  5 Jun 2023 03:53:26 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2b1b06af50eso36839151fa.1;
+        Mon, 05 Jun 2023 03:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685962405; x=1688554405;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KSRoaU6MsSHM4EqamjXT1zsk+53BlQcjMgqZZmifUn8=;
+        b=A77Xz69YxUGaRkiX8/O1yS6+dnwZXYLCwxSDVON2hVBi70jCDooSqDpt116UC+IVzh
+         42zwDUKbcR/Vcw7bqjmlgxHucYZ5RQ1rh1KggwyZyPLiJ2sso48TILcnDlS3Yl9C5Sju
+         O3WTQlCjOD/hJ9lBmuwzEmRtWVJVdw59EEr34JHrXYmlWgS+UAeTeJpANrJcBJJxaw0M
+         RL7EAQGaTXPl9w/TA+9N7G00AJ1im1W38eqETibddRjElYUhPdLnG6A53pwApdeDdLhO
+         h9Rv1FThwBR0dY2w8dzRNWYvYwrNZrnIXucbjY8GbHEyV07Dp/VlP9cUM6g5bM1AGKlf
+         WGaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685962405; x=1688554405;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KSRoaU6MsSHM4EqamjXT1zsk+53BlQcjMgqZZmifUn8=;
+        b=UYeGF81jYmUGnDwkjrHBx6jp4SoczGHbhCMM9jJoOVeGI8fD/YSiyjKW2PbtL37f7U
+         pu1mh2gIC67dOyfthIwtd0CZ+pe/Bs4gCMqOiRgpBlIk4Qpp1P9TxmX15b9gDQV/Ii0C
+         rvLsQKN/WBkK/9Ab/6BBDuhIdOaPnMIn/nUoBHugqVKek9VJoQLrrSYo9B7NaShY4uxE
+         MlC6e5nEl2RAglk60Q3PWlgy5nk0aeJW77j6hgXfg3J73AinYVsVM6bEG/fnaNjLO9e+
+         fqADmiptAnSlc3D3qEQio25gbYdVSPplB8ISND9bhq7nQTPB78AeqFOPoMO3ahzR58HF
+         oz8g==
+X-Gm-Message-State: AC+VfDxPRekduBQX/ZwrrpGlDgGu4ILuM8duEpxYSSqHqm2cVsjCit8F
+        D9MAe/CqKdJpT3YQXhnhwd2NfoxP+BVxJQ==
+X-Google-Smtp-Source: ACHHUZ6G/HWw7tuPO8u1dkQWfzU1WHbd6JG5n5fQUR2Fs98RUfwOL36rNdJMWrR0NC1QRW1yR+q3kA==
+X-Received: by 2002:a2e:8ec4:0:b0:2ac:82c1:5a3d with SMTP id e4-20020a2e8ec4000000b002ac82c15a3dmr3660296ljl.23.1685962404619;
+        Mon, 05 Jun 2023 03:53:24 -0700 (PDT)
+Received: from mobilestation ([95.79.140.35])
+        by smtp.gmail.com with ESMTPSA id x13-20020a2e880d000000b002ac7b0fc473sm1393329ljh.38.2023.06.05.03.53.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 03:53:24 -0700 (PDT)
+Date:   Mon, 5 Jun 2023 13:53:22 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     jingoohan1@gmail.com, mani@kernel.org,
+        gustavo.pimentel@synopsys.com, lpieralisi@kernel.org,
+        robh+dt@kernel.org, kw@linux.com, bhelgaas@google.com,
+        kishon@kernel.org, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v16 10/22] PCI: dwc: Modify PCIE_PORT_LINK_CONTROL
+ handling
+Message-ID: <20230605105322.orc3rtgu5rr3ovot@mobilestation>
+References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230510062234.201499-11-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bcd4d00-6ba3-4b9d-7761-08db65af0a1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2023 10:24:26.6037
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rtCUxSE9ISyx7C5wwVnJxuQ6RtId9NCll3oc1taHJgyC1jrQTZWJSbOmWuZyLy9Ihwm5z2PllvBp305/uL+wmxsPtNhLuGoKGBD/siJEk+Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8316
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510062234.201499-11-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On Wed, May 10, 2023 at 03:22:22PM +0900, Yoshihiro Shimoda wrote:
+> To improve code readability, modify PCIE_PORT_LINK_CONTROL handling.
 
-> Subject: Re: [PATCH v2] i2c: Add i2c_get_match_data()
->=20
->=20
-> > You mean like below?? The new helper function will do both I2C and DT-
-> based matching??
-> > const void *i2c_get_match_data(const struct i2c_client *client) {
-> > 	struct device_driver *drv =3D client->dev.driver;
-> > 	struct i2c_driver *driver =3D to_i2c_driver(drv);
-> > 	const struct i2c_device_id *match;
-> > 	const void *match_data;
-> >
-> > 	if (client->dev.of_node){
-> > 		match_data =3D of_device_get_match_data(&client->dev);
-> > 	} else {
-> > 	      match =3D i2c_match_id(driver->id_table, client);
-> > 	      if (!match)
-> > 		   return NULL;
-> >
-> > 		match_data =3D (const void *)match->driver_data;
-> > 	}
-> >
-> > 	return match_data;
-> > }
-> > EXPORT_SYMBOL(i2c_get_match_data);
->=20
-> Yes. Not good? I thought a function named 'i2c_get_match_data' should
-> get match_data and find out itself where it is coming from. No?
+So basically you are doing the same update as in the Patch 9:
+detaching the already implemented link width setups into a separate
+method. Why do you split them up into the incremental updates? Just
+squash this patch into the patch 9. The resultant patch would be an
+atomic update and a preparation before adding the PCI_EXP_LNKCAP field
+update. The later would lead to the fully coherent maximum link width
+setup method in accordance with the DW PCIe hardware manual.
 
-Yes, It looks good to me based on your explanation.
+-Serge(y)
 
-Cheers,
-Biju
-
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 40 +++++++-------------
+>  1 file changed, 13 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 68aefbbcd68c..5dc423dd2f21 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -721,28 +721,40 @@ static void dw_pcie_link_set_max_speed(struct dw_pcie *pci, u32 link_gen)
+>  
+>  static void dw_pcie_link_set_max_link_width(struct dw_pcie *pci, u32 num_lanes)
+>  {
+> -	u32 lwsc;
+> +	u32 lwsc, plc;
+>  
+>  	if (!num_lanes)
+>  		return;
+>  
+> +	/* Set the number of lanes */
+> +	plc = dw_pcie_readl_dbi(pci, PCIE_PORT_LINK_CONTROL);
+> +	plc &= ~PORT_LINK_MODE_MASK;
+> +
+>  	/* Set link width speed control register */
+>  	lwsc = dw_pcie_readl_dbi(pci, PCIE_LINK_WIDTH_SPEED_CONTROL);
+>  	lwsc &= ~PORT_LOGIC_LINK_WIDTH_MASK;
+>  	switch (num_lanes) {
+>  	case 1:
+> +		plc |= PORT_LINK_MODE_1_LANES;
+>  		lwsc |= PORT_LOGIC_LINK_WIDTH_1_LANES;
+>  		break;
+>  	case 2:
+> +		plc |= PORT_LINK_MODE_2_LANES;
+>  		lwsc |= PORT_LOGIC_LINK_WIDTH_2_LANES;
+>  		break;
+>  	case 4:
+> +		plc |= PORT_LINK_MODE_4_LANES;
+>  		lwsc |= PORT_LOGIC_LINK_WIDTH_4_LANES;
+>  		break;
+>  	case 8:
+> +		plc |= PORT_LINK_MODE_8_LANES;
+>  		lwsc |= PORT_LOGIC_LINK_WIDTH_8_LANES;
+>  		break;
+> +	default:
+> +		dev_err(pci->dev, "num-lanes %u: invalid value\n", num_lanes);
+> +		return;
+>  	}
+> +	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, plc);
+>  	dw_pcie_writel_dbi(pci, PCIE_LINK_WIDTH_SPEED_CONTROL, lwsc);
+>  }
+>  
+> @@ -1027,31 +1039,5 @@ void dw_pcie_setup(struct dw_pcie *pci)
+>  	val |= PORT_LINK_DLL_LINK_EN;
+>  	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+>  
+> -	if (!pci->num_lanes) {
+> -		dev_dbg(pci->dev, "Using h/w default number of lanes\n");
+> -		return;
+> -	}
+> -
+> -	/* Set the number of lanes */
+> -	val &= ~PORT_LINK_MODE_MASK;
+> -	switch (pci->num_lanes) {
+> -	case 1:
+> -		val |= PORT_LINK_MODE_1_LANES;
+> -		break;
+> -	case 2:
+> -		val |= PORT_LINK_MODE_2_LANES;
+> -		break;
+> -	case 4:
+> -		val |= PORT_LINK_MODE_4_LANES;
+> -		break;
+> -	case 8:
+> -		val |= PORT_LINK_MODE_8_LANES;
+> -		break;
+> -	default:
+> -		dev_err(pci->dev, "num-lanes %u: invalid value\n", pci->num_lanes);
+> -		return;
+> -	}
+> -	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
+> -
+>  	dw_pcie_link_set_max_link_width(pci, pci->num_lanes);
+>  }
+> -- 
+> 2.25.1
+> 
