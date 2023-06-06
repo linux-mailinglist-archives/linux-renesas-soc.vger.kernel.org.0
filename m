@@ -2,123 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6283C723C96
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 11:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E80723CC6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 11:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbjFFJKH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 05:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S229557AbjFFJQJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 05:16:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230482AbjFFJKG (ORCPT
+        with ESMTP id S229451AbjFFJQI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 05:10:06 -0400
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE934100;
-        Tue,  6 Jun 2023 02:10:05 -0700 (PDT)
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-33b0bfb76cfso24356305ab.2;
-        Tue, 06 Jun 2023 02:10:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686042605; x=1688634605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JsblPXknZ5GIdBcvT6axVzmA1IISIV/7YdlNXuNCOIg=;
-        b=aXftCyN5vDj6Yk+E/L3vX1CmRx1jVHRWP0GWPUaxZ3qxKNS+JLTHs7GOAriMI/kilj
-         akvPfHM0L/O/ezCAkaKRA3TExqGYWQxi7dZFNnc6R3Fg/6VU+Xw40p5k4BSx/dFC84xh
-         XBG99gRsZ+UOgthiVWF9HCWR56HtTZ3OJqPzDjJy6v3gu3a8Q2eZuj4hXlSHmWtLr9hd
-         IjONJBQ2b0UF72PQU6t1SdfkXZxaFALX9EUE1GGxSfINY9EyhWZ8j7vWMX8jibzjwASX
-         C2jT8qzTXghJ/3cZ3tRW/upG8OZ84/+HvkKxGAfcQwtZVE/vqfiI2bXhkmLF8blBxBM4
-         9JMg==
-X-Gm-Message-State: AC+VfDyfaBCzAhHEOVX2mzvtbDTaUhoNDrNRpL3Bk4VC1vPcvQ08CIlo
-        9TryqlEPASyRpTJlGynOszmn2NWtv2/MTQ==
-X-Google-Smtp-Source: ACHHUZ5wh3jLQizgP0cwlJNWSdX88FVpA2JFJ/P2XluCzNQUJglNSRg+QbKrnfRGScboTFf92K5Aeg==
-X-Received: by 2002:a92:ce46:0:b0:33c:b395:a898 with SMTP id a6-20020a92ce46000000b0033cb395a898mr1460748ilr.18.1686042604901;
-        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com. [209.85.166.54])
-        by smtp.gmail.com with ESMTPSA id c6-20020a92cf06000000b0033aa769d1a9sm2962156ilo.72.2023.06.06.02.10.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-77499bf8e8bso228187139f.0;
-        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
-X-Received: by 2002:a0d:df90:0:b0:55a:26cf:33e with SMTP id
- i138-20020a0ddf90000000b0055a26cf033emr1300837ywe.42.1686042115920; Tue, 06
- Jun 2023 02:01:55 -0700 (PDT)
-MIME-Version: 1.0
+        Tue, 6 Jun 2023 05:16:08 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1383BE55;
+        Tue,  6 Jun 2023 02:16:03 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2EA875C00D6;
+        Tue,  6 Jun 2023 05:16:03 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 06 Jun 2023 05:16:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1686042963; x=1686129363; bh=jUtfdkZ/azepFvSYCIZ/2GxgimiuSucyPTh
+        w7nBP7F4=; b=LCmLbZWfkuLfRl1mPHTB2HMg4Zk5tS4Hc2oGueG6TXIuQaYzuxj
+        zBDWqMRe8e7wXjjyatIF/7u6NioHOS24/EACjLdE6VMGYmybgAlz8rKql6ZF+AL4
+        9oLlKIi/fsMWbTqduw0CXeXAapOEguGzt5Ac4eczmiGbBsXkkuJYmIS+bqfeUU5g
+        A9qWh5kapCDkvRa+hVn4hVnif676moVzUT2DJTw1qhLNeT5qxzLcriqX9jIzS5Ja
+        ZMEEmwZEM9hKXuVGduS9L7BlTQVKgnh7ZPhu5bdRuCSb0TJokWG1+bLwkPGg+aiz
+        i+ND/ce1G/GHiUh0XPqIZXucI6wdPwjqRZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1686042963; x=1686129363; bh=jUtfdkZ/azepFvSYCIZ/2GxgimiuSucyPTh
+        w7nBP7F4=; b=OVvU1rB/IUV1V+Tir3aGFvlYRfACHozlpZBVLOvWe+gwqDjzcLF
+        VG3tFZ3Fu9+yjP2GsLZotGkDzeUy4VkD5plA4HjFECn3HuLP9yY7rB2kvtEOP0YP
+        jzrghR32c00umejZjSHcLbrIAHlLKtH0lKewuVG7MJjCZ3ASAeCJyfCzksbaRU6J
+        /xhwzSr3UlPMiRbiRZgtoPu1jqFLqn9JWyFAKUIQLVdVifHn+h0ajt3WCQFxEaf1
+        pDE0Gw/eUKDhJP8oGWCUUP1S/xEsrZVQ6qGbQPtwWCQIL1GfsVDYSf2tC2Ncka/8
+        orubpGGHHVF2kPusJpJgXzO0XbZjeh9deng==
+X-ME-Sender: <xms:Uvl-ZAoExjB4Tw5ycehQJoFfp5DYQ0suSSA434qzcD6j8J5M0BiYVw>
+    <xme:Uvl-ZGrQHlmQFaa7PjhvB4jBdLATrgN31FX8PaVAiyBMHgQrprmOs81VQnGB46WqM
+    P5AXRfdqCYhCDr6nNM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtuddgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefgkeeuleegieeghfduudeltdekfeffjeeuleehleefudettddtgfevueef
+    feeigeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Uvl-ZFNRdqYjvHzma7kszNb8noYVzTvB6WsvhG9Se2ZmV5PZLQ6SAw>
+    <xmx:Uvl-ZH6e2GQwKUg-3XFd7uF48imD6xAt4HVJKXyhGPfYClTXvYf8Ow>
+    <xmx:Uvl-ZP5zDCsoBN3_bkFjtIoDKGugKaMWKlQj-Znm6gkqQPR_DgjgsQ>
+    <xmx:U_l-ZIPtCu9ftgUOo6o8pir-Uft3tWJcQSibYy1Gci7O3ra0Q5OBag>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B690AB60086; Tue,  6 Jun 2023 05:16:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-447-ge2460e13b3-fm-20230525.001-ge2460e13
+Mime-Version: 1.0
+Message-Id: <11bd37e9-c62e-46ba-9456-8e3b353df28f@app.fastmail.com>
+In-Reply-To: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
 References: <CA+G9fYv0a-XxXfG6bNuPZGT=fzjtEfRGEYwk3n6M1WhEHUPo9g@mail.gmail.com>
  <CA+G9fYueN0xti1SDtYVZstPt104sUj06GfOzyqDNrd3s3xXBkA@mail.gmail.com>
-In-Reply-To: <CA+G9fYueN0xti1SDtYVZstPt104sUj06GfOzyqDNrd3s3xXBkA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Jun 2023 11:01:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
-Message-ID: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
-Subject: Re: arm: shmobile_defconfig: ld.lld: error: undefined symbol: lynx_pcs_destroy
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     open list <linux-kernel@vger.kernel.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
+Date:   Tue, 06 Jun 2023 11:15:42 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Naresh Kamboju" <naresh.kamboju@linaro.org>
+Cc:     "open list" <linux-kernel@vger.kernel.org>,
+        linux-next <linux-next@vger.kernel.org>,
         lkft-triage@lists.linaro.org,
         clang-built-linux <llvm@lists.linux.dev>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
         Netdev <netdev@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        maxime.chevallier@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        "Anders Roxell" <anders.roxell@linaro.org>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Eric Dumazet" <edumazet@google.com>,
+        "Jakub Kicinski" <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+        maxime.chevallier@bootlin.com,
+        "Simon Horman" <simon.horman@corigine.com>
+Subject: Re: arm: shmobile_defconfig: ld.lld: error: undefined symbol: lynx_pcs_destroy
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Naresh,
-
-On Tue, Jun 6, 2023 at 10:53 AM Naresh Kamboju
-<naresh.kamboju@linaro.org> wrote:
-> On Tue, 6 Jun 2023 at 14:17, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
-> > Following build regressions found while building arm shmobile_defconfig on
-> > Linux next-20230606.
-> >
-> > Regressions found on arm:
-> >
-> >  - build/clang-16-shmobile_defconfig
-> >  - build/gcc-8-shmobile_defconfig
-> >  - build/gcc-12-shmobile_defconfig
-> >  - build/clang-nightly-shmobile_defconfig
+On Tue, Jun 6, 2023, at 11:01, Geert Uytterhoeven wrote:
+> Hi Naresh,
 >
-> And mips defconfig builds failed.
-> Regressions found on mips:
+> On Tue, Jun 6, 2023 at 10:53=E2=80=AFAM Naresh Kamboju
+> <naresh.kamboju@linaro.org> wrote:
+>> On Tue, 6 Jun 2023 at 14:17, Naresh Kamboju <naresh.kamboju@linaro.or=
+g> wrote:
+>> > Following build regressions found while building arm shmobile_defco=
+nfig on
+>> > Linux next-20230606.
+>> >
+>> > Regressions found on arm:
+>> >
+>> >  - build/clang-16-shmobile_defconfig
+>> >  - build/gcc-8-shmobile_defconfig
+>> >  - build/gcc-12-shmobile_defconfig
+>> >  - build/clang-nightly-shmobile_defconfig
+>>
+>> And mips defconfig builds failed.
+>> Regressions found on mips:
+>>
+>>   - build/clang-16-defconfig
+>>   - build/gcc-12-defconfig
+>>   - build/gcc-8-defconfig
+>>   - build/clang-nightly-defconfig
 >
->   - build/clang-16-defconfig
->   - build/gcc-12-defconfig
->   - build/gcc-8-defconfig
->   - build/clang-nightly-defconfig
+> Please give my fix a try:
+> https://lore.kernel.org/linux-renesas-soc/7b36ac43778b41831debd5c30b5b=
+37d268512195.1686039915.git.geert+renesas@glider.be
+>
 
-Please give my fix a try:
-https://lore.kernel.org/linux-renesas-soc/7b36ac43778b41831debd5c30b5b37d268512195.1686039915.git.geert+renesas@glider.be
+This won't work when PCS_LYNX is a loadable module and
+STMMAC is built-in. I think we should just select PCS_LYNX
+unconditionally from stmmac even if no front-end driver
+using it is enabled.
 
-Thanks!
+I tried to come up with a way to move the dependency into
+the altera specific front-end, but couldn't find an obvious
+or simple way to do this.
 
-Gr{oetje,eeting}s,
+Having a proper abstraction for PCS drivers instead of
+directly calling into exported driver symbols might help
+here, but that would add complexity elsewhere.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+     Arnd
