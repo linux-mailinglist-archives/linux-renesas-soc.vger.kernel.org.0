@@ -2,146 +2,282 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F15723019
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jun 2023 21:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C9C72356D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 04:46:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235863AbjFETrv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Jun 2023 15:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55878 "EHLO
+        id S231670AbjFFCqq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Jun 2023 22:46:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235868AbjFETro (ORCPT
+        with ESMTP id S233153AbjFFCqp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Jun 2023 15:47:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49E2115
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jun 2023 12:47:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AB0C2BC;
-        Mon,  5 Jun 2023 21:47:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685994435;
-        bh=SagWXUKu17YEY12VTjvQyCfRd1/rjBTIgFk2N0IiizA=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=peMRB+vYmBIjh1IcqAkKYgS1WMluCuhv3Zgajrq4N5zsZ9I5yelmVo8gqJZnWWE2B
-         A2uhGHmp9T5YbxltUZGVe+ervRGQl5PABExoEec5Zq83vjaEa+rTcv7QSqTc9M5khX
-         wD4ze80PRWAkAVCiokdM9EQO7Dv2IaPajmlNvLe0=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of KMS init errors
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Date:   Mon, 05 Jun 2023 20:47:37 +0100
-Message-ID: <168599445763.3090799.10057103910320805653@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 5 Jun 2023 22:46:45 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E95102
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jun 2023 19:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686019604; x=1717555604;
+  h=date:from:to:cc:subject:message-id;
+  bh=L1cfcgY2Pn3Yzr0eRW8ekGjkbESXYOepNYQOPoDXcCE=;
+  b=hrLspH9NRWAzzozcMEVGShUqWXF0oXO03dBpvSAX5U63xJE6WB9B+9At
+   pFT6xCm9oI7JXBMTB0pEFcB4svZZ2mhetVCVCu5NMkv0m7ygjds7QXa4a
+   qsxQdNZwSYhhsytQiz/vCxZAyu65s6Z4c/qHiwF9sZErKnAvr0CPk/+Zz
+   TiD/Tuf6PjTim/C2OIS7D3K4nDLQKnU3FUW3kNWaom8DEjt7/dECgOyCl
+   KCUBD4+g/oh1jXP1lDfkEglUOP45MmaVzGKYMkZLqGTQDOWj33P1hlZhw
+   Hm/ONA+WPitAwhh+lMI5EuPwcJ/Ed/r/UxJxsOMIvSGxTZ/xea9wYBIrh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="341184412"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="341184412"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 19:46:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="833039969"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="833039969"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 05 Jun 2023 19:46:41 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q6MiW-0004jf-2o;
+        Tue, 06 Jun 2023 02:46:40 +0000
+Date:   Tue, 06 Jun 2023 10:46:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/iopoll-busy-loop-timeout] BUILD
+ SUCCESS 7349a69cf3125e92d48e442d9f400ba446fa314f
+Message-ID: <20230606024618.0bhyN%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2023-06-04 11:49:58)
-> The (large) rcar_du_modeset_init() function can fail for many reasons,
-> two of two involving probe deferral. Use dev_err_probe() in those code
-> paths to record the cause of the probe deferral, in order to help
-> debugging probe issues.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
-> Change since v1:
->=20
-> - Fix compilation
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/iopoll-busy-loop-timeout
+branch HEAD: 7349a69cf3125e92d48e442d9f400ba446fa314f  iopoll: Do not use timekeeping in read_poll_timeout_atomic()
 
-Always helps ;-)
+elapsed time: 720m
 
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 ++++
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 8 ++++++--
->  2 files changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_drv.c
-> index 12a8839fe3be..5b752adb1b02 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -701,6 +701,10 @@ static int rcar_du_probe(struct platform_device *pde=
-v)
->         /* DRM/KMS objects */
->         ret =3D rcar_du_modeset_init(rcdu);
->         if (ret < 0) {
-> +               /*
-> +                * Don't use dev_err_probe(), as it would overwrite the p=
-robe
-> +                * deferral reason recorded in rcar_du_modeset_init().
-> +                */
->                 if (ret !=3D -EPROBE_DEFER)
->                         dev_err(&pdev->dev,
->                                 "failed to initialize DRM/KMS (%d)\n", re=
-t);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_kms.c
-> index adfb36b0e815..78b665984e35 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -932,8 +932,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> =20
->         /* Initialize the Color Management Modules. */
->         ret =3D rcar_du_cmm_init(rcdu);
-> -       if (ret)
-> +       if (ret) {
-> +               dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n=
-");
+configs tested: 205
+configs skipped: 20
 
-This could remain a single line return statement with:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-		return dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n");
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r001-20230605   gcc  
+alpha        buildonly-randconfig-r004-20230605   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r016-20230605   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r002-20230605   gcc  
+arc          buildonly-randconfig-r006-20230605   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r003-20230605   gcc  
+arc                  randconfig-r015-20230605   gcc  
+arc                  randconfig-r026-20230605   gcc  
+arc                  randconfig-r043-20230605   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r031-20230605   gcc  
+arm                  randconfig-r032-20230605   gcc  
+arm                  randconfig-r036-20230605   gcc  
+arm                  randconfig-r046-20230605   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r001-20230605   clang
+arm64                               defconfig   gcc  
+arm64                randconfig-r006-20230605   clang
+arm64                randconfig-r012-20230605   gcc  
+arm64                randconfig-r013-20230605   gcc  
+arm64                randconfig-r016-20230605   gcc  
+csky         buildonly-randconfig-r005-20230605   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r001-20230605   gcc  
+csky                 randconfig-r012-20230605   gcc  
+csky                 randconfig-r031-20230605   gcc  
+csky                 randconfig-r032-20230605   gcc  
+csky                 randconfig-r034-20230605   gcc  
+hexagon              randconfig-r004-20230605   clang
+hexagon              randconfig-r025-20230605   clang
+hexagon              randconfig-r026-20230605   clang
+hexagon              randconfig-r041-20230605   clang
+hexagon              randconfig-r045-20230605   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230605   clang
+i386                 randconfig-i002-20230605   clang
+i386                 randconfig-i003-20230605   clang
+i386                 randconfig-i004-20230605   clang
+i386                 randconfig-i005-20230605   clang
+i386                 randconfig-i006-20230605   clang
+i386                 randconfig-i011-20230605   gcc  
+i386                 randconfig-i012-20230605   gcc  
+i386                 randconfig-i013-20230605   gcc  
+i386                 randconfig-i014-20230605   gcc  
+i386                 randconfig-i015-20230605   gcc  
+i386                 randconfig-i016-20230605   gcc  
+i386                 randconfig-i051-20230605   clang
+i386                 randconfig-i052-20230605   clang
+i386                 randconfig-i053-20230605   clang
+i386                 randconfig-i054-20230605   clang
+i386                 randconfig-i055-20230605   clang
+i386                 randconfig-i056-20230605   clang
+i386                 randconfig-i061-20230605   clang
+i386                 randconfig-i062-20230605   clang
+i386                 randconfig-i063-20230605   clang
+i386                 randconfig-i064-20230605   clang
+i386                 randconfig-i065-20230605   clang
+i386                 randconfig-i066-20230605   clang
+i386                 randconfig-r011-20230605   gcc  
+i386                 randconfig-r021-20230605   gcc  
+i386                 randconfig-r022-20230605   gcc  
+i386                 randconfig-r025-20230605   gcc  
+i386                 randconfig-r026-20230605   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r006-20230606   gcc  
+loongarch            randconfig-r012-20230605   gcc  
+loongarch            randconfig-r016-20230605   gcc  
+loongarch            randconfig-r031-20230605   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r001-20230605   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r002-20230606   gcc  
+m68k                 randconfig-r004-20230605   gcc  
+m68k                 randconfig-r021-20230605   gcc  
+m68k                 randconfig-r023-20230605   gcc  
+microblaze   buildonly-randconfig-r004-20230605   gcc  
+microblaze           randconfig-r002-20230605   gcc  
+microblaze           randconfig-r003-20230606   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r002-20230605   gcc  
+mips         buildonly-randconfig-r003-20230605   gcc  
+mips                 randconfig-r003-20230605   gcc  
+mips                 randconfig-r035-20230605   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r001-20230605   gcc  
+nios2                randconfig-r011-20230605   gcc  
+nios2                randconfig-r014-20230605   gcc  
+nios2                randconfig-r016-20230605   gcc  
+nios2                randconfig-r032-20230605   gcc  
+nios2                randconfig-r035-20230605   gcc  
+openrisc     buildonly-randconfig-r001-20230605   gcc  
+openrisc     buildonly-randconfig-r003-20230605   gcc  
+openrisc     buildonly-randconfig-r004-20230605   gcc  
+openrisc     buildonly-randconfig-r005-20230605   gcc  
+openrisc             randconfig-r006-20230605   gcc  
+openrisc             randconfig-r023-20230605   gcc  
+openrisc             randconfig-r024-20230605   gcc  
+openrisc             randconfig-r036-20230605   gcc  
+parisc       buildonly-randconfig-r004-20230605   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r002-20230605   gcc  
+parisc               randconfig-r012-20230605   gcc  
+parisc               randconfig-r014-20230605   gcc  
+parisc               randconfig-r015-20230605   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r002-20230605   gcc  
+powerpc      buildonly-randconfig-r003-20230605   gcc  
+powerpc              randconfig-r005-20230606   gcc  
+powerpc              randconfig-r013-20230605   gcc  
+powerpc              randconfig-r014-20230605   gcc  
+powerpc              randconfig-r015-20230605   gcc  
+powerpc              randconfig-r025-20230605   gcc  
+powerpc              randconfig-r035-20230605   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r006-20230605   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r002-20230605   clang
+riscv                randconfig-r005-20230605   clang
+riscv                randconfig-r006-20230605   clang
+riscv                randconfig-r015-20230605   gcc  
+riscv                randconfig-r042-20230605   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230606   gcc  
+s390                 randconfig-r011-20230605   gcc  
+s390                 randconfig-r016-20230605   gcc  
+s390                 randconfig-r035-20230605   clang
+s390                 randconfig-r044-20230605   gcc  
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r004-20230605   gcc  
+sh           buildonly-randconfig-r005-20230605   gcc  
+sh                   randconfig-r013-20230605   gcc  
+sh                   randconfig-r025-20230605   gcc  
+sh                   randconfig-r032-20230605   gcc  
+sh                   randconfig-r033-20230605   gcc  
+sh                   randconfig-r034-20230605   gcc  
+sparc        buildonly-randconfig-r002-20230605   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r004-20230605   gcc  
+sparc                randconfig-r022-20230605   gcc  
+sparc                randconfig-r023-20230605   gcc  
+sparc                randconfig-r025-20230605   gcc  
+sparc                randconfig-r033-20230605   gcc  
+sparc                randconfig-r035-20230605   gcc  
+sparc64      buildonly-randconfig-r002-20230605   gcc  
+sparc64      buildonly-randconfig-r003-20230605   gcc  
+sparc64      buildonly-randconfig-r006-20230605   gcc  
+sparc64              randconfig-r024-20230605   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230605   clang
+x86_64               randconfig-a002-20230605   clang
+x86_64               randconfig-a003-20230605   clang
+x86_64               randconfig-a004-20230605   clang
+x86_64               randconfig-a005-20230605   clang
+x86_64               randconfig-a006-20230605   clang
+x86_64               randconfig-a011-20230605   gcc  
+x86_64               randconfig-a012-20230605   gcc  
+x86_64               randconfig-a013-20230605   gcc  
+x86_64               randconfig-a014-20230605   gcc  
+x86_64               randconfig-a015-20230605   gcc  
+x86_64               randconfig-a016-20230605   gcc  
+x86_64               randconfig-r005-20230605   clang
+x86_64               randconfig-r021-20230605   gcc  
+x86_64               randconfig-r024-20230605   gcc  
+x86_64               randconfig-r031-20230605   clang
+x86_64               randconfig-x051-20230605   gcc  
+x86_64               randconfig-x052-20230605   gcc  
+x86_64               randconfig-x053-20230605   gcc  
+x86_64               randconfig-x054-20230605   gcc  
+x86_64               randconfig-x055-20230605   gcc  
+x86_64               randconfig-x056-20230605   gcc  
+x86_64               randconfig-x061-20230605   gcc  
+x86_64               randconfig-x062-20230605   gcc  
+x86_64               randconfig-x063-20230605   gcc  
+x86_64               randconfig-x064-20230605   gcc  
+x86_64               randconfig-x065-20230605   gcc  
+x86_64               randconfig-x066-20230605   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r003-20230605   gcc  
+xtensa       buildonly-randconfig-r005-20230605   gcc  
+xtensa               randconfig-r011-20230605   gcc  
+xtensa               randconfig-r012-20230605   gcc  
+xtensa               randconfig-r013-20230605   gcc  
+xtensa               randconfig-r015-20230605   gcc  
+xtensa               randconfig-r023-20230605   gcc  
 
-Or if you're really concerned about 80 chars:
-
-		return dev_err_probe(rcdu->dev, ret,
-				     "failed to initialize CMM\n");
-
-which is still one line cheaper than adding braces to the if statement!
-
-Anyway, either way is functional so:
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
->                 return ret;
-> +       }
-> =20
->         /* Create the CRTCs. */
->         for (swindex =3D 0, hwindex =3D 0; swindex < rcdu->num_crtcs; ++h=
-windex) {
-> @@ -952,8 +954,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> =20
->         /* Initialize the encoders. */
->         ret =3D rcar_du_encoders_init(rcdu);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               dev_err_probe(rcdu->dev, ret, "failed to initialize encod=
-ers\n");
-
-(same here of course)
-
->                 return ret;
-> +       }
-> =20
->         if (ret =3D=3D 0) {
->                 dev_err(rcdu->dev, "error: no encoder could be initialize=
-d\n");
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
