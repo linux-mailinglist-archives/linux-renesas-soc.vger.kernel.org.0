@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0906372444F
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD53724450
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 15:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232579AbjFFNYR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 09:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51000 "EHLO
+        id S233083AbjFFNYS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 09:24:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233083AbjFFNYP (ORCPT
+        with ESMTP id S233703AbjFFNYP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 6 Jun 2023 09:24:15 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CCF12F
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 06:24:10 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33c37f62e24so22485285ab.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jun 2023 06:24:10 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12149118
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 06:24:11 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-653436fcc1bso2494480b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jun 2023 06:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1686057849; x=1688649849;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1686057850; x=1688649850;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=qhtxoPzgkdgou38ZG0gjP5ZLgUWfAOJhd30IM9Itw4c=;
-        b=TPxawoOs7nt5LI4YwTe4AKImwjUhK8gNrMP4ogKCFl5v9hdzNq8ixI25J6V/fLLaBL
-         dnhSckY6R+usmzPUbtoOt+ctpHwZx5Hb2VfYoZrfNRkQLoHIemmVmYi+NPjdukC+LDb2
-         I/Mv+kYmL8s87mBAXlYzKscYq3Ra2sJNeHr/zP88+BN1SUrcJpl4/4E1o+aPMSCnVsFs
-         Hc8QNOq1xiUgazzH0+SJMMztVoIY6Fnmbvqi7oNltoU8tdxK8nu778KE3xgBG+hzuv1k
-         eyotPsGTXld+v7usf/5njI0pC3SLITLQEty95vbKqQtKk5jknfhnEmZwJFvYm4wBbuNE
-         KyLw==
+        bh=cIv8Q0TbEIxjVLhdgE4PkqfzHpSQBsXuiEQnIWDnwhg=;
+        b=ki4jgpR36jC9k1lbNwLpXdLfI6aRUmiqv/Sz79ZMraEFr8gSIaCZCunnLJkg8fhSbl
+         5IRI7B4n4OkvuL7pf1x6uCxj2ljiOQArEkXc1uoyHKsQyZHTG7EqAIXDdz/9p1XWPS0+
+         GZL0L3mpAhxWeeOT9wVLNloCf0FLhkdMXjHVDoZlFmFTCYrGqoMq8vLyFKDnwQTiW/Ov
+         5vyr/3DIJM3UDJHp5Uoqfu5dxZspjin3cy8t3aMro2ijjkXJbmSeqk4DDLp+/yx2drsQ
+         op9L3QrtjMVXq4i68c+YcItTkFCa4GM0AMisb+C2nz+Ti2H+stsEmLY2Teo/WjkaI0HD
+         h7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686057849; x=1688649849;
+        d=1e100.net; s=20221208; t=1686057850; x=1688649850;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qhtxoPzgkdgou38ZG0gjP5ZLgUWfAOJhd30IM9Itw4c=;
-        b=Ir75grvtz4LAAN2zYXUDDikeC4iCEj9Noc1ecseBLEUPEYCEr4UDFhpcmwdPFKtu/O
-         v6XhuNjMht7+HuXuwJQ8cNaaX8mbxotn0Chz98Mq9JJdF6oQF6E3HqsoFzp/hmXaPPGR
-         yAXSMOknQhpOZp+p6UroQCKEa3KChGqeB3agDWGupDTPbEn3B+wMtAurPFvlJH+QTv+I
-         9dYv6H+YDaYWLxHL5jU3xszx9K+BVz0qjxpmRFifXcihz0qmZ0b2qBniEHHc71ix6dMB
-         YUAomabl5+RhPJGoh1SsqPKkZ6d+6e+e28lCiDXI2ma5pNAkTj/k0pt8eKDb7M0Ic+8N
-         YjLQ==
-X-Gm-Message-State: AC+VfDw/LeYQe/c3A2UTmlayIT2TYMltDR7hDK3cb1RHxkGK8ts5NH7c
-        DkbBVH0cRJyxxWn7qWa4Cr2YZESx9BdOZCWPTKGFGQ==
-X-Google-Smtp-Source: ACHHUZ5yzyhfGKwr4ZEUn+wx3o/0g4u+S8SIkjZoUgDlWrfuTMzyJxtc8NvBNKjC3dvzUSgL26/Y1g==
-X-Received: by 2002:a92:d692:0:b0:335:9220:2ec2 with SMTP id p18-20020a92d692000000b0033592202ec2mr2088994iln.26.1686057848001;
+        bh=cIv8Q0TbEIxjVLhdgE4PkqfzHpSQBsXuiEQnIWDnwhg=;
+        b=mA+sc9StwEZkVD/wsmk19evbg4nLpB8wpYCHlO1c23AGirEGOl3Oai25JtoGD8iZVy
+         NhKt4jf8GwKbNVvl7I8T/8CnI1k1w3j4O0xsJ08nyKS0QY5w2SUIjcMqwHIWZHqO1xXe
+         ZfDpvnClGOAs5SBD9HfSKB5wGWmboRJXCs9SHLXPTGqeMiKgEROf3boLSCcNWxJSHAqW
+         lDYIyIJYb99wy3ofiNBKbzgtR7jiDzx834HmYcPrpWHm6G/76ys98e64csWr/rX/yHrw
+         L+ObRRghtY6f9SBHX7T0eoeN+8juO0XnCou7tlKdufRfbyIiLzZPvpTeT3QJ4M2Ua0JZ
+         d95g==
+X-Gm-Message-State: AC+VfDxgiFXSkAl3nF2BJOFWwuRirI63n0mG9bL/rFQEQj5Grcqgnz5T
+        5O1O6VLLMXt+yFxq0jX5fgf56QBjq7lSWyUOs+3CXQ==
+X-Google-Smtp-Source: ACHHUZ5ASm5KM3F9LDrSxyz3/T1e0iRC2/iat4+9iZYAIzhV1nH39yyQ7/ve8LyYVcuOHsxN9WSxwg==
+X-Received: by 2002:a05:6a20:d806:b0:10b:4e9c:ee25 with SMTP id iv6-20020a056a20d80600b0010b4e9cee25mr991912pzb.16.1686057848635;
         Tue, 06 Jun 2023 06:24:08 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id s29-20020a63525d000000b005302682a668sm7168903pgl.17.2023.06.06.06.24.07
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902eb1100b001aad714400asm8497321plb.229.2023.06.06.06.24.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 06:24:07 -0700 (PDT)
-Message-ID: <647f3377.630a0220.58187.cd55@mx.google.com>
-Date:   Tue, 06 Jun 2023 06:24:07 -0700 (PDT)
+        Tue, 06 Jun 2023 06:24:08 -0700 (PDT)
+Message-ID: <647f3378.170a0220.a27c2.f9cf@mx.google.com>
+Date:   Tue, 06 Jun 2023 06:24:08 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -58,8 +58,8 @@ X-Kernelci-Kernel: renesas-devel-2023-06-06-v6.4-rc5
 X-Kernelci-Report-Type: test
 X-Kernelci-Branch: master
 X-Kernelci-Tree: renesas
-Subject: renesas/master baseline-nfs: 190 runs,
- 45 regressions (renesas-devel-2023-06-06-v6.4-rc5)
+Subject: renesas/master baseline: 448 runs,
+ 49 regressions (renesas-devel-2023-06-06-v6.4-rc5)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -72,8 +72,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 190 runs, 45 regressions (renesas-devel-2023-0=
-6-06-v6.4-rc5)
+renesas/master baseline: 448 runs, 49 regressions (renesas-devel-2023-06-06=
+-v6.4-rc5)
 
 Regressions Summary
 -------------------
@@ -82,9 +82,6 @@ platform                     | arch   | lab             | compiler | defcon=
 fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
-acer-cb317-1h-c3z6-dedede    | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...ok+kselftest | 1          =
-
 asus-C436FA-Flip-hatch       | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
 
@@ -93,9 +90,6 @@ _defcon...ebook+amdgpu | 1          =
 
 asus-C436FA-Flip-hatch       | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
-
-asus-C523NA-A20057-coral     | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...6-chromebook | 1          =
 
 asus-CM1400CXA-dalboz        | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
@@ -115,20 +109,14 @@ _defcon...ebook+amdgpu | 1          =
 asus-cx9400-volteer          | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
-beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defconfig+crypto    | 1          =
+bcm2836-rpi-2-b              | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...MB2_KERNEL=3Dy | 1          =
 
 beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defconfig+ima       | 1          =
-
-beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
+v7_defc...MB2_KERNEL=3Dy | 1          =
 
 beaglebone-black             | arm    | lab-cip         | gcc-10   | multi_=
-v7_defconfig           | 1          =
-
-beaglebone-black             | arm    | lab-cip         | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
+v7_defc...MB2_KERNEL=3Dy | 1          =
 
 hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
@@ -138,6 +126,9 @@ _defcon...ebook+amdgpu | 1          =
 
 hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
+
+hp-x360-14-G1-sona           | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...6-chromebook | 1          =
 
 hp-x360-14-G1-sona           | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
@@ -170,16 +161,7 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defc...CONFIG_SMP=3Dn | 1          =
 
 imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defconfig+crypto    | 1          =
-
-imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defc...MB2_KERNEL=3Dy | 1          =
-
-imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
-
-kontron-sl28-var3-ads2       | arm64  | lab-kontron     | gcc-10   | defcon=
-fig+CON...OMIZE_BASE=3Dy | 2          =
+v7_defconfig+ima       | 1          =
 
 lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
@@ -189,33 +171,66 @@ _defcon...ebook+amdgpu | 1          =
 
 lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
+
+meson-g12b-a311d-khadas-vim3 | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+kselftest          | 1          =
+
+meson-gxl-s905x-libretech-cc | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+kselftest          | 1          =
+
+mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
 
 mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora   | gcc-10   | defcon=
 fig+arm...ook+videodec | 1          =
 
 mt8192-asurada-spherion-r0   | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
+
+mt8192-asurada-spherion-r0   | arm64  | lab-collabora   | gcc-10   | defcon=
 fig+arm...ook+videodec | 1          =
+
+qemu_arm64-virt-gicv3-uefi   | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+debug              | 1          =
+
+qemu_mips-malta              | mips   | lab-collabora   | gcc-10   | malta_=
+defconfig              | 1          =
+
+rk3288-rock2-square          | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...G_ARM_LPAE=3Dy | 1          =
+
+rk3288-veyron-jaq            | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...G_ARM_LPAE=3Dy | 1          =
+
+rk3399-gru-kevin             | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
+
+rk3399-rock-pi-4b            | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+kselftest          | 1          =
 
 sc7180-trogdo...zor-limozeen | arm64  | lab-collabora   | gcc-10   | defcon=
-fig+arm...ook+videodec | 1          =
+fig+arm...ok+kselftest | 1          =
+
+sun50i-a64-pine64-plus       | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+kselftest          | 1          =
 
 sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig+crypto             | 1          =
-
-sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig                    | 1          =
+fig+kselftest          | 1          =
 
 sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
 fig+ima                | 1          =
 
 sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig+CON...OMIZE_BASE=3Dy | 1          =
+fig+crypto             | 1          =
+
+sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+videodec           | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2023-06-06-v6.4-rc5/plan/baseline-nfs/
+sas-devel-2023-06-06-v6.4-rc5/plan/baseline/
 
-  Test:     baseline-nfs
+  Test:     baseline
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2023-06-06-v6.4-rc5
@@ -234,118 +249,57 @@ platform                     | arch   | lab             | compiler | defcon=
 fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
-acer-cb317-1h-c3z6-dedede    | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...ok+kselftest | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f008ccb4e24f539f5de89
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook+kselftest
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-acer-cb317-1h-c3z6-dedede.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-acer-cb317-1h-c3z6-dedede.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f008ccb4e24f539f5de92
-        failing since 56 days (last pass: renesas-devel-2023-04-04-v6.3-rc5=
-, first fail: renesas-devel-2023-04-10-v6.3-rc6)
-
-    2023-06-06T09:46:38.401679  + set +x
-
-    2023-06-06T09:46:38.408206  [   28.901229] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603777_1.5.2.3.1>
-
-    2023-06-06T09:46:38.512759  / # #
-
-    2023-06-06T09:46:38.613464  export SHELL=3D/bin/sh
-
-    2023-06-06T09:46:38.613665  #
-
-    2023-06-06T09:46:38.714191  / # export SHELL=3D/bin/sh. /lava-10603777/=
-environment
-
-    2023-06-06T09:46:38.714388  =
-
-
-    2023-06-06T09:46:38.814929  / # . /lava-10603777/environment/lava-10603=
-777/bin/lava-test-runner /lava-10603777/1
-
-    2023-06-06T09:46:38.815288  =
-
-
-    2023-06-06T09:46:38.820495  / # /lava-10603777/bin/lava-test-runner /la=
-va-10603777/1
- =
-
-    ... (13 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
 asus-C436FA-Flip-hatch       | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efb6446dd937a1cf5de6c
+  Details:     https://kernelci.org/test/plan/id/647efb0088ae7d29e7f5de33
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-C436FA-Flip-hatch.txt
+ora/baseline-asus-C436FA-Flip-hatch.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-C436FA-Flip-hatch.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+ora/baseline-asus-C436FA-Flip-hatch.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efb6446dd937a1cf5de75
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efb0088ae7d29e7f5de3c
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:24:45.086503  + set +x
+    2023-06-06T09:23:04.923318  <8>[   10.406218] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603161_1.4.2.3.1>
 
-    2023-06-06T09:24:45.093469  <8>[   16.672442] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603240_1.5.2.3.1>
+    2023-06-06T09:23:04.926856  + set +x
 
-    2023-06-06T09:24:45.203273  / # #
+    2023-06-06T09:23:05.028275  /#
 
-    2023-06-06T09:24:45.306093  export SHELL=3D/bin/sh
+    2023-06-06T09:23:05.129232   # #export SHELL=3D/bin/sh
 
-    2023-06-06T09:24:45.306901  #
+    2023-06-06T09:23:05.129449  =
 
-    2023-06-06T09:24:45.408184  / # export SHELL=3D/bin/sh. /lava-10603240/=
+
+    2023-06-06T09:23:05.229941  / # export SHELL=3D/bin/sh. /lava-10603161/=
 environment
 
-    2023-06-06T09:24:45.408710  =
+    2023-06-06T09:23:05.230157  =
 
 
-    2023-06-06T09:24:45.509907  / # . /lava-10603240/environment/lava-10603=
-240/bin/lava-test-runner /lava-10603240/1
+    2023-06-06T09:23:05.330676  / # . /lava-10603161/environment/lava-10603=
+161/bin/lava-test-runner /lava-10603161/1
 
-    2023-06-06T09:24:45.511135  =
+    2023-06-06T09:23:05.331039  =
 
 
-    2023-06-06T09:24:45.516919  / # /lava-10603240/bin/lava-test-runner /la=
-va-10603240/1
+    2023-06-06T09:23:05.337394  / # /lava-10603161/bin/lava-test-runner /la=
+va-10603161/1
  =
 
     ... (12 line(s) more)  =
@@ -362,52 +316,52 @@ asus-C436FA-Flip-hatch       | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd8a4689a3d7eff5de3b
+  Details:     https://kernelci.org/test/plan/id/647efd6df26c4c2ae3f5df13
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-C436FA-Flip-hatch.txt
+-collabora/baseline-asus-C436FA-Flip-hatch.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-C436FA-Flip-hatch.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-asus-C436FA-Flip-hatch.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd8a4689a3d7eff5de44
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd6df26c4c2ae3f5df1c
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:33:38.297396  [   21.728174] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603513_1.5.2.3.1>
+    2023-06-06T09:33:25.520205  + set +x
 
-    2023-06-06T09:33:38.300759  + set +x
+    2023-06-06T09:33:25.526548  <8>[   12.019838] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603474_1.4.2.3.1>
 
-    2023-06-06T09:33:38.417699  / ##
+    2023-06-06T09:33:25.630653  / # #
 
-    2023-06-06T09:33:38.518379  export SHELL=3D/bin/sh
+    2023-06-06T09:33:25.731356  export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:38.518633   #
+    2023-06-06T09:33:25.731571  #
 
-    2023-06-06T09:33:38.619188  / # export SHELL=3D/bin/sh. /lava-10603513/=
+    2023-06-06T09:33:25.832123  / # export SHELL=3D/bin/sh. /lava-10603474/=
 environment
 
-    2023-06-06T09:33:38.619431  =
+    2023-06-06T09:33:25.832329  =
 
 
-    2023-06-06T09:33:38.719972  / # . /lava-10603513/environment/lava-10603=
-513/bin/lava-test-runner /lava-10603513/1
+    2023-06-06T09:33:25.932855  / # . /lava-10603474/environment/lava-10603=
+474/bin/lava-test-runner /lava-10603474/1
 
-    2023-06-06T09:33:38.720293  =
+    2023-06-06T09:33:25.933145  =
 
 
-    2023-06-06T09:33:38.726380  / # /lava-10603513/bin/lava-test-runner /la=
-va-10603513/1
+    2023-06-06T09:33:25.939222  / # /lava-10603474/bin/lava-test-runner /la=
+va-10603474/1
  =
 
     ... (12 line(s) more)  =
@@ -424,118 +378,55 @@ asus-C436FA-Flip-hatch       | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f00a2051ce83542f5de57
+  Details:     https://kernelci.org/test/plan/id/647f008dfa31185beff5de25
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-C436FA-Flip-hatch.txt
+lab-collabora/baseline-asus-C436FA-Flip-hatch.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-C436FA-Flip-hatch.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-asus-C436FA-Flip-hatch.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f00a2051ce83542f5de60
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f008dfa31185beff5de2e
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:47:03.952316  + set +x
+    2023-06-06T09:46:45.615287  + set +x
 
-    2023-06-06T09:47:03.958566  <8>[   26.183045] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603780_1.5.2.3.1>
+    2023-06-06T09:46:45.621721  <8>[   13.166787] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603784_1.4.2.3.1>
 
-    2023-06-06T09:47:04.064591  #
+    2023-06-06T09:46:45.725998  / # #
 
-    2023-06-06T09:47:04.165462  / # #export SHELL=3D/bin/sh
+    2023-06-06T09:46:45.826543  export SHELL=3D/bin/sh
 
-    2023-06-06T09:47:04.165710  =
+    2023-06-06T09:46:45.826713  #
 
-
-    2023-06-06T09:47:04.266292  / # export SHELL=3D/bin/sh. /lava-10603780/=
+    2023-06-06T09:46:45.927232  / # export SHELL=3D/bin/sh. /lava-10603784/=
 environment
 
-    2023-06-06T09:47:04.266541  =
+    2023-06-06T09:46:45.927400  =
 
 
-    2023-06-06T09:47:04.367126  / # . /lava-10603780/environment/lava-10603=
-780/bin/lava-test-runner /lava-10603780/1
+    2023-06-06T09:46:46.027879  / # . /lava-10603784/environment/lava-10603=
+784/bin/lava-test-runner /lava-10603784/1
 
-    2023-06-06T09:47:04.367464  =
+    2023-06-06T09:46:46.028252  =
 
 
-    2023-06-06T09:47:04.373122  / # /lava-10603780/bin/lava-test-runner /la=
-va-10603780/1
+    2023-06-06T09:46:46.033951  / # /lava-10603784/bin/lava-test-runner /la=
+va-10603784/1
  =
 
     ... (12 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-asus-C523NA-A20057-coral     | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...6-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647efaf0dc0f2cf5bef5de63
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-C523NA-A20057-coral.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-C523NA-A20057-coral.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efaf0dc0f2cf5bef5de6c
-        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
-
-    2023-06-06T09:22:46.214085  + set +x
-
-    2023-06-06T09:22:46.220422  <8>[   19.788073] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603227_1.5.2.3.1>
-
-    2023-06-06T09:22:46.327513  / # #
-
-    2023-06-06T09:22:46.428367  export SHELL=3D/bin/sh
-
-    2023-06-06T09:22:46.428637  #
-
-    2023-06-06T09:22:46.529229  / # export SHELL=3D/bin/sh. /lava-10603227/=
-environment
-
-    2023-06-06T09:22:46.529481  =
-
-
-    2023-06-06T09:22:46.630068  / # . /lava-10603227/environment/lava-10603=
-227/bin/lava-test-runner /lava-10603227/1
-
-    2023-06-06T09:22:46.630455  =
-
-
-    2023-06-06T09:22:46.632313  / # /lava-10603227/bin/lava-test-runner /la=
-va-10603227/1
- =
-
-    ... (15 line(s) more)  =
 
  =
 
@@ -549,53 +440,52 @@ asus-CM1400CXA-dalboz        | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efc08d7a9497431f5dec3
+  Details:     https://kernelci.org/test/plan/id/647efba4c8192764ecf5de3c
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-CM1400CXA-dalboz.txt
+ora/baseline-asus-CM1400CXA-dalboz.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-CM1400CXA-dalboz.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+ora/baseline-asus-CM1400CXA-dalboz.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efc08d7a9497431f5decc
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efba4c8192764ecf5de45
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:27:28.103992  + set +x<8>[   18.115817] <LAVA_SIGNAL_ENDR=
-UN 0_dmesg 10603191_1.5.2.3.1>
+    2023-06-06T09:25:36.756547  + set<8>[   11.871321] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 10603188_1.4.2.3.1>
 
-    2023-06-06T09:27:28.104430  =
+    2023-06-06T09:25:36.756648   +x
 
+    2023-06-06T09:25:36.860578  / # #
 
-    2023-06-06T09:27:28.210767  / # #
+    2023-06-06T09:25:36.961276  export SHELL=3D/bin/sh
 
-    2023-06-06T09:27:28.312849  export SHELL=3D/bin/sh
+    2023-06-06T09:25:36.962042  #
 
-    2023-06-06T09:27:28.313541  #
-
-    2023-06-06T09:27:28.414955  / # export SHELL=3D/bin/sh. /lava-10603191/=
+    2023-06-06T09:25:37.063303  / # export SHELL=3D/bin/sh. /lava-10603188/=
 environment
 
-    2023-06-06T09:27:28.415195  =
+    2023-06-06T09:25:37.063475  =
 
 
-    2023-06-06T09:27:28.515899  / # . /lava-10603191/environment/lava-10603=
-191/bin/lava-test-runner /lava-10603191/1
+    2023-06-06T09:25:37.164032  / # . /lava-10603188/environment/lava-10603=
+188/bin/lava-test-runner /lava-10603188/1
 
-    2023-06-06T09:27:28.517015  =
+    2023-06-06T09:25:37.164298  =
 
 
-    2023-06-06T09:27:28.522015  / # /lava-10603191/bin/lava-test-runner /la=
-va-10603191/1
+    2023-06-06T09:25:37.169097  / # /lava-10603188/bin/lava-test-runner /la=
+va-10603188/1
  =
 
     ... (12 line(s) more)  =
@@ -612,55 +502,55 @@ asus-CM1400CXA-dalboz        | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd85796760eda2f5de60
+  Details:     https://kernelci.org/test/plan/id/647efd81796760eda2f5de3b
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-CM1400CXA-dalboz.txt
+-collabora/baseline-asus-CM1400CXA-dalboz.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-CM1400CXA-dalboz.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-asus-CM1400CXA-dalboz.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd85796760eda2f5de69
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd81796760eda2f5de44
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:33:35.666657  [   18.632919] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603476_1.5.2.3.1>
+    2023-06-06T09:33:30.564913  + set<8>[   11.927837] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 10603510_1.4.2.3.1>
 
-    2023-06-06T09:33:35.771554  / # #
+    2023-06-06T09:33:30.564998   +x
 
-    2023-06-06T09:33:35.872268  export SHELL=3D/bin/sh
+    2023-06-06T09:33:30.669274  / # #
 
-    2023-06-06T09:33:35.872547  #
+    2023-06-06T09:33:30.769923  export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:35.973127  / # export SHELL=3D/bin/sh. /lava-10603476/=
+    2023-06-06T09:33:30.770121  #
+
+    2023-06-06T09:33:30.870629  / # export SHELL=3D/bin/sh. /lava-10603510/=
 environment
 
-    2023-06-06T09:33:35.973359  =
+    2023-06-06T09:33:30.870822  =
 
 
-    2023-06-06T09:33:36.074049  / # . /lava-10603476/environment/lava-10603=
-476/bin/lava-test-runner /lava-10603476/1
+    2023-06-06T09:33:30.971346  / # . /lava-10603510/environment/lava-10603=
+510/bin/lava-test-runner /lava-10603510/1
 
-    2023-06-06T09:33:36.074372  =
+    2023-06-06T09:33:30.971635  =
 
 
-    2023-06-06T09:33:36.079392  / # /lava-10603476/bin/lava-test-runner /la=
-va-10603476/1
-
-    2023-06-06T09:33:36.153649  + export TESTRUN_ID=3D1_bootrr
+    2023-06-06T09:33:30.976182  / # /lava-10603510/bin/lava-test-runner /la=
+va-10603510/1
  =
 
-    ... (11 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -674,134 +564,72 @@ asus-CM1400CXA-dalboz        | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 2          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f00a1e1d57b19b3f5de75
+  Details:     https://kernelci.org/test/plan/id/647f0096c11d7cd801f5de32
 
-  Results:     4 PASS, 2 FAIL, 1 SKIP
+  Results:     5 PASS, 2 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-CM1400CXA-dalboz.txt
+lab-collabora/baseline-asus-CM1400CXA-dalboz.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-CM1400CXA-dalboz.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-asus-CM1400CXA-dalboz.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/647f00a2e1d=
-57b19b3f5de78
-        failing since 81 days (last pass: renesas-devel-2023-03-07-v6.3-rc1=
-, first fail: renesas-devel-2023-03-16-v6.3-rc2)
+  * baseline.dmesg.emerg: https://kernelci.org/test/case/id/647f0096c11d7cd=
+801f5de35
+        failing since 56 days (last pass: renesas-devel-2023-04-04-v6.3-rc5=
+, first fail: renesas-devel-2023-04-10-v6.3-rc6)
         3 lines
 
-    2023-06-06T09:46:57.880379  kern  :emerg : __common_interrupt: 1.55 No =
+    2023-06-06T09:47:00.172937  kern  :emerg : __common_interrupt: 1.55 No =
 irq handler for vector
 
-    2023-06-06T09:46:57.886818  kern  :emerg : __common_interrupt: 2.55 No =
+    2023-06-06T09:47:00.179379  kern  :emerg : __common_interrupt: 2.55 No =
 irq handler for vector
 
-    2023-06-06T09:46:57.893232  kern  :emerg : __common_interrupt: 3.55 No =
+    2023-06-06T09:47:00.185940  kern  :emerg : __common_interrupt: 3.55 No =
 irq handler for vector
 
-    2023-06-06T09:46:57.925997  <8>[   24.637450] <LAVA_SIGNAL_TESTCASE TES=
+    2023-06-06T09:47:00.192750  <8>[   15.664863] <LAVA_SIGNAL_TESTCASE TES=
 T_CASE_ID=3Demerg RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D3>
    =
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f00a2e1d57b19b3f5de7e
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f0096c11d7cd801f5de3b
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:46:57.932613  + set<8>[   24.647395] <LAVA_SIGNAL_ENDRUN =
-0_dmesg 10603785_1.5.2.3.1>
+    2023-06-06T09:47:00.196853  + set +x
 
-    2023-06-06T09:46:57.932752   +x
+    2023-06-06T09:47:00.203522  <8>[   15.681080] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603764_1.4.2.3.1>
 
-    2023-06-06T09:46:58.040216  / # #
+    2023-06-06T09:47:00.308097  / # #
 
-    2023-06-06T09:46:58.142314  export SHELL=3D/bin/sh
+    2023-06-06T09:47:00.408730  export SHELL=3D/bin/sh
 
-    2023-06-06T09:46:58.142989  #
+    2023-06-06T09:47:00.408982  #
 
-    2023-06-06T09:46:58.244449  / # export SHELL=3D/bin/sh. /lava-10603785/=
+    2023-06-06T09:47:00.509563  / # export SHELL=3D/bin/sh. /lava-10603764/=
 environment
 
-    2023-06-06T09:46:58.245154  =
+    2023-06-06T09:47:00.509801  =
 
 
-    2023-06-06T09:46:58.346485  / # . /lava-10603785/environment/lava-10603=
-785/bin/lava-test-runner /lava-10603785/1
+    2023-06-06T09:47:00.610340  / # . /lava-10603764/environment/lava-10603=
+764/bin/lava-test-runner /lava-10603764/1
 
-    2023-06-06T09:46:58.347801  =
-
-
-    2023-06-06T09:46:58.352718  / # /lava-10603785/bin/lava-test-runner /la=
-va-10603785/1
- =
-
-    ... (13 line(s) more)  =
-
- =
+    2023-06-06T09:47:00.610643  =
 
 
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-asus-cx9400-volteer          | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...6-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647efbf036db195836f5dea7
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-cx9400-volteer.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-asus-cx9400-volteer.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efbf036db195836f5deb0
-        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
-
-    2023-06-06T09:27:07.044219  <8>[   20.272530] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603172_1.5.2.3.1>
-
-    2023-06-06T09:27:07.044323  + set +x
-
-    2023-06-06T09:27:07.148569  / # #
-
-    2023-06-06T09:27:07.249258  export SHELL=3D/bin/sh
-
-    2023-06-06T09:27:07.249487  #
-
-    2023-06-06T09:27:07.350151  / # export SHELL=3D/bin/sh. /lava-10603172/=
-environment
-
-    2023-06-06T09:27:07.350398  =
-
-
-    2023-06-06T09:27:07.451112  / # . /lava-10603172/environment/lava-10603=
-172/bin/lava-test-runner /lava-10603172/1
-
-    2023-06-06T09:27:07.451405  =
-
-
-    2023-06-06T09:27:07.456633  / # /lava-10603172/bin/lava-test-runner /la=
-va-10603172/1
+    2023-06-06T09:47:00.615413  / # /lava-10603764/bin/lava-test-runner /la=
+va-10603764/1
  =
 
     ... (12 line(s) more)  =
@@ -815,55 +643,120 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 asus-cx9400-volteer          | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efbc8739e30216ef5debc
+
+  Results:     6 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-asus-cx9400-volteer.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efbc8739e30216ef5dec5
+        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
+, first fail: renesas-devel-2023-03-30-v6.3-rc4)
+
+    2023-06-06T09:26:08.644774  <8>[   10.319348] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603212_1.4.2.3.1>
+
+    2023-06-06T09:26:08.647973  + set +x
+
+    2023-06-06T09:26:08.753464  #
+
+    2023-06-06T09:26:08.754699  =
+
+
+    2023-06-06T09:26:08.856526  / # #export SHELL=3D/bin/sh
+
+    2023-06-06T09:26:08.856708  =
+
+
+    2023-06-06T09:26:08.957394  / # export SHELL=3D/bin/sh. /lava-10603212/=
+environment
+
+    2023-06-06T09:26:08.958131  =
+
+
+    2023-06-06T09:26:09.059530  / # . /lava-10603212/environment/lava-10603=
+212/bin/lava-test-runner /lava-10603212/1
+
+    2023-06-06T09:26:09.060037  =
+
+ =
+
+    ... (13 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+asus-cx9400-volteer          | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd8194f9a1f545f5de70
+  Details:     https://kernelci.org/test/plan/id/647efd6eaed15d5883f5de39
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-cx9400-volteer.txt
+-collabora/baseline-asus-cx9400-volteer.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-asus-cx9400-volteer.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd8194f9a1f545f5de79
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd6eaed15d5883f5de42
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:33:28.380167  [   15.608082] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603483_1.5.2.3.1>
+    2023-06-06T09:33:24.917152  <8>[   16.884690] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603499_1.4.2.3.1>
 
-    2023-06-06T09:33:28.383468  + set +x
+    2023-06-06T09:33:24.920715  + set +x
 
-    2023-06-06T09:33:28.489444  / # #
+    2023-06-06T09:33:25.022504  =
 
-    2023-06-06T09:33:28.590220  export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:28.590472  #
+    2023-06-06T09:33:25.123058  / # #export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:28.691052  / # export SHELL=3D/bin/sh. /lava-10603483/=
+    2023-06-06T09:33:25.123312  =
+
+
+    2023-06-06T09:33:25.223973  / # export SHELL=3D/bin/sh. /lava-10603499/=
 environment
 
-    2023-06-06T09:33:28.691294  =
+    2023-06-06T09:33:25.224281  =
 
 
-    2023-06-06T09:33:28.791890  / # . /lava-10603483/environment/lava-10603=
-483/bin/lava-test-runner /lava-10603483/1
+    2023-06-06T09:33:25.325041  / # . /lava-10603499/environment/lava-10603=
+499/bin/lava-test-runner /lava-10603499/1
 
-    2023-06-06T09:33:28.792327  =
+    2023-06-06T09:33:25.326438  =
 
 
-    2023-06-06T09:33:28.796551  / # /lava-10603483/bin/lava-test-runner /la=
-va-10603483/1
+    2023-06-06T09:33:25.331368  / # /lava-10603499/bin/lava-test-runner /la=
+va-10603499/1
  =
 
     ... (12 line(s) more)  =
@@ -880,55 +773,90 @@ asus-cx9400-volteer          | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f00a3fa31185beff5de5b
+  Details:     https://kernelci.org/test/plan/id/647f008ec11d7cd801f5de25
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-cx9400-volteer.txt
+lab-collabora/baseline-asus-cx9400-volteer.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-asus-cx9400-volteer.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-asus-cx9400-volteer.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f00a3fa31185beff5de64
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f008ec11d7cd801f5de2e
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:47:02.888315  <8>[   22.657774] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603760_1.5.2.3.1>
+    2023-06-06T09:46:43.030613  <8>[   15.066078] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603787_1.4.2.3.1>
 
-    2023-06-06T09:47:02.891741  + set +x
+    2023-06-06T09:46:43.033871  + set +x
 
-    2023-06-06T09:47:02.995936  / # #
+    2023-06-06T09:46:43.135124  #
 
-    2023-06-06T09:47:03.096577  export SHELL=3D/bin/sh
+    2023-06-06T09:46:43.135371  =
 
-    2023-06-06T09:47:03.096828  #
 
-    2023-06-06T09:47:03.197359  / # export SHELL=3D/bin/sh. /lava-10603760/=
+    2023-06-06T09:46:43.235977  / # #export SHELL=3D/bin/sh
+
+    2023-06-06T09:46:43.236165  =
+
+
+    2023-06-06T09:46:43.336628  / # export SHELL=3D/bin/sh. /lava-10603787/=
 environment
 
-    2023-06-06T09:47:03.197564  =
+    2023-06-06T09:46:43.336817  =
 
 
-    2023-06-06T09:47:03.298104  / # . /lava-10603760/environment/lava-10603=
-760/bin/lava-test-runner /lava-10603760/1
+    2023-06-06T09:46:43.437319  / # . /lava-10603787/environment/lava-10603=
+787/bin/lava-test-runner /lava-10603787/1
 
-    2023-06-06T09:47:03.298414  =
+    2023-06-06T09:46:43.437562  =
 
-
-    2023-06-06T09:47:03.303189  / # /lava-10603760/bin/lava-test-runner /la=
-va-10603760/1
  =
 
-    ... (12 line(s) more)  =
+    ... (13 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+bcm2836-rpi-2-b              | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647eff66bff88bee55f5de29
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-collabora/baseline-bcm2836-rpi-2-b.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-collabora/baseline-bcm2836-rpi-2-b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647eff66bff88bee55f5d=
+e2a
+        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
+rst fail: renesas-devel-2023-03-06-v6.3-rc1) =
 
  =
 
@@ -939,130 +867,28 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defconfig+crypto    | 1          =
+v7_defc...MB2_KERNEL=3Dy | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efef4e7848f300af5de2f
+  Details:     https://kernelci.org/test/plan/id/647efdf22831e0f550f5de91
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-broonie/baselin=
-e-nfs-beaglebone-black.txt
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-broonie/baseline-beaglebone-black.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-broonie/baselin=
-e-nfs-beaglebone-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-broonie/baseline-beaglebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647efef4e7848f300=
-af5de30
-        failing since 27 days (last pass: renesas-devel-2023-04-21-v6.3-rc7=
-, first fail: renesas-devel-2023-05-09-v6.4-rc1) =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defconfig+ima       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647eff8b19429d0638f5de29
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+ima
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-broonie/baseline-n=
-fs-beaglebone-black.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-broonie/baseline-n=
-fs-beaglebone-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647eff8b19429d063=
-8f5de2a
-        failing since 6 days (last pass: renesas-devel-2023-05-22-v6.4-rc3,=
- first fail: renesas-devel-2023-05-30-v6.4-rc4) =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-beaglebone-black             | arm    | lab-broonie     | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f00f3d7e5ac95aff5de42
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-broonie=
-/baseline-nfs-beaglebone-black.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-broonie=
-/baseline-nfs-beaglebone-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f00f3d7e5ac95a=
-ff5de43
-        failing since 3 days (last pass: renesas-devel-2023-05-30-v6.4-rc4,=
- first fail: renesas-devel-2023-06-02-v6.4-rc4) =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-beaglebone-black             | arm    | lab-cip         | gcc-10   | multi_=
-v7_defconfig           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f0cd4e9541df6e2f5de2c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
-ebone-black.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
-ebone-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f0cd4e9541df6e=
-2f5de2d
+  * baseline.login: https://kernelci.org/test/case/id/647efdf22831e0f550f5d=
+e92
         new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
 
  =
@@ -1074,30 +900,29 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 beaglebone-black             | arm    | lab-cip         | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
+v7_defc...MB2_KERNEL=3Dy | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f11d68cbf780770f5defa
+  Details:     https://kernelci.org/test/plan/id/647f03d93b700260aff5de2e
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-cip/bas=
-eline-nfs-beaglebone-black.txt
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-cip/baseline-beaglebone-black.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-cip/bas=
-eline-nfs-beaglebone-black.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
+ab-cip/baseline-beaglebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f11d68cbf78077=
-0f5defb
-        failing since 3 days (last pass: renesas-devel-2023-05-30-v6.4-rc4,=
- first fail: renesas-devel-2023-06-02-v6.4-rc4) =
+  * baseline.login: https://kernelci.org/test/case/id/647f03d93b700260aff5d=
+e2f
+        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
 
  =
 
@@ -1111,55 +936,55 @@ hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efcb938d8b0ca56f5def9
+  Details:     https://kernelci.org/test/plan/id/647efc8f9f53ccb0e6f5df0b
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.txt
+ora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+ora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efcb938d8b0ca56f5df02
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efc8f9f53ccb0e6f5df14
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:30:13.842583  + <8>[   27.088371] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 10603209_1.5.2.3.1>
+    2023-06-06T09:29:39.497712  + set +x
 
-    2023-06-06T09:30:13.842684  set +x
+    2023-06-06T09:29:39.504452  <8>[   10.474507] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603192_1.4.2.3.1>
 
-    2023-06-06T09:30:13.947424  / # #
+    2023-06-06T09:29:39.611932  / # #
 
-    2023-06-06T09:30:14.049449  export SHELL=3D/bin/sh
+    2023-06-06T09:29:39.714481  export SHELL=3D/bin/sh
 
-    2023-06-06T09:30:14.050085  #
+    2023-06-06T09:29:39.715211  #
 
-    2023-06-06T09:30:14.151447  / # export SHELL=3D/bin/sh. /lava-10603209/=
+    2023-06-06T09:29:39.816681  / # export SHELL=3D/bin/sh. /lava-10603192/=
 environment
 
-    2023-06-06T09:30:14.152089  =
+    2023-06-06T09:29:39.817419  =
 
 
-    2023-06-06T09:30:14.253454  / # . /lava-10603209/environment/lava-10603=
-209/bin/lava-test-runner /lava-10603209/1
+    2023-06-06T09:29:39.918853  / # . /lava-10603192/environment/lava-10603=
+192/bin/lava-test-runner /lava-10603192/1
 
-    2023-06-06T09:30:14.254473  =
+    2023-06-06T09:29:39.920199  =
 
 
-    2023-06-06T09:30:14.259326  / # /lava-10603209/bin/lava-test-runner /la=
-va-10603209/1
+    2023-06-06T09:29:39.924805  / # /lava-10603192/bin/lava-test-runner /la=
+va-10603192/1
  =
 
-    ... (13 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1173,56 +998,56 @@ hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647eff606aac5a12fff5de85
+  Details:     https://kernelci.org/test/plan/id/647efefc80a3330342f5de33
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.txt
+-collabora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647eff606aac5a12fff5de8e
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efefc80a3330342f5de3c
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:41:38.304333  + set +x[   23.059234] <LAVA_SIGNAL_ENDRUN =
-0_dmesg 10603498_1.5.2.3.1>
+    2023-06-06T09:40:00.506514  + <8>[   20.891763] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 10603502_1.4.2.3.1>
 
-    2023-06-06T09:41:38.304467  =
+    2023-06-06T09:40:00.506611  set +x
+
+    2023-06-06T09:40:00.607971  #
+
+    2023-06-06T09:40:00.708904  / # #export SHELL=3D/bin/sh
+
+    2023-06-06T09:40:00.709152  =
 
 
-    2023-06-06T09:41:38.409455  / # #
-
-    2023-06-06T09:41:38.511708  export SHELL=3D/bin/sh
-
-    2023-06-06T09:41:38.512429  #
-
-    2023-06-06T09:41:38.613758  / # export SHELL=3D/bin/sh. /lava-10603498/=
+    2023-06-06T09:40:00.809681  / # export SHELL=3D/bin/sh. /lava-10603502/=
 environment
 
-    2023-06-06T09:41:38.614416  =
+    2023-06-06T09:40:00.809924  =
 
 
-    2023-06-06T09:41:38.716132  / # . /lava-10603498/environment/lava-10603=
-498/bin/lava-test-runner /lava-10603498/1
+    2023-06-06T09:40:00.910493  / # . /lava-10603502/environment/lava-10603=
+502/bin/lava-test-runner /lava-10603502/1
 
-    2023-06-06T09:41:38.717240  =
+    2023-06-06T09:40:00.910829  =
 
 
-    2023-06-06T09:41:38.721988  / # /lava-10603498/bin/lava-test-runner /la=
-va-10603498/1
+    2023-06-06T09:40:00.915770  / # /lava-10603502/bin/lava-test-runner /la=
+va-10603502/1
  =
 
-    ... (13 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1236,53 +1061,114 @@ hp-x360-12b-c...4020-octopus | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f014b50f0fb7164f5de2b
+  Details:     https://kernelci.org/test/plan/id/647f00c0ac1d27146ff5de9a
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.txt
+lab-collabora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-12b-ca0010nr-n4020-octopus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-hp-x360-12b-ca0010nr-n4020-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f014b50f0fb7164f5de34
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f00c0ac1d27146ff5dea3
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:49:58.932553  + set +x
+    2023-06-06T09:47:40.242403  + set +x
 
-    2023-06-06T09:49:58.939111  [   35.341060] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603797_1.5.2.3.1>
+    2023-06-06T09:47:40.249211  <8>[   17.219241] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603792_1.4.2.3.1>
 
-    2023-06-06T09:49:59.051788  #
+    2023-06-06T09:47:40.358866  / # #
 
-    2023-06-06T09:49:59.154624  / # #export SHELL=3D/bin/sh
+    2023-06-06T09:47:40.461143  export SHELL=3D/bin/sh
 
-    2023-06-06T09:49:59.155470  =
+    2023-06-06T09:47:40.461896  #
 
-
-    2023-06-06T09:49:59.257071  / # export SHELL=3D/bin/sh. /lava-10603797/=
+    2023-06-06T09:47:40.563634  / # export SHELL=3D/bin/sh. /lava-10603792/=
 environment
 
-    2023-06-06T09:49:59.257875  =
+    2023-06-06T09:47:40.564426  =
 
 
-    2023-06-06T09:49:59.359436  / # . /lava-10603797/environment/lava-10603=
-797/bin/lava-test-runner /lava-10603797/1
+    2023-06-06T09:47:40.665864  / # . /lava-10603792/environment/lava-10603=
+792/bin/lava-test-runner /lava-10603792/1
 
-    2023-06-06T09:49:59.360696  =
+    2023-06-06T09:47:40.666917  =
 
 
-    2023-06-06T09:49:59.365856  / # /lava-10603797/bin/lava-test-runner /la=
-va-10603797/1
+    2023-06-06T09:47:40.671737  / # /lava-10603792/bin/lava-test-runner /la=
+va-10603792/1
+ =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+hp-x360-14-G1-sona           | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efbb3739e30216ef5de25
+
+  Results:     6 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-hp-x360-14-G1-sona.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-hp-x360-14-G1-sona.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efbb3739e30216ef5de2e
+        failing since 0 day (last pass: renesas-devel-2023-06-02-v6.4-rc4, =
+first fail: renesas-devel-2023-06-05-v6.4-rc5)
+
+    2023-06-06T09:25:51.876400  <8>[   10.325960] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603232_1.4.2.3.1>
+
+    2023-06-06T09:25:51.879711  + set +x
+
+    2023-06-06T09:25:51.987750  / # #
+
+    2023-06-06T09:25:52.088440  export SHELL=3D/bin/sh
+
+    2023-06-06T09:25:52.088650  #
+
+    2023-06-06T09:25:52.189171  / # export SHELL=3D/bin/sh. /lava-10603232/=
+environment
+
+    2023-06-06T09:25:52.189378  =
+
+
+    2023-06-06T09:25:52.290134  / # . /lava-10603232/environment/lava-10603=
+232/bin/lava-test-runner /lava-10603232/1
+
+    2023-06-06T09:25:52.291257  =
+
+
+    2023-06-06T09:25:52.295974  / # /lava-10603232/bin/lava-test-runner /la=
+va-10603232/1
  =
 
     ... (12 line(s) more)  =
@@ -1299,53 +1185,54 @@ hp-x360-14-G1-sona           | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd6cf26c4c2ae3f5df08
+  Details:     https://kernelci.org/test/plan/id/647efd62f26c4c2ae3f5dea8
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-14-G1-sona.txt
+-collabora/baseline-hp-x360-14-G1-sona.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-hp-x360-14-G1-sona.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd6cf26c4c2ae3f5df11
-        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd62f26c4c2ae3f5deb1
+        failing since 0 day (last pass: renesas-devel-2023-06-02-v6.4-rc4, =
+first fail: renesas-devel-2023-06-05-v6.4-rc5)
 
-    2023-06-06T09:33:13.529421  + set +x<8>[   17.161069] <LAVA_SIGNAL_ENDR=
-UN 0_dmesg 10603479_1.5.2.3.1>
+    2023-06-06T09:33:03.208317  <8>[    8.051235] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603500_1.4.2.3.1>
 
-    2023-06-06T09:33:13.529524  =
+    2023-06-06T09:33:03.211526  + set +x
+
+    2023-06-06T09:33:03.313678  =
 
 
-    2023-06-06T09:33:13.634275  / # #
+    2023-06-06T09:33:03.414350  / # #export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:13.734938  export SHELL=3D/bin/sh
+    2023-06-06T09:33:03.414662  =
 
-    2023-06-06T09:33:13.735190  #
 
-    2023-06-06T09:33:13.835713  / # export SHELL=3D/bin/sh. /lava-10603479/=
+    2023-06-06T09:33:03.515331  / # export SHELL=3D/bin/sh. /lava-10603500/=
 environment
 
-    2023-06-06T09:33:13.835932  =
+    2023-06-06T09:33:03.515591  =
 
 
-    2023-06-06T09:33:13.936427  / # . /lava-10603479/environment/lava-10603=
-479/bin/lava-test-runner /lava-10603479/1
+    2023-06-06T09:33:03.616152  / # . /lava-10603500/environment/lava-10603=
+500/bin/lava-test-runner /lava-10603500/1
 
-    2023-06-06T09:33:13.936725  =
+    2023-06-06T09:33:03.616622  =
 
 
-    2023-06-06T09:33:13.942064  / # /lava-10603479/bin/lava-test-runner /la=
-va-10603479/1
+    2023-06-06T09:33:03.621268  / # /lava-10603500/bin/lava-test-runner /la=
+va-10603500/1
  =
 
     ... (12 line(s) more)  =
@@ -1362,55 +1249,55 @@ hp-x360-14-G1-sona           | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f008cf08da8f5ddf5de90
+  Details:     https://kernelci.org/test/plan/id/647f0078ea7cef5e3ef5de25
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-14-G1-sona.txt
+lab-collabora/baseline-hp-x360-14-G1-sona.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-14-G1-sona.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-hp-x360-14-G1-sona.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f008cf08da8f5ddf5de99
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f0078ea7cef5e3ef5de2e
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:46:34.822133  + <8>[   23.447488] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 10603791_1.5.2.3.1>
+    2023-06-06T09:46:16.311141  + set<8>[   15.181153] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 10603743_1.4.2.3.1>
 
-    2023-06-06T09:46:34.822593  set +x
+    2023-06-06T09:46:16.311240   +x
 
-    2023-06-06T09:46:34.930494  / # #
+    2023-06-06T09:46:16.415731  / # #
 
-    2023-06-06T09:46:35.032791  export SHELL=3D/bin/sh
+    2023-06-06T09:46:16.516300  export SHELL=3D/bin/sh
 
-    2023-06-06T09:46:35.033510  #
+    2023-06-06T09:46:16.516562  #
 
-    2023-06-06T09:46:35.134826  / # export SHELL=3D/bin/sh. /lava-10603791/=
+    2023-06-06T09:46:16.617141  / # export SHELL=3D/bin/sh. /lava-10603743/=
 environment
 
-    2023-06-06T09:46:35.135664  =
+    2023-06-06T09:46:16.617365  =
 
 
-    2023-06-06T09:46:35.237104  / # . /lava-10603791/environment/lava-10603=
-791/bin/lava-test-runner /lava-10603791/1
+    2023-06-06T09:46:16.717919  / # . /lava-10603743/environment/lava-10603=
+743/bin/lava-test-runner /lava-10603743/1
 
-    2023-06-06T09:46:35.238243  =
+    2023-06-06T09:46:16.718252  =
 
 
-    2023-06-06T09:46:35.238625  / # /lava-10603791/bin/lava-test-runner /la=
-va-10603791/1<6>[   23.834577] platform MX98357A:00: deferred probe pending
+    2023-06-06T09:46:16.723394  / # /lava-10603743/bin/lava-test-runner /la=
+va-10603743/1
  =
 
-    ... (13 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1424,55 +1311,56 @@ hp-x360-14a-cb0001xx-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efaff88ae7d29e7f5de25
+  Details:     https://kernelci.org/test/plan/id/647efaf0575cd58114f5de45
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-hp-x360-14a-cb0001xx-zork.txt
+ora/baseline-hp-x360-14a-cb0001xx-zork.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-hp-x360-14a-cb0001xx-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+ora/baseline-hp-x360-14a-cb0001xx-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efaff88ae7d29e7f5de2e
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efaf0575cd58114f5de4e
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:22:50.253758  <8>[   17.947585] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603166_1.5.2.3.1>
+    2023-06-06T09:22:43.567295  + set +x<8>[   11.432061] <LAVA_SIGNAL_ENDR=
+UN 0_dmesg 10603182_1.4.2.3.1>
 
-    2023-06-06T09:22:50.358406  / # #
+    2023-06-06T09:22:43.567402  =
 
-    2023-06-06T09:22:50.459159  export SHELL=3D/bin/sh
 
-    2023-06-06T09:22:50.459411  #
+    2023-06-06T09:22:43.671629  / # #
 
-    2023-06-06T09:22:50.559999  / # export SHELL=3D/bin/sh. /lava-10603166/=
+    2023-06-06T09:22:43.772327  export SHELL=3D/bin/sh
+
+    2023-06-06T09:22:43.772559  #
+
+    2023-06-06T09:22:43.873070  / # export SHELL=3D/bin/sh. /lava-10603182/=
 environment
 
-    2023-06-06T09:22:50.560214  =
+    2023-06-06T09:22:43.873285  =
 
 
-    2023-06-06T09:22:50.660790  / # . /lava-10603166/environment/lava-10603=
-166/bin/lava-test-runner /lava-10603166/1
+    2023-06-06T09:22:43.973812  / # . /lava-10603182/environment/lava-10603=
+182/bin/lava-test-runner /lava-10603182/1
 
-    2023-06-06T09:22:50.661097  =
+    2023-06-06T09:22:43.974094  =
 
 
-    2023-06-06T09:22:50.665675  / # /lava-10603166/bin/lava-test-runner /la=
-va-10603166/1
-
-    2023-06-06T09:22:50.742592  + export TESTRUN_ID=3D1_bootrr
+    2023-06-06T09:22:43.979107  / # /lava-10603182/bin/lava-test-runner /la=
+va-10603182/1
  =
 
-    ... (11 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1486,55 +1374,55 @@ hp-x360-14a-cb0001xx-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ebook+amdgpu | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd7f796760eda2f5de2d
+  Details:     https://kernelci.org/test/plan/id/647efd7294f9a1f545f5de46
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Results:     6 PASS, 1 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+amdgpu
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-14a-cb0001xx-zork.txt
+-collabora/baseline-hp-x360-14a-cb0001xx-zork.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-hp-x360-14a-cb0001xx-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+-collabora/baseline-hp-x360-14a-cb0001xx-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd7f796760eda2f5de36
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd7294f9a1f545f5de4f
         failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:33:42.100851  [   18.120782] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603482_1.5.2.3.1>
+    2023-06-06T09:33:21.603746  + <8>[   10.740325] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 10603520_1.4.2.3.1>
 
-    2023-06-06T09:33:42.205299  / # #
+    2023-06-06T09:33:21.603840  set +x
 
-    2023-06-06T09:33:42.306016  export SHELL=3D/bin/sh
+    2023-06-06T09:33:21.707758  / # #
 
-    2023-06-06T09:33:42.306257  #
+    2023-06-06T09:33:21.808409  export SHELL=3D/bin/sh
 
-    2023-06-06T09:33:42.406759  / # export SHELL=3D/bin/sh. /lava-10603482/=
+    2023-06-06T09:33:21.808644  #
+
+    2023-06-06T09:33:21.909228  / # export SHELL=3D/bin/sh. /lava-10603520/=
 environment
 
-    2023-06-06T09:33:42.407013  =
+    2023-06-06T09:33:21.909459  =
 
 
-    2023-06-06T09:33:42.507509  / # . /lava-10603482/environment/lava-10603=
-482/bin/lava-test-runner /lava-10603482/1
+    2023-06-06T09:33:22.009977  / # . /lava-10603520/environment/lava-10603=
+520/bin/lava-test-runner /lava-10603520/1
 
-    2023-06-06T09:33:42.507845  =
+    2023-06-06T09:33:22.010277  =
 
 
-    2023-06-06T09:33:42.512546  / # /lava-10603482/bin/lava-test-runner /la=
-va-10603482/1
-
-    2023-06-06T09:33:42.589330  + export TESTRUN_ID=3D1_bootrr
+    2023-06-06T09:33:22.014896  / # /lava-10603520/bin/lava-test-runner /la=
+va-10603520/1
  =
 
-    ... (11 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1548,55 +1436,55 @@ hp-x360-14a-cb0001xx-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
 _defcon...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f00a0fa31185beff5de4e
+  Details:     https://kernelci.org/test/plan/id/647f008ecb4e24f539f5de94
 
-  Results:     4 PASS, 2 FAIL, 1 SKIP
+  Results:     5 PASS, 2 FAIL, 0 SKIP
   Full config: x86_64_defconfig+x86-chromebook+kselftest
   Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-14a-cb0001xx-zork.txt
+lab-collabora/baseline-hp-x360-14a-cb0001xx-zork.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-hp-x360-14a-cb0001xx-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+lab-collabora/baseline-hp-x360-14a-cb0001xx-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f00a0fa31185beff5de57
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f008ecb4e24f539f5de9d
         failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
 , first fail: renesas-devel-2023-03-30-v6.3-rc4)
 
-    2023-06-06T09:46:54.043233  + set<8>[   24.110957] <LAVA_SIGNAL_ENDRUN =
-0_dmesg 10603757_1.5.2.3.1>
+    2023-06-06T09:46:40.835435  + set +x
 
-    2023-06-06T09:46:54.043342   +x
+    2023-06-06T09:46:40.838772  <8>[   14.008218] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603796_1.4.2.3.1>
 
-    2023-06-06T09:46:54.155871  / # #
+    2023-06-06T09:46:40.944743  / # #
 
-    2023-06-06T09:46:54.256461  export SHELL=3D/bin/sh
+    2023-06-06T09:46:41.045501  export SHELL=3D/bin/sh
 
-    2023-06-06T09:46:54.256632  #
+    2023-06-06T09:46:41.045749  #
 
-    2023-06-06T09:46:54.357083  / # export SHELL=3D/bin/sh. /lava-10603757/=
+    2023-06-06T09:46:41.146332  / # export SHELL=3D/bin/sh. /lava-10603796/=
 environment
 
-    2023-06-06T09:46:54.357250  =
+    2023-06-06T09:46:41.146595  =
 
 
-    2023-06-06T09:46:54.457717  / # . /lava-10603757/environment/lava-10603=
-757/bin/lava-test-runner /lava-10603757/1
+    2023-06-06T09:46:41.247198  / # . /lava-10603796/environment/lava-10603=
+796/bin/lava-test-runner /lava-10603796/1
 
-    2023-06-06T09:46:54.457976  =
+    2023-06-06T09:46:41.247576  =
 
 
-    2023-06-06T09:46:54.463395  / # /lava-10603757/bin/lava-test-runner /la=
-va-10603757/1
+    2023-06-06T09:46:41.252388  / # /lava-10603796/bin/lava-test-runner /la=
+va-10603796/1
  =
 
-    ... (13 line(s) more)  =
+    ... (12 line(s) more)  =
 
  =
 
@@ -1610,7 +1498,7 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defconfig+crypto    | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f02067e4c26b0cef5de37
+  Details:     https://kernelci.org/test/plan/id/647efc01ea861a1ec3f5de65
 
   Results:     5 PASS, 1 FAIL, 1 SKIP
   Full config: multi_v7_defconfig+crypto
@@ -1618,37 +1506,36 @@ v7_defconfig+crypto    | 1          =
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-nfs-imx53-qsrb.txt
+eline-imx53-qsrb.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-nfs-imx53-qsrb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+eline-imx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f02067e4c26b0cef5de40
-        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
-rst fail: renesas-devel-2023-03-06-v6.3-rc1)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efc01ea861a1ec3f5de6e
+        failing since 126 days (last pass: v6.1-rc8-929-g112502470f50, firs=
+t fail: renesas-devel-2023-01-30-v6.2-rc6)
 
-    2023-06-06T09:52:54.618548  + set +x
-    2023-06-06T09:52:54.618795  [   31.798811] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-968758_1.6.2.3.1>
-    2023-06-06T09:52:54.728665  #
-    2023-06-06T09:52:54.830518  / # #export SHELL=3D/bin/sh
-    2023-06-06T09:52:54.830994  =
-
-    2023-06-06T09:52:54.932329  / # export SHELL=3D/bin/sh. /lava-968758/en=
+    2023-06-06T09:27:09.615513  + set +x
+    2023-06-06T09:27:09.615720  [   14.452937] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+968757_1.5.2.3.1>
+    2023-06-06T09:27:09.723904  / # #
+    2023-06-06T09:27:09.826266  export SHELL=3D/bin/sh
+    2023-06-06T09:27:09.826705  #
+    2023-06-06T09:27:09.927928  / # export SHELL=3D/bin/sh. /lava-968757/en=
 vironment
-    2023-06-06T09:52:54.932964  =
+    2023-06-06T09:27:09.928467  =
 
-    2023-06-06T09:52:55.034436  / # . /lava-968758/environment/lava-968758/=
-bin/lava-test-runner /lava-968758/1
-    2023-06-06T09:52:55.035104  =
+    2023-06-06T09:27:10.029838  / # . /lava-968757/environment/lava-968757/=
+bin/lava-test-runner /lava-968757/1
+    2023-06-06T09:27:10.030618  =
 
-    2023-06-06T09:52:55.038147  / # /lava-968758/bin/lava-test-runner /lava=
--968758/1 =
+    2023-06-06T09:27:10.033708  / # /lava-968757/bin/lava-test-runner /lava=
+-968757/1 =
 
     ... (12 line(s) more)  =
 
@@ -1664,7 +1551,7 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defconfig+ima       | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f036d53c0dc963ef5de73
+  Details:     https://kernelci.org/test/plan/id/647efcf1511117c885f5de47
 
   Results:     5 PASS, 1 FAIL, 1 SKIP
   Full config: multi_v7_defconfig+ima
@@ -1672,37 +1559,36 @@ v7_defconfig+ima       | 1          =
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
-ne-nfs-imx53-qsrb.txt
+ne-imx53-qsrb.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
-ne-nfs-imx53-qsrb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+ne-imx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f036d53c0dc963ef5de7c
-        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
-rst fail: renesas-devel-2023-03-06-v6.3-rc1)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efcf1511117c885f5de50
+        failing since 126 days (last pass: v6.1-rc8-929-g112502470f50, firs=
+t fail: renesas-devel-2023-01-30-v6.2-rc6)
 
-    2023-06-06T09:59:02.675886  + set +x
-    2023-06-06T09:59:02.676186  [   29.673053] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-968784_1.6.2.3.1>
-    2023-06-06T09:59:02.786067  #
-    2023-06-06T09:59:02.888946  / # #export SHELL=3D/bin/sh
-    2023-06-06T09:59:02.889457  =
-
-    2023-06-06T09:59:02.990752  / # export SHELL=3D/bin/sh. /lava-968784/en=
+    2023-06-06T09:31:06.196521  + set +x
+    2023-06-06T09:31:06.196687  [   13.183611] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+968781_1.5.2.3.1>
+    2023-06-06T09:31:06.304462  / # #
+    2023-06-06T09:31:06.406048  export SHELL=3D/bin/sh
+    2023-06-06T09:31:06.406503  #
+    2023-06-06T09:31:06.507703  / # export SHELL=3D/bin/sh. /lava-968781/en=
 vironment
-    2023-06-06T09:59:02.991291  =
+    2023-06-06T09:31:06.508151  =
 
-    2023-06-06T09:59:03.092786  / # . /lava-968784/environment/lava-968784/=
-bin/lava-test-runner /lava-968784/1
-    2023-06-06T09:59:03.093455  =
+    2023-06-06T09:31:06.609392  / # . /lava-968781/environment/lava-968781/=
+bin/lava-test-runner /lava-968781/1
+    2023-06-06T09:31:06.610083  =
 
-    2023-06-06T09:59:03.096569  / # /lava-968784/bin/lava-test-runner /lava=
--968784/1 =
+    2023-06-06T09:31:06.613415  / # /lava-968781/bin/lava-test-runner /lava=
+-968781/1 =
 
     ... (12 line(s) more)  =
 
@@ -1718,7 +1604,7 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defc...MB2_KERNEL=3Dy | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f03fbbf27a049b5f5deba
+  Details:     https://kernelci.org/test/plan/id/647efd434604a8caaef5df00
 
   Results:     5 PASS, 1 FAIL, 1 SKIP
   Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
@@ -1726,37 +1612,36 @@ v7_defc...MB2_KERNEL=3Dy | 1          =
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-nfs-imx53-qsrb.txt
+ab-pengutronix/baseline-imx53-qsrb.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-nfs-imx53-qsrb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+ab-pengutronix/baseline-imx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f03fbbf27a049b5f5dec3
-        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
-rst fail: renesas-devel-2023-03-06-v6.3-rc1)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd434604a8caaef5df09
+        failing since 126 days (last pass: v6.1-rc8-929-g112502470f50, firs=
+t fail: renesas-devel-2023-01-30-v6.2-rc6)
 
-    2023-06-06T10:01:13.580434  + set +x
-    2023-06-06T10:01:13.580735  [   28.120344] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-968787_1.6.2.3.1>
-    2023-06-06T10:01:13.690169  #
-    2023-06-06T10:01:13.792367  / # #export SHELL=3D/bin/sh
-    2023-06-06T10:01:13.792903  =
-
-    2023-06-06T10:01:13.894191  / # export SHELL=3D/bin/sh. /lava-968787/en=
+    2023-06-06T09:32:26.747438  + set +x
+    2023-06-06T09:32:26.747611  [   12.833883] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+968792_1.5.2.3.1>
+    2023-06-06T09:32:26.855423  / # #
+    2023-06-06T09:32:26.957027  export SHELL=3D/bin/sh
+    2023-06-06T09:32:26.957505  #
+    2023-06-06T09:32:27.058878  / # export SHELL=3D/bin/sh. /lava-968792/en=
 vironment
-    2023-06-06T10:01:13.894659  =
+    2023-06-06T09:32:27.059373  =
 
-    2023-06-06T10:01:13.995945  / # . /lava-968787/environment/lava-968787/=
-bin/lava-test-runner /lava-968787/1
-    2023-06-06T10:01:13.996669  =
+    2023-06-06T09:32:27.160622  / # . /lava-968792/environment/lava-968792/=
+bin/lava-test-runner /lava-968792/1
+    2023-06-06T09:32:27.161216  =
 
-    2023-06-06T10:01:13.999547  / # /lava-968787/bin/lava-test-runner /lava=
--968787/1 =
+    2023-06-06T09:32:27.164464  / # /lava-968792/bin/lava-test-runner /lava=
+-968792/1 =
 
     ... (12 line(s) more)  =
 
@@ -1772,45 +1657,44 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defconfig           | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f071915e751b7d9f5de85
+  Details:     https://kernelci.org/test/plan/id/647efefbe7848f300af5de35
 
   Results:     5 PASS, 1 FAIL, 1 SKIP
   Full config: multi_v7_defconfig
   Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-imx53-qsrb.txt
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-i=
+mx53-qsrb.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-imx53-qsrb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-i=
+mx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f071a15e751b7d9f5de8e
-        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
-rst fail: renesas-devel-2023-03-06-v6.3-rc1)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efefbe7848f300af5de3e
+        failing since 126 days (last pass: v6.1-rc8-929-g112502470f50, firs=
+t fail: renesas-devel-2023-01-30-v6.2-rc6)
 
-    2023-06-06T10:14:29.879344  + set +x
-    2023-06-06T10:14:29.879551  [   30.070555] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-968810_1.6.2.3.1>
-    2023-06-06T10:14:29.989722  #
-    2023-06-06T10:14:30.091927  / # #export SHELL=3D/bin/sh
-    2023-06-06T10:14:30.092391  =
-
-    2023-06-06T10:14:30.193553  / # export SHELL=3D/bin/sh. /lava-968810/en=
+    2023-06-06T09:39:45.567540  + set +x
+    2023-06-06T09:39:45.567919  [   13.102931] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+968808_1.5.2.3.1>
+    2023-06-06T09:39:45.676136  / # #
+    2023-06-06T09:39:45.777815  export SHELL=3D/bin/sh
+    2023-06-06T09:39:45.778435  #
+    2023-06-06T09:39:45.879945  / # export SHELL=3D/bin/sh. /lava-968808/en=
 vironment
-    2023-06-06T10:14:30.193906  =
+    2023-06-06T09:39:45.880504  =
 
-    2023-06-06T10:14:30.295106  / # . /lava-968810/environment/lava-968810/=
-bin/lava-test-runner /lava-968810/1
-    2023-06-06T10:14:30.295665  =
+    2023-06-06T09:39:45.982046  / # . /lava-968808/environment/lava-968808/=
+bin/lava-test-runner /lava-968808/1
+    2023-06-06T09:39:45.982661  =
 
-    2023-06-06T10:14:30.298578  / # /lava-968810/bin/lava-test-runner /lava=
--968810/1 =
+    2023-06-06T09:39:45.986084  / # /lava-968808/bin/lava-test-runner /lava=
+-968808/1 =
 
     ... (12 line(s) more)  =
 
@@ -1826,7 +1710,7 @@ imx53-qsrb                   | arm    | lab-pengutronix | gcc-10   | multi_=
 v7_defc...CONFIG_SMP=3Dn | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f07e33f0285d91ef5de31
+  Details:     https://kernelci.org/test/plan/id/647f009dfa31185beff5de41
 
   Results:     5 PASS, 1 FAIL, 1 SKIP
   Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
@@ -1834,37 +1718,36 @@ v7_defc...CONFIG_SMP=3Dn | 1          =
 10110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-nfs-imx53-qsrb.txt
+onix/baseline-imx53-qsrb.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-nfs-imx53-qsrb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
+onix/baseline-imx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f07e33f0285d91ef5de3a
-        failing since 91 days (last pass: renesas-devel-2023-02-21-v6.2, fi=
-rst fail: renesas-devel-2023-03-06-v6.3-rc1)
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f009dfa31185beff5de4a
+        failing since 126 days (last pass: v6.1-rc8-929-g112502470f50, firs=
+t fail: renesas-devel-2023-01-30-v6.2-rc6)
 
-    2023-06-06T10:17:52.593168  + set +x
-    2023-06-06T10:17:52.593366  [   27.484382] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-968827_1.6.2.3.1>
-    2023-06-06T10:17:52.710679  #
-    2023-06-06T10:17:52.812391  / # #export SHELL=3D/bin/sh
-    2023-06-06T10:17:52.812694  =
-
-    2023-06-06T10:17:52.913850  / # export SHELL=3D/bin/sh. /lava-968827/en=
+    2023-06-06T09:46:47.518002  + set +x
+    2023-06-06T09:46:47.518207  [   12.189422] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+968822_1.5.2.3.1>
+    2023-06-06T09:46:47.625651  / # #
+    2023-06-06T09:46:47.727726  export SHELL=3D/bin/sh
+    2023-06-06T09:46:47.728165  #
+    2023-06-06T09:46:47.829444  / # export SHELL=3D/bin/sh. /lava-968822/en=
 vironment
-    2023-06-06T10:17:52.914220  =
+    2023-06-06T09:46:47.829978  =
 
-    2023-06-06T10:17:53.015433  / # . /lava-968827/environment/lava-968827/=
-bin/lava-test-runner /lava-968827/1
-    2023-06-06T10:17:53.016050  =
+    2023-06-06T09:46:47.931228  / # . /lava-968822/environment/lava-968822/=
+bin/lava-test-runner /lava-968822/1
+    2023-06-06T09:46:47.931841  =
 
-    2023-06-06T10:17:53.021164  / # /lava-968827/bin/lava-test-runner /lava=
--968827/1 =
+    2023-06-06T09:46:47.934752  / # /lava-968822/bin/lava-test-runner /lava=
+-968822/1 =
 
     ... (12 line(s) more)  =
 
@@ -1877,202 +1760,268 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defconfig+crypto    | 1          =
+v7_defconfig+ima       | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f022ea7c97d5be0f5de26
+  Details:     https://kernelci.org/test/plan/id/647efcf3511117c885f5de55
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
+ne-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+ima/gcc-10/lab-pengutronix/baseli=
+ne-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efcf3511117c885f5de5e
+        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5)
+
+    2023-06-06T09:31:08.293478  + set[   15.130776] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 968785_1.5.2.3.1>
+    2023-06-06T09:31:08.293694   +x
+    2023-06-06T09:31:08.400278  / # #
+    2023-06-06T09:31:08.501735  export SHELL=3D/bin/sh
+    2023-06-06T09:31:08.502223  #
+    2023-06-06T09:31:08.603383  / # export SHELL=3D/bin/sh. /lava-968785/en=
+vironment
+    2023-06-06T09:31:08.603855  =
+
+    2023-06-06T09:31:08.705169  / # . /lava-968785/environment/lava-968785/=
+bin/lava-test-runner /lava-968785/1
+    2023-06-06T09:31:08.705784  =
+
+    2023-06-06T09:31:08.708860  / # /lava-968785/bin/lava-test-runner /lava=
+-968785/1 =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efadcdc0f2cf5bef5de25
+
+  Results:     6 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-lenovo-TPad-C13-Yoga-zork.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
+ora/baseline-lenovo-TPad-C13-Yoga-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efadcdc0f2cf5bef5de2e
+        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
+, first fail: renesas-devel-2023-03-30-v6.3-rc4)
+
+    2023-06-06T09:22:30.047061  <8>[   11.900219] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603239_1.4.2.3.1>
+
+    2023-06-06T09:22:30.151819  / # #
+
+    2023-06-06T09:22:30.252444  export SHELL=3D/bin/sh
+
+    2023-06-06T09:22:30.252648  #
+
+    2023-06-06T09:22:30.353188  / # export SHELL=3D/bin/sh. /lava-10603239/=
+environment
+
+    2023-06-06T09:22:30.353443  =
+
+
+    2023-06-06T09:22:30.454037  / # . /lava-10603239/environment/lava-10603=
+239/bin/lava-test-runner /lava-10603239/1
+
+    2023-06-06T09:22:30.454354  =
+
+
+    2023-06-06T09:22:30.459475  / # /lava-10603239/bin/lava-test-runner /la=
+va-10603239/1
+
+    2023-06-06T09:22:30.466010  + export 'TESTRUN_ID=3D1_bootrr'
+ =
+
+    ... (11 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...ebook+amdgpu | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efd59f26c4c2ae3f5de26
+
+  Results:     6 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook+amdgpu
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
+-collabora/baseline-lenovo-TPad-C13-Yoga-zork.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
+-collabora/baseline-lenovo-TPad-C13-Yoga-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647efd59f26c4c2ae3f5de2f
+        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
+, first fail: renesas-devel-2023-03-30-v6.3-rc4)
+
+    2023-06-06T09:33:03.172025  <8>[   11.255294] <LAVA_SIGNAL_ENDRUN 0_dme=
+sg 10603485_1.4.2.3.1>
+
+    2023-06-06T09:33:03.276355  / # #
+
+    2023-06-06T09:33:03.377018  export SHELL=3D/bin/sh
+
+    2023-06-06T09:33:03.377222  #
+
+    2023-06-06T09:33:03.477714  / # export SHELL=3D/bin/sh. /lava-10603485/=
+environment
+
+    2023-06-06T09:33:03.477908  =
+
+
+    2023-06-06T09:33:03.578431  / # . /lava-10603485/environment/lava-10603=
+485/bin/lava-test-runner /lava-10603485/1
+
+    2023-06-06T09:33:03.578710  =
+
+
+    2023-06-06T09:33:03.583880  / # /lava-10603485/bin/lava-test-runner /la=
+va-10603485/1
+
+    2023-06-06T09:33:03.590049  + export 'TESTRUN_ID=3D1_bootrr'
+ =
+
+    ... (11 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
+_defcon...ok+kselftest | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647f0078f08da8f5ddf5de5a
+
+  Results:     6 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook+kselftest
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
+lab-collabora/baseline-lenovo-TPad-C13-Yoga-zork.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
+lab-collabora/baseline-lenovo-TPad-C13-Yoga-zork.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/x86/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/647f0078f08da8f5ddf5de63
+        failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
+, first fail: renesas-devel-2023-03-30-v6.3-rc4)
+
+    2023-06-06T09:46:29.185441  + <8>[   13.474202] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 10603744_1.4.2.3.1>
+
+    2023-06-06T09:46:29.185573  set +x
+
+    2023-06-06T09:46:29.290724  / # #
+
+    2023-06-06T09:46:29.391472  export SHELL=3D/bin/sh
+
+    2023-06-06T09:46:29.391677  #
+
+    2023-06-06T09:46:29.492152  / # export SHELL=3D/bin/sh. /lava-10603744/=
+environment
+
+    2023-06-06T09:46:29.492425  =
+
+
+    2023-06-06T09:46:29.593061  / # . /lava-10603744/environment/lava-10603=
+744/bin/lava-test-runner /lava-10603744/1
+
+    2023-06-06T09:46:29.593430  =
+
+
+    2023-06-06T09:46:29.598438  / # /lava-10603744/bin/lava-test-runner /la=
+va-10603744/1
+ =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+kselftest          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efc5a7ebcb4685cf5de49
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+crypto
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-nfs-imx6dl-riotboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-pengutronix/bas=
-eline-nfs-imx6dl-riotboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f022ea7c97d5be=
-0f5de27
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defc...MB2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f044a2893927b91f5ded9
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-nfs-imx6dl-riotboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/l=
-ab-pengutronix/baseline-nfs-imx6dl-riotboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f044a2893927b91f5dee2
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5)
-
-    2023-06-06T10:02:36.012588  + set[   27.464369] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 968786_1.6.2.3.1>
-    2023-06-06T10:02:36.012780   +x
-    2023-06-06T10:02:36.120634  #
-    2023-06-06T10:02:36.222483  / # #export SHELL=3D/bin/sh
-    2023-06-06T10:02:36.222979  =
-
-    2023-06-06T10:02:36.324264  / # export SHELL=3D/bin/sh. /lava-968786/en=
-vironment
-    2023-06-06T10:02:36.324817  =
-
-    2023-06-06T10:02:36.426380  / # . /lava-968786/environment/lava-968786/=
-bin/lava-test-runner /lava-968786/1
-    2023-06-06T10:02:36.427105  =
-
-    2023-06-06T10:02:36.429885  / # /lava-968786/bin/lava-test-runner /lava=
--968786/1 =
-
-    ... (12 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-imx6dl-riotboard             | arm    | lab-pengutronix | gcc-10   | multi_=
-v7_defc...CONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f083245115fd1bcf5de38
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-nfs-imx6dl-riotboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-pengutr=
-onix/baseline-nfs-imx6dl-riotboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f083245115fd1bcf5de41
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5)
-
-    2023-06-06T10:19:15.025111  + set[   27.795544] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 968823_1.6.2.3.1>
-    2023-06-06T10:19:15.025279   +x
-    2023-06-06T10:19:15.139020  #
-    2023-06-06T10:19:15.241027  / # #export SHELL=3D/bin/sh
-    2023-06-06T10:19:15.241666  =
-
-    2023-06-06T10:19:15.343025  / # export SHELL=3D/bin/sh. /lava-968823/en=
-vironment
-    2023-06-06T10:19:15.343509  =
-
-    2023-06-06T10:19:15.444819  / # . /lava-968823/environment/lava-968823/=
-bin/lava-test-runner /lava-968823/1
-    2023-06-06T10:19:15.446029  =
-
-    2023-06-06T10:19:15.448681  / # /lava-968823/bin/lava-test-runner /lava=
--968823/1 =
-
-    ... (12 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-kontron-sl28-var3-ads2       | arm64  | lab-kontron     | gcc-10   | defcon=
-fig+CON...OMIZE_BASE=3Dy | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f04742fda1c62fdf5de84
-
-  Results:     101 PASS, 2 FAIL, 1 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Full config: defconfig+kselftest
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kon=
-tron/baseline-nfs-kontron-sl28-var3-ads2.txt
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-collabora/baseline-=
+meson-g12b-a311d-khadas-vim3.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-kon=
-tron/baseline-nfs-kontron-sl28-var3-ads2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-collabora/baseline-=
+meson-g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.dmesg.crit: https://kernelci.org/test/case/id/647f04742fda=
-1c62fdf5de87
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5)
-        1 lines
-
-    2023-06-06T10:03:08.687891  / # =
-
-    2023-06-06T10:03:08.699773  =
-
-    2023-06-06T10:03:08.801567  / # export NFS_ROOTFS=3D'/var/lib/lava/disp=
-atcher/tmp/351339/extract-nfsrootfs-prujkqr6'
-    2023-06-06T10:03:08.808753  export NFS_ROOTFS=3D'/var/lib/lava/dispatch=
-er/tmp/351339/extract-nfsrootfs-prujkqr6'
-    2023-06-06T10:03:08.910104  / # export NFS_SERVER_IP=3D'10.228.65.1'
-    2023-06-06T10:03:08.920861  export NFS_SERVER_IP=3D'10.228.65.1'
-    2023-06-06T10:03:09.023403  / # #
-    2023-06-06T10:03:09.032700  #
-    2023-06-06T10:03:09.134305  / # export SHELL=3D/bin/sh
-    2023-06-06T10:03:09.144690  export SHELL=3D/bin/sh =
-
-    ... (13 line(s) more)  =
-
-
-  * baseline-nfs.dmesg.emerg: https://kernelci.org/test/case/id/647f04742fd=
-a1c62fdf5de89
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5)
-        2 lines
-
-    2023-06-06T10:03:09.640219  kern  :emerg : Internal error: Oops - BUG: =
-00000000f2000800 [#1] PREEMPT SMP
-    2023-06-06T10:03:09.640426  kern  :emerg : Code: b9449841 51000421 b904=
-9841 36ffff41 (d4210000) =
-
-    2023-06-06T10:03:09.640791  <8>[   14.707066] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Demerg RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D2>
-    2023-06-06T10:03:09.640911  + <8>[   14.717702] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 351339_1.6.2.4.1>   =
+  * baseline.login: https://kernelci.org/test/case/id/647efc5a7ebcb4685cf5d=
+e4a
+        failing since 105 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-20-v6.2) =
 
  =
 
@@ -2082,59 +2031,31 @@ platform                     | arch   | lab             | compiler | defcon=
 fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
-lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...6-chromebook | 1          =
+meson-gxl-s905x-libretech-cc | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+kselftest          | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efb0188ae7d29e7f5de3e
+  Details:     https://kernelci.org/test/plan/id/647efc1385f158451ef5de3d
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.txt
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-me=
+son-gxl-s905x-libretech-cc.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collab=
-ora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-me=
+son-gxl-s905x-libretech-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efb0188ae7d29e7f5de47
-        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
-
-    2023-06-06T09:23:01.798754  + set<8>[   17.807141] <LAVA_SIGNAL_ENDRUN =
-0_dmesg 10603226_1.5.2.3.1>
-
-    2023-06-06T09:23:01.798898   +x
-
-    2023-06-06T09:23:01.903916  / # #
-
-    2023-06-06T09:23:02.004671  export SHELL=3D/bin/sh
-
-    2023-06-06T09:23:02.004983  #
-
-    2023-06-06T09:23:02.105586  / # export SHELL=3D/bin/sh. /lava-10603226/=
-environment
-
-    2023-06-06T09:23:02.105807  =
-
-
-    2023-06-06T09:23:02.206307  / # . /lava-10603226/environment/lava-10603=
-226/bin/lava-test-runner /lava-10603226/1
-
-    2023-06-06T09:23:02.206587  =
-
-
-    2023-06-06T09:23:02.211625  / # /lava-10603226/bin/lava-test-runner /la=
-va-10603226/1
- =
-
-    ... (12 line(s) more)  =
+  * baseline.login: https://kernelci.org/test/case/id/647efc1385f158451ef5d=
+e3e
+        failing since 105 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-20-v6.2) =
 
  =
 
@@ -2144,122 +2065,31 @@ platform                     | arch   | lab             | compiler | defcon=
 fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
-lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...ebook+amdgpu | 1          =
+mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efd6f94f9a1f545f5de30
+  Details:     https://kernelci.org/test/plan/id/647f0033d16d9e00a7f5de76
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook+amdgpu
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.txt
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/lab=
--collabora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647efd6f94f9a1f545f5de39
-        failing since 67 days (last pass: renesas-devel-2023-03-27-v6.3-rc4=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
-
-    2023-06-06T09:33:14.342191  [   18.067630] <LAVA_SIGNAL_ENDRUN 0_dmesg =
-10603519_1.5.2.3.1>
-
-    2023-06-06T09:33:14.446634  / # #
-
-    2023-06-06T09:33:14.547208  export SHELL=3D/bin/sh
-
-    2023-06-06T09:33:14.547404  #
-
-    2023-06-06T09:33:14.647919  / # export SHELL=3D/bin/sh. /lava-10603519/=
-environment
-
-    2023-06-06T09:33:14.648109  =
-
-
-    2023-06-06T09:33:14.748627  / # . /lava-10603519/environment/lava-10603=
-519/bin/lava-test-runner /lava-10603519/1
-
-    2023-06-06T09:33:14.748931  =
-
-
-    2023-06-06T09:33:14.753600  / # /lava-10603519/bin/lava-test-runner /la=
-va-10603519/1
-
-    2023-06-06T09:33:14.803176  + export TESTRUN_ID=3D1_bootrr
- =
-
-    ... (11 line(s) more)  =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-lenovo-TPad-C13-Yoga-zork    | x86_64 | lab-collabora   | gcc-10   | x86_64=
-_defcon...ok+kselftest | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647f0091510f781176f5de32
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: x86_64_defconfig+x86-chromebook+kselftest
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/x86_64/x86_64_defconfig+x86-chromebook+kselftest/gcc-10/=
-lab-collabora/baseline-nfs-lenovo-TPad-C13-Yoga-zork.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/amd64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f0091510f781176f5de3b
-        failing since 67 days (last pass: renesas-devel-2023-03-16-v6.3-rc2=
-, first fail: renesas-devel-2023-03-30-v6.3-rc4)
-
-    2023-06-06T09:46:39.350887  + set +x<8>[   22.487945] <LAVA_SIGNAL_ENDR=
-UN 0_dmesg 10603769_1.5.2.3.1>
-
-    2023-06-06T09:46:39.350975  =
-
-
-    2023-06-06T09:46:39.458014  / # #
-
-    2023-06-06T09:46:39.558664  export SHELL=3D/bin/sh
-
-    2023-06-06T09:46:39.558883  #
-
-    2023-06-06T09:46:39.659409  / # export SHELL=3D/bin/sh. /lava-10603769/=
-environment
-
-    2023-06-06T09:46:39.659613  =
-
-
-    2023-06-06T09:46:39.760134  / # . /lava-10603769/environment/lava-10603=
-769/bin/lava-test-runner /lava-10603769/1
-
-    2023-06-06T09:46:39.760410  =
-
-
-    2023-06-06T09:46:39.765120  / # /lava-10603769/bin/lava-test-runner /la=
-va-10603769/1
- =
-
-    ... (12 line(s) more)  =
+  * baseline.login: https://kernelci.org/test/case/id/647f0033d16d9e00a7f5d=
+e77
+        failing since 112 days (last pass: renesas-devel-2023-01-30-v6.2-rc=
+6, first fail: renesas-devel-2023-02-13-v6.2-rc8) =
 
  =
 
@@ -2273,7 +2103,7 @@ mt8183-kukui-...uniper-sku16 | arm64  | lab-collabora   | gcc-10   | defcon=
 fig+arm...ook+videodec | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f035c3faac9df00f5de66
+  Details:     https://kernelci.org/test/plan/id/647f036953c0dc963ef5de35
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: defconfig+arm64-chromebook+videodec
@@ -2281,19 +2111,53 @@ fig+arm...ook+videodec | 1          =
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+labora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+labora/baseline-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f035c3faac9df0=
-0f5de67
+  * baseline.login: https://kernelci.org/test/case/id/647f036953c0dc963ef5d=
+e36
         failing since 27 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
 rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+mt8192-asurada-spherion-r0   | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647f0050bc77f3a99df5de58
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-mt8192-asurada-spherion-r0.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-mt8192-asurada-spherion-r0.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647f0050bc77f3a99df5d=
+e59
+        failing since 112 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-13-v6.2-rc8) =
 
  =
 
@@ -2307,7 +2171,7 @@ mt8192-asurada-spherion-r0   | arm64  | lab-collabora   | gcc-10   | defcon=
 fig+arm...ook+videodec | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f03603faac9df00f5de69
+  Details:     https://kernelci.org/test/plan/id/647f036953c0dc963ef5de31
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: defconfig+arm64-chromebook+videodec
@@ -2315,17 +2179,17 @@ fig+arm...ook+videodec | 1          =
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-mt8192-asurada-spherion-r0.txt
+labora/baseline-mt8192-asurada-spherion-r0.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
 023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-mt8192-asurada-spherion-r0.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+labora/baseline-mt8192-asurada-spherion-r0.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f03603faac9df0=
-0f5de6a
+  * baseline.login: https://kernelci.org/test/case/id/647f036953c0dc963ef5d=
+e32
         failing since 27 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
 rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
 
@@ -2337,60 +2201,266 @@ platform                     | arch   | lab             | compiler | defcon=
 fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
+qemu_arm64-virt-gicv3-uefi   | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+debug              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647f020c3e58c55405f5de39
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+debug
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+debug/gcc-10/lab-collabora/baseline-qemu=
+_arm64-virt-gicv3-uefi.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+debug/gcc-10/lab-collabora/baseline-qemu=
+_arm64-virt-gicv3-uefi.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647f020c3e58c55405f5d=
+e3a
+        new failure (last pass: renesas-devel-2023-06-02-v6.4-rc4) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+qemu_mips-malta              | mips   | lab-collabora   | gcc-10   | malta_=
+defconfig              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efde72831e0f550f5de50
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: malta_defconfig
+  Compiler:    gcc-10 (mips-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/mips/malta_defconfig/gcc-10/lab-collabora/baseline-qemu_=
+mips-malta.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/mips/malta_defconfig/gcc-10/lab-collabora/baseline-qemu_=
+mips-malta.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/mipsel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647efde72831e0f550f5d=
+e51
+        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+rk3288-rock2-square          | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647f007fc210a0e439f5de51
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-rock2-square.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647f007fc210a0e439f5d=
+e52
+        failing since 154 days (last pass: renesas-devel-2022-12-12-v6.1, f=
+irst fail: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+rk3288-veyron-jaq            | arm    | lab-collabora   | gcc-10   | multi_=
+v7_defc...G_ARM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647eff3f6f3ca60b8ff5de25
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3D=
+y/gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/armel/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647eff3f6f3ca60b8ff5d=
+e26
+        failing since 154 days (last pass: renesas-devel-2022-12-12-v6.1, f=
+irst fail: renesas-devel-2023-01-02-v6.2-rc2) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+rk3399-gru-kevin             | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+arm...ok+kselftest | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647f002900a0688c52f5df31
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647f002900a0688c52f5d=
+f32
+        failing since 112 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-13-v6.2-rc8) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+rk3399-rock-pi-4b            | arm64  | lab-collabora   | gcc-10   | defcon=
+fig+kselftest          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efc07d7a9497431f5dec0
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-collabora/baseline-=
+rk3399-rock-pi-4b.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-collabora/baseline-=
+rk3399-rock-pi-4b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647efc07d7a9497431f5d=
+ec1
+        failing since 105 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-20-v6.2) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
 sc7180-trogdo...zor-limozeen | arm64  | lab-collabora   | gcc-10   | defcon=
-fig+arm...ook+videodec | 1          =
+fig+arm...ok+kselftest | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f02755c5a310155f5de30
+  Details:     https://kernelci.org/test/plan/id/647f019561cf4b54b7f5de70
 
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: defconfig+arm64-chromebook+videodec
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook+kselftest
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-sc7180-trogdor-lazor-limozeen.txt
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-sc7180-trogdor-lazor-limozeen.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+videodec/gcc-10/lab-col=
-labora/baseline-nfs-sc7180-trogdor-lazor-limozeen.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+arm64-chromebook+kselftest/gcc-10/lab-co=
+llabora/baseline-sc7180-trogdor-lazor-limozeen.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/647f02755c5a310155f5de39
-        failing since 14 days (last pass: renesas-devel-2023-05-09-v6.4-rc1=
-, first fail: renesas-devel-2023-05-22-v6.4-rc3)
+  * baseline.login: https://kernelci.org/test/case/id/647f019561cf4b54b7f5d=
+e71
+        failing since 112 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-13-v6.2-rc8) =
 
-    2023-06-06T09:54:51.243175  + set +x
-
-    2023-06-06T09:54:51.249362  <8>[   30.698269] <LAVA_SIGNAL_ENDRUN 0_dme=
-sg 10603850_1.6.2.3.1>
-
-    2023-06-06T09:54:51.353984  / # #
-
-    2023-06-06T09:54:51.454674  export SHELL=3D/bin/sh
-
-    2023-06-06T09:54:51.454877  #
-
-    2023-06-06T09:54:51.555448  / # export SHELL=3D/bin/sh. /lava-10603850/=
-environment
-
-    2023-06-06T09:54:51.555638  =
-
-
-    2023-06-06T09:54:51.656201  / # . /lava-10603850/environment/lava-10603=
-850/bin/lava-test-runner /lava-10603850/1
-
-    2023-06-06T09:54:51.656492  =
-
-
-    2023-06-06T09:54:51.662488  / # /lava-10603850/bin/lava-test-runner /la=
-va-10603850/1
  =
 
-    ... (12 line(s) more)  =
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+sun50i-a64-pine64-plus       | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+kselftest          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647efda399128ba471f5de25
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+kselftest
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-su=
+n50i-a64-pine64-plus.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-su=
+n50i-a64-pine64-plus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647efda399128ba471f5d=
+e26
+        failing since 105 days (last pass: renesas-devel-2023-02-06-v6.2-rc=
+7, first fail: renesas-devel-2023-02-20-v6.2) =
 
  =
 
@@ -2401,63 +2471,30 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig+crypto             | 1          =
+fig+kselftest          | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647efdcbae7d73ce17f5de5a
+  Details:     https://kernelci.org/test/plan/id/647efc8a9f53ccb0e6f5de87
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+crypto
+  Full config: defconfig+kselftest
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-nfs-s=
-un50i-h5-libretech-all-h3-cc.txt
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-su=
+n50i-h5-libretech-all-h3-cc.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-nfs-s=
-un50i-h5-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+kselftest/gcc-10/lab-broonie/baseline-su=
+n50i-h5-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647efdcbae7d73ce1=
-7f5de5b
-        new failure (last pass: renesas-devel-2023-04-17-v6.3-rc7) =
-
- =
-
-
-
-platform                     | arch   | lab             | compiler | defcon=
-fig                    | regressions
------------------------------+--------+-----------------+----------+-------=
------------------------+------------
-sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig                    | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/647eff6f6aac5a12fff5ded0
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-sun50i-h=
-5-libretech-all-h3-cc.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-sun50i-h=
-5-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647eff6f6aac5a12f=
-ff5ded1
-        failing since 0 day (last pass: renesas-devel-2023-05-22-v6.4-rc3, =
-first fail: renesas-devel-2023-06-05-v6.4-rc5) =
+  * baseline.login: https://kernelci.org/test/case/id/647efc8a9f53ccb0e6f5d=
+e88
+        failing since 91 days (last pass: renesas-devel-2023-02-06-v6.2-rc7=
+, first fail: renesas-devel-2023-03-06-v6.3-rc1) =
 
  =
 
@@ -2471,25 +2508,25 @@ sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
 fig+ima                | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f00ecf06d7a9991f5de2f
+  Details:     https://kernelci.org/test/plan/id/647efd04511117c885f5de9a
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: defconfig+ima
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+ima/gcc-10/lab-broonie/baseline-nfs-sun5=
-0i-h5-libretech-all-h3-cc.txt
+023-06-06-v6.4-rc5/arm64/defconfig+ima/gcc-10/lab-broonie/baseline-sun50i-h=
+5-libretech-all-h3-cc.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+ima/gcc-10/lab-broonie/baseline-nfs-sun5=
-0i-h5-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+ima/gcc-10/lab-broonie/baseline-sun50i-h=
+5-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f00ecf06d7a999=
-1f5de30
+  * baseline.login: https://kernelci.org/test/case/id/647efd04511117c885f5d=
+e9b
         new failure (last pass: renesas-devel-2023-05-22-v6.4-rc3) =
 
  =
@@ -2501,28 +2538,61 @@ fig                    | regressions
 -----------------------------+--------+-----------------+----------+-------=
 -----------------------+------------
 sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
-fig+CON...OMIZE_BASE=3Dy | 1          =
+fig+crypto             | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/647f02a424ebd31387f5de34
+  Details:     https://kernelci.org/test/plan/id/647efd5311678b07adf5de29
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Full config: defconfig+crypto
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-bro=
-onie/baseline-nfs-sun50i-h5-libretech-all-h3-cc.txt
+023-06-06-v6.4-rc5/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-sun50=
+i-h5-libretech-all-h3-cc.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-06-06-v6.4-rc5/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-bro=
-onie/baseline-nfs-sun50i-h5-libretech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230527.0/arm64/initrd.cpio.gz =
+023-06-06-v6.4-rc5/arm64/defconfig+crypto/gcc-10/lab-broonie/baseline-sun50=
+i-h5-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/647f02a424ebd3138=
-7f5de35
+  * baseline.login: https://kernelci.org/test/case/id/647efd5311678b07adf5d=
+e2a
+        new failure (last pass: renesas-devel-2023-05-30-v6.4-rc4) =
+
+ =
+
+
+
+platform                     | arch   | lab             | compiler | defcon=
+fig                    | regressions
+-----------------------------+--------+-----------------+----------+-------=
+-----------------------+------------
+sun50i-h5-lib...ch-all-h3-cc | arm64  | lab-broonie     | gcc-10   | defcon=
+fig+videodec           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/647effd3c829b40d8bf5de29
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+videodec
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+videodec/gcc-10/lab-broonie/baseline-sun=
+50i-h5-libretech-all-h3-cc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-06-v6.4-rc5/arm64/defconfig+videodec/gcc-10/lab-broonie/baseline-sun=
+50i-h5-libretech-all-h3-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/647effd3c829b40d8bf5d=
+e2a
         new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
 
  =20
