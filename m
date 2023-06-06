@@ -2,197 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBCD8723C67
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 10:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6283C723C96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 11:10:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236220AbjFFI71 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 04:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
+        id S231259AbjFFJKH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 05:10:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbjFFI70 (ORCPT
+        with ESMTP id S230482AbjFFJKG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 04:59:26 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2137.outbound.protection.outlook.com [40.107.114.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B14E49;
-        Tue,  6 Jun 2023 01:59:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k1vxuBGrVMf3rELs7XuWUPPeOun0tFAVSCgjrYfXMawPb+S7yxULBMi0tLJ6F4Py5L2+BGTVtKXVjW+dgQtVHKJFJD09YDhN6U/u77AlkrU19QTk8GycgQaWqrAxld/9PTpzL3kewhyvEDP2Sq1hVD2dpzHi+LDpFxZtb0lOhoaP+EpgAu1xydaOhVYf5AnV1OHb3C1MTL5DuYp1YSA9bZnW/qpc5hBzJtV0Ai4up0GeH1nftx56Hy8G/FOjCyEdRMDRm4iMFfGAPgY+ZWMlz0F5TqsAeAmN3PuCSyW5MPxYviy44KHPpbApk0NoAihyb0dbPCZ3PQ0t5H0YxvaV9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kmQA9EYFeoVP4XzA0QbzFGKzSAYFgJ0ijPCcwpqKOog=;
- b=F7bquGKD5mkwNEssRg1MxCzkJJuz1Uyo4PPQs0KRFzzUyF+S/RWYC8v9/mj0OKF7BckgX3XuXVK9w8h2It2JinvExMQUvXk6n47zqs9DL1nfd9nFg0T8H6WMh2QjnnLPyms1KGKoFLmYSD5q6zGOTR47tHQmg5b0aWDAo1M/hlmAfSlBCZw6XwRV2S5kt4GX5821hSZhFQ+qPvVjo4Bx6PL5L8UAgG2KSEyRBAi3nZJb6pcZlEKMUmf9H3A/WElOS6SJBbSHF4fMIwQJERifiho0KbsvHMFz2LZrbKdhsXk/ASf30rflSlQR9nRBd44om2pCP1i08/ZS7QbajLupcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kmQA9EYFeoVP4XzA0QbzFGKzSAYFgJ0ijPCcwpqKOog=;
- b=Z1+FWmjbVCzUHibsmK2HZL8ZBQa0M3NymUo7ZnfK/dvFS3Y28MNioe0Rvb/nxcGIkM7wzEvfM86mMIL14swmyoczAYVDP8fi7164ZSaMHMwElsav/XEfZYWzzpI99B/1dvH3tLZUzwzo9FFolsh2VRGg46B/Q/N5ocqMCFejZas=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYCPR01MB8613.jpnprd01.prod.outlook.com
- (2603:1096:400:152::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Tue, 6 Jun
- 2023 08:59:22 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::711d:f870:2e08:b6e1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
- 08:59:22 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Simon Horman <simon.horman@corigine.com>
-CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
- limiter
-Thread-Topic: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
- limiter
-Thread-Index: AQHZkgTPigbr2NDJIU2hZvqbiDJN569zNgeAgApPegA=
-Date:   Tue, 6 Jun 2023 08:59:21 +0000
-Message-ID: <TYBPR01MB5341ED437E01EBC646BCC85FD852A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230529080840.1156458-1-yoshihiro.shimoda.uh@renesas.com>
- <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
- <ZHZOkTChN5pAl417@corigine.com>
-In-Reply-To: <ZHZOkTChN5pAl417@corigine.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB8613:EE_
-x-ms-office365-filtering-correlation-id: 96b2e917-cabf-413c-5a13-08db666c51f4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Tia5pb5ZnM30zakXgRPWLNxJKBZeagQaWwdd5vhYj+KjYVhe6dbdBPwJKrAfKyf2K7LEjowD0yDiktdVa8DK2ehDjdQN11l22EnNfthr5/5jjmOrUcYStcR/DVo7jImc0zn4BvRH7bGjPW8mZvxIPjcrJLiLMM+hsfnmLh5F1okqcZhWJs/uSiX6Q1rwmzEKaqu1AbMUjeUiDTvO2lLyiA0gIykDQEQG+/0mRTw2AITIXTCSCnyhFrt1hUzK0OD8M0WcCEFfBbf1Ri0aMQhsP90YblHtTC36eovgN9N9jMzCVvJM3mBknn7rKUySDNHBIdHqTa7W9eM1N2UGXrlz9j8tvsiybLaSOdRCDSptWQzwEmv4l6qVBPtX+IcxTPavdXLbeTLrNbJPq+U//WYY8mbk3XUtHAmKw4F9LGLu4AaJGLHsvs4C8owQ3E72bJ0zx3iaU3/LzVy3AC0CCM2CAiMSCOV535s2YZhprDUB6t7pzTCXyaSWtptrplqVWOdxwZQSw6Wqn/BiC/fzFWOUv8SxR8tAVDaOFrgDS7Yiq6jU1N72sXMhtrdlvMeDZEqXn5/3+C50SdcL/tIjukT6F7wiupY3teUw6uQaBJZJ2nA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(451199021)(6506007)(9686003)(38100700002)(41300700001)(83380400001)(966005)(186003)(7696005)(71200400001)(478600001)(54906003)(55016003)(64756008)(122000001)(66446008)(66556008)(66476007)(4326008)(316002)(52536014)(66946007)(76116006)(6916009)(7416002)(5660300002)(8676002)(33656002)(86362001)(8936002)(38070700005)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AZ/+nBSxmcMrKxiihXfOAvsTLSeE9dvBTjBsFpujJNPuZ2AXhdrUsi/9wEPY?=
- =?us-ascii?Q?kILz2x4PpPIEQ7etJcOg1r9vNG7HOXd77bgDoWI3cMF6fe5ar0jxU73cHGnq?=
- =?us-ascii?Q?yPbN8t2XX/1AfQ7CbobduupZ2gbzKlNYWjRCkDwYpT9al7aZRsIvGUtBIoTV?=
- =?us-ascii?Q?jS7uPzpGNqxt6edgq8DHa6A4VbIxtPHfzFXJ+pNaQOnuwHg1l4HbIoQF72hP?=
- =?us-ascii?Q?joHDtk/f+6fpVeauCxw85USPc7Rn1nbXo62+hiZeYlN5/Cod07raLDneqe8x?=
- =?us-ascii?Q?1IGOz8/ayWBJfvaQ7j5amTsT8u5scrAkXxYsnqsq89Nxu8nODaz7pgp+hKgv?=
- =?us-ascii?Q?MlbCTENKSN3pPUMhRkSou8tMgTk9H99KI7UdIPwam9qbApcEKxBXwJMQhohk?=
- =?us-ascii?Q?jdMC1+PBfRFPFg3henECNYl5lxfg8QKgvMnAaPlcfzUESkR5MqBsx86yhxvb?=
- =?us-ascii?Q?bN+ny32VK++y8HHHELZt+Yojpfv+mLiyEq2/RmXaxmS+CPQnVBrHQ64SBsTs?=
- =?us-ascii?Q?bvaemfENYMtSDtb2+PFwITLbJxOH+PYnYbr3p/OaTAZnCV+H/VD92WdCRmJy?=
- =?us-ascii?Q?cHtyZEZ8fzd6r+/PaQzqiOHINhhhO1jNGm9e54+0vRm/GbYgx8NQaPfnabUU?=
- =?us-ascii?Q?+piaOoWv5eGLRljxRC0Vtg7TU4acQZFmlB8cWO5RAt97ozRBx4E73aCUg/Nv?=
- =?us-ascii?Q?IsCMKBOOMEV5h3WI5ifOa0UUMdfzmaD1nH2bm8PBDoYo6C0srwvXnWD/j8ql?=
- =?us-ascii?Q?FjzciGRMqt8pbMvYGfBjZ7s1xHf2DCGwBns3+j2G6CX6lIX0RWJKDe5buDK9?=
- =?us-ascii?Q?dkSHqz/A2/c6GItBko3F4CbicJ/6Wp0HNIU2E11TS3CS6iuuVujsgWJcsXTr?=
- =?us-ascii?Q?qzwsDJ32C+isLgMV6xeion0XQ5+6JXt61Fw+lEqWVJx0c9eruY+4ikAVP3/y?=
- =?us-ascii?Q?4Ro4A2zmp9WEHW7ymTNkOGpCAQ4I0vJpwUOMwo9oAdKQomXHmc8ST/fjPIDP?=
- =?us-ascii?Q?Hoa9VcLk4q6e7pib/3E0XTICMk3b24FLXeJlC/lsPuKsEpJEMDUT10FrCnzq?=
- =?us-ascii?Q?iKPvkQD/Limvk2dIgaNa7SlICqwlyWrlqVvdiv6tpmaU8J5jvm4QeQjA5yVj?=
- =?us-ascii?Q?Ri29xo6Rk8wrUlrXgB+VxhFgsXbzTGl/mmIgEGaaRo9hK6qwV9TDwU5yPRVj?=
- =?us-ascii?Q?LdclhKpqmQng5+pFTr3jxIeWZfbba7+hvgkR5277Yk1q8N+WWwmvJLIb6bke?=
- =?us-ascii?Q?e3xZN00/HDwZ7IM+UUD7+LjaK+DLr0bkhLnYgMx4dSarkoxkEjT+3o1kxacT?=
- =?us-ascii?Q?qL/PppSps0IRpBr2kU4bLNQAeE2WaTxYUx5uLXfbKVCsWG4QmEBCeEQbrzuE?=
- =?us-ascii?Q?qbztHj5hNaID0fiJKsjKe884EYwMTP0rlATugvhWkuLAtrqxkk0uy7qB3+bY?=
- =?us-ascii?Q?/VBnfs2sDDOhc6NkPDyq4uKB1RwJOA2YaNE+dZOoWC686CuNxCCE5VUbHErx?=
- =?us-ascii?Q?AV7m/72U7iYO0TVd1TiRjEF+Uiio5lgQBmJkGfiHpC8sGvSCG/pFL6ZZgMy6?=
- =?us-ascii?Q?v7hcQeX46/j/g2hVwR/w+WBRv6IJuxbD4+37YcJgqRXv8y6wUIwVifD3JNjj?=
- =?us-ascii?Q?ZIosCt69QvgW8jySQPO2QKRYgMCFUDDDplHAVlfc3pKVJRUBAXaiomNg2ojr?=
- =?us-ascii?Q?VlYfbQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 6 Jun 2023 05:10:06 -0400
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE934100;
+        Tue,  6 Jun 2023 02:10:05 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-33b0bfb76cfso24356305ab.2;
+        Tue, 06 Jun 2023 02:10:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686042605; x=1688634605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JsblPXknZ5GIdBcvT6axVzmA1IISIV/7YdlNXuNCOIg=;
+        b=aXftCyN5vDj6Yk+E/L3vX1CmRx1jVHRWP0GWPUaxZ3qxKNS+JLTHs7GOAriMI/kilj
+         akvPfHM0L/O/ezCAkaKRA3TExqGYWQxi7dZFNnc6R3Fg/6VU+Xw40p5k4BSx/dFC84xh
+         XBG99gRsZ+UOgthiVWF9HCWR56HtTZ3OJqPzDjJy6v3gu3a8Q2eZuj4hXlSHmWtLr9hd
+         IjONJBQ2b0UF72PQU6t1SdfkXZxaFALX9EUE1GGxSfINY9EyhWZ8j7vWMX8jibzjwASX
+         C2jT8qzTXghJ/3cZ3tRW/upG8OZ84/+HvkKxGAfcQwtZVE/vqfiI2bXhkmLF8blBxBM4
+         9JMg==
+X-Gm-Message-State: AC+VfDyfaBCzAhHEOVX2mzvtbDTaUhoNDrNRpL3Bk4VC1vPcvQ08CIlo
+        9TryqlEPASyRpTJlGynOszmn2NWtv2/MTQ==
+X-Google-Smtp-Source: ACHHUZ5wh3jLQizgP0cwlJNWSdX88FVpA2JFJ/P2XluCzNQUJglNSRg+QbKrnfRGScboTFf92K5Aeg==
+X-Received: by 2002:a92:ce46:0:b0:33c:b395:a898 with SMTP id a6-20020a92ce46000000b0033cb395a898mr1460748ilr.18.1686042604901;
+        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com. [209.85.166.54])
+        by smtp.gmail.com with ESMTPSA id c6-20020a92cf06000000b0033aa769d1a9sm2962156ilo.72.2023.06.06.02.10.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-77499bf8e8bso228187139f.0;
+        Tue, 06 Jun 2023 02:10:04 -0700 (PDT)
+X-Received: by 2002:a0d:df90:0:b0:55a:26cf:33e with SMTP id
+ i138-20020a0ddf90000000b0055a26cf033emr1300837ywe.42.1686042115920; Tue, 06
+ Jun 2023 02:01:55 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96b2e917-cabf-413c-5a13-08db666c51f4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2023 08:59:22.0268
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WjN4MNe4RxdSZ/y5AUN1Wv/FDEW5Q04CWvMvjU56Xna4vp1TNecBAxJReFrB6SgwSYdQnrqsV8UFV822rvCHVaYHZpbFAeWjaHEPMemc1sYCvvJz8odvRsT25Wp0VOOk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8613
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <CA+G9fYv0a-XxXfG6bNuPZGT=fzjtEfRGEYwk3n6M1WhEHUPo9g@mail.gmail.com>
+ <CA+G9fYueN0xti1SDtYVZstPt104sUj06GfOzyqDNrd3s3xXBkA@mail.gmail.com>
+In-Reply-To: <CA+G9fYueN0xti1SDtYVZstPt104sUj06GfOzyqDNrd3s3xXBkA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 6 Jun 2023 11:01:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
+Message-ID: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
+Subject: Re: arm: shmobile_defconfig: ld.lld: error: undefined symbol: lynx_pcs_destroy
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     open list <linux-kernel@vger.kernel.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        lkft-triage@lists.linaro.org,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Netdev <netdev@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon-san,
+Hi Naresh,
 
-> From: Simon Horman, Sent: Wednesday, May 31, 2023 4:29 AM
->=20
-> On Mon, May 29, 2023 at 05:08:40PM +0900, Yoshihiro Shimoda wrote:
-> > Use per-queue rate limiter instead of global rate limiter. Otherwise
-> > TX performance will be low when we use multiple ports at the same time.
+On Tue, Jun 6, 2023 at 10:53 AM Naresh Kamboju
+<naresh.kamboju@linaro.org> wrote:
+> On Tue, 6 Jun 2023 at 14:17, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+> > Following build regressions found while building arm shmobile_defconfig on
+> > Linux next-20230606.
 > >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/net/ethernet/renesas/rswitch.c | 51 +++++++++++++++++---------
-> >  drivers/net/ethernet/renesas/rswitch.h | 15 +++++++-
-> >  2 files changed, 47 insertions(+), 19 deletions(-)
+> > Regressions found on arm:
 > >
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ether=
-net/renesas/rswitch.c
-> > index 4ae34b0206cd..a7195625a2c7 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch.c
-> > +++ b/drivers/net/ethernet/renesas/rswitch.c
-> > @@ -156,22 +156,31 @@ static int rswitch_gwca_axi_ram_reset(struct rswi=
-tch_private *priv)
-> >  	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR=
-);
-> >  }
-> >
-> > -static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, =
-int rate)
-> > +static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv,
-> > +					struct rswitch_gwca_queue *txq)
-> >  {
-> > -	u32 gwgrlulc, gwgrlc;
-> > +	u64 period_ps;
-> > +	unsigned long rate;
-> > +	u32 gwrlc;
->=20
-> Hi Shimoda-san,
->=20
-> a minor not from my side: please use reverse xmas tree order - longest li=
-ne
-> to shortest - for local variable declarations in networking code.
->=20
-> 	unsigned long rate;
-> 	u64 period_ps;
-> 	u32 gwrlc;
+> >  - build/clang-16-shmobile_defconfig
+> >  - build/gcc-8-shmobile_defconfig
+> >  - build/gcc-12-shmobile_defconfig
+> >  - build/clang-nightly-shmobile_defconfig
+>
+> And mips defconfig builds failed.
+> Regressions found on mips:
+>
+>   - build/clang-16-defconfig
+>   - build/gcc-12-defconfig
+>   - build/gcc-8-defconfig
+>   - build/clang-nightly-defconfig
 
-Thank you for your comment! I completely forgot that network driver should =
-use
-reverse xmas tree order...
+Please give my fix a try:
+https://lore.kernel.org/linux-renesas-soc/7b36ac43778b41831debd5c30b5b37d268512195.1686039915.git.geert+renesas@glider.be
 
-JFYI, I found another way to improve the performance. So, I dropped this pa=
-tch on v2 [1].
+Thanks!
 
-[1] https://lore.kernel.org/all/20230606085558.1708766-1-yoshihiro.shimoda.=
-uh@renesas.com/
+Gr{oetje,eeting}s,
 
-Best regards,
-Yoshihiro Shimoda
+                        Geert
 
-> --
-> pw-bot: cr
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
