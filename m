@@ -2,74 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B82A723AA4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 09:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 262C6723BBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 10:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235004AbjFFHyN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 03:54:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59132 "EHLO
+        id S237132AbjFFI3D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 04:29:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232848AbjFFHx6 (ORCPT
+        with ESMTP id S237142AbjFFI2r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 03:53:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C0E1706
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 00:50:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EDFBC62551
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 07:50:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 64B62C433EF
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 07:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686037821;
-        bh=4QNGC6J044wa72hB6FwJQo10CQ/veOycpL1rpNrFU10=;
-        h=Subject:From:Date:To:From;
-        b=KtKmfxr38nfHwl7wd1w0WwpSuTohTaem341uv5439jDh4Kis3VupBqmXs4Cc+5VYK
-         nB7rrsffDW/nhiJGK90xUzZxfPi1sE7UEdo8xg7Kx5iSEn9TzOprGe5WKc/uBAFf+L
-         MlU7gsi6lcpZ2TA+6kYS/NhqX3X7sWdTHsmeX6mzFbML4MeS388677jeLNN/KjMCRf
-         sfI8E8cVtEWtuvd0HZZecSRvKNahnQ0uStF0K0tgAMvnY0v648Sd3YerVFlRVkvs4J
-         5z+UAF0XfALKHeb1ydDvaJ4UhUWCbFeh5S3pFvBGD2QKD9mDeNDz2e0gn6caDwr6gr
-         qmywLOfCSuX/A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 470ACE8722F
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 07:50:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 6 Jun 2023 04:28:47 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B8C1BD4
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 01:27:28 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a3e8:6562:a823:d832])
+        by laurent.telenet-ops.be with bizsmtp
+        id 5kT42A00H1Tjf1k01kT4vb; Tue, 06 Jun 2023 10:27:13 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q6S1b-004GxN-Ly;
+        Tue, 06 Jun 2023 10:27:04 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q6S1w-00Awvw-EK;
+        Tue, 06 Jun 2023 10:27:04 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Simon Horman <simon.horman@corigine.com>
+Cc:     netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] net: stmmac: Fix build without PCS_LYNX
+Date:   Tue,  6 Jun 2023 10:27:01 +0200
+Message-Id: <7b36ac43778b41831debd5c30b5b37d268512195.1686039915.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <168603782122.3027.1676512978179347021.git-patchwork-summary@kernel.org>
-Date:   Tue, 06 Jun 2023 07:50:21 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+If STMMAC_ETH=y, but PCS_LYNX=n (e.g. shmobile_defconfig):
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+    arm-linux-gnueabihf-ld: drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.o: in function `stmmac_mdio_unregister':
+    stmmac_mdio.c:(.text+0xfbc): undefined reference to `lynx_pcs_destroy'
 
-Series: iopoll: Busy loop and timeout improvements + conversions
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=753420
-  Lore link: https://lore.kernel.org/r/cover.1685692810.git.geert+renesas@glider.be
-    Patches: [v3,1/7] iopoll: Call cpu_relax() in busy loops
-             [v3,6/7] soc: renesas: rmobile-sysc: Convert to readl_poll_timeout_atomic()
+As pcs_lynx is used only on dwmac_socfpga, fix this by adding a check
+for PCS_LYNX to the cleanup path in the generic driver.
 
+Fixes: 5d1f3fe7d2d54d04 ("net: stmmac: dwmac-sogfpga: use the lynx pcs driver")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Total patches: 2
-
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+index c784a6731f08e108..53ed59d732210814 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+@@ -665,7 +665,7 @@ int stmmac_mdio_unregister(struct net_device *ndev)
+ 	if (priv->hw->xpcs)
+ 		xpcs_destroy(priv->hw->xpcs);
+ 
+-	if (priv->hw->lynx_pcs)
++	if (IS_ENABLED(CONFIG_PCS_LYNX) && priv->hw->lynx_pcs)
+ 		lynx_pcs_destroy(priv->hw->lynx_pcs);
+ 
+ 	mdiobus_unregister(priv->mii);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
