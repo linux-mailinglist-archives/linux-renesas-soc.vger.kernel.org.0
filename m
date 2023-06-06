@@ -2,192 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 340BA723C50
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 10:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBCD8723C67
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jun 2023 10:59:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236138AbjFFI4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 04:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
+        id S236220AbjFFI71 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 04:59:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237366AbjFFI4L (ORCPT
+        with ESMTP id S230499AbjFFI70 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 04:56:11 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24547E62;
-        Tue,  6 Jun 2023 01:56:05 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.00,219,1681138800"; 
-   d="scan'208";a="165927366"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Jun 2023 17:56:04 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 34B7441A061A;
-        Tue,  6 Jun 2023 17:56:04 +0900 (JST)
+        Tue, 6 Jun 2023 04:59:26 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2137.outbound.protection.outlook.com [40.107.114.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B14E49;
+        Tue,  6 Jun 2023 01:59:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k1vxuBGrVMf3rELs7XuWUPPeOun0tFAVSCgjrYfXMawPb+S7yxULBMi0tLJ6F4Py5L2+BGTVtKXVjW+dgQtVHKJFJD09YDhN6U/u77AlkrU19QTk8GycgQaWqrAxld/9PTpzL3kewhyvEDP2Sq1hVD2dpzHi+LDpFxZtb0lOhoaP+EpgAu1xydaOhVYf5AnV1OHb3C1MTL5DuYp1YSA9bZnW/qpc5hBzJtV0Ai4up0GeH1nftx56Hy8G/FOjCyEdRMDRm4iMFfGAPgY+ZWMlz0F5TqsAeAmN3PuCSyW5MPxYviy44KHPpbApk0NoAihyb0dbPCZ3PQ0t5H0YxvaV9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kmQA9EYFeoVP4XzA0QbzFGKzSAYFgJ0ijPCcwpqKOog=;
+ b=F7bquGKD5mkwNEssRg1MxCzkJJuz1Uyo4PPQs0KRFzzUyF+S/RWYC8v9/mj0OKF7BckgX3XuXVK9w8h2It2JinvExMQUvXk6n47zqs9DL1nfd9nFg0T8H6WMh2QjnnLPyms1KGKoFLmYSD5q6zGOTR47tHQmg5b0aWDAo1M/hlmAfSlBCZw6XwRV2S5kt4GX5821hSZhFQ+qPvVjo4Bx6PL5L8UAgG2KSEyRBAi3nZJb6pcZlEKMUmf9H3A/WElOS6SJBbSHF4fMIwQJERifiho0KbsvHMFz2LZrbKdhsXk/ASf30rflSlQR9nRBd44om2pCP1i08/ZS7QbajLupcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmQA9EYFeoVP4XzA0QbzFGKzSAYFgJ0ijPCcwpqKOog=;
+ b=Z1+FWmjbVCzUHibsmK2HZL8ZBQa0M3NymUo7ZnfK/dvFS3Y28MNioe0Rvb/nxcGIkM7wzEvfM86mMIL14swmyoczAYVDP8fi7164ZSaMHMwElsav/XEfZYWzzpI99B/1dvH3tLZUzwzo9FFolsh2VRGg46B/Q/N5ocqMCFejZas=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYCPR01MB8613.jpnprd01.prod.outlook.com
+ (2603:1096:400:152::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Tue, 6 Jun
+ 2023 08:59:22 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::711d:f870:2e08:b6e1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
+ 08:59:22 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v2 2/2] net: renesas: rswitch: Use hardware pause features
-Date:   Tue,  6 Jun 2023 17:55:58 +0900
-Message-Id: <20230606085558.1708766-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230606085558.1708766-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230606085558.1708766-1-yoshihiro.shimoda.uh@renesas.com>
+To:     Simon Horman <simon.horman@corigine.com>
+CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
+ limiter
+Thread-Topic: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
+ limiter
+Thread-Index: AQHZkgTPigbr2NDJIU2hZvqbiDJN569zNgeAgApPegA=
+Date:   Tue, 6 Jun 2023 08:59:21 +0000
+Message-ID: <TYBPR01MB5341ED437E01EBC646BCC85FD852A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20230529080840.1156458-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
+ <ZHZOkTChN5pAl417@corigine.com>
+In-Reply-To: <ZHZOkTChN5pAl417@corigine.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB8613:EE_
+x-ms-office365-filtering-correlation-id: 96b2e917-cabf-413c-5a13-08db666c51f4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Tia5pb5ZnM30zakXgRPWLNxJKBZeagQaWwdd5vhYj+KjYVhe6dbdBPwJKrAfKyf2K7LEjowD0yDiktdVa8DK2ehDjdQN11l22EnNfthr5/5jjmOrUcYStcR/DVo7jImc0zn4BvRH7bGjPW8mZvxIPjcrJLiLMM+hsfnmLh5F1okqcZhWJs/uSiX6Q1rwmzEKaqu1AbMUjeUiDTvO2lLyiA0gIykDQEQG+/0mRTw2AITIXTCSCnyhFrt1hUzK0OD8M0WcCEFfBbf1Ri0aMQhsP90YblHtTC36eovgN9N9jMzCVvJM3mBknn7rKUySDNHBIdHqTa7W9eM1N2UGXrlz9j8tvsiybLaSOdRCDSptWQzwEmv4l6qVBPtX+IcxTPavdXLbeTLrNbJPq+U//WYY8mbk3XUtHAmKw4F9LGLu4AaJGLHsvs4C8owQ3E72bJ0zx3iaU3/LzVy3AC0CCM2CAiMSCOV535s2YZhprDUB6t7pzTCXyaSWtptrplqVWOdxwZQSw6Wqn/BiC/fzFWOUv8SxR8tAVDaOFrgDS7Yiq6jU1N72sXMhtrdlvMeDZEqXn5/3+C50SdcL/tIjukT6F7wiupY3teUw6uQaBJZJ2nA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(451199021)(6506007)(9686003)(38100700002)(41300700001)(83380400001)(966005)(186003)(7696005)(71200400001)(478600001)(54906003)(55016003)(64756008)(122000001)(66446008)(66556008)(66476007)(4326008)(316002)(52536014)(66946007)(76116006)(6916009)(7416002)(5660300002)(8676002)(33656002)(86362001)(8936002)(38070700005)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AZ/+nBSxmcMrKxiihXfOAvsTLSeE9dvBTjBsFpujJNPuZ2AXhdrUsi/9wEPY?=
+ =?us-ascii?Q?kILz2x4PpPIEQ7etJcOg1r9vNG7HOXd77bgDoWI3cMF6fe5ar0jxU73cHGnq?=
+ =?us-ascii?Q?yPbN8t2XX/1AfQ7CbobduupZ2gbzKlNYWjRCkDwYpT9al7aZRsIvGUtBIoTV?=
+ =?us-ascii?Q?jS7uPzpGNqxt6edgq8DHa6A4VbIxtPHfzFXJ+pNaQOnuwHg1l4HbIoQF72hP?=
+ =?us-ascii?Q?joHDtk/f+6fpVeauCxw85USPc7Rn1nbXo62+hiZeYlN5/Cod07raLDneqe8x?=
+ =?us-ascii?Q?1IGOz8/ayWBJfvaQ7j5amTsT8u5scrAkXxYsnqsq89Nxu8nODaz7pgp+hKgv?=
+ =?us-ascii?Q?MlbCTENKSN3pPUMhRkSou8tMgTk9H99KI7UdIPwam9qbApcEKxBXwJMQhohk?=
+ =?us-ascii?Q?jdMC1+PBfRFPFg3henECNYl5lxfg8QKgvMnAaPlcfzUESkR5MqBsx86yhxvb?=
+ =?us-ascii?Q?bN+ny32VK++y8HHHELZt+Yojpfv+mLiyEq2/RmXaxmS+CPQnVBrHQ64SBsTs?=
+ =?us-ascii?Q?bvaemfENYMtSDtb2+PFwITLbJxOH+PYnYbr3p/OaTAZnCV+H/VD92WdCRmJy?=
+ =?us-ascii?Q?cHtyZEZ8fzd6r+/PaQzqiOHINhhhO1jNGm9e54+0vRm/GbYgx8NQaPfnabUU?=
+ =?us-ascii?Q?+piaOoWv5eGLRljxRC0Vtg7TU4acQZFmlB8cWO5RAt97ozRBx4E73aCUg/Nv?=
+ =?us-ascii?Q?IsCMKBOOMEV5h3WI5ifOa0UUMdfzmaD1nH2bm8PBDoYo6C0srwvXnWD/j8ql?=
+ =?us-ascii?Q?FjzciGRMqt8pbMvYGfBjZ7s1xHf2DCGwBns3+j2G6CX6lIX0RWJKDe5buDK9?=
+ =?us-ascii?Q?dkSHqz/A2/c6GItBko3F4CbicJ/6Wp0HNIU2E11TS3CS6iuuVujsgWJcsXTr?=
+ =?us-ascii?Q?qzwsDJ32C+isLgMV6xeion0XQ5+6JXt61Fw+lEqWVJx0c9eruY+4ikAVP3/y?=
+ =?us-ascii?Q?4Ro4A2zmp9WEHW7ymTNkOGpCAQ4I0vJpwUOMwo9oAdKQomXHmc8ST/fjPIDP?=
+ =?us-ascii?Q?Hoa9VcLk4q6e7pib/3E0XTICMk3b24FLXeJlC/lsPuKsEpJEMDUT10FrCnzq?=
+ =?us-ascii?Q?iKPvkQD/Limvk2dIgaNa7SlICqwlyWrlqVvdiv6tpmaU8J5jvm4QeQjA5yVj?=
+ =?us-ascii?Q?Ri29xo6Rk8wrUlrXgB+VxhFgsXbzTGl/mmIgEGaaRo9hK6qwV9TDwU5yPRVj?=
+ =?us-ascii?Q?LdclhKpqmQng5+pFTr3jxIeWZfbba7+hvgkR5277Yk1q8N+WWwmvJLIb6bke?=
+ =?us-ascii?Q?e3xZN00/HDwZ7IM+UUD7+LjaK+DLr0bkhLnYgMx4dSarkoxkEjT+3o1kxacT?=
+ =?us-ascii?Q?qL/PppSps0IRpBr2kU4bLNQAeE2WaTxYUx5uLXfbKVCsWG4QmEBCeEQbrzuE?=
+ =?us-ascii?Q?qbztHj5hNaID0fiJKsjKe884EYwMTP0rlATugvhWkuLAtrqxkk0uy7qB3+bY?=
+ =?us-ascii?Q?/VBnfs2sDDOhc6NkPDyq4uKB1RwJOA2YaNE+dZOoWC686CuNxCCE5VUbHErx?=
+ =?us-ascii?Q?AV7m/72U7iYO0TVd1TiRjEF+Uiio5lgQBmJkGfiHpC8sGvSCG/pFL6ZZgMy6?=
+ =?us-ascii?Q?v7hcQeX46/j/g2hVwR/w+WBRv6IJuxbD4+37YcJgqRXv8y6wUIwVifD3JNjj?=
+ =?us-ascii?Q?ZIosCt69QvgW8jySQPO2QKRYgMCFUDDDplHAVlfc3pKVJRUBAXaiomNg2ojr?=
+ =?us-ascii?Q?VlYfbQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96b2e917-cabf-413c-5a13-08db666c51f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2023 08:59:22.0268
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WjN4MNe4RxdSZ/y5AUN1Wv/FDEW5Q04CWvMvjU56Xna4vp1TNecBAxJReFrB6SgwSYdQnrqsV8UFV822rvCHVaYHZpbFAeWjaHEPMemc1sYCvvJz8odvRsT25Wp0VOOk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8613
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use "per priority pause" feature of GWCA and "global pause" feature of
-COMA instead of "global rate limiter" of GWCA. Otherwise TX performance
-will be low when we use multiple ports at the same time.
+Hi Simon-san,
 
-Note that these features are not related to the ethernet PAUSE frame.
+> From: Simon Horman, Sent: Wednesday, May 31, 2023 4:29 AM
+>=20
+> On Mon, May 29, 2023 at 05:08:40PM +0900, Yoshihiro Shimoda wrote:
+> > Use per-queue rate limiter instead of global rate limiter. Otherwise
+> > TX performance will be low when we use multiple ports at the same time.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > ---
+> >  drivers/net/ethernet/renesas/rswitch.c | 51 +++++++++++++++++---------
+> >  drivers/net/ethernet/renesas/rswitch.h | 15 +++++++-
+> >  2 files changed, 47 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ether=
+net/renesas/rswitch.c
+> > index 4ae34b0206cd..a7195625a2c7 100644
+> > --- a/drivers/net/ethernet/renesas/rswitch.c
+> > +++ b/drivers/net/ethernet/renesas/rswitch.c
+> > @@ -156,22 +156,31 @@ static int rswitch_gwca_axi_ram_reset(struct rswi=
+tch_private *priv)
+> >  	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR=
+);
+> >  }
+> >
+> > -static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, =
+int rate)
+> > +static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv,
+> > +					struct rswitch_gwca_queue *txq)
+> >  {
+> > -	u32 gwgrlulc, gwgrlc;
+> > +	u64 period_ps;
+> > +	unsigned long rate;
+> > +	u32 gwrlc;
+>=20
+> Hi Shimoda-san,
+>=20
+> a minor not from my side: please use reverse xmas tree order - longest li=
+ne
+> to shortest - for local variable declarations in networking code.
+>=20
+> 	unsigned long rate;
+> 	u64 period_ps;
+> 	u32 gwrlc;
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 36 ++++++++++----------------
- drivers/net/ethernet/renesas/rswitch.h |  6 +++++
- 2 files changed, 20 insertions(+), 22 deletions(-)
+Thank you for your comment! I completely forgot that network driver should =
+use
+reverse xmas tree order...
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 7bb0a6d594a0..84f62c77eb8f 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -90,6 +90,11 @@ static int rswitch_bpool_config(struct rswitch_private *priv)
- 	return rswitch_reg_wait(priv->addr, CABPIRM, CABPIRM_BPR, CABPIRM_BPR);
- }
- 
-+static void rswitch_coma_init(struct rswitch_private *priv)
-+{
-+	iowrite32(CABPPFLC_INIT_VALUE, priv->addr + CABPPFLC0);
-+}
-+
- /* R-Switch-2 block (TOP) */
- static void rswitch_top_init(struct rswitch_private *priv)
- {
-@@ -156,24 +161,6 @@ static int rswitch_gwca_axi_ram_reset(struct rswitch_private *priv)
- 	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR);
- }
- 
--static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, int rate)
--{
--	u32 gwgrlulc, gwgrlc;
--
--	switch (rate) {
--	case 1000:
--		gwgrlulc = 0x0000005f;
--		gwgrlc = 0x00010260;
--		break;
--	default:
--		dev_err(&priv->pdev->dev, "%s: This rate is not supported (%d)\n", __func__, rate);
--		return;
--	}
--
--	iowrite32(gwgrlulc, priv->addr + GWGRLULC);
--	iowrite32(gwgrlc, priv->addr + GWGRLC);
--}
--
- static bool rswitch_is_any_data_irq(struct rswitch_private *priv, u32 *dis, bool tx)
- {
- 	u32 *mask = tx ? priv->gwca.tx_irq_bits : priv->gwca.rx_irq_bits;
-@@ -402,7 +389,7 @@ static int rswitch_gwca_queue_format(struct net_device *ndev,
- 	linkfix->die_dt = DT_LINKFIX;
- 	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
- 
--	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_EDE,
-+	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_DQT : 0) | GWDCC_EDE,
- 		  priv->addr + GWDCC_OFFS(gq->index));
- 
- 	return 0;
-@@ -500,7 +487,8 @@ static int rswitch_gwca_queue_ext_ts_format(struct net_device *ndev,
- 	linkfix->die_dt = DT_LINKFIX;
- 	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
- 
--	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_ETS | GWDCC_EDE,
-+	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_DQT : 0) |
-+		  GWDCC_ETS | GWDCC_EDE,
- 		  priv->addr + GWDCC_OFFS(gq->index));
- 
- 	return 0;
-@@ -649,7 +637,8 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- 	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC10);
- 	iowrite32(upper_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC00);
- 	iowrite32(GWCA_TS_IRQ_BIT, priv->addr + GWTSDCC0);
--	rswitch_gwca_set_rate_limit(priv, priv->gwca.speed);
-+
-+	iowrite32(GWTPC_PPPL(GWCA_IPV_NUM), priv->addr + GWTPC0);
- 
- 	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
- 		err = rswitch_rxdmac_init(priv, i);
-@@ -1502,7 +1491,8 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
- 	rswitch_desc_set_dptr(&desc->desc, dma_addr);
- 	desc->desc.info_ds = cpu_to_le16(skb->len);
- 
--	desc->info1 = cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) | INFO1_FMT);
-+	desc->info1 = cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) |
-+				  INFO1_IPV(GWCA_IPV_NUM) | INFO1_FMT);
- 	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
- 		struct rswitch_gwca_ts_info *ts_info;
- 
-@@ -1772,6 +1762,8 @@ static int rswitch_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		return err;
- 
-+	rswitch_coma_init(priv);
-+
- 	err = rswitch_gwca_linkfix_alloc(priv);
- 	if (err < 0)
- 		return -ENOMEM;
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index b3e0411b408e..08dadd28001e 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -48,6 +48,7 @@
- #define GWCA_NUM_IRQS		8
- #define GWCA_INDEX		0
- #define AGENT_INDEX_GWCA	3
-+#define GWCA_IPV_NUM		0
- #define GWRO			RSWITCH_GWCA0_OFFSET
- 
- #define GWCA_TS_IRQ_RESOURCE_NAME	"gwca0_rxts0"
-@@ -768,11 +769,13 @@ enum rswitch_gwca_mode {
- #define GWARIRM_ARR		BIT(1)
- 
- #define GWDCC_BALR		BIT(24)
-+#define GWDCC_DCP(prio)		(((prio) & 0x07) << 16)
- #define GWDCC_DQT		BIT(11)
- #define GWDCC_ETS		BIT(9)
- #define GWDCC_EDE		BIT(8)
- 
- #define GWTRC(queue)		(GWTRC0 + (queue) / 32 * 4)
-+#define GWTPC_PPPL(ipv)		BIT(ipv)
- #define GWDCC_OFFS(queue)	(GWDCC0 + (queue) * 4)
- 
- #define GWDIS(i)		(GWDIS0 + (i) * 0x10)
-@@ -789,6 +792,8 @@ enum rswitch_gwca_mode {
- #define CABPIRM_BPIOG		BIT(0)
- #define CABPIRM_BPR		BIT(1)
- 
-+#define CABPPFLC_INIT_VALUE	0x00800080
-+
- /* MFWD */
- #define FWPC0_LTHTA		BIT(0)
- #define FWPC0_IP4UE		BIT(3)
-@@ -863,6 +868,7 @@ enum DIE_DT {
- 
- /* For transmission */
- #define INFO1_TSUN(val)		((u64)(val) << 8ULL)
-+#define INFO1_IPV(prio)		((u64)(prio) << 28ULL)
- #define INFO1_CSD0(index)	((u64)(index) << 32ULL)
- #define INFO1_CSD1(index)	((u64)(index) << 40ULL)
- #define INFO1_DV(port_vector)	((u64)(port_vector) << 48ULL)
--- 
-2.25.1
+JFYI, I found another way to improve the performance. So, I dropped this pa=
+tch on v2 [1].
+
+[1] https://lore.kernel.org/all/20230606085558.1708766-1-yoshihiro.shimoda.=
+uh@renesas.com/
+
+Best regards,
+Yoshihiro Shimoda
+
+> --
+> pw-bot: cr
 
