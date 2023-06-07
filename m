@@ -2,348 +2,707 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B35725E13
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 14:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F7F725E69
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 14:15:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235179AbjFGMKD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 08:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54956 "EHLO
+        id S239884AbjFGMPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 08:15:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235138AbjFGMKC (ORCPT
+        with ESMTP id S240508AbjFGMPu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 08:10:02 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7672695;
-        Wed,  7 Jun 2023 05:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1686139763;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Lw7i9Wf6WCUoRpbTLXH6lZZHbyPE4FC/kG7NhVRcTGc=;
-        b=UaMukVcOVNNPSmL+e06vSLSp5yK1EOttuOytLEAc4oYaHXEW05gRBS3csm+QtPLgAvwT/E
-        sLqx7UfrbfUhbL0cn7dyxGHR39ozOWuU4apbeWR7xPIipxV3Ed8whCObfaEKSTy6JPjZS7
-        zyvWBdJbZBmGh2OxSlJ2AZdEaUOFC9s=
-Message-ID: <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Sui Jingfeng <suijingfeng@loongson.cn>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-Date:   Wed, 07 Jun 2023 14:09:21 +0200
-In-Reply-To: <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
-         <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
-         <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Wed, 7 Jun 2023 08:15:50 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 663F91BE6;
+        Wed,  7 Jun 2023 05:15:43 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so8921796e87.2;
+        Wed, 07 Jun 2023 05:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686140141; x=1688732141;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BhELSTA/3Pp7VxR7LhxzSs7tXAsirV2Z88ro8FL9zKw=;
+        b=lLQFdYYRMLerqsIBS89jdBJy0ZN62r92vQhBjs2RS/5pM1S7cnOufTYTBttdbSkP36
+         IJ0MgbPeSjrDIgxAUDq+nFGy7WWS6u0P2q3HN0GREh25P4fe+Di10Q+C2QXAbo1eUnEL
+         hvcnN/yYKPHzxF29yod9G/Rgt79xWoQGfU7gsoJX7qinOsyQx/KWXiEGFJ3OsIp+FxHm
+         njujuvnFWa2RJv3KPzlsXUrJuSp91koKdRnK7iXZqnj1Y0Q4gKGtPrcaWo6WJqRs4Qk5
+         r99u7lKkY47Muxc9CBYWVRjSzNThaQR2Do4cXmmGoLpDrusdsxn8ZaWQjycWrSCcjexf
+         Adyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686140141; x=1688732141;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BhELSTA/3Pp7VxR7LhxzSs7tXAsirV2Z88ro8FL9zKw=;
+        b=jQalHBw8H3waLYDz7EA24SV8vM2x6iHvQrgpRTprTu48QQQ0OkPlQUic61s4cGHJaB
+         FZqJa/0s11umCUCUCx/RF6ioOO8LU0qFpRHzfuflXYddf2tEOWhEB7UKl2EVlaXRzOZ7
+         7r6wzOrBXxUE5XyFVn9GVQuN6etpouFzD6W3RbihmNElv8+WswHH8N+ffPUBaaNbAFOH
+         /wKi/ibWtPvj2y2EjUbJUhEF2qf50+2gzNQEsIAC7W1SJ2OI28JCkYmVboRa4e8Z39fs
+         GdRWp6nvIyq9zE1DMrNQf3CYqVx0jMbNMDfgRsAsdsgORU2s/HIcle8fRfFigWyxWmxl
+         GaGA==
+X-Gm-Message-State: AC+VfDypQjd49c4brTMBiVzFSvKPdO2qiZaKDJWrdO57cVlrob3fGS3p
+        lrptykxgWJY+S54cCOalL/U=
+X-Google-Smtp-Source: ACHHUZ5y0R35+emXTyCoXAyPuv5AFtHbBQqLloWn5xIca8D/pgr0B/5MPEbUt21yslWbi4xWtdgmdA==
+X-Received: by 2002:a05:6512:61:b0:4f6:217a:561e with SMTP id i1-20020a056512006100b004f6217a561emr2167100lfo.37.1686140141198;
+        Wed, 07 Jun 2023 05:15:41 -0700 (PDT)
+Received: from mobilestation ([91.144.185.176])
+        by smtp.gmail.com with ESMTPSA id w20-20020ac254b4000000b004f6393659f7sm529321lfk.245.2023.06.07.05.15.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 05:15:40 -0700 (PDT)
+Date:   Wed, 7 Jun 2023 15:15:33 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v16 19/22] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
+ support
+Message-ID: <20230607121533.cxvidvdqat5h2tqu@mobilestation>
+References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230510062234.201499-20-yoshihiro.shimoda.uh@renesas.com>
+ <20230605143908.fcgqzedp7oiarbyu@mobilestation>
+ <TYBPR01MB5341A67CF6DFFCB396F13195D853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB5341A67CF6DFFCB396F13195D853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgU3VpLAoKTGUgbWVyY3JlZGkgMDcganVpbiAyMDIzIMOgIDE4OjMwICswODAwLCBTdWkgSmlu
-Z2ZlbmcgYSDDqWNyaXTCoDoKPiBIaSwKPiAKPiAKPiBPbiAyMDIzLzYvNyAxNzozNiwgUGF1bCBD
-ZXJjdWVpbCB3cm90ZToKPiA+IEhpIFN1aSwKPiA+IAo+ID4gTGUgbWVyY3JlZGkgMDcganVpbiAy
-MDIzIMOgIDEzOjMwICswODAwLCBTdWkgSmluZ2ZlbmcgYSDDqWNyaXTCoDoKPiA+ID4gVGhlIHNp
-bmdsZSBtYXBfbm9uY29oZXJlbnQgbWVtYmVyIG9mIHN0cnVjdCBkcm1fZ2VtX2RtYV9vYmplY3QK
-PiA+ID4gbWF5Cj4gPiA+IG5vdAo+ID4gPiBzdWZmaWNpZW50IGZvciBkZXNjcmliaW5nIHRoZSBi
-YWNraW5nIG1lbW9yeSBvZiB0aGUgR0VNIGJ1ZmZlcgo+ID4gPiBvYmplY3QuCj4gPiA+IAo+ID4g
-PiBFc3BlY2lhbGx5IG9uIGRtYS1jb2hlcmVudCBzeXN0ZW1zLCB0aGUgYmFja2luZyBtZW1vcnkg
-aXMgYm90aAo+ID4gPiBjYWNoZWQKPiA+ID4gY29oZXJlbnQgZm9yIG11bHRpLWNvcmUgQ1BVcyBh
-bmQgZG1hLWNvaGVyZW50IGZvciBwZXJpcGhlcmFsCj4gPiA+IGRldmljZS4KPiA+ID4gU2F5IGFy
-Y2hpdGVjdHVyZXMgbGlrZSBYODYtNjQsIExvb25nQXJjaDY0LCBMb29uZ3NvbiBNaXBzNjQsIGV0
-Yy4KPiA+ID4gCj4gPiA+IFdoZXRoZXIgYSBwZXJpcGhlcmFsIGRldmljZSBpcyBkbWEtY29oZXJl
-bnQgb3Igbm90IGNhbiBiZQo+ID4gPiBpbXBsZW1lbnRhdGlvbi1kZXBlbmRlbnQuIFRoZSBzaW5n
-bGUgbWFwX25vbmNvaGVyZW50IG9wdGlvbiBpcwo+ID4gPiBub3QKPiA+ID4gZW5vdWdoCj4gPiA+
-IHRvIHJlZmxlY3QgcmVhbCBoYXJkd2FyZSBhbnltb3JlLiBGb3IgZXhhbXBsZSwgdGhlIExvb25n
-c29uCj4gPiA+IExTM0E0MDAwCj4gPiA+IENQVQo+ID4gPiBhbmQgTFMySzIwMDAvTFMySzEwMDAg
-U29DLCBwZXJpcGhlcmFsIGRldmljZSBvZiBzdWNoIGhhcmR3YXJlCj4gPiA+IHBsYXRmb3JtCj4g
-PiA+IGFsbHdheXMgc25vb3AgQ1BVJ3MgY2FjaGUuIERvaW5nIHRoZSBhbGxvY2F0aW9uIHdpdGgK
-PiA+ID4gZG1hX2FsbG9jX2NvaGVyZW50Cj4gPiA+IGZ1bmN0aW9uIGlzIHByZWZlcnJlZC4gVGhl
-IHJldHVybiBidWZmZXIgaXMgY2FjaGVkLCBpdCBzaG91bGQgbm90Cj4gPiA+IHVzaW5nCj4gPiA+
-IHRoZSBkZWZhdWx0IHdyaXRlLWNvbWJpbmUgbWFwcGluZy4gV2hpbGUgd2l0aCB0aGUgY3VycmVu
-dAo+ID4gPiBpbXBsZW1lbnQsCj4gPiA+IHRoZXJlCj4gPiA+IG5vIHdheSB0byB0ZWxsIHRoZSBk
-cm0gY29yZSB0byByZWZsZWN0IHRoaXMuCj4gPiA+IAo+ID4gPiBUaGlzIHBhdGNoIGFkZHMgY2Fj
-aGVkIGFuZCBjb2hlcmVudCBtZW1iZXJzIHRvIHN0cnVjdAo+ID4gPiBkcm1fZ2VtX2RtYV9vYmpl
-Y3QuCj4gPiA+IHdoaWNoIGFsbG93IGRyaXZlciBpbXBsZW1lbnRzIHRvIGluZm9ybSB0aGUgY29y
-ZS4gSW50cm9kdWNpbmcgbmV3Cj4gPiA+IG1hcHBpbmdzCj4gPiA+IHdoaWxlIGtlZXBpbmcgdGhl
-IG9yaWdpbmFsIGRlZmF1bHQgYmVoYXZpb3IgdW5jaGFuZ2VkLgo+ID4gRGlkIHlvdSB0cnkgdG8g
-c2ltcGx5IHNldCB0aGUgImRtYS1jb2hlcmVudCIgcHJvcGVydHkgdG8gdGhlCj4gPiBkZXZpY2Un
-cwo+ID4gbm9kZT8KPiAKPiBCdXQgdGhpcyBhcHByb2FjaCBjYW4gb25seSBiZSBhcHBsaWVkIGZv
-ciB0aGUgZGV2aWNlIGRyaXZlciB3aXRoIERUCj4gc3VwcG9ydC4KPiAKPiBYODYtNjQsIExvb25n
-c29uIGxzM2E0MDAwIG1pcHM2NCwgTG9vbmdzb24gbHMzYTUwMDAgQ1BVIHR5cGljYWxseSBkbwo+
-IG5vdCAKPiBoYXZlIERUIHN1cHBvcnQuCj4gCj4gVGhleSB1c2luZyBBQ1BJIHRvIHBhc3MgcGFy
-YW1ldGVyIGZyb20gdGhlIGZpcm13YXJlIHRvIExpbnV4IGtlcm5lbC4KPiAKPiBZb3UgYXBwcm9h
-Y2ggd2lsbCBsb3N0IHRoZSBlZmZlY3RpdmVuZXNzIG9uIHN1Y2ggYSBjYXNlLgoKV2VsbCwgSSBk
-b24ndCByZWFsbHkga25vdyBob3cgQUNQSSBoYW5kbGVzIGl0IC0gYnV0IGl0IHNob3VsZCBqdXN0
-IGJlIGEKbWF0dGVyIG9mIHNldHRpbmcgZGV2LT5kbWFfY29oZXJlbnQuIFRoYXQncyBiYXNpY2Fs
-bHkgd2hhdCB0aGUgRFQgY29kZQpkb2VzLgoKU29tZSBNSVBTIGJvYXJkcyBzZXQgaXQgaW4gdGhl
-aXIgc2V0dXAgY29kZSBmb3IgaW5zdGFuY2UuCgo+ID4gwqBGcm9tIHdoYXQgSSB1bmRlcnN0YW5k
-IGlmIHlvdSBhZGQgdGhhdCBwcm9wZXJ0eSB0aGVuIExpbnV4IHdpbGwKPiA+IHVzZSBETUEKPiA+
-IGNvaGVyZW50IG1lbW9yeSBldmVuIHRob3VnaCB5b3UgdXNlIGRtYV9hbGxvY19ub25jb2hlcmVu
-dCgpIGFuZCB0aGUKPiA+IHN5bmNfc2luZ2xlX2Zvcl9jcHUoKSAvIHN5bmNfc2luZ2xlX2Zvcl9k
-ZXZpY2UoKSBhcmUgdGhlbiBOT1BzLgo+IAo+IFBsZWFzZSBkbyBub3QgbWl0aWdhdGUgdGhlIHBy
-b2JsZW1zIHdpdGggY29uZnVzaW5nIG1ldGhvZC4KPiAKPiAKPiBUaGlzIGFwcHJvYWNoIG5vdCBv
-bmx5IHRlbmQgdG8gZ2VuZXJhdGUgY29uZnVzaW9uIGJ1dCBhbHNvIAo+IGltcGxlbWVudC1kZXBl
-bmRlbnQKPiAKPiBhbmQgYXJjaC1kZXBlbmRlbnQuIEl0J3MgZGVmaW5pdGVseSBwcm9ibGVtYXRp
-Yy4KPiAKPiAKPiBIb3cgZG9lcyB0aGUgZG1hX2FsbG9jX2NvaGVyZW50L2RtYV9hbGxvY19ub25j
-b2hlcmVudCBpcyBhIEFSQ0gKPiBzcGVjaWZpYyAKPiB0aGluZy4KPiAKPiBEZXBlbmRlbnQgb24g
-aG93IGRvZXMgdGhlIGFyY2hfZG1hX29wcyBpcyBpbXBsZW1lbnRlZC4KPiAKPiAKPiBUaGUgZGVm
-aW5pdGlvbiBvZiB0aGUgY29oZXJlbnQgb24gZGlmZmVyZW50IEFSQ0ggaGFzIGRpZmZlcmVudAo+
-IG1lYW5pbmdzLgo+IAo+IFRoZSBkZWZpbml0aW9uIG9mIHRoZSB3aXJ0ZS1jb21iaW5lIG9uIGRp
-ZmZlcmVudCBBUkNIIGhhcyBkaWZmZXJlbnQgCj4gbWVhbmluZ3MuCj4gCj4gCj4gVGhlIHdpcnRl
-LWNvbWJpbmUodW5jYWNoZSBhY2NlbGVyYXRpb24pIG9uIG1pcHMgaXMgbm9uIGRtYS1jb2hlcmVu
-dC4KCkl0IGlzIGRtYS1jb2hlcmVudCBvbiBJbmdlbmljIFNvQ3MuCgo+IAo+IEJ1dCBvbiBhcm0s
-IEl0IHNlZW0gdGhhdCB3aXJ0ZS1jb21iaW5lIGlzIGNvaGVyZW50LiAoZ3VhcmFudGVlZCBieQo+
-IGFyY2ggCj4gaW1wbGVtZW50KS4KPiAKPiAKPiBJIGFsc28gaGVhcmQgdXNpbmcgZG1hX2FsbG9j
-X2NvaGVyZW50wqAgdG8gYWxsb2NhdGlvbiB0aGUgYnVmZmVyIGZvcgo+IHRoZSAKPiBub24tY29o
-ZXJlbnQgZG9lc24ndCBodXJ0LCBidXQgdGhlIHJldmVyc2UgaXMgbm90IHRydWUuCj4gCj4gCj4g
-QnV0IHBsZWFzZSBkbyBub3QgY3JlYXRlIGNvbmZ1c2lvbi4KPiAKPiBzb2Z0d2FyZSBjb21wb3Np
-dGUgaXMgZmFzdGVyIGJlY2F1c2UgYmV0dGVyIGNhY2hldXNpbmcgcmF0ZSBhbmQKPiAKPiBjYWNo
-ZSBpcyBmYXN0ZXIgdG8gcmVhZC4KPiAKPiBJdCBpcyBmYXN0ZXIgYmVjYXVzZSBpdCBpcyBjYWNo
-ZWQsIG5vdCBiZWNhdXNlIGl0IGlzIG5vbi1jb2hlcmVudC4KPiAKPiBub24tY29oZXJlbnQgaXMg
-YXJjaCB0aGluZyBhbmQvb3IgZHJpdmVyLXNpZGUgdGhpbmcsCj4gCj4gaXQgaXMgYSBzaWRlIGVm
-ZmVjdCBvZsKgIHVzaW5nIHRoZSBjYWNoZWQgbWFwcGluZy4KClllcywgSSBrbm93IHRoYXQuCgo+
-IAo+IAo+IEl0IHNob3VsZCBsZWZ0IHRvIGRyaXZlciB0byBoYW5kbGUgc3VjaCBhIHNpZGUgZWZm
-ZWN0LiBUaGUgZGV2aWNlCj4gZHJpdmVyCj4gCj4ga25vdyB0aGVpciBkZXZpY2UsIHNvIGl0cyB0
-aGUgZGV2aWNlIGRyaXZlcidzIHJlc3BvbnNpYmlsaXR5IHRvCj4gbWFpbnRhaW4KPiB0aGUgY29o
-ZXJlbmN5LsKgIE9uIGxvb25nc29uIHBsYXRmb3JtLCB3ZSBkb24ndCBuZWVkIHRvIGNhbGwgCj4g
-ZHJtX2ZiX2RtYV9zeW5jX25vbl9jb2hlcmVudCgpIGZ1bmN0aW9uLCBJdHMgYWxyZWFkeSBndWFy
-YW50ZWVkIGJ5Cj4gaGFyZHdhcmUuCgpJIHVuZGVyc3RhbmQuIFdoYXQgSSdtIHNheWluZywgaXMg
-dGhhdCB5b3Ugc2hvdWxkIGJlIGFibGUgdG8gc2V0CmRtYV9vYmotPm1hcF9ub25jb2hlcmVudCAo
-d2hpY2ggd291bGQgYXJndWFibHkgYmUgYmV0dGVyIG5hbWVkCiJtYXBfY2FjaGVkIiwgYnV0IHRo
-YXQncyBhIGRpZmZlcmVudCBwcm9ibGVtKS4gVGhlbiB0aGUgR0VNIGNvZGUgd291bGQKZW5kIHVw
-IGNhbGxpbmcgZG1hX2FsbG9jX25vbmNvaGVyZW50KCksIHdoaWNoIHdpbGwgZ2l2ZSB5b3UgKmNh
-Y2hlZCoKbWVtb3J5LiBUaGVuIGFzIGxvbmcgYXMgZGV2LT5kbWFfY29oZXJlbnQgPSB0cnVlLApk
-cm1fZmJfZG1hX3N5bmNfbm9uX2NvaGVyZW50KCkgc2hvdWxkIGJlIGEgTk9QIC0gc28geW91IHdv
-dWxkbid0CnBvaW50bGVzc2x5IHN5bmMvaW52YWxpZGF0ZSB0aGUgY2FjaGVzLgoKQW5kIEkgZGlz
-YWdyZWUgd2l0aCB5b3UsIHRoZSBkcml2ZXIgc2hvdWxkbid0IGhhbmRsZSBzdWNoIHRoaW5ncy4g
-VGhlCmZhY3QgdGhhdCBpdCBpcyBiZXR0ZXIgdG8gdXNlIGNhY2hlZCBtZW1vcnkgb3IgdW5jYWNo
-ZWQgd2l0aCB3cml0ZS0KY29tYmluZSByZWFsbHkgaXMgcGxhdGZvcm0tc3BlY2lmaWMgYW5kIG5v
-dCBzb21ldGhpbmcgdGhhdCB0aGUgZHJpdmVyCnNob3VsZCBiZSBhd2FyZSBvZi4KCkNoZWVycywK
-LVBhdWwKCj4gCj4gCj4gPiBDaGVlcnMsCj4gPiAtUGF1bAo+ID4gCj4gPiA+IFNpZ25lZC1vZmYt
-Ynk6IFN1aSBKaW5nZmVuZyA8c3VpamluZ2ZlbmdAbG9vbmdzb24uY24+Cj4gPiA+IC0tLQo+ID4g
-PiDCoMKgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9kbWFfaGVscGVyLmPCoMKgwqDCoMKgwqAgfCAx
-MSArKysrKy0tLS0tLQo+ID4gPiDCoMKgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9kbWEuY8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4gPiA+IMKgwqBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbV9kbWFfaGVscGVyLmPCoMKgwqDCoMKgIHwgMjAKPiA+ID4gKysrKysrKysrKysrKysrKy0t
-LS0KPiA+ID4gwqDCoGRyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLWRydi5jIHzC
-oCA1ICsrKystCj4gPiA+IMKgwqBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9LY29uZmlnwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgIDIgLS0KPiA+ID4gwqDCoGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
-L3JjYXJfZHVfa21zLmPCoMKgwqDCoCB8wqAgNCArKystCj4gPiA+IMKgwqBpbmNsdWRlL2RybS9k
-cm1fZ2VtX2RtYV9oZWxwZXIuaMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNyArKysrKy0tCj4gPiA+
-IMKgwqA3IGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQo+
-ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfZG1hX2hlbHBl
-ci5jCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9kbWFfaGVscGVyLmMKPiA+ID4gaW5k
-ZXggM2I1MzVhZDFiMDdjLi45M2ZmMDUwNDExOTIgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZmJfZG1hX2hlbHBlci5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZmJfZG1hX2hlbHBlci5jCj4gPiA+IEBAIC0xMDYsMTYgKzEwNiwxNSBAQCBkbWFfYWRkcl90
-IGRybV9mYl9kbWFfZ2V0X2dlbV9hZGRyKHN0cnVjdAo+ID4gPiBkcm1fZnJhbWVidWZmZXIgKmZi
-LAo+ID4gPiDCoMKgRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2ZiX2RtYV9nZXRfZ2VtX2FkZHIpOwo+
-ID4gPiDCoCAKPiA+ID4gwqDCoC8qKgo+ID4gPiAtICogZHJtX2ZiX2RtYV9zeW5jX25vbl9jb2hl
-cmVudCAtIFN5bmMgR0VNIG9iamVjdCB0byBub24tCj4gPiA+IGNvaGVyZW50Cj4gPiA+IGJhY2tp
-bmcKPiA+ID4gLSAqwqDCoMKgwqDCoG1lbW9yeQo+ID4gPiArICogZHJtX2ZiX2RtYV9zeW5jX25v
-bl9jb2hlcmVudCAtIFN5bmMgR0VNIG9iamVjdCB0byBjYWNoZWQKPiA+ID4gYmFja2luZwo+ID4g
-PiBtZW1vcnkKPiA+ID4gwqDCoCAqIEBkcm06IERSTSBkZXZpY2UKPiA+ID4gwqDCoCAqIEBvbGRf
-c3RhdGU6IE9sZCBwbGFuZSBzdGF0ZQo+ID4gPiDCoMKgICogQHN0YXRlOiBOZXcgcGxhbmUgc3Rh
-dGUKPiA+ID4gwqDCoCAqCj4gPiA+IMKgwqAgKiBUaGlzIGZ1bmN0aW9uIGNhbiBiZSB1c2VkIGJ5
-IGRyaXZlcnMgdGhhdCB1c2UgZGFtYWdlIGNsaXBzCj4gPiA+IGFuZAo+ID4gPiBoYXZlCj4gPiA+
-IC0gKiBETUEgR0VNIG9iamVjdHMgYmFja2VkIGJ5IG5vbi1jb2hlcmVudCBtZW1vcnkuIENhbGxp
-bmcgdGhpcwo+ID4gPiBmdW5jdGlvbgo+ID4gPiAtICogaW4gYSBwbGFuZSdzIC5hdG9taWNfdXBk
-YXRlIGVuc3VyZXMgdGhhdCBhbGwgdGhlIGRhdGEgaW4gdGhlCj4gPiA+IGJhY2tpbmcKPiA+ID4g
-LSAqIG1lbW9yeSBoYXZlIGJlZW4gd3JpdHRlbiB0byBSQU0uCj4gPiA+ICsgKiBETUEgR0VNIG9i
-amVjdHMgYmFja2VkIGJ5IGNhY2hlZCBtZW1vcnkuIENhbGxpbmcgdGhpcwo+ID4gPiBmdW5jdGlv
-biBpbgo+ID4gPiBhCj4gPiA+ICsgKiBwbGFuZSdzIC5hdG9taWNfdXBkYXRlIGVuc3VyZXMgdGhh
-dCBhbGwgdGhlIGRhdGEgaW4gdGhlCj4gPiA+IGJhY2tpbmcKPiA+ID4gbWVtb3J5Cj4gPiA+ICsg
-KiBoYXZlIGJlZW4gd3JpdHRlbiB0byBSQU0uCj4gPiA+IMKgwqAgKi8KPiA+ID4gwqDCoHZvaWQg
-ZHJtX2ZiX2RtYV9zeW5jX25vbl9jb2hlcmVudChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLAo+ID4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlCj4gPiA+ICpvbGRfc3RhdGUsCj4g
-PiA+IEBAIC0xMzEsNyArMTMwLDcgQEAgdm9pZCBkcm1fZmJfZG1hX3N5bmNfbm9uX2NvaGVyZW50
-KHN0cnVjdAo+ID4gPiBkcm1fZGV2aWNlICpkcm0sCj4gPiA+IMKgIAo+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqBmb3IgKGkgPSAwOyBpIDwgZmluZm8tPm51bV9wbGFuZXM7IGkrKykgewo+ID4gPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX29iaiA9IGRybV9mYl9kbWFfZ2V0
-X2dlbV9vYmooc3RhdGUtPmZiLCBpKTsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGlmICghZG1hX29iai0+bWFwX25vbmNvaGVyZW50KQo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgaWYgKGRtYV9vYmotPmNhY2hlZCAmJiBkbWFfb2JqLT5jb2hlcmVudCkK
-PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBj
-b250aW51ZTsKPiA+ID4gwqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBkYWRkciA9IGRybV9mYl9kbWFfZ2V0X2dlbV9hZGRyKHN0YXRlLT5mYiwKPiA+ID4gc3RhdGUs
-IGkpOwo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9kbWEuYwo+
-ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZG1hLmMKPiA+ID4gaW5kZXggZDg2Nzcz
-ZmE4YWIwLi40OWZlOWIyODRjYzggMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZmJkZXZfZG1hLmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9kbWEu
-Ywo+ID4gPiBAQCAtMTMxLDcgKzEzMSw3IEBAIHN0YXRpYyBpbnQKPiA+ID4gZHJtX2ZiZGV2X2Rt
-YV9oZWxwZXJfZmJfcHJvYmUoc3RydWN0Cj4gPiA+IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwK
-PiA+ID4gwqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoC8qIHNjcmVlbiAqLwo+ID4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqBpbmZvLT5mbGFncyB8PSBGQklORk9fVklSVEZCOyAvKiBzeXN0ZW0gbWVt
-b3J5ICovCj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChkbWFfb2JqLT5tYXBfbm9uY29oZXJlbnQp
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChkbWFfb2JqLT5jYWNoZWQpCj4gPiA+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbmZvLT5mbGFncyB8PSBGQklORk9fUkVBRFNfRkFT
-VDsgLyogc2lnbmFsCj4gPiA+IGNhY2hpbmcKPiA+ID4gKi8KPiA+ID4gwqDCoMKgwqDCoMKgwqDC
-oMKgaW5mby0+c2NyZWVuX3NpemUgPSBzaXplcy0+c3VyZmFjZV9oZWlnaHQgKiBmYi0KPiA+ID4g
-PnBpdGNoZXNbMF07Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGluZm8tPnNjcmVlbl9idWZmZXIg
-PSBtYXAudmFkZHI7Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9k
-bWFfaGVscGVyLmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9kbWFfaGVscGVyLmMK
-PiA+ID4gaW5kZXggODcwYjkwYjc4YmM0Li5kZWMxZDUxMmJkZjEgMTAwNjQ0Cj4gPiA+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuYwo+ID4gPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2dlbV9kbWFfaGVscGVyLmMKPiA+ID4gQEAgLTkzLDcgKzkzLDExIEBAIF9f
-ZHJtX2dlbV9kbWFfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gPiA+IHNpemVfdCBz
-aXplLCBib29sIHByaXZhdGUpCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBkcm1fZ2VtX3ByaXZhdGVfb2JqZWN0X2luaXQoZHJtLCBnZW1fb2JqLCBzaXplKTsKPiA+ID4g
-wqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBBbHdheXMgdXNl
-IHdyaXRlY29tYmluZSBmb3IgZG1hLWJ1ZiBtYXBwaW5ncwo+ID4gPiAqLwo+ID4gPiAtwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX29iai0+bWFwX25vbmNvaGVyZW50ID0gZmFsc2U7
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKiBGSVhNRTogVGhpcyBpcyBu
-b3QgYWx3YXlzIHRydWUsIG9uIHNvbWUgZG1hCj4gPiA+IGNvaGVyZW50IHN5c3RlbSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIGNhY2hlZCBtYXBwaW5ncyBzaG91bGQg
-YmUgcHJlZmVycmVkIG92ZXIKPiA+ID4gd3JpdGVjb21iaW5lCj4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgKi8KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGRtYV9vYmotPmNhY2hlZCA9IGZhbHNlOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgZG1hX29iai0+Y29oZXJlbnQgPSBmYWxzZTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
-fSBlbHNlIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IGRy
-bV9nZW1fb2JqZWN0X2luaXQoZHJtLCBnZW1fb2JqLCBzaXplKTsKPiA+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgfQo+ID4gPiBAQCAtMTQzLDcgKzE0NywxMSBAQCBzdHJ1Y3QgZHJtX2dlbV9kbWFfb2Jq
-ZWN0Cj4gPiA+ICpkcm1fZ2VtX2RtYV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRybSwKPiA+
-ID4gwqDCoMKgwqDCoMKgwqDCoMKgaWYgKElTX0VSUihkbWFfb2JqKSkKPiA+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBkbWFfb2JqOwo+ID4gPiDCoCAKPiA+ID4g
-LcKgwqDCoMKgwqDCoMKgaWYgKGRtYV9vYmotPm1hcF9ub25jb2hlcmVudCkgewo+ID4gPiArwqDC
-oMKgwqDCoMKgwqBpZiAoZG1hX29iai0+Y2FjaGVkICYmIGRtYV9vYmotPmNvaGVyZW50KSB7Cj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkbWFfb2JqLT52YWRkciA9IGRtYV9h
-bGxvY19jb2hlcmVudChkcm0tPmRldiwKPiA+ID4gc2l6ZSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmRtYV9vYmotCj4gPiA+ID4gZG1hX2FkZHIs
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEdGUF9L
-RVJORUwgfAo+ID4gPiBfX0dGUF9OT1dBUk4pOwo+ID4gPiArwqDCoMKgwqDCoMKgwqB9IGVsc2Ug
-aWYgKGRtYV9vYmotPmNhY2hlZCAmJiAhZG1hX29iai0+Y29oZXJlbnQpIHsKPiA+ID4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9vYmotPnZhZGRyID0gZG1hX2FsbG9jX25v
-bmNvaGVyZW50KGRybS0+ZGV2LAo+ID4gPiBzaXplLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmZG1hX29iai0KPiA+ID4gPiBkbWFf
-YWRkciwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAKPiA+ID4gRE1BX1RPX0RFVklDRSwKPiA+ID4gQEAgLTE1Myw2ICsxNjEsNyBAQCBz
-dHJ1Y3QgZHJtX2dlbV9kbWFfb2JqZWN0Cj4gPiA+ICpkcm1fZ2VtX2RtYV9jcmVhdGUoc3RydWN0
-IGRybV9kZXZpY2UgKmRybSwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgJmRtYV9vYmotCj4gPiA+ID5kbWFfYWRkciwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgR0ZQX0tFUk5FTCB8Cj4gPiA+IF9fR0ZQX05PV0FSTik7Cj4gPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoH0KPiA+ID4gKwo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWRt
-YV9vYmotPnZhZGRyKSB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBk
-cm1fZGJnKGRybSwgImZhaWxlZCB0byBhbGxvY2F0ZSBidWZmZXIgd2l0aAo+ID4gPiBzaXplCj4g
-PiA+ICV6dVxuIiwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgc2l6ZSk7Cj4gPiA+IEBAIC0yMzMsNyArMjQyLDEwIEBAIHZvaWQgZHJtX2dl
-bV9kbWFfZnJlZShzdHJ1Y3QKPiA+ID4gZHJtX2dlbV9kbWFfb2JqZWN0Cj4gPiA+ICpkbWFfb2Jq
-KQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGRtYV9idWZfdnVubWFwX3VubG9ja2VkKGdlbV9vYmotCj4gPiA+ID4gaW1wb3J0X2F0dGFjaC0+
-ZG1hYnVmLCAmbWFwKTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRy
-bV9wcmltZV9nZW1fZGVzdHJveShnZW1fb2JqLCBkbWFfb2JqLT5zZ3QpOwo+ID4gPiDCoMKgwqDC
-oMKgwqDCoMKgwqB9IGVsc2UgaWYgKGRtYV9vYmotPnZhZGRyKSB7Cj4gPiA+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoZG1hX29iai0+bWFwX25vbmNvaGVyZW50KQo+ID4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKGRtYV9vYmotPmNhY2hlZCAmJiBkbWFf
-b2JqLT5jb2hlcmVudCkKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBkbWFfZnJlZV9jb2hlcmVudChnZW1fb2JqLT5kZXYtPmRldiwKPiA+ID4gZG1h
-X29iai0KPiA+ID4gPiBiYXNlLnNpemUsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBk
-bWFfb2JqLT52YWRkciwKPiA+ID4gZG1hX29iai0KPiA+ID4gPiBkbWFfYWRkcik7Cj4gPiA+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlbHNlIGlmIChkbWFfb2JqLT5jYWNoZWQgJiYg
-IWRtYV9vYmotPmNvaGVyZW50KQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9mcmVlX25vbmNvaGVyZW50KGdlbV9vYmotPmRldi0+ZGV2
-LAo+ID4gPiBkbWFfb2JqLT5iYXNlLnNpemUsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBkbWFfb2JqLT52YWRkciwKPiA+ID4gZG1hX29iai0KPiA+ID4gPiBkbWFfYWRk
-ciwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERNQV9UT19ERVZJQ0Up
-Owo+ID4gPiBAQCAtNTMyLDcgKzU0NCw3IEBAIGludCBkcm1fZ2VtX2RtYV9tbWFwKHN0cnVjdAo+
-ID4gPiBkcm1fZ2VtX2RtYV9vYmplY3QKPiA+ID4gKmRtYV9vYmosIHN0cnVjdCB2bV9hcmVhX3N0
-cnVjdCAqCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoHZtYS0+dm1fcGdvZmYgLT0gZHJtX3ZtYV9u
-b2RlX3N0YXJ0KCZvYmotPnZtYV9ub2RlKTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgdm1fZmxh
-Z3NfbW9kKHZtYSwgVk1fRE9OVEVYUEFORCwgVk1fUEZOTUFQKTsKPiA+ID4gwqAgCj4gPiA+IC3C
-oMKgwqDCoMKgwqDCoGlmIChkbWFfb2JqLT5tYXBfbm9uY29oZXJlbnQpIHsKPiA+ID4gK8KgwqDC
-oMKgwqDCoMKgaWYgKGRtYV9vYmotPmNhY2hlZCkgewo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgdm1hLT52bV9wYWdlX3Byb3QgPSB2bV9nZXRfcGFnZV9wcm90KHZtYS0K
-PiA+ID4gPnZtX2ZsYWdzKTsKPiA+ID4gwqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqByZXQgPSBkbWFfbW1hcF9wYWdlcyhkbWFfb2JqLT5iYXNlLmRldi0+ZGV2LAo+
-ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2
-LmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS1kcnYuYwo+ID4g
-PiBpbmRleCA1ZWM3NWU5YmE0OTkuLmEzZGYyZjk5YTc1NyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMKPiA+ID4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMKPiA+ID4gQEAgLTkxOSw3ICs5MTks
-MTAgQEAgaW5nZW5pY19kcm1fZ2VtX2NyZWF0ZV9vYmplY3Qoc3RydWN0Cj4gPiA+IGRybV9kZXZp
-Y2UKPiA+ID4gKmRybSwgc2l6ZV90IHNpemUpCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGlmICgh
-b2JqKQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIEVSUl9Q
-VFIoLUVOT01FTSk7Cj4gPiA+IMKgIAo+ID4gPiAtwqDCoMKgwqDCoMKgwqBvYmotPm1hcF9ub25j
-b2hlcmVudCA9IHByaXYtPnNvY19pbmZvLT5tYXBfbm9uY29oZXJlbnQ7Cj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoGlmIChwcml2LT5zb2NfaW5mby0+bWFwX25vbmNvaGVyZW50KSB7Cj4gPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBvYmotPmNhY2hlZCA9IHRydWU7Cj4gPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBvYmotPmNvaGVyZW50ID0gZmFsc2U7Cj4gPiA+ICvC
-oMKgwqDCoMKgwqDCoH0KPiA+ID4gwqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAm
-b2JqLT5iYXNlOwo+ID4gPiDCoMKgfQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3JjYXItZHUvS2NvbmZpZwo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLQo+ID4gPiBkdS9L
-Y29uZmlnCj4gPiA+IGluZGV4IDUzYzM1NmFlZDVkNS4uZGRkYzcwYzA4YmRjIDEwMDY0NAo+ID4g
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9LY29uZmlnCj4gPiA+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcKPiA+ID4gQEAgLTIsOCArMiw2IEBACj4gPiA+IMKg
-wqBjb25maWcgRFJNX1JDQVJfRFUKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgdHJpc3RhdGUgIkRS
-TSBTdXBwb3J0IGZvciBSLUNhciBEaXNwbGF5IFVuaXQiCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oGRlcGVuZHMgb24gRFJNICYmIE9GCj4gPiA+IC3CoMKgwqDCoMKgwqDCoGRlcGVuZHMgb24gQVJN
-IHx8IEFSTTY0Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGRlcGVuZHMgb24gQVJDSF9SRU5FU0FTIHx8
-IENPTVBJTEVfVEVTVAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqBzZWxlY3QgRFJNX0tNU19IRUxQ
-RVIKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgc2VsZWN0IERSTV9HRU1fRE1BX0hFTFBFUgo+ID4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqBzZWxlY3QgVklERU9NT0RFX0hFTFBFUlMKPiA+ID4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfa21zLmMKPiA+ID4gYi9kcml2
-ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2ttcy5jCj4gPiA+IGluZGV4IGFkZmIzNmIwZTgx
-NS4uMTE0MmQ1MTQ3M2U2IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1k
-dS9yY2FyX2R1X2ttcy5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJf
-ZHVfa21zLmMKPiA+ID4gQEAgLTM4Niw3ICszODYsOSBAQCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QK
-PiA+ID4gKnJjYXJfZHVfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqBnZW1fb2JqLT5mdW5jcyA9ICZyY2FyX2R1
-X2dlbV9mdW5jczsKPiA+ID4gwqAgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGRybV9nZW1fcHJp
-dmF0ZV9vYmplY3RfaW5pdChkZXYsIGdlbV9vYmosIGF0dGFjaC0KPiA+ID4gPmRtYWJ1Zi0KPiA+
-ID4gPiBzaXplKTsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgZG1hX29iai0+bWFwX25vbmNvaGVyZW50
-ID0gZmFsc2U7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgZG1hX29iai0+Y2FjaGVkID0g
-ZmFsc2U7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGRtYV9vYmotPmNvaGVyZW50ID0gZmFsc2U7Cj4g
-PiA+IMKgIAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSBkcm1fZ2VtX2NyZWF0ZV9tbWFw
-X29mZnNldChnZW1fb2JqKTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHJldCkgewo+ID4g
-PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2dlbV9kbWFfaGVscGVyLmgKPiA+ID4gYi9p
-bmNsdWRlL2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuaAo+ID4gPiBpbmRleCA4YTA0MzIzNWRhZDgu
-LjU4NWNlM2Q0ZDFlYiAxMDA2NDQKPiA+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dlbV9kbWFf
-aGVscGVyLmgKPiA+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV9kbWFfaGVscGVyLmgKPiA+
-ID4gQEAgLTE2LDcgKzE2LDkgQEAgc3RydWN0IGRybV9tb2RlX2NyZWF0ZV9kdW1iOwo+ID4gPiDC
-oMKgICrCoMKgwqDCoMKgwqAgbW9yZSB0aGFuIG9uZSBlbnRyeSBidXQgdGhleSBhcmUgZ3VhcmFu
-dGVlZCB0byBoYXZlCj4gPiA+IGNvbnRpZ3VvdXMKPiA+ID4gwqDCoCAqwqDCoMKgwqDCoMKgIERN
-QSBhZGRyZXNzZXMuCj4gPiA+IMKgwqAgKiBAdmFkZHI6IGtlcm5lbCB2aXJ0dWFsIGFkZHJlc3Mg
-b2YgdGhlIGJhY2tpbmcgbWVtb3J5Cj4gPiA+IC0gKiBAbWFwX25vbmNvaGVyZW50OiBpZiB0cnVl
-LCB0aGUgR0VNIG9iamVjdCBpcyBiYWNrZWQgYnkgbm9uLQo+ID4gPiBjb2hlcmVudCBtZW1vcnkK
-PiA+ID4gKyAqIEBjYWNoZWQ6IGlmIHRydWUsIHRoZSBHRU0gb2JqZWN0IGlzIGJhY2tlZCBieSBj
-YWNoZWQgbWVtb3J5Cj4gPiA+ICsgKiBAY29oZXJlbnQ6IFRoaXMgb3B0aW9uIG9ubHkgbWVhbmlu
-Z2Z1bCB3aGVuIGEgR0VNIG9iamVjdCBpcwo+ID4gPiBjYWNoZWQuCj4gPiA+ICsgKsKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgSWYgdHJ1ZSwgU3luYyB0aGUgR0VNIG9iamVjdCBmb3IgRE1BIGFjY2Vz
-cyBpcyBub3QKPiA+ID4gcmVxdWlyZWQuCj4gPiA+IMKgwqAgKi8KPiA+ID4gwqDCoHN0cnVjdCBk
-cm1fZ2VtX2RtYV9vYmplY3Qgewo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgYmFzZTsKPiA+ID4gQEAgLTI2LDcgKzI4LDggQEAgc3RydWN0IGRybV9nZW1fZG1h
-X29iamVjdCB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoC8qIEZvciBvYmplY3RzIHdpdGggRE1B
-IG1lbW9yeSBhbGxvY2F0ZWQgYnkgR0VNIERNQSAqLwo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqB2
-b2lkICp2YWRkcjsKPiA+ID4gwqAgCj4gPiA+IC3CoMKgwqDCoMKgwqDCoGJvb2wgbWFwX25vbmNv
-aGVyZW50Owo+ID4gPiArwqDCoMKgwqDCoMKgwqBib29sIGNhY2hlZDsKPiA+ID4gK8KgwqDCoMKg
-wqDCoMKgYm9vbCBjb2hlcmVudDsKPiA+ID4gwqDCoH07Cj4gPiA+IMKgIAo+ID4gPiDCoMKgI2Rl
-ZmluZSB0b19kcm1fZ2VtX2RtYV9vYmooZ2VtX29iaikgXAo+IAoK
+On Wed, Jun 07, 2023 at 02:59:20AM +0000, Yoshihiro Shimoda wrote:
+> Hello Serge,
+> 
+> > From: Serge Semin, Sent: Monday, June 5, 2023 11:39 PM
+> > 
+> > On Wed, May 10, 2023 at 03:22:31PM +0900, Yoshihiro Shimoda wrote:
+> > > Add R-Car Gen4 PCIe Host support. This controller is based on
+> > > Synopsys DesignWare PCIe, but this controller has vendor-specific
+> > > registers so that requires initialization code like mode setting
+> > > and retraining and so on.
+> > >
+> > > To reduce code delta, adds some helper functions which are used by
+> > > both the host driver and the endpoint driver (which is added
+> > > immediately afterwards) into a separate file.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > >  drivers/pci/controller/dwc/Kconfig            |   9 +
+> > >  drivers/pci/controller/dwc/Makefile           |   2 +
+> > >  .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 141 +++++++++++++
+> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 190 ++++++++++++++++++
+> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  46 +++++
+> > >  5 files changed, 388 insertions(+)
+> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
+> > >
+> > > diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+> > > index ab96da43e0c2..64d4d37bc891 100644
+> > > --- a/drivers/pci/controller/dwc/Kconfig
+> > > +++ b/drivers/pci/controller/dwc/Kconfig
+> > > @@ -415,4 +415,13 @@ config PCIE_VISCONTI_HOST
+> > >  	  Say Y here if you want PCIe controller support on Toshiba Visconti SoC.
+> > >  	  This driver supports TMPV7708 SoC.
+> > >
+> > > +config PCIE_RCAR_GEN4
+> > > +	tristate "Renesas R-Car Gen4 PCIe Host controller"
+> > > +	depends on ARCH_RENESAS || COMPILE_TEST
+> > > +	depends on PCI_MSI
+> > > +	select PCIE_DW_HOST
+> > > +	help
+> > > +	  Say Y here if you want PCIe host controller support on R-Car Gen4 SoCs.
+> > > +	  This uses the DesignWare core.
+> > > +
+> > >  endmenu
+> > > diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
+> > > index bf5c311875a1..486cf706b53d 100644
+> > > --- a/drivers/pci/controller/dwc/Makefile
+> > > +++ b/drivers/pci/controller/dwc/Makefile
+> > > @@ -26,6 +26,8 @@ obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
+> > >  obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
+> > >  obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
+> > >  obj-$(CONFIG_PCIE_VISCONTI_HOST) += pcie-visconti.o
+> > > +pcie-rcar-gen4-host-drv-objs := pcie-rcar-gen4.o pcie-rcar-gen4-host.o
+> > > +obj-$(CONFIG_PCIE_RCAR_GEN4) += pcie-rcar-gen4-host-drv.o
+> > >
+> > >  # The following drivers are for devices that use the generic ACPI
+> > >  # pci_root.c driver but don't support standard ECAM config access.
+> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c b/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+> > > new file mode 100644
+> > > index 000000000000..df7d80f1874f
+> > > --- /dev/null
+> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+> > > @@ -0,0 +1,141 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * PCIe host controller driver for Renesas R-Car Gen4 Series SoCs
+> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/pci.h>
+> > > +#include <linux/platform_device.h>
+> > > +
+> > > +#include "pcie-rcar-gen4.h"
+> > > +#include "pcie-designware.h"
+> > > +
+> > > +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+> > > +{
+> > > +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > +	int ret;
+> > > +	u32 val;
+> > > +
+> > > +	gpiod_set_value_cansleep(dw->pe_rst, 1);
+> > > +
+> > > +	ret = rcar_gen4_pcie_set_device_type(rcar, true, dw->num_lanes);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > 
+> > > +	dw_pcie_dbi_ro_wr_en(dw);
+> > 
+> > Are you sure dw_pcie_dbi_ro_wr_en() and dw_pcie_dbi_ro_wr_dis() are
+> > needed? In accordance with the DW PCIe Dual-mode HW manual the BARx
+> > registers are W-only over the DBI2 map with no need in setting the
+> > DBI_RO_WR_EN flag.
+> > 
+> > Please check that on your hardware.
+> 
+> You're correct. They are not needed. So, I'll drop this on v17.
+> 
+> > > +
+> > > +	/*
+> > > +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
+> > > +	 * Rev.5.20a, we should disable two BARs to avoid unnecessary memory
+> > > +	 * assignment during device enumeration.
+> > > +	 */
+> > > +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+> > > +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
+> > > +
+> > 
+> > > +	dw_pcie_dbi_ro_wr_dis(dw);
+> > 
+> > ditto
+> 
+> I'll drop this too.
+> 
+> > > +
+> > > +	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+> > > +		/* Enable MSI interrupt signal */
+> > > +		val = readl(rcar->base + PCIEINTSTS0EN);
+> > > +		val |= MSI_CTRL_INT;
+> > > +		writel(val, rcar->base + PCIEINTSTS0EN);
+> > > +	}
+> > > +
+> > > +	msleep(100);	/* pe_rst requires 100msec delay */
+> > > +
+> > > +	gpiod_set_value_cansleep(dw->pe_rst, 0);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct dw_pcie_host_ops rcar_gen4_pcie_host_ops = {
+> > > +	.host_init = rcar_gen4_pcie_host_init,
+> > > +};
+> > > +
+> > > +static int rcar_gen4_add_dw_pcie_rp(struct rcar_gen4_pcie *rcar,
+> > > +				   struct platform_device *pdev)
+> > > +{
+> > > +	struct dw_pcie *dw = &rcar->dw;
+> > > +	struct dw_pcie_rp *pp = &dw->pp;
+> > > +
+> > > +	pp->num_vectors = MAX_MSI_IRQS;
+> > > +	pp->ops = &rcar_gen4_pcie_host_ops;
+> > > +	dw_pcie_cap_set(dw, REQ_RES);
+> > > +
+> > > +	return dw_pcie_host_init(pp);
+> > > +}
+> > > +
+> > > +static void rcar_gen4_remove_dw_pcie_rp(struct rcar_gen4_pcie *rcar)
+> > > +{
+> > > +	dw_pcie_host_deinit(&rcar->dw.pp);
+> > > +	gpiod_set_value_cansleep(rcar->dw.pe_rst, 1);
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct device *dev = &pdev->dev;
+> > > +	struct rcar_gen4_pcie *rcar;
+> > > +	int err;
+> > > +
+> > > +	rcar = rcar_gen4_pcie_devm_alloc(dev);
+> > > +	if (!rcar)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	err = rcar_gen4_pcie_get_resources(rcar, pdev);
+> > > +	if (err < 0) {
+> > > +		dev_err(dev, "Failed to request resource: %d\n", err);
+> > > +		return err;
+> > > +	}
+> > > +
+> > > +	platform_set_drvdata(pdev, rcar);
+> > > +
+> > > +	err = rcar_gen4_pcie_prepare(rcar);
+> > > +	if (err < 0)
+> > > +		return err;
+> > > +
+> > > +	rcar->needs_retrain = true;
+> > > +	err = rcar_gen4_add_dw_pcie_rp(rcar, pdev);
+> > > +	if (err < 0)
+> > > +		goto err_add;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +err_add:
+> > > +	rcar_gen4_pcie_unprepare(rcar);
+> > > +
+> > > +	return err;
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_remove(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar = platform_get_drvdata(pdev);
+> > > +
+> > > +	rcar_gen4_remove_dw_pcie_rp(rcar);
+> > > +	rcar_gen4_pcie_unprepare(rcar);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct of_device_id rcar_gen4_pcie_of_match[] = {
+> > > +	{ .compatible = "renesas,rcar-gen4-pcie", },
+> > > +	{},
+> > > +};
+> > > +
+> > > +static struct platform_driver rcar_gen4_pcie_driver = {
+> > > +	.driver = {
+> > > +		.name = "pcie-rcar-gen4",
+> > > +		.of_match_table = rcar_gen4_pcie_of_match,
+> > > +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> > > +	},
+> > > +	.probe = rcar_gen4_pcie_probe,
+> > > +	.remove = rcar_gen4_pcie_remove,
+> > > +};
+> > > +module_platform_driver(rcar_gen4_pcie_driver);
+> > > +
+> > > +MODULE_DESCRIPTION("Renesas R-Car Gen4 PCIe host controller driver");
+> > > +MODULE_LICENSE("GPL");
+> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > > new file mode 100644
+> > > index 000000000000..35923fda8ed5
+> > > --- /dev/null
+> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > > @@ -0,0 +1,190 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * PCIe host/endpoint controller driver for Renesas R-Car Gen4 Series SoCs
+> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/io.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/pci.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/reset.h>
+> > > +
+> > > +#include "pcie-rcar-gen4.h"
+> > > +#include "pcie-designware.h"
+> > > +
+> > > +/* Renesas-specific */
+> > > +#define PCIERSTCTRL1		0x0014
+> > > +#define  APP_HOLD_PHY_RST	BIT(16)
+> > > +#define  APP_LTSSM_ENABLE	BIT(0)
+> > > +
+> > > +#define RETRAIN_MAX_CHECK	10
+> > > +#define RETRAIN_MAX_RETRIES	10
+> > > +
+> > > +static void rcar_gen4_pcie_ltssm_enable(struct rcar_gen4_pcie *rcar,
+> > > +					bool enable)
+> > > +{
+> > > +	u32 val;
+> > > +
+> > > +	val = readl(rcar->base + PCIERSTCTRL1);
+> > > +	if (enable) {
+> > > +		val |= APP_LTSSM_ENABLE;
+> > 
+> > > +		val &= ~APP_HOLD_PHY_RST;
+> > 
+> > What about moving the APP_HOLD_PHY_RST de-assertion to the
+> > rcar_gen4_pcie_set_device_type() method? In accordance with the
+> > "3.1 Initialization" chapter it's supposed to be done before
+> > performing the DBI programming and activating the link training.
+> 
 
+> IIUC, the "3.1 Initialization" said app_hold_phy_rst = 1 before
+> performing the DBI programming. So, it is assertion. Also, the SoC
+> documentation described the initializing procedure as the follows:
+>  app_ltssm_enable = 1
+>  app_hold_phy_rst = 0
+> So, I would like to keep them in the function.
+
+Indeed. I was wrong. Sorry for the misleading comment.
+
+> 
+> > > +	} else {
+> > > +		val &= ~APP_LTSSM_ENABLE;
+> > > +		val |= APP_HOLD_PHY_RST;
+> > > +	}
+> > > +	writel(val, rcar->base + PCIERSTCTRL1);
+> > > +}
+> > > +
+> > > +static bool rcar_gen4_pcie_check_retrain_link(struct dw_pcie *dw)
+> > > +{
+> > > +	u8 offset = dw_pcie_find_capability(dw, PCI_CAP_ID_EXP);
+> > > +	u32 lnkcap = dw_pcie_readl_dbi(dw, offset + PCI_EXP_LNKCAP);
+> > > +	u32 lnkctl = dw_pcie_readl_dbi(dw, offset + PCI_EXP_LNKCTL);
+> > > +	u16 lnksta = dw_pcie_readw_dbi(dw, offset + PCI_EXP_LNKSTA);
+> > > +	int i;
+> > > +
+> > 
+> > > +	if ((lnksta & PCI_EXP_LNKSTA_CLS) == (lnkcap & PCI_EXP_LNKCAP_SLS))
+> > > +		return true;
+> > > +
+> > > +	lnkctl |= PCI_EXP_LNKCTL_RL;
+> > > +	dw_pcie_writel_dbi(dw, offset + PCI_EXP_LNKCTL, lnkctl);
+> > > +
+> > > +	for (i = 0; i < RETRAIN_MAX_CHECK; i++) {
+> > > +		lnksta = dw_pcie_readw_dbi(dw, offset + PCI_EXP_LNKSTA);
+> > > +		if (lnksta & PCI_EXP_LNKSTA_LT)
+> > > +			return true;
+> > > +		usleep_range(1000, 1100);
+> > > +	}
+> > 
+> > I'll ask one more time because you didn't respond to my previous note
+> > about this.
+> 
+> I'm sorry. I completely overlooked the previous note.
+> 
+> > Are you sure that this is needed? Did you try
+> > the approach described in "3.13 Gen2/3/4/5 Speed Modes" with
+> > de-asserting/asserting the GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE flag?
+> 
+> I tried this setting, but it doesn't work. I'll investigate this setting more.
+> 
+> > I keep asking because the same problem we used to have on our hardware
+> > until we found out that the DIRECT_SPEED_CHANGE flag helped to train
+> > the link right to the speed specified in the capabilities.
+> > 
+> > So here is what presumably you'll need to do (based on the
+> > "3.1 Initialization" and "3.13 Gen2/3/4/5 Speed Modes" chapters of
+> > the DW PCIe DM hw-manual):
+> > 1. Make sure the controller is in the power-down/reset state.
+> > 2. Select device_type (EP or RP).
+> > 3. De-assert the controller reset.
+> > 4. Clear PHY-reset flag in the app registers.
+> > 5. Perform some controller initializations.
+> > 6. Enable LTSSM to start link training.
+> > 7. Set GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE flag one more time.
+> > 
+> > 1-4 are supposed to be done in rcar_gen4_pcie_host_init().
+> > 5 is performed in the framework of the DW PCIe core driver.
+> > 6-7 should be done in rcar_gen4_pcie_start_link().
+> > 
+> > Note 1. GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE flag is already set on stage
+> > 5 in the framework of the dw_pcie_setup_rc() method. But in our case
+> > it only caused having the Gen.2 link speed. Adding stage 7 helped to
+> > get stable Gen.3 link. So please try the denoted approach. If it works
+> > what about adding stage 7 twice in order to get Gen.4 speed?
+> > (waiting for the DIRECT_SPEED_CHANGE flag being auto-cleared and then
+> > set it up again?)
+> > 
+> > Note 2. GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE flag is defined as
+> > PCIE_LINK_WIDTH_SPEED_CONTROL.PORT_LOGIC_SPEED_CHANGE macros in the DW
+> > PCIe core driver.
+> > 
+> > Note 3. If what is suggested above works well then you won't need to
+> > have the heavy rcar_gen4_pcie_check_retrain_link() method in the way
+> > you have it defined.
+> 
+> Thank you very much for your comments!
+
+Please see the GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE description for details
+of how the flag is supposed to be de-asserted and asserted in order to
+initiate the direct speed change.
+
+> 
+> > > +
+> > > +	return false;
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_link_up(struct dw_pcie *dw)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > +	u32 val, mask;
+> > > +
+> > > +	val = readl(rcar->base + PCIEINTSTS0);
+> > > +	mask = RDLH_LINK_UP | SMLH_LINK_UP;
+> > > +
+> > > +	return (val & mask) == mask;
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > +	int i;
+> > > +
+> > > +	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> > > +
+> > > +	/*
+> > > +	 * Require retraining here. Otherwise RDLH_LINK_UP of PCIEINTSTS0 which
+> > > +	 * is this controller specific register may not be set.
+> > > +	 */
+> > > +	if (rcar->needs_retrain) {
+> > > +		for (i = 0; i < RETRAIN_MAX_RETRIES; i++) {
+> > > +			if (rcar_gen4_pcie_check_retrain_link(dw))
+> > > +				return 0;
+> > > +			msleep(100);
+> > > +		}
+> > > +
+> > > +		return -ETIMEDOUT;	/* Failed */
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void rcar_gen4_pcie_stop_link(struct dw_pcie *dw)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > +
+> > > +	rcar_gen4_pcie_ltssm_enable(rcar, false);
+> > > +}
+> > > +
+> > 
+> > > +int rcar_gen4_pcie_set_device_type(struct rcar_gen4_pcie *rcar, bool rc,
+> > > +				   int num_lanes)
+> > 
+> > 1. Number of lanes is already defined in the rcar_gen4_pcie.dw.num_lanes field.
+> > What about using it from there instead of passing it as an argument?
+> > 2. DW PCIe core driver has a very handy enum defined:
+> > dw_pcie_device_mode. It describes the controller modes (End-point,
+> > Root port, etc). What about adding the mode field right to the
+> > rcar_gen4_pcie structure and initializing it in someplace in probe() ?
+> > 3. Based on the function semantic it's better to be named as something
+> > like rcar_gen4_pcie_init_device() or even rcar_gen4_pcie_basic_init().
+> 
+> Thank you for your comments! I'll modify the function.
+> 
+> > 
+> > > +{
+> > > +	u32 val;
+> > > +
+> > 
+> > > +	/* Note: Assume the rcar->rst which is Cold-reset is asserted here */
+> > 
+> > What about directly asserting it here then? In accordance with the DW
+> > PCIe DM manual the "device_type" input must be set before the DM
+> > controller is powered up (basically un-reset). What if the controller
+> > reset is already de-asserted, but you are going to changes its mode?
+> > In that case the mode won't be changed and you'll end up with
+> > unpredictable results.
+> 
+> Thank you for your comment. We should add asserting it here as you mentioned.
+> 
+> > > +	val = readl(rcar->base + PCIEMSR0);
+> > > +	if (rc)
+> > > +		val |= DEVICE_TYPE_RC;
+> > > +	else
+> > > +		val |= DEVICE_TYPE_EP;
+> > > +
+> > > +	if (num_lanes < 4)
+> > > +		val |= BIFUR_MOD_SET_ON;
+> > > +
+> > > +	writel(val, rcar->base + PCIEMSR0);
+> > > +
+> > > +	return reset_control_deassert(rcar->rst);
+> > > +}
+> > > +
+> > > +int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
+> > > +{
+> > > +	struct device *dev = rcar->dw.dev;
+> > > +	int err;
+> > > +
+> > > +	pm_runtime_enable(dev);
+> > > +	err = pm_runtime_resume_and_get(dev);
+> > > +	if (err < 0) {
+> > > +		dev_err(dev, "Failed to resume/get Runtime PM\n");
+> > > +		pm_runtime_disable(dev);
+> > > +	}
+> > > +
+> > > +	return err;
+> > > +}
+> > > +
+> > > +void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+> > > +{
+> > > +	struct device *dev = rcar->dw.dev;
+> > > +
+> > > +	if (!reset_control_status(rcar->rst))
+> > > +		reset_control_assert(rcar->rst);
+> > > +	pm_runtime_put(dev);
+> > > +	pm_runtime_disable(dev);
+> > > +}
+> > > +
+> > > +int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar,
+> > > +				 struct platform_device *pdev)
+> > > +{
+> > > +	struct device *dev = rcar->dw.dev;
+> > > +
+> > > +	/* Renesas-specific registers */
+> > > +	rcar->base = devm_platform_ioremap_resource_byname(pdev, "app");
+> > > +	if (IS_ERR(rcar->base))
+> > > +		return PTR_ERR(rcar->base);
+> > > +
+> > 
+> > > +	rcar->rst = devm_reset_control_get(dev, NULL);
+> > > +	if (IS_ERR(rcar->rst)) {
+> > > +		dev_err(dev, "Failed to get Cold-reset\n");
+> > 
+> > So AFAICS your platform is equipped with the DWC_pcie_clkrst.v module.
+> > Thus all the resets are appropriately cleared by a single flag:
+> > power_up_rst_n. What about using the named reset in this case with the
+> > "pwr" name? Thus you'll be able to drop the manual
+> > devm_reset_control_get() invocation and instead use the reset-resources
+> > requested in the framework of the generic dw_pcie_get_resources()
+> > method? Note you'll need to move the dw_pcie_cap_set(dw, REQ_RES);
+> > statement to rcar_gen4_pcie_devm_alloc() then and drop the
+> > rcar_gen4_pcie.rst field afterwords.
+> 
+> Thank you for your suggestion! Using "pwr" can work on my environment.
+> 
+> > By the way I don't see you requesting and enabling the reference
+> > clock in your driver but the bindings imply the clock source. How
+> > come?
+> 
+
+> For now, I used gpio-hog to enable the reference clock. But, it seem
+> I should use "ref" clock for it. So, I'll fix it too.
+
+Not sure what gpio-hog you are talking about. Do you mean the pe_rst
+signal or some another gpio? I failed to see of how pe_rst is
+connected to the clock source. In anyway directly handling the clock
+source would be more portable choice.
+
+-Serge(y)
+
+> 
+> > > +		return PTR_ERR(rcar->rst);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct dw_pcie_ops dw_pcie_ops = {
+> > > +	.start_link = rcar_gen4_pcie_start_link,
+> > > +	.stop_link = rcar_gen4_pcie_stop_link,
+> > > +	.link_up = rcar_gen4_pcie_link_up,
+> > > +};
+> > > +
+> > > +struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct device *dev)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar;
+> > > +
+> > > +	rcar = devm_kzalloc(dev, sizeof(*rcar), GFP_KERNEL);
+> > > +	if (!rcar)
+> > > +		return NULL;
+> > > +
+> > > +	rcar->dw.dev = dev;
+> > > +	rcar->dw.ops = &dw_pcie_ops;
+> > > +	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
+> > > +
+> > > +	return rcar;
+> > > +}
+> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.h b/drivers/pci/controller/dwc/pcie-rcar-gen4.h
+> > > new file mode 100644
+> > > index 000000000000..fec3f18609f4
+> > > --- /dev/null
+> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.h
+> > > @@ -0,0 +1,46 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +/*
+> > > + * PCIe host/endpoint controller driver for Renesas R-Car Gen4 Series SoCs
+> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
+> > > + */
+> > > +
+> > > +#ifndef _PCIE_RCAR_GEN4_H_
+> > > +#define _PCIE_RCAR_GEN4_H_
+> > > +
+> > > +#include <linux/io.h>
+> > > +#include <linux/pci.h>
+> > > +#include <linux/reset.h>
+> > > +
+> > > +#include "pcie-designware.h"
+> > > +
+> > > +/* Renesas-specific */
+> > > +#define PCIEMSR0		0x0000
+> > > +#define  BIFUR_MOD_SET_ON	BIT(0)
+> > > +#define  DEVICE_TYPE_EP		0
+> > > +#define  DEVICE_TYPE_RC		BIT(4)
+> > > +
+> > > +#define PCIEINTSTS0		0x0084
+> > > +#define PCIEINTSTS0EN		0x0310
+> > > +#define  MSI_CTRL_INT		BIT(26)
+> > > +#define  SMLH_LINK_UP		BIT(7)
+> > > +#define  RDLH_LINK_UP		BIT(6)
+> > > +#define PCIEDMAINTSTSEN		0x0314
+> > > +#define  PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+> > > +
+> > 
+> > > +struct rcar_gen4_pcie {
+> > 
+> > As I mentioned above this structure can be extended with the enum
+> > dw_pcie_device_mode field thus dropping the boolean argument from the
+> > rcar_gen4_pcie_set_device_type() method.
+> 
+> I got it. I'll fix this.
+> 
+> > > +	struct dw_pcie		dw;
+> > 
+> > As I already mentioned above the dw.num_lanes could be used instead of
+> > passing it as the rcar_gen4_pcie_set_device_type() argument.
+> 
+> I'll fix this too.
+> 
+> Best regards,
+> Yoshihiro Shimoda
+> 
+> > -Serge(y)
+> > 
+> > > +	void __iomem		*base;
+> > > +	struct reset_control	*rst;
+> > > +	bool			needs_retrain;
+> > > +};
+> > > +#define to_rcar_gen4_pcie(x)	dev_get_drvdata((x)->dev)
+> > > +
+> > > +int rcar_gen4_pcie_set_device_type(struct rcar_gen4_pcie *rcar, bool rc,
+> > > +				   int num_lanes);
+> > > +int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *pcie);
+> > > +void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *pcie);
+> > > +int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar,
+> > > +				 struct platform_device *pdev);
+> > > +struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct device *dev);
+> > > +
+> > > +#endif /* _PCIE_RCAR_GEN4_H_ */
+> > > --
+> > > 2.25.1
+> > >
