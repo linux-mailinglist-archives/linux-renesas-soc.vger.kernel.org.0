@@ -2,198 +2,196 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C707251D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 03:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E993725224
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 04:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233723AbjFGB44 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 21:56:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        id S240396AbjFGCjd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 22:39:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236368AbjFGB4z (ORCPT
+        with ESMTP id S234044AbjFGCjd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 21:56:55 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC811196;
-        Tue,  6 Jun 2023 18:56:52 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.00,222,1681138800"; 
-   d="scan'208";a="162480707"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Jun 2023 10:56:51 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 530A5411C514;
-        Wed,  7 Jun 2023 10:56:51 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     maciej.fijalkowski@intel.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v3 2/2] net: renesas: rswitch: Use hardware pause features
-Date:   Wed,  7 Jun 2023 10:56:41 +0900
-Message-Id: <20230607015641.1724057-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230607015641.1724057-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230607015641.1724057-1-yoshihiro.shimoda.uh@renesas.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tue, 6 Jun 2023 22:39:33 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2313CE78
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jun 2023 19:39:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686105572; x=1717641572;
+  h=date:from:to:cc:subject:message-id;
+  bh=bQlHHk5YIhH3FUbleveEryqAeYec2GQcSEXEzpVn6mE=;
+  b=BmHyjXm9kFPhVzx8+XWs0zzuEEJXSUzrRdAFd3mJWIx90dBJd1wWfHSc
+   nKy2cr1h6DYLOA2980NeAJkeIrxQi0flIK7pD06GSdvkdomo6B7REsmFL
+   zQ6r77IiLImh6VZua7uPwV7/wDh0Eb8YRNx6xO1jBAOZPLnqtc0IDkmzH
+   +LJ+IqbyA2Ha87XvI9yfYCCO0mCiRhHoexZ2E9XY0SPBzSFczCo3olemd
+   JAIyPRseyNNlMWUn/ziZh1Ly4kzehpUsc4CsUz/3wHtoASgbF/KdKgWHP
+   ZzRp/qEe0yBsCPms6TgH747cCE0MDZg827ryGlXpCu5GBYluNhJ4aU74a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="337219907"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="337219907"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 19:39:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="712418963"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="712418963"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 06 Jun 2023 19:39:30 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q6j57-00061L-2M;
+        Wed, 07 Jun 2023 02:39:29 +0000
+Date:   Wed, 07 Jun 2023 10:38:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ a4b790f7e5ea4c595b8d6270ef450835db73186b
+Message-ID: <20230607023858.03gR5%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since this driver used the "global rate limiter" feature of GWCA,
-the TX perfromance of each port was reduced when multiple ports
-transmitted frames simultaneously. To improve perfromance, remove
-the use of the "global rate limiter" feature and use "hardware pause"
-features of the following:
- - "per priority pause" of GWCA
- - "global pause" of COMA
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: a4b790f7e5ea4c595b8d6270ef450835db73186b  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Note that these features are not related to the ethernet PAUSE frame.
+elapsed time: 725m
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 36 ++++++++++----------------
- drivers/net/ethernet/renesas/rswitch.h |  7 +++++
- 2 files changed, 21 insertions(+), 22 deletions(-)
+configs tested: 119
+configs skipped: 9
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 7bb0a6d594a0..84f62c77eb8f 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -90,6 +90,11 @@ static int rswitch_bpool_config(struct rswitch_private *priv)
- 	return rswitch_reg_wait(priv->addr, CABPIRM, CABPIRM_BPR, CABPIRM_BPR);
- }
- 
-+static void rswitch_coma_init(struct rswitch_private *priv)
-+{
-+	iowrite32(CABPPFLC_INIT_VALUE, priv->addr + CABPPFLC0);
-+}
-+
- /* R-Switch-2 block (TOP) */
- static void rswitch_top_init(struct rswitch_private *priv)
- {
-@@ -156,24 +161,6 @@ static int rswitch_gwca_axi_ram_reset(struct rswitch_private *priv)
- 	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR);
- }
- 
--static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, int rate)
--{
--	u32 gwgrlulc, gwgrlc;
--
--	switch (rate) {
--	case 1000:
--		gwgrlulc = 0x0000005f;
--		gwgrlc = 0x00010260;
--		break;
--	default:
--		dev_err(&priv->pdev->dev, "%s: This rate is not supported (%d)\n", __func__, rate);
--		return;
--	}
--
--	iowrite32(gwgrlulc, priv->addr + GWGRLULC);
--	iowrite32(gwgrlc, priv->addr + GWGRLC);
--}
--
- static bool rswitch_is_any_data_irq(struct rswitch_private *priv, u32 *dis, bool tx)
- {
- 	u32 *mask = tx ? priv->gwca.tx_irq_bits : priv->gwca.rx_irq_bits;
-@@ -402,7 +389,7 @@ static int rswitch_gwca_queue_format(struct net_device *ndev,
- 	linkfix->die_dt = DT_LINKFIX;
- 	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
- 
--	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_EDE,
-+	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_DQT : 0) | GWDCC_EDE,
- 		  priv->addr + GWDCC_OFFS(gq->index));
- 
- 	return 0;
-@@ -500,7 +487,8 @@ static int rswitch_gwca_queue_ext_ts_format(struct net_device *ndev,
- 	linkfix->die_dt = DT_LINKFIX;
- 	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
- 
--	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_ETS | GWDCC_EDE,
-+	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_DQT : 0) |
-+		  GWDCC_ETS | GWDCC_EDE,
- 		  priv->addr + GWDCC_OFFS(gq->index));
- 
- 	return 0;
-@@ -649,7 +637,8 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
- 	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC10);
- 	iowrite32(upper_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC00);
- 	iowrite32(GWCA_TS_IRQ_BIT, priv->addr + GWTSDCC0);
--	rswitch_gwca_set_rate_limit(priv, priv->gwca.speed);
-+
-+	iowrite32(GWTPC_PPPL(GWCA_IPV_NUM), priv->addr + GWTPC0);
- 
- 	for (i = 0; i < RSWITCH_NUM_PORTS; i++) {
- 		err = rswitch_rxdmac_init(priv, i);
-@@ -1502,7 +1491,8 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
- 	rswitch_desc_set_dptr(&desc->desc, dma_addr);
- 	desc->desc.info_ds = cpu_to_le16(skb->len);
- 
--	desc->info1 = cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) | INFO1_FMT);
-+	desc->info1 = cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) |
-+				  INFO1_IPV(GWCA_IPV_NUM) | INFO1_FMT);
- 	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
- 		struct rswitch_gwca_ts_info *ts_info;
- 
-@@ -1772,6 +1762,8 @@ static int rswitch_init(struct rswitch_private *priv)
- 	if (err < 0)
- 		return err;
- 
-+	rswitch_coma_init(priv);
-+
- 	err = rswitch_gwca_linkfix_alloc(priv);
- 	if (err < 0)
- 		return -ENOMEM;
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index b3e0411b408e..bb9ed971a97c 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -48,6 +48,7 @@
- #define GWCA_NUM_IRQS		8
- #define GWCA_INDEX		0
- #define AGENT_INDEX_GWCA	3
-+#define GWCA_IPV_NUM		0
- #define GWRO			RSWITCH_GWCA0_OFFSET
- 
- #define GWCA_TS_IRQ_RESOURCE_NAME	"gwca0_rxts0"
-@@ -768,11 +769,14 @@ enum rswitch_gwca_mode {
- #define GWARIRM_ARR		BIT(1)
- 
- #define GWDCC_BALR		BIT(24)
-+#define GWDCC_DCP_MASK		GENMASK(18, 16)
-+#define GWDCC_DCP(prio)		FIELD_PREP(GWDCC_DCP_MASK, (prio))
- #define GWDCC_DQT		BIT(11)
- #define GWDCC_ETS		BIT(9)
- #define GWDCC_EDE		BIT(8)
- 
- #define GWTRC(queue)		(GWTRC0 + (queue) / 32 * 4)
-+#define GWTPC_PPPL(ipv)		BIT(ipv)
- #define GWDCC_OFFS(queue)	(GWDCC0 + (queue) * 4)
- 
- #define GWDIS(i)		(GWDIS0 + (i) * 0x10)
-@@ -789,6 +793,8 @@ enum rswitch_gwca_mode {
- #define CABPIRM_BPIOG		BIT(0)
- #define CABPIRM_BPR		BIT(1)
- 
-+#define CABPPFLC_INIT_VALUE	0x00800080
-+
- /* MFWD */
- #define FWPC0_LTHTA		BIT(0)
- #define FWPC0_IP4UE		BIT(3)
-@@ -863,6 +869,7 @@ enum DIE_DT {
- 
- /* For transmission */
- #define INFO1_TSUN(val)		((u64)(val) << 8ULL)
-+#define INFO1_IPV(prio)		((u64)(prio) << 28ULL)
- #define INFO1_CSD0(index)	((u64)(index) << 32ULL)
- #define INFO1_CSD1(index)	((u64)(index) << 40ULL)
- #define INFO1_DV(port_vector)	((u64)(port_vector) << 48ULL)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r005-20230606   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r015-20230606   gcc  
+alpha                randconfig-r031-20230606   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230606   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230606   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r003-20230606   gcc  
+arm64                randconfig-r016-20230606   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r014-20230606   gcc  
+hexagon              randconfig-r041-20230606   clang
+hexagon              randconfig-r045-20230606   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230606   gcc  
+i386                 randconfig-i002-20230606   gcc  
+i386                 randconfig-i003-20230606   gcc  
+i386                 randconfig-i004-20230606   gcc  
+i386                 randconfig-i005-20230606   gcc  
+i386                 randconfig-i006-20230606   gcc  
+i386                 randconfig-i011-20230606   clang
+i386                 randconfig-i012-20230606   clang
+i386                 randconfig-i013-20230606   clang
+i386                 randconfig-i014-20230606   clang
+i386                 randconfig-i015-20230606   clang
+i386                 randconfig-i016-20230606   clang
+i386                 randconfig-i051-20230606   gcc  
+i386                 randconfig-i052-20230606   gcc  
+i386                 randconfig-i053-20230606   gcc  
+i386                 randconfig-i054-20230606   gcc  
+i386                 randconfig-i055-20230606   gcc  
+i386                 randconfig-i056-20230606   gcc  
+i386                 randconfig-i061-20230606   gcc  
+i386                 randconfig-i062-20230606   gcc  
+i386                 randconfig-i063-20230606   gcc  
+i386                 randconfig-i064-20230606   gcc  
+i386                 randconfig-i065-20230606   gcc  
+i386                 randconfig-i066-20230606   gcc  
+i386                 randconfig-r033-20230606   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r004-20230606   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r003-20230606   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r022-20230606   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r021-20230606   gcc  
+nios2        buildonly-randconfig-r001-20230606   gcc  
+nios2                               defconfig   gcc  
+openrisc             randconfig-r024-20230606   gcc  
+openrisc             randconfig-r026-20230606   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r013-20230606   gcc  
+parisc64                            defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r006-20230606   gcc  
+powerpc              randconfig-r032-20230606   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230606   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r002-20230606   gcc  
+s390                 randconfig-r035-20230606   gcc  
+s390                 randconfig-r044-20230606   clang
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r002-20230606   gcc  
+sh                   randconfig-r034-20230606   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r005-20230606   gcc  
+sparc                randconfig-r012-20230606   gcc  
+sparc64      buildonly-randconfig-r006-20230606   gcc  
+sparc64              randconfig-r001-20230606   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230606   gcc  
+x86_64               randconfig-a002-20230606   gcc  
+x86_64               randconfig-a003-20230606   gcc  
+x86_64               randconfig-a004-20230606   gcc  
+x86_64               randconfig-a005-20230606   gcc  
+x86_64               randconfig-a006-20230606   gcc  
+x86_64               randconfig-a011-20230606   clang
+x86_64               randconfig-a012-20230606   clang
+x86_64               randconfig-a013-20230606   clang
+x86_64               randconfig-a014-20230606   clang
+x86_64               randconfig-a015-20230606   clang
+x86_64               randconfig-a016-20230606   clang
+x86_64               randconfig-r004-20230606   gcc  
+x86_64               randconfig-x051-20230606   clang
+x86_64               randconfig-x052-20230606   clang
+x86_64               randconfig-x053-20230606   clang
+x86_64               randconfig-x054-20230606   clang
+x86_64               randconfig-x055-20230606   clang
+x86_64               randconfig-x056-20230606   clang
+x86_64               randconfig-x061-20230606   clang
+x86_64               randconfig-x062-20230606   clang
+x86_64               randconfig-x063-20230606   clang
+x86_64               randconfig-x064-20230606   clang
+x86_64               randconfig-x065-20230606   clang
+x86_64               randconfig-x066-20230606   clang
+x86_64                               rhel-8.3   gcc  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
