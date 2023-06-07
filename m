@@ -2,243 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DFBD725EC4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 14:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C86677260F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 15:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239884AbjFGMTg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 08:19:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33848 "EHLO
+        id S240237AbjFGNSG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 09:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240645AbjFGMTf (ORCPT
+        with ESMTP id S235572AbjFGNSE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 08:19:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8FB170E;
-        Wed,  7 Jun 2023 05:19:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9DB0A63E6A;
-        Wed,  7 Jun 2023 12:19:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD412C433D2;
-        Wed,  7 Jun 2023 12:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686140372;
-        bh=sVlBMXZgb2WeMO8wyewjKVLUTq3MSJdNX3OB4y/Ih0A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=syPHLxNbaTloM+A4Y+SyVpODXo9hKoYl8uIYzugXbU1evZIQwJSUqGOUXJIAudKOv
-         BxET4O/2JAWaTLx67Hc7fHT31a7Y/R2C/cfLQe5IPSVSWO2U7RLArg+nIu82pF4D0f
-         bQt7AgAJckwuYC/VxhduACtREzcSPAf+OaWwd2b98JXVn5O1J4/yeszzZeUy3XQ5Mt
-         CUcJs8WOYh4GSRx2KAAd+9rm8NR5/QXLkVk4NJBgEDaRDu0ugFQFnJQ3Jg0Kpg7NFQ
-         F1XNEUlGiXK+H4kRvYqf0oezsxt+Q0RmOIUXpW8etepWYW7V5pHqflo7h1yp93nbm5
-         jBbDys4w0BVfg==
-Date:   Wed, 7 Jun 2023 14:19:29 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Sui Jingfeng <suijingfeng@loongson.cn>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-Message-ID: <l343rk4s6mrppjl3vxxvnwc52wlovg6bojduiy3qf5zup5ifzx@7qu7jilrsgn5>
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
- <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
- <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
+        Wed, 7 Jun 2023 09:18:04 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF7795;
+        Wed,  7 Jun 2023 06:18:03 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-565bdae581eso91258157b3.2;
+        Wed, 07 Jun 2023 06:18:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686143882; x=1688735882;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2Es088mB1G74PH8cSnIPoWoMThT+n2oIcmc2G12tfec=;
+        b=RAeb1V/uYUmxpvUlUpCVGBRLpkzxbl/QkmK5cwwYkQgGdAdcdRXzqYyT/F5dXLeAWq
+         B1OZ+3ABeXsAm25Fhduo5OBDC3bNv8wbcz8BeUkqsp5QcyjKMOZ/gM/XeyfZfZG1OzYE
+         Ya9coTNHQBuPDiGt2ScSLFGF1cs3oOFboGQB/9ctbNWJGXfIt3QVAVyHencjNhw5rRIP
+         h8LvRvkvxS51h6+TPvSLhaMqXVeIovPovcva4UTVDzvsAD5eDEmEHbaGkL3pqvXWEOCj
+         rlhRG0eCzG3pSn8CZjhoPvBD9YgEgW+0HHSomPad+i2euFUBdQcrWAAl5SJ/fNWovO/p
+         XYuw==
+X-Gm-Message-State: AC+VfDyFfkAXQx6YciouBXJjMD4rmSc+uEx0rNYirVyTMtHDGWJXkW/h
+        vsuRubZrmDsfUfjmsc603DrhhtVBvujD8g==
+X-Google-Smtp-Source: ACHHUZ5jPGfVqEHJcFDUfjQVqjgDvQjcXOoV55F9Ua0EgXbIyDezvW4ulHXZN8jzsUWf4itsrl4/4A==
+X-Received: by 2002:a0d:d7c9:0:b0:561:d6a2:fdb9 with SMTP id z192-20020a0dd7c9000000b00561d6a2fdb9mr6255238ywd.5.1686143882081;
+        Wed, 07 Jun 2023 06:18:02 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id w14-20020a81a20e000000b0055aad7d3f34sm4664814ywg.142.2023.06.07.06.18.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 06:18:01 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-ba829e17aacso9336393276.0;
+        Wed, 07 Jun 2023 06:18:01 -0700 (PDT)
+X-Received: by 2002:a0d:e604:0:b0:568:e7e6:4199 with SMTP id
+ p4-20020a0de604000000b00568e7e64199mr7449722ywe.6.1686143880825; Wed, 07 Jun
+ 2023 06:18:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rvdpeqztss6vkzn5"
-Content-Disposition: inline
-In-Reply-To: <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230530112050.5635-1-aford173@gmail.com>
+In-Reply-To: <20230530112050.5635-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 7 Jun 2023 15:17:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV8nWAMzetnSGGQvtvdyaMpMsYf3hg_scUXFFSowvxeLQ@mail.gmail.com>
+Message-ID: <CAMuHMdV8nWAMzetnSGGQvtvdyaMpMsYf3hg_scUXFFSowvxeLQ@mail.gmail.com>
+Subject: Re: [RFC 1/3] clk: renesas: rcar-gen3: Add support for ZG clock
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
+        marek.vasut+renesas@gmail.com, cstevens@beaconembedded.com,
+        aford@beaconembedded.com, Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Adam,
 
---rvdpeqztss6vkzn5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 07, 2023 at 06:30:01PM +0800, Sui Jingfeng wrote:
-> On 2023/6/7 17:36, Paul Cercueil wrote:
-> > Hi Sui,
-> >=20
-> > Le mercredi 07 juin 2023 =E0 13:30 +0800, Sui Jingfeng a =E9crit=A0:
-> > > The single map_noncoherent member of struct drm_gem_dma_object may
-> > > not
-> > > sufficient for describing the backing memory of the GEM buffer
-> > > object.
-> > >=20
-> > > Especially on dma-coherent systems, the backing memory is both cached
-> > > coherent for multi-core CPUs and dma-coherent for peripheral device.
-> > > Say architectures like X86-64, LoongArch64, Loongson Mips64, etc.
-> > >=20
-> > > Whether a peripheral device is dma-coherent or not can be
-> > > implementation-dependent. The single map_noncoherent option is not
-> > > enough
-> > > to reflect real hardware anymore. For example, the Loongson LS3A4000
-> > > CPU
-> > > and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
-> > > platform
-> > > allways snoop CPU's cache. Doing the allocation with
-> > > dma_alloc_coherent
-> > > function is preferred. The return buffer is cached, it should not
-> > > using
-> > > the default write-combine mapping. While with the current implement,
-> > > there
-> > > no way to tell the drm core to reflect this.
-> > >=20
-> > > This patch adds cached and coherent members to struct
-> > > drm_gem_dma_object.
-> > > which allow driver implements to inform the core. Introducing new
-> > > mappings
-> > > while keeping the original default behavior unchanged.
-> > Did you try to simply set the "dma-coherent" property to the device's
-> > node?
->=20
-> But this approach can only be applied for the device driver with DT suppo=
-rt.
+On Tue, May 30, 2023 at 1:21 PM Adam Ford <aford173@gmail.com> wrote:
+> A clock used for the 3D graphics appears to be common
+> among multiple SoC's, so add a generic gen3 clock
+> for clocking the graphics.
 >
-> X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically do not
-> have DT support.
->=20
-> They using ACPI to pass parameter from the firmware to Linux kernel.
->=20
-> You approach will lost the effectiveness on such a case.
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Not really, no. All DT support is doing is setting some generic device
-parameter based on that property, but the infrastructure is very much
-generic and can be used on systems without a DT.
+Thanks for your patch!
 
-> >  From what I understand if you add that property then Linux will use DMA
-> > coherent memory even though you use dma_alloc_noncoherent() and the
-> > sync_single_for_cpu() / sync_single_for_device() are then NOPs.
- >
-> Please do not mitigate the problems with confusing method.
+> --- a/drivers/clk/renesas/rcar-gen3-cpg.c
+> +++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+> @@ -301,6 +301,39 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+>         return clk;
+>  }
+>
+> +static struct clk * __init cpg_zg_clk_register(const char *name,
+> +                                              const char *parent_name,
+> +                                              void __iomem *reg,
+> +                                              unsigned int div,
+> +                                              unsigned int offset)
+> +{
+> +       struct clk_init_data init;
 
-It's not a confusing method, it's one of the two main API to deal with
-DMA buffers. And you might disagree with Paul but there's no need to be
-rude about it.
+"= {};", as you do not initialize all fields below.
 
-> This approach not only tend to generate confusion but also
-> implement-dependent and arch-dependent. It's definitely problematic.
->=20
->=20
-> How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH specific
-> thing.
->=20
-> Dependent on how does the arch_dma_ops is implemented.
->=20
->=20
-> The definition of the coherent on different ARCH has different meanings.
->=20
-> The definition of the wirte-combine on different ARCH has different
-> meanings.
->=20
->=20
-> The wirte-combine(uncache acceleration) on mips is non dma-coherent.
+> +       struct cpg_z_clk *zclk;
+> +       struct clk *clk;
+> +
+> +       zclk = kzalloc(sizeof(*zclk), GFP_KERNEL);
+> +       if (!zclk)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       init.name = name;
+> +       init.ops = &cpg_z_clk_ops;
+> +       init.flags = 0;
+> +       init.parent_names = &parent_name;
+> +       init.num_parents = 1;
+> +
+> +       zclk->reg = reg + CPG_FRQCRB;
+> +       zclk->kick_reg = reg + CPG_FRQCRB;
+> +       zclk->hw.init = &init;
+> +       zclk->mask = GENMASK(offset + 4, offset);
+> +       zclk->fixed_div = div; /* PLLVCO x 1/div1 x 3DGE divider x 1/div2 */
+> +
+> +       clk = clk_register(NULL, &zclk->hw);
+> +       if (IS_ERR(clk))
+> +               kfree(zclk);
+> +
+> +       return clk;
+> +}
 
-Then MIPS breaks the DMA allocation semantics. A buffer allocated with
-dma_alloc_wc is supposed to be coherent.
+This new function is very similar to the existing cpg_z_clk_register().
+The only differences are:
+  - init.flags = 0 vs. CLK_SET_RATE_PARENT, which should not matter
+    much,
+  - register CPG_FRQCRB vs. CPG_FRQCRC.
 
-> But on arm, It seem that wirte-combine is coherent. (guaranteed by arch
-> implement).
->=20
->=20
-> I also heard using dma_alloc_coherent=A0 to allocation the buffer for the
-> non-coherent doesn't hurt, but the reverse is not true.
->=20
->=20
-> But please do not create confusion.
->=20
-> software composite is faster because better cacheusing rate and
->=20
-> cache is faster to read.
->=20
-> It is faster because it is cached, not because it is non-coherent.
->=20
-> non-coherent is arch thing and/or driver-side thing,
->=20
-> it is a side effect of=A0 using the cached mapping.
+So I think it would be good to avoid duplication by adding a register
+parameter to cpg_z_clk_register(), to pass the Frequency Control Register
+offset to use.
 
-Honestly, it's not clear to me what your point or issue is.
 
-Going back to the description in your commit log, you mention that you
-want to support multiple hardware that might or might not be DMA
-coherent, and thus you want to allocate a buffer with different
-attributes depending on that?
+> +
+>  static const struct clk_div_table cpg_rpcsrc_div_table[] = {
+>         { 2, 5 }, { 3, 6 }, { 0, 0 },
+>  };
+> @@ -502,6 +535,9 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+>         case CLK_TYPE_GEN3_RPCD2:
+>                 return cpg_rpcd2_clk_register(core->name, base + CPG_RPCCKCR,
+>                                               __clk_get_name(parent));
+> +       case CLK_TYPE_GEN3_ZG:
+> +               return cpg_zg_clk_register(core->name, __clk_get_name(parent),
+> +                                          base, core->div, core->offset);
 
-Like, you say that the LS3A4000 has a coherency unit and thus doing the
-allocation with dma_alloc_coherent is preferred. Preferred to what? A WC
-buffer? Why?
+Please insert this right below the CLK_TYPE_GEN3_Z case.
 
-A WC buffer is a coherent buffer that is allowed to cache writes.
+>         default:
+>                 return ERR_PTR(-EINVAL);
 
-It doesn't have to, and worst case scenario you're inexactly the same
-case than a dma_alloc_coherent buffer.
+The rest LGTM.
 
-> It should left to driver to handle such a side effect. The device
-> driver know their device, so its the device driver's responsibility to
-> maintain the coherency.
+(Ideally, we wouldn't need a new clock type, and could just use
+ CLK_TYPE_GEN3_Z.  But then we would need to add a new field to struct
+ cpg_core_clk to store the FRQCR offset, as the .offset field is already
+ in use, which would increase all clock table sizes a lot.  Or we can
+ encode both register and bit offset in .offset...
+ All of this needs a big overhaul for switching to of_clk_add_hw_provider()
+ anyway, so I wouldn't bother for now.)
 
-Not really, no. Some driver are used across multiple SoCs and multiple
-arch. It doesn't make any sense to encode this in the driver... which is
-why it's in the DT in the first place, and abstracted away by the DMA
-API. Like, do you really expect the amdgpu driver to know the DMA
-attributes it needs to allocate a buffer from when running from a
-RaspberryPi?
+Gr{oetje,eeting}s,
 
-> On loongson platform, we don't need to call
-> drm_fb_dma_sync_non_coherent() function, Its already guaranteed by
-> hardware.
+                        Geert
 
-And mostly guaranteed by dma_alloc_coherent. And if you wanted to call
-it anyway, it would be a nop if the device is declared as coherent
-already.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I think you're thinking about this backward. A buffer has mapping
-attributes, and a device has hardware properties.
-
-The driver (ie, software) will allocate a buffer with some mapping
-attributes, and will assume that they are met in the rest of its code.
-How they are met is an implementation detail of the hardware, and for
-all the driver cares, it doesn't have to match.
-
-You can allocate a WC buffer to use on a non-coherent device and that's
-fine. You can allocate a non-coherent buffer on a coherent device and
-that's fine too. The DMA API will make everything work when it needs to,
-and if the hardware already provides stronger guarantees, then it will
-just skip whatever is redundant.
-
-So you need to write your driver using buffer is the most convenient for
-you, and it's really all that matters at the driver level. But for that
-to work, you need to flag the coherence-ness of your devices properly,
-like Paul suggested.
-
-Maxime
-
---rvdpeqztss6vkzn5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIB10QAKCRDj7w1vZxhR
-xRD3AP4+CuKSClOhR6Tk+iHUSE+0W1zUPXL6Vw6z9e2OOEHMwQD/Y0tjh52EyZ91
-R/egrhpeLpiA8WFUrMSUE2jKmKrJjgI=
-=XMoq
------END PGP SIGNATURE-----
-
---rvdpeqztss6vkzn5--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
