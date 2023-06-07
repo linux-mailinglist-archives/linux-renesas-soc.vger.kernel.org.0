@@ -2,417 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A49D6725BA0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 12:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF8B4725C9B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 13:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235733AbjFGKaK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 06:30:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49030 "EHLO
+        id S240088AbjFGLDG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 07:03:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233580AbjFGKaI (ORCPT
+        with ESMTP id S240116AbjFGLCw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 06:30:08 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7B6811BD5;
-        Wed,  7 Jun 2023 03:30:04 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.43])
-        by gateway (Coremail) with SMTP id _____8Cx+ekqXIBkJxsAAA--.384S3;
-        Wed, 07 Jun 2023 18:30:02 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxGOUpXIBkcFgEAA--.15801S3;
-        Wed, 07 Jun 2023 18:30:01 +0800 (CST)
-Message-ID: <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
-Date:   Wed, 7 Jun 2023 18:30:01 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-Content-Language: en-US
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        Wed, 7 Jun 2023 07:02:52 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2100.outbound.protection.outlook.com [40.107.114.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8387E2137;
+        Wed,  7 Jun 2023 04:01:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NoUcw77zNnKvfee0CJyHzcpKKVDvBfTsE7MnZcxwZDvjnIIz+/VSLnieIVGFO3QQsIa7Az58QLLJ0FsElOV+Vwo+SB3BpMGuJj0YdkODpH+5FIJ/xxzMNW5+QODwTGa5p0M0QjaDG7oHjtFHVzW7t0mEho4h2YkAIfTleTREC4O3taW54oN4Rcpoqd5YxxjOBide3UEb7h+dJdS04+M02HUMQ5zUjVyW8IXQomobX5HhaEumPV+5YLEDF1ug8nw5qfGESyQuKT2G1zzxRdgKX3qp5AZyTUf5nws1FSfx0CK+LVufv2lVaG7RIcxnt2hpLDHyJdhhL+i6DiV9bMprGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=59NBuX7U4or4wJhdtc/iqvL15ppNRQWKqctJz0PBihA=;
+ b=ftQqToKRKwO+95lBm5TMEeKl94AyY3h9o9JtdnA8QEx3F3Ip/Iz/4P9VXa+o4XcmqgVDAlM2cmnn+iiha4oFqR3Ho3bwEAEZ5+NIK8khK3K+Mz4ALg5vHV9lodcIdodTlVXeD/BNOxfn24e4xbr2/1m8s9Ra3VSV/QAFp9CblVFEi9SAxGzmSJeIVsJaaBEeggUZsBz8RvZjUIHh7tPeK3ER80k15NJjgIExlsgCsUsXzqnZMqk0me9ya5M0X0PeIgFbzEEhG3Q4jtE/js3QhrWHuXTeWaUMBLq9ZSD49LVRsvomAfrrRDsQWN/Lfa2hGgW9rcVGMIqOxBjNMfroSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=59NBuX7U4or4wJhdtc/iqvL15ppNRQWKqctJz0PBihA=;
+ b=VKu5SOwKDWFUQZElDsDLyBYMD9rq7IcVWk0kRORz6ygTFsqi/axQZ5EeaL6MhpYIRXh+DGcSKKSTcp1uYlmtRX8I27oTTuG+o6/eWTUjnWYHrqo/DTaFcotRDxAfbBc3EhahYsaSrYgDUWxt/WdHMu/VuaaV7t8qpmRq3YJHibU=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYWPR01MB9610.jpnprd01.prod.outlook.com (2603:1096:400:1a7::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Wed, 7 Jun
+ 2023 10:58:46 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 10:58:46 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
- <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
-From:   Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxGOUpXIBkcFgEAA--.15801S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfGF18ur1UXry7GrW8Gr1ruFX_yoW8XF1kXo
-        WUKr15Jw15Jr1UGr1UAr1UJr15Xr1kWrnrJr1UtrnrJF1UXr1UJ34UJryUJ3y7Jr18Gr17
-        CryUtF15ZFyUJr1rl-sFpf9Il3svdjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8wcxFpf
-        9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-        UjIYCTnIWjp_UUUOe7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-        8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-        Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-        v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AK
-        xVWxJr0_GcWln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-        6rW5McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
-        8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
-        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
-        AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-        rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-        v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8
-        Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07j19a
-        9UUUUU=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4A==
+Date:   Wed, 7 Jun 2023 10:58:46 +0000
+Message-ID: <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+ <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
+ <20230529080552.GJ25984@pendragon.ideasonboard.com>
+ <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230531085941.GA27043@pendragon.ideasonboard.com>
+ <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+ <ZIBFc3y9jD59lZ3A@shikoro>
+In-Reply-To: <ZIBFc3y9jD59lZ3A@shikoro>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB9610:EE_
+x-ms-office365-filtering-correlation-id: 436204e5-af62-419b-d7d5-08db67462ab2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TxigxkwWF63ifHqlUbeQdJf/EXwlI51wd7tIGZVOpZ6Sp4cs0E92G2XS6VCTgyVz2TlrZ43nqGKpHu2Iz8afXTSZI78mB+tEJ0vJdJRzX0pfwetcRI2dzByNzb2VZhwmGRP60ZF5hPkDq98vskIJ5S2uJToNEmOxu7MuLN/MlQCA/IJpPzfXJYaDM+QWd24dwEzu9LJbi8brj3CO9gn7BO+90f/W9Zt3vrrXW6KCNFoSLghckz4w+js9B2t7TyVuvv42bU43EqgDKpisCfqja7o8tfM5LGamXuvyDqoo0zNXcbC5Y7+YmHGKw1tywcQc4c34Ft6VZmxIG93CQjn45U2c0VDLR9wxnq4aTtgZ5q84JTfE2uoLTlHsQC8AynORXFdq5s0WxaBvVds5LmUkIrAjXXo0ZjSw0CjPygy7dDTa9e8lAeMQw0aEzShikskUDDvWR0QaJBUAthHEyiMQz7NE8Vo2g/Rw67BJSb8vqh6L+zqn7PDJcQ3bENR+jFVDa5mYc5Ah7Iu6yJk955sGeIw9JV+yj2qlN+CBGwUbdn6egPSfvKsfrLxaPb0pok0d8zM5t/ctBsXx2vXvFnBBfQT/zQq2bnww0cklPmX3MNB7i6LLWs8Efi0ggsw0adDXHIMq4pPeKwyLRZPC3zYn6Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199021)(186003)(6506007)(26005)(9686003)(966005)(7406005)(83380400001)(7416002)(7696005)(71200400001)(2906002)(8676002)(8936002)(110136005)(54906003)(478600001)(55016003)(33656002)(41300700001)(38100700002)(5660300002)(122000001)(64756008)(86362001)(4326008)(316002)(66476007)(38070700005)(66556008)(66446008)(52536014)(76116006)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?v8rVt55j5DtooV70OIn4yothEEE22gKDs+lWJ/1CRh/4wVub6FpMKftEwk?=
+ =?iso-8859-1?Q?Fs2ukdldceK52cBiPExr97SNEawwmtUKxvdeFR6Zb4NJjv/IQ2icXupRWg?=
+ =?iso-8859-1?Q?tINL32nhcgAwxX58Hv3goQiXBT4r5enRgwMoktOUJGT+tuPo6ZR9tqhKoT?=
+ =?iso-8859-1?Q?63FSzVVomn1fo8fZJMqhoXWoqa0lIn7eHfFQGTV/ZHHWUXbKOFGHDNFCbr?=
+ =?iso-8859-1?Q?OX619n2K0cozW6T+ZCCCZTWXj94mtYaxKyzr1nwTXzusYqnzRk3a3/9YUq?=
+ =?iso-8859-1?Q?tJH02DodD3ebtm1Ql35mThzQuum2irsgMjTAj+VmRjNVc78EONYM2UM1tC?=
+ =?iso-8859-1?Q?wk14+XJlGJ/R3Ar0fwTfkjaLSYIOu09cbRmDQG8J36HaGOpEpS3LJTjKSS?=
+ =?iso-8859-1?Q?YZgve3DHOlPvO+MpPz3USHsV8SACCDyZIWIf7fxd2DQeVWPoICRX6GGjVc?=
+ =?iso-8859-1?Q?Ws6u1ShazDpQ6TZ6wLwlF3rozAYje7cy1JvClxKK59i1OeZ7mBLd1289xH?=
+ =?iso-8859-1?Q?XYEerWLWlSiqPtQLJwKfGK9u/7Qg7GLfGiafmXbT2EsZHX3i8NPV17BZl6?=
+ =?iso-8859-1?Q?67poZ9MEpQ+JT92bpySfVXPCpBkEjTWuqXfDdpYsq0cwGbjeDAG2zfPX0J?=
+ =?iso-8859-1?Q?iTzJtJziJPJw5AZzYjNz3Mbli0FBPInlQ1tR00jYVMdGsvYbtbJI3KZ3pM?=
+ =?iso-8859-1?Q?ZeTe4cnIFZ300aiLoOY4dGX8c7wXWmqoiv7ftkLkEfkjDq3NMMQy5RIfnY?=
+ =?iso-8859-1?Q?hSlrgE9aMTdFReYXWRy9GiPq2iKX9kYnvv3YcR8eHYegKKqGeOfbuN5cK6?=
+ =?iso-8859-1?Q?V9BoQiyZ/lZ6tlnoUBJ7S7A8myCo5DLV6PF1tiT8ISj/oWNWuA8nF4qpKI?=
+ =?iso-8859-1?Q?IWmI6IslBenc+oDZPIdu3dc+Dc7JzR7+OdYRc5muxYcadNeV+k+yIDp7Gl?=
+ =?iso-8859-1?Q?SeDO3Sg7vf9GSRC+beDVQccS6NnfU59Gvz4Hpqddvr1Y8hZnHXYx5NgRF1?=
+ =?iso-8859-1?Q?mxfEXMEAtIxbSWViYcpmdqrSGBucKSo+xgefY4KNYadknwYTyI1oyPblWG?=
+ =?iso-8859-1?Q?6qcZNIFtTJ+leNTDYJ4dZN86AFycNKI1pWtM7SCOkGeaysb/RNrlRx3Ana?=
+ =?iso-8859-1?Q?4Um2OKj3Nn32OuMOJY7h3YX/9mYw8CKwUslXza08PPM2hJHZQgPCZZDtlL?=
+ =?iso-8859-1?Q?YbQAx2EYCi0AXlke/b0h331ftGFzb0MLcrb3akou6rBrm4l9+hiEWRe61e?=
+ =?iso-8859-1?Q?CEfESfN2UkMn01KZWxSrjFeU0gd4yWbzgjc/rBCl48ZG4XXiScMjSabnUH?=
+ =?iso-8859-1?Q?aMA8WoMs8cusIaE7Lya0CpfPxqHNjWAKB1XA6Dw8bwuhAwOMtmr6YpALwg?=
+ =?iso-8859-1?Q?lpRjfGv3Oe18JrubZ/tfhQPDmSpmjwLGoI85iswtDcNkNZzILs8rNPMEk2?=
+ =?iso-8859-1?Q?+YQqFNt/WK0NGY6nOfz2p4z9jZIoZIvG25BMvJWBn6AslliuCZHwaC29oJ?=
+ =?iso-8859-1?Q?MPAc/aoSxrDpQjcLWGuOC7tugFCj9z/KMSd6Vx2ZSxLg2VXoLp+Oka4vDJ?=
+ =?iso-8859-1?Q?w6zMpuMBv083VYH33PPt9HxGLznKmW+jJCNDmp76SX6WFqEbnSU0znuA4Z?=
+ =?iso-8859-1?Q?8ES/Ni1Cxm2v96yLKKj7oIKTwDNTI3Q/2ZtU362blZgJcAQLl2/QpZmw?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 436204e5-af62-419b-d7d5-08db67462ab2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 10:58:46.4782
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BN7yJ8/2LG2qaDP/zkVxLUWOIJNtvBmsDWP//hshITRcD7UhNOfXTgqBuCjLZbjYDbp4DaIqph0yqY9msNqPDhknwsZasATOWfrZGOF4teE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9610
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+
+Hi Wolfram,
+
+> Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+>=20
+> Hi all,
+>=20
+> sorry for not being able to chime in earlier.
+>=20
+> > In Biju's particular use case, the i2c device responds to two
+> > addresses, which is the standard i2c ancillary use case.  However,
+> > what's special
+>=20
+> Not quite. ancillary is used when a *driver* needs to take care of two
+> addresses. We already have devices bundling two features into the same
+> chip. I recall at least RTC + EEPROM somewhere. And so far, we have been
+> handling this by creating two nodes in DT and have proper binding docs.
+> I think this is cleaner. First, you can see in DT already what the
+> compound device really consists of. In this case, which RTC and RTC drive=
+r
+> is exactly needed. Second, the code added here adds complexity to the I2C
+> core with another layer of inderection for dummy devices.
+
+FYI, please see [1] and [2]=20
+
+As per DT maintainers, most of PMICs are described with one node, even thou=
+gh RTC is on separate
+address. According to them the DT schema allows multiple addresses for chil=
+dren.
+But currently we lacks implementation for that. The enhancement to this API=
+ allows that.
+
+[1]
+https://lore.kernel.org/linux-renesas-soc/bce6cbcd-b693-4027-7d17-8e582b8fa=
+2f9@linaro.org/
+
+and=20
+[2]
+https://lore.kernel.org/linux-renesas-soc/CAMuHMdVrH5R4mAjm1c9zRqiGhNsfT7Y1=
+3xxaV-v05T-MCJ6=3DRQ@mail.gmail.com/
+
+Cheers,
+Biju
 
 
-On 2023/6/7 17:36, Paul Cercueil wrote:
-> Hi Sui,
->
-> Le mercredi 07 juin 2023 à 13:30 +0800, Sui Jingfeng a écrit :
->> The single map_noncoherent member of struct drm_gem_dma_object may
->> not
->> sufficient for describing the backing memory of the GEM buffer
->> object.
->>
->> Especially on dma-coherent systems, the backing memory is both cached
->> coherent for multi-core CPUs and dma-coherent for peripheral device.
->> Say architectures like X86-64, LoongArch64, Loongson Mips64, etc.
->>
->> Whether a peripheral device is dma-coherent or not can be
->> implementation-dependent. The single map_noncoherent option is not
->> enough
->> to reflect real hardware anymore. For example, the Loongson LS3A4000
->> CPU
->> and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
->> platform
->> allways snoop CPU's cache. Doing the allocation with
->> dma_alloc_coherent
->> function is preferred. The return buffer is cached, it should not
->> using
->> the default write-combine mapping. While with the current implement,
->> there
->> no way to tell the drm core to reflect this.
->>
->> This patch adds cached and coherent members to struct
->> drm_gem_dma_object.
->> which allow driver implements to inform the core. Introducing new
->> mappings
->> while keeping the original default behavior unchanged.
-> Did you try to simply set the "dma-coherent" property to the device's
-> node?
-
-But this approach can only be applied for the device driver with DT support.
-
-X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically do not 
-have DT support.
-
-They using ACPI to pass parameter from the firmware to Linux kernel.
-
-You approach will lost the effectiveness on such a case.
-
->  From what I understand if you add that property then Linux will use DMA
-> coherent memory even though you use dma_alloc_noncoherent() and the
-> sync_single_for_cpu() / sync_single_for_device() are then NOPs.
-
-Please do not mitigate the problems with confusing method.
-
-
-This approach not only tend to generate confusion but also 
-implement-dependent
-
-and arch-dependent. It's definitely problematic.
-
-
-How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH specific 
-thing.
-
-Dependent on how does the arch_dma_ops is implemented.
-
-
-The definition of the coherent on different ARCH has different meanings.
-
-The definition of the wirte-combine on different ARCH has different 
-meanings.
-
-
-The wirte-combine(uncache acceleration) on mips is non dma-coherent.
-
-But on arm, It seem that wirte-combine is coherent. (guaranteed by arch 
-implement).
-
-
-I also heard using dma_alloc_coherent  to allocation the buffer for the 
-non-coherent doesn't hurt, but the reverse is not true.
-
-
-But please do not create confusion.
-
-software composite is faster because better cacheusing rate and
-
-cache is faster to read.
-
-It is faster because it is cached, not because it is non-coherent.
-
-non-coherent is arch thing and/or driver-side thing,
-
-it is a side effect of  using the cached mapping.
-
-
-It should left to driver to handle such a side effect. The device driver
-
-know their device, so its the device driver's responsibility to maintain
-
-the coherency.  On loongson platform, we don't need to call 
-drm_fb_dma_sync_non_coherent() function, Its already guaranteed by hardware.
-
-
-> Cheers,
-> -Paul
->
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/drm_fb_dma_helper.c       | 11 +++++------
->>   drivers/gpu/drm/drm_fbdev_dma.c           |  2 +-
->>   drivers/gpu/drm/drm_gem_dma_helper.c      | 20 ++++++++++++++++----
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c |  5 ++++-
->>   drivers/gpu/drm/rcar-du/Kconfig           |  2 --
->>   drivers/gpu/drm/rcar-du/rcar_du_kms.c     |  4 +++-
->>   include/drm/drm_gem_dma_helper.h          |  7 +++++--
->>   7 files changed, 34 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c
->> b/drivers/gpu/drm/drm_fb_dma_helper.c
->> index 3b535ad1b07c..93ff05041192 100644
->> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
->> @@ -106,16 +106,15 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct
->> drm_framebuffer *fb,
->>   EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
->>   
->>   /**
->> - * drm_fb_dma_sync_non_coherent - Sync GEM object to non-coherent
->> backing
->> - *     memory
->> + * drm_fb_dma_sync_non_coherent - Sync GEM object to cached backing
->> memory
->>    * @drm: DRM device
->>    * @old_state: Old plane state
->>    * @state: New plane state
->>    *
->>    * This function can be used by drivers that use damage clips and
->> have
->> - * DMA GEM objects backed by non-coherent memory. Calling this
->> function
->> - * in a plane's .atomic_update ensures that all the data in the
->> backing
->> - * memory have been written to RAM.
->> + * DMA GEM objects backed by cached memory. Calling this function in
->> a
->> + * plane's .atomic_update ensures that all the data in the backing
->> memory
->> + * have been written to RAM.
->>    */
->>   void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
->>                                    struct drm_plane_state *old_state,
->> @@ -131,7 +130,7 @@ void drm_fb_dma_sync_non_coherent(struct
->> drm_device *drm,
->>   
->>          for (i = 0; i < finfo->num_planes; i++) {
->>                  dma_obj = drm_fb_dma_get_gem_obj(state->fb, i);
->> -               if (!dma_obj->map_noncoherent)
->> +               if (dma_obj->cached && dma_obj->coherent)
->>                          continue;
->>   
->>                  daddr = drm_fb_dma_get_gem_addr(state->fb, state, i);
->> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c
->> b/drivers/gpu/drm/drm_fbdev_dma.c
->> index d86773fa8ab0..49fe9b284cc8 100644
->> --- a/drivers/gpu/drm/drm_fbdev_dma.c
->> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
->> @@ -131,7 +131,7 @@ static int drm_fbdev_dma_helper_fb_probe(struct
->> drm_fb_helper *fb_helper,
->>   
->>          /* screen */
->>          info->flags |= FBINFO_VIRTFB; /* system memory */
->> -       if (dma_obj->map_noncoherent)
->> +       if (dma_obj->cached)
->>                  info->flags |= FBINFO_READS_FAST; /* signal caching
->> */
->>          info->screen_size = sizes->surface_height * fb->pitches[0];
->>          info->screen_buffer = map.vaddr;
->> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c
->> b/drivers/gpu/drm/drm_gem_dma_helper.c
->> index 870b90b78bc4..dec1d512bdf1 100644
->> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
->> @@ -93,7 +93,11 @@ __drm_gem_dma_create(struct drm_device *drm,
->> size_t size, bool private)
->>                  drm_gem_private_object_init(drm, gem_obj, size);
->>   
->>                  /* Always use writecombine for dma-buf mappings */
->> -               dma_obj->map_noncoherent = false;
->> +               /* FIXME: This is not always true, on some dma
->> coherent system,
->> +                * cached mappings should be preferred over
->> writecombine
->> +                */
->> +               dma_obj->cached = false;
->> +               dma_obj->coherent = false;
->>          } else {
->>                  ret = drm_gem_object_init(drm, gem_obj, size);
->>          }
->> @@ -143,7 +147,11 @@ struct drm_gem_dma_object
->> *drm_gem_dma_create(struct drm_device *drm,
->>          if (IS_ERR(dma_obj))
->>                  return dma_obj;
->>   
->> -       if (dma_obj->map_noncoherent) {
->> +       if (dma_obj->cached && dma_obj->coherent) {
->> +               dma_obj->vaddr = dma_alloc_coherent(drm->dev, size,
->> +                                                   &dma_obj-
->>> dma_addr,
->> +                                                   GFP_KERNEL |
->> __GFP_NOWARN);
->> +       } else if (dma_obj->cached && !dma_obj->coherent) {
->>                  dma_obj->vaddr = dma_alloc_noncoherent(drm->dev,
->> size,
->>                                                         &dma_obj-
->>> dma_addr,
->>                                                         DMA_TO_DEVICE,
->> @@ -153,6 +161,7 @@ struct drm_gem_dma_object
->> *drm_gem_dma_create(struct drm_device *drm,
->>                                                &dma_obj->dma_addr,
->>                                                GFP_KERNEL |
->> __GFP_NOWARN);
->>          }
->> +
->>          if (!dma_obj->vaddr) {
->>                  drm_dbg(drm, "failed to allocate buffer with size
->> %zu\n",
->>                           size);
->> @@ -233,7 +242,10 @@ void drm_gem_dma_free(struct drm_gem_dma_object
->> *dma_obj)
->>                          dma_buf_vunmap_unlocked(gem_obj-
->>> import_attach->dmabuf, &map);
->>                  drm_prime_gem_destroy(gem_obj, dma_obj->sgt);
->>          } else if (dma_obj->vaddr) {
->> -               if (dma_obj->map_noncoherent)
->> +               if (dma_obj->cached && dma_obj->coherent)
->> +                       dma_free_coherent(gem_obj->dev->dev, dma_obj-
->>> base.size,
->> +                                         dma_obj->vaddr, dma_obj-
->>> dma_addr);
->> +               else if (dma_obj->cached && !dma_obj->coherent)
->>                          dma_free_noncoherent(gem_obj->dev->dev,
->> dma_obj->base.size,
->>                                               dma_obj->vaddr, dma_obj-
->>> dma_addr,
->>                                               DMA_TO_DEVICE);
->> @@ -532,7 +544,7 @@ int drm_gem_dma_mmap(struct drm_gem_dma_object
->> *dma_obj, struct vm_area_struct *
->>          vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
->>          vm_flags_mod(vma, VM_DONTEXPAND, VM_PFNMAP);
->>   
->> -       if (dma_obj->map_noncoherent) {
->> +       if (dma_obj->cached) {
->>                  vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->>   
->>                  ret = dma_mmap_pages(dma_obj->base.dev->dev,
->> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->> index 5ec75e9ba499..a3df2f99a757 100644
->> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->> @@ -919,7 +919,10 @@ ingenic_drm_gem_create_object(struct drm_device
->> *drm, size_t size)
->>          if (!obj)
->>                  return ERR_PTR(-ENOMEM);
->>   
->> -       obj->map_noncoherent = priv->soc_info->map_noncoherent;
->> +       if (priv->soc_info->map_noncoherent) {
->> +               obj->cached = true;
->> +               obj->coherent = false;
->> +       }
->>   
->>          return &obj->base;
->>   }
->> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-
->> du/Kconfig
->> index 53c356aed5d5..dddc70c08bdc 100644
->> --- a/drivers/gpu/drm/rcar-du/Kconfig
->> +++ b/drivers/gpu/drm/rcar-du/Kconfig
->> @@ -2,8 +2,6 @@
->>   config DRM_RCAR_DU
->>          tristate "DRM Support for R-Car Display Unit"
->>          depends on DRM && OF
->> -       depends on ARM || ARM64
->> -       depends on ARCH_RENESAS || COMPILE_TEST
->>          select DRM_KMS_HELPER
->>          select DRM_GEM_DMA_HELPER
->>          select VIDEOMODE_HELPERS
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> index adfb36b0e815..1142d51473e6 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> @@ -386,7 +386,9 @@ struct drm_gem_object
->> *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
->>          gem_obj->funcs = &rcar_du_gem_funcs;
->>   
->>          drm_gem_private_object_init(dev, gem_obj, attach->dmabuf-
->>> size);
->> -       dma_obj->map_noncoherent = false;
->> +
->> +       dma_obj->cached = false;
->> +       dma_obj->coherent = false;
->>   
->>          ret = drm_gem_create_mmap_offset(gem_obj);
->>          if (ret) {
->> diff --git a/include/drm/drm_gem_dma_helper.h
->> b/include/drm/drm_gem_dma_helper.h
->> index 8a043235dad8..585ce3d4d1eb 100644
->> --- a/include/drm/drm_gem_dma_helper.h
->> +++ b/include/drm/drm_gem_dma_helper.h
->> @@ -16,7 +16,9 @@ struct drm_mode_create_dumb;
->>    *       more than one entry but they are guaranteed to have
->> contiguous
->>    *       DMA addresses.
->>    * @vaddr: kernel virtual address of the backing memory
->> - * @map_noncoherent: if true, the GEM object is backed by non-
->> coherent memory
->> + * @cached: if true, the GEM object is backed by cached memory
->> + * @coherent: This option only meaningful when a GEM object is
->> cached.
->> + *            If true, Sync the GEM object for DMA access is not
->> required.
->>    */
->>   struct drm_gem_dma_object {
->>          struct drm_gem_object base;
->> @@ -26,7 +28,8 @@ struct drm_gem_dma_object {
->>          /* For objects with DMA memory allocated by GEM DMA */
->>          void *vaddr;
->>   
->> -       bool map_noncoherent;
->> +       bool cached;
->> +       bool coherent;
->>   };
->>   
->>   #define to_drm_gem_dma_obj(gem_obj) \
-
--- 
-Jingfeng
+>=20
+> > As some resources are shared (knowledge about the clocks), splitting
+> > this in two distinct devices in DT (which is what Biju's initial patch
+> > series did) would need phandles to link both nodes together.
+> >
+> > Do you have a better idea how to represent this?
+>=20
+> Not sure if I understood this chip correctly, but maybe: The PMIC driver
+> exposes a clock gate which can be consumed by the RTC driver?
+>=20
+> Happy hacking,
+>=20
+>    Wolfram
 
