@@ -2,60 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC452726108
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 15:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EFEA726124
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 15:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240510AbjFGNTF convert rfc822-to-8bit (ORCPT
+        id S240258AbjFGNVh convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 09:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
+        Wed, 7 Jun 2023 09:21:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240468AbjFGNTB (ORCPT
+        with ESMTP id S240067AbjFGNVg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 09:19:01 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35B91735;
-        Wed,  7 Jun 2023 06:18:59 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-568af2f6454so74619037b3.1;
-        Wed, 07 Jun 2023 06:18:59 -0700 (PDT)
+        Wed, 7 Jun 2023 09:21:36 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C691BFE;
+        Wed,  7 Jun 2023 06:21:17 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5659d85876dso78350457b3.2;
+        Wed, 07 Jun 2023 06:21:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686143938; x=1688735938;
+        d=1e100.net; s=20221208; t=1686144077; x=1688736077;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2EhyJ5aZEtTnnCQG4rmoDuT6EFvmS86Dv0UQ+RFBMuE=;
-        b=SAScDh5r0dh8iMwRSagqIRt2ywLqilE0PtCEjgUuuoeq7PGSsWTltSExfyFRpft+o1
-         uNf1Wjai+FyEMShvx691kWuZ6MpktxFlrJV3nEUSPRVrVJedC7m+jVM/nK+eqeKZzEzF
-         a7Pg14VIfvi+SKzAWHpFm8PYlyoYAw/Wr8UvVkafA00pvOnrO2x3Fo+Xkjrve5pO16lO
-         4L60RwTco8trqEE9AKl9/cw1e9954CbMEi/8Q7J0C0H2sxJ7DP3P/AzbQilB1ynb3rnZ
-         l1zsNa/SUV9deCnWHZcy7l/4i8ufBfwU/8Dgo9LcSClZMaKIW7o1VULOaPHNb5L8xQhz
-         Nx4Q==
-X-Gm-Message-State: AC+VfDyow40sHnN8r+ZvIlSC6vuc02OA8F+G2/FGLG9SBNWd7LgPAby/
-        8FloYXw2qqAVGvdFmM9NgJfTopciNxHT+A==
-X-Google-Smtp-Source: ACHHUZ4SW1QtIWNj8cpsnMXrzh/ejwSW8pzEsXCMHAT/lbdOg13aurJzYD782Gnv9wiMTgWj+Ipeog==
-X-Received: by 2002:a0d:cb89:0:b0:55a:985e:8ac9 with SMTP id n131-20020a0dcb89000000b0055a985e8ac9mr6038210ywd.22.1686143937932;
-        Wed, 07 Jun 2023 06:18:57 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id w140-20020a814992000000b0054f8b201c70sm4731924ywa.108.2023.06.07.06.18.56
+        bh=rA2dk4Z+pOkq/jyOIvAGRXOvNoV7/kLeQDZUQrvL074=;
+        b=Xuc2BluMHxHXQCCBTAwWQ5MsaVCeOWiBHHOYAlU26FZMSqxCMxLmXK0nbRs6fSon98
+         9hZM5OqF2TjIuQOuEoyVKuZwveG/iqK9QLfnIP2nM7sxd97Bxup2x4MugUMVVUYMygcr
+         LYE81/DLewtbBKnNzn8h93Hq9+DRokhScsEaI/s/u2h3w5xgYdqrEoMEoi1gGRKuc/5x
+         ctQHmPNQ6h2KKIjGHzPW+wIDw2Sq1nDSbyhzzO/XSHhnHF1HuHtmlyQ2WU34XWnV+ZCi
+         jsJfvMIY37FFr6/98xKGyYk3SN4uvS6dLh9uzPK0FLmLtW2y6sD1g5jJvZqSSikQIW26
+         7eJA==
+X-Gm-Message-State: AC+VfDySuFGgo5PWbMQlp0U0ARn7Q+glrr1LixYkIZmg4LzcG1IKAEek
+        9I/yv6ZRjaQEF00R4ugqJ6IVNxp04d51yw==
+X-Google-Smtp-Source: ACHHUZ7KTFcUC3FyJndrCGLRaGpbn15xpKBxl+uQ5BssG8+rZBxT/uZ9tke/NsGI02yy5SHACsocHA==
+X-Received: by 2002:a0d:f343:0:b0:556:ceb2:c462 with SMTP id c64-20020a0df343000000b00556ceb2c462mr6457775ywf.2.1686144076634;
+        Wed, 07 Jun 2023 06:21:16 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id k126-20020a816f84000000b00565cf40238csm4720947ywc.110.2023.06.07.06.21.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 06:18:56 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-ba82059ef0bso7960647276.1;
-        Wed, 07 Jun 2023 06:18:56 -0700 (PDT)
-X-Received: by 2002:a25:baca:0:b0:bb3:8945:d236 with SMTP id
- a10-20020a25baca000000b00bb38945d236mr5397442ybk.53.1686143936338; Wed, 07
- Jun 2023 06:18:56 -0700 (PDT)
+        Wed, 07 Jun 2023 06:21:16 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bab8f66d3a2so8619116276.3;
+        Wed, 07 Jun 2023 06:21:15 -0700 (PDT)
+X-Received: by 2002:a25:4889:0:b0:bac:748a:5759 with SMTP id
+ v131-20020a254889000000b00bac748a5759mr5257149yba.37.1686144075629; Wed, 07
+ Jun 2023 06:21:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230530112050.5635-1-aford173@gmail.com> <20230530112050.5635-2-aford173@gmail.com>
-In-Reply-To: <20230530112050.5635-2-aford173@gmail.com>
+References: <20230530112050.5635-1-aford173@gmail.com> <20230530112050.5635-3-aford173@gmail.com>
+In-Reply-To: <20230530112050.5635-3-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 7 Jun 2023 15:18:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWVwJVAtcCD019-QxHe9UXf7JKe4T2x2=kvHbPoJ=aDtQ@mail.gmail.com>
-Message-ID: <CAMuHMdWVwJVAtcCD019-QxHe9UXf7JKe4T2x2=kvHbPoJ=aDtQ@mail.gmail.com>
-Subject: Re: [RFC 2/3] clk: renesas: r8a7741a: Add 3dge and ZG support
+Date:   Wed, 7 Jun 2023 15:21:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXJaZCSN18aB1yBvhuTk=DQoe4B6aVHgoZvyLsZcRfrDA@mail.gmail.com>
+Message-ID: <CAMuHMdXJaZCSN18aB1yBvhuTk=DQoe4B6aVHgoZvyLsZcRfrDA@mail.gmail.com>
+Subject: Re: [RFC 3/3] arm64: dts: renesas: r8a774a1: Add GPU Node
 To:     Adam Ford <aford173@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
         marek.vasut+renesas@gmail.com, cstevens@beaconembedded.com,
-        aford@beaconembedded.com, Magnus Damm <magnus.damm@gmail.com>,
+        aford@beaconembedded.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
@@ -66,20 +68,84 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Adam,
+
 On Tue, May 30, 2023 at 1:21 PM Adam Ford <aford173@gmail.com> wrote:
-> The 3dge and ZG clocks are necessary to support the 3D graphics.
+> With the 3dge and ZG clocks now available, the generic GPU node can
+> be added.  Until proper firmware is made, it is not usable.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+> This is based on the assumption that the Rogue 6250 could use
+> generic driver [1] and firmware [2] being implemebted by the Mesa group
+> and others.  In practice, the firmware isn't really compatible since
+> the 6250 in the RZ/G2M appears to be a different variant.
+>
+> [1] - https://gitlab.freedesktop.org/frankbinns/powervr/-/tree/powervr-next
+> [2] - https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/powervr/powervr
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> @@ -226,6 +226,27 @@ extalr_clk: extalr {
+>                 clock-frequency = <0>;
+>         };
+>
+> +       gpu_opp_table: opp-table {
+> +               compatible = "operating-points-v2";
+> +
+> +               opp-200000000 {
+> +                       opp-hz = /bits/ 64 <200000000>;
+> +                       opp-microvolt = <830000>;
+> +               };
+> +               opp-300000000 {
+> +                       opp-hz = /bits/ 64 <300000000>;
+> +                       opp-microvolt = <830000>;
+> +               };
+> +               opp-400000000 {
+> +                       opp-hz = /bits/ 64 <400000000>;
+> +                       opp-microvolt = <830000>;
+> +               };
+> +               opp-600000000 {
+> +                       opp-hz = /bits/ 64 <600000000>;
+> +                       opp-microvolt = <830000>;
+> +               };
+> +       };
+> +
+>         /* External PCIe clock - can be overridden by the board */
+>         pcie_bus_clk: pcie_bus {
+>                 compatible = "fixed-clock";
+> @@ -2347,6 +2368,18 @@ gic: interrupt-controller@f1010000 {
+>                         resets = <&cpg 408>;
+>                 };
+>
+> +               gpu@fd000000 {
+> +                       compatible = "img,powervr-series6xt";
+> +                       reg = <0 0xfd000000 0 0x40000>;
+> +                       interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 112>, <&cpg CPG_MOD 112>,<&cpg CPG_MOD 112>;
+> +                       clock-names = "core", "mem", "sys";
+> +                       interrupt-names = "gpu";
+> +                       operating-points-v2 = <&gpu_opp_table>;
+> +                       power-domains = <&sysc R8A774A1_PD_3DG_B>;
+> +                       resets = <&cpg 112>;
+> +               };
+> +
+>                 pciec0: pcie@fe000000 {
+>                         compatible = "renesas,pcie-r8a774a1",
+>                                      "renesas,pcie-rcar-gen3";
+
+LGTM.  But obviously I cannot take this as-is, as there are no DT bindings
+for this device, and it didn't work for you...
 
 Gr{oetje,eeting}s,
 
