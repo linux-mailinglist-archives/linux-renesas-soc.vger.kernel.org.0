@@ -2,174 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 469A0727248
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 00:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D5AB727389
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 01:57:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233303AbjFGWze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 18:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54474 "EHLO
+        id S232918AbjFGX5S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 19:57:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbjFGWzZ (ORCPT
+        with ESMTP id S233501AbjFGX5P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 18:55:25 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DEE2696
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jun 2023 15:55:13 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-977d0288fd2so2172666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jun 2023 15:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686178513; x=1688770513;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=h4j71OFNDV5FfvldtjCh/L+Qg71oYHcBnHuDB5srtk996zsBHlbD8SaqVv65TPPNSR
-         D55ZWk68qXdEmt+kIdXRugiaujZb/weZnFCTHcuZcbiNqcbtWT0X7OlskYnP/y/1JDzr
-         WbOZ68AcZfM/aHW4up57fkOGafclaBar/hLOCFBtTjAlCxKYQtVTvq0W4SECGmO4CUql
-         dig397pPxdZX0OTvC2J8JrOzuSqogeJM29duG5G1BgaFsW6donzZWRU1Jz4x6qDKSWR9
-         w6/41Hy1gwVz7zf6M5uQKiqeQS7jHj9sppdk3jRa//N+UQ6Qg+lxAaHE7mp4Zy+a5Adc
-         Kv2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686178513; x=1688770513;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=As2X30ZGEzKqkZHvNSKl4jnOQiW/i6po08H/dRuVCV29eo5xIbDybckcBrMoU/TjnR
-         CYdeKmGMdRt05bVDLHZuczAkRiGb/0VkXMgUkrNvPXidelLEhrZch5AVET1IFV+NSYGs
-         85GSN1LZFTlu/n4iAuJB+lNLhBzCs3h3VF/SU8W2LHUJs/TwoIEhrmJpN8JxVin/7wDr
-         w4VGOZSzdUChC7EtMDEPga0wezyPIsue4nki9dgMlC3P0r5Sz3tGd4uOXsI8dPMaoGNV
-         ip0nh0UMvKpJl0j0joGP7YeInmzdRtL7TZP8pFYAWH5CpIX4fGzT2RxziFueJ288J8RS
-         o+yw==
-X-Gm-Message-State: AC+VfDzyoJVAqK+QyhU2V1EoXd3TeqXfR5bIEt3yrAXJvyiY+HfCi9dM
-        u5r3UvvlQrRYvIZVdohQNgixSStJjUZK6OO5wjn9KxVhGGctUQ==
-X-Google-Smtp-Source: ACHHUZ5q9v5E8VuN7LGrTh1boUYVANIIUnJnBwlK4YNL8XVT+z7GalrAexguq0b795Op+2qoCUEoHnMN8sFXq0M0ebg=
-X-Received: by 2002:a17:907:8a15:b0:96f:d154:54f7 with SMTP id
- sc21-20020a1709078a1500b0096fd15454f7mr7113590ejc.42.1686178492570; Wed, 07
- Jun 2023 15:54:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a54:2409:0:b0:217:72a9:f646 with HTTP; Wed, 7 Jun 2023
- 15:54:52 -0700 (PDT)
-Reply-To: unitednationcompensationcoordinatortreasury@hotmail.com
-From:   "UNITED NATION DEPUTY SECRETARY-GENERAL (U.N)" 
-        <successikolo@gmail.com>
-Date:   Wed, 7 Jun 2023 15:54:52 -0700
-Message-ID: <CADFNGJ8vkgORi1jPvvhP+FQnPCNqs4cr588+_a-ywDXpqf+qKA@mail.gmail.com>
-Subject: CONTACT DHL OFFICE IMMEDIATELY FOR YOUR ATM MASTER CARD 1.5 MILLION,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 7 Jun 2023 19:57:15 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2139.outbound.protection.outlook.com [40.107.113.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970FA8E;
+        Wed,  7 Jun 2023 16:57:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A+TjoTFC3TKOyVwD8tne6XMRT/GnXaiKu9ak0YuN/WY5jQTBdcEDUHjnT5J9oRLB04xo7Asd0YGtsYNm65ItLsZ5txON7CFZbYB6Mhm9VFBez7L7nByI8iBnhNu+2/rKfDuB3CxyLiuPtyLT1s6UFlewGP9IIdwj2p45KWAuB4Q0X3o8Vtaw732qVfWlOXmBhwGO3fbu1EocmtsuHKpyimEPHbd8hJT5l1SAbXFXRvzLmE4UQQ++TU5g1aQLS89yrb//UIA630uwmYGZdLy3ttBoljXbOTTUnxFzLkakG7oiAbVPxGcVyMuO/FhC6bIOoZiR88Oyg/1gTRrxYQlU8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ccbVUHjEf6QnpZabsWY+4cESiSQ4/cMRmFXLa0WBR5Y=;
+ b=AOShWf911xcNnVbfXvFl3WgB3XgJaqwsS4p9g0ZNy/TkUv0add5IkHjur3e2+V0sQv/FYS+Az6qZv1Q4SLdNrPQx3eNMSFVaXS5G54Kb/CuCvS/urNzyrahHmLTmZ2bTdigdYguH0jxXFWUFqsF/sGyWsMhJFWPzqDTfCuuT2yo/nXur/WYpLUydWN49tFeG82m8SkDf5UVYOPPm/+nz/CMD1axYoVA3RyqhEGmhriA86y4KQNGld+FZTGDUHJ/O7sBNe3LG9enGAj+60sGBTYSR+MHnRjKbJZSlC5p96JjWMktMiij61025Qo5/JHMgPicfREO/MtmmNmYJlMby/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ccbVUHjEf6QnpZabsWY+4cESiSQ4/cMRmFXLa0WBR5Y=;
+ b=etIKTV2s16RKz6zpqkctqsGfxtJwNRgZBLZeQZKDkPmBqqAOjjjMlzh0RK+hwL0IKfGJwIMcTJZ1WXuI5PMutliIquZR81b779pLEMz7yb6vK7m6EA8iUZTNU6Tl4MyFhMAB/KtqNwpQHGKS+x5XAD9eIzWwmgTm3ECSBN2fc8s=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TYWPR01MB9525.jpnprd01.prod.outlook.com
+ (2603:1096:400:19a::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Wed, 7 Jun
+ 2023 23:57:08 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::711d:f870:2e08:b6e1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 23:57:12 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Simon Horman <simon.horman@corigine.com>
+CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "maciej.fijalkowski@intel.com" <maciej.fijalkowski@intel.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH net-next v3 2/2] net: renesas: rswitch: Use hardware pause
+ features
+Thread-Topic: [PATCH net-next v3 2/2] net: renesas: rswitch: Use hardware
+ pause features
+Thread-Index: AQHZmONUUcyXQd79KUq12V/R1T8l0a9/dmCAgACPGCA=
+Date:   Wed, 7 Jun 2023 23:57:12 +0000
+Message-ID: <TYBPR01MB5341C785A741C9A2B07857ADD853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20230607015641.1724057-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230607015641.1724057-3-yoshihiro.shimoda.uh@renesas.com>
+ <ZIChDe2LHcP1Ux+O@corigine.com>
+In-Reply-To: <ZIChDe2LHcP1Ux+O@corigine.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYWPR01MB9525:EE_
+x-ms-office365-filtering-correlation-id: fa221e1b-2d88-41ba-6613-08db67b2e971
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /dmj9sth/FCfVlKQrdTlyOLsGQ2jWrjszQoDaoaHIsKq0bXebqrRbqu3x1E39bUXIN+2GAiga5x1+MRUItFdGoMXbG/7dpKsLRpQCURE+FIdAsrPKWl6n7Hejcjtyz3F2YzhQms0BUZHBYvnyFNeNESd5OzdW+Wx2HfaGS5nodYE7Yrh+GLRLSvj/9uYs6fuU46TagV/BAEhg3qzTY7tqrVoecCJLoQN5HiTQYZJT3wZEYA5xinmsrtHhpP9RMBvGK0AzO4odoPutUwbmC5BZXjM2O+ANRiDaYvLc0vJevuvuSnCZNLBU1e/pmTLnYtl5X3ZXiRM8gsRXuKpvDkEQGQAVVftFR5zuKZNM1frfBh9p2dmF3BznTM4aWAhl+SF/dL5ZogtUm3d9+q/sSWUV8vtHnkuGmAbWep6TWz65CZ/PfJRDc2foDeRYr0sadR2WPkux5e7qRF0bfAFSKkrNp15wdr4u1t2niE9bQO4nqt+QumWTDXmgaDJw17cC5N4JirhQwwqqbglQJhNSNIk/HFmnMInG25Ps8Ajd7i17U4KiwEsi7VGvacLTu78wJDrHQNj94oJI9TIWRefOvkf187ivX+Xw4p6WlLhdU8QzAqkBU4HN6sT7Qnux8OuTXyW
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(451199021)(55016003)(86362001)(4326008)(64756008)(4744005)(2906002)(54906003)(41300700001)(52536014)(38100700002)(33656002)(8676002)(5660300002)(316002)(122000001)(66556008)(66446008)(66476007)(6916009)(76116006)(66946007)(7696005)(71200400001)(478600001)(38070700005)(186003)(83380400001)(8936002)(9686003)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WAlbfLovdBrmBvCx62TOYBPD45sjmYBinw2zTb/j8Km4m5CCgdsre7mAaPXX?=
+ =?us-ascii?Q?6IRiw8GzlDc4ek0sJU+x/na6HmLXyGpZWcpPuD99H/MYOHX560y4b066cj3k?=
+ =?us-ascii?Q?mjvUmqC8WABJkX8xVK2hdQUBXi4FPDd1vI9bzdaUk97Z69QGKbl+zUHNcKrE?=
+ =?us-ascii?Q?b2836lyf5f2z0qsRtjnkoiQmsiPsMGVPGxSyMmns5M1dk16Jj8MVuWF1Rux5?=
+ =?us-ascii?Q?G0h1yn6JZ5CdK05M9MMyjkfXeHePcF7gs0PtBAPyyfSyOTGfn3F0ebgw5bUV?=
+ =?us-ascii?Q?/tsMrse09IvqYDaZKiofPsTY3+CmV0kwkFnXWkKljdQGMnEG05I0UCNI2nBK?=
+ =?us-ascii?Q?RnakqZcbh5+4REB6Yz3fEurR4S249xp+//sCtMucRTACM0dQQmABea7vg8dH?=
+ =?us-ascii?Q?/k74SoAX5aCxThQ+ho0N96Y79bTwT3OZyioQ3UlN+e6/3KrJGVKiuNXQl1df?=
+ =?us-ascii?Q?soMGrVNBBy8veGgtt4r1F5kwkshd+4tsM4YEDTnUfDzzBADwZOeRhnYfIVrd?=
+ =?us-ascii?Q?Y1F+5BTn/j+AwMH7HAiu8vqTGfr9Qt1h2rNQLMb4+u16tLxqaSKzVNu+BLac?=
+ =?us-ascii?Q?Ip2nrWXQt8Kwxl1L+Pwwr76uosF5voMtPXBXgmr/zt9AKfArOdfnV8B26RI/?=
+ =?us-ascii?Q?2j+M0PSnU6om1ciWfxkHRjw2rQzd/Z8/cVv8gbWXodIXcEu1nKf9xrOOS0AI?=
+ =?us-ascii?Q?YTkjjw0nnOcqqbO+k1plnct9jIBwe92zJkg150SE5Qz4qrDVzrTbZm9bl+52?=
+ =?us-ascii?Q?OxR3BylCe5dw/0WTSGH0AD8TbqAbnfgZbYDQuTEKk3vi9/v8yD6rdK2KrsAP?=
+ =?us-ascii?Q?QW0+bjuDenXpDsV/UHekfM/RKwsb0SxuViChBbaT33Omn3oI/eSwFh0iT/5W?=
+ =?us-ascii?Q?o2j2EciO50jDsUoBc95WQzblCWEOm+KoWFtttG0ITskWeH/YkDcRVeaCYljS?=
+ =?us-ascii?Q?mE1qe9cZbViHLE8aBmpMh6Xn1ZaX89T0iqm2mIvO19e/3xj3addjVP1+2Rzq?=
+ =?us-ascii?Q?6Pp0/ZP79GHpCjFgYpFaICi3cr4YhEdB1//2s+6B2oaMAdKmFODeihPnb2M3?=
+ =?us-ascii?Q?aNWjy9UcdonIwcrq/HOu07XMZpGSswHM2QsrlRtrQC6rBCLweQwl8atCrCjs?=
+ =?us-ascii?Q?BNubrsBX4kbVKHqQC+WljzZhPEqCtQSU5q1ukknpjdHB9jbX0uA9X59QuYHW?=
+ =?us-ascii?Q?gL14n8m9XJSEyR5c8sup4Dzzlhu/ezkGbPsiHo/BlWEUghYW9cTzFX/zdhee?=
+ =?us-ascii?Q?ssfT6iJnLQnJSqB9U7wS/AcnSg6jbfFx+MHNP/wjj5a10roIF86ANbshzsLw?=
+ =?us-ascii?Q?rd5p08u77kI4h8Xcm+LEihe93D9vZ2UDH29mxo/75z63cayrZaI6ENSvTXaP?=
+ =?us-ascii?Q?Jiy6jV72VFtjlCKPqD1EYS3KRR/T7zqU1rJ3LSUssAfPVVMgI/yCpzW+CQ7U?=
+ =?us-ascii?Q?j9CeBcDl0XmihZQK7YVR5seY/RN2Mc1mth8HPldiNn6e8TzwH2fABcTgBtCg?=
+ =?us-ascii?Q?aV8xbvw0VYvuJJnulwFmP2MVXFm2/MQ4myD6skmzB8op+dQyNGe2QWV/o49D?=
+ =?us-ascii?Q?TXQRWnYtma9cv55RHwPTze9Tnl0hpZTcX6WZQoHu63JytyWQYUbpSNXwfBN0?=
+ =?us-ascii?Q?a9DpKWIVbnRkCwFDAKKrI3SpGO1vffd0NQDBawm9OPLYCp35VyZO2jbDj1oN?=
+ =?us-ascii?Q?/wlYrA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FORM_FRAUD_5,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_LOAN,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:634 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [successikolo[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  0.2 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: ******
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa221e1b-2d88-41ba-6613-08db67b2e971
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 23:57:12.0866
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NC/u7z9vNJp/x1Fd0h+kphWFCamg0cqkpnkW37znEFJX8EyzdSitLE3dmQDIIJzYr9D1ib+MPV245JYsu9JumUXtFWSTYn00lJtIP42spIL9ioxUjfyXjryivJP0hyWn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9525
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-UNITED NATION DEPUTY SECRETARY-GENERAL.
+Hi Simon-san,
 
-This is to official inform you that we have been having meetings for
-the past three (3) weeks which ended two days ago with MR. JIM YONG
-KIM the world bank president and other seven continent presidents on
-the congress we treated on solution to scam victim problems.
+> From: Simon Horman, Sent: Thursday, June 8, 2023 12:24 AM
+>=20
+> On Wed, Jun 07, 2023 at 10:56:41AM +0900, Yoshihiro Shimoda wrote:
+> > Since this driver used the "global rate limiter" feature of GWCA,
+> > the TX perfromance of each port was reduced when multiple ports
+>=20
+> Hi Shimoda-san,
+>=20
+> a very minor nit, in case you have to do a v4 for some other reason:
+>=20
+>         perfromance -> performance
 
- Note: we have decided to contact you following the reports we
-received from anti-fraud international monitoring group your
-name/email has been submitted to us therefore the united nations have
-agreed to compensate you with the sum of (USD$ 1.5 Million) this
-compensation is also including international business that failed you
-in the past due to government problems etc.
+Thank you for your review! I'll fix it on v4.
 
- We have arranged your payment through our ATM Master Card and
-deposited it in DHL Office to deliver it to you which is the latest
-instruction from the World Bank president MR. JIM YONG KIM, For your
-information=E2=80=99s, the delivery charges already paid by U.N treasury, t=
-he
-only money you will send to DHL office south Korea is
-($500). for security keeping fee, U.N coordinator already paid for
-others charges fees for delivery except the security keeping fee, the
-director of DHL refused to collect the security keeping fee from U.N
-coordinator, the Director of DHL office said that they don=E2=80=99t know
-exactly time you will contact them to reconfirm your details to avoid
-counting demur-rage that is why they refused collecting the ($500) .
-for security keeping fee.
+> > transmitted frames simultaneously. To improve perfromance, remove
+>=20
+> Here too.
 
- Therefore be advice to contact DHL Office agent south Korea. Rev:John
-Lee Tae-seok
-who is in position to deliver your ATM
-Master Card to your location address, contact DHL Office immediately
-with the bellow email & phone number as listed below.
+I'll fix this too.
 
- Contact name: John Lee Tae-seok
+Best regards,
+Yoshihiro Shimoda
 
- Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Do not hesitate to Contact Rev: John Lee Tae-seok, as soon as you
-
- read this message. Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Make sure you reconfirmed DHL Office your details ASAP as stated
-below to avoid wrong delivery.
-
- Your full name..........
-
- Home address:.........
-
- Your country...........
-
- Your city..............
-
- Telephone......
-
- Occupation:.......
-
- Age:=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6..
-
- Let us know as soon as possible you receive your ATM MasterCard
-for proper verification.
-
- Regards,
-
- Mrs Vivian kakadu.
-
- DEPUTY SECRETARY-GENERAL (U.N)
+> > the use of the "global rate limiter" feature and use "hardware pause"
+> > features of the following:
+> >  - "per priority pause" of GWCA
+> >  - "global pause" of COMA
+> >
+> > Note that these features are not related to the ethernet PAUSE frame.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>=20
+> ...
