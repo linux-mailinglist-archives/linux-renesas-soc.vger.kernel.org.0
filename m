@@ -2,142 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DF5572613B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 15:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F15B272614D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 15:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240430AbjFGN1j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 09:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
+        id S240794AbjFGNbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 09:31:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235032AbjFGN1i (ORCPT
+        with ESMTP id S235683AbjFGNbn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 09:27:38 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40E61AC;
-        Wed,  7 Jun 2023 06:27:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZzJJ/ThNP0nEdqylFWCIqZbyivWK2HGKLuYPt7TKBxMN/7y4HqZQd8wJzbejtIbInURsp8+VJ4u4zfIhjn5WKfMJ9VnnfguEC2td9ALgYRX0g507oK9n7B/qT7/jTbP7SdRz0I5NY3JRhgOeUn6mLmklhY0Yu47Tkyony2glAIkfiSEWvgpUPWsYinkHDOqa1e0sPabOsLQr5yb66lHM0/J596I2HX0QXN1tWgF8U6nyd8sqm6wzutzXRWspTleI/OOueMsQxAY06y1cPAP/ZMZ21ICtiZE9ohqZdAlU++GMdr8F+XQmZR58cGjcRtqxMGRq2ooc/CvQmQTzGR349Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D4W7ZAlg3ymfDSEZ/m6RslfJhsMl7yVZ9HtLhCa4OVg=;
- b=a7SfcAgbj1R7l5hwYINK8oorcS0hZXoQjoRDX/y1tCFjrOkS55BO6utus+yRYBXHdmF+Ex3hE5nQ37tV3KYWuhGChE1UNAuBCLGBbzU8BlDFbiO3NYQ2A8nx72G5dimwbtSGoWpFPaJWJfMvoM76LRRZcTHYTRSRCuPipGw8Xv4YYcpE4tLUZDa5lBXEOVhle7StAX86k7ywI7ZrsCWCbUoPPojJGSB40jAgsf2duHjhfu4aB2Cw4qWitMWsrXhP5lr765ZlHk+CUYOe4IYT+Afw+LKv5FJWwNBzedwxI9HxQ5iIY6iE03ETDOGZe2HToCqmysh7aG+y/INi9wQcsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D4W7ZAlg3ymfDSEZ/m6RslfJhsMl7yVZ9HtLhCa4OVg=;
- b=C+mI9hukhbROGtDt3HJssnE5ELg+SMmgxICLEAdGCOJ7WWnTqYkPmckmiUEba20dNfFB4R3ZTH9tOLYRGT+FRrmyabyx87VXLhLQf/JCj9steFexPfMZrQUBhFOGeNfV4MNWzULj/m1BWnw1vkYeqW/EGmPZ84g+sP55YKk5ykY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB6460.namprd12.prod.outlook.com (2603:10b6:208:3a8::13)
- by CY5PR12MB6549.namprd12.prod.outlook.com (2603:10b6:930:43::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Wed, 7 Jun
- 2023 13:27:32 +0000
-Received: from IA1PR12MB6460.namprd12.prod.outlook.com
- ([fe80::d5b1:3b31:ee99:aa94]) by IA1PR12MB6460.namprd12.prod.outlook.com
- ([fe80::d5b1:3b31:ee99:aa94%7]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
- 13:27:32 +0000
-Message-ID: <9fc1d064-7b97-9c1a-f76a-7be467994693@amd.com>
-Date:   Wed, 7 Jun 2023 18:57:17 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: arm: shmobile_defconfig: ld.lld: error: undefined symbol:
- lynx_pcs_destroy
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     open list <linux-kernel@vger.kernel.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        lkft-triage@lists.linaro.org,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Netdev <netdev@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        maxime.chevallier@bootlin.com, joyce.ooi@intel.com
-References: <CA+G9fYv0a-XxXfG6bNuPZGT=fzjtEfRGEYwk3n6M1WhEHUPo9g@mail.gmail.com>
- <CA+G9fYueN0xti1SDtYVZstPt104sUj06GfOzyqDNrd3s3xXBkA@mail.gmail.com>
- <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
-From:   "Aithal, Srikanth" <sraithal@amd.com>
-In-Reply-To: <CAMuHMdX7hqipiMCF9uxpU+_RbLmzyHeo-D0tCE_Hx8eTqQ7Pig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0124.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::9) To IA1PR12MB6460.namprd12.prod.outlook.com
- (2603:10b6:208:3a8::13)
+        Wed, 7 Jun 2023 09:31:43 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4596919BF;
+        Wed,  7 Jun 2023 06:31:42 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-25691a1b2b8so3108722a91.1;
+        Wed, 07 Jun 2023 06:31:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686144701; x=1688736701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i0lMNuEbXOOcWGfHtGlJsdDwFKP9YumhUcl+P6RDGn4=;
+        b=Y4TRVi/zBzYTgwHSBjrv/UBECrHxL0YS5U1fbNvrt9G/XWdydeS2CIUrFOWtiDQT2E
+         HvxyrF7R2ExSH5a/HbyzyLbDO5U66tnOh45aVr4N0ZvF8yGhSKRohrMfiBBqFSsI+Zm0
+         4DrCTKeOY+miL237Q5aso/eJiVgjheRehAA8cS9TnssvQGGimKaCQG3tUTxmfreLITIi
+         2b3l+8oudik8rZksFhPOvH+mpz1JNX2MSxfMu1X72KC0w86TIkD9aUxq0dNAgX/GZGc3
+         a9+DnDbQhE8uLLSs1vHiIDg+Oagzs7eKJ834Y1XGnnhcsrv9dR64YvuXLMwchXqfg+NW
+         gVlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686144701; x=1688736701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i0lMNuEbXOOcWGfHtGlJsdDwFKP9YumhUcl+P6RDGn4=;
+        b=TYmk+iiwgzK3DCCr0U3qQqiMpxze8FR77obKuAaiM6tZs6en1wblll9frF7pMGB0dc
+         A0AerNCMyQwh6hR+1lb9HWZaO/UbxdiEMCvqwLyKe0mROmE1Vbt9uNcZwJsYwwhWKYIu
+         cdgqgU88EBwn5trs/gjtd4e7wT22VcX6iiL1z3WsL/aHtZ9r+jifX9gUO4e3ADmq3aG6
+         Nn8lY2rJxogzPcnr1j+/8cuZrBizGWpTRY6x4w4VsHqcb+fjiPus4KIZbEFpnhdzF6N2
+         FJ8WktrFlUbMfO/I+NDmPqv6eTvxMDd2NX1ktbackVL8rvaC0jEsniSNSlOdlXEzAMMt
+         A00Q==
+X-Gm-Message-State: AC+VfDxTQc5M1uFiC/PWQSWAYX7HNXwdYJ8erLVq6JibJQB2s5P6A8B/
+        KR5PR1YfPSrbMpOjGXkCHSzBartCWF6iQjNpWbjKO4E6
+X-Google-Smtp-Source: ACHHUZ6t8r1I7+AsOx4AC+q6Tn9eyYuc2j7dLPVzQGIuTRwkVdvVLply4JXh/XKZWiF1nCUeDVM9FLwuRdlGbth57Ak=
+X-Received: by 2002:a17:90a:1db:b0:259:cafc:4e08 with SMTP id
+ 27-20020a17090a01db00b00259cafc4e08mr321667pjd.29.1686144701405; Wed, 07 Jun
+ 2023 06:31:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6460:EE_|CY5PR12MB6549:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ec5bb2c-8982-443d-6196-08db675af2dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FEeGJtu87mBuZXPLY8X5uQ+oHHNZzifqFWAxbyQ8t0JCXVId+d9bAbSAIpcJUHZuFrIIEpIElOs21OM+r3voM2RlFzgCqKBNQv8DworRoBocw32DPPR0CTMbqEZm3cElCz4WmnXINElQQwBZoHZT/r2xbmKgk/BBeSH2HxoRgiCV/bdGryMuppwNEohlsyxr5x7SlLA7NSk6ZV9v2XGLK48545BjnVhaoKnBPNcpemY8jQlu6nsjwF4n8XHa7VLF46SQhTsvb6wi0r+JJ5TftvQw2G5lqzTHCWJHjQRVCe9COQlexWxtyMY+oj4YCnCLCzPsdWkltTG9Y3E5r0HQqc1QgjZyhO1m7kuN6yGLrWLOWlIA1La7/FM4FNmWP5IwDdP1bzgGy5rgOdgjYSZoDxQRuD+ju1JL7Fk21otSvIjvq89nTY1t+2ZX6P8B/W+dQZMn7CKtAWYU7GErJ4ECvt/G3jDboqgCT2wFfNjZr6s1YRTLAKT2ExBShw7xDylD66DLgxx9QOmxpErDUSncXlNCvuY13pTusV4wbbgij5XhoduOHpb2sfdyyLLhhrnaxcXKFSgujx0GlQ7HzG+6Ap8/l3b+pBUOXBdXBnAUbrdw5mR2OdyZiL5GDyIZyW1tsoDlXbop2RBH8lz+zR0Zvw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6460.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(366004)(376002)(396003)(136003)(451199021)(2906002)(2616005)(36756003)(31696002)(38100700002)(41300700001)(6486002)(316002)(6666004)(5660300002)(966005)(8936002)(8676002)(110136005)(478600001)(54906003)(66556008)(66946007)(66476007)(4326008)(31686004)(6506007)(53546011)(6512007)(26005)(186003)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0RNUW9lVkV4ZG1weFY2MXcvWnBPQWY0ektPeGZ2dVdra0QxemlFRjBrY2Q3?=
- =?utf-8?B?Sm95YmZBRWs5MnBhNFVRQjlDT1BuUzlHVUxJVVRmTE5RaDRpZEZvNzRSaVox?=
- =?utf-8?B?eExwVkFaMVQyRTIvNWtmcHZUQVdXUHFxMzBYbGJ6WFY1VUZQTXJZb2U2TnF6?=
- =?utf-8?B?VEtUQjh2ejBiVGd3WDZBd3B6SVRkdUZyM25PL2F4ZGdEaTNyR0p0Z3NWNHpN?=
- =?utf-8?B?RmVTTzJUM0RvQUxpcXF0MVpwNUJ5L0JzYkU1TnZZSDlLSnpUTnhSZ1FZc3hG?=
- =?utf-8?B?NitqUjNIUFpYTk5yam1QYTUyM1h3S1pqaEIyWGxKRklmb1JBSnNoUVZtbXo2?=
- =?utf-8?B?TDhKOENqMHpVRXdPa0UvOTduL21iSTBsNTZBU1BpZzNvaG5hclpmTjJlZStp?=
- =?utf-8?B?OGoyWWdVS0NFS05yODZrS2ZYRS9zdStvV1ZXa0hFc0EzZEVBUlpwS2p1eENE?=
- =?utf-8?B?Ny9tSGN2QXpUM21oV1oyZnRSMWRWV0IwbmhoM09hajdWRnZ0by95UGVjY1pR?=
- =?utf-8?B?c2U2bkRxbVg5KzhBQVdTL2swek95N3dCQ2FJbk5yZEJJT0xjMEViQ0FhV1RG?=
- =?utf-8?B?NWVwQTNRUVQ0bW1VQnNrOHp0SUtBQ3lBa3V5aFJQbEtMOVBZdS90WXJyeWNv?=
- =?utf-8?B?YXY5MWtDekhaS0dRQkhUbWtNQzlhYmx4Y3FGOENHbXJib2dtNHhhTURjaktH?=
- =?utf-8?B?M3pteEtQWXJ4K0FEUTEvQnUyVEFmeDhxRXFoWmNoWDIxOFJ5K0JCdXpIQUM4?=
- =?utf-8?B?YXRDU1hBUjVvWTRidjF3cTdqRDhYai9HT1lZKzhEbVZnelJpUEdtYVcyRndW?=
- =?utf-8?B?N0dOWU5jSHg0dzVEUFdYQkozeWk1ZjNuOTVqenk4dzcxbWpJRGgwU1YzQlhH?=
- =?utf-8?B?bG1Fb3F1V1k3WlRyZVdHTStCYVRCK1RNS1FrU25UUWd3a1FmZlJOalk3Tmxq?=
- =?utf-8?B?VkNLOFp2QTJwVFhZdG5PN3V1RDU1bjRQT2cwWlgvRFZHa3oySjU0aEdVaUwv?=
- =?utf-8?B?MEdaR1ZETXlHOVVFSlVqL3F1di9KaXVBU0IrazUwVGI2S3h0T2dLcHZPSkt3?=
- =?utf-8?B?bkFDcCtvY3cvUVRuZVg1REZkczNEQ045YTBXeTZkaHBUL1VCNWd3Zy82SzlR?=
- =?utf-8?B?L2w0c0hXOFZFU3NuUWM2V0xPZmJJUFJWcEhWSC9VNXlKalg0UUVBL1F4L1BI?=
- =?utf-8?B?WG42NVg3aVFtcGd2WlNtWGkzTFpuTW5YdkE4OStVT1MzU0J0MFBRMXlnQ3h5?=
- =?utf-8?B?NVlWUm5OMmE1eHgrRVovc0JEbUxMeklHa2huZHFtU24yZStVc3FqSHViUWJJ?=
- =?utf-8?B?cDdjSGY2eXRsRDV2c1FOYjMzRmxoT044aXZhcnpDSDVkdjV2RlJXNitPclFi?=
- =?utf-8?B?djMvUW9vNUczSkhPN1JHZFByMVpPZG9WWEUvdnlXZHRRdktzWGdTeDhDNWUr?=
- =?utf-8?B?cnRpL3hsaS95RXVJczJvRGRvMGx2VTJiV1FCRkVlamlhTGI5enNvYzFWa0gr?=
- =?utf-8?B?MEluUHZiM0pqbEpmcnFEdHBqbWlpR0V5VkZWSjJyaWs1djRCby9mTjd3aGZF?=
- =?utf-8?B?eXlUbU54YWVGUFduTVhrZ1lYTG9OYVQ2TXlSUXNTMjFleHlORzZhdHB3N214?=
- =?utf-8?B?WlA3bFJ3MGJ0Mlo2VmJtd0lGWkd6VmE4Yy9IUFp1RXZNS2dROGtxT2l1d2dI?=
- =?utf-8?B?cGQ5bmxITWx1T3Z6U1hIVXptWXl6MmZaNmFNZXhhWDZ1ZnJFM2huQ3hkOVdx?=
- =?utf-8?B?Nm8vdmI5YUtwa1V5RXN3UTFjcktzUktVdG11NnBCeFBCM2VOeERscTV2Uk1r?=
- =?utf-8?B?cFI2aUlVQUszT0dCL1FlRFJxSEUyK3FCYjlQZlpWSmtnd2k3UVlncWs2c1Jx?=
- =?utf-8?B?RHI1Z2tVQ1dVOWd3V1lyOUxvZWJHV0x5R1ZCOC96a1JsbjI2T0pBajdUaS9O?=
- =?utf-8?B?QlVNa0I5ZU1JQStaaVN3U0NpSnRId3FjY1lzdG9GRjBoN1lFLzlrN1dROVlN?=
- =?utf-8?B?eWVYM1RyVDVmdWE5UDFBVmlyYitqOWtjWk41L2gxemkxbkxIWXhrRWxlZHdn?=
- =?utf-8?B?NjVWcktSOVprVWg1Q0JUS0wwc2pQTElCVlM3R0dDamM3UzI4Tk13cHd4NXlu?=
- =?utf-8?Q?D36R0Nlrsjo8rYi3J7em1u7iw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec5bb2c-8982-443d-6196-08db675af2dd
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6460.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2023 13:27:32.6331
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ERCaqShwDodu3cekifJ2kDITg110BBTUZN7XNOSSbdSqv+QinAN2ncYJw2Z5qQcwF95CgPHNZvqeN9S9OmZuEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6549
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+References: <20230530112050.5635-1-aford173@gmail.com> <20230530112050.5635-3-aford173@gmail.com>
+ <CAMuHMdXJaZCSN18aB1yBvhuTk=DQoe4B6aVHgoZvyLsZcRfrDA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXJaZCSN18aB1yBvhuTk=DQoe4B6aVHgoZvyLsZcRfrDA@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 7 Jun 2023 08:31:30 -0500
+Message-ID: <CAHCN7xJbi4ej2s6SOvC7o7aMcjv2awztKkNoAZTiVFn4GJRVXw@mail.gmail.com>
+Subject: Re: [RFC 3/3] arm64: dts: renesas: r8a774a1: Add GPU Node
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
+        marek.vasut+renesas@gmail.com, cstevens@beaconembedded.com,
+        aford@beaconembedded.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -145,48 +80,112 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/6/2023 2:31 PM, Geert Uytterhoeven wrote:
-> Hi Naresh,
-> 
-> On Tue, Jun 6, 2023 at 10:53 AM Naresh Kamboju
-> <naresh.kamboju@linaro.org> wrote:
->> On Tue, 6 Jun 2023 at 14:17, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
->>> Following build regressions found while building arm shmobile_defconfig on
->>> Linux next-20230606.
->>>
->>> Regressions found on arm:
->>>
->>>   - build/clang-16-shmobile_defconfig
->>>   - build/gcc-8-shmobile_defconfig
->>>   - build/gcc-12-shmobile_defconfig
->>>   - build/clang-nightly-shmobile_defconfig
->>
->> And mips defconfig builds failed.
->> Regressions found on mips:
->>
->>    - build/clang-16-defconfig
->>    - build/gcc-12-defconfig
->>    - build/gcc-8-defconfig
->>    - build/clang-nightly-defconfig
-> 
-> Please give my fix a try:
-> https://lore.kernel.org/linux-renesas-soc/7b36ac43778b41831debd5c30b5b37d268512195.1686039915.git.geert+renesas@glider.be
-On x86 as well seeing couple of issues related to same, not on defconfig 
-though..
+On Wed, Jun 7, 2023 at 8:21=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Adam,
+>
+> On Tue, May 30, 2023 at 1:21=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
+ote:
+> > With the 3dge and ZG clocks now available, the generic GPU node can
+> > be added.  Until proper firmware is made, it is not usable.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > ---
+> > This is based on the assumption that the Rogue 6250 could use
+> > generic driver [1] and firmware [2] being implemebted by the Mesa group
+> > and others.  In practice, the firmware isn't really compatible since
+> > the 6250 in the RZ/G2M appears to be a different variant.
+> >
+> > [1] - https://gitlab.freedesktop.org/frankbinns/powervr/-/tree/powervr-=
+next
+> > [2] - https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/p=
+owervr/powervr
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> > @@ -226,6 +226,27 @@ extalr_clk: extalr {
+> >                 clock-frequency =3D <0>;
+> >         };
+> >
+> > +       gpu_opp_table: opp-table {
+> > +               compatible =3D "operating-points-v2";
+> > +
+> > +               opp-200000000 {
+> > +                       opp-hz =3D /bits/ 64 <200000000>;
+> > +                       opp-microvolt =3D <830000>;
+> > +               };
+> > +               opp-300000000 {
+> > +                       opp-hz =3D /bits/ 64 <300000000>;
+> > +                       opp-microvolt =3D <830000>;
+> > +               };
+> > +               opp-400000000 {
+> > +                       opp-hz =3D /bits/ 64 <400000000>;
+> > +                       opp-microvolt =3D <830000>;
+> > +               };
+> > +               opp-600000000 {
+> > +                       opp-hz =3D /bits/ 64 <600000000>;
+> > +                       opp-microvolt =3D <830000>;
+> > +               };
+> > +       };
+> > +
+> >         /* External PCIe clock - can be overridden by the board */
+> >         pcie_bus_clk: pcie_bus {
+> >                 compatible =3D "fixed-clock";
+> > @@ -2347,6 +2368,18 @@ gic: interrupt-controller@f1010000 {
+> >                         resets =3D <&cpg 408>;
+> >                 };
+> >
+> > +               gpu@fd000000 {
+> > +                       compatible =3D "img,powervr-series6xt";
+> > +                       reg =3D <0 0xfd000000 0 0x40000>;
+> > +                       interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH=
+>;
+> > +                       clocks =3D <&cpg CPG_MOD 112>, <&cpg CPG_MOD 11=
+2>,<&cpg CPG_MOD 112>;
+> > +                       clock-names =3D "core", "mem", "sys";
+> > +                       interrupt-names =3D "gpu";
+> > +                       operating-points-v2 =3D <&gpu_opp_table>;
+> > +                       power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
+> > +                       resets =3D <&cpg 112>;
+> > +               };
+> > +
+> >                 pciec0: pcie@fe000000 {
+> >                         compatible =3D "renesas,pcie-r8a774a1",
+> >                                      "renesas,pcie-rcar-gen3";
+>
+> LGTM.  But obviously I cannot take this as-is, as there are no DT binding=
+s
+> for this device, and it didn't work for you...
 
-ERROR: modpost: "lynx_pcs_destroy" 
-[drivers/net/ethernet/stmicro/stmmac/stmmac.ko] undefined!
-ERROR: modpost: "lynx_pcs_destroy" 
-[drivers/net/ethernet/altera/altera_tse.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
-make: *** [Makefile:1984: modpost] Error 2
+It was mostly to follow up to the previous ones with links for the
+mainline Rogue video driver in the hopes that someone from Renesas
+might have some input on whether or not Renesas might be able to
+support this and have a discussion.  I knew when I submitted it that
+it wouldn't be accepted which is why I posted it as an RFC.
+If I address concerns you have in the previous patches, would you be
+OK with me submitting then as a formal patch to at least get the rest
+of the system ready in the event the GPU driver/firmware becomes
+available?  It seems harmless, but I also see the argument that it's
+dead code without the GPU node.
 
-Among above issues stmmac issue would be resolved with above mentioned fix.
-> 
-> Thanks!
-> 
+If not, I'll shelve this for now, and hope to get some responses from Renes=
+as.
+
+adam
+>
 > Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
