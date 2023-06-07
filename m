@@ -2,45 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B8C772697C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 21:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B67C72699C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 21:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbjFGTIp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 15:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39588 "EHLO
+        id S233171AbjFGTWE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jun 2023 15:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjFGTIp (ORCPT
+        with ESMTP id S232854AbjFGTWD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 15:08:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4301BF7
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jun 2023 12:08:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33A9C74C;
-        Wed,  7 Jun 2023 21:08:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686164896;
-        bh=ZOTDgtRUgCUf414TEguEdP0S//himxbkPJH1gvrQNdg=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=RWopiw4wojJQ/Uf5CTq9+i0UTmBrNObdz+sD+n76k16PfkmSm9N4xA+X7y4DHAySY
-         hqG1IBL9IU1y/Vaw7bopZShtrygsUKB49xzSmajK9UxdO1xxtYssJvQwEnJheRf0Qt
-         +Wv/WW86OEdWHgadLlbNgJZM1oXqpBte+KFrgA1s=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 7 Jun 2023 15:22:03 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731221FDC
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jun 2023 12:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=UH6RZ0wmFMau6bD91XDPDGRCDoh
+        C33iHOMQH0rtYbBQ=; b=AVupdFKI/T9NOOVJkJZhC5dkmh9unMISA/zoW8cC29/
+        l8QcplasUBRTcgl5HljK41Qz/IsdWiW5Q7bcVacbVdtTqRB5skRasw9k/NaZTl69
+        xgBrqMEqL1WxHtBfRt2nMgtbRLKCi6w0ZABCqYFIjNazY3EXGS2SD0nQRGqIf9lQ
+        =
+Received: (qmail 702301 invoked from network); 7 Jun 2023 21:21:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Jun 2023 21:21:58 +0200
+X-UD-Smtp-Session: l3s3148p1@Nb2lDI/96sIgAQnoAG0yAFLgtApmfskk
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] PCI: rcar: user proper naming for R-Car
+Date:   Wed,  7 Jun 2023 21:21:44 +0200
+Message-Id: <20230607192144.27190-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230530092639.18374-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230530092639.18374-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: Replace DRM_INFO() with drm_info()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Date:   Wed, 07 Jun 2023 20:08:39 +0100
-Message-ID: <168616491938.1159722.12181260879239007363@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,37 +52,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2023-05-30 10:26:39)
-> drm_info() adds proper context to the kernel log message, as it receives
-> the drm_device pointer. It is thus preferred over DRM_INFO(). Replace
-> the latter with the former.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+Neither RCar, nor Rcar, but R-Car.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/pci/controller/pcie-rcar-host.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index e80e56b2a842..f4dac8ff97cb 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -684,7 +684,7 @@ static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ }
+ 
+ static struct irq_chip rcar_msi_bottom_chip = {
+-	.name			= "Rcar MSI",
++	.name			= "R-Car MSI",
+ 	.irq_ack		= rcar_msi_irq_ack,
+ 	.irq_mask		= rcar_msi_irq_mask,
+ 	.irq_unmask		= rcar_msi_irq_unmask,
+@@ -813,7 +813,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+ 
+ 	/*
+ 	 * Setup MSI data target using RC base address address, which
+-	 * is guaranteed to be in the low 32bit range on any RCar HW.
++	 * is guaranteed to be in the low 32bit range on any R-Car HW.
+ 	 */
+ 	rcar_pci_write_reg(pcie, lower_32_bits(res.start) | MSIFE, PCIEMSIALR);
+ 	rcar_pci_write_reg(pcie, upper_32_bits(res.start), PCIEMSIAUR);
+-- 
+2.35.1
 
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_drv.c
-> index 91095f9deb8b..fe4d3b3c9b0c 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -713,7 +713,7 @@ static int rcar_du_probe(struct platform_device *pdev)
->         if (ret)
->                 goto error;
-> =20
-> -       DRM_INFO("Device %s probed\n", dev_name(&pdev->dev));
-> +       drm_info(&rcdu->ddev, "Device %s probed\n", dev_name(&pdev->dev));
-> =20
->         drm_fbdev_generic_setup(&rcdu->ddev, 32);
-> =20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
