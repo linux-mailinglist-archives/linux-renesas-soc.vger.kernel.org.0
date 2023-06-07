@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9897250F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 01:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6FF772514E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jun 2023 03:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237642AbjFFX54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jun 2023 19:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37148 "EHLO
+        id S239876AbjFGBAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jun 2023 21:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234129AbjFFX5z (ORCPT
+        with ESMTP id S234076AbjFGBAc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jun 2023 19:57:55 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2121.outbound.protection.outlook.com [40.107.113.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B8E11A;
-        Tue,  6 Jun 2023 16:57:53 -0700 (PDT)
+        Tue, 6 Jun 2023 21:00:32 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2106.outbound.protection.outlook.com [40.107.113.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2481726;
+        Tue,  6 Jun 2023 18:00:31 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LjZqo1iKQz0Xc9ShzHvpHsbXd66eeQUzg/mSxuNVWXOH48jl+6CdPvq8x1EMclxd/FtTXdgKOsy+DhqDTY/pvOWYlUNs6oHwb8q4R3RORkPuvTRLX+b7z0rKNw7C6OcoQn2MUnLvGHmhZnOssilvlPd5MaPd1rvv/qenu9O3Dxz8UuRxRSMh1RvtikJqj49yNVhoq1Ez9ormeDeScE+dPBnC8pR0ZD6rKITY61VPbvsU+2h7ROODJwE/peJ30xa1FkqYbP+Oy2EB9XCHkXOUBmJWt/ZChDHqQAxgzZOEy5X12nefL69Z5fvJJ7ucnM4MefgBwFwuMEVbudWqe4PYpw==
+ b=BQFrx1ExU2bDxVRR+U2mkKk+3v1MlqvrtDWFstLRuZjIYuoBFEXMHdjcn7OaR5b16SGNxeXtWXsxpFhlWhVPmo55fLVo+mAbpi74oH/zUyRV5sY18flynkEw8P2OmBze9F7p5Wgase2vYUGIpYG77Gh/G4HoSPKp/SNwgghc4SqLfpfaml1BdvUwgpciBSBg3wZ9CAMODK4qCvSE0oZzkb1hunSMZIOBXvdWmTO01By/SoI1uc7cVzHcNvTD/4+D7CVCihBO6h5Ca2TqxdZJ5uPr9co7xSOhkrNd0UfWPSQXyJCtJo40lMi2xyne+oG2PeOtPXapVfvenMzcqOz27w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BK2DE6z1iCc1nhIgRWo+daJQYX8L9/ByU1FdAJX32nc=;
- b=eg7vMqeekq5HNcg6jf5zC+LSnGtP0dBjfgc4p9hsZRYcDLLn2EiBsnaZTl2cXBbg9qWv5W6/j10zsuYkywhcKWJXHAs/MWY8LfccPeY7Ei1YWMrGKu76yZb/cguL/mk0G4Dmg5fJSfSLSILmGkEjdiCmgv+PhiimjwOSaVZsRGelwg+7kbr8m8UGG81ZOoImJ6tpxtQP9MAJKOX+xtVu17pTu94tchbyISUK2ItAfqHwAiTiX/m2HmWb0Y8ITBx4iuMHvKbD4MeiOcSHtMMWpJGqGsD9WZ+uDZfIn66s+wiRd/oKHhzq56ZvlgTD+5kBQt3DGNtKN2e81oA8sclaNA==
+ bh=nFkSNoh3V2bGO7x5zUf350k1B/V/MzWhvJF5EyCF7dU=;
+ b=Co4Ozr4ubeHnHzz8lV31M4mx1/veGGCClRv+NEW27P+htPG1iyiebKW7TJ0zZ9zymE56NecF2cPM+b0/FNC6BXj/osGC9idk2puxDqia/Lx0LVZ3ZDXFMkmpsSKRrmOGVpvIC+MX4xn8BCObylPAOIOqD4pQ2sco4Lp3i7+CvhVrchlMAhBuLMhn7bWkmsZF3ra38g2W2cFlSWTumK92u6D72kpwHUe8cyCS99p1I987YY0/LAwJlMzDUbV6tMiUIl74pZSD3ApCNUTuBzRLunTGeRWmum8od7AxjFEK3ORBCN5sNu+fvon/K3DMD58zZ6RApvOiHy/kb6g7rHWR2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BK2DE6z1iCc1nhIgRWo+daJQYX8L9/ByU1FdAJX32nc=;
- b=Gj8VNBWdWWelA8arQqFxPaaOXlwMzqUDhbxtpru+AqOBNbvRhj89uD2GoCeVomuNYoi4wvWdaMO4wxJIVPY3SnVAa4oye1XHLWVAfZOOwdP8e3bXvyi3D8apy7MvJ23JmvwCnEjdNqmbuT9Q5WP3u0XtW3Xo8s9LjNfYZURIC54=
+ bh=nFkSNoh3V2bGO7x5zUf350k1B/V/MzWhvJF5EyCF7dU=;
+ b=Hq770poWRYMOwjpjhyOFmRBg+BMjZpQRkKEm9fFIgctkzxaYqUafGQhM7+uiPU/aeo17Mplr4JCfPR+hWTwM6cqyC9hMSNXEkFyIJbvVC3MQeZgPa8/WYqdBwdNuFzNuojnQvUoIBfWfqDOzk3RzxBOn19lvt15Gfe7SamR0/Nc=
 Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYAPR01MB5404.jpnprd01.prod.outlook.com
- (2603:1096:404:8030::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Tue, 6 Jun
- 2023 23:57:50 +0000
+ (2603:1096:404:8028::13) by TYCPR01MB8310.jpnprd01.prod.outlook.com
+ (2603:1096:400:15a::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Wed, 7 Jun
+ 2023 01:00:24 +0000
 Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
  ([fe80::711d:f870:2e08:b6e1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
- 23:57:50 +0000
+ ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 01:00:24 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
 CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
@@ -49,17 +49,17 @@ CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net-next v2 2/2] net: renesas: rswitch: Use hardware pause
- features
-Thread-Topic: [PATCH net-next v2 2/2] net: renesas: rswitch: Use hardware
- pause features
-Thread-Index: AQHZmFS79DoiVT5Vgkyv7LZ1N2TEja9+DzqAgABkkOA=
-Date:   Tue, 6 Jun 2023 23:57:50 +0000
-Message-ID: <TYBPR01MB5341534AB8479C3AC0510259D852A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH net-next v2 1/2] net: renesas: rswitch: Use
+ napi_gro_receive() in RX
+Thread-Topic: [PATCH net-next v2 1/2] net: renesas: rswitch: Use
+ napi_gro_receive() in RX
+Thread-Index: AQHZmFS7Sdd3ylQBTEmaqfZYx2YEbq9+DjIAgABz+tA=
+Date:   Wed, 7 Jun 2023 01:00:24 +0000
+Message-ID: <TYBPR01MB53412831A2701480452BC240D853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 References: <20230606085558.1708766-1-yoshihiro.shimoda.uh@renesas.com>
- <20230606085558.1708766-3-yoshihiro.shimoda.uh@renesas.com>
- <ZH9y13KXF128Dgbf@boxer>
-In-Reply-To: <ZH9y13KXF128Dgbf@boxer>
+ <20230606085558.1708766-2-yoshihiro.shimoda.uh@renesas.com>
+ <ZH9x+qhVtqd+q3VM@boxer>
+In-Reply-To: <ZH9x+qhVtqd+q3VM@boxer>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -67,57 +67,57 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYAPR01MB5404:EE_
-x-ms-office365-filtering-correlation-id: f2b72f6d-f7b6-4f58-74ef-08db66e9d5fc
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYCPR01MB8310:EE_
+x-ms-office365-filtering-correlation-id: 957c0ffe-f734-4803-d010-08db66f29362
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GDXsPnp40wXmTkBEZHzDYBMt7ZgHoRDYdmh+LJ14onqcn8SQkv8uMSirFnq+LM/+0kh32Z0gGkIjgC+IsFzyrXzYALGo9Ph6TvVCL7ftP+zEGaqoLY/NVoRxa13PpObDo+fBzw+9IqGTjBXfF6XPxtvbmUdVo+nhmxHFk+HaAs0PKqnAyV6qHiWaL8bjkb4SwbJXsGPss+I1L9w2T4IHmN0k7Dw+3aRGvdXnredVnaBfYR0JTOjwyPLs0CQVgQafV1xDXx99UkKabrry7Z1em/5CzaHvgjgMGDja5Yv6ODaSsZ7hZytcLAFAwv2q4Lno0Mu+muVOWkgmhcMv2vgQfL1W6hR+yhbmI0jnmzRIvbGZ6Hra4Ndinay0JLRs4wjAAcOyDvcMcWgTLNpscwFhSAwOPw5JAUIXhbw/EjOTLoikfWU+jd5uXjIdMsAqVwKumAXyUF29jGek4LIh2QrzWvgeNGPhcqVrfHEYJeYIQflDpWjlP+VJ2uybwCGcUAjGlVPxiaJ8P9rRQMYo8+3j6FG+3LjfCevZXpg4EjyiQq/VUd1h8aoaMCubwJakFJhCYbunrIgEx1/eJJciWySvZvS++elsNExm18rvua22Gdf1pkVmnErZZRcS2+Wjm3vA
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(451199021)(316002)(7696005)(41300700001)(83380400001)(86362001)(38070700005)(6506007)(9686003)(186003)(2906002)(33656002)(122000001)(38100700002)(55016003)(5660300002)(52536014)(8676002)(8936002)(66946007)(66556008)(66476007)(66446008)(64756008)(76116006)(54906003)(478600001)(71200400001)(4326008)(6916009);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 3Wzjojc2NmzYnX3o0DFgD8kM7qXxfvxK+4acCh65dL8CKcEFzbGH3aqfUshgnlT2FijFlNhpW+xluTuTsQDk9muITLnvhlujoyrYcFr8cGDHJY3KbT+vXf9pgtOHcY0FD1T029PdyrFJuZlONBOXt9o2ZiEd69lzuXUogV5XHEEtmSbkuhnY0atTYLAmGN1+FvevL0jGMsbQKxWPjls5lL8t9b6Y9aiI5A8Dj8NIWWSk8FZ11PdsGwLbeeNriKC5WqCYfro1ITxouNz2RjqZLKC2BG5qinMIjBhzJwTOMPrrs5TX/h+wIGfT3mmGFmlZtlOetXjxAAH4npS3JGVCNEazn4SOa1zECfiLHkoL9GE5BqouI3Vm/HsWgeO2obL9ENssX1oEtNLZhf0KxhoF8Jrj36B7suW5JETYS7rU+OGLc4CpIVIM4E3dY3nz448v4i6b52ZPOWWYkyOAmQG4N30fLfcsgAlhSOAXoLlN810SCpy+7v1B7DydGYzWWhu4GjnGXo1aOCWpIBZtKfTAn3J2P+wmGNwjxtgV8olhiM2hJeNWlQxnUQBAnjMJQ6fFUb2A6jc8yAoHPDfCZpqBn4JMms+N0VwaTCC4tt027oBNRyiDsYvtn8oJLGQoR3CxlSMooZgRyHjgJH+Fk2Sjgw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(451199021)(55016003)(86362001)(2906002)(54906003)(41300700001)(38100700002)(33656002)(52536014)(8676002)(8936002)(5660300002)(4326008)(316002)(122000001)(64756008)(66476007)(66556008)(76116006)(6916009)(7696005)(66446008)(66946007)(71200400001)(38070700005)(478600001)(186003)(83380400001)(6506007)(9686003)(83323001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wWHUt4enCS4rHKKxiwOhpQ8mFLD2m+3c7xjWIbZv5uCZ+sIuAYdhtB8/dmMu?=
- =?us-ascii?Q?ezsNnwgGgw21LVR+RvETi10uN+tRUDm9toFpYA4PIGVp9/Nb+EHOyqM5CgXZ?=
- =?us-ascii?Q?fdQTA4Z288R8+ZoA09VkcY5Ql+FGYkmNDUIpmmeNR6LtN1ZVXi4VyFTrcIzg?=
- =?us-ascii?Q?ZGzKUZyaXXmNe4+ec68cxEWcenWQW5uRMki+4kDHTSJEKSTHZXku4PB/ZF/8?=
- =?us-ascii?Q?TVzjl6I5JmUSjp51r2zTZ2VURHlrbv7/Wn67T/JfsXC2LV6yW//SVPP6pY3+?=
- =?us-ascii?Q?aW4EBIBva+YC5ReC0k72lD89oFJ8fqhdtn/m73RC75dFBk5fEVU8IhesslGs?=
- =?us-ascii?Q?gvdhi25ai2ysLU7sYxSGHIzLh9fkWAV34tQhlpr8oVzv5MEpyyhoqfDgj+a5?=
- =?us-ascii?Q?1EeGpfIblQnLeNfsjq/D1vgWakGHxmj+XTukDHCrM3uECBDf4od5sNh+hLGO?=
- =?us-ascii?Q?GnLOT8DvAu5S+n0rsa1UTN/i5fM9+Y/mo8IqQU/Uq2B7JLZ7nkfwnxgOH62u?=
- =?us-ascii?Q?wNhuldjHtiTYxlM6vtW4inDwhVXZD9MBbRQyeRbxfsNN/9OC5DZG2tDuquhX?=
- =?us-ascii?Q?3wReUu+QcYGo0+URlJQJuDDcPQExirVMrnVwwjieRi0GNxe7PIZ07UqtcXUo?=
- =?us-ascii?Q?0mPQvc+R+NWYEfbADY+D51q+L95VfOmcyo4XcYP2sAttsUMl0wL3beyM/gRl?=
- =?us-ascii?Q?vvgpHfMWiV5w+XMcAmM8RTutIR6hnK/exb5KoJea65/AIwlzmDkv+3JNp3iE?=
- =?us-ascii?Q?OJe4r+lFlJO/to7FxF3ksySCKfxgsoLgb+PlyodyfP+K3Nbip2izWScn5DxT?=
- =?us-ascii?Q?6R5PyLZaL3Jk1R5YgIRV8trOwBmy1G9lq7D2Vl310DQ6XWDVZw0g69zjdpTw?=
- =?us-ascii?Q?yoimoR+RGH5KQMhpFhF6KmnGmAY8zj+eOdzrlrVd/sWXoVMz9HT8f2h5Q0a/?=
- =?us-ascii?Q?8Pki6QnRzl7FLUFakbNU6BZhwVGpHNJ/GN8QdWIA0uTR88BdNI3jgO6h6ZRG?=
- =?us-ascii?Q?xVV2DbulhZ0o98wmGIN1NPKtKh6YBd2D52ymAa0qiZIHMAGxACufJCUCIuCP?=
- =?us-ascii?Q?FTpathz4nEieq16uiiV9ls7GbrRF2xY2uS5pi5Se4sA7/jF6igwme8FMOGKV?=
- =?us-ascii?Q?WfcsRUg4fklhYuhNGk663uWZg2HL/N8vePJhF+uRx+euVmr5wjpPdvPxHRql?=
- =?us-ascii?Q?9dlMwSgkJF2QVvgnAcwbiBTogDakb0+D3c5BuIIY8eEIOBklx6Z/lqW0pi8u?=
- =?us-ascii?Q?z3pLNDNcmP6y+1Qx1ZuojkfWwALyPVj8TlMlzA6lWPHh9X7K0c8mAsucXr4I?=
- =?us-ascii?Q?qUhFQsWAKB3OrItAkzlyumas/UW+LG/jeEBldkTqFIhdSRmiwvsguimmB2TW?=
- =?us-ascii?Q?lq7nrhOoA7ICiyve2Aocd9AwX5AkwBYjJ/TASK9t7Vc+w/rlkNQfGWmciRbg?=
- =?us-ascii?Q?CjM681V5s1PtSWdh6O9b76uR83Ctzx4gp4zmlLfUBUXPuQZvdNneLbSN0la7?=
- =?us-ascii?Q?4Fs1uhTiYuHydNF6TGLrp2prLsKqrhIkFsqIJtqjCX3wtlQx9u9kTmPFMOvX?=
- =?us-ascii?Q?Q5JNQFB/9FJ4PfhpIq9VrFlpMfLtsFrPSOYm0ArWCkyiGUYdUaxSqbcRP1DD?=
- =?us-ascii?Q?iEiWXSCrEC7h9p6ELDsbIm0uo32DZcgPmw6C/Sd1XQOZmzusEWaAHt8QvPu+?=
- =?us-ascii?Q?bZYT6Q=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oii4TOTaXlb5USlkAMN5olxwYmzf/sHfxbFyToLcGhqNbYnMSXzabStrBV19?=
+ =?us-ascii?Q?Iw7rt+9EL0cnizog427b/XR3k7d8NEs2LulkeIcIuarivjp1RA7woav3upc4?=
+ =?us-ascii?Q?gRo8ju9wsEf1Wc5gWLe4tNxalIGbtX98wA+gnVbaOxRCVDrca/OgHtBLPLh8?=
+ =?us-ascii?Q?9Hiiu6y20S2FnFOI3OAjIw++awsaJTRdu/w1JQ92pgERtwlTjdA82Yj7/kMW?=
+ =?us-ascii?Q?p5CQJ05DcJuyXBOKpE46T2JMMHyMPMhdKvI9AnUEhqabv/ry815sb/DcVgY4?=
+ =?us-ascii?Q?rQil37/zgRPqdNCYm8YruOYU2Umsmb1BU73IDEjjb/NisEJJoUxh8OeC+xzK?=
+ =?us-ascii?Q?psYnvqEAk4YT17Lc00aHNuc4R3KPy5huzb4Yc8crlk4rGDw5utLlYwQ5SsWZ?=
+ =?us-ascii?Q?15zXKWgTIS30h5MXOdqwkv2b4mmkD74n6kUZEJlPHf4lSNTWiaShLVfo/liU?=
+ =?us-ascii?Q?XJy1UvXZoedl+NhiPXuyoKtvfv3mLe4vO5ziWDV9pNLpWURB+52nqgQG4TGR?=
+ =?us-ascii?Q?Gguy/LR0HKTgPkL9PMfAQMWxhUdfvT9+866+QwpnY/Dlj1ajna9eSpZCu7JZ?=
+ =?us-ascii?Q?uKWLXeV+FUmFzoYUaMz1PO4U1R2K8YE62ntcAUnUlbxqqIXVOJAWtmSojkUa?=
+ =?us-ascii?Q?DmaZyiRr5RZCl5LGaPt33HpifjLZ+UDdJt4aR9oRlzTGEU0pUe2BHWW1J1pt?=
+ =?us-ascii?Q?PqGQKOG2uvkKjLgK3g+YUmlQSNbuQGx9lJXPghp8CatQdDJR2EKTIWzfS2+u?=
+ =?us-ascii?Q?XNtouCwSGYMsNKRcHwXyXsxJ7FzYPxDewnW7HLY3bwwUw7kgJDgLsTBbvZN+?=
+ =?us-ascii?Q?gjcFjLeUwuPYsk2wIyMcZtrTFKFk6wDcDiSRdhXz0GZv7Ixlz3SZ0pCb6mbv?=
+ =?us-ascii?Q?YXkTGPOyT0ySwGFm3oXKMNNDqskRUMc8BGrMiND9+Czu7BcVDXFq6SPtsEjN?=
+ =?us-ascii?Q?M78bvykL9YENwn6CfTuTeUz2jkm7et1+/iUghWgThoGEQVJyvGArCORzS6l/?=
+ =?us-ascii?Q?49UhNzBpazPsHsjOmuO2GN0Z65elNvd9QfB++8TQxI1QDI+RpI2d7i+M/bTI?=
+ =?us-ascii?Q?qj2gDXxvGf9JP5DehxfU6yQAhF27AvDc2MfpyxiVPyJ+6W0xTygk6zOyjnSv?=
+ =?us-ascii?Q?bsLaUi7ucIICToommun9DKBq5TQYXvYOUGpcPO0/lPX+71Zb0EzX97xeyPgI?=
+ =?us-ascii?Q?V+Tn8jIfOtCIBeuNmmBPlTVEbTYcodCyDhYxWtB6Y4WMq0KR2S690Q6UEYwQ?=
+ =?us-ascii?Q?W/WkN+f1b6bszjUdiZJ1pwJnrgOcTl0UR5QWnRjPLl8vlIXDpGKDCDjffRSE?=
+ =?us-ascii?Q?hDCSKR7gn/ae9ESC2kjgURZh+NQbq3S6yMhg6BoF4rqiC38wrRLeDo4zzimH?=
+ =?us-ascii?Q?0X4hsTtXAA6lT0yf7P4LU1LOzOe4D29DXeyBwA5iz1SsRnw/qUG9e8rXjKUx?=
+ =?us-ascii?Q?/Hq4LFBkdKdX8eXWlEl2tF147pmRFN69hNTBMCh/4Z50bXlcv+ipPAvY7dvc?=
+ =?us-ascii?Q?xXWwlM3bRcWIw+zMmJJT34WYDw0pGFzRIepanYUPNb1YtRyKNPEhTvz6A4SD?=
+ =?us-ascii?Q?+XMAYkzy77QqCUguOkMDH/klXzLzELj8PG0YhVILM54aa1hVJKzgudyOuMVA?=
+ =?us-ascii?Q?8zjxQ7QetAKI52eeeozQrGqMF9Eat+J3Co/tFGB2BAaCyvMNYf6BoqIfTrBQ?=
+ =?us-ascii?Q?srxNeA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2b72f6d-f7b6-4f58-74ef-08db66e9d5fc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2023 23:57:50.6162
+X-MS-Exchange-CrossTenant-Network-Message-Id: 957c0ffe-f734-4803-d010-08db66f29362
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 01:00:24.3549
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W/E3C5lwACUeyuYcblXI4FOz6Kvd+1pT0dzwpFWfH6lbnu14NZ5LpxMKXXKEUSPr00klGswHSwGeDa+45XyxnY46YkmmdLpplkvZ9oi1yaA2kiw/aLHIWqEcHD8tTmeW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5404
+X-MS-Exchange-CrossTenant-userprincipalname: Q4YyCvgZFvIg1EuxNB4NoiMMvfpwPASN1y4ivW2HtGv4q7aRPgkMQlFLlu8DDZwY8JA3dsZJw6eiNEK0Jv9kUztlD05v5WiaF71PAW3YGqHCS+cTUiak0qyzeccYouh1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8310
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
@@ -130,187 +130,47 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hello Maciej,
 
-> From: Maciej Fijalkowski, Sent: Wednesday, June 7, 2023 2:55 AM
+> From: Maciej Fijalkowski, Sent: Wednesday, June 7, 2023 2:51 AM
 >=20
-> On Tue, Jun 06, 2023 at 05:55:58PM +0900, Yoshihiro Shimoda wrote:
-> > Use "per priority pause" feature of GWCA and "global pause" feature of
-> > COMA instead of "global rate limiter" of GWCA. Otherwise TX performance
-> > will be low when we use multiple ports at the same time.
->=20
-> does it mean that global pause feature is completely useless?
-
-The global rate limiter is useless, not global pause. I'll revise this
-description on v2.
-
-> >
-> > Note that these features are not related to the ethernet PAUSE frame.
+> On Tue, Jun 06, 2023 at 05:55:57PM +0900, Yoshihiro Shimoda wrote:
+> > This hardware can receive multiple frames so that using
+> > napi_gro_receive() instead of netif_receive_skb() gets good
+> > performance of RX.
 > >
 > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>=20
+> Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+
+Thank you for your review!
+
 > > ---
-> >  drivers/net/ethernet/renesas/rswitch.c | 36 ++++++++++----------------
-> >  drivers/net/ethernet/renesas/rswitch.h |  6 +++++
-> >  2 files changed, 20 insertions(+), 22 deletions(-)
+> >  drivers/net/ethernet/renesas/rswitch.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
 > > diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ether=
 net/renesas/rswitch.c
-> > index 7bb0a6d594a0..84f62c77eb8f 100644
+> > index aace87139cea..7bb0a6d594a0 100644
 > > --- a/drivers/net/ethernet/renesas/rswitch.c
 > > +++ b/drivers/net/ethernet/renesas/rswitch.c
-> > @@ -90,6 +90,11 @@ static int rswitch_bpool_config(struct rswitch_priva=
-te *priv)
-> >  	return rswitch_reg_wait(priv->addr, CABPIRM, CABPIRM_BPR, CABPIRM_BPR=
-);
-> >  }
-> >
-> > +static void rswitch_coma_init(struct rswitch_private *priv)
-> > +{
-> > +	iowrite32(CABPPFLC_INIT_VALUE, priv->addr + CABPPFLC0);
-> > +}
-> > +
-> >  /* R-Switch-2 block (TOP) */
-> >  static void rswitch_top_init(struct rswitch_private *priv)
-> >  {
-> > @@ -156,24 +161,6 @@ static int rswitch_gwca_axi_ram_reset(struct rswit=
-ch_private *priv)
-> >  	return rswitch_reg_wait(priv->addr, GWARIRM, GWARIRM_ARR, GWARIRM_ARR=
-);
-> >  }
-> >
-> > -static void rswitch_gwca_set_rate_limit(struct rswitch_private *priv, =
-int rate)
-> > -{
-> > -	u32 gwgrlulc, gwgrlc;
-> > -
-> > -	switch (rate) {
-> > -	case 1000:
-> > -		gwgrlulc =3D 0x0000005f;
-> > -		gwgrlc =3D 0x00010260;
-> > -		break;
-> > -	default:
-> > -		dev_err(&priv->pdev->dev, "%s: This rate is not supported (%d)\n", _=
-_func__, rate);
-> > -		return;
-> > -	}
-> > -
-> > -	iowrite32(gwgrlulc, priv->addr + GWGRLULC);
-> > -	iowrite32(gwgrlc, priv->addr + GWGRLC);
-> > -}
-> > -
-> >  static bool rswitch_is_any_data_irq(struct rswitch_private *priv, u32 =
-*dis, bool tx)
-> >  {
-> >  	u32 *mask =3D tx ? priv->gwca.tx_irq_bits : priv->gwca.rx_irq_bits;
-> > @@ -402,7 +389,7 @@ static int rswitch_gwca_queue_format(struct net_dev=
-ice *ndev,
-> >  	linkfix->die_dt =3D DT_LINKFIX;
-> >  	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
-> >
-> > -	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_EDE,
-> > +	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_=
-DQT : 0) | GWDCC_EDE,
-> >  		  priv->addr + GWDCC_OFFS(gq->index));
-> >
-> >  	return 0;
-> > @@ -500,7 +487,8 @@ static int rswitch_gwca_queue_ext_ts_format(struct =
-net_device *ndev,
-> >  	linkfix->die_dt =3D DT_LINKFIX;
-> >  	rswitch_desc_set_dptr(linkfix, gq->ring_dma);
-> >
-> > -	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DQT : 0) | GWDCC_ETS | GWD=
-CC_EDE,
-> > +	iowrite32(GWDCC_BALR | (gq->dir_tx ? GWDCC_DCP(GWCA_IPV_NUM) | GWDCC_=
-DQT : 0) |
-> > +		  GWDCC_ETS | GWDCC_EDE,
-> >  		  priv->addr + GWDCC_OFFS(gq->index));
-> >
-> >  	return 0;
-> > @@ -649,7 +637,8 @@ static int rswitch_gwca_hw_init(struct rswitch_priv=
-ate *priv)
-> >  	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + G=
-WTDCAC10);
-> >  	iowrite32(upper_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + G=
-WTDCAC00);
-> >  	iowrite32(GWCA_TS_IRQ_BIT, priv->addr + GWTSDCC0);
-> > -	rswitch_gwca_set_rate_limit(priv, priv->gwca.speed);
-> > +
-> > +	iowrite32(GWTPC_PPPL(GWCA_IPV_NUM), priv->addr + GWTPC0);
-> >
-> >  	for (i =3D 0; i < RSWITCH_NUM_PORTS; i++) {
-> >  		err =3D rswitch_rxdmac_init(priv, i);
-> > @@ -1502,7 +1491,8 @@ static netdev_tx_t rswitch_start_xmit(struct sk_b=
-uff *skb, struct net_device *nd
-> >  	rswitch_desc_set_dptr(&desc->desc, dma_addr);
-> >  	desc->desc.info_ds =3D cpu_to_le16(skb->len);
-> >
-> > -	desc->info1 =3D cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) | INFO1_=
-FMT);
-> > +	desc->info1 =3D cpu_to_le64(INFO1_DV(BIT(rdev->etha->index)) |
-> > +				  INFO1_IPV(GWCA_IPV_NUM) | INFO1_FMT);
-> >  	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
-> >  		struct rswitch_gwca_ts_info *ts_info;
-> >
-> > @@ -1772,6 +1762,8 @@ static int rswitch_init(struct rswitch_private *p=
-riv)
-> >  	if (err < 0)
-> >  		return err;
-> >
-> > +	rswitch_coma_init(priv);
-> > +
-> >  	err =3D rswitch_gwca_linkfix_alloc(priv);
-> >  	if (err < 0)
-> >  		return -ENOMEM;
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ether=
-net/renesas/rswitch.h
-> > index b3e0411b408e..08dadd28001e 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch.h
-> > +++ b/drivers/net/ethernet/renesas/rswitch.h
-> > @@ -48,6 +48,7 @@
-> >  #define GWCA_NUM_IRQS		8
-> >  #define GWCA_INDEX		0
-> >  #define AGENT_INDEX_GWCA	3
-> > +#define GWCA_IPV_NUM		0
-> >  #define GWRO			RSWITCH_GWCA0_OFFSET
-> >
-> >  #define GWCA_TS_IRQ_RESOURCE_NAME	"gwca0_rxts0"
-> > @@ -768,11 +769,13 @@ enum rswitch_gwca_mode {
-> >  #define GWARIRM_ARR		BIT(1)
-> >
-> >  #define GWDCC_BALR		BIT(24)
-> > +#define GWDCC_DCP(prio)		(((prio) & 0x07) << 16)
+> > @@ -729,7 +729,7 @@ static bool rswitch_rx(struct net_device *ndev, int=
+ *quota)
+> >  		}
+> >  		skb_put(skb, pkt_len);
+> >  		skb->protocol =3D eth_type_trans(skb, ndev);
+> > -		netif_receive_skb(skb);
+> > +		napi_gro_receive(&rdev->napi, skb);
 >=20
-> I'd be glad to see defines for magic numbers above.
+> Some other optmization which you could do later on is to improve
+> rswitch_next_queue_index() as it is used on a per packet basis.
 
-I'll add defines about 0x07 and 16 on v2.
+Thank you for your suggestion! I'll try this later.
 
 Best regards,
 Yoshihiro Shimoda
 
-> >  #define GWDCC_DQT		BIT(11)
-> >  #define GWDCC_ETS		BIT(9)
-> >  #define GWDCC_EDE		BIT(8)
+> >  		rdev->ndev->stats.rx_packets++;
+> >  		rdev->ndev->stats.rx_bytes +=3D pkt_len;
 > >
-> >  #define GWTRC(queue)		(GWTRC0 + (queue) / 32 * 4)
-> > +#define GWTPC_PPPL(ipv)		BIT(ipv)
-> >  #define GWDCC_OFFS(queue)	(GWDCC0 + (queue) * 4)
-> >
-> >  #define GWDIS(i)		(GWDIS0 + (i) * 0x10)
-> > @@ -789,6 +792,8 @@ enum rswitch_gwca_mode {
-> >  #define CABPIRM_BPIOG		BIT(0)
-> >  #define CABPIRM_BPR		BIT(1)
-> >
-> > +#define CABPPFLC_INIT_VALUE	0x00800080
-> > +
-> >  /* MFWD */
-> >  #define FWPC0_LTHTA		BIT(0)
-> >  #define FWPC0_IP4UE		BIT(3)
-> > @@ -863,6 +868,7 @@ enum DIE_DT {
-> >
-> >  /* For transmission */
-> >  #define INFO1_TSUN(val)		((u64)(val) << 8ULL)
-> > +#define INFO1_IPV(prio)		((u64)(prio) << 28ULL)
-> >  #define INFO1_CSD0(index)	((u64)(index) << 32ULL)
-> >  #define INFO1_CSD1(index)	((u64)(index) << 40ULL)
-> >  #define INFO1_DV(port_vector)	((u64)(port_vector) << 48ULL)
 > > --
 > > 2.25.1
 > >
