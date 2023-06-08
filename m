@@ -2,155 +2,290 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B23077281D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 15:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 160E37284B1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 18:16:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235623AbjFHNwN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Jun 2023 09:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        id S233256AbjFHQQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Jun 2023 12:16:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236571AbjFHNwJ (ORCPT
+        with ESMTP id S231465AbjFHQQ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Jun 2023 09:52:09 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2126.outbound.protection.outlook.com [40.107.94.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66F826B3;
-        Thu,  8 Jun 2023 06:52:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eXNrY2A6OhnjC1kguX+GxOXRhyjuJN46TY28YqEYrd3eNGKZW8lARxRMevxJwAHbdbikvLLbbY+V06alj+IY3qdhDBEYdqyb8TgGtILZQWz+TGxEiuEBq8zLQpE5rc8ZfLoUneBvP6kBpVxwa3SLLp6PnGJp9yb3vJZZ03RCD+MRIMkMDQv05pjYLWrk6dZWIHlyx3Rw2H6NNqvDbW+D0I71T3mWx3OSV3l44If0BZRBSgxxuzzlu0Oh00WuR0D+FbRct3s+bZzNtDS075aarH6MM1FyY7n0LPpIos4olzzCQG2R1dCIA04OO+8Dw08ssWn6GpLit6vfAZMw7dRi4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6979IyXuu9eTWnRtX6c0GB3lP/Pc8sTv+Zo9ZrRsSfY=;
- b=VZ91SopvIlj79s82Y2ZIN0Y86aGJ5RIKt6FIx77O9C3cSPeNPP9s80VzaSzrFKqWyi5wKpIq1T9B/Fm7/QjhzG+KY0qG3cbp6ofcIgdok/WxyD0ZW2byU+P/OhvHhjKs7rfVYUtV8qZO8M2VQ9gwKl8Ny8r+GR++RU78RFMwEDRpx0rgcWZsqCCFvwCksLV+KwUK+QDf7Y9ZjohcVBbUkQ+Yzqwvt1mlPQJ6LWaf9zuHPFsNEowq0tEmlZDhYv4YO1i3SzonHp3QebBpRRmtVk9ddOf46Lbj6wjJijZB2vVohnlo3wUiWb3QTsJZIBpDjpEH+m1nSuOKNJly/xvTQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
+        Thu, 8 Jun 2023 12:16:28 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D8311A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jun 2023 09:16:26 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-77703f20aa9so28223239f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jun 2023 09:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6979IyXuu9eTWnRtX6c0GB3lP/Pc8sTv+Zo9ZrRsSfY=;
- b=tI3y1Kl+DVZG2xRWlzdDr6sohBn8UhTLF1fpDPGR9QgHfK5wtOnp8wzhY5iko0k6kIjrhR69dMKRNfxsMZd0ifb/mHPRkGONC1EUdDvqWxyL5e78+AcVjyF+mXa0d+mb37X8DxTVBVX6ZzIb/25MjUd4Gl/Xq3E1nhcclWtqdDk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by SN7PR13MB6178.namprd13.prod.outlook.com (2603:10b6:806:2e5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Thu, 8 Jun
- 2023 13:52:03 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e%4]) with mapi id 15.20.6455.030; Thu, 8 Jun 2023
- 13:52:03 +0000
-Date:   Thu, 8 Jun 2023 15:51:55 +0200
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, lanhao@huawei.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: Re: [PATCH net v3] net: renesas: rswitch: Fix timestamp feature
- after all descriptors are used
-Message-ID: <ZIHc+7/UTJE4c7md@corigine.com>
-References: <20230608015727.1862917-1-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230608015727.1862917-1-yoshihiro.shimoda.uh@renesas.com>
-X-ClientProxiedBy: AS4P189CA0012.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d7::15) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+        d=chromium.org; s=google; t=1686240985; x=1688832985;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yZrPvXOaXEQPKsXtUpbfz4WhJ7pTJywi1kpaIctsmkU=;
+        b=hwwy+v3/v4wthRVlCBfaPufw3ZTADtGuO2cwgJfqdryrS3vjKqBgfOislc573FrEJf
+         cdmTIcyBb4AI+FLksQ5W+qfdFrO+BOPTluFnLf/xCicP6TxjESbel3zRvqxExzT66e3x
+         vKIXp7lg7P5HCL3wObuCl7PdGXtsD+YFBdMj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686240985; x=1688832985;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yZrPvXOaXEQPKsXtUpbfz4WhJ7pTJywi1kpaIctsmkU=;
+        b=ABEKIUAzqqGnhhBJfgcznP+bDDbvTA3pn7g7RJXBaMZZniF/j25sTyb+jJfY3bRY9U
+         HXssa+7f8UjJaRXbDqKXliKg87IcDkaYPWl2W8WIR7/EYg4NSS8yisEFIkcZAKUb3MaO
+         WsnJqyTa8P4HsGhMBj3R7oLMU6gqappzx7llspTqxNZ+8c9KUwuMlVMnVNSGRtWpsVlS
+         CQBgAcGyRdhkCp6tX/JaAevmavhl8telRAwb6pTpT2pPjC5KGehJiYQ8j8nzEhmv2+Ov
+         fK5KmZplWfYJEeNRurk5oZRnfVCNINnQy8X9JvSUK/1QCA7BDqzurLE0wiHG1aXrOlq6
+         WwPA==
+X-Gm-Message-State: AC+VfDw2SVqKCLt6i7I4e8fjaNr6pDh3UdWOGppkXLTi2/kreOaNWTc5
+        LC7zNRVApXvX+f91BH7ZaUv+jEZi7De8jQsRKhwi1g==
+X-Google-Smtp-Source: ACHHUZ7eVTnbqme1C+Ah6wQwJ/cbJujlZZK4qJ54VColjLmnCJgopf/Q4cNWTSKHE8nQHQLLiQCx1w==
+X-Received: by 2002:a5e:9809:0:b0:774:7a6d:8760 with SMTP id s9-20020a5e9809000000b007747a6d8760mr11130610ioj.17.1686240985617;
+        Thu, 08 Jun 2023 09:16:25 -0700 (PDT)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com. [209.85.166.174])
+        by smtp.gmail.com with ESMTPSA id e22-20020a6b7316000000b00777b835f2bdsm467433ioh.27.2023.06.08.09.16.25
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 09:16:25 -0700 (PDT)
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-33bf12b5fb5so111105ab.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jun 2023 09:16:25 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1a22:b0:330:af65:de3d with SMTP id
+ g2-20020a056e021a2200b00330af65de3dmr115540ile.11.1686240508041; Thu, 08 Jun
+ 2023 09:08:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SN7PR13MB6178:EE_
-X-MS-Office365-Filtering-Correlation-Id: 010db653-a695-4ca0-5f3f-08db68278a0d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kg1a42mKKSkrsCq9SVxyLo64jF/cTJfxGFehQOnQQDD9Wnl5EF5KD8bjiB7rFfaN/kVTS+x+GbmqtfwVsyBZ8kuRtx1ar06EOPa2ps6NSYCY2lTmQ/jJxPW41v1y1f6CgeWj6sCjCM4nWwnRouLkd1DqExnlLTpJYnFdm9j/K6mxQiqr0eDy5kkemyTnFo0gJPsIGRrqnHjjy53Ffm5pggGAUPEP3ZfW+/HXaok9nSiBVeD5HM1gg26UCgmh+OOW12A9MY7XqEJvYZzawEHxqEMRJA+2jw5Oh9O0keFW+EoVYbP3giubAwgEg+zTKpr/3EehT9cNwg7M42yryAiu7jH7EFxh3GYGXjTiWL/7GXp9OX0bAMq+cvJl6fyXErnUSwRk+5v3ZJXuLFf/sOdaUHJtSqr4LOorsX7wgkiDuYb5wegAg9RapDE+EYSg8twaZ0MEx80P0JePUcbs7YiuLkJjRSrIMmLtPrLDQMBCBMJUDq6Pod8CRZ7CZkBRa9uST+PQnESxC+RaekNZyDMmsIyEloDeKu9mCk4AWq1aFLE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39840400004)(376002)(346002)(366004)(396003)(451199021)(83380400001)(2906002)(2616005)(86362001)(36756003)(38100700002)(966005)(6486002)(6666004)(316002)(41300700001)(5660300002)(8936002)(8676002)(4326008)(478600001)(6512007)(66946007)(66556008)(6506007)(66476007)(186003)(6916009)(7416002)(44832011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wE+p/AJ3p0YcGETIHMWuYxR/tpV/LLBenXeDujIVUjVDGQnU+/U5EIUXOUxg?=
- =?us-ascii?Q?eE/0vGCkRpkKHZVgzAQ1a8hcuOgW/gt9reRgqC8Zv++r838oDjbmDek5xlJb?=
- =?us-ascii?Q?uzHLAMboCgQKQqakYTQ5iUrS4Q4ADh9IQINarRCLpzEsPqM1crvxf95LdMoW?=
- =?us-ascii?Q?2z1yBh8PKMeTtAwI1bF05all44L/TcEoD3FVm28B6Tm2Zsf10RJbDf5l9E0T?=
- =?us-ascii?Q?DIueXZJowM9ogoTZa/A220DyzM2eu89OESNM5uZ7xWxhuDzxKF9CAMzXbhx2?=
- =?us-ascii?Q?A/RQW8SPlxzD/6LCPXlM69B60Pu1V69rbITOR4lLkAbjPYYXcKhY/Bl0H9Ni?=
- =?us-ascii?Q?J0pd3GxMU6LvjCY//38DnVLEKbzm+1cLgcPj7TMmw7JQWeFVuv/s2huoERKx?=
- =?us-ascii?Q?Bj1Ar2GyUUuoB+BW2LF0m2c9UpbBEFt8JU1+DaIGgWiKdxZBQL3SFuRrEnvi?=
- =?us-ascii?Q?UpAQBvVrx1DbsczmvFzhjOxm09Cd1FjomiDbrDMsBiBx/I3EoPNmUZF3MeM5?=
- =?us-ascii?Q?unbflUFyEusJ/twB1FicoQwrpHeWMQ36X7Kg+GmX3DMFitvLx5gLXL7qbSPH?=
- =?us-ascii?Q?Z5s3jl5hfG79tz9zbJEZZMazBv7FWiA1QzsnxvlQwEfb92hm8+FgrA8ZLEiw?=
- =?us-ascii?Q?T9Vy9aS5455bTGYucu9KE1MECrRGPLQ2DAQKYik5VfGUef21aCRaLtzv76CF?=
- =?us-ascii?Q?D08COOUDJFHVQPhTfKVF81ypSJs2nTRUemq9xfeezPfAmyid2WmtG8zkKREO?=
- =?us-ascii?Q?HCkyzpTBsoDtohxcRB//Tmp3f+g09INKgshR/TQ/14rF/IMtHCAUXw+BUC+U?=
- =?us-ascii?Q?NIz2MDCg3pe19J9yGRnb6eL25H5KdI3Swg0v4KNAuZ+TV1IWq+DBC9msm17V?=
- =?us-ascii?Q?XY522mzmUL+hx1PM8CbE1WJGuN6Bnp6/UGaDTd9vxC42wRW1v/39/BMD5h/L?=
- =?us-ascii?Q?Eo6rMttTqwMqIPtM+qFYaiTG278+YY2RL/R8APCWHXatN2t6uyZWb+3lDVeU?=
- =?us-ascii?Q?FX15aPTeC2sSJ5G236xbFzRXa+MoxvGRAWa70W4ukcTGGF35l25qNaGMbAXy?=
- =?us-ascii?Q?ov8XDWFM7eCfW5wtZN0qRk4Rcqtzxetpu70+MTo3XNdzr4jUitnFlS++N4GK?=
- =?us-ascii?Q?PHK1DpD9r8ZeJArGHy5ZcQaVcnc5GbGACZdef8pAbtZsUTzasq+6OEhaObUR?=
- =?us-ascii?Q?OsD2+nsMtE1slZ4cV5IHpJ1FEMz8v9Y8DXnFfp42EEc6I7lmB2vD2eN1Bcx0?=
- =?us-ascii?Q?GaEwh2J3CWTiJFK8jp7KLLsAYfl/Q01mhzD+a+PzMylu8CY5A9oHr7exGGCY?=
- =?us-ascii?Q?ck7ugenb4iSMP33gSfJ/+BZOTBnUPqlsvYC4dYN3pgnT/n6ObVqiwa0slpFj?=
- =?us-ascii?Q?7ioT5NFn0TST45pVdWHsF0reyx09LZEbMW4579Uzj6N5+02EPbX9cDfhETr2?=
- =?us-ascii?Q?JnsnISXAP8iyoNRMaw7nuxQ0rxBvRuhV/RpXa++PWOAnAFX+Zbx4NK5MycuE?=
- =?us-ascii?Q?QoaaSIJAlq3oPqGAzf0kyGOY/MsMHjTVaQaQw2orSvK/qS3U+k7YugrzB6sx?=
- =?us-ascii?Q?q34oiKugWTcB/0iTQOFLiXCjOd2NV4EL81SOF4fADMC0CM/91OhFBHtageGC?=
- =?us-ascii?Q?e1e1C1PnHAO7JXlmKpeG0qee/V+TOoiivANXJ+ceRC6j4zRJYnX7Nzqmkhth?=
- =?us-ascii?Q?FGNlkg=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 010db653-a695-4ca0-5f3f-08db68278a0d
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2023 13:52:03.4464
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tsrqYiL7D2TgUJPEbDTJYI/9CSdLNVYxKefZvE++zJlvL7xo+jkjLJ4AYq50gw4c/R+mvdsehL459P5muNk2CCBIZ3HzEU1is2uN5V68Su8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR13MB6178
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de> <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+In-Reply-To: <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 8 Jun 2023 09:08:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+Message-ID: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning void
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Joel Stanley <joel@jms.id.au>, Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Rahul T R <r-ravikumar@ti.com>,
+        Jayshri Pawar <jpawar@cadence.com>,
+        Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Mark Brown <broonie@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Alison Wang <alison.wang@nxp.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Danilo Krummrich <dakr@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Qiang Yu <yuq825@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Kuogee Hsieh <quic_khsieh@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marek Vasut <marex@denx.de>, Ben Skeggs <bskeggs@redhat.com>,
+        Karol Herbst <kherbst@redhat.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        Yuan Can <yuancan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
+        Liang He <windhl@126.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+        Steven Price <steven.price@arm.com>,
+        linux-rockchip@lists.infradead.org,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        kernel@pengutronix.de, Yongqin Liu <yongqin.liu@linaro.org>,
+        freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 08, 2023 at 10:57:27AM +0900, Yoshihiro Shimoda wrote:
-> The timestamp descriptors were intended to act cyclically. Descriptors
-> from index 0 through gq->ring_size - 1 contain actual information, and
-> the last index (gq->ring_size) should have LINKFIX to indicate
-> the first index 0 descriptor. However, the LINKFIX value is missing,
-> causing the timestamp feature to stop after all descriptors are used.
-> To resolve this issue, set the LINKFIX to the timestamp descritors.
-> 
-> Reported-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> Fixes: 33f5d733b589 ("net: renesas: rswitch: Improve TX timestamp accuracy")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  Since I got this report locally, I didn't add Closes: tag.
-> 
->  Changes from v2:
-> https://lore.kernel.org/all/20230607070141.1795982-1-yoshihiro.shimoda.uh@renesas.com/
->  - Rebase the latest net.git / main branch.
->  - Fix typo in the commit description.
->  - Modify the implementation of setting the last LINKFIX setting from
->    rswitch_gwca_ts_queue_fill() to rswitch_gwca_ts_queue_alloc() because
->    the last LINKFIX setting is only needed at the initialization time.
-> 
->  Changes from v1:
-> https://lore.kernel.org/all/20230607064402.1795548-1-yoshihiro.shimoda.uh@renesas.com/
->  - Fix typo in the subject.
-> 
->  drivers/net/ethernet/renesas/rswitch.c | 36 ++++++++++++++++----------
->  1 file changed, 22 insertions(+), 14 deletions(-)
+Hi,
 
-Hi all,
+On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> Hello,
+>
+> On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > this patch series adapts the platform drivers below drivers/gpu/drm
+> > to use the .remove_new() callback. Compared to the traditional .remove(=
+)
+> > callback .remove_new() returns no value. This is a good thing because
+> > the driver core doesn't (and cannot) cope for errors during remove. The
+> > only effect of a non-zero return value in .remove() is that the driver
+> > core emits a warning. The device is removed anyhow and an early return
+> > from .remove() usually yields a resource leak.
+> >
+> > By changing the remove callback to return void driver authors cannot
+> > reasonably (but wrongly) assume any more that there happens some kind o=
+f
+> > cleanup later.
+>
+> I wonder if someone would volunteer to add the whole series to
+> drm-misc-next?!
 
-Hao Lan has provided a Reviewed-by for v2 [1], which was perhaps intended
-for v3 (this version). In any case, I think we good on this one.
+It looks as if Neil applied quite a few of them already, so I looked
+at what was left...
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+I'm a little hesitant to just apply the whole kit-and-caboodle to
+drm-misc-next since there are specific DRM trees for a bunch of them
+and it would be better if they landed there. ...so I went through all
+the patches that still applied to drm-misc-next, then used
+'scripts/get_maintainer.pl --scm' to check if they were maintained
+through drm-misc. That still left quite a few patches. I've applied
+those ones and pushed to drm-misc-next:
 
-[1] https://lore.kernel.org/all/08006a4c-0627-9779-2260-a7e10dda454e@huawei.com/
+71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
+callback returning void
+1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning void
+b957812839f8 drm/v3d: Convert to platform remove callback returning void
+e2fd3192e267 drm/tve200: Convert to platform remove callback returning void
+84e6da7ad553 drm/tiny: Convert to platform remove callback returning void
+34cdd1f691ad drm/tidss: Convert to platform remove callback returning void
+d665e3c9d37a drm/sun4i: Convert to platform remove callback returning void
+0c259ab19146 drm/stm: Convert to platform remove callback returning void
+9a865e45884a drm/sti: Convert to platform remove callback returning void
+3c855610840e drm/rockchip: Convert to platform remove callback returning vo=
+id
+e41977a83b71 drm/panfrost: Convert to platform remove callback returning vo=
+id
+cef3776d0b5a drm/panel: Convert to platform remove callback returning void
+bd296a594e87 drm/mxsfb: Convert to platform remove callback returning void
+38ca2d93d323 drm/meson: Convert to platform remove callback returning void
+fd1457d84bae drm/mcde: Convert to platform remove callback returning void
+41a56a18615c drm/logicvc: Convert to platform remove callback returning voi=
+d
+980ec6444372 drm/lima: Convert to platform remove callback returning void
+82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback returning v=
+oid
+c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returning voi=
+d
+a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback returning=
+ void
+9a32dd324c46 drm/aspeed: Convert to platform remove callback returning void
+2c7d291c498c drm/arm/malidp: Convert to platform remove callback returning =
+void
+a920028df679 drm/arm/hdlcd: Convert to platform remove callback returning v=
+oid
+1bf3d76a7d15 drm/komeda: Convert to platform remove callback returning void
+
+The following ones appeared to apply to the top of drm-misc-next, but
+I didn't apply them since get_maintainer didn't say they were part of
+drm-misc-next:
+
+drm/tiny: Convert to platform remove callback returning void
+drm/tilcdc: Convert to platform remove callback returning void
+drm/sprd: Convert to platform remove callback returning void
+drm/shmobile: Convert to platform remove callback returning void
+drm/rcar-du: Convert to platform remove callback returning void
+drm/omap: Convert to platform remove callback returning void
+drm/nouveau: Convert to platform remove callback returning void
+drm/mediatek: Convert to platform remove callback returning void
+drm/kmb: Convert to platform remove callback returning void
+drm/ingenic: Convert to platform remove callback returning void
+drm/imx/ipuv3: Convert to platform remove callback returning void
+drm/imx/dcss: Convert to platform remove callback returning void
+drm/etnaviv: Convert to platform remove callback returning void
+drm/armada: Convert to platform remove callback returning void
+
+-Doug
