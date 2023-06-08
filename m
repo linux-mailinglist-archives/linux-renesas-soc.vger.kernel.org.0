@@ -2,75 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64953727567
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 05:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3695672777F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 08:41:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233925AbjFHDDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jun 2023 23:03:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55526 "EHLO
+        id S234854AbjFHGlo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Jun 2023 02:41:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233906AbjFHDDg (ORCPT
+        with ESMTP id S233781AbjFHGln (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jun 2023 23:03:36 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C58A62119;
-        Wed,  7 Jun 2023 20:03:33 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.43])
-        by gateway (Coremail) with SMTP id _____8BxL_ADRYFklFsAAA--.1442S3;
-        Thu, 08 Jun 2023 11:03:31 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxReQBRYFkSFgGAA--.21016S3;
-        Thu, 08 Jun 2023 11:03:30 +0800 (CST)
-Message-ID: <abc64700-385d-1219-16d1-207abd55fcf2@loongson.cn>
-Date:   Thu, 8 Jun 2023 11:03:29 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        Thu, 8 Jun 2023 02:41:43 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDBD2113;
+        Wed,  7 Jun 2023 23:41:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B/sEPiqC3rWITj2gaQFoAv4towKOdPnf1nOmCdnEAzC1xBt80z4NHNkGpIcZ1cN//B4RIvExjqvZ8/7ZGaOrYRI6U2vX5Dux0P073qGST3Oytvv7SjTssy7pmGovdjY9GLUmCIDKuK5txLn7DXFV268b2SZg8/NyT4ZcgBJoygwVkvy9Goxu3CWEyQv2yeVCHA/iY85mV4L/ZG/fCem1itsyj41QVF6OT3zFuj6p2aWFTQw5dI7sSbFu733pWJASHziXURkg8SyMINeL2aEFGoJR+ELwGycnrWJa9wvakwlbWFaxScF7YO+8d6TVTiZqZSz7CGboi6k8FPEuv5PGDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KVIZ+09yb5PbF9m7Bx9Hf5uLImpMZuKCkH4TUOVq51s=;
+ b=Y5MJw8RfMHDc/GLAowIOfumOQhRSaZZZMfiSDB2+hGOUcMbIwvJovt1pOXKvkmwLCr44hw0rRIdEJHxxtr/Rc3wFa97ouL+JBsiA/FfFRm9IEGPgODWsJMJmGrNiL4TnCQdr3gl9HWBNSSQ/Xq7O6XVcRuRAdDu3QQkc2PM5anchffw5BQrgrq9kkxD5UhMc+SMWL8AVigO9eWPmBjNFbUD8HYbywOlz032L6+w2sAvSPwt+dUF5i7vCJ0dJIfVvMaKLgVyZUzq814XPW1J96wu3g2u3gFQ+tpD1JHfIEKSAn05E95dyevJNPKcE34ZliaDp6yAMBHRbuOiJKYQgsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KVIZ+09yb5PbF9m7Bx9Hf5uLImpMZuKCkH4TUOVq51s=;
+ b=ebxBaYmZ/LVE6VK+4JNGLN6EGvs1g1ak5GS/1r1Pfe2LIqzMpoimjNIDxUOyzos3zMJ0VxpPS6Ol4xJUZhipE8hJ6q0LscoWhiTRcYI/b+0dsWpvRsk/JhlGZnPH0BCebNLVyRNEZ4Zv3Nai4WU/0COzZOAa3j1TuGsHjF8RCWE=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB9415.jpnprd01.prod.outlook.com (2603:1096:604:1c6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Thu, 8 Jun
+ 2023 06:41:38 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.039; Thu, 8 Jun 2023
+ 06:41:35 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
- <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
- <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
- <l343rk4s6mrppjl3vxxvnwc52wlovg6bojduiy3qf5zup5ifzx@7qu7jilrsgn5>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1Q
+Date:   Thu, 8 Jun 2023 06:41:35 +0000
+Message-ID: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+ <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
+ <20230529080552.GJ25984@pendragon.ideasonboard.com>
+ <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230531085941.GA27043@pendragon.ideasonboard.com>
+ <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+ <ZIBFc3y9jD59lZ3A@shikoro>
+ <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From:   Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <l343rk4s6mrppjl3vxxvnwc52wlovg6bojduiy3qf5zup5ifzx@7qu7jilrsgn5>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxReQBRYFkSFgGAA--.21016S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3JFWUKr47uF47Kr4DWr18Xrc_yoWxWF1rpF
-        WYgFWjkFWDXr1Fyrn2vw4rZFyYy3yrX398Grn8J34xu3s8Zr92gr47tr1Y9FyDAr1IgF4Y
-        v3yq9Fy8WF1DAagCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
-        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-        0xBIdaVrnRJUUUPqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-        0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-        14v26r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-        kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-        6r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64
-        vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0E
-        wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F4
-        0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
-        IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxV
-        AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-        6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jr9N
-        sUUUUU=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB9415:EE_
+x-ms-office365-filtering-correlation-id: 78e44bb5-87db-4bc9-1e45-08db67eb67a3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LcK/76SDKIQhbl+mK+cxjMK5fL/KBw8PH8HqM3Dny0SdbY5tYtcxnchB7GTvRHoH5EDMHvOZzMBcuuldP7Qg+GomoGYz5LsfIr82niHld7d9E/umcQmBFpBMDUjGej8b09CEvRcRmOfCVRnr1qlIzbOFgkQlAOsZfTfqZLxafeJDM75I8jNVaYMSypFld48uLlR5y53M+RP6Z1Jlm4ng9fivzcXDDYtkaMZUKUbRNTME92LNRkd2V6YzMb/3YFBeDXyI1+JQX4+OXveyqui6rMVvp2MdwGg2p/gEOMAWC996dM0c1mOTQa/qXlqEGHPk2dqif9afWtfPZjgHMwyqL8WQJTxhvRouH8tDnCFSzEpjHfdKgpsttyE932FbFjApSZLuVjC8++mgeOA5EZAFXcUDSnklNSDToa/To/f59evXDe6sS5OMNeGcevDgHybvkC4bJ0Ye1vTrEjA0/Wfx+HfkJBiwFHtKqEBROFVRA1Qvft4uIYJadZVdQWMaEopKzqfZXAtCTjNwAsMloH3Sbh2Z0sXyeaCpoO8m9cHnWIjmNAIioNUFVMOB6RRqlE/SyUrFm1Gs/APG/xFFYnVtAftWzC/XmrIEILrtvN1hQmtQrItuiMI+AxlwVm51LgZJ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199021)(55016003)(86362001)(7416002)(7406005)(2906002)(54906003)(110136005)(41300700001)(38100700002)(8676002)(8936002)(52536014)(5660300002)(122000001)(66446008)(76116006)(4326008)(316002)(64756008)(66476007)(66946007)(66556008)(7696005)(71200400001)(38070700005)(478600001)(33656002)(186003)(83380400001)(9686003)(6506007)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?qGBJYn5TngrLhOg+jX2CVoB2d1SnuYI2FAfv0K4vF4AZj5yk4UzQrK6Gdi?=
+ =?iso-8859-1?Q?1K85yCfZ4EMVXW47Ve/lQiZF2yfAdaJs/AS+7SK7pSZYM6qeEoWfbpVb+P?=
+ =?iso-8859-1?Q?J78JMuEgclhvRDAF/wJQ4iMvjD5vt8Io4IzzXIPXZVw0XIZYe4qBZgZUFQ?=
+ =?iso-8859-1?Q?x2fOIcxygz1gNxtGrhdrP+lo8PYb1n2G0WKQymzxC+QjjAidzZNNrT9cef?=
+ =?iso-8859-1?Q?goIuuypePhr6FV7DX0/FDUqxrD3ozipNC5u2vgh2lA2LbOH8qlobU5XyFJ?=
+ =?iso-8859-1?Q?DFUgABIiQTLDscKJlIkh659X5vUZmq47ouYjJiU91Askm5QcbLCiFvIBVH?=
+ =?iso-8859-1?Q?jLkdFN/LhlB5cQcWB9qkJOyvdVZEi3LkVMEaXJfZdaTMJpOET+YSp+AhfR?=
+ =?iso-8859-1?Q?40P0c8dTOCzMCKcfApsY6naFn9jElp1Vd41Xcw3FJN5KU9xF1R1R66lPZg?=
+ =?iso-8859-1?Q?QYq5YP4cN/2nMmY1QtVInSDEMlxn4eYGmd0Hrr0nlcARi32KW+D3AoUI3p?=
+ =?iso-8859-1?Q?DGM3bGRIXmzwe65M6tLNWsUCHsqsiSQtZB/krzgaosJDZEIPuXZvSxRlhq?=
+ =?iso-8859-1?Q?BYjssgUXwpXsTT8jfXekgHmlJyr2asVzpCwJ9d2e12nx593z7FOIn8f7TZ?=
+ =?iso-8859-1?Q?P3QVlBvBBXvAplmENm0yZzEB6jcSTdWGM0Mz9A79yrHCkkfC7B2sSVL5fC?=
+ =?iso-8859-1?Q?O3B4/0GkxxohDkoLViA8lk6pgeeVoT1qOQvCmam7oRF1F7EUlltozWdttm?=
+ =?iso-8859-1?Q?Ca4Rxui6VkEtzGm0UbaOq3jF9MxHa9IBJ5/BRnazHvyArlDGscNn80SgLA?=
+ =?iso-8859-1?Q?krWvo1sxBbVqw4kpmmrVO712op0beYLhrbQ9JzMCFYgDetXk/PmWyhpgT9?=
+ =?iso-8859-1?Q?2BxKKPxseZY6/wAipJCi8hFsSrIRckoeY1y/yGYL3+4AZOqU3x9XJ6DpWd?=
+ =?iso-8859-1?Q?vZ8ncYL6kzEzbp0gpHl02MfFmXg2s0hFGaTAmKJEE+Uumr4jDR3G3Q6biy?=
+ =?iso-8859-1?Q?qoRofshZ7+n3kE/G6Bpm1EMUFVMaF0bgg1XD+Smp/P6jIIZd9FMoAMi6Sz?=
+ =?iso-8859-1?Q?c5gTGZfpaYREostD+lDI3hTpNj8gZ8nuQCRfu9YYDizrkKmcmb7VSI1uMf?=
+ =?iso-8859-1?Q?WAieMxBmkOp5rDmha2hWMf6O1L9YCIKfkiQLTZ4IEcilqxaMOU4h48/ANZ?=
+ =?iso-8859-1?Q?V8H7eZCFK4OQ7CkCR8Ax7+09ZF/X4iPurcptUoZE1BwrJWkkH84JoXZ7hb?=
+ =?iso-8859-1?Q?V8d7m7hGnQ52vnnxVpU0J5jlaMlXdASN6SeDP8B2WoR/ZlRwY4OhM1vFuE?=
+ =?iso-8859-1?Q?kd3V2KuDdnaulj+UuClPtkefcoq7sL46k15CrqqBFqTiVTn2vrmPFCqpDN?=
+ =?iso-8859-1?Q?i+KKgyGJLvX3RagYO9dwajohBUgXBDiUWR5aRbsPW7MSINn1vuV7LSBq9z?=
+ =?iso-8859-1?Q?aFMBuYTgC98+RydSOqb9TUZ6aVbvOrKqCX0PpJZWQyFLsKEQShQweUtl3Q?=
+ =?iso-8859-1?Q?vO4lPrTkMJs7fJzpVA+zrwCwrTWx7tqoY21Q2aWaQ+/erwpl0eXEdFrtRv?=
+ =?iso-8859-1?Q?XfKfr5UpwoqcbzIoqguzIjcq8+adc++ZlpFrkexL7mMhRDeoCew3pzMqx1?=
+ =?iso-8859-1?Q?F4ppPI/XDt/ZD0Wr0Mhk0C4CNJe4V3+9tY?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78e44bb5-87db-4bc9-1e45-08db67eb67a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 06:41:35.6400
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wR1rOVIMlCNmxchfc1rueg41WT0yLWGseXxHlGSlpZzpFkun2KqmwmZrmr8Q7yZ5jrGtodCGBHQ8m8OQV/n4cmEbFJ21bQxL3rAberiglRg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9415
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,168 +154,84 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Wolfram,
 
-On 2023/6/7 20:19, Maxime Ripard wrote:
-> On Wed, Jun 07, 2023 at 06:30:01PM +0800, Sui Jingfeng wrote:
->> On 2023/6/7 17:36, Paul Cercueil wrote:
->>> Hi Sui,
->>>
->>> Le mercredi 07 juin 2023 à 13:30 +0800, Sui Jingfeng a écrit :
->>>> The single map_noncoherent member of struct drm_gem_dma_object may
->>>> not
->>>> sufficient for describing the backing memory of the GEM buffer
->>>> object.
->>>>
->>>> Especially on dma-coherent systems, the backing memory is both cached
->>>> coherent for multi-core CPUs and dma-coherent for peripheral device.
->>>> Say architectures like X86-64, LoongArch64, Loongson Mips64, etc.
->>>>
->>>> Whether a peripheral device is dma-coherent or not can be
->>>> implementation-dependent. The single map_noncoherent option is not
->>>> enough
->>>> to reflect real hardware anymore. For example, the Loongson LS3A4000
->>>> CPU
->>>> and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
->>>> platform
->>>> allways snoop CPU's cache. Doing the allocation with
->>>> dma_alloc_coherent
->>>> function is preferred. The return buffer is cached, it should not
->>>> using
->>>> the default write-combine mapping. While with the current implement,
->>>> there
->>>> no way to tell the drm core to reflect this.
->>>>
->>>> This patch adds cached and coherent members to struct
->>>> drm_gem_dma_object.
->>>> which allow driver implements to inform the core. Introducing new
->>>> mappings
->>>> while keeping the original default behavior unchanged.
->>> Did you try to simply set the "dma-coherent" property to the device's
->>> node?
->> But this approach can only be applied for the device driver with DT support.
->>
->> X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically do not
->> have DT support.
->>
->> They using ACPI to pass parameter from the firmware to Linux kernel.
->>
->> You approach will lost the effectiveness on such a case.
-> Not really, no. All DT support is doing is setting some generic device
-> parameter based on that property, but the infrastructure is very much
-> generic and can be used on systems without a DT.
->
->>>   From what I understand if you add that property then Linux will use DMA
->>> coherent memory even though you use dma_alloc_noncoherent() and the
->>> sync_single_for_cpu() / sync_single_for_device() are then NOPs.
->   >
->> Please do not mitigate the problems with confusing method.
-> It's not a confusing method, it's one of the two main API to deal with
-> DMA buffers. And you might disagree with Paul but there's no need to be
-> rude about it.
->
->> This approach not only tend to generate confusion but also
->> implement-dependent and arch-dependent. It's definitely problematic.
->>
->>
->> How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH specific
->> thing.
->>
->> Dependent on how does the arch_dma_ops is implemented.
->>
->>
->> The definition of the coherent on different ARCH has different meanings.
->>
->> The definition of the wirte-combine on different ARCH has different
->> meanings.
->>
->>
->> The wirte-combine(uncache acceleration) on mips is non dma-coherent.
-> Then MIPS breaks the DMA allocation semantics. A buffer allocated with
-> dma_alloc_wc is supposed to be coherent.
->
->> But on arm, It seem that wirte-combine is coherent. (guaranteed by arch
->> implement).
->>
->>
->> I also heard using dma_alloc_coherent  to allocation the buffer for the
->> non-coherent doesn't hurt, but the reverse is not true.
->>
->>
->> But please do not create confusion.
->>
->> software composite is faster because better cacheusing rate and
->>
->> cache is faster to read.
->>
->> It is faster because it is cached, not because it is non-coherent.
->>
->> non-coherent is arch thing and/or driver-side thing,
->>
->> it is a side effect of  using the cached mapping.
-> Honestly, it's not clear to me what your point or issue is.
->
-> Going back to the description in your commit log, you mention that you
-> want to support multiple hardware that might or might not be DMA
-> coherent, and thus you want to allocate a buffer with different
-> attributes depending on that?
->
-> Like, you say that the LS3A4000 has a coherency unit and thus doing the
-> allocation with dma_alloc_coherent is preferred. Preferred to what? A WC
-> buffer? Why?
->
-> A WC buffer is a coherent buffer that is allowed to cache writes.
->
-> It doesn't have to, and worst case scenario you're inexactly the same
-> case than a dma_alloc_coherent buffer.
->
->> It should left to driver to handle such a side effect. The device
->> driver know their device, so its the device driver's responsibility to
->> maintain the coherency.
-> Not really, no. Some driver are used across multiple SoCs and multiple
-> arch. It doesn't make any sense to encode this in the driver... which is
-> why it's in the DT in the first place, and abstracted away by the DMA
-> API. Like, do you really expect the amdgpu driver to know the DMA
-> attributes it needs to allocate a buffer from when running from a
-> RaspberryPi?
->
->> On loongson platform, we don't need to call
->> drm_fb_dma_sync_non_coherent() function, Its already guaranteed by
->> hardware.
-> And mostly guaranteed by dma_alloc_coherent. And if you wanted to call
-> it anyway, it would be a nop if the device is declared as coherent
-> already.
->
-> I think you're thinking about this backward. A buffer has mapping
-> attributes, and a device has hardware properties.
->
-> The driver (ie, software) will allocate a buffer with some mapping
-> attributes, and will assume that they are met in the rest of its code.
-> How they are met is an implementation detail of the hardware, and for
-> all the driver cares, it doesn't have to match.
->
-> You can allocate a WC buffer to use on a non-coherent device and that's
-> fine. You can allocate a non-coherent buffer on a coherent device and
-> that's fine too. The DMA API will make everything work when it needs to,
-> and if the hardware already provides stronger guarantees, then it will
-> just skip whatever is redundant.
->
-> So you need to write your driver using buffer is the most convenient for
-> you, and it's really all that matters at the driver level. But for that
-> to work, you need to flag the coherence-ness of your devices properly,
-> like Paul suggested.
+> Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+>=20
+>=20
+> Hi Wolfram,
+>=20
+> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
+> > API
+> >
+> > Hi all,
+> >
+> > sorry for not being able to chime in earlier.
+> >
+> > > In Biju's particular use case, the i2c device responds to two
+> > > addresses, which is the standard i2c ancillary use case.  However,
+> > > what's special
+> >
+> > Not quite. ancillary is used when a *driver* needs to take care of two
+> > addresses. We already have devices bundling two features into the same
+> > chip. I recall at least RTC + EEPROM somewhere. And so far, we have
+> > been handling this by creating two nodes in DT and have proper binding
+> docs.
+> > I think this is cleaner. First, you can see in DT already what the
+> > compound device really consists of. In this case, which RTC and RTC
+> > driver is exactly needed. Second, the code added here adds complexity
+> > to the I2C core with another layer of inderection for dummy devices.
+>=20
+> FYI, please see [1] and [2]
+>=20
+> As per DT maintainers, most of PMICs are described with one node, even
+> though RTC is on separate address. According to them the DT schema allows
+> multiple addresses for children.
+> But currently we lacks implementation for that. The enhancement to this
+> API allows that.
+>=20
+>=20
+> >
+> > > As some resources are shared (knowledge about the clocks), splitting
+> > > this in two distinct devices in DT (which is what Biju's initial
+> > > patch series did) would need phandles to link both nodes together.
+> > >
+> > > Do you have a better idea how to represent this?
+> >
+> > Not sure if I understood this chip correctly, but maybe: The PMIC
+> > driver exposes a clock gate which can be consumed by the RTC driver?
 
-I seems that you are right, at least at ARM world.
+Let me give me some details of this PMIC chip.
 
-Thanks for you tell me this, I might be wrong, this patch may have small 
-problems.
+PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc.=20
 
-I think I should take more time to investigate this problem.
+It has XIN, XOUT, INT# pins and a register for firmware revisions.
 
-But I need to do more test before I can reply , thank Paul also.
+Based on the system design,
 
-> Maxime
+If XIN and XOUT is connected to external crystal, Internal oscillator is en=
+abled for RTC.
+In this case we need to set the oscillator bit to "0".
 
--- 
-Jingfeng
+If XIN is connected to external clock source, Internal oscillator is disabl=
+ed for RTC.
+In this case we need to set the oscillator bit to "1".
+
+If XIN and XOUT not connected RTC operation not possible.
+
+IRQ# (optional) functionality is shared between PMIC and RTC. (PMIC fault f=
+or various bucks/LDOs/WDT/OTP/NVM or alarm condition).
+
+The board, I have doesn't populate IRQ# pin. If needed some customers can p=
+opulate IRQ# pin and use it for PMIC fault or RTC alarm.
+
+Also, currently my board has PMIC rev a0 where oscillator bit is inverted a=
+nd internal oscillator is enabled (ie: XIN and XOUT is connected to externa=
+l crystal)
+
+Cheers,
+Biju
+
+
+
 
