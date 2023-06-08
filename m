@@ -2,132 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FE372782F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 09:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5922C7278F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jun 2023 09:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235230AbjFHHIU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Jun 2023 03:08:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47620 "EHLO
+        id S235577AbjFHHkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Jun 2023 03:40:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235014AbjFHHIT (ORCPT
+        with ESMTP id S235502AbjFHHju (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Jun 2023 03:08:19 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2133.outbound.protection.outlook.com [40.107.113.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DFF9E;
-        Thu,  8 Jun 2023 00:08:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RfdeM6szl6MiSJ03MdCTgoyECLNYmTx1WaHtqySsOr6F+zKuybC+MoMVJ3e0SZtr75qy2Z1jzxbR0zVZNv9pamkHWG5wm/RLg8cKnBb9t83Rf7nO08h35K2E6QxRktt63C+jWpr+pnyG5gyfYstyHXNBjMyOU1yjvBVanv5ravByHMljKG0GSTSnzzpm5Q2ta2NL7JHKRn9qhf7xcP7jNtoW12iVIasdIYo/YnvyPWF3MRKml4dOgM8lhRuBt+DSVhZnOjbmhikuZd4tPsIWRhwkP/lMfFIeOVrzcLRzwSx8EkhVZIkM7dXnQpYaJndvBgCE5kDgRM8xmuEm7vpm9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CT078p/IyHTXVnUiITSafEFxgtlo/3QAi4sEr8oiPg8=;
- b=ASNAKfJQDilnHUiQtE77fOzL6Xww+imeI1jnUlldaKWi/xJwLIkswMkxgKQXDkpDckMLsun2ZEDA1lBr9OzCIibr+WEZud6jCDDJqcTqjSpIwEHP6rzmpbTOtbyNmLi39Gcym7XAsArH1Svm+R/xdCqkux3lATpsOHBe1pnyzJUUq6389Vujt8N6mQe1BNN3E8PMwLBVNbnwLjggHtsfB+A1a1iP++W6qTHsItc/dIqyBaYqmF/OSIe1qbE8MIqxQ94CdtkWTNSEvwdJBybfxbxWTjuiq2IQBMw+8E6YGZzJ97b7dWTY1cyhRFoHhCz3h3EZ/cyaCMA0xhXT+/YROA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CT078p/IyHTXVnUiITSafEFxgtlo/3QAi4sEr8oiPg8=;
- b=h3rYF2HpCEq5u3A7ZVb4tR9oLfCiG6DRnxC3FiDgps8BsbF2a0dJz9cafpKvHFQnrB7GDN30ZNaTyzzv53BqBb5sXTjt1qEwnMdyd1TGeK7L/3jtuPuxnqzSgUjlJYyr9+ftkADRpkfV2m09m3S1apa8Qne+2Sz/Kyq29orxtoM=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY3PR01MB10204.jpnprd01.prod.outlook.com (2603:1096:400:1db::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Thu, 8 Jun
- 2023 07:08:12 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.039; Thu, 8 Jun 2023
- 07:08:13 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable MTU3a
- counter using DT overlay
-Thread-Topic: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable MTU3a
- counter using DT overlay
-Thread-Index: AQHZcQtLK6/JZK1zYUeFXuixSTqo8q+AytqAgAABZHA=
-Date:   Thu, 8 Jun 2023 07:08:13 +0000
-Message-ID: <OS0PR01MB592274D911C4F6E37D9E502F8650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230417090159.191346-1-biju.das.jz@bp.renesas.com>
- <20230417090159.191346-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdVNaBk8XV8aCpsiE1SruHNgq47e0YHrF=_H4+SbG5DVmw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVNaBk8XV8aCpsiE1SruHNgq47e0YHrF=_H4+SbG5DVmw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB10204:EE_
-x-ms-office365-filtering-correlation-id: afbabf72-1b28-49e3-937c-08db67ef2006
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uEjnkSp14ewZjqZ25da/U1N2/vl3gg5pcf2GEmIYSRekpo9F+hJlu2FOTdx8rFgQ5dShDuq9DsmQjQXgtnlCTAc9VcOGi7GIIyaD7T9JUz3mgipW+xlZiHWLXo06htPElRtWyEntmsBZjj7TIk4za4TAf7lbecyzupIf6kvaABemQaqkpoDBIwj07LGQX+TATMlY0tZY2LUbiOEs0s3oWOTtJoeul7Cwr+5G1JGoOrf6Kv3YPUkkfWSiSQ9nzhL/qV50IB68rA7ytm1HUo23XhlkTCmLLC9So014JeA3Dj74ZpJfIJMDKGCg5A4CuPgTiHMePiSnfO0mh63bSE+P8+GbSMTpc7C6UC1ktrWfioIqVmka4nNbvsX1CUCgjZx3w2D4EdHXEPoRlU5nAm8mX4o4XnATUZ6lk8oCRrcW39/agDrZ8uWxhPTq1b6dGDoPJKrVyrkcMEMwUybU6mTLK6MleEC6wCGKWVgLkj7Ti+cDsewchWc3VkwRC+jD21jJg610VeYMcYo3/R60BhcXfBx/iDpyX2g8AKjjh6QDIc4J3/gZ+sOI9+d1DpRDUfReRIA+RZyGCCv72Gde/E11apVWQvfnyrYg2twBFUGwnH6NJicBFvDFQQrM6h2Vwwf+KvGd605u28+64NuAyvS+CQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(451199021)(76116006)(41300700001)(66446008)(66556008)(6916009)(4326008)(316002)(64756008)(38100700002)(8676002)(66476007)(8936002)(66946007)(83380400001)(52536014)(5660300002)(186003)(122000001)(53546011)(9686003)(54906003)(26005)(6506007)(55016003)(38070700005)(33656002)(478600001)(86362001)(107886003)(71200400001)(2906002)(7696005)(32563001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SUdwakJ1MEhWMWY0bFJnTUQvNllxajB5SDlpTzk5Z3ZwY05oK2NVTzdReGx3?=
- =?utf-8?B?QjZVc1ZRdUVkWndnRHVUY3Y4YjE3NEROZHErTVU0L1p2MFZ5RjlkUE1USGxm?=
- =?utf-8?B?blFBUmFMM01mRkJobHQ3bDR2SW9KdzJta25OMU8xVDRUVnl1YnRsRnVmcEF0?=
- =?utf-8?B?QXE2NFdhOENHRTlGMklBYXJkQTBFVWpuZzZpRUlZMXdEb1lBQ2szMkt3K252?=
- =?utf-8?B?eXh1Tkp0ak9hNndRa2pjbTFnVGVMbGI4TmNqOGlnbDRTaXY1OGJIMGMzeHFi?=
- =?utf-8?B?QW44SnlaWTR2TWJLOVNuWG4vTm5yOEIzUjZhVlZwUGJOL21oVkdxb1M4QlQr?=
- =?utf-8?B?RjdTUFFMVG4vYlpOWUg2VG9URGdDa0dWS2dzV1lwdmptbkc2SjZzVC91Smxr?=
- =?utf-8?B?OVhjZjFxY284NGRwTmZsUHJ6c3hOQm9MQ3dYVWNuZys2bzVpZHdhYTFqdG9J?=
- =?utf-8?B?M3c4Z3kreHB3b1FUU2haN3JwOTRLdjdCVis2ZFc1SUdvbzJCcGZBOWc1SmRN?=
- =?utf-8?B?WVRncXNLcmluNmRJQ3Rwd2tZNXRaWUpKK1lKQjAxRHFyY1RveUZ1K1hRTmtK?=
- =?utf-8?B?QjhhN3BMVGJDdjFpUURqOEJmUDJGVm42czVZTWhFbGttSWlGdnZ6c24yWGti?=
- =?utf-8?B?dEwxcEVwcjczYnRDbkJ0eGRnemhDcE85OEh5TWZadzBRU0VoWEZwYThvYXI4?=
- =?utf-8?B?TU5Nb0VTWjJ4STh4WnBmM2hOdHRFM2d5aHgyL0xzdDljMEE1QjFLVnVxTDVW?=
- =?utf-8?B?bFVLRUpSSWduREZSam0yenBxSHNTcGhZOHphMnRxOVg4c3B1N1J3WTg0QU9C?=
- =?utf-8?B?MHFPcWVaNmlRcnl0bWJ2MXl6N1k5aXJIdnNLZ2RLWkt4NUhEZHB2bEtwSThi?=
- =?utf-8?B?dmJvMmlxejBpUlhqTDNkRHZxSUVydWJudnMzZEF5c1hHRDBZaFVhUXNrNlFz?=
- =?utf-8?B?NzNNVkQ1cDh2czlQRHdMSHpYT0RpaWFsZmFselUrWnF2cHRMekZMYmZmaUow?=
- =?utf-8?B?eXF6cjFwTTh3M0xUekQ4ZUREVUhlOEQzQnhmQXhIb2xEMHBSYStvdzV6bVNp?=
- =?utf-8?B?RmJDcmxaRk1Va2JKR09kZkJ6VjBaV3U0V1NmN0w2V2Yrb04xUDBVcmN2R08r?=
- =?utf-8?B?WFZ3OGFGZWhRQTBabTFrODEyaDZ0QjI5MFlUU05sUmVBS0xuWHlGcG4rblAr?=
- =?utf-8?B?N0w3WHNvVm16T3VtWGJJckN3bjlmbTBtdU5nMXZod2JBZVg0OFMxa0NTME1I?=
- =?utf-8?B?SllEZWZ4VXpnQ1plWG95bHhMbEI3WnBHMU5GUWQyYld6QXMzNnVldWt1NWhJ?=
- =?utf-8?B?MXRUWnE3a0x4aForelRnU1hqRlVDemFpNHZZaVEwclMxL3VHdkJXUmxCaTVO?=
- =?utf-8?B?Rk1WRnlDVXpqYVFkZVU2RmZuSHZoMVoxS3FUSEF2eEpHT1FtS3BYL1ROaTQ5?=
- =?utf-8?B?UHgyZS9XYXprdkFnNUczTHRlUVIyOUc5R0ZGRU5LWnFXNG1iZUdxd2hCcXh1?=
- =?utf-8?B?dXZ5QUMwYWh2QjZTZ1N5QkU0VzgweWxTN3hWcGFoeHhVVXQybXEvSTZPZnpq?=
- =?utf-8?B?QlRjYW85ODdpbmNFY1lRS080TlE2SjB0NUhwcTFYK3lwdE9GZTVRcUw4R1pp?=
- =?utf-8?B?WWtyVCtucHk5LzVnVWpGdHdvT1FWSU52VXcrRllSaTBXTDh1VC9PV0ZjM3Fa?=
- =?utf-8?B?WXh6SDlSYXQ1MzRGTXh2cjJVMjZBc3hBL05YNVFLbTVGSGI1S3ZvdWVwN3N0?=
- =?utf-8?B?WVdLMHNlYlE5Q3l5UE5BUDd2MFUwYjZURnQ4bFVOYS9xanIrSXlzTEdrNk9h?=
- =?utf-8?B?YWV3aUVzTzNtSDJKZEUrSENWWFlReThrQ29jTnA0MkxzUFNMWXNGZy9Pd3Ja?=
- =?utf-8?B?aFcvUkhac2E1Rk0veWFDdGNsMWtKZ0JMM3VsWUs3aFdhMjd1KzBVVmc5Q3gw?=
- =?utf-8?B?L0dSMDdjY1IxYWIrWHU2a1VRanN5RUY4SWMxYnpMUjBOdUNNdHBrTnQ4c09t?=
- =?utf-8?B?WDVrQW83ZVZMUHhEM0RtRy9Ua001RkxBQ011T3FTVHQyZ3p1RlJabFU4ekFC?=
- =?utf-8?B?VDROQS9DN090Ym14bWplS3Q5aE9hZEZQanFSRm5xYjlPOUpMYkZPaGJMQ1BZ?=
- =?utf-8?Q?CFideRdcs5UUaihX7EJ8zohQv?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 8 Jun 2023 03:39:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4AB134;
+        Thu,  8 Jun 2023 00:39:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BBFBA6318B;
+        Thu,  8 Jun 2023 07:39:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C22C4339C;
+        Thu,  8 Jun 2023 07:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686209988;
+        bh=O2zRNJboOAI8ttGwRfd31tcEHKSaTFhxlXzLeOe0bqM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WyDqi9j0LFNEwkAoxQylRIfX5yPo3hUZIXFLvqqtYrU+YwcdxbZxh2I12BnOmnawB
+         3z7wx1sGRyMfHctGi0TQNXrCswPwQd8KnU+NPC54qjNRbugZhVtRUEbY32D5bID4tB
+         oPSeqGQRXyvYaZ+WOIzoEpcYinp4HJsCP9AWkcEllbBRwXiiRPNZB2bY+1boPeSqlR
+         jPybaSSH6V1cmNrSE1uqaU/uFblGh6+1iF9J8TtGFyYnURfd8CiAaVMqqb/nK3vuiV
+         qhwr6F6jCHVmOpmD4srYR7RuTNGl/Bqtaht2NRfHbJCqP3gJU+Jh0EuyYm6kPWipO8
+         fSv+mjxAroPSA==
+Date:   Thu, 8 Jun 2023 09:39:45 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Sui Jingfeng <suijingfeng@loongson.cn>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
+ hardware.
+Message-ID: <i2odidvev3ztxit4iv4ndxcuk4opckgs5fg4jjjfrq5nike35u@mlo7hshexe2n>
+References: <20230607053053.345101-1-suijingfeng@loongson.cn>
+ <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
+ <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
+ <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
+ <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
+ <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
+ <ae085320-c93c-5d96-58ef-c5ee8b58c306@loongson.cn>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afbabf72-1b28-49e3-937c-08db67ef2006
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 07:08:13.4699
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vLToiMt0GTu6+8qnwDSk3/l4J/XCKHuBmSbyAaDhla+oUVLsPIo+7ufmKlG9VvCTDII2vu/FYCaMnmQhyiY0DlIm+EdkcJpFVJaCRfpMK+U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10204
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="f7tu4zegif6z2mfi"
+Content-Disposition: inline
+In-Reply-To: <ae085320-c93c-5d96-58ef-c5ee8b58c306@loongson.cn>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -135,66 +70,202 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggMy8zXSBhcm02NDogZHRzOiByZW5lc2FzOiByemcybC1zbWFyYzogRW5hYmxlIE1UVTNh
-DQo+IGNvdW50ZXIgdXNpbmcgRFQgb3ZlcmxheQ0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIE1v
-biwgQXByIDE3LCAyMDIzIGF0IDExOjAy4oCvQU0gQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJl
-bmVzYXMuY29tPg0KPiB3cm90ZToNCj4gPiBFbmFibGUgbXR1MyBub2RlIHVzaW5nIGR0IG92ZXJs
-YXkgYW5kIGRpc2FibGUgc2NpZjIgbm9kZSBhbmQgZGVsZXRlDQo+ID4ge3NkMV9tdXgsc2QxX211
-eF91aHN9IG5vZGVzIGFzIHRoZSBwaW5zIGFyZSBzaGFyZWQgd2l0aCBtdHUzIGV4dGVybmFsDQo+
-ID4gY2xvY2sgaW5wdXQgcGlucyBhbmQgWiBwaGFzZSBzaWduYWwoTVRJT0MxQSkuDQo+ID4NCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+
-ID4gLS0tDQo+ID4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9NYWtlZmlsZSAgICAgICAg
-ICB8ICAyICsNCj4gPiAgLi4uL2Jvb3QvZHRzL3JlbmVzYXMvcnpnMmwtc21hcmMtcG1vZC5kdHNv
-ICAgIHwgNDMgKysrKysrKysrKysrKysrKysrKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDQ1IGlu
-c2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMv
-cmVuZXNhcy9yemcybC1zbWFyYy1wbW9kLmR0c28NCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9hcmNo
-L2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvTWFrZWZpbGUNCj4gPiBiL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvcmVuZXNhcy9NYWtlZmlsZQ0KPiA+IGluZGV4IGYxMzAxNjU1NzdhOC4uNTc3MjdiY2QxMzM0
-IDEwMDY0NA0KPiA+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9NYWtlZmlsZQ0K
-PiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9NYWtlZmlsZQ0KPiA+IEBAIC04
-MSw4ICs4MSwxMCBAQCBkdGItJChDT05GSUdfQVJDSF9SOUEwN0cwNDMpICs9DQo+ID4gcjlhMDdn
-MDQzLXNtYXJjLXBtb2QuZHRibw0KPiA+ICBkdGItJChDT05GSUdfQVJDSF9SOUEwN0cwNDQpICs9
-IHI5YTA3ZzA0NGMyLXNtYXJjLmR0Yg0KPiA+ICBkdGItJChDT05GSUdfQVJDSF9SOUEwN0cwNDQp
-ICs9IHI5YTA3ZzA0NGwyLXNtYXJjLmR0Yg0KPiA+ICBkdGItJChDT05GSUdfQVJDSF9SOUEwN0cw
-NDQpICs9IHI5YTA3ZzA0NGwyLXNtYXJjLWNydS1jc2ktb3Y1NjQ1LmR0Ym8NCj4gPiArZHRiLSQo
-Q09ORklHX0FSQ0hfUjlBMDdHMDQ0KSArPSByemcybC1zbWFyYy1wbW9kLmR0Ym8NCj4gPg0KPiA+
-ICBkdGItJChDT05GSUdfQVJDSF9SOUEwN0cwNTQpICs9IHI5YTA3ZzA1NGwyLXNtYXJjLmR0Yg0K
-PiA+ICtkdGItJChDT05GSUdfQVJDSF9SOUEwN0cwNTQpICs9IHJ6ZzJsLXNtYXJjLXBtb2QuZHRi
-bw0KPiA+DQo+ID4gIGR0Yi0kKENPTkZJR19BUkNIX1I5QTA5RzAxMSkgKz0gcjlhMDlnMDExLXYy
-bWV2azIuZHRiDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9yZW5l
-c2FzL3J6ZzJsLXNtYXJjLXBtb2QuZHRzbw0KPiA+IGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5l
-c2FzL3J6ZzJsLXNtYXJjLXBtb2QuZHRzbw0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4g
-aW5kZXggMDAwMDAwMDAwMDAwLi5hNTAyZmFmNmUxYWQNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4g
-KysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3J6ZzJsLXNtYXJjLXBtb2QuZHRzbw0K
-PiA+IEBAIC0wLDAgKzEsNDMgQEANCj4gPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQ
-TC0yLjANCj4gPiArLyoNCj4gPiArICogRGV2aWNlIFRyZWUgU291cmNlIGZvciB0aGUgUlove0cy
-TCxWMkx9IFNNQVJDIEVWSyBQTU9EIHBhcnRzDQo+ID4gKyAqDQo+ID4gKyAqIENvcHlyaWdodCAo
-QykgMjAyMyBSZW5lc2FzIEVsZWN0cm9uaWNzIENvcnAuDQo+ID4gKyAqLw0KPiA+ICsNCj4gPiAr
-L2R0cy12MS87DQo+ID4gKy9wbHVnaW4vOw0KPiA+ICsNCj4gPiArI2luY2x1ZGUgPGR0LWJpbmRp
-bmdzL3BpbmN0cmwvcnpnMmwtcGluY3RybC5oPg0KPiA+ICsNCj4gPiArJm10dTMgew0KPiA+ICsg
-ICAgICAgcGluY3RybC0wID0gPCZtdHUzX3BpbnM+Ow0KPiA+ICsgICAgICAgcGluY3RybC1uYW1l
-cyA9ICJkZWZhdWx0IjsNCj4gPiArDQo+ID4gKyAgICAgICBzdGF0dXMgPSAib2theSI7DQo+ID4g
-K307DQo+ID4gKw0KPiA+ICsmcGluY3RybCB7DQo+ID4gKyAgICAgICBtdHUzX3BpbnM6IG10dTMg
-ew0KPiA+ICsgICAgICAgICAgICAgICBtdHUzLXpwaGFzZS1jbGsgew0KPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgIHBpbm11eCA9IDxSWkcyTF9QT1JUX1BJTk1VWCgxOSwgMCwgMyk+OyAvKg0K
-PiBNVElPQzFBICovDQo+ID4gKyAgICAgICAgICAgICAgIH07DQo+ID4gKw0KPiA+ICsgICAgICAg
-ICAgICAgICBtdHUzLWV4dC1jbGstaW5wdXQtcGluIHsNCj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICBwaW5tdXggPSA8UlpHMkxfUE9SVF9QSU5NVVgoNDgsIDAsIDQpPiwgLyoNCj4gTVRDTEtB
-ICovDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzJMX1BPUlRfUElO
-TVVYKDQ4LCAxLCA0KT47IC8qDQo+IE1UQ0xLQiAqLw0KPiA+ICsgICAgICAgICAgICAgICB9Ow0K
-PiA+ICsgICAgICAgfTsNCj4gPiArfTsNCj4gPiArDQo+ID4gKyZzY2lmMiB7DQo+ID4gKyAgICAg
-ICBzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiA+ICt9Ow0KPiA+ICsNCj4gPiArJnNkaGkxX3BpbnMg
-ew0KPiA+ICsgICAgICAgL2RlbGV0ZS1ub2RlLyBzZDFfbXV4Ow0KPiA+ICt9Ow0KPiA+ICsNCj4g
-PiArJnNkaGkxX3BpbnNfdWhzIHsNCj4gPiArICAgICAgIC9kZWxldGUtbm9kZS8gc2QxX211eF91
-aHM7DQo+ID4gK307DQo+IA0KPiBJJ20gYWZyYWlkIGRlbGV0aW5nIG5vZGVzIGluIHRoZSBiYXNl
-IERUIGZyb20gYW4gb3ZlcmxheSBkb2VzIG5vdCB3b3JrLi4uDQoNCkl0IGRvZXNuJ3QgZ2l2ZSBh
-bnkgcGluIGNvbmZsaWN0cy4gIEkgd2lsbCByZWNoZWNrIGFuZCBjb25maXJtLg0KDQpXaGVuIEkg
-dGVzdGVkLCBpdCBjbGVhcnMgdGhlIGNvdW50ZXIsIHdoZW4gSSByZW1vdmUvaW5zZXJ0IFNEIGNh
-cmQgYXMgdGhlDQpjb3VudGVyIGNsZWFyaW5nIHNvdXJjZSBpcyBQMTlfMCBmdW5jdGlvbjMuDQoN
-CldoYXQgYWJvdXQgZGlzYWJsaW5nIFNESEkxPz8gQXMgcGlucyBzaGFyZWQgYmV0d2VlbiBNVFUz
-YSBhbmQgU0RISTEsDQpXaGVuIHdlIHVzZSB0aGlzIG92ZXJsYXksIHdlIGVuYWJsZSBvbmx5IE1U
-VTNhIGFuZCBkaXNhYmxlIFNESEkxLg0KDQpGb3IgYSBub3JtYWwgY3VzdG9tZXIgdXNlIGNhc2Us
-IFNESEkxIHdpbGwgYmUgYWx3YXlzIGVuYWJsZWQuDQpCdXQgdGhleSBtYXkgdXNlIGRpZmZlcmVu
-dCBwaW5zIGlmIHRoZXkgdXNlIGJvdGggU0RISTEgYW5kIE1UVTNhIFotUGhhc2Ugc2lnbmFsLg0K
-DQpDaGVlcnMsDQpCaWp1DQo=
+
+--f7tu4zegif6z2mfi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 08, 2023 at 01:18:38AM +0800, Sui Jingfeng wrote:
+> Hi,
+>=20
+> On 2023/6/8 00:12, Paul Cercueil wrote:
+> > Hi Sui,
+> >=20
+> > Le mercredi 07 juin 2023 =E0 22:38 +0800, Sui Jingfeng a =E9crit=A0:
+> > > Hi,=A0 welcome to discussion.
+> > >=20
+> > >=20
+> > > I have limited skills in manipulating English.
+> > >=20
+> > > It may not express what I'm really means in the short time.
+> > >=20
+> > > Part of word in the sentence may not as accurate as your.
+> > >=20
+> > > Well, please don't misunderstand, I'm not doing the rude to you.
+> > No problem.
+> >=20
+> > > I will explain it with more details.
+> > >=20
+> > > See below:
+> > >=20
+> > >=20
+> > > On 2023/6/7 20:09, Paul Cercueil wrote:
+> > > > Hi Sui,
+> > > >=20
+> > > > Le mercredi 07 juin 2023 =E0 18:30 +0800, Sui Jingfeng a =E9crit=A0:
+> > > > > Hi,
+> > > > >=20
+> > > > >=20
+> > > > > On 2023/6/7 17:36, Paul Cercueil wrote:
+> > > > > > Hi Sui,
+> > > > > >=20
+> > > > > > Le mercredi 07 juin 2023 =E0 13:30 +0800, Sui Jingfeng a =E9cri=
+t=A0:
+> > > > > > > The single map_noncoherent member of struct
+> > > > > > > drm_gem_dma_object
+> > > > > > > may
+> > > > > > > not
+> > > > > > > sufficient for describing the backing memory of the GEM
+> > > > > > > buffer
+> > > > > > > object.
+> > > > > > >=20
+> > > > > > > Especially on dma-coherent systems, the backing memory is
+> > > > > > > both
+> > > > > > > cached
+> > > > > > > coherent for multi-core CPUs and dma-coherent for peripheral
+> > > > > > > device.
+> > > > > > > Say architectures like X86-64, LoongArch64, Loongson Mips64,
+> > > > > > > etc.
+> > > > > > >=20
+> > > > > > > Whether a peripheral device is dma-coherent or not can be
+> > > > > > > implementation-dependent. The single map_noncoherent option
+> > > > > > > is
+> > > > > > > not
+> > > > > > > enough
+> > > > > > > to reflect real hardware anymore. For example, the Loongson
+> > > > > > > LS3A4000
+> > > > > > > CPU
+> > > > > > > and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
+> > > > > > > platform
+> > > > > > > allways snoop CPU's cache. Doing the allocation with
+> > > > > > > dma_alloc_coherent
+> > > > > > > function is preferred. The return buffer is cached, it should
+> > > > > > > not
+> > > > > > > using
+> > > > > > > the default write-combine mapping. While with the current
+> > > > > > > implement,
+> > > > > > > there
+> > > > > > > no way to tell the drm core to reflect this.
+> > > > > > >=20
+> > > > > > > This patch adds cached and coherent members to struct
+> > > > > > > drm_gem_dma_object.
+> > > > > > > which allow driver implements to inform the core. Introducing
+> > > > > > > new
+> > > > > > > mappings
+> > > > > > > while keeping the original default behavior unchanged.
+> > > > > > Did you try to simply set the "dma-coherent" property to the
+> > > > > > device's
+> > > > > > node?
+> > > > > But this approach can only be applied for the device driver with
+> > > > > DT
+> > > > > support.
+> > > > >=20
+> > > > > X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically
+> > > > > do
+> > > > > not
+> > > > > have DT support.
+> > > > >=20
+> > > > > They using ACPI to pass parameter from the firmware to Linux
+> > > > > kernel.
+> > > > >=20
+> > > > > You approach will lost the effectiveness on such a case.
+> > > > Well, I don't really know how ACPI handles it - but it should just
+> > > > be a
+> > > > matter of setting dev->dma_coherent. That's basically what the DT
+> > > > code
+> > > > does.
+> > > >=20
+> > > > Some MIPS boards set it in their setup code for instance.
+> > > >=20
+> > > This is a *strategy*, not a *mechanism*.
+> > >=20
+> > > In this case, DT is just used to describing the hardware.
+> > >=20
+> > > (It is actually a hardware feature describing language, the
+> > > granularity
+> > > is large)
+> > >=20
+> > > It does not changing the state of the hardware.
+> > >=20
+> > > It's your platform firmware or kernel setting up code who actually do
+> > > such a things.
+> > >=20
+> > >=20
+> > > It's just that it works on *one* platform, it does not guarantee it
+> > > will
+> > > works on others.
+> > If you add the "dma-coherent" property in a device node in DT, you
+> > effectively specify that the device is DMA-coherent; so you describe
+> > the hardware, which is what DT is for, and you are not changing the
+> > state of the hardware.
+> >=20
+> > Note that some MIPS platforms (arch/mips/alchemy/common/setup.c)
+> > default to DMA-coherent mapping; I believe you could do something
+> > similar with your Loongson LS3A4000 CPU and LS2K2000/LS2K1000 SoC.
+> >=20
+> The preblem is that device driver can have various demand.
+>=20
+> It probably want to create different kind of buffers for different thing
+> simultaneously.
+>=20
+> Say, one allocated with dma_alloc_coherent for command buffer or dma
+> descriptor
+>=20
+> another one allocated with=A0 dma_alloc_wc for uploading shader etc.
+>=20
+> also has the third one allocated with dma_alloc_noncoherent() for doing s=
+ome
+> else.
+
+And it will work just fine.
+
+struct device dma_coherent, or DT's dma-coherent property define that
+the device doesn't need any kind of cache maintenance, ever. If it's
+missing, we need to perform cache maintenance to keep coherency.
+
+dma_alloc_* functions provide guarantees to the driver. With
+dma_alloc_wc and dma_alloc_coherent, the buffer is coherent, and thus
+you don't need to perform cache maintenance operations by hand in the
+driver.
+
+With dma_alloc_noncoherent, the buffer is non-coherent and the driver
+needs to perform them when relevant.
+
+How those buffers are created is platform specific, but the guarantees
+provided *to the driver* are always there.
+
+A buffer allocated with dma_alloc_coherent might be provided by
+different means (at the hardware level with a coherency unit, by mapping
+it non-cacheable), but as far as the driver is concerned it's always
+going to be coherent.
+
+Similarly, a driver using dma_alloc_noncoherent will always require
+cache maintenance operations to use the API properly, even if the
+hardware provides coherency (in which case, those operations will be
+nop).
+
+So, yeah, like I was saying in the other mail, it looks like you're
+confusing a bunch of things. dma_alloc_* functions are about the driver
+expectations and guarantees. DT's dma-coherent property is about how we
+can implement them on a given platform.
+
+They don't have to match, and that's precisely how we can have drivers
+that run on any combination of platforms: the driver only cares about
+the buffer guarantees, the platform description takes care of how they
+are implemented.
+
+Maxime
+
+--f7tu4zegif6z2mfi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIGFwQAKCRDj7w1vZxhR
+xbgrAQCpsWm57jC3gv6nOZ5GiUM5lc6RD0TOTYgWVOKNXbCLIAEAposvihAlLBno
+R1vpxmdOLDjCU1bukTl6kAY4wW+MbQQ=
+=PhYC
+-----END PGP SIGNATURE-----
+
+--f7tu4zegif6z2mfi--
