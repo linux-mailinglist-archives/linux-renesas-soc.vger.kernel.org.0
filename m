@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7737729FBC
+	by mail.lfdr.de (Postfix) with ESMTP id 61F56729FBB
 	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 18:11:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242132AbjFIQLY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jun 2023 12:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S230392AbjFIQLX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jun 2023 12:11:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242145AbjFIQLT (ORCPT
+        with ESMTP id S242151AbjFIQLT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 9 Jun 2023 12:11:19 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B005135AA
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:10:58 -0700 (PDT)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DEA23C1F
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:10:59 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a1e2:1b31:cba3:390d])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 74Aw2A00512zQ4r014Aw0J; Fri, 09 Jun 2023 18:10:56 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id 74Aw2A00412zQ4r064AwgJ; Fri, 09 Jun 2023 18:10:56 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q7eh7-008M0b-Bi;
+        id 1q7eh7-008M0d-CQ;
         Fri, 09 Jun 2023 18:10:56 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q7ehU-00GDYH-CN;
+        id 1q7ehU-00GDYL-Cz;
         Fri, 09 Jun 2023 18:10:56 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>,
@@ -33,9 +33,9 @@ To:     Magnus Damm <magnus.damm@gmail.com>,
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 2/3] staging: board: Remove KZM9D board staging code
-Date:   Fri,  9 Jun 2023 18:10:50 +0200
-Message-Id: <ac93c6e1c09decbd7dfd3b78cc6cee88e0c6fd67.1686325857.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 3/3] clk: renesas: emev2: Remove obsolete clkdev registration
+Date:   Fri,  9 Jun 2023 18:10:51 +0200
+Message-Id: <f54a30d7a9e2aa075d462db701a60b0b59c6ad0b.1686325857.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686325857.git.geert+renesas@glider.be>
 References: <cover.1686325857.git.geert+renesas@glider.be>
@@ -50,57 +50,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With the EMMA Mobile USB Gadget staging driver removed, there is no
-longer any use for the EMEV2 KZM9D board staging code.
+EMMA Mobile EV2 is a multi-platform/CCF-only platform, registering all
+devices from DT, so we can remove the registration of clkdevs.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/staging/board/Makefile |  1 -
- drivers/staging/board/kzm9d.c  | 26 --------------------------
- 2 files changed, 27 deletions(-)
- delete mode 100644 drivers/staging/board/kzm9d.c
+ drivers/clk/renesas/clk-emev2.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/board/Makefile b/drivers/staging/board/Makefile
-index ed7839752e129abb..5db091b5ca01596a 100644
---- a/drivers/staging/board/Makefile
-+++ b/drivers/staging/board/Makefile
-@@ -1,4 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-y	:= board.o
--obj-$(CONFIG_ARCH_EMEV2)	+= kzm9d.o
- obj-$(CONFIG_ARCH_R8A7740)	+= armadillo800eva.o
-diff --git a/drivers/staging/board/kzm9d.c b/drivers/staging/board/kzm9d.c
-deleted file mode 100644
-index d449a837414e6934..0000000000000000
---- a/drivers/staging/board/kzm9d.c
-+++ /dev/null
-@@ -1,26 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Staging board support for KZM9D. Enable not-yet-DT-capable devices here. */
--
--#include <linux/kernel.h>
--#include <linux/platform_device.h>
--#include "board.h"
--
--static struct resource usbs1_res[] __initdata = {
--	DEFINE_RES_MEM(0xe2800000, 0x2000),
--	DEFINE_RES_IRQ(159),
--};
--
--static void __init kzm9d_init(void)
--{
--	board_staging_gic_setup_xlate("arm,pl390", 32);
--
--	if (!board_staging_dt_node_available(usbs1_res,
--					     ARRAY_SIZE(usbs1_res))) {
--		board_staging_gic_fixup_resources(usbs1_res,
--						  ARRAY_SIZE(usbs1_res));
--		platform_device_register_simple("emxx_udc", -1, usbs1_res,
--						ARRAY_SIZE(usbs1_res));
--	}
--}
--
--board_staging("renesas,kzm9d", kzm9d_init);
+diff --git a/drivers/clk/renesas/clk-emev2.c b/drivers/clk/renesas/clk-emev2.c
+index 7807b30a5bbb5901..37c6f9be5e5b46e8 100644
+--- a/drivers/clk/renesas/clk-emev2.c
++++ b/drivers/clk/renesas/clk-emev2.c
+@@ -6,7 +6,6 @@
+  * Copyright (C) 2012 Magnus Damm
+  */
+ #include <linux/clk-provider.h>
+-#include <linux/clkdev.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -74,7 +73,6 @@ static void __init emev2_smu_clkdiv_init(struct device_node *np)
+ 	clk = clk_register_divider(NULL, np->name, parent_name, 0,
+ 				   smu_base + reg[0], reg[1], 8, 0, &lock);
+ 	of_clk_add_provider(np, of_clk_src_simple_get, clk);
+-	clk_register_clkdev(clk, np->full_name, NULL);
+ 	pr_debug("## %s %pOFn %p\n", __func__, np, clk);
+ }
+ CLK_OF_DECLARE(emev2_smu_clkdiv, "renesas,emev2-smu-clkdiv",
+@@ -92,7 +90,6 @@ static void __init emev2_smu_gclk_init(struct device_node *np)
+ 	clk = clk_register_gate(NULL, np->name, parent_name, 0,
+ 				smu_base + reg[0], reg[1], 0, &lock);
+ 	of_clk_add_provider(np, of_clk_src_simple_get, clk);
+-	clk_register_clkdev(clk, np->full_name, NULL);
+ 	pr_debug("## %s %pOFn %p\n", __func__, np, clk);
+ }
+ CLK_OF_DECLARE(emev2_smu_gclk, "renesas,emev2-smu-gclk", emev2_smu_gclk_init);
 -- 
 2.34.1
 
