@@ -2,115 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC752729A56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 14:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 654D1729BD3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 15:44:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239243AbjFIMsb convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jun 2023 08:48:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51576 "EHLO
+        id S236150AbjFINoq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jun 2023 09:44:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240719AbjFIMsO (ORCPT
+        with ESMTP id S239561AbjFINoo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jun 2023 08:48:14 -0400
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2E22136;
-        Fri,  9 Jun 2023 05:48:14 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-bacbc7a2998so1668039276.3;
-        Fri, 09 Jun 2023 05:48:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686314893; x=1688906893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oUnX0UM+Igwa0fUtgyLnX5bA3wv9FfoFnuZ0mnmyxD8=;
-        b=QNfBp9nfbz0AfKG00qc1JiVBqf8gMHVWNRy0eaSgvW3FiSjCm7J2ET7tgcwDP+NOXz
-         v3ZPc0HMUzAVTumUMPfROmQBlCdKSYCUur6/NeRoBdhGbiDmNChwc2enJoXrwt8Bdz0K
-         fIqrWitTmWdNe0gpkhpzu6tmemVvwIbg0nVtAsz+oulZgAO8dNeiledSXDBSw/HBcvdw
-         +lOxjSnxbwrsxl9eX7YBW564T5bnrAgWpDb/0mEghoe01DxyUqoQ+TArYQ5czNAJJVqJ
-         c5wEL8os1hRXOVTJUoW/TmiUtcVpwGuSKT6av9urD9UQ8lMD/DMAE20apVvmjDFCNCOH
-         1ICQ==
-X-Gm-Message-State: AC+VfDz+3pwdC/wYEgUXXMNiRFV9o4uSgJuHudZeesogVcMmyCQ8q0fE
-        o1m2N5zd8ixE8HwDCg1EJFSGkavCBonYcg==
-X-Google-Smtp-Source: ACHHUZ7iOVF1xsri3laKFtxHiXxBTzdHcJz92n4d/K3jiRMka4jRQy8Ck96PBiGAEaEHSisSKXkFNQ==
-X-Received: by 2002:a25:8207:0:b0:bab:f4bb:9402 with SMTP id q7-20020a258207000000b00babf4bb9402mr997724ybk.46.1686314893217;
-        Fri, 09 Jun 2023 05:48:13 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id ch22-20020a0569020b1600b00bac1087b44esm847720ybb.35.2023.06.09.05.48.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 05:48:11 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-565ee3d14c2so15657597b3.2;
-        Fri, 09 Jun 2023 05:48:10 -0700 (PDT)
-X-Received: by 2002:a81:8841:0:b0:569:1ff9:58d3 with SMTP id
- y62-20020a818841000000b005691ff958d3mr1254652ywf.1.1686314890673; Fri, 09 Jun
- 2023 05:48:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1685696114.git.geert+renesas@glider.be> <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
- <20230602110459.GC26944@pendragon.ideasonboard.com> <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 9 Jun 2023 14:47:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWcrLme4qHnhXymJZmbYk2Bwr3sBymf5W=t8pdj_g8YXA@mail.gmail.com>
-Message-ID: <CAMuHMdWcrLme4qHnhXymJZmbYk2Bwr3sBymf5W=t8pdj_g8YXA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional helpers
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Fri, 9 Jun 2023 09:44:44 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E363583
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 06:44:42 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a1e2:1b31:cba3:390d])
+        by laurent.telenet-ops.be with bizsmtp
+        id 71kZ2A00112zQ4r011kZfS; Fri, 09 Jun 2023 15:44:40 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7cPS-008La2-2T;
+        Fri, 09 Jun 2023 15:44:33 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7cPp-00GCTN-24;
+        Fri, 09 Jun 2023 15:44:33 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
         Jyri Sarha <jyri.sarha@iki.fi>,
         Tomi Valkeinen <tomba@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/4] drm: Atomic modesetting doc and comment improvements
+Date:   Fri,  9 Jun 2023 15:44:26 +0200
+Message-Id: <cover.1686318012.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 2, 2023 at 1:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Jun 2, 2023 at 1:05 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
-> > > The transitional helpers were removed a long time ago, but some
-> > > references stuck.  Remove them.
-> > >
-> > > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > > --- a/drivers/gpu/drm/drm_plane_helper.c
-> > > +++ b/drivers/gpu/drm/drm_plane_helper.c
-> > > @@ -51,14 +51,6 @@
-> > >   * planes, and newly merged drivers must not rely upon these transitional
-> > >   * helpers.
-> > >   *
-> >
-> > The first paragraph starts with "This helper library has two parts.". As
-> > you're dropping the mention of the second part, I think you should
-> > rework the first paragraph too.
->
-> That was my initial thought, too.
-> However, the code still has a second part, not related to the topic of
-> the first part (primary plane support).
+	Hi all,
 
-Upon deeper investigation, all of this is related to primary plane
-support. Will update...
+This patch series contains various improvements to the documentation and
+comments related to atomic modesetting.  Hopefully, it will ease the job
+of DRM novice who want to tackle the daunting task of converting a
+legacy DRM driver to atomic modesetting.
+
+Changes compared to 1:
+  - Add Reviewed-by,
+  - Drop double space after full stop,
+  - Use footnotes for references,
+  - Remore reference to unconverted virtual HW drivers,
+  - New patch [2/4],
+  - Drop "first part" in drivers/gpu/drm/drm_plane_helper.c.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (4):
+  drm/todo: Add atomic modesetting references
+  drm/todo: Convert list of fbconv links to footnotes
+  drm: Remove references to removed transitional helpers
+  drm: Fix references to drm_plane_helper_check_state()
+
+ Documentation/gpu/todo.rst               | 20 ++++++----
+ drivers/gpu/drm/drm_plane_helper.c       | 12 +-----
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c  |  3 +-
+ drivers/gpu/drm/tidss/tidss_plane.c      |  3 +-
+ include/drm/drm_crtc.h                   |  5 ---
+ include/drm/drm_modeset_helper_vtables.h | 48 +++++++++++-------------
+ 6 files changed, 39 insertions(+), 52 deletions(-)
+
+-- 
+2.34.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
