@@ -2,57 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0B972A0BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 18:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B9972A0C6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 18:59:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbjFIQ5E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jun 2023 12:57:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55442 "EHLO
+        id S229614AbjFIQ7B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jun 2023 12:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjFIQ5E (ORCPT
+        with ESMTP id S229573AbjFIQ7B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jun 2023 12:57:04 -0400
+        Fri, 9 Jun 2023 12:59:01 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C20F3A89
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:57:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4652B3A8C
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:59:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 10CAE65A23
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 16:57:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226DDC433D2;
-        Fri,  9 Jun 2023 16:57:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D57CB6596B
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 16:58:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E215AC433EF;
+        Fri,  9 Jun 2023 16:58:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686329822;
-        bh=vCL2wjeT5OmNnFfxS1i9xUl9Q/WoLK8T2sKCdVUfO18=;
+        s=k20201202; t=1686329939;
+        bh=rsbSKkOvULqeoBTY5vOOrUxfMTco9CnFkGzCmWjBOLw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EKpkc+xJQ5zR9VdO/CyoaAntZw3J72Fk+amoqAK/+zfA/uuZR1rGlMJ4FCjl6911a
-         VqQcaYqP4rhep+X/OFk+qiQZc5VDFYivJej8YHac9juNE8tSza4GKpNP9dZEeM5apa
-         WW0Ul+kLv5K2lCrK7kHjmitxKygh0TtcwlrIB8lmSsYV+JYY8vZc5cQYZAIFB/WHoS
-         zeUnSxzfyQHmyGwBMrNDEmdbQF4KIJSUfbR55vAwaW1oqlf/IenWTre7kPTZkZfOpV
-         TS1AAqUJdiCCdaBBfyPD+MtBECq6BnbZmOW8+PQpkXIBveUzRm5E4JfWFpBq5NyQ2b
-         xc0aMv6j49LeA==
-Date:   Fri, 9 Jun 2023 18:56:59 +0200
+        b=klrgAB+caaa1ZMEtDGBItTahIMO0ShBQVdjOGMHaFewqckuLTKa9aV3fwOLeeUuBN
+         S2cnG0Jgwcrj+pODktPiC+oVZFOz1I3af3VN7smGwYPPWBrA19xAuX9cARuY2FT4Ph
+         VxR+zZJ8pPz6+BtEkx9Skm4mcqK1OB4mhhom93CRtZMlXqD6WxNe2lbVVzvSS8Shn5
+         bD6FLDNPLqrhGUnGfLq527sZpSuZdkZJyhVzwYZqJQP8vnjS6LAf0GCbBCaO+p9GP/
+         8KHwMTMOlcrKoa0Ir+XSAtfXQNwtRVtrrjwrEmTJD8EughD3upiKIGlSZTeP+aj55U
+         3u5as3n+9COPg==
+Date:   Fri, 9 Jun 2023 18:58:56 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 2/3] staging: board: Remove KZM9D board staging code
-Message-ID: <ZINZ2zsRiNH2oscn@ninjato>
+Subject: Re: [PATCH/RFC 0/3] Remove KZM9D board staging support
+Message-ID: <ZINaUKmz2KoGbtIR@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
         linux-renesas-soc@vger.kernel.org
 References: <cover.1686325857.git.geert+renesas@glider.be>
- <ac93c6e1c09decbd7dfd3b78cc6cee88e0c6fd67.1686325857.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kcI20ZwZazurKQTV"
+        protocol="application/pgp-signature"; boundary="yLesOz+unkP/1pAN"
 Content-Disposition: inline
-In-Reply-To: <ac93c6e1c09decbd7dfd3b78cc6cee88e0c6fd67.1686325857.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1686325857.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -64,40 +63,41 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---kcI20ZwZazurKQTV
+--yLesOz+unkP/1pAN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 09, 2023 at 06:10:50PM +0200, Geert Uytterhoeven wrote:
-> With the EMMA Mobile USB Gadget staging driver removed, there is no
-> longer any use for the EMEV2 KZM9D board staging code.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Which is only for the USB gadget code, so:
-
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---kcI20ZwZazurKQTV
+> Hence this RFC patch series removes the KZM9D board staging support,
+> together with the EMMA Mobile USB Gadget driver, and the legacy EMMA
+> Mobile EV2 clkdev registration.
+
+To make it super-clear: we only lose USB gadget support by removing
+this. And both, board code and driver, have been in staging for years,
+hardly altered. The rest of the board will still be supported because
+the other drivers gained DT support.
+
+I am all for this!
+
+
+--yLesOz+unkP/1pAN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSDWdsACgkQFA3kzBSg
-KbaL0Q/9HhIamvtOSohoc3p2l7D5LCH5CqyJy5SnPEmhhfHvOAcT2TEBBDIQbSsQ
-ZW9UlbmUGe0hrgbp6P2lYqYVr4QSpL33p4dHMYstPKal/SlKnljoXce1w+z7q7T9
-jFgImlzkx1QfQ6IvrKuspjQGjdRH+X9/OTV7lJkqF9C8G3jS49ljvDXE2kEeWWjm
-+Ct53Uf1kwmspEV00UBt1MX7kde70jmXBhPAZ51ksKLgZ4U/RyctA6uZVrziNq28
-Co9opLMOWgqrln1g0yOEtblyT+YBuqCsDIll2xYA+8vPzQpUyu0XolHeXoaMDcmB
-gDnzbEw2V6wGaxXjS7TceOcQx/FtYGooqF7s8INQnDnHwylvzoMeJvF5WiQGpDfg
-pZwTpvHDllhB2EIgb+fmeV+LPk4N2N7cbpbv/6Svc7g9x7B/7dtapESCbFcS/Yyo
-IwZHFBd3j3Y2OSpPnzjqnCpyCH/WF39NSmt9Nfnr9ydXRt4vxR6SwZ5BWj1r/aKi
-8ZszoTF+cPhIrVUTCakqxMuTzTwE6kg3BIbIg/3IAtHn4TPq4gMPcnSgSrnhtjNs
-Bl0UwoODF+8YOmFr5WTv8F5JUBSphlL2DAoH8KQtIr0uWcdgRPUPZbNQKaxCWIkT
-fKSxc/qOl1Zq1/0pQ8SMI3q2934MDMgiN5soz/SFlrWj4r6XDik=
-=4Tzk
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSDWlAACgkQFA3kzBSg
+KbatpA/+Kr2jVRHyWwVdsI6DMNjCMK1XMCTcSxqVzfhL59hWn80wZiv+++MhgoXZ
+7ROAwFa6bJKZP514AnlReMQ9Lsu4a0NOCarbkBKXMvxYh7xxjmf1sIeIoZoeJgdo
+Oy6yVwYh4zuBVomuiNtYcx1k1+N69PbEyIkAQM89y753fPieZTXziH84bqsbuJf8
+ynsaDhl5mXJ1+bA00Wi7ZkBWH4ogEFi9FlpppCEIcgqJUqrcoJwFzXBLnHidXnyc
+aiGspfuc1xeGuZRcZ7yzQ2D7F/nhaL+PlLJ5ynzZrosVMaAOAmOeo5CHlryW8d4d
+lYPa3bm4l3lJAcJUdeHYgGuguBBzYb5DS4zamfPgDrIeO4BhZUUElW48K9hdD5HK
+ik/EhyeJo1L5T8vTN2W6lK86mUN1DzKa+JPZxpIWtIbZIs6eX+N0f8x8yVq+Z1JK
+Y1pCOftIlgnMp/gQXTyvDsfPnkNmdWI0OFotVoJmzZqAJs3I8MfZnkjlgyYniknO
+j+ho1pdZXKMmXIUdvbqd31dAOt2FEsZ76BgnSSB0nYBNUrzG9c4HCKt8WgAiCWZN
+7fSu7bdFnbyFhmSr+8uyb7TcmWA4ikj8+M6vXQYDR+JSio83/BpVZJo3Voc79OUh
+sKUusdB7z5SCSElCAEvvAQVCvwmWKXTsap6E5kXjQ82lyL4HiSo=
+=JM36
 -----END PGP SIGNATURE-----
 
---kcI20ZwZazurKQTV--
+--yLesOz+unkP/1pAN--
