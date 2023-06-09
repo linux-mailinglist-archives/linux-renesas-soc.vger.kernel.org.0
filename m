@@ -2,90 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F56729FBB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 18:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74AF072A0B1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 18:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbjFIQLX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jun 2023 12:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56896 "EHLO
+        id S230033AbjFIQzi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jun 2023 12:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242151AbjFIQLT (ORCPT
+        with ESMTP id S229458AbjFIQzi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jun 2023 12:11:19 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DEA23C1F
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:10:59 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a1e2:1b31:cba3:390d])
-        by albert.telenet-ops.be with bizsmtp
-        id 74Aw2A00412zQ4r064AwgJ; Fri, 09 Jun 2023 18:10:56 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q7eh7-008M0d-CQ;
-        Fri, 09 Jun 2023 18:10:56 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q7ehU-00GDYL-Cz;
-        Fri, 09 Jun 2023 18:10:56 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 3/3] clk: renesas: emev2: Remove obsolete clkdev registration
-Date:   Fri,  9 Jun 2023 18:10:51 +0200
-Message-Id: <f54a30d7a9e2aa075d462db701a60b0b59c6ad0b.1686325857.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1686325857.git.geert+renesas@glider.be>
+        Fri, 9 Jun 2023 12:55:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738DD1993
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:55:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B8CC6593B
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 16:55:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C6CC433D2;
+        Fri,  9 Jun 2023 16:55:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686329736;
+        bh=+uK/xRPtx9vOI43Be0DunmnDDnvapRvnqIuCOU0m3uc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ozdt5vpp2k7hHrSyYtFgk8xQtXLjT40+RGNUHiRDU9Xlv+aTG0kXr6NBqM/PjPcoR
+         n0+vwLRU0rdGxKTIwjl5hwnsu2uRSnPUkk5ObokVFE7oeqkLRJYeVh4c3YH5B8L36q
+         OWgrjjFwKuzzNKiK7iiYHIy9ikDdcYsd/tFQ0VSwlx3YVlHep02fwFoHznO922oUEg
+         6pvKed6UQDrf8dgdRFcWpq4q8SrKIHcbCI8KmblyGmYmLnuNvla8Fc+q5nKHHVu0L5
+         XHbMgXIU6HUomVsLNfsTqoNAeLZFCef8wL8O8sOk5PnF4tywcWdrU//VCVofK49K7K
+         A4ULGh/lLbWZQ==
+Date:   Fri, 9 Jun 2023 18:55:30 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC 1/3] staging: emxx_udc: Remove EMMA Mobile USB Gadget
+ driver
+Message-ID: <ZINZgucFf1rrr5uU@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org
 References: <cover.1686325857.git.geert+renesas@glider.be>
+ <0216a2e98936995ba8dcc3828a0d2644af4525c3.1686325857.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EKB5gFGarIn8ZIOq"
+Content-Disposition: inline
+In-Reply-To: <0216a2e98936995ba8dcc3828a0d2644af4525c3.1686325857.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-EMMA Mobile EV2 is a multi-platform/CCF-only platform, registering all
-devices from DT, so we can remove the registration of clkdevs.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/clk/renesas/clk-emev2.c | 3 ---
- 1 file changed, 3 deletions(-)
+--EKB5gFGarIn8ZIOq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/clk/renesas/clk-emev2.c b/drivers/clk/renesas/clk-emev2.c
-index 7807b30a5bbb5901..37c6f9be5e5b46e8 100644
---- a/drivers/clk/renesas/clk-emev2.c
-+++ b/drivers/clk/renesas/clk-emev2.c
-@@ -6,7 +6,6 @@
-  * Copyright (C) 2012 Magnus Damm
-  */
- #include <linux/clk-provider.h>
--#include <linux/clkdev.h>
- #include <linux/io.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -74,7 +73,6 @@ static void __init emev2_smu_clkdiv_init(struct device_node *np)
- 	clk = clk_register_divider(NULL, np->name, parent_name, 0,
- 				   smu_base + reg[0], reg[1], 8, 0, &lock);
- 	of_clk_add_provider(np, of_clk_src_simple_get, clk);
--	clk_register_clkdev(clk, np->full_name, NULL);
- 	pr_debug("## %s %pOFn %p\n", __func__, np, clk);
- }
- CLK_OF_DECLARE(emev2_smu_clkdiv, "renesas,emev2-smu-clkdiv",
-@@ -92,7 +90,6 @@ static void __init emev2_smu_gclk_init(struct device_node *np)
- 	clk = clk_register_gate(NULL, np->name, parent_name, 0,
- 				smu_base + reg[0], reg[1], 0, &lock);
- 	of_clk_add_provider(np, of_clk_src_simple_get, clk);
--	clk_register_clkdev(clk, np->full_name, NULL);
- 	pr_debug("## %s %pOFn %p\n", __func__, np, clk);
- }
- CLK_OF_DECLARE(emev2_smu_gclk, "renesas,emev2-smu-gclk", emev2_smu_gclk_init);
--- 
-2.34.1
+On Fri, Jun 09, 2023 at 06:10:49PM +0200, Geert Uytterhoeven wrote:
+> No one stepped up to complete the EMMA Mobile USB Gadget driver, bring
+> it up to non-staging standards, and convert it to device tree.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Yes, if someone really wants to, the driver can be found in the history.
+Chances are close to 0, though:
+
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--EKB5gFGarIn8ZIOq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSDWX4ACgkQFA3kzBSg
+KbaQnQ//aNQL8XQ4Uqvo0rH6VUHVD2aG9cm9gqsshDtqUKdE4VCuoHCIPmAT67no
+cnh5jxhmEU82MVVmig86e8W1Ayz958WmSkiEieToAqcDd4CoY6akzwRsDFj77W0R
+rMXiIMR9zaZmIr+hy5OP9ytQuOx8KTVrdSoCQVS+FxLS8V+bEgy9G7iji2v7bpOF
+qnM/b1ZA4PuvVlPr1WSTFx6xavqqzreIqZ9ESZVo5IkocVia3ElnKZxkUJRlsw/P
+tiw4DmrSwdmrXqJ6gb64YGdDxsfOkxbUFh7BcTx0c5yCikD54i8TWps4MUxXhlb3
+VPS3PKN+D4oFNYVRAkTEX/RfJnYT99CZPJZlE8NfcaEWSosdoipsClXt5K2MgnYS
+bjWUxgoPZKpJI+KxcsQHfhgS357Kn/E2MK9GxGFutZDHOReFBhZhI8QGm49NW2IV
+0VS0HWPSBVyM36i2k8ZcTyeFVpzMR/bhxzmcbBz3WBu1hm4H3ZIQOXOIyvfC//Q6
+pf+sxqzUOjy1SzN2covpuh0JQmamEBriGmuiCjrBvoxkMpPETAe4f8WS7qu4QUPs
+s1CGgz7WlmPmJoJGJy+jU+W0ndGp1Ff0VRmwamxhIummgjiOspNirCtY+pwbLfHE
+wh4YHxoccapYoAJo113niAzI9BSaRIDihtiM04Jixzk3fo+nz2M=
+=UGC0
+-----END PGP SIGNATURE-----
+
+--EKB5gFGarIn8ZIOq--
