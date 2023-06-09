@@ -2,86 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E33472961E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 11:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE2A372969D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jun 2023 12:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241909AbjFIJ6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jun 2023 05:58:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45000 "EHLO
+        id S241036AbjFIKP7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jun 2023 06:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241913AbjFIJ54 (ORCPT
+        with ESMTP id S241569AbjFIKO5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jun 2023 05:57:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99F63A9B
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 02:50:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3274965647
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 09:50:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FF65C4339E;
-        Fri,  9 Jun 2023 09:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686304221;
-        bh=B4ehf1qx10BkGmaVu5ZrrQtzlbv/nf43IPDZstS9ck0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=e6j7UGYjfedho/hu4QQ2c8ISalWGjz0fFZLtl1mUgZxQW/fwwPI/B+HOJLOhrkLEj
-         PI4KdrTSXG3R3/MMuiek8OFf59FtifawVs5LonhiMp8HpIanMvKxZ0jUnH+9i/cjnS
-         h0t0UQieAReq+ZcM9RPzAzYHhak0rk01QIeCFStRq+IDyw0K6SURTf9gMqPhLaUmS0
-         mao2CxMt790DbE0vMmFaDT+lvlXCTAtwXH5toim8DfxAYqwL8CxjVX52zt/InnPJ7g
-         njLl7N38cpl4k8G85wLD7xOaw4jMzeFuDYSp29lWhHET/gUHbVvhuJVmMFR0SZ/3Ik
-         jsnhG3F6bZY2Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 61A2AE29F36;
-        Fri,  9 Jun 2023 09:50:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 9 Jun 2023 06:14:57 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F81049DB
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jun 2023 03:06:45 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a1e2:1b31:cba3:390d])
+        by michel.telenet-ops.be with bizsmtp
+        id 6y6i2A00612zQ4r06y6iPh; Fri, 09 Jun 2023 12:06:44 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7Z0d-008L2L-1q;
+        Fri, 09 Jun 2023 12:06:42 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7Z10-00G42n-1Q;
+        Fri, 09 Jun 2023 12:06:42 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/3] Renesas SoC updates for v6.5 (take two)
+Date:   Fri,  9 Jun 2023 12:06:35 +0200
+Message-Id: <cover.1686304609.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v3] net: renesas: rswitch: Fix timestamp feature after all
- descriptors are used
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168630422139.21394.17316227658031207308.git-patchwork-notify@kernel.org>
-Date:   Fri, 09 Jun 2023 09:50:21 +0000
-References: <20230608015727.1862917-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230608015727.1862917-1-yoshihiro.shimoda.uh@renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, lanhao@huawei.com,
-        simon.horman@corigine.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, phong.hoang.wz@renesas.com
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+	Hi SoC folks,
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+This is my second pull request for the inclusion of Renesas SoC updates
+for v6.5.
 
-On Thu,  8 Jun 2023 10:57:27 +0900 you wrote:
-> The timestamp descriptors were intended to act cyclically. Descriptors
-> from index 0 through gq->ring_size - 1 contain actual information, and
-> the last index (gq->ring_size) should have LINKFIX to indicate
-> the first index 0 descriptor. However, the LINKFIX value is missing,
-> causing the timestamp feature to stop after all descriptors are used.
-> To resolve this issue, set the LINKFIX to the timestamp descritors.
-> 
-> [...]
+It consists of 3 parts:
 
-Here is the summary with links:
-  - [net,v3] net: renesas: rswitch: Fix timestamp feature after all descriptors are used
-    https://git.kernel.org/netdev/net/c/0ad4982c520e
+  [GIT PULL 1/3] Renesas ARM defconfig updates for v6.5 (take two)
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+    - Enable support for the Renesas MTU3a counter in the arm64 defconfig.
 
+  [GIT PULL 2/3] Renesas driver updates for v6.5 (take two)
 
+    - Convert the R-Mobile SYSC driver to readl_poll_timeout_atomic().
+
+  [GIT PULL 3/3] Renesas DTS updates for v6.5 (take two)
+
+    - Add IOMMU support for PCIe devices on R-Car Gen3 and RZ/G2 SoCs,
+    - Add HSCIF1 serial port support on Renesas ULCB boards equipped with
+      the Shimafuji Kingfisher extension,
+    - Miscellaneous fixes and improvements.
+
+Note that the conversion to readl_poll_timeout_atomic() depends
+on iopoll improvements, which are thus included through an immutable
+branch in multiple pull requests:
+
+  "[GIT PULL] clk: renesas: Updates for v6.5 (take two)" (for clk),
+  "[GIT PULL 2/3] Renesas driver updates for v6.5 (take two)" (for soc).
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
