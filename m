@@ -2,88 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5705C72AE31
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Jun 2023 20:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1492172B24D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Jun 2023 16:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbjFJSxs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 10 Jun 2023 14:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53546 "EHLO
+        id S233716AbjFKOem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 11 Jun 2023 10:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbjFJSxs (ORCPT
+        with ESMTP id S233646AbjFKOem (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 10 Jun 2023 14:53:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799D0173A
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Jun 2023 11:53:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Sun, 11 Jun 2023 10:34:42 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45CF83
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Jun 2023 07:34:40 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DF6F60B4C
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Jun 2023 18:53:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5A225C4339B;
-        Sat, 10 Jun 2023 18:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686423226;
-        bh=0kXLR6N19QJarrOM9L2An/IXYJpG+uaknAMpiddQX0k=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=u3rEUtAW9Oz5d3L9s7DJzvMxazzAZJ0gKbBElMO1pnkjOHQ4b0+Rfl3VA5TMEy4sG
-         CuFrSjZHWj8M5Alpp+J4akWEnNizgH5tGiUp7XoeYc5fT2dsf/fAuh1TCKfngNL5I9
-         N2cve5CpVQYBdAg/dCBJYO1Ijxx5KxDX/27qsejRs3cf5KYspq5beqToKQvwOlymqg
-         rfaAFTdhaBYWZo9CAtUaSAUSDkT9xoXU6zRSFjljDva6Z2Eh9S+Ih0MvqcTUlppHm8
-         zFhYGbQ2pW9jhw9xktygzgKoklE1jQVtP1IIIWP6ug7jIEUwhN3VmwmtdSLUG2ao/7
-         Fp7R7GoiyKJhQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 373C8E87232;
-        Sat, 10 Jun 2023 18:53:46 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QfHQP181tz9sWf;
+        Sun, 11 Jun 2023 16:34:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1686494077;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KawyP+18OytQQzqaR9p8VlCxXJPNMggPp6o1W/LkCXQ=;
+        b=KgHngCOVqmxFU7T/YH/rxY3AZRILFYdwer4mG2+OgcGI97A/ZWF8Nz8dkB8vpURn6ceD7g
+        XY7b4z1S/vlkbbHmIDCFneRJ9DRaChdvySV7XSGYcV8wShFQRyG/ZfK6NbhkRGPXwV2L0n
+        QlVfdW+5cc+B99N2eUaiGivrnBBCJb4tmFtKC9jEOGzCqROrN5EgJQA/nuC7mkcldLrLvK
+        YkpnqHPwetQ5nct5iUEQxDUOrtTw3rIrMcjGPuOYw4IMxHQwIfmRrjdWRGUzcaYiYEBe15
+        UPi5rSFSL1DiGWaVoo433wA714KYbcdhQXkY5wzsnI+9aGvdirmGKQxBRGsf4Q==
+Message-ID: <afe41e88-4de5-cce9-b280-0ec955b52409@mailbox.org>
+Date:   Sun, 11 Jun 2023 16:34:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 0/2] net: renesas: rswitch: Improve perfromance of
- TX/RX
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168642322622.21298.7526575301146103242.git-patchwork-notify@kernel.org>
-Date:   Sat, 10 Jun 2023 18:53:46 +0000
-References: <20230608022007.1866372-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230608022007.1866372-1-yoshihiro.shimoda.uh@renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, maciej.fijalkowski@intel.com,
-        simon.horman@corigine.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: RZ/G2 / RCAR3 32-bit Kernel
+To:     Adam Ford <aford173@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <CAHCN7xJbuvDCecsQfvw4X3a=w-F95j6dQYAj+0irkVhTAQ0abw@mail.gmail.com>
+Content-Language: en-US
+From:   Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAHCN7xJbuvDCecsQfvw4X3a=w-F95j6dQYAj+0irkVhTAQ0abw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 91a8b42ed812702cc57
+X-MBO-RS-META: uzddop573t5y7insedkfkao5rhw81en1
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On 6/9/23 15:48, Adam Ford wrote:
+> I was wondering if anyone has ever attempted to build a 32-bit kernel
+> to run on an RZ/G2 or RCAR3 SoC.
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Not me
 
-On Thu,  8 Jun 2023 11:20:05 +0900 you wrote:
-> This patch series is based on net-next.git / main branch [1]. This patch
-> series can improve perfromance of TX in a specific condition. The previous code
-> used "global rate limiter" feature so that this is possible to cause
-> performance down if we use multiple ports at the same time. To resolve this
-> issue, use "hardware pause" features of GWCA and COMA. Note that this is not
-> related to the ethernet PAUSE frames.
-> 
-> [...]
+> I have a variant with than 2GB of RAM, and I want to run some
+> experiments to measure RAM utilization and performance to see if it's
+> worth trying to run in 32-bit mode to save a little RAM.
 
-Here is the summary with links:
-  - [net-next,v4,1/2] net: renesas: rswitch: Use napi_gro_receive() in RX
-    https://git.kernel.org/netdev/net-next/c/dc510c6d2ecf
-  - [net-next,v4,2/2] net: renesas: rswitch: Use hardware pause features
-    https://git.kernel.org/netdev/net-next/c/c87bd91e34e1
+It might be worth looking at arm64 ilp32 too, that retains you the 
+armv8a instructions, i.e. you get the 32bit pointers without the armv7a 
+opcodes downsides.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> It looks like U-Boot supports AARCH32, but most of the stuff I can
+> find when searching has people building applications in 32-bit space
+> running on a 64-bit kernel, but I am hoping to try everything in
+> 32-bit mode.  I have build the multi_v7 kernel with an ARMv7 compiler,
+> but attempts to boot that kernel cause a crash.  I am guessing I need
+> to enable some additional flag somewhere, or somehow tell U-Boot it's
+> a 32-bit kernel.
 
-
+Maybe look at what RPi does, I think they run 32bit OR 64bit kernel on 
+RPi3 built from the same source and using the same DT .
