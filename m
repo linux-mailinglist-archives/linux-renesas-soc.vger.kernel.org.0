@@ -2,83 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1492172B24D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Jun 2023 16:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABA0072B8E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 09:42:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233716AbjFKOem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 11 Jun 2023 10:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
+        id S235202AbjFLHmO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jun 2023 03:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233646AbjFKOem (ORCPT
+        with ESMTP id S235008AbjFLHlz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 11 Jun 2023 10:34:42 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45CF83
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Jun 2023 07:34:40 -0700 (PDT)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QfHQP181tz9sWf;
-        Sun, 11 Jun 2023 16:34:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1686494077;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KawyP+18OytQQzqaR9p8VlCxXJPNMggPp6o1W/LkCXQ=;
-        b=KgHngCOVqmxFU7T/YH/rxY3AZRILFYdwer4mG2+OgcGI97A/ZWF8Nz8dkB8vpURn6ceD7g
-        XY7b4z1S/vlkbbHmIDCFneRJ9DRaChdvySV7XSGYcV8wShFQRyG/ZfK6NbhkRGPXwV2L0n
-        QlVfdW+5cc+B99N2eUaiGivrnBBCJb4tmFtKC9jEOGzCqROrN5EgJQA/nuC7mkcldLrLvK
-        YkpnqHPwetQ5nct5iUEQxDUOrtTw3rIrMcjGPuOYw4IMxHQwIfmRrjdWRGUzcaYiYEBe15
-        UPi5rSFSL1DiGWaVoo433wA714KYbcdhQXkY5wzsnI+9aGvdirmGKQxBRGsf4Q==
-Message-ID: <afe41e88-4de5-cce9-b280-0ec955b52409@mailbox.org>
-Date:   Sun, 11 Jun 2023 16:34:35 +0200
+        Mon, 12 Jun 2023 03:41:55 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26ACA10E2;
+        Mon, 12 Jun 2023 00:41:27 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-652426346bbso3121796b3a.3;
+        Mon, 12 Jun 2023 00:41:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686555587; x=1689147587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZfTmhYwHEf0iCvCy8Z+q4+p065tZoTThjF1daF8hM/E=;
+        b=QyLyR5sD7YwiMHRHSyaXnt7Rzl3Iy/1x6wTRKBpMrqI4JJ6EJTLUcEu1bStfDJsply
+         MHvKf0CRAmyFhyXBaRvktIl+KnTOomE+ITnZ5dP2x+YJyESKBkDJY5YjL5r/S3FUW/ZH
+         EUaDCdBKSf+6mrHg4UV1QEdslZgeGtnKKHoQ1C7kXqq0is/dIjJQGT7e4yAR0UUTeZS/
+         EbCS9S2ia6Qq02mLVzDwSJ2bF2KuCDKgBYEueW1hZWIuVi+K2xZ0qrlwjVS7+IZwYUdH
+         oXexxP00KjFZU5fpedhWpMgik2PPRFvQ0n4FNmX5APsW4DdeQGtkKQQEVxCnX9hng9/V
+         QVDQ==
+X-Gm-Message-State: AC+VfDyqSWMiQULeoc1p63TZQLjiTx3RbLQQcLCPloFCXp4cecW0lQC6
+        R48VIUk4fpC6L3LFaXIQwVXukOk7DP6hoA==
+X-Google-Smtp-Source: ACHHUZ4g/vbbLvaXeKajjx3XjtFZMUz34s9HLzOzCHg8y4Ox8ijBPZZzJ5ocvu8SJzMvPt5pzO35LQ==
+X-Received: by 2002:a1f:ed83:0:b0:464:2bdd:ab1e with SMTP id l125-20020a1fed83000000b004642bddab1emr3649039vkh.5.1686554968250;
+        Mon, 12 Jun 2023 00:29:28 -0700 (PDT)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
+        by smtp.gmail.com with ESMTPSA id 77-20020a1f1950000000b0046142c6abfbsm1301601vkz.25.2023.06.12.00.29.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 00:29:27 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-43b4056391dso1000170137.1;
+        Mon, 12 Jun 2023 00:29:27 -0700 (PDT)
+X-Received: by 2002:a05:6102:3659:b0:43c:15b1:6661 with SMTP id
+ s25-20020a056102365900b0043c15b16661mr2721069vsu.2.1686554967247; Mon, 12 Jun
+ 2023 00:29:27 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: RZ/G2 / RCAR3 32-bit Kernel
-To:     Adam Ford <aford173@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <CAHCN7xJbuvDCecsQfvw4X3a=w-F95j6dQYAj+0irkVhTAQ0abw@mail.gmail.com>
-Content-Language: en-US
-From:   Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAHCN7xJbuvDCecsQfvw4X3a=w-F95j6dQYAj+0irkVhTAQ0abw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 91a8b42ed812702cc57
-X-MBO-RS-META: uzddop573t5y7insedkfkao5rhw81en1
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230609221136.7431-1-chris.paterson2@renesas.com>
+In-Reply-To: <20230609221136.7431-1-chris.paterson2@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 12 Jun 2023 09:29:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWV6nBN=W4s2c+xhKu8rwg7JtE1qX=GgO+HbiyOUsV=TA@mail.gmail.com>
+Message-ID: <CAMuHMdWV6nBN=W4s2c+xhKu8rwg7JtE1qX=GgO+HbiyOUsV=TA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Fix txdv-skew-psec typo in RZ/G2L
+ family smarc-som.dtsi files
+To:     Chris Paterson <chris.paterson2@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/9/23 15:48, Adam Ford wrote:
-> I was wondering if anyone has ever attempted to build a 32-bit kernel
-> to run on an RZ/G2 or RCAR3 SoC.
+On Sat, Jun 10, 2023 at 12:11 AM Chris Paterson
+<chris.paterson2@renesas.com> wrote:
+> It looks like txdv-skew-psec is a typo from a copy+paste. txdv-skew-psec
+> is not present in the PHY bindings nor is it in the driver.
+>
+> Correct to txen-skew-psec which is clearly what it was meant to be.
+>
+> Given that the default for txen-skew-psec is 0, and the device tree is
+> only trying to set it to 0 anyway, there should not be any functional
+> change from this fix.
+>
+> Fixes: 361b0dcbd7f9 ("arm64: dts: renesas: rzg2l-smarc-som: Enable Ethernet")
+> Fixes: 6494e4f90503 ("arm64: dts: renesas: rzg2ul-smarc-som: Enable Ethernet on SMARC platform")
+> Fixes: ce0c63b6a5ef ("arm64: dts: renesas: Add initial device tree for RZ/G2LC SMARC EVK")
+> Cc: stable@vger.kernel.org # 6.1.y
+> Reported-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
 
-Not me
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.6.
 
-> I have a variant with than 2GB of RAM, and I want to run some
-> experiments to measure RAM utilization and performance to see if it's
-> worth trying to run in 32-bit mode to save a little RAM.
+Gr{oetje,eeting}s,
 
-It might be worth looking at arm64 ilp32 too, that retains you the 
-armv8a instructions, i.e. you get the 32bit pointers without the armv7a 
-opcodes downsides.
+                        Geert
 
-> It looks like U-Boot supports AARCH32, but most of the stuff I can
-> find when searching has people building applications in 32-bit space
-> running on a 64-bit kernel, but I am hoping to try everything in
-> 32-bit mode.  I have build the multi_v7 kernel with an ARMv7 compiler,
-> but attempts to boot that kernel cause a crash.  I am guessing I need
-> to enable some additional flag somewhere, or somehow tell U-Boot it's
-> a 32-bit kernel.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Maybe look at what RPi does, I think they run 32bit OR 64bit kernel on 
-RPi3 built from the same source and using the same DT .
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
