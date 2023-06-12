@@ -2,85 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CC272C524
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 14:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C20C772C52B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 14:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236904AbjFLM4M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jun 2023 08:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
+        id S236636AbjFLM4i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jun 2023 08:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236177AbjFLMz6 (ORCPT
+        with ESMTP id S236651AbjFLM4W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jun 2023 08:55:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 465B51705;
-        Mon, 12 Jun 2023 05:54:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59B3AAB;
-        Mon, 12 Jun 2023 14:53:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686574416;
-        bh=1ZKjM8kOiNJ1nFXOZt8rGNkoupO0YlmYVSQkyCSJShw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XlKFfFSn9cPtZG3ZZq582/1jAQBuovbR8Ma7KidRl7hEuiuEsofwjPlL+L05MsP+T
-         sTdFIomAEh6qB5ugm3oFqIJXAS6TGqDRUrsHdrB1XJdKRMLpRSlZAvUxVPD+OZROBD
-         tvC2BzvfgQEpiG/asYEriz5lBOvb+TBkp7uyZALA=
-Date:   Mon, 12 Jun 2023 15:54:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Trent Piepho <tpiepho@gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230612125405.GA23921@pendragon.ideasonboard.com>
-References: <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230612122353.GA22391@pendragon.ideasonboard.com>
- <OS0PR01MB5922D335D53C7B0FA021B3218654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Mon, 12 Jun 2023 08:56:22 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0851C2950
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 05:55:21 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-65311774e52so3237017b3a.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 05:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1686574495; x=1689166495;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=W4wx1gPSXV2X+A8QVSqn7TRW9HbvMHEi0VfeikNtUf0=;
+        b=BOUQdo2zvKWEybB5ZNr2cjBAQSmik0vBCk3T1ON5gnuLL3RwLiIBG4oPqbPXodMHHj
+         YwbUcYt5a1MtHpR/p6RdW42P/Qpz2E2eXPofoyIcf5OZq92g/Saz/g//Swji/tFj9hKh
+         uKf7eCdt9KTPUo+o/WaMHSDOGphEF1eOx/3/nP5zZUeaHhj4uhGSAeoSy7R/TyFO8sJz
+         d81hBjZ+EkJHP8fZzIvmxvSfDxma2MRNdGC6/ij0wouncH0N/OpFkbDeLpqFrY3Ajr0T
+         t02Oi1gF8thf6bxxRfFm6KmCu+w0aIf6ku1iz3roRkpT2lzMcu1ATGUjFvdibZDf2sFS
+         qerg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686574495; x=1689166495;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W4wx1gPSXV2X+A8QVSqn7TRW9HbvMHEi0VfeikNtUf0=;
+        b=TkRBJJ+esOy38gEQwnVIPej0hPGhV8PgUYIbr7FSAb+r+2mmPzK0KOoJgFgqqZ3KsX
+         odLWjFYLQ8Ae6Z0++gPbDDdnVRxbnrj1PRu0MynVIG+R6aWraV8zNUrZf/tS9NFXVYEA
+         IzwPtyN/ckjhYVRQTj5WJpRR0Hh05NEimtkQayEHxtgIDY5POu28hqiwitfSKUPUIoXC
+         XSeVEnnBj4g8vvP+veIhHGR/TvTERt/C2xF9MrUtNCw1x/sIjoELobtE81nVSIEk87ys
+         82Daq455IjraCzZ2DWsFSgq6i0Z8RRBJkR6co+yOUhOoPOPusd1g3I03svENaFsr3HDq
+         ETEg==
+X-Gm-Message-State: AC+VfDympcnjZRwOtvRkM3TdQXQ9gon6QC+CZHVr3mHBrazht+uBC5pg
+        qZc7bqNwy/klCXeFrbwZeZmJRkoAY9g/sS8aHIgDxg==
+X-Google-Smtp-Source: ACHHUZ4CpRzFV3zFostruW1hJbwcOkub0AuQtXJEMbG3CNOYPDYJR4ozqvtyUNi2fDj9qTwjzR9Y2w==
+X-Received: by 2002:a05:6a00:238c:b0:653:a9ac:44c with SMTP id f12-20020a056a00238c00b00653a9ac044cmr10120229pfc.11.1686574495370;
+        Mon, 12 Jun 2023 05:54:55 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id k16-20020aa792d0000000b00665a76a8cfasm870270pfa.194.2023.06.12.05.54.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 05:54:54 -0700 (PDT)
+Message-ID: <6487159e.a70a0220.f893d.14ce@mx.google.com>
+Date:   Mon, 12 Jun 2023 05:54:54 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OS0PR01MB5922D335D53C7B0FA021B3218654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2023-06-12-v6.4-rc6
+Subject: renesas/master cros-ec: 10 runs,
+ 2 regressions (renesas-devel-2023-06-12-v6.4-rc6)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,251 +71,108 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/master cros-ec: 10 runs, 2 regressions (renesas-devel-2023-06-12-v6=
+.4-rc6)
 
-On Mon, Jun 12, 2023 at 12:42:33PM +0000, Biju Das wrote:
-> Hi Laurent,
-> 
-> Thanks for the feedback.
-> 
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > 
-> > On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
-> > > Hi All,
-> > >
-> > > How do we proceed here between [1] and [2]?
-> > >
-> > > DT-Maintainers suggestion:
-> > > [1]
-> > > raa215300: pmic@12 {
-> > > 	compatible = "renesas,raa215300";
-> > > 	reg = <0x12>, <0x6f>;
-> > > 	reg-names = "main", "rtc";
-> > >
-> > > 	clocks = <&x2>;
-> > > 	clock-names = "xin";
-> > > 	/* Add Optional shared IRQ resource and share it to child and handle
-> > > it both in parent and child */ };
-> > >
-> > > Laurent/Wolfram suggestion to split it into two nodes and get rid of this patch:
-> > > [2]
-> > > 	raa215300: pmic @12 {
-> > > 		compatible = "renesas,raa215300";
-> > > 		reg = <0x12>;
-> > >
-> > > 		/* Add Optional shared IRQ */
-> > > 		renesas,raa215300-rtc = <&rtc_raa215300>; /* Parse the handle and Enable RTC , if present.*/
-> > > 	};
-> > >
-> > > 	rtc_raa215300: rtc@6f {
-> > > 		compatible = "renesas,raa215300-isl1208";
-> > 
-> > Make this
-> > 
-> >  		compatible = "renesas,raa215300-isl1208", "isil,isl1208";
-> > 
-> > Btw, it would be nice to convert
-> > Documentation/devicetree/bindings/rtc/isil,isl1208.txt to YAML.
-> 
-> It is already posted see [1] and [2]
-> [1]
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230602142426.438375-6-biju.das.jz@bp.renesas.com/
-> 
-> [2]
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230602142426.438375-7-biju.das.jz@bp.renesas.com/
+Regressions Summary
+-------------------
 
-Great :-) Thanks.
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
 
-> > > 		reg = <0x6f>;
-> > >
-> > > 		/* Add Optional shared IRQ */
-> > > 		clocks = <&x2>;
-> > > 		clock-names = "xin";
-> > > 		renesas,raa215300-pmic = <&pmic>; /* Parse the handle to get PMIC
-> > > version to check Oscillator bit is inverted or not */
-> > 
-> > This isn't nice. I would instead add a renesas,invert-xtoscb boolean
-> > property. If you don't want different DT sources for different revisions
-> > of the PMIC,
-> 
-> I need to support all PMIC versions with same image, as PMIC is just a component on the
-> SoM module. So SoM's have different PMIC versions.
+mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
 
-I understand it's not convenient, so let's try to find a good solution.
 
-> > one option is to perform the auto-detection in the boot
-> > loader and update the DT dynamically there.
-> 
-> Yes, this is an option. Bootloader updates "renesas,invert-xtoscb" property based
-> on PMIC version.
-> 
-> Not sure, From binding perspective, Documenting "renesas,invert-xtoscb" is OK for
-> the relevant maintainers??
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-06-12-v6.4-rc6/plan/cros-ec/
 
-It's fine with me at least :-) I think a property makes sense, as it
-describes the device. Updating the device tree in the boot loader based
-on auto-detection of features is also fairly common (to set the amount
-of DRAM for instance).
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-06-12-v6.4-rc6
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      eec974413697190538e69788efc6048763f9b64e
 
-What I'm not entirely sure about in this case is if a property would be
-the best option, or two different compatible strings. I'll let the
-appropriate maintainer recommend one of those two options. In either
-case, the boot loader would be responsible for updating the DT.
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://github.com/kernelci/cros-ec-tests.git
+      SHA:  fad9423ae3c64bfd48c207de34a1177000d45fa8 =
 
-> > > 	};
-> > > > -----Original Message-----
-> > > > From: Biju Das
-> > > > Sent: Thursday, June 8, 2023 1:57 PM
-> > > > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Cc: Wolfram Sang <wsa@kernel.org>; Geert Uytterhoeven <geert@linux-
-> > > > m68k.org>; Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>;
-> > > > Rob Herring <robh+dt@kernel.org>; Andrzej Hajda
-> > > > <andrzej.hajda@intel.com>; Neil Armstrong
-> > > > <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; David
-> > > > Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Kieran
-> > > > Bingham <kieran.bingham@ideasonboard.com>;
-> > > > Mauro Carvalho Chehab <mchehab@kernel.org>; Hans Verkuil <hverkuil-
-> > > > cisco@xs4all.nl>; Alessandro Zummo <a.zummo@towertech.it>; Alexandre
-> > > > Belloni <alexandre.belloni@bootlin.com>; Jonas Karlman
-> > > > <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Uwe
-> > > > Kleine-König <u.kleine- koenig@pengutronix.de>; Corey Minyard
-> > > > <cminyard@mvista.com>; Marek Behún <kabel@kernel.org>; Jiasheng
-> > > > Jiang <jiasheng@iscas.ac.cn>; Antonio Borneo
-> > > > <antonio.borneo@foss.st.com>; Abhinav Kumar
-> > > > <quic_abhinavk@quicinc.com>; Ahmad Fatoum <a.fatoum@pengutronix.de>;
-> > > > dri-devel@lists.freedesktop.org; linux-i2c@vger.kernel.org;
-> > > > linux-media@vger.kernel.org; Geert Uytterhoeven
-> > > > <geert+renesas@glider.be>; Fabrizio Castro
-> > > > <fabrizio.castro.jz@renesas.com>; linux-renesas-soc@vger.kernel.org;
-> > > > Mark Brown <broonie@kernel.org>
-> > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > > API
-> > > >
-> > > > Hi Laurent,
-> > > >
-> > > > Thanks for the feedback.
-> > > >
-> > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > i2c_new_ancillary_device API
-> > > > >
-> > > > > Hi Biju,
-> > > > >
-> > > > > On Thu, Jun 08, 2023 at 11:00:19AM +0000, Biju Das wrote:
-> > > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > > > i2c_new_ancillary_device API On Thu, Jun 08, 2023 at
-> > 06:41:35AM+0000, Biju Das wrote:
-> > > > > > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
-> > > > > > > > > i2c_new_ancillary_device API
-> > > > > > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > > > > > > i2c_new_ancillary_device API
-> > > > > > > > > >
-> > > > > > > > > > Hi all,
-> > > > > > > > > >
-> > > > > > > > > > sorry for not being able to chime in earlier.
-> > > > > > > > > >
-> > > > > > > > > > > In Biju's particular use case, the i2c device responds
-> > > > > > > > > > > to two addresses, which is the standard i2c ancillary
-> > use case.
-> > > > > > > > > > > However, what's special
-> > > > > > > > > >
-> > > > > > > > > > Not quite. ancillary is used when a *driver* needs to
-> > > > > > > > > > take care of two addresses. We already have devices
-> > > > > > > > > > bundling two features into the same chip. I recall at
-> > > > > > > > > > least RTC + EEPROM somewhere. And so far, we have been
-> > > > > > > > > > handling this by creating two nodes in DT and have proper
-> > binding docs.
-> > > > > > > > > > I think this is cleaner. First, you can see in DT
-> > > > > > > > > > already what the compound device really consists of. In
-> > > > > > > > > > this case, which RTC and RTC driver is exactly needed.
-> > > > > > > > > > Second, the code added here adds complexity to the I2C
-> > > > > > > > > > core with another layer of inderection for dummy devices.
-> > > > > > > > >
-> > > > > > > > > FYI, please see [1] and [2]
-> > > > > > > > >
-> > > > > > > > > As per DT maintainers, most of PMICs are described with
-> > > > > > > > > one node, even though RTC is on separate address.
-> > > > > > > > > According to them the DT schema allows multiple addresses
-> > for children.
-> > > > > > > > > But currently we lacks implementation for that. The
-> > > > > > > > > enhancement to this API allows that.
-> > > > > > > > >
-> > > > > > > > > > > As some resources are shared (knowledge about the
-> > > > > > > > > > > clocks), splitting this in two distinct devices in DT
-> > > > > > > > > > > (which is what Biju's initial patch series did) would
-> > > > > > > > > > > need phandles to link both nodes together.
-> > > > > > > > > > >
-> > > > > > > > > > > Do you have a better idea how to represent this?
-> > > > > > > > > >
-> > > > > > > > > > Not sure if I understood this chip correctly, but maybe:
-> > > > > > > > > > The PMIC driver exposes a clock gate which can be
-> > > > > > > > > > consumed by the RTC driver?
-> > > > > > > >
-> > > > > > > > Let me give me some details of this PMIC chip.
-> > > > > > > >
-> > > > > > > > PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc.
-> > > > > > > >
-> > > > > > > > It has XIN, XOUT, INT# pins and a register for firmware
-> > revisions.
-> > > > > > >
-> > > > > > > Is the firmware revision register accessed through address
-> > > > > > > 0x12
-> > > > > > > (PMIC) or 0x6f (RTC) ?
-> > > > > >
-> > > > > > 0x12(PMIC).
-> > > > > >
-> > > > > > > > Based on the system design,
-> > > > > > > >
-> > > > > > > > If XIN and XOUT is connected to external crystal, Internal
-> > > > > > > > oscillator is enabled for RTC. In this case we need to set
-> > > > > > > > the oscillator bit to "0".
-> > > > > > > >
-> > > > > > > > If XIN is connected to external clock source, Internal
-> > > > > > > > oscillator is disabled for RTC. In this case we need to set
-> > > > > > > > the oscillator bit to "1".
-> > > > > > >
-> > > > > > > Same here, which address is the oscillator bit accessed through
-> > ?
-> > > > > >
-> > > > > > RTC (0x6F)--> to set oscillator bit.
-> > > > >
-> > > > > And does the PMIC part depend on the oscillator bit being set
-> > > > > correctly, or is that used for the RTC only ?
-> > > >
-> > > > PMIC part does not. It is used only in RTC.
-> > > >
-> > > > Based on PMIC revision, we need to set the oscillator bit in RTC
-> > > > block for PMIC rev a0 and rest of the PMIC chips.
-> > > >
-> > > > On PMIC rev0, oscillator bit is inverted.
-> > > >
-> > > > > > > > If XIN and XOUT not connected RTC operation not possible.
-> > > > > > > >
-> > > > > > > > IRQ# (optional) functionality is shared between PMIC and RTC.
-> > > > > > > > (PMIC fault for various bucks/LDOs/WDT/OTP/NVM and alarm
-> > condition).
-> > > > > > >
-> > > > > > > IRQs can be shared between multiple devices so this shouldn't
-> > > > > > > be a problem.
-> > > > > >
-> > > > > > OK. How do we represent this IRQ in DT?
-> > > > >
-> > > > > You can simply reference the same IRQ from the interrupts property
-> > > > > of different DT nodes.
-> > > > >
-> > > > > > > > The board, I have doesn't populate IRQ# pin. If needed some
-> > > > > > > > customers can populate IRQ# pin and use it for PMIC fault
-> > > > > > > > and RTC alarm.
-> > > > > > > >
-> > > > > > > > Also, currently my board has PMIC rev a0 where oscillator
-> > > > > > > > bit is inverted and internal oscillator is enabled (ie: XIN
-> > > > > > > > and XOUT is connected to external crystal)
-> > 
-> > --
-> > Regards,
-> > 
-> > Laurent Pinchart
 
--- 
-Regards,
 
-Laurent Pinchart
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/648703623e650e6567306178
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-12-v6.4-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-12-v6.4-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/648703623e650e65673061=
+79
+        failing since 33 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
+rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                  | regressions
+-----------------------------+-------+---------------+----------+----------=
+------------------+------------
+mt8192-asurada-spherion-r0   | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/648704f44e3e4a47e5306133
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-12-v6.4-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8192-asurada-spherion-r0.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-06-12-v6.4-rc6/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/cr=
+os-ec-mt8192-asurada-spherion-r0.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-cr=
+os-ec/20230527.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/648704f44e3e4a47e53061=
+34
+        failing since 33 days (last pass: renesas-devel-2023-04-24-v6.3, fi=
+rst fail: renesas-devel-2023-05-09-v6.4-rc1) =
+
+ =20
