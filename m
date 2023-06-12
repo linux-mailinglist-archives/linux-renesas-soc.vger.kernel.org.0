@@ -2,107 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA0072B8E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 09:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE1772BB29
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 10:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235202AbjFLHmO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jun 2023 03:42:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
+        id S233269AbjFLIul (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jun 2023 04:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235008AbjFLHlz (ORCPT
+        with ESMTP id S229867AbjFLIul (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jun 2023 03:41:55 -0400
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26ACA10E2;
-        Mon, 12 Jun 2023 00:41:27 -0700 (PDT)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-652426346bbso3121796b3a.3;
-        Mon, 12 Jun 2023 00:41:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686555587; x=1689147587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZfTmhYwHEf0iCvCy8Z+q4+p065tZoTThjF1daF8hM/E=;
-        b=QyLyR5sD7YwiMHRHSyaXnt7Rzl3Iy/1x6wTRKBpMrqI4JJ6EJTLUcEu1bStfDJsply
-         MHvKf0CRAmyFhyXBaRvktIl+KnTOomE+ITnZ5dP2x+YJyESKBkDJY5YjL5r/S3FUW/ZH
-         EUaDCdBKSf+6mrHg4UV1QEdslZgeGtnKKHoQ1C7kXqq0is/dIjJQGT7e4yAR0UUTeZS/
-         EbCS9S2ia6Qq02mLVzDwSJ2bF2KuCDKgBYEueW1hZWIuVi+K2xZ0qrlwjVS7+IZwYUdH
-         oXexxP00KjFZU5fpedhWpMgik2PPRFvQ0n4FNmX5APsW4DdeQGtkKQQEVxCnX9hng9/V
-         QVDQ==
-X-Gm-Message-State: AC+VfDyqSWMiQULeoc1p63TZQLjiTx3RbLQQcLCPloFCXp4cecW0lQC6
-        R48VIUk4fpC6L3LFaXIQwVXukOk7DP6hoA==
-X-Google-Smtp-Source: ACHHUZ4g/vbbLvaXeKajjx3XjtFZMUz34s9HLzOzCHg8y4Ox8ijBPZZzJ5ocvu8SJzMvPt5pzO35LQ==
-X-Received: by 2002:a1f:ed83:0:b0:464:2bdd:ab1e with SMTP id l125-20020a1fed83000000b004642bddab1emr3649039vkh.5.1686554968250;
-        Mon, 12 Jun 2023 00:29:28 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id 77-20020a1f1950000000b0046142c6abfbsm1301601vkz.25.2023.06.12.00.29.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 00:29:27 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-43b4056391dso1000170137.1;
-        Mon, 12 Jun 2023 00:29:27 -0700 (PDT)
-X-Received: by 2002:a05:6102:3659:b0:43c:15b1:6661 with SMTP id
- s25-20020a056102365900b0043c15b16661mr2721069vsu.2.1686554967247; Mon, 12 Jun
- 2023 00:29:27 -0700 (PDT)
+        Mon, 12 Jun 2023 04:50:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22F3F4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 01:50:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EB6361207
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 08:50:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D21A7C433EF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 08:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686559838;
+        bh=pdZykpmRdmfhnbjKNwWTk3E4o2fRClxRhOtn2CaLAKQ=;
+        h=Subject:From:Date:To:From;
+        b=LnCIhfUOcBXmXC64sTryhCLDF+Ia4DAxwY8jywZG4+x52JRfDo/kATpq2UvNFR6wd
+         +GNiOnmcsCSCZOYFPtcrAI3uq4WlYtpuStJEM0Sprq7b5Y/Se7MwGdraC/IVCVYxtJ
+         Co07IJXbHWbtUPjBm9MHHzLSEXCbLfF0+v14z5QbmF7a+KR45nvy94x0HuD9qZPbmm
+         +mDK4KrAFlIFY5Ifp1bZzrHD/4fNBgssxSBQwHfL0NwXOJGnE112dFwZjfwCdANyJO
+         XHhS4ydnoDSPTMceVkIYL+uLcSxHSJR/jPB9E2hbMpHeSMtjQjjIEUcp1FesNhe61p
+         mHlvHiCAIlVng==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B8458C395EC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 08:50:38 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230609221136.7431-1-chris.paterson2@renesas.com>
-In-Reply-To: <20230609221136.7431-1-chris.paterson2@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Jun 2023 09:29:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWV6nBN=W4s2c+xhKu8rwg7JtE1qX=GgO+HbiyOUsV=TA@mail.gmail.com>
-Message-ID: <CAMuHMdWV6nBN=W4s2c+xhKu8rwg7JtE1qX=GgO+HbiyOUsV=TA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Fix txdv-skew-psec typo in RZ/G2L
- family smarc-som.dtsi files
-To:     Chris Paterson <chris.paterson2@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <168655983868.8602.6627890901805913877.git-patchwork-summary@kernel.org>
+Date:   Mon, 12 Jun 2023 08:50:38 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jun 10, 2023 at 12:11 AM Chris Paterson
-<chris.paterson2@renesas.com> wrote:
-> It looks like txdv-skew-psec is a typo from a copy+paste. txdv-skew-psec
-> is not present in the PHY bindings nor is it in the driver.
->
-> Correct to txen-skew-psec which is clearly what it was meant to be.
->
-> Given that the default for txen-skew-psec is 0, and the device tree is
-> only trying to set it to 0 anyway, there should not be any functional
-> change from this fix.
->
-> Fixes: 361b0dcbd7f9 ("arm64: dts: renesas: rzg2l-smarc-som: Enable Ethernet")
-> Fixes: 6494e4f90503 ("arm64: dts: renesas: rzg2ul-smarc-som: Enable Ethernet on SMARC platform")
-> Fixes: ce0c63b6a5ef ("arm64: dts: renesas: Add initial device tree for RZ/G2LC SMARC EVK")
-> Cc: stable@vger.kernel.org # 6.1.y
-> Reported-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
-> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.6.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: drm/fb-helper: Fix height, width, and accel_flags in fb_var
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Thomas Zimmermann <tzimmermann@suse.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=741083
+  Lore link: https://lore.kernel.org/r/2b6073d9c2d869c6a4eac6edebd616e0568dec91.1681843245.git.geert+renesas@glider.be
 
-                        Geert
+
+Total patches: 1
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
