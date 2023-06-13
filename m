@@ -2,119 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C48772DB75
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 09:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218F572DCA0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 10:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237429AbjFMHso convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jun 2023 03:48:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
+        id S241404AbjFMIhU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jun 2023 04:37:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240494AbjFMHju (ORCPT
+        with ESMTP id S241452AbjFMIhO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jun 2023 03:39:50 -0400
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7271A5;
-        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-bc9782291f5so2286653276.1;
-        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
+        Tue, 13 Jun 2023 04:37:14 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C61719A5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jun 2023 01:37:08 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f8cdb12719so2454635e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jun 2023 01:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686645427; x=1689237427;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5zJEoPPrWaPQe2o/sOBJPvP/Vbn9cvZQ+Hz6RwLAU14=;
+        b=l3rb9Z2p+TUBWwDg9k5ZUDjgENhgz/60+X32UO3KaMB3Ue7Itq+it6kTBI1hVkdWkd
+         Ck6alcdW/M10DNBv7gwqDk1LYqoalNtQl6Yq8sIfGEApwVoDWf6JVf84figmYvfpEnsK
+         n/HbYuboeWYN6md5YM6SxeWUDAv35cisfN1zrkwkXtLaBl3rbL9u3D0R0PicH0MLZtlh
+         Lv+96Bku4IQom3R41J9VQOeh5bW5GvInewf0o2AzMaIG4NFtCKZvP+radCdS4t1oqWQg
+         k7d4/01aRuSWvOcpllBDkvfDeC0zTrAGHqBse+TQ7iek0fixwV66pyeXlThYyp+NQk8W
+         RYBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686641989; x=1689233989;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jXHsYsW3sGwaS5VK0EBUqtTJTWaYVmFmgpLimYiew8E=;
-        b=MUBmeI1twmPclG9Zq3DYOyWz0jmCvBalhePltETU+eeKubePmYQ9tL5DrLURxIq+fg
-         MRh0+hwQM1RNy8onslTR8i5kmL0In/tlqIg2guXXAJEevjTodOnb+NS0/NBV5mMl31Tm
-         9ygF8UuBN6W4cIxQq9Wm2o/JNtmveVfXBx24Au8wG0rxWOxTKPf0iReJmiNY4KVbb7RQ
-         kz6HJ6Kfnr0iQtioncnvNMW65K/Qs/jiA7lJV+H/e46No1wLaK23oP+vQ0Rk1aT12Ffv
-         HfYY1YZyVzHDsfGakgVt3M08+R8Wh+8aOLRuFzoAifkyEKZyVisizFk6PpeMfEjBuruG
-         eDhw==
-X-Gm-Message-State: AC+VfDxZ+txGwhoCa4b2zA48iwnLyGzPjO4rvAlGYnnB2m5FDcoy8Mu0
-        UoIB8fx8XnHlCQAxY0XuyA5UhMpPVWXvPg==
-X-Google-Smtp-Source: ACHHUZ6N+5XyHFj9XZ0mx6uFV7Hky+JU1nUz0j6Lo4eAOVNcCjPQqp7IfyKBAIcwMghpiAm9E6bGjA==
-X-Received: by 2002:a25:1e57:0:b0:ba8:66fb:dd84 with SMTP id e84-20020a251e57000000b00ba866fbdd84mr798730ybe.20.1686641989007;
-        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id h125-20020a255383000000b00ba73c26f0d6sm3013120ybb.15.2023.06.13.00.39.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 00:39:48 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bc5a3075e92so3155884276.0;
-        Tue, 13 Jun 2023 00:39:48 -0700 (PDT)
-X-Received: by 2002:a25:402:0:b0:bc8:2759:e4f6 with SMTP id
- 2-20020a250402000000b00bc82759e4f6mr761612ybe.14.1686641988249; Tue, 13 Jun
- 2023 00:39:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
-In-Reply-To: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Jun 2023 09:39:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUhp7AntSk1ZnTowiEC6XibR1im_7OKdF2JDg=51ewsyw@mail.gmail.com>
-Message-ID: <CAMuHMdUhp7AntSk1ZnTowiEC6XibR1im_7OKdF2JDg=51ewsyw@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a7778: remove checker warnings: x | !y
-To:     "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        d=1e100.net; s=20221208; t=1686645427; x=1689237427;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5zJEoPPrWaPQe2o/sOBJPvP/Vbn9cvZQ+Hz6RwLAU14=;
+        b=jPmL6g0b47skzTLlFfLODsg300tQx3NtMrdpQ1K3ZLsett4bjNqrSheaD9JyWBly0F
+         /mTxJJZ9y2EwJnl0t/6bg51hIOj1UuhEYTStVlwcwMCalYrF4jgEyI+j/FgEdAQwWiER
+         gqs+rvGfdtgh9L2W5Ire/fZx45iQJZUbl6NYJIyKEP3CILJ1z6Jvx/0AroqwtjI4yvse
+         9vswrhZO5038BEadEKvz963V+iODSyjqBTyf6ifug2GJ/oTtXi+ztMN35qDURkWjv2ah
+         5Zb6DTN0hW0YDvPom4yJlsLVijJf50FpLzGbtC6HTgly1lGTdnbxsTgkumottomyZ70P
+         xojQ==
+X-Gm-Message-State: AC+VfDznwNwsWojfSx8uMVS774fHtwn9l/or/2VZdOO6AXukKizBe5Io
+        NMdIBbOn0LNnmdpbcbuO9t5Nbg==
+X-Google-Smtp-Source: ACHHUZ4an74OBtZpGGMhJzkNNYFfX0j8l4D815nZHC6M7bVBOVtx5/eErmFBntytcG+scBirONAIiw==
+X-Received: by 2002:a1c:4b14:0:b0:3f7:f2d0:b8fc with SMTP id y20-20020a1c4b14000000b003f7f2d0b8fcmr7497966wma.34.1686645426582;
+        Tue, 13 Jun 2023 01:37:06 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x25-20020a05600c21d900b003f60faa4612sm13706447wmj.22.2023.06.13.01.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 01:37:04 -0700 (PDT)
+Date:   Tue, 13 Jun 2023 11:37:00 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "GONG, Ruiqi" <gongruiqi@huaweicloud.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-kernel@vger.kernel.org, gongruiqi1@huawei.com,
         linux-sparse@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] pinctrl: renesas: remove checker warnings: x | !y
+Message-ID: <869dd27f-7046-486a-83a0-acd489565083@kadam.mountain>
+References: <20230613021643.3330661-1-gongruiqi@huaweicloud.com>
+ <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Gong,
+On Tue, Jun 13, 2023 at 09:38:20AM +0200, Geert Uytterhoeven wrote:
+> Hi Gong,
+> 
+> On Tue, Jun 13, 2023 at 4:13 AM GONG, Ruiqi <gongruiqi@huaweicloud.com> wrote:
+> > Eliminate the following Sparse reports when building with C=1:
+> >
+> > drivers/pinctrl/renesas/pinctrl-rzn1.c:187:52: warning: dubious: x | !y
+> > drivers/pinctrl/renesas/pinctrl-rzn1.c:193:52: warning: dubious: x | !y
+> >
+> > Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+> 
+> Thanks for your patch!
+> 
+> Looks like sparse needs to be taught the "|" is not used in a boolean
+> context here?
+> 
 
-On Tue, Jun 13, 2023 at 4:50 AM GONG, Ruiqi <gongruiqi@huaweicloud.com> wrote:
-> Eliminate the following Sparse reports when building with C=1:
->
-> drivers/clk/renesas/clk-r8a7778.c:85:52: warning: dubious: x | !y
-> drivers/clk/renesas/clk-r8a7778.c:87:50: warning: dubious: x | !y
->
-> Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+I've spent some time exploring how these bugs look like but it was years
+ago so I have forgotten the details.  I think the main issue is when the
+! is on the left.
 
-Thanks for your patch!
+Bug:	if (!x & 0xf) {
+Fixed:	if (!(x & 0xf)) {
 
-Looks like sparse needs to be taught the "|" is not used in a boolean
-context here?
+Or less commonly:
 
-See also
-https://lore.kernel.org/r/CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com
+Bug:	if (!x > y) {
+Fixed:	if (x <= y) {
 
-> --- a/drivers/clk/renesas/clk-r8a7778.c
-> +++ b/drivers/clk/renesas/clk-r8a7778.c
-> @@ -81,11 +81,11 @@ static void __init r8a7778_cpg_clocks_init(struct device_node *np)
->
->         BUG_ON(!(mode & BIT(19)));
->
-> -       cpg_mode_rates = (!!(mode & BIT(18)) << 2) |
-> -                        (!!(mode & BIT(12)) << 1) |
-> -                        (!!(mode & BIT(11)));
-> -       cpg_mode_divs = (!!(mode & BIT(2)) << 1) |
-> -                       (!!(mode & BIT(1)));
-> +       cpg_mode_rates = (mode & BIT(18) ? BIT(2) : 0) |
-> +                        (mode & BIT(12) ? BIT(1) : 0) |
-> +                        (mode & BIT(11) ? BIT(0) : 0);
-> +       cpg_mode_divs = (mode & BIT(2) ? BIT(1) : 0) |
-> +                       (mode & BIT(1) ? BIT(0) : 0);
->
->         num_clks = of_property_count_strings(np, "clock-output-names");
->         if (num_clks < 0) {
+Originally Sparse used to only warn about !x & y...  I feel like Josh
+maybe got a bit over enthusiastic in changing it to warn about
+everything.  But that was in 2008 and we're only noticing now so maybe
+it's fine.
 
-Gr{oetje,eeting}s,
+The other bug that we see is mixing up logical and bitwise negation
+but those bugs are harder to separate from good code.
 
-                        Geert
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+> > @@ -184,13 +184,15 @@ static void rzn1_hw_set_lock(struct rzn1_pinctrl *ipctl, u8 lock, u8 value)
+> >          * address | 1.
+> >          */
+> >         if (lock & LOCK_LEVEL1) {
+> > -               u32 val = ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
+> > +               u32 val = ipctl->lev1_protect_phys |
+> > +                       (value & LOCK_LEVEL1 ? 0 : 1);
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+To me this code is more confusing than the original code because I
+struggle to remember if & has higher precedence that ?: (It does.  The
+code is fine).  But Cppcheck also thinks the code is confusing and will
+print a warning:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+style: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
+
+You would think adding another set of parentheses would silence the
+sparse warning but it doesn't:
+
+		u32 val = ipctl->lev1_protect_phys | (!(value & LOCK_LEVEL1));
+
+regards,
+dan carpenter
+
