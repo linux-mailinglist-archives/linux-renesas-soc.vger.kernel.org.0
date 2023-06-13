@@ -2,229 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF0BF72E306
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 14:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B55672E679
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 17:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242408AbjFMM3v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jun 2023 08:29:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S239766AbjFMPAW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jun 2023 11:00:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242447AbjFMM33 (ORCPT
+        with ESMTP id S232792AbjFMPAV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jun 2023 08:29:29 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8DCE1FD7;
-        Tue, 13 Jun 2023 05:29:09 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id DB9C85C0269;
-        Tue, 13 Jun 2023 08:29:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 13 Jun 2023 08:29:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1686659348; x=1686745748; bh=po
-        Pn2abIHMYUZ1Dx/1E/Yp1yY1WX/gI2qJDM9zz/5yk=; b=PXNsXuFnHmtrexIvo1
-        NFkXSPmStISk2E2hflBLMeucX12cuggg9P/WQUK0Ysg3Re6rxA4pvmZ/ccEEbnYt
-        YSmpd6PiqifW8aY8XcHmNlGi1J9oioxr3Rk7IzaaLUZxkSbA+qjqCq1GhQz8N5VC
-        cB0pektTL5niAg1+mP242Zbe0j7jJTud4HGIJwWArTrFAB9zeDApLkTZn8qeG+q2
-        HQ3U5jgCZYTs8z7/e2C4M6BqRB7LxLhMSP3g+jJw+uKreGAx84bvy19F1VPMeiyA
-        JkKuxbGJxf4vr9V9sEqaWoNvm/bP/fYLHZY5KZLmzisaDsZF0SUlGmw7Tydefs28
-        XkfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1686659348; x=1686745748; bh=poPn2abIHMYUZ
-        1Dx/1E/Yp1yY1WX/gI2qJDM9zz/5yk=; b=hTooP8qZ8p+/dvsXi9bZgAQjvAg0S
-        qO+Yg9UsC/ZYTeBBM2aIfHRN38lkedy//8gdl2lZ364a7t9SANcoQOQLq11N6xyX
-        6iKlxsogBxV0r6ryoNGIpEBc2SOTTt5hMtmsNpNXEiOO11Qi6AF/aN0LrPG7aoWX
-        gSZGppZJI9A2ykXaeL7f4oPQin2Boug31/u5Se13f7X3pVEA0JawKvX0FDICnsHC
-        fEdUOzHwv1rWXiN+2q/IBh20y8jao6JrtD9krS5dNC/ktby8yNdMQDs2h9rriQ5a
-        RF0T1PdrwLcWpOrEDmIlUlKbaGx3Pt69VwsUFBp6pP6aEcJAis5OQravw==
-X-ME-Sender: <xms:FGGIZAqby2px9Do10fciPiXx90B24_WfNzQQi32zqhKD1_CIvMidtQ>
-    <xme:FGGIZGobKkfdXhbbNeNJCij63sG4CHwWLOs93PZ24WjdawvAFes9qdTaxa2C_DW1Q
-    __2lscgLCWBUvT4B-c>
-X-ME-Received: <xmr:FGGIZFNAp0p70b3JOlVZ20jG9QqoYxPr8eKdAsLPYkfT3WElnzr1EwYPcveDytTbsBGJAGWLylyywjowzcmovg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedujedghedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeefjeeiueeiheevtddvgfeluedufeeigeeijefhveelfeevueefieehuefg
-    ffetteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:FGGIZH5haJigjyHQUNGA_FU7XrE8QeZevYfo5Eac1QMl42LnJ66kvg>
-    <xmx:FGGIZP56dAzUZmr2LIg4L-mXgbxCcWrw94Th1AMGCSD0PZ9iujsiEg>
-    <xmx:FGGIZHguJxsuhh_XSoztBXXAPaiKlthqYEJ475FvDuzxci1G8R4omQ>
-    <xmx:FGGIZOSsSpPyFPx2Uocy6BBEycE94g_ucdm3Y_zCQMuKdObb4ftOZA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Jun 2023 08:29:07 -0400 (EDT)
-Date:   Tue, 13 Jun 2023 14:29:05 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-actions@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        linux-rtc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH v4 03/68] clk: Move no reparent case into a separate
- function
-Message-ID: <l7jdpyp4lkqpmdxva4dkdvckjmeht2h3jfbmtvuffqgh4aaigl@k7626f2gv5tx>
-References: <20221018-clk-range-checks-fixes-v4-0-971d5077e7d2@cerno.tech>
- <20221018-clk-range-checks-fixes-v4-3-971d5077e7d2@cerno.tech>
- <b8d0272d-0193-fe40-3294-9e32a0235323@samsung.com>
- <CGME20230613121511eucas1p2595e0de21fadbafc1f6ffdc5636b9271@eucas1p2.samsung.com>
- <c031bff5-6219-adf0-6e73-b688b8de205e@samsung.com>
+        Tue, 13 Jun 2023 11:00:21 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD0DE5;
+        Tue, 13 Jun 2023 08:00:19 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-75d4b85b3ccso104572085a.2;
+        Tue, 13 Jun 2023 08:00:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686668418; x=1689260418;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HCZylnYVESKbr03w+qaTawlaNs+/D1wETaN7cDLoL5w=;
+        b=h7mRRon1AfdXBSb6VNymN7CiInAtR3zN3Ebf2osauCNC1OYvVZEAM+xz4omZb+fymp
+         P2EeEIGh9CmqzShvQT3BKXL+WCQGJd83adbQlEl9f0I8zwQkGMy6Xpi2cOqYp2+L8jdd
+         XYZThbqhsU2sM40b1lG4vvOXxWOFGIW8mzNPZXuNED8NmeH1Y0gYbJByQEJbAL9BuL4r
+         /Owka2tU8Uky9TaVzdzYbcj1zlAd2Mpmk8+ucs5zOzszLrQG86UmH7JG6DJxTxk8iH6f
+         ahgO4IzhwnQ/52IgRFZkGAQgXvsP4vhTkZjy4DFldPoprWyv6pGfOU66IP0er4nSwp+s
+         A23Q==
+X-Gm-Message-State: AC+VfDyi3jscrAbCBKn6xZ2iGrioL/iwQKG9grzuqx/asBu8uZUvOXRz
+        9594G5CtqeFg7xlwXLawxTXHkDZB/uO+Okuh
+X-Google-Smtp-Source: ACHHUZ7aNbfLovc1tsSZwLxUh7v5Tw+sr+IXn+vOfC6FjwUse7rGt63HRqJy1YxpEnImUZl1CVtTfQ==
+X-Received: by 2002:a05:620a:8c96:b0:75b:23a1:362c with SMTP id ra22-20020a05620a8c9600b0075b23a1362cmr12349100qkn.61.1686668417521;
+        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
+        by smtp.gmail.com with ESMTPSA id h24-20020a05620a10b800b0075772c756e0sm1474651qkk.101.2023.06.13.08.00.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7606bc82639so105016385a.1;
+        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
+X-Received: by 2002:a25:9f07:0:b0:bc3:cc17:6250 with SMTP id
+ n7-20020a259f07000000b00bc3cc176250mr1355567ybq.1.1686667920065; Tue, 13 Jun
+ 2023 07:52:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ym7pmf2huq36hsov"
-Content-Disposition: inline
-In-Reply-To: <c031bff5-6219-adf0-6e73-b688b8de205e@samsung.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com> <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com> <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZIcRKl3PDy0+yZS9@ninjato> <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato> <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro> <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
+ <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 13 Jun 2023 16:51:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
+Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---ym7pmf2huq36hsov
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Jun 13, 2023 at 02:15:10PM +0200, Marek Szyprowski wrote:
-> On 13.06.2023 13:15, Marek Szyprowski wrote:
-> > On 05.05.2023 13:25, Maxime Ripard wrote:
-> >> From: Stephen Boyd <sboyd@kernel.org>
-> >>
-> >> We'll need to turn the code in clk_mux_determine_rate_flags() to deal
-> >> with CLK_SET_RATE_NO_REPARENT into a helper clock drivers will be able
-> >> to use if they don't want to allow reparenting.
-> >>
-> >> Cc: Abel Vesa <abelvesa@kernel.org>
-> >> Cc: Alessandro Zummo <a.zummo@towertech.it>
-> >> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> >> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> >> Cc: "Andreas F=E4rber" <afaerber@suse.de>
-> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.co=
-m>
-> >> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> >> Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-> >> Cc: Chen-Yu Tsai <wens@csie.org>
-> >> Cc: Chen-Yu Tsai <wenst@chromium.org>
-> >> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> >> Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: David Lechner <david@lechnology.com>
-> >> Cc: Dinh Nguyen <dinguyen@kernel.org>
-> >> Cc: Fabio Estevam <festevam@gmail.com>
-> >> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> Cc: Jaroslav Kysela <perex@perex.cz>
-> >> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> >> Cc: Kishon Vijay Abraham I <kishon@kernel.org>
-> >> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> >> Cc: Linus Walleij <linus.walleij@linaro.org>
-> >> Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> >> Cc: Mark Brown <broonie@kernel.org>
-> >> Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-> >> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> >> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> >> Cc: Mikko Perttunen <mperttunen@nvidia.com>
-> >> Cc: Miles Chen <miles.chen@mediatek.com>
-> >> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> >> Cc: Orson Zhai <orsonzhai@gmail.com>
-> >> Cc: Paul Cercueil <paul@crapouillou.net>
-> >> Cc: Peng Fan <peng.fan@nxp.com>
-> >> Cc: Peter De Schrijver <pdeschrijver@nvidia.com>
-> >> Cc: Prashant Gaikwad <pgaikwad@nvidia.com>
-> >> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
-> >> Cc: Samuel Holland <samuel@sholland.org>
-> >> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> >> Cc: Sekhar Nori <nsekhar@ti.com>
-> >> Cc: Shawn Guo <shawnguo@kernel.org>
-> >> Cc: Takashi Iwai <tiwai@suse.com>
-> >> Cc: Thierry Reding <thierry.reding@gmail.com>
-> >> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> >> Cc: Vinod Koul <vkoul@kernel.org>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: linux-actions@lists.infradead.org
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> Cc: linux-mips@vger.kernel.org
-> >> Cc: linux-phy@lists.infradead.org
-> >> Cc: linux-renesas-soc@vger.kernel.org
-> >> Cc: linux-rtc@vger.kernel.org
-> >> Cc: linux-stm32@st-md-mailman.stormreply.com
-> >> Cc: linux-sunxi@lists.linux.dev
-> >> Cc: linux-tegra@vger.kernel.org
-> >> Cc: NXP Linux Team <linux-imx@nxp.com>
-> >> Cc: patches@opensource.cirrus.com
-> >> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >> Signed-off-by: Stephen Boyd <sboyd@kernel.org>
-> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >> ---
+On Tue, Jun 13, 2023 at 12:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > On Mon, Jun 12, 2023 at 10:43 PM Wolfram Sang <wsa@kernel.org> wrote:
+> > > > Perhaps we should first think through what an ancillary device
+> > > > really is.  My understanding is that it is used to talk to secondary
+> > > > addresses of a multi-address I2C slave device.
+> > >
+> > > As I mentioned somewhere before, this is not the case. Ancillary
+> > > devices are when one *driver* handles more than one address.
+> > > Everything else has been handled differently in the past (for  all the
+> > uses I am aware of).
+> > >
+> > > Yet, I have another idea which is so simple that I wonder if it maybe
+> > > has already been discussed so far?
+> > >
+> > > * have two regs in the bindings
+> > > * use the second reg with i2c_new_client_device to instantiate the
+> > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
+> > >   have enough options to pass data, e.g it has a software_node.
+> > >
+> > > Should work or did I miss something here?
 > >
-> > This patch landed in today's linux-next as commit 1b4e99fda73f ("clk:=
-=20
-> > Move no reparent case into a separate function"). Unfortunately it=20
-> > causes serious regression of some of my test boards. Namely Exynos3250=
-=20
-> > based boards are so slow after it, that my test scripts fail with a=20
-> > timeout waiting for them to finish booting. I will try to debug this=20
-> > later in the evening to check what has happened that some clocks got=20
-> > very low rate.
-> >
-> I just got a few spare minutes, so I decided to take a look into this=20
-> issue. The following change fixed my problem:
->=20
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index ffc9f03840b7..7ac9f7a8cb84 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -629,6 +629,7 @@ clk_core_determine_rate_no_reparent(struct clk_hw *hw,
->  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 best =3D clk_core_get_rate=
-_nolock(core);
->  =A0=A0=A0=A0=A0=A0=A0 }
->=20
-> +=A0=A0=A0=A0=A0=A0 req->best_parent_rate =3D best;
->  =A0=A0=A0=A0=A0=A0=A0 req->rate =3D best;
->=20
->  =A0=A0=A0=A0=A0=A0=A0 return 0;
->=20
-> best_parent_rate is still being used somewhere in the code and needs to=
-=20
-> be updated regardless of the CLK_SET_RATE_NO_REPARENT flag.
+> > That should work, mostly (i2c_new_dummy_device() also calls
+> > i2c_new_client_device()).  And as i2c_board_info has an of_node member
+> > (something I had missed before!), the new I2C device can access the clocks
+> > in the DT node using the standard way.
+>
+> Looks like, I cannot assign of_node member like below as it results in pinctrl failure[1]
+> during device bind.
+>
+> info.of_node = client->dev.of_node;
+>
+> [1]
+> pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012; cannot claim for 3-006f
+> pinctrl-rzg2l 11030000.pinctrl: pin-344 (3-006f) status -22
+> pinctrl-rzg2l 11030000.pinctrl: could not request pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
+> raa215300 3-006f: Error applying setting, reverse things back
 
-Yeah, that makes sense, could you send a patch?
+Where do you have a reference to pin P43_0 in your DT?
+The last versions you posted did not have any pinctrl properties?
 
-Thanks for figuring it out!
-Maxime
+v6: https://lore.kernel.org/linux-renesas-soc/20230602142426.438375-5-biju.das.jz@bp.renesas.com
+v5: https://lore.kernel.org/linux-renesas-soc/20230522101849.297499-12-biju.das.jz@bp.renesas.com
 
---ym7pmf2huq36hsov
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIhhEQAKCRDj7w1vZxhR
-xXOoAQDAK6aw4nYGYRJLqebtaBE5GyDeYP0t1soy+3BsbMlFzwD/ZiRkHp+B0tCO
-03+uhQUNPVl5ZSkl2IyBNKSqkSJtOw0=
-=bV8F
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---ym7pmf2huq36hsov--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
