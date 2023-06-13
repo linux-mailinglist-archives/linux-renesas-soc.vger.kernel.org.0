@@ -2,140 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 218F572DCA0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 10:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69BC172DE10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 11:45:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241404AbjFMIhU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jun 2023 04:37:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
+        id S240535AbjFMJpk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jun 2023 05:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241452AbjFMIhO (ORCPT
+        with ESMTP id S240448AbjFMJph (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jun 2023 04:37:14 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C61719A5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jun 2023 01:37:08 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f8cdb12719so2454635e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jun 2023 01:37:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686645427; x=1689237427;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5zJEoPPrWaPQe2o/sOBJPvP/Vbn9cvZQ+Hz6RwLAU14=;
-        b=l3rb9Z2p+TUBWwDg9k5ZUDjgENhgz/60+X32UO3KaMB3Ue7Itq+it6kTBI1hVkdWkd
-         Ck6alcdW/M10DNBv7gwqDk1LYqoalNtQl6Yq8sIfGEApwVoDWf6JVf84figmYvfpEnsK
-         n/HbYuboeWYN6md5YM6SxeWUDAv35cisfN1zrkwkXtLaBl3rbL9u3D0R0PicH0MLZtlh
-         Lv+96Bku4IQom3R41J9VQOeh5bW5GvInewf0o2AzMaIG4NFtCKZvP+radCdS4t1oqWQg
-         k7d4/01aRuSWvOcpllBDkvfDeC0zTrAGHqBse+TQ7iek0fixwV66pyeXlThYyp+NQk8W
-         RYBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686645427; x=1689237427;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5zJEoPPrWaPQe2o/sOBJPvP/Vbn9cvZQ+Hz6RwLAU14=;
-        b=jPmL6g0b47skzTLlFfLODsg300tQx3NtMrdpQ1K3ZLsett4bjNqrSheaD9JyWBly0F
-         /mTxJJZ9y2EwJnl0t/6bg51hIOj1UuhEYTStVlwcwMCalYrF4jgEyI+j/FgEdAQwWiER
-         gqs+rvGfdtgh9L2W5Ire/fZx45iQJZUbl6NYJIyKEP3CILJ1z6Jvx/0AroqwtjI4yvse
-         9vswrhZO5038BEadEKvz963V+iODSyjqBTyf6ifug2GJ/oTtXi+ztMN35qDURkWjv2ah
-         5Zb6DTN0hW0YDvPom4yJlsLVijJf50FpLzGbtC6HTgly1lGTdnbxsTgkumottomyZ70P
-         xojQ==
-X-Gm-Message-State: AC+VfDznwNwsWojfSx8uMVS774fHtwn9l/or/2VZdOO6AXukKizBe5Io
-        NMdIBbOn0LNnmdpbcbuO9t5Nbg==
-X-Google-Smtp-Source: ACHHUZ4an74OBtZpGGMhJzkNNYFfX0j8l4D815nZHC6M7bVBOVtx5/eErmFBntytcG+scBirONAIiw==
-X-Received: by 2002:a1c:4b14:0:b0:3f7:f2d0:b8fc with SMTP id y20-20020a1c4b14000000b003f7f2d0b8fcmr7497966wma.34.1686645426582;
-        Tue, 13 Jun 2023 01:37:06 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x25-20020a05600c21d900b003f60faa4612sm13706447wmj.22.2023.06.13.01.37.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 01:37:04 -0700 (PDT)
-Date:   Tue, 13 Jun 2023 11:37:00 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
+        Tue, 13 Jun 2023 05:45:37 -0400
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23AE1173C;
+        Tue, 13 Jun 2023 02:45:33 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4QgNvs0klWz4f3wRQ;
+        Tue, 13 Jun 2023 17:45:29 +0800 (CST)
+Received: from [10.67.110.48] (unknown [10.67.110.48])
+        by APP1 (Coremail) with SMTP id cCh0CgDHIBu4OohkevjXKw--.29140S2;
+        Tue, 13 Jun 2023 17:45:29 +0800 (CST)
+Message-ID: <4a501c9f-245f-5ecd-46e9-dc0e71abf8a5@huaweicloud.com>
+Date:   Tue, 13 Jun 2023 17:45:28 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] pinctrl: renesas: remove checker warnings: x | !y
+Content-Language: en-US
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "GONG, Ruiqi" <gongruiqi@huaweicloud.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-kernel@vger.kernel.org, gongruiqi1@huawei.com,
-        linux-sparse@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: renesas: remove checker warnings: x | !y
-Message-ID: <869dd27f-7046-486a-83a0-acd489565083@kadam.mountain>
+        linux-sparse@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@linaro.org>
 References: <20230613021643.3330661-1-gongruiqi@huaweicloud.com>
  <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From:   "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
 In-Reply-To: <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cCh0CgDHIBu4OohkevjXKw--.29140S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cry8Xr4fWw1xtF4kWw18uFg_yoW8Zr4UpF
+        47ta4UtFsYyF4UZFZ8t3yxWrWYyan2krWDG3WDKa4UZFZ8ZF1kt3WSgw4FvF4Durs7Aw1q
+        qF4UKa4fG3W3A3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij
+        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
+X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 09:38:20AM +0200, Geert Uytterhoeven wrote:
+Hi Geert,
+
+On 2023/06/13 15:38, Geert Uytterhoeven wrote:
 > Hi Gong,
 > 
 > On Tue, Jun 13, 2023 at 4:13 AM GONG, Ruiqi <gongruiqi@huaweicloud.com> wrote:
-> > Eliminate the following Sparse reports when building with C=1:
-> >
-> > drivers/pinctrl/renesas/pinctrl-rzn1.c:187:52: warning: dubious: x | !y
-> > drivers/pinctrl/renesas/pinctrl-rzn1.c:193:52: warning: dubious: x | !y
-> >
-> > Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+>> Eliminate the following Sparse reports when building with C=1:
+>>
+>> drivers/pinctrl/renesas/pinctrl-rzn1.c:187:52: warning: dubious: x | !y
+>> drivers/pinctrl/renesas/pinctrl-rzn1.c:193:52: warning: dubious: x | !y
+>>
+>> Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
 > 
 > Thanks for your patch!
 > 
 > Looks like sparse needs to be taught the "|" is not used in a boolean
 > context here?
+
+Okay after reading the source code of Sparse I think what this kind of
+warnings actually means is to hint us a possible misuse of "|" instead
+of "||" (i.e. misusing a binary operator in a conditional context). Here
+the code is doing binary operation (i.e. to flip a bit or two), so in
+this sense the warnings should be just false alarms.
+
+However, the original code is a bit weird for me because of the sudden
+appearance of a boolean operator (i.e. "!") in the middle of a binary
+calculation. And I think it looks better after this change, since it
+makes the expression look more "binary". So maybe we can still consider
+apply this change ;)
+
+Greetings,
+Ruiqi
+
 > 
-
-I've spent some time exploring how these bugs look like but it was years
-ago so I have forgotten the details.  I think the main issue is when the
-! is on the left.
-
-Bug:	if (!x & 0xf) {
-Fixed:	if (!(x & 0xf)) {
-
-Or less commonly:
-
-Bug:	if (!x > y) {
-Fixed:	if (x <= y) {
-
-Originally Sparse used to only warn about !x & y...  I feel like Josh
-maybe got a bit over enthusiastic in changing it to warn about
-everything.  But that was in 2008 and we're only noticing now so maybe
-it's fine.
-
-The other bug that we see is mixing up logical and bitwise negation
-but those bugs are harder to separate from good code.
-
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> > @@ -184,13 +184,15 @@ static void rzn1_hw_set_lock(struct rzn1_pinctrl *ipctl, u8 lock, u8 value)
-> >          * address | 1.
-> >          */
-> >         if (lock & LOCK_LEVEL1) {
-> > -               u32 val = ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
-> > +               u32 val = ipctl->lev1_protect_phys |
-> > +                       (value & LOCK_LEVEL1 ? 0 : 1);
-
-To me this code is more confusing than the original code because I
-struggle to remember if & has higher precedence that ?: (It does.  The
-code is fine).  But Cppcheck also thinks the code is confusing and will
-print a warning:
-
-style: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-
-You would think adding another set of parentheses would silence the
-sparse warning but it doesn't:
-
-		u32 val = ipctl->lev1_protect_phys | (!(value & LOCK_LEVEL1));
-
-regards,
-dan carpenter
+>> --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
+>> +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+>> @@ -184,13 +184,15 @@ static void rzn1_hw_set_lock(struct rzn1_pinctrl *ipctl, u8 lock, u8 value)
+>>          * address | 1.
+>>          */
+>>         if (lock & LOCK_LEVEL1) {
+>> -               u32 val = ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
+>> +               u32 val = ipctl->lev1_protect_phys |
+>> +                       (value & LOCK_LEVEL1 ? 0 : 1);
+>>
+>>                 writel(val, &ipctl->lev1->status_protect);
+>>         }
+>>
+>>         if (lock & LOCK_LEVEL2) {
+>> -               u32 val = ipctl->lev2_protect_phys | !(value & LOCK_LEVEL2);
+>> +               u32 val = ipctl->lev2_protect_phys |
+>> +                       (value & LOCK_LEVEL2 ? 0 : 1);
+>>
+>>                 writel(val, &ipctl->lev2->status_protect);
+>>         }
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
