@@ -2,120 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97BB872D0E5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jun 2023 22:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8301072D745
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 04:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236492AbjFLUq7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jun 2023 16:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35668 "EHLO
+        id S230039AbjFMCM6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jun 2023 22:12:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236860AbjFLUqn (ORCPT
+        with ESMTP id S229445AbjFMCM5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jun 2023 16:46:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67ACE171C;
-        Mon, 12 Jun 2023 13:46:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95A6E622C1;
-        Mon, 12 Jun 2023 20:43:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E758C433D2;
-        Mon, 12 Jun 2023 20:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686602617;
-        bh=21JfPTParSLQtiX/dtliNty5l5Vn4im61cRIbAqOqfc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=soi73ChJhvjFrASn3WpwMpFtiNfzmW8kSFLhK2pUhqr/takPd99yDS5m/YhncdwUN
-         y1sM0LUSuAsG0mrllJtLx2MA+mudBNHqjB2HVZJcgSRm2nWbAIT+lvZCjV54XB23qE
-         el3gxA3FmdpVZb0Ck/Oi9Kq+txyt9T2C0sIuCAaKQo7mslC66R6Fdpas6WKM8br4lt
-         6NaQWbKLIqv108cZc3af4uDfgjmkKT75bRf4Kr52N1wzfkj4FJMF1ydCxYxpZZ6eNF
-         cDO9XFMqgfbZ5vx+SM7gHWm/OPfF4TGnIQRrJMrn6llyJp+0ATg4P81IKFTdAn66fS
-         72mcrFv0DgKvw==
-Date:   Mon, 12 Jun 2023 22:43:29 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <ZIeDcVcfxfcMx/BP@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+        Mon, 12 Jun 2023 22:12:57 -0400
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA651718;
+        Mon, 12 Jun 2023 19:12:56 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4QgBsc2QNyz4f3tP1;
+        Tue, 13 Jun 2023 10:12:52 +0800 (CST)
+Received: from ubuntu20.huawei.com (unknown [10.67.174.33])
+        by APP1 (Coremail) with SMTP id cCh0CgBXxS+j0IdkeBHAKw--.56443S2;
+        Tue, 13 Jun 2023 10:12:53 +0800 (CST)
+From:   "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gongruiqi1@huawei.com
+Subject: [PATCH] pinctrl: renesas: remove checker warnings: x | !y
+Date:   Tue, 13 Jun 2023 10:16:43 +0800
+Message-Id: <20230613021643.3330661-1-gongruiqi@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="JQD6/ViKqbjI8+zP"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cCh0CgBXxS+j0IdkeBHAKw--.56443S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw1DWry5AFW5GFWDGF1ftFb_yoWkKFc_CF
+        1UXrnxCr9rC3W5ury0qayfWrWvkan2q34vvwn2va43Cr9xAw12yF9YkrZ8Cwn7Wa17tF9x
+        CrnFvrW0yF17AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbokYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20E
+        Y4v20xvaj40_JFC_Wr1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+        A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x02
+        67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s
+        0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsG
+        vfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
+X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -123,54 +59,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Eliminate the following Sparse reports when building with C=1:
 
---JQD6/ViKqbjI8+zP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+drivers/pinctrl/renesas/pinctrl-rzn1.c:187:52: warning: dubious: x | !y
+drivers/pinctrl/renesas/pinctrl-rzn1.c:193:52: warning: dubious: x | !y
 
-Hi everyone,
+Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzn1.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> Perhaps we should first think through what an ancillary device really
-> is.  My understanding is that it is used to talk to secondary addresses
-> of a multi-address I2C slave device.
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzn1.c b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+index 374b9f281324..2391a316d5c5 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+@@ -184,13 +184,15 @@ static void rzn1_hw_set_lock(struct rzn1_pinctrl *ipctl, u8 lock, u8 value)
+ 	 * address | 1.
+ 	 */
+ 	if (lock & LOCK_LEVEL1) {
+-		u32 val = ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
++		u32 val = ipctl->lev1_protect_phys |
++			(value & LOCK_LEVEL1 ? 0 : 1);
+ 
+ 		writel(val, &ipctl->lev1->status_protect);
+ 	}
+ 
+ 	if (lock & LOCK_LEVEL2) {
+-		u32 val = ipctl->lev2_protect_phys | !(value & LOCK_LEVEL2);
++		u32 val = ipctl->lev2_protect_phys |
++			(value & LOCK_LEVEL2 ? 0 : 1);
+ 
+ 		writel(val, &ipctl->lev2->status_protect);
+ 	}
+-- 
+2.25.1
 
-As I mentioned somewhere before, this is not the case. Ancillary devices
-are when one *driver* handles more than one address. Everything else has
-been handled differently in the past (for  all the uses I am aware of).
-
-Yet, I have another idea which is so simple that I wonder if it maybe
-has already been discussed so far?
-
-* have two regs in the bindings
-* use the second reg with i2c_new_client_device to instantiate the
-  RTC sibling. 'struct i2c_board_info', which is one parameter, should
-  have enough options to pass data, e.g it has a software_node.
-
-Should work or did I miss something here?
-
-Happy hacking,
-
-   Wolfram
-
-
---JQD6/ViKqbjI8+zP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSHg24ACgkQFA3kzBSg
-KbY/MA/9FGoFtfL8yjced9NBJXfmzXXa3OhewlHwumj5oCkCOPlzma9ZNis/NDcQ
-z8XapX8noWSLHEcHDr6rByEC89Nmkm2gAdSGUh1Z1K4fuQNU0l2mSc2OZzrZtG3e
-YjbJiWuLajtrJF0OFn4hKGAKivPLwVW0BjUmn/jgtebQfU7LzjjM4b7Yqik4VJnk
-H+7DAsMBOdqFT3Q0XlQOaAR9AXJtQDOprmcUEo7dfMsmW+Z9tgn8edyTnEEo6dOt
-ocCR4Eorj5fccYVh3RlbF0rSeuU0NAmy+6kK64fTwxAzp1S6akhQXUyF3QXGaaTz
-206Qb12HV/FE97nv3pH41AufRmTxC0goIweXX4Y71oGKRNt8cJvidHtxgNBw8X5M
-mYTsj8ddS6ktOT7Kivxtoq4dJe6HJIwJpzKfBVfiRbX4G9lH5kdbIrUYGhNrdKcD
-sCQ38/4CL83BetGFFlit3sNZXziZKyBG/fpWezk8UE31Wv/JP1BbVJHMt1TfxjGa
-qQuC03AAclMKVZfoL2niUKeDGj1nCUHAfXOHnqPOHnLgcjI2rTwA7BNO9YGPZQ2s
-UMlIhhL1VTEwqjH00o7YSbfbhXeWPYmO1pwlSPU+D+TGd3Y+TCz3NI9NR/3Gocyw
-jtQYtrvShQIn7wmVgZpRBnoLSb5rt+YNwsOZ1gG77iVdrE79by8=
-=2Hse
------END PGP SIGNATURE-----
-
---JQD6/ViKqbjI8+zP--
