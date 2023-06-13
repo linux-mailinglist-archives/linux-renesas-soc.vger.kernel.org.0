@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B827772DB1F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 09:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C48772DB75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 09:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235021AbjFMHif convert rfc822-to-8bit (ORCPT
+        id S237429AbjFMHso convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jun 2023 03:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38350 "EHLO
+        Tue, 13 Jun 2023 03:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234472AbjFMHie (ORCPT
+        with ESMTP id S240494AbjFMHju (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jun 2023 03:38:34 -0400
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7E3AA;
-        Tue, 13 Jun 2023 00:38:33 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-56d5492850dso6764397b3.0;
-        Tue, 13 Jun 2023 00:38:33 -0700 (PDT)
+        Tue, 13 Jun 2023 03:39:50 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7271A5;
+        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-bc9782291f5so2286653276.1;
+        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686641912; x=1689233912;
+        d=1e100.net; s=20221208; t=1686641989; x=1689233989;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5HYSRhDPwRoW06pJwnVk/r95T6M6w1GodDXdJDLZ7hw=;
-        b=ErTBJHcVFLs7fU0t/WS8JU/lWBKznx7RfhF6qFEZ8Mzwf/SU2w2i1gPeK9nEePwyYK
-         0O46g2jbCe27596CJMeQpACBJtUEZZAqKrDyCkEbC7sWHdgfM7sQXfyeFABqXAiW6vVI
-         bn19WtZNg8YMqV62sr8OjzDogN4Nm71KrzZtCptZ2bptbWlCe6zE+j0n2nNYkEQnSlXH
-         Ybu00AsNs6thwz97zcHDI5QyhicemJLbwQsfCQ/sJQCNmXRSjSQqHn3VYf1dDNQ0iPyB
-         mhJCWvS2hDuSwm5mB7A5rQg2SJAj2qBMEx7LPZCvIbnnSM/BzVv0NWHzfNr+15VQn9Xi
-         +uZg==
-X-Gm-Message-State: AC+VfDw8Q07fQh8YZLYGWdyJsuinzEGW1zC0KOcQRifEXz/e+SVrOLUl
-        Stq5web72+MTSJNDtSIpwLLalouC9V7NxA==
-X-Google-Smtp-Source: ACHHUZ5Xy96REM2G8fMuYRpTXaL0Tx08J209KzAHyTv/iamcC284Vmx7eV+yhc2IHk03D3kppazIwA==
-X-Received: by 2002:a25:cf8a:0:b0:ba6:b00d:b865 with SMTP id f132-20020a25cf8a000000b00ba6b00db865mr779527ybg.56.1686641912378;
-        Tue, 13 Jun 2023 00:38:32 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id e72-20020a25e74b000000b00bc8f984984asm1258554ybh.35.2023.06.13.00.38.32
+        bh=jXHsYsW3sGwaS5VK0EBUqtTJTWaYVmFmgpLimYiew8E=;
+        b=MUBmeI1twmPclG9Zq3DYOyWz0jmCvBalhePltETU+eeKubePmYQ9tL5DrLURxIq+fg
+         MRh0+hwQM1RNy8onslTR8i5kmL0In/tlqIg2guXXAJEevjTodOnb+NS0/NBV5mMl31Tm
+         9ygF8UuBN6W4cIxQq9Wm2o/JNtmveVfXBx24Au8wG0rxWOxTKPf0iReJmiNY4KVbb7RQ
+         kz6HJ6Kfnr0iQtioncnvNMW65K/Qs/jiA7lJV+H/e46No1wLaK23oP+vQ0Rk1aT12Ffv
+         HfYY1YZyVzHDsfGakgVt3M08+R8Wh+8aOLRuFzoAifkyEKZyVisizFk6PpeMfEjBuruG
+         eDhw==
+X-Gm-Message-State: AC+VfDxZ+txGwhoCa4b2zA48iwnLyGzPjO4rvAlGYnnB2m5FDcoy8Mu0
+        UoIB8fx8XnHlCQAxY0XuyA5UhMpPVWXvPg==
+X-Google-Smtp-Source: ACHHUZ6N+5XyHFj9XZ0mx6uFV7Hky+JU1nUz0j6Lo4eAOVNcCjPQqp7IfyKBAIcwMghpiAm9E6bGjA==
+X-Received: by 2002:a25:1e57:0:b0:ba8:66fb:dd84 with SMTP id e84-20020a251e57000000b00ba866fbdd84mr798730ybe.20.1686641989007;
+        Tue, 13 Jun 2023 00:39:49 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id h125-20020a255383000000b00ba73c26f0d6sm3013120ybb.15.2023.06.13.00.39.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 00:38:32 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bc4e167c4b2so3115260276.3;
-        Tue, 13 Jun 2023 00:38:32 -0700 (PDT)
-X-Received: by 2002:a25:4245:0:b0:ba8:1ebe:9b96 with SMTP id
- p66-20020a254245000000b00ba81ebe9b96mr762286yba.1.1686641911996; Tue, 13 Jun
- 2023 00:38:31 -0700 (PDT)
+        Tue, 13 Jun 2023 00:39:48 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bc5a3075e92so3155884276.0;
+        Tue, 13 Jun 2023 00:39:48 -0700 (PDT)
+X-Received: by 2002:a25:402:0:b0:bc8:2759:e4f6 with SMTP id
+ 2-20020a250402000000b00bc82759e4f6mr761612ybe.14.1686641988249; Tue, 13 Jun
+ 2023 00:39:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230613021643.3330661-1-gongruiqi@huaweicloud.com>
-In-Reply-To: <20230613021643.3330661-1-gongruiqi@huaweicloud.com>
+References: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
+In-Reply-To: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Jun 2023 09:38:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
-Message-ID: <CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: remove checker warnings: x | !y
+Date:   Tue, 13 Jun 2023 09:39:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhp7AntSk1ZnTowiEC6XibR1im_7OKdF2JDg=51ewsyw@mail.gmail.com>
+Message-ID: <CAMuHMdUhp7AntSk1ZnTowiEC6XibR1im_7OKdF2JDg=51ewsyw@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r8a7778: remove checker warnings: x | !y
 To:     "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org, gongruiqi1@huawei.com,
         linux-sparse@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -71,11 +72,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Gong,
 
-On Tue, Jun 13, 2023 at 4:13 AM GONG, Ruiqi <gongruiqi@huaweicloud.com> wrote:
+On Tue, Jun 13, 2023 at 4:50 AM GONG, Ruiqi <gongruiqi@huaweicloud.com> wrote:
 > Eliminate the following Sparse reports when building with C=1:
 >
-> drivers/pinctrl/renesas/pinctrl-rzn1.c:187:52: warning: dubious: x | !y
-> drivers/pinctrl/renesas/pinctrl-rzn1.c:193:52: warning: dubious: x | !y
+> drivers/clk/renesas/clk-r8a7778.c:85:52: warning: dubious: x | !y
+> drivers/clk/renesas/clk-r8a7778.c:87:50: warning: dubious: x | !y
 >
 > Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
 
@@ -84,26 +85,28 @@ Thanks for your patch!
 Looks like sparse needs to be taught the "|" is not used in a boolean
 context here?
 
-> --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> @@ -184,13 +184,15 @@ static void rzn1_hw_set_lock(struct rzn1_pinctrl *ipctl, u8 lock, u8 value)
->          * address | 1.
->          */
->         if (lock & LOCK_LEVEL1) {
-> -               u32 val = ipctl->lev1_protect_phys | !(value & LOCK_LEVEL1);
-> +               u32 val = ipctl->lev1_protect_phys |
-> +                       (value & LOCK_LEVEL1 ? 0 : 1);
+See also
+https://lore.kernel.org/r/CAMuHMdXGG2xu+nXJt6CSTfV6aM=U=hMW+DiDgP3RhOw8+O8y=A@mail.gmail.com
+
+> --- a/drivers/clk/renesas/clk-r8a7778.c
+> +++ b/drivers/clk/renesas/clk-r8a7778.c
+> @@ -81,11 +81,11 @@ static void __init r8a7778_cpg_clocks_init(struct device_node *np)
 >
->                 writel(val, &ipctl->lev1->status_protect);
->         }
+>         BUG_ON(!(mode & BIT(19)));
 >
->         if (lock & LOCK_LEVEL2) {
-> -               u32 val = ipctl->lev2_protect_phys | !(value & LOCK_LEVEL2);
-> +               u32 val = ipctl->lev2_protect_phys |
-> +                       (value & LOCK_LEVEL2 ? 0 : 1);
+> -       cpg_mode_rates = (!!(mode & BIT(18)) << 2) |
+> -                        (!!(mode & BIT(12)) << 1) |
+> -                        (!!(mode & BIT(11)));
+> -       cpg_mode_divs = (!!(mode & BIT(2)) << 1) |
+> -                       (!!(mode & BIT(1)));
+> +       cpg_mode_rates = (mode & BIT(18) ? BIT(2) : 0) |
+> +                        (mode & BIT(12) ? BIT(1) : 0) |
+> +                        (mode & BIT(11) ? BIT(0) : 0);
+> +       cpg_mode_divs = (mode & BIT(2) ? BIT(1) : 0) |
+> +                       (mode & BIT(1) ? BIT(0) : 0);
 >
->                 writel(val, &ipctl->lev2->status_protect);
->         }
+>         num_clks = of_property_count_strings(np, "clock-output-names");
+>         if (num_clks < 0) {
 
 Gr{oetje,eeting}s,
 
