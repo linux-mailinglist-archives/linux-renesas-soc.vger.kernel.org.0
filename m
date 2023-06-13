@@ -2,192 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A33E72D825
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 05:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CDE072DAB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jun 2023 09:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237906AbjFMD2b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jun 2023 23:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S238761AbjFMHYm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jun 2023 03:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233202AbjFMD2a (ORCPT
+        with ESMTP id S234076AbjFMHYl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jun 2023 23:28:30 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1ED5A7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jun 2023 20:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686626909; x=1718162909;
-  h=date:from:to:cc:subject:message-id;
-  bh=R1UANlxwhFGPGFeMLIY6LfefROQt4FuleeEETffNiB8=;
-  b=ajw+VExYeFBkaoUqExPhpwNswtom2VR+O6sldh1ggQ63igWvLRbf6vhn
-   HoQRSH0Z0XYydN4wQNDplaE1qk5Q8Bm1R/rndtpHqXnaL6/oj7f9m+rar
-   o4q74g5P7pROKNYEuoHmo3vIJPw2g6RovoMx/cwTBntwfLvEpHgW8UpyZ
-   hn1HEpSau6M7pfiHaInIsmawAHlTzYSxWRU3nGsSFa7izAHfumUoMiMGu
-   w16eS2J2i8tKlNgfQZtu9gKaNTbEhuWtRwscsUtKf1HNlPGmerW9zhOA3
-   lQjTCnNqVcDyi9cSCvF5daRqCREQ/ZCLFdVopdW49B6s450KOvhK2Y3JY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="360698931"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="360698931"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 20:28:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="741270129"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="741270129"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 12 Jun 2023 20:28:28 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q8uhn-0000ya-0y;
-        Tue, 13 Jun 2023 03:28:27 +0000
-Date:   Tue, 13 Jun 2023 11:27:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- eec974413697190538e69788efc6048763f9b64e
-Message-ID: <202306131134.gWqJThqy-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tue, 13 Jun 2023 03:24:41 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2106.outbound.protection.outlook.com [40.107.114.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3CAAA;
+        Tue, 13 Jun 2023 00:24:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g6i2MAOOe5dCDEnmr5aY+9Lzhn5itAmVc9xoHtbSA9r1iWuvCYbpCjHuJT5ISG85Vgw4DUKzov+uzCLkW8ZJC80zRQhIO3CYBHn1ofJEi54S6Y6e0ktZMH/f2vejLIeJ3uJkR5tdvAs8TKWnhBiXXd5CiaA/DaQTuya82RNknLMK4F+ZvK4/j1bVt+xLkH1yZh/CDNpwKbyRPnpYUnCxQVLhd3eWe9dVDRt50gweHM2j65WKvTUpVvOLHeAC7qFuWgefBcgvvoVaQ9M3AbxH/hVutv+tnkLOmsNLWSnlGpr7WdtObHNcCDAYkI7O9ycjnVTTCR3dtXAFzZsTZHRp6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bZpH2S62QA3P3jjK+FH+Rrj48pf3R+q2D0af6mmgi5M=;
+ b=K8mX6jxwckoM6THaICaF7MxJPFu/cEvWyG/hplhvk6D3p5q5KuoERVonqZXjO9DiM7rChfalTwYIkEuZamh4PY4uRaGo95B835O6DLrMzfO6SCo8Nl000N+Pi+w6tv2LnEydja+3NPLDivL+3TzyB6ikTXrQQ6CimEyXImLGu3Ep+Kyf9YOok/4vljDzlumQDwoU3Ai0TwaE3Dix3aymepkOnVisQiYv+wf1Sn6N369j3b8vf2R9kGYEIvgf07irOKNxIDTJr2G/PTqd9P0nWw6C180fBHso8OOq4JQS47bjUEkBeRB9O/Gl6lb8Jjo7Ls+6RVO56fAV1fuzdjCVcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bZpH2S62QA3P3jjK+FH+Rrj48pf3R+q2D0af6mmgi5M=;
+ b=D5sryvhdJs1y1Cr8zCMKqooKNxv8KOlZP0+8Xs90vzh/KtvMdo2zVBU9PVlkKRx0Gl31y8Q9BpxAPiM0HUUjL1GTT3T+HwZ3czlgpmXP55kVPz3A3/PlS1VKqE12g6duC8bDRVazYUzEq1mMeGkE1dQZvlinXlTZvkJYrOLdWQY=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB8143.jpnprd01.prod.outlook.com (2603:1096:400:104::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Tue, 13 Jun
+ 2023 07:24:36 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.045; Tue, 13 Jun 2023
+ 07:24:36 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACwEcA=
+Date:   Tue, 13 Jun 2023 07:24:36 +0000
+Message-ID: <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com>
+ <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com>
+ <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZIcRKl3PDy0+yZS9@ninjato>
+ <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato>
+ <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro>
+In-Reply-To: <ZIeDcVcfxfcMx/BP@shikoro>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB8143:EE_
+x-ms-office365-filtering-correlation-id: 891b5748-fb96-4908-59f2-08db6bdf3dcc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZLNXplwkBpI5LQ+67+V0dJEAv615kYOVYKiC4YV/ZPWATJErV9z4w+/cgbf7rbHbxz32Y7ZD4bT/WrqXvXYmf3MRpc2od0n7l6rfIhcGF26MwjwRzzZdHfXWZTkz0ADjC0VasIH6WRkSvbocofZCYJf7WGDavQLBno/4ywG6xjqR62Qa4Xr1QIkzVGABTRxf5PqYcMG0cX31q5rNYJhQf9ttmFCvCgUHXPo2uqDUuSa4SxrDld4TtUPHjcuMhZbQzT0hoLRMVRh12iMfoKo/hItxub7VLCFP0kLQNXeTV1VSBHkE5n2zOG0PjgWNV3mtaw9ZLnHAk5nG3A9m1M8/X5K1T/cv8PbKXlmUScQmJatUuML/Xj1MZLeUdzJjgVX0i/b4HOSbYfI7Wt2cqeLWGwmzIT/727112daHsqBaRz01IozQQbj3ET2etmATqi1ob1I1rS6ZLrVtcqVzR+VmwVAg9XK4gQGZ/0WEwFoFeqSE3B+4LF0dLR7GLwLO8y9t/YiwVSjZ4U3MFoLQA/9vWgkoQ/XKwiEwYfjZdJhTaCq/zPWaK6Rz9NNMjuxi32KOjWROm8T9OUPYvluThiX12K5FyJv4AK5rhLUFRFVKJPwWULp1ZwTIdHJAJlJmwuV2
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(136003)(346002)(39860400002)(396003)(451199021)(5660300002)(66556008)(7696005)(55016003)(86362001)(110136005)(66446008)(66476007)(122000001)(76116006)(66946007)(2906002)(52536014)(7416002)(54906003)(4326008)(64756008)(7406005)(71200400001)(38070700005)(38100700002)(8676002)(316002)(8936002)(41300700001)(33656002)(478600001)(186003)(6506007)(9686003)(83380400001)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bMIWq/VUONK9i7Im5Qo7Ckouca3cpPbLR3K2g4TwjgtLOgXK9UoXwztZIk?=
+ =?iso-8859-1?Q?s0m2QkAgc2cAJAA9u99WwkWQguPd3feA5KkkAgJceFV5OSn+uoMTGwFLeo?=
+ =?iso-8859-1?Q?4hCLNC2QYOTADmuOwtRKzfsiWsV+XBCmcneVVEzsU7SHNMGbj8+eiwFnvI?=
+ =?iso-8859-1?Q?OOl7Ugq1Ndeyecqh8leUMvfXK/ySxqj6gGPS8GlCV9FToLOMFIIQV24EGs?=
+ =?iso-8859-1?Q?2omvTBvLonwwhx/6PPk9X5ew08ppIUfSCZpS4jIHksUm7uiB986dfKMoJs?=
+ =?iso-8859-1?Q?rsHf3lRg2GR7+k+swvZheeqKc1RI9xppSek9w/jOzl/NNe77upQriuLDN/?=
+ =?iso-8859-1?Q?xAtbLX9/veqWEc75teZr6iFjVatK8vrb+6Fk2chXLRxjXe6EGU+DMP9d01?=
+ =?iso-8859-1?Q?KdkzijcMqrvqyrHzcOAL8K1tUVD2f41EX/k836zxInJWIly32gGVc1J21B?=
+ =?iso-8859-1?Q?JAKOXJpkozM7VIBC8vX2CYPAjb/ODynJgwbq+lPKeCgE300z7hJtAiDW4U?=
+ =?iso-8859-1?Q?SF2lT/WY49VR8zSoNLcYoqOglbNFYPpj3iFeyWPKda2onME6IopM2/lJfo?=
+ =?iso-8859-1?Q?bqNLKcv1kplg4uRymCUcm1r/kVf1FMj6mHhZtWd63JQzV/zUbax9nLOsjb?=
+ =?iso-8859-1?Q?wt0b2wPA9mo5l6MNbEtT9+aKm4MgoMe1ifTxKBiKMQuCwnBbQRCYUqzkUz?=
+ =?iso-8859-1?Q?8bZvP44Dvka73SbHjcuys6sf0bew0kiuJ3kyw0BxqVZi5P55U3t4zDeG+7?=
+ =?iso-8859-1?Q?HYVMVDWYl1iA38aGbazAPHLx/3VI93uX3BLVOFjbthNUj1BDl1Q/uW0ajH?=
+ =?iso-8859-1?Q?Bik5SPYgBm7u5Q5IkvN/hRLnzhU125ZQHQ9xM2aZOrZ9hIP9d7ExHX+a19?=
+ =?iso-8859-1?Q?ZBwRtlKFRS9vFyhPiBk0NLmBgl8MRZBExtzEj/fahJ5PFitTDt2rYX1Egv?=
+ =?iso-8859-1?Q?VcE0KekPHxbDEUhsY3iK6AFQTlYQ0lD91a0zJ0uHU1vvMVrpWPwH3Gq27R?=
+ =?iso-8859-1?Q?q39/JKnC6swdUlYrKsiP4SBuNJPaukcPVyQk423mOAaMB91AEHwCd7SJgC?=
+ =?iso-8859-1?Q?vDmgUXjVI6QIZzPZxVzI+FV+0mdefbeoXWX8UT62MUJbV39GApwKfhlIS9?=
+ =?iso-8859-1?Q?3yTzsJsB6i/+IaEyA4Joge+33ael7J3jGfj9K0ST52lP8xbG+ds6/yqJn4?=
+ =?iso-8859-1?Q?lAtyBYcKWzIoIe9rWI5+0BPv0BaSDPg61k+LloTW9uEOljqtzPJ28Pw87b?=
+ =?iso-8859-1?Q?JKdBJy9iZc/dMi8hOdJM+jsBXJHHn61prTcZWYT7atGl4ZZYFh2xmEP8XO?=
+ =?iso-8859-1?Q?VuDHcb3r+Yw/Ru/gsPUnfFyKdP4/M95vmDVzgq3K6N86uwfCdg7o31Jcy4?=
+ =?iso-8859-1?Q?hSTnHs5aHNTVbKKfIKPs5Fr8wcPPL3Q4gPsp8QGXlfqhwbqSYshTqk6cBz?=
+ =?iso-8859-1?Q?lRY+17xjpNsXt9U3r6qr+yDV7DRpDdR+ePYX9wM790tgNYfhTtvpmNj8Yc?=
+ =?iso-8859-1?Q?jYj4EsgCvVsNlWS93l10d9lHo4ZQHmxgfVN42r/f1tJ9oIPupjBR6P0+dq?=
+ =?iso-8859-1?Q?4BbEQw3LOc/Uv7HJunGKjRxukw5BM4Is5J7dz8ufsmve4sWn5yovsMu6vZ?=
+ =?iso-8859-1?Q?Rnp2Ts/h0UdSSKvpefdMgk3TRKfCjXrkv+fG7HD2v3AjhG9BqSvEvugg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 891b5748-fb96-4908-59f2-08db6bdf3dcc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 07:24:36.1179
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LNH2nYZ4QukjdH9ZNkjB4kU+auviSx7pyvR5evDH9ezs9cW8zoZvObggo+qh+Q1duIngDYvDrA8Mddzi/4F7dCiqNYnirqRSDmfWPac7rwU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8143
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: eec974413697190538e69788efc6048763f9b64e  Merge tag 'v6.4-rc6' into renesas-devel
+Hi Wolfram,
 
-elapsed time: 730m
+Thanks for the feedback.
 
-configs tested: 114
-configs skipped: 2
+> Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+>=20
+> Hi everyone,
+>=20
+> > Perhaps we should first think through what an ancillary device really
+> > is.  My understanding is that it is used to talk to secondary
+> > addresses of a multi-address I2C slave device.
+>=20
+> As I mentioned somewhere before, this is not the case. Ancillary devices
+> are when one *driver* handles more than one address. Everything else has
+> been handled differently in the past (for  all the uses I am aware of).
+>=20
+> Yet, I have another idea which is so simple that I wonder if it maybe has
+> already been discussed so far?
+>=20
+> * have two regs in the bindings
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+OK, it is inline with DT maintainers expectation as it is matching with rea=
+l hw
+as single device node having two regs.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r002-20230612   gcc  
-alpha                randconfig-r024-20230612   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r015-20230612   gcc  
-arc                  randconfig-r043-20230612   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                            mmp2_defconfig   clang
-arm                         nhk8815_defconfig   gcc  
-arm                  randconfig-r005-20230612   gcc  
-arm                  randconfig-r026-20230612   clang
-arm                  randconfig-r046-20230612   clang
-arm                           spitz_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r036-20230612   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r034-20230612   gcc  
-hexagon              randconfig-r031-20230612   clang
-hexagon              randconfig-r041-20230612   clang
-hexagon              randconfig-r045-20230612   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230612   clang
-i386                 randconfig-i002-20230612   clang
-i386                 randconfig-i003-20230612   clang
-i386                 randconfig-i004-20230612   clang
-i386                 randconfig-i005-20230612   clang
-i386                 randconfig-i006-20230612   clang
-i386                 randconfig-i011-20230612   gcc  
-i386                 randconfig-i012-20230612   gcc  
-i386                 randconfig-i013-20230612   gcc  
-i386                 randconfig-i014-20230612   gcc  
-i386                 randconfig-i015-20230612   gcc  
-i386                 randconfig-i016-20230612   gcc  
-i386                 randconfig-r012-20230612   gcc  
-i386                 randconfig-r014-20230612   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r006-20230612   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r001-20230612   gcc  
-loongarch            randconfig-r006-20230612   gcc  
-loongarch            randconfig-r023-20230612   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r003-20230612   gcc  
-m68k                 randconfig-r021-20230612   gcc  
-microblaze           randconfig-r022-20230612   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips         buildonly-randconfig-r003-20230612   gcc  
-mips                        omega2p_defconfig   clang
-mips                 randconfig-r011-20230612   clang
-mips                       rbtx49xx_defconfig   clang
-mips                         rt305x_defconfig   gcc  
-mips                           xway_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r032-20230612   gcc  
-openrisc     buildonly-randconfig-r001-20230612   gcc  
-openrisc     buildonly-randconfig-r004-20230612   gcc  
-openrisc             randconfig-r013-20230612   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r035-20230612   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                     rainier_defconfig   gcc  
-powerpc                      walnut_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r033-20230612   clang
-riscv                randconfig-r042-20230612   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r004-20230612   clang
-s390                 randconfig-r016-20230612   gcc  
-s390                 randconfig-r044-20230612   gcc  
-sh                               allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc        buildonly-randconfig-r005-20230612   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r025-20230612   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r002-20230612   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230612   clang
-x86_64               randconfig-a002-20230612   clang
-x86_64               randconfig-a003-20230612   clang
-x86_64               randconfig-a004-20230612   clang
-x86_64               randconfig-a005-20230612   clang
-x86_64               randconfig-a006-20230612   clang
-x86_64               randconfig-a011-20230612   gcc  
-x86_64               randconfig-a012-20230612   gcc  
-x86_64               randconfig-a013-20230612   gcc  
-x86_64               randconfig-a014-20230612   gcc  
-x86_64               randconfig-a015-20230612   gcc  
-x86_64               randconfig-a016-20230612   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+> * use the second reg with i2c_new_client_device to instantiate the
+>   RTC sibling. 'struct i2c_board_info', which is one parameter, should
+>   have enough options to pass data, e.g it has a software_node.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+OK, I can see the below can be passed from PMIC to new client device.
+
+	client->addr =3D info->addr;
+
+	client->init_irq =3D info->irq;
+
+>=20
+> Should work or did I miss something here?
+
+I guess it will work. We instantiate appropriate device based
+On PMIC revision and slave address and IRQ resource passed through
+'struct i2c_board_info'
+
+Will check this and update you.
+
+Cheers,
+Biju
