@@ -2,83 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 736AC72F9DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 11:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D1A72FA3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 12:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235169AbjFNJyg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jun 2023 05:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
+        id S233171AbjFNKRS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jun 2023 06:17:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243470AbjFNJyc (ORCPT
+        with ESMTP id S231596AbjFNKRR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jun 2023 05:54:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0C3170E;
-        Wed, 14 Jun 2023 02:54:26 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CF1875A;
-        Wed, 14 Jun 2023 11:53:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686736433;
-        bh=jY0sTKHt7HU6uex/YdEGSJnTrZqVcVdf9mAvVYEw74Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Dxsn4+wXjL23UbeAgTZBTA9kIynsp3+NX2j2bjzcAGAmVm0JrrLJLjrjnzIJRKyS+
-         GnymMHyDw4ZcNQEpSe1jgsIK1ipLqJp907r7irmXTNfGFJD3eCvb0eA4l/MOyx5y8C
-         +Xu4Ci5sPwHaEQ/Lp/DGZqljH+3PVLvZXvTCT7wg=
-Date:   Wed, 14 Jun 2023 12:54:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Wed, 14 Jun 2023 06:17:17 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32523E53
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jun 2023 03:17:16 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-108-hCXQcDGBNYyzCsxMMZVW0g-1; Wed, 14 Jun 2023 11:17:13 +0100
+X-MC-Unique: hCXQcDGBNYyzCsxMMZVW0g-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 14 Jun
+ 2023 11:17:10 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Wed, 14 Jun 2023 11:17:10 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'GONG, Ruiqi'" <gongruiqi@huaweicloud.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230614095424.GJ28480@pendragon.ideasonboard.com>
-References: <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230614081314.GD17519@pendragon.ideasonboard.com>
- <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gongruiqi1@huawei.com" <gongruiqi1@huawei.com>
+Subject: RE: [PATCH] clk: renesas: r8a7778: remove checker warnings: x | !y
+Thread-Topic: [PATCH] clk: renesas: r8a7778: remove checker warnings: x | !y
+Thread-Index: AQHZnaHR7xBIFyeGDEu0eJYf3JlEQa+KFZ7w
+Date:   Wed, 14 Jun 2023 10:17:10 +0000
+Message-ID: <ec5ce50bc3e14f62bbf13c00a661e136@AcuMS.aculab.com>
+References: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
+In-Reply-To: <20230613025403.3338129-1-gongruiqi@huaweicloud.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,112 +64,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 08:21:38AM +0000, Biju Das wrote:
-> Hi Laurent,
+From: GONG, Ruiqi
+> Sent: 13 June 2023 03:54
 > 
-> Thanks for the feedback.
+> Eliminate the following Sparse reports when building with C=1:
 > 
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > 
-> > On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
-> > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > > API
-> > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
-> > > > > i2c_new_ancillary_device API
-> > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > > i2c_new_ancillary_device API
-> > > > > >
-> > > > > > Hi everyone,
-> > > > > >
-> > > > > > > Perhaps we should first think through what an ancillary device
-> > > > > > > really is.  My understanding is that it is used to talk to
-> > > > > > > secondary addresses of a multi-address I2C slave device.
-> > > > > >
-> > > > > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > > > > devices are when one *driver* handles more than one address.
-> > > > > > Everything else has been handled differently in the past (for
-> > > > > > all the uses I am aware of).
-> > > > > >
-> > > > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > > > maybe has already been discussed so far?
-> > > > > >
-> > > > > > * have two regs in the bindings
-> > > > >
-> > > > > OK, it is inline with DT maintainers expectation as it is matching
-> > > > > with real hw as single device node having two regs.
-> > > > >
-> > > > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > > > > >   have enough options to pass data, e.g it has a software_node.
-> > > > >
-> > > > > OK, I can see the below can be passed from PMIC to new client device.
-> > > > >
-> > > > > 	client->addr = info->addr;
-> > > > >
-> > > > > 	client->init_irq = info->irq;
-> > > > >
-> > > > > >
-> > > > > > Should work or did I miss something here?
-> > > > >
-> > > > > I guess it will work. We instantiate appropriate device based On
-> > > > > PMIC revision and slave address and IRQ resource passed through
-> > > > > 'struct i2c_board_info'
-> > > > >
-> > > > > Will check this and update you.
-> > > >
-> > > > info.irq = irq; -->Irq fine
-> > > > info.addr = addr; -->slave address fine size = strscpy(info.type,
-> > > > name, sizeof(info.type)); -->instantiation based on PMIC version
-> > > > fine.
-> > > >
-> > > > 1) How do we share clk details on instantiated device to find is it
-> > > > connected to external crystal or external clock source? as we cannot
-> > > > pass of_node between PMIC and "i2c_board_info" as it results in
-> > > > pinctrl failure. info->platformdata and
-> > > > Client->dev.platformdata to retrieve this info??
-> > >
-> > > Or
-> > >
-> > > I2C instantiation based on actual oscillator bit value, ie, two
-> > > i2c_device_id's with one for setting oscillator bit and another for
-> > > clearing oscillator bit
-> > >
-> > > PMIC driver parses the clock details. Based on firmware version and
-> > > clock, It instantiates either i2c_device_id with setting oscillator
-> > > bit or clearing oscillator bit.
-> > 
-> > I don't like that hack. I still think that two DT nodes is the best
-> > option, I think you're trying hard to hack around a problem that is
-> > actually not a problem.
+> drivers/clk/renesas/clk-r8a7778.c:85:52: warning: dubious: x | !y
+> drivers/clk/renesas/clk-r8a7778.c:87:50: warning: dubious: x | !y
 > 
-> Why do you think it is a hack? I believe rather it is actual solution
+> Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+> ---
+>  drivers/clk/renesas/clk-r8a7778.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> PMIC is a single device, with 2 regs, clocks, pinctrl and IRQ properties.
-> So it will be represented as single node with single compatible.
+> diff --git a/drivers/clk/renesas/clk-r8a7778.c b/drivers/clk/renesas/clk-r8a7778.c
+> index 797556259370..ad1a50f3b0cd 100644
+> --- a/drivers/clk/renesas/clk-r8a7778.c
+> +++ b/drivers/clk/renesas/clk-r8a7778.c
+> @@ -81,11 +81,11 @@ static void __init r8a7778_cpg_clocks_init(struct device_node *np)
+> 
+>  	BUG_ON(!(mode & BIT(19)));
+> 
+> -	cpg_mode_rates = (!!(mode & BIT(18)) << 2) |
+> -			 (!!(mode & BIT(12)) << 1) |
+> -			 (!!(mode & BIT(11)));
 
-The chip is a single package that contains two independent devices. This
-is not different than bundling many IP cores in an SoC, we have one DT
-node per IP core, not a single DT node for the SoC. The fact that we're
-dealing with an external physical component here isn't relevant.
+Try just adding a << 0 on the last line.
 
-> By instating a client device, we are sharing the relevant resources to
-> RTC device driver.
+Recent gcc and clang optimise the code to 'shift + and'.
 
-By instantiating a client device, you create a second struct device,
-which is the kernel abstraction of a hardware device. This shows in my
-opinion that we're dealing with two devices here, hence my
-recommendation of using two DT nodes.
+	David
 
-As you've noticed, with two devices and a single DT node, pinctrl
-complains. You can hack around that by moving the pinctrl configuration
-from the PMIC DT node to another DT node, and that's one first hack.
-Then, you'll need to have two different device IDs depending on the PMIC
-version to let the RTC driver set the oscillator bit correctly, and
-that's a second hack.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-A solution with two DT nodes models the hardware better and is cleaner.
-
--- 
-Regards,
-
-Laurent Pinchart
