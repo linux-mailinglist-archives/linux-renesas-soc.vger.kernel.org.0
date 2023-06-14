@@ -2,68 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6224173058E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 18:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29FFB730842
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 21:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236569AbjFNQ6s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jun 2023 12:58:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
+        id S236289AbjFNTbk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jun 2023 15:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233267AbjFNQ6r (ORCPT
+        with ESMTP id S230195AbjFNTbj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jun 2023 12:58:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8620268E;
-        Wed, 14 Jun 2023 09:58:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 75C3F60E8D;
-        Wed, 14 Jun 2023 16:58:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A2AC433C8;
-        Wed, 14 Jun 2023 16:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686761924;
-        bh=JawmiSBEKOC8TDqGTdeR7nW44hRx2G/VByajxDBcYoo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u5irh81u/2jEaKr5V3wSgBXtD+6gwCmlrtZmd3qUH6b4HWNwVrzjUMgAFGgwjnQYf
-         UtmsVlLzyqJigA7QvNHeMiFHFX2uQsAMc2buiXNNJ7dChvtK/cWF8p9UrbtjZ9RwLv
-         2Ti++JsfAKvEuqkqeSwwwHDzLJo+yeWezMis/NnVjYZEOnmIGb7w6/P9nq3CCJ8IcV
-         5KkYiuFu73y27hsf6zvWM4aXh4W9epUP8KxUoU7TWCgGJhLFQI5q2kaQIeBZT9Aqqf
-         QrSw7yqkMaXR2g7li8La6FlkyKu7AuASGdjz/b4zUyb2kvtYPqVNKocAIrSiK5T+iy
-         Y3BG/0p7K199g==
-Date:   Wed, 14 Jun 2023 17:58:38 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v9 0/6] Add non-coherent DMA support for AX45MP
-Message-ID: <20230614-oncoming-suspense-4104f43912ab@spud>
-References: <20230614104759.228372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 14 Jun 2023 15:31:39 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F00B106;
+        Wed, 14 Jun 2023 12:31:37 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2b34e133f5aso11564821fa.3;
+        Wed, 14 Jun 2023 12:31:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686771095; x=1689363095;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUFSqiYR50n6/mSZ4z0DUZtSpq11ONwMVk/TgIX38lg=;
+        b=owtZko4JeLXduquY8aZNsGA8bTzivZN9Hv7ax0g4QbXR7kERip52KNGHWHwqxXU5aK
+         3A+sIYAXwwQ1rXsHCGk8UpBtafhJB1OpRTvQP7NP6FJdcXybFFv5+AsCsupqn7Mc2EGI
+         GHMdTCWY/p+jWTLW9RwnfTMQcARoyx1scX5t5eCXPiIbff6MfMYZjtEhlxRUu9+ogWAd
+         5pkn8DChEGxU6WsFlRYdetGGOWmzNZn6VZV4XTM4d0WqaqeQ1ft3q7NUn1T7FinxQRPB
+         Bmb2dUW9hVo3WM0ExiA/qA/ZNVnNwBU4ZDwFVceWYt76O2TjAfCGioyRKLpiXKQPwuQ5
+         fJ9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686771095; x=1689363095;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JUFSqiYR50n6/mSZ4z0DUZtSpq11ONwMVk/TgIX38lg=;
+        b=SMMUSRTAdInSq5OuB6bqD36y6kN3jkMU1iLtzXjMDEuI8i7OprXr3O47bLYMS8cUS/
+         TYSlItsYyCwAhEEO5wSuH/liv2Y73G6qGpnobJUcMS+4RNkfzeVgV6XKBk4hbb30w5c9
+         IC58CMhrta9OvRzum/T689LH51MOEe5KpOWhC/u1mI++EDyYXMMc5+fs70/kcYjSB2bi
+         JUKCyd+EDoiSysPZoUSGj25Hu3BGtCkKBj7vPUOXYsouqm0AeoLTlRACzxama8U3/S/v
+         lHq5IXo8wYCNcobQZsFMj8HcJ9Zrd10h1fXNUeWO2saiax+whCTB+quV3VveyR67sw9f
+         YOhw==
+X-Gm-Message-State: AC+VfDx7ump2mZbq09yewtzoJgAUvud1PVAmVQ/UqZBVN6o5rdHxjPWJ
+        ehEP8vGtFa6bDktvuzQB7mapPwBIiMpvMQ==
+X-Google-Smtp-Source: ACHHUZ6yfWv1HMYc+ARAYZs48rJA7PCFZSipzJlBoW/cNlSHj5wyRmvHP0zUwQ54m61FbjwNz3v0rw==
+X-Received: by 2002:a2e:3207:0:b0:2af:1944:3913 with SMTP id y7-20020a2e3207000000b002af19443913mr6476879ljy.37.1686771095076;
+        Wed, 14 Jun 2023 12:31:35 -0700 (PDT)
+Received: from mobilestation ([95.79.140.35])
+        by smtp.gmail.com with ESMTPSA id u21-20020a2e8555000000b002adb6dd5a97sm2738121ljj.27.2023.06.14.12.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 12:31:33 -0700 (PDT)
+Date:   Wed, 14 Jun 2023 22:31:31 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v16 19/22] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
+ support
+Message-ID: <20230614193131.6nlqyzwmhpv23ksv@mobilestation>
+References: <TYBPR01MB5341A67CF6DFFCB396F13195D853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230607121533.cxvidvdqat5h2tqu@mobilestation>
+ <TYBPR01MB53417E55F5F9E667D679901CD850A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230608121115.qnilmougdfd6fdyq@mobilestation>
+ <TYBPR01MB5341AD39983D6B39034AF01BD851A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230609105407.c4olqepv7vuoqktz@mobilestation>
+ <TYBPR01MB53411835ACCD884FCA9ECBE2D854A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230612195149.hdnttkcabynmf4kx@mobilestation>
+ <TYBPR01MB534161A79DFF1830B65D303FD85AA@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230614113924.7ssdcl2njivdienp@mobilestation>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dWz4qVr6/YdX432b"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230614104759.228372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+In-Reply-To: <20230614113924.7ssdcl2njivdienp@mobilestation>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,110 +92,300 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, Jun 14, 2023 at 02:39:29PM +0300, Serge Semin wrote:
+> On Wed, Jun 14, 2023 at 02:30:13AM +0000, Yoshihiro Shimoda wrote:
+> > Hello Serge,
+> > 
+> >  From: Serge Semin, Sent: Tuesday, June 13, 2023 4:52 AM
+> > > 
+> > > On Mon, Jun 12, 2023 at 01:19:02PM +0000, Yoshihiro Shimoda wrote:
+> > > > Hello Serge,
+> > > >
+> > > > > From: Serge Semin, Sent: Friday, June 9, 2023 7:54 PM
+> > > > <snip>
+> > > > > > > > static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> > > > > > > > {
+> > > > > > > >         struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > > > > > >         int i;
+> > > > > > > >
+> > > > > > > >         rcar_gen4_pcie_ltssm_enable(rcar, true);
+> > > > > > > >
+> > > > > > > >         /*
+> > > > > > > >          * Require direct speed change here. Otherwise RDLH_LINK_UP of
+> > > > > > > >          * PCIEINTSTS0 which is this controller specific register may not
+> > > > > > > >          * be set.
+> > > > > > > >          */
+> > > > > > >
+> > > > > > > >         if (rcar->needs_speed_change) {
+> > > > > > >
+> > > > > > > Seeing this is specified for the root port only what about
+> > > > > > > replacing the statement with just test whether the rcar_gen4_pcie.mode ==
+> > > > > > > DW_PCIE_RC_TYPE? Thus you'll be ablt to drop the needs_speed_change field.
+> > > > > >
+> > > > > > Thank you for the comment. I'll fix it.
+> > > > > >
+> > > > > > > BTW Just curious. Why is the loop below enabled for the Root Port
+> > > > > > > only? What about the end-point controller? It's the same hardware
+> > > > > > > after all..
+> > > > > >
+> > > > > > This is reused from v16 and then it used "link retraining" which is only for
+> > > > > > the Root Port. As you mentioned, it seems endpoint controller is also needed
+> > > > > > if we use direct speed change.
+> > > > > >
+> > > > > > > >                 for (i = 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
+> > > > > > > >                         rcar_gen4_pcie_speed_change(dw);
+> > > > > > > >                         msleep(100);
+> > > > > > > >                         if (rcar_gen4_pcie_check_current_link(dw))
+> > > > > > > >                                 return 0;
+> > > > > > > >                 }
+> > > > > > >
+> > > > > > > Did you trace how many iterations this loop normally takes?
+> > > > > >
+> > > > > > i = 0 or 1 (if the max-link-speed is suitable for a connected device.)
+> > > > > >
+> > > > > > > Is it
+> > > > > > > constant or varies for the same platform setup and a connected link
+> > > > > > > partner? Does the number of iterations depend on the target link speed
+> > > > > > > specified via the "max-link-speed" property?
+> > > > > >
+> > > > >
+> > > > > > This is not related to the "max-link-speed". It seems to related to
+> > > > > > a link partner.
+> > > > > > 		LinkCap	max-link-speed	loop
+> > > > > > Device A		4	4		1
+> > > > > > Device A		4	3		1
+> > > > > > Device B		3	3		0
+> > > > >
+> > > > > Great! If so I would have just left a single unconditional
+> > > > > rcar_gen4_pcie_speed_change() call placed right after the
+> > > > > rcar_gen4_pcie_ltssm_enable() method with no delays afterwards. These
+> > > > > methods would have been invoked in the framework of
+> > > > > dw_pcie_start_link() after which the dw_pcie_wait_for_link() method is
+> > > > > called with several checks parted with the ~100ms delay. It will make
+> > > > > sure that at least some link is up with the link state printed to the
+> > > > > system log. If for some reason the performance degradation happens
+> > > > > then it will be up to the system administrator to investigate what was
+> > > > > wrong. Your driver did as much is it could to reach the best link gen.
+> > > >
+> > > > IIUC, is your suggestion like the following code?
+> > > > ---
+> > > > 	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> > > > 	if (!dw_pcie_wait_for_link(dw)) {
+> > > > 		rcar_gen4_pcie_speed_change(dw);
+> > > > 		return 0;
+> > > > 	}
+> > > > ---
+> > > >
+> > > > Unfortunately, it doesn't work correctly...
+> > > > The following code can work correctly. The value of i is still 1 on the device A.
+> > > > What do you think that the following code is acceptable?
+> > > > ---
+> > > > 	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> > > > 	for (i = 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
+> > > > 		msleep(100);
+> > > > 		rcar_gen4_pcie_speed_change(dw);
+> > > > 		if (dw_pcie_link_up(dw)) {
+> > > > 			printk("%s:%d\n", __func__, i);
+> > > > 			return 0;
+> > > > 		}
+> > > > 	}
+> > > > ---
+> > > 
+> > > My idea was to implement something like this:
+> > > 
+> > > +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> > > +{
+> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> > > +
+> > > +	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> > > +
+> > > +	rcar_gen4_pcie_speed_change(dw);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > 
+> > > and retain the rcar_gen4_pcie_link_up() method as is.
+> > 
+> > Unfortunately, such a code doesn't work on my environment...
+> > 
+> > > * Note: originally your loop used to have the msleep() call performed
+> > > after the first rcar_gen4_pcie_speed_change() invocation. Thus the
+> > > delay can be dropped if there is only one iteration implemented (see
+> > > further to understand why).
+> > 
+> > Calling rcar_gen4_pcie_speed_change() multiple times is required on
+> > my environment. I thought msleep(100) was quite long so that I tried
+> > other wait interval like below:
+> > 
+> >  msleep(1) : about 5 loops is needed for link. (about 5 msec.)
+> >  usleep_range(100, 110) : about 400 loops is needed for link. (about 40 msec.)
+> >  usleep_range(500, 600) : about 80 loops is needed for link. (about 40 msec.)
+> > 
+> > The delay timing doesn't seems important. Both cases below can work correctly.
+> > --- case 1 ---
+> > 	for (i = 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
+> > 		rcar_gen4_pcie_speed_change(dw);
+> > 		if (dw_pcie_link_up(dw)) {
+> > 			printk("%s:%d\n", __func__, i); // will be removed
+> > 			return 0;
+> > 		}
+> 
+> > 		msleep(1);
+> 
+> Why? Just set it to 5 ms. In anyway please see the next message.
+> 
+> > 	}
+> > ---
+> > --- case 2 ---
+> > 	for (i = 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
+> > 		rcar_gen4_pcie_speed_change(dw);
+> > 		msleep(1);
+> > 		if (dw_pcie_link_up(dw)) {
+> > 			printk("%s:%d\n", __func__, i); // will be removed
+> > 			return 0;
+> > 		}
+> > 	}
+> > ---
+> > 
+> > So, I'll use case 1 for it.
+> 
+> Ah. I think I get it now. Your spreadsheet:
+> 
+>                 LinkCap max-link-speed  loop
+> Device A           4          4           1
+> Device A           4          3           1
+> Device B           3          3           0
+> 
+> actually meant (loop+1) iterations. So in case of Gen4 you'll need
+> three speed changes (one already enabled in the dw_pcie_setup_rc()
+> method and another two ones are performed in your loop). Similarly in
+> case of Gen3 you'll need only one iteration. I bet you won't need to
+> call rcar_gen4_pcie_speed_change() at all if gen2 needs to be trained.
+> Could you try it out?
+> 
+> Anyway based on what you discovered and on my experience working with
+> that controller, there should be as many
+> GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE flag changes as the target speed
+> value, i.e. no flag switch if Gen1 is required, one flag switch if
+> Gen2 is required and so on. Although I failed to find any explicit
+> statement about that in the HW-manual.
+> 
+> In addition to the above I've found out that
+> GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE field is actually self cleared when
+> the speed change occurs (see the register description in the HW
+> reference manual). We can use it to implement the
+> dw_pcie_link_up()-independent link training algorithm like this:
+> 
+> +#define RCAR_RETRAIN_MAX_CHECK		10
+> +#define RCAR_LINK_SPEED_MAX		4
+> +
+> +static bool rcar_gen4_pcie_speed_change(struct dw_pcie *dw)
+> +{
+> +	u32 val;
+> +	int i;
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +	val &= ~PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	val |= PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	for (i = 0; i < RCAR_SPEED_CHANGE_WAIT_RETRIES; i++) {
+> +		val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +		if (!(val & PORT_LOGIC_SPEED_CHANGE))
+> +			return true;
+> +
+> +		msleep(1);
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> +{
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	int i, changes;
+> +
+> +	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> +
 
---dWz4qVr6/YdX432b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +	changes = min_not_zero(dw->link_gen, RCAR_LINK_SPEED_MAX);
 
-On Wed, Jun 14, 2023 at 11:47:53AM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Hi All,
->=20
-> non-coherent DMA support for AX45MP
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> On the Andes AX45MP core, cache coherency is a specification option so it
-> may not be supported. In this case DMA will fail. To get around with this
-> issue this patch series does the below:
->=20
-> 1] Andes alternative ports is implemented as errata which checks if the I=
-OCP
-> is missing and only then applies to CMO errata. One vendor specific SBI E=
-XT
-> (ANDES_SBI_EXT_IOCP_SW_WORKAROUND) is implemented as part of errata.
->=20
-> Below are the configs which Andes port provides (and are selected by RZ/F=
-ive):
->       - ERRATA_ANDES
->       - ERRATA_ANDES_CMO
->=20
-> OpenSBI patch supporting ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI can be foun=
-d here,
-> https://patchwork.ozlabs.org/project/opensbi/patch/20230317140357.14819-1=
--prabhakar.mahadev-lad.rj@bp.renesas.com/
->=20
-> 2] Andes AX45MP core has a Programmable Physical Memory Attributes (PMA)
-> block that allows dynamic adjustment of memory attributes in the runtime.
-> It contains a configurable amount of PMA entries implemented as CSR
-> registers to control the attributes of memory locations in interest.
-> OpenSBI configures the PMA regions as required and creates a reserve memo=
-ry
-> node and propagates it to the higher boot stack.
->=20
-> Currently OpenSBI (upstream) configures the required PMA region and passes
-> this a shared DMA pool to Linux.
->=20
->     reserved-memory {
->         #address-cells =3D <2>;
->         #size-cells =3D <2>;
->         ranges;
->=20
->         pma_resv0@58000000 {
->             compatible =3D "shared-dma-pool";
->             reg =3D <0x0 0x58000000 0x0 0x08000000>;
->             no-map;
->             linux,dma-default;
->         };
->     };
->=20
-> The above shared DMA pool gets appended to Linux DTB so the DMA memory
-> requests go through this region.
->=20
-> 3] We provide callbacks to synchronize specific content between memory and
-> cache.
->=20
-> 4] RZ/Five SoC selects the below configs
->         - AX45MP_L2_CACHE
->         - DMA_GLOBAL_POOL
->         - ERRATA_ANDES
->         - ERRATA_ANDES_CMO
->=20
-> ----------x---------------------x--------------------x---------------x---=
------------
->=20
-> Note,
-> - Ive used GCC 12.2.0 for compilation
-> - Tested all the IP blocks on RZ/Five which use DMA
-> - Patch series is dependent on the series from Arnd,
->   https://patchwork.kernel.org/project/linux-riscv/cover/20230327121317.4=
-081816-1-arnd@kernel.org/.
->   (Ive rebased Arnd's series on v6.4-rc-1)
-> - Patches applies on top of palmer/for-next (255b34d799dd)
-> - Ive pushed the complete tree here https://github.com/prabhakarlad/linux=
-/tree/rzfive-cmo-v9
-> - Previously the function pointer approach was NAKed by Christoph Hellwig=
- but based on the discussion
->   on #riscv Ive implemented this approach.
+This should have been:
++changes = min_not_zero(dw->link_gen, RCAR_LINK_SPEED_MAX) - 1;
+because Gen1 doesn't need any speed change action.
 
-Last time around you wanted someone to try this on a d1. I have done &
-seems to work just as well as it did before. For where it is relevant:
-Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-kicking on a d1
+But this part can be further improved. Instead of the code above the
+next snipped can be implemented:
 
-Cheers,
-Conor.
++changes = min_not_zero(dw->link_gen, RCAR_LINK_SPEED_MAX) - 1;
++if (changes && rcar->mode == DW_PCIE_RC_TYPE)
++		changes -= 1;
 
---dWz4qVr6/YdX432b
-Content-Type: application/pgp-signature; name="signature.asc"
+It takes into account that the GEN2_CTRL_OFF.DIRECT_SPEED_CHANGE
+flag is already set in the dw_pcie_setup_rc() method. So Gen2 will be
+trained with no need in addition actions. If it's supported of course.
 
------BEGIN PGP SIGNATURE-----
+-Serge(y)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZInxvgAKCRB4tDGHoIJi
-0sfzAQCEjbnkO/PstIi3QY0iVd1H9kr/2JAlhfErqEE/L8IxCgEAzAvEFiNamjsn
-G75ooY9CoNzd0FPcZl23hphkNQ24xwk=
-=GlJW
------END PGP SIGNATURE-----
-
---dWz4qVr6/YdX432b--
+> +	for (i = 0; i < changes; ++i) {
+> +		if (!rcar_gen4_pcie_speed_change(dw))
+> +			break;
+> +	}
+> +
+> +	return 0;
+> +}
+> 
+> Note 1. The actual link state will be checked in the framework of the
+> dw_pcie_wait_for_link() function, by means of dw_pcie_link_up().
+> 
+> Note 2. RCAR_LINK_SPEED_MAX is deliberately set to 4 because DW PCIe
+> EP core driver doesn't set the PORT_LOGIC_SPEED_CHANGE flag. In case
+> of the DW PCIe Root Port at most 3 iterations should be enough.
+> 
+> Note 3. Please use the RCAR_ prefix for the vendor-specific macros.
+> It concerns the entire series.
+> 
+> Could you try out the code suggested above?
+> 
+> -Serge(y)
+> 
+> > 
+> > > You don't need to wait for the link to actually get up in the
+> > > start_link() callback because there is the link_up() callback, which
+> > > is called from the dw_pcie_wait_for_link() method during the generic
+> > > DWC PCIe setup procedure. See:
+> > 
+> > Since the procedure will call rcar_gen4_pcie_speed_change() from
+> > ->start_link() once, my environment cannot work correctly...
+> > 
+> > Best regards,
+> > Yoshihiro Shimoda
+> > 
+> > > dw_pcie_host_init():
+> > > +-> ops->host_init()
+> > > +-> ...
+> > > +-> dw_pcie_setup_rc()
+> > > |   +-> ...
+> > > |   +-> dw_pcie_setup()
+> > > |   +-> ...
+> > > +-> if !dw_pcie_link_up()
+> > > |   |   +-> ops->link_up()
+> > > |   +-> dw_pcie_start_link()
+> > > |       +-> ops->start_link()
+> > > +-> dw_pcie_wait_for_link();   // See, wait-procedure is already performed
+> > > |   +-> loop 10 times          // for you in the core driver together
+> > > |       +-> dw_pcie_link_up()  // with the delays between the checks
+> > > |           +-> ops->link_up()
+> > > |       +-> msleep(~100)
+> > > +-> ...
+> > > 
+> > > -Serge(y)
+> > > 
+> > > >
+> > > > Best regards,
+> > > > Yoshihiro Shimoda
+> > > >
+> > > > > -Serge(y)
+> > > >
