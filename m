@@ -2,75 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29761731F39
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jun 2023 19:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A52732581
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 05:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238105AbjFORfl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Jun 2023 13:35:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
+        id S240744AbjFPDAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Jun 2023 23:00:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230317AbjFORfk (ORCPT
+        with ESMTP id S241688AbjFPDAK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Jun 2023 13:35:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42281FF9;
-        Thu, 15 Jun 2023 10:35:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F9AE63AE7;
-        Thu, 15 Jun 2023 17:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 926F3C433C8;
-        Thu, 15 Jun 2023 17:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686850538;
-        bh=iIQcIkQ1b5r+KU0ywdmvEZarkCGumgu/khmjPv5GYhw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=e2WuWovPyXjfCVns8eymSfLhSyDxgvmEKAIrCyfolaQEeM8RSRiSGAXr4zpdXE2JM
-         A/vZZ5FRVlnMPhZMQJMyAtfuLQXJHiq3MFUkUQLjaUTZwDGAgi+WnF+EezzCx0TzGj
-         lyaZGnBOnF4wfuAmwCtKqzl/cfPXg+kQ2hURsRtdGBk1tp5rr+o8ogMSb4kblSA/xv
-         E1joP/NZ8vlnoSLO2f5Ggr/xPqXxrRrAUlEEOo62vT/lHn/OsE/Uy/GK62RLQxMMBv
-         sXWuWhKDB8f/Y2hWI8n0LlgfmXwEKQTuQyRSgZOFMr11cB1r2MfgteKi8kycRX7Fc1
-         +qHEOfNMA3uzA==
-Message-ID: <b65e8ead63e253350f47c1a2d32d797b.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+        Thu, 15 Jun 2023 23:00:10 -0400
+Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3526C2953
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jun 2023 20:00:10 -0700 (PDT)
+Received: by mail.durme.pl (Postfix, from userid 1002)
+        id C9F6C5F4A7; Wed, 14 Jun 2023 07:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
+        t=1686729385; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=J+p+6UThbqbG0Q0K2PL7SWZx85kw7u+b4/VrnYl2i/cfqWu9IgEdN23/UodvjJwpS
+         qeBCp1Vz0SQYNO1mjNuDUe8fDADj+fMgctF1Q6we4OmKQlazIQaNSEl2iYxbX3HjUq
+         agO1qRkWimEwNaXE5xyoOA89oaJJJ/ejxKBFOJL3ODofxqLwAtcG3BmFdqRNa5lmoP
+         CQwv5rS6Ev32npQ7aj8I2UJipbUPTFMCkH1in+QVU2FIp6b8cSmJSIaCXG6MPbGqXF
+         ERpRjIISAtuaEs2KKvH4ZXDOvtr5XWMVzgrdGK/pbCvs9lFblddBjG5kb6/Ew3NTRo
+         ujbOMyBvflApw==
+Received: by mail.durme.pl for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jun 2023 07:40:47 GMT
+Message-ID: <20230614064501-0.1.2h.9jl8.0.vw7mqiez13@durme.pl>
+Date:   Wed, 14 Jun 2023 07:40:47 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.durme.pl
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230609140751.65129-1-krzysztof.kozlowski@linaro.org>
-References: <20230609140751.65129-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: clock: drop unneeded quotes and use absolute /schemas path
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Conor Dooley <conor+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Date:   Thu, 15 Jun 2023 10:35:36 -0700
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Krzysztof Kozlowski (2023-06-09 07:07:51)
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.  Also absolute path
-> starting with /schemas is preferred.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Dzie=C5=84 dobry,
 
-Applied to clk-next
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
+
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Krystian Wieczorek
