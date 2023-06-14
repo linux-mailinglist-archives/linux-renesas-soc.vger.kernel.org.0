@@ -2,349 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E864B72F293
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 04:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD8FE72F705
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jun 2023 09:54:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231940AbjFNCaU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jun 2023 22:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33608 "EHLO
+        id S231753AbjFNHy3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jun 2023 03:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231388AbjFNCaT (ORCPT
+        with ESMTP id S231511AbjFNHyN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jun 2023 22:30:19 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2099.outbound.protection.outlook.com [40.107.113.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F59183;
-        Tue, 13 Jun 2023 19:30:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eILoTNjdPHIsVVaHUYiXiHLBUaH++8V7YA3iR8xrjUvXQ18bwYb323ZkIr9guZ7lc/M+9uQJOifT/5UQWriiViuDpLEQRdATo3/aY9f7GMjWg5bcsyVpS3Ry/tClrIxfV0GT4LoeQYdJEN/Rt2fWl5g4Kw1sITS0hg9Ef0dIlQtnPZxMkdSjR17kpEJdEjMWhXJqWkKMtoHqj+HJb/3cIm5CIrRCUYQH9Ml8+AMz4g3SwNoEs55u4ACkP1WrhcQs/6ke8rtiBBeQ5fFCdwkZcbgJxXAImXNW5tIREkl/hXvJB79e2rmoJ5SOkswugtzD4lTmShZClDfs9nXg5byVLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6v3L4Rffm1b4qULj8Qle3NOAK00qMdIq3IBtM6cB3v4=;
- b=gAhCK3quKQY+czcpZQIdJro2AuQstRX+kNEHZLL7WVk51ispMCZvN4lhTQWQ2LMcrjkyvSysW9POrpMTyhKqwNXD9aEVbrlmvclkoFdFYqm2a56Id3ngnchcmO2fuRdpH0mXJQ+a2NGwdMmyVXqg+3pYYd1os9tilavsvTwZdcvlroafiKnHcLW4h5Km64KPFOrlAckjEliNyww3pctUc+WPMywdAkHEUeg+PLFdQTv2Wc8n87qKX5Pwcve7ka7QhPvuqSLulTGuJbpvyXGu/Lrx8jR4hnYVsg1rw++zxHEFohMd8OiE/23N9GtKfaiA0jfhyBcCgMRLj5oz5FLUfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6v3L4Rffm1b4qULj8Qle3NOAK00qMdIq3IBtM6cB3v4=;
- b=lwx9z230sAxkopGogNF3hmOBZ/9NN/9fFATxiDfZSYxhs7gBpAeoGhw9BlxfSZfuEzYzrliDRP6eEIuo+UZqflwFiiQUIxbOgiAf5PFxPisU0Vlxri5H9zz7vGp2JlPNmNDz0b4dFrQfFfLQ9ZDuJ5gUi5FeUkPo0UxUAbtHQd8=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYWPR01MB10647.jpnprd01.prod.outlook.com
- (2603:1096:400:2a3::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Wed, 14 Jun
- 2023 02:30:13 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::711d:f870:2e08:b6e1]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::711d:f870:2e08:b6e1%3]) with mapi id 15.20.6455.047; Wed, 14 Jun 2023
- 02:30:13 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Serge Semin <fancer.lancer@gmail.com>
-CC:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v16 19/22] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
- support
-Thread-Topic: [PATCH v16 19/22] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
- support
-Thread-Index: AQHZgwfSD1pv8+kZFEalYK7OljPo8698cOgAgAEOU0CAAe45gIABPKpggABUd4CAANbBAIAApgeAgATdZkCAAG/UgIAB+7ug
-Date:   Wed, 14 Jun 2023 02:30:13 +0000
-Message-ID: <TYBPR01MB534161A79DFF1830B65D303FD85AA@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com>
- <20230510062234.201499-20-yoshihiro.shimoda.uh@renesas.com>
- <20230605143908.fcgqzedp7oiarbyu@mobilestation>
- <TYBPR01MB5341A67CF6DFFCB396F13195D853A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20230607121533.cxvidvdqat5h2tqu@mobilestation>
- <TYBPR01MB53417E55F5F9E667D679901CD850A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20230608121115.qnilmougdfd6fdyq@mobilestation>
- <TYBPR01MB5341AD39983D6B39034AF01BD851A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20230609105407.c4olqepv7vuoqktz@mobilestation>
- <TYBPR01MB53411835ACCD884FCA9ECBE2D854A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20230612195149.hdnttkcabynmf4kx@mobilestation>
-In-Reply-To: <20230612195149.hdnttkcabynmf4kx@mobilestation>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYWPR01MB10647:EE_
-x-ms-office365-filtering-correlation-id: 05df7e5b-29fe-495e-3c14-08db6c7f488d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c1NHvGNkyWCkbgPefZE3Evs5fOm/K+WD7DnI+eYrhMOYS/JiZb54tg/uroOYpuhKfiukdRdWkSKk3HcuxghzsiGnPXb/wL26gZvjVgwmipNxLo8HnNDs0IpMUmJDkJeeZU11hzH9M+JwfeG17lIkwdduUZ5VWFAAvyukgPcpQar7v1wMtJiEJi46BHQHzGLsNSuV2I6TdBD7lxB7rG3H/xPSbI/0layvFCGh6E04w6eaZ+rU3oYyNyswY8zKishL2JbiIhwCISU6dHuRAp2Ujx1I3mjslis7ctKEoPZBXGYbWqTlOLxix0LHHotEavvPbmFc4lAmAmP1HyNII2o+Sp/rVYc/ZKUo76BfJNRDDZRVcpE87KWyD/5jnY+1ZSJ6dIiR1dR5kU82YFatnxqCVnpHoBSZjuK4/ZCXsCJH1A0JZEVNyujUTKvCBKcYz/W8eiP8hESBm48bxSjcvUOHFtH5tIIDv/fF7eruntiJiVFd/57+vi/nql+ERH67TZ47UWIlkGEKpduK+tpdD1Y8/qjApzNt/qyDAbl5ZhHeMRkypk8ixuAkFyQozl/J9ZiVwMrMcKpEF5VEvnLRGHav8giA5a07WwWVYUR80iuAiop+0WCHS5CXNbHi5tnDxMNh
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199021)(33656002)(478600001)(71200400001)(2906002)(7696005)(55016003)(8936002)(8676002)(316002)(38100700002)(41300700001)(83380400001)(9686003)(86362001)(186003)(52536014)(38070700005)(7416002)(6506007)(5660300002)(54906003)(66476007)(4326008)(6916009)(66446008)(66556008)(64756008)(66946007)(122000001)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AdYCir7r20VHHosY871R4hGNXg5xcgUBY52cWoMrQon5vMEP2CJuA6vHtNrw?=
- =?us-ascii?Q?4uLZsajNsbRvQjr34r4n4LfjCDQvwxEob/pJaTWm1c+zNjinnp16/hJikfWv?=
- =?us-ascii?Q?hJTOlygbUxtu504cjloScDNzgAv1cd1+eP2V7ivxX63SyEwjfSb0AjG/vf62?=
- =?us-ascii?Q?hScZrvjab4QBkFd4oW/qhDgdjSWCO4cR/ByX8bGrl086pqNDTrAt19cGks7j?=
- =?us-ascii?Q?554y7/HntEM9l9aBKUXtzflv8v9HJwDdhxjkgbTC0CIF67EFQAzw/rRWsa40?=
- =?us-ascii?Q?513RLX44/y9fCWs1Jv5lzivfWwZAPJgZqj6Rnd8mkfuiiIIXvcmGWiExRQ4/?=
- =?us-ascii?Q?X7zb3Hao88bPDrFuueIGbx5XTZXtH1oLOS98/jWmT8cd6eYxCqwHeaJ/tq7w?=
- =?us-ascii?Q?SOclKAOrQZNNWCdPwwW5SVdh+2yP3OFwyEhXYU9GHwsxxL1PClxqu+VtgJOS?=
- =?us-ascii?Q?DO4gzJgTSomRxDnDVe5Xr3LcSKvlNf5zAkeLCWYmUmLmV4uPWWVKmSWWe7sY?=
- =?us-ascii?Q?oWvz4ep4rBNn3Whl6Y0fiJ9yvJRXWRMfTyWYZZVaBBFmIxKkhTFq+Rmn5c7P?=
- =?us-ascii?Q?fnBaJT4V1l15CwbjDjLGBRjPdBhicnJv70pn7W2L5b6DRODw/sC0J6nDBA9J?=
- =?us-ascii?Q?6UzouCOqK6Gajeqrwdun18NnZFIiCiD5/Qn4JrzTmnXedsfG24L/Zf2MJve+?=
- =?us-ascii?Q?dtdOlFFjL345KgiaSjA0t3AqtQGLsNELdA1vsOUL9hRHrUF9vr+Oq9icVI5S?=
- =?us-ascii?Q?TXW9g/UOcC537SjxZkMixsgeFuTnz2P+leXVmxXDXKEVNA9rXPhpAhPCU0KH?=
- =?us-ascii?Q?PZeh4TXKJh2V5KR3KkDBIr6xyOBLwLlIQ5oIiVWOeElgJPmneNVp8wuQQwpW?=
- =?us-ascii?Q?PNCr4iDgjAW/o3UL0yKqfCoilh6AjrSkDSkq7vHmyU+MeS/bZuhWOdWgLBUl?=
- =?us-ascii?Q?1b/6kWNW6UwPzK/Y1ofnIvbJi8oRFFsn2DHPGWnbQt8JGKHdUYRH2GdG7buS?=
- =?us-ascii?Q?k3o2Z4AtmHTsEH9o399E7vTCp6Re9ouSmuWcLId/88podJ2ToecDKqNsUM8s?=
- =?us-ascii?Q?8oxmh/p2DWgtQIxJxTiumbuwghQ4EHZa9zg5DlkJNYPJiL8c7U028dCyaXYA?=
- =?us-ascii?Q?WBlb0eWzmr5+sIq+76CfT81yt5OEz39U9dQimV9UZ1i31tAZL1kkuQK/fkEq?=
- =?us-ascii?Q?EFCHk5rLn2JPQXUqXchiSkI9Obb5rSMSeLeBRNDrXtsS9EBZMQEL2KD77MF9?=
- =?us-ascii?Q?getf0sB8JBL7PkzTqo14A3MH0c2NdmxEusOLWcTXQnZN3SmPcwpWqt5kfolP?=
- =?us-ascii?Q?Evw45mNTQ38JSLV+Jw4hIbP2QATuvt7lYHRRdHgjPx2w8DkUK+BFwx3Bc/qp?=
- =?us-ascii?Q?X2YvwrvEwu9hlzYMgekqm1tRbkN8XJiPyVY8QgBaPJzgDz5Fh1vhMBJKGTxI?=
- =?us-ascii?Q?ZbySTguL04fejwpfkgRk47p4qoCvsC57jAB4v7rz+WpX23vnvihb4Xg9BA8o?=
- =?us-ascii?Q?BeaRM1mgG5cLUqBsFBTjtUCaenDb5+OZASk0UBBwArYrKST71Lcf7vHwaXwX?=
- =?us-ascii?Q?I3Tdy56LGLPEkZigjTZiHpDmQLejwpr6QWpB3Tp2jY53397PlnwL5cObDxUA?=
- =?us-ascii?Q?EoImFeJBkYUIUwykTb3WbCAAVMziqJpsdI1coIOEvLPcikEXUGUzmsNmlR9c?=
- =?us-ascii?Q?176yNg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 14 Jun 2023 03:54:13 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C782135;
+        Wed, 14 Jun 2023 00:53:20 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-56fff21c2ebso4526997b3.3;
+        Wed, 14 Jun 2023 00:53:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686729198; x=1689321198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RVKO0F3nSwUgNwvgXxZdykhH7Fe6dy1ubUvaHr+R9rs=;
+        b=JqQ+zhEdg8dkmXAMzpItDbPUBtABA7k/UucnSimivV6Crsaohs3rnMRHdLC7GsmY2/
+         IpKPfOPyqgWi4vQzmFbcFF/rzrA78weP2sJw8zgtM+jj7Y4Wv2LznFsYmKSMvtRZE+yI
+         gDYIVBMm80JYMP5FJ5tw2MBKM5viI7GS0HpzO5Zd8mz8mw9gfp2GZe8r8m53seD6zJmO
+         pwUJo/FqbRhbcN5KBuKzuFwevQ5XGoclefRiJg3Ujt60l5S1stGShUQgutYk6MIi1+OJ
+         1xluiCw6JWiOuhqb9dON1lE0YxniFx/k5kN0vdz/JEo/bLnWqXdy9LfKlirb7Tsd6imO
+         Zmkg==
+X-Gm-Message-State: AC+VfDx51o2OOkJHS/22Dlo8y948I0Gk40PfMkPRiOP6SsTQz+IsC8YI
+        jlachLcBbGBHNmVQIiMYu27b+Jej7+zxVg==
+X-Google-Smtp-Source: ACHHUZ5MGVQPc1tOSReza0QL5UzNpT1FpmVRBFh7tv++FWyfVZ5fmoHhyuwDeazAsVffQ8Kj++mfMA==
+X-Received: by 2002:a0d:d6c9:0:b0:568:b10a:e430 with SMTP id y192-20020a0dd6c9000000b00568b10ae430mr1153467ywd.25.1686729198206;
+        Wed, 14 Jun 2023 00:53:18 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id k126-20020a816f84000000b0056ffdec590csm283537ywc.41.2023.06.14.00.53.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jun 2023 00:53:17 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bc9782291f5so366027276.1;
+        Wed, 14 Jun 2023 00:53:16 -0700 (PDT)
+X-Received: by 2002:a25:fc13:0:b0:ba8:66fb:dd84 with SMTP id
+ v19-20020a25fc13000000b00ba866fbdd84mr1309725ybd.20.1686729196541; Wed, 14
+ Jun 2023 00:53:16 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05df7e5b-29fe-495e-3c14-08db6c7f488d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2023 02:30:13.6530
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tV/RJ1+RStCPUVDmrKJm2zAkgptmT+izPO7JyRuX6HDfX4WHdOHRhdZtmoxBoerPm2T347EmeBFuncjmLSmmghpfj/vpuUKinifEJcOZmni724yz5gcbR95WeHjUExPT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10647
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com> <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com> <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZIcRKl3PDy0+yZS9@ninjato> <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato> <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro> <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
+ <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com> <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 14 Jun 2023 09:53:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
+Message-ID: <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Serge,
+Hi Biju,
 
- From: Serge Semin, Sent: Tuesday, June 13, 2023 4:52 AM
->=20
-> On Mon, Jun 12, 2023 at 01:19:02PM +0000, Yoshihiro Shimoda wrote:
-> > Hello Serge,
-> >
-> > > From: Serge Semin, Sent: Friday, June 9, 2023 7:54 PM
-> > <snip>
-> > > > > > static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
-> > > > > > {
-> > > > > >         struct rcar_gen4_pcie *rcar =3D to_rcar_gen4_pcie(dw);
-> > > > > >         int i;
-> > > > > >
-> > > > > >         rcar_gen4_pcie_ltssm_enable(rcar, true);
-> > > > > >
-> > > > > >         /*
-> > > > > >          * Require direct speed change here. Otherwise RDLH_LIN=
-K_UP of
-> > > > > >          * PCIEINTSTS0 which is this controller specific regist=
-er may not
-> > > > > >          * be set.
-> > > > > >          */
+On Tue, Jun 13, 2023 at 6:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > On Tue, Jun 13, 2023 at 12:45 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
+> > > > API On Mon, Jun 12, 2023 at 10:43 PM Wolfram Sang <wsa@kernel.org>
+> > wrote:
+> > > > > > Perhaps we should first think through what an ancillary device
+> > > > > > really is.  My understanding is that it is used to talk to
+> > > > > > secondary addresses of a multi-address I2C slave device.
 > > > > >
-> > > > > >         if (rcar->needs_speed_change) {
+> > > > > As I mentioned somewhere before, this is not the case. Ancillary
+> > > > > devices are when one *driver* handles more than one address.
+> > > > > Everything else has been handled differently in the past (for  all
+> > > > > the
+> > > > uses I am aware of).
 > > > > >
-> > > > > Seeing this is specified for the root port only what about
-> > > > > replacing the statement with just test whether the rcar_gen4_pcie=
-.mode =3D=3D
-> > > > > DW_PCIE_RC_TYPE? Thus you'll be ablt to drop the needs_speed_chan=
-ge field.
-> > > >
-> > > > Thank you for the comment. I'll fix it.
-> > > >
-> > > > > BTW Just curious. Why is the loop below enabled for the Root Port
-> > > > > only? What about the end-point controller? It's the same hardware
-> > > > > after all..
-> > > >
-> > > > This is reused from v16 and then it used "link retraining" which is=
- only for
-> > > > the Root Port. As you mentioned, it seems endpoint controller is al=
-so needed
-> > > > if we use direct speed change.
-> > > >
-> > > > > >                 for (i =3D 0; i < SPEED_CHANGE_MAX_RETRIES; i++=
-) {
-> > > > > >                         rcar_gen4_pcie_speed_change(dw);
-> > > > > >                         msleep(100);
-> > > > > >                         if (rcar_gen4_pcie_check_current_link(d=
-w))
-> > > > > >                                 return 0;
-> > > > > >                 }
+> > > > > Yet, I have another idea which is so simple that I wonder if it
+> > > > > maybe has already been discussed so far?
 > > > > >
-> > > > > Did you trace how many iterations this loop normally takes?
+> > > > > * have two regs in the bindings
+> > > > > * use the second reg with i2c_new_client_device to instantiate the
+> > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter,
+> > should
+> > > > >   have enough options to pass data, e.g it has a software_node.
+> > > > >
+> > > > > Should work or did I miss something here?
 > > > >
-> > > > i =3D 0 or 1 (if the max-link-speed is suitable for a connected dev=
-ice.)
-> > > >
-> > > > > Is it
-> > > > > constant or varies for the same platform setup and a connected li=
-nk
-> > > > > partner? Does the number of iterations depend on the target link =
-speed
-> > > > > specified via the "max-link-speed" property?
-> > > >
+> > > > That should work, mostly (i2c_new_dummy_device() also calls
+> > > > i2c_new_client_device()).  And as i2c_board_info has an of_node
+> > > > member (something I had missed before!), the new I2C device can
+> > > > access the clocks in the DT node using the standard way.
 > > >
-> > > > This is not related to the "max-link-speed". It seems to related to
-> > > > a link partner.
-> > > > 		LinkCap	max-link-speed	loop
-> > > > Device A		4	4		1
-> > > > Device A		4	3		1
-> > > > Device B		3	3		0
+> > > Looks like, I cannot assign of_node member like below as it results in
+> > > pinctrl failure[1] during device bind.
 > > >
-> > > Great! If so I would have just left a single unconditional
-> > > rcar_gen4_pcie_speed_change() call placed right after the
-> > > rcar_gen4_pcie_ltssm_enable() method with no delays afterwards. These
-> > > methods would have been invoked in the framework of
-> > > dw_pcie_start_link() after which the dw_pcie_wait_for_link() method i=
-s
-> > > called with several checks parted with the ~100ms delay. It will make
-> > > sure that at least some link is up with the link state printed to the
-> > > system log. If for some reason the performance degradation happens
-> > > then it will be up to the system administrator to investigate what wa=
-s
-> > > wrong. Your driver did as much is it could to reach the best link gen=
-.
+> > > info.of_node = client->dev.of_node;
+> > >
+> > > [1]
+> > > pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012;
+> > > cannot claim for 3-006f pinctrl-rzg2l 11030000.pinctrl: pin-344
+> > > (3-006f) status -22 pinctrl-rzg2l 11030000.pinctrl: could not request
+> > > pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
+> > > raa215300 3-006f: Error applying setting, reverse things back
 > >
-> > IIUC, is your suggestion like the following code?
-> > ---
-> > 	rcar_gen4_pcie_ltssm_enable(rcar, true);
-> > 	if (!dw_pcie_wait_for_link(dw)) {
-> > 		rcar_gen4_pcie_speed_change(dw);
-> > 		return 0;
-> > 	}
-> > ---
-> >
-> > Unfortunately, it doesn't work correctly...
-> > The following code can work correctly. The value of i is still 1 on the=
- device A.
-> > What do you think that the following code is acceptable?
-> > ---
-> > 	rcar_gen4_pcie_ltssm_enable(rcar, true);
-> > 	for (i =3D 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
-> > 		msleep(100);
-> > 		rcar_gen4_pcie_speed_change(dw);
-> > 		if (dw_pcie_link_up(dw)) {
-> > 			printk("%s:%d\n", __func__, i);
-> > 			return 0;
-> > 		}
-> > 	}
-> > ---
->=20
-> My idea was to implement something like this:
->=20
-> +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
-> +{
-> +	struct rcar_gen4_pcie *rcar =3D to_rcar_gen4_pcie(dw);
-> +
-> +	rcar_gen4_pcie_ltssm_enable(rcar, true);
-> +
-> +	rcar_gen4_pcie_speed_change(dw);
-> +
-> +	return 0;
-> +}
->=20
-> and retain the rcar_gen4_pcie_link_up() method as is.
+> > Where do you have a reference to pin P43_0 in your DT?
+>
+> The reference to pin P43_0 is added in the PMIC node.
+>
+> I have done modification on my board to test PMIC INT# on RZ/G2L SMARC EVK
+> by wiring R83 on SoM module and PMOD0 PIN7.
+>
+> > The last versions you posted did not have any pinctrl properties?
+>
+> By default, PMIC_INT# is not populated RZ/G2L SMARC EVK, so I haven't added
+> Support for PMIC_INT# for the patches posted till date.
+>
+> Yesterday I checked with HW people, is there a way to enable PMIC_INT#
+> and they told me to do the above HW modification.
+>
+> Today I found this issue, with this modified HW and PMIC INT# enabled on the DT,
+> while assigning of_node of PMIC with info.of_node. It is just a coincidence.
 
-Unfortunately, such a code doesn't work on my environment...
+IC.
 
-> * Note: originally your loop used to have the msleep() call performed
-> after the first rcar_gen4_pcie_speed_change() invocation. Thus the
-> delay can be dropped if there is only one iteration implemented (see
-> further to understand why).
+So you now have two Linux devices pointing to the same DT node,
+causing pinctrl issues...
 
-Calling rcar_gen4_pcie_speed_change() multiple times is required on
-my environment. I thought msleep(100) was quite long so that I tried
-other wait interval like below:
+I know this won't solve the core issue, but what is the exact pintrl
+configuration you are using? Is this using a GPIO with interrupt
+capabilities, or a dedicated interrupt pin? In case of the former,
+you don't need a pinctrl property in DT, as the GPIO controller itself
+should take care of that by asking the pin controller to configure
+the pin properly through pinctrl_gpio_request().
 
- msleep(1) : about 5 loops is needed for link. (about 5 msec.)
- usleep_range(100, 110) : about 400 loops is needed for link. (about 40 mse=
-c.)
- usleep_range(500, 600) : about 80 loops is needed for link. (about 40 msec=
-.)
+Gr{oetje,eeting}s,
 
-The delay timing doesn't seems important. Both cases below can work correct=
-ly.
---- case 1 ---
-	for (i =3D 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
-		rcar_gen4_pcie_speed_change(dw);
-		if (dw_pcie_link_up(dw)) {
-			printk("%s:%d\n", __func__, i); // will be removed
-			return 0;
-		}
-		msleep(1);
-	}
----
---- case 2 ---
-	for (i =3D 0; i < SPEED_CHANGE_MAX_RETRIES; i++) {
-		rcar_gen4_pcie_speed_change(dw);
-		msleep(1);
-		if (dw_pcie_link_up(dw)) {
-			printk("%s:%d\n", __func__, i); // will be removed
-			return 0;
-		}
-	}
----
+                        Geert
 
-So, I'll use case 1 for it.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> You don't need to wait for the link to actually get up in the
-> start_link() callback because there is the link_up() callback, which
-> is called from the dw_pcie_wait_for_link() method during the generic
-> DWC PCIe setup procedure. See:
-
-Since the procedure will call rcar_gen4_pcie_speed_change() from
-->start_link() once, my environment cannot work correctly...
-
-Best regards,
-Yoshihiro Shimoda
-
-> dw_pcie_host_init():
-> +-> ops->host_init()
-> +-> ...
-> +-> dw_pcie_setup_rc()
-> |   +-> ...
-> |   +-> dw_pcie_setup()
-> |   +-> ...
-> +-> if !dw_pcie_link_up()
-> |   |   +-> ops->link_up()
-> |   +-> dw_pcie_start_link()
-> |       +-> ops->start_link()
-> +-> dw_pcie_wait_for_link();   // See, wait-procedure is already performe=
-d
-> |   +-> loop 10 times          // for you in the core driver together
-> |       +-> dw_pcie_link_up()  // with the delays between the checks
-> |           +-> ops->link_up()
-> |       +-> msleep(~100)
-> +-> ...
->=20
-> -Serge(y)
->=20
-> >
-> > Best regards,
-> > Yoshihiro Shimoda
-> >
-> > > -Serge(y)
-> >
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
