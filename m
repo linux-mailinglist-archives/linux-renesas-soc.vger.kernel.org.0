@@ -2,76 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1F9730C3C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jun 2023 02:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A01730EED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jun 2023 08:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237296AbjFOAf4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jun 2023 20:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56058 "EHLO
+        id S242654AbjFOGAV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Jun 2023 02:00:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236821AbjFOAfz (ORCPT
+        with ESMTP id S240931AbjFOGAP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jun 2023 20:35:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF76269A;
-        Wed, 14 Jun 2023 17:35:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 51F516290F;
-        Thu, 15 Jun 2023 00:35:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99C5CC433C0;
-        Thu, 15 Jun 2023 00:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686789353;
-        bh=9VWiK/eOWLvZAKTWuUz2vckGtlkNMVjZPGK1dSYO8TU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=a8IV6EKuz5VGKLcVPi7xk9OAzQME4tGt8COClUV4rg+DbzrTFs0Mkj0Xl2IPXXlyf
-         S7QD0PI3B2XXiQLUZJ7/lfUL7EMTb4RWEloimV6gY3LQTz9M9bEvAYsKjHsfLhis/Y
-         tQTDLddJ/QR4VaRhHpD/cqaVj0u5M7D5KtiySuXsas6pKO3I4BxOfv+/6yVtmgJXZB
-         x6iURX+5igJchKjbmqzo+ckn/JkLcscS1gpTF+6dJ2frvtXknzbtCLNbtA/iVOBuzH
-         E3rEkRshvfKd32llpNyB7Ue7KiDUypSS4JTuTLtImqF411nywe6jtFxWUwu2+mnqGQ
-         6fzAImssbH0uw==
-Message-ID: <b07d3bfae4702417010ed5ee14739bb0.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230609140751.65129-1-krzysztof.kozlowski@linaro.org>
-References: <20230609140751.65129-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: clock: drop unneeded quotes and use absolute /schemas path
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Conor Dooley <conor+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Thu, 15 Jun 2023 02:00:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AC726B9;
+        Wed, 14 Jun 2023 23:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ML9VMp4RIG14LapkjOfTTLIBvPrls/xfIJ+IS48qD5Q=; b=TVYtRFJg8K8uqLENzR/ActzZHN
+        wElNdCQzqpBSSrjPTOAsfjn1GAoE9zMlkAso93BtAuVCFm41sPlUaswPyuLnXELflsjCacSCsM9yl
+        7uSvIvrlqm4jTLwxEIDJRrDDN1gfyZ9r9OF/ILr5Uilct+ouGKQnW0+3uVJKebSh+/gxAI3+cuR2n
+        iJ3F4n43CMudq9FX2PMGmBDHMavYlP5rU+aOacbXPhxjC3cSYyiA/IcS8ii56GXWZNqwPJqBibMvp
+        i9Iau+MQ5ZL5gX3HwsUDwGIR2z+2mGQhk95ith6k01lHhX/QByDU5hrrzGqxUugXWRxEuNMCxZ9w0
+        HrMLawqg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1q9g1Z-00Dn3R-2f;
+        Thu, 15 Jun 2023 06:00:01 +0000
+Date:   Wed, 14 Jun 2023 23:00:01 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Date:   Wed, 14 Jun 2023 17:35:51 -0700
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v9 3/6] riscv: mm: dma-noncoherent: nonstandard cache
+ operations support
+Message-ID: <ZIqo4TsHJr9vdQaU@infradead.org>
+References: <20230614104759.228372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230614104759.228372-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Krzysztof Kozlowski (2023-06-09 07:07:51)
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.  Also absolute path
-> starting with /schemas is preferred.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+On Wed, Jun 14, 2023 at 02:35:44PM +0200, Arnd Bergmann wrote:
+> I understand that Christoph will still not like this, but I think this
+> is as good as it gets, making the standard variant the fast path,
+> and using the function pointers only for the nonstandard cases.
 
-It's not clear if I should pick this up. Do you want to take it through
-some DT tree?
+Yes.  And I really do not want to make the non-standard cases easy.
+The extension to do cache maintenance have been ratified for a while
+and under discussion for much longer.  Adding random crap because
+vendors suck is a bad idea, and we should not be adding this crap.
