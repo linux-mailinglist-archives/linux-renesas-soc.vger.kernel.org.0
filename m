@@ -2,64 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACE2D7330F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 14:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF688733117
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 14:23:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345314AbjFPMOP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Jun 2023 08:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55546 "EHLO
+        id S244653AbjFPMX2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Jun 2023 08:23:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345320AbjFPMON (ORCPT
+        with ESMTP id S235200AbjFPMX2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Jun 2023 08:14:13 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26CB430E0;
-        Fri, 16 Jun 2023 05:14:12 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-77d7f0ea1daso24391539f.0;
-        Fri, 16 Jun 2023 05:14:12 -0700 (PDT)
+        Fri, 16 Jun 2023 08:23:28 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBA930DD;
+        Fri, 16 Jun 2023 05:23:27 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-77b6e2f0c9fso21361839f.1;
+        Fri, 16 Jun 2023 05:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686917651; x=1689509651;
+        d=gmail.com; s=20221208; t=1686918206; x=1689510206;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SVXfmE9xuqvJBkC+/tsNkqbXmSmcyqz9tBTp7H4fW+s=;
-        b=Dm5UP0cq9vx0CoXvsXIryqw8idxJ2dtcwVacxjTrmAU9AR6CvAa9+/4i+scxeoC8Vo
-         dfPkhHBacDXFYB/BCowsuEN6nyqZVA+z/TddxswHEMZ1IOjShH6gieq+VxwvGetmMKp4
-         0l989bM/DyQJcCFMTOK+kEqHG8i8vt1Y1A903YL/Sp78hSXrciNgy0uHsDarFMKetsa3
-         LqYiJCuW6gWs17nAg7Aak2DCjJPImSKAz45kewQUwE95OZLVDRMTmZCW1fgPgIa1qr2w
-         ieuXTW2ROTAwUgwIQ06NV2F0Tvm98mk8CA32KhZkLm20BLGv7YQz0r/qHWK8ftVn0ViL
-         mjRQ==
+        bh=dZhz7YgM6JWkeN2t67VeqyPX8iJ9vmsDBYbVnAPaL3g=;
+        b=QY+V/f+bBr4PSt/2Ht9ot0Pj7xPZSgS9tVHbR9hM9bW2P7gxbWhIsdYOsAA5bhxT4g
+         FRnIoATqDvRWV/doaQxv7UlK8n0Is/d4y+zaT09Q04M+rHhvyRmWVbuXAdEUTq1wmnX5
+         k7O6cViMk3YnaX8lf0Q+iDibpkrRFIGBxGHhEcO/J8pFGMPxp4xDqLkG9JlWoOmvw/mS
+         3T3qPmNOdQOQKQCYkHxAB+xtUQxgIdz2t6wLlooEurHATTY7Zpa1YC2RMSRXSLFmZ+tb
+         4qfM42pqXK2ezqhsOZZJg213skJido04lgsvo0PNwfZI7EvjHDnv85UQT5zeCTSXYu7A
+         p5PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686917651; x=1689509651;
+        d=1e100.net; s=20221208; t=1686918206; x=1689510206;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SVXfmE9xuqvJBkC+/tsNkqbXmSmcyqz9tBTp7H4fW+s=;
-        b=I56MBreBcaRhEf2Jb/RJb5WlG+ZajgUva9EC/b/egqM7fg7QawBpPjlHuPojZ6Fdhd
-         K1vVx12po5R5RzzUTh+L/PWhs7d65WaKVV08XfbpYRnDUKTy9NEWohMEnAsLJ6qipcPk
-         ASdpbR6fuw4ASbJMfFbOAo1vX3jbitzihVuttA/d3oU9U5x0dJ3kKjF/il5JmdHmti9T
-         CG+rMhXUCjIsTnjNtf8PSKfUT+wZxBGZZ3GQjp7W4yvP+ddqN66b1HTK1qO/LZyxH6iP
-         nRrOqgiam3StkBqpEfpm6j1Pf8D1XCtRV+6fSe9qcaWtBE9Ve98+x+7Lu5jce6d+uohV
-         g3wA==
-X-Gm-Message-State: AC+VfDwoSyqPtWZi0fUXsJAAytmiqyF5jq3JkUzX9va5njo4w43mhWKo
-        uUBGSHWda/ZavjPYcozocjMV3DNJofcPDKCK4gA=
-X-Google-Smtp-Source: ACHHUZ5+cE31rc8cUVpUMXCOk4ewlhmB9UuvLujSALdXjEdrUSwm63nNo3tivuZ1BqaABQ7eapNgTyAZw+ETZDWWmGA=
-X-Received: by 2002:a5e:c103:0:b0:753:42d:25ec with SMTP id
- v3-20020a5ec103000000b00753042d25ecmr2481529iol.20.1686917651264; Fri, 16 Jun
- 2023 05:14:11 -0700 (PDT)
+        bh=dZhz7YgM6JWkeN2t67VeqyPX8iJ9vmsDBYbVnAPaL3g=;
+        b=FCtB6gWIeJfmaaVTcivMBBydwZ09Ac5WzP/FfwTtarYRsfA1rAzJTh3VbuAX/91BJ7
+         230SDg81NoU+SzNr7Lza1SDso7gDqL14A6LKQrbilAxcHW1HEOClwWbgWAdJpZxU2G1l
+         m8OpRHbNFk47i2v4pjmL8li9ADuSKJtG7TJ9kNRCfUDpjEHKVahVDLGAQ+uO0phTVBys
+         rsM6b0MHQMfNmCghWSbB+6QAnrOP/RlYSU46BFAAqkCycBoKUkUYEwhwjjnMep1P3tdu
+         y4AU8JwYDXR3ofScPQAVBFGmQF+CDAKuY30xIl0zbrZf2Xgvlv1OOvHAhnkaUtZsz3Eq
+         6d6A==
+X-Gm-Message-State: AC+VfDzczsnrRYbpzyz5L5K5zmtPomiABN17dVRY2WKGYttbXuvHzpqB
+        anw9KLDjqeNt7AUVEdmPkWFMEtYHG5oLpTAjvDg=
+X-Google-Smtp-Source: ACHHUZ6UP2QhxkudXsSJQadW+DwhGcn3wuF7ALSz5Z8Exzm26iTW42trlXQmqDsa51Wcscjd25D4r1uRN9wS/MYetew=
+X-Received: by 2002:a6b:6d0d:0:b0:77a:c494:b4b9 with SMTP id
+ a13-20020a6b6d0d000000b0077ac494b4b9mr1932815iod.20.1686918206451; Fri, 16
+ Jun 2023 05:23:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230614104759.228372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230614104759.228372-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
-In-Reply-To: <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
+ <20230614104759.228372-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWApGKsS8DU7-=6j6WaRBDZ8Amig2NtA8f8=PbGKoFQjQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWApGKsS8DU7-=6j6WaRBDZ8Amig2NtA8f8=PbGKoFQjQ@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 16 Jun 2023 13:13:44 +0100
-Message-ID: <CA+V-a8utPvBdwR78NVxpnuUWgniVvopnK4PvmWGEfkfSv5AQHQ@mail.gmail.com>
+Date:   Fri, 16 Jun 2023 13:23:00 +0100
+Message-ID: <CA+V-a8sLmqy0h5vKq5u-f1rsBo7HGhYg-m3vMO+UxSk1EiynDQ@mail.gmail.com>
 Subject: Re: [PATCH v9 3/6] riscv: mm: dma-noncoherent: nonstandard cache
  operations support
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        guoren <guoren@kernel.org>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
         Andrew Jones <ajones@ventanamicro.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -70,9 +70,9 @@ Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -85,14 +85,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+Hi Geert,
 
 Thank you for the review.
 
-On Wed, Jun 14, 2023 at 1:36=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+On Wed, Jun 14, 2023 at 1:53=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> On Wed, Jun 14, 2023, at 12:47, Prabhakar wrote:
+> Hi Prabhakar,
+>
+> On Wed, Jun 14, 2023 at 12:48=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
 > > Introduce support for nonstandard noncoherent systems in the RISC-V
@@ -105,27 +108,48 @@ On Wed, Jun 14, 2023 at 1:36=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
 > > support for cache management in nonstandard noncoherent systems.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v8 -> v9
+> > * New patch
 >
-> I understand that Christoph will still not like this, but I think this
-> is as good as it gets, making the standard variant the fast path,
-> and using the function pointers only for the nonstandard cases.
+> Thanks for your patch!
 >
->
-> >  #include <asm/cacheflush.h>
-> > +#include <asm/dma-noncoherent.h>
-> >
-> >  static bool noncoherent_supported;
-> >
-> > +struct riscv_cache_ops noncoherent_cache_ops =3D {
-> > +     .clean =3D NULL,
-> > +     .inval =3D NULL,
-> > +     .flush =3D NULL,
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/dma-noncoherent.h
+> > @@ -0,0 +1,28 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Copyright (C) 2023 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#ifndef __ASM_DMA_NONCOHERENT_H
+> > +#define __ASM_DMA_NONCOHERENT_H
+> > +
+> > +#include <linux/dma-direct.h>
+> > +
+> > +/*
+> > + * struct riscv_cache_ops - Structure for CMO function pointers
+> > + *
+> > + * @clean: Function pointer for clean cache
+> > + * @inval: Function pointer for invalidate cache
+> > + * @flush: Function pointer for flushing the cache
+> > + */
+> > +struct riscv_cache_ops {
+> > +       void (*clean)(phys_addr_t paddr, unsigned long size);
+> > +       void (*inval)(phys_addr_t paddr, unsigned long size);
+> > +       void (*flush)(phys_addr_t paddr, unsigned long size);
 > > +};
 >
-> This could be marked __read_mostly or __ro_after_init as
-> a micro-optimization, if anyone cares.
+> I guess the naming can be improved?
 >
-Ok, I will do that in the next version.
+> .clean() is used by arch_dma_cache_wback() / arch_wb_cache_pmem(),
+> .inval() is used by arch_dma_cache_inv() / arch_invalidate_pmem(),
+> .flush() is used by arch_dma_cache_wback_inv() / arch_dma_prep_coherent()=
+.
+>
+> Perhaps .wback(), .inv(), .wback_inv() are more clear?
+>
+Ok I will update pointer names in the next version.
 
 Cheers,
 Prabhakar
