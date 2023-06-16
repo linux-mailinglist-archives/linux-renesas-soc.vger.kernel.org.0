@@ -2,169 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F15637327A1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 08:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACE2D7330F0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 14:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234096AbjFPGct (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Jun 2023 02:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35000 "EHLO
+        id S1345314AbjFPMOP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Jun 2023 08:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242562AbjFPGcn (ORCPT
+        with ESMTP id S1345320AbjFPMON (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Jun 2023 02:32:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4523B270E;
-        Thu, 15 Jun 2023 23:32:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C937062527;
-        Fri, 16 Jun 2023 06:32:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E8DC433C0;
-        Fri, 16 Jun 2023 06:32:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686897161;
-        bh=+AQvRVdsmhAwTh0/YKVAYP4Euxnx0LOU4wvyWcc0gp8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uXkS0nTzeCZautZAubDXV7Aiu3ZWpl1xK5h5cg0yILzQZvxhuAFTKK2G3cgkOZVE9
-         8nlLsOvvw5KAoVSyKPOIo2dj7lBOl/Pb045bY0pVik/UjKYmVPasCSxwxpDgwORHte
-         2U28cW+EcvVAAE3UX5aWQPOa0lJEW6ehU6jWOYyOvdB2Wd08Xb5VEF2BmPm7cd2klD
-         wu3AIa62oLjRJHsSZBn5+aRJlU/RQ0L0QzSrZyBJP3FwOJZNuq4yTf+B5TywRnljc2
-         AKrUzBRAIL40UTpiLsCXAK1HaJwEhJTjojxxNNqgRMGbJEHC3uF95vDRphc5vx+K+N
-         ng67bgjEiStTA==
-Date:   Fri, 16 Jun 2023 08:32:38 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <ZIwCBlb5xcLZ70w4@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-References: <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
- <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
- <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
- <20230615092312.GF741@pendragon.ideasonboard.com>
+        Fri, 16 Jun 2023 08:14:13 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26CB430E0;
+        Fri, 16 Jun 2023 05:14:12 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-77d7f0ea1daso24391539f.0;
+        Fri, 16 Jun 2023 05:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686917651; x=1689509651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SVXfmE9xuqvJBkC+/tsNkqbXmSmcyqz9tBTp7H4fW+s=;
+        b=Dm5UP0cq9vx0CoXvsXIryqw8idxJ2dtcwVacxjTrmAU9AR6CvAa9+/4i+scxeoC8Vo
+         dfPkhHBacDXFYB/BCowsuEN6nyqZVA+z/TddxswHEMZ1IOjShH6gieq+VxwvGetmMKp4
+         0l989bM/DyQJcCFMTOK+kEqHG8i8vt1Y1A903YL/Sp78hSXrciNgy0uHsDarFMKetsa3
+         LqYiJCuW6gWs17nAg7Aak2DCjJPImSKAz45kewQUwE95OZLVDRMTmZCW1fgPgIa1qr2w
+         ieuXTW2ROTAwUgwIQ06NV2F0Tvm98mk8CA32KhZkLm20BLGv7YQz0r/qHWK8ftVn0ViL
+         mjRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686917651; x=1689509651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SVXfmE9xuqvJBkC+/tsNkqbXmSmcyqz9tBTp7H4fW+s=;
+        b=I56MBreBcaRhEf2Jb/RJb5WlG+ZajgUva9EC/b/egqM7fg7QawBpPjlHuPojZ6Fdhd
+         K1vVx12po5R5RzzUTh+L/PWhs7d65WaKVV08XfbpYRnDUKTy9NEWohMEnAsLJ6qipcPk
+         ASdpbR6fuw4ASbJMfFbOAo1vX3jbitzihVuttA/d3oU9U5x0dJ3kKjF/il5JmdHmti9T
+         CG+rMhXUCjIsTnjNtf8PSKfUT+wZxBGZZ3GQjp7W4yvP+ddqN66b1HTK1qO/LZyxH6iP
+         nRrOqgiam3StkBqpEfpm6j1Pf8D1XCtRV+6fSe9qcaWtBE9Ve98+x+7Lu5jce6d+uohV
+         g3wA==
+X-Gm-Message-State: AC+VfDwoSyqPtWZi0fUXsJAAytmiqyF5jq3JkUzX9va5njo4w43mhWKo
+        uUBGSHWda/ZavjPYcozocjMV3DNJofcPDKCK4gA=
+X-Google-Smtp-Source: ACHHUZ5+cE31rc8cUVpUMXCOk4ewlhmB9UuvLujSALdXjEdrUSwm63nNo3tivuZ1BqaABQ7eapNgTyAZw+ETZDWWmGA=
+X-Received: by 2002:a5e:c103:0:b0:753:42d:25ec with SMTP id
+ v3-20020a5ec103000000b00753042d25ecmr2481529iol.20.1686917651264; Fri, 16 Jun
+ 2023 05:14:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DnLPxrEEezdDXnuZ"
-Content-Disposition: inline
-In-Reply-To: <20230615092312.GF741@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230614104759.228372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230614104759.228372-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
+In-Reply-To: <4f69fcfe-debb-4979-9070-1d58ba35032c@app.fastmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 16 Jun 2023 13:13:44 +0100
+Message-ID: <CA+V-a8utPvBdwR78NVxpnuUWgniVvopnK4PvmWGEfkfSv5AQHQ@mail.gmail.com>
+Subject: Re: [PATCH v9 3/6] riscv: mm: dma-noncoherent: nonstandard cache
+ operations support
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "Conor.Dooley" <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        guoren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Arnd,
 
---DnLPxrEEezdDXnuZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the review.
 
+On Wed, Jun 14, 2023 at 1:36=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Wed, Jun 14, 2023, at 12:47, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Introduce support for nonstandard noncoherent systems in the RISC-V
+> > architecture. It enables function pointer support to handle cache
+> > management in such systems.
+> >
+> > This patch adds a new configuration option called
+> > "RISCV_NONSTANDARD_CACHE_OPS." This option is a boolean flag that
+> > depends on "RISCV_DMA_NONCOHERENT" and enables the function pointer
+> > support for cache management in nonstandard noncoherent systems.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> I understand that Christoph will still not like this, but I think this
+> is as good as it gets, making the standard variant the fast path,
+> and using the function pointers only for the nonstandard cases.
+>
+>
+> >  #include <asm/cacheflush.h>
+> > +#include <asm/dma-noncoherent.h>
+> >
+> >  static bool noncoherent_supported;
+> >
+> > +struct riscv_cache_ops noncoherent_cache_ops =3D {
+> > +     .clean =3D NULL,
+> > +     .inval =3D NULL,
+> > +     .flush =3D NULL,
+> > +};
+>
+> This could be marked __read_mostly or __ro_after_init as
+> a micro-optimization, if anyone cares.
+>
+Ok, I will do that in the next version.
 
-> > Without of_node, devm_clk_get() and friends falls back to registered
-> > clkdevs. So you could call clk_register_clkdev() from within the
-> > PMIC driver, and can keep on using devm_clk_get_optional() in the
-> > ISL1208 driver.
->=20
-> Seriously, how many hacks are we piling ? :-)
-
-For this particular case, why do you consider this a hack? I previously
-suggested the solution that the PMIC driver exposes a clock to be
-consumed for the RTC driver even for the "two DT node solution". Because
-it then avoids a custom property with a phandle to the other node with
-regular DT clock bindings. I'd think we need sth like that in any case.
-
-
---DnLPxrEEezdDXnuZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSMAgIACgkQFA3kzBSg
-KbaH5w/+L6rsiVafrxQ0Kiqgl0zxXCAKjoLdRSiBeHu7L7Pgl1Jim9SXVD9QNiyu
-TMsAJZgDMO1a/FPrnD1VXF/IO6rTz9fIMamBjAr1QoV1ySD+3dOTPcw92SmB/UsD
-PN8l5zn1rH3ebNei3hnLP76JfMDZbi9TsBYHsfgsaVl5//4P1+BNxb06WEOhtuQZ
-GxttDVUonhpc6ePqfE/kzBtw/2ku3AzdsxL50bKQMflgnowB9ondDTJ++8/YC+aR
-1LUzgF6DLipvDAwlDEeAzhokCvIFepn+t0owJNnUxjj6pypAb3xvrFrgX5CHISIA
-mhBJWM+GMtxEwKJePRoVdKn8MG9QPGQxFA27W9aZx38rJvlA6l87qVLdD3KHjMWq
-7o77OjhIOvo5gaD+kKCRAkH2Vy/7P5ZwGDe0Qg8Dezj1j6u1yrIhCMmvGcYf7GkO
-YGuu3K1cJBq2MRZg+Zo5M6+hE/X5yUjShvOW1nTd27K30iEPwEMcfRB6SN8/dcbV
-GS7Ow91cbp6hPV8pGRIbkDrUYNwCIGVPQIsPcDCqy9u8mpv/FFyTBIGBZ/IrZBzG
-WAQOsBAAOScx8BKCohamosJFUciCQwd27OcTmTdzSS+wuGM6Rp0kODn9aIu7uEdX
-mwPyiQLe19ForiH8BO/Myax/CwhqXt2L4MSD9GCAESo4xk8IjNc=
-=OTwr
------END PGP SIGNATURE-----
-
---DnLPxrEEezdDXnuZ--
+Cheers,
+Prabhakar
