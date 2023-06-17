@@ -2,69 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F0F2733407
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jun 2023 16:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 236B97341C4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Jun 2023 17:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345754AbjFPO6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Jun 2023 10:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
+        id S232184AbjFQPDQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Jun 2023 11:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbjFPO57 (ORCPT
+        with ESMTP id S229675AbjFQPDQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Jun 2023 10:57:59 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C085330C7;
-        Fri, 16 Jun 2023 07:57:58 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-666e916b880so163492b3a.2;
-        Fri, 16 Jun 2023 07:57:58 -0700 (PDT)
+        Sat, 17 Jun 2023 11:03:16 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637FF10C0;
+        Sat, 17 Jun 2023 08:03:15 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-77807e43b7cso76908339f.1;
+        Sat, 17 Jun 2023 08:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686927478; x=1689519478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fTZ7esj0quOcI/RkGvFMgSJ1PhuA/Z0zduLKH5w94HI=;
-        b=c+Wbra0FFZPz4iDzr3CVPszMrGJUmkmJ5Zq4H+FY9wk8Fzrxm4J5LP2haSr7WWQIU+
-         jMIMVpfjC+UliNsRCSCztuI5mNZ+nO7wGhT9av+kVo81xhuHDPmrJ2TUVTaZGaM9/ZZQ
-         +9wEqHcGEd88LsZZaJR8JDQr3C8N31ntwV9gNQvKq0bo2nv6n/b6I1wcLahBfZK+oXnM
-         o+FFY3LRpHWj1n0Bi2XOMODFcLMilsP5Rr8CFBNo5n3mbaElURP6O4UjsLKreXJdZGLn
-         Mqf2ReHVTG0l8+XyIsZH2O7/Tw8BQBilYEcSyNOyLrNufpzrPyPD9P8TaInCRwXKxZgA
-         WGUA==
+        d=gmail.com; s=20221208; t=1687014194; x=1689606194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iaDvkdYLQBtU/nADrwFwUGWyyN8uC5RTkbYxexq0IeI=;
+        b=fR1N25DL0u6zn3KOdbj+1ntoMUmc5NpTNMD3NvIMCMTV+vxQJtENhBvXTK26Yr85YO
+         QufWc0djtwWXgdGxbfxBgBHE6jdI1DWP9QanT46IoCfvUEyl0XM9OuCAHVGCQUFKL2L3
+         e0rfwUdlNfrX8Dx2332UwJVJSM2b3hOSmmqcOVF980mCSn1/nAMkdrTSFpwev236YahW
+         d9Ysj1z8rQXi9/4tucroCz28a9Y1dykmTcj84kkHdFL0qQgqz6htDhDKRQJn5/+CGjRP
+         ss6xcu6axQcky6L1B9BHkQLldhV6qrkLMJohgexgs677XN71qTe8v1fPsApn00Pm+GwH
+         Z7Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686927478; x=1689519478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fTZ7esj0quOcI/RkGvFMgSJ1PhuA/Z0zduLKH5w94HI=;
-        b=Mugh3Oa9lJt0fpQfy7hApFKKNtRQM4y05VE8HUgzFFxaJD5qSpFQ6Pd7KEtUMjSRE4
-         raw8dIFtj44PzYc/V/2wIAzIl/j5AEPYoUR5/QAJEPa9JlYhUbnZsATqK2NVFFWbW+Ys
-         8wCpcfKhM98i83Yw+EFz/Bc5ylgwzXFsoaBstr9oWk8QNJL+BwbLJrDdxjGeQSDiyBLm
-         IVlXbihncXyx4U9GWlg7btjq4tK1ECGtQTbfcbHk5mfknilmu6522+6FeFN8RoOdPOC3
-         VC2K1/h6qz2H1bd31iAHV0aoVvTswgedT6hLCWigtUEG7YzvqfhhCrZd2DqwCU6hBRto
-         1taQ==
-X-Gm-Message-State: AC+VfDzh3GwSJXR7ezyLjEmOkxsV2+07bPqWrd5Mggvm9tTyaySdddhL
-        kXatLT+5tZJ0+86Qn2Y2ETjo3W1iGFciKxJ0cSA=
-X-Google-Smtp-Source: ACHHUZ4WJMej/QDPeO2J0h3IBJ/Zxu3jN2pk40J0mcJWKMd73mmyAhw9KYDdtJf6vOqs/O/3fB4s18/aJngpJTDczII=
-X-Received: by 2002:a17:902:ea01:b0:1ad:f407:37d1 with SMTP id
- s1-20020a170902ea0100b001adf40737d1mr1910027plg.52.1686927477979; Fri, 16 Jun
- 2023 07:57:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230531070049.11806-1-wsa+renesas@sang-engineering.com>
- <CAHCN7xJxROk6RU66PjbGH4M-R7PbUG-4y_2BHyCeGx_hTeUprw@mail.gmail.com>
- <ZHeHx/rUE7ORf3V2@shikoro> <CAHCN7x+hVSC=uCtaQx0tLZ6UdkYvf8B0DGQJ52Xr8WjWU=jGpA@mail.gmail.com>
- <OS0PR01MB5922D0CDBE265AE59695B8428658A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922D0CDBE265AE59695B8428658A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        d=1e100.net; s=20221208; t=1687014194; x=1689606194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iaDvkdYLQBtU/nADrwFwUGWyyN8uC5RTkbYxexq0IeI=;
+        b=OaiGiFlntpYNNytAABlo8H7kpBG6SOXVUMyPRCT3MZHtYUaaQ3Z2JWBjuv5pqoUDCP
+         D6qe5+D2tfDFfzPJObMPXP5LPWmxpvSbSkEqpiIQyWz/pxxpO/XkpIoMTfQ73J/ozT1O
+         fukcjTjr/CE/uMfv4Ft4PGGgNN3uH3uGaghH1X3bWdMoqNozP8K6hPnSdEUuiTV3WrCm
+         ZHDa3wUC2o4Ivy5IzWzVrj5QK++iHO+U+cRiv7gjTodv2IO2FdbFJ/YANZA9UuBJkK2V
+         qv1Uq4GU3wP68Xri+ud3Moe66pfTUuehBBKGgprgqDgT3Q13SUnvbzRG1lt0nlvVZR2c
+         DSHg==
+X-Gm-Message-State: AC+VfDzy7qNq3w1u4FlmZIF8D1RqmvVrX5dAZ3i0Ijryb/3yWarFhKN8
+        iUhYqpvANz1WoLGa7Nd1HsCT29ZlSXKmtg==
+X-Google-Smtp-Source: ACHHUZ6DPe1105ctDF487mWMBeMRSPob9WGtneZTUuEJx8lRtpwU+sAFrq6bvLYvjlnG10uokSEcHA==
+X-Received: by 2002:a5e:da09:0:b0:774:8d99:184c with SMTP id x9-20020a5eda09000000b007748d99184cmr3337001ioj.11.1687014194261;
+        Sat, 17 Jun 2023 08:03:14 -0700 (PDT)
+Received: from aford-B741.lan ([2601:447:d001:897f:2228:4762:4365:80b2])
+        by smtp.gmail.com with ESMTPSA id q3-20020a6b7103000000b0077e24ace3edsm623679iog.52.2023.06.17.08.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jun 2023 08:03:13 -0700 (PDT)
 From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 16 Jun 2023 09:57:46 -0500
-Message-ID: <CAHCN7xJ=wtH5Een9_M3fynweH7Mkre0nHWH3gtmW=dps30zgMQ@mail.gmail.com>
-Subject: Re: [RFC/RFT PATCH] mmc: renesas_sdhi: add delay between tuning cmds
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-clk@vger.kernel.org
+Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] clk: renesas: rcar-gen3: Add support for ZG clock
+Date:   Sat, 17 Jun 2023 10:02:59 -0500
+Message-Id: <20230617150302.38477-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -76,66 +73,102 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 9:39=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Adam,
->
-> > -----Original Message-----
-> > From: Adam Ford <aford173@gmail.com>
-> > Sent: Friday, June 16, 2023 3:35 PM
-> > To: Wolfram Sang <wsa+renesas@sang-engineering.com>; Adam Ford
-> > <aford173@gmail.com>; linux-mmc@vger.kernel.org; linux-renesas-
-> > soc@vger.kernel.org; Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.co=
-m>
-> > Subject: Re: [RFC/RFT PATCH] mmc: renesas_sdhi: add delay between tunin=
-g
-> > cmds
-> >
-> > On Wed, May 31, 2023 at 12:45=E2=80=AFPM Wolfram Sang <wsa+renesas@sang=
--
-> > engineering.com> wrote:
-> > >
-> > >
-> > > > I am testing this on a 5.10 kernel based on the Renesas RZ linux
-> > > > kernel branch.  The good news is that the card doesn't hang like it
-> > > > used to on the older 4.19 kernel, but it still does not enumerate t=
-o
-> > > > SDR104 speeds.
-> > >
-> > > U-Boot has a 1ms delay. Could you increase the delay to 1ms, please?
-> >
-> > Sorry for the delay, but I increased this to  usleep_range(1000, 2500) =
-and
-> > it still hangs.
-> >
-> > I don't know if the issue is dependent on the variant.  For what it's
-> > worth, I am testing an RZ/G2M, but I can do the same thing on an RZ/G2N=
- or
-> > RZ/G2H if you want.
->
-> I am doing 6.1.y testing[1] with all RZ board variants,
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git/log=
-/?h=3Dlinux-6.1.y-cip
->
-> I have done SDHI testing with RZ/G2M 1.3 HiHope board and I didn't face t=
-his issue.
->
-> Can you please let me know how to reproduce this issue?
+A clock used for the 3D graphics appears to be common
+among multiple SoC's, so add a generic gen3 clock
+for clocking the graphics.  This is similar to the
+cpg_z_clk, with a different frequency control register
+and different flags.  Instead of duplicating the code,
+make cpg_z_clk_register into a helper function and
+call the help function with the FCR and flags as
+a parameter.
 
-It's not easy to reproduce, and it only happens on a small subset of
-cards.  I sent one to Wolfram sometime last year.  I can also  take
-these same cards that hang when booting Linux, and they enumerate just
-fine in U-Boot at SRD104 speeds.  I can use the same RZ/G2 board with
-other cards, and other cards work fine.  I then tested these same
-'failing' cards on other platforms and they work fine, so it seems
-like there is a tuning combination in Linux that is different from
-U-Boot that is unique to these certain cards which prevents them from
-working.
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-adam
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index b3ef62fa612e..d0129a650941 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -264,11 +264,13 @@ static const struct clk_ops cpg_z_clk_ops = {
+ 	.set_rate = cpg_z_clk_set_rate,
+ };
+ 
+-static struct clk * __init cpg_z_clk_register(const char *name,
++static struct clk * __init __cpg_z_clk_register(const char *name,
+ 					      const char *parent_name,
+ 					      void __iomem *reg,
+ 					      unsigned int div,
+-					      unsigned int offset)
++					      unsigned int offset,
++					      unsigned int fcr,
++					      unsigned int flags)
+ {
+ 	struct clk_init_data init = {};
+ 	struct cpg_z_clk *zclk;
+@@ -280,11 +282,11 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+ 
+ 	init.name = name;
+ 	init.ops = &cpg_z_clk_ops;
+-	init.flags = CLK_SET_RATE_PARENT;
++	init.flags = flags;
+ 	init.parent_names = &parent_name;
+ 	init.num_parents = 1;
+ 
+-	zclk->reg = reg + CPG_FRQCRC;
++	zclk->reg = reg + fcr;
+ 	zclk->kick_reg = reg + CPG_FRQCRB;
+ 	zclk->hw.init = &init;
+ 	zclk->mask = GENMASK(offset + 4, offset);
+@@ -301,6 +303,27 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+ 	return clk;
+ }
+ 
++static struct clk * __init cpg_z_clk_register(const char *name,
++					      const char *parent_name,
++					      void __iomem *reg,
++					      unsigned int div,
++					      unsigned int offset)
++{
++	return __cpg_z_clk_register(name, parent_name, reg, div, offset,
++				    CPG_FRQCRC, CLK_SET_RATE_PARENT);
++}
++
++static struct clk * __init cpg_zg_clk_register(const char *name,
++					       const char *parent_name,
++					       void __iomem *reg,
++					       unsigned int div,
++					       unsigned int offset)
++{
++	return __cpg_z_clk_register(name, parent_name, reg, div, offset,
++				    CPG_FRQCRB, 0);
++
++}
++
+ static const struct clk_div_table cpg_rpcsrc_div_table[] = {
+ 	{ 2, 5 }, { 3, 6 }, { 0, 0 },
+ };
+@@ -438,6 +461,10 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
+ 		return cpg_z_clk_register(core->name, __clk_get_name(parent),
+ 					  base, core->div, core->offset);
+ 
++	case CLK_TYPE_GEN3_ZG:
++		return cpg_zg_clk_register(core->name, __clk_get_name(parent),
++					   base, core->div, core->offset);
++
+ 	case CLK_TYPE_GEN3_OSC:
+ 		/*
+ 		 * Clock combining OSC EXTAL predivider and a fixed divider
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.h b/drivers/clk/renesas/rcar-gen3-cpg.h
+index 9028bf4295ce..bfdc649bdf12 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.h
++++ b/drivers/clk/renesas/rcar-gen3-cpg.h
+@@ -22,6 +22,7 @@ enum rcar_gen3_clk_types {
+ 	CLK_TYPE_GEN3_R,
+ 	CLK_TYPE_GEN3_MDSEL,	/* Select parent/divider using mode pin */
+ 	CLK_TYPE_GEN3_Z,
++	CLK_TYPE_GEN3_ZG,
+ 	CLK_TYPE_GEN3_OSC,	/* OSC EXTAL predivider and fixed divider */
+ 	CLK_TYPE_GEN3_RCKSEL,	/* Select parent/divider using RCKCR.CKSEL */
+ 	CLK_TYPE_GEN3_RPCSRC,
+-- 
+2.39.2
 
-
->
-> Cheers,
-> Biju
