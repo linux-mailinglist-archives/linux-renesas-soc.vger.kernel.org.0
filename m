@@ -2,63 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64128734622
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jun 2023 14:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 224FC734683
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jun 2023 16:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbjFRMjs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Jun 2023 08:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33484 "EHLO
+        id S229567AbjFROFd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 18 Jun 2023 10:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjFRMjq (ORCPT
+        with ESMTP id S229552AbjFROFc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Jun 2023 08:39:46 -0400
+        Sun, 18 Jun 2023 10:05:32 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F631AE
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Jun 2023 05:39:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE463E45
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Jun 2023 07:05:30 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qArgf-0003eX-WF; Sun, 18 Jun 2023 14:39:22 +0200
+        id 1qAszk-0002xh-Qi; Sun, 18 Jun 2023 16:03:08 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qArgb-008HLy-HJ; Sun, 18 Jun 2023 14:39:17 +0200
+        id 1qAszJ-008HxW-4T; Sun, 18 Jun 2023 16:02:41 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qArga-00FHNT-AP; Sun, 18 Jun 2023 14:39:16 +0200
-Date:   Sun, 18 Jun 2023 14:39:15 +0200
+        id 1qAszI-00FI3d-DW; Sun, 18 Jun 2023 16:02:40 +0200
+Date:   Sun, 18 Jun 2023 16:02:40 +0200
 From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To:     Doug Anderson <dianders@chromium.org>
 Cc:     Raymond Tan <raymond.tan@intel.com>,
         Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         dri-devel@lists.freedesktop.org,
         Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
         Alim Akhtar <alim.akhtar@samsung.com>,
         Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
         Marijn Suijten <marijn.suijten@somainline.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Steven Price <steven.price@arm.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Jerome Brunet <jbrunet@baylibre.com>,
         linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Karol Herbst <kherbst@redhat.com>,
         Samuel Holland <samuel@sholland.org>,
         Kevin Hilman <khilman@baylibre.com>,
         =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Simek <michal.simek@xilinx.com>,
         Kuogee Hsieh <quic_khsieh@quicinc.com>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
         Danilo Krummrich <dakr@redhat.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-sunxi@lists.linux.dev, Rahul T R <r-ravikumar@ti.com>,
+        linux-sunxi@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
+        Rahul T R <r-ravikumar@ti.com>,
         Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
         Jani Nikula <jani.nikula@intel.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
-        etnaviv@lists.freedesktop.org, Yuan Can <yuancan@huawei.com>,
+        etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
         Inki Dae <inki.dae@samsung.com>,
-        Jessica Zhang <quic_jesszhan@quicinc.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
         Sean Paul <sean@poorly.run>,
         Johan Hovold <johan+linaro@kernel.org>,
         Hyun Kwon <hyun.kwon@xilinx.com>,
@@ -80,11 +82,11 @@ Cc:     Raymond Tan <raymond.tan@intel.com>,
         lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
         Alexey Brodkin <abrodkin@synopsys.com>,
         Minghao Chi <chi.minghao@zte.com.cn>,
-        Steven Price <steven.price@arm.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         linux-rockchip@lists.infradead.org,
         Ben Skeggs <bskeggs@redhat.com>,
         Russell King <linux+etnaviv@armlinux.org.uk>,
-        Alain Volmat <alain.volmat@foss.st.com>,
+        Jessica Zhang <quic_jesszhan@quicinc.com>,
         Liu Ying <victor.liu@nxp.com>, linux-arm-msm@vger.kernel.org,
         Wang Jianzheng <wangjianzheng@vivo.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -96,13 +98,12 @@ Cc:     Raymond Tan <raymond.tan@intel.com>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Kyungmin Park <kyungmin.park@samsung.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-mediatek@lists.infradead.org,
         Brian Starkey <brian.starkey@arm.com>,
-        Karol Herbst <kherbst@redhat.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yuan Can <yuancan@huawei.com>, Stefan Agner <stefan@agner.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        linux-tegra@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
         Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
@@ -112,18 +113,18 @@ Cc:     Raymond Tan <raymond.tan@intel.com>,
         Mali DP Maintainers <malidp@foss.arm.com>,
         Joel Stanley <joel@jms.id.au>, nouveau@lists.freedesktop.org,
         Orson Zhai <orsonzhai@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         Lyude Paul <lyude@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         Guo Zhengkui <guozhengkui@vivo.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
         Alison Wang <alison.wang@nxp.com>,
         Abhinav Kumar <quic_abhinavk@quicinc.com>,
         Christian Gmeiner <christian.gmeiner@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Maxime Ripard <maxime@cerno.tech>,
         Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Paul Cercueil <paul@crapouillou.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Liu Shixin <liushixin2@huawei.com>,
         Tomi Valkeinen <tomba@kernel.org>,
         Deepak R Varma <drv@mailo.com>,
         Karol Wachowski <karol.wachowski@linux.intel.com>,
@@ -131,14 +132,12 @@ Cc:     Raymond Tan <raymond.tan@intel.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
         Tian Tao <tiantao6@hisilicon.com>,
         Shawn Guo <shawnguo@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
         linux-stm32@st-md-mailman.stormreply.com,
         Emma Anholt <emma@anholt.net>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Liu Shixin <liushixin2@huawei.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
         Laura Nao <laura.nao@collabora.com>,
         David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>,
         linux-renesas-soc@vger.kernel.org,
@@ -147,35 +146,37 @@ Cc:     Raymond Tan <raymond.tan@intel.com>,
         Jonas Karlman <jonas@kwiboo.se>,
         Russell King <linux@armlinux.org.uk>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Qiang Yu <yuq825@gmail.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Melissa Wen <mwen@igalia.com>,
-        linux-mediatek@lists.infradead.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         Fabio Estevam <festevam@gmail.com>,
         Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        linux-tegra@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        linux-mips@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Jyri Sarha <jyri.sarha@iki.fi>,
         Lucas Stach <l.stach@pengutronix.de>
 Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
  Convert to platform remove callback returning] void
-Message-ID: <20230618123915.hmy66z7e532jhwgk@pengutronix.de>
+Message-ID: <20230618140240.4gx4hmcf6rv5qvfi@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
  <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
  <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
  <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
  <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+ <20230618123915.hmy66z7e532jhwgk@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jxye2q65aavatxzk"
+        protocol="application/pgp-signature"; boundary="eb4c3srj26vyfosz"
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+In-Reply-To: <20230618123915.hmy66z7e532jhwgk@pengutronix.de>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
@@ -190,192 +191,153 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---jxye2q65aavatxzk
-Content-Type: text/plain; charset=utf-8
+--eb4c3srj26vyfosz
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Doug,
+Hello again,
 
-On Sat, Jun 17, 2023 at 10:57:23AM -0700, Doug Anderson wrote:
-> On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > [expanding recipents by the other affected persons]
-> >
-> > On Thu, Jun 08, 2023 at 09:08:15AM -0700, Doug Anderson wrote:
-> > > On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > > <u.kleine-koenig@pengutronix.de> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wro=
-te:
-> > > > > this patch series adapts the platform drivers below drivers/gpu/d=
-rm
-> > > > > to use the .remove_new() callback. Compared to the traditional .r=
-emove()
-> > > > > callback .remove_new() returns no value. This is a good thing bec=
-ause
-> > > > > the driver core doesn't (and cannot) cope for errors during remov=
-e. The
-> > > > > only effect of a non-zero return value in .remove() is that the d=
-river
-> > > > > core emits a warning. The device is removed anyhow and an early r=
-eturn
-> > > > > from .remove() usually yields a resource leak.
-> > > > >
-> > > > > By changing the remove callback to return void driver authors can=
-not
-> > > > > reasonably (but wrongly) assume any more that there happens some =
-kind of
-> > > > > cleanup later.
-> > > >
-> > > > I wonder if someone would volunteer to add the whole series to
-> > > > drm-misc-next?!
-> > >
-> > > It looks as if Neil applied quite a few of them already, so I looked
-> > > at what was left...
-> > >
-> > > I'm a little hesitant to just apply the whole kit-and-caboodle to
-> > > drm-misc-next since there are specific DRM trees for a bunch of them
-> > > and it would be better if they landed there. ...so I went through all
-> > > the patches that still applied to drm-misc-next, then used
-> > > 'scripts/get_maintainer.pl --scm' to check if they were maintained
-> > > through drm-misc. That still left quite a few patches. I've applied
-> > > those ones and pushed to drm-misc-next:
-> > >
-> > > 71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
-> > > callback returning void
-> > > 1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning v=
-oid
-> > > b957812839f8 drm/v3d: Convert to platform remove callback returning v=
-oid
-> > > e2fd3192e267 drm/tve200: Convert to platform remove callback returnin=
-g void
-> > > 84e6da7ad553 drm/tiny: Convert to platform remove callback returning =
-void
-> > > 34cdd1f691ad drm/tidss: Convert to platform remove callback returning=
- void
-> > > d665e3c9d37a drm/sun4i: Convert to platform remove callback returning=
- void
-> > > 0c259ab19146 drm/stm: Convert to platform remove callback returning v=
-oid
-> > > 9a865e45884a drm/sti: Convert to platform remove callback returning v=
-oid
-> > > 3c855610840e drm/rockchip: Convert to platform remove callback return=
-ing void
-> > > e41977a83b71 drm/panfrost: Convert to platform remove callback return=
-ing void
-> > > cef3776d0b5a drm/panel: Convert to platform remove callback returning=
- void
-> > > bd296a594e87 drm/mxsfb: Convert to platform remove callback returning=
- void
-> > > 38ca2d93d323 drm/meson: Convert to platform remove callback returning=
- void
-> > > fd1457d84bae drm/mcde: Convert to platform remove callback returning =
-void
-> > > 41a56a18615c drm/logicvc: Convert to platform remove callback returni=
-ng void
-> > > 980ec6444372 drm/lima: Convert to platform remove callback returning =
-void
-> > > 82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback retur=
-ning void
-> > > c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returni=
-ng void
-> > > a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback ret=
-urning void
-> > > 9a32dd324c46 drm/aspeed: Convert to platform remove callback returnin=
-g void
-> > > 2c7d291c498c drm/arm/malidp: Convert to platform remove callback retu=
-rning void
-> > > a920028df679 drm/arm/hdlcd: Convert to platform remove callback retur=
-ning void
-> > > 1bf3d76a7d15 drm/komeda: Convert to platform remove callback returnin=
-g void
-> >
-> > Together with the patches that were applied later the topmost commit
-> > from this series is c2807ecb5290 ("drm/omap: Convert to platform remove
-> > callback returning void"). This commit was part for the following next
-> > tags:
-> >
-> >         $ git tag -l --contains c2807ecb5290
-> >         next-20230609
-> >         next-20230613
-> >         next-20230614
-> >         next-20230615
-> >
-> > However in next-20230616 they are missing. In next-20230616
-> > drm-misc/for-linux-next was cf683e8870bd4be0fd6b98639286700a35088660.
-> > Compared to c2807ecb5290 this adds 1149 patches but drops 37 (that are
-> > also not included with a different commit id). The 37 patches dropped
-> > are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290:
-> >
-> >         $ git shortlog -s 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c28=
-07ecb5290
-> >              1  Christophe JAILLET
-> >              2  Jessica Zhang
-> >              5  Karol Wachowski
-> >              1  Laura Nao
-> >             27  Uwe Kleine-K=C3=B6nig
-> >              1  Wang Jianzheng
-> >
-> >
-> > I guess this was done by mistake because nobody told me about dropping
-> > my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
-> > again?
+On Sun, Jun 18, 2023 at 02:39:15PM +0200, Uwe Kleine-K=F6nig wrote:
+> > Actually, it was probably a mistake that these patches got merged to
+> > linuxnext during the 4 days that you noticed. However, your patches
+> > aren't dropped and are still present in drm-misc-next.
+> >=20
+> > drm-misc has a bit of a unique model and it's documented fairly well he=
+re:
+> >=20
+> > https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
 >=20
-> Actually, it was probably a mistake that these patches got merged to
-> linuxnext during the 4 days that you noticed. However, your patches
-> aren't dropped and are still present in drm-misc-next.
->=20
-> drm-misc has a bit of a unique model and it's documented fairly well here:
->=20
-> https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+> Is there a flaw then in this unique model (or its implementation) when
+> drm-misc/for-linux-next moves in a non-fast-forward manner? This isn't
+> expected, is it?
 
-Is there a flaw then in this unique model (or its implementation) when
-drm-misc/for-linux-next moves in a non-fast-forward manner? This isn't
-expected, is it?
+FTR, I checked historic next trees to find other trees where
+for-linux-next were moved in a non-fast-forward manner[1]. I found:
 
-> The key is that committers can commit to drm-misc-next _at any time_
-> regardless of the merge window. The drm-misc merge strategy makes this
-> OK. Specifically, when it's late in the linux cycle then drm-misc-next
-> is supposed to stop merging to linuxnext. Then, shortly after the
-> merge window closes, patches will start flowing again.
->=20
-> So basically your patches are landed and should even keep the same git
-> hashes when they eventually make it to Linux. They just won't land for
-> another release cycle of Linux.
+	$ git for-each-ref --format=3D'%(refname)' refs/tags/next-* | while read n=
+; do hn=3D$(git show $n:Next/SHA1s 2>/dev/null | awk '$1 =3D=3D "drm-misc" =
+{ print $2 }'); if test -z "$hn"; then continue; fi; if test -n "$prevhn" &=
+& ! git merge-base --is-ancestor "$prevhn" "$hn"; then if git merge-base --=
+is-ancestor "$hn" linus/master; then merged=3Dx; else merged=3D"-"; fi; ech=
+o "$n ($prevhn -> $hn) [$merged]"; fi; prevhn=3D$hn; done
+	refs/tags/next-20151231 (e8b4855b5dd3e285d0ec18ed15468025abc1be9a -> e112e=
+593b215c394c0303dbf0534db0928e87967) [x]
+	refs/tags/next-20160212 (e24bfdd5052ca65e99fb835838da9d64b36ddc88 -> 382ab=
+95d1af85381d8a5dff09b16a80c7e492534) [x]
+	refs/tags/next-20170613 (18e51064c42ca3945b94dd4652156b62457962bc -> 2d7b5=
+6378d32b0cf006f8944cbba4046df45dd25) [x]
+	refs/tags/next-20180406 (3ae7fb202d86b7847f237daa474f3946bdc3b0c6 -> 41613=
+a1a7df27a0aa34bf77d51278bbe8e108a8f) [x]
+	refs/tags/next-20180517 (3131f209468d1514af378dd46eb34123d0af84ff -> 2045b=
+22461c07a88dc3d2bab3cbfc6dc0c602fd4) [x]
+	refs/tags/next-20190320 (e552f0851070fe4975d610a99910be4e9bf5d7bd -> 29054=
+230f3e11ea818eccfa7bb4e4b3e89544164) [x]
+	refs/tags/next-20190617 (9f9b25593ab4197318e3621201588ad8cd525c9b -> b1622=
+cb3be4557fd086831ca7426eafe5f1acc2e) [x]
+	refs/tags/next-20190723 (7aaddd96d5febcf5b24357a326b3038d49a20532 -> d8080=
+97627e51d53cf9b1aa13239b5c4a6adaefb) [x]
+	refs/tags/next-20190829 (66c2dee4ae10a2d841c40b9dd9c7141eb23eee76 -> 578d2=
+342ec702e5fb8a77983fabb3754ae3e9660) [x]
+	refs/tags/next-20191004 (d7d44b6fe40a98e960be92ea8617954c2596d140 -> 4092d=
+e1ba34eb376791809fb366bc15f8a9e0b7c) [x]
+	refs/tags/next-20191106 (8a537de0f3d8b655cb901c948ed863bf0b23277b -> cea35=
+f5ad5ffac06ea29e0d7a7f748683e1f1b7d) [x]
+	refs/tags/next-20191216 (0a5239985a3bc084738851afdf3fceb7d5651b0c -> d4e6a=
+62d3769ef09bfe116b261a61ef871dea4f9) [x]
+	refs/tags/next-20200123 (73896f60d4865657740c64821a7b18825a9bf96c -> db735=
+fc4036bbe1fbe606819b5f0ff26cc76cdff) [x]
+	refs/tags/next-20200415 (152cce0006abf7e17dfb7dc94896b044bda4e588 -> 74aae=
+1c42f4a7f69934762f9e9f90a3ec335fef2) [x]
+	refs/tags/next-20200521 (5bebaeadb30e8d1ed694bd9b63d4e424d333fe36 -> 0df3f=
+f451287d71c620384eb7bb2cd3a8106412c) [x]
+	refs/tags/next-20200617 (291ddeb621e4a9f1ced8302a777fbd7fbda058c6 -> cfe28=
+f909ddd6ca854568870a7a9b46454e52b6f) [x]
+	refs/tags/next-20200724 (9fadd6d1e2977bbd449d4fb99cde41ed6f71f668 -> 20673=
+9119508d5ab4b42ab480ff61a7e6cd72d7c) [x]
+	refs/tags/next-20200924 (ad44c03208e46b83e4ae3269e32c9e524aa71cf8 -> de194=
+561359788871f7d8f5f7797557a2a166b4e) [x]
+	refs/tags/next-20201027 (2580a493a97da4a302cb66251b558bfc04c16e68 -> 70bb9=
+193728627e84e02eb0960b0aa138ae2cef5) [x]
+	refs/tags/next-20201214 (c365d304d69ab2a38e1431323d17a216b7930e32 -> 05faf=
+1559de52465f1e753e31883aa294e6179c1) [x]
+	refs/tags/next-20210211 (5ceeb328637a01e0e54e2618cff129c6a1c31dba -> e2183=
+fb135a7f62d317aa1c61eb3d1919080edba) [x]
+	refs/tags/next-20210319 (5fd3de7a51855e086d9ce9d2d752489e9c15b850 -> 4cf1d=
+8719aab0ad89690abb1d37ecf4552778420) [x]
+	refs/tags/next-20210409 (167b400217121338a2beb78e09e2c77bd95491f5 -> 9c0fe=
+d84d5750e1eea6c664e073ffa2534a17743) [x]
+	refs/tags/next-20210615 (a3a5f9d0fb15da90820254ba735491887cc12099 -> 1bd8a=
+7dc28c1c410f1ceefae1f2a97c06d1a67c2) [x]
+	refs/tags/next-20210714 (34bd46bcf3de72cbffcdc42d3fa67e543d1c869b -> 35d28=
+3658a6196b2057be562096610c6793e1219) [x]
+	refs/tags/next-20210715 (35d283658a6196b2057be562096610c6793e1219 -> 85fd4=
+a8a84316166640102676a356755ddec80e0) [-]
+	refs/tags/next-20210726 (85fd4a8a84316166640102676a356755ddec80e0 -> 03b7c=
+552d081b73ba814eefc257c704b4d096d93) [x]
+	refs/tags/next-20210727 (03b7c552d081b73ba814eefc257c704b4d096d93 -> 87360=
+168759879d68550b0c052bbcc2a0339ff74) [-]
+	refs/tags/next-20210817 (87360168759879d68550b0c052bbcc2a0339ff74 -> 80cbd=
+8808f85017b8aff4b223db68926b470be12) [x]
+	refs/tags/next-20211101 (2b3374306b315be02db0f67d3102a0d1e1357270 -> b3ec8=
+cdf457e5e63d396fe1346cc788cf7c1b578) [x]
+	refs/tags/next-20211117 (bcae3af286f49bf4f6cda03f165fbe530f4a6bed -> a193f=
+3b4e050e35c506a34d0870c838d8e0b0449) [x]
+	refs/tags/next-20211217 (43d5ac7d07023cd133b978de473b3400edad941f -> d6c75=
+c295f67b26fad8ba2e72db80e0f744e9da9) [x]
+	refs/tags/next-20220317 (07f380da3ebd8d84fc866ccf83d93c667fcaaeaa -> f6d79=
+0e5a7fe42706756c7fa1686d08d230610fc) [x]
+	refs/tags/next-20220406 (67bae5f28c895f8737a1974c3f31cf12b9170b14 -> 21d13=
+9a95682c6ade89a2151e44012c9797c0309) [x]
+	refs/tags/next-20220513 (aebeb02dfccb61d6930112aede2db3db5b8e974e -> 6071c=
+4c2a319da360b0bf2bc397d4fefad10b2c8) [x]
+	refs/tags/next-20220610 (5ee8c8f930ba7d20717c4fc2d9f1ce0e757d1155 -> efeea=
+efe9be56e8ae5e5b4e9ff6d2275ec977ec5) [x]
+	refs/tags/next-20220715 (887ddf3251928dc39bfc58c5c62083d38a633c14 -> c96cf=
+af8fc02d4bb70727dfa7ce7841a3cff9be2) [x]
+	refs/tags/next-20220818 (2939deac1fa220bc82b89235f146df1d9b52e876 -> 8ba92=
+49396bef37cb68be9e8dee7847f1737db9d) [x]
+	refs/tags/next-20221007 (fdd0640b639070efb58226c96cea5861150e8dce -> 39dd0=
+cc2e5bd0d5188dd69f27e18783cea7ff06a) [x]
+	refs/tags/next-20221122 (e3ddd2d25533d1cc6f9fea421e4a5f16b60b3434 -> 29583=
+dfcd2dd72c766422bd05c16f06c6b1fb356) [x]
+	refs/tags/next-20230106 (03dec92c4f788c54a7c01b40a018f601eb8a6c52 -> 4c00a=
+c500d0edd1a6730c4e8293834a694c1b304) [x]
+	refs/tags/next-20230201 (d023d6f741c85bb00d2ca43d338327fbc150c113 -> aebd8=
+f0c6f8280ba35bc989f4a9ea47469d3589a) [x]
+	refs/tags/next-20230616 (c2807ecb529004ea6f2c2be823c495dc8491e205 -> cf683=
+e8870bd4be0fd6b98639286700a35088660) [-]
 
-OK, c2807ecb5290 is still included in drm-misc-next. So while I don't
-understand the whole model, the patches at least seem to be scheduled to
-go in during the next merge window.
+so up to now it happend only three times (i.e. the lines with [-]) that
+drm-misc/for-linux-next changed in a non-ff way and the commit wasn't
+included later in the mainline (and for refs/tags/next-20230616 we
+assume this will change to [x] during the next merge window)
 
-> Hope that makes sense!
-
-I hope so, too :-)
+So it seems to happen every few weeks ...
 
 Best regards
 Uwe
 
+[1] My collection of historic next tags is incomplete, so there might be
+more.
+
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---jxye2q65aavatxzk
+--eb4c3srj26vyfosz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSO+vMACgkQj4D7WH0S
-/k4tBAf/WJqmqU+5eekUGchlF9m1+XeCRlblrZKJD8OlTBL6PlxHAN/jbFku6GKt
-gjyjPP6HZ9iWXLnvngsdwG8hNFKJvu2Y1IEbPgA5j8Dd68NivIKMuj0eXTLZ29xn
-OUiLHWcA7+wwu14zyDNbB+IcT0uyxwkPhS8SuUhcsbhWhS6+7sjxQvv0CP34/En2
-LzTVFs7CpT/eTDELjFwUNzHDs9+Off9x1XvvYp7UqJBJvpt+6hbH2ovTKx3SLf8Z
-R3If2PYSjGHHQ7iEvQrY1CV4P3asfnmauhG0Fhow3Sn5isYcAjgrt+MTjDti7KjD
-AI9VKh7LunoDs1M1lzZLbZT3DXLMag==
-=zTX8
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSPDn8ACgkQj4D7WH0S
+/k7L6gf/cytqkBFkHVXDoBVXRxPM1OePNsw21ry/f3tW70K2nNc4HnmoAL9mFRQ8
+5wG1yAZjKMasYxKAfcYJMLYLtzHN4Y9Qp8sc1hxVSMIMocvRl3ZIiWzJfreVjIAe
+7FTXkufJanMn7c9Qdh/J8JOtKpklVEZUUfRzINRBM+76I5EHPiQbJa6tn5LfA2Th
+sRsDEpNjPqCakHoSrXXjaI+Hr96WW17ZMBahDJWoTbWsZxgT3iYw66xrHfCtfe9b
+cvNTvLg1zU7Pss91qpOXPmy20SpgFp+azkcgV4fuRDBBzOWy8o60c+sHOakVGqEt
+X09GAkhhnxYXlTriqgI34p9H1ew/0g==
+=v7dB
 -----END PGP SIGNATURE-----
 
---jxye2q65aavatxzk--
+--eb4c3srj26vyfosz--
