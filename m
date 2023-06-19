@@ -2,51 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02C22734C87
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jun 2023 09:42:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B66734D07
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jun 2023 10:06:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjFSHm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jun 2023 03:42:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
+        id S229769AbjFSIGT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jun 2023 04:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbjFSHmp (ORCPT
+        with ESMTP id S230187AbjFSIFh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jun 2023 03:42:45 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D190E6B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jun 2023 00:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=p616TOQ+HzOPu0YrIkat+11cC5Ga
-        Tl1I3cp6P8kXlT4=; b=V0TnQuVi/XA2zRhILOg90KNJNNFAL10T1tLYvLiOTk4s
-        vTKogDiyFJjEaCHfOHpovb5Fg/JwDIxxO+T3vxNdj0+t9F5D7urHF8I+NVLYFN3o
-        YccnAfYf7zfIpt6cR34L3UVWw48zh9ANrJwZDxndNn+1rvysikRmiXtB59R+pVU=
-Received: (qmail 149438 invoked from network); 19 Jun 2023 09:42:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jun 2023 09:42:29 +0200
-X-UD-Smtp-Session: l3s3148p1@YxQ5rXb+/Ktehh9k
-Date:   Mon, 19 Jun 2023 09:42:29 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v3 0/2] KingFisher: support regulators for PCIe
-Message-ID: <ZJAG5aN1vtAJHqHz@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20230512075241.2770-1-wsa+renesas@sang-engineering.com>
+        Mon, 19 Jun 2023 04:05:37 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047A41706;
+        Mon, 19 Jun 2023 01:05:31 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7624af57b21so152579685a.1;
+        Mon, 19 Jun 2023 01:05:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687161930; x=1689753930;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3oz8GNIosqesleY5hwO8jR0lVB7Ix3LZHCQA0peSIcE=;
+        b=mA+W3uIWEkd7n3Ncfv2hqSsLdzb9hdNz3wHsILLWgszoxgchy4PVkOncVgRaZWAU3V
+         YrGGF4SdCwh+KbdjIhAlafIz10/yjR/LgTeSSs8iPGgH16dtmUrQE711iFf7ShCE40aR
+         OXsXMOSsJnkWLuAW5WHrRZfSswqwifLosHF47PHL1Ci5S6JSVjXduMkUYICM+DaaGbli
+         mmTb8Pvdvzo4XUDUNCmJ9drV+5OwMtjFf1iZyhl9Xt71pKpxshyUpclfJq7NLYIap6Pl
+         QHSDm5RTWi3XP+k52d9Br/ipzfjJ6tka/zcsD8X8Si9T7ueQiwTjvAHc9zbtk2luiNsh
+         BTFw==
+X-Gm-Message-State: AC+VfDy5t+8fsjO65wtr7pPveLr86I5nnBJDxt+YoILGzDJm/SHg+6Os
+        mn0+db1hV068Rl6i/PgRmojYdluvZ6YAIw==
+X-Google-Smtp-Source: ACHHUZ5uFi/d1xCvjgJ2p8hqehUkByFl5mUyh3EiDQynPZYxUKxn6h/YNCcj5e/9O/SYyxwpNJhypw==
+X-Received: by 2002:a05:620a:cc6:b0:763:a191:71ec with SMTP id b6-20020a05620a0cc600b00763a19171ecmr503073qkj.32.1687161929830;
+        Mon, 19 Jun 2023 01:05:29 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id g124-20020a0dc482000000b0056d4c86b639sm3474416ywd.9.2023.06.19.01.05.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jun 2023 01:05:29 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bcde2b13fe2so3463398276.3;
+        Mon, 19 Jun 2023 01:05:28 -0700 (PDT)
+X-Received: by 2002:a5b:88e:0:b0:bce:facd:547a with SMTP id
+ e14-20020a5b088e000000b00bcefacd547amr6680333ybq.25.1687161928415; Mon, 19
+ Jun 2023 01:05:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zGCe0u+Tq+fUjznm"
-Content-Disposition: inline
-In-Reply-To: <20230512075241.2770-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+References: <20230617150302.38477-1-aford173@gmail.com>
+In-Reply-To: <20230617150302.38477-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 19 Jun 2023 10:05:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWghaOLH5TOK5gCfQpF=4Qb4FvL5sW+3=hGMLJG6sheHw@mail.gmail.com>
+Message-ID: <CAMuHMdWghaOLH5TOK5gCfQpF=4Qb4FvL5sW+3=hGMLJG6sheHw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] clk: renesas: rcar-gen3: Add support for ZG clock
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-clk@vger.kernel.org, aford@beaconembedded.com,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,48 +69,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Sat, Jun 17, 2023 at 5:03 PM Adam Ford <aford173@gmail.com> wrote:
+> A clock used for the 3D graphics appears to be common
+> among multiple SoC's, so add a generic gen3 clock
+> for clocking the graphics.  This is similar to the
+> cpg_z_clk, with a different frequency control register
+> and different flags.  Instead of duplicating the code,
+> make cpg_z_clk_register into a helper function and
+> call the help function with the FCR and flags as
+> a parameter.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
---zGCe0u+Tq+fUjznm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.6.
 
-Hiya,
+Gr{oetje,eeting}s,
 
-On Fri, May 12, 2023 at 09:52:39AM +0200, Wolfram Sang wrote:
-> Here are the patches to make PCIe cards work in the slot CN15 on a
-> KingFisher board. Look at the patches for a changelog, please.
->=20
->=20
-> Wolfram Sang (2):
->   dt-bindings: PCI: rcar-pci-host: add optional regulators
->   PCI: rcar-host: add support for optional regulators
+                        Geert
 
-Is it possible to have this in 6.5? I don't see it in -next as of today.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Happy hacking,
-
-   Wolfram
-
-
---zGCe0u+Tq+fUjznm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSQBuEACgkQFA3kzBSg
-KbaFcg//ci7a7SLs/O+xsnTBL+uszAiaHyBQSmx5WW8eIebPlnX81CMvTwOZZ/QN
-DLF0AFqtJa+umqltP5KsZbldItK7FF4pkHm5tW0ctA5W+zpBPs+oXm68Z87Kanpj
-uBdGpAbPq/Jslhw+7vG9IG8BIHa3z2zglxNsf0m2kXm9mQHLxhxpwBC8EVJcTQaB
-vtP+e3VVc1iGpjqIYlpsXkgarD5J+JiLNM1/EkBxLa1Nqb6ObUvWj9C/rwNh06mf
-sA3NPVNFZihwzW7B8XtstC1QIObpbvP+YyjzCf9Ovk5QiEZuths+4uKiMYSbqCfd
-Pfbahh7WNS7WT3RTYyz92w8Ng3UIR7EMdYQXm5VkdoxWa6guk6obJj44eVeVuAjV
-qQ4TzqswbUBKIVxyUDoxxMPK816wXyJC2Xv+FCu0nWptJXU9edsZi//JDOIs5iyr
-Fsz0VrIyzLnw8c9Ms6kBCx9yxXTP+MZZABix9XWJUgh8vkhDoNBSN8PB69yAdWTa
-bwA4wcxoxipkeL1wil6cdRPMUjtXjTvrDsTz51DuqZw6g6dD4j5RmlBPNI28lXGJ
-tXdKaGEWFI+qpdowagyeDbbAmik9mG6flsdkst/+AGWzOTgi8TAZormviky6HVVk
-fXxKyA4lY/L8khVb1LoTJ6+FtogBsP/dBapwBrzLLOi3xnLtf9A=
-=lYsb
------END PGP SIGNATURE-----
-
---zGCe0u+Tq+fUjznm--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
