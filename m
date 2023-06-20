@@ -2,92 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6907369EA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 12:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8A23736AE4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 13:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232340AbjFTKwC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jun 2023 06:52:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36656 "EHLO
+        id S232054AbjFTLZM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jun 2023 07:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbjFTKwB (ORCPT
+        with ESMTP id S231330AbjFTLZK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jun 2023 06:52:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4D6E41
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 03:51:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2899E611E2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 10:51:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C26C433C0;
-        Tue, 20 Jun 2023 10:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687258318;
-        bh=V9MJUCVMWI9KfhKjx8mSvYw2pf1xjGedQM3kQSvLgGM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OCv4HWAtYRwDDL4w75BYLov4HtUzw//tycij0AU63h9r8gj6xID+tOvOIk7VQyl8n
-         w50Oa9scAAPxXzx0bCYCAVSaSLwP5Pc+m861ajyrs3T8AVsTaL59FgNOVRbwySC6MO
-         L1IKvLICjaTdPDLe6tLk7CFBOrRK3ehFOzjgqWZAqfabRKUAZuVvTHAligZGK5E6iW
-         cTVXpM3dzyrZshj72n/dWh2mnaFNRKXDM85xG4og/4MXgZ3s5UAyutoWr+YAyeQoLi
-         rlyZQB03KRNUUfLDXfW2NOcK1yklLqT2/9kXmv8ezz4Q5RAcPeBrmUX3G78nhGcSIe
-         ZTFEv8ueA3qIA==
-Date:   Tue, 20 Jun 2023 12:51:55 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] drm/bridge_connector: Handle
- drm_connector_init_with_ddc() failures
-Message-ID: <z3p6hqaf5yz24fe6g2pfw3saksu2iqu5gycyfij7rgfojx2ii5@ibrnokvqcucc>
-References: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
+        Tue, 20 Jun 2023 07:25:10 -0400
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726B7CF;
+        Tue, 20 Jun 2023 04:25:09 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-57028539aadso52160407b3.2;
+        Tue, 20 Jun 2023 04:25:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687260308; x=1689852308;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uyZC6CHxxs4kO9Cxfd3i2rfWTchHKU3nAYuKkt1T5XY=;
+        b=iIBOi/r3JIB5QzEe23cF/zMX2xL6JsYGNBMnc4H/v4Z/Ry8Q6WAuPXy5A4DBP3AYxo
+         pOCC11quZkpKWG3kx3iVErMXXVV86x3Pg8EXp0QdMellwQkD6TUdEaWLg5R93COORJpu
+         byHLJ8LO0ZFcql7w+si87Km6Gq/gTctiLmZv+4Gmvnw5isayH2qkmULztPzJNLqyI1ku
+         ocd1I38Ew2953efoWuYdpCvbdeg2p7ze5azda0p8Y9qfagIMYOMAaOi2yKpY859uPf3h
+         S5epZBp6kAL427zWYyezNahR4JGLxoOiIRXLuiWbkRbSJp1P6lEyXu3pv+H5qQMOcCBT
+         TxNw==
+X-Gm-Message-State: AC+VfDxhsUtXGoD2MbrrTZcDvGq70uUjzvTa0BzMUFxvm4uYz6C0MPFM
+        nhSdyXSvwCgL18UExxeCo9uOcpI0H9zIpA==
+X-Google-Smtp-Source: ACHHUZ6ttl7Sozhi+OBRKFkuZ1Xahxqz0OOHSwzerXeVacBdbq+KcFIJr8WeRbhqamDIkF4ktBwlng==
+X-Received: by 2002:a81:91c1:0:b0:55a:6430:e8fb with SMTP id i184-20020a8191c1000000b0055a6430e8fbmr14003229ywg.8.1687260308486;
+        Tue, 20 Jun 2023 04:25:08 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id a133-20020a81668b000000b00569ff2d94f6sm450431ywc.19.2023.06.20.04.25.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jun 2023 04:25:05 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bd5f59fb71dso4850768276.3;
+        Tue, 20 Jun 2023 04:25:05 -0700 (PDT)
+X-Received: by 2002:a25:ab89:0:b0:ba8:7015:36df with SMTP id
+ v9-20020a25ab89000000b00ba8701536dfmr10319681ybi.26.1687260304774; Tue, 20
+ Jun 2023 04:25:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="meh2x7on6izf7tab"
-Content-Disposition: inline
-In-Reply-To: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230620103909.37582-1-wsa+renesas@sang-engineering.com> <20230620103909.37582-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230620103909.37582-4-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 20 Jun 2023 13:24:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXbpBeKNL6QC_vYTrocf7xPcvUBQmoV9vboqVt_ciio+g@mail.gmail.com>
+Message-ID: <CAMuHMdXbpBeKNL6QC_vYTrocf7xPcvUBQmoV9vboqVt_ciio+g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/3] arm64: dts: renesas: ulcb-kf: add node for GPS
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---meh2x7on6izf7tab
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 20, 2023 at 12:39 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> From: Wolfram Sang <wsa@kernel.org>
+>
+> Add the node for the GPS receiver and its VCC supply.
+>
+> Signed-off-by: Wolfram Sang <wsa@kernel.org>
+> ---
+> Changes since RFC v1:
+> * rebased because of patches dropped and refactored
+> * added static vcc-suplly
 
-On Tue, Jun 20, 2023 at 08:50:44AM +0200, Geert Uytterhoeven wrote:
-> drm_connector_init_with_ddc() can fail, but the call in
-> drm_bridge_connector_init() does not check that.  Fix this by adding
-> the missing error handling.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks for the update!
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> @Geert: Not sure if we need so many fixed 3v3 regulators. Most of the
+> other ones more or less directly derive from d_3v3. Or do you prefer it
+> this way?
 
-Maxime
+Probably all of them should refer to &reg_3p3v instead...
 
---meh2x7on6izf7tab
-Content-Type: application/pgp-signature; name="signature.asc"
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> @@ -39,6 +39,13 @@ accel_3v3: regulator-acc-3v3 {
+>                 regulator-max-microvolt = <3300000>;
+>         };
+>
+> +       d_3v3: regulator-d-3v3 {
 
------BEGIN PGP SIGNATURE-----
+... but if you want to keep it like this for now, please name
+it appropriately (s/d/gnss/g).
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJGEywAKCRDj7w1vZxhR
-xeJkAQCMntGxRYuYehLRiKEl5oWCZDQlZACd7j35XBBUT+CuhAD/RGvK96tX90ZV
-SZhI4pm1cKpx3pxPOlLSAx0D1btrTQs=
-=rGmg
------END PGP SIGNATURE-----
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "d-3v3";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +       };
+> +
+>         hdmi_1v8: regulator-hdmi-1v8 {
+>                 compatible = "regulator-fixed";
+>                 regulator-name = "hdmi-1v8";
 
---meh2x7on6izf7tab--
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
