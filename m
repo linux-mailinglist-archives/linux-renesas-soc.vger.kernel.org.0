@@ -2,114 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D0EF73669A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 10:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE21B7366DA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 11:01:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbjFTIsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jun 2023 04:48:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51104 "EHLO
+        id S232081AbjFTJBL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jun 2023 05:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbjFTIsX (ORCPT
+        with ESMTP id S232082AbjFTJBJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jun 2023 04:48:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C09B10D5;
-        Tue, 20 Jun 2023 01:48:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1CC7C60FB7;
-        Tue, 20 Jun 2023 08:48:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F979C433C8;
-        Tue, 20 Jun 2023 08:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687250899;
-        bh=We4GUkRxhS1fDYslOlxwNOQXBwPb0a3KCLEG71iYALM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GSICaezSfcdPMn56iSmebYQ6YK4Q8EWXfX1wHQ2tHHMo6nfrJU1kpYIynrVPPGGfG
-         CgeQeWbIBnLuykiGyZS7JG13eCQBla7lljNNZxNzyQ/C/IpvICvifvvNLxJSqq65n5
-         3Dq3G+eZVHMQflpW/WsOBrb60LngaWNoGjj/tG6eCOjesZ3cEAHHGXKpl1oXHZaKrJ
-         3Ul98sD5Y/ek+EH/0n82rLb+cFWH5ur/5I8NeDAF0NIgxQrjz0WRT1rqAZgVXsG6fs
-         64KYDRWfNVvJqCXNTnvvN0mChXhFnPYdYiYjretoVVZKDPmlvwWjFW8Cz34MRA3eRS
-         YyVqPcri6yUdQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1qBX2B-0007Un-9w; Tue, 20 Jun 2023 10:48:19 +0200
-Date:   Tue, 20 Jun 2023 10:48:19 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [RFC PATCH 2/5] gnss: ubx: use new helper to remove open coded
- regulator handling
-Message-ID: <ZJFn04P7_JhC24ST@hovoldconsulting.com>
+        Tue, 20 Jun 2023 05:01:09 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5571703
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 02:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=h0pwII/osiZQMcrjxkgj4Y9BGp05
+        vZ2TtRFtVzE1d00=; b=3agXCm4UMOic3fHPpNZFnpFfAQFZErRv2POvhTB+gYjr
+        TNM2E4T5hHSZnT3wTNUHGrrPsKncBb/MZc159daTUUiPtNU0ftCodifLKc++M1aW
+        Tj2khKTi7Ft+G00GpC4mRwpuHp1R29jPsJ6GVjOnKkbRG4yuVV2W/H4pnctLNkk=
+Received: (qmail 568493 invoked from network); 20 Jun 2023 11:00:55 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jun 2023 11:00:55 +0200
+X-UD-Smtp-Session: l3s3148p1@fa+U44v+vINehhtC
+Date:   Tue, 20 Jun 2023 11:00:55 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/5] WIP: gnss: merge MTK driver into UBX driver
+Message-ID: <ZJFqxzU2ij4kI131@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Johan Hovold <johan@kernel.org>, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20230523064310.3005-1-wsa+renesas@sang-engineering.com>
- <20230523064310.3005-3-wsa+renesas@sang-engineering.com>
+ <20230523064310.3005-2-wsa+renesas@sang-engineering.com>
+ <ZIcC/sg59Ti+lL1N@ninjato>
+ <ZJFRnIFUokVvV-pY@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="b2ug3UcAHMJsknOi"
 Content-Disposition: inline
-In-Reply-To: <20230523064310.3005-3-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <ZJFRnIFUokVvV-pY@hovoldconsulting.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 23, 2023 at 08:43:07AM +0200, Wolfram Sang wrote:
-> v_bckp shall always be enabled as long as the device exists. We now have
-> a regulator helper for that, use it.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/gnss/ubx.c | 26 ++++----------------------
->  1 file changed, 4 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gnss/ubx.c b/drivers/gnss/ubx.c
-> index c01e1e875727..c8d027973b85 100644
-> --- a/drivers/gnss/ubx.c
-> +++ b/drivers/gnss/ubx.c
-> @@ -17,7 +17,6 @@
->  #include "serial.h"
->  
->  struct ubx_data {
-> -	struct regulator *v_bckp;
->  	struct regulator *vcc;
->  };
->  
-> @@ -106,30 +105,16 @@ static int ubx_probe(struct serdev_device *serdev)
->  		goto err_free_gserial;
->  	}
->  
-> -	data->v_bckp = devm_regulator_get_optional(&serdev->dev, info->v_bckp_name);
-> -	if (IS_ERR(data->v_bckp)) {
-> -		ret = PTR_ERR(data->v_bckp);
-> -		if (ret == -ENODEV)
-> -			data->v_bckp = NULL;
-> -		else
-> -			goto err_free_gserial;
-> -	}
-> -
-> -	if (data->v_bckp) {
-> -		ret = regulator_enable(data->v_bckp);
-> -		if (ret)
-> -			goto err_free_gserial;
-> -	}
-> +	ret = devm_regulator_get_enable_optional(&serdev->dev, info->v_bckp_name);
-> +	if (ret < 0 && ret != -ENODEV)
-> +		goto err_free_gserial;
 
-I'm a bit torn about this one as I'm generally sceptical of devres and
-especially helpers that enable or register resources, which just tends to
-lead to subtle bugs.
+--b2ug3UcAHMJsknOi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-But if there's one place where this new helper, which importantly does
-not return a pointer to the regulator, may be useful I guess it's here.
+Hi Johan,
 
-Care to respin this one after dropping the merge patch?
+> and sorry about the late feedback on this. Didn't have time to process
+> my queue before some holiday last week.
 
-Johan
+No worries. I hope you had some nice holiday!
+
+> No, sorry, keeping separate drivers per vendor was a deliberate choice.
+
+Yes, OK. I am not really surprised.
+
+> First, some of these devices support vendor specific protocols which we
+> may add driver support for at some point beyond currently just exporting
+> this information to user space (e.g. to change line speed from the
+> driver).
+
+OK, I thought we can seperatae again if this really coming somewhen, but
+we can also leave it like this.
+
+> Second, device families are expected to share at least some common
+> properties like reset signalling and supplies, which are better kept
+> separate.
+
+Thanks for the feedback!
+
+   Wolfram
+
+
+--b2ug3UcAHMJsknOi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSRascACgkQFA3kzBSg
+KbbNpg/9Fub1Yxq7inof/XB992RnC3OfDgqetgzj8TnecbxYKDg+hNd+IRHywhZV
+iUm8SrL5wC5jHZ7ugxgtRkZbqAkaEHh5rNI3Vo5HFl29bBjC6XKAiW+xoGMyauNi
+LfvzVAMDBFRC9i4fGHVQSS5o+rUMN4iX/BmtfAs4mVaV8LQt16XiE6TXtZt5kBYV
+Ac0RBgyLoe+8cIIvNccXZX/xjZRYjKx8L2lkAJdJBzhbs1vBP/baGOzu+wf6kS1N
+xqSVliwEp0d+UPg1sapvHX+65+rYDkvJ8Wh4lUtQ4U9tRPhP2VQiEE70rXDwmbF4
+aMEYC1hKiGCiMMfenDgXQ/wnrQoemrBxvs0Ac/okveNzY0A7BCDccXJPIkgQvE9+
+CZmjUWSpPpUmu/QATsYrl5q9fmrT9BxRVbgLYeX1m7tF4XVngrjHJxAXLPz0EJrU
+pL9Er95ogXL4opiOpZvaYz9THBBgogvW8yAD/HhHA9cetEGnxOG67g4kLbGQgeEp
+8sFqRcZA2s64DemewUOFwDu4gv/OBxV7qe5XULNfYg1aLQXukwaQcNLK3qCYI4De
+qj+zHbbCwA0omxCBxrs39zO1l1bdQCfum6UZc/3j5JcjY2NE2H3slVLtBj6AK1XY
+egfrzBa5L5mO4r2Eo9yrB/NKe/n8ofzvkbdWCocfMtx51Ky+vfo=
+=4U9z
+-----END PGP SIGNATURE-----
+
+--b2ug3UcAHMJsknOi--
