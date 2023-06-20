@@ -2,59 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16330736704
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 11:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F82273674D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 11:13:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232129AbjFTJIw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jun 2023 05:08:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33578 "EHLO
+        id S231294AbjFTJNG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jun 2023 05:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232131AbjFTJIm (ORCPT
+        with ESMTP id S231713AbjFTJMl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jun 2023 05:08:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE17D1726;
-        Tue, 20 Jun 2023 02:08:40 -0700 (PDT)
+        Tue, 20 Jun 2023 05:12:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA5A1A1;
+        Tue, 20 Jun 2023 02:12:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 517DE61074;
-        Tue, 20 Jun 2023 09:08:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE146C433C0;
-        Tue, 20 Jun 2023 09:08:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DC3661087;
+        Tue, 20 Jun 2023 09:12:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B572C433C8;
+        Tue, 20 Jun 2023 09:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687252119;
-        bh=6K9XDF/21Kxo3x9Gv+zHsaAn6wzoNhZIF0+/bJdAbFY=;
+        s=k20201202; t=1687252341;
+        bh=Kz1VJjObJlh7O7SFllyvvnKC+T2YPg+YAnme017Z+eo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tqS5NUlkh6uAXBZXmlnHFlzygRf4llTkjJAObGyeuA241P8Vd/gVB5KUxnYgMywU8
-         e5x5C5Ibf39FT9N3xgHNiwo9ynVjiJXCraaCydz3Lelawhb8fAwbPMCrqCdmG3/0+U
-         RsskhEjEZwJX1n7BvQnPbgRzPdLiZIJPnuMg3pARiOGJ3acCFmHqj6QJSO0ML7AT1k
-         v78RHmFTQKcqu2cxSYV1W6iwTGIWhOzInzz1jU1VO0QNAmr8P30fPsApP5E+5XpFyZ
-         8Ru5gBCBjkvjCfGkEZsHIfJQay1AzjwAGaE617qBcJQEYfWm/En8tv/vOFwcmMvmO3
-         zlAko5VuB81zw==
+        b=sKw0SzTUl8EvZLljd09yKbjyqdp5cahtABMGDY1iwDmCb1VOY9z74+2ES4BLZA/AO
+         4sAy0D7YMlnQ3P+IF+uj6AOwXLxoOdot2nWB43Ea8G+vrAo0x37Mt9zXmDP2EJK12H
+         jimw4imn6eO2hgUFqATFnUBHz9bQ21H4NJWxiOxjsW0quR9xzxivP7A2rhsJ/KgHOx
+         Al9r++4Ad6rjwQs0zTZJekDcBy4lTuQWuDnwOoEWKubdC1LmzYiNs6lUxYN6NxPSYC
+         acv8X3WVdJG23Z+3cBmywa94bWJV3ByfVBBvBF/tl26jJcuYvMJ1EwILkPUh1M/RZy
+         ZWzKxSpU89Jbg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1qBXLr-0007dq-Pt; Tue, 20 Jun 2023 11:08:39 +0200
-Date:   Tue, 20 Jun 2023 11:08:39 +0200
+        id 1qBXPR-0007fU-GL; Tue, 20 Jun 2023 11:12:21 +0200
+Date:   Tue, 20 Jun 2023 11:12:21 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [RFC PATCH 2/5] gnss: ubx: use new helper to remove open coded
- regulator handling
-Message-ID: <ZJFslwLFNMmd9cw4@hovoldconsulting.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 4/5] gnss: ubx: add support for the reset gpio
+Message-ID: <ZJFtdWK5I13YUUcu@hovoldconsulting.com>
 References: <20230523064310.3005-1-wsa+renesas@sang-engineering.com>
- <20230523064310.3005-3-wsa+renesas@sang-engineering.com>
- <ZJFn04P7_JhC24ST@hovoldconsulting.com>
- <ZJFrm1KYVfEDD9s1@shikoro>
+ <20230523064310.3005-5-wsa+renesas@sang-engineering.com>
+ <ZJFSjrf41PHe400c@hovoldconsulting.com>
+ <ZJFsGWepuvkSjL9a@shikoro>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PZMhN7r7/EUnYlHX"
+        protocol="application/pgp-signature"; boundary="M5C+drIlaUYiTH3C"
 Content-Disposition: inline
-In-Reply-To: <ZJFrm1KYVfEDD9s1@shikoro>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <ZJFsGWepuvkSjL9a@shikoro>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,38 +62,38 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---PZMhN7r7/EUnYlHX
+--M5C+drIlaUYiTH3C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 20, 2023 at 11:04:27AM +0200, Wolfram Sang wrote:
-> > I'm a bit torn about this one as I'm generally sceptical of devres and
-> > especially helpers that enable or register resources, which just tends =
-to
-> > lead to subtle bugs.
+On Tue, Jun 20, 2023 at 11:06:33AM +0200, Wolfram Sang wrote:
 >=20
-> It is good to think twice with devres, but I also really like this
-> helper. En-/Disabling the regulator matches the life cycle of the device
-> itself. The boilerplate code it removes tends also to be error prone.
+> > > Tested with a Renesas KingFisher board. The chip correctly disappears
+> > > from the I2C bus when the 'gnss0' device is not opened.
+> >=20
+> > What do you mean by "disappears from the I2C bus"?
+> >=20
+> > Does this device support both I2C and UART?
+>=20
+> Yes, and on my board, both are wired.
 
-So can the "trival" devres conversions be:
+Ah, yes, it was ublox device.
 
-	https://lore.kernel.org/lkml/ZJFqCQ8bbBoX3l1g@hovoldconsulting.com
-
-I meant to CC you on my reply there.
+But can you elaborate on the "disappearing" bit? How exactly does it
+"disappear" when the gnss0 device is *not* opened?
 
 Johan
 
---PZMhN7r7/EUnYlHX
+--M5C+drIlaUYiTH3C
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZJFslAAKCRALxc3C7H1l
-CFPzAQDAklV1JVCJjyVnBEQ3HSkwI0ocwpWtTLV/ynk6aRuSZgD9GurYczhVXHbB
-wkaHrvVwVkC8+cBBPY38dB2t8nheVQA=
-=2M6p
+iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZJFtcQAKCRALxc3C7H1l
+CEBpAQDg4l5eDw7fijbkeQJPqL6qCxJNnHQFO137fzjo8UOZpgD7BsiFgclS6pCZ
+4SYB9I0X23b9VCOxi6Mh8c42CDK7mQs=
+=Pv+G
 -----END PGP SIGNATURE-----
 
---PZMhN7r7/EUnYlHX--
+--M5C+drIlaUYiTH3C--
