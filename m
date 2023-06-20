@@ -2,106 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FCCA736984
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 12:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6907369EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 12:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232191AbjFTKjn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jun 2023 06:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
+        id S232340AbjFTKwC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jun 2023 06:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232192AbjFTKjj (ORCPT
+        with ESMTP id S231534AbjFTKwB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jun 2023 06:39:39 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6FE10FE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 03:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=tQR0dWwr8w4Ycm
-        Bt80qqUYFnqdWmFqmB5wVjdVTNQGI=; b=aX0RyTv49uKNK1StgC86X7o4GVifF5
-        L1mkoGXFqymtcBtohUJjjWCnnlZPBNgNnsRLpzdc10oWI5GQ2cri41QRyBQPGjmP
-        k01F1OCQs90sV/YH9oKq+J1R7LC2UYulzv/Lqnt6h6MzXnm9ikbax6IyCldyG7SA
-        sRo+apN62cWow=
-Received: (qmail 601116 invoked from network); 20 Jun 2023 12:39:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jun 2023 12:39:27 +0200
-X-UD-Smtp-Session: l3s3148p1@QoLpQ43+vIxehhtC
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>, Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 3/3] arm64: dts: renesas: ulcb-kf: add node for GPS
-Date:   Tue, 20 Jun 2023 12:39:08 +0200
-Message-Id: <20230620103909.37582-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230620103909.37582-1-wsa+renesas@sang-engineering.com>
-References: <20230620103909.37582-1-wsa+renesas@sang-engineering.com>
+        Tue, 20 Jun 2023 06:52:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4D6E41
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 03:51:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2899E611E2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 10:51:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C26C433C0;
+        Tue, 20 Jun 2023 10:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687258318;
+        bh=V9MJUCVMWI9KfhKjx8mSvYw2pf1xjGedQM3kQSvLgGM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OCv4HWAtYRwDDL4w75BYLov4HtUzw//tycij0AU63h9r8gj6xID+tOvOIk7VQyl8n
+         w50Oa9scAAPxXzx0bCYCAVSaSLwP5Pc+m861ajyrs3T8AVsTaL59FgNOVRbwySC6MO
+         L1IKvLICjaTdPDLe6tLk7CFBOrRK3ehFOzjgqWZAqfabRKUAZuVvTHAligZGK5E6iW
+         cTVXpM3dzyrZshj72n/dWh2mnaFNRKXDM85xG4og/4MXgZ3s5UAyutoWr+YAyeQoLi
+         rlyZQB03KRNUUfLDXfW2NOcK1yklLqT2/9kXmv8ezz4Q5RAcPeBrmUX3G78nhGcSIe
+         ZTFEv8ueA3qIA==
+Date:   Tue, 20 Jun 2023 12:51:55 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] drm/bridge_connector: Handle
+ drm_connector_init_with_ddc() failures
+Message-ID: <z3p6hqaf5yz24fe6g2pfw3saksu2iqu5gycyfij7rgfojx2ii5@ibrnokvqcucc>
+References: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="meh2x7on6izf7tab"
+Content-Disposition: inline
+In-Reply-To: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Wolfram Sang <wsa@kernel.org>
 
-Add the node for the GPS receiver and its VCC supply.
+--meh2x7on6izf7tab
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
----
-Changes since RFC v1:
-* rebased because of patches dropped and refactored
-* added static vcc-suplly
+On Tue, Jun 20, 2023 at 08:50:44AM +0200, Geert Uytterhoeven wrote:
+> drm_connector_init_with_ddc() can fail, but the call in
+> drm_bridge_connector_init() does not check that.  Fix this by adding
+> the missing error handling.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-@Geert: Not sure if we need so many fixed 3v3 regulators. Most of the
-other ones more or less directly derive from d_3v3. Or do you prefer it
-this way?
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Maxime
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index e62f5359f64b..dd1ffc31c874 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -39,6 +39,13 @@ accel_3v3: regulator-acc-3v3 {
- 		regulator-max-microvolt = <3300000>;
- 	};
- 
-+	d_3v3: regulator-d-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "d-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+
- 	hdmi_1v8: regulator-hdmi-1v8 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "hdmi-1v8";
-@@ -434,6 +441,13 @@ &scif1 {
- 	pinctrl-names = "default";
- 
- 	status = "okay";
-+
-+	gnss {
-+		compatible = "u-blox,neo-m8";
-+		reset-gpios = <&gpio_exp_75 6 GPIO_ACTIVE_LOW>;
-+		vcc-supply = <&d_3v3>;
-+		current-speed = <9600>;
-+	};
- };
- 
- &sdhi3 {
--- 
-2.30.2
+--meh2x7on6izf7tab
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJGEywAKCRDj7w1vZxhR
+xeJkAQCMntGxRYuYehLRiKEl5oWCZDQlZACd7j35XBBUT+CuhAD/RGvK96tX90ZV
+SZhI4pm1cKpx3pxPOlLSAx0D1btrTQs=
+=rGmg
+-----END PGP SIGNATURE-----
+
+--meh2x7on6izf7tab--
