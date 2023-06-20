@@ -2,55 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 376AE736E03
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 15:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A13AF736EE7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jun 2023 16:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231727AbjFTN4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jun 2023 09:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
+        id S229966AbjFTOk4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jun 2023 10:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbjFTN4v (ORCPT
+        with ESMTP id S233390AbjFTOkn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jun 2023 09:56:51 -0400
-Received: from s.wrqvtbkv.outbound-mail.sendgrid.net (s.wrqvtbkv.outbound-mail.sendgrid.net [149.72.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85595CF
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 06:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=mime-version:subject:references:from:in-reply-to:to:cc:content-type:
-        content-transfer-encoding:cc:content-type:from:subject:to;
-        s=s1; bh=9grUNdjpwqcccJBDhf97I+CcaImjeCFFPj4g4gaFuZI=;
-        b=Ja+cPrGU74pYP/PEoZNoGXjNhsM5CxymvSf6Z9demJvbei59nawZEY7OSrrKftzqd/RI
-        0e9RJeil6W7IdF871oQdxyi6QPHu0SIoJHjUNtpiYYRhPqVu5SK8b8pfwF5SSxXYuFF7q2
-        tPS3dCNQJsU0VNe7voHO8nXpVm8zLNOFnUqe4EP4B6TQVo8a5lBJz7u7bP71pwzscczTjJ
-        rknChUUSWeCiX6f60EdPq+mf06MbfsbMDkyF7ziqO0UdLs0bWN3rQmuB+nwpm6iD08RH15
-        0/y205azE1XRhv6Gb+R7wvqdxMTZ8gaNgfCzT14T8tKMOTEDQf6V/i+kOp8J2eJA==
-Received: by filterdrecv-84b96456cb-jnxmg with SMTP id filterdrecv-84b96456cb-jnxmg-1-6491B000-11
-        2023-06-20 13:56:16.489152857 +0000 UTC m=+3507455.908062499
-Received: from [192.168.1.50] (unknown)
-        by geopod-ismtpd-9 (SG) with ESMTP
-        id yRlPZ-tUSQOW3d5KxRVAdg
-        Tue, 20 Jun 2023 13:56:16.135 +0000 (UTC)
-Message-ID: <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
-Date:   Tue, 20 Jun 2023 13:56:16 +0000 (UTC)
+        Tue, 20 Jun 2023 10:40:43 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C5C19AA
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jun 2023 07:40:33 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B1DCE218B5;
+        Tue, 20 Jun 2023 14:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1687272031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pwO5liwYTqMSyQXOoPthNHYqRO4IgUKYysAQxUSQScE=;
+        b=1ZwNUJNAZ3jxwWIDCoG9LK3spHqsLG9MDlz0FBrSqXJS98zOzlqI7qTF7uj8NmXuhD1shQ
+        T1VeMaRfpO29Y4B3u7rEcK0lGrreqU5jqmtZ0adFdAXwdHjYjJsk+dJ+uaG2tmBnaZq7Hb
+        MF0Y4zOV73frs4iO/9CXIj46QI490yI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1687272031;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pwO5liwYTqMSyQXOoPthNHYqRO4IgUKYysAQxUSQScE=;
+        b=PXgLLTi7HIUzyQBqwNMSFZYvl1hFMcr5FcsYFSLqlMup6hCYHZfU64YKvjRLpJ/N5dT/lw
+        bpBSZ77aSxSJrsCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 69F21133A9;
+        Tue, 20 Jun 2023 14:40:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 6zfWGF+6kWT0WwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 14:40:31 +0000
+Message-ID: <93b72df1-77c3-8d88-cfca-7b1acd6066e4@suse.de>
+Date:   Tue, 20 Jun 2023 16:40:30 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
 Subject: Re: [PATCH 2/3] drm/rockchip: Resolve dependency in GEM DMA helpers
 Content-Language: en-US
-References: <20230620121202.28263-1-tzimmermann@suse.de>
- <20230620121202.28263-3-tzimmermann@suse.de>
-From:   Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20230620121202.28263-3-tzimmermann@suse.de>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h584SJKyuyhG0hFts?=
- =?us-ascii?Q?c+ciLuROhOoYSR1iWZ7yKcZEhmAlMelTfRjOp7s?=
- =?us-ascii?Q?IRhf554NLzeDvXtYeCMp2cTjVytqzvig0bprfqC?=
- =?us-ascii?Q?WbAftpv=2F0pKjP6TLTkEc20WXab3bZFv8GtrSUK7?=
- =?us-ascii?Q?HTIWEPsFlMPAgD5cUadwhf5XhKTnXCrfbxRRf3k?=
- =?us-ascii?Q?KL+3kSNd1mpgirjm91aTQ=3D=3D?=
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
+To:     Jonas Karlman <jonas@kwiboo.se>, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
         laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
         heiko@sntech.de
@@ -58,51 +63,102 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org,
         dri-devel@lists.freedesktop.org
-X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230620121202.28263-1-tzimmermann@suse.de>
+ <20230620121202.28263-3-tzimmermann@suse.de>
+ <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------OfTinYNHZ5UuuwykzqfTdN6g"
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------OfTinYNHZ5UuuwykzqfTdN6g
+Content-Type: multipart/mixed; boundary="------------VbfdzPY5HHfqMFG9evx6eP0f";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jonas Karlman <jonas@kwiboo.se>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
+ hjc@rock-chips.com, heiko@sntech.de
+Cc: linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Message-ID: <93b72df1-77c3-8d88-cfca-7b1acd6066e4@suse.de>
+Subject: Re: [PATCH 2/3] drm/rockchip: Resolve dependency in GEM DMA helpers
+References: <20230620121202.28263-1-tzimmermann@suse.de>
+ <20230620121202.28263-3-tzimmermann@suse.de>
+ <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
+In-Reply-To: <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
 
-On 2023-06-20 14:03, Thomas Zimmermann wrote:
-> Remove the dependency on the GEM DMA helper library. Rockchip comes
-> with its own implementation of the GEM interface. It only uses the VM
-> callbacks in drm_gem_dma_vm_ops from the GEM DMA helpers. These are
-> not DMA specific.
-> 
-> Duplicate drm_gem_dma_vm_ops in rockchip and remove all dependencies on
-> the GEM DMA helper library.
+--------------VbfdzPY5HHfqMFG9evx6eP0f
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I have intentions to remove the entire custom implementation of the GEM
-interface and replace it with use of GEM DMA helpers in a future series.
+SGkNCg0KQW0gMjAuMDYuMjMgdW0gMTU6NTYgc2NocmllYiBKb25hcyBLYXJsbWFuOg0KPiBI
+aSBUaG9tYXMsDQo+IA0KPiBPbiAyMDIzLTA2LTIwIDE0OjAzLCBUaG9tYXMgWmltbWVybWFu
+biB3cm90ZToNCj4+IFJlbW92ZSB0aGUgZGVwZW5kZW5jeSBvbiB0aGUgR0VNIERNQSBoZWxw
+ZXIgbGlicmFyeS4gUm9ja2NoaXAgY29tZXMNCj4+IHdpdGggaXRzIG93biBpbXBsZW1lbnRh
+dGlvbiBvZiB0aGUgR0VNIGludGVyZmFjZS4gSXQgb25seSB1c2VzIHRoZSBWTQ0KPj4gY2Fs
+bGJhY2tzIGluIGRybV9nZW1fZG1hX3ZtX29wcyBmcm9tIHRoZSBHRU0gRE1BIGhlbHBlcnMu
+IFRoZXNlIGFyZQ0KPj4gbm90IERNQSBzcGVjaWZpYy4NCj4+DQo+PiBEdXBsaWNhdGUgZHJt
+X2dlbV9kbWFfdm1fb3BzIGluIHJvY2tjaGlwIGFuZCByZW1vdmUgYWxsIGRlcGVuZGVuY2ll
+cyBvbg0KPj4gdGhlIEdFTSBETUEgaGVscGVyIGxpYnJhcnkuDQo+IA0KPiBJIGhhdmUgaW50
+ZW50aW9ucyB0byByZW1vdmUgdGhlIGVudGlyZSBjdXN0b20gaW1wbGVtZW50YXRpb24gb2Yg
+dGhlIEdFTQ0KPiBpbnRlcmZhY2UgYW5kIHJlcGxhY2UgaXQgd2l0aCB1c2Ugb2YgR0VNIERN
+QSBoZWxwZXJzIGluIGEgZnV0dXJlIHNlcmllcy4NCj4gDQo+IEN1cnJlbnQgY3VzdG9tIGlt
+cGxlbWVudGF0aW9uIGJyZWFrIGltcG9ydCBvZiB2aWRlbyBmcmFtZWJ1ZmZlcnMgbG9jYXRl
+ZA0KPiBpbiBtZW1vcnkgYmV5b25kIDRHQi4gU3dpdGNoaW5nIHRvIHVzZSBwdXJlIEdFTSBE
+TUEgaGVscGVycyBzb2x2ZWQgdGhhdA0KPiBpc3N1ZSBidXQgcmVxdWlyZXMgcmV3b3JraW5n
+IElPTU1VIGludGVncmF0aW9uIGZvciBmdWxsIHN1cHBvcnQgb2YNCj4gbXVsdGlwbGUgVk9Q
+cyBvbiBlLmcuLCBSSzMyODggYW5kIFJLMzM5OS4NCj4gDQo+IEkgaGF2ZSBubyBFVEEgb24g
+d2hlbiBzdWNoIHNlcmllcyBjYW4gYmUgcmVhZHkgc28gdGhpcyBpcyBtb3JlIG9mIGENCj4g
+aGVhZHMgdXAgdGhhdCBJIHdpbGwgcmV2ZXJ0IHRoaXMgcmVtb3ZhbCBvZiBkZXBlbmRlbmN5
+IG9uIEdFTSBETUEgaGVscGVyDQo+IGxpYnJhcnkgaW4gYSBmdXR1cmUgc2VyaWVzLg0KDQpO
+byBwcm9ibGVtLiBJJ20gb25seSBpbnRlcmVzdGVkIGluIGNsZWFuaW5nIHVwIHRoZSBjdXJy
+ZW50IGludGVyZmFjZXMuIA0KUm9ja2NoaXAgY2FuIGVhc2lseSBzd2l0Y2ggdG8gcmVhbCBH
+RU0gRE1BIGNvZGUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFJlZ2FyZHMs
+DQo+IEpvbmFzDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5u
+IDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9y
+b2NrY2hpcC9LY29uZmlnICAgICAgICAgICAgfCAxIC0NCj4+ICAgZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuYyB8IDIgKy0NCj4+ICAgZHJpdmVycy9ncHUv
+ZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYyB8IDggKysrKysrLS0NCj4+ICAgMyBm
+aWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+Pg0KPiBb
+c25pcF0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3Ry
+YXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5k
+cmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5
+IChBRyBOdWVybmJlcmcpDQo=
 
-Current custom implementation break import of video framebuffers located
-in memory beyond 4GB. Switching to use pure GEM DMA helpers solved that
-issue but requires reworking IOMMU integration for full support of
-multiple VOPs on e.g., RK3288 and RK3399.
+--------------VbfdzPY5HHfqMFG9evx6eP0f--
 
-I have no ETA on when such series can be ready so this is more of a
-heads up that I will revert this removal of dependency on GEM DMA helper
-library in a future series.
+--------------OfTinYNHZ5UuuwykzqfTdN6g
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Regards,
-Jonas
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/rockchip/Kconfig            | 1 -
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 8 ++++++--
->  3 files changed, 7 insertions(+), 4 deletions(-)
-> 
-[snip]
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSRul4FAwAAAAAACgkQlh/E3EQov+Cw
+WA/+OyPL01W5b95WE7W8w0mhA/+w7TDUeQ3jgf4xmI6vH5KL/xxxldRTaf6nqphy1nRAhgz/RZIk
+ZBNOskQskRwI+Cc0wD1IUJ/pKcH6+HFiL17KC29z0dhzAGtWLGC2vdudtapZw8+lFQkJqByq7MZC
+k5JJnJDIirnSX1Iw00m2UmH9/KoIXLZWOAUSqeRw6z7ccUZuxwPvNxpd5QnBNhlLKZfcE1pOi1jy
+xEwzKsabsGLJRbt3/HFnlWvvhCnEaTWYqqkhcGWKTyVzrZv98IB6nD+Ze3wDC1CHm0am+w8DOatg
+pH2w7eQXy6sKNP5XEuUiSxUNrZ4EMG4s+Ady+gfeszNRBtvCHBI08QkFrk940YzpqAZXehkhLvKm
+TcAF1cY929Nq0IZZ8g2QGglGjWdHS16vP9u+f0SCM3M9sOgYTKkn5dAiuyagqKOBxgRbuCBFk6hH
+nobwZEt6dxLZp9EAz1D1JP/urb7km6MEQP5ch0VEGFr7H4AxTzAKDPgXyNvYV2GvsSxYY2WawXuX
+Ma+KlzQvZdhfyx2doyOLVX/6+Iu6jxT7g34517CcM4Vacwv8laMX7zub3Oa4T4vFuZevDfazXhen
+5bw5cYsume6uUjiwSFw5LDoOnHsqPJqLuQspPm35T9NsfeLBqJj9FhM03NdbTJNkRgAtZAkxRlXA
+wiE=
+=IKbW
+-----END PGP SIGNATURE-----
+
+--------------OfTinYNHZ5UuuwykzqfTdN6g--
