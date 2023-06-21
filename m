@@ -2,221 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8858737CE0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jun 2023 10:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A98B4737D5A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jun 2023 10:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231642AbjFUIFb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Jun 2023 04:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45462 "EHLO
+        id S229898AbjFUIKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Jun 2023 04:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjFUIFN (ORCPT
+        with ESMTP id S229758AbjFUIKt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Jun 2023 04:05:13 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104E819A5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Jun 2023 01:05:12 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B078C1F8BE;
-        Wed, 21 Jun 2023 08:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1687334710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/UOGF/fBdoJSP4GOxQ5y1vF6kj0XToldCJHuDmB8qB8=;
-        b=WZxW+xd4Ac40YKLCLHMpFujDpjd2OCDRM1D7ZSnoQ9dxU5CZGl17M7gz7OeVLgGfvGVYcW
-        i5CiTSQ8VtpzJW0cJIpAvRPS6IBTzPRnmQOMv58bkdUVRWyUpLiOJ1bKhdYLQ3Ie+NIzdd
-        1wYnNSZxldgeChM//SZuugb16HtEGNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1687334710;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/UOGF/fBdoJSP4GOxQ5y1vF6kj0XToldCJHuDmB8qB8=;
-        b=PUhxvFdVBV0kWK/bNTb5adD2A+xl7yEQMJM6jrWmx0cVmXOTBacK1Efp523v+NnTuEhAKO
-        YYKvbOpSc/7eUbAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 815F5133E6;
-        Wed, 21 Jun 2023 08:05:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id LFCGHjavkmTKSQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 08:05:10 +0000
-Message-ID: <710e85a5-83fe-289c-0d19-ed055870d9a3@suse.de>
-Date:   Wed, 21 Jun 2023 10:05:09 +0200
+        Wed, 21 Jun 2023 04:10:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EF2810DA
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Jun 2023 01:10:48 -0700 (PDT)
+Received: from uno.lan (unknown [IPv6:2001:b07:5d2e:52c9:1cf0:b3bc:c785:4625])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D77F510A;
+        Wed, 21 Jun 2023 10:10:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687335010;
+        bh=Hbr+RKqfhbJQ+nkVEm6ASUtLSzb4vRzDpeqBiTu74Uc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ka47U7sYq8LTI/9eb8Yld6aGmYH+a8HD3wvnJXNKCpQi0PdaF53FmBP2lwSvkrEOt
+         Xr3PSqCYvdCVdb4KR/6Atiq+4LI+2UXoa8UUs/q/+YPHR1slAymZV6Ix1Ud9jvlJyq
+         sLZ06sNCZ5BAUnx0RIVHudF1lR26hRyL/MITQ+CM=
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Simon Ser <contact@emersion.fr>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
+        xaver.hugl@gmail.com, Melissa Wen <mwen@igalia.com>,
+        wayland-devel <wayland-devel@lists.freedesktop.org>,
+        mdaenzer@redhat.com, Uma Shankar <uma.shankar@intel.com>,
+        Victoria Brekenfeld <victoria@system76.com>, aleixpol@kde.org,
+        Sebastian Wick <sebastian.wick@redhat.com>,
+        Joshua Ashton <joshua@froggi.es>, airlied@gmail.com,
+        alexander.deucher@amd.com, christian.koenig@amd.com,
+        daniel@ffwll.ch, harry.wentland@amd.com,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com, tzimmermann@suse.de,
+        Xinhui.Pan@amd.com,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [RFC 0/9] drm: rcar-du: cmm: Enable 3D LUT support
+Date:   Wed, 21 Jun 2023 10:10:22 +0200
+Message-Id: <20230621081031.7876-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/3] drm/rcar-du: Import buffers with GEM DMA's helpers
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     hjc@rock-chips.com, mripard@kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        kieran.bingham+renesas@ideasonboard.com,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230620121202.28263-1-tzimmermann@suse.de>
- <20230620121202.28263-2-tzimmermann@suse.de>
- <20230620164750.GE26467@pendragon.ideasonboard.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230620164750.GE26467@pendragon.ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YDHwQhDyvzcbvyoOnaX35Z7F"
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YDHwQhDyvzcbvyoOnaX35Z7F
-Content-Type: multipart/mixed; boundary="------------pWvH0lI0OoXjUoTqqfqqaLI6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: hjc@rock-chips.com, mripard@kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kieran.bingham+renesas@ideasonboard.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <710e85a5-83fe-289c-0d19-ed055870d9a3@suse.de>
-Subject: Re: [PATCH 1/3] drm/rcar-du: Import buffers with GEM DMA's helpers
-References: <20230620121202.28263-1-tzimmermann@suse.de>
- <20230620121202.28263-2-tzimmermann@suse.de>
- <20230620164750.GE26467@pendragon.ideasonboard.com>
-In-Reply-To: <20230620164750.GE26467@pendragon.ideasonboard.com>
+Hello, this series is based on the RFC sent by Melssa Wen:
+"[RFC PATCH v2 00/18] Add DRM CRTC 3D LUT interface"
+https://lore.kernel.org/dri-devel/20230109143846.1966301-1-mwen@igalia.com/
+that introduces CRTC properties to control 3D LUT operations.
 
---------------pWvH0lI0OoXjUoTqqfqqaLI6
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+The R-Car DU peripheral has a post-blending color management pipeline (CMM)
+composed by (in order of processing) a 3D LUT a 1D LUT and a Color conversion
+unit.
 
-SGkNCg0KQW0gMjAuMDYuMjMgdW0gMTg6NDcgc2NocmllYiBMYXVyZW50IFBpbmNoYXJ0Og0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4NCj4gDQo+IA0K
-PiBPbiBUdWUsIEp1biAyMCwgMjAyMyBhdCAwMjowMzoyMVBNICswMjAwLCBUaG9tYXMgWmlt
-bWVybWFubiB3cm90ZToNCj4+IENhbGwgX19kcm1fZ2VtX2RtYV9jcmVhdGUoKSB0byBjcmVh
-dGUgYW4gb2JqZWN0IGZvciBpbXBvcnRlZCBidWZmZXJzLA0KPj4gaW5zdGVhZCBvZiByZWlt
-cGxlbWVudGluZyB0aGUgZnVuY3Rpb24gd2l0aGluIHRoZSBkcml2ZXIuIFJlZHVjZXMNCj4+
-IGNvZGUgZHVwbGljYXRpb24gYW5kIHdpbGwgbGF0ZXIgYWxsb3cgdG8gdW4tZXhwb3J0IGEg
-bnVtYmVyIG9mIHN5bWJvbHMNCj4+IGZyb20gdGhlIEdFTSBETUEgaGVscGVycy4NCj4+DQo+
-PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4NCj4gDQo+IE5pY2Ugc2ltcGxpZmljYXRpb24uDQo+IA0KPiBSZXZpZXdlZC1ieTogTGF1
-cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiAN
-Cj4gSSBhc3N1bWUgeW91J2xsIG1lcmdlIHRoZSB3aG9sZSBzZXJpZXMgdGhyb3VnaCBkcm0t
-bWlzYywgcGxlYXNlIGxldCBtZQ0KPiBrbm93IGlmIHRoYXQncyBub3QgY29ycmVjdC4NCg0K
-VGhhbmtzIGZvciB0aGUgcmV2aWV3cy4gVGhlIHBhdGNoc2V0IGNhbiBob3BlZnVsbHkgZ28g
-dGhyb3VnaCBkcm0tbWlzYy1uZXh0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
-Pj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuYyAgICAg
-ICAgICB8ICA1ICstLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yY2FyLWR1L3Jj
-YXJfZHVfa21zLmMgfCAzMyArKystLS0tLS0tLS0tLS0tLS0tDQo+PiAgIGluY2x1ZGUvZHJt
-L2RybV9nZW1fZG1hX2hlbHBlci5oICAgICAgICAgICAgICB8ICAzICsrDQo+PiAgIDMgZmls
-ZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMzEgZGVsZXRpb25zKC0pDQo+Pg0KPj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuYw0KPj4gaW5kZXggODcwYjkwYjc4
-YmM0ZS4uZTlhYTNhYzE0MDY1NCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZ2VtX2RtYV9oZWxwZXIuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
-ZG1hX2hlbHBlci5jDQo+PiBAQCAtNjcsOCArNjcsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IGRybV9nZW1fb2JqZWN0X2Z1bmNzIGRybV9nZW1fZG1hX2RlZmF1bHRfZnVuY3MgPSB7DQo+
-PiAgICAqIEEgc3RydWN0IGRybV9nZW1fZG1hX29iamVjdCAqIG9uIHN1Y2Nlc3Mgb3IgYW4g
-RVJSX1BUUigpLWVuY29kZWQgbmVnYXRpdmUNCj4+ICAgICogZXJyb3IgY29kZSBvbiBmYWls
-dXJlLg0KPj4gICAgKi8NCj4+IC1zdGF0aWMgc3RydWN0IGRybV9nZW1fZG1hX29iamVjdCAq
-DQo+PiAtX19kcm1fZ2VtX2RtYV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRybSwgc2l6
-ZV90IHNpemUsIGJvb2wgcHJpdmF0ZSkNCj4+ICtzdHJ1Y3QgZHJtX2dlbV9kbWFfb2JqZWN0
-ICpfX2RybV9nZW1fZG1hX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLA0KPj4gKwkJ
-CQkJCXNpemVfdCBzaXplLCBib29sIHByaXZhdGUpDQo+PiAgIHsNCj4+ICAgCXN0cnVjdCBk
-cm1fZ2VtX2RtYV9vYmplY3QgKmRtYV9vYmo7DQo+PiAgIAlzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKmdlbV9vYmo7DQo+PiBAQCAtMTEyLDYgKzExMiw3IEBAIF9fZHJtX2dlbV9kbWFfY3Jl
-YXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHNpemVfdCBzaXplLCBib29sIHByaXZhdGUp
-DQo+PiAgIAlrZnJlZShkbWFfb2JqKTsNCj4+ICAgCXJldHVybiBFUlJfUFRSKHJldCk7DQo+
-PiAgIH0NCj4+ICtFWFBPUlRfU1lNQk9MX0dQTChfX2RybV9nZW1fZG1hX2NyZWF0ZSk7DQo+
-PiAgIA0KPj4gICAvKioNCj4+ICAgICogZHJtX2dlbV9kbWFfY3JlYXRlIC0gYWxsb2NhdGUg
-YW4gb2JqZWN0IHdpdGggdGhlIGdpdmVuIHNpemUNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vcmVuZXNhcy9yY2FyLWR1L3JjYXJfZHVfa21zLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vcmVuZXNhcy9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4+IGluZGV4IGFkZmIzNmIwZTgx
-NTQuLmVhNzQ4N2UyNzBmMTMgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmVu
-ZXNhcy9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
-ZW5lc2FzL3JjYXItZHUvcmNhcl9kdV9rbXMuYw0KPj4gQEAgLTM1Niw0OSArMzU2LDI0IEBA
-IGNvbnN0IHN0cnVjdCByY2FyX2R1X2Zvcm1hdF9pbmZvICpyY2FyX2R1X2Zvcm1hdF9pbmZv
-KHUzMiBmb3VyY2MpDQo+PiAgICAqIEZyYW1lIGJ1ZmZlcg0KPj4gICAgKi8NCj4+ICAgDQo+
-PiAtc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyByY2FyX2R1X2dl
-bV9mdW5jcyA9IHsNCj4+IC0JLmZyZWUgPSBkcm1fZ2VtX2RtYV9vYmplY3RfZnJlZSwNCj4+
-IC0JLnByaW50X2luZm8gPSBkcm1fZ2VtX2RtYV9vYmplY3RfcHJpbnRfaW5mbywNCj4+IC0J
-LmdldF9zZ190YWJsZSA9IGRybV9nZW1fZG1hX29iamVjdF9nZXRfc2dfdGFibGUsDQo+PiAt
-CS52bWFwID0gZHJtX2dlbV9kbWFfb2JqZWN0X3ZtYXAsDQo+PiAtCS5tbWFwID0gZHJtX2dl
-bV9kbWFfb2JqZWN0X21tYXAsDQo+PiAtCS52bV9vcHMgPSAmZHJtX2dlbV9kbWFfdm1fb3Bz
-LA0KPj4gLX07DQo+PiAtDQo+PiAgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqcmNhcl9kdV9n
-ZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+PiAg
-IAkJCQlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsDQo+PiAgIAkJCQlzdHJ1
-Y3Qgc2dfdGFibGUgKnNndCkNCj4+ICAgew0KPj4gICAJc3RydWN0IHJjYXJfZHVfZGV2aWNl
-ICpyY2R1ID0gdG9fcmNhcl9kdV9kZXZpY2UoZGV2KTsNCj4+ICAgCXN0cnVjdCBkcm1fZ2Vt
-X2RtYV9vYmplY3QgKmRtYV9vYmo7DQo+PiAtCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ2Vt
-X29iajsNCj4+IC0JaW50IHJldDsNCj4+ICAgDQo+PiAgIAlpZiAoIXJjYXJfZHVfaGFzKHJj
-ZHUsIFJDQVJfRFVfRkVBVFVSRV9WU1AxX1NPVVJDRSkpDQo+PiAgIAkJcmV0dXJuIGRybV9n
-ZW1fZG1hX3ByaW1lX2ltcG9ydF9zZ190YWJsZShkZXYsIGF0dGFjaCwgc2d0KTsNCj4+ICAg
-DQo+PiAtCS8qIENyZWF0ZSBhIERNQSBHRU0gYnVmZmVyLiAqLw0KPj4gLQlkbWFfb2JqID0g
-a3phbGxvYyhzaXplb2YoKmRtYV9vYmopLCBHRlBfS0VSTkVMKTsNCj4+IC0JaWYgKCFkbWFf
-b2JqKQ0KPj4gLQkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7DQo+PiAtDQo+PiAtCWdlbV9v
-YmogPSAmZG1hX29iai0+YmFzZTsNCj4+IC0JZ2VtX29iai0+ZnVuY3MgPSAmcmNhcl9kdV9n
-ZW1fZnVuY3M7DQo+PiAtDQo+PiAtCWRybV9nZW1fcHJpdmF0ZV9vYmplY3RfaW5pdChkZXYs
-IGdlbV9vYmosIGF0dGFjaC0+ZG1hYnVmLT5zaXplKTsNCj4+IC0JZG1hX29iai0+bWFwX25v
-bmNvaGVyZW50ID0gZmFsc2U7DQo+PiAtDQo+PiAtCXJldCA9IGRybV9nZW1fY3JlYXRlX21t
-YXBfb2Zmc2V0KGdlbV9vYmopOw0KPj4gLQlpZiAocmV0KSB7DQo+PiAtCQlkcm1fZ2VtX29i
-amVjdF9yZWxlYXNlKGdlbV9vYmopOw0KPj4gLQkJa2ZyZWUoZG1hX29iaik7DQo+PiAtCQly
-ZXR1cm4gRVJSX1BUUihyZXQpOw0KPj4gLQl9DQo+PiArCWRtYV9vYmogPSBfX2RybV9nZW1f
-ZG1hX2NyZWF0ZShkZXYsIGF0dGFjaC0+ZG1hYnVmLT5zaXplLCB0cnVlKTsNCj4+ICsJaWYg
-KElTX0VSUihkbWFfb2JqKSkNCj4+ICsJCXJldHVybiBFUlJfQ0FTVChkbWFfb2JqKTsNCj4+
-ICAgDQo+PiAgIAlkbWFfb2JqLT5kbWFfYWRkciA9IDA7DQo+PiAgIAlkbWFfb2JqLT5zZ3Qg
-PSBzZ3Q7DQo+PiAgIA0KPj4gLQlyZXR1cm4gZ2VtX29iajsNCj4+ICsJcmV0dXJuICZkbWFf
-b2JqLT5iYXNlOw0KPj4gICB9DQo+PiAgIA0KPj4gICBpbnQgcmNhcl9kdV9kdW1iX2NyZWF0
-ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+PiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2dlbV9kbWFfaGVscGVyLmggYi9pbmNsdWRl
-L2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuaA0KPj4gaW5kZXggNjFkYTU5Njc4MGI2NC4uMzg3
-N2NiZjBlOTI3YyAxMDA2NDQNCj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9nZW1fZG1hX2hl
-bHBlci5oDQo+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fZ2VtX2RtYV9oZWxwZXIuaA0KPj4g
-QEAgLTMyLDYgKzMyLDkgQEAgc3RydWN0IGRybV9nZW1fZG1hX29iamVjdCB7DQo+PiAgICNk
-ZWZpbmUgdG9fZHJtX2dlbV9kbWFfb2JqKGdlbV9vYmopIFwNCj4+ICAgCWNvbnRhaW5lcl9v
-ZihnZW1fb2JqLCBzdHJ1Y3QgZHJtX2dlbV9kbWFfb2JqZWN0LCBiYXNlKQ0KPj4gICANCj4+
-ICtzdHJ1Y3QgZHJtX2dlbV9kbWFfb2JqZWN0ICpfX2RybV9nZW1fZG1hX2NyZWF0ZShzdHJ1
-Y3QgZHJtX2RldmljZSAqZHJtLA0KPj4gKwkJCQkJCXNpemVfdCBzaXplLCBib29sIHByaXZh
-dGUpOw0KPj4gKw0KPj4gICBzdHJ1Y3QgZHJtX2dlbV9kbWFfb2JqZWN0ICpkcm1fZ2VtX2Rt
-YV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRybSwNCj4+ICAgCQkJCQkgICAgICBzaXpl
-X3Qgc2l6ZSk7DQo+PiAgIHZvaWQgZHJtX2dlbV9kbWFfZnJlZShzdHJ1Y3QgZHJtX2dlbV9k
-bWFfb2JqZWN0ICpkbWFfb2JqKTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
-YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
-bnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkN
-CkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVu
-IE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+The CMM driver already supported operating the 1D LUT, this series add support
+for the cubic LUT (named CLU).
 
---------------pWvH0lI0OoXjUoTqqfqqaLI6--
+I've been made aware by Melissa and Pekka that the focus of upstream for
+color management properties is now on the definition of the "Plane color
+pipeline" properties
+https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
 
---------------YDHwQhDyvzcbvyoOnaX35Z7F
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Unfortunately the model there proposed doesn't match the R-Car DU hardware which
+has color management at the post-blending level and not per plane (I've cc-ed
+all the receivers of that series, just in case).
 
------BEGIN PGP SIGNATURE-----
+The user-space interface has been validated with dedicated unit tests for
+the R-Car DU test suite (kms-test) which are available at:
+https://git.sr.ht/~jmondi_/kms-test
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSSrzUFAwAAAAAACgkQlh/E3EQov+Bo
-8xAAksNuldsDZwr7XYgc4KcH7Izt1a2FfWSFFmvmg2BpLyl7ypTOElqZH+nNDrEJjXfVGkDmF0fP
-4x3WyRMqb42KSsWj0WTWOpQDkNfMHXQj8DXgJ9RuDtyg3sxwtZXywY5W+jnSw9qVVCxrBza2L/Xs
-kXNJ7q6WqMhuL2Yd750oJSke5MN+dFgT14D5lYLozOFj7FIXB7/h4Jjn2jyBdoXhE3i6mG7EWzsF
-Znr0lz0q/K+6ZRiBQD3O8xC6A9jUHJaw726xp8fBOXf0FXUqeyWuQoOyQx3V17eFYaYilibGOq9f
-GHCMqOzZa46kpBOrdIdjTWf1s31iE+Ctgcbb9N3E6iGcYAPTQYOmyQo5+m9fNcjGvh/BDwsQ3jwG
-ZbvETi/YK8GD2+YKnJHEomMgl3ai/mUcCfTKt97HA0Eom7sV5DdMzvUd1omsA5VBR3J1SW1h2F9d
-yUY+a4x1TgPQS/zmayAK3/rYMVmMP/uyFIz3/3hegwxwN9F20BIoofkimiU/8gC9l8afya6tiNE+
-WzeutEMuzRofDUeTIz7Cz1aU/HRTkq5GRpPhsLDc45nttUq6g8EB1TvjQ6dgHtoZzAcAW7lJ90SH
-fUhI+7Nb+hjzQDMnX3wmd0vpGvyxos1XUiZJyt5bcihCSxO009sP90pHALmynik3x3fDyRh/athW
-xhs=
-=HSpV
------END PGP SIGNATURE-----
+The series validates the usage of the HW interface in the hope of re-starting
+discussions and interests in the definition of CRTC color management
+properties.
 
---------------YDHwQhDyvzcbvyoOnaX35Z7F--
+Thanks
+   j
+
+Alex Hung (1):
+  drm: Add 3D LUT mode and its attributes
+
+Jacopo Mondi (1):
+  drm: rcar-du: crtc: Enable 3D LUT
+
+Kieran Bingham (2):
+  drm: rcar-du: cmm: Provide 3D-CLU support
+  drm: rcar-du: kms: Configure the CLU
+
+Laurent Pinchart (1):
+  drm: rcar-du: cmm: Refactor LUT configuration
+
+Melissa Wen (4):
+  drm/drm_color_mgmt: add shaper LUT to color mgmt properties
+  drm/drm_color_mgmt: add 3D LUT props to DRM color mgmt
+  drm/drm_color_mgmt: add function to create 3D LUT modes supported
+  drm/drm_color_mgmt: add function to attach 3D LUT props
+
+ drivers/gpu/drm/drm_atomic_state_helper.c |   7 ++
+ drivers/gpu/drm/drm_atomic_uapi.c         |  24 ++++
+ drivers/gpu/drm/drm_color_mgmt.c          | 113 +++++++++++++++++++
+ drivers/gpu/drm/drm_fb_helper.c           |   5 +
+ drivers/gpu/drm/drm_mode_config.c         |  21 ++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.c        | 127 ++++++++++++++++------
+ drivers/gpu/drm/rcar-du/rcar_cmm.h        |  36 +++++-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c    |  68 +++++++++---
+ include/drm/drm_color_mgmt.h              |   7 ++
+ include/drm/drm_crtc.h                    |  32 +++++-
+ include/drm/drm_mode_config.h             |  25 +++++
+ include/drm/drm_mode_object.h             |   2 +-
+ include/uapi/drm/drm_mode.h               |  17 +++
+ 13 files changed, 428 insertions(+), 56 deletions(-)
+
+--
+2.40.1
+
