@@ -2,122 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 832FC739D5C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 11:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 616A6739D80
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 11:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbjFVJeB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jun 2023 05:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38566 "EHLO
+        id S232367AbjFVJg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jun 2023 05:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbjFVJcB (ORCPT
+        with ESMTP id S232575AbjFVJfT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jun 2023 05:32:01 -0400
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E891E44A7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 02:23:21 -0700 (PDT)
+        Thu, 22 Jun 2023 05:35:19 -0400
 Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Qmw080Y4rz4wxRT
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 11:23:20 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF162979
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 02:28:51 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:991a:a831:ea4b:6058])
         by laurent.telenet-ops.be with bizsmtp
-        id C9PJ2A0081yfRTD019PJqL; Thu, 22 Jun 2023 11:23:19 +0200
+        id C9Uq2A00B1yfRTD019Uqq2; Thu, 22 Jun 2023 11:28:50 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qCGX6-000Byc-Fh;
-        Thu, 22 Jun 2023 11:23:18 +0200
+        id 1qCGcS-000Byz-IC;
+        Thu, 22 Jun 2023 11:28:50 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qCGX8-003Vzo-2v;
-        Thu, 22 Jun 2023 11:23:18 +0200
+        id 1qCGcU-003W5Y-50;
+        Thu, 22 Jun 2023 11:28:50 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
+To:     Helge Deller <deller@gmx.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] ARM: dts: armadillo800eva: Add LCD panel
-Date:   Thu, 22 Jun 2023 11:23:15 +0200
-Message-Id: <c9ad0ea19b3de104f92abb49ebc94907d4812d3f.1687417585.git.geert+renesas@glider.be>
+Subject: [PATCH] fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
+Date:   Thu, 22 Jun 2023 11:28:48 +0200
+Message-Id: <a48665d08e6d4d2bbbff1d53aab06dfeb19136f4.1687426052.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1687417585.git.geert+renesas@glider.be>
-References: <cover.1687417585.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the 5" WVGA TFT LCD panel on the Armadillo-800-EVA development
-board, and enable the LCD controller that drives it.
+When configurating a CHn Source Image Format Register (LDBBSIFR), one
+should use the corresponding LDBBSIFR_RPKF_* definition for overlay
+planes, not the DDFR_PKF_* definition for the primary plane.
+
+Fortunately both definitions resolve to the same value, so this bug did
+not cause any harm.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/r8a7740-armadillo800eva.dts | 28 +++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/sh_mobile_lcdcfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-index 101413d5164913c5..fb6b432c4df2d948 100644
---- a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-+++ b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-@@ -132,7 +132,7 @@ i2c2: i2c-2 {
- 		i2c-gpio,delay-us = <5>;
- 	};
- 
--	backlight {
-+	backlight: backlight {
- 		compatible = "pwm-backlight";
- 		pwms = <&tpu 2 33333 PWM_POLARITY_INVERTED>;
- 		brightness-levels = <0 1 2 4 8 16 32 64 128 255>;
-@@ -143,6 +143,18 @@ backlight {
- 		enable-gpios = <&pfc 61 GPIO_ACTIVE_HIGH>;
- 	};
- 
-+	panel {
-+		compatible = "ampire,am-800480l1tmqw-t00h";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_5p0v>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lcdc0_rgb>;
-+			};
-+		};
-+	};
-+
- 	sound {
- 		compatible = "simple-audio-card";
- 
-@@ -228,10 +240,22 @@ rtc@30 {
- 	};
- };
- 
--&pfc {
-+&lcdc0 {
- 	pinctrl-0 = <&lcd0_pins>;
- 	pinctrl-names = "default";
- 
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&pfc {
- 	ether_pins: ether {
- 		groups = "gether_mii", "gether_int";
- 		function = "gether";
+diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+index 093f035d12463a80..0adb2ba965e7120d 100644
+--- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
++++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+@@ -824,7 +824,7 @@ static void sh_mobile_lcdc_overlay_setup(struct sh_mobile_lcdc_overlay *ovl)
+ 		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB24;
+ 		break;
+ 	case V4L2_PIX_FMT_BGR32:
+-		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
++		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
+ 		break;
+ 	case V4L2_PIX_FMT_NV12:
+ 	case V4L2_PIX_FMT_NV21:
 -- 
 2.34.1
 
