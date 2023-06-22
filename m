@@ -2,77 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 616A6739D80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 11:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6259C739E11
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 12:11:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbjFVJg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jun 2023 05:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
+        id S230353AbjFVKLS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jun 2023 06:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232575AbjFVJfT (ORCPT
+        with ESMTP id S231256AbjFVKLN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jun 2023 05:35:19 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF162979
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 02:28:51 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:991a:a831:ea4b:6058])
-        by laurent.telenet-ops.be with bizsmtp
-        id C9Uq2A00B1yfRTD019Uqq2; Thu, 22 Jun 2023 11:28:50 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qCGcS-000Byz-IC;
-        Thu, 22 Jun 2023 11:28:50 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qCGcU-003W5Y-50;
-        Thu, 22 Jun 2023 11:28:50 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Helge Deller <deller@gmx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
-Date:   Thu, 22 Jun 2023 11:28:48 +0200
-Message-Id: <a48665d08e6d4d2bbbff1d53aab06dfeb19136f4.1687426052.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Thu, 22 Jun 2023 06:11:13 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7BBE122;
+        Thu, 22 Jun 2023 03:11:09 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b45a71c9caso93918951fa.3;
+        Thu, 22 Jun 2023 03:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687428668; x=1690020668;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=97S+NTwimgEvGUhJ6O5phnPpyUEei+BRZkc+BeXQtHA=;
+        b=nXT4s9CJAjSVTTwqKkemUlcmpRMEOnLyJrHdlBI8DLExVONrkO949cszb+Cv4oVSq/
+         mZXE7oj02OUI1gOdz9yawksKNDe9/H02OwzCTOSeWCU19kr5b+NYS1YJKBWQGZKKHQE+
+         01/jrFfE0J8Dw9PjE8L+NmZrQSblRVAmuXal02BpXGOIBV2zN8TjgedlDv9klXew8Dar
+         UnX/zQeVo42QHOYx3AAju3RuQd7hfFtfUH0Aek/L795jvyDwgiEaYaFSh+FJp+nlFQOv
+         ot7WWTBMUtU4q9zQOpEsIc+19toqMjL1zIj7TyjnMOQyG432rNSjsNs3sWk6saFisj5x
+         koaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687428668; x=1690020668;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=97S+NTwimgEvGUhJ6O5phnPpyUEei+BRZkc+BeXQtHA=;
+        b=Ld22uWlFqxu9ziZodWG53h0zOLXD08pnf9JIi3ZKn+u+YWpyq9qp40XwvoWJxbmKhw
+         aiunc0cNWa5R/ffbP86YkSNK0mKDJ0QLRsdYlexR728RLjcOsROgp7a7xipAuMyCZ8Wo
+         /QFeZkN3t5HauHLvWCRNOPUgdvLCOFsyfwsvJGFMTgXhto1IjfgOaL2OwszZHPhmmGly
+         LRt2sDUs0PN0zddOR0BocaNEbjWF5/PpbESfxDWSjTURzH0HzaqtW0QwYsUfb098SITe
+         eNGLXMXOIzH/CFzoQHZ8oUPQH8po8PMn7M4NCgXZDCxLuEcia8QfSLCxj4sqT37ZNX9O
+         qWPQ==
+X-Gm-Message-State: AC+VfDzHTe5ooXYi5hG6UpUD0UuyLQsNZs4/nDaD6boUwSP7tx/ecmTp
+        MlbR5EGT0KheEyCvXp6W9+2xhv4kiHg=
+X-Google-Smtp-Source: ACHHUZ6oLiaK6ztZDvKBOxxd3Tp3oTDhzkgMh3kCc/zwAvSyND4XfxTh7iEyIT8kQGdwxAHtZCzbag==
+X-Received: by 2002:a2e:3513:0:b0:2b4:83c3:d285 with SMTP id z19-20020a2e3513000000b002b483c3d285mr6207420ljz.38.1687428667400;
+        Thu, 22 Jun 2023 03:11:07 -0700 (PDT)
+Received: from [192.168.1.103] ([178.176.74.98])
+        by smtp.gmail.com with ESMTPSA id h9-20020a2e9009000000b002b326e7e76csm1225863ljg.64.2023.06.22.03.11.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jun 2023 03:11:06 -0700 (PDT)
+Subject: Re: [PATCH 04/39] drm: renesas: shmobile: Fix ARGB32 overlay format
+ typo
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <e13b3952-0446-67fb-e654-9890cc858faa@gmail.com>
+Date:   Thu, 22 Jun 2023 13:11:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When configurating a CHn Source Image Format Register (LDBBSIFR), one
-should use the corresponding LDBBSIFR_RPKF_* definition for overlay
-planes, not the DDFR_PKF_* definition for the primary plane.
+Hello!
 
-Fortunately both definitions resolve to the same value, so this bug did
-not cause any harm.
+On 6/22/23 12:21 PM, Geert Uytterhoeven wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> When configurating
 
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index 093f035d12463a80..0adb2ba965e7120d 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -824,7 +824,7 @@ static void sh_mobile_lcdc_overlay_setup(struct sh_mobile_lcdc_overlay *ovl)
- 		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB24;
- 		break;
- 	case V4L2_PIX_FMT_BGR32:
--		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
-+		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
- 		break;
- 	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV21:
--- 
-2.34.1
+   Configuring? My spellchecker trips. :-)
 
+> a CHn Source Image Format Register (LDBBSIFR), one
+> should use the corresponding LDBBSIFR_RPKF_* definition for overlay
+> planes, not the DDFR_PKF_* definition for the primary plane.
+> 
+> Fortunately both definitions resolve to the same value, so this bug did
+> not cause any harm.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[...]
+
+MBR, Sergey
