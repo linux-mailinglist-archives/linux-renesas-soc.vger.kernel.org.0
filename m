@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92689739D38
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 11:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 832FC739D5C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jun 2023 11:34:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230380AbjFVJdQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jun 2023 05:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36420 "EHLO
+        id S231172AbjFVJeB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jun 2023 05:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjFVJcB (ORCPT
+        with ESMTP id S231454AbjFVJcB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 22 Jun 2023 05:32:01 -0400
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [IPv6:2a02:1800:120:4::f00:10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E969A44A6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 02:23:20 -0700 (PDT)
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by cantor.telenet-ops.be (Postfix) with ESMTPS id 4Qmw074ZrLz4wxyH
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 11:23:19 +0200 (CEST)
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E891E44A7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 02:23:21 -0700 (PDT)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Qmw080Y4rz4wxRT
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jun 2023 11:23:20 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:991a:a831:ea4b:6058])
-        by michel.telenet-ops.be with bizsmtp
-        id C9PJ2A0091yfRTD069PJK6; Thu, 22 Jun 2023 11:23:19 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id C9PJ2A0081yfRTD019PJqL; Thu, 22 Jun 2023 11:23:19 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qCGX6-000Bya-F8;
+        id 1qCGX6-000Byc-Fh;
         Thu, 22 Jun 2023 11:23:18 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qCGX8-003Vzk-1x;
+        id 1qCGX8-003Vzo-2v;
         Thu, 22 Jun 2023 11:23:18 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>,
@@ -36,9 +36,9 @@ To:     Magnus Damm <magnus.damm@gmail.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/2] ARM: dts: r8a7740: Add LCDC nodes
-Date:   Thu, 22 Jun 2023 11:23:14 +0200
-Message-Id: <1994a9c58321667733d7cd7500d7e25d30308498.1687417585.git.geert+renesas@glider.be>
+Subject: [PATCH 2/2] ARM: dts: armadillo800eva: Add LCD panel
+Date:   Thu, 22 Jun 2023 11:23:15 +0200
+Message-Id: <c9ad0ea19b3de104f92abb49ebc94907d4812d3f.1687417585.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687417585.git.geert+renesas@glider.be>
 References: <cover.1687417585.git.geert+renesas@glider.be>
@@ -54,115 +54,70 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device nodes for the two LCD Controllers (LCDC) on the R-Mobile A1
-SoC, and for the two optional external LCDL clock inputs.
-
-Note that the HDMI clock for LCDC1 is not added, as this clock is not
-yet supported.
-
-Based on a patch by Laurent Pinchart adding the first LCDC device node.
+Describe the 5" WVGA TFT LCD panel on the Armadillo-800-EVA development
+board, and enable the LCD controller that drives it.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Changes compared to Laurent's original:
-  - Add lcdc0 label,
-  - Rename node from display to lcdc-controller,
-  - Rename compatible value from "renesas,lcdc-r8a7740" to
-    "renesas,r8a7740-lcdc",
-  - Correct syntax of reg property,
-  - Use GIC_SPI macro,
-  - Add more clocks,
-  - Add power-domains property,
-  - Add status disabled,
-  - Remove second port from lcdc0, as only lcdc1 has an HDMI port,
-  - Add lcdc1 device node.
----
- arch/arm/boot/dts/r8a7740.dtsi | 65 ++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ arch/arm/boot/dts/r8a7740-armadillo800eva.dts | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/r8a7740.dtsi b/arch/arm/boot/dts/r8a7740.dtsi
-index 1b2cf5fa322b2985..55884ec701f8dab4 100644
---- a/arch/arm/boot/dts/r8a7740.dtsi
-+++ b/arch/arm/boot/dts/r8a7740.dtsi
-@@ -398,6 +398,61 @@ sh_fsi2: sound@fe1f0000 {
- 		status = "disabled";
+diff --git a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
+index 101413d5164913c5..fb6b432c4df2d948 100644
+--- a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
++++ b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
+@@ -132,7 +132,7 @@ i2c2: i2c-2 {
+ 		i2c-gpio,delay-us = <5>;
  	};
  
-+	lcdc0: lcd-controller@fe940000 {
-+		compatible = "renesas,r8a7740-lcdc";
-+		reg = <0xfe940000 0x4000>;
-+		interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&mstp1_clks R8A7740_CLK_LCDC0>,
-+			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk0_clk>,
-+			 <&vou_clk>;
-+		clock-names = "fck", "media", "lclk", "video";
-+		power-domains = <&pd_a4lc>;
-+		status = "disabled";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				lcdc0_rgb: endpoint {
-+				};
-+			};
-+		};
-+	};
-+
-+	lcdc1: lcd-controller@fe944000 {
-+		compatible = "renesas,r8a7740-lcdc";
-+		reg = <0xfe944000 0x4000>;
-+		interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&mstp1_clks R8A7740_CLK_LCDC1>,
-+			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk1_clk>,
-+			 <&vou_clk>;
-+		clock-names = "fck", "media", "lclk", "video";
-+		power-domains = <&pd_a4lc>;
-+		status = "disabled";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				lcdc1_rgb: endpoint {
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				lcdc1_hdmi: endpoint {
-+				};
-+			};
-+		};
-+	};
-+
- 	tmu0: timer@fff80000 {
- 		compatible = "renesas,tmu-r8a7740", "renesas,tmu";
- 		reg = <0xfff80000 0x2c>;
-@@ -474,6 +529,16 @@ fsibck_clk: fsibck {
- 			#clock-cells = <0>;
- 			clock-frequency = <0>;
- 		};
-+		lcdlclk0_clk: lcdlclk0 {
-+			compatible = "fixed-clock";
-+			#clock-cells = <0>;
-+			clock-frequency = <0>;
-+		};
-+		lcdlclk1_clk: lcdlclk1 {
-+			compatible = "fixed-clock";
-+			#clock-cells = <0>;
-+			clock-frequency = <0>;
-+		};
+-	backlight {
++	backlight: backlight {
+ 		compatible = "pwm-backlight";
+ 		pwms = <&tpu 2 33333 PWM_POLARITY_INVERTED>;
+ 		brightness-levels = <0 1 2 4 8 16 32 64 128 255>;
+@@ -143,6 +143,18 @@ backlight {
+ 		enable-gpios = <&pfc 61 GPIO_ACTIVE_HIGH>;
+ 	};
  
- 		/* Special CPG clocks */
- 		cpg_clocks: cpg_clocks@e6150000 {
++	panel {
++		compatible = "ampire,am-800480l1tmqw-t00h";
++		backlight = <&backlight>;
++		power-supply = <&reg_5p0v>;
++
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&lcdc0_rgb>;
++			};
++		};
++	};
++
+ 	sound {
+ 		compatible = "simple-audio-card";
+ 
+@@ -228,10 +240,22 @@ rtc@30 {
+ 	};
+ };
+ 
+-&pfc {
++&lcdc0 {
+ 	pinctrl-0 = <&lcd0_pins>;
+ 	pinctrl-names = "default";
+ 
++	status = "okay";
++
++	ports {
++		port@0 {
++			endpoint {
++				remote-endpoint = <&panel_in>;
++			};
++		};
++	};
++};
++
++&pfc {
+ 	ether_pins: ether {
+ 		groups = "gether_mii", "gether_int";
+ 		function = "gether";
 -- 
 2.34.1
 
