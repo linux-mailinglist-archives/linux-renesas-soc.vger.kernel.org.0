@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1FB73BD80
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 19:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFDC573BD87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 19:12:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbjFWRLU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 13:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
+        id S231493AbjFWRMt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 13:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232513AbjFWRLE (ORCPT
+        with ESMTP id S229734AbjFWRMr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 13:11:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E163930F0;
-        Fri, 23 Jun 2023 10:10:33 -0700 (PDT)
+        Fri, 23 Jun 2023 13:12:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D1D61BFA;
+        Fri, 23 Jun 2023 10:12:46 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDF00838;
-        Fri, 23 Jun 2023 19:09:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B136E838;
+        Fri, 23 Jun 2023 19:12:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687540196;
-        bh=I2KN4Hf4fDd8Jv18KuWnzfsxQ2rtmJLslT8JJroEUoQ=;
+        s=mail; t=1687540327;
+        bh=Q2Cw1ygD0gWexI2pL2Jb6NsRmnG74wmibJoVnNEtGqA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gmwktHPIvCPJgpZIruuuJ2XqnTA3ekqhCzMXnoGe02a3FoXcEOIj/hTcRKONue687
-         NkpDLiI7LAZfO6vnlGy4noMPAwMI5MWngztEL3Naa5s9S00/+23IHlKHhQiQ9+6bCO
-         MgNTvTn6QPYN4CQtXWCWAAOii290hkn4dbCs7fjQ=
-Date:   Fri, 23 Jun 2023 20:10:31 +0300
+        b=RcwFBWaG+x5aska6fzT3PEjfRqJK8px1iFW4jcdr3q/9DrRZ6G5DdXBMmYrCGdjd6
+         r3aavajnfTodKNNqpqQix2RkKMx5kLp1nO2VCWr1LqKjmuUkha3Dps11i8Caykieff
+         Wb5FVvEamAlYwsqVLvsOdXqlyUhuQToJxJqkxnmY=
+Date:   Fri, 23 Jun 2023 20:12:43 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -35,15 +35,14 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 32/39] drm: renesas: shmobile: Shutdown the display on
- remove
-Message-ID: <20230623171031.GJ2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 33/39] drm: renesas: shmobile: Cleanup encoder
+Message-ID: <20230623171243.GK2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <2c28c0a137854d39b6bc997a21bd6d2db1f7a0a5.1687423204.git.geert+renesas@glider.be>
+ <736a0b26a9393f82769b185e2daa30eb128ff240.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2c28c0a137854d39b6bc997a21bd6d2db1f7a0a5.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <736a0b26a9393f82769b185e2daa30eb128ff240.1687423204.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -58,40 +57,64 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:44AM +0200, Geert Uytterhoeven wrote:
-> When the device is unbound from the driver, the display may be active.
-> Make sure it gets shut down.
+On Thu, Jun 22, 2023 at 11:21:45AM +0200, Geert Uytterhoeven wrote:
+> Most unused callbacks can be NULL pointers these days.
+> Drop a bunch of empty encoder callbacks.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index a29c0c1093725b6e..636f1888b815579b 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/slab.h>
->  
-> +#include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fbdev_generic.h>
->  #include <drm/drm_gem_dma_helper.h>
-> @@ -145,6 +146,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  	struct drm_device *ddev = &sdev->ddev;
->  
->  	drm_dev_unregister(ddev);
-> +	drm_helper_force_disable_all(ddev);
-
-I assume this will be turned into drm_atomic_helper_shutdown() later.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
->  	drm_kms_helper_poll_fini(ddev);
->  	return 0;
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 26 -------------------
+>  1 file changed, 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index b184019d8b1ed89c..ef327da39bca415a 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -586,11 +586,6 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>   * Encoder
+>   */
+>  
+> -static void shmob_drm_encoder_dpms(struct drm_encoder *encoder, int mode)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+>  static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
+>  					 const struct drm_display_mode *mode,
+>  					 struct drm_display_mode *adjusted_mode)
+> @@ -613,29 +608,8 @@ static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
+>  	return true;
 >  }
+>  
+> -static void shmob_drm_encoder_mode_prepare(struct drm_encoder *encoder)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+> -static void shmob_drm_encoder_mode_set(struct drm_encoder *encoder,
+> -				       struct drm_display_mode *mode,
+> -				       struct drm_display_mode *adjusted_mode)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+> -static void shmob_drm_encoder_mode_commit(struct drm_encoder *encoder)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+>  static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
+> -	.dpms = shmob_drm_encoder_dpms,
+>  	.mode_fixup = shmob_drm_encoder_mode_fixup,
+> -	.prepare = shmob_drm_encoder_mode_prepare,
+> -	.commit = shmob_drm_encoder_mode_commit,
+> -	.mode_set = shmob_drm_encoder_mode_set,
+>  };
+>  
+>  int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
 
 -- 
 Regards,
