@@ -2,52 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD0A73B98C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B27B273BA72
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:43:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232011AbjFWOMA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 10:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44800 "EHLO
+        id S231838AbjFWOnl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 10:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231869AbjFWOL5 (ORCPT
+        with ESMTP id S231769AbjFWOni (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 10:11:57 -0400
+        Fri, 23 Jun 2023 10:43:38 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBE22126;
-        Fri, 23 Jun 2023 07:11:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88821BF2;
+        Fri, 23 Jun 2023 07:43:15 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A816BBC;
-        Fri, 23 Jun 2023 16:11:13 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E0DEBC;
+        Fri, 23 Jun 2023 16:42:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687529473;
-        bh=jQQPex0JN1l1oytGq9J9iPOt/7O03Da8iTuVVVrJVjU=;
+        s=mail; t=1687531357;
+        bh=wdihR9kOfvIQ6G8MVle6NFFv5LJO2T8O0WCVNoKqb1c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p6a/KVdwUBsX7j45+54zvz/a16B7/9oMSwCJPzWDA5VWTna29TEN/VwZBzAn98P3q
-         o02i4kJAGjsaN7v10alIkCrZfp4z8CFgtlGI+0X7AOSDZwnTLeDSN5IO5CMCpSou0Q
-         KN/Pmd8y/3CCrG0wZBi+hI6OTZMWDuYmW2XdiaAw=
-Date:   Fri, 23 Jun 2023 17:11:49 +0300
+        b=VbcvcnwV642L1NkucKgXc8YtBoftMHpYjSn6AayKFnjm9KWOdNTZIwBoOh8YRg7Cr
+         rItp4abJJNREMYeDz1RHehAffaXManymW8Mn/eeMPNizWKR+4GbM8yOIIl23orQKMW
+         k9Emk67/9E9hMZ1YjHAAqDoJXQQ9lQpQL3d0DrS8=
+Date:   Fri, 23 Jun 2023 17:43:12 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] drm: Remove references to removed transitional
- helpers
-Message-ID: <20230623141149.GD2112@pendragon.ideasonboard.com>
-References: <cover.1686318012.git.geert+renesas@glider.be>
- <8f5e13f8f2d12daab9e7f06bba88dc547a4db695.1686318012.git.geert+renesas@glider.be>
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 01/39] dt-bindings: display: Add Renesas SH-Mobile LCDC
+ bindings
+Message-ID: <20230623144312.GE2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <2259ff548f007afcb5a315a4c95c83a0ee4b7e03.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8f5e13f8f2d12daab9e7f06bba88dc547a4db695.1686318012.git.geert+renesas@glider.be>
+In-Reply-To: <2259ff548f007afcb5a315a4c95c83a0ee4b7e03.1687423204.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -62,206 +60,182 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Fri, Jun 09, 2023 at 03:44:29PM +0200, Geert Uytterhoeven wrote:
-> The transitional helpers were removed a long time ago, but some
-> references stuck.  Remove them.
+On Thu, Jun 22, 2023 at 11:21:13AM +0200, Geert Uytterhoeven wrote:
+> Add device tree bindings for the LCD Controller (LCDC) found in Renesas
+> SuperH SH-Mobile and ARM SH/R-Mobile SOCs.
 > 
-> Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
+> Based on a plain text prototype by Laurent Pinchart.
+> 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
 > ---
-> v2:
->   - Drop "first part" in drivers/gpu/drm/drm_plane_helper.c.
+> Changes compared to Laurent's original:
+>   - Convert to json-schema,
+>   - Rename compatible values from "renesas,lcdc-<SoC>" to
+>     "renesas,<SoC>-lcdc",
+>   - Add power-domains property,
+>   - Add MIPI-DSI port on SH-Mobile AG5,
+>   - Update example to reflect reality,
+>   - Add to MAINTAINERS.
 > ---
->  drivers/gpu/drm/drm_plane_helper.c       | 12 +-----
->  include/drm/drm_crtc.h                   |  5 ---
->  include/drm/drm_modeset_helper_vtables.h | 48 +++++++++++-------------
->  3 files changed, 23 insertions(+), 42 deletions(-)
+>  .../display/renesas,shmobile-lcdc.yaml        | 108 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
 > 
-> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-> index c91e454eba097942..5e95089676ff81ed 100644
-> --- a/drivers/gpu/drm/drm_plane_helper.c
-> +++ b/drivers/gpu/drm/drm_plane_helper.c
-> @@ -40,8 +40,8 @@
->  /**
->   * DOC: overview
->   *
-> - * This helper library has two parts. The first part has support to implement
-> - * primary plane support on top of the normal CRTC configuration interface.
-> + * This helper library contains helpers to implement primary plane support on
-> + * top of the normal CRTC configuration interface.
->   * Since the legacy &drm_mode_config_funcs.set_config interface ties the primary
->   * plane together with the CRTC state this does not allow userspace to disable
->   * the primary plane itself. The default primary plane only expose XRBG8888 and
-> @@ -51,14 +51,6 @@
->   * planes, and newly merged drivers must not rely upon these transitional
->   * helpers.
->   *
-> - * The second part also implements transitional helpers which allow drivers to
-> - * gradually switch to the atomic helper infrastructure for plane updates. Once
-> - * that switch is complete drivers shouldn't use these any longer, instead using
-> - * the proper legacy implementations for update and disable plane hooks provided
-> - * by the atomic helpers.
-> - *
-> - * Again drivers are strongly urged to switch to the new interfaces.
-> - *
->   * The plane helpers share the function table structures with other helpers,
->   * specifically also the atomic helpers. See &struct drm_plane_helper_funcs for
->   * the details.
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index 8e1cbc75143ef216..8b48a1974da3143c 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -77,11 +77,6 @@ struct drm_plane_helper_funcs;
->   * intended to indicate whether a full modeset is needed, rather than strictly
->   * describing what has changed in a commit. See also:
->   * drm_atomic_crtc_needs_modeset()
-> - *
-> - * WARNING: Transitional helpers (like drm_helper_crtc_mode_set() or
-> - * drm_helper_crtc_mode_set_base()) do not maintain many of the derived control
-> - * state like @plane_mask so drivers not converted over to atomic helpers should
-> - * not rely on these being accurate!
->   */
->  struct drm_crtc_state {
->  	/** @crtc: backpointer to the CRTC */
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index 965faf082a6d1acb..e3c3ac615909474b 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -59,8 +59,8 @@ enum mode_set_atomic {
->  /**
->   * struct drm_crtc_helper_funcs - helper operations for CRTCs
->   *
-> - * These hooks are used by the legacy CRTC helpers, the transitional plane
-> - * helpers and the new atomic modesetting helpers.
-> + * These hooks are used by the legacy CRTC helpers and the new atomic
-> + * modesetting helpers.
->   */
->  struct drm_crtc_helper_funcs {
->  	/**
-> @@ -216,9 +216,7 @@ struct drm_crtc_helper_funcs {
->  	 *
->  	 * This callback is used to update the display mode of a CRTC without
->  	 * changing anything of the primary plane configuration. This fits the
-> -	 * requirement of atomic and hence is used by the atomic helpers. It is
-> -	 * also used by the transitional plane helpers to implement a
-> -	 * @mode_set hook in drm_helper_crtc_mode_set().
-> +	 * requirement of atomic and hence is used by the atomic helpers.
->  	 *
->  	 * Note that the display pipe is completely off when this function is
->  	 * called. Atomic drivers which need hardware to be running before they
-> @@ -333,8 +331,8 @@ struct drm_crtc_helper_funcs {
->  	 * all updated. Again the recommendation is to just call check helpers
->  	 * until a maximal configuration is reached.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional.
->  	 *
->  	 * NOTE:
->  	 *
-> @@ -373,8 +371,8 @@ struct drm_crtc_helper_funcs {
->  	 * has picked. See drm_atomic_helper_commit_planes() for a discussion of
->  	 * the tradeoffs and variants of plane commit helpers.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional.
->  	 */
->  	void (*atomic_begin)(struct drm_crtc *crtc,
->  			     struct drm_atomic_state *state);
-> @@ -397,8 +395,8 @@ struct drm_crtc_helper_funcs {
->  	 * has picked. See drm_atomic_helper_commit_planes() for a discussion of
->  	 * the tradeoffs and variants of plane commit helpers.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional.
->  	 */
->  	void (*atomic_flush)(struct drm_crtc *crtc,
->  			     struct drm_atomic_state *state);
-> @@ -507,8 +505,8 @@ static inline void drm_crtc_helper_add(struct drm_crtc *crtc,
->  /**
->   * struct drm_encoder_helper_funcs - helper operations for encoders
->   *
-> - * These hooks are used by the legacy CRTC helpers, the transitional plane
-> - * helpers and the new atomic modesetting helpers.
-> + * These hooks are used by the legacy CRTC helpers and the new atomic
-> + * modesetting helpers.
->   */
->  struct drm_encoder_helper_funcs {
->  	/**
-> @@ -1185,8 +1183,7 @@ static inline void drm_connector_helper_add(struct drm_connector *connector,
->  /**
->   * struct drm_plane_helper_funcs - helper operations for planes
->   *
-> - * These functions are used by the atomic helpers and by the transitional plane
-> - * helpers.
-> + * These functions are used by the atomic helpers.
->   */
->  struct drm_plane_helper_funcs {
->  	/**
-> @@ -1221,9 +1218,8 @@ struct drm_plane_helper_funcs {
->  	 * The helpers will call @cleanup_fb with matching arguments for every
->  	 * successful call to this hook.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional. See @begin_fb_access
-> -	 * for preparing per-commit resources.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional. See @begin_fb_access for preparing per-commit resources.
->  	 *
->  	 * RETURNS:
->  	 *
-> @@ -1240,8 +1236,8 @@ struct drm_plane_helper_funcs {
->  	 * This hook is called to clean up any resources allocated for the given
->  	 * framebuffer and plane configuration in @prepare_fb.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional.
->  	 */
->  	void (*cleanup_fb)(struct drm_plane *plane,
->  			   struct drm_plane_state *old_state);
-> @@ -1295,8 +1291,8 @@ struct drm_plane_helper_funcs {
->  	 * all updated. Again the recommendation is to just call check helpers
->  	 * until a maximal configuration is reached.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional.
->  	 *
->  	 * NOTE:
->  	 *
-> @@ -1326,8 +1322,7 @@ struct drm_plane_helper_funcs {
->  	 * has picked. See drm_atomic_helper_commit_planes() for a discussion of
->  	 * the tradeoffs and variants of plane commit helpers.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional.
-> +	 * This callback is used by the atomic modeset helpers, but it is optional.
->  	 */
->  	void (*atomic_update)(struct drm_plane *plane,
->  			      struct drm_atomic_state *state);
-> @@ -1376,9 +1371,8 @@ struct drm_plane_helper_funcs {
->  	 * has picked. See drm_atomic_helper_commit_planes() for a discussion of
->  	 * the tradeoffs and variants of plane commit helpers.
->  	 *
-> -	 * This callback is used by the atomic modeset helpers and by the
-> -	 * transitional plane helpers, but it is optional. It's intended to
-> -	 * reverse the effects of @atomic_enable.
-> +	 * This callback is used by the atomic modeset helpers, but it is
-> +	 * optional. It's intended to reverse the effects of @atomic_enable.
->  	 */
->  	void (*atomic_disable)(struct drm_plane *plane,
->  			       struct drm_atomic_state *state);
+> diff --git a/Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml b/Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+> new file mode 100644
+> index 0000000000000000..72a39fce7294d56d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+> @@ -0,0 +1,108 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/renesas,shmobile-lcdc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas SH-Mobile LCD Controller (LCDC)
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+I'd be happy if you co-maintained this with me :-) Or even took
+ownership completely.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a7740-lcdc # R-Mobile A1
+> +      - renesas,sh73a0-lcdc  # SH-Mobile AG5
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 5
+> +    description:
+> +      Only the functional clock is mandatory.
+> +      Some of the optional clocks are model-dependent (e.g. "video" (a.k.a.
+> +      "vou" or "dv_clk") is available on R-Mobile A1 only).
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 5
+> +    items:
+> +      enum: [ fck, media, lclk, hdmi, video ]
+
+Switching to per-item descriptions would allow documenting which clock
+applies to which SoC.
+
+Are enum items unique by default ?
+
+This would allow a combination of clocks that doesn't include the fck
+clock, that's not right.
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
+> +      The connections to the output video ports are modeled using the OF graph
+> +      bindings specified in Documentation/devicetree/bindings/graph.txt.
+
+it's available in YAML form now. I'd just drop the "specified in ...".
+
+> +      The number of ports and their assignment are model-dependent.
+> +      Each port shall have a single endpoint.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: LCD port (R-Mobile A1 and SH-Mobile AG5)
+> +        unevaluatedProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: HDMI port (R-Mobile A1 LCDC1 and SH-Mobile AG5)
+> +        unevaluatedProperties: false
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MIPI-DSI port (SH-Mobile AG5)
+> +        unevaluatedProperties: false
+
+Let's condition the ports on the compatible value to enable automatic
+validation.
+
+> +
+> +    required:
+> +      - port@0
+
+Based on the above, port@1 is required too as it's present on all
+supported SoCs. Let's condition this on the compatible value too.
+
+> +
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7740-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    lcdc0: lcd-controller@fe940000 {
+> +        compatible = "renesas,r8a7740-lcdc";
+> +        reg = <0xfe940000 0x4000>;
+> +        interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&mstp1_clks R8A7740_CLK_LCDC0>,
+> +                 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk0_clk>,
+> +                 <&vou_clk>;
+> +        clock-names = "fck", "media", "lclk", "video";
+> +        power-domains = <&pd_a4lc>;
+> +        status = "disabled";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                lcdc0_rgb: endpoint {
+> +                };
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 83e9f4ac6bedaa9f..dc1935c196cb0e0b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7023,6 +7023,7 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>  F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+>  F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+>  F:	Documentation/devicetree/bindings/display/renesas,du.yaml
+> +F:	Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+>  F:	drivers/gpu/drm/renesas/
+>  F:	include/linux/platform_data/shmob_drm.h
+>  
 
 -- 
 Regards,
