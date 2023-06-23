@@ -2,203 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E5F773BB0E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 17:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4554973BB10
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 17:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232388AbjFWPIA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 11:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55914 "EHLO
+        id S232387AbjFWPIL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 11:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232392AbjFWPH7 (ORCPT
+        with ESMTP id S231271AbjFWPIK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 11:07:59 -0400
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F891BE4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Jun 2023 08:07:57 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6b5915d0816so676652a34.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Jun 2023 08:07:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687532876; x=1690124876;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4tteXaeBKwKYItBO6rd0lQG8wEt/hJNtk9X1Mmm2A50=;
-        b=XqmdOCYYput8/wwdgcrrk8050Ec07qYgl/EiC0YVQ6OsRP0SUAhb0EqbPEiD/nmmSm
-         ZzYGBsYa68LBgQpYdRtsODcfoYbOtFRIgDdTMasU2ORdRhbBS5kYa6+XJdQoNGq3fODB
-         vu2jTerCqWgkUVZv+QbWe+EIwUYskl6o2wEPw+EabXXRn2pBAzZkVdAWxHcq1enhKfcd
-         460XjTxES34SQI4YvPw56hHhf+/laZKw+u5mLDZgd8U9J6fgy/wNcSVw7aQdwOYiPxHm
-         zODK7nyaTqQeLosw/mWtvYbKJvi6ybAsz74WFuAGWYFfAye5IuhOxAQqRwrY49gPudtn
-         hn9w==
-X-Gm-Message-State: AC+VfDzkcLql3ijt23B/yD2wy0OfxYqL19xeltQuSPalEcNMy9SLTXZE
-        dBp5gEYOvbg1p/hGwX0lYH3xcYpVMpkskg==
-X-Google-Smtp-Source: ACHHUZ7e4zZnQxAvNPowBVnLZiz/qSAWN/19Y2qiyQBgomw6IkLe6o0gJvhmic54kiP/SBjY4HjGJg==
-X-Received: by 2002:a05:6359:67aa:b0:131:fb9:2378 with SMTP id sq42-20020a05635967aa00b001310fb92378mr7156991rwb.5.1687532876404;
-        Fri, 23 Jun 2023 08:07:56 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 205-20020a250fd6000000b00c02020f8059sm891455ybp.43.2023.06.23.08.07.55
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 08:07:55 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-bc40d4145feso599838276.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Jun 2023 08:07:55 -0700 (PDT)
-X-Received: by 2002:a5b:bc9:0:b0:bc8:833d:c41e with SMTP id
- c9-20020a5b0bc9000000b00bc8833dc41emr17735173ybr.6.1687532875683; Fri, 23 Jun
- 2023 08:07:55 -0700 (PDT)
+        Fri, 23 Jun 2023 11:08:10 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5241BCA;
+        Fri, 23 Jun 2023 08:08:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ek4xBtpnIOmMI2msEF45m9rX5SobaFcCy6I3pQjgVpUL7fCLukzkdal+Q/B1AzfCu1CvF+PLS7Gk0k4mQVjmJQ1HS4mi5q8YobwKv1SwjtCXqtCSaTMvoMaBHHZCP01VKg6umU3p0va30MH05iKiAFItgcqkdM9y65S4flh6M/us+i7Y5Qer90MsOgySeB4p08WB+ymdem+rZsHC0hb512okQkTu6PzlYl7fE6xDCWxrEV1x0z/TOt7fETfXPZNUupn7FsLbww6+6JhPOU0D268lBiqks21cuJ424bhO678fCn4CwBnoJ+f0laXat0qcQSfWCf1ReZ+7JE6A1BMYdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bFBJUCTRZgdMiEyyb1jjDvaJ1brRZmkHPpi3It3Amqk=;
+ b=FjWEGadnV15l8JgVax839o2xB6svPO+bau7byfiH/ZvCy3gYcM/aJnqnhBFTQ42R6Ywyngk5FjJq9xGQjTZZToWlCX3Nf6XCo1EoHqzfeHuDT+p5puk+CjB9rYUqHQQCrENQ3YbeiTiJ91IZ9OS8YGbEUu0gy9pZhzr2adAywp+8uqhOs2LxncCFJVciz3zmO/oSr6pdZMS4qR4PFVgJq3jUxkwBwPwfyoGQN1tPgWCtdMSSIIwXMjRxIAePRpK+ykfdFR29krydUITymzg7iEji1oIQI4Mqbh11bKzV8bWx9z/0MPz7rIZGux/MapXnwi16k5pJXOhdEnPm1vAUaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bFBJUCTRZgdMiEyyb1jjDvaJ1brRZmkHPpi3It3Amqk=;
+ b=rX+wE6O8BJ6j8r0QYTbkkqNLBiMBDkVAgHNBQ8w0GP0t3AFot/TwkNm6afndaEYdtKHlh3IxUcXOXL4wINrN6P4Dc1iobjcW7D+jdFxLRhv5gNSODLyvQS+jyvE1wq4+lhkSR3QEhfPVF8wE2zg1spLD7DiXP0wRkH3wgQqXoAg=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY3PR01MB10533.jpnprd01.prod.outlook.com (2603:1096:400:315::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 23 Jun
+ 2023 15:08:01 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::fc77:6148:d6a:c72b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::fc77:6148:d6a:c72b%4]) with mapi id 15.20.6521.026; Fri, 23 Jun 2023
+ 15:08:01 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mark Brown <broonie@kernel.org>
+CC:     Wolfram Sang <wsa@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Trent Piepho <tpiepho@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: RE: [PATCH v7 00/10] Add Renesas PMIC RAA215300 and built-in RTC
+ support
+Thread-Topic: [PATCH v7 00/10] Add Renesas PMIC RAA215300 and built-in RTC
+ support
+Thread-Index: AQHZpdxkavVA64nn002doRrvHahzcK+YfNWAgAAAOoA=
+Date:   Fri, 23 Jun 2023 15:08:01 +0000
+Message-ID: <OS0PR01MB59221C8B147CEAD791AE8A428623A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
+ <ZJW08YIZROKg2a2c@finisterre.sirena.org.uk>
+In-Reply-To: <ZJW08YIZROKg2a2c@finisterre.sirena.org.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB10533:EE_
+x-ms-office365-filtering-correlation-id: dc0bdf98-baa0-469e-0e9a-08db73fba355
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Om2YtZpBH2CHi1EJSZnE43lrOukCfZH/K63nVqI6LgFBX5B9KtstMuHpuD+frt9/WaU3YWSXDGHHpvLfIPCafHyT+xVNnuAKh+1hMr1e9ASYVgDZ+Ei4ywicGvHpendn6QuPRxRjIuyPtEHbBbQa4QhKwkN4VN48lFj5vrpv7RKP29lOdKW5phpIEzR2/fBQvxhflpzDiKobrcoQ1m1fpm0BbPMqVxl1fu+XzpNOPwGX95B474RD7z3ZZsyJhfDwBFZ3kQIuPld4nQiE1E1dV7TKKLOHV4uAuhGXj+W2ddGnDMdc84gtopkhg5bmMw8jVxiRl9+mBWZTuk9FzXx7gksNzE5AFvzf/gvoK3Anq6FApMncUc8/3CZ5IxMG+g8KU0X1px9wc62W29goCrJavPFQSlZN6OIlq2lGuUVQb9S29auO4unTULr8ei26Ebbd0Vi4Ox8LFqGBbEOANqrjUX4Ih9gOzHi9bZZGmhzCisoJd/YxbGizeXz4XbcFODtEQn+ywuhhbVejetxpPOlmFpdii2fgjriGMnkiHkOi6GAbibOnZ4Oy4A/sBNy3xsG+xZUngnVsn+fyHc9isimZUtUUiD2300JM9g0J6H0XwiQ=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(451199021)(122000001)(38100700002)(38070700005)(83380400001)(86362001)(33656002)(478600001)(7696005)(8676002)(71200400001)(54906003)(66476007)(66556008)(64756008)(66446008)(76116006)(4326008)(8936002)(66946007)(6916009)(41300700001)(107886003)(316002)(26005)(186003)(6506007)(53546011)(9686003)(2906002)(4744005)(7416002)(5660300002)(52536014)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KXf/SYmws1jaynhbznwh0DUmLsn3RIbVfXObNG/YqbaUG0PtyikcHBSiVbhS?=
+ =?us-ascii?Q?FYhijn66Gl42juugCTC0yzpXkePqKzfBLgNVEwDF64xG/QSbSUhTRLsXS/Bf?=
+ =?us-ascii?Q?FLv5NS/gqoD660KzVMiZO7+ZSSn/Vc76ukphu7SMbMdJgf9KchkN0g4I1ZKf?=
+ =?us-ascii?Q?RnuBJGVTFbXTXuEzA0B+kXFMVJ1yScF/aWIrSKX4fMdJJEUYOacgpXgupLEo?=
+ =?us-ascii?Q?X3td4YwkLLrvd10/hi6B7jmMF5QBrULWhCq0hWAd8h3Psbp171io5Frx6i8x?=
+ =?us-ascii?Q?r6ZSpQSnRXgicJwKTmu+USAaGjfmS8Wr7afV+mJlJ448RyhtgAJIugdouVQB?=
+ =?us-ascii?Q?VVjgDM6k50BSod70S6nfVeY6VS9+NrHXgN9oYnJVu8/2v1NKvf3Hs0ixg/uR?=
+ =?us-ascii?Q?jqv20hX2HXRlGWYsyktxBjVcMEKg37zfwnFQdLKQ9KqrPhDsQf1bRBfMXyFO?=
+ =?us-ascii?Q?0C+GEN6X2SuRqVALihGEjYTNEpedsQ+qP9Jd20cIVVYWes7N85K/yEfeJYp7?=
+ =?us-ascii?Q?cQY/0/xUOHWHlt5IOB+2IFPTTeMptUIUrPiDMPxRTYC1Gt8ZN3Dyr/il/wA+?=
+ =?us-ascii?Q?HIUS8i/Mq9YMhr8q5LrcqF09sUHdO+ZMxGxw5uyH/VuFbSwAis+hkwjJHbp9?=
+ =?us-ascii?Q?J748WmSH9YCqG2iHjP0XY0PvkhNsq/xfs0QoJYiZu7jrC5rwfnrLekV8Kjwf?=
+ =?us-ascii?Q?pyT76fidCd8Gx5wj9NtJ6EbeHGy4Js8Ohwy/hH+33iPNYZLxhGfRNjl7qqTq?=
+ =?us-ascii?Q?FM6bX8GiA+PqALR7LLNIfoupZDjgNIC22a/HrWUL7YwHc9xch9oKO7pj5sft?=
+ =?us-ascii?Q?2MDM4zFF5t5RpifF0UrQ6Zx+7QiTwkCV42YUWv0TWulXicItvIRhnbnkTJRN?=
+ =?us-ascii?Q?nbMhNWk9gZJc1+q8hukxQvhvicH7tW423yhyD+4PawJ03QZVAxMN4Mzj9drT?=
+ =?us-ascii?Q?BchA86MH7V+FZp7saczr0zL9iyFbrguS3FoCT7bDJhfpt38zWUlAkXYIsxDY?=
+ =?us-ascii?Q?NBGQZZyMQZM1CdesVxVRv0AxgT6nnMBqBiYW65P81VVxPbwQVyYS7ilQKrG+?=
+ =?us-ascii?Q?eOMYUrjm0HaWCruY2K0sYgrXyvv7WAaOIn8cYSYVpys/y9kSUP4PxzNToe2c?=
+ =?us-ascii?Q?yvffu5Tnlva/i8R2xKKfAKRqEJjewxPziDpkOopASi3wTVAq7V+GOZXLH1n8?=
+ =?us-ascii?Q?kXrodyS/lCjAyuM71XMIRHWtsS9XyKI71pziFDflB2PN0w0XBHEQuFn7Wt3o?=
+ =?us-ascii?Q?4bxDNcRwjJPIhzlcS5dNJxRydZ1Mf76NOu540XyFeqBsU879uLNASI4xNvwF?=
+ =?us-ascii?Q?i7fqwa3AK5XCywmnx26sDibdxFiyoDrg7s+M/9KBrZKl8uOCPd+ddMah7t7/?=
+ =?us-ascii?Q?MbtqPDvj4bJvH+Q4KtV4nTlhM8IuuRGeFdZ54/yY8dY2hkU2z7dElJGwJOvX?=
+ =?us-ascii?Q?K6dHVEiX50ZrYrkSCWo75f7/m7wCAu4YtP5p8mkeoKVoylcPjM082uQfZGBC?=
+ =?us-ascii?Q?pKI2lI5gDDO5F8ZFte3AR2HsdIVHnfhRRtxHFui2LUln24kYGTQdFAqNYylZ?=
+ =?us-ascii?Q?OA9T3ubyLo6Nc4WiYw8oK1EsUWldipq0W+0vtntSUl/iCmDRLvc7IFiQmin/?=
+ =?us-ascii?Q?bQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <cover.1687417585.git.geert+renesas@glider.be> <1994a9c58321667733d7cd7500d7e25d30308498.1687417585.git.geert+renesas@glider.be>
- <20230623130318.GA2112@pendragon.ideasonboard.com>
-In-Reply-To: <20230623130318.GA2112@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 23 Jun 2023 17:07:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU8Pc3oJGkoN5RiQFhXtqnmYa3jheS-FMO7G7SQPTtmHg@mail.gmail.com>
-Message-ID: <CAMuHMdU8Pc3oJGkoN5RiQFhXtqnmYa3jheS-FMO7G7SQPTtmHg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: r8a7740: Add LCDC nodes
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc0bdf98-baa0-469e-0e9a-08db73fba355
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2023 15:08:01.7204
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FdJD1HlOeFo3VTo2htf3Xtz9cD6RIm+jBeUoBS4Nqbb38CsBOzOrqw4DBuY2AfYiwhLgzsrXpV2owQfmfWYTasjy3oUHK5zRefau1KLky30=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10533
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Mark,
 
-On Fri, Jun 23, 2023 at 3:03 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Jun 22, 2023 at 11:23:14AM +0200, Geert Uytterhoeven wrote:
-> > Add device nodes for the two LCD Controllers (LCDC) on the R-Mobile A1
-> > SoC, and for the two optional external LCDL clock inputs.
-> >
-> > Note that the HDMI clock for LCDC1 is not added, as this clock is not
-> > yet supported.
-> >
-> > Based on a patch by Laurent Pinchart adding the first LCDC device node.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Changes compared to Laurent's original:
-> >   - Add lcdc0 label,
-> >   - Rename node from display to lcdc-controller,
-> >   - Rename compatible value from "renesas,lcdc-r8a7740" to
-> >     "renesas,r8a7740-lcdc",
-> >   - Correct syntax of reg property,
-> >   - Use GIC_SPI macro,
-> >   - Add more clocks,
-> >   - Add power-domains property,
-> >   - Add status disabled,
-> >   - Remove second port from lcdc0, as only lcdc1 has an HDMI port,
-> >   - Add lcdc1 device node.
-> > ---
-> >  arch/arm/boot/dts/r8a7740.dtsi | 65 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 65 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/r8a7740.dtsi b/arch/arm/boot/dts/r8a7740.dtsi
-> > index 1b2cf5fa322b2985..55884ec701f8dab4 100644
-> > --- a/arch/arm/boot/dts/r8a7740.dtsi
-> > +++ b/arch/arm/boot/dts/r8a7740.dtsi
-> > @@ -398,6 +398,61 @@ sh_fsi2: sound@fe1f0000 {
-> >               status = "disabled";
-> >       };
-> >
-> > +     lcdc0: lcd-controller@fe940000 {
-> > +             compatible = "renesas,r8a7740-lcdc";
-> > +             reg = <0xfe940000 0x4000>;
-> > +             interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
-> > +             clocks = <&mstp1_clks R8A7740_CLK_LCDC0>,
-> > +                      <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk0_clk>,
-> > +                      <&vou_clk>;
-> > +             clock-names = "fck", "media", "lclk", "video";
-> > +             power-domains = <&pd_a4lc>;
-> > +             status = "disabled";
-> > +
-> > +             ports {
-> > +                     #address-cells = <1>;
-> > +                     #size-cells = <0>;
-> > +
-> > +                     port@0 {
-> > +                             reg = <0>;
-> > +
-> > +                             lcdc0_rgb: endpoint {
-> > +                             };
-> > +                     };
-> > +             };
-> > +     };
-> > +
-> > +     lcdc1: lcd-controller@fe944000 {
-> > +             compatible = "renesas,r8a7740-lcdc";
-> > +             reg = <0xfe944000 0x4000>;
-> > +             interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-> > +             clocks = <&mstp1_clks R8A7740_CLK_LCDC1>,
-> > +                      <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk1_clk>,
-> > +                      <&vou_clk>;
-> > +             clock-names = "fck", "media", "lclk", "video";
-> > +             power-domains = <&pd_a4lc>;
-> > +             status = "disabled";
-> > +
-> > +             ports {
-> > +                     #address-cells = <1>;
-> > +                     #size-cells = <0>;
-> > +
-> > +                     port@0 {
-> > +                             reg = <0>;
-> > +
-> > +                             lcdc1_rgb: endpoint {
-> > +                             };
-> > +                     };
-> > +
-> > +                     port@1 {
-> > +                             reg = <1>;
-> > +
-> > +                             lcdc1_hdmi: endpoint {
-> > +                             };
-> > +                     };
-> > +             };
-> > +     };
-> > +
-> >       tmu0: timer@fff80000 {
-> >               compatible = "renesas,tmu-r8a7740", "renesas,tmu";
-> >               reg = <0xfff80000 0x2c>;
-> > @@ -474,6 +529,16 @@ fsibck_clk: fsibck {
-> >                       #clock-cells = <0>;
-> >                       clock-frequency = <0>;
-> >               };
-> > +             lcdlclk0_clk: lcdlclk0 {
-> > +                     compatible = "fixed-clock";
-> > +                     #clock-cells = <0>;
-> > +                     clock-frequency = <0>;
-> > +             };
-> > +             lcdlclk1_clk: lcdlclk1 {
-> > +                     compatible = "fixed-clock";
-> > +                     #clock-cells = <0>;
-> > +                     clock-frequency = <0>;
-> > +             };
->
-> The clock frequency seems quite low :-) As far as I understand, there
-> are the clocks fed to the external LCDLCLK pins. They belong to the
-> board DTS, not here. If a board doesn't provide an external clock, the
-> clock should simply be ommitted. The driver must thus treat it as
-> optional.
+> -----Original Message-----
+> From: Mark Brown <broonie@kernel.org>
+> Sent: Friday, June 23, 2023 4:06 PM
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Wolfram Sang <wsa@kernel.org>; Alessandro Zummo
+> <a.zummo@towertech.it>; Alexandre Belloni
+> <alexandre.belloni@bootlin.com>; Rob Herring <robh+dt@kernel.org>;
+> Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Liam Girdwood
+> <lgirdwood@gmail.com>; Geert Uytterhoeven <geert+renesas@glider.be>;
+> Magnus Damm <magnus.damm@gmail.com>; Trent Piepho <tpiepho@gmail.com>;
+> devicetree@vger.kernel.org; linux-rtc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org; Fabrizio
+> Castro <fabrizio.castro.jz@renesas.com>
+> Subject: Re: [PATCH v7 00/10] Add Renesas PMIC RAA215300 and built-in
+> RTC support
+>=20
+> On Fri, Jun 23, 2023 at 03:09:38PM +0100, Biju Das wrote:
+>=20
+> > v6->v7:
+> >  * Updated the test logs by running rtc_test.
+> >  * Dropped patch#1 and instead using i2c_new_client_device() to
+> instantiate
+> >    RTC driver.
+> >  * Replaced i2c_new_ancillary_device->i2c_new_client_device for RTC
+> client
+> >    instantiation.
+>=20
+> This means that there's now no longer any interdependencies for the
+> regulator patches AIUI?
 
-Usually, we do provide clock nodes with a zero rate in the SoC-specific
-.dtsi for optional clocks.
+Yes, that is correct.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Biju
