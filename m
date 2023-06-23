@@ -2,139 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0BF73B0E7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 08:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 997BE73B242
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 10:01:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbjFWGtV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 02:49:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
+        id S230504AbjFWIBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 04:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbjFWGtU (ORCPT
+        with ESMTP id S230170AbjFWIBr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 02:49:20 -0400
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5465010FD;
-        Thu, 22 Jun 2023 23:49:19 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-570282233ceso1859857b3.1;
-        Thu, 22 Jun 2023 23:49:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687502958; x=1690094958;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Vw3cY1kzXKgiIBKra8+o5IKtv1gR0wSU11KZNvDzks=;
-        b=DhQDHBst6BkvsN5pgAmIuv8FI5/O+7hYxi/2pu4C0FO5lAp4NtWFw7ZcJpVdgCBar8
-         NlVh3fn1c7J2FapeXQFxcCEF1y2VGuJEI/nq7/GmmhWWC6QtTaepPPhWouWO/uNDJfNa
-         yaeWmfG30gSwIJcGzPWtXCGPC+878SP3ToF/8JsmGZm2no7oKEUwVLrVlAHj3OWCuUke
-         RB0/nX7M5wZsZVnfQuHZAq6hYnPull9dZCVcYS96RDgg1rI0IqkP7FbbKdxqRW5IQmfM
-         m3sRIBRze/3wEqiFg10PivF5z5+od/N61niT9BFQE/iL/zqV3CdiNic1bDa7cpdqAdO/
-         FNJg==
-X-Gm-Message-State: AC+VfDwavan9c5+Po7xoH4VTTzSZ8lZrES+BiMc1xi7JnQ5vR68QXSTO
-        nzp5KmWbT/fgYHu6+ROq4hUaUbVh+DFH+g==
-X-Google-Smtp-Source: ACHHUZ4dO04OPf4XlR8c0SixCFwgK6UfutZ6Ex5ScdwW1oEbnAgOsnND6Rht3PyRQJlM6gIzo1GY/g==
-X-Received: by 2002:a81:6e89:0:b0:568:e6d9:7c1a with SMTP id j131-20020a816e89000000b00568e6d97c1amr19078679ywc.4.1687502958415;
-        Thu, 22 Jun 2023 23:49:18 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id x7-20020a0dee07000000b0056dfbc37d9fsm2307241ywe.50.2023.06.22.23.49.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jun 2023 23:49:18 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bd0a359ca35so236630276.3;
-        Thu, 22 Jun 2023 23:49:17 -0700 (PDT)
-X-Received: by 2002:a0d:dbce:0:b0:573:a003:6e0b with SMTP id
- d197-20020a0ddbce000000b00573a0036e0bmr6663390ywe.26.1687502957717; Thu, 22
- Jun 2023 23:49:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com> <168748034127.332493.277333132642198960.b4-ty@kernel.org>
-In-Reply-To: <168748034127.332493.277333132642198960.b4-ty@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 23 Jun 2023 08:49:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU53jn5UP-5xB_YLh2T5gPaxL1dxWY5Vr5D8p2mUDnqwA@mail.gmail.com>
-Message-ID: <CAMuHMdU53jn5UP-5xB_YLh2T5gPaxL1dxWY5Vr5D8p2mUDnqwA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] spi: Add CSI support for Renesas RZ/V2M
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 23 Jun 2023 04:01:47 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5DC4E1BE2;
+        Fri, 23 Jun 2023 01:01:45 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,151,1684767600"; 
+   d="scan'208";a="168666974"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Jun 2023 17:01:44 +0900
+Received: from mulinux.home (unknown [10.226.93.17])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 838C4400B9F5;
+        Fri, 23 Jun 2023 17:01:40 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzv2mevk2: Fix eMMC/SDHI pinctrl names
+Date:   Fri, 23 Jun 2023 09:01:35 +0100
+Message-Id: <20230623080135.15696-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        LOTS_OF_MONEY,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+The original commit uses the same names ("data" and "ctrl")
+for the subnodes of pinctrl definitions for both eMMC and
+SDHI0 (emmc_pins, sdhi0_pins, and sdhi0_pins_uhs) leading to
+the below issue:
 
-On Fri, Jun 23, 2023 at 2:32 AM Mark Brown <broonie@kernel.org> wrote:
-> On Thu, 22 Jun 2023 12:33:36 +0100, Fabrizio Castro wrote:
-> > This series is to add support for the Clocked Serial Interface (CSI)
-> > IP found in the Renesas RZ/V2M SoC.
-> >
-> > Thanks,
-> > Fab
-> >
-> > v2: edited list of include files in drivers/spi/spi-rzv2m-csi.c
-> >
-> > [...]
->
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
->
-> Thanks!
->
-> [1/5] spi: dt-bindings: Add bindings for RZ/V2M CSI
->       commit: db63e7ad2895409f78a04f331f781baa7a879dd7
-> [2/5] clk: renesas: r9a09g011: Add CSI related clocks
->       commit: 7c78eb3e5d30eaa217cecaa32711e41cd849d498
-> [3/5] spi: Add support for Renesas CSI
->       commit: dcf92036cb3e1b7bf3472109e4290a0937b270dd
-> [4/5] arm64: dts: renesas: r9a09g011: Add CSI nodes
->       commit: ef643c6b57020ee279d18636d9d967ee048dbffa
-> [5/5] arm64: defconfig: Enable Renesas RZ/V2M CSI driver
->       commit: dfbd12ae0e7c761e07369f5a2d55fe06eb54ad31
+pinctrl-rzv2m b6250000.pinctrl: pin P8_2 already requested by 85000000.mmc; cannot claim for 85020000.mmc
+pinctrl-rzv2m b6250000.pinctrl: pin-130 (85020000.mmc) status -22
+renesas_sdhi_internal_dmac 85020000.mmc: Error applying setting, reverse things back
 
-I hoped this would have been a bug in b4 thanks, but unfortunately it
-is not.
+This commit fixes the problem by making the names for the
+pinctrl subnodes of eMMC and SDHI0 unique.
 
-Please do not apply unreviewed clock, DTS, and defconfig patches to
-your tree.  These are intended to go upstream through the renesas-clk
-and clk, renesas-dt and soc, resp. renesas-defconfig and soc trees.
+Fixes: b6c0be722b0c ("arm64: dts: renesas: rzv2mevk2: Add uSD card and eMMC support")
+Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+---
+ .../arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Thanks for your understanding!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+index 39fe3f94991e..11c5cffea5a5 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+@@ -167,7 +167,7 @@ &i2c2 {
+ 
+ &pinctrl {
+ 	emmc_pins: emmc {
+-		data {
++		emmc_data {
+ 			pinmux = <RZV2M_PORT_PINMUX(0, 0, 2)>, /* MMDAT0 */
+ 				 <RZV2M_PORT_PINMUX(0, 1, 2)>, /* MMDAT1 */
+ 				 <RZV2M_PORT_PINMUX(0, 2, 2)>, /* MMDAT2 */
+@@ -179,7 +179,7 @@ data {
+ 			power-source = <1800>;
+ 		};
+ 
+-		ctrl {
++		emmc_ctrl {
+ 			pinmux = <RZV2M_PORT_PINMUX(0, 10, 2)>, /* MMCMD */
+ 				 <RZV2M_PORT_PINMUX(0, 11, 2)>; /* MMCLK */
+ 			power-source = <1800>;
+@@ -197,7 +197,7 @@ i2c2_pins: i2c2 {
+ 	};
+ 
+ 	sdhi0_pins: sd0 {
+-		data {
++		sd0_data {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 2, 1)>, /* SD0DAT0 */
+ 				 <RZV2M_PORT_PINMUX(8, 3, 1)>, /* SD0DAT1 */
+ 				 <RZV2M_PORT_PINMUX(8, 4, 1)>, /* SD0DAT2 */
+@@ -205,20 +205,20 @@ data {
+ 			power-source = <3300>;
+ 		};
+ 
+-		ctrl {
++		sd0_ctrl {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 0, 1)>, /* SD0CMD */
+ 				 <RZV2M_PORT_PINMUX(8, 1, 1)>; /* SD0CLK */
+ 			power-source = <3300>;
+ 		};
+ 
+-		cd {
++		sd0_cd {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 7, 1)>; /* SD0CD */
+ 			power-source = <3300>;
+ 		};
+ 	};
+ 
+ 	sdhi0_pins_uhs: sd0-uhs {
+-		data {
++		sd0_uhs_data {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 2, 1)>, /* SD0DAT0 */
+ 				 <RZV2M_PORT_PINMUX(8, 3, 1)>, /* SD0DAT1 */
+ 				 <RZV2M_PORT_PINMUX(8, 4, 1)>, /* SD0DAT2 */
+@@ -226,13 +226,13 @@ data {
+ 			power-source = <1800>;
+ 		};
+ 
+-		ctrl {
++		sd0_uhs_ctrl {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 0, 1)>, /* SD0CMD */
+ 				 <RZV2M_PORT_PINMUX(8, 1, 1)>; /* SD0CLK */
+ 			power-source = <1800>;
+ 		};
+ 
+-		cd {
++		sd0_uhs_cd {
+ 			pinmux = <RZV2M_PORT_PINMUX(8, 7, 1)>; /* SD0CD */
+ 			power-source = <1800>;
+ 		};
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
