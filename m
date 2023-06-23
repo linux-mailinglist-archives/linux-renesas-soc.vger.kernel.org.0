@@ -2,126 +2,281 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D1F73B962
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A96973B969
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:10:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbjFWOI2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 10:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43030 "EHLO
+        id S231292AbjFWOKB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 10:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbjFWOI1 (ORCPT
+        with ESMTP id S230008AbjFWOKA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 10:08:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0018C2688;
-        Fri, 23 Jun 2023 07:08:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20409BC;
-        Fri, 23 Jun 2023 16:07:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687529267;
-        bh=cpgwXM3+rydqPxFvhazM/zjynkiXWUsuj5v+zaCCGTU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sVSr0tIsPU0V5Q0U8RG/jWcYnnWS6GISMv0B7y2OZG0AvZHzdci7MRmORYSWcRHm6
-         0GjwBxAhRzvKlsQd0Eb4V6f2itP6bDuq9DHfHQUg3ifFPyI6Kpqrd6VKrcs1UI3cBR
-         tmag2csb5pVvLwCjfs9fsbXRamfUJpwTVahIgjzo=
-Date:   Fri, 23 Jun 2023 17:08:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] drm/todo: Convert list of fbconv links to
- footnotes
-Message-ID: <20230623140822.GC2112@pendragon.ideasonboard.com>
-References: <cover.1686318012.git.geert+renesas@glider.be>
- <be8d2886f50485c86f74a3c1a117abb1b8718a07.1686318012.git.geert+renesas@glider.be>
+        Fri, 23 Jun 2023 10:10:00 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 954AD2693;
+        Fri, 23 Jun 2023 07:09:57 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,152,1684767600"; 
+   d="scan'208";a="165108779"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Jun 2023 23:09:56 +0900
+Received: from localhost.localdomain (unknown [10.226.93.107])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B53D34270489;
+        Fri, 23 Jun 2023 23:09:51 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Trent Piepho <tpiepho@gmail.com>, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v7 00/10] Add Renesas PMIC RAA215300 and built-in RTC support
+Date:   Fri, 23 Jun 2023 15:09:38 +0100
+Message-Id: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <be8d2886f50485c86f74a3c1a117abb1b8718a07.1686318012.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+This patch series aims to add support for Renesas PMIC RAA215300 and
+built-in RTC found on this PMIC device.
 
-Thank you for the patch.
+The details of PMIC can be found here[1].
 
-On Fri, Jun 09, 2023 at 03:44:28PM +0200, Geert Uytterhoeven wrote:
-> Convert the references to fbconv links to footnotes, so they can be
-> navigated.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - New.
-> ---
->  Documentation/gpu/todo.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 6c328613c049fc1d..ce1d4e22c327063b 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -753,16 +753,16 @@ existing hardware. The new driver's call-back functions are filled from
->  existing fbdev code.
->  
->  More complex fbdev drivers can be refactored step-by-step into a DRM
-> -driver with the help of the DRM fbconv helpers. [1] These helpers provide
-> +driver with the help of the DRM fbconv helpers [4]_. These helpers provide
->  the transition layer between the DRM core infrastructure and the fbdev
->  driver interface. Create a new DRM driver on top of the fbconv helpers,
->  copy over the fbdev driver, and hook it up to the DRM code. Examples for
-> -several fbdev drivers are available at [1] and a tutorial of this process
-> -available at [2]. The result is a primitive DRM driver that can run X11
-> +several fbdev drivers are available at [4]_ and a tutorial of this process
-> +available at [5]_. The result is a primitive DRM driver that can run X11
+Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+device and another for rtc device.
 
-When using footnotes, the main text must read correctly if you ignore
-the notes. This isn't the case for the second and third footnotes here.
+PMIC driver enables RTC block and instantiate RTC device using
+i2c_new_client_device().
 
-    Examples for several fbdev drivers are available in Thomas
-    Zimmermann's fbconv tree [4]_, as well as a tutorial of this
-    process [5]_.
+The built-in RTC found on PMIC RAA215300 is the same as ISL1208.
+However, the external oscillator bit is inverted on PMIC version
+0x11. The PMIC driver detects PMIC version and instantiate appropriate
+RTC device.
 
-I'm not making a call on whether that's better or not that's better than
-the current situation.
+[1]
+https://www.renesas.com/in/en/products/power-power-management/multi-channel-power-management-ics-pmics/ssdsoc-power-management-ics-pmic-and-pmus/raa215300-high-performance-9-channel-pmic-supporting-ddr-memory-built-charger-and-rtc
 
-An alternative is to use plain links:
+Ref:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505091720.115675-1-biju.das.jz@bp.renesas.com/
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
 
-    Examples for several fbdev drivers are available in 'Thomas
-    Zimmermann's fbconv tree`_, as well as a `tutorial of this
-    process`_.
+v6->v7:
+ * Updated the test logs by running rtc_test.
+ * Dropped patch#1 and instead using i2c_new_client_device() to instantiate
+   RTC driver.
+ * Replaced i2c_new_ancillary_device->i2c_new_client_device for RTC client
+   instantiation.
+ * Introduced raa215300_clk_present() to find crystal or clock source is
+   connected to the PMIC device.
+ * Registered clk_dev, so that without any code change sibling device can 
+   use the same clk API's for retrieving the clk details.
+ * The optional irq is shared to sibling device by struct i2c_board_info.
+ * Added code changes for clearing all blocks except RTC. Currently IRQ
+   handling only supported in RTC driver. Enabling other blocks will lead
+   to IRQ storm, if there is any fault.
+ * In probe() latched registers are cleared and PMIC interrupts are masked
+   to avoid IRQ storm.
+ * Dropped Rb tag from Geert for patch#9 and patch#10 as new changes introduced.
+ * In isl1208_set_xtoscb(), override the xtosc bit only if there is a
+   mismatch.
+ * Handling of xtosb_val inverted in probe() and the same change is adapted in
+   isl1208_set_xtoscb().
+ * Simplified isl1208_clk_present().
+ * Removed unnecessary blank line before isl1208_rtc_set_time()
+ * Dropped parsing the parent node for retrieving clk details as
+   clk_dev is registered in sibling PMIC driver.
+v5->v6:
+ * Added Rb tag from Hans Verkuil and Geert.
+ * Updated commit description and comment related to i2c_new_ancillary_device()
+ * Fixed the issue related to assigning wrong parent device by adding check
+   for aux_device_name.
+ * Retained Rb tags for patch#1 as changes are trivial.
+ * Added Rb tag from Geert for patch#2.
+ * Updated the example with replacing node name "clock-xtal"->"x2-clock".
+ * Updated the driver header comment block in C++ style
+ * Dropped cache for registers.
+ * Dropped check for I2C functionality.
+ * Replaced "clock-xtal"->"x2-clock" for x2 node.
+ * Sorted nodes in alphabetical order.
+ * Added Rb tag from Geert for patch#6,#10 and #11
+ * Replaced u8->int for xtosb_val parameter in isl1208_set_xtoscb().
+ * Introduced isl1208_clk_present() for checking the presence of "xin" and
+   "clkin" for determining internal oscillator is enabled or not.
+ * Parsing of parent node is moved from probe->isl1208_clk_present()
+ * Added comment for parsing parent node for getting clock resource.
+ * Replaced XOR->NOT to make the operation more clear for the inverted case.
+v4->v5:
+ * Replaced parameter dev->parent in __i2c_new_client_device() and
+   __i2c_new_dummy_device().
+ * Improved error message in __i2c_new_dummy_device() by printing device name.
+ * Updated comment for ancillary's device parent
+ * Dropped aux_device_name check in i2c_new_ancillary_device().
+ * Replaced oneOf->enum for clock-names as it is simpler.
+ * Added Rb tag from Conor for binding patches#3 and #9.
+ * Added Rb tag from Geert for patches#4, #5 and #6.
+ * Replaced "unsigned long"->"kernel_ulong_t" in isl1208_id[].
+ * Fixed the typo in commit description.
+ * Replaced the variable int_osc_en->xtosb_val for isl1208_set_xtoscb() and
+   changed the data type from bool->u8.
+ * Replaced devm_clk_get->devm_clk_get_optional() in probe.
+ * IS_ERR() related error is propagated and check for NULL to find out
+   if a clock is present.
+ * -ENOENT means clock not present, so any other errors are propagated.
+ * Dropped bool inverted parameter from isl1208_set_xtoscb() instead
+   using xor to compute the value of xtoscb.
+ * Added description for clocks in PMIC bindings patch.
+ * Dropped clk.h and started using of_property_present to check the
+   clocks.
+v3->v4:
+ * Dropped Rb tag from Geert for patch#1 as there are new changes.
+ * Introduced __i2c_new_dummy_device() to share the code between
+   i2c_new_dummy_device and i2c_new_ancillary_device().
+ * Introduced __i2c_new_client_device() to pass parent dev
+   parameter, so that the ancillary device can assign its parent during
+   creation.
+ * Added minItems to interrupt-names in binding patch.
+ * Added interrupt-names in conditional schema check.
+ * Documented clock and clock-names properties.
+ * Dropped unused name variable from struct isl1208_config.
+ * Make similar I2C and DT-based matching.
+ * Drop enum isl1208_id and split the array isl1208_configs[].
+ * Introduced isl1208_set_xtoscb() to set XTOSCB bit.
+ * Added support for internal oscillator enable/disable.
+ * Moved PMIC bindings from mfd->regulator.
+ * Dropped minItems from reg.
+ * Dropped renesas,rtc-enabled property and instead used clock-names property
+   to find RTC is enabled or not.
+ * Added reg-names in required property.
+ * Updated the example.
+ * Moved from mfd->regulator as it doesn't use MFD APIs
+ * Dropped handling "renesas,rtc-enabled" property and instead used
+   clock-names to determine RTC is enabled or not and then instantiating
+   RTC device.
+ * Added clock nodes.
+v2->v3:
+ * Enhanced i2c_new_ancillary_device() to instantiate a real ancillary_device().
+ * RTC device is instantiated by PMIC driver and dropped isl1208_probe_helper().
+ * Added "TYPE_RAA215300_RTC_A0" to handle inverted oscillator bit case.
+ * Added more detailed description for renesas,rtc-enabled property.
+ * Added support for handling "renesas,rtc-enabled" property.
+ * Based on PMIC version, it instantiates rtc device by calling i2c_new_
+   ancillary_device().
+ * Updated the logs.
+RFC->v2:
+ * Dropped the cross-links from bindings and used a single compatible
+   with separate i2c addresses for pmic main and rtc device.
+ * Dropped patch#4 and split patch#3 from this series and send as
+   separate patch to ML [2].
+ * Added RTC platform driver and mfd cell entry to the PMIC driver.RTC
+   platform driver creates rtc device by using i2c_new_ancillary_device()
+   and register the rtc device by calling the helper function provided
+   by rtc-isl2108 driver.
+ * Updated reg property in bindings.
+ * Added optional reg-names, interrupts and renesas,rtc-enabled
+   properties.
+ * Fixed the node name in the binding example
+ * Dropped the cross link property renesas,raa215300-rtc.
+ * Updated the binding example
+ * Dropped MODULE_SOFTDEP from the driver as it is added in RTC platform
+   driver.
+ * Dropped compatible "renesas,raa215300-isl1208" and "renesas,raa215300-pmic" property.
+ * Updated the comment polarity->bit for External Oscillator.
+ * Added raa215300_rtc_probe_helper() for registering raa215300_rtc device and
+   added the helper function isl1208_probe_helper() to share the code.
+ * Updated pmic device node on the SoM dtsi based on the bindings.
 
-    .. _Thomas Zimmermann's fbconv tree: https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
-    .. _tutorial of this process: https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
+RTC test logs with, out of tree patch for enabling RTC IRQ with IRQ alarm
+call back and HW modification done on RZ/G2L SMARC EVK to enable PMIC INT#
+by wiring R83 on SoM module and PMOD0 PIN7:
 
->  and Weston.
->  
-> - - [1] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
-> - - [2] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
-> + .. [4] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
-> + .. [5] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
->  
->  Contact: Thomas Zimmermann <tzimmermann@suse.de>
->  
+root@smarc-rzg2l:~# /rtc_test.sh
+Wed Jun 14 19:30:00 UTC 2023
+TAP version 13
+1..8
+# Starting 8 tests from 1 test cases.
+#  RUN           rtc.date_read ...
+# rtctest.c:52:date_read:Current RTC date/time is 14/06/2023 19:30:01.
+#            OK  rtc.date_read
+ok 1 rtc.date_read
+#  RUN           rtc.date_read_loop ...
+# rtctest.c:95:date_read_loop:Continuously reading RTC time for 30s (with 11ms breaks after every read).
+# rtctest.c:122:date_read_loop:Performed 2047 RTC time reads.
+#            OK  rtc.date_read_loop
+ok 2 rtc.date_read_loop
+#  RUN           rtc.uie_read ...
+#            OK  rtc.uie_read
+ok 3 rtc.uie_read
+#  RUN           rtc.uie_select ...
+#            OK  rtc.uie_select
+ok 4 rtc.uie_select
+#  RUN           rtc.alarm_alm_set ...
+# rtctest.c:221:alarm_alm_set:Alarm time now set to 19:30:41.
+# rtctest.c:241:alarm_alm_set:data: 1a0
+#            OK  rtc.alarm_alm_set
+ok 5 rtc.alarm_alm_set
+#  RUN           rtc.alarm_wkalm_set ...
+# rtctest.c:281:alarm_wkalm_set:Alarm time now set to 14/06/2023 19:30:44.
+#            OK  rtc.alarm_wkalm_set
+ok 6 rtc.alarm_wkalm_set
+#  RUN           rtc.alarm_alm_set_minute ...
+# rtctest.c:331:alarm_alm_set_minute:Alarm time now set to 19:31:00.
+# rtctest.c:351:alarm_alm_set_minute:data: 1a0
+#            OK  rtc.alarm_alm_set_minute
+ok 7 rtc.alarm_alm_set_minute
+#  RUN           rtc.alarm_wkalm_set_minute ...
+# rtctest.c:391:alarm_wkalm_set_minute:Alarm time now set to 14/06/2023 19:32:00.
+#            OK  rtc.alarm_wkalm_set_minute
+ok 8 rtc.alarm_wkalm_set_minute
+# PASSED: 8 / 8 tests passed.
+# Totals: pass:8 fail:0 xfail:0 xpass:0 skip:0 error:0
+
+cat/proc/interrupts | grep rtx
+ 78:         30          0  rzg2l-irqc   5 Level     rtc-isl1208
+
+
+Biju Das (10):
+  regulator: dt-bindings: Add Renesas RAA215300 PMIC bindings
+  regulator: Add Renesas PMIC RAA215300 driver
+  arm64: dts: renesas: rzg2l-smarc-som: Enable PMIC and built-in RTC
+  dt-bindings: rtc: isl1208: Convert to json-schema
+  dt-bindings: rtc: isil,isl1208: Document clock and clock-names
+    properties
+  rtc: isl1208: Drop name variable
+  rtc: isl1208: Make similar I2C and DT-based matching table
+  rtc: isl1208: Drop enum isl1208_id and split isl1208_configs[]
+  rtc: isl1208: Add isl1208_set_xtoscb()
+  rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
+
+ .../bindings/regulator/renesas,raa215300.yaml |  85 ++++++++
+ .../devicetree/bindings/rtc/isil,isl1208.txt  |  38 ----
+ .../devicetree/bindings/rtc/isil,isl1208.yaml | 100 +++++++++
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     |  18 ++
+ drivers/regulator/Kconfig                     |   7 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/raa215300.c                 | 190 ++++++++++++++++++
+ drivers/rtc/rtc-isl1208.c                     | 130 +++++++++---
+ 8 files changed, 499 insertions(+), 70 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/regulator/renesas,raa215300.yaml
+ delete mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.txt
+ create mode 100644 Documentation/devicetree/bindings/rtc/isil,isl1208.yaml
+ create mode 100644 drivers/regulator/raa215300.c
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
