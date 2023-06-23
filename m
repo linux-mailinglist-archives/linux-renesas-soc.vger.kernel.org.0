@@ -2,39 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61FC573ADC9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 02:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E0BF73B0E7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 08:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbjFWAci (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jun 2023 20:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
+        id S230171AbjFWGtV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 02:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbjFWAch (ORCPT
+        with ESMTP id S230117AbjFWGtU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jun 2023 20:32:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007B12105;
-        Thu, 22 Jun 2023 17:32:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8545661937;
-        Fri, 23 Jun 2023 00:32:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 063D3C433C8;
-        Fri, 23 Jun 2023 00:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687480350;
-        bh=rGrpoxT2JrB6gIl6SWv/cI8uqEJ1qle+1MaoCZ8MyQo=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=UGKn0LdI9edM5zspg3LLVLtUP1m/qVoh5pTUFvB/oE81127MpoNWZrxWa0pCPa0k0
-         hKSytPl6HEI8MZ6qB4IuDl2ceb0xcsuWIh0ke0w8i/dtLim0LfA0LhLrUoW0bsQxla
-         JHAZ65/A2e4ButgEra8GNOroIdPKf3D9wsVWFaXUgWcsctbDF8GM8ibanQbSkHBde4
-         x31Eycwo8hjk7sLg2RKN5/sdaUaaCxT2ombsC9ibNP7gYG6GBNE7W8SeybUSxpPzgv
-         w+0j/kIioKqo8BC/XwrN9dHNHLfArPH99GRQ7Q3lnphEDjCki61vMt3atxGxfnxMrO
-         iC1ehJNJxh9YQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 23 Jun 2023 02:49:20 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5465010FD;
+        Thu, 22 Jun 2023 23:49:19 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-570282233ceso1859857b3.1;
+        Thu, 22 Jun 2023 23:49:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687502958; x=1690094958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Vw3cY1kzXKgiIBKra8+o5IKtv1gR0wSU11KZNvDzks=;
+        b=DhQDHBst6BkvsN5pgAmIuv8FI5/O+7hYxi/2pu4C0FO5lAp4NtWFw7ZcJpVdgCBar8
+         NlVh3fn1c7J2FapeXQFxcCEF1y2VGuJEI/nq7/GmmhWWC6QtTaepPPhWouWO/uNDJfNa
+         yaeWmfG30gSwIJcGzPWtXCGPC+878SP3ToF/8JsmGZm2no7oKEUwVLrVlAHj3OWCuUke
+         RB0/nX7M5wZsZVnfQuHZAq6hYnPull9dZCVcYS96RDgg1rI0IqkP7FbbKdxqRW5IQmfM
+         m3sRIBRze/3wEqiFg10PivF5z5+od/N61niT9BFQE/iL/zqV3CdiNic1bDa7cpdqAdO/
+         FNJg==
+X-Gm-Message-State: AC+VfDwavan9c5+Po7xoH4VTTzSZ8lZrES+BiMc1xi7JnQ5vR68QXSTO
+        nzp5KmWbT/fgYHu6+ROq4hUaUbVh+DFH+g==
+X-Google-Smtp-Source: ACHHUZ4dO04OPf4XlR8c0SixCFwgK6UfutZ6Ex5ScdwW1oEbnAgOsnND6Rht3PyRQJlM6gIzo1GY/g==
+X-Received: by 2002:a81:6e89:0:b0:568:e6d9:7c1a with SMTP id j131-20020a816e89000000b00568e6d97c1amr19078679ywc.4.1687502958415;
+        Thu, 22 Jun 2023 23:49:18 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id x7-20020a0dee07000000b0056dfbc37d9fsm2307241ywe.50.2023.06.22.23.49.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jun 2023 23:49:18 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bd0a359ca35so236630276.3;
+        Thu, 22 Jun 2023 23:49:17 -0700 (PDT)
+X-Received: by 2002:a0d:dbce:0:b0:573:a003:6e0b with SMTP id
+ d197-20020a0ddbce000000b00573a0036e0bmr6663390ywe.26.1687502957717; Thu, 22
+ Jun 2023 23:49:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com> <168748034127.332493.277333132642198960.b4-ty@kernel.org>
+In-Reply-To: <168748034127.332493.277333132642198960.b4-ty@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Jun 2023 08:49:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU53jn5UP-5xB_YLh2T5gPaxL1dxWY5Vr5D8p2mUDnqwA@mail.gmail.com>
+Message-ID: <CAMuHMdU53jn5UP-5xB_YLh2T5gPaxL1dxWY5Vr5D8p2mUDnqwA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] spi: Add CSI support for Renesas RZ/V2M
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -43,83 +62,79 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Bjorn Andersson <quic_bjorande@quicinc.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Neil Armstrong <neil.armstrong@linaro.org>,
-        =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
         <nfraprado@collabora.com>,
-        =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
         linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
-In-Reply-To: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com>
-References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v2 0/5] spi: Add CSI support for Renesas RZ/V2M
-Message-Id: <168748034127.332493.277333132642198960.b4-ty@kernel.org>
-Date:   Fri, 23 Jun 2023 01:32:21 +0100
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-c6835
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 22 Jun 2023 12:33:36 +0100, Fabrizio Castro wrote:
-> This series is to add support for the Clocked Serial Interface (CSI)
-> IP found in the Renesas RZ/V2M SoC.
-> 
-> Thanks,
-> Fab
-> 
-> v2: edited list of include files in drivers/spi/spi-rzv2m-csi.c
-> 
-> [...]
+Hi Mark,
 
-Applied to
+On Fri, Jun 23, 2023 at 2:32 AM Mark Brown <broonie@kernel.org> wrote:
+> On Thu, 22 Jun 2023 12:33:36 +0100, Fabrizio Castro wrote:
+> > This series is to add support for the Clocked Serial Interface (CSI)
+> > IP found in the Renesas RZ/V2M SoC.
+> >
+> > Thanks,
+> > Fab
+> >
+> > v2: edited list of include files in drivers/spi/spi-rzv2m-csi.c
+> >
+> > [...]
+>
+> Applied to
+>
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+>
+> Thanks!
+>
+> [1/5] spi: dt-bindings: Add bindings for RZ/V2M CSI
+>       commit: db63e7ad2895409f78a04f331f781baa7a879dd7
+> [2/5] clk: renesas: r9a09g011: Add CSI related clocks
+>       commit: 7c78eb3e5d30eaa217cecaa32711e41cd849d498
+> [3/5] spi: Add support for Renesas CSI
+>       commit: dcf92036cb3e1b7bf3472109e4290a0937b270dd
+> [4/5] arm64: dts: renesas: r9a09g011: Add CSI nodes
+>       commit: ef643c6b57020ee279d18636d9d967ee048dbffa
+> [5/5] arm64: defconfig: Enable Renesas RZ/V2M CSI driver
+>       commit: dfbd12ae0e7c761e07369f5a2d55fe06eb54ad31
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+I hoped this would have been a bug in b4 thanks, but unfortunately it
+is not.
 
-Thanks!
+Please do not apply unreviewed clock, DTS, and defconfig patches to
+your tree.  These are intended to go upstream through the renesas-clk
+and clk, renesas-dt and soc, resp. renesas-defconfig and soc trees.
 
-[1/5] spi: dt-bindings: Add bindings for RZ/V2M CSI
-      commit: db63e7ad2895409f78a04f331f781baa7a879dd7
-[2/5] clk: renesas: r9a09g011: Add CSI related clocks
-      commit: 7c78eb3e5d30eaa217cecaa32711e41cd849d498
-[3/5] spi: Add support for Renesas CSI
-      commit: dcf92036cb3e1b7bf3472109e4290a0937b270dd
-[4/5] arm64: dts: renesas: r9a09g011: Add CSI nodes
-      commit: ef643c6b57020ee279d18636d9d967ee048dbffa
-[5/5] arm64: defconfig: Enable Renesas RZ/V2M CSI driver
-      commit: dfbd12ae0e7c761e07369f5a2d55fe06eb54ad31
+Thanks for your understanding!
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Gr{oetje,eeting}s,
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+                        Geert
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
