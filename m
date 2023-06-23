@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3B473B85B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 15:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1066F73B85C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 15:03:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbjFWNDY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 09:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44062 "EHLO
+        id S230185AbjFWNDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 09:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjFWNDX (ORCPT
+        with ESMTP id S229451AbjFWNDs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 09:03:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1991FF5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Jun 2023 06:03:21 -0700 (PDT)
+        Fri, 23 Jun 2023 09:03:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0F71FF5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Jun 2023 06:03:47 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A36E838;
-        Fri, 23 Jun 2023 15:02:42 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 864B1838;
+        Fri, 23 Jun 2023 15:03:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687525363;
-        bh=Ye/Ue856JaIxGtRrpZL/cJCDPZv01nCBvEEkrkTdgLA=;
+        s=mail; t=1687525388;
+        bh=yyu4cKsmjnizvOowR8T7jV9OPV5JJ1COSC0zm1teWZA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lM1gpUyJ9T250rTg4UYue7aMJjL5Q0IrQzwzQ+PigW+xJCNgjgON0leXI2zJLPq7f
-         4Hi/kEMvIGzg0LPZrCudsCGBTx4rAQOHiizbqsCwuLfmxCH598pxFKhw1RvZX61Oxe
-         HjHnjqITC9Nqk3O/nLSuOW+4ndE+CjkNt/eMd9UM=
-Date:   Fri, 23 Jun 2023 16:03:18 +0300
+        b=VLl1SVoVXW9tu0W+hvekMqSpqH3a1u9Y/nQC7LbsVyqMr3Sa2yaOpy8kqzhl1WbWM
+         2GDDApMwVnu8hohRpZQzAUqgLi/HumUMKAnFeoISAzFLAfNzIgIllG1wvK1vnc0zmt
+         cjuCAqbJl+9k27mJAxFEVgqgNZBPZLLcfAk/DWsM=
+Date:   Fri, 23 Jun 2023 16:03:44 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] ARM: dts: r8a7740: Add LCDC nodes
-Message-ID: <20230623130318.GA2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/2] ARM: dts: armadillo800eva: Add LCD panel
+Message-ID: <20230623130344.GA23353@pendragon.ideasonboard.com>
 References: <cover.1687417585.git.geert+renesas@glider.be>
- <1994a9c58321667733d7cd7500d7e25d30308498.1687417585.git.geert+renesas@glider.be>
+ <c9ad0ea19b3de104f92abb49ebc94907d4812d3f.1687417585.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1994a9c58321667733d7cd7500d7e25d30308498.1687417585.git.geert+renesas@glider.be>
+In-Reply-To: <c9ad0ea19b3de104f92abb49ebc94907d4812d3f.1687417585.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -53,123 +53,74 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:23:14AM +0200, Geert Uytterhoeven wrote:
-> Add device nodes for the two LCD Controllers (LCDC) on the R-Mobile A1
-> SoC, and for the two optional external LCDL clock inputs.
-> 
-> Note that the HDMI clock for LCDC1 is not added, as this clock is not
-> yet supported.
-> 
-> Based on a patch by Laurent Pinchart adding the first LCDC device node.
+On Thu, Jun 22, 2023 at 11:23:15AM +0200, Geert Uytterhoeven wrote:
+> Describe the 5" WVGA TFT LCD panel on the Armadillo-800-EVA development
+> board, and enable the LCD controller that drives it.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
-> Changes compared to Laurent's original:
->   - Add lcdc0 label,
->   - Rename node from display to lcdc-controller,
->   - Rename compatible value from "renesas,lcdc-r8a7740" to
->     "renesas,r8a7740-lcdc",
->   - Correct syntax of reg property,
->   - Use GIC_SPI macro,
->   - Add more clocks,
->   - Add power-domains property,
->   - Add status disabled,
->   - Remove second port from lcdc0, as only lcdc1 has an HDMI port,
->   - Add lcdc1 device node.
-> ---
->  arch/arm/boot/dts/r8a7740.dtsi | 65 ++++++++++++++++++++++++++++++++++
->  1 file changed, 65 insertions(+)
+>  arch/arm/boot/dts/r8a7740-armadillo800eva.dts | 28 +++++++++++++++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/r8a7740.dtsi b/arch/arm/boot/dts/r8a7740.dtsi
-> index 1b2cf5fa322b2985..55884ec701f8dab4 100644
-> --- a/arch/arm/boot/dts/r8a7740.dtsi
-> +++ b/arch/arm/boot/dts/r8a7740.dtsi
-> @@ -398,6 +398,61 @@ sh_fsi2: sound@fe1f0000 {
->  		status = "disabled";
+> diff --git a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
+> index 101413d5164913c5..fb6b432c4df2d948 100644
+> --- a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
+> +++ b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
+> @@ -132,7 +132,7 @@ i2c2: i2c-2 {
+>  		i2c-gpio,delay-us = <5>;
 >  	};
 >  
-> +	lcdc0: lcd-controller@fe940000 {
-> +		compatible = "renesas,r8a7740-lcdc";
-> +		reg = <0xfe940000 0x4000>;
-> +		interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks = <&mstp1_clks R8A7740_CLK_LCDC0>,
-> +			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk0_clk>,
-> +			 <&vou_clk>;
-> +		clock-names = "fck", "media", "lclk", "video";
-> +		power-domains = <&pd_a4lc>;
-> +		status = "disabled";
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +
-> +				lcdc0_rgb: endpoint {
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	lcdc1: lcd-controller@fe944000 {
-> +		compatible = "renesas,r8a7740-lcdc";
-> +		reg = <0xfe944000 0x4000>;
-> +		interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks = <&mstp1_clks R8A7740_CLK_LCDC1>,
-> +			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk1_clk>,
-> +			 <&vou_clk>;
-> +		clock-names = "fck", "media", "lclk", "video";
-> +		power-domains = <&pd_a4lc>;
-> +		status = "disabled";
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +
-> +				lcdc1_rgb: endpoint {
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +
-> +				lcdc1_hdmi: endpoint {
-> +				};
-> +			};
-> +		};
-> +	};
-> +
->  	tmu0: timer@fff80000 {
->  		compatible = "renesas,tmu-r8a7740", "renesas,tmu";
->  		reg = <0xfff80000 0x2c>;
-> @@ -474,6 +529,16 @@ fsibck_clk: fsibck {
->  			#clock-cells = <0>;
->  			clock-frequency = <0>;
->  		};
-> +		lcdlclk0_clk: lcdlclk0 {
-> +			compatible = "fixed-clock";
-> +			#clock-cells = <0>;
-> +			clock-frequency = <0>;
-> +		};
-> +		lcdlclk1_clk: lcdlclk1 {
-> +			compatible = "fixed-clock";
-> +			#clock-cells = <0>;
-> +			clock-frequency = <0>;
-> +		};
-
-The clock frequency seems quite low :-) As far as I understand, there
-are the clocks fed to the external LCDLCLK pins. They belong to the
-board DTS, not here. If a board doesn't provide an external clock, the
-clock should simply be ommitted. The driver must thus treat it as
-optional.
-
+> -	backlight {
+> +	backlight: backlight {
+>  		compatible = "pwm-backlight";
+>  		pwms = <&tpu 2 33333 PWM_POLARITY_INVERTED>;
+>  		brightness-levels = <0 1 2 4 8 16 32 64 128 255>;
+> @@ -143,6 +143,18 @@ backlight {
+>  		enable-gpios = <&pfc 61 GPIO_ACTIVE_HIGH>;
+>  	};
 >  
->  		/* Special CPG clocks */
->  		cpg_clocks: cpg_clocks@e6150000 {
+> +	panel {
+> +		compatible = "ampire,am-800480l1tmqw-t00h";
+> +		backlight = <&backlight>;
+> +		power-supply = <&reg_5p0v>;
+> +
+> +		port {
+> +			panel_in: endpoint {
+> +				remote-endpoint = <&lcdc0_rgb>;
+> +			};
+> +		};
+> +	};
+> +
+>  	sound {
+>  		compatible = "simple-audio-card";
+>  
+> @@ -228,10 +240,22 @@ rtc@30 {
+>  	};
+>  };
+>  
+> -&pfc {
+> +&lcdc0 {
+>  	pinctrl-0 = <&lcd0_pins>;
+>  	pinctrl-names = "default";
+>  
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@0 {
+> +			endpoint {
+> +				remote-endpoint = <&panel_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pfc {
+>  	ether_pins: ether {
+>  		groups = "gether_mii", "gether_int";
+>  		function = "gether";
 
 -- 
 Regards,
