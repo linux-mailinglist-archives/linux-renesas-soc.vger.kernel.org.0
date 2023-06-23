@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A70A73BCCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 18:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7DB73BD2E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 18:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232321AbjFWQkL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 12:40:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49512 "EHLO
+        id S232355AbjFWQvj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 12:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232300AbjFWQkI (ORCPT
+        with ESMTP id S232613AbjFWQvX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 12:40:08 -0400
+        Fri, 23 Jun 2023 12:51:23 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F86294B;
-        Fri, 23 Jun 2023 09:39:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CE2294B;
+        Fri, 23 Jun 2023 09:50:42 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6F33440;
-        Fri, 23 Jun 2023 18:39:14 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C31FD5F;
+        Fri, 23 Jun 2023 18:50:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687538355;
-        bh=XqmTIZlH3lB//uuFxHSBx3U7rk96tMdbubcB9xG35Bo=;
+        s=mail; t=1687539003;
+        bh=Dr1MULLggfcKWm01QouiXfbVzOt1DlbchHiVKjYWYJU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sNIAGVaJzAYOXqycaK/fuiw7F1N1h+g1Yf5DY23mLhTVMa+MZqWu/PrtAqfDs0srN
-         bPkbp8hrPbUZbz6ox3gw13uoTp22vnwSJsIumkF4X4Jsf10vqqj0t+Uv5Apv/LlNBw
-         WVzXxxYlgxnCXP6nAF6MKVIiMr+JKby0g9xBlUsU=
-Date:   Fri, 23 Jun 2023 19:39:50 +0300
+        b=evVRfDyHLmyTSDtajZP/lrPjpmQV9IaxC28lyVun1f4aPhR+ksStg6bG+GdzWieRb
+         dkXp8ue2BO7qNwuvA3P2axG9EqLSmVhORX3/LtJnKAgM6/9ZP7qMhz/G/uF8w5IVSS
+         x3NG0KcuMX+18yLay5l1LCqBAnZSVJli7iDvCQFI=
+Date:   Fri, 23 Jun 2023 19:50:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -35,15 +35,14 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 23/39] drm: renesas: shmobile: Move interface handling to
- connector setup
-Message-ID: <20230623163950.GA2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 24/39] drm: renesas: shmobile: Unify plane allocation
+Message-ID: <20230623165038.GB2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <0032f38b474a8ff63a7cdfdbc8b73766c3561729.1687423204.git.geert+renesas@glider.be>
+ <95c2af42a89c65ca603126e56c0423407dfc873f.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0032f38b474a8ff63a7cdfdbc8b73766c3561729.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <95c2af42a89c65ca603126e56c0423407dfc873f.1687423204.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -58,314 +57,313 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:35AM +0200, Geert Uytterhoeven wrote:
-> Move legacy interface handling to the connector setup code.
-> Set up bus_flags and bus_formats in display_info according to the
-> bus format and panel information from platform data, to make it more
-> similar with DT-based connector/bridge/panel setup.
-> This will allows us to use the same LCD interface setup code for both
-
-s/allows/allow/
-
-> legacy and DT-based systems.
+On Thu, Jun 22, 2023 at 11:21:36AM +0200, Geert Uytterhoeven wrote:
+> Unify primary and overlay plane allocation:
+>   - Enhance shmob_drm_plane_create() so it can be used to create the
+>     primary plane, too,
+>   - Move overlay plane creation next to primary plane creation.
 > 
+> As overlay plane index zero now means the primary plane, this requires
+> shifting all overlay plane indices by one.
+
+Do you use index zero to identify the primary plane just for
+shmob_drm_plane_create(), or somewhere else too ? If it's just to create
+the plane, you could instead pass the plane type to the function.
+
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 123 +++++++++++++++---
->  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  49 -------
->  .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |   3 +-
->  3 files changed, 109 insertions(+), 66 deletions(-)
+> Perhaps it would be better to not use dynamic allocation, but store
+> "struct drm_plane primary" and "struct shmob_drm_plane planes[5]" in
+> struct drm_shmob_device instead, like is done for the crtc and encoder?
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 39 ++------
+>  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  9 --
+>  .../drm/renesas/shmobile/shmob_drm_plane.c    | 96 +++++++++++--------
+>  .../drm/renesas/shmobile/shmob_drm_plane.h    |  3 +-
+>  4 files changed, 70 insertions(+), 77 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> index 5328910ebe09c832..28a70536693f7788 100644
+> index 28a70536693f7788..3f6af12f45988124 100644
 > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
 > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> @@ -8,6 +8,7 @@
->   */
->  
->  #include <linux/clk.h>
-> +#include <linux/media-bus-format.h>
->  #include <linux/pm_runtime.h>
->  
->  #include <drm/drm_crtc.h>
-> @@ -66,15 +67,65 @@ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
->  {
->  	struct drm_crtc *crtc = &scrtc->crtc;
->  	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
-> -	enum display_flags dpy_flags = sdev->connector.mode->flags;
-> +	const struct drm_display_info *info = &sdev->connector->display_info;
->  	const struct drm_display_mode *mode = &crtc->mode;
->  	u32 value;
->  
-> -	value = sdev->ldmt1r
-> -	      | ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? 0 : LDMT1R_VPOL)
-> -	      | ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? 0 : LDMT1R_HPOL)
-> -	      | ((dpy_flags & DISPLAY_FLAGS_PIXDATA_POSEDGE) ? LDMT1R_DWPOL : 0)
-> -	      | ((dpy_flags & DISPLAY_FLAGS_DE_LOW) ? LDMT1R_DIPOL : 0);
-> +	if (!info->num_bus_formats || !info->bus_formats) {
-> +		dev_warn(sdev->dev, "No bus format reported, using RGB888\n");
-> +		value = LDMT1R_MIFTYP_RGB24;
-> +	} else {
-> +		switch (info->bus_formats[0]) {
-> +		case MEDIA_BUS_FMT_RGB888_3X8:
-> +			value = LDMT1R_MIFTYP_RGB8;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB666_2X9_BE:
-> +			value = LDMT1R_MIFTYP_RGB9;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB888_2X12_BE:
-> +			value = LDMT1R_MIFTYP_RGB12A;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB444_1X12:
-> +			value = LDMT1R_MIFTYP_RGB12B;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB565_1X16:
-> +			value = LDMT1R_MIFTYP_RGB16;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB666_1X18:
-> +			value = LDMT1R_MIFTYP_RGB18;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_RGB888_1X24:
-> +			value = LDMT1R_MIFTYP_RGB24;
-> +			break;
-> +
-> +		case MEDIA_BUS_FMT_UYVY8_1X16:
-> +			value = LDMT1R_MIFTYP_YCBCR;
-> +			break;
-> +
-> +		default:
-> +			dev_warn(sdev->dev,
-> +				 "unsupported bus format 0x%x, using RGB888\n",
-> +				 info->bus_formats[0]);
-> +			value = LDMT1R_MIFTYP_RGB24;
-> +			break;
-> +		}
-
-It's a bit annoying to lose the ability to validate the bus format at
-probe time. Can it be kept. I'm also OK with restoring it later in the
-series if it gets in the way of the conversion, in which case a mention
-in the commit message would be nice.
-
-> +	}
-> +
-> +	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE)
-> +		value |= LDMT1R_DWPOL;
-> +	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-> +		value |= LDMT1R_DIPOL;
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-> +		value |= LDMT1R_VPOL;
-> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-> +		value |= LDMT1R_HPOL;
->  
->  	lcdc_write(sdev, LDMT1R, value);
->  
-> @@ -512,7 +563,7 @@ static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
->  {
->  	struct drm_device *dev = encoder->dev;
->  	struct shmob_drm_device *sdev = to_shmob_device(dev);
-> -	struct drm_connector *connector = &sdev->connector.connector;
-> +	struct drm_connector *connector = sdev->connector;
->  	const struct drm_display_mode *panel_mode;
->  
->  	if (list_empty(&connector->modes)) {
-> @@ -614,6 +665,8 @@ static void shmob_drm_connector_destroy(struct drm_connector *connector)
->  {
->  	drm_connector_unregister(connector);
->  	drm_connector_cleanup(connector);
-> +
-> +	kfree(connector);
->  }
->  
->  static const struct drm_connector_funcs connector_funcs = {
-> @@ -622,26 +675,64 @@ static const struct drm_connector_funcs connector_funcs = {
->  	.destroy = shmob_drm_connector_destroy,
+> @@ -19,7 +19,6 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> -#include <drm/drm_plane_helper.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -501,47 +500,29 @@ static const struct drm_crtc_funcs crtc_funcs = {
+>  	.disable_vblank = shmob_drm_disable_vblank,
 >  };
 >  
-> -int shmob_drm_connector_create(struct shmob_drm_device *sdev,
-> -			       struct drm_encoder *encoder)
-> +static struct drm_connector *
-> +shmob_drm_connector_init(struct shmob_drm_device *sdev,
-> +			 struct drm_encoder *encoder)
+> -static const uint32_t modeset_formats[] = {
+> -	DRM_FORMAT_RGB565,
+> -	DRM_FORMAT_RGB888,
+> -	DRM_FORMAT_ARGB8888,
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_NV12,
+> -	DRM_FORMAT_NV21,
+> -	DRM_FORMAT_NV16,
+> -	DRM_FORMAT_NV61,
+> -	DRM_FORMAT_NV24,
+> -	DRM_FORMAT_NV42,
+> -};
+> -
+> -static const struct drm_plane_funcs primary_plane_funcs = {
+> -	DRM_PLANE_NON_ATOMIC_FUNCS,
+> -};
+> -
+>  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
 >  {
-> -	struct shmob_drm_connector *scon = &sdev->connector;
-> -	struct drm_connector *connector = &scon->connector;
-> +	struct shmob_drm_connector *scon;
-> +	struct drm_connector *connector;
-> +	struct drm_display_info *info;
+>  	struct drm_crtc *crtc = &sdev->crtc.crtc;
+> -	struct drm_plane *primary;
+> +	struct drm_plane *primary, *plane;
+> +	unsigned int i;
 >  	int ret;
 >  
-> +	scon = kzalloc(sizeof(*scon), GFP_KERNEL);
-> +	if (!scon)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	connector = &scon->connector;
-> +	info = &connector->display_info;
-> +	info->width_mm = sdev->pdata->panel.width_mm;
-> +	info->height_mm = sdev->pdata->panel.height_mm;
-> +
->  	scon->encoder = encoder;
->  	scon->mode = &sdev->pdata->panel.mode;
+>  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
 >  
-> -	connector->display_info.width_mm = sdev->pdata->panel.width_mm;
-> -	connector->display_info.height_mm = sdev->pdata->panel.height_mm;
-> +	if (scon->mode->flags & DISPLAY_FLAGS_PIXDATA_POSEDGE)
-> +		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
-> +	if (scon->mode->flags & DISPLAY_FLAGS_DE_LOW)
-> +		info->bus_flags |= DRM_BUS_FLAG_DE_LOW;
-
-Could you please keep the initialization of the info fields grouped
-together ? You can move the initialization of scon->encoder and
-scon->mode just after connector.
-
-> +
-> +	ret = drm_display_info_set_bus_formats(info,
-> +					       &sdev->pdata->iface.bus_fmt, 1);
-> +	if (ret < 0) {
-> +		kfree(scon);
-> +		return ERR_PTR(ret);
-> +	}
+> -	primary = __drm_universal_plane_alloc(&sdev->ddev, sizeof(*primary), 0,
+> -					      0, &primary_plane_funcs,
+> -					      modeset_formats,
+> -					      ARRAY_SIZE(modeset_formats),
+> -					      NULL, DRM_PLANE_TYPE_PRIMARY,
+> -					      NULL);
+> +	primary = shmob_drm_plane_create(sdev, 0);
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
 >  
->  	ret = drm_connector_init(&sdev->ddev, connector, &connector_funcs,
->  				 DRM_MODE_CONNECTOR_DPI);
-> -	if (ret < 0)
-> -		return ret;
-> +	if (ret < 0) {
-> +		kfree(scon);
-> +		return ERR_PTR(ret);
-> +	}
->  
->  	drm_connector_helper_add(connector, &connector_helper_funcs);
->  
-> +	return connector;
-> +}
-> +
-> +int shmob_drm_connector_create(struct shmob_drm_device *sdev,
-> +			       struct drm_encoder *encoder)
-> +{
-> +	struct drm_connector *connector;
-> +	int ret;
-> +
-> +	connector = shmob_drm_connector_init(sdev, encoder);
-> +	if (IS_ERR(connector)) {
-> +		dev_err(sdev->dev, "failed to created connector: %pe\n",
-> +			connector);
-> +		return PTR_ERR(connector);
+> +	for (i = 1; i < 5; ++i) {
+> +		plane = shmob_drm_plane_create(sdev, i);
+> +		if (IS_ERR(plane))
+> +			return PTR_ERR(plane);
 > +	}
 > +
->  	ret = drm_connector_attach_encoder(connector, encoder);
->  	if (ret < 0)
->  		goto error;
-> @@ -650,6 +741,8 @@ int shmob_drm_connector_create(struct shmob_drm_device *sdev,
->  	drm_object_property_set_value(&connector->base,
->  		sdev->ddev.mode_config.dpms_property, DRM_MODE_DPMS_OFF);
+>  	ret = drm_crtc_init_with_planes(&sdev->ddev, crtc, primary, NULL,
+>  					&crtc_funcs, NULL);
+> -	if (ret < 0) {
+> -		drm_plane_cleanup(primary);
+> -		kfree(primary);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
 >  
-> +	sdev->connector = connector;
-> +
->  	return 0;
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
 >  
->  error:
 > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index e5be0ae99bd970be..c15ebbe74cac501f 100644
+> index c15ebbe74cac501f..c98e2bdd888c3274 100644
 > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
 > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -9,7 +9,6 @@
+> @@ -154,7 +154,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
+>  	struct shmob_drm_device *sdev;
+>  	struct drm_device *ddev;
+> -	unsigned int i;
+>  	int ret;
 >  
->  #include <linux/clk.h>
->  #include <linux/io.h>
-> -#include <linux/media-bus-format.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> @@ -33,50 +32,6 @@
->   * Hardware initialization
->   */
+>  	if (pdata == NULL) {
+> @@ -195,14 +194,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  		return dev_err_probe(&pdev->dev, ret,
+>  				     "failed to initialize mode setting\n");
 >  
-> -static int shmob_drm_init_interface(struct shmob_drm_device *sdev)
-> -{
-> -	switch (sdev->pdata->iface.bus_fmt) {
-> -	case MEDIA_BUS_FMT_RGB888_3X8:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB8;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB666_2X9_BE:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB9;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB888_2X12_BE:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB12A;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB444_1X12:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB12B;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB565_1X16:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB16;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB666_1X18:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB18;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_RGB888_1X24:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_RGB24;
-> -		break;
-> -
-> -	case MEDIA_BUS_FMT_UYVY8_1X16:
-> -		sdev->ldmt1r = LDMT1R_MIFTYP_YCBCR;
-> -		break;
-> -
-> -	default:
-> -		dev_err(sdev->dev, "invalid bus format 0x%x\n",
-> -			sdev->pdata->iface.bus_fmt);
-> -		return -EINVAL;
+> -	for (i = 0; i < 4; ++i) {
+> -		ret = shmob_drm_plane_create(sdev, i);
+> -		if (ret < 0) {
+> -			dev_err(&pdev->dev, "failed to create plane %u\n", i);
+> -			goto err_modeset_cleanup;
+> -		}
 > -	}
 > -
-> -	return 0;
-> -}
-> -
->  static int shmob_drm_setup_clocks(struct shmob_drm_device *sdev,
->  				  enum shmob_drm_clk_source clksrc)
+>  	ret = drm_vblank_init(ddev, 1);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "failed to initialize vblank\n");
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index c58b9dca34736342..63886015baaebfc0 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -12,6 +12,7 @@
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_gem_dma_helper.h>
+> +#include <drm/drm_plane_helper.h>
+>  
+>  #include "shmob_drm_drv.h"
+>  #include "shmob_drm_kms.h"
+> @@ -64,57 +65,58 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+>  				    struct drm_framebuffer *fb)
 >  {
-> @@ -235,10 +190,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		return ret;
+>  	struct shmob_drm_device *sdev = to_shmob_device(splane->plane.dev);
+> +	unsigned int ovl_idx = splane->index - 1;
+>  	u32 format;
 >  
-> -	ret = shmob_drm_init_interface(sdev);
-> -	if (ret < 0)
-> -		return ret;
+>  	/* TODO: Support ROP3 mode */
+>  	format = LDBBSIFR_EN | (splane->alpha << LDBBSIFR_LAY_SHIFT) |
+>  		 splane->format->ldbbsifr;
+>  
+> -#define plane_reg_dump(sdev, splane, reg) \
+> +#define plane_reg_dump(sdev, ovl_idx, reg) \
+>  	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x 0x%08x\n", __func__, \
+> -		splane->index, #reg, \
+> -		lcdc_read(sdev, reg(splane->index)), \
+> -		lcdc_read(sdev, reg(splane->index) + LCDC_SIDE_B_OFFSET))
 > -
->  	ret = shmob_drm_modeset_init(sdev);
->  	if (ret < 0)
->  		return dev_err_probe(&pdev->dev, ret,
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> index 5e55ba7a207865bd..18907e5ace51c681 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> @@ -27,7 +27,6 @@ struct shmob_drm_device {
->  	void __iomem *mmio;
->  	struct clk *clock;
->  	u32 lddckr;
-> -	u32 ldmt1r;
+> -	plane_reg_dump(sdev, splane, LDBnBSIFR);
+> -	plane_reg_dump(sdev, splane, LDBnBSSZR);
+> -	plane_reg_dump(sdev, splane, LDBnBLOCR);
+> -	plane_reg_dump(sdev, splane, LDBnBSMWR);
+> -	plane_reg_dump(sdev, splane, LDBnBSAYR);
+> -	plane_reg_dump(sdev, splane, LDBnBSACR);
+> -
+> -	lcdc_write(sdev, LDBCR, LDBCR_UPC(splane->index));
+> -	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
+> +		ovl_idx, #reg, \
+> +		lcdc_read(sdev, reg(ovl_idx)), \
+> +		lcdc_read(sdev, reg(ovl_idx) + LCDC_SIDE_B_OFFSET))
+> +
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSIFR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSSZR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBLOCR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSMWR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSAYR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSACR);
+> +
+> +	lcdc_write(sdev, LDBCR, LDBCR_UPC(ovl_idx));
+> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, ovl_idx,
+>  		"LDBCR", lcdc_read(sdev, LDBCR));
 >  
->  	unsigned int irq;
->  	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
-> @@ -36,7 +35,7 @@ struct shmob_drm_device {
+> -	lcdc_write(sdev, LDBnBSIFR(splane->index), format);
+> +	lcdc_write(sdev, LDBnBSIFR(ovl_idx), format);
 >  
->  	struct shmob_drm_crtc crtc;
->  	struct drm_encoder encoder;
-> -	struct shmob_drm_connector connector;
-> +	struct drm_connector *connector;
+> -	lcdc_write(sdev, LDBnBSSZR(splane->index),
+> +	lcdc_write(sdev, LDBnBSSZR(ovl_idx),
+>  		   (splane->crtc_h << LDBBSSZR_BVSS_SHIFT) |
+>  		   (splane->crtc_w << LDBBSSZR_BHSS_SHIFT));
+> -	lcdc_write(sdev, LDBnBLOCR(splane->index),
+> +	lcdc_write(sdev, LDBnBLOCR(ovl_idx),
+>  		   (splane->crtc_y << LDBBLOCR_CVLC_SHIFT) |
+>  		   (splane->crtc_x << LDBBLOCR_CHLC_SHIFT));
+> -	lcdc_write(sdev, LDBnBSMWR(splane->index),
+> +	lcdc_write(sdev, LDBnBSMWR(ovl_idx),
+>  		   fb->pitches[0] << LDBBSMWR_BSMW_SHIFT);
+>  
+>  	shmob_drm_plane_compute_base(splane, fb, splane->src_x, splane->src_y);
+>  
+> -	lcdc_write(sdev, LDBnBSAYR(splane->index), splane->dma[0]);
+> +	lcdc_write(sdev, LDBnBSAYR(ovl_idx), splane->dma[0]);
+>  	if (shmob_drm_format_is_yuv(splane->format))
+> -		lcdc_write(sdev, LDBnBSACR(splane->index), splane->dma[1]);
+> +		lcdc_write(sdev, LDBnBSACR(ovl_idx), splane->dma[1]);
+>  
+>  	lcdc_write(sdev, LDBCR,
+> -		   LDBCR_UPF(splane->index) | LDBCR_UPD(splane->index));
+> -	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
+> +		   LDBCR_UPF(ovl_idx) | LDBCR_UPD(ovl_idx));
+> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, ovl_idx,
+>  		"LDBCR", lcdc_read(sdev, LDBCR));
+>  
+> -	plane_reg_dump(sdev, splane, LDBnBSIFR);
+> -	plane_reg_dump(sdev, splane, LDBnBSSZR);
+> -	plane_reg_dump(sdev, splane, LDBnBLOCR);
+> -	plane_reg_dump(sdev, splane, LDBnBSMWR);
+> -	plane_reg_dump(sdev, splane, LDBnBSAYR);
+> -	plane_reg_dump(sdev, splane, LDBnBSACR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSIFR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSSZR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBLOCR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSMWR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSAYR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSACR);
+>  }
+>  
+>  void shmob_drm_plane_setup(struct drm_plane *plane)
+> @@ -169,16 +171,22 @@ static int shmob_drm_plane_disable(struct drm_plane *plane,
+>  {
+>  	struct shmob_drm_device *sdev = to_shmob_device(plane->dev);
+>  	struct shmob_drm_plane *splane = to_shmob_plane(plane);
+> +	unsigned int ovl_idx = splane->index - 1;
+>  
+>  	splane->format = NULL;
+>  
+> -	lcdc_write(sdev, LDBCR, LDBCR_UPC(splane->index));
+> -	lcdc_write(sdev, LDBnBSIFR(splane->index), 0);
+> +	lcdc_write(sdev, LDBCR, LDBCR_UPC(ovl_idx));
+> +	lcdc_write(sdev, LDBnBSIFR(ovl_idx), 0);
+>  	lcdc_write(sdev, LDBCR,
+> -		   LDBCR_UPF(splane->index) | LDBCR_UPD(splane->index));
+> +		   LDBCR_UPF(ovl_idx) | LDBCR_UPD(ovl_idx));
+>  	return 0;
+>  }
+>  
+> +static const struct drm_plane_funcs primary_plane_funcs = {
+
+While at it, you can name this shmob_primary_plane_funcs to avoid
+namespace clashes.
+
+> +	.update_plane = drm_plane_helper_update_primary,
+> +	.disable_plane = drm_plane_helper_disable_primary,
+> +};
+> +
+>  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+
+And shmob_overlay_plane_funcs for consistency.
+
+>  	.update_plane = shmob_drm_plane_update,
+>  	.disable_plane = shmob_drm_plane_disable,
+> @@ -197,19 +205,31 @@ static const uint32_t formats[] = {
+>  	DRM_FORMAT_NV42,
 >  };
 >  
->  static inline struct shmob_drm_device *to_shmob_device(struct drm_device *dev)
+> -int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index)
+> +struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+> +					 unsigned int index)
+>  {
+> +	const struct drm_plane_funcs *funcs;
+>  	struct shmob_drm_plane *splane;
+> +	enum drm_plane_type type;
+> +
+> +	if (!index) {
+> +		type = DRM_PLANE_TYPE_PRIMARY;
+> +		funcs = &primary_plane_funcs;
+> +	} else {
+> +		type = DRM_PLANE_TYPE_OVERLAY;
+> +		funcs = &shmob_drm_plane_funcs;
+> +	}
+>  
+> -	splane = drmm_universal_plane_alloc(&sdev->ddev, struct shmob_drm_plane,
+> -					    plane, 1, &shmob_drm_plane_funcs,
+> -					    formats, ARRAY_SIZE(formats), NULL,
+> -					    DRM_PLANE_TYPE_OVERLAY, NULL);
+> +	splane = drmm_universal_plane_alloc(&sdev->ddev,
+> +					    struct shmob_drm_plane, plane, 1,
+> +					    funcs, formats,
+> +					    ARRAY_SIZE(formats),  NULL, type,
+> +					    NULL);
+>  	if (IS_ERR(splane))
+> -		return PTR_ERR(splane);
+> +		return ERR_CAST(splane);
+>  
+>  	splane->index = index;
+>  	splane->alpha = 255;
+>  
+> -	return 0;
+> +	return &splane->plane;
+>  }
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> index e72b21a4288fc23f..29cf6732d479a509 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> @@ -13,7 +13,8 @@
+>  struct drm_plane;
+>  struct shmob_drm_device;
+>  
+> -int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index);
+> +struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+> +					 unsigned int index);
+>  void shmob_drm_plane_setup(struct drm_plane *plane);
+>  
+>  #endif /* __SHMOB_DRM_PLANE_H__ */
 
 -- 
 Regards,
