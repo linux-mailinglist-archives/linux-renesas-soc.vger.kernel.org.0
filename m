@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74D8273BD6E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 19:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D80673BD7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 19:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbjFWRI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 13:08:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
+        id S232237AbjFWRK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 13:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231667AbjFWRIb (ORCPT
+        with ESMTP id S232689AbjFWRKD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 13:08:31 -0400
+        Fri, 23 Jun 2023 13:10:03 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F7362D4C;
-        Fri, 23 Jun 2023 10:08:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9112F30E9;
+        Fri, 23 Jun 2023 10:09:23 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97F2E838;
-        Fri, 23 Jun 2023 19:07:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92E28838;
+        Fri, 23 Jun 2023 19:08:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687540052;
-        bh=gzhnbRo3G2xtBbekM1sXIop1Hs4168rGbYujQRn9E7s=;
+        s=mail; t=1687540125;
+        bh=ho8g4d4+QSTop1taPB2ZsJswaSCq6PsVAP4v4ww2Dfk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D4iBS40w3cb+Oa10OPEU/i1vLanzf05nmwJssUUsDXv0ld6dQoGAUe++V52vmwXVd
-         6n3ye2DIFv0+7FN7zjd0XDfbyrO9ALZPuGYyB493Ifvoc8nwQgaI87DwBLChrD8BNX
-         G0VolyY1zHKhxsbJhDgLJXFzCMU7s3kYRG9g5byE=
-Date:   Fri, 23 Jun 2023 20:08:08 +0300
+        b=Wz3uRXxrWjYUI9rpIY329Qo4BnsseqSPx+VyFaJEhK1+ionAWmL2pwWDFhpYEYtjH
+         aGX2kxWrD1IKhPYSNvgeSEQvNQ2617v1Fl5f+C4xkAw1jXkK2b22Kb7b9yZzcInG8d
+         hwis3GgME3SXmH9XuBTnQYyq2Up3el2mBMXVE3H8=
+Date:   Fri, 23 Jun 2023 20:09:21 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -35,15 +35,15 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 30/39] drm: renesas: shmobile: Wait for page flip when
- turning CRTC off
-Message-ID: <20230623170808.GH2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 31/39] drm: renesas: shmobile: Turn vblank on/off when
+ enabling/disabling CRTC
+Message-ID: <20230623170921.GI2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <0b0cc2971b2abc8fe0fc55a9ae652a7b8a7235cd.1687423204.git.geert+renesas@glider.be>
+ <c299dd21b17c43b56d4bc8bc0b2cad8d3edda397.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0b0cc2971b2abc8fe0fc55a9ae652a7b8a7235cd.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <c299dd21b17c43b56d4bc8bc0b2cad8d3edda397.1687423204.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -58,112 +58,92 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:42AM +0200, Geert Uytterhoeven wrote:
-> Turning a CRTC off will prevent a queued page flip from ever completing,
-> potentially confusing userspace.  Wait for queued page flips to complete
-> before turning the CRTC off to avoid this.
+On Thu, Jun 22, 2023 at 11:21:43AM +0200, Geert Uytterhoeven wrote:
+> The DRM core vblank handling mechanism requires drivers to forcefully
+> turn vblank reporting off when disabling the CRTC, and to restore the
+> vblank reporting status when enabling the CRTC.
+> Implement this using the drm_crtc_vblank_{on,off}() helpers.
+> 
+> Note that drm_crtc_vblank_off() must be called at startup to synchronize
+> the state of the vblank core code with the hardware, which is initially
+> disabled.  This is performed at CRTC creation time, requiring vertical
+> blank initialization to be moved before creating CRTCs.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Given that you're duplicating the rcar-du page flip handling code, I
-have a feeling core helpers would be handy. It's not a blocker for this
-series though, so
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 37 +++++++++++++++++++
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  3 ++
->  2 files changed, 40 insertions(+)
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 10 +++++++++-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 12 ++++++------
+>  2 files changed, 15 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> index 1d7fcf64bf2aab80..d2a0ac5f9368c11c 100644
+> index d2a0ac5f9368c11c..b184019d8b1ed89c 100644
 > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
 > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> @@ -285,11 +285,40 @@ void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
->  	scrtc->event = NULL;
->  	if (event) {
->  		drm_crtc_send_vblank_event(&scrtc->base, event);
-> +		wake_up(&scrtc->flip_wait);
->  		drm_crtc_vblank_put(&scrtc->base);
->  	}
->  	spin_unlock_irqrestore(&dev->event_lock, flags);
+> @@ -267,6 +267,9 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>  
+>  	shmob_drm_crtc_start_stop(scrtc, true);
+>  
+> +	/* Turn vertical blank interrupt reporting back on. */
+> +	drm_crtc_vblank_on(crtc);
+> +
+>  	scrtc->started = true;
 >  }
 >  
-> +static bool shmob_drm_crtc_page_flip_pending(struct shmob_drm_crtc *scrtc)
-> +{
-> +	struct drm_device *dev = scrtc->base.dev;
-> +	unsigned long flags;
-> +	bool pending;
-> +
-> +	spin_lock_irqsave(&dev->event_lock, flags);
-> +	pending = scrtc->event != NULL;
-> +	spin_unlock_irqrestore(&dev->event_lock, flags);
-> +
-> +	return pending;
-> +}
-> +
-> +static void shmob_drm_crtc_wait_page_flip(struct shmob_drm_crtc *scrtc)
-> +{
-> +	struct drm_crtc *crtc = &scrtc->base;
-> +	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
-> +
-> +	if (wait_event_timeout(scrtc->flip_wait,
-> +			       !shmob_drm_crtc_page_flip_pending(scrtc),
-> +			       msecs_to_jiffies(50)))
-> +		return;
-> +
-> +	dev_warn(sdev->dev, "page flip timeout\n");
-> +
-> +	shmob_drm_crtc_finish_page_flip(scrtc);
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * CRTC Functions
->   */
-> @@ -302,6 +331,12 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
->  	if (!scrtc->started)
+> @@ -332,10 +335,12 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
 >  		return;
 >  
-> +	/*
-> +	 * Wait for page flip completion before stopping the CRTC as userspace
-> +	 * expects page flips to eventually complete.
-> +	 */
-> +	shmob_drm_crtc_wait_page_flip(scrtc);
-> +
+>  	/*
+> -	 * Wait for page flip completion before stopping the CRTC as userspace
+> +	 * Disable vertical blank interrupt reporting.  We first need to wait
+> +	 * for page flip completion before stopping the CRTC as userspace
+>  	 * expects page flips to eventually complete.
+>  	 */
+>  	shmob_drm_crtc_wait_page_flip(scrtc);
+> +	drm_crtc_vblank_off(crtc);
+>  
 >  	/* Stop the LCDC. */
 >  	shmob_drm_crtc_start_stop(scrtc, false);
+> @@ -571,6 +576,9 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
 >  
-> @@ -515,6 +550,8 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
->  	unsigned int i;
->  	int ret;
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
 >  
-> +	init_waitqueue_head(&sdev->crtc.flip_wait);
+> +	/* Start with vertical blank interrupt reporting disabled. */
+> +	drm_crtc_vblank_off(crtc);
 > +
->  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+>  	return 0;
+>  }
 >  
->  	primary = shmob_drm_plane_create(sdev, 0);
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> index 2c6d7541427581a6..b9863e026e8a9b83 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> @@ -14,6 +14,8 @@
->  #include <drm/drm_connector.h>
->  #include <drm/drm_encoder.h>
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> index 6eaf2c5a104f451a..a29c0c1093725b6e 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> @@ -189,17 +189,17 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		return ret;
 >  
-> +#include <linux/wait.h>
+> -	ret = shmob_drm_modeset_init(sdev);
+> -	if (ret < 0)
+> -		return dev_err_probe(&pdev->dev, ret,
+> -				     "failed to initialize mode setting\n");
+> -
+>  	ret = drm_vblank_init(ddev, 1);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "failed to initialize vblank\n");
+> -		goto err_modeset_cleanup;
+> +		return ret;
+>  	}
+>  
+> +	ret = shmob_drm_modeset_init(sdev);
+> +	if (ret < 0)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "failed to initialize mode setting\n");
 > +
->  #include <video/videomode.h>
->  
->  struct drm_pending_vblank_event;
-> @@ -24,6 +26,7 @@ struct shmob_drm_crtc {
->  	struct drm_crtc base;
->  
->  	struct drm_pending_vblank_event *event;
-> +	wait_queue_head_t flip_wait;
->  	int dpms;
->  
->  	const struct shmob_drm_format_info *format;
+>  	ret = platform_get_irq(pdev, 0);
+>  	if (ret < 0)
+>  		goto err_modeset_cleanup;
 
 -- 
 Regards,
