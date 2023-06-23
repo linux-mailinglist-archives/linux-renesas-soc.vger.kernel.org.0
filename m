@@ -2,95 +2,260 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3153B73BAC0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F74F73BAE1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 16:57:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbjFWOwo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 10:52:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45300 "EHLO
+        id S232073AbjFWO5W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 10:57:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232387AbjFWOwY (ORCPT
+        with ESMTP id S232344AbjFWO4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 10:52:24 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53946273E;
-        Fri, 23 Jun 2023 07:52:07 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fa0253b9e7so7341735e9.1;
-        Fri, 23 Jun 2023 07:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687531925; x=1690123925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B3keFXyYxAjQYtSZa6MYtEortI8BrTUPT1JTwkzq5vU=;
-        b=V/C/eQtE7bkb3qRA18sldaife0yyK3/9rF2RuIMXV5U1f8na7mIjDXCldVpaBbaqNX
-         RTYx3naOUEX3CobqEzScq+3kq3/8jkiEilQFwIgzmS22QYac9ygwXSeb+/ZSFKPk/yIq
-         Q+f4U5IQZweGwZmjwmv992My8vdQQG5ewoEOJLOcIjdZeHSzoOmRCgUaCACVaJvmmagV
-         ZaOC2g/OJUGyMYsNyHGef6SOzUq1qvfGMQOCp04IxVzi4hyvo9uoA14M9MBx038r3sne
-         NxXOQzS1NC65IWUJtwzfRGBh8a5WGhmyGSvle9+vQMJIhd16QsjhqBTyApsvk05mS9xV
-         ge/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687531925; x=1690123925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B3keFXyYxAjQYtSZa6MYtEortI8BrTUPT1JTwkzq5vU=;
-        b=IdxJI92wDa3d+BlYs7fsc0FMHBUcNapO30duU2E0IYJondcHSH1QqiQydj8umkgv5t
-         dDtUJHu6/mf2X/SEOaNCZtHCN8nG/5lZ1PI2qhgQ1KixzmRdVB3OeCzy0qedJ+LWdTbC
-         WR6obdT3dvUjBKAfMdGrrt9WZ1DT/8VtQw0jYG03iPVI8EDnLPl+HU2hX3KXFHhdM6XT
-         COJp27rV0yMC0IEkwJ6Wyp59BqMrhd0Oxavjh6TmmtPTSD8X3xC6iYaLwfe6HJGLMv+W
-         j+f9uC24BUOT4YqvBtL26YxaAbupUl7ewJuMeGsuov4FVncDyBY55jN5jwssYeNfqlNy
-         Rf5Q==
-X-Gm-Message-State: AC+VfDxKltR+ju0p3OcAhtis0mNM6EGUXyo/lhDMdWqzPdpIuTE8x+mX
-        HqkYRcfxc1QMQ6Oqkx2n3RjzD9krLTY=
-X-Google-Smtp-Source: ACHHUZ4s7ag/+YAr5I+URwo1+sTL7+qmBGPPj8zPPmPW079qM6s3NeI17ljypQKQztEiAX4gcbAGaA==
-X-Received: by 2002:a05:600c:3b97:b0:3f9:b535:381a with SMTP id n23-20020a05600c3b9700b003f9b535381amr11838348wms.10.1687531925110;
-        Fri, 23 Jun 2023 07:52:05 -0700 (PDT)
-Received: from localhost (p200300e41f305300f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f30:5300:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id r19-20020a05600c285300b003f8ec58995fsm2606614wmb.6.2023.06.23.07.52.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 07:52:04 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     linux-pwm@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fri, 23 Jun 2023 10:56:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBE62136;
+        Fri, 23 Jun 2023 07:56:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDB8DD5F;
+        Fri, 23 Jun 2023 16:56:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687532161;
+        bh=qlSeLA7AwsNcc+6RnyaobyYnL725JuzygrXuObFz9hg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z34FGxc7qciJD0E/UZeHg8UHHtzVNzTeQlVRfaNKxIMJ+JTb6kLAPiRuG/4ZVek83
+         3hBBcwoKZahlBaKNwloSONRo4fj48lTVq6eXu+R6CqRGbqg8vyNdowssKBjCDS3AOg
+         tQ6p4XRYlGMgAEX47gw2bpB4nWVf/fo1kaOI0DXM=
+Date:   Fri, 23 Jun 2023 17:56:37 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: pwm: Add R-Car V3U device tree bindings
-Date:   Fri, 23 Jun 2023 16:51:42 +0200
-Message-ID: <168753171960.1191890.8754582983989632537.b4-ty@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230502165330.55769-1-wsa+renesas@sang-engineering.com>
-References: <20230502165330.55769-1-wsa+renesas@sang-engineering.com>
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 02/39] media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9 variants
+Message-ID: <20230623145637.GF2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert,
 
-On Tue, 02 May 2023 18:53:29 +0200, Wolfram Sang wrote:
+Thank you for the patch.
+
+On Thu, Jun 22, 2023 at 11:21:14AM +0200, Geert Uytterhoeven wrote:
+> Add the RGB666 9:9 formats MEDIA_BUS_FMT_RGB666_2X9_BE and
+> MEDIA_BUS_FMT_RGB666_2X9_LE.  The former is supported by the SH-Mobile
+> LCD Controller.
+
+If MEDIA_BUS_FMT_RGB666_2X9_LE isn't supported, I'd leave it out for
+now. It can be added later once a driver needs it.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> ---
+>  .../media/v4l/subdev-formats.rst              | 144 ++++++++++++++++++
+>  include/uapi/linux/media-bus-format.h         |   4 +-
+>  2 files changed, 147 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index a3a35eeed70846ba..4bbcdec101384cb1 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -949,6 +949,150 @@ The following tables list existing packed RGB formats.
+>        - b\ :sub:`2`
+>        - b\ :sub:`1`
+>        - b\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-BE:
+> +
+> +      - MEDIA_BUS_FMT_RGB666_2X9_BE
+> +      - 0x1025
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +    * -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-LE:
+> +
+> +      - MEDIA_BUS_FMT_RGB666_2X9_LE
+> +      - 0x1026
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +    * -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+>      * .. _MEDIA-BUS-FMT-BGR666-1X18:
+>  
+>        - MEDIA_BUS_FMT_BGR666_1X18
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index a03c543cb072de30..07105f530400511e 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -34,7 +34,7 @@
+>  
+>  #define MEDIA_BUS_FMT_FIXED			0x0001
+>  
+> -/* RGB - next is	0x1025 */
+> +/* RGB - next is	0x1027 */
+>  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+> @@ -46,6 +46,8 @@
+>  #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
+>  #define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
+>  #define MEDIA_BUS_FMT_RGB666_1X18		0x1009
+> +#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
+> +#define MEDIA_BUS_FMT_RGB666_2X9_LE		0x1026
+>  #define MEDIA_BUS_FMT_BGR666_1X18		0x1023
+>  #define MEDIA_BUS_FMT_RBG888_1X24		0x100e
+>  #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
 
-
-Applied, thanks!
-
-[1/1] dt-bindings: pwm: Add R-Car V3U device tree bindings
-      commit: 5442c33f218b1aabbe699db978e407317a231d10
-
-Best regards,
 -- 
-Thierry Reding <thierry.reding@gmail.com>
+Regards,
+
+Laurent Pinchart
