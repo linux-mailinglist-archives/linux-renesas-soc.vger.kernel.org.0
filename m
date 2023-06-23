@@ -2,91 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9722A73BB00
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 17:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3411B73BB04
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jun 2023 17:06:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232358AbjFWPEr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jun 2023 11:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54344 "EHLO
+        id S232357AbjFWPGd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jun 2023 11:06:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232361AbjFWPEp (ORCPT
+        with ESMTP id S232182AbjFWPGc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jun 2023 11:04:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED322112;
-        Fri, 23 Jun 2023 08:04:43 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4AA6838;
-        Fri, 23 Jun 2023 17:04:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687532646;
-        bh=L0JeIL/kTtYp3SuxU1Cw3iCGkCrTf5TOpTRBzOxuPI4=;
+        Fri, 23 Jun 2023 11:06:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72A61BD0;
+        Fri, 23 Jun 2023 08:06:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E810261A87;
+        Fri, 23 Jun 2023 15:06:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D87EC433C8;
+        Fri, 23 Jun 2023 15:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687532790;
+        bh=e+a+4BATBYrRzsOkBrqxRovCKuWSKjmHQcwb1cDujGA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SnqG14c9ZlrSv6RYws6+chxA6XcvR5lgl/UtI9Mhrruu8b/kotLR8WwZqCWmu3Op7
-         a6SE9NjQKSWqvaVl0aiPZjSQsUuBdE7XPxZ8w7kibqK83Au3CtJeXKLNseXDwi/G0S
-         3dpP8lsopodJ6vRbEtVL3C95mQCDM2Spn19Khytw=
-Date:   Fri, 23 Jun 2023 18:04:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        b=Ruu+xWOFPHKWhkiXYBamQH3a1O7WYhjwV0KSCk0V9vIkMjr/5ukCWbPiElNnyh34i
+         HafIA1FnRzh7lt4IOpMWHci84/o7STBWc/TyXISN7OTqhC89TkiB8nEi9KSE9Nr8Zj
+         yXGyV8fVnUFORFoOXUIEL6hplgiKDd/PjY1nuK3cK/DCR5hrrmSFBsxVIMin648H5V
+         9yAnjsuKwaFxzGRDQqGoKw4TAt4rWjDqt/CGBd7XQpnm6iBleGdgQMRuEZFN1QIrCo
+         5qVZzEsGT+mpccPQ3le+EX0wMqVCTLozS8Mwf8jh22n4srU2eYdnkHICZNxL8Qi5uM
+         S194IuXoBB7WA==
+Date:   Fri, 23 Jun 2023 16:06:25 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/39] drm: renesas: shmobile: Use %p4cc to print fourcc
- code
-Message-ID: <20230623150441.GJ2112@pendragon.ideasonboard.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <7eb153878ffa1242d537aade655936f33b7eec62.1687423204.git.geert+renesas@glider.be>
+        Trent Piepho <tpiepho@gmail.com>, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: Re: [PATCH v7 00/10] Add Renesas PMIC RAA215300 and built-in RTC
+ support
+Message-ID: <ZJW08YIZROKg2a2c@finisterre.sirena.org.uk>
+References: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="PrFTxRZ3tAieVKnp"
 Content-Disposition: inline
-In-Reply-To: <7eb153878ffa1242d537aade655936f33b7eec62.1687423204.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
+X-Cookie: Slow day.  Practice crawling.
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-Thank you for the patch.
+--PrFTxRZ3tAieVKnp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jun 22, 2023 at 11:21:20AM +0200, Geert Uytterhoeven wrote:
-> Replace the last printing of an hexadecimal fourcc format code by a
-> pretty-printed format name, using the "%p4cc" format specifier.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, Jun 23, 2023 at 03:09:38PM +0100, Biju Das wrote:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> v6->v7:
+>  * Updated the test logs by running rtc_test.
+>  * Dropped patch#1 and instead using i2c_new_client_device() to instantiate
+>    RTC driver.
+>  * Replaced i2c_new_ancillary_device->i2c_new_client_device for RTC client
+>    instantiation.
 
-> ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> index 7e49e2873da1bb6f..36fedb2b74c8b7a2 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> @@ -184,8 +184,8 @@ shmob_drm_plane_update(struct drm_plane *plane, struct drm_crtc *crtc,
->  
->  	format = shmob_drm_format_info(fb->format->format);
->  	if (format == NULL) {
-> -		dev_dbg(sdev->dev, "update_plane: unsupported format %08x\n",
-> -			fb->format->format);
-> +		dev_dbg(sdev->dev, "update_plane: unsupported format %p4cc\n",
-> +			&fb->format->format);
->  		return -EINVAL;
->  	}
->  
+This means that there's now no longer any interdependencies for the
+regulator patches AIUI?
 
--- 
-Regards,
+--PrFTxRZ3tAieVKnp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSVtOoACgkQJNaLcl1U
+h9CNkQf+L8QAWTX9jfhaftVUlDzH4M99K07AI8GwkTBA5Wye4g8umeTApRkBRhpr
+xH7waepC2/Qe82sv0O7WGDADsDx7W/5s/6sJUejxcRkye310syWd88oEvhmIcgZV
+qc6TY7zhG7hqVSe0J4sbZtMZfb4yRBbzC3C2BXDKJGIUXcSGDTj+8XX1pMyzn/OX
+FYftDVoPojs+qVxf3HYaWon5A0Tp5slUFsbO357UsoTCEtjIspM36KF73OrUPfFD
+u3VPSPASda8Rw1aUiABPTjwmNFCs8sSfxuO7g+5aWE5DNY4LUtdh+y5JIX6mXKCe
+lW0h24Ncuvp5fjbvR6vV8B23iECAHQ==
+=Q2eB
+-----END PGP SIGNATURE-----
+
+--PrFTxRZ3tAieVKnp--
