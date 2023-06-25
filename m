@@ -2,97 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA55D73D2DB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jun 2023 20:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 685EB73D51C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jun 2023 00:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjFYSJM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 25 Jun 2023 14:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58354 "EHLO
+        id S229572AbjFYW7S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 25 Jun 2023 18:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjFYSJL (ORCPT
+        with ESMTP id S229447AbjFYW7S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 25 Jun 2023 14:09:11 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D8911BC
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 25 Jun 2023 11:09:10 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,157,1684767600"; 
-   d="scan'208";a="168938942"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jun 2023 03:09:09 +0900
-Received: from localhost.localdomain (unknown [10.226.92.45])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 220274005B48;
-        Mon, 26 Jun 2023 03:09:06 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sun, 25 Jun 2023 18:59:18 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF531A3;
+        Sun, 25 Jun 2023 15:59:16 -0700 (PDT)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1687733954;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KFR20bnGdcCIhIEUWg9VDBjzYhckIwBEXgB7df3zsmA=;
+        b=N7SNr1RhuigsLxZpkYrHUFUOScvsx13mafZFqh0eU1CvUdSpInau7LindICuvV729cvw/e
+        nPa8HEfI3RdTWMI5EQZ1D6vwYbGyWyKw1u7Jv6/WIqdx7qf1+Xb7DPvpl2lFJBexc+/kCI
+        yOVGvuYW8OtYlDl55rS6NvMJ7/uMkrmh0DhTGTjTlu/pTf6c1WArgGtefDtGVy/LWPu4jl
+        X9lbJ+tSLYt1Ak9OwLo2VMj1fY8uGt3Rluls4iR8yK+NghmCljMY2B3V1WS9CF1orb0SWd
+        xW8zSOJx4mv+t67xp3EQCWnL8n2WYhCiqv9iocy4Rd6pWNwDLPCVgqnGzJdRXA==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E5DF540003;
+        Sun, 25 Jun 2023 22:59:12 +0000 (UTC)
+Date:   Mon, 26 Jun 2023 00:59:12 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Wolfram Sang <wsa@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Trent Piepho <tpiepho@gmail.com>, devicetree@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] regulator: raa215300: Change the scope of the variables {clkin_name, xin_name}
-Date:   Sun, 25 Jun 2023 19:09:03 +0100
-Message-Id: <20230625180903.142994-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: Re: (subset) [PATCH v7 00/10] Add Renesas PMIC RAA215300 and
+ built-in RTC support
+Message-ID: <168773392610.111997.16021927718782550143.b4-ty@bootlin.com>
+References: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.7 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Change the scope of the variables {clkin_name, xin_name} from global->local
-to fix the below warning.
 
-drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol 'xin_name' was
-not declared. Should it be static?
+On Fri, 23 Jun 2023 15:09:38 +0100, Biju Das wrote:
+> This patch series aims to add support for Renesas PMIC RAA215300 and
+> built-in RTC found on this PMIC device.
+> 
+> The details of PMIC can be found here[1].
+> 
+> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+> device and another for rtc device.
+> 
+> [...]
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202306250552.Fan9WTiN-lkp@intel.com/
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/regulator/raa215300.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/regulator/raa215300.c b/drivers/regulator/raa215300.c
-index 24a1c89f5dbc..f58edb888e9f 100644
---- a/drivers/regulator/raa215300.c
-+++ b/drivers/regulator/raa215300.c
-@@ -38,8 +38,6 @@
- #define RAA215300_REG_BLOCK_EN_RTC_EN	BIT(6)
- #define RAA215300_RTC_DEFAULT_ADDR	0x6f
- 
--const char *clkin_name = "clkin";
--const char *xin_name = "xin";
- static struct clk *clk;
- 
- static const struct regmap_config raa215300_regmap_config = {
-@@ -71,9 +69,11 @@ static int raa215300_clk_present(struct i2c_client *client, const char *name)
- static int raa215300_i2c_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	const char *clk_name = xin_name;
-+	const char *clkin_name = "clkin";
- 	unsigned int pmic_version, val;
-+	const char *xin_name = "xin";
- 	struct regmap *regmap;
-+	const char *clk_name;
- 	int ret;
- 
- 	regmap = devm_regmap_init_i2c(client, &raa215300_regmap_config);
-@@ -120,6 +120,8 @@ static int raa215300_i2c_probe(struct i2c_client *client)
- 			return ret;
- 
- 		clk_name = clkin_name;
-+	} else {
-+		clk_name = xin_name;
- 	}
- 
- 	if (ret) {
+[04/10] dt-bindings: rtc: isl1208: Convert to json-schema
+        commit: ac739bac5201d4308cba2525dacb5da654b3ff31
+[05/10] dt-bindings: rtc: isil,isl1208: Document clock and clock-names properties
+        commit: 138f352556d791d7e0ca3ac9a4f4815123af8c82
+[06/10] rtc: isl1208: Drop name variable
+        commit: 380960c40a1d106bba3476c9a010eaf28195115d
+[07/10] rtc: isl1208: Make similar I2C and DT-based matching table
+        commit: fbc06a53561c64ec6d7f9a1b3bc04597de4cbb2d
+[08/10] rtc: isl1208: Drop enum isl1208_id and split isl1208_configs[]
+        commit: 5923fc75d0dfcebce53894ddada7e2440d756f8b
+[09/10] rtc: isl1208: Add isl1208_set_xtoscb()
+        commit: 262f72b4656e182eefaab91ab24a7575dda5524f
+[10/10] rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
+        commit: fdd63f65ac25d0851dade4c7ba94a7a882b8d9c2
+
+Best regards,
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
