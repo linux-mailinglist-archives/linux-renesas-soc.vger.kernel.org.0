@@ -2,73 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 685EB73D51C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jun 2023 00:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E552973DCBB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jun 2023 13:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjFYW7S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 25 Jun 2023 18:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
+        id S230271AbjFZLCw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Jun 2023 07:02:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjFYW7S (ORCPT
+        with ESMTP id S230115AbjFZLCi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 25 Jun 2023 18:59:18 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF531A3;
-        Sun, 25 Jun 2023 15:59:16 -0700 (PDT)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1687733954;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KFR20bnGdcCIhIEUWg9VDBjzYhckIwBEXgB7df3zsmA=;
-        b=N7SNr1RhuigsLxZpkYrHUFUOScvsx13mafZFqh0eU1CvUdSpInau7LindICuvV729cvw/e
-        nPa8HEfI3RdTWMI5EQZ1D6vwYbGyWyKw1u7Jv6/WIqdx7qf1+Xb7DPvpl2lFJBexc+/kCI
-        yOVGvuYW8OtYlDl55rS6NvMJ7/uMkrmh0DhTGTjTlu/pTf6c1WArgGtefDtGVy/LWPu4jl
-        X9lbJ+tSLYt1Ak9OwLo2VMj1fY8uGt3Rluls4iR8yK+NghmCljMY2B3V1WS9CF1orb0SWd
-        xW8zSOJx4mv+t67xp3EQCWnL8n2WYhCiqv9iocy4Rd6pWNwDLPCVgqnGzJdRXA==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E5DF540003;
-        Sun, 25 Jun 2023 22:59:12 +0000 (UTC)
-Date:   Mon, 26 Jun 2023 00:59:12 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Trent Piepho <tpiepho@gmail.com>, devicetree@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: Re: (subset) [PATCH v7 00/10] Add Renesas PMIC RAA215300 and
- built-in RTC support
-Message-ID: <168773392610.111997.16021927718782550143.b4-ty@bootlin.com>
-References: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
+        Mon, 26 Jun 2023 07:02:38 -0400
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2822B1;
+        Mon, 26 Jun 2023 04:02:28 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1acf5ccf3baso3269494fac.3;
+        Mon, 26 Jun 2023 04:02:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687777348; x=1690369348;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yo55k0SMHkpFGe7XNrjZEsrn1U/Ef0qRgQ9OTkkGS3Q=;
+        b=MpoNU5TMyTPvcTPfYIwrfXlL1NfcNjWLHfx5BJMmA7euUrMudOJke0jxirOunIpcQJ
+         RmFDK9vgmZhIBEwFX2ma4d0msgdERWIpahlYL+Co9gPpEJCMNOxqdqtA/RqzYsH62/r2
+         0qH14jW/rVaeAhgyU3fRPFEzsOASCTu/GZYpsy8XN0fLaY114OrALAmcBPwMYwJeAnbf
+         7Q4Km+NakUlgbmPBMLI9vG+wylZaop0WpVXd+f4JEvRsJV6P4CKmnrTzi2wMQs8vTkxk
+         TUNWk9BrG+PMd02euOPl45GLQFxE1xL5axuKKO6rSSQq6xeRk7tNKVvebkNH6HqO4azn
+         DkvQ==
+X-Gm-Message-State: AC+VfDyyNUS30I0XglKyPevIp2e3MGOPbSJCjCFZpQjutBt6JZxTk/Ep
+        Ho8TDDYvzkD51YPzmj5V/ek=
+X-Google-Smtp-Source: ACHHUZ4NUr+76C+eqcdtic/nym3avSqY0y7Xr34NaRoffLKuFivw7WauvQ3veQuDbigKmchNrPNYAQ==
+X-Received: by 2002:a05:6870:4312:b0:19e:fd18:a6e7 with SMTP id w18-20020a056870431200b0019efd18a6e7mr20751109oah.17.1687777347953;
+        Mon, 26 Jun 2023 04:02:27 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id y73-20020a638a4c000000b0053491d92b65sm3945024pgd.84.2023.06.26.04.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 04:02:27 -0700 (PDT)
+Date:   Mon, 26 Jun 2023 20:02:26 +0900
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lpieralisi@kernel.org, robh@kernel.org, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] PCI: rcar-gen2: Use
+ devm_platform_get_and_ioremap_resource()
+Message-ID: <20230626110226.GA569947@rocinante>
+References: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230623140948.384762-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+In-Reply-To: <20230323091644.91981-1-yang.lee@linux.alibaba.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,38 +64,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello,
 
-On Fri, 23 Jun 2023 15:09:38 +0100, Biju Das wrote:
-> This patch series aims to add support for Renesas PMIC RAA215300 and
-> built-in RTC found on this PMIC device.
-> 
-> The details of PMIC can be found here[1].
-> 
-> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-> device and another for rtc device.
-> 
-> [...]
+> According to commit 890cc39a8799 ("drivers: provide
+> devm_platform_get_and_ioremap_resource()"), convert
+> platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
 
-Applied, thanks!
+I took each separate patch:
 
-[04/10] dt-bindings: rtc: isl1208: Convert to json-schema
-        commit: ac739bac5201d4308cba2525dacb5da654b3ff31
-[05/10] dt-bindings: rtc: isil,isl1208: Document clock and clock-names properties
-        commit: 138f352556d791d7e0ca3ac9a4f4815123af8c82
-[06/10] rtc: isl1208: Drop name variable
-        commit: 380960c40a1d106bba3476c9a010eaf28195115d
-[07/10] rtc: isl1208: Make similar I2C and DT-based matching table
-        commit: fbc06a53561c64ec6d7f9a1b3bc04597de4cbb2d
-[08/10] rtc: isl1208: Drop enum isl1208_id and split isl1208_configs[]
-        commit: 5923fc75d0dfcebce53894ddada7e2440d756f8b
-[09/10] rtc: isl1208: Add isl1208_set_xtoscb()
-        commit: 262f72b4656e182eefaab91ab24a7575dda5524f
-[10/10] rtc: isl1208: Add support for the built-in RTC on the PMIC RAA215300
-        commit: fdd63f65ac25d0851dade4c7ba94a7a882b8d9c2
+  https://lore.kernel.org/linux-pci/20230323091644.91981-1-yang.lee@linux.alibaba.com
+  https://lore.kernel.org/linux-pci/20230323090431.73526-1-yang.lee@linux.alibaba.com
+  https://lore.kernel.org/linux-pci/20230323090011.66754-1-yang.lee@linux.alibaba.com
+  https://lore.kernel.org/linux-pci/20230323074553.90372-1-yang.lee@linux.alibaba.com
 
-Best regards,
+Turned into a series and applied against a single branch.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Applied to controller/resources, thank you!
+
+[01/04] PCI: rcar-gen2: Use devm_platform_get_and_ioremap_resource()
+        https://git.kernel.org/pci/pci/c/8b88299ef429
+[02/04] PCI: v3: Use devm_platform_get_and_ioremap_resource()
+        https://git.kernel.org/pci/pci/c/cc456373aa57
+[03/04] PCI: xgene-msi: Use devm_platform_get_and_ioremap_resource()
+        https://git.kernel.org/pci/pci/c/7a081062046f
+[04/04] PCI: imx6: Use devm_platform_get_and_ioremap_resource()
+	https://git.kernel.org/pci/pci/c/860955d0db7d
+
+	Krzysztof
