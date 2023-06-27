@@ -2,130 +2,219 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2C0273FC42
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jun 2023 14:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C80F73FEA2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jun 2023 16:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbjF0MzV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jun 2023 08:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
+        id S231953AbjF0Oof (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jun 2023 10:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229841AbjF0MzU (ORCPT
+        with ESMTP id S231681AbjF0OoM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jun 2023 08:55:20 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BE4294E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jun 2023 05:55:11 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:7296:f70f:e945:6df2])
-        by baptiste.telenet-ops.be with bizsmtp
-        id ECv82A00G1BJXyt01Cv8ML; Tue, 27 Jun 2023 14:55:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qE8Ds-0002K5-Gb
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 27 Jun 2023 14:55:08 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qE8Ds-000z9o-E1
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 27 Jun 2023 14:55:08 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2023-06-27-v6.4
-Date:   Tue, 27 Jun 2023 14:55:08 +0200
-Message-Id: <20230627125508.235081-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 27 Jun 2023 10:44:12 -0400
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C2A44420E;
+        Tue, 27 Jun 2023 07:43:35 -0700 (PDT)
+Received: from loongson.cn (unknown [10.20.42.43])
+        by gateway (Coremail) with SMTP id _____8Cx68aD9Jpk4ScDAA--.4940S3;
+        Tue, 27 Jun 2023 22:38:59 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxJ82B9JpkWmEMAA--.47779S3;
+        Tue, 27 Jun 2023 22:38:57 +0800 (CST)
+Message-ID: <494efbf8-b6b6-7e34-3fb4-950080f60a0d@loongson.cn>
+Date:   Tue, 27 Jun 2023 22:38:57 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [25/39] drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+References: <b3daca80f82625ba14e3aeaf2fca6dcefa056e47.1687423204.git.geert+renesas@glider.be>
+Content-Language: en-US
+From:   Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <b3daca80f82625ba14e3aeaf2fca6dcefa056e47.1687423204.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8DxJ82B9JpkWmEMAA--.47779S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxtw17AF43CryrCw13Gw1ktFc_yoW7KFy5pF
+        48Aay3tF4FqFs0g343AFs2vF9xur15tas7CryUJ34akF1vqa47JF1fAFnxAF1UXry7Ca13
+        ZrsxKF4rAr48u3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
+        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+        0xBIdaVrnRJUUUPmb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+        0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+        xVWxJr0_GcWln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+        6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
+        xGrwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAK
+        I48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrV
+        AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+        c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
+        AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j
+        6F4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU8
+        DDG5UUUUU==
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2023-06-27-v6.4 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+On 2023/6/22 17:21, Geert Uytterhoeven wrote:
+> Rename the "crtc" member of the shmob_drm_crtc subclass structure to
+> "base", to improve readability.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Today's version is based on renesas-devel-2023-06-26-v6.4.
 
-Included branches with driver code:
-  - renesas-clk-for-v6.6
-  - topic/shmob-drm-dt-v1
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Included fixes:
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+> ---
+>   .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 26 +++++++++----------
+>   .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  2 +-
+>   2 files changed, 14 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index 3f6af12f45988124..3f0b71253ed929c9 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -64,7 +64,7 @@ static void shmob_drm_clk_off(struct shmob_drm_device *sdev)
+>   
+>   static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+>   {
+> -	struct drm_crtc *crtc = &scrtc->crtc;
+> +	struct drm_crtc *crtc = &scrtc->base;
+>   	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
+>   	const struct drm_display_info *info = &sdev->connector->display_info;
+>   	const struct drm_display_mode *mode = &crtc->mode;
+> @@ -152,7 +152,7 @@ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+>   
+>   static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
+>   {
+> -	struct shmob_drm_device *sdev = to_shmob_device(scrtc->crtc.dev);
+> +	struct shmob_drm_device *sdev = to_shmob_device(scrtc->base.dev);
+>   	u32 value;
+>   
+>   	value = lcdc_read(sdev, LDCNT2R);
+> @@ -185,7 +185,7 @@ static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
+>    */
+>   static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>   {
+> -	struct drm_crtc *crtc = &scrtc->crtc;
+> +	struct drm_crtc *crtc = &scrtc->base;
+>   	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
+>   	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
+>   	const struct shmob_drm_format_info *format;
+> @@ -272,7 +272,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>   
+>   static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
+>   {
+> -	struct drm_crtc *crtc = &scrtc->crtc;
+> +	struct drm_crtc *crtc = &scrtc->base;
+>   	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
+>   
+>   	if (!scrtc->started)
+> @@ -308,7 +308,7 @@ void shmob_drm_crtc_resume(struct shmob_drm_crtc *scrtc)
+>   static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
+>   					int x, int y)
+>   {
+> -	struct drm_crtc *crtc = &scrtc->crtc;
+> +	struct drm_crtc *crtc = &scrtc->base;
+>   	struct drm_framebuffer *fb = crtc->primary->fb;
+>   	struct drm_gem_dma_object *gem;
+>   	unsigned int bpp;
+> @@ -329,7 +329,7 @@ static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
+>   
+>   static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
+>   {
+> -	struct drm_crtc *crtc = &scrtc->crtc;
+> +	struct drm_crtc *crtc = &scrtc->base;
+>   	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
+>   
+>   	shmob_drm_crtc_compute_base(scrtc, crtc->x, crtc->y);
+> @@ -343,7 +343,7 @@ static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
+>   
+>   static inline struct shmob_drm_crtc *to_shmob_crtc(struct drm_crtc *crtc)
+>   {
+> -	return container_of(crtc, struct shmob_drm_crtc, crtc);
+> +	return container_of(crtc, struct shmob_drm_crtc, base);
+>   }
+>   
+>   static void shmob_drm_crtc_dpms(struct drm_crtc *crtc, int mode)
+> @@ -415,15 +415,15 @@ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
+>   void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
+>   {
+>   	struct drm_pending_vblank_event *event;
+> -	struct drm_device *dev = scrtc->crtc.dev;
+> +	struct drm_device *dev = scrtc->base.dev;
+>   	unsigned long flags;
+>   
+>   	spin_lock_irqsave(&dev->event_lock, flags);
+>   	event = scrtc->event;
+>   	scrtc->event = NULL;
+>   	if (event) {
+> -		drm_crtc_send_vblank_event(&scrtc->crtc, event);
+> -		drm_crtc_vblank_put(&scrtc->crtc);
+> +		drm_crtc_send_vblank_event(&scrtc->base, event);
+> +		drm_crtc_vblank_put(&scrtc->base);
+>   	}
+>   	spin_unlock_irqrestore(&dev->event_lock, flags);
+>   }
+> @@ -435,7 +435,7 @@ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
+>   				    struct drm_modeset_acquire_ctx *ctx)
+>   {
+>   	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
+> -	struct drm_device *dev = scrtc->crtc.dev;
+> +	struct drm_device *dev = scrtc->base.dev;
+>   	unsigned long flags;
+>   
+>   	spin_lock_irqsave(&dev->event_lock, flags);
+> @@ -450,7 +450,7 @@ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
+>   
+>   	if (event) {
+>   		event->pipe = 0;
+> -		drm_crtc_vblank_get(&scrtc->crtc);
+> +		drm_crtc_vblank_get(&scrtc->base);
+>   		spin_lock_irqsave(&dev->event_lock, flags);
+>   		scrtc->event = event;
+>   		spin_unlock_irqrestore(&dev->event_lock, flags);
+> @@ -502,7 +502,7 @@ static const struct drm_crtc_funcs crtc_funcs = {
+>   
+>   int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>   {
+> -	struct drm_crtc *crtc = &sdev->crtc.crtc;
+> +	struct drm_crtc *crtc = &sdev->crtc.base;
+>   	struct drm_plane *primary, *plane;
+>   	unsigned int i;
+>   	int ret;
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> index f507eaf912e16a22..79cce0a0ada4cfce 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> @@ -21,7 +21,7 @@ struct shmob_drm_device;
+>   struct shmob_drm_format_info;
+>   
+>   struct shmob_drm_crtc {
+> -	struct drm_crtc crtc;
+> +	struct drm_crtc base;
+>   
+>   	struct drm_pending_vblank_event *event;
+>   	int dpms;
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+-- 
+Jingfeng
 
-Note that I temporarily dropped the crypto tree due to a complex merge
-conflict.
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
