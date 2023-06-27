@@ -2,149 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C0AA73E525
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jun 2023 18:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC56173F07D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jun 2023 03:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbjFZQcp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Jun 2023 12:32:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34050 "EHLO
+        id S230073AbjF0B0y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Jun 2023 21:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjFZQcn (ORCPT
+        with ESMTP id S230051AbjF0B0t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Jun 2023 12:32:43 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A592C4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jun 2023 09:32:42 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so4753227e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jun 2023 09:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1687797161; x=1690389161;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0spNFz+6TM92jRoxw5G7AF/wIRfrOXvYpPWbmprIXQ0=;
-        b=bNQJ0XiyhHi5XxjG11HtTNvuMxuntTsRrq1w9EvHnyN7Zpkc8umTMfwxfdjeLOy2vs
-         MN9vhfr2ork5nEb/Z0jFpfZVfiwDO7CMypPRDJVBKZHHDDsaegkZ0JIH9oa5RG49+E+W
-         mrUxFr1Oy75jYbWU6giYlwttRipEzz5Cj8whYY9Tih+vgpwCLWw7h990wTlOFYDYtuMB
-         E3z7euApPPR+u0f898aqxW9zBUNwQcKIV0OIgNfUNZDmVNwXgx86WIWQpOcVo10PXhB6
-         6KAMMhWc18oirihv5STYNqS0J9R6jxAYvt2geSklsdeD9/m3/IZ0CNcClV9BSXsi0IzF
-         9JLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687797161; x=1690389161;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0spNFz+6TM92jRoxw5G7AF/wIRfrOXvYpPWbmprIXQ0=;
-        b=DekfQae2ikKoFwl5psFU7wfueRUFGPzArMhvGhdwNqbH6nKGrjiXq9W0bYu98fRxHA
-         UpuhHEfBtETe3A3lnD802mzGNoaCetAhVnD9kO9boyHVBP+mKwNpZD6n+HarZ8+ZE7Om
-         Hmxz80f09D9cHhgonKvTOwU31zOETHC1xYr2Q6Ar4ioLgSnvsiGe4ZQLcmb8UEj9yvIN
-         oEqk8YbkmLZRH1Tiq0eCXzswTrkXTI1TcJQbHK4vKjmJO/pOZH69ZsfV+o238nnLp75G
-         KM1+CQV+/PDChoB68LQ4SoYYcRaA9mpB5wNRapj7zLaFnun4G13e0fmn1bc+tRZ6yKhZ
-         Hnyw==
-X-Gm-Message-State: AC+VfDwdEvp4vuoD2TeqMgPuyKGn01Sn5clbBx2g1Ay7GPEeHvpTUlLL
-        Sykwh7eYnQOH2TwS3/msWAEJ8A==
-X-Google-Smtp-Source: ACHHUZ6If5m3B5Z98g30pqHfybyOWpNJUXCNnfUdLuTPjPZL0VqCyS79QjQbxszAnNWWhF8w8nqX+A==
-X-Received: by 2002:a05:6512:3e0e:b0:4fb:393:26c3 with SMTP id i14-20020a0565123e0e00b004fb039326c3mr2873589lfv.15.1687797160565;
-        Mon, 26 Jun 2023 09:32:40 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id m21-20020a195215000000b004f8427f8716sm1156326lfb.262.2023.06.26.09.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jun 2023 09:32:39 -0700 (PDT)
-Date:   Mon, 26 Jun 2023 18:32:38 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Yangtao Li <frank.li@vivo.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] thermal/drivers/rcar: Convert to
- devm_platform_ioremap_resource()
-Message-ID: <ZJm9ptHGdkO8EbOd@oden.dyn.berto.se>
-References: <20230626124334.15100-1-frank.li@vivo.com>
- <20230626124334.15100-5-frank.li@vivo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230626124334.15100-5-frank.li@vivo.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 26 Jun 2023 21:26:49 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D871173A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jun 2023 18:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687829208; x=1719365208;
+  h=date:from:to:cc:subject:message-id;
+  bh=Bl+V95GOt1y1ZS7VGSIh5LskZaOkF6yowthbw7BKACo=;
+  b=Ni4YSTueLEH19elomq5F+VoowY8lXOi+x/U03Tqt5eekgeGpY/CvBhRw
+   onMa2qYkovF7I9oOMkFbUjrrzumxDnEHZhJ8r9dmwFX4T530UWv2zoUnS
+   DQuSZcS8VZ/MBew0yDtmtvQOUCQctGEkxgpXz2vBO3V0twj6fGNBHqqFy
+   rwnBxV9xtemd9HdlnCQbdTfmprmRerwjyH7JbXBR8auk1aAV2f5j+ICav
+   k6iT+USxxoILRGpjZdPmUfvGgYdoYHLQbZOS69YUQtDBNJST7z7fiRToJ
+   sjnfU4s2h56FfgWO1fjBk94vMKjeNrnOnTGzEc5aokB8OMUyNByNeFwgE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="341779600"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="341779600"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 18:26:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="710432933"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="710432933"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 26 Jun 2023 18:26:45 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qDxTg-000BUg-39;
+        Tue, 27 Jun 2023 01:26:44 +0000
+Date:   Tue, 27 Jun 2023 09:26:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ e4573b8546b2fc032a63651b5aedf364acf0a98c
+Message-ID: <202306270934.AYtZ1iX4-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yangtao,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: e4573b8546b2fc032a63651b5aedf364acf0a98c  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Thanks for your work.
+elapsed time: 9365m
 
-On 2023-06-26 20:43:32 +0800, Yangtao Li wrote:
-> Use devm_platform_ioremap_resource() to simplify code.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
->  drivers/thermal/rcar_thermal.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-> index b8571f7090aa..04a52d82022c 100644
-> --- a/drivers/thermal/rcar_thermal.c
-> +++ b/drivers/thermal/rcar_thermal.c
-> @@ -397,7 +397,6 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->  	struct rcar_thermal_common *common;
->  	struct rcar_thermal_priv *priv;
->  	struct device *dev = &pdev->dev;
-> -	struct resource *res;
->  	const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
->  	int mres = 0;
->  	int i;
-> @@ -435,9 +434,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->  			 * Then, driver uses common registers
->  			 * rcar_has_irq_support() will be enabled
->  			 */
-> -			res = platform_get_resource(pdev, IORESOURCE_MEM,
-> -						    mres++);
-> -			common->base = devm_ioremap_resource(dev, res);
-> +			common->base = devm_platform_ioremap_resource(pdev, mres++);
+configs tested: 109
+configs skipped: 5
 
-This change is fine, please post a separate patch for it.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  			if (IS_ERR(common->base)) {
->  				ret = PTR_ERR(common->base);
->  				goto error_unregister;
-> @@ -459,17 +456,13 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->  	}
->  
->  	for (i = 0;; i++) {
-> -		res = platform_get_resource(pdev, IORESOURCE_MEM, mres++);
-> -		if (!res)
-> -			break;
-
-This change is not OK as it changes the behavior of the driver same as 
-in patch 5/6.
-
-Nacked-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-
-> -
->  		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->  		if (!priv) {
->  			ret = -ENOMEM;
->  			goto error_unregister;
->  		}
->  
-> -		priv->base = devm_ioremap_resource(dev, res);
-> +		priv->base = devm_platform_ioremap_resource(pdev, mres++);
->  		if (IS_ERR(priv->base)) {
->  			ret = PTR_ERR(priv->base);
->  			goto error_unregister;
-> -- 
-> 2.39.0
-> 
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r035-20230620   gcc  
+alpha                randconfig-r036-20230620   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r015-20230620   gcc  
+arc                  randconfig-r043-20230620   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230620   clang
+arm                          sp7021_defconfig   clang
+arm                    vt8500_v6_v7_defconfig   clang
+arm64                            allyesconfig   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r005-20230620   clang
+arm64                randconfig-r013-20230620   gcc  
+arm64                randconfig-r031-20230620   clang
+arm64                randconfig-r034-20230620   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r011-20230620   gcc  
+hexagon              randconfig-r041-20230620   clang
+hexagon              randconfig-r045-20230620   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230620   clang
+i386         buildonly-randconfig-r005-20230620   clang
+i386         buildonly-randconfig-r006-20230620   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230620   clang
+i386                 randconfig-i002-20230620   clang
+i386                 randconfig-i003-20230620   clang
+i386                 randconfig-i004-20230620   clang
+i386                 randconfig-i005-20230620   clang
+i386                 randconfig-i006-20230620   clang
+i386                 randconfig-i011-20230620   gcc  
+i386                 randconfig-i012-20230620   gcc  
+i386                 randconfig-i013-20230620   gcc  
+i386                 randconfig-i014-20230620   gcc  
+i386                 randconfig-i015-20230620   gcc  
+i386                 randconfig-i016-20230620   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230620   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     loongson1c_defconfig   clang
+mips                 randconfig-r026-20230620   clang
+mips                   sb1250_swarm_defconfig   clang
+nios2                               defconfig   gcc  
+openrisc                  or1klitex_defconfig   gcc  
+openrisc             randconfig-r002-20230620   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                        cell_defconfig   gcc  
+powerpc                      katmai_defconfig   clang
+powerpc                   motionpro_defconfig   gcc  
+powerpc                 mpc832x_rdb_defconfig   clang
+powerpc                      ppc64e_defconfig   clang
+powerpc              randconfig-r014-20230620   gcc  
+powerpc              randconfig-r021-20230620   gcc  
+powerpc                     tqm5200_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                randconfig-r042-20230620   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             alldefconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230620   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r012-20230620   gcc  
+sh                   randconfig-r016-20230620   gcc  
+sh                           se7343_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64              randconfig-r023-20230620   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r022-20230620   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230620   clang
+x86_64       buildonly-randconfig-r002-20230620   clang
+x86_64       buildonly-randconfig-r003-20230620   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r003-20230620   clang
+x86_64               randconfig-r032-20230620   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r004-20230620   gcc  
+xtensa               randconfig-r006-20230620   gcc  
+xtensa               randconfig-r025-20230620   gcc  
 
 -- 
-Kind Regards,
-Niklas Söderlund
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
