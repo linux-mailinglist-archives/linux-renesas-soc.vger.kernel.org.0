@@ -2,119 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B0AC742419
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jun 2023 12:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E6E74255C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jun 2023 14:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbjF2KmJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Jun 2023 06:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56438 "EHLO
+        id S232091AbjF2MGm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Jun 2023 08:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231777AbjF2KmI (ORCPT
+        with ESMTP id S232200AbjF2MF7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Jun 2023 06:42:08 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C5821FC1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Jun 2023 03:42:05 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,168,1684767600"; 
-   d="scan'208";a="166039164"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Jun 2023 19:42:05 +0900
-Received: from localhost.localdomain (unknown [10.226.92.226])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4C30041FE010;
-        Thu, 29 Jun 2023 19:42:03 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] regulator: raa215300: Change the scope of the variables {clkin_name, xin_name}
-Date:   Thu, 29 Jun 2023 11:42:00 +0100
-Message-Id: <20230629104200.102663-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 29 Jun 2023 08:05:59 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A616935AE
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Jun 2023 05:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=k1; bh=PqLg8rAp2ECwt8
+        uzRvRRgzi1vbVpdg/PUE+HMKUbCGA=; b=kpCXlx4GiLSUJuHUwZCGw8XjAxrVmD
+        78tpwwmMEWQ0tyq2psZouoIpzB5XMll0WKNG4LZqjGsJS1oBNO1G/YloaK76St0i
+        6KTpsb7Ba1btJkbsT/gB20TPM2oHAaAYb2i8Xr7u6LE14b42SW0njsBxnvaihtRC
+        o+SkQlSL/0pIPbvTb/N0jgxs2h1xsxl2ct6OaHIgdN8w9EU9bishvmTdyD84HBy0
+        Bl5thzE2aawSwOvgRyzoab/+bBtv7bnJ3tW0WTiYh7TBtk39uJHgWrTRh4U8FRLa
+        tfDA/WsH3bV1dGwy8p80MWdp4kJRHcywS+0Nvs/6A0HGH2xDBkENWAYg==
+Received: (qmail 3752080 invoked from network); 29 Jun 2023 14:05:49 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2023 14:05:49 +0200
+X-UD-Smtp-Session: l3s3148p1@TgA1hUP/wszBVfKA
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        weiping zhang <zhangweiping@didichuxing.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] virtio-mmio: don't break lifecycle of vm_dev
+Date:   Thu, 29 Jun 2023 14:05:26 +0200
+Message-Id: <20230629120526.7184-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.7 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Change the scope of the variables {clkin_name, xin_name} from global->local
-to fix the below warning.
+vm_dev has a separate lifecycle because it has a 'struct device'
+embedded. Thus, having a release callback for it is correct.
 
-drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol 'xin_name' was
-not declared. Should it be static?
+Allocating the vm_dev struct with devres totally breaks this protection,
+though. Instead of waiting for the vm_dev release callback, the memory
+is freed when the platform_device is removed. Resulting in a
+use-after-free when finally the callback is to be called.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202306250552.Fan9WTiN-lkp@intel.com/
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+To easily see the problem, compile the kernel with
+CONFIG_DEBUG_KOBJECT_RELEASE and unbind with sysfs.
+
+The fix is easy, don't use devres in this case.
+
+Found during my research about object lifetime problems.
+
+Fixes: 7eb781b1bbb7 ("virtio_mmio: add cleanup for virtio_mmio_probe")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-v1->v2:
- * Invert the second if-condition and exchange the two branches,
-   to make the code flow easier to follow for the casual reader.
- * Pre-initialized clk_name to NULL and clk_name is set only when
-   ret > 0.
- * RTC driver is instantiated only when there is valid clock. So replaced the
-   if conditional check ret->clk_name.
- * Added Rb tag from Geert.
----
- drivers/regulator/raa215300.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/virtio/virtio_mmio.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/regulator/raa215300.c b/drivers/regulator/raa215300.c
-index 24a1c89f5dbc..8e1a4c86b978 100644
---- a/drivers/regulator/raa215300.c
-+++ b/drivers/regulator/raa215300.c
-@@ -38,8 +38,6 @@
- #define RAA215300_REG_BLOCK_EN_RTC_EN	BIT(6)
- #define RAA215300_RTC_DEFAULT_ADDR	0x6f
+diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
+index a46a4a29e929..97760f611295 100644
+--- a/drivers/virtio/virtio_mmio.c
++++ b/drivers/virtio/virtio_mmio.c
+@@ -607,9 +607,8 @@ static void virtio_mmio_release_dev(struct device *_d)
+ 	struct virtio_device *vdev =
+ 			container_of(_d, struct virtio_device, dev);
+ 	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
+-	struct platform_device *pdev = vm_dev->pdev;
  
--const char *clkin_name = "clkin";
--const char *xin_name = "xin";
- static struct clk *clk;
+-	devm_kfree(&pdev->dev, vm_dev);
++	kfree(vm_dev);
+ }
  
- static const struct regmap_config raa215300_regmap_config = {
-@@ -71,8 +69,10 @@ static int raa215300_clk_present(struct i2c_client *client, const char *name)
- static int raa215300_i2c_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	const char *clk_name = xin_name;
-+	const char *clkin_name = "clkin";
- 	unsigned int pmic_version, val;
-+	const char *xin_name = "xin";
-+	const char *clk_name = NULL;
- 	struct regmap *regmap;
- 	int ret;
+ /* Platform device */
+@@ -620,7 +619,7 @@ static int virtio_mmio_probe(struct platform_device *pdev)
+ 	unsigned long magic;
+ 	int rc;
  
-@@ -114,15 +114,17 @@ static int raa215300_i2c_probe(struct i2c_client *client)
- 	ret = raa215300_clk_present(client, xin_name);
- 	if (ret < 0) {
- 		return ret;
--	} else if (!ret) {
-+	} else if (ret) {
-+		clk_name = xin_name;
-+	} else {
- 		ret = raa215300_clk_present(client, clkin_name);
- 		if (ret < 0)
- 			return ret;
--
--		clk_name = clkin_name;
-+		if (ret)
-+			clk_name = clkin_name;
- 	}
+-	vm_dev = devm_kzalloc(&pdev->dev, sizeof(*vm_dev), GFP_KERNEL);
++	vm_dev = kzalloc(sizeof(*vm_dev), GFP_KERNEL);
+ 	if (!vm_dev)
+ 		return -ENOMEM;
  
--	if (ret) {
-+	if (clk_name) {
- 		char *name = pmic_version >= 0x12 ? "isl1208" : "raa215300_a0";
- 		struct device_node *np = client->dev.of_node;
- 		u32 addr = RAA215300_RTC_DEFAULT_ADDR;
 -- 
-2.25.1
+2.35.1
 
