@@ -2,157 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAED2743B06
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 13:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA16743B53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 14:00:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbjF3Lka (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jun 2023 07:40:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40110 "EHLO
+        id S232079AbjF3MAb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jun 2023 08:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232095AbjF3Lk2 (ORCPT
+        with ESMTP id S230015AbjF3MAa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jun 2023 07:40:28 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5AEE22695;
-        Fri, 30 Jun 2023 04:40:27 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,170,1684767600"; 
-   d="scan'208";a="169845852"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Jun 2023 20:40:26 +0900
-Received: from localhost.localdomain (unknown [10.226.93.15])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 10D1A421E675;
-        Fri, 30 Jun 2023 20:40:23 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Subject: [PATCH v5 4/4] arm64: dts: renesas: rzv2m evk: Enable pwm
-Date:   Fri, 30 Jun 2023 12:40:03 +0100
-Message-Id: <20230630114003.320641-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230630114003.320641-1-biju.das.jz@bp.renesas.com>
-References: <20230630114003.320641-1-biju.das.jz@bp.renesas.com>
+        Fri, 30 Jun 2023 08:00:30 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94053171E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 05:00:25 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so2985994e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 05:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688126424; x=1690718424;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=14D7DHntwp60GlIftqa4afNY/9x1F06cw0RktL6nRlU=;
+        b=fy1MI5UX56UXUrFu0J8cpIXdjPPG33um5E6owC4D67V1Th2H/9dmoDZEfyc3eJNVZ7
+         osU0qAc2Xi57FirxHF5YqGd/hc5tj/CJlsuik/Gq0BuXz0PT5WZtci84yu5fxT3Jqpol
+         NIMKFmVYK1kYjJzsvyxeriMC+MG9wcmUnq+Ih7aWAbteTAKBc/mFVJGDYyPFasA9umI4
+         0uzO4XU0LlMVN0RPwJ2eYXHzwkTznWgNbbamO3EEU7kLPQcohvAYjeMZ5qZJc40c5UcK
+         SLYIdstt45fjDisPwcRBFDCAI5uGYk9BV5n2zkauKfPAj9NI3whdpXKQI4LJ1HSJzFOx
+         t2eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688126424; x=1690718424;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=14D7DHntwp60GlIftqa4afNY/9x1F06cw0RktL6nRlU=;
+        b=exSJZsg6Rzhb4x3koVHupIKvoU9d1TghMgI0qXFEHTnuTj6JZ4Jyu9TZRDBI2MGr0R
+         WUvaAOqNK8Lu8GPR83sE1v3M8fv6CtxxyTM2xZL9NTgsukhEKCU+tCQIXqjwMFvRYrH0
+         56sQ+MnUziSduHyTwJzdrcvo6tqO3YyM4o2COenr3KgE4Xvu/X+bzCRQJqsugb+ZkYK+
+         0m3NiZ8hV/59P5AvypoMJIi2OX4bqU00DHA4tEgF+CFbFPx97S0cnn29akPem+fTmP8y
+         JfYKe1gFPuv3J2LnGb/9wUY8umgoR9EjkR6elRaAI12eM7fYtOXVnsa9KAvDfs4RsFi4
+         UVgA==
+X-Gm-Message-State: ABy/qLaj85V0GFme6cmXFb7+0iAqM56Pl+S3bNIq/uyxmGVEW4GpNXiZ
+        JQlPIMKE7C/viaE9Bi+M+IY/Ug==
+X-Google-Smtp-Source: APBJJlGqSfsXzaw++zzvdLROw7Yo3+uXOyWcPd+8UphTz1qVhnp35rk2owNCFJzRjQI6NL3Z38Tbiw==
+X-Received: by 2002:a05:6512:3146:b0:4fa:5255:4fa3 with SMTP id s6-20020a056512314600b004fa52554fa3mr1912440lfi.5.1688126423715;
+        Fri, 30 Jun 2023 05:00:23 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id g24-20020ac25398000000b004efae490c51sm488936lfh.240.2023.06.30.05.00.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 05:00:22 -0700 (PDT)
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+To:     linux-mmc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Dennis Zhou <dennis@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] mmc: Revert "mmc: core: Allow mmc_start_host() synchronously detect a card"
+Date:   Fri, 30 Jun 2023 14:00:15 +0200
+Message-Id: <20230630120015.363982-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable pwm{8..14} on RZ/V2M EVK.
+It has turned out that some mmc host drivers were not ready to deal with
+this change. Let's fix those host drivers first, then we can give this a
+new try.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 2cc83bf7d411 (mmc: core: Allow mmc_start_host() synchronously detect a card)
+Cc: Dennis Zhou <dennis@kernel.org>
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
-v4->v5:
- * No change
-v3->v4:
- * No change
-v2->v3:
- * Added Rb tag from Geert.
-v1->v2:
- * No change
----
- .../boot/dts/renesas/r9a09g011-v2mevk2.dts    | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ drivers/mmc/core/core.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-index 39fe3f94991e..6e636ac2d190 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-@@ -196,6 +196,34 @@ i2c2_pins: i2c2 {
- 			 <RZV2M_PORT_PINMUX(3, 9, 2)>; /* SCL */
- 	};
+diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+index ec4108a3e5b9..3d3e0ca52614 100644
+--- a/drivers/mmc/core/core.c
++++ b/drivers/mmc/core/core.c
+@@ -2199,8 +2199,10 @@ int mmc_card_alternative_gpt_sector(struct mmc_card *card, sector_t *gpt_sector)
+ }
+ EXPORT_SYMBOL(mmc_card_alternative_gpt_sector);
  
-+	pwm8_pins: pwm8 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 8, 1)>;  /* PM8 */
-+	};
-+
-+	pwm9_pins: pwm9 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 9, 1)>;  /* PM9 */
-+	};
-+
-+	pwm10_pins: pwm10 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 10, 1)>; /* PM10 */
-+	};
-+
-+	pwm11_pins: pwm11 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 11, 1)>; /* PM11 */
-+	};
-+
-+	pwm12_pins: pwm12 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 12, 1)>; /* PM12 */
-+	};
-+
-+	pwm13_pins: pwm13 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 13, 1)>; /* PM13 */
-+	};
-+
-+	pwm14_pins: pwm14 {
-+		pinmux = <RZV2M_PORT_PINMUX(1, 14, 1)>; /* PM14 */
-+	};
-+
- 	sdhi0_pins: sd0 {
- 		data {
- 			pinmux = <RZV2M_PORT_PINMUX(8, 2, 1)>, /* SD0DAT0 */
-@@ -251,6 +279,48 @@ &pwc {
- 	status = "okay";
- };
+-static void __mmc_rescan(struct mmc_host *host)
++void mmc_rescan(struct work_struct *work)
+ {
++	struct mmc_host *host =
++		container_of(work, struct mmc_host, detect.work);
+ 	int i;
  
-+&pwm8 {
-+	pinctrl-0 = <&pwm8_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm9 {
-+	pinctrl-0 = <&pwm9_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm10 {
-+	pinctrl-0 = <&pwm10_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm11 {
-+	pinctrl-0 = <&pwm11_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm12 {
-+	pinctrl-0 = <&pwm12_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm13 {
-+	pinctrl-0 = <&pwm13_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&pwm14 {
-+	pinctrl-0 = <&pwm14_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_pins>;
- 	pinctrl-1 = <&sdhi0_pins_uhs>;
+ 	if (host->rescan_disable)
+@@ -2272,14 +2274,6 @@ static void __mmc_rescan(struct mmc_host *host)
+ 		mmc_schedule_delayed_work(&host->detect, HZ);
+ }
+ 
+-void mmc_rescan(struct work_struct *work)
+-{
+-	struct mmc_host *host =
+-		container_of(work, struct mmc_host, detect.work);
+-
+-	__mmc_rescan(host);
+-}
+-
+ void mmc_start_host(struct mmc_host *host)
+ {
+ 	host->f_init = max(min(freqs[0], host->f_max), host->f_min);
+@@ -2292,8 +2286,7 @@ void mmc_start_host(struct mmc_host *host)
+ 	}
+ 
+ 	mmc_gpiod_request_cd_irq(host);
+-	host->detect_change = 1;
+-	__mmc_rescan(host);
++	_mmc_detect_change(host, 0, false);
+ }
+ 
+ void __mmc_stop_host(struct mmc_host *host)
 -- 
-2.25.1
+2.34.1
 
