@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 874F3743631
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 09:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE51743686
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 10:08:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbjF3HuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jun 2023 03:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57102 "EHLO
+        id S231176AbjF3IIC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jun 2023 04:08:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232425AbjF3HuB (ORCPT
+        with ESMTP id S229890AbjF3IIB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jun 2023 03:50:01 -0400
-X-Greylist: delayed 551 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Jun 2023 00:50:00 PDT
-Received: from mail.stardalselva.pl (mail.stardalselva.pl [217.61.105.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166BAE5E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 00:50:00 -0700 (PDT)
-Received: by mail.stardalselva.pl (Postfix, from userid 1002)
-        id 0802A82E03; Fri, 30 Jun 2023 09:40:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stardalselva.pl;
-        s=mail; t=1688110848;
-        bh=K+tVSZ+/RJhQkwh90Jc8eurfMzR4hfabTVxOBoYH8R8=;
+        Fri, 30 Jun 2023 04:08:01 -0400
+X-Greylist: delayed 515 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Jun 2023 01:08:00 PDT
+Received: from mail.tradeharbor.pl (mail.tradeharbor.pl [217.61.97.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B2B2D50
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 01:08:00 -0700 (PDT)
+Received: by mail.tradeharbor.pl (Postfix, from userid 1002)
+        id 2C293832D0; Fri, 30 Jun 2023 09:59:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tradeharbor.pl;
+        s=mail; t=1688111964;
+        bh=+8JR9pbZKhAL6uRH+3YthTnulvnmSqiK0eDpljLgYE8=;
         h=Date:From:To:Subject:From;
-        b=CI000tUkcwWBYIkGyuFaG4ZBFUR5SJZGZ3BR/xE6phqUz5OJFNtq4OMhAw3QYdjub
-         w++9veyYw3oFXLAcsUua7o5aUfAHWHGL3dDVDakoO0ZqImv5RD1dw7SiN8e/sTlxwb
-         QbYz9hojo+9jCyHwliH+osWfL/0S3X+HiSIuOt458svts6YZn6wTG6Mhb4h34WoKhh
-         cKUsSr+WlunlPD2rtU8o2issQdF/BFT/V2TjgwkHwe+KNKhhdRzIHluNaD5KsAh2HT
-         afZjCpwGYAo9oOaaDulgdwdEyur7txc/P2uW42pNGVFrL7EdbUXVwIq79u6bz2eGnD
-         xzlcd8IoSnneA==
-Received: by mail.stardalselva.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 07:40:23 GMT
-Message-ID: <20230630084501-0.1.1m.caks.0.bmu20fb2bw@stardalselva.pl>
-Date:   Fri, 30 Jun 2023 07:40:23 GMT
-From:   "Mateusz Suchocki" <mateusz.suchocki@stardalselva.pl>
+        b=LLqTeuzF+DyMdEDpJ/VzU4T77BdAR1Wfr6JV8m/LvWdWLIDBg+QZAx3bQne5Zx8pt
+         mKQ0mPomcnnGOdWFMkncnYVj0oQUDyOZfotRECiOk+Q+bl772x4TICP2Yl52ytWqzT
+         mUTmZSBqTgkm2YUWkKWsdcRM56Bd11neGarhPtEW8jqQ/OwFzHELUcZdT6FF1+aHIF
+         cs2voLF9ff+kUGb3NUfsA9uyLTszdSXEJlmDM8OGyO9uOrsWJ7Gp5wrNOiI0yNJcFp
+         RYs1MiZPOGiMogJJZM9uLKbYw/L5sAZjSRnEVIQk5YMdI9q541EdyWcg0M5lcZdQn1
+         ubvOUE95F2ygg==
+Received: by mail.tradeharbor.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 07:59:19 GMT
+Message-ID: <20230630083000-0.1.6.56u.0.m98jijv0ia@tradeharbor.pl>
+Date:   Fri, 30 Jun 2023 07:59:19 GMT
+From:   "Piotr Firek" <piotr.firek@tradeharbor.pl>
 To:     <linux-renesas-soc@vger.kernel.org>
 Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
-X-Mailer: mail.stardalselva.pl
+X-Mailer: mail.tradeharbor.pl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
@@ -62,4 +62,4 @@ Zapraszam do kontaktu.
 
 
 Pozdrawiam
-Mateusz Suchocki
+Piotr Firek
