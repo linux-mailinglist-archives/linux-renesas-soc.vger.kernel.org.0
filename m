@@ -2,197 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA8F5743ACE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 13:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BE2A743AFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jun 2023 13:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbjF3L0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jun 2023 07:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36214 "EHLO
+        id S232526AbjF3LkR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jun 2023 07:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbjF3L0x (ORCPT
+        with ESMTP id S232420AbjF3LkP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jun 2023 07:26:53 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63842E68
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 04:26:51 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-5703d12ab9aso18461367b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jun 2023 04:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688124410; x=1690716410;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZicOvf9bDN4v7xxXHEcxX/D7CBL3Gv0y/6DJ76/RtpU=;
-        b=nr+0qeBnsO0LpFZUv3yLUD2H793smM2ShCQmOJ8jSQ5ovo+SrbqQCuOFvWQc6eC/Tg
-         mfdwp6h8mPk+Suf838p2/LVSoxOQ+i+dglfsAgJ/vTHH1x9fVHIyDkLX1xTgGCoueo5A
-         JJK7t9MhytFIuMmIPJTrxWl/fcevbd2NhGlbIpSveCm9ZaZnu6cXFCmfC0iemSFsG0SS
-         4D7LpmmjslV6bPq82EAx5tCRCm1EDPGgA9OQr6opIRCq6YW3EMfRwz8AMmf8IyS5gbK9
-         IRPpFpfySROLopvKjsda5hzU9kHDl/ZJ4hXBDJR7gr948YnNxqYjA96VlBlHXwM5Unac
-         KE8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688124410; x=1690716410;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZicOvf9bDN4v7xxXHEcxX/D7CBL3Gv0y/6DJ76/RtpU=;
-        b=OVgU0sKGoI+tVBtJmF9XTCwqL0dWcOSSM4VL5QXOLmJ6JV9mpBmKKZtDXgy3CvS149
-         1QU8ngzi8Dx5UiweaOWBKI2/ktAgbPX9t8BbNNH6G+XyS9Aj3PsESDNnWuzJ8WoxjZW1
-         ymkFKp7VXgJRlXu5OBe7qQfLOi2Xe/UYu2xo9jCz1pPGDYDY9+9+NuTG1RzZGtgcKbUV
-         mj7q7DesEQk97/VKIRBl0Mb58bsQkcGLy0sU2hb33V8h8bduksNueGqeiYMcWptYwqjJ
-         DHeRaXfrVbSX/o4W1v/8WqBkALTaset8eee9wj+mevgIPWVK7w6dmA+zHcN9+J1pp4vh
-         Ae+A==
-X-Gm-Message-State: ABy/qLZaW4WXNhf0eKKO96lhEjZPZCzfG55GstOOVl9Y9aJKuwx7n7qi
-        ha0gVk16jPOLzV5JGrurwIYKiZY49NhL7YJ/dO3uVA==
-X-Google-Smtp-Source: APBJJlGWl+Zz2b36QIag6H3aK/0BNoriFADaghtw2KYGG+i6kE/6uWTfVRFY1+G9TpLfkHrhaUNTQRHOVWpf337++e4=
-X-Received: by 2002:a81:6783:0:b0:577:617c:8cd with SMTP id
- b125-20020a816783000000b00577617c08cdmr507282ywc.35.1688124410564; Fri, 30
- Jun 2023 04:26:50 -0700 (PDT)
+        Fri, 30 Jun 2023 07:40:15 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 62ADB1FE4;
+        Fri, 30 Jun 2023 04:40:13 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,170,1684767600"; 
+   d="scan'208";a="169845826"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 30 Jun 2023 20:40:12 +0900
+Received: from localhost.localdomain (unknown [10.226.93.15])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DF85B421E676;
+        Fri, 30 Jun 2023 20:40:08 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v5 0/4] Add RZ/V2{M, MA} PWM driver support
+Date:   Fri, 30 Jun 2023 12:39:59 +0100
+Message-Id: <20230630114003.320641-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230329202148.71107-1-dennis@kernel.org> <ZCTOMVjW+pnZVGsQ@snowbird>
- <CAMuHMdVK2zPnyB9s0uYwoKj0xspa0CRzqPjhrj-YFqVNdXxEkg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVK2zPnyB9s0uYwoKj0xspa0CRzqPjhrj-YFqVNdXxEkg@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 30 Jun 2023 13:26:14 +0200
-Message-ID: <CAPDyKFqtgCK5Wb_fZ9+VVK1F-LWYL+htMvQ9JPpp0zPjzBZ9gw@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: inline the first mmc_scan() on mmc_start_host()
-To:     Dennis Zhou <dennis@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.0 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 27 Jun 2023 at 19:20, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
-> Hi Dennis,
->
-> On Thu, Mar 30, 2023 at 1:48=E2=80=AFAM Dennis Zhou <dennis@kernel.org> w=
-rote:
-> > When using dm-verity with a data partition on an emmc device, dm-verity
-> > races with the discovery of attached emmc devices. This is because mmc'=
-s
-> > probing code sets up the host data structure then a work item is
-> > scheduled to do discovery afterwards. To prevent this race on init,
-> > let's inline the first call to detection, __mm_scan(), and let
-> > subsequent detect calls be handled via the workqueue.
-> >
-> > Signed-off-by: Dennis Zhou <dennis@kernel.org>
->
-> Thanks for your patch, which is now commit 2cc83bf7d41113d9 ("mmc:
-> core: Allow mmc_start_host() synchronously detect a card") in
-> linux-next/master mmc/next next-20230614 next-20230615 next-20230616
->
-> I have bisected the following failure on Renesas Salvator-XS with R-Car H=
-3
-> ES2.0 to the above commit:
->
->     renesas_sdhi_internal_dmac ee140000.mmc: timeout waiting for
-> hardware interrupt (CMD0)
->     renesas_sdhi_internal_dmac ee140000.mmc: timeout waiting for
-> hardware interrupt (CMD1)
->     renesas_sdhi_internal_dmac ee140000.mmc: timeout waiting for
-> hardware interrupt (CMD0)
->     renesas_sdhi_internal_dmac ee140000.mmc: timeout waiting for
-> hardware interrupt (CMD1)
->     mmc0: Failed to initialize a non-removable card
+The RZ/V2{M, MA} PWM Timer (PWM) is composed of 16 channels. Linux is only
+allowed access to channels 8 to 14 on RZ/V2M, while there is no restriction
+for RZ/V2MA.
 
-Thanks for reporting!
+The RZ/V2{M, MA} PWM Timer (PWM) supports the following functions:
+ * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
+ * The frequency division ratio for internal counter operation is selectable
+    as PWM_CLK divided by 1, 16, 256, or 2048.
+ * The period as well as the duty cycle is adjustable.
+ * The low-level and high-level order of the PWM signals can be inverted.
+ * The duty cycle of the PWM signal is selectable in the range from 0 to 100%.
+ * The minimum resolution is 20.83 ns.
+ * Three interrupt sources: Rising and falling edges of the PWM signal and
+   clearing of the counter
+ * Counter operation and the bus interface are asynchronous and both can
+   operate independently of the magnitude relationship of the respective
+   clock periods.
 
-After I had a closer look, I realize that all the renesas/tmio drivers
-are suffering from the similar problem. A host driver must not call
-mmc_add_host() before it's ready to serve requests.
+v4->v5:
+ * rebased to pwm for-next.
+ * Sorted KConfig file
+ * Sorted Make file
+ * Updated copyright header 2022->2023.
+ * Updated limitation section.
+ * Replaced the variable chip->rzv2m_pwm in rzv2m_pwm_wait_delay()
+ * Replaced polarity logic as per HW manual dutycycle = Ton/Ton+Toff, so
+   eventhough native polarity is inverted from period point of view it is
+   correct.
+ * Updated logic for supporting 0% , 100% and remaining duty cycles.
+ * On config() replaced pm_runtime_resume_and_get()->pm_runtime_get_sync()
+ * Counter is stopped while updating period/polarity to avoid glitches.
+ * Added error check for clk_prepare_enable()
+ * Introduced is_ch_enabled variable to cache channel enable status.
+ * clk_get_rate is called after enabling the clock and clk_rate_exclusive_get()
+ * Added comment for delay
+ * Replaced 1000000000UL->NSEC_PER_SEC.
+ * Improved error handling in probe().
+v3->v4:
+ * Documented the hardware properties in "Limitations" section
+ * Dropped the macros F2CYCLE_NSEC, U24_MASK and U24_MAX.
+ * Added RZV2M_PWMCYC_PERIOD macro for U24_MAX
+ * Dropped rzv2m_pwm_freq_div variable and started using 1 << (4 * i) for
+   calculating divider as it is power of 16.
+ * Reordered the functions to have rzv2m_pwm_config() directly before
+   rzv2m_pwm_apply().
+ * Improved the logic for calculating period and duty cycle in config()
+ * Merged multiple RZV2M_PWMCTR register writes to a single write in config()
+ * replaced pwm_is_enabled()->pwm->state.enabled
+ * Avoided assigning bit value as enum pwm_polarity instead used enum constant.
+ * Fixed various issues in probe error path.
+ * Updated the logic for PWM cycle setting register
+ * A 100% duty cycle is only possible with PWMLOW > PWMCYC. So restricting
+   PWMCYC values < 0xffffff  
+ * The native polarity of the hardware is inverted (i.e. it starts with the
+ * low part). So switched the inversion bit handling.
+v2->v3:
+ * Removed clock patch#1 as it is queued for 6.3 renesas-clk
+ * Added Rb tag from Geert for bindings and dt patches
+ * Added return code for rzv2m_pwm_get_state()
+ * Added comment in rzv2m_pwm_reset_assert_pm_disable()
+v1->v2:
+ * Updated commit description
+ * Replaced pwm8_15_pclk->cperi_grpf
+ * Added reset entry R9A09G011_PWM_GPF_PRESETN
+ * Added Rb tag from Krzysztof for bindings and the keep the Rb tag as 
+   the below changes are trivial
+ * Updated the description for APB clock
+ * Added resets required property
+ * Updated the example with resets property
+ * Replaced devm_reset_control_get_optional_shared->devm_reset_control_get_shared
+ * Added resets property in pwm nodes.
 
-Things like initializing an irq-handler must be done before
-mmc_add_host() is called, which is not the case for renesas/tmio. In
-fact, there seems to be a few other host drivers that have the similar
-pattern in their probe routines.
+Note:
+ Hardware manual for this IP can be found here
+ https://www.renesas.com/in/en/document/mah/rzv2m-users-manual-hardware?language=en
 
-Note that, even if the offending commit below triggers this problem
-100% of the cases (as the probe path has now becomes synchronous),
-there was a potential risk even before. Previously, mmc_add_host()
-ended up punting a work - and if that work ended up sending a request
-to the host driver, *before* the irq-handler would be ready, we would
-hit the similar problem. I bet adding an msleep(1000) immediately
-after mmc_add_host() in tmio_mmc_host_probe(), would then trigger this
-problem too. :-)
+Biju Das (4):
+  dt-bindings: pwm: Add RZ/V2M PWM binding
+  pwm: Add support for RZ/V2M PWM driver
+  arm64: dts: renesas: r9a09g011: Add pwm nodes
+  arm64: dts: renesas: rzv2m evk: Enable pwm
 
-That said, I am going to revert the offending commit to fix these
-problems, for now. Then I will try to help out and fixup the relevant
-host drivers  - and when that is done, we can give this whole thing a
-new try.
+ .../bindings/pwm/renesas,rzv2m-pwm.yaml       |  90 ++++
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  70 +++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  98 ++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzv2m.c                       | 451 ++++++++++++++++++
+ 6 files changed, 721 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-rzv2m.c
 
-Any objections or other suggestions to this?
 
-Kind regards
-Uffe
+base-commit: 92554cdd428fce212d2a71a06939e7cab90f7c77
+-- 
+2.25.1
 
->
-> Reverting the commit fixes the issue for me.
->
-> > --- a/drivers/mmc/core/core.c
-> > +++ b/drivers/mmc/core/core.c
-> > @@ -2185,10 +2185,8 @@ int mmc_card_alternative_gpt_sector(struct mmc_c=
-ard *card, sector_t *gpt_sector)
-> >  }
-> >  EXPORT_SYMBOL(mmc_card_alternative_gpt_sector);
-> >
-> > -void mmc_rescan(struct work_struct *work)
-> > +static void __mmc_rescan(struct mmc_host *host)
-> >  {
-> > -       struct mmc_host *host =3D
-> > -               container_of(work, struct mmc_host, detect.work);
-> >         int i;
-> >
-> >         if (host->rescan_disable)
-> > @@ -2249,6 +2247,14 @@ void mmc_rescan(struct work_struct *work)
-> >                 mmc_schedule_delayed_work(&host->detect, HZ);
-> >  }
-> >
-> > +void mmc_rescan(struct work_struct *work)
-> > +{
-> > +       struct mmc_host *host =3D
-> > +               container_of(work, struct mmc_host, detect.work);
-> > +
-> > +       __mmc_rescan(host);
-> > +}
-> > +
-> >  void mmc_start_host(struct mmc_host *host)
-> >  {
-> >         host->f_init =3D max(min(freqs[0], host->f_max), host->f_min);
-> > @@ -2261,7 +2267,8 @@ void mmc_start_host(struct mmc_host *host)
-> >         }
-> >
-> >         mmc_gpiod_request_cd_irq(host);
-> > -       _mmc_detect_change(host, 0, false);
-> > +       host->detect_change =3D 1;
-> > +       __mmc_rescan(host);
-> >  }
-> >
-> >  void __mmc_stop_host(struct mmc_host *host)
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
