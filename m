@@ -2,188 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC3C774645B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 22:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C5A7464B2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 23:10:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjGCUnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jul 2023 16:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45094 "EHLO
+        id S230032AbjGCVKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jul 2023 17:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjGCUnl (ORCPT
+        with ESMTP id S229517AbjGCVKu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jul 2023 16:43:41 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544E5E6A
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jul 2023 13:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=0euS
-        Nt7PROWlpp+746sCIFZ+fqkH7LiSwrfRk8JXXS0=; b=foo6YzgxVaoTEVrwnEG8
-        aMACgMqa/KT8cmWyS8kyE3qi96v2wOkuB04IY2HXccPqENZG5W5/+aKtoANibNom
-        jXdpavLNjlqesJtuQLTBFD9NfMhIyhmdNuGH1+Bj4TVKG485xzfdOoIfFLjUBzbV
-        P54PpkZGz2rFK7N6aw7VBbcd3BVE0haJZl5cErft4ASQcPWcypp6oFt7TeC58AS5
-        Yp+UTwAttgMgw0RYQFzKVp2tf8BFG8IrnFUBDU4E0vpDZxWupMDwqX6pOttIWhiA
-        /u+F8Dsd/dIQEyjs0Rjhb4OgurNLRdhN6CyqDz7+tbG+ehzYEQk4YL48Bw3C4Kut
-        Pw==
-Received: (qmail 977144 invoked from network); 3 Jul 2023 22:43:36 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jul 2023 22:43:36 +0200
-X-UD-Smtp-Session: l3s3148p1@gBlTOJv/WLRehh98
-Date:   Mon, 3 Jul 2023 22:43:33 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        weiping zhang <zhangweiping@didichuxing.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] virtio-mmio: don't break lifecycle of vm_dev
-Message-ID: <ZKMy9ZKdIfyf9GYF@sai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        weiping zhang <zhangweiping@didichuxing.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20230629120526.7184-1-wsa+renesas@sang-engineering.com>
- <1688350297.9197447-5-xuanzhuo@linux.alibaba.com>
+        Mon, 3 Jul 2023 17:10:50 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145BBE59;
+        Mon,  3 Jul 2023 14:10:49 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7835ae70e46so192218039f.3;
+        Mon, 03 Jul 2023 14:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688418648; x=1691010648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pzVkmEgU5WzK/Ygg1Ob57YCyS+9xMsLU8cmnnEEo+/M=;
+        b=ggNSk/H1Gu+SWvUTcFKzi52A/Nuq5OjwcnWpXPbpm5zYS5lRO/GqinQIi6LRvFf5js
+         9Ngg0qC9cVjdZcSTmjXDHFeUIRkRBls9EEhikCDCOxNawCsO8WILiqeW5+JB58sDyB69
+         29LRRFms3nDEznT2wR6Zf6+jhz3o8/NAV1fnTnUP1aWW53+ZLN0abqkjojIHkP+CEOGw
+         Ofe3cRV0hk0KI1mZrS2cIrcU4qQjvD3lLI+oahSb4kVllxLodasgApQgSGNK7iHTwW8i
+         jJ1q3whXmgGphg/X6maRg+ZWZSWrDnijv2tJCTeyhSnK3xJQQ1PvBM97VTBWWBNDuU57
+         x//A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688418648; x=1691010648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pzVkmEgU5WzK/Ygg1Ob57YCyS+9xMsLU8cmnnEEo+/M=;
+        b=laqMVwS7fH9bPv8m7JpByAFBEHDl/+hdr2SX7I2i80zbQmaivQ7lzf5YReGGT2rDt1
+         MLkqIy0+j8+Ggfq7DQ6QH4Hn2mhSLCci07fmWF79vwmx2F5yGA/ZW7CSO+ldc42WbbiV
+         BTSziVSOQByOka7e4O1Zwl5cB969hxWa1C6VIYDSOQSf8R1+93feROGh80kR2sE/oyz5
+         x0E1qQFkvZE9gv8eOVs24DNAYahLTnlDVWu5zh9HdzWo0Vu7vSmz592Qg2kUgFTJ+CWH
+         HaN1t5gNLkr1jHqLV5IjbD+bGu62DnH6XGWf5y4LJYqweVCLVBawtJZI1AODR5l2PnJU
+         9RgQ==
+X-Gm-Message-State: AC+VfDw+HpuuPr5fiMC/o/HXrbVQk3m7WC8HMhQG1YPSUh+aao8999Zy
+        PEtu41Fcei+L3bZA9NsgGuWFdVRrFUc4/BuYb4v/xEtkht2JnA==
+X-Google-Smtp-Source: ACHHUZ6FkDf1mZszo/F/op4b4PfzyWqxR/zwCVmySCW6VP4GNg/zqvWZRGF5OdMpO5oqXZ9qEIDoJKf1z4mgA7m5tJE=
+X-Received: by 2002:a6b:f10d:0:b0:783:727b:7073 with SMTP id
+ e13-20020a6bf10d000000b00783727b7073mr11630255iog.20.1688418648099; Mon, 03
+ Jul 2023 14:10:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3uDdjR2afeqP8IHK"
-Content-Disposition: inline
-In-Reply-To: <1688350297.9197447-5-xuanzhuo@linux.alibaba.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+References: <20230630120433.49529-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230630120433.49529-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB592217C4028606B67B39C6858629A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8sXcHP2AYYLLONLLBDVctMb=fnU=D4+6hNoHGx5Dk2O3Q@mail.gmail.com> <OS0PR01MB592285AB361A6C25CEDC21F68629A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592285AB361A6C25CEDC21F68629A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 3 Jul 2023 22:10:21 +0100
+Message-ID: <CA+V-a8tkZ8vbMPqReQ+CixQgHZWBXxzmNdjv1EL9skgaf+Mmvw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+ RZG2L_GPIO_PORT_PACK() macro
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---3uDdjR2afeqP8IHK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jul 3, 2023 at 3:13=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
+>
+> Hi Prabhakar,
+>
+> > -----Original Message-----
+> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Monday, July 3, 2023 1:43 PM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>; Magnus Damm
+> > <magnus.damm@gmail.com>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+> > Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Linus Walleij
+> > <linus.walleij@linaro.org>; linux-renesas-soc@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-riscv@lists.infradead.org; linux-
+> > kernel@vger.kernel.org; linux-gpio@vger.kernel.org; Prabhakar Mahadev
+> > Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: Re: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+> > RZG2L_GPIO_PORT_PACK() macro
+> >
+> > Hi Biju,
+> >
+> > Thank you for the review.
+> >
+> > On Mon, Jul 3, 2023 at 12:42=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
+s.com>
+> > wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > Thanks for the patch.
+> > >
+> > > > -----Original Message-----
+> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > > > Sent: Friday, June 30, 2023 1:05 PM
+> > > > To: Geert Uytterhoeven <geert+renesas@glider.be>; Magnus Damm
+> > > > <magnus.damm@gmail.com>
+> > > > Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > > > <krzysztof.kozlowski+dt@linaro.org>; Linus Walleij
+> > > > <linus.walleij@linaro.org>; linux-renesas-soc@vger.kernel.org;
+> > > > devicetree@vger.kernel.org; linux-riscv@lists.infradead.org; linux-
+> > > > kernel@vger.kernel.org; linux-gpio@vger.kernel.org; Biju Das
+> > > > <biju.das.jz@bp.renesas.com>; Prabhakar
+> > > > <prabhakar.csengg@gmail.com>; Prabhakar Mahadev Lad
+> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Subject: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+> > > > RZG2L_GPIO_PORT_PACK() macro
+> > > >
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Currently we assume all the port pins are sequential ie always PX_0
+> > > > to PX_n (n=3D1..7) exist, but on RZ/Five SoC we have additional pin=
+s
+> > > > P19_1 to
+> > > > P28_5 which have holes in them, for example only one pin on port19
+> > > > is available and that is P19_1 and not P19_0.
+> > > >
+> > > > So to handle such cases include pinmap for each port which would
+> > > > indicate the pin availability on each port. With this we also get
+> > > > additional pin validation, for example on the RZ/G2L SOC P0 has two
+> > > > pins
+> > > > P0_1 and P0_0 but with DT/SYSFS could use the P0_2-P0_7.
+> > > >
+> > > > While at it, update rzg2l_validate_gpio_pin() to use the port pinma=
+p
+> > > > to validate the gpio pin.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar
+> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 167
+> > > > ++++++++++++------------
+> > > >  1 file changed, 86 insertions(+), 81 deletions(-)
+> > > >
+> > > > diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > > b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > > index 9511d920565e..a0c2e585e765 100644
+> > > > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > > @@ -67,10 +67,12 @@
+> > > >                                        PIN_CFG_FILCLKSEL)
+> > > >
+> > > >  /*
+> > > > - * n indicates number of pins in the port, a is the register index
+> > > > - * and f is pin configuration capabilities supported.
+> > > > + * m indicates the bitmap of supported pins, n indicates number
+> > > > + * of pins in the port, a is the register index and f is pin
+> > > > + * configuration capabilities supported.
+> > > >   */
+> > > > -#define RZG2L_GPIO_PORT_PACK(n, a, f)        (((n) << 28) | ((a) <=
+<
+> > 20) |
+> > > > (f))
+> > > > +#define RZG2L_GPIO_PORT_PACK(m, n, a, f)     ((UL(m) << 32) |
+> > (UL(n) << 28)
+> > > > | ((a) << 20) | (f))
+> > >
+> > > I guess, you can still achieve RZG2L_GPIO_PORT_PACK(n, a, f) with
+> > > ((UL(PINMAP(n)) << 32) | (UL(n) << 28) | ((a) << 20) | (f))
+> > >
+> > > #define PINMAP(n) GENMASK(n,0) ?? Then you don't need to modify
+> > rzg2l_gpio_configs.
+> > >
+> > Good point, but this would work if port pins didn't have any holes.
+> > For example on RZ/Five port P19 we have P19_1 pin only and P19_0 is not
+> > available (and similarly for port P25 we have P25_1).
+>
+> Maybe introduce a helper macro to address this case.
+>
+> #define RZG2L_GPIO_PORT_PACK_WITH_HOLES(m, n, a, f) for these 2 cases
+>
+> and use RZG2L_GPIO_PORT_PACK(n, a, f) for the one without holes.
+>
+Agreed will do.
 
-
-> > Allocating the vm_dev struct with devres totally breaks this protection,
->=20
-> device? or driver?
-
-devres is the short name for 'managed devices'. That is, all the devm_*
-functions.
-
-> And why?
-
-This is written in the below paragraph...
-
-> > though. Instead of waiting for the vm_dev release callback, the memory
-> > is freed when the platform_device is removed. Resulting in a
-> > use-after-free when finally the callback is to be called.
-
-=2E.. right here. Sadly, the video of my talk about device lifetime issues
-is not online yet. But my slides are [1]. Please check pages 29-31.
-
-[1] https://static.sched.com/hosted_files/eoss2023/e3/LifecycleIssues_Wolfr=
-amSang_2023.pdf
-
-> Can we have the break stack?
-
-Sure!
-
-root@Lager:/sys/bus/platform/drivers/virtio-mmio# echo virtio-mmio.0  > unb=
-ind
-[   25.258132] kobject: 'virtio0' ((ptrval)): kobject_release, parent 00000=
-000 (delayed 300)
-[   25.266592] ------------[ cut here ]------------
-[   25.271219] WARNING: CPU: 0 PID: 606 at lib/debugobjects.c:505 debug_pri=
-nt_object+0xa4/0xcc
-[   25.279595] ODEBUG: free active (active state 0) object: (ptrval) object=
- type: timer_list hint: kobject_delayed_cleanup+0x0/0x68
-[   25.291186] Modules linked in:
-[   25.294250] CPU: 0 PID: 606 Comm: sh Tainted: G        W          6.4.0-=
-00001-g1279c634d910 #1215
-[   25.303134] Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-[   25.309580] Backtrace:=20
-[   25.312032]  dump_backtrace from show_stack+0x20/0x24
-[   25.317104]  r7:00000009 r6:c0745e4a r5:60000093 r4:c073ddc2
-[   25.322768]  show_stack from dump_stack_lvl+0x2c/0x34
-[   25.327836]  dump_stack_lvl from dump_stack+0x14/0x1c
-[   25.332906]  r5:c02fcc34 r4:c2db3880
-[   25.336484]  dump_stack from __warn+0x90/0x118
-[   25.340944]  __warn from warn_slowpath_fmt+0x88/0xcc
-[   25.345921]  r10:c2607c78 r9:00000000 r8:c0745e02 r7:00000009 r6:c02fcc3=
-4 r5:000001f9
-[   25.353759]  r4:c0745e4a
-[   25.356293]  warn_slowpath_fmt from debug_print_object+0xa4/0xcc
-[   25.362314]  r8:c0b1a3b4 r7:c06020f8 r6:c0735cc1 r5:c0a0492c r4:c1004a08
-[   25.369019]  debug_print_object from debug_check_no_obj_freed+0x184/0x1bc
-[   25.375822]  r8:c2607c00 r7:c06020f8 r6:c2db3880 r5:c2608000 r4:c2607000
-[   25.382527]  debug_check_no_obj_freed from __kmem_cache_free+0x40/0x80
-[   25.389072]  r10:00000004 r9:c2db3880 r8:c073257a r7:00000013 r6:c03952b=
-0 r5:c2607c00
-[   25.396909]  r4:c1000280
-[   25.399443]  __kmem_cache_free from kfree+0x90/0x98
-[   25.404335]  r7:f1581dec r6:c201e010 r5:c03952b0 r4:c2607c00
-[   25.409998]  kfree from release_nodes+0x58/0x68
-[   25.414548]  r7:f1581dec r6:c201e010 r5:f1581dec r4:c2607c00
-[   25.420210]  release_nodes from devres_release_all+0xb8/0xe8
-[   25.425891]  r9:c2db3880 r8:c0a9e1d0 r7:80000013 r6:c2db3880 r5:00000004=
- r4:c201e010
-[   25.433640]  devres_release_all from device_unbind_cleanup+0x1c/0x70
-[   25.440022]  r7:c0a99488 r6:00000000 r5:c0a99290 r4:c201e010
-[   25.445684]  device_unbind_cleanup from device_release_driver_internal+0=
-xb4/0x128
-[   25.453187]  r5:c0a99290 r4:c201e010
-[   25.456764]  device_release_driver_internal from device_driver_detach+0x=
-20/0x24
-[   25.464088]  r7:c0a99488 r6:c201e010 r5:c0a9e1d0 r4:0000000e
-[   25.469750]  device_driver_detach from unbind_store+0x60/0x94
-[   25.475512]  unbind_store from drv_attr_store+0x34/0x40
-[   25.480759]  r9:c2db3880 r8:f1581f00 r7:c2d43a10 r6:c2d43a00 r5:c2d37e40=
- r4:c038ecfc
-[   25.488508]  drv_attr_store from sysfs_kf_write+0x48/0x54
-[   25.493928]  sysfs_kf_write from kernfs_fop_write_iter+0x160/0x1ac
-[   25.500128]  r5:c2d37e40 r4:0000000e
-[   25.503705]  kernfs_fop_write_iter from vfs_write+0x154/0x1b4
-[   25.509469]  r8:00000000 r7:000f3070 r6:f1581f58 r5:c24a36c0 r4:0000000e
-[   25.516173]  vfs_write from ksys_write+0x84/0xd8
-[   25.520802]  r8:0000000e r7:f1581f64 r6:f1581f58 r5:000f3070 r4:c24a36c0
-[   25.527507]  ksys_write from sys_write+0x18/0x1c
-[   25.532135]  r8:c0100264 r7:00000004 r6:0000000e r5:000f3070 r4:00000001
-[   25.538839]  sys_write from ret_fast_syscall+0x0/0x54
-[   25.543901] Exception stack(0xf1581fa8 to 0xf1581ff0)
-[   25.548960] 1fa0:                   00000001 000f3070 00000001 000f3070 =
-0000000e 00000000
-[   25.557147] 1fc0: 00000001 000f3070 0000000e 00000004 000f09f4 00000020 =
-000f1284 000f1418
-[   25.565333] 1fe0: 000f0250 beaca868 00018ef0 b6f40ae8
-[   25.570387] ---[ end trace 0000000000000000 ]---
-
-
---3uDdjR2afeqP8IHK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSjMvEACgkQFA3kzBSg
-KbZ81g//eqwIDTGxrzepxC6C+X32wFZTMh4Ikv6ESlEXGYbamSqdj902JO+Fki1i
-fD4v4uMxz7MW1DbvrDQxETZX3nMH/0uZaSA5ccnCiXk/a2epGSmsSSKLmGHpNGE6
-d5nSaYQeDuj7kDxpH7II6BgnfJH6Lx54L80gGvwg3ymtb+Tr4xQ/eF2a8s1iC69q
-kDw0OUluoVFCBTBFgIOJd4e262m6x84/EHhqZ5B6hZPKmrExpn1lhFwpqhUB82Kb
-K1uYXYJdswQHsmVPAD44I1jnpA/hFOQywzHT75NJWR7wpxPo0KLcndjjE6lFc8QZ
-1Z+Ol1qZW7gbVN+TdeG0EngCxcyoC4pexfLIKcKk67apJl7DoM7TCiPF9oCmtDFV
-SZaDLVCqizKAJOcm3YD68tleJreGJW/BndqPYynUT9aN9soVwqyHfAeDGj9CxBAf
-iWW9gcUaCzIO8fSxAg9uhhCl7nfdHpsbgbp2gVPoYGHJuXAHvTcHwrHP8/ZCjJDW
-5BGI3JE+72QdhzReOL1Wem5NIn4JiCwLO/I0SzdWaQFFHX8Pcp/82Vazif1IaqmF
-qL3aAwS0YB+sIV8a+EjTB9oIO3bScs7/siCLJaGIYcaLin7cWhXM+ANnyTpkEIeR
-/9zKWSD/JjxEMm1kVwLY5GSj0iCyCiLa4K0F3cW4a99UqXevR58=
-=iBFt
------END PGP SIGNATURE-----
-
---3uDdjR2afeqP8IHK--
+Cheers,
+Prabhakar
