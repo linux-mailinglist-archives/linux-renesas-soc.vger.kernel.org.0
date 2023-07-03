@@ -2,189 +2,234 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FCE745F0B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 16:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F359745F6A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 17:07:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231219AbjGCOtq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jul 2023 10:49:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
+        id S231434AbjGCPHP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jul 2023 11:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbjGCOtp (ORCPT
+        with ESMTP id S231320AbjGCPHP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jul 2023 10:49:45 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26FD2B2;
-        Mon,  3 Jul 2023 07:49:44 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5703cb4bcb4so48059217b3.3;
-        Mon, 03 Jul 2023 07:49:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688395783; x=1690987783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nY1I4rwqDndCDmWpTkptLJRSj9+jun4KpqhzWpHlROg=;
-        b=J5C3B1bptD1PtBht6YeK92I6OEZirpGTiCvq61y9iNzqgvQ7fRkj8Ny25TzR4xwSiE
-         +HvERqurtfGq6Tg8RFtDIVoERu1BDwdA7SuPWuBi7XpuHzW0CWMmoyoAJdPum2GZjtkz
-         XjpYwV/5rk58a40BV8G5kXW1BrG1jKKdEdTiqWWRY4VCmxNHopJMeY4IEuESfE6r8xn4
-         j2nXCyyAW/Bld3v64nvis7/GFeRAFW5kXh346NCswJdMLpesBoLKrC2VSrSPArmK97ex
-         vYLtegGBlz8GkVuFqnOw+/vWzxIvBwAXACB1XLBaiKWwPovWG09SPZhP86hRFDB8DfeX
-         agqw==
-X-Gm-Message-State: ABy/qLZtk87+zPcorKs7YQZYV3h/RcClJ5QD4y8WaMR5XZDyeu+OfytL
-        CsGhArNH5KJHhDJ+if+VsbVyFFaffNAyXg==
-X-Google-Smtp-Source: APBJJlF0M4Fikyc0Ul4SzDeqUAzNRZP96JEtVLCJdDdSn3+io+1b7eUxliLWPtfEYm2dY1uhhvcPkw==
-X-Received: by 2002:a81:628a:0:b0:56d:4b17:7e9c with SMTP id w132-20020a81628a000000b0056d4b177e9cmr11763355ywb.32.1688395783112;
-        Mon, 03 Jul 2023 07:49:43 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 132-20020a25168a000000b00bcc9793c3e6sm4398729ybw.65.2023.07.03.07.49.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 07:49:42 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5703cb4bcb4so48058897b3.3;
-        Mon, 03 Jul 2023 07:49:42 -0700 (PDT)
-X-Received: by 2002:a25:15c1:0:b0:bfe:77f1:f454 with SMTP id
- 184-20020a2515c1000000b00bfe77f1f454mr8566617ybv.51.1688395782355; Mon, 03
- Jul 2023 07:49:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230623080135.15696-1-fabrizio.castro.jz@renesas.com>
- <CAMuHMdVNG_LENbU_nu-W+x_snXxbz3vbs=Yb-__FF3DBR2JEUA@mail.gmail.com> <CACRpkdavQ1X29LyZscvdkBOS53H5sdYhZbKhWL9fpdghiddCTw@mail.gmail.com>
-In-Reply-To: <CACRpkdavQ1X29LyZscvdkBOS53H5sdYhZbKhWL9fpdghiddCTw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Jul 2023 16:49:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUoHRBWy3JXosTu7N0HUYECC=7DaiQWhchJQ=Fn=72vGA@mail.gmail.com>
-Message-ID: <CAMuHMdUoHRBWy3JXosTu7N0HUYECC=7DaiQWhchJQ=Fn=72vGA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzv2mevk2: Fix eMMC/SDHI pinctrl names
+        Mon, 3 Jul 2023 11:07:15 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DEBEE
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jul 2023 08:07:12 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:bc71:f024:6708:ff])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Gf782A00S0kCKfg01f784p; Mon, 03 Jul 2023 17:07:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qGL8t-000Rks-39;
+        Mon, 03 Jul 2023 17:07:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qGL8u-0031nG-Nq;
+        Mon, 03 Jul 2023 17:07:08 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFT] pinctrl: renesas: rzv2m: Handle non-unique subnode names
+Date:   Mon,  3 Jul 2023 17:07:06 +0200
+Message-Id: <607bd6ab4905b0b1b119a06ef953fa1184505777.1688396717.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus, Fabrizio,
+The eMMC and SDHI pin control configuration nodes in DT have subnodes
+with the same names ("data" and "ctrl").  As the RZ/V2M pin control
+driver considers only the names of the subnodes, this leads to
+conflicts:
 
-On Sat, Jun 24, 2023 at 9:12 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Fri, Jun 23, 2023 at 10:40 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Fri, Jun 23, 2023 at 10:01 AM Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
-> > > pinctrl-rzv2m b6250000.pinctrl: pin P8_2 already requested by 85000000.mmc; cannot claim for 85020000.mmc
-> > > pinctrl-rzv2m b6250000.pinctrl: pin-130 (85020000.mmc) status -22
-> > > renesas_sdhi_internal_dmac 85020000.mmc: Error applying setting, reverse things back
+    pinctrl-rzv2m b6250000.pinctrl: pin P8_2 already requested by 85000000.mmc; cannot claim for 85020000.mmc
+    pinctrl-rzv2m b6250000.pinctrl: pin-130 (85020000.mmc) status -22
+    renesas_sdhi_internal_dmac 85020000.mmc: Error applying setting, reverse things back
 
-I managed to reproduce the issue[*], and devised a fix, which I will
-send shortly.
+Fix this by constructing unique names from the node names of both the
+pin control configuration node and its child node, where appropriate.
 
-> > To me, that sounds like a bug in the pinctrl core.
-> > Or am I missing something?
->
-> The pin control core tracks on a per-pin basis, it has no clue about
-> the name of certain dt nodes.
->
-> This bug would be in the DT parsing code for the different states
-> I think, and rzv2m is not using the core helpers for this but
-> rather rzv2m_dt_subnode_to_map() etc.
+Reported by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Fixes: 92a9b825257614af ("pinctrl: renesas: Add RZ/V2M pin and gpio controller driver")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Untested on real hardware.
+The RZ/G2L pin control drivers needs a similar fix.
 
-Indeed, there's an issue in rzv2m_dt_subnode_to_map(): it registers
-groups and functions using just the subnode names, which may not
-be unique.  When this happens, they are ignored silently.
+Before:
 
-      $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pingroups
-      registered pin groups:
-      group: data
-      pin 130 (P8_2)
-      pin 131 (P8_3)
-      pin 132 (P8_4)
-      pin 133 (P8_5)
+    $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pingroups
+    registered pin groups:
+    group: data
+    pin 130 (P8_2)
+    pin 131 (P8_3)
+    pin 132 (P8_4)
+    pin 133 (P8_5)
 
-      group: ctrl
-      pin 128 (P8_0)
-      pin 129 (P8_1)
+    group: ctrl
+    pin 128 (P8_0)
+    pin 129 (P8_1)
 
-      group: cd
-      pin 135 (P8_7)
+    group: cd
+    pin 135 (P8_7)
 
-      $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pinmux-functions
-      function 0: data, groups = [ data ]
-      function 1: ctrl, groups = [ ctrl ]
-      function 2: cd, groups = [ cd ]
+    $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pinmux-functions
+    function 0: data, groups = [ data ]
+    function 1: ctrl, groups = [ ctrl ]
+    function 2: cd, groups = [ cd ]
 
-You can see this by adding checks in the pin control core:
+After:
 
---- a/drivers/pinctrl/core.c
-+++ b/drivers/pinctrl/core.c
-@@ -639,8 +639,10 @@ int pinctrl_generic_add_group(struct pinctrl_dev
-*pctldev, const char *name,
-                return -EINVAL;
+    $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pingroups
+    registered pin groups:
+    group: sd0.data
+    pin 130 (P8_2)
+    pin 131 (P8_3)
+    pin 132 (P8_4)
+    pin 133 (P8_5)
 
-        selector = pinctrl_generic_group_name_to_selector(pctldev, name);
--       if (selector >= 0)
-+       if (selector >= 0) {
-+               pr_err("Duplicate group name %s (selector %d)\n",
-name, selector);
-                return selector;
-+       }
+    group: emmc.data
+    pin 0 (P0_0)
+    pin 1 (P0_1)
+    pin 2 (P0_2)
+    pin 3 (P0_3)
+    pin 4 (P0_4)
+    pin 5 (P0_5)
+    pin 6 (P0_6)
+    pin 7 (P0_7)
 
-        selector = pctldev->num_groups;
+    group: sd0.ctrl
+    pin 128 (P8_0)
+    pin 129 (P8_1)
 
---- a/drivers/pinctrl/pinmux.c
-+++ b/drivers/pinctrl/pinmux.c
-@@ -878,8 +878,10 @@ int pinmux_generic_add_function(struct
-pinctrl_dev *pctldev,
-                return -EINVAL;
+    group: emmc.ctrl
+    pin 10 (P0_10)
+    pin 11 (P0_11)
 
-        selector = pinmux_func_name_to_selector(pctldev, name);
--       if (selector >= 0)
-+       if (selector >= 0) {
-+pr_err("Duplicate function name %s (selector %d)\n", name, selector);
-                return selector;
-+       }
+    group: sd0.cd
+    pin 135 (P8_7)
 
-        selector = pctldev->num_functions;
+    group: sd0-uhs.data
+    pin 130 (P8_2)
+    pin 131 (P8_3)
+    pin 132 (P8_4)
+    pin 133 (P8_5)
 
-Is there any special reason why such duplicates are just ignored,
-and not flagged as an error?
+    group: sd0-uhs.ctrl
+    pin 128 (P8_0)
+    pin 129 (P8_1)
 
-The RZ/G2L and RZ/N1 pin control drivers have the same issue, but it
-is not triggered on these platforms (yet), as their DTS files either
-do not use subnodes, or use unique subnode names.
+    group: sd0-uhs.cd
+    pin 135 (P8_7)
 
-The RZ/A1 and RZ/A2 pin control drivers are not affected, as they do
-not support subnodes.
+    $ cat /sys/kernel/debug/pinctrl/b6250000.pinctrl/pinmux-functions
+    function 0: sd0.data, groups = [ sd0.data ]
+    function 1: emmc.data, groups = [ emmc.data ]
+    function 2: sd0.ctrl, groups = [ sd0.ctrl ]
+    function 3: sd0.cd, groups = [ sd0.cd ]
+    function 4: emmc.ctrl, groups = [ emmc.ctrl ]
+    function 5: sd0-uhs.data, groups = [ sd0-uhs.data ]
+    function 6: sd0-uhs.ctrl, groups = [ sd0-uhs.ctrl ]
+    function 7: sd0-uhs.cd, groups = [ sd0-uhs.cd ]
+---
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c | 28 ++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-The StarFive JH7100 pin control driver does it right, by constructing
-group/function names from both the node and the subnode names.
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzv2m.c b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+index e5472293bc7fb247..35b23c1a5684d3e4 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzv2m.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+@@ -209,6 +209,7 @@ static int rzv2m_map_add_config(struct pinctrl_map *map,
+ 
+ static int rzv2m_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 				   struct device_node *np,
++				   struct device_node *parent,
+ 				   struct pinctrl_map **map,
+ 				   unsigned int *num_maps,
+ 				   unsigned int *index)
+@@ -226,6 +227,7 @@ static int rzv2m_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	struct property *prop;
+ 	int ret, gsel, fsel;
+ 	const char **pin_fn;
++	const char *name;
+ 	const char *pin;
+ 
+ 	pinmux = of_find_property(np, "pinmux", NULL);
+@@ -309,8 +311,19 @@ static int rzv2m_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		psel_val[i] = MUX_FUNC(value);
+ 	}
+ 
++	if (parent) {
++		name = devm_kasprintf(pctrl->dev, GFP_KERNEL, "%pOFn.%pOFn",
++				      parent, np);
++		if (!name) {
++			ret = -ENOMEM;
++			goto done;
++		}
++	} else {
++		name = np->name;
++	}
++
+ 	/* Register a single pin group listing all the pins we read from DT */
+-	gsel = pinctrl_generic_add_group(pctldev, np->name, pins, num_pinmux, NULL);
++	gsel = pinctrl_generic_add_group(pctldev, name, pins, num_pinmux, NULL);
+ 	if (gsel < 0) {
+ 		ret = gsel;
+ 		goto done;
+@@ -320,17 +333,16 @@ static int rzv2m_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	 * Register a single group function where the 'data' is an array PSEL
+ 	 * register values read from DT.
+ 	 */
+-	pin_fn[0] = np->name;
+-	fsel = pinmux_generic_add_function(pctldev, np->name, pin_fn, 1,
+-					   psel_val);
++	pin_fn[0] = name;
++	fsel = pinmux_generic_add_function(pctldev, name, pin_fn, 1, psel_val);
+ 	if (fsel < 0) {
+ 		ret = fsel;
+ 		goto remove_group;
+ 	}
+ 
+ 	maps[idx].type = PIN_MAP_TYPE_MUX_GROUP;
+-	maps[idx].data.mux.group = np->name;
+-	maps[idx].data.mux.function = np->name;
++	maps[idx].data.mux.group = name;
++	maps[idx].data.mux.function = name;
+ 	idx++;
+ 
+ 	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
+@@ -377,7 +389,7 @@ static int rzv2m_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	index = 0;
+ 
+ 	for_each_child_of_node(np, child) {
+-		ret = rzv2m_dt_subnode_to_map(pctldev, child, map,
++		ret = rzv2m_dt_subnode_to_map(pctldev, child, np, map,
+ 					      num_maps, &index);
+ 		if (ret < 0) {
+ 			of_node_put(child);
+@@ -386,7 +398,7 @@ static int rzv2m_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	if (*num_maps == 0) {
+-		ret = rzv2m_dt_subnode_to_map(pctldev, np, map,
++		ret = rzv2m_dt_subnode_to_map(pctldev, np, NULL, map,
+ 					      num_maps, &index);
+ 		if (ret < 0)
+ 			goto done;
+-- 
+2.34.1
 
-[*] As I do not have an RZ/V2M board, I added pin control, eMMC, and
-    SDHI snippets from RZ/V2M to the Koelsch DTS, and modified the
-    drivers to not touch the non-existing hardware.
-
-
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
