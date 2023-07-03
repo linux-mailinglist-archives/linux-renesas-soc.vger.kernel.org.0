@@ -2,105 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25D337453C6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 04:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCFF174580A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 11:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjGCCNK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 2 Jul 2023 22:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
+        id S230506AbjGCJFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jul 2023 05:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjGCCNJ (ORCPT
+        with ESMTP id S230511AbjGCJFs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 2 Jul 2023 22:13:09 -0400
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C607188;
-        Sun,  2 Jul 2023 19:13:07 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R711e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0VmQ0CKk_1688350382;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0VmQ0CKk_1688350382)
-          by smtp.aliyun-inc.com;
-          Mon, 03 Jul 2023 10:13:03 +0800
-Message-ID: <1688350297.9197447-5-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH] virtio-mmio: don't break lifecycle of vm_dev
-Date:   Mon, 3 Jul 2023 10:11:37 +0800
-From:   Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        weiping zhang <zhangweiping@didichuxing.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20230629120526.7184-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230629120526.7184-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 3 Jul 2023 05:05:48 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BC610CB
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jul 2023 02:05:34 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:bc71:f024:6708:ff])
+        by andre.telenet-ops.be with bizsmtp
+        id GZ5X2A0040kCKfg01Z5Xpm; Mon, 03 Jul 2023 11:05:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qGFUv-000QZm-IT;
+        Mon, 03 Jul 2023 11:05:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qGFUx-002YWv-6J;
+        Mon, 03 Jul 2023 11:05:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Mark Brown <broonie@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] spi: rzv2m-csi: Fix SoC product name
+Date:   Mon,  3 Jul 2023 11:05:30 +0200
+Message-Id: <89e9870a2c510387e4d7a863025f4d3639d4a261.1688375020.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 29 Jun 2023 14:05:26 +0200, Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-> vm_dev has a separate lifecycle because it has a 'struct device'
-> embedded. Thus, having a release callback for it is correct.
->
-> Allocating the vm_dev struct with devres totally breaks this protection,
+The SoC product name is "RZ/V2M".
 
-device? or driver?
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Fixes: 83c624d8842d7f6c ("spi: Add support for Renesas CSI")
 
-And why?
+Please move the Fixes tag up if you think it is worthwhile.
+---
+ drivers/spi/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
+index d9b3a16ef1ea9edc..02efce0e1086230c 100644
+--- a/drivers/spi/Kconfig
++++ b/drivers/spi/Kconfig
+@@ -834,7 +834,7 @@ config SPI_RSPI
+ 	  SPI driver for Renesas RSPI and QSPI blocks.
+ 
+ config SPI_RZV2M_CSI
+-	tristate "Renesas RZV2M CSI controller"
++	tristate "Renesas RZ/V2M CSI controller"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+ 	help
+ 	  SPI driver for Renesas RZ/V2M Clocked Serial Interface (CSI)
+-- 
+2.34.1
 
-> though. Instead of waiting for the vm_dev release callback, the memory
-> is freed when the platform_device is removed. Resulting in a
-> use-after-free when finally the callback is to be called.
-
-Can we have the break stack?
-
-Thanks.
-
-
->
-> To easily see the problem, compile the kernel with
-> CONFIG_DEBUG_KOBJECT_RELEASE and unbind with sysfs.
->
-> The fix is easy, don't use devres in this case.
->
-> Found during my research about object lifetime problems.
->
-> Fixes: 7eb781b1bbb7 ("virtio_mmio: add cleanup for virtio_mmio_probe")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/virtio/virtio_mmio.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
-> index a46a4a29e929..97760f611295 100644
-> --- a/drivers/virtio/virtio_mmio.c
-> +++ b/drivers/virtio/virtio_mmio.c
-> @@ -607,9 +607,8 @@ static void virtio_mmio_release_dev(struct device *_d)
->  	struct virtio_device *vdev =
->  			container_of(_d, struct virtio_device, dev);
->  	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
-> -	struct platform_device *pdev = vm_dev->pdev;
->
-> -	devm_kfree(&pdev->dev, vm_dev);
-> +	kfree(vm_dev);
->  }
->
->  /* Platform device */
-> @@ -620,7 +619,7 @@ static int virtio_mmio_probe(struct platform_device *pdev)
->  	unsigned long magic;
->  	int rc;
->
-> -	vm_dev = devm_kzalloc(&pdev->dev, sizeof(*vm_dev), GFP_KERNEL);
-> +	vm_dev = kzalloc(sizeof(*vm_dev), GFP_KERNEL);
->  	if (!vm_dev)
->  		return -ENOMEM;
->
-> --
-> 2.35.1
->
