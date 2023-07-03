@@ -2,102 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6F49745B8B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 13:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F23A745C6B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jul 2023 14:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbjGCLtm convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jul 2023 07:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58112 "EHLO
+        id S230024AbjGCMne (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jul 2023 08:43:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGCLtl (ORCPT
+        with ESMTP id S229504AbjGCMnd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jul 2023 07:49:41 -0400
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2595910E;
-        Mon,  3 Jul 2023 04:49:40 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c581c758ad8so464395276.1;
-        Mon, 03 Jul 2023 04:49:40 -0700 (PDT)
+        Mon, 3 Jul 2023 08:43:33 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39B9BC;
+        Mon,  3 Jul 2023 05:43:32 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id e9e14a558f8ab-345db6c12b4so16740205ab.0;
+        Mon, 03 Jul 2023 05:43:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688388212; x=1690980212;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZcEoocC19pvVvckXEfOwPq0UrW7yuRC8cKDF3dCYEz4=;
+        b=Xknf2hwH10pOXp2JSYKV5VMG25V29YwSCtAF1bztkGfwW1rGJHKDMcWVI7c1RRZJtz
+         wdtoI40NHgRDbD0DvHw/0gUjHO4pnAdQRAeMWEByAK+mqgBCTExDYRuuisz4c6LcH7Cu
+         lbefqBP2iBDZRZM6GhsVbEahUoSxwXYqWi0i1JQiaDvEpo6NgDzET3zJpDesMnb9lcu8
+         S2q1OYub0sdyeWS65VHBzhH6gIgGynBzeCJ1WwVCfzFyFItirpwAAAcfu41D8PGbVEyF
+         UbeXgx3xtNy+8lD8iBLNS9HwmTP3xMrvFva1f1h3lfDYQyj0Gh7/4jsJablMW5y0+HtK
+         X0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688384979; x=1690976979;
+        d=1e100.net; s=20221208; t=1688388212; x=1690980212;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P4/+ijC8ulIilId4/4aWiJo6sUOIg4T/2au1tamaqkM=;
-        b=Eqdhh2pYLRYVzvxhWswWn14n4OSUefQfZlAmztQnO5YC3g2WHPaAPSgHl8XtaCGUHk
-         0XZFa7qPl+ikLmuPODq+/K767SozOuNgPD1w5wRpJuEoHYgkYgzStEXJ0yGwN+rpASZV
-         xeGiC/7S62QIu+S9CTlduWIFmbIBuyZOGUat7YvrCzTy3h3Fl4A0e7AvZfV2rQKLNDmp
-         MHJiKFy3JrhK4CEyfp+jkEhv1ilEBq6Ex6yvlQjEpAP7/DRul1mPXpFa3W35eWGjBNZ3
-         h34Sy4GO+2LUbdDA3ZNGNHulvR9fQZq7SYfcPE+c94PrAlWoVTX74uzPGj7oDoBt5La/
-         cq+A==
-X-Gm-Message-State: ABy/qLaDIBVvqXIjclQMIAijGgev8Ltu4WztJBBxXXzwxdWrrJjOPkUx
-        BdNtEVoddFWDUFycxUYzHPUHnTooBBiZvQ==
-X-Google-Smtp-Source: APBJJlHxjtuPRK3X98XwAKDaWlFDQ1ONdvROkwR297HH2ssQ0lNcYS4pgb9FILLcgqihXp3Jbe8vUA==
-X-Received: by 2002:a25:f204:0:b0:c4c:ec2c:3c9a with SMTP id i4-20020a25f204000000b00c4cec2c3c9amr4240270ybe.16.1688384979088;
-        Mon, 03 Jul 2023 04:49:39 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id v70-20020a252f49000000b00c4d485120d5sm955866ybv.31.2023.07.03.04.49.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 04:49:38 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-be49ca27e1fso4819101276.3;
-        Mon, 03 Jul 2023 04:49:37 -0700 (PDT)
-X-Received: by 2002:a25:ae26:0:b0:c3c:b8fb:524e with SMTP id
- a38-20020a25ae26000000b00c3cb8fb524emr8785588ybj.64.1688384977235; Mon, 03
- Jul 2023 04:49:37 -0700 (PDT)
+        bh=ZcEoocC19pvVvckXEfOwPq0UrW7yuRC8cKDF3dCYEz4=;
+        b=MnHxA/gXIpQHDW7COsXDdJQO0oe60mzYXx0S6o9AclECjkB/YHptb7WwoTvhrEP1ZM
+         2RjkLG64RoTN66CZ1yf3wLc7QhRkLw1iXKgVvG90hXgNBw0EYP3tGWVl6st6fB0No3pA
+         jeqw+n3HLoGbMpdR5g9T6leOQChe9jM5DXVJ8nBcr95HgqyCwlCVibNXCIZw7WoWjgHu
+         q5FkTSVwjwe88KGwFrrueL8zaQu5imZC6zNlpdMZOP9V6aNPY57tcUMuoM93uSlCMGqh
+         i5VvIVqf9K1NqPttVkKoY+3oD/IWMTNk2IsKJZaS4wyiTMtO1sqdmaUbcJkPoZSf0sXj
+         cifA==
+X-Gm-Message-State: AC+VfDw2KZpvrBe4IF+3LLx3CluzgFkawSGLsJavHIY9fXJUHxl2vc6e
+        Yw1CyV2mYkZvsZmlyJtmD/WRRSzsVmlUcAHIgh8=
+X-Google-Smtp-Source: ACHHUZ5Zk75GyTJn8VfVPthaCVH4awdI5bmJizAK7v91XelWS1kU8rpKLdAAWEQH3wcA/yiXqvhxLSQ+BwE8f0ktwnw=
+X-Received: by 2002:a6b:7a02:0:b0:785:d017:c16f with SMTP id
+ h2-20020a6b7a02000000b00785d017c16fmr11368650iom.14.1688388212208; Mon, 03
+ Jul 2023 05:43:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com> <20230622113341.657842-6-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20230622113341.657842-6-fabrizio.castro.jz@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Jul 2023 13:49:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXH_ipqCYY35bQd6BM5ZkkimHRfd8mg34mTqbPnyBM+4g@mail.gmail.com>
-Message-ID: <CAMuHMdXH_ipqCYY35bQd6BM5ZkkimHRfd8mg34mTqbPnyBM+4g@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] arm64: defconfig: Enable Renesas RZ/V2M CSI driver
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+References: <20230630120433.49529-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230630120433.49529-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <OS0PR01MB592217C4028606B67B39C6858629A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592217C4028606B67B39C6858629A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 3 Jul 2023 13:43:06 +0100
+Message-ID: <CA+V-a8sXcHP2AYYLLONLLBDVctMb=fnU=D4+6hNoHGx5Dk2O3Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+ RZG2L_GPIO_PORT_PACK() macro
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 22, 2023 at 1:34 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Enable CSI driver support for Renesas RZ/V2M based platforms.
+Hi Biju,
+
+Thank you for the review.
+
+On Mon, Jul 3, 2023 at 12:42=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
+> Hi Prabhakar,
 >
-> v2: no changes
+> Thanks for the patch.
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Friday, June 30, 2023 1:05 PM
+> > To: Geert Uytterhoeven <geert+renesas@glider.be>; Magnus Damm
+> > <magnus.damm@gmail.com>
+> > Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > <krzysztof.kozlowski+dt@linaro.org>; Linus Walleij
+> > <linus.walleij@linaro.org>; linux-renesas-soc@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-riscv@lists.infradead.org; linux-
+> > kernel@vger.kernel.org; linux-gpio@vger.kernel.org; Biju Das
+> > <biju.das.jz@bp.renesas.com>; Prabhakar <prabhakar.csengg@gmail.com>;
+> > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+> > RZG2L_GPIO_PORT_PACK() macro
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Currently we assume all the port pins are sequential ie always PX_0 to
+> > PX_n (n=3D1..7) exist, but on RZ/Five SoC we have additional pins P19_1=
+ to
+> > P28_5 which have holes in them, for example only one pin on port19 is
+> > available and that is P19_1 and not P19_0.
+> >
+> > So to handle such cases include pinmap for each port which would
+> > indicate the pin availability on each port. With this we also get
+> > additional pin validation, for example on the RZ/G2L SOC P0 has two pin=
+s
+> > P0_1 and P0_0 but with DT/SYSFS could use the P0_2-P0_7.
+> >
+> > While at it, update rzg2l_validate_gpio_pin() to use the port pinmap to
+> > validate the gpio pin.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 167 ++++++++++++------------
+> >  1 file changed, 86 insertions(+), 81 deletions(-)
+> >
+> > diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > index 9511d920565e..a0c2e585e765 100644
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > @@ -67,10 +67,12 @@
+> >                                        PIN_CFG_FILCLKSEL)
+> >
+> >  /*
+> > - * n indicates number of pins in the port, a is the register index
+> > - * and f is pin configuration capabilities supported.
+> > + * m indicates the bitmap of supported pins, n indicates number
+> > + * of pins in the port, a is the register index and f is pin
+> > + * configuration capabilities supported.
+> >   */
+> > -#define RZG2L_GPIO_PORT_PACK(n, a, f)        (((n) << 28) | ((a) << 20=
+) |
+> > (f))
+> > +#define RZG2L_GPIO_PORT_PACK(m, n, a, f)     ((UL(m) << 32) | (UL(n) <=
+< 28)
+> > | ((a) << 20) | (f))
+>
+> I guess, you can still achieve RZG2L_GPIO_PORT_PACK(n, a, f) with
+> ((UL(PINMAP(n)) << 32) | (UL(n) << 28) | ((a) << 20) | (f))
+>
+> #define PINMAP(n) GENMASK(n,0) ?? Then you don't need to modify rzg2l_gpi=
+o_configs.
+>
+Good point, but this would work if port pins didn't have any holes.
+For example on RZ/Five port P19 we have P19_1 pin only and P19_0 is
+not available (and similarly for port P25 we have P25_1).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.6.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
