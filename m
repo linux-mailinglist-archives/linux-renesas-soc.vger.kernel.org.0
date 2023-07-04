@@ -2,164 +2,403 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F13D746CF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jul 2023 11:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68DBD746FBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jul 2023 13:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231455AbjGDJOA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Jul 2023 05:14:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42312 "EHLO
+        id S231159AbjGDLUB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Jul 2023 07:20:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbjGDJN7 (ORCPT
+        with ESMTP id S230389AbjGDLT4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Jul 2023 05:13:59 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2095.outbound.protection.outlook.com [40.107.113.95])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664A6B6;
-        Tue,  4 Jul 2023 02:13:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=juZeXBVYZy32ooDCfypgUtAV0wIEk5Ea+qJyRHZyZKGM3c6KdrifrcHthqTQBThDLt/mgKz1uM8PKYx4hz1oh8kulK4v8Eutm+fSmhJOyAKcUBzg7olbfmiBBh+RkpFuN6TbQUmwY6fdhbPJRv2uInGYei+6HmwnTi1ipm1hjy6Zvw+38dxzzXEEeyHa2hkyRx6KAl1GjtntzEF0BNjsKcaWs1IRvaaRNKM+ht8olAfmQ5jH6Pcx9tAZJy33oOOUMr/IVOmcldkor7axOrGXxqByh2VeL78KgQ27hP27TEPyjfrMgZwDzCwDkTYvquTDWSaSyuQ+n/5vJczfOQY5sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SWkVzcrPpIgOd+jaY+IOSbDv0nslnyQYEeOGF+vRs5s=;
- b=A6fE2I0LIJ9I5e0FrMsxuAFXaPaLgol2S4VtmWBgJvGRMPUh3SZzXdV1zJU/pGUEFDB6ogyq7aYtUvSMAFHbbERIJYRRb426jUECD14sAU8YyiGKX5305AnvOsBSdwRNP9yYd1IXJ2xlKlcJoh25rgqBZVLa19r82AZPyQHSBZZnWKhWW/s6C6MVtzd/n4Ol8vLYZzY7DpvhElcMxgmbiNfouM834t2wHJaf/irRwFwDrU3IXf1Iak09NgHw3+Prn/ExgZdxXgShsfXU5s9S+NiZDTOacxWvilgybfiWR+tCoH9lRXG+0SgftDVR6afi51JArz7gjknJeXbYq+4asA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SWkVzcrPpIgOd+jaY+IOSbDv0nslnyQYEeOGF+vRs5s=;
- b=VOOCx9vI2RyPKQbhIELVSZhdZPybyflCtPCf/AhehYYLcKSJbz0b6s6kqA4NHhO++C6fV8e9m/THc4B/IsvyXXQYfNPXcN6ajhE/kUb3ol3cG1rH+R+GIAwvmUqrgrpIBMuznbfpmb8AbYfcT6Rz2u5kydDTZWz4ElrsPyEK/8A=
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by TYWPR01MB10115.jpnprd01.prod.outlook.com (2603:1096:400:1e7::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
- 2023 09:13:55 +0000
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::f12b:3194:2ef9:aa87]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::f12b:3194:2ef9:aa87%3]) with mapi id 15.20.6544.024; Tue, 4 Jul 2023
- 09:13:55 +0000
+        Tue, 4 Jul 2023 07:19:56 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B3F010D2;
+        Tue,  4 Jul 2023 04:19:13 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,180,1684767600"; 
+   d="scan'208";a="166778495"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Jul 2023 20:19:03 +0900
+Received: from localhost.localdomain (unknown [10.226.93.53])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EC5A7420363E;
+        Tue,  4 Jul 2023 20:19:00 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH/RFT] pinctrl: renesas: rzv2m: Handle non-unique subnode
- names
-Thread-Topic: [PATCH/RFT] pinctrl: renesas: rzv2m: Handle non-unique subnode
- names
-Thread-Index: AQHZrcAPXISO82dPaUG1CDsE3LFWhq+pUg2AgAABR7A=
-Date:   Tue, 4 Jul 2023 09:13:55 +0000
-Message-ID: <TYCPR01MB593377C28DC38763481E0F31862EA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-References: <607bd6ab4905b0b1b119a06ef953fa1184505777.1688396717.git.geert+renesas@glider.be>
- <CACRpkdagL4h+UMVds51j-_i9cRgsJsM8Kq_hhzw=MiYsFvfPaA@mail.gmail.com>
-In-Reply-To: <CACRpkdagL4h+UMVds51j-_i9cRgsJsM8Kq_hhzw=MiYsFvfPaA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB5933:EE_|TYWPR01MB10115:EE_
-x-ms-office365-filtering-correlation-id: 70398871-4cd5-45a7-2eb9-08db7c6efde3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vmh6HcAKPwgp/d6ODAphvZDNP3xDt8/G0ilomyqvyWv22SmqS/3rFMZZupvFBGZWjrkDbjzPYuJOy3gXyTdoKQ6+yl/nB0/R8urFbXYQ/jjV8xyVUuV/P0wo4z66GqJhXhuD1IHt8VLc8zG2FmB9E/41seNRIGMdEyG3P+gscw2XfR51m++H+iZqPz1gEtY97teeitytVqmM7ZFcpki7Im3EseZFqtj44b1xi5zIRiXb3POrmPztk6yqo/d8lDMdMSYFSshXCiuLo5Xhgwv4K2QJBgplfzi+EIzsrg2eEhgzJiKKoMICeYtyWEaWapxLw4PbAp6zu8fJQhwJZWaJz1fLBifkCLiUTz8STa0afWQ98/drK9AAGnxp5v/7auC8Qdhz6f0OBr5ajp10i/mctuU8okqs3OuL250IIDSDfHRVISFn9qfkIimmu69G9VR/bkPysrpjEXBJjQwkLG1UK/03n3YvTvPgEc95H+M3MMKbVJiSpm93WoQmJrKyDtLsw6fSKZcrG0JnxvLsMN5C41pStVvlbLD/O+didI1dFtbclecgZEr6kilaSvSreOUjtYJku/6p6qNgcBxX80KiLXyQnyH9kEWE1vJBnKV5E8JTfTQBM0WvmLDdqUoRbXe9
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(451199021)(26005)(478600001)(6506007)(9686003)(71200400001)(86362001)(186003)(38100700002)(53546011)(54906003)(4326008)(66946007)(66446008)(66476007)(66556008)(83380400001)(110136005)(64756008)(7696005)(76116006)(316002)(122000001)(8676002)(8936002)(52536014)(38070700005)(41300700001)(2906002)(55016003)(5660300002)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RUx1Y3dVQ3VrNHNzK005K0NLUitTdW54WHZWclRBMkFGeGNqZkFLa1pkY29G?=
- =?utf-8?B?RVVMN2VCZUlHalFEQzlmTGZLZEQrVngwT0FMVDlabHNua3dPc0RGaUl6MjQ1?=
- =?utf-8?B?dEw0YXI1TTIyNSt5Y3JqOUVZdXdZdzhteVFIU0NnRnpWb0Zlc2ZnOThOYjRp?=
- =?utf-8?B?KzNIQk0wcHVjSXdFc1hOWTZ4QVc1T2ZyZTB0T1NSOWxXSGJFTXh6bnFZQzlt?=
- =?utf-8?B?WG83YW5DS2d5eUdPS2VCR2ZDaG5wa0RXL0habis4OGJIRm1Nb0NHU1hlRDBB?=
- =?utf-8?B?OU5iRGR6MkFkcUJ2UGtZU0NTQTVhcTJPMU85WTRrYkcxWW9GZ0dhZ05mN1FQ?=
- =?utf-8?B?K3N0S3VhYTdFZFY2Yk9jMkIwSGFFODZPWWwwNVRPSVBGTzljV0daajBhSWtJ?=
- =?utf-8?B?VS91N1BIamxUQ09QUVQ5b2VmcEpnU2w5d2VicnEzdXpVTlFsVVlBUXhJRFQz?=
- =?utf-8?B?L2lMbFczTzk4enBTbTJSRUZrNklZUG5IeXFwTWNMRGgwVUpWQjZ3T1hQTzIz?=
- =?utf-8?B?elFYaXlRUzFMbWt3ZVF3MkdmSjZWa2hFY3cvVll6bXI3SUhzcS96YnZLdU1P?=
- =?utf-8?B?U3dWcXZMamVVUmRLSXkrSy9OSG5UbVF6cm1ORG1palRhYlRlV21vQ1hDSUdm?=
- =?utf-8?B?eWxNQUhtcHNzOFVCeGZtaXVCemQweCtWNGV0anQyWDJNRWRaTVVtRWplbEln?=
- =?utf-8?B?UHRrWU5zUkJCVURaZ0xQVFcxUWJFaHVraEl2b284bExGaTd3WWZjMTZwdmEy?=
- =?utf-8?B?UUJqbjUvMmhtS3A4azZSUS9CbjBqdERUeUg5RWJQY0FKK0ErTlQ5SWVaWERJ?=
- =?utf-8?B?TC9Sc0Q3WElYTzBreTB0WUROaCtmUFQ5YURlaDRrVlhYWHZhUkpxZ01aeHJF?=
- =?utf-8?B?V3lSa09LbitKU2k1UTBWUmRSVUp4dHhUYTBkSms4WkhWelZIdmhQRTNYTW5s?=
- =?utf-8?B?Zk5WZkkycFh2T2lqYmpLaGtwMnVDa3dWZzh4RytKTEptZGZwb0RReEQ5cWpM?=
- =?utf-8?B?cWVtblkvSjBuc0E3bWxrZkZmckdJMFRzZ3pnL05ZYTBqalZIbVBMMkV3Vi9n?=
- =?utf-8?B?R3o5ejQ5UHBDZE04NldYaXA3RU5kM1U1dngvQS9wVUZDeGVvRE96eGpoQjhS?=
- =?utf-8?B?QmlzY1lsdndaWk5ZVTJQb1FrMUVubUgwYW1kQmNBbXdhQy9XL1djeHdNRXp1?=
- =?utf-8?B?M3V5WmU3K2NRTXlFRGRRY0p0bzlMbmZJRXZBTGNHSVFvTWdDREk4Y0JrZmsw?=
- =?utf-8?B?MFA5dnhVVkVrU3dOQ3hodDUzSDJ4WW9qeE5JdVZscThaSXNVK3lWYVhUUGk1?=
- =?utf-8?B?cWFQRi9acEd4SVhHcXlPN2d0ZUlKK0VnbDEyR1ZRSjl0NjFZNzJkRmVJK0xi?=
- =?utf-8?B?SnBIa0R5bnB3bFJjeDUxRVUzcUJ1MGE3Sm92cXR3STZFWTA4NUMrcFozYk0z?=
- =?utf-8?B?NEM0T2ZmZ0trWDJDUTdBbTlJUnh6VkNzeHFPOTRsZ0lFRFBsa2E1dzR2cGx3?=
- =?utf-8?B?K01OMEZRUVY3N3EvSnQ2a0E1Qzk0bjR5WGU4ZG5pbFlpVjMwbVkvb1RpUjlP?=
- =?utf-8?B?RkQrUkFDUW91QStudUUycHFHMkxiQkpjYWgvWG9LaGhrZVF0V2ZOTW42Qm9t?=
- =?utf-8?B?WktwcGlJaGdKcHpYUzk3ZGdoa0M0MGQvNEhsbVkrUWFZSnFLN1h0L0hzc1pX?=
- =?utf-8?B?YWwzNk5PSTN3Q080Sms1VnB0T2ZRM0JTVFU0enNUbkpHTTRnSTZFYVJ4c25y?=
- =?utf-8?B?aHV0VnpEMUJxZEJWMDRCZnNvZXh4QnhvSGVOSm5hSzArVnNYZHhhL21Nb0ti?=
- =?utf-8?B?UForS0Iyd0x0VnVDamI5eW5IRFRsUi9sSEZvVWdqNVFmbkE2L01zNTU5Y2ZV?=
- =?utf-8?B?SlIya3d5SHMyZU1rbC8rbzREUUhHOGkzalBzdWhvRFZ0NkxRN0M0M2ZPK1VT?=
- =?utf-8?B?K3RHb0tQaUpIbXBpanNnbkIvS05WYmlUbzFqRkNBVzJ3MUFhY1dlV040S3lw?=
- =?utf-8?B?RzNocHpEZHRzWktPS1hWakhiaitKMUYrUWZOdS9kVmJBVXpBeElrdVhsemRO?=
- =?utf-8?B?U2pYb29tSzF6cWh1NFJ4TTNqWGZPTXI1ZzRpVW9YazJXYVljeUZOZkhIOEdv?=
- =?utf-8?B?eGNPb3pjWGEwcWRCd1A0R1p2cTdMR2tTWTRRU2hnMXNBT3d5cnZqZUlpajRH?=
- =?utf-8?B?cHc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        stable <stable@kernel.org>
+Subject: [PATCH] pinctrl: renesas: rzg2l: Handle non-unique subnode names
+Date:   Tue,  4 Jul 2023 12:18:58 +0100
+Message-Id: <20230704111858.215278-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70398871-4cd5-45a7-2eb9-08db7c6efde3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jul 2023 09:13:55.0721
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fRXEUx0hjUm9IU9sv7NYhuyfuCzFB81AZtxnOmAkBmip7yG6+9vVoCt9/5fhp4HHwS6doRUboNmvSfn+qqd8yiupeLhcuNkIEl39buXshFM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10115
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.0 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGludXMgVywNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIL1JGVF0gcGluY3RybDogcmVuZXNh
-czogcnp2Mm06IEhhbmRsZSBub24tdW5pcXVlDQo+IHN1Ym5vZGUgbmFtZXMNCj4gDQo+IE9uIE1v
-biwgSnVsIDMsIDIwMjMgYXQgNTowN+KAr1BNIEdlZXJ0IFV5dHRlcmhvZXZlbg0KPiA8Z2VlcnQr
-cmVuZXNhc0BnbGlkZXIuYmU+IHdyb3RlOg0KPiANCj4gPiBUaGUgZU1NQyBhbmQgU0RISSBwaW4g
-Y29udHJvbCBjb25maWd1cmF0aW9uIG5vZGVzIGluIERUIGhhdmUgc3Vibm9kZXMNCj4gPiB3aXRo
-IHRoZSBzYW1lIG5hbWVzICgiZGF0YSIgYW5kICJjdHJsIikuICBBcyB0aGUgUlovVjJNIHBpbiBj
-b250cm9sDQo+ID4gZHJpdmVyIGNvbnNpZGVycyBvbmx5IHRoZSBuYW1lcyBvZiB0aGUgc3Vibm9k
-ZXMsIHRoaXMgbGVhZHMgdG8NCj4gPiBjb25mbGljdHM6DQo+ID4NCj4gPiAgICAgcGluY3RybC1y
-enYybSBiNjI1MDAwMC5waW5jdHJsOiBwaW4gUDhfMiBhbHJlYWR5IHJlcXVlc3RlZCBieQ0KPiA4
-NTAwMDAwMC5tbWM7IGNhbm5vdCBjbGFpbSBmb3IgODUwMjAwMDAubW1jDQo+ID4gICAgIHBpbmN0
-cmwtcnp2Mm0gYjYyNTAwMDAucGluY3RybDogcGluLTEzMCAoODUwMjAwMDAubW1jKSBzdGF0dXMg
-LTIyDQo+ID4gICAgIHJlbmVzYXNfc2RoaV9pbnRlcm5hbF9kbWFjIDg1MDIwMDAwLm1tYzogRXJy
-b3IgYXBwbHlpbmcgc2V0dGluZywNCj4gPiByZXZlcnNlIHRoaW5ncyBiYWNrDQo+ID4NCj4gPiBG
-aXggdGhpcyBieSBjb25zdHJ1Y3RpbmcgdW5pcXVlIG5hbWVzIGZyb20gdGhlIG5vZGUgbmFtZXMg
-b2YgYm90aCB0aGUNCj4gPiBwaW4gY29udHJvbCBjb25maWd1cmF0aW9uIG5vZGUgYW5kIGl0cyBj
-aGlsZCBub2RlLCB3aGVyZSBhcHByb3ByaWF0ZS4NCj4gPg0KPiA+IFJlcG9ydGVkIGJ5OiBGYWJy
-aXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryby5qekByZW5lc2FzLmNvbT4NCj4gPiBGaXhlczog
-OTJhOWI4MjUyNTc2MTRhZiAoInBpbmN0cmw6IHJlbmVzYXM6IEFkZCBSWi9WMk0gcGluIGFuZCBn
-cGlvDQo+ID4gY29udHJvbGxlciBkcml2ZXIiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5
-dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+ID4gLS0tDQo+ID4gVW50ZXN0
-ZWQgb24gcmVhbCBoYXJkd2FyZS4NCj4gPiBUaGUgUlovRzJMIHBpbiBjb250cm9sIGRyaXZlcnMg
-bmVlZHMgYSBzaW1pbGFyIGZpeC4NCj4gDQo+IElmIEkgbmVlZCB0byBtZXJnZSB0aGlzIGZvciBm
-aXhlcyBpdCdzIGJlIGdyZWF0IGlmIHdlIGNvdWxkIGFsc28gaW5jbHVkZQ0KPiBhIGZpeCBmb3Ig
-UlgvRzJMLg0KPiANCj4gQW55d2F5LCBJIGV4cGVjdCBhIHB1bGwgcmVxdWVzdCBmb3IgcmVuZXNh
-cyBmaXhlcyBvciBzb21lIGV4cGxpY2l0DQo+IGluc3RydWN0aW9uIG9uIHdoYXQgdG8gZG8gd2hl
-biBpdCdzIHRlc3RlZCBhbmQgY29uZmlybWVkIHdvcmtpbmcuDQoNCk9LLCBJIHdpbGwgcHJlcGFy
-ZSBhIHNpbWlsYXIgcGF0Y2ggZm9yIFJaL0cyTCBhbmQgd2lsbCB0ZXN0IGFuZCBjb25maXJtLg0K
-DQpDaGVlcnMsDQpCaWp1DQo=
+Currently, sd1 and sd0 have unique subnode names 'sd1_mux' and 'sd0_mux'.
+If we change it to a non-unique subnode name such as 'mux' this can lead
+to the below conflicts as the RZ/G2L pin control driver considers only the
+names of the subnodes.
+
+   pinctrl-rzg2l 11030000.pinctrl: pin P47_0 already requested by 11c00000.mmc; cannot claim for 11c10000.mmc
+   pinctrl-rzg2l 11030000.pinctrl: pin-376 (11c10000.mmc) status -22
+   pinctrl-rzg2l 11030000.pinctrl: could not request pin 376 (P47_0) from group mux  on device pinctrl-rzg2l
+   renesas_sdhi_internal_dmac 11c10000.mmc: Error applying setting, reverse things back
+
+Fix this by constructing unique names from the node names of both the
+pin control configuration node and its child node, where appropriate.
+
+Based on the work done by Geert for RZ/V2M pinctrl driver.
+
+Fixes: c4c4637eb57f ("pinctrl: renesas: Add RZ/G2L pin and gpio controller driver")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch is tested on RZ/V2L SMARC EVK.
+
+before with patch[1]:
+root@smarc-rzv2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pingroups
+registered pin groups:
+group: usb0
+pin 32 (P4_0)
+pin 40 (P5_0)
+pin 41 (P5_1)
+
+group: usb1
+pin 336 (P42_0)
+pin 337 (P42_1)
+
+group: scif0
+pin 304 (P38_0)
+pin 305 (P38_1)
+
+group: scif2
+pin 384 (P48_0)
+pin 385 (P48_1)
+pin 387 (P48_3)
+pin 388 (P48_4)
+
+group: eth0
+pin 225 (P28_1)
+pin 217 (P27_1)
+pin 224 (P28_0)
+pin 160 (P20_0)
+pin 161 (P20_1)
+pin 162 (P20_2)
+pin 168 (P21_0)
+pin 169 (P21_1)
+pin 176 (P22_0)
+pin 192 (P24_0)
+pin 193 (P24_1)
+pin 200 (P25_0)
+pin 201 (P25_1)
+pin 208 (P26_0)
+pin 209 (P26_1)
+pin 8 (P1_0)
+
+group: eth1
+pin 298 (P37_2)
+pin 296 (P37_0)
+pin 297 (P37_1)
+pin 232 (P29_0)
+pin 233 (P29_1)
+pin 240 (P30_0)
+pin 241 (P30_1)
+pin 248 (P31_0)
+pin 249 (P31_1)
+pin 265 (P33_1)
+pin 272 (P34_0)
+pin 273 (P34_1)
+pin 280 (P35_0)
+pin 281 (P35_1)
+pin 288 (P36_0)
+pin 9 (P1_1)
+
+group: i2c3
+pin 144 (P18_0)
+pin 145 (P18_1)
+
+group: mux
+pin 376 (P47_0)
+
+group: spi1
+pin 352 (P44_0)
+pin 353 (P44_1)
+pin 354 (P44_2)
+pin 355 (P44_3)
+
+group: ssi0
+pin 360 (P45_0)
+pin 361 (P45_1)
+pin 362 (P45_2)
+pin 363 (P45_3)
+
+group: adc
+pin 72 (P9_0)
+
+group: can0
+pin 81 (P10_1)
+pin 88 (P11_0)
+
+group: can1
+pin 97 (P12_1)
+pin 104 (P13_0)
+
+root@smarc-rzv2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-functions
+function 0: usb0, groups = [ usb0 ]
+function 1: usb1, groups = [ usb1 ]
+function 2: scif0, groups = [ scif0 ]
+function 3: scif2, groups = [ scif2 ]
+function 4: eth0, groups = [ eth0 ]
+function 5: eth1, groups = [ eth1 ]
+function 6: i2c3, groups = [ i2c3 ]
+function 7: mux, groups = [ mux ]
+function 8: spi1, groups = [ spi1 ]
+function 9: ssi0, groups = [ ssi0 ]
+function 10: adc, groups = [ adc ]
+function 11: can0, groups = [ can0 ]
+function 12: can1, groups = [ can1 ]
+root@smarc-rzv2l:~#
+
+After with patch[1]:
+root@smarc-rzv2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pingroups
+registered pin groups:
+group: usb0
+pin 32 (P4_0)
+pin 40 (P5_0)
+pin 41 (P5_1)
+
+group: usb1
+pin 336 (P42_0)
+pin 337 (P42_1)
+
+group: scif0
+pin 304 (P38_0)
+pin 305 (P38_1)
+
+group: scif2
+pin 384 (P48_0)
+pin 385 (P48_1)
+pin 387 (P48_3)
+pin 388 (P48_4)
+
+group: eth0
+pin 225 (P28_1)
+pin 217 (P27_1)
+pin 224 (P28_0)
+pin 160 (P20_0)
+pin 161 (P20_1)
+pin 162 (P20_2)
+pin 168 (P21_0)
+pin 169 (P21_1)
+pin 176 (P22_0)
+pin 192 (P24_0)
+pin 193 (P24_1)
+pin 200 (P25_0)
+pin 201 (P25_1)
+pin 208 (P26_0)
+pin 209 (P26_1)
+pin 8 (P1_0)
+
+group: eth1
+pin 298 (P37_2)
+pin 296 (P37_0)
+pin 297 (P37_1)
+pin 232 (P29_0)
+pin 233 (P29_1)
+pin 240 (P30_0)
+pin 241 (P30_1)
+pin 248 (P31_0)
+pin 249 (P31_1)
+pin 265 (P33_1)
+pin 272 (P34_0)
+pin 273 (P34_1)
+pin 280 (P35_0)
+pin 281 (P35_1)
+pin 288 (P36_0)
+pin 9 (P1_1)
+
+group: i2c3
+pin 144 (P18_0)
+pin 145 (P18_1)
+
+group: sd0.mux
+pin 376 (P47_0)
+
+group: sd0_uhs.mux
+pin 376 (P47_0)
+
+group: sd1.mux
+pin 152 (P19_0)
+
+group: sd1_uhs.mux
+pin 152 (P19_0)
+
+group: spi1
+pin 352 (P44_0)
+pin 353 (P44_1)
+pin 354 (P44_2)
+pin 355 (P44_3)
+
+group: ssi0
+pin 360 (P45_0)
+pin 361 (P45_1)
+pin 362 (P45_2)
+pin 363 (P45_3)
+
+group: adc
+pin 72 (P9_0)
+
+group: can0
+pin 81 (P10_1)
+pin 88 (P11_0)
+
+group: can1
+pin 97 (P12_1)
+pin 104 (P13_0)
+
+root@smarc-rzv2l:~# cat /sys/kernel/debug/pinctrl/11030000.pinctrl-pinctrl-rzg2l/pinmux-functions
+function 0: usb0, groups = [ usb0 ]
+function 1: usb1, groups = [ usb1 ]
+function 2: scif0, groups = [ scif0 ]
+function 3: scif2, groups = [ scif2 ]
+function 4: eth0, groups = [ eth0 ]
+function 5: eth1, groups = [ eth1 ]
+function 6: i2c3, groups = [ i2c3 ]
+function 7: sd0.mux, groups = [ sd0.mux ]
+function 8: sd0_uhs.mux, groups = [ sd0_uhs.mux ]
+function 9: sd1.mux, groups = [ sd1.mux ]
+function 10: sd1_uhs.mux, groups = [ sd1_uhs.mux ]
+function 11: spi1, groups = [ spi1 ]
+function 12: ssi0, groups = [ ssi0 ]
+function 13: adc, groups = [ adc ]
+function 14: can0, groups = [ can0 ]
+function 15: can1, groups = [ can1 ]
+root@smarc-rzv2l:~#
+
+[1]:
+
+-		sd1_mux {
++		mux {
+ 			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
+ 		};
+ 	};
+
+-		sd1_mux_uhs {
++		mux {
+ 			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
+ 		};
+ 	};
+
++#define EMMC	0
+
+-		sd0_mux {
++		mux {
+ 			pinmux = <RZG2L_PORT_PINMUX(47, 0, 2)>; /* SD0_CD */
+ 		};
+ 	};
+
+-		sd0_mux_uhs {
++		mux {
+ 			pinmux = <RZG2L_PORT_PINMUX(47, 0, 2)>; /* SD0_CD */
+ 		};
+ 	};
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 28 ++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 9511d920565e..b53d26167da5 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -249,6 +249,7 @@ static int rzg2l_map_add_config(struct pinctrl_map *map,
+ 
+ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 				   struct device_node *np,
++				   struct device_node *parent,
+ 				   struct pinctrl_map **map,
+ 				   unsigned int *num_maps,
+ 				   unsigned int *index)
+@@ -266,6 +267,7 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	struct property *prop;
+ 	int ret, gsel, fsel;
+ 	const char **pin_fn;
++	const char *name;
+ 	const char *pin;
+ 
+ 	pinmux = of_find_property(np, "pinmux", NULL);
+@@ -349,8 +351,19 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		psel_val[i] = MUX_FUNC(value);
+ 	}
+ 
++	if (parent) {
++		name = devm_kasprintf(pctrl->dev, GFP_KERNEL, "%pOFn.%pOFn",
++				      parent, np);
++		if (!name) {
++			ret = -ENOMEM;
++			goto done;
++		}
++	} else {
++		name = np->name;
++	}
++
+ 	/* Register a single pin group listing all the pins we read from DT */
+-	gsel = pinctrl_generic_add_group(pctldev, np->name, pins, num_pinmux, NULL);
++	gsel = pinctrl_generic_add_group(pctldev, name, pins, num_pinmux, NULL);
+ 	if (gsel < 0) {
+ 		ret = gsel;
+ 		goto done;
+@@ -360,17 +373,16 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	 * Register a single group function where the 'data' is an array PSEL
+ 	 * register values read from DT.
+ 	 */
+-	pin_fn[0] = np->name;
+-	fsel = pinmux_generic_add_function(pctldev, np->name, pin_fn, 1,
+-					   psel_val);
++	pin_fn[0] = name;
++	fsel = pinmux_generic_add_function(pctldev, name, pin_fn, 1, psel_val);
+ 	if (fsel < 0) {
+ 		ret = fsel;
+ 		goto remove_group;
+ 	}
+ 
+ 	maps[idx].type = PIN_MAP_TYPE_MUX_GROUP;
+-	maps[idx].data.mux.group = np->name;
+-	maps[idx].data.mux.function = np->name;
++	maps[idx].data.mux.group = name;
++	maps[idx].data.mux.function = name;
+ 	idx++;
+ 
+ 	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
+@@ -417,7 +429,7 @@ static int rzg2l_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	index = 0;
+ 
+ 	for_each_child_of_node(np, child) {
+-		ret = rzg2l_dt_subnode_to_map(pctldev, child, map,
++		ret = rzg2l_dt_subnode_to_map(pctldev, child, np, map,
+ 					      num_maps, &index);
+ 		if (ret < 0) {
+ 			of_node_put(child);
+@@ -426,7 +438,7 @@ static int rzg2l_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 	}
+ 
+ 	if (*num_maps == 0) {
+-		ret = rzg2l_dt_subnode_to_map(pctldev, np, map,
++		ret = rzg2l_dt_subnode_to_map(pctldev, np, NULL, map,
+ 					      num_maps, &index);
+ 		if (ret < 0)
+ 			goto done;
+-- 
+2.25.1
+
