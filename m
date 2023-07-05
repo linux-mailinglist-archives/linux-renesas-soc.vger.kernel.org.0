@@ -2,94 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D58CF74831A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 13:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73844748321
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 13:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbjGELoC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 07:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
+        id S231398AbjGELot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 07:44:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjGELoB (ORCPT
+        with ESMTP id S231177AbjGELos (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 07:44:01 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A22E3
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 04:44:00 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579e212668fso9253627b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 04:44:00 -0700 (PDT)
+        Wed, 5 Jul 2023 07:44:48 -0400
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183D11737;
+        Wed,  5 Jul 2023 04:44:46 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b5f362f4beso5587548a34.2;
+        Wed, 05 Jul 2023 04:44:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688557439; x=1691149439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3EJaBFspVw/Gmx4xCPGEJd+b95sH8ceYrLggUSXiVHE=;
-        b=iQKs13TDUpb3/x4tPZ4fqnI9uOF59Gesr6BCQDgsd4dvVWmbx02tWFkyidVQ/NQY29
-         aCpT0Yubwa3KO8+dxtCZPeg4zXacK5oVH5z7VKJZJdaZNW4f66WuEXwt8bJe1GCbNmGo
-         zmYhmJr564gsLgYdYIbrCq4FN2JSbdn6CyFq4ctY7q4HUAZAqh8d8wcHv6li9YzUvE93
-         myatCyb1+2h8X3xZwqWwf4MQSX1QhKSKGKtydBPrffqf4EqDxKA6q45gIHbyYnItfDjB
-         bYL4xM7gy58O68r1zCqJHszDh8fAMQHzn67zBITljj1c6B0ov4nJq90t8mX3Ebax1hRJ
-         gb9A==
-X-Gm-Message-State: ABy/qLabE9yXp5yw84HN6mLX81BmIyrPKY9zUnhjhCzR9FKUT0oZFqrA
-        zx4IIJIcqlsM0j81+e98KTngn1sXKGHmkQ==
-X-Google-Smtp-Source: APBJJlFkygL9w/yifhS5D+8YjaLvMt2MqAm3XfwQNLpxsru/LmAhNAAQTqnejL0gJFSCaAXuGJSH/Q==
-X-Received: by 2002:a0d:d855:0:b0:56c:f547:e058 with SMTP id a82-20020a0dd855000000b0056cf547e058mr1387352ywe.18.1688557438785;
-        Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id r206-20020a0de8d7000000b0057060bb2874sm6182776ywe.37.2023.07.05.04.43.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-bad0c4f6f50so924976276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
-X-Received: by 2002:a25:b30d:0:b0:c47:3430:bcb0 with SMTP id
- l13-20020a25b30d000000b00c473430bcb0mr1458299ybj.26.1688557437971; Wed, 05
- Jul 2023 04:43:57 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688557486; x=1691149486;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aGmgNZpQ92H8RtcLdnvOqptQIs6xEPnLECzACgHGwvo=;
+        b=HiowYq3lg9oMHzy++NIwbhtmksQpbsNvzlMeq3JrLquCFaCtFT8LdoPXc9ikxzMER4
+         n4j37derF4/DnzHAGit+UIBBcmVUg5jEY+fzkQdPilJTeogLW7UA1ospn5ZPeXh8n03F
+         ZfTeHJ32PbGgRBSX/b0IoaLxrx8zS56lmXLoeDnUs6qvIPK0pyh//Qlb8lV/k5xeMkQp
+         ZZbfffu0yIhS1+E1ZxhN8ou1OlSWxHe/aS8gFsXXcRbokJPIxv4eAYi/BFB1G+RsgEMx
+         eWa+DNZlvaWO9Ts59JVB5dVhtuMzGJdQeh/v5FhheEGehjoIVo+f4qYjBgXRohy1/1zq
+         mMjg==
+X-Gm-Message-State: ABy/qLZbOP3cgjEkGNVYbpVzGcm7l/+6CVzlayo7gZyyhykd5RW0cnxK
+        oagq8tukqCQDGmc/mkhIGEtuYwKiKrd9PDoL
+X-Google-Smtp-Source: APBJJlE29szK4gZbcjRGLGDhf4x+ZEWEI7JwaN0ovkUsopslhaFgGeEKb2mbAqRj8q+ENlQbRP+q/g==
+X-Received: by 2002:a05:6358:cb2f:b0:134:e413:4d3 with SMTP id gr47-20020a056358cb2f00b00134e41304d3mr11341085rwb.16.1688557485856;
+        Wed, 05 Jul 2023 04:44:45 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id n9-20020a635c49000000b00543e9e17207sm17920311pgm.30.2023.07.05.04.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 04:44:44 -0700 (PDT)
+Date:   Wed, 5 Jul 2023 20:44:43 +0900
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Damien Le Moal <dlemoal@kernel.org>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lpieralisi@kernel.org,
+        robh@kernel.org, bhelgaas@google.com, alistair23@gmail.com
+Subject: Re: [PATCH] PCI: rcar-ep: Include linux/pci-epf.h instead of
+ linux/pci-epc.h
+Message-ID: <20230705114443.GA3555378@rocinante>
+References: <20230705104824.174396-1-alistair@alistair23.me>
+ <7536d9a3-4738-2bc2-e33e-d93347893865@kernel.org>
 MIME-Version: 1.0
-References: <20230703132343.353878-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230703132343.353878-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jul 2023 13:43:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWj1PTx3Fp=Wn0h+0hHRFRaTKCre=VMvCFCq=BE+HBE5Q@mail.gmail.com>
-Message-ID: <CAMuHMdWj1PTx3Fp=Wn0h+0hHRFRaTKCre=VMvCFCq=BE+HBE5Q@mail.gmail.com>
-Subject: Re: [PATCH] mfd: Add module build support for RZ/G2L MTU3a
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7536d9a3-4738-2bc2-e33e-d93347893865@kernel.org>
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 3:23 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Modified Kconfig to enable module build support for RZ/G2L MTU3a driver.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hello,
 
-As drivers/mfd/rz-mtu3.c already has the needed MODULE_*() lines:
+> > pci-epc.h doesn't define the members of the pci_epf_header struct, so
+> > trying to access them results in errors like this:
+> > 
+> >     error: invalid use of undefined type 'struct pci_epf_header'
+> >       167 |                 val = hdr->vendorid;
+> > 
+> > Instead let's include pci-epf.h which not only defines the
+> > pci_epf_header but also includes pci-epc.h.
 
-drivers/mfd/rz-mtu3.c:MODULE_DEVICE_TABLE(of, rz_mtu3_of_match);
-drivers/mfd/rz-mtu3.c:MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-drivers/mfd/rz-mtu3.c:MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a Core Driver");
-drivers/mfd/rz-mtu3.c:MODULE_LICENSE("GPL");
+[...]
+> It is odd that the the build bot did not detect this...
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This is a bit of a surprise to me too, especially since none of the usual
+bots pick this up, and I can't seem to find such a failure in the nightly
+CI logs either.
 
-Gr{oetje,eeting}s,
+Alistair, how did you stumble into this issue?  Also, which version or
+a tree would that be?
+  
+  Thank you!
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+	Krzysztof
