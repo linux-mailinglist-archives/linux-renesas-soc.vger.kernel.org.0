@@ -2,45 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BAC8748255
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 12:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 624E7748281
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 12:49:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbjGEKlm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 06:41:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53788 "EHLO
+        id S229951AbjGEKs4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 06:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbjGEKll (ORCPT
+        with ESMTP id S232212AbjGEKsz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 06:41:41 -0400
-Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D8F10C3
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 03:41:40 -0700 (PDT)
-Received: from localhost (88-113-24-87.elisa-laajakaista.fi [88.113.24.87])
-        by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-        id 84d40c27-1b20-11ee-abf4-005056bdd08f;
-        Wed, 05 Jul 2023 13:41:38 +0300 (EEST)
-From:   andy.shevchenko@gmail.com
-Date:   Wed, 5 Jul 2023 13:41:37 +0300
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH v2 3/5] spi: Add support for Renesas CSI
-Message-ID: <ZKVI4XPbPXfzQa9J@surfacebook>
-References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com>
- <20230622113341.657842-4-fabrizio.castro.jz@renesas.com>
+        Wed, 5 Jul 2023 06:48:55 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF46171A;
+        Wed,  5 Jul 2023 03:48:53 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id A7D215C02B0;
+        Wed,  5 Jul 2023 06:48:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 05 Jul 2023 06:48:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1688554132; x=1688640532; bh=bm
+        1rZDhTtyYs6D2nwqafptF7MtTTmEoZYqei0YwqitQ=; b=ciOCYmh1a7/03nnbDK
+        XYTb4WI+eqF88UGTIfzfrP1O3/bT+y4I4MlW5bbu9X7m4BA0kUyYWvgpr7rs7PpJ
+        sghd6RF+Zq0EG7m00DOtd9KwTtjdTA3hei4Srw5R32CFWC5jJvQz/oMVxQ728IId
+        7ow56qohaSAkVzue05PLENxQvRuIygwDWSmlEnUAw46R4OZHJTuWNno6wyrPf8bP
+        cTGJPKzBnhHK3BGa1OZNVhNFHvdpYjnf0zc0SiAQpbUBOXNKtzwk+dihnHf96n03
+        ggPdLDFZ4cSbZWzE3h3974jvMhu7nOzBLIAn2nQN6bORdicQN5pWK3hU2XD1F4yc
+        wAEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1688554132; x=1688640532; bh=bm1rZDhTtyYs6
+        D2nwqafptF7MtTTmEoZYqei0YwqitQ=; b=XmEqP7yOa1x166q6mPPd1phvptpD2
+        NOs3Psw4ipDLyNMydkAHtNABMU/WMABF9QTe0Plkl+7mCA2j/wtBssjPlZMkdPxN
+        DiGwZVNk414ykSDQ9VDiNrg7Zab96tq96ZGCSqTnEwmidTCez4bqmrunfpnTVLcl
+        sGIdjTBMxihr4FrJINv1wd9X3W0UNsSZkEQ8ypn5KWJMaqP+uRlVOLAEYLyr+8BU
+        DWKE4Q1Sp9sTXnC+ELOAG7LWBhzFQkWpXGzruhkViFJBEEYR7fgY9mACzgMffdmj
+        wbYaG0GNsDihZ7yw8FJNBW0lCB04H1EmmOeMBsoNXRoXvYUr2pvUGzFxw==
+X-ME-Sender: <xms:lEqlZD4Ddys2jNn7V7mqgwRpt1ZNtm43fGgc4ygV-vaV9TvZrfDAOg>
+    <xme:lEqlZI4xtHfag1qIu_QzEMN1vYFDA5csLj0Q4OB_7JpiKHYMA7-ry5uQMPjV6xf3c
+    B6tzDcrpHDqEp-An0Y>
+X-ME-Received: <xmr:lEqlZKcFh6ZUTXtpin9hFucjo5j0aqSNigaVqaYUgIywtW8gZ4GdgS8pTnLVWllR0ZFBFLEN6HZO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeigdefvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeegheejueehgeekje
+    ffjeehhfejieelfeduudfhgeetieegueehvdeftefhgffhtdenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsth
+    grihhrvdefrdhmvg
+X-ME-Proxy: <xmx:lEqlZELeaIMsF5xt7nxfutUsfFTyT0CYGUzq8LnjO67axMtWc7Etzw>
+    <xmx:lEqlZHKycYjI6vLYlq6t_7xosKOSm5CKhjwMlkyNtK87a3pLcTKRsg>
+    <xmx:lEqlZNwCuhy5g82QHGToJuyECoeBPlzS2A-wic2-HTAGB0TSassdCA>
+    <xmx:lEqlZEDFUbSZFymqdjw6zOYC6k1_r_TikdEwILEDAP9OYRHnnYKIAA>
+Feedback-ID: ifd214418:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 5 Jul 2023 06:48:45 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, alistair23@gmail.com, dlemoal@kernel.org,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH] PCI: rcar-ep: Include linux/pci-epf.h instead of linux/pci-epc.h
+Date:   Wed,  5 Jul 2023 20:48:24 +1000
+Message-ID: <20230705104824.174396-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230622113341.657842-4-fabrizio.castro.jz@renesas.com>
-X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_NONE,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,163 +86,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Thu, Jun 22, 2023 at 12:33:39PM +0100, Fabrizio Castro kirjoitti:
-> The RZ/V2M SoC comes with the Clocked Serial Interface (CSI)
-> IP, which is a master/slave SPI controller.
-> 
-> This commit adds a driver to support CSI master mode.
+pci-epc.h doesn't define the members of the pci_epf_header struct, so
+trying to access them results in errors like this:
 
-Submitting Patches recommends to use imperative voice.
+    error: invalid use of undefined type 'struct pci_epf_header'
+      167 |                 val = hdr->vendorid;
 
-...
+Instead let's include pci-epf.h which not only defines the
+pci_epf_header but also includes pci-epc.h.
 
-+ bits.h
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ drivers/pci/controller/pcie-rcar-ep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +#include <linux/clk.h>
-> +#include <linux/count_zeros.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +#include <linux/spi/spi.h>
-
-...
-
-> +#define CSI_CKS_MAX		0x3FFF
-
-If it's limited by number of bits, i would explicitly use that information as
-(BIT(14) - 1).
-
-...
-
-> +#define CSI_MAX_SPI_SCKO	8000000
-
-Units?
-Also, HZ_PER_MHZ?
-
-...
-
-> +static const unsigned char x_trg[] = {
-> +	0, 1, 1, 2, 2, 2, 2, 3,
-> +	3, 3, 3, 3, 3, 3, 3, 4,
-> +	4, 4, 4, 4, 4, 4, 4, 4,
-> +	4, 4, 4, 4, 4, 4, 4, 5
-> +};
-> +
-> +static const unsigned char x_trg_words[] = {
-> +	1,  2,  2,  4,  4,  4,  4,  8,
-> +	8,  8,  8,  8,  8,  8,  8,  16,
-> +	16, 16, 16, 16, 16, 16, 16, 16,
-> +	16, 16, 16, 16, 16, 16, 16, 32
-> +};
-
-Why do you need tables? At the first glance these values can be easily
-calculated from indexes.
-
-...
-
-> +	rzv2m_csi_reg_write_bit(csi, CSI_CNT, CSI_CNT_CSIRST, assert);
-> +
-> +	if (assert) {
-
-	If (!assert)
-		return 0;
-
-> +		return readl_poll_timeout(csi->base + CSI_MODE, reg,
-> +					  !(reg & CSI_MODE_CSOT), 0,
-> +					  CSI_EN_DIS_TIMEOUT_US);
-> +	}
-> +
-> +	return 0;
-
-...
-
-> +	rzv2m_csi_reg_write_bit(csi, CSI_MODE, CSI_MODE_CSIE, enable);
-> +
-> +	if (!enable && wait)
-
-In the similar way.
-
-> +		return readl_poll_timeout(csi->base + CSI_MODE, reg,
-> +					  !(reg & CSI_MODE_CSOT), 0,
-> +					  CSI_EN_DIS_TIMEOUT_US);
-> +
-> +	return 0;
-
-...
-
-> +		for (i = 0; i < csi->words_to_transfer; i++)
-> +			writel(buf[i], csi->base + CSI_OFIFO);
-
-writesl()?
-
-...
-
-> +		for (i = 0; i < csi->words_to_transfer; i++)
-> +			buf[i] = (u16)readl(csi->base + CSI_IFIFO);
-
-readsl()?
-
-...
-
-> +		for (i = 0; i < csi->words_to_transfer; i++)
-> +			buf[i] = (u8)readl(csi->base + CSI_IFIFO);
-
-readsl()?
-
-...
-
-Yes, in read cases you would need carefully handle the buffer data.
-Or drop the idea if it looks too monsterous.
-
-...
-
-> +	ret = rzv2m_csi_wait_for_interrupt(csi, CSI_INT_TREND, CSI_CNT_TREND_E);
-
-> +
-
-Unneeded blank line.
-
-> +	if (ret == -ETIMEDOUT)
-> +		csi->errors |= TX_TIMEOUT_ERROR;
-
-...
-
-> +	struct rzv2m_csi_priv *csi = (struct rzv2m_csi_priv *)data;
-
-From/to void * does not need an explicit casting in C.
-
-...
-
-> +	/* Setup clock polarity and phase timing */
-> +	rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_CKP,
-> +				!(spi->mode & SPI_CPOL));
-> +	rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_DAP,
-> +				!(spi->mode & SPI_CPHA));
-
-Is it a must to do in a sequential writes?
-
-...
-
-> +	bool tx_completed = csi->txbuf ? false : true;
-> +	bool rx_completed = csi->rxbuf ? false : true;
-
-Ternaries are redundant in the above.
-
-...
-
-> +	controller->mode_bits = SPI_CPOL | SPI_CPHA | SPI_LSB_FIRST;
-
-SPI_MODE_X_MASK
-
-...
-
-> +	controller->dev.of_node = pdev->dev.of_node;
-
-device_set_node();
-
+diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+index f9682df1da61..5afc91d11eef 100644
+--- a/drivers/pci/controller/pcie-rcar-ep.c
++++ b/drivers/pci/controller/pcie-rcar-ep.c
+@@ -10,7 +10,7 @@
+ #include <linux/of_address.h>
+ #include <linux/of_platform.h>
+ #include <linux/pci.h>
+-#include <linux/pci-epc.h>
++#include <linux/pci-epf.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.40.1
 
