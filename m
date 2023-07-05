@@ -2,68 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15CD0747E5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 09:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC83748132
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 11:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231627AbjGEHg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 03:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
+        id S231628AbjGEJlX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 05:41:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbjGEHg4 (ORCPT
+        with ESMTP id S231267AbjGEJlW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 03:36:56 -0400
-Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D06E41
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 00:36:51 -0700 (PDT)
-Received: by mail.durme.pl (Postfix, from userid 1002)
-        id 21DA24D224; Wed,  5 Jul 2023 07:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
-        t=1688542583; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
-        h=Date:From:To:Subject:From;
-        b=BmmE2YgA+wknPhJ/RTUjIt54vCLkDy3MgycG923WNOKjtXdoEYjD3JumTKvykh58S
-         oAn9DJnJ1pjV+yoB1GzEFfo90zF6k6bpPp0g0yrucIC3C7uau7iwBFLBLQBkbM0JtW
-         eqIiOGlKB2reWh5RabacpjZyFqkSBxJwGlZSfhKfPzzUCHA9F/L4fvW9KEhBU9Pq/z
-         gJr00BANfCUfUghmFbxGRXeO8azLJpAsSf1W9PoYBGGv3c05b67UQruImQXddpsTa3
-         rNlg2Yre8UAhwLJj1JgT+pV+tKR+WjGRszTnSF/YT7Dw3WNmfsb4Hv/djPe/+3ibp6
-         zceOfhSKWMInA==
-Received: by mail.durme.pl for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 07:35:24 GMT
-Message-ID: <20230705064501-0.1.2w.clud.0.jnw67kla3y@durme.pl>
-Date:   Wed,  5 Jul 2023 07:35:24 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.durme.pl
+        Wed, 5 Jul 2023 05:41:22 -0400
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD6D1709
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 02:41:21 -0700 (PDT)
+Received: from localhost (88-113-24-87.elisa-laajakaista.fi [88.113.24.87])
+        by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+        id 16feab62-1b18-11ee-abf4-005056bdd08f;
+        Wed, 05 Jul 2023 12:41:18 +0300 (EEST)
+From:   andy.shevchenko@gmail.com
+Date:   Wed, 5 Jul 2023 12:41:17 +0300
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        stable <stable@kernel.org>
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Handle non-unique subnode names
+Message-ID: <ZKU6vQv_i0xQC6_D@surfacebook>
+References: <20230704111858.215278-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230704111858.215278-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Tue, Jul 04, 2023 at 12:18:58PM +0100, Biju Das kirjoitti:
+> Currently, sd1 and sd0 have unique subnode names 'sd1_mux' and 'sd0_mux'.
+> If we change it to a non-unique subnode name such as 'mux' this can lead
+> to the below conflicts as the RZ/G2L pin control driver considers only the
+> names of the subnodes.
+> 
+>    pinctrl-rzg2l 11030000.pinctrl: pin P47_0 already requested by 11c00000.mmc; cannot claim for 11c10000.mmc
+>    pinctrl-rzg2l 11030000.pinctrl: pin-376 (11c10000.mmc) status -22
+>    pinctrl-rzg2l 11030000.pinctrl: could not request pin 376 (P47_0) from group mux  on device pinctrl-rzg2l
+>    renesas_sdhi_internal_dmac 11c10000.mmc: Error applying setting, reverse things back
+> 
+> Fix this by constructing unique names from the node names of both the
+> pin control configuration node and its child node, where appropriate.
+> 
+> Based on the work done by Geert for RZ/V2M pinctrl driver.
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+...
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+> +	if (parent) {
+> +		name = devm_kasprintf(pctrl->dev, GFP_KERNEL, "%pOFn.%pOFn",
+> +				      parent, np);
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
+Is devm_*() usage appropriate here?
 
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+> +		if (!name) {
+> +			ret = -ENOMEM;
+> +			goto done;
+> +		}
+> +	} else {
+> +		name = np->name;
+> +	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Pozdrawiam
-Krystian Wieczorek
