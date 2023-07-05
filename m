@@ -2,40 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 650F6748F59
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 22:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2993748F5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 22:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234104AbjGEUsr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 16:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53010 "EHLO
+        id S232066AbjGEUtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 16:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234084AbjGEUsk (ORCPT
+        with ESMTP id S232180AbjGEUtG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 16:48:40 -0400
+        Wed, 5 Jul 2023 16:49:06 -0400
 Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E179919B;
-        Wed,  5 Jul 2023 13:48:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31A21BCC;
+        Wed,  5 Jul 2023 13:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1688589930;
+        s=mail; t=1688589933;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=u8odNBvwa1RbYmh0myTo3jtKpD3/rEw7Dp/gFhlC4/Y=;
-        b=Ot+tCvpcg8ue4zDTCiHBtC8l3m40/mszgWD/8ZebAgihkLFV972KdCTYcGXCtNQ0tfZdC1
-        JvfRyMZPQxs2tM1GDkL8VMbdL7twoZDkJ9Gj8+WwSPDDVKllEPtJFZ0rDfDXkXSRtxWA+Z
-        r52BdkiulFXCR0RKd0pRY2Sz+NQkyTg=
+        bh=RMl1CB7KdyEhHlpEHafgokzS+QMO3/fE/82QsValVgI=;
+        b=AF24zq2riPX6NCM1Kzapnb8KDCFgwaBgEYyWkKQAcPVGP8AQxMDYmwdDIyMB/NyBK6gaSv
+        6SzKs94K1iPDXWYg7DQV6svk/IikfIClckRuE03RTit9Gdr0CoKC/xJMpyVFaT+GDKB9A8
+        tm9dlVfqAnxv6zJQmYRJdug8zl5ZvfE=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Wolfram Sang <wsa@kernel.org>
 Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
         Paul Cercueil <paul@crapouillou.net>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 19/23] i2c: rcar: Remove #ifdef guards for PM related functions
-Date:   Wed,  5 Jul 2023 22:45:17 +0200
-Message-Id: <20230705204521.90050-1-paul@crapouillou.net>
-In-Reply-To: <20230705204314.89800-1-paul@crapouillou.net>
+Subject: [PATCH 21/23] i2c: sh-mobile: Remove #ifdef guards for PM related functions
+Date:   Wed,  5 Jul 2023 22:45:19 +0200
+Message-Id: <20230705204521.90050-3-paul@crapouillou.net>
+In-Reply-To: <20230705204521.90050-1-paul@crapouillou.net>
 References: <20230705204314.89800-1-paul@crapouillou.net>
+ <20230705204521.90050-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -63,43 +64,45 @@ Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/i2c/busses/i2c-rcar.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/i2c/busses/i2c-sh_mobile.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index 2d9c37410ebd..6b7f0f27d0c3 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -1169,7 +1169,6 @@ static void rcar_i2c_remove(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
+diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
+index 21717b943a9e..324407196a10 100644
+--- a/drivers/i2c/busses/i2c-sh_mobile.c
++++ b/drivers/i2c/busses/i2c-sh_mobile.c
+@@ -965,7 +965,6 @@ static void sh_mobile_i2c_remove(struct platform_device *dev)
+ 	pm_runtime_disable(&dev->dev);
  }
  
 -#ifdef CONFIG_PM_SLEEP
- static int rcar_i2c_suspend(struct device *dev)
+ static int sh_mobile_i2c_suspend(struct device *dev)
  {
- 	struct rcar_i2c_priv *priv = dev_get_drvdata(dev);
-@@ -1187,19 +1186,14 @@ static int rcar_i2c_resume(struct device *dev)
+ 	struct sh_mobile_i2c_data *pd = dev_get_drvdata(dev);
+@@ -983,20 +982,15 @@ static int sh_mobile_i2c_resume(struct device *dev)
  }
  
- static const struct dev_pm_ops rcar_i2c_pm_ops = {
--	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(rcar_i2c_suspend, rcar_i2c_resume)
-+	NOIRQ_SYSTEM_SLEEP_PM_OPS(rcar_i2c_suspend, rcar_i2c_resume)
+ static const struct dev_pm_ops sh_mobile_i2c_pm_ops = {
+-	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(sh_mobile_i2c_suspend,
+-				      sh_mobile_i2c_resume)
++	NOIRQ_SYSTEM_SLEEP_PM_OPS(sh_mobile_i2c_suspend,
++				  sh_mobile_i2c_resume)
  };
  
--#define DEV_PM_OPS (&rcar_i2c_pm_ops)
+-#define DEV_PM_OPS (&sh_mobile_i2c_pm_ops)
 -#else
 -#define DEV_PM_OPS NULL
 -#endif /* CONFIG_PM_SLEEP */
 -
- static struct platform_driver rcar_i2c_driver = {
- 	.driver	= {
- 		.name	= "i2c-rcar",
- 		.of_match_table = rcar_i2c_dt_ids,
+ static struct platform_driver sh_mobile_i2c_driver = {
+ 	.driver		= {
+ 		.name		= "i2c-sh_mobile",
+ 		.of_match_table = sh_mobile_i2c_dt_ids,
 -		.pm	= DEV_PM_OPS,
-+		.pm	= pm_sleep_ptr(&rcar_i2c_pm_ops),
++		.pm	= pm_sleep_ptr(&sh_mobile_i2c_pm_ops),
  	},
- 	.probe		= rcar_i2c_probe,
- 	.remove_new	= rcar_i2c_remove,
+ 	.probe		= sh_mobile_i2c_probe,
+ 	.remove_new	= sh_mobile_i2c_remove,
 -- 
 2.40.1
 
