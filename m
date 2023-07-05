@@ -2,84 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A61F674836F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 13:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D58CF74831A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 13:44:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231794AbjGELr5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 07:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
+        id S229772AbjGELoC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 07:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231872AbjGELrv (ORCPT
+        with ESMTP id S229775AbjGELoB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 07:47:51 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F215519AD;
-        Wed,  5 Jul 2023 04:47:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,183,1684767600"; 
-   d="scan'208";a="170615188"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Jul 2023 20:46:14 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 740D140029CA;
-        Wed,  5 Jul 2023 20:46:14 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, kishon@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, fancer.lancer@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v17 20/20] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Wed,  5 Jul 2023 20:42:06 +0900
-Message-Id: <20230705114206.3585188-21-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230705114206.3585188-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230705114206.3585188-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 5 Jul 2023 07:44:01 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A22E3
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 04:44:00 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579e212668fso9253627b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 04:44:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688557439; x=1691149439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3EJaBFspVw/Gmx4xCPGEJd+b95sH8ceYrLggUSXiVHE=;
+        b=iQKs13TDUpb3/x4tPZ4fqnI9uOF59Gesr6BCQDgsd4dvVWmbx02tWFkyidVQ/NQY29
+         aCpT0Yubwa3KO8+dxtCZPeg4zXacK5oVH5z7VKJZJdaZNW4f66WuEXwt8bJe1GCbNmGo
+         zmYhmJr564gsLgYdYIbrCq4FN2JSbdn6CyFq4ctY7q4HUAZAqh8d8wcHv6li9YzUvE93
+         myatCyb1+2h8X3xZwqWwf4MQSX1QhKSKGKtydBPrffqf4EqDxKA6q45gIHbyYnItfDjB
+         bYL4xM7gy58O68r1zCqJHszDh8fAMQHzn67zBITljj1c6B0ov4nJq90t8mX3Ebax1hRJ
+         gb9A==
+X-Gm-Message-State: ABy/qLabE9yXp5yw84HN6mLX81BmIyrPKY9zUnhjhCzR9FKUT0oZFqrA
+        zx4IIJIcqlsM0j81+e98KTngn1sXKGHmkQ==
+X-Google-Smtp-Source: APBJJlFkygL9w/yifhS5D+8YjaLvMt2MqAm3XfwQNLpxsru/LmAhNAAQTqnejL0gJFSCaAXuGJSH/Q==
+X-Received: by 2002:a0d:d855:0:b0:56c:f547:e058 with SMTP id a82-20020a0dd855000000b0056cf547e058mr1387352ywe.18.1688557438785;
+        Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id r206-20020a0de8d7000000b0057060bb2874sm6182776ywe.37.2023.07.05.04.43.58
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-bad0c4f6f50so924976276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 04:43:58 -0700 (PDT)
+X-Received: by 2002:a25:b30d:0:b0:c47:3430:bcb0 with SMTP id
+ l13-20020a25b30d000000b00c473430bcb0mr1458299ybj.26.1688557437971; Wed, 05
+ Jul 2023 04:43:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230703132343.353878-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230703132343.353878-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 5 Jul 2023 13:43:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWj1PTx3Fp=Wn0h+0hHRFRaTKCre=VMvCFCq=BE+HBE5Q@mail.gmail.com>
+Message-ID: <CAMuHMdWj1PTx3Fp=Wn0h+0hHRFRaTKCre=VMvCFCq=BE+HBE5Q@mail.gmail.com>
+Subject: Re: [PATCH] mfd: Add module build support for RZ/G2L MTU3a
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lee Jones <lee@kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+On Mon, Jul 3, 2023 at 3:23 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Modified Kconfig to enable module build support for RZ/G2L MTU3a driver.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+As drivers/mfd/rz-mtu3.c already has the needed MODULE_*() lines:
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ed4d0ef5e5c3..150083dab71a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -990,6 +991,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
+drivers/mfd/rz-mtu3.c:MODULE_DEVICE_TABLE(of, rz_mtu3_of_match);
+drivers/mfd/rz-mtu3.c:MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
+drivers/mfd/rz-mtu3.c:MODULE_DESCRIPTION("Renesas RZ/G2L MTU3a Core Driver");
+drivers/mfd/rz-mtu3.c:MODULE_LICENSE("GPL");
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
