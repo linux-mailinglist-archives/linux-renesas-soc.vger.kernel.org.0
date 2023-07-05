@@ -2,88 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E31B7481A9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 12:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D026748203
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 12:22:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbjGEKD5 convert rfc822-to-8bit (ORCPT
+        id S232105AbjGEKWR convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 06:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37834 "EHLO
+        Wed, 5 Jul 2023 06:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbjGEKD4 (ORCPT
+        with ESMTP id S231785AbjGEKWM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 06:03:56 -0400
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F888171B
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 03:03:55 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-c49777d6e7aso5309359276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 03:03:55 -0700 (PDT)
+        Wed, 5 Jul 2023 06:22:12 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE9C3E4B;
+        Wed,  5 Jul 2023 03:22:10 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-57688a146ecso76339227b3.2;
+        Wed, 05 Jul 2023 03:22:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688551434; x=1691143434;
+        d=1e100.net; s=20221208; t=1688552530; x=1691144530;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9Ogg5zI59E6yZudQGeFFtFrr7l8n3GPb1o1lP3daISQ=;
-        b=NwRYcT1VmlMvjSJaC9QaIbeALmX+eP6esL7RYVqhGaFLSlmRekPCJV59MGFHdw0W++
-         zH/kUEj8AeMvxU5wbf1a+gCb7C9A7bXnFRwy/c22BHjhGjsugEeqnHhmNXLEqxwPrP1x
-         b2DvuyLfoYpZcpirV0hKOZXyRaNwHjBtNgBWYl5WrHold0rRmjwfwAA8lQA9bISlzEh8
-         FlCAvOOcXaq8Pw2YpL4meDzU4Npwz3NcTqoxpakL70vm+aCI+CbgLLQiLhQt3SxorZqr
-         p554saQCHxVTJ4/dpSUoIGUMbBgzVSvIPMnRA70TZYvkg37mQzovkieawgZYy6aeltU6
-         d7SQ==
-X-Gm-Message-State: ABy/qLayXaZFXaDi1xtvCAc8Hs1CZvWM+e5tf0WC049MtcX/vS/DaILf
-        vkId2CD1s4K0Z4YRy1/M6ZT0tJtSpIhOGg==
-X-Google-Smtp-Source: APBJJlGUR0zukEvQ5LZkvuug9r4BSXq6ToNXlTRJUDEJaSs6EVls8A+9461Sq2e37awCy8MvzzhsjQ==
-X-Received: by 2002:a25:4295:0:b0:c41:4eee:b550 with SMTP id p143-20020a254295000000b00c414eeeb550mr16446197yba.47.1688551434613;
-        Wed, 05 Jul 2023 03:03:54 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id cf20-20020a056902181400b00ba773472647sm5017012ybb.19.2023.07.05.03.03.53
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=oVqNo9NfD1BhNNHR2l1XSvA0LBsrjzlbrFggZjhXXwI=;
+        b=kFcipCUGmnXWxtT677Sn4UqFXZqDWKykhXF0rS2eqhw9fGuNpEr7mYHyCh2x/Aqqv1
+         fmoPwYCy9Gd6VfyVwyxFitDuOkakVSqc+HEhmhk/mAv01W1xFjpnjTFuO3cldh0NCGjm
+         Gtrv6/hJkwCe3Zsp2nd8rBn+5ahr1v4fBDGDEh1+GAl1yR/0oaEVNUSn/mPzJJFmUBQI
+         /2RlR5edmqmJtsglBsi1v6j+rT0KAW85P8cXp9ZoR8lqojtmvmbIG7U7u4lEr21ksVz/
+         ctduPn0yMm86RKFW54GPb3cTrnISZKG8UBIm7hK2Bi0wrmanHGvM1xN5eR3k2No83iOz
+         gJEQ==
+X-Gm-Message-State: ABy/qLbb/ZgJAwRFvUM7d+FiSUKs50gUIq2FYDEztt9CKdsQUceSlZ7z
+        DjBgUL5mqHccOLf+j25Bobx4prO3EVYF/Q==
+X-Google-Smtp-Source: APBJJlEogiROXLlbBgCSr3kd1R+iNClQbD3ZxyRmt7SA6OsmXk3FInMu05ObBtxMG1wZBjLmfGhcOA==
+X-Received: by 2002:a0d:df51:0:b0:578:1937:868b with SMTP id i78-20020a0ddf51000000b005781937868bmr12418489ywe.11.1688552529946;
+        Wed, 05 Jul 2023 03:22:09 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id g72-20020a81524b000000b005772f3fc0acsm3382092ywb.44.2023.07.05.03.22.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jul 2023 03:03:53 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-c49777d6e7aso5309343276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 03:03:53 -0700 (PDT)
-X-Received: by 2002:a25:4295:0:b0:c41:4eee:b550 with SMTP id
- p143-20020a254295000000b00c414eeeb550mr16446147yba.47.1688551433397; Wed, 05
- Jul 2023 03:03:53 -0700 (PDT)
+        Wed, 05 Jul 2023 03:22:09 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-c5ce57836b8so1901076276.1;
+        Wed, 05 Jul 2023 03:22:09 -0700 (PDT)
+X-Received: by 2002:a25:4605:0:b0:bab:d9b1:ad63 with SMTP id
+ t5-20020a254605000000b00babd9b1ad63mr13755928yba.38.1688552529475; Wed, 05
+ Jul 2023 03:22:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703144108.413938-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230703144108.413938-1-biju.das.jz@bp.renesas.com>
+References: <20230623140948.384762-1-biju.das.jz@bp.renesas.com> <20230623140948.384762-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230623140948.384762-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jul 2023 12:03:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWsq2gTnXs-ON3V4qHyCMAo5YQv7LxzebrBwH085m7w=A@mail.gmail.com>
-Message-ID: <CAMuHMdWsq2gTnXs-ON3V4qHyCMAo5YQv7LxzebrBwH085m7w=A@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Enable PMIC RAA215300 and RTC ISL 1208 configs
+Date:   Wed, 5 Jul 2023 12:21:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX-LU_rafAU8TJggBNC4UYbrn3HTg9iKmHDJYmB3EEpcg@mail.gmail.com>
+Message-ID: <CAMuHMdX-LU_rafAU8TJggBNC4UYbrn3HTg9iKmHDJYmB3EEpcg@mail.gmail.com>
+Subject: Re: [PATCH v7 03/10] arm64: dts: renesas: rzg2l-smarc-som: Enable
+ PMIC and built-in RTC
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>, Mark Brown <broonie@kernel.org>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        linux-arm-kernel@lists.infradead.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 4:41 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable PMIC RAA215300 and ISL 1208 configs, as it is populated
-> on Renesas RZ/{G2L,V2L} SMARC EVKs.
+On Fri, Jun 23, 2023 at 4:10 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable PMIC RAA215300 and the built-in RTC on the RZ/{G2L,V2L} SMARC
+> EVK.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v6->v7:
+>  * No change.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.6.
