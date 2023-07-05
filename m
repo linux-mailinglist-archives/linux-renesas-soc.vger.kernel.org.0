@@ -2,66 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16914748147
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 11:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E31B7481A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 12:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231819AbjGEJpa convert rfc822-to-8bit (ORCPT
+        id S229850AbjGEKD5 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 05:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56796 "EHLO
+        Wed, 5 Jul 2023 06:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjGEJpY (ORCPT
+        with ESMTP id S231211AbjGEKD4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 05:45:24 -0400
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB6C71710;
-        Wed,  5 Jul 2023 02:45:23 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bfe6ea01ff5so7208366276.3;
-        Wed, 05 Jul 2023 02:45:23 -0700 (PDT)
+        Wed, 5 Jul 2023 06:03:56 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F888171B
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 03:03:55 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-c49777d6e7aso5309359276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 03:03:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688550323; x=1691142323;
+        d=1e100.net; s=20221208; t=1688551434; x=1691143434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QcR5Z7bqdCoMamCzC507RnWuaeZOVS+4BY7fdjteDuw=;
-        b=YueQH3ygL/3FlI/0jL3KQX5+oHT2QjyRzqAyJ0SAUZ0gzfAqB1s+AStGBOjLUUZ5qn
-         +9oiZ9fH9dkya9GSh1TEowARdJVLjWyr9Ypfmxs7Gm9Cbu3w43ojX646thyV4uxdkI5n
-         nZ8FF7gzfY1uYO0JrWtPlbkjx6lVH4K6n/6XWCldZM5ALiXOS7J5OSbyDpQJh4HM3GB4
-         ehWPyNr9OSpUVykU2vQ21+aESAXF4zW9hxrUrIdHnXqUihV6I0DQHmG1QhhL3QOylTHQ
-         H/bxXzI66jgkn5M/8L0ze+QHFUH9CFRPWkQkhCdEQpmfHKWMp7AUxxQ9OHw3bEHXiouo
-         6suQ==
-X-Gm-Message-State: ABy/qLYL5MU3kxCyONhtcBkLI5f8QP82xd1JnS0uSSU8C2U/RkuohSKQ
-        YN0GK89ZOw3LUj7QR8PCY3kkK/mXhASM2A==
-X-Google-Smtp-Source: APBJJlFKqCRgYSBH4qLJTRwHBlKGAQM4TrOtFCWFLecDqYiz9RHnvrs7+C22gKBVbyX+OvfI7Jdx9A==
-X-Received: by 2002:a25:14d7:0:b0:bd6:8725:2258 with SMTP id 206-20020a2514d7000000b00bd687252258mr12775230ybu.60.1688550322805;
-        Wed, 05 Jul 2023 02:45:22 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id ck8-20020a05690218c800b00c389676f3a2sm3142276ybb.40.2023.07.05.02.45.22
+        bh=9Ogg5zI59E6yZudQGeFFtFrr7l8n3GPb1o1lP3daISQ=;
+        b=NwRYcT1VmlMvjSJaC9QaIbeALmX+eP6esL7RYVqhGaFLSlmRekPCJV59MGFHdw0W++
+         zH/kUEj8AeMvxU5wbf1a+gCb7C9A7bXnFRwy/c22BHjhGjsugEeqnHhmNXLEqxwPrP1x
+         b2DvuyLfoYpZcpirV0hKOZXyRaNwHjBtNgBWYl5WrHold0rRmjwfwAA8lQA9bISlzEh8
+         FlCAvOOcXaq8Pw2YpL4meDzU4Npwz3NcTqoxpakL70vm+aCI+CbgLLQiLhQt3SxorZqr
+         p554saQCHxVTJ4/dpSUoIGUMbBgzVSvIPMnRA70TZYvkg37mQzovkieawgZYy6aeltU6
+         d7SQ==
+X-Gm-Message-State: ABy/qLayXaZFXaDi1xtvCAc8Hs1CZvWM+e5tf0WC049MtcX/vS/DaILf
+        vkId2CD1s4K0Z4YRy1/M6ZT0tJtSpIhOGg==
+X-Google-Smtp-Source: APBJJlGUR0zukEvQ5LZkvuug9r4BSXq6ToNXlTRJUDEJaSs6EVls8A+9461Sq2e37awCy8MvzzhsjQ==
+X-Received: by 2002:a25:4295:0:b0:c41:4eee:b550 with SMTP id p143-20020a254295000000b00c414eeeb550mr16446197yba.47.1688551434613;
+        Wed, 05 Jul 2023 03:03:54 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id cf20-20020a056902181400b00ba773472647sm5017012ybb.19.2023.07.05.03.03.53
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jul 2023 02:45:22 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bff27026cb0so7204643276.1;
-        Wed, 05 Jul 2023 02:45:22 -0700 (PDT)
-X-Received: by 2002:a25:344f:0:b0:c64:5116:795 with SMTP id
- b76-20020a25344f000000b00c6451160795mr405835yba.65.1688550322104; Wed, 05 Jul
- 2023 02:45:22 -0700 (PDT)
+        Wed, 05 Jul 2023 03:03:53 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-c49777d6e7aso5309343276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jul 2023 03:03:53 -0700 (PDT)
+X-Received: by 2002:a25:4295:0:b0:c41:4eee:b550 with SMTP id
+ p143-20020a254295000000b00c414eeeb550mr16446147yba.47.1688551433397; Wed, 05
+ Jul 2023 03:03:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <607bd6ab4905b0b1b119a06ef953fa1184505777.1688396717.git.geert+renesas@glider.be>
- <TYWPR01MB87755B1EEDEA676237009CF3C22EA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB87755B1EEDEA676237009CF3C22EA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+References: <20230703144108.413938-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230703144108.413938-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jul 2023 11:45:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWmgvzYeHfiK6ZJ8Z2iYe0HOG7udPuAGQ6VCmEk9qJK8w@mail.gmail.com>
-Message-ID: <CAMuHMdWmgvzYeHfiK6ZJ8Z2iYe0HOG7udPuAGQ6VCmEk9qJK8w@mail.gmail.com>
-Subject: Re: [PATCH/RFT] pinctrl: renesas: rzv2m: Handle non-unique subnode names
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+Date:   Wed, 5 Jul 2023 12:03:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWsq2gTnXs-ON3V4qHyCMAo5YQv7LxzebrBwH085m7w=A@mail.gmail.com>
+Message-ID: <CAMuHMdWsq2gTnXs-ON3V4qHyCMAo5YQv7LxzebrBwH085m7w=A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Enable PMIC RAA215300 and RTC ISL 1208 configs
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Mark Brown <broonie@kernel.org>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        linux-arm-kernel@lists.infradead.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -74,34 +79,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 4, 2023 at 5:48 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Subject: [PATCH/RFT] pinctrl: renesas: rzv2m: Handle non-unique subnode
-> > names
-> >
-> > The eMMC and SDHI pin control configuration nodes in DT have subnodes
-> > with the same names ("data" and "ctrl").  As the RZ/V2M pin control
-> > driver considers only the names of the subnodes, this leads to
-> > conflicts:
-> >
-> >     pinctrl-rzv2m b6250000.pinctrl: pin P8_2 already requested by
-> > 85000000.mmc; cannot claim for 85020000.mmc
-> >     pinctrl-rzv2m b6250000.pinctrl: pin-130 (85020000.mmc) status -22
-> >     renesas_sdhi_internal_dmac 85020000.mmc: Error applying setting, reverse
-> > things back
-> >
-> > Fix this by constructing unique names from the node names of both the
-> > pin control configuration node and its child node, where appropriate.
-> >
-> > Reported by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Fixes: 92a9b825257614af ("pinctrl: renesas: Add RZ/V2M pin and gpio
-> > controller driver")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Jul 3, 2023 at 4:41 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable PMIC RAA215300 and ISL 1208 configs, as it is populated
+> on Renesas RZ/{G2L,V2L} SMARC EVKs.
 >
-> Tested-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks, will queue as a fix in renesas-pinctrl-for-v6.5.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.6.
 
 Gr{oetje,eeting}s,
 
