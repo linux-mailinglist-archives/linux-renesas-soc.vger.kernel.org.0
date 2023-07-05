@@ -2,117 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA9F7486B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 16:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFFF67486F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 16:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232400AbjGEOor convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 10:44:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51332 "EHLO
+        id S232465AbjGEOyl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 10:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbjGEOon (ORCPT
+        with ESMTP id S232364AbjGEOyj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 10:44:43 -0400
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4376F1732;
-        Wed,  5 Jul 2023 07:44:35 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-579de633419so51264807b3.3;
-        Wed, 05 Jul 2023 07:44:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688568274; x=1691160274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EWhsoBY4ZccttVe0RJL2prtxvZyGTGD0cE8SvtOHPOE=;
-        b=Aiop42xfOwzW1TkiU9H/ZZ549zoxagLoLSg964c6Qt9vQ9Bd6qohbyf5Ss/+WaDr1f
-         veo+6Mjw15GPoRpt1vTUx/7DxZKfbCSFgu2kvr4Kb3dchdbsgx7ECGil2O6AWYzoE0gU
-         b/VYH6EGOJMx/CodJJAjjTWhmowG0e/GDXUOAiTrsXC44sR1fqum0z14gz++oNBuBWHs
-         s96D+JRI/JP50cs5i7sa8LI9JK9+gO+3lut4vFHkb+oM2aMxI+cJGbBRWSYhsY0mxMAb
-         BffXuYrK5zXqpN0yfEBjUimiliqFDPo2Pz0ISDHFFfBAhD2gBNk8aQJ4OGU+0+1GeIZD
-         b3Lg==
-X-Gm-Message-State: ABy/qLasnkZZ+bI5pexqHMQ9+9ppW8QkIkhRtDdsmklg+AKXLmJPiPms
-        N4WP5pnpHYxsfFql6bCdK7OSJP8wZ2SgZg==
-X-Google-Smtp-Source: APBJJlFNdaLQaBGS9PgCKNmp9q31rMh8+X/votnzZc1EdwBaILtFDsvAQ5SBBtolez8E4/FoEj/82g==
-X-Received: by 2002:a0d:c702:0:b0:55a:574f:327c with SMTP id j2-20020a0dc702000000b0055a574f327cmr17804265ywd.13.1688568274274;
-        Wed, 05 Jul 2023 07:44:34 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id t10-20020a81460a000000b0054bfc94a10dsm6179741ywa.47.2023.07.05.07.44.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jul 2023 07:44:33 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5774335bb2aso64288467b3.0;
-        Wed, 05 Jul 2023 07:44:33 -0700 (PDT)
-X-Received: by 2002:a25:1644:0:b0:bcc:c347:81de with SMTP id
- 65-20020a251644000000b00bccc34781demr11995065ybw.36.1688568273531; Wed, 05
- Jul 2023 07:44:33 -0700 (PDT)
+        Wed, 5 Jul 2023 10:54:39 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE2B19AF
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jul 2023 07:54:21 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5979:7b6f:39a:b9cb])
+        by baptiste.telenet-ops.be with bizsmtp
+        id HSuC2A00Z45Xpxs01SuCGm; Wed, 05 Jul 2023 16:54:13 +0200
+Received: from rox.of.borg ([192.168.97.57] helo=rox)
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qH3tR-000ccO-2b;
+        Wed, 05 Jul 2023 16:54:12 +0200
+Received: from geert by rox with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qH3tU-00Aw3y-K5;
+        Wed, 05 Jul 2023 16:54:12 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Dan Carpenter <dan.carpenter@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] lib: dhry: Fix sleeping allocations inside non-preemptable section
+Date:   Wed,  5 Jul 2023 16:54:04 +0200
+Message-Id: <bac6d517818a7cd8efe217c1ad649fffab9cc371.1688568764.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230705135159.33327-1-frank.li@vivo.com> <20230705135159.33327-8-frank.li@vivo.com>
-In-Reply-To: <20230705135159.33327-8-frank.li@vivo.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jul 2023 16:44:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
-Message-ID: <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
-Subject: Re: [PATCH 08/11] i2c: sh_mobile: Use devm_platform_get_and_ioremap_resource()
-To:     Yangtao Li <frank.li@vivo.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yangtao,
+The Smatch static checker reports the following warnings:
 
-On Wed, Jul 5, 2023 at 3:56 PM Yangtao Li <frank.li@vivo.com> wrote:
-> Convert platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
->
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+    lib/dhry_run.c:38 dhry_benchmark() warn: sleeping in atomic context
+    lib/dhry_run.c:43 dhry_benchmark() warn: sleeping in atomic context
 
-Thanks for your patch!
+Indeed, dhry() does sleeping allocations inside the non-preemptable
+section delimited by get_cpu()/put_cpu().
 
-> --- a/drivers/i2c/busses/i2c-sh_mobile.c
-> +++ b/drivers/i2c/busses/i2c-sh_mobile.c
-> @@ -893,12 +893,10 @@ static int sh_mobile_i2c_probe(struct platform_device *dev)
->         pd->dev = &dev->dev;
->         platform_set_drvdata(dev, pd);
->
-> -       res = platform_get_resource(dev, IORESOURCE_MEM, 0);
-> -
-> -       pd->res = res;
-> -       pd->reg = devm_ioremap_resource(&dev->dev, res);
-> +       pd->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+Fix this by using atomic allocations instead.
+Add error handling, as atomic these allocations may fail.
 
-"pdev" does not exist in this context.
-Please try to at least compile-test your patches before submitting them.
+Fixes: 13684e966d46283e ("lib: dhry: fix unstable smp_processor_id(_) usage")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/0469eb3a-02eb-4b41-b189-de20b931fa56@moroto.mountain
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Alternatively, memory (de)allocation could be spin off into their own
+functions, and called outside the non-preemptable section.  But that
+would be more intrusive.
+---
+ lib/dhry_1.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
->         if (IS_ERR(pd->reg))
->                 return PTR_ERR(pd->reg);
-> +       pd->res = res;
-
-While at it, you could get rid of "res", and replace it by "pd->res" in the
-above call to devm_platform_get_and_ioremap_resource().
-
->
->         ret = of_property_read_u32(dev->dev.of_node, "clock-frequency", &bus_speed);
->         pd->bus_speed = (ret || !bus_speed) ? I2C_MAX_STANDARD_MODE_FREQ : bus_speed;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/lib/dhry_1.c b/lib/dhry_1.c
+index 83247106824cc7f4..08edbbb19f573ff7 100644
+--- a/lib/dhry_1.c
++++ b/lib/dhry_1.c
+@@ -139,8 +139,15 @@ int dhry(int n)
+ 
+ 	/* Initializations */
+ 
+-	Next_Ptr_Glob = (Rec_Pointer)kzalloc(sizeof(Rec_Type), GFP_KERNEL);
+-	Ptr_Glob = (Rec_Pointer)kzalloc(sizeof(Rec_Type), GFP_KERNEL);
++	Next_Ptr_Glob = (Rec_Pointer)kzalloc(sizeof(Rec_Type), GFP_ATOMIC);
++	if (!Next_Ptr_Glob)
++		return -ENOMEM;
++
++	Ptr_Glob = (Rec_Pointer)kzalloc(sizeof(Rec_Type), GFP_ATOMIC);
++	if (!Ptr_Glob) {
++		kfree(Next_Ptr_Glob);
++		return -ENOMEM;
++	}
+ 
+ 	Ptr_Glob->Ptr_Comp = Next_Ptr_Glob;
+ 	Ptr_Glob->Discr = Ident_1;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
