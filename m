@@ -2,127 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8D6749049
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jul 2023 23:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D55749340
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jul 2023 03:44:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbjGEVxQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jul 2023 17:53:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45604 "EHLO
+        id S232283AbjGFBol (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jul 2023 21:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230178AbjGEVxP (ORCPT
+        with ESMTP id S229524AbjGFBol (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jul 2023 17:53:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D0D2199E;
-        Wed,  5 Jul 2023 14:53:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9DC4A615C5;
-        Wed,  5 Jul 2023 21:53:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19AAC433C7;
-        Wed,  5 Jul 2023 21:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688593993;
-        bh=3NpsjahjXhaBkqkTtFPAWiphr/jp7w5/2RAssyMlXws=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ZoBQUB6LU3VB4G/xRvhmaA6J+ToJoZ7QUNWY/FUn0JTgPuTOwpeTmQExYNbIiGwbb
-         OKi4Q9K0bGNaGC4K8Sp0aorFtWVZlH/A1loE7e8ShyJzGeglF3cMt4I3omAwVokCgK
-         khVjb3JorAV6tLMDlHPKIqw/lYyatjwRhT1jMWCdG4bJTWfiOGen1T6wu4F1Hlqxe9
-         AuEvBBgy6qcYie1Ln0Qrh4Q7jfc+fzmVajKPX9YPdiBwyKQF5d9s6ILRQBs7gYzC/d
-         qDw2iZI5vY8maifGxUHM4FO8nJg0AHxGshluFqJWbNPtMOrxHPpP6vny3U4RX2Ynb5
-         f4ZZ6MMQLRykQ==
-Message-ID: <ad4a422b-dfba-c09b-e6e0-d9016300e91e@kernel.org>
-Date:   Thu, 6 Jul 2023 06:53:10 +0900
+        Wed, 5 Jul 2023 21:44:41 -0400
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC2D122;
+        Wed,  5 Jul 2023 18:44:40 -0700 (PDT)
+Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-47e4d002e0bso71757e0c.0;
+        Wed, 05 Jul 2023 18:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688607878; x=1691199878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xmpRLvUfTZLqM9ZpnuCqFVQ58lvwiT3vQOsEDk5km+Q=;
+        b=I6YVQfUIj8lzt2fI/bCphHtVJqPy+UEQnTUAx680BWERE7g2HDrvFDgd/a05U30Ea/
+         //FQmw9oENUhQalC+JVW5IsBJO3zWCGDHtmIvqPRwtszxGTfUbuX5PEmYkXYl3MF3qbP
+         jPAzqiLwMD3mCLsZ1O8I7GJjzzJAAPVfOEvFvIIYEkIPTnIeJis8gPv/q0V9zrVq8VZ1
+         swNVPf8Z2FJNMaQ9AA/lQ5gaI+dsl5AcQ6/JYpiAZwBf+NFw1l3XkQPWFTkAtboToY46
+         cI97pCPU2ZLHWZKkcyy/WCNygcDDlq3AXEMbP/yE6pD3bCj4cs8vGyoJyI92+/bwfibZ
+         kE6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688607878; x=1691199878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xmpRLvUfTZLqM9ZpnuCqFVQ58lvwiT3vQOsEDk5km+Q=;
+        b=lShq5VHRFXgHBv1fAbshHIvAx07iiBFRk6FntAz0HyulGAxLJ7wbJa/LDOit59esNm
+         0ogumcqXzHQu8HPzAn4zlF9q7h/Fvx1x5p4ghhWoS3TY7TsY7GDhcioZ1MRo7Hs+VBEN
+         7IH2EsO0YW5I8AtRVaozeSvEgtTa6QGsDSHImC1BpEijgj5zpMP/WJ/arKcXlkqvFleM
+         6tj2+qk/3NnbSQDh2iEu1gQR6aDNVUUrYpF63hc84AvvLtwGRG7LmSD4walAKC8MbS/c
+         KbvM6xCgFkAlVasLnK8lE3DJFizE/SeXpfWok7P2NHpEy2JM5tjN4xR5inhdgGEpL+3b
+         WF0w==
+X-Gm-Message-State: ABy/qLbLRkPQZor+Bucci2XKvPwrYzjthInrqZOLDiZ/HQeCSnyllR5n
+        EpU9g6fI+cvj61PwZDoq+QQQNWwF2dSZHcH+tMo=
+X-Google-Smtp-Source: APBJJlE9Tu0UPfz3oRm/JkfoD6KT1ISbqyHuA8pDYvoTeRAt1Apah1qLl/63M9RDKErndIEIYOrPLXcxwsOk92fjuoo=
+X-Received: by 2002:a1f:ecc1:0:b0:471:1b41:dbb2 with SMTP id
+ k184-20020a1fecc1000000b004711b41dbb2mr696948vkh.10.1688607878592; Wed, 05
+ Jul 2023 18:44:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] PCI: rcar-ep: Include linux/pci-epf.h instead of
- linux/pci-epc.h
-To:     =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Alistair Francis <alistair23@gmail.com>
-Cc:     Alistair Francis <alistair@alistair23.me>,
+References: <20230705104824.174396-1-alistair@alistair23.me>
+ <7536d9a3-4738-2bc2-e33e-d93347893865@kernel.org> <20230705114443.GA3555378@rocinante>
+ <CAKmqyKMD99cDwfyY8BJ0_ExB+VXytT3VdeENwuw5ZyqAKq3X0w@mail.gmail.com> <20230705131546.GA333066@rocinante>
+In-Reply-To: <20230705131546.GA333066@rocinante>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Thu, 6 Jul 2023 11:44:12 +1000
+Message-ID: <CAKmqyKP_nBHHqgB5Zf1JcXNNMJCZ-nFsUmWYvcidB_u1Sqe7NQ@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar-ep: Include linux/pci-epf.h instead of linux/pci-epc.h
+To:     =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     Damien Le Moal <dlemoal@kernel.org>,
+        Alistair Francis <alistair@alistair23.me>,
         marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
         linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, lpieralisi@kernel.org,
         robh@kernel.org, bhelgaas@google.com
-References: <20230705104824.174396-1-alistair@alistair23.me>
- <7536d9a3-4738-2bc2-e33e-d93347893865@kernel.org>
- <20230705114443.GA3555378@rocinante>
- <CAKmqyKMD99cDwfyY8BJ0_ExB+VXytT3VdeENwuw5ZyqAKq3X0w@mail.gmail.com>
- <20230705131546.GA333066@rocinante>
-Content-Language: en-US
-From:   Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20230705131546.GA333066@rocinante>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/5/23 22:15, Krzysztof Wilczyński wrote:
+On Wed, Jul 5, 2023 at 11:15=E2=80=AFPM Krzysztof Wilczy=C5=84ski <kw@linux=
+.com> wrote:
+>
 > Hello,
-> 
->>>>> pci-epc.h doesn't define the members of the pci_epf_header struct, so
->>>>> trying to access them results in errors like this:
->>>>>
->>>>>     error: invalid use of undefined type 'struct pci_epf_header'
->>>>>       167 |                 val = hdr->vendorid;
->>>>>
->>>>> Instead let's include pci-epf.h which not only defines the
->>>>> pci_epf_header but also includes pci-epc.h.
->>>
->>> [...]
->>>> It is odd that the the build bot did not detect this...
->>>
->>> This is a bit of a surprise to me too, especially since none of the usual
->>> bots pick this up, and I can't seem to find such a failure in the nightly
->>> CI logs either.
->>>
->>> Alistair, how did you stumble into this issue?  Also, which version or
->>> a tree would that be?
->>
->> I was building the kernel with this defconfig [1] inside OpenEmbedded.
->> It was the 6.4-rc7 kernel, specifically this one [2].
->>
->> 1: https://github.com/damien-lemoal/buildroot/blob/rockpro64_ep_v23/board/pine64/rockpro64_ep/linux.config
->> 2: https://github.com/damien-lemoal/linux/tree/rockpro64_ep_v23
-> 
+>
+> > > > > pci-epc.h doesn't define the members of the pci_epf_header struct=
+, so
+> > > > > trying to access them results in errors like this:
+> > > > >
+> > > > >     error: invalid use of undefined type 'struct pci_epf_header'
+> > > > >       167 |                 val =3D hdr->vendorid;
+> > > > >
+> > > > > Instead let's include pci-epf.h which not only defines the
+> > > > > pci_epf_header but also includes pci-epc.h.
+> > >
+> > > [...]
+> > > > It is odd that the the build bot did not detect this...
+> > >
+> > > This is a bit of a surprise to me too, especially since none of the u=
+sual
+> > > bots pick this up, and I can't seem to find such a failure in the nig=
+htly
+> > > CI logs either.
+> > >
+> > > Alistair, how did you stumble into this issue?  Also, which version o=
+r
+> > > a tree would that be?
+> >
+> > I was building the kernel with this defconfig [1] inside OpenEmbedded.
+> > It was the 6.4-rc7 kernel, specifically this one [2].
+> >
+> > 1: https://github.com/damien-lemoal/buildroot/blob/rockpro64_ep_v23/boa=
+rd/pine64/rockpro64_ep/linux.config
+> > 2: https://github.com/damien-lemoal/linux/tree/rockpro64_ep_v23
+>
 > Thank you!  Much appreciated.
-> 
-> So, the vanilla kernel does not have headers arranged like this custom tree
+>
+> So, the vanilla kernel does not have headers arranged like this custom tr=
+ee
 > that Damien maintains for his own needs, per:
-> 
->   - https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/pci-epc.h
->   - https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/pci-epf.h
-> 
+>
+>   - https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/pci-ep=
+c.h
+>   - https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/pci-ep=
+f.h
+>
 > I suppose, there are some changes that break it for you, for example:
-> 
->   https://github.com/damien-lemoal/linux/commit/c7aa8ddd76a141b975a097532050a76c6a58c436
-
-Arg ! Yes, my bad ! The patches in this tree are a work-in-progress and I am
-waiting for 6.5-rc1 to rebase everything and re-testing before posting them.
-This is all tested using the rockchip-ep controller and I did not compile test
-other controllers. I will make sure to do that before posting :)
-
-Apologies for the noise.
-
-> 
+>
+>   https://github.com/damien-lemoal/linux/commit/c7aa8ddd76a141b975a097532=
+050a76c6a58c436
+>
 > So, I cannot take this patch as it would break vanilla kernel for us. :)
-> 
+
+Urgh! Sorry about that. I should have double checked if it was an
+issue upstream. Thanks for looking into it though
+
+Alistair
+
+>
 > Try building using vanilla kernel, and see if that helps.
-> 
-> 	Krzysztof
-
--- 
-Damien Le Moal
-Western Digital Research
-
+>
+>         Krzysztof
