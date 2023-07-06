@@ -2,214 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 595C774A109
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jul 2023 17:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB19D74A455
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jul 2023 21:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233785AbjGFPbH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jul 2023 11:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37966 "EHLO
+        id S231367AbjGFTV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jul 2023 15:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233772AbjGFPbF (ORCPT
+        with ESMTP id S230040AbjGFTVZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jul 2023 11:31:05 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C9F41FC8;
-        Thu,  6 Jul 2023 08:30:54 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,185,1684767600"; 
-   d="scan'208";a="167244436"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Jul 2023 00:30:53 +0900
-Received: from localhost.localdomain (unknown [10.226.93.34])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 732CF4006C96;
-        Fri,  7 Jul 2023 00:30:50 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] arm64: dts: renesas: rzg2l-smarc: Add support for enabling MTU3
-Date:   Thu,  6 Jul 2023 16:30:47 +0100
-Message-Id: <20230706153047.368993-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 6 Jul 2023 15:21:25 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48001BD3
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Jul 2023 12:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=1jKj
+        8xlJjrL7Y6d+UIx7pLRi8e65njUFajIyuSqjsRI=; b=A49pKfCR1YwszuZ2aVOY
+        lpewxm+/2nHsoMN8RiYmTNUKvi3ssR93nI4Ktme3NLiJ6AWQ+zcmiuc5cVa5nNyk
+        +BNAN3LHJB3IoymjMSWhskpF/+4EAaFcypPt6J8HnI9kq4wpbTbzyWXu+DETtST4
+        CLM60gSlcME/k/5Ws3/MOU3P099sAf9U6MIBG+5AuhczY2xnOVI97fnDZh0Jx9ua
+        K467cEAKO+0y3t38G5QCELzhvPRLWzwxfJrRRPpkDm7lP1KPPr2/LkmtQX40k2uv
+        0FNUzrejA6dW4QYbS/8V5go0zndzVBJuVsuuSTyTsVdnB1GY1QNYk8BiCILDqQv6
+        cw==
+Received: (qmail 2037485 invoked from network); 6 Jul 2023 21:21:18 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2023 21:21:18 +0200
+X-UD-Smtp-Session: l3s3148p1@kch4a9b/Lt0gAQnoAGA2AJvT6+/P6uKA
+Date:   Thu, 6 Jul 2023 21:21:14 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Yangtao Li <frank.li@vivo.com>, Andi Shyti <andi.shyti@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/11] i2c: sh_mobile: Use
+ devm_platform_get_and_ioremap_resource()
+Message-ID: <ZKcUKv8isBzgPRFk@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yangtao Li <frank.li@vivo.com>, Andi Shyti <andi.shyti@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230705135159.33327-1-frank.li@vivo.com>
+ <20230705135159.33327-8-frank.li@vivo.com>
+ <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.0 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7wyTI6ITA1MNV4aj"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for PMOD_MTU3 macro to enable MTU3 node on RZ/{G2,V2}L SMARC
-EVK.
 
-The MTU3a PWM pins are muxed with spi1 pins and counter external input
-phase clock pins are muxed with scif2 pins. Disable these IPs when
-PMOD_MTU3 macro is enabled.
+--7wyTI6ITA1MNV4aj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Apart from this, the counter Z phase clock signal is muxed with the
-SDHI1 cd signal. So disable SDHI1 IP, when the counter Z phase signal
-is enabled.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Renamed macro MTU3->PMOD_MTU3.
- * Moved macro "PMOD1_SER0" from common dts to board-specific dts
-   and added an error check as it is mutually exclusive with PMOD_MTU3
-   macro.
- * Moved mtu3-zphase-clk pin definition to rzg2l-smarc-pinfunction.dtsi.
- * Moved mtu3 node to common dts.
- * Moved macro definitions before dtsi includes, so that macros are
-   visible on these files.
----
- .../boot/dts/renesas/r9a07g044l2-smarc.dts    | 20 ++++++++++++++++
- .../boot/dts/renesas/r9a07g054l2-smarc.dts    | 20 ++++++++++++++++
- .../dts/renesas/rzg2l-smarc-pinfunction.dtsi  | 20 ++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 23 ++++++++++++++++---
- 4 files changed, 80 insertions(+), 3 deletions(-)
+> Please try to at least compile-test your patches before submitting them.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-index bc2af6c92ccd..7219e785b74c 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
-@@ -6,6 +6,26 @@
-  */
- 
- /dts-v1/;
-+
-+/* Enable SCIF2 (SER0) on PMOD1 (CN7) */
-+#define PMOD1_SER0	1
-+
-+/*
-+ * To enable MTU3a PWM on PMOD0,
-+ * Disable PMOD1_SER0 by setting "#define PMOD1_SER0	0" above and
-+ * enable PMOD_MTU3 by setting "#define PMOD_MTU3	1" below.
-+ */
-+#define PMOD_MTU3	0
-+
-+#if (PMOD_MTU3 && PMOD1_SER0)
-+#error "Cannot set as PMOD_MTU3 and PMOD1_SER0 are mutually exclusive "
-+#endif
-+
-+#define MTU3_COUNTER_Z_PHASE_SIGNAL	0
-+#if (!PMOD_MTU3 && MTU3_COUNTER_Z_PHASE_SIGNAL)
-+#error "Cannot set 1 to MTU3_COUNTER_Z_PHASE_SIGNAL as PMOD_MTU3=0"
-+#endif
-+
- #include "r9a07g044l2.dtsi"
- #include "rzg2l-smarc-som.dtsi"
- #include "rzg2l-smarc-pinfunction.dtsi"
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
-index 3d01a4cf0fbe..b3e6016880dd 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
-@@ -6,6 +6,26 @@
-  */
- 
- /dts-v1/;
-+
-+/* Enable SCIF2 (SER0) on PMOD1 (CN7) */
-+#define PMOD1_SER0	1
-+
-+/*
-+ * To enable MTU3a PWM on PMOD0,
-+ * Disable PMOD1_SER0 by setting "#define PMOD1_SER0	0" above and
-+ * enable PMOD_MTU3 by setting "#define PMOD_MTU3	1" below.
-+ */
-+#define PMOD_MTU3	0
-+
-+#if (PMOD_MTU3 && PMOD1_SER0)
-+#error "Cannot set as PMOD_MTU3 and PMOD1_SER0 are mutually exclusive "
-+#endif
-+
-+#define MTU3_COUNTER_Z_PHASE_SIGNAL	0
-+#if (!PMOD_MTU3 && MTU3_COUNTER_Z_PHASE_SIGNAL)
-+#error "Cannot set 1 to MTU3_COUNTER_Z_PHASE_SIGNAL as PMOD_MTU3=0"
-+#endif
-+
- #include "r9a07g054l2.dtsi"
- #include "rzg2l-smarc-som.dtsi"
- #include "rzg2l-smarc-pinfunction.dtsi"
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-index 9085d8c76ce1..18c526c7a4cf 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
-@@ -53,6 +53,26 @@ i2c3_pins: i2c3 {
- 			 <RZG2L_PORT_PINMUX(18, 1, 3)>; /* SCL */
- 	};
- 
-+	mtu3_pins: mtu3 {
-+		mtu3-ext-clk-input-pin {
-+			pinmux = <RZG2L_PORT_PINMUX(48, 0, 4)>, /* MTCLKA */
-+				 <RZG2L_PORT_PINMUX(48, 1, 4)>; /* MTCLKB */
-+		};
-+
-+		mtu3-pwm {
-+			pinmux = <RZG2L_PORT_PINMUX(44, 0, 4)>, /* MTIOC3A */
-+				 <RZG2L_PORT_PINMUX(44, 1, 4)>, /* MTIOC3B */
-+				 <RZG2L_PORT_PINMUX(44, 2, 4)>, /* MTIOC3C */
-+				 <RZG2L_PORT_PINMUX(44, 3, 4)>; /* MTIOC3D */
-+		};
-+
-+#if MTU3_COUNTER_Z_PHASE_SIGNAL
-+		mtu3-zphase-clk {
-+			pinmux = <RZG2L_PORT_PINMUX(19, 0, 3)>; /* MTIOC1A */
-+		};
-+#endif /* MTU3_COUNTER_Z_PHASE_SIGNAL */
-+	};
-+
- 	scif0_pins: scif0 {
- 		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index 2a158a954b2f..68eab8e26bf2 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -8,9 +8,6 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
--/* comment the #define statement to disable SCIF2 (SER0) on PMOD1 (CN7) */
--#define PMOD1_SER0	1
--
- / {
- 	aliases {
- 		serial1 = &scif2;
-@@ -115,6 +112,26 @@ wm8978: codec@1a {
- 	};
- };
- 
-+#if PMOD_MTU3
-+&mtu3 {
-+	pinctrl-0 = <&mtu3_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+#if MTU3_COUNTER_Z_PHASE_SIGNAL
-+/* SDHI cd pin is muxed with counter Z phase signal */
-+&sdhi1 {
-+	status = "disabled";
-+};
-+#endif /* MTU3_COUNTER_Z_PHASE_SIGNAL */
-+
-+&spi1 {
-+	status = "disabled";
-+};
-+#endif /* PMOD_MTU3 */
-+
- /*
-  * To enable SCIF2 (SER0) on PMOD1 (CN7)
-  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
--- 
-2.25.1
+Yes and no. Not "please try" but "please do". Rejecting this series
+until it has been build tested.
 
+
+--7wyTI6ITA1MNV4aj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSnFCcACgkQFA3kzBSg
+KbYxbhAAoPURiCuIwLEUFVbfsE9pd24PMV3hNuDlovUi6FXkUOWyNq65N1lgFWIY
+SVF5Rgb9Cb5LWu5sNW9eX0Mzyt3vvuzfZovxQc3z1smduT3x7DkgWVhhOzpHzwAr
+I6TewQ5x2jI28N2HNc8q+Ccvx7RoBasXrD3hM3OFL7N8di9gJI9EU/755Zisva1v
+vPPore1ehZSqQPf2TA/o/NpjueWb60wPGhgjlOseYPn1uCpvSCutT2v/jkp+Qni0
+QuPNOeAZYftmJJ5IzYEng5u5ML/WOgxkwL/dgvB0SV7QBxRg7r0QA8lLPDYYJp9o
+Xi6XmygbWt9bMHDKduwDRw6b7wmP0V+v7LuGMbWlsJbRbRSA4TjxG8jN8Sf4Um+u
+fDJWomC0qsblsSWJBonjdeHCTexQ/U/Gra01UZaxjzFcuakAsbA/mmg6vSutkp6z
+p4Ifc7/fJXXQFfwub6ls7Oe0GnHbLOyQBFgI5X92cn1bdwI8MRrgLh5rCZ+KCKz5
+z/HQznndsRdjR9pboOU/5NKVYEy6e2y8veTDou1zGaZSgc5y3F+Pwmj1DuoSWsV5
+q4RWqF9d0eSGm7D0F0D/gjI1Ml4yKP+3qe/R+dCFE9ocZf6hb/1fbBnqkApD5Iis
+HPf9yAH7JljaodIEZ8JMczKOlIQjkUcWQ91DsfTM3LjzaW26vyQ=
+=kUOf
+-----END PGP SIGNATURE-----
+
+--7wyTI6ITA1MNV4aj--
