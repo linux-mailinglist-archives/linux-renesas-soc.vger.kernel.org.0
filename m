@@ -2,94 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB19D74A455
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jul 2023 21:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6F7774A5AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jul 2023 23:11:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbjGFTV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jul 2023 15:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
+        id S231786AbjGFVLB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jul 2023 17:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbjGFTVZ (ORCPT
+        with ESMTP id S231820AbjGFVKj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jul 2023 15:21:25 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48001BD3
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Jul 2023 12:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=1jKj
-        8xlJjrL7Y6d+UIx7pLRi8e65njUFajIyuSqjsRI=; b=A49pKfCR1YwszuZ2aVOY
-        lpewxm+/2nHsoMN8RiYmTNUKvi3ssR93nI4Ktme3NLiJ6AWQ+zcmiuc5cVa5nNyk
-        +BNAN3LHJB3IoymjMSWhskpF/+4EAaFcypPt6J8HnI9kq4wpbTbzyWXu+DETtST4
-        CLM60gSlcME/k/5Ws3/MOU3P099sAf9U6MIBG+5AuhczY2xnOVI97fnDZh0Jx9ua
-        K467cEAKO+0y3t38G5QCELzhvPRLWzwxfJrRRPpkDm7lP1KPPr2/LkmtQX40k2uv
-        0FNUzrejA6dW4QYbS/8V5go0zndzVBJuVsuuSTyTsVdnB1GY1QNYk8BiCILDqQv6
-        cw==
-Received: (qmail 2037485 invoked from network); 6 Jul 2023 21:21:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2023 21:21:18 +0200
-X-UD-Smtp-Session: l3s3148p1@kch4a9b/Lt0gAQnoAGA2AJvT6+/P6uKA
-Date:   Thu, 6 Jul 2023 21:21:14 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yangtao Li <frank.li@vivo.com>, Andi Shyti <andi.shyti@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/11] i2c: sh_mobile: Use
- devm_platform_get_and_ioremap_resource()
-Message-ID: <ZKcUKv8isBzgPRFk@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yangtao Li <frank.li@vivo.com>, Andi Shyti <andi.shyti@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230705135159.33327-1-frank.li@vivo.com>
- <20230705135159.33327-8-frank.li@vivo.com>
- <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
+        Thu, 6 Jul 2023 17:10:39 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E9C619A7;
+        Thu,  6 Jul 2023 14:10:38 -0700 (PDT)
+Received: from [192.168.1.103] (178.176.74.43) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 7 Jul 2023
+ 00:10:31 +0300
+Subject: Re: [PATCH 5/8] ata: sata_rcar: Convert to
+ devm_platform_ioremap_resource()
+To:     Yangtao Li <frank.li@vivo.com>, Damien Le Moal <dlemoal@kernel.org>
+CC:     <linux-ide@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230706124239.23366-1-frank.li@vivo.com>
+ <20230706124239.23366-5-frank.li@vivo.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <845da26d-0369-ba58-fb53-d37e6eac39a3@omp.ru>
+Date:   Fri, 7 Jul 2023 00:10:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7wyTI6ITA1MNV4aj"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXCibwJ0jBYu3Cr3-hW-GykQ7UANeKo=qjJAbQTtmah3A@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230706124239.23366-5-frank.li@vivo.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.74.43]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/06/2023 20:37:23
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 178485 [Jul 06 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 520 520 ccb018a655251011855942a2571029252d3d69a2
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.43 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.43 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: 178.176.74.43:7.7.3,7.1.2,7.4.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;git.kernel.org:7.1.1
+X-KSE-AntiSpam-Info: {iprep_blacklist}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.43
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 07/06/2023 20:41:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 7/6/2023 6:28:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 7/6/23 3:42 PM, Yangtao Li wrote:
 
---7wyTI6ITA1MNV4aj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Use devm_platform_ioremap_resource() to simplify code.
+> 
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> ---
+>  drivers/ata/sata_rcar.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
+> index 34790f15c1b8..63f8337c2a98 100644
+> --- a/drivers/ata/sata_rcar.c
+> +++ b/drivers/ata/sata_rcar.c
+> @@ -861,15 +861,11 @@ static int sata_rcar_probe(struct platform_device *pdev)
+>  	struct device *dev = &pdev->dev;
+>  	struct ata_host *host;
+>  	struct sata_rcar_priv *priv;
+> -	struct resource *mem;
+> -	int irq;
+> -	int ret = 0;
+> +	int irq, ret;
+
+   This unneeded init of ret should be in a separate patch.
+
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0)
+>  		return irq;
+> -	if (!irq)
+> -		return -EINVAL;
+
+   This is a separate issue too. I thought I've removed this myself
+but apparently not, the commit [1] took shamefully long time to merge... :-(
+
+[...]
+> @@ -890,8 +886,7 @@ static int sata_rcar_probe(struct platform_device *pdev)
+>  
+>  	host->private_data = priv;
+>  
+> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	priv->base = devm_ioremap_resource(dev, mem);
+> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(priv->base)) {
+>  		ret = PTR_ERR(priv->base);
+>  		goto err_pm_put;
+
+   The (documented) change looks OK.
 
 
-> Please try to at least compile-test your patches before submitting them.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ce753ad1549cbe9ccaea4c06a1f5fa47432c8289
 
-Yes and no. Not "please try" but "please do". Rejecting this series
-until it has been build tested.
-
-
---7wyTI6ITA1MNV4aj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSnFCcACgkQFA3kzBSg
-KbYxbhAAoPURiCuIwLEUFVbfsE9pd24PMV3hNuDlovUi6FXkUOWyNq65N1lgFWIY
-SVF5Rgb9Cb5LWu5sNW9eX0Mzyt3vvuzfZovxQc3z1smduT3x7DkgWVhhOzpHzwAr
-I6TewQ5x2jI28N2HNc8q+Ccvx7RoBasXrD3hM3OFL7N8di9gJI9EU/755Zisva1v
-vPPore1ehZSqQPf2TA/o/NpjueWb60wPGhgjlOseYPn1uCpvSCutT2v/jkp+Qni0
-QuPNOeAZYftmJJ5IzYEng5u5ML/WOgxkwL/dgvB0SV7QBxRg7r0QA8lLPDYYJp9o
-Xi6XmygbWt9bMHDKduwDRw6b7wmP0V+v7LuGMbWlsJbRbRSA4TjxG8jN8Sf4Um+u
-fDJWomC0qsblsSWJBonjdeHCTexQ/U/Gra01UZaxjzFcuakAsbA/mmg6vSutkp6z
-p4Ifc7/fJXXQFfwub6ls7Oe0GnHbLOyQBFgI5X92cn1bdwI8MRrgLh5rCZ+KCKz5
-z/HQznndsRdjR9pboOU/5NKVYEy6e2y8veTDou1zGaZSgc5y3F+Pwmj1DuoSWsV5
-q4RWqF9d0eSGm7D0F0D/gjI1Ml4yKP+3qe/R+dCFE9ocZf6hb/1fbBnqkApD5Iis
-HPf9yAH7JljaodIEZ8JMczKOlIQjkUcWQ91DsfTM3LjzaW26vyQ=
-=kUOf
------END PGP SIGNATURE-----
-
---7wyTI6ITA1MNV4aj--
+MBR, Seregy
