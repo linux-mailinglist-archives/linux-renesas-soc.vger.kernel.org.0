@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0703D74B6E3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 21:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4892474B6EC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 21:10:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232897AbjGGTHE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jul 2023 15:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        id S229955AbjGGTK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jul 2023 15:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232889AbjGGTHE (ORCPT
+        with ESMTP id S229611AbjGGTK2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jul 2023 15:07:04 -0400
+        Fri, 7 Jul 2023 15:10:28 -0400
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E5D2727;
-        Fri,  7 Jul 2023 12:06:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A9E118;
+        Fri,  7 Jul 2023 12:10:27 -0700 (PDT)
 Received: from [192.168.1.103] (31.173.86.230) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 7 Jul 2023
- 22:06:42 +0300
-Subject: Re: [PATCH v2 06/11] ata: sata_rcar: Remove unnecessary return value
- check
+ 22:10:25 +0300
+Subject: Re: [PATCH v2 07/11] ata: sata_rcar: Convert to
+ devm_platform_ioremap_resource()
 To:     Yangtao Li <frank.li@vivo.com>, Damien Le Moal <dlemoal@kernel.org>
 CC:     <linux-ide@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20230707095513.64224-1-frank.li@vivo.com>
- <20230707095513.64224-6-frank.li@vivo.com>
+ <20230707095513.64224-7-frank.li@vivo.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <67fde0cc-4136-f4bb-5800-bd88e7128ead@omp.ru>
-Date:   Fri, 7 Jul 2023 22:06:41 +0300
+Message-ID: <8c74bd12-121f-eb56-9e6a-d09cb0dd1fcf@omp.ru>
+Date:   Fri, 7 Jul 2023 22:10:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20230707095513.64224-6-frank.li@vivo.com>
+In-Reply-To: <20230707095513.64224-7-frank.li@vivo.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -51,9 +51,8 @@ X-KSE-AntiSpam-Info: Version: 5.9.59.0
 X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
 X-KSE-AntiSpam-Info: LuaCore: 520 520 ccb018a655251011855942a2571029252d3d69a2
 X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
 X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;git.kernel.org:7.1.1
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
 X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.230
 X-KSE-AntiSpam-Info: Rate: 0
 X-KSE-AntiSpam-Info: Status: not_detected
@@ -80,17 +79,9 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 7/7/23 12:55 PM, Yangtao Li wrote:
 
-> As commit a85a6c86c25b ("driver core: platform: Clarify that IRQ 0
-> is invalid") says, there is no need to check if the platform_get_irq
-> return value is 0. Let's remove it.
-
-   No, that patch still allows returning IRQ0, actually you need:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ce753ad1549cbe9ccaea4c06a1f5fa47432c8289
-
+> Use devm_platform_ioremap_resource() to simplify code.
+> 
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
-
-   Aside from that:
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
