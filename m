@@ -2,43 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 403E374B4BD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 17:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E719574B6DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 21:04:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbjGGP65 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jul 2023 11:58:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
+        id S232662AbjGGTE0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jul 2023 15:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjGGP64 (ORCPT
+        with ESMTP id S232548AbjGGTEZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jul 2023 11:58:56 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DADA51BC3;
-        Fri,  7 Jul 2023 08:58:54 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,189,1684767600"; 
-   d="scan'208";a="171099728"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Jul 2023 00:58:54 +0900
-Received: from localhost.localdomain (unknown [10.226.92.190])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7C4104014CD9;
-        Sat,  8 Jul 2023 00:58:51 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Add support for enabling MTU3
-Date:   Fri,  7 Jul 2023 16:58:49 +0100
-Message-Id: <20230707155849.86649-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 7 Jul 2023 15:04:25 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F7362704;
+        Fri,  7 Jul 2023 12:03:51 -0700 (PDT)
+Received: from [192.168.1.103] (31.173.86.230) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 7 Jul 2023
+ 22:02:48 +0300
+Subject: Re: [PATCH v2 05/11] ata: sata_rcar: drop useless initializer
+To:     Yangtao Li <frank.li@vivo.com>, Damien Le Moal <dlemoal@kernel.org>
+CC:     <linux-ide@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230707095513.64224-1-frank.li@vivo.com>
+ <20230707095513.64224-5-frank.li@vivo.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <ed6a9805-3d86-ac24-bb82-ba5949c9f510@omp.ru>
+Date:   Fri, 7 Jul 2023 22:02:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.0 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+In-Reply-To: <20230707095513.64224-5-frank.li@vivo.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.86.230]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/07/2023 18:41:49
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 178491 [Jul 07 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 520 520 ccb018a655251011855942a2571029252d3d69a2
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.230 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.230 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;31.173.86.230:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.230
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 07/07/2023 18:48:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 7/7/2023 3:11:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,94 +83,18 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for PMOD_MTU3 macro to enable MTU3 node on RZ/G2LC SMARC
-EVK.
+On 7/7/23 12:55 PM, Yangtao Li wrote:
 
-The MTU3a PWM pins on PMOD0 are muxed with SPI1. Disable SPI1, when
-PMOD_MTU3 macro is enabled.
+> There is no need to initialize the variable ret, let's drop it.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts  | 12 ++++++++++++
- .../boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi |  9 +++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi      | 14 +++++++++++++-
- 3 files changed, 34 insertions(+), 1 deletion(-)
+   Drop what, the variable? :-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-index f67a6f125d9c..0b90367b6d1e 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -35,6 +35,18 @@
- /* comment the #define statement to disable SCIF1 (SER0) on PMOD1 (CN7) */
- #define PMOD1_SER0	1
- 
-+/*
-+ * To enable MTU3a PWM on PMOD0,
-+ *  - Set DIP-Switch SW1-4 to Off position.
-+ *  - Set SW_RSPI_CAN macro to 0.
-+ *  - Set PMOD_MTU3 macro to 1.
-+ */
-+#define PMOD_MTU3	0
-+
-+#if (PMOD_MTU3 && SW_RSPI_CAN)
-+#error "Cannot set as both PMOD_MTU3 and SW_RSPI_CAN are mutually exclusive"
-+#endif
-+
- #include "r9a07g044c2.dtsi"
- #include "rzg2lc-smarc-som.dtsi"
- #include "rzg2lc-smarc.dtsi"
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-index a78a8def363e..92c64d58349f 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-@@ -50,6 +50,15 @@ i2c2_pins: i2c2 {
- 			 <RZG2L_PORT_PINMUX(42, 4, 1)>; /* SCL */
- 	};
- 
-+	mtu3_pins: mtu3 {
-+		mtu3-pwm {
-+			pinmux = <RZG2L_PORT_PINMUX(44, 0, 4)>, /* MTIOC3A */
-+				 <RZG2L_PORT_PINMUX(44, 1, 4)>, /* MTIOC3B */
-+				 <RZG2L_PORT_PINMUX(44, 2, 4)>, /* MTIOC3C */
-+				 <RZG2L_PORT_PINMUX(44, 3, 4)>; /* MTIOC3D */
-+		};
-+	};
-+
- 	scif0_pins: scif0 {
- 		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index 6818fd49b2be..83fce96a2575 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -11,7 +11,6 @@
- #include "rzg2lc-smarc-pinfunction.dtsi"
- #include "rz-smarc-common.dtsi"
- 
--
- / {
- 	aliases {
- 		serial1 = &scif1;
-@@ -129,6 +128,19 @@ wm8978: codec@1a {
- 	};
- };
- 
-+#if PMOD_MTU3
-+&mtu3 {
-+	pinctrl-0 = <&mtu3_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&spi1 {
-+	status = "disabled";
-+};
-+#endif
-+
- /*
-  * To enable SCIF1 (SER0) on PMOD1 (CN7), On connector board
-  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
--- 
-2.25.1
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
 
+   Aside from that:
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
