@@ -2,89 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4892474B6EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 21:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D61EA74B7AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jul 2023 22:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229955AbjGGTK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jul 2023 15:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54406 "EHLO
+        id S229643AbjGGUOF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jul 2023 16:14:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbjGGTK2 (ORCPT
+        with ESMTP id S229904AbjGGUOE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jul 2023 15:10:28 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A9E118;
-        Fri,  7 Jul 2023 12:10:27 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.86.230) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 7 Jul 2023
- 22:10:25 +0300
-Subject: Re: [PATCH v2 07/11] ata: sata_rcar: Convert to
- devm_platform_ioremap_resource()
-To:     Yangtao Li <frank.li@vivo.com>, Damien Le Moal <dlemoal@kernel.org>
-CC:     <linux-ide@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20230707095513.64224-1-frank.li@vivo.com>
- <20230707095513.64224-7-frank.li@vivo.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <8c74bd12-121f-eb56-9e6a-d09cb0dd1fcf@omp.ru>
-Date:   Fri, 7 Jul 2023 22:10:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Fri, 7 Jul 2023 16:14:04 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Jul 2023 13:14:03 PDT
+Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B4B49DD
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jul 2023 13:14:03 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id HrioqFRE4feeSHrioqfk6G; Fri, 07 Jul 2023 22:06:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1688760391;
+        bh=NNP4iq0IL2DpVEo7mW+DHCzkYdUL71H8TAMN9x7jU5Y=;
+        h=From:To:Cc:Subject:Date;
+        b=qxKDn1rd6aRJntv6HEybP95UQQBUkoBRs3iYH63Tb/bqRsbmkhMY3DuIs7ihp/fYV
+         LReyOPV1nl4Fos2uTIwXc6P9DwQ+mFRa9IsfNGY+kY3Cbitk+1LSNZZxph7mP6VKkG
+         0Yt1IxbEPqIJZ76+naNI55mNwrGeJl25YfnKnoRf0JUQ03dER75D/FX2SMwmBUGwth
+         WKcEKGP13mHGDmgU/u5b/VZwxljnKm8KSLgwGuObCniun8L/i2RH/pfl7cpUXyfyH/
+         NKkLfi/PwjaNge1f0Yf7mspm3yBMfmdJc++fI7JzLlztxb/ThdE4xsZx32CNH09Nrh
+         8w9dwD5L4hKYA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 07 Jul 2023 22:06:31 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH] clk: renesas: rzg2l: Simplify .determine_rate()
+Date:   Fri,  7 Jul 2023 22:06:27 +0200
+Message-Id: <fed02e0325275df84e2d76f8c481e40e7023cbd9.1688760372.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20230707095513.64224-7-frank.li@vivo.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.86.230]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/07/2023 18:41:49
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 178491 [Jul 07 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 520 520 ccb018a655251011855942a2571029252d3d69a2
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.230
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/07/2023 18:48:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/7/2023 3:11:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/7/23 12:55 PM, Yangtao Li wrote:
+rzg2l_cpg_sd_clk_mux_determine_rate() is the same as
+__clk_mux_determine_rate_closest(), so use the latter to save some LoC.
 
-> Use devm_platform_ioremap_resource() to simplify code.
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/clk/renesas/rzg2l-cpg.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index bc623515ad84..255920c064d9 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -182,12 +182,6 @@ rzg2l_cpg_mux_clk_register(const struct cpg_core_clk *core,
+ 	return clk_hw->clk;
+ }
+ 
+-static int rzg2l_cpg_sd_clk_mux_determine_rate(struct clk_hw *hw,
+-					       struct clk_rate_request *req)
+-{
+-	return clk_mux_determine_rate_flags(hw, req, CLK_MUX_ROUND_CLOSEST);
+-}
+-
+ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+ {
+ 	struct sd_hw_data *hwdata = to_sd_hw_data(hw);
+@@ -250,7 +244,7 @@ static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
+ }
+ 
+ static const struct clk_ops rzg2l_cpg_sd_clk_mux_ops = {
+-	.determine_rate = rzg2l_cpg_sd_clk_mux_determine_rate,
++	.determine_rate = __clk_mux_determine_rate_closest,
+ 	.set_parent	= rzg2l_cpg_sd_clk_mux_set_parent,
+ 	.get_parent	= rzg2l_cpg_sd_clk_mux_get_parent,
+ };
+-- 
+2.34.1
 
-[...]
-
-MBR, Sergey
