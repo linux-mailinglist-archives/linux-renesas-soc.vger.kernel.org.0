@@ -2,66 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0135974D504
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 14:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B42C74D55B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 14:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbjGJMNy convert rfc822-to-8bit (ORCPT
+        id S231560AbjGJM11 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jul 2023 08:13:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
+        Mon, 10 Jul 2023 08:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbjGJMNx (ORCPT
+        with ESMTP id S229848AbjGJM10 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jul 2023 08:13:53 -0400
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83490F4;
-        Mon, 10 Jul 2023 05:13:52 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-c7a5600d04dso2472999276.3;
-        Mon, 10 Jul 2023 05:13:52 -0700 (PDT)
+        Mon, 10 Jul 2023 08:27:26 -0400
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E73B1;
+        Mon, 10 Jul 2023 05:27:25 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-c15a5ed884dso5189995276.2;
+        Mon, 10 Jul 2023 05:27:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688991231; x=1691583231;
+        d=1e100.net; s=20221208; t=1688992044; x=1691584044;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oW3Yv1COYJ7dhjbm4aaIDwp8Cshq4Y+LsVT2kg49G+0=;
-        b=KmCb9Phl5IUyTgwxf9poE6z0SEumcF0CQxQ/xcpx+CMJheQxQWQtDTEMAOkZWaJA83
-         y1KojSpK5xqugrSu+CxfAl1Cua3bPP8+N18XswRLgJFXKiKZcvEbQSlvVIVzQqqoUiJW
-         Z7B86LMZpMcV4E0iuthg3bqOFEHMehMNUXHurI2D3uNwuF/XpRUpe2y5lXt5O+V+HsXt
-         rtkj2kbuSUIC97WwVIxp3fv8AFEY1Hep/nkt4kNPh2L6fddqLbATyj15PdDYiYeobgtg
-         cS0dDrXAFQJKM4w/x9EZ1nGF6wQ3veFdKnqapbUj6huKQh2k9YvFGw5YGxIrItA4UZeK
-         u3nA==
-X-Gm-Message-State: ABy/qLY6nYgAUXJ9noa3/Js7/0Z+5RRSJgWfQELRDXhgm3FQ317DsGsT
-        yajlEAIJjy39aIPLxDqetnZTCE4oz7CKNA==
-X-Google-Smtp-Source: APBJJlHI70eiVlahi2VYYdWt2neLmQwNfqddUgAfbcaSUhewyBRJtjRcu7pnmixj5LUP2PmjKR7sfg==
-X-Received: by 2002:a25:2d1f:0:b0:c7b:f6cd:c3fe with SMTP id t31-20020a252d1f000000b00c7bf6cdc3femr3892616ybt.27.1688991231423;
-        Mon, 10 Jul 2023 05:13:51 -0700 (PDT)
+        bh=3C5/GxdOTSlGprN5fpWAYyQzVkP9RkeiGRt79KEKJV0=;
+        b=DxbA6SuYGMgWLuYHx95pmcwlkZbqbaRP7MARpwj7evY+FvPMvXXHMwEFtjAHPG1QJJ
+         uw/NUTfMquBhJG0YOOz5Nk538V3L+grqawIWLquLTY1yMoNRGfWXn4hbWRf3hR2hnRRT
+         tfjGCWXke9jrnTLlnwDIce3M8G2hfotA6bMwB8t+aacIwyW1sCwoUzu7+FiRzwpujNvw
+         YCQD630frD4SHmIvdW2xBNzpKFEmlbDXcS4f6o/Vl8AaQtYiAa2pP1LdtyXlshG3KOdd
+         +PcVYGkQmFNuARYSzma/OhC5cMobCcOxXidPMUgT2J9dpK+/0HE6JTlhI9NoXb4j99Rw
+         jFsg==
+X-Gm-Message-State: ABy/qLbLNIdbf4l5T4+9bhD2kEu56CXdNmDrOconWqSqhHUJVhzHJLbg
+        KjAklp6tj3SR/qHMFkNd+xynj/pPcoVzdA==
+X-Google-Smtp-Source: APBJJlHfu8VK3J40QrG+Nn6xp1XhW/ay4N1jugeZcU8FZ3XTTHXsKRCdy9dTn4xrnTFC529JOyyRCA==
+X-Received: by 2002:a25:1657:0:b0:bad:125f:9156 with SMTP id 84-20020a251657000000b00bad125f9156mr9983466ybw.35.1688992044203;
+        Mon, 10 Jul 2023 05:27:24 -0700 (PDT)
 Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id b67-20020a253446000000b00c6e5a474c00sm1916018yba.29.2023.07.10.05.13.51
+        by smtp.gmail.com with ESMTPSA id x63-20020a25ce42000000b00c5f99a71eaasm2605732ybe.57.2023.07.10.05.27.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jul 2023 05:13:51 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c2cf29195f8so5769741276.1;
-        Mon, 10 Jul 2023 05:13:51 -0700 (PDT)
-X-Received: by 2002:a25:b307:0:b0:bd5:ddcd:bc9e with SMTP id
- l7-20020a25b307000000b00bd5ddcdbc9emr10638267ybj.17.1688991230829; Mon, 10
- Jul 2023 05:13:50 -0700 (PDT)
+        Mon, 10 Jul 2023 05:27:23 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c5ce57836b8so5202300276.1;
+        Mon, 10 Jul 2023 05:27:23 -0700 (PDT)
+X-Received: by 2002:a25:d895:0:b0:bac:fecf:43d0 with SMTP id
+ p143-20020a25d895000000b00bacfecf43d0mr10694122ybg.10.1688992042808; Mon, 10
+ Jul 2023 05:27:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230710063351.17490-1-frank.li@vivo.com> <20230710063351.17490-8-frank.li@vivo.com>
-In-Reply-To: <20230710063351.17490-8-frank.li@vivo.com>
+References: <20230710095926.15614-1-frank.li@vivo.com> <20230710095926.15614-7-frank.li@vivo.com>
+In-Reply-To: <20230710095926.15614-7-frank.li@vivo.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Jul 2023 14:13:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXuEfPP61ucMzq8DDvhtCr1DA5NMh56=POMZGuRbewGZA@mail.gmail.com>
-Message-ID: <CAMuHMdXuEfPP61ucMzq8DDvhtCr1DA5NMh56=POMZGuRbewGZA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/11] i2c: sh_mobile: Use devm_platform_get_and_ioremap_resource()
+Date:   Mon, 10 Jul 2023 14:27:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU==PhzyG7Dhzsq+3kq-B+H7D59juWyn2Lcg2A_C=XVHg@mail.gmail.com>
+Message-ID: <CAMuHMdU==PhzyG7Dhzsq+3kq-B+H7D59juWyn2Lcg2A_C=XVHg@mail.gmail.com>
+Subject: Re: [PATCH v4 07/21] thermal/drivers/rcar: convert to use devm_request*_irq_probe()
 To:     Yangtao Li <frank.li@vivo.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,15 +79,54 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 8:41 AM Yangtao Li <frank.li@vivo.com> wrote:
-> Convert platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
+On Mon, Jul 10, 2023 at 12:07 PM Yangtao Li <frank.li@vivo.com> wrote:
+> There are more than 700 calls to devm_request_threaded_irq method and
+> more than 1000 calls to devm_request_irq method. Most drivers only
+> request one interrupt resource, and these error messages are basically
+> the same. If error messages are printed everywhere, more than 2000 lines
+> of code can be saved by removing the msg in the driver.
 >
+> And tglx point out that:
+>
+>   If we actually look at the call sites of
+>   devm_request_threaded_irq() then the vast majority of them print more or
+>   less lousy error messages. A quick grep/sed/awk/sort/uniq revealed
+>
+>      519 messages total (there are probably more)
+>
+>      352 unique messages
+>
+>      323 unique messages after lower casing
+>
+>          Those 323 are mostly just variants of the same patterns with
+>          slight modifications in formatting and information provided.
+>
+>      186 of these messages do not deliver any useful information,
+>          e.g. "no irq", "
+>
+>      The most useful one of all is: "could request wakeup irq: %d"
+>
+>   So there is certainly an argument to be made that this particular
+>   function should print a well formatted and informative error message.
+>
+>   It's not a general allocator like kmalloc(). It's specialized and in the
+>   vast majority of cases failing to request the interrupt causes the
+>   device probe to fail. So having proper and consistent information why
+>   the device cannot be used _is_ useful.
+>
+> So convert to use devm_request*_irq_probe() API, which ensure that all
+> error handling branches print error information.
+>
+> In this way, when this function fails, the upper-layer functions can
+> directly return an error code without missing debugging information.
+> Otherwise, the error message will be printed redundantly or missing.
+>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+> Cc: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+> Cc: AngeloGioacchino Del Regno  <angelogioacchino.delregno@collabora.com>
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
-> v2:
-> -s/devm_platform_get_and_ioremap_resource(pdev/devm_platform_get_and_ioremap_resource(dev
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
