@@ -2,108 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D16FC74D899
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 16:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99C0074D8A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 16:12:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbjGJOJL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jul 2023 10:09:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34164 "EHLO
+        id S231481AbjGJOMT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jul 2023 10:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230254AbjGJOJK (ORCPT
+        with ESMTP id S230263AbjGJOMS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jul 2023 10:09:10 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00D90115
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jul 2023 07:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=iNzNDD5W5pPBSK
-        U0n/acKnkO5UiphrUtev01tlu21FI=; b=EB60NbhgFX5/WtalbJ117dKcJh9FD/
-        qsrqRyy8aYo9csnEPNEYC4sWdea87vQIsp40wytcHA9RKxzwsAByrHooD/ulh6lN
-        H6tI3Ph99KyuvranQAKskZKNffsP0gF8zwQV4U/UPdEFcfNX8DCjYmtMt7OoFBKt
-        pMOe0+qaZrB0+uyGsbHDEuJ8XDK60M+3N050NkHepBHvsxCuigVQFkeOQdaWjXkB
-        ABb2LtLAR1FuY7RAQJ5X6upL3kSfVDbH1O28DdGP4nXSz0AYu+rxYFgz2vGqcRDI
-        tARUXKF8wdx0o8fYPpvzJJ51mEUJj9dEn6Y1TMqr3CPf+h3+e9rsr2yA==
-Received: (qmail 936683 invoked from network); 10 Jul 2023 16:08:42 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jul 2023 16:08:42 +0200
-X-UD-Smtp-Session: l3s3148p1@QC2ahCIA/IMqAjAyAhFxdwAj+2Ptlp2z
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RFT] mmc: renesas_sdhi: register irqs before registering controller
-Date:   Mon, 10 Jul 2023 16:08:25 +0200
-Message-Id: <20230710140825.47793-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Mon, 10 Jul 2023 10:12:18 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03AE7AD;
+        Mon, 10 Jul 2023 07:12:18 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-57012b2973eso58778817b3.2;
+        Mon, 10 Jul 2023 07:12:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688998337; x=1691590337;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9RYEluLb4R6qDJqCu/Fobryc+g47o+Wn7YP9UuzqITQ=;
+        b=CpW/OP5WEt02B5UL4RzvexQG92lvmWrSGHizR2nHJ/+PEFIhnaprHteADY6w5YbjlB
+         2s3fLRQdbAoAkSdM54vX4jnf+awsHpvQcNXYNRFrFTrVBB+oZbo+AEdBY2ysNkgw9sd7
+         MpD2Uan/bgFpJnnPGUaApI76OhQvTu3G6Qr9gKx4m6NDKNt1jfCXmCpwcJvYldqPUNaQ
+         wMXgJ1w/0SzoTmuuiSfCfKqVwM6IRRV+ytwTfRY0fd+6oj6VcGP3S85Kiuus/f+nOP4U
+         0RG8IJHsy3+lOGH0dD+IU15m3cDQ2EpME99jF8wH6YTduhc7+391HKXG6ENLgWn49e92
+         cbGg==
+X-Gm-Message-State: ABy/qLZibr+By/9GJb2+zW+N5IXoRNmufmNJ+UivrHqlgRiiL+Ih4/lj
+        6qRBuuW9qcb19ujaoCzVfq96m907yBoOMA==
+X-Google-Smtp-Source: APBJJlEZa/mMvRsNfk7fvUjlfKNZFbo1QiBpLh3bKRaHtbbdZM1KPTlz014lOVKI+T1J0cnm7I2Hyg==
+X-Received: by 2002:a81:920b:0:b0:579:ed5f:5cd3 with SMTP id j11-20020a81920b000000b00579ed5f5cd3mr13094419ywg.23.1688998337008;
+        Mon, 10 Jul 2023 07:12:17 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id t10-20020a81460a000000b00576cd8f9770sm3050417ywa.146.2023.07.10.07.12.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 07:12:16 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c5e67d75e0cso5907248276.2;
+        Mon, 10 Jul 2023 07:12:16 -0700 (PDT)
+X-Received: by 2002:a25:d312:0:b0:c6b:73df:7350 with SMTP id
+ e18-20020a25d312000000b00c6b73df7350mr9120556ybf.34.1688998336300; Mon, 10
+ Jul 2023 07:12:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20230630120433.49529-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230630120433.49529-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20230630120433.49529-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Jul 2023 16:12:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXKavD1JLTMRhF6grRchd9pwDd3oupPPCRDw1Can3nb=w@mail.gmail.com>
+Message-ID: <CAMuHMdXKavD1JLTMRhF6grRchd9pwDd3oupPPCRDw1Can3nb=w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] pinctrl: renesas: rzg2l: Include pinmap in
+ RZG2L_GPIO_PORT_PACK() macro
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-IRQs should be ready to serve when we call mmc_add_host() via
-tmio_mmc_host_probe(). To achieve that, ensure that all irqs are masked
-before registering the handlers.
+Hi Prabhakar,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Fri, Jun 30, 2023 at 2:05 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Currently we assume all the port pins are sequential ie always PX_0 to
+> PX_n (n=1..7) exist, but on RZ/Five SoC we have additional pins P19_1 to
+> P28_5 which have holes in them, for example only one pin on port19 is
+> available and that is P19_1 and not P19_0.
+>
+> So to handle such cases include pinmap for each port which would indicate
+> the pin availability on each port. With this we also get additional pin
+> validation, for example on the RZ/G2L SOC P0 has two pins P0_1 and P0_0
+> but with DT/SYSFS could use the P0_2-P0_7.
+>
+> While at it, update rzg2l_validate_gpio_pin() to use the port pinmap to
+> validate the gpio pin.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 167 ++++++++++++------------
+>  1 file changed, 86 insertions(+), 81 deletions(-)
+>
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> index 9511d920565e..a0c2e585e765 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -67,10 +67,12 @@
+>                                          PIN_CFG_FILCLKSEL)
+>
+>  /*
+> - * n indicates number of pins in the port, a is the register index
+> - * and f is pin configuration capabilities supported.
+> + * m indicates the bitmap of supported pins, n indicates number
+> + * of pins in the port, a is the register index and f is pin
+> + * configuration capabilities supported.
+>   */
+> -#define RZG2L_GPIO_PORT_PACK(n, a, f)  (((n) << 28) | ((a) << 20) | (f))
+> +#define RZG2L_GPIO_PORT_PACK(m, n, a, f)       ((UL(m) << 32) | (UL(n) << 28) | ((a) << 20) | (f))
 
-Based on 6.5-rc1 with bf54dec9e953 ("Revert "mmc: Revert "mmc: core:
-Allow mmc_start_host() synchronously detect a card") reverted. That base
-alone shows the regression. This patch works fine on a Salvator-X with a
-M3-W. I'll test more boards. Yet, I send it out so people can tests with
-boards I don't have.
+Do we actually need 20 bits for the "f" field?
+As Biju already commented, "n" can be derived from "m".
+If "f" can be shrunk, we might fit everything in 32 bits.
 
- drivers/mmc/host/renesas_sdhi_core.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 345934e4f59e..499d043f034f 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -1004,10 +1004,11 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		host->ops.start_signal_voltage_switch =
- 			renesas_sdhi_start_signal_voltage_switch;
- 		host->sdcard_irq_setbit_mask = TMIO_STAT_ALWAYS_SET_27;
--		host->sdcard_irq_mask_all = TMIO_MASK_ALL_RCAR2;
- 		host->reset = renesas_sdhi_reset;
- 	}
- 
-+	host->sdcard_irq_mask_all = TMIO_MMC_MIN_RCAR2 ? TMIO_MASK_ALL_RCAR2 : TMIO_MASK_ALL;
-+
- 	/* Orginally registers were 16 bit apart, could be 32 or 64 nowadays */
- 	if (!host->bus_shift && resource_size(res) > 0x100) /* old way to determine the shift */
- 		host->bus_shift = 1;
-@@ -1100,9 +1101,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		host->ops.hs400_complete = renesas_sdhi_hs400_complete;
- 	}
- 
--	ret = tmio_mmc_host_probe(host);
--	if (ret < 0)
--		goto edisclk;
-+	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, host->sdcard_irq_mask_all);
- 
- 	num_irqs = platform_irq_count(pdev);
- 	if (num_irqs < 0) {
-@@ -1129,6 +1128,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 			goto eirq;
- 	}
- 
-+	ret = tmio_mmc_host_probe(host);
-+	if (ret < 0)
-+		goto edisclk;
-+
- 	dev_info(&pdev->dev, "%s base at %pa, max clock rate %u MHz\n",
- 		 mmc_hostname(host->mmc), &res->start, host->mmc->f_max / 1000000);
- 
+                        Geert
+
 -- 
-2.35.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
