@@ -2,61 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E7574D5EA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 14:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C5A174D5F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 14:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230121AbjGJMl7 convert rfc822-to-8bit (ORCPT
+        id S231136AbjGJMrm convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jul 2023 08:41:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
+        Mon, 10 Jul 2023 08:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbjGJMl6 (ORCPT
+        with ESMTP id S229668AbjGJMrl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jul 2023 08:41:58 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196F6DE;
-        Mon, 10 Jul 2023 05:41:57 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5703d12ab9aso56148667b3.2;
-        Mon, 10 Jul 2023 05:41:57 -0700 (PDT)
+        Mon, 10 Jul 2023 08:47:41 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C705A7;
+        Mon, 10 Jul 2023 05:47:41 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-579ef51428eso57428297b3.2;
+        Mon, 10 Jul 2023 05:47:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688992916; x=1691584916;
+        d=1e100.net; s=20221208; t=1688993260; x=1691585260;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EZqGOW9woC4hxySuD731jBWPOXAr5ZaE6PhY8Yhm8lY=;
-        b=ImoS7t9dFXDyuOvkjRSl1MZ31kYtTVODReEfmNJDEJPUyFawmu/pCdYlSeYJFM4c9R
-         IWt+4ORttfm71XVbDEns5HibJky9Pzlai+j0haEcwR6vvIwY3KvgMX8NceAvTQ0yGIU2
-         1l+VeGGz6Mx7JQZ3vs/3IHjI13n0hbFUKdlx9v4bpXHKbyvrEuErAOHgMhQ7Q0nt6Kt4
-         WPLa+f4O+CNxPcbxJIoh0hQ190GPjekEYsQzAhPkQQ8ugJ+FxYDzLpiy/mXSWB5xZ+HI
-         VXIBelQ5Mk/Eka2BNiEZRCCGhu5UmIrBfH1o16GgyC/xCC+Y3k7sntZBCJ71ghi6+arQ
-         gLtw==
-X-Gm-Message-State: ABy/qLYf1g0wQCcTFZs8XHEATMXcLHiRTTqzpH443/iJAST2521+KKxX
-        /YWvpikv1mKh0dAkiDfwVWS9kNknYu1A3Q==
-X-Google-Smtp-Source: APBJJlE9UQJWa33lLGhl6vElj5+oXEUBksGAFqtVodWNGgKxyPo/hq0Moe4YcwkW0DDGTjFWn2v13Q==
-X-Received: by 2002:a81:84d6:0:b0:568:d63e:dd2c with SMTP id u205-20020a8184d6000000b00568d63edd2cmr11689252ywf.11.1688992915920;
-        Mon, 10 Jul 2023 05:41:55 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id p135-20020a0de68d000000b005707d7686ddsm3032925ywe.76.2023.07.10.05.41.55
+        bh=aSqp8QS3Eas+YBinZHpl7xLqipq/Ys4jkKB7+on99uc=;
+        b=fxM/j3YItc11qUJ7maKZuEaELNkTsnoHa4Kx1sQ9A4RZxw7eMvQ63UOdKY/jaSo2wd
+         pwmaP5OnX/imw+tea+6YLCd+2fWW+ZXWMieaCufykgXd/dZKWqC3YQhx670itBsWItz7
+         1iTxAgeFn5uMIIlyjBvKH204VHTynBocGntkzO/plgzYTHz6B1E3410HIyjrkYPGZWGv
+         oJCywH/rUdlkDsT3udfFZrSKiHZyfxn+tkU6i0nrxkWkPlfAwn8MzolUAu8PNiNaNx78
+         v4VHhxMDS+w7sOq13DQd6eG/juF6uSy4V6mZzetJLXfDY+ozuGfyACn6lTCL/yS1pzAw
+         c9Xw==
+X-Gm-Message-State: ABy/qLaAwpPgPFjrZKW3P0wz/oOwF840u26TmmImJ9Ji8RkoOPpTeSIl
+        A4/xXlikWrj1XDLo7h/bVaJlK1Ho1/jxYg==
+X-Google-Smtp-Source: APBJJlHDGRj66C6PwIDG66DppX4uHDDOki7uehMoF5Nz2C/ZkP8ilWkPSH14uymypmT/VgUcB1RiEA==
+X-Received: by 2002:a0d:d9c9:0:b0:56f:eaef:9d40 with SMTP id b192-20020a0dd9c9000000b0056feaef9d40mr13320419ywe.46.1688993260092;
+        Mon, 10 Jul 2023 05:47:40 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id u63-20020a816042000000b0054c0f3fd3ddsm3072618ywb.30.2023.07.10.05.47.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jul 2023 05:41:55 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-c4e4c258ba9so5446538276.1;
-        Mon, 10 Jul 2023 05:41:55 -0700 (PDT)
-X-Received: by 2002:a05:6902:20e:b0:c6f:db67:cbf7 with SMTP id
- j14-20020a056902020e00b00c6fdb67cbf7mr6843481ybs.16.1688992915397; Mon, 10
- Jul 2023 05:41:55 -0700 (PDT)
+        Mon, 10 Jul 2023 05:47:39 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579ef51428eso57427907b3.2;
+        Mon, 10 Jul 2023 05:47:39 -0700 (PDT)
+X-Received: by 2002:a5b:98e:0:b0:c49:95fd:6361 with SMTP id
+ c14-20020a5b098e000000b00c4995fd6361mr12951040ybq.0.1688993259725; Mon, 10
+ Jul 2023 05:47:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230705204314.89800-1-paul@crapouillou.net> <20230705204521.90050-1-paul@crapouillou.net>
-In-Reply-To: <20230705204521.90050-1-paul@crapouillou.net>
+References: <fed02e0325275df84e2d76f8c481e40e7023cbd9.1688760372.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <fed02e0325275df84e2d76f8c481e40e7023cbd9.1688760372.git.christophe.jaillet@wanadoo.fr>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Jul 2023 14:41:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXecRUTmTcmWkXH1FY0iXPLYxKkqFhgoK7tRBD+ztcsRA@mail.gmail.com>
-Message-ID: <CAMuHMdXecRUTmTcmWkXH1FY0iXPLYxKkqFhgoK7tRBD+ztcsRA@mail.gmail.com>
-Subject: Re: [PATCH 19/23] i2c: rcar: Remove #ifdef guards for PM related functions
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
+Date:   Mon, 10 Jul 2023 14:47:27 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXO-f6KP1WCwwyy6Jy5eZpZ4LfFEV6y14dyrVYRp5QRMg@mail.gmail.com>
+Message-ID: <CAMuHMdXO-f6KP1WCwwyy6Jy5eZpZ4LfFEV6y14dyrVYRp5QRMg@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rzg2l: Simplify .determine_rate()
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -69,18 +69,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 5, 2023 at 10:49 PM Paul Cercueil <paul@crapouillou.net> wrote:
-> Use the new PM macros for the suspend and resume functions to be
-> automatically dropped by the compiler when CONFIG_PM or
-> CONFIG_PM_SLEEP are disabled, without having to use #ifdef guards.
+On Fri, Jul 7, 2023 at 10:06 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+> rzg2l_cpg_sd_clk_mux_determine_rate() is the same as
+> __clk_mux_determine_rate_closest(), so use the latter to save some LoC.
 >
-> This has the advantage of always compiling these functions in,
-> independently of any Kconfig option. Thanks to that, bugs and other
-> regressions are subsequently easier to catch.
->
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.6.
 
 Gr{oetje,eeting}s,
 
