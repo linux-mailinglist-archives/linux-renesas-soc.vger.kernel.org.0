@@ -2,83 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78B4774D4C4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 13:48:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E4674D4F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jul 2023 14:11:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbjGJLsB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jul 2023 07:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47018 "EHLO
+        id S229758AbjGJMLa convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jul 2023 08:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjGJLr4 (ORCPT
+        with ESMTP id S229714AbjGJML3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jul 2023 07:47:56 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73073BB;
-        Mon, 10 Jul 2023 04:47:53 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,194,1684767600"; 
-   d="scan'208";a="171607365"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jul 2023 20:47:52 +0900
-Received: from localhost.localdomain (unknown [10.226.93.14])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 526D941E6E4E;
-        Mon, 10 Jul 2023 20:47:50 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-rtc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] rtc: isl1208: Simplify probe()
-Date:   Mon, 10 Jul 2023 12:47:47 +0100
-Message-Id: <20230710114747.106496-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 10 Jul 2023 08:11:29 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDA5F4;
+        Mon, 10 Jul 2023 05:11:28 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-57688a146ecso55270997b3.2;
+        Mon, 10 Jul 2023 05:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688991087; x=1691583087;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=72Wm2+Haf42PppkDwX2AiSMrYpGiUC/lF3qyDG6asRc=;
+        b=DY/+ByY0vdf8vg0p/U5eg96ZYFqoM40eAd2+UF7dTCNIBILYzfrYHpKOPvzLm4PJ1Y
+         sh/SXoBH6X06fKGvFdViJaajjykc1MVu4yrU8QXxY4LGeIkSo4ihMlbGC65q//5/BJ5f
+         +wa4NNCNNJwaSkwHKCZttbqe4kKbbqxfzflD1Kk8Xwkb3tCYkHBHa1ov0IIzGIUV8IJY
+         HiOC/KzUpHY6wXJKAVQi+XQFTlCV1NdZboSYSPi0uQJ9yuCsAI3H1HSKrEMC+ik9459t
+         NFPBWVWgDbysxtz3mwoMlcOL07Gqlf1SRdAE6eO1jiEEaeAsWxf3F77t3FJY/sphrhn+
+         wIHw==
+X-Gm-Message-State: ABy/qLa9cUeUUkYEELNnLmO3aLtGfmKjOaLTQMNfbN59Kj7O31ynfjcx
+        eAzczfHfh6YleD6An/PSixJkSQa02ohYDg==
+X-Google-Smtp-Source: APBJJlGbjUGhg6rEspeFw5o+Wkwl6HM9YmIQynaD/xfCeS7OS2iQklVvbtKsZaStJAg7qvbxWZVpNQ==
+X-Received: by 2002:a0d:e208:0:b0:579:16e0:b1bf with SMTP id l8-20020a0de208000000b0057916e0b1bfmr11014023ywe.12.1688991087351;
+        Mon, 10 Jul 2023 05:11:27 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id e8-20020a81e948000000b0057072e7fa77sm2974981ywm.95.2023.07.10.05.11.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 05:11:26 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-c4dfe2a95fbso5164776276.3;
+        Mon, 10 Jul 2023 05:11:26 -0700 (PDT)
+X-Received: by 2002:a25:810f:0:b0:c62:9634:d39 with SMTP id
+ o15-20020a25810f000000b00c6296340d39mr11075620ybk.52.1688991086188; Mon, 10
+ Jul 2023 05:11:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+References: <20230710032355.72914-1-frank.li@vivo.com>
+In-Reply-To: <20230710032355.72914-1-frank.li@vivo.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Jul 2023 14:11:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=HzoBKhq3raBrE2B8XxsnJCvBKt6hEP-X7ExuuD-LUw@mail.gmail.com>
+Message-ID: <CAMuHMdU=HzoBKhq3raBrE2B8XxsnJCvBKt6hEP-X7ExuuD-LUw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] drm/renesas: Convert to devm_platform_ioremap_resource()
+To:     Yangtao Li <frank.li@vivo.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Simplify the probe() by replacing of_device_get_match_data() and
-i2c_match_id() by i2c_get_match_data() as we have similar I2C
-and DT-based matching table.
+On Mon, Jul 10, 2023 at 5:25 AM Yangtao Li <frank.li@vivo.com> wrote:
+> Use devm_platform_ioremap_resource() to simplify code.
+>
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/rtc/rtc-isl1208.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index b0712b4e3648..57e77b55e484 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -862,17 +862,9 @@ isl1208_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, isl1208);
- 
- 	/* Determine which chip we have */
--	if (client->dev.of_node) {
--		isl1208->config = of_device_get_match_data(&client->dev);
--		if (!isl1208->config)
--			return -ENODEV;
--	} else {
--		const struct i2c_device_id *id = i2c_match_id(isl1208_id, client);
--
--		if (!id)
--			return -ENODEV;
--		isl1208->config = (struct isl1208_config *)id->driver_data;
--	}
-+	isl1208->config = i2c_get_match_data(client);
-+	if (!isl1208->config)
-+		return -ENODEV;
- 
- 	rc = isl1208_clk_present(client, "xin");
- 	if (rc < 0)
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
