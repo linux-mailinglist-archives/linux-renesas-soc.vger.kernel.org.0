@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 616AC74F968
+	by mail.lfdr.de (Postfix) with ESMTP id 1A20274F967
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jul 2023 22:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbjGKU5o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jul 2023 16:57:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55458 "EHLO
+        id S229476AbjGKU5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jul 2023 16:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjGKU5n (ORCPT
+        with ESMTP id S231267AbjGKU5o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jul 2023 16:57:43 -0400
+        Tue, 11 Jul 2023 16:57:44 -0400
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1AD10FA
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C5510DD
         for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jul 2023 13:57:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689109062; x=1720645062;
+  t=1689109063; x=1720645063;
   h=date:from:to:cc:subject:message-id;
-  bh=T1qVbdmDtT1D+TbmfThR7h6h0mCFZ59FsBv35bNJJJM=;
-  b=NQ/AyH2QwUg0Q+0kSYtttoGpf65zSZd7gwciquJCIceK/ACupN2GlUHS
-   C2hAXfQ4eX6t1PHJypeBTU9qtgfa2Co0/5hkTeJZ0ywd2MChlGzSs13c1
-   2IyRYYOXGfU/0bDXFLUPcG+rb7ajWHW35+lvZL2+rJri+ljpiUjxfYgs8
-   X7BHDBKeaK3CBHa77irduCEM8hnUSS4P56+RvnZzoeLP7Y/TIfE8W4B/R
-   h8K636hS5t8bRJe6IlzgPCyMH5u7Pr0Ggn+8Bmh2Csape3krFOhlfUVNC
-   3i3TAYF5aqPuHE2BISmv3zJ+5Q7L8k5/NxjwFVdmDawAYnAByMfVzryXc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="395528188"
+  bh=m0X7HHBD6H+d0Dk2aMIiD/aVPK8nMIwHEEpdW3PkZVE=;
+  b=Aj05C2N7+cxPezHExbxHMg8BWYJtSSr5rvziK+oh+T1KmLdgRDdtMUhF
+   musk5CZ+yJuDK02p/jJU8dEEnILLYPemWo9QyDOVfuPfUHcLUdqjOFuJV
+   AvFg/EgPD8uQw8ZAceUodpSohjUMTAqgbXWHlKWY7qvz6mJQ8uGQgVKts
+   GJd08xt/+pyv6yF2vF0zmYE/rNtBsmohFEvmKKIir7rQ42/PA1HqCAlhA
+   F1w5ZYA0K+mJPUfmDE6iIk4Wfr6U2rqLBzPwAolQL8qH2C1OYSZGUiJrb
+   wxbryqX1rbm1gyWgJ6UQ0nfhW+UsRrs0grhBzYubfz/yKSUZRSPTd+6JD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="395528186"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="395528188"
+   d="scan'208";a="395528186"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 13:57:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="756517141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="756517137"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="756517141"
+   d="scan'208";a="756517137"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Jul 2023 13:57:21 -0700
+  by orsmga001.jf.intel.com with ESMTP; 11 Jul 2023 13:57:20 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qJKQC-00057M-15;
+        id 1qJKQC-000579-0J;
         Tue, 11 Jul 2023 20:57:20 +0000
-Date:   Wed, 12 Jul 2023 04:57:09 +0800
+Date:   Wed, 12 Jul 2023 04:57:15 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.6] BUILD SUCCESS
- 742ebf5d715a4d4b9b4800f5b9eb3a2fae9c9282
-Message-ID: <202307120408.W8428zUb-lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 3b5ba33b4d1d8f6f7aa07925040bbdceffaef1b6
+Message-ID: <202307120413.AW4UwyaX-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -61,8 +61,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.6
-branch HEAD: 742ebf5d715a4d4b9b4800f5b9eb3a2fae9c9282  arm64: dts: renesas: rzg2lc-smarc: Add support for enabling MTU3
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 3b5ba33b4d1d8f6f7aa07925040bbdceffaef1b6  Merge branch 'renesas-dts-for-v6.6' into renesas-next
 
 elapsed time: 725m
 
