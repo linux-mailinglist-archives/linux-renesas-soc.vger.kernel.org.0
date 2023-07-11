@@ -2,142 +2,359 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2528674F126
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jul 2023 16:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F73674F1D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jul 2023 16:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233287AbjGKOGj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jul 2023 10:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
+        id S232981AbjGKOWL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jul 2023 10:22:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232888AbjGKOGh (ORCPT
+        with ESMTP id S232996AbjGKOV7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jul 2023 10:06:37 -0400
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1BF79E;
-        Tue, 11 Jul 2023 07:06:36 -0700 (PDT)
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6b711c3ad1fso4686128a34.0;
-        Tue, 11 Jul 2023 07:06:36 -0700 (PDT)
+        Tue, 11 Jul 2023 10:21:59 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207E71999
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jul 2023 07:21:39 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fb96e2b573so9126033e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jul 2023 07:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689085296; x=1691677296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I2SMZvvUmfIPp8HMYuS3j43TIu7qj1IKr5qNTteiOfk=;
+        b=r6t2wfx1euv8wcZMg6WpGDQ5dBija1pU/lzTd19eCH2a5XsIFeYxYGzX0vgrjmYEf0
+         TIRFxoDUkFtTkMTzJy5xiXp6MvrG7Ri2qG9Q9XRggm4WULGQbX7Tdz+Wpf/oPsobx0Ls
+         9uPNMxJtod+jnIln7ZfVT1EIJsfysCduEGJ4oP7ENvnKnp2S5LkbBbR+PKkexYb7dJY6
+         7GpYzCH+9fths9kACwxlRQD3HWM17k7dJ3iD8J3hQd2lwiQT9yel2zXd8gii2hA0507H
+         wPxryVlxdeMxCzgzHuYi+rTekZN6Wq4VRJ6IbwJp+y+0+arEC1kGBx/cXHBXzR9uFg7F
+         PvLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689084396; x=1691676396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JtrkZvukDlSziDN0KAKNR+HUJU/841tM48VnLXRDDo8=;
-        b=E0N5tqHigGPruoL2OipUVobpIf9hqdDDMV7POeXa1hvOx/8WegYkYYvn94MTxxKxJB
-         kz47DRPK9wkaxvKzUSaY/Y5NlpuFvJrZGr9WdXtD9WeHuH1QPn6YfSKm2WXdsQ4C/nJ+
-         wGf9iWDQJevFgkRbJVqy2mhM7TzViwcncDXgJ22Kl0qGyfrLCaUyT5k+sNh9RqGx34Gx
-         pdLGBeyBUw4jhdjtVHTGavhSKH3cbKBPalYtCzo3KDQIVwi6Iu1tcNpWzbZ7KHdC8Prn
-         jyuMsehIt3AeI6jMw4g86lWQZy9DYYpg0qGYUZoHXk7+nM07DGLlBBk9a/xtkNBH33zs
-         ShZg==
-X-Gm-Message-State: ABy/qLbsxYrWnbJ+5hYqjKPUD1ObgOhYkc0vm0/kt6yZAz2DQ889PHUF
-        B5c8bhSWUQelj8p6zepVpdl6RlP5cApBRw==
-X-Google-Smtp-Source: APBJJlHk6JvYY7usor+bMX+25K9L8lRHpC1MM+kzOkVK2RhHg0e+lmulc9h6UW2o6cwVtHPj090TVw==
-X-Received: by 2002:a05:6870:b608:b0:1b0:7078:58ad with SMTP id cm8-20020a056870b60800b001b0707858admr17820465oab.38.1689084395878;
-        Tue, 11 Jul 2023 07:06:35 -0700 (PDT)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com. [209.85.210.45])
-        by smtp.gmail.com with ESMTPSA id e3-20020a056870944300b001a6a3f99691sm1029564oal.27.2023.07.11.07.06.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 07:06:35 -0700 (PDT)
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6b87d505e28so4671725a34.2;
-        Tue, 11 Jul 2023 07:06:35 -0700 (PDT)
-X-Received: by 2002:a9d:560a:0:b0:6b8:83ca:560a with SMTP id
- e10-20020a9d560a000000b006b883ca560amr13140949oti.18.1689084395442; Tue, 11
- Jul 2023 07:06:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689085296; x=1691677296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I2SMZvvUmfIPp8HMYuS3j43TIu7qj1IKr5qNTteiOfk=;
+        b=KvGUQbmMuTgiAjFEKq9Mpz4zU9RHC0LCL8y1QCjTMyHRmTJdX2r+x2bQOtMz9MXZu6
+         laPAf609D32jQJPEi7PM314P7Gg5yylbL0u52M9OLb6rVAOAgwyeGTw7MEU16EWcnLBD
+         zhFqXqk6SbSYd0xyWsQciDPHqPeJB8CTErk7R0hX154s+U2FzlFxjUHD1FWN4VXFsTPC
+         RkT8tTd59eP1ud+jYqj1PNb+t1k1dKT5bHeK9EFfYLTxsaKwHVUjPzFdELk1CejvWFdL
+         OYG6ZkqPnPZc7nWN+CgRzacl4Ywfb7HQ3JDVU/psEwuwnQLt7JpTkxQJCGYnHkJXdy7U
+         7L1w==
+X-Gm-Message-State: ABy/qLbQTfbrA2RA0nMeDZvwJdHfUDCG2nAkowCo3BvUCyZ3QNFAUmGD
+        TuF1AVenmsxY1N0gVa9ZwkCw2w==
+X-Google-Smtp-Source: APBJJlGxfHP3Y89bQ8nKxtQu3QPO+U2I2aYDFwEqsNo4CDMPZVQwMtqPFh+aifidtN6/axH5ruGGMA==
+X-Received: by 2002:ac2:4eca:0:b0:4f8:5604:4b50 with SMTP id p10-20020ac24eca000000b004f856044b50mr11968674lfr.64.1689085295656;
+        Tue, 11 Jul 2023 07:21:35 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id u12-20020a056512094c00b004fba5fc7ed8sm333690lft.278.2023.07.11.07.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 07:21:35 -0700 (PDT)
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 09/18] soc: renesas: Move power-domain drivers to the genpd dir
+Date:   Tue, 11 Jul 2023 16:21:32 +0200
+Message-Id: <20230711142132.751672-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230511181931.869812-1-tj@kernel.org> <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org> <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 11 Jul 2023 16:06:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
-Message-ID: <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE mechanism)
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rtc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 3:55 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Tejun,
->
-> On Fri, May 12, 2023 at 9:54 PM Tejun Heo <tj@kernel.org> wrote:
-> > Workqueue now automatically marks per-cpu work items that hog CPU for too
-> > long as CPU_INTENSIVE, which excludes them from concurrency management and
-> > prevents stalling other concurrency-managed work items. If a work function
-> > keeps running over the thershold, it likely needs to be switched to use an
-> > unbound workqueue.
-> >
-> > This patch adds a debug mechanism which tracks the work functions which
-> > trigger the automatic CPU_INTENSIVE mechanism and report them using
-> > pr_warn() with exponential backoff.
-> >
-> > v2: Drop bouncing through kthread_worker for printing messages. It was to
-> >     avoid introducing circular locking dependency but wasn't effective as it
-> >     still had pool lock -> wci_lock -> printk -> pool lock loop. Let's just
-> >     print directly using printk_deferred().
-> >
-> > Signed-off-by: Tejun Heo <tj@kernel.org>
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
->
-> Thanks for your patch, which is now commit 6363845005202148
-> ("workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
-> mechanism") in v6.5-rc1.
->
-> I guess you are interested to know where this triggers.
-> I enabled CONFIG_WQ_CPU_INTENSIVE_REPORT=y, and tested
-> the result on various machines...
+To simplify with maintenance let's move the renesas power-domain drivers to
+the new genpd directory. Going forward, patches are intended to be managed
+through a separate git tree, according to MAINTAINERS.
 
-> OrangeCrab/Linux-on-LiteX-VexRiscV with ht16k33 14-seg display and ssd130xdrmfb:
->
->   workqueue: check_lifetime hogged CPU for >10000us 4 times, consider
-> switching to WQ_UNBOUND
->   workqueue: drm_fb_helper_damage_work hogged CPU for >10000us 1024
-> times, consider switching to WQ_UNBOUND
->   workqueue: fb_flashcursor hogged CPU for >10000us 128 times,
-> consider switching to WQ_UNBOUND
->   workqueue: ht16k33_seg14_update hogged CPU for >10000us 128 times,
-> consider switching to WQ_UNBOUND
->   workqueue: mmc_rescan hogged CPU for >10000us 128 times, consider
-> switching to WQ_UNBOUND
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: <linux-renesas-soc@vger.kernel.org>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ MAINTAINERS                                   |  1 +
+ drivers/genpd/Makefile                        |  1 +
+ drivers/genpd/renesas/Makefile                | 30 +++++++++++++++++++
+ drivers/{soc => genpd}/renesas/r8a7742-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7743-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7745-sysc.c |  0
+ .../{soc => genpd}/renesas/r8a77470-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a774a1-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a774b1-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a774c0-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a774e1-sysc.c    |  0
+ drivers/{soc => genpd}/renesas/r8a7779-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7790-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7791-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7792-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7794-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7795-sysc.c |  0
+ drivers/{soc => genpd}/renesas/r8a7796-sysc.c |  0
+ .../{soc => genpd}/renesas/r8a77965-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a77970-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a77980-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a77990-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a77995-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a779a0-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a779f0-sysc.c    |  0
+ .../{soc => genpd}/renesas/r8a779g0-sysc.c    |  0
+ .../{soc => genpd}/renesas/rcar-gen4-sysc.c   |  0
+ .../{soc => genpd}/renesas/rcar-gen4-sysc.h   |  0
+ drivers/{soc => genpd}/renesas/rcar-sysc.c    |  0
+ drivers/{soc => genpd}/renesas/rcar-sysc.h    |  0
+ drivers/{soc => genpd}/renesas/rmobile-sysc.c |  0
+ drivers/soc/renesas/Makefile                  | 27 -----------------
+ 32 files changed, 32 insertions(+), 27 deletions(-)
+ create mode 100644 drivers/genpd/renesas/Makefile
+ rename drivers/{soc => genpd}/renesas/r8a7742-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7743-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7745-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77470-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a774a1-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a774b1-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a774c0-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a774e1-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7779-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7790-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7791-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7792-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7794-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7795-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a7796-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77965-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77970-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77980-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77990-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a77995-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a779a0-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a779f0-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/r8a779g0-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/rcar-gen4-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/rcar-gen4-sysc.h (100%)
+ rename drivers/{soc => genpd}/renesas/rcar-sysc.c (100%)
+ rename drivers/{soc => genpd}/renesas/rcar-sysc.h (100%)
+ rename drivers/{soc => genpd}/renesas/rmobile-sysc.c (100%)
 
-Got one more after a while:
-
-workqueue: neigh_managed_work hogged CPU for >10000us 4 times,
-consider switching to WQ_UNBOUND
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9abd868abfc8..f444285f1792 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2593,6 +2593,7 @@ F:	arch/arm/include/debug/renesas-scif.S
+ F:	arch/arm/mach-shmobile/
+ F:	arch/arm64/boot/dts/renesas/
+ F:	arch/riscv/boot/dts/renesas/
++F:	drivers/genpd/renesas/
+ F:	drivers/soc/renesas/
+ F:	include/linux/soc/renesas/
+ K:	\brenesas,
+diff --git a/drivers/genpd/Makefile b/drivers/genpd/Makefile
+index dfdea14e2a8a..286598ce7620 100644
+--- a/drivers/genpd/Makefile
++++ b/drivers/genpd/Makefile
+@@ -5,3 +5,4 @@ obj-y					+= apple/
+ obj-y					+= bcm/
+ obj-y					+= mediatek/
+ obj-y					+= qcom/
++obj-y					+= renesas/
+diff --git a/drivers/genpd/renesas/Makefile b/drivers/genpd/renesas/Makefile
+new file mode 100644
+index 000000000000..e306e396fc8c
+--- /dev/null
++++ b/drivers/genpd/renesas/Makefile
+@@ -0,0 +1,30 @@
++# SPDX-License-Identifier: GPL-2.0
++# SoC
++obj-$(CONFIG_SYSC_R8A7742)	+= r8a7742-sysc.o
++obj-$(CONFIG_SYSC_R8A7743)	+= r8a7743-sysc.o
++obj-$(CONFIG_SYSC_R8A7745)	+= r8a7745-sysc.o
++obj-$(CONFIG_SYSC_R8A77470)	+= r8a77470-sysc.o
++obj-$(CONFIG_SYSC_R8A774A1)	+= r8a774a1-sysc.o
++obj-$(CONFIG_SYSC_R8A774B1)	+= r8a774b1-sysc.o
++obj-$(CONFIG_SYSC_R8A774C0)	+= r8a774c0-sysc.o
++obj-$(CONFIG_SYSC_R8A774E1)	+= r8a774e1-sysc.o
++obj-$(CONFIG_SYSC_R8A7779)	+= r8a7779-sysc.o
++obj-$(CONFIG_SYSC_R8A7790)	+= r8a7790-sysc.o
++obj-$(CONFIG_SYSC_R8A7791)	+= r8a7791-sysc.o
++obj-$(CONFIG_SYSC_R8A7792)	+= r8a7792-sysc.o
++obj-$(CONFIG_SYSC_R8A7794)	+= r8a7794-sysc.o
++obj-$(CONFIG_SYSC_R8A7795)	+= r8a7795-sysc.o
++obj-$(CONFIG_SYSC_R8A77960)	+= r8a7796-sysc.o
++obj-$(CONFIG_SYSC_R8A77961)	+= r8a7796-sysc.o
++obj-$(CONFIG_SYSC_R8A77965)	+= r8a77965-sysc.o
++obj-$(CONFIG_SYSC_R8A77970)	+= r8a77970-sysc.o
++obj-$(CONFIG_SYSC_R8A77980)	+= r8a77980-sysc.o
++obj-$(CONFIG_SYSC_R8A77990)	+= r8a77990-sysc.o
++obj-$(CONFIG_SYSC_R8A77995)	+= r8a77995-sysc.o
++obj-$(CONFIG_SYSC_R8A779A0)	+= r8a779a0-sysc.o
++obj-$(CONFIG_SYSC_R8A779F0)	+= r8a779f0-sysc.o
++obj-$(CONFIG_SYSC_R8A779G0)	+= r8a779g0-sysc.o
++# Family
++obj-$(CONFIG_SYSC_RCAR)		+= rcar-sysc.o
++obj-$(CONFIG_SYSC_RCAR_GEN4)	+= rcar-gen4-sysc.o
++obj-$(CONFIG_SYSC_RMOBILE)	+= rmobile-sysc.o
+diff --git a/drivers/soc/renesas/r8a7742-sysc.c b/drivers/genpd/renesas/r8a7742-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7742-sysc.c
+rename to drivers/genpd/renesas/r8a7742-sysc.c
+diff --git a/drivers/soc/renesas/r8a7743-sysc.c b/drivers/genpd/renesas/r8a7743-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7743-sysc.c
+rename to drivers/genpd/renesas/r8a7743-sysc.c
+diff --git a/drivers/soc/renesas/r8a7745-sysc.c b/drivers/genpd/renesas/r8a7745-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7745-sysc.c
+rename to drivers/genpd/renesas/r8a7745-sysc.c
+diff --git a/drivers/soc/renesas/r8a77470-sysc.c b/drivers/genpd/renesas/r8a77470-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77470-sysc.c
+rename to drivers/genpd/renesas/r8a77470-sysc.c
+diff --git a/drivers/soc/renesas/r8a774a1-sysc.c b/drivers/genpd/renesas/r8a774a1-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a774a1-sysc.c
+rename to drivers/genpd/renesas/r8a774a1-sysc.c
+diff --git a/drivers/soc/renesas/r8a774b1-sysc.c b/drivers/genpd/renesas/r8a774b1-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a774b1-sysc.c
+rename to drivers/genpd/renesas/r8a774b1-sysc.c
+diff --git a/drivers/soc/renesas/r8a774c0-sysc.c b/drivers/genpd/renesas/r8a774c0-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a774c0-sysc.c
+rename to drivers/genpd/renesas/r8a774c0-sysc.c
+diff --git a/drivers/soc/renesas/r8a774e1-sysc.c b/drivers/genpd/renesas/r8a774e1-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a774e1-sysc.c
+rename to drivers/genpd/renesas/r8a774e1-sysc.c
+diff --git a/drivers/soc/renesas/r8a7779-sysc.c b/drivers/genpd/renesas/r8a7779-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7779-sysc.c
+rename to drivers/genpd/renesas/r8a7779-sysc.c
+diff --git a/drivers/soc/renesas/r8a7790-sysc.c b/drivers/genpd/renesas/r8a7790-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7790-sysc.c
+rename to drivers/genpd/renesas/r8a7790-sysc.c
+diff --git a/drivers/soc/renesas/r8a7791-sysc.c b/drivers/genpd/renesas/r8a7791-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7791-sysc.c
+rename to drivers/genpd/renesas/r8a7791-sysc.c
+diff --git a/drivers/soc/renesas/r8a7792-sysc.c b/drivers/genpd/renesas/r8a7792-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7792-sysc.c
+rename to drivers/genpd/renesas/r8a7792-sysc.c
+diff --git a/drivers/soc/renesas/r8a7794-sysc.c b/drivers/genpd/renesas/r8a7794-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7794-sysc.c
+rename to drivers/genpd/renesas/r8a7794-sysc.c
+diff --git a/drivers/soc/renesas/r8a7795-sysc.c b/drivers/genpd/renesas/r8a7795-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7795-sysc.c
+rename to drivers/genpd/renesas/r8a7795-sysc.c
+diff --git a/drivers/soc/renesas/r8a7796-sysc.c b/drivers/genpd/renesas/r8a7796-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a7796-sysc.c
+rename to drivers/genpd/renesas/r8a7796-sysc.c
+diff --git a/drivers/soc/renesas/r8a77965-sysc.c b/drivers/genpd/renesas/r8a77965-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77965-sysc.c
+rename to drivers/genpd/renesas/r8a77965-sysc.c
+diff --git a/drivers/soc/renesas/r8a77970-sysc.c b/drivers/genpd/renesas/r8a77970-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77970-sysc.c
+rename to drivers/genpd/renesas/r8a77970-sysc.c
+diff --git a/drivers/soc/renesas/r8a77980-sysc.c b/drivers/genpd/renesas/r8a77980-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77980-sysc.c
+rename to drivers/genpd/renesas/r8a77980-sysc.c
+diff --git a/drivers/soc/renesas/r8a77990-sysc.c b/drivers/genpd/renesas/r8a77990-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77990-sysc.c
+rename to drivers/genpd/renesas/r8a77990-sysc.c
+diff --git a/drivers/soc/renesas/r8a77995-sysc.c b/drivers/genpd/renesas/r8a77995-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a77995-sysc.c
+rename to drivers/genpd/renesas/r8a77995-sysc.c
+diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/genpd/renesas/r8a779a0-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a779a0-sysc.c
+rename to drivers/genpd/renesas/r8a779a0-sysc.c
+diff --git a/drivers/soc/renesas/r8a779f0-sysc.c b/drivers/genpd/renesas/r8a779f0-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a779f0-sysc.c
+rename to drivers/genpd/renesas/r8a779f0-sysc.c
+diff --git a/drivers/soc/renesas/r8a779g0-sysc.c b/drivers/genpd/renesas/r8a779g0-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/r8a779g0-sysc.c
+rename to drivers/genpd/renesas/r8a779g0-sysc.c
+diff --git a/drivers/soc/renesas/rcar-gen4-sysc.c b/drivers/genpd/renesas/rcar-gen4-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/rcar-gen4-sysc.c
+rename to drivers/genpd/renesas/rcar-gen4-sysc.c
+diff --git a/drivers/soc/renesas/rcar-gen4-sysc.h b/drivers/genpd/renesas/rcar-gen4-sysc.h
+similarity index 100%
+rename from drivers/soc/renesas/rcar-gen4-sysc.h
+rename to drivers/genpd/renesas/rcar-gen4-sysc.h
+diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/genpd/renesas/rcar-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/rcar-sysc.c
+rename to drivers/genpd/renesas/rcar-sysc.c
+diff --git a/drivers/soc/renesas/rcar-sysc.h b/drivers/genpd/renesas/rcar-sysc.h
+similarity index 100%
+rename from drivers/soc/renesas/rcar-sysc.h
+rename to drivers/genpd/renesas/rcar-sysc.h
+diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/genpd/renesas/rmobile-sysc.c
+similarity index 100%
+rename from drivers/soc/renesas/rmobile-sysc.c
+rename to drivers/genpd/renesas/rmobile-sysc.c
+diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+index 6e4e77b0afff..734f8f8cefa4 100644
+--- a/drivers/soc/renesas/Makefile
++++ b/drivers/soc/renesas/Makefile
+@@ -3,30 +3,6 @@
+ obj-$(CONFIG_SOC_RENESAS)	+= renesas-soc.o
+ 
+ # SoC
+-obj-$(CONFIG_SYSC_R8A7742)	+= r8a7742-sysc.o
+-obj-$(CONFIG_SYSC_R8A7743)	+= r8a7743-sysc.o
+-obj-$(CONFIG_SYSC_R8A7745)	+= r8a7745-sysc.o
+-obj-$(CONFIG_SYSC_R8A77470)	+= r8a77470-sysc.o
+-obj-$(CONFIG_SYSC_R8A774A1)	+= r8a774a1-sysc.o
+-obj-$(CONFIG_SYSC_R8A774B1)	+= r8a774b1-sysc.o
+-obj-$(CONFIG_SYSC_R8A774C0)	+= r8a774c0-sysc.o
+-obj-$(CONFIG_SYSC_R8A774E1)	+= r8a774e1-sysc.o
+-obj-$(CONFIG_SYSC_R8A7779)	+= r8a7779-sysc.o
+-obj-$(CONFIG_SYSC_R8A7790)	+= r8a7790-sysc.o
+-obj-$(CONFIG_SYSC_R8A7791)	+= r8a7791-sysc.o
+-obj-$(CONFIG_SYSC_R8A7792)	+= r8a7792-sysc.o
+-obj-$(CONFIG_SYSC_R8A7794)	+= r8a7794-sysc.o
+-obj-$(CONFIG_SYSC_R8A7795)	+= r8a7795-sysc.o
+-obj-$(CONFIG_SYSC_R8A77960)	+= r8a7796-sysc.o
+-obj-$(CONFIG_SYSC_R8A77961)	+= r8a7796-sysc.o
+-obj-$(CONFIG_SYSC_R8A77965)	+= r8a77965-sysc.o
+-obj-$(CONFIG_SYSC_R8A77970)	+= r8a77970-sysc.o
+-obj-$(CONFIG_SYSC_R8A77980)	+= r8a77980-sysc.o
+-obj-$(CONFIG_SYSC_R8A77990)	+= r8a77990-sysc.o
+-obj-$(CONFIG_SYSC_R8A77995)	+= r8a77995-sysc.o
+-obj-$(CONFIG_SYSC_R8A779A0)	+= r8a779a0-sysc.o
+-obj-$(CONFIG_SYSC_R8A779F0)	+= r8a779f0-sysc.o
+-obj-$(CONFIG_SYSC_R8A779G0)	+= r8a779g0-sysc.o
+ ifdef CONFIG_SMP
+ obj-$(CONFIG_ARCH_R9A06G032)	+= r9a06g032-smp.o
+ endif
+@@ -34,6 +10,3 @@ endif
+ # Family
+ obj-$(CONFIG_PWC_RZV2M)		+= pwc-rzv2m.o
+ obj-$(CONFIG_RST_RCAR)		+= rcar-rst.o
+-obj-$(CONFIG_SYSC_RCAR)		+= rcar-sysc.o
+-obj-$(CONFIG_SYSC_RCAR_GEN4)	+= rcar-gen4-sysc.o
+-obj-$(CONFIG_SYSC_RMOBILE)	+= rmobile-sysc.o
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
