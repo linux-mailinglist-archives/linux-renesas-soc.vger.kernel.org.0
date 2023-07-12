@@ -2,61 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A74C75073B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 13:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4268750753
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 13:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbjGLLzY convert rfc822-to-8bit (ORCPT
+        id S232142AbjGLL7G convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 07:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44086 "EHLO
+        Wed, 12 Jul 2023 07:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232739AbjGLLzD (ORCPT
+        with ESMTP id S232279AbjGLL7E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 07:55:03 -0400
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAC619B9;
-        Wed, 12 Jul 2023 04:54:15 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5774335bb2aso74196587b3.0;
-        Wed, 12 Jul 2023 04:54:15 -0700 (PDT)
+        Wed, 12 Jul 2023 07:59:04 -0400
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D2E1BEB;
+        Wed, 12 Jul 2023 04:58:48 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-57d24970042so14591017b3.2;
+        Wed, 12 Jul 2023 04:58:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689162788; x=1691754788;
+        d=1e100.net; s=20221208; t=1689163113; x=1691755113;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tDxy8quJChHYDJKMgpcxwBW6AImi6kdDaLIGoVLlxtE=;
-        b=D7MQZY7f8DVrPtOrJEBHll4XacK3qYcyTqOKKMqmzjzzxQGe1h3JG5jwxKoY/jGAOu
-         UPuDBqWCjGpOnM0nKfaMcdcLHrS80cD3DBEuI3kADBq+jrKuDJZKbcWmS7FbyJi3MipR
-         3ve6Cykku4LwfpxIOUzG/jYyXjfXLRvsWReEYzkNNX7vKLFOyPR2UXkHkT70K52lFq4A
-         erVihFg8zGP7l5yfx7z9VeMqYr4tzBnGK4/qpFRYDBmgTjFYHUPaAslkGLpoQOk9y4C3
-         b6z0KQevVaGVLNQdt44XlwF++3/Q9BBkWgMeByUQrFUKRI5iJuE2qPnPMbaIByqi/V2y
-         XDUg==
-X-Gm-Message-State: ABy/qLb5iW1HYiB7v7iNQHi3PBr8Cux1ptdzs2nxfM+CNb9HTdtJkguT
-        JZHKj6aXu5xapWwgt4rhw+Yf56SJP3g96w==
-X-Google-Smtp-Source: APBJJlEM1YHHiqHXfpjovIIzH2ELbpLmM4znnfJ9W3ytz/Vf41UDcnyc5Y0/HI8uOgNC5u8ZMDPtoQ==
-X-Received: by 2002:a0d:ea48:0:b0:577:60d4:a879 with SMTP id t69-20020a0dea48000000b0057760d4a879mr16772400ywe.33.1689162788538;
-        Wed, 12 Jul 2023 04:53:08 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id q64-20020a0de743000000b0054bfc94a10dsm1116817ywe.47.2023.07.12.04.53.07
+        bh=XL5LmVWL8jdLeDSEFDFJkLxnGlhZpHUyPFm8MNn0Y6M=;
+        b=Y8IHRvuH+rmzqi/Ym+YMTBJ+0LHLRPUCXti/r3AbaQpQ9rlIwRqO4vTh97Kdoesh8g
+         Pcanzfo2umZ224BEDkFufTf+OTEnQiY3bDZGaV8t34b+u4uR6BHrBmf4tKy2TBGdPxnI
+         2zgnIX0Wu3NNVrTKsrCajVdIGmdQaEeount0vvo9NbxlnME4wvOqL8ArT+wQjnY46z+V
+         yB+35nFLw7RP4N5E5oeVB9w4jD73rGH7DWpLHMAx3pHy+FgAb7YZKC5L7wztQOyMAMD1
+         JkwEXdqC0968ATBCERQxkVfFiVCnCDbc5ok0PIpTzKmytFp4LhIVU6P0mS0TSU4SIsg4
+         FSzQ==
+X-Gm-Message-State: ABy/qLYvjp1DtfM6IzMuB9xjy9WTjOtoFm3lswdX/Faw7SRkWgu6qDid
+        Uts6Q/6Yu9zf7maoGPjP46TynRq+U8T5ig==
+X-Google-Smtp-Source: APBJJlFCcrC9/SwwErGjwvqYomDm5iDfAIwqr0Gx5iu+UqqUNiqkxjCDbBdtUeB3nLz60KlpxhIf4g==
+X-Received: by 2002:a81:84ca:0:b0:56d:3b1a:8641 with SMTP id u193-20020a8184ca000000b0056d3b1a8641mr16063476ywf.23.1689163113193;
+        Wed, 12 Jul 2023 04:58:33 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id a187-20020a818ac4000000b0057a9a46e2b7sm1117006ywg.80.2023.07.12.04.58.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 04:53:07 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c01e1c0402cso6058688276.0;
-        Wed, 12 Jul 2023 04:53:07 -0700 (PDT)
-X-Received: by 2002:a05:6902:145:b0:bcc:c347:81de with SMTP id
- p5-20020a056902014500b00bccc34781demr12762298ybh.36.1689162786946; Wed, 12
- Jul 2023 04:53:06 -0700 (PDT)
+        Wed, 12 Jul 2023 04:58:32 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-bd0a359ca35so6048798276.3;
+        Wed, 12 Jul 2023 04:58:32 -0700 (PDT)
+X-Received: by 2002:a25:9d8d:0:b0:c5d:1407:f2bc with SMTP id
+ v13-20020a259d8d000000b00c5d1407f2bcmr15097657ybp.17.1689163112630; Wed, 12
+ Jul 2023 04:58:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230712113731.3306-1-wsa+renesas@sang-engineering.com> <20230712113731.3306-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230712113731.3306-3-wsa+renesas@sang-engineering.com>
+References: <20230712113731.3306-1-wsa+renesas@sang-engineering.com> <20230712113731.3306-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230712113731.3306-4-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jul 2023 13:52:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX0vZm3npL-8MiNMo7Zjznz2qmuPR=8a0O0uxZjfpV7uQ@mail.gmail.com>
-Message-ID: <CAMuHMdX0vZm3npL-8MiNMo7Zjznz2qmuPR=8a0O0uxZjfpV7uQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: gnss: u-blox: add "reset-gpios" binding
+Date:   Wed, 12 Jul 2023 13:58:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVthAaoyV2FMabjva=oRFxJQ+qW9fzu6X5b8gpCBdXFAw@mail.gmail.com>
+Message-ID: <CAMuHMdVthAaoyV2FMabjva=oRFxJQ+qW9fzu6X5b8gpCBdXFAw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] gnss: ubx: add support for the reset gpio
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -74,32 +71,67 @@ Hi Wolfram,
 
 On Wed, Jul 12, 2023 at 1:40 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Needed to enable this chip on a Renesas KingFisher board. Description
-> copied over from the Mediatek driver which already supports it.
+> Tested with a Renesas KingFisher board. Because my GNSS device is hooked
+> up via UART and I2C simultaneously, I could verify functionality by
+> opening/closing the GNSS device using UART and see if the corresponding
+> I2C device was visible on the bus.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml
-> +++ b/Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml
-> @@ -41,6 +41,12 @@ properties:
->      description: >
->        Backup voltage regulator
+> --- a/drivers/gnss/ubx.c
+> +++ b/drivers/gnss/ubx.c
+> @@ -29,6 +31,8 @@ static int ubx_set_active(struct gnss_serial *gserial)
+>         if (ret)
+>                 return ret;
 >
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: >
-> +      An optional reset line, with names such as RESET or NRESET.
-> +      If the line is active low it should be flagged with GPIO_ACTIVE_LOW.
+> +       gpiod_set_value_cansleep(data->reset_gpio, 0);
+> +
+>         return 0;
+>  }
+>
+> @@ -41,6 +45,8 @@ static int ubx_set_standby(struct gnss_serial *gserial)
+>         if (ret)
+>                 return ret;
+>
+> +       gpiod_set_value_cansleep(data->reset_gpio, 1);
 
-I think you can drop the description, as it describes only the obvious.
+Please assert reset before disabling the regulator, for symmetry
+with ubx_set_active().
+
+> +
+>         return 0;
+>  }
+>
+> @@ -90,6 +96,13 @@ static int ubx_probe(struct serdev_device *serdev)
+>         if (ret < 0 && ret != -ENODEV)
+>                 goto err_free_gserial;
+>
+> +       /* Start with reset asserted (GPIO must be active low!) */
+
+Does it have to be active low?
+The description in your DT bindings suggest both active low and active
+high are possible.
+
+I think you just wanted to express that GPIOD_OUT_HIGH means asserted,
+i.e. low for the common case of an active-low reset?
+
+> +       data->reset_gpio = devm_gpiod_get_optional(&serdev->dev, "reset", GPIOD_OUT_HIGH);
+> +       if (IS_ERR(data->reset_gpio)) {
+> +               ret = PTR_ERR(data->reset_gpio);
+> +               goto err_free_gserial;
+> +       }
+> +
+>         ret = gnss_serial_register(gserial);
+>         if (ret)
+>                 goto err_free_gserial;
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
