@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA41B75097E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 15:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE8C750987
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 15:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233435AbjGLNWl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 09:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
+        id S232508AbjGLNXf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jul 2023 09:23:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjGLNWi (ORCPT
+        with ESMTP id S232145AbjGLNXJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 09:22:38 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC03C1736
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 06:22:35 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b703cbfaf5so112641521fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 06:22:35 -0700 (PDT)
+        Wed, 12 Jul 2023 09:23:09 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21A7919A6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 06:23:07 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b6a6f224a1so114718121fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 06:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689168154; x=1691760154;
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689168185; x=1691760185;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=li3E/61ADcsZod/5LKw2HR315GVhjLDgclmxVHETTdU=;
-        b=vr4zuyl2lwmVevSgLN6VT7Lpy4p1zh2Px0CUy22opH8BhKEMTUw5CKdfR/cLCK8iPK
-         x4YyI8W8hnzF4e3rlBS0ynGh9WVddaYEqRwpmqb9ONcD92l/oELnz5CTL69U0Wvwah7q
-         f7JL9jpPIUkRKGuTstdsrsC4mjv1PYCEyo1A3RV+/nIzLudDBDWlaE5AkrcjZjQP5aNd
-         xnsWniweqY8WEhnXDQcry/0KfM3t+vw6+qyy+ADIlvY8VAEqJV+GdpFSxVEspbZb+ytM
-         wYKodM3e2prVxnhlGEk/0jQWBvdWvdhivzyRUbtBfQZGyNQ6ehrpSzZJ4xhtMZZXxwnc
-         BN4A==
+        bh=cFbSFj9le/usrCi2OxYHwS0d4kbQdwC9hFOkQplOr7s=;
+        b=y9Dk2RnSmhBdUuFNGlfxUKPD2/zFsx9LtPsqr3+Ll7Ldjus4MTVnbVWDhy9gXP56Wj
+         uCdINq8m0ym5JfEwKMi4/uw4G34TDwII5Kbz0VuQ4BPeDmP9McF7RO4SqRUrJOYJ34wD
+         I9L7llj+bdDYjwgnZTrDlTx1uxwm7jim5/tNaDVf+/IAwmWLjPFSIVk5VPgU94saeZMC
+         0yvYpu2AOIYnTRIBBdVoR7S3/ZHvEu2H1TC98PujEU/R/GMQ68cLu4L/LhxZzNug1X/N
+         IwoFjjZMGJ8U/gYgeb62v05NSkeNxzX4jZ1nxL79YD8h22/7nLkIfb9MqVUfvWzX9uYt
+         SjaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689168154; x=1691760154;
+        d=1e100.net; s=20221208; t=1689168185; x=1691760185;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=li3E/61ADcsZod/5LKw2HR315GVhjLDgclmxVHETTdU=;
-        b=fN7KYOQLeZU+FIQY2u2EkLs82MKYY8uKSOmVekt7ChAMapSImzdv/mBb8cyFRwoy53
-         4kNiWnqxjx6CsNInCmb1y8CTOmIrmzz2TCJbeN7q8c0YBZTTJ7ZjHAcRaZwa5rmLZiaE
-         OYdNaSSpOZIXYvGvBFyvS35XQu2vUp82mDQIwr6qezTMToWuXkhiy26NoSDe0Cvn6Kv8
-         dcX2EIj6x+AywblSpA8/K98gk33Qi1LDnHl991l71FKomrvxGU3QQVzpy/Z/+fBzEfLL
-         DqUU3fCllPktL8QP3vVLVbzlC8fvZBs/dbiJda9DdvLXITydylptgG9rzuFQGkhZpsj0
-         jZog==
-X-Gm-Message-State: ABy/qLZ4zgFi0W5dNk2H9b2ZUQSgtxfy4KmAf/Y5M/Ah8+qAuT9PmSyp
-        tboXeKbdxoSOzOvoVvCvGO9TcQ==
-X-Google-Smtp-Source: APBJJlGdBgrCo61F9SOyQp2F2oByZi4gaqkoAQSJlEtoOkq/ftxZNCEkur9U9EKBzKrGwjTBOXqUSQ==
-X-Received: by 2002:a2e:8450:0:b0:2b6:d137:b5a1 with SMTP id u16-20020a2e8450000000b002b6d137b5a1mr17662236ljh.43.1689168154106;
-        Wed, 12 Jul 2023 06:22:34 -0700 (PDT)
+        bh=cFbSFj9le/usrCi2OxYHwS0d4kbQdwC9hFOkQplOr7s=;
+        b=fBtvAbiohpndiZDyv5D0CXOLW17sLz8mKVkWq+EMn1M0Cxo3CNKZCF1/xvYYryXR1/
+         5tDu5+wwpoLkgadyXyvmA9++75L17i+gM3QzyICTKeGttrfbkcB1VG1RHSLLkxwBsNRm
+         8qXI5HL9azOokIu3cB8UZGSmY5LZDJpjeY0l3QqBmcKOaW3xJRcmEGCyXNwZrWYZC+mV
+         9um7jXjKsJl58XaKhrzr2Gt7/MGR47vX/b3UbkHZi6LrClwcM1YTj/2/bRzoID5+7wMQ
+         OE55lQ4sJ8mte0rmVHsBXCvVj63e8JPh17atgock3SBTEuqsuSxbj9iYRa0QxJ8ZoTLX
+         f4JA==
+X-Gm-Message-State: ABy/qLbVs7AgtkZ3cjVWXLuZ9XX/GcP2cI44IeaNbMwaqD9TI5XTwcO4
+        sid1xJHgGU50gBPPh/Dq6mhJ5g==
+X-Google-Smtp-Source: APBJJlEjY62aR6eUpwBN6FjTaX14zPhrcQ7k6aIg1dZBoRF9vUfb3XIfKktTWtBpZChaqYbEu/YzfA==
+X-Received: by 2002:a05:6512:2344:b0:4fb:8574:a9c6 with SMTP id p4-20020a056512234400b004fb8574a9c6mr18519564lfu.10.1689168185304;
+        Wed, 12 Jul 2023 06:23:05 -0700 (PDT)
 Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id u6-20020a2e8446000000b002b70ae126fasm966585ljh.129.2023.07.12.06.22.33
+        by smtp.gmail.com with ESMTPSA id f11-20020ac2532b000000b004fb76438a83sm709467lfh.171.2023.07.12.06.23.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 06:22:33 -0700 (PDT)
-Date:   Wed, 12 Jul 2023 15:22:32 +0200
+        Wed, 12 Jul 2023 06:23:04 -0700 (PDT)
+Date:   Wed, 12 Jul 2023 15:23:04 +0200
 From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To:     Yangtao Li <frank.li@vivo.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -61,26 +61,27 @@ Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         <u.kleine-koenig@pengutronix.de>,
         linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/27] drivers/thermal/rcar_gen3_thermal: Convert to
- platform remove callback returning void
-Message-ID: <ZK6pGInuXe9wipWf@oden.dyn.berto.se>
+Subject: Re: [PATCH 21/27] thermal/drivers/rcar_thermal: Convert to platform
+ remove callback returning void
+Message-ID: <ZK6pOIET7MnkkP-d@oden.dyn.berto.se>
 References: <20230712081258.29254-1-frank.li@vivo.com>
- <20230712081258.29254-4-frank.li@vivo.com>
+ <20230712081258.29254-21-frank.li@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230712081258.29254-4-frank.li@vivo.com>
+In-Reply-To: <20230712081258.29254-21-frank.li@vivo.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-07-12 16:12:35 +0800, Yangtao Li wrote:
+On 2023-07-12 16:12:52 +0800, Yangtao Li wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -98,21 +99,23 @@ On 2023-07-12 16:12:35 +0800, Yangtao Li wrote:
 Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 
 > ---
->  drivers/thermal/rcar_gen3_thermal.c | 6 ++----
+>  drivers/thermal/rcar_thermal.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-> index 9029d01e029b..1405163caa34 100644
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -432,14 +432,12 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
->  };
->  MODULE_DEVICE_TABLE(of, rcar_gen3_thermal_dt_ids);
->  
-> -static int rcar_gen3_thermal_remove(struct platform_device *pdev)
-> +static void rcar_gen3_thermal_remove(struct platform_device *pdev)
+> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+> index b8571f7090aa..b4c58c5f6f6d 100644
+> --- a/drivers/thermal/rcar_thermal.c
+> +++ b/drivers/thermal/rcar_thermal.c
+> @@ -371,7 +371,7 @@ static irqreturn_t rcar_thermal_irq(int irq, void *data)
+>  /*
+>   *		platform functions
+>   */
+> -static int rcar_thermal_remove(struct platform_device *pdev)
+> +static void rcar_thermal_remove(struct platform_device *pdev)
 >  {
+>  	struct rcar_thermal_common *common = platform_get_drvdata(pdev);
 >  	struct device *dev = &pdev->dev;
+> @@ -388,8 +388,6 @@ static int rcar_thermal_remove(struct platform_device *pdev)
 >  
 >  	pm_runtime_put(dev);
 >  	pm_runtime_disable(dev);
@@ -120,15 +123,15 @@ Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 > -	return 0;
 >  }
 >  
->  static void rcar_gen3_hwmon_action(void *data)
-> @@ -594,7 +592,7 @@ static struct platform_driver rcar_gen3_thermal_driver = {
->  		.of_match_table = rcar_gen3_thermal_dt_ids,
+>  static int rcar_thermal_probe(struct platform_device *pdev)
+> @@ -581,7 +579,7 @@ static struct platform_driver rcar_thermal_driver = {
+>  		.of_match_table = rcar_thermal_dt_ids,
 >  	},
->  	.probe		= rcar_gen3_thermal_probe,
-> -	.remove		= rcar_gen3_thermal_remove,
-> +	.remove_new	= rcar_gen3_thermal_remove,
+>  	.probe		= rcar_thermal_probe,
+> -	.remove		= rcar_thermal_remove,
+> +	.remove_new	= rcar_thermal_remove,
 >  };
->  module_platform_driver(rcar_gen3_thermal_driver);
+>  module_platform_driver(rcar_thermal_driver);
 >  
 > -- 
 > 2.39.0
