@@ -2,91 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F096475088F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 14:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF89C7508B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 14:49:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233192AbjGLMnr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 08:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
+        id S233351AbjGLMtk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jul 2023 08:49:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232260AbjGLMnq (ORCPT
+        with ESMTP id S232525AbjGLMth (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 08:43:46 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683D11724
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 05:43:36 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:2b42:575f:41f:104f])
-        by andre.telenet-ops.be with bizsmtp
-        id LCja2A0024w94eT01Cjax2; Wed, 12 Jul 2023 14:43:34 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qJZBn-001Cuc-33;
-        Wed, 12 Jul 2023 14:43:33 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qJZBt-00FzaR-Rt;
-        Wed, 12 Jul 2023 14:43:33 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Fixes for v6.5
-Date:   Wed, 12 Jul 2023 14:43:29 +0200
-Message-Id: <cover.1689165422.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Wed, 12 Jul 2023 08:49:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D605C1712
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 05:49:36 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qJZHc-0005nV-F2; Wed, 12 Jul 2023 14:49:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qJZHb-00DtNV-FD; Wed, 12 Jul 2023 14:49:27 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qJZHa-004J0e-B0; Wed, 12 Jul 2023 14:49:26 +0200
+Date:   Wed, 12 Jul 2023 14:49:25 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Yangtao Li <frank.li@vivo.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 21/27] thermal/drivers/rcar_thermal: Convert to platform
+ remove callback returning void
+Message-ID: <20230712124925.mssqxm3cvvgy2bbc@pengutronix.de>
+References: <20230712081258.29254-1-frank.li@vivo.com>
+ <20230712081258.29254-21-frank.li@vivo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tf26cdgvc5q2g7lq"
+Content-Disposition: inline
+In-Reply-To: <20230712081258.29254-21-frank.li@vivo.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
 
-The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+--tf26cdgvc5q2g7lq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+Hello,
 
-are available in the Git repository at:
+On Wed, Jul 12, 2023 at 04:12:52PM +0800, Yangtao Li wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-fixes-for-v6.5-tag1
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-for you to fetch changes up to bfc374a145ae133613e05b9b89be561f169cb58d:
+Best regards
+Uwe
 
-  pinctrl: renesas: rzg2l: Handle non-unique subnode names (2023-07-10 10:00:27 +0200)
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-----------------------------------------------------------------
-pinctrl: renesas: Fixes for v6.5
+--tf26cdgvc5q2g7lq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  - Fix handling of non-unique pin control configuration subnode names
-    on the RZ/V2M and RZ/G2L SoC families.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks for pulling!
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSuoVQACgkQj4D7WH0S
+/k7K5AgAm0/HM7N+Wpid5+g4rZnR/veF450ephm3dGBsVNwsSsSyvzQJ3Vq5FMo/
+imp2YHjJFwmU5XgEt902XhgpOF/ABqWEeQaDUjdPnRTxLbTzhMBZLKx7Rgv1zUQW
+gZcswSMOkE2uFuvm4QbDoVxmIHsSZCrhxHv72Az2CWILdnENO90LjGMRxzxzVhyi
+7syCB+s+usqaKe9f0VNW43/AMGKAP8TywrLFM553EjTKtfNLtGX5uUZOwYIFCr5i
+1Kxvs7VHBAXrtfXO0S6wTQN1fcnsfR4UlqkBqxYu6Qf8kJaziWSN3oA8j4Pea511
+W1hpClUrNd/ira9dnJb5CyUocRlX0g==
+=0C0b
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Biju Das (1):
-      pinctrl: renesas: rzg2l: Handle non-unique subnode names
-
-Geert Uytterhoeven (1):
-      pinctrl: renesas: rzv2m: Handle non-unique subnode names
-
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 28 ++++++++++++++++++++--------
- drivers/pinctrl/renesas/pinctrl-rzv2m.c | 28 ++++++++++++++++++++--------
- 2 files changed, 40 insertions(+), 16 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--tf26cdgvc5q2g7lq--
