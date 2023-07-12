@@ -2,66 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E24A7507F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 14:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4675275082F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 14:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233149AbjGLMQ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 08:16:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
+        id S233026AbjGLM0a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jul 2023 08:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232473AbjGLMQt (ORCPT
+        with ESMTP id S232216AbjGLM03 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 08:16:49 -0400
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD9F4173C;
-        Wed, 12 Jul 2023 05:16:42 -0700 (PDT)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7835e5fa459so237485539f.2;
-        Wed, 12 Jul 2023 05:16:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689164202; x=1691756202;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YRfuEf8QvPMdA6+TuyHkkBUYH2h9XWzRNhgHoDqrdDk=;
-        b=USBixVWepPjrRE4rMcZ73maneDArQ0YIoGi6rNAd3c7iCEOYSLxxKjuVZyJ7kGnK4b
-         R3feBmisyrp0ofCPnfVnHGdUXff08tn7vjxsV/YJkWuzW/VO7zKPr3x7OUsrwCfTYa4w
-         DvWN3ZmHAthnqE8Z1gTx49KqaPZnzHsrmz3ILmOoLa77MJh1anqfK7yc3F61+/u5NV+7
-         RGDM9ZJc1mRrHvv/8j7kYJf36IsaAo5buU8WWjmVpRhRDJ8AI3j1YhQS15xaGHpG+sEb
-         zHt0r/rSicbUz6wzojHz93XPgmJ0XqAsLDKL+gthvSOvO5NrchVG5mwzWBYkG5hpF7X7
-         va3A==
-X-Gm-Message-State: ABy/qLaiEwiYaBd+5gubOKMnR2BhOk6yqchFJD2FCfaWyxQHnXSqY5iL
-        PqfnZrv9to6+zPlY2SojwA==
-X-Google-Smtp-Source: APBJJlHq/CeB5FNhXo+hvT0Ni2TOesVAeCW0bTRMn/zJugXXm3vQ2S8xupO8XpJFxby9VWQyKB/OUQ==
-X-Received: by 2002:a5d:8894:0:b0:760:e308:107e with SMTP id d20-20020a5d8894000000b00760e308107emr17856368ioo.0.1689164201781;
-        Wed, 12 Jul 2023 05:16:41 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id dm26-20020a0566023b9a00b0077a1d1029fcsm1308179iob.28.2023.07.12.05.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 05:16:41 -0700 (PDT)
-Received: (nullmailer pid 4079137 invoked by uid 1000);
-        Wed, 12 Jul 2023 12:16:39 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wed, 12 Jul 2023 08:26:29 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73658A0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 05:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=rejZ
+        5mTvsZMPfmMa/85aO/gvEZ1HzcesnUzhj7Rtx5M=; b=hWTfY/bTig3TgvUCEspK
+        RW7aWSfg9iaLGa+f/Z1sljO0/YBfMZH3g0AZQtJ6Q2si8OdxSHdR/2xBSzAVdjdt
+        NOoiukjY8GYFlCwrZzjIgVK8PxXcxXpk7HuZU64eewDRv6l4xH5rMDTiLfMUnHER
+        5c4QKpJMBCc1Fx0uQef2lpes6VE0jbWyZPIFSaadw7I09cBXHwrkHYiQ3VueVH9J
+        dwQwEzK79ZEAcq1ioFzeIvVq9u4wu/viHWME1QMO2mVXKXj/TwbxHhB7uOs0IIVu
+        uddFQIqc+5CD6W+ZEXraP3Au71Ql7LzAGtCIxRojob6W6BYxrd228J7Usf3nkqEn
+        0g==
+Received: (qmail 1611144 invoked from network); 12 Jul 2023 14:26:23 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jul 2023 14:26:23 +0200
+X-UD-Smtp-Session: l3s3148p1@GuziUkkAnsgujnvL
+Date:   Wed, 12 Jul 2023 14:26:23 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         linux-kernel@vger.kernel.org
-In-Reply-To: <20230712113731.3306-3-wsa+renesas@sang-engineering.com>
-References: <20230712113731.3306-1-wsa+renesas@sang-engineering.com>
- <20230712113731.3306-3-wsa+renesas@sang-engineering.com>
-Message-Id: <168916419973.4079096.16108131261602732302.robh@kernel.org>
-Subject: Re: [PATCH 2/3] dt-bindings: gnss: u-blox: add "reset-gpios"
- binding
-Date:   Wed, 12 Jul 2023 06:16:39 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Subject: Re: [PATCH RFT] mmc: renesas_sdhi: register irqs before registering
+ controller
+Message-ID: <ZK6b70cCxM8h47Z8@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Ulf Hansson <ulf.hansson@linaro.org>, linux-kernel@vger.kernel.org
+References: <20230710140825.47793-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXr4CmupM9vadidHdyv0ShOhR2yYCCxeDt70d1rPUXBdg@mail.gmail.com>
+ <CAMuHMdWwN9Z2Bui6PR6QxBoLJnvs--BXXep10NR7wRd1cfqKKA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Bry+Vts5mdcdFKyJ"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWwN9Z2Bui6PR6QxBoLJnvs--BXXep10NR7wRd1cfqKKA@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,43 +61,36 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-On Wed, 12 Jul 2023 13:37:30 +0200, Wolfram Sang wrote:
-> Needed to enable this chip on a Renesas KingFisher board. Description
-> copied over from the Mediatek driver which already supports it.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+--Bry+Vts5mdcdFKyJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
+> No issues seen after reverting fa700d73494abbd3 and applying your patch
+> (plus the fix below) on top of today's renesas-drivers release.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/gnss/u-blox,neo-6m.example.dts:23.40-41 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/gnss/u-blox,neo-6m.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+Thanks! I would have fixed it differently but I agree this is probably
+the best version when backporting is also considered.
 
-doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230712113731.3306-3-wsa+renesas@sang-engineering.com
+--Bry+Vts5mdcdFKyJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+-----BEGIN PGP SIGNATURE-----
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSum+oACgkQFA3kzBSg
+KbaW4BAAiK5dSXGHctV7D2x4qneA0M+40+sgLVdmramiNOvkaEEr0jpHyFFCsVdu
+7LjzOHxYeZ91jgg+2i9+rs5w9CBGKQv5nrC1NisbTNDHbDMZ920iu7k9tlTXIm0G
+LHl20Ggd6QbKxkQ5Inv7imFCrNzL9d25AHQfre+8s1c0i2rsJ1LHikIyfAj2+67g
+6dEYZlI6zLDNo+ef6gwrEr6ehXIu/Ii7aQXdIKa2dqjjYjfuE7vI1qXQZasT+vKy
+hLxx1AFI6y5FiSanI/fWBvOI615WgqPNGATEW32SNjiD9jkMhySB5Ly5FeEaHXK4
+oTQGF42LKaYGHnPYqQyytST/v01Q6gD5zgox00E4PxCNX6kkxFf6UAfT5/yhc1Dc
+qtWMw17p+sKkcV1mPMcsdF8wcMtPogJRU9cHiGVWnXBIHo7RaPv/XbU2HeEahglY
+bWxWnA9bdCKdzp6XCrtMvo89JzJMH1cRqW573w8zhwYu3w3Njl5oGqgp9+16o+MZ
+gwHdqbubW/5TH1Vyyo5S22a14eVaz8b0N//EYG/ueKeJ5FOh1P2CbILuEHqlCThx
+lpLYGTOv7jdumbNerhV7dKEL1RlgGb5gbSsuXHsTgAiw17SjXiKR3ySqSTMapXaw
+3iwkpJqzexViI/z3uo0Xp5bQ/5FAu/Wk7MaHUgw7aIn7ukUrLrg=
+=o8ZM
+-----END PGP SIGNATURE-----
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--Bry+Vts5mdcdFKyJ--
