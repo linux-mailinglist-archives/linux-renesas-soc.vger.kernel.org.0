@@ -2,40 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06066750A41
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 16:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72933750A59
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 16:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232527AbjGLOAY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 10:00:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39934 "EHLO
+        id S233352AbjGLOBh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jul 2023 10:01:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231641AbjGLOAY (ORCPT
+        with ESMTP id S233163AbjGLOBb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 10:00:24 -0400
+        Wed, 12 Jul 2023 10:01:31 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9A81734
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 07:00:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 162A71FC2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jul 2023 07:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=tWAvwc/1HXdaph
-        CXYElAo38lWuIUp7aM0bJk2JX8zLg=; b=FYndmBHcDwoFQ+0nmBSCs+awo184Yo
-        jELUZkJrLaK88ralN3vNp/3Zl8TOXlOEaEdTB2fa0UeGzp/gy7rv9hDIqSJikZZ0
-        Fw4+TzJ/Y9pGK9SOyZfuX8xn44stQ4lJvB4M6S4Bae96kcZDs9LnTnuhEiS4oYfw
-        V2qwS8FjJ5ewU1L/Ms3O0eBelhkHjqZzsxwslWiDmX7ix0vj/19fuW7Bj5VOk0Y1
-        us0+6LPC+XeobJc7xYsGLRIsh21DCebjXrMqx6IZT79pt/iqeE5Oiz+3tTvnccEc
-        tMHFZkioPLg4LZFDcVVCx6/sJj6S/74/TVOL8kYHFWiTl2vRh4LMS5hw==
-Received: (qmail 1635945 invoked from network); 12 Jul 2023 16:00:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jul 2023 16:00:18 +0200
-X-UD-Smtp-Session: l3s3148p1@Uc++okoA+poujnvL
+        :mime-version:content-transfer-encoding; s=k1; bh=LjKyZDNCeruQmd
+        q7kZ8trdaaJZuig1WH4icoHMee+yM=; b=K3CWOyMwCyhHBt62QCOmES0SlKPlof
+        ytfXoz8AjiyQnOzHUmjE9/9VZucXNHWfIATPztVMg4XYHR3VS7giTpr/1UkUXKsN
+        Lxt0Sj1vdWam9lpMe5jhvwLDFUT4srVVVY9hccJebO1neyEW+wUTB6dY9/9n9NzT
+        IfX8aYbfzo0kWEqNxp6bc3WizOguCh0KsLYEKTRIJEhNRVK8maco60r5OneMIHJM
+        WmDpVzyYLU+3WmE+wGOE4MexYrS8gCUxNw7RARrJgLqFMUamM+fnkgFcwAQIFEOg
+        dNu/1MQ3ZbFxHOnWUcfXgQSQN740aUKWng9pabMc2SZHqMx6b/8CSdWg==
+Received: (qmail 1636517 invoked from network); 12 Jul 2023 16:01:17 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jul 2023 16:01:17 +0200
+X-UD-Smtp-Session: l3s3148p1@L7dBpkoACuAujnvL
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] mmc: renesas_sdhi: register irqs before registering controller
-Date:   Wed, 12 Jul 2023 16:00:11 +0200
-Message-Id: <20230712140011.18602-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] mmc: renesas_sdhi: remove outdated indentation
+Date:   Wed, 12 Jul 2023 16:01:15 +0200
+Message-Id: <20230712140116.18718-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,58 +49,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-IRQs should be ready to serve when we call mmc_add_host() via
-tmio_mmc_host_probe(). To achieve that, ensure that all irqs are masked
-before registering the handlers.
+Using tabs to make a structure initialization more readable is not
+considered helpful. Remove the final appearance from this driver.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 
-Additionally tested on a Renesas Ebisu board (R-Car E3).
+My eyes always stumble over this...
 
-Changes since v1:
-* refactored setting sdcard_irq_mask_all (Thanks Geert!)
-* added tag
-
- drivers/mmc/host/renesas_sdhi_core.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/mmc/host/renesas_sdhi_core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 345934e4f59e..2d5ef9c37d76 100644
+index 2d5ef9c37d76..10dbdb4abc93 100644
 --- a/drivers/mmc/host/renesas_sdhi_core.c
 +++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -1006,6 +1006,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		host->sdcard_irq_setbit_mask = TMIO_STAT_ALWAYS_SET_27;
- 		host->sdcard_irq_mask_all = TMIO_MASK_ALL_RCAR2;
- 		host->reset = renesas_sdhi_reset;
-+	} else {
-+		host->sdcard_irq_mask_all = TMIO_MASK_ALL;
+@@ -983,12 +983,12 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 
  	}
  
- 	/* Orginally registers were 16 bit apart, could be 32 or 64 nowadays */
-@@ -1100,9 +1102,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		host->ops.hs400_complete = renesas_sdhi_hs400_complete;
- 	}
+-	host->write16_hook	= renesas_sdhi_write16_hook;
+-	host->clk_enable	= renesas_sdhi_clk_enable;
+-	host->clk_disable	= renesas_sdhi_clk_disable;
+-	host->set_clock		= renesas_sdhi_set_clock;
+-	host->multi_io_quirk	= renesas_sdhi_multi_io_quirk;
+-	host->dma_ops		= dma_ops;
++	host->write16_hook = renesas_sdhi_write16_hook;
++	host->clk_enable = renesas_sdhi_clk_enable;
++	host->clk_disable = renesas_sdhi_clk_disable;
++	host->set_clock = renesas_sdhi_set_clock;
++	host->multi_io_quirk = renesas_sdhi_multi_io_quirk;
++	host->dma_ops = dma_ops;
  
--	ret = tmio_mmc_host_probe(host);
--	if (ret < 0)
--		goto edisclk;
-+	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, host->sdcard_irq_mask_all);
- 
- 	num_irqs = platform_irq_count(pdev);
- 	if (num_irqs < 0) {
-@@ -1129,6 +1129,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 			goto eirq;
- 	}
- 
-+	ret = tmio_mmc_host_probe(host);
-+	if (ret < 0)
-+		goto edisclk;
-+
- 	dev_info(&pdev->dev, "%s base at %pa, max clock rate %u MHz\n",
- 		 mmc_hostname(host->mmc), &res->start, host->mmc->f_max / 1000000);
- 
+ 	if (sdhi_has_quirk(priv, hs400_disabled))
+ 		host->mmc->caps2 &= ~(MMC_CAP2_HS400 | MMC_CAP2_HS400_ES);
 -- 
 2.30.2
 
