@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D5A750294
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 11:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0510675029C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 11:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbjGLJMp convert rfc822-to-8bit (ORCPT
+        id S232065AbjGLJON convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 05:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
+        Wed, 12 Jul 2023 05:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjGLJMo (ORCPT
+        with ESMTP id S233018AbjGLJOI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 05:12:44 -0400
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFC8F9;
-        Wed, 12 Jul 2023 02:12:43 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-bc379e4c1cbso7771951276.2;
-        Wed, 12 Jul 2023 02:12:43 -0700 (PDT)
+        Wed, 12 Jul 2023 05:14:08 -0400
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5408E1BD1;
+        Wed, 12 Jul 2023 02:13:59 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c4cb4919bb9so7517864276.3;
+        Wed, 12 Jul 2023 02:13:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689153163; x=1691745163;
+        d=1e100.net; s=20221208; t=1689153238; x=1691745238;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K9F/x6582lk37reIeB18SnK4WCkuUe1D9J8p4xQoxLk=;
-        b=GyZpZxu9DfV8ebVuI9GfzgPn/5x6Xy2uhg1RwBR1aQIhMcxCgSlxgmvOC1qv401ZvF
-         5cxbSeZGrpoGTHh4r3UXjw/89Aq7mKROxYImuI6sBraty4Z52pYd4eDGpgXg9+huzSMb
-         zuItOLPHHfqaJ9YN9O7IyHqov17trzCeeTyj69lyEi1PHzZEhCOVpeKh4IisPF735w6c
-         VOs9jFYqaz6Hwi3DIMbWW9JNRcDmJjtlV0MuL7Y/Zm82+cloLHTDIy33DgTQGsSiBH4n
-         dtRDyr7/UvgFxgD8vtE74K4t475U1lZEbtV0vZZTneNcTPUnq2udnvFB4JSa5rEsUfwD
-         HMTA==
-X-Gm-Message-State: ABy/qLYaqOGxo3lsRARw9V0dSkUU6R2erOKak0Q993ZBtns2lOt0pj+9
-        6InVTWHiZwkyVuvPb5UVlJ2BYZin/CgFsA==
-X-Google-Smtp-Source: APBJJlFXS1MAWsa3tSyUiLO/LR1WxuGeQRENeoebikp/W8MX90mLJPrpyHYkg4Y/kxrNaaY6iFU7cA==
-X-Received: by 2002:a25:adda:0:b0:c76:173c:6718 with SMTP id d26-20020a25adda000000b00c76173c6718mr11346245ybe.1.1689153162722;
-        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id p8-20020a25f448000000b00c62e0df7ca8sm856853ybe.24.2023.07.12.02.12.42
+        bh=+pzM/ps0J0V255RZBWb0G0YFpNEXWLUJowIcR6XiYjk=;
+        b=ccgKbAGfadOP9Kn0mhM4AVbtPUFkE3L+kGzFT26ccT06cmjptR5IfLnsEbfU8BBLKG
+         LcRCcjg0MX90UTdl3hrYMjUNXhRrQd1nPXZYUN41wWhaRPaGzFKrsuVurx317xY6wqwR
+         lj+f8rGguqwSJEdmCrYt64HAhtmOXbpQC2LKlarW9hKGoagIZoBuKYVozCjoSN80ykXv
+         Pk7HKij6GT8+HpsZ26FVq97tekziyeZ23CW2hfWRvsnL0yRY0eji2TVRsLbchaImMolv
+         667mXbMwAI4JJ8ZjKBN2+nmWNP+VvPPPfoMM7Z7DxrAvMbosHqnssLCJoIa1Yn9Y9Z2/
+         D/zA==
+X-Gm-Message-State: ABy/qLZ7/csx2xDA2/ab1CUlk1PfTnCgLxIWRjvvNqpAGxAoLBxzjmqY
+        RE2Pij5qzmaxNx8+iFOZOsyWQPNgcsX18g==
+X-Google-Smtp-Source: APBJJlEGI9QOySKutu67FT+09g5HDKJW6QaQtkhmFtI2Gt7xYrmvF9FbCFeJua7FUXQZxkuoHvrPhw==
+X-Received: by 2002:a25:743:0:b0:c42:97f9:cda6 with SMTP id 64-20020a250743000000b00c4297f9cda6mr14923290ybh.29.1689153238377;
+        Wed, 12 Jul 2023 02:13:58 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id h6-20020a25e206000000b00be865f3d4fdsm808105ybe.62.2023.07.12.02.13.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c2cf4e61bc6so7771211276.3;
-        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
-X-Received: by 2002:a25:4c85:0:b0:c24:4536:1723 with SMTP id
- z127-20020a254c85000000b00c2445361723mr17223170yba.26.1689153162357; Wed, 12
- Jul 2023 02:12:42 -0700 (PDT)
+        Wed, 12 Jul 2023 02:13:57 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-c5e76dfcc36so7536463276.2;
+        Wed, 12 Jul 2023 02:13:57 -0700 (PDT)
+X-Received: by 2002:a25:9a03:0:b0:bc1:dfa5:83a4 with SMTP id
+ x3-20020a259a03000000b00bc1dfa583a4mr15070011ybn.13.1689153237624; Wed, 12
+ Jul 2023 02:13:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230712-squealer-walmart-9587342ddec1@wendy>
-In-Reply-To: <20230712-squealer-walmart-9587342ddec1@wendy>
+References: <20230712-squealer-walmart-9587342ddec1@wendy> <18871eff-f2be-9eed-ee4c-99eba87686d8@gmail.com>
+In-Reply-To: <18871eff-f2be-9eed-ee4c-99eba87686d8@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jul 2023 11:12:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWzHSPRjJRyj0BWEBD6t6MMmRSzkbu9coGZS4bcd8yEjA@mail.gmail.com>
-Message-ID: <CAMuHMdWzHSPRjJRyj0BWEBD6t6MMmRSzkbu9coGZS4bcd8yEjA@mail.gmail.com>
+Date:   Wed, 12 Jul 2023 11:13:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX00X=L387jSrP_mZo04u0zkU8V6-g13Y2urrU1cRgS-A@mail.gmail.com>
+Message-ID: <CAMuHMdX00X=L387jSrP_mZo04u0zkU8V6-g13Y2urrU1cRgS-A@mail.gmail.com>
 Subject: Re: [PATCH v1] riscv: dts: renesas: clean up dtbs_check W=1 warning
  due to empty phy node
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     conor@kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>, conor@kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -73,43 +74,65 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 10:15 AM Conor Dooley
-<conor.dooley@microchip.com> wrote:
-> dtbs_check w/ W=1 complains:
-> Warning (unit_address_vs_reg): /soc/ethernet@11c20000/ethernet-phy@7: node has a unit name, but no reg or ranges property
-> Warning (avoid_unnecessary_addr_size): /soc/ethernet@11c20000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->
-> The ethernet@11c20000 node is guarded by an `#if (!SW_ET0_EN_N)` in
-> rzg2ul-smarc-som.dtsi, where the phy child node is added. In
-> rzfive-smarc-som.dtsi, the ethernet node is marked disabled & the
-> interrupt properties are deleted from the phy child node. As a result,
-> the produced dts looks like:
->         ethernet@11c20000 {
->                 compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
->                 /* snip */
->                 #address-cells = <0x01>;
->                 #size-cells = <0x00>;
->                 status = "disabled";
->
->                 ethernet-phy@7 {
->                 };
->         };
->
-> Adding a corresponding `#if (!SW_ET0_EN_N)` around the node in
-> rzfive-smarc-som.dtsi avoids the complaint, as the empty child node is
-> not added:
->         ethernet@11c20000 {
->                 compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
->                 /* snip */
->                 #address-cells = <0x01>;
->                 #size-cells = <0x00>;
->                 status = "disabled";
->         };
->
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Hi Sergei.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.6.
+On Wed, Jul 12, 2023 at 10:43 AM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
+> On 7/12/23 11:14 AM, Conor Dooley wrote:
+>
+> > dtbs_check w/ W=1 complains:
+> > Warning (unit_address_vs_reg): /soc/ethernet@11c20000/ethernet-phy@7: node has a unit name, but no reg or ranges property
+> > Warning (avoid_unnecessary_addr_size): /soc/ethernet@11c20000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+> >
+> > The ethernet@11c20000 node is guarded by an `#if (!SW_ET0_EN_N)` in
+> > rzg2ul-smarc-som.dtsi, where the phy child node is added. In
+> > rzfive-smarc-som.dtsi, the ethernet node is marked disabled & the
+> > interrupt properties are deleted from the phy child node. As a result,
+> > the produced dts looks like:
+> >       ethernet@11c20000 {
+> >               compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
+> >               /* snip */
+> >               #address-cells = <0x01>;
+> >               #size-cells = <0x00>;
+> >               status = "disabled";
+> >
+> >               ethernet-phy@7 {
+> >               };
+> >       };
+> >
+> > Adding a corresponding `#if (!SW_ET0_EN_N)` around the node in
+> > rzfive-smarc-som.dtsi avoids the complaint, as the empty child node is
+> > not added:
+> >       ethernet@11c20000 {
+> >               compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
+> >               /* snip */
+> >               #address-cells = <0x01>;
+> >               #size-cells = <0x00>;
+> >               status = "disabled";
+> >       };
+> >
+> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> [...]
+>
+> > diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > index d6f18754eb5d..c62debc7ca7e 100644
+> > --- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
+> > @@ -22,6 +22,7 @@ &dmac {
+> >       status = "disabled";
+> >  };
+> >
+> > +#if (!SW_ET0_EN_N)
+>
+>    Are the parens really needed here?
+
+No they aren't. But this follows the existing style of the other users.
+
+>
+> >  &eth0 {
+> >       status = "disabled";
+> >
+> [...]
 
 Gr{oetje,eeting}s,
 
