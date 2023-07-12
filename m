@@ -2,74 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFDE5750272
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 11:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D5A750294
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 11:12:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233222AbjGLJGD convert rfc822-to-8bit (ORCPT
+        id S230474AbjGLJMp convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 05:06:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
+        Wed, 12 Jul 2023 05:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232626AbjGLJFd (ORCPT
+        with ESMTP id S229610AbjGLJMo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 05:05:33 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE0F2724;
-        Wed, 12 Jul 2023 02:04:33 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7679d75940fso584616485a.0;
-        Wed, 12 Jul 2023 02:04:33 -0700 (PDT)
+        Wed, 12 Jul 2023 05:12:44 -0400
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFC8F9;
+        Wed, 12 Jul 2023 02:12:43 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-bc379e4c1cbso7771951276.2;
+        Wed, 12 Jul 2023 02:12:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689152672; x=1691744672;
+        d=1e100.net; s=20221208; t=1689153163; x=1691745163;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uIF186mRaGX5BFXMSlH2BgP4u+RcqYufJt4GrXqOpCU=;
-        b=jobu/vNOftR2lpurXpGcQu7ojLTUcBOMfCRPEXoKqu9kWjNUob61h8o22ryYsAwd7H
-         7Np3lCaTj6ZjYzquVWgqCpB2dGGB9JGHPF6UiOlOGbcSl/UNuWKvD8lKk2P+8DCeidAm
-         8DL6YvHiQuzWmx+6yEh2K7/sSCY6zPz8KJRJprzGqktVW9a5aZ951uZ86LuS7+gf27jL
-         R/bFxTn/IYNmMWoZvAZoz7OBkDKYNdNh9+ao5s1eZG7qgLgZ5VkQ5dfmkA414mctQVjp
-         za3jv3IYSHcL64q1ZLjTisjDIML20TTTBUWgsnivvx1YD04y0s73bWb2yxXBihgbuP07
-         EI/g==
-X-Gm-Message-State: ABy/qLaZ3i+Ce/9OSCJBMFCpI+fLLJqSNvyTGY9PX6AaBc0oSmBvHJnd
-        RUqO1l1Y7zRsZODYOQX311KbmUmN6SNJfg==
-X-Google-Smtp-Source: APBJJlHRYOUv25KUCxkJccL53H535+lbcKGBj66auOLOAOuJE3/We/1zfX2OodslL+8fqfxOmJFWLQ==
-X-Received: by 2002:a05:620a:2401:b0:767:30a5:4ca1 with SMTP id d1-20020a05620a240100b0076730a54ca1mr21216067qkn.46.1689152672485;
-        Wed, 12 Jul 2023 02:04:32 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id s2-20020a81bf42000000b0057d24f8278bsm631250ywk.104.2023.07.12.02.04.31
+        bh=K9F/x6582lk37reIeB18SnK4WCkuUe1D9J8p4xQoxLk=;
+        b=GyZpZxu9DfV8ebVuI9GfzgPn/5x6Xy2uhg1RwBR1aQIhMcxCgSlxgmvOC1qv401ZvF
+         5cxbSeZGrpoGTHh4r3UXjw/89Aq7mKROxYImuI6sBraty4Z52pYd4eDGpgXg9+huzSMb
+         zuItOLPHHfqaJ9YN9O7IyHqov17trzCeeTyj69lyEi1PHzZEhCOVpeKh4IisPF735w6c
+         VOs9jFYqaz6Hwi3DIMbWW9JNRcDmJjtlV0MuL7Y/Zm82+cloLHTDIy33DgTQGsSiBH4n
+         dtRDyr7/UvgFxgD8vtE74K4t475U1lZEbtV0vZZTneNcTPUnq2udnvFB4JSa5rEsUfwD
+         HMTA==
+X-Gm-Message-State: ABy/qLYaqOGxo3lsRARw9V0dSkUU6R2erOKak0Q993ZBtns2lOt0pj+9
+        6InVTWHiZwkyVuvPb5UVlJ2BYZin/CgFsA==
+X-Google-Smtp-Source: APBJJlFXS1MAWsa3tSyUiLO/LR1WxuGeQRENeoebikp/W8MX90mLJPrpyHYkg4Y/kxrNaaY6iFU7cA==
+X-Received: by 2002:a25:adda:0:b0:c76:173c:6718 with SMTP id d26-20020a25adda000000b00c76173c6718mr11346245ybe.1.1689153162722;
+        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id p8-20020a25f448000000b00c62e0df7ca8sm856853ybe.24.2023.07.12.02.12.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-bc379e4c1cbso7766516276.2;
-        Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:28b:b0:c4b:41ce:f68b with SMTP id
- v11-20020a056902028b00b00c4b41cef68bmr16459258ybh.41.1689152670844; Wed, 12
- Jul 2023 02:04:30 -0700 (PDT)
+        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c2cf4e61bc6so7771211276.3;
+        Wed, 12 Jul 2023 02:12:42 -0700 (PDT)
+X-Received: by 2002:a25:4c85:0:b0:c24:4536:1723 with SMTP id
+ z127-20020a254c85000000b00c2445361723mr17223170yba.26.1689153162357; Wed, 12
+ Jul 2023 02:12:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230511181931.869812-1-tj@kernel.org> <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org> <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org> <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
-In-Reply-To: <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
+References: <20230712-squealer-walmart-9587342ddec1@wendy>
+In-Reply-To: <20230712-squealer-walmart-9587342ddec1@wendy>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jul 2023 11:04:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
-Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE mechanism)
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rtc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Wed, 12 Jul 2023 11:12:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWzHSPRjJRyj0BWEBD6t6MMmRSzkbu9coGZS4bcd8yEjA@mail.gmail.com>
+Message-ID: <CAMuHMdWzHSPRjJRyj0BWEBD6t6MMmRSzkbu9coGZS4bcd8yEjA@mail.gmail.com>
+Subject: Re: [PATCH v1] riscv: dts: renesas: clean up dtbs_check W=1 warning
+ due to empty phy node
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     conor@kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -82,26 +73,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hoi Peter,
-
-On Wed, Jul 12, 2023 at 10:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
-> > I wonder whether the right thing to do here is somehow scaling the threshold
-> > according to the relative processing power. It's difficult to come up with a
-> > threshold which works well across the latest & fastest and really tiny CPUs.
-> > I'll think about it some more but if you have some ideas, please feel free
-> > to suggest.
+On Wed, Jul 12, 2023 at 10:15 AM Conor Dooley
+<conor.dooley@microchip.com> wrote:
+> dtbs_check w/ W=1 complains:
+> Warning (unit_address_vs_reg): /soc/ethernet@11c20000/ethernet-phy@7: node has a unit name, but no reg or ranges property
+> Warning (avoid_unnecessary_addr_size): /soc/ethernet@11c20000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 >
-> We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
-> the name, but it does have some relation to how fast the machine is.
+> The ethernet@11c20000 node is guarded by an `#if (!SW_ET0_EN_N)` in
+> rzg2ul-smarc-som.dtsi, where the phy child node is added. In
+> rzfive-smarc-som.dtsi, the ethernet node is marked disabled & the
+> interrupt properties are deleted from the phy child node. As a result,
+> the produced dts looks like:
+>         ethernet@11c20000 {
+>                 compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
+>                 /* snip */
+>                 #address-cells = <0x01>;
+>                 #size-cells = <0x00>;
+>                 status = "disabled";
+>
+>                 ethernet-phy@7 {
+>                 };
+>         };
+>
+> Adding a corresponding `#if (!SW_ET0_EN_N)` around the node in
+> rzfive-smarc-som.dtsi avoids the complaint, as the empty child node is
+> not added:
+>         ethernet@11c20000 {
+>                 compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
+>                 /* snip */
+>                 #address-cells = <0x01>;
+>                 #size-cells = <0x00>;
+>                 status = "disabled";
+>         };
+>
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 
-That's gonna fail miserably on e.g. ARM and RISC-V, where BogoMIPS
-depends on some timer frequency.
-
-R-Car M2-W with 1.5 GHz Cortex-A15: 40.00 BogoMIPS
-R-Car V4H with 1.8 GHz Cortex-A76: 33.33 BogoMIPS
-
-while the real slow 48 MHz VexRiscV gets 128 BogoMIPS.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.6.
 
 Gr{oetje,eeting}s,
 
