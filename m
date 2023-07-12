@@ -2,59 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A18B9750A94
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 16:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69CA8750AA4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 16:17:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233268AbjGLOP4 convert rfc822-to-8bit (ORCPT
+        id S229632AbjGLORG convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 10:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
+        Wed, 12 Jul 2023 10:17:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233258AbjGLOPz (ORCPT
+        with ESMTP id S229829AbjGLORF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 10:15:55 -0400
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B747510C2;
-        Wed, 12 Jul 2023 07:15:54 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso6183722276.1;
-        Wed, 12 Jul 2023 07:15:54 -0700 (PDT)
+        Wed, 12 Jul 2023 10:17:05 -0400
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FD112E;
+        Wed, 12 Jul 2023 07:17:04 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5700b15c12fso78427367b3.1;
+        Wed, 12 Jul 2023 07:17:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689171353; x=1691763353;
+        d=1e100.net; s=20221208; t=1689171424; x=1691763424;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gUKUkYOEFIfGid1+2OLYcBlqK8nZmLojwj0PzdrDpYo=;
-        b=bUabv4NCrx99n8iHsYuKtblfuAQ4uUKaxgoqCODNHOm3E9ckJFqokqkmvRxkVfzrks
-         KtpwMc13MNwCU7YFhQxGWR8rA6DEIMlZNa5NfSFiY/nKbMhN1toDewU47LKYsqykDyfK
-         QMcp1eJfNbj86vRPaC24wphWKxqWGgtklRlsAe5ebo23rFnj/VIAj6WUvm6EirYIDva3
-         PMvntMK6y1qfcCbO7vaRvG+dvQJUDBNqb+65tHcFKJfD0vu0HavnIZuIlONPkKhiL3eE
-         jV//A9gHrw7twy+ZKkvaTOM/COQ2VMekXZdq6VKW+pIXPwvkcPXSoviYjQYfskLrc0wf
-         s0jg==
-X-Gm-Message-State: ABy/qLYwgbgXzWDCSUPErdG3b4mQVR/jMURXhMiWQaO49N4w9cc++oOz
-        RvzyXtX9XnVIXxbJtymE9yQTKzPZ/NtOmw==
-X-Google-Smtp-Source: APBJJlHC7QUvBfJPF1/zNFMhy1jZlkMdd0KSFUtX/0nmTOOaCsyRxe7j2SToOujuFAzjslLYagS6/g==
-X-Received: by 2002:a5b:d02:0:b0:c00:3434:f633 with SMTP id y2-20020a5b0d02000000b00c003434f633mr15232909ybp.3.1689171353445;
-        Wed, 12 Jul 2023 07:15:53 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id o11-20020a25810b000000b00ba88763e5b5sm920173ybk.2.2023.07.12.07.15.53
+        bh=tyyFJfH5D8Bahiy0fpzGvTieHeBNsFN/lGuaj1/X0Yw=;
+        b=QPWJaI0s6BhnWK18XsagKyGIwmUUw1CSGjcwIDpCCik1A3oRQQdh22hQlebTtkEGRC
+         8RNs/qZvwgzngnZ9/uNJj0/czaQ7NGeR1pdXZyGO5YOXfzl6RaJHj1NV2r/q5SGjkyJv
+         IMr9pJ76E7iEVVZkHMJtz65nTARQV8F3aR3MVSl5HMjuHwV4iTxUDd3OyMrTo+ZoKcF/
+         RUKffUquR8dTDTLG8o9quh2iwBCTQRysljnkNiSqL4pu6MCEWj2CotkXv6Tz1s5JFNsx
+         t/b56uotAQ9gtGyghxlh2Um5cNmUiwvdfQ/l2R4gLdEtaWWgWPHoLW1IAk50xFfWOZRz
+         saTg==
+X-Gm-Message-State: ABy/qLYCcP2lsXlgvc21mhdIE21RDFR0gODOfM9e5s1NgLGW5NQiTLCc
+        L5sQPy3BrlSJ65ZJFyoL8O6yI6n6DKy4sw==
+X-Google-Smtp-Source: APBJJlED3MiB1h58MvI3CEE1zUbP2k+V5iFclE+HKSuKnStPCorlG5fifPR5gqYEyu4u0qK6uH/2+g==
+X-Received: by 2002:a0d:c784:0:b0:56f:ff88:2e43 with SMTP id j126-20020a0dc784000000b0056fff882e43mr17762581ywd.27.1689171423726;
+        Wed, 12 Jul 2023 07:17:03 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id x66-20020a0dee45000000b005772646629csm1174508ywe.144.2023.07.12.07.17.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 07:15:53 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-bd0a359ca35so6172630276.3;
-        Wed, 12 Jul 2023 07:15:53 -0700 (PDT)
-X-Received: by 2002:a5b:f4c:0:b0:c4f:1d25:c6f8 with SMTP id
- y12-20020a5b0f4c000000b00c4f1d25c6f8mr13894522ybr.21.1689171352726; Wed, 12
- Jul 2023 07:15:52 -0700 (PDT)
+        Wed, 12 Jul 2023 07:17:03 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-579d5d89b41so78328727b3.2;
+        Wed, 12 Jul 2023 07:17:03 -0700 (PDT)
+X-Received: by 2002:a5b:a83:0:b0:bc9:1019:543 with SMTP id h3-20020a5b0a83000000b00bc910190543mr15888117ybq.58.1689171422864;
+ Wed, 12 Jul 2023 07:17:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230712140011.18602-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230712140011.18602-1-wsa+renesas@sang-engineering.com>
+References: <20230712140116.18718-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230712140116.18718-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jul 2023 16:15:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX-ZzkKz1h6gLsfUEXQ41hQp0VCGrH=JmhRpOT_-_P3PQ@mail.gmail.com>
-Message-ID: <CAMuHMdX-ZzkKz1h6gLsfUEXQ41hQp0VCGrH=JmhRpOT_-_P3PQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: renesas_sdhi: register irqs before registering controller
+Date:   Wed, 12 Jul 2023 16:16:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXkMWDsjp_QOMUeV3XN5TdYtmMqX1GKbV=Bn8Q-3zyJYg@mail.gmail.com>
+Message-ID: <CAMuHMdXkMWDsjp_QOMUeV3XN5TdYtmMqX1GKbV=Bn8Q-3zyJYg@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: remove outdated indentation
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -69,24 +67,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 4:04 PM Wolfram Sang
+On Wed, Jul 12, 2023 at 4:05 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> IRQs should be ready to serve when we call mmc_add_host() via
-> tmio_mmc_host_probe(). To achieve that, ensure that all irqs are masked
-> before registering the handlers.
+> Using tabs to make a structure initialization more readable is not
+> considered helpful. Remove the final appearance from this driver.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->
-> Additionally tested on a Renesas Ebisu board (R-Car E3).
->
-> Changes since v1:
-> * refactored setting sdcard_irq_mask_all (Thanks Geert!)
-> * added tag
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
