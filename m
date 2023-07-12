@@ -2,139 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21B067501F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 10:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFDE5750272
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jul 2023 11:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjGLInw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jul 2023 04:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40724 "EHLO
+        id S233222AbjGLJGD convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jul 2023 05:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231786AbjGLInu (ORCPT
+        with ESMTP id S232626AbjGLJFd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jul 2023 04:43:50 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDBCBE;
-        Wed, 12 Jul 2023 01:43:47 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b6ff1ada5dso107261361fa.2;
-        Wed, 12 Jul 2023 01:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689151425; x=1691743425;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qVexWb2xIiXfUmTRUoCRaVuTZQZYZCzaepAYfAfny6A=;
-        b=S8H1DZo6S6oQzSMdoqsaJsn2wsCdkpAS6Wr+I3Kjxr3lDPbQ85eUpKWcgRsiITqLdQ
-         wJzAQW7baTZr9RBhSDA+HatQjx591NVZ0LVv2rZ3d+oVGHVGJU1ESDjlbDeLUZbMG9PC
-         5cIppAmouxuH+LNS/TDrZDNHY7QtcYT3i098pf+E9c6S6108x7oGjCdNgbdCqYOkPpcI
-         sq1NLvXLSvzbFoDXtp50/1gCHTZ2qksUvh2apFoqTCB+NzJEJLUvXTPgI541YmkVjDgl
-         Kl1X26JqNjAJ276rAWr/sPACtx47sZ0k9EKq8H3qM805xZjIrCbqWDmzJaTgq+X6ct8P
-         NlAA==
+        Wed, 12 Jul 2023 05:05:33 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE0F2724;
+        Wed, 12 Jul 2023 02:04:33 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7679d75940fso584616485a.0;
+        Wed, 12 Jul 2023 02:04:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689151425; x=1691743425;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qVexWb2xIiXfUmTRUoCRaVuTZQZYZCzaepAYfAfny6A=;
-        b=T2sBb8cCixc0yhHesMMZysRPX+yawoUXWyYprgZpvzPLKos8xJCxK21qoXErozz8sp
-         37kyNc44FUehJmTHbgRVwYZmfv3ku6YTiNNFA1m7UaWE9fvnhfUCD0O14aiHABGc7Q08
-         Zru+LUsvuq81KMK3NoKnIx90KYQWVypgkdaIJs2WTUsT9JMn+zjqZ08yKx4VSfKKZJY2
-         DGWH2ZH7dLh8kP93eV9t5igDUoqT2qPP0884fe/xh7fFbfogTNimN0U39mE/sjxyJJfy
-         IXakryvOqsneEeJ4XZ7/USfDvjaO/3fXmi9px6ylfVLz2aIu4ckyRjhbpIoyc4vZybc6
-         2Ceg==
-X-Gm-Message-State: ABy/qLbCvISypUt3u9RXI/dsdCpnyQN+pKTncmu1yuPKmxJ9YJZxrLUG
-        Z5x2KygC4btUiv64tClHejD+2YRdsNE=
-X-Google-Smtp-Source: APBJJlHYyuAaAq9x1E+AS9xHlZdQSOvaU3bH2T8KCkjCt4c+/0MdGf1zMrqalHo9Eu8nEvUrqhQTIA==
-X-Received: by 2002:a2e:a16e:0:b0:2b6:cf6f:159e with SMTP id u14-20020a2ea16e000000b002b6cf6f159emr15173716ljl.44.1689151425348;
-        Wed, 12 Jul 2023 01:43:45 -0700 (PDT)
-Received: from [192.168.1.103] ([31.173.82.245])
-        by smtp.gmail.com with ESMTPSA id l24-20020a2e8698000000b00295a96a0f6csm826389lji.102.2023.07.12.01.43.44
+        d=1e100.net; s=20221208; t=1689152672; x=1691744672;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uIF186mRaGX5BFXMSlH2BgP4u+RcqYufJt4GrXqOpCU=;
+        b=jobu/vNOftR2lpurXpGcQu7ojLTUcBOMfCRPEXoKqu9kWjNUob61h8o22ryYsAwd7H
+         7Np3lCaTj6ZjYzquVWgqCpB2dGGB9JGHPF6UiOlOGbcSl/UNuWKvD8lKk2P+8DCeidAm
+         8DL6YvHiQuzWmx+6yEh2K7/sSCY6zPz8KJRJprzGqktVW9a5aZ951uZ86LuS7+gf27jL
+         R/bFxTn/IYNmMWoZvAZoz7OBkDKYNdNh9+ao5s1eZG7qgLgZ5VkQ5dfmkA414mctQVjp
+         za3jv3IYSHcL64q1ZLjTisjDIML20TTTBUWgsnivvx1YD04y0s73bWb2yxXBihgbuP07
+         EI/g==
+X-Gm-Message-State: ABy/qLaZ3i+Ce/9OSCJBMFCpI+fLLJqSNvyTGY9PX6AaBc0oSmBvHJnd
+        RUqO1l1Y7zRsZODYOQX311KbmUmN6SNJfg==
+X-Google-Smtp-Source: APBJJlHRYOUv25KUCxkJccL53H535+lbcKGBj66auOLOAOuJE3/We/1zfX2OodslL+8fqfxOmJFWLQ==
+X-Received: by 2002:a05:620a:2401:b0:767:30a5:4ca1 with SMTP id d1-20020a05620a240100b0076730a54ca1mr21216067qkn.46.1689152672485;
+        Wed, 12 Jul 2023 02:04:32 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id s2-20020a81bf42000000b0057d24f8278bsm631250ywk.104.2023.07.12.02.04.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 01:43:44 -0700 (PDT)
-Subject: Re: [PATCH v1] riscv: dts: renesas: clean up dtbs_check W=1 warning
- due to empty phy node
-To:     Conor Dooley <conor.dooley@microchip.com>, geert+renesas@glider.be
-Cc:     conor@kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230712-squealer-walmart-9587342ddec1@wendy>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <18871eff-f2be-9eed-ee4c-99eba87686d8@gmail.com>
-Date:   Wed, 12 Jul 2023 11:43:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-bc379e4c1cbso7766516276.2;
+        Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
+X-Received: by 2002:a05:6902:28b:b0:c4b:41ce:f68b with SMTP id
+ v11-20020a056902028b00b00c4b41cef68bmr16459258ybh.41.1689152670844; Wed, 12
+ Jul 2023 02:04:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230712-squealer-walmart-9587342ddec1@wendy>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+References: <20230511181931.869812-1-tj@kernel.org> <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org> <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org> <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
+In-Reply-To: <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 12 Jul 2023 11:04:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
+Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE mechanism)
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rtc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hoi Peter,
 
-On 7/12/23 11:14 AM, Conor Dooley wrote:
+On Wed, Jul 12, 2023 at 10:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
+> > I wonder whether the right thing to do here is somehow scaling the threshold
+> > according to the relative processing power. It's difficult to come up with a
+> > threshold which works well across the latest & fastest and really tiny CPUs.
+> > I'll think about it some more but if you have some ideas, please feel free
+> > to suggest.
+>
+> We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
+> the name, but it does have some relation to how fast the machine is.
 
-> dtbs_check w/ W=1 complains:
-> Warning (unit_address_vs_reg): /soc/ethernet@11c20000/ethernet-phy@7: node has a unit name, but no reg or ranges property
-> Warning (avoid_unnecessary_addr_size): /soc/ethernet@11c20000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-> 
-> The ethernet@11c20000 node is guarded by an `#if (!SW_ET0_EN_N)` in
-> rzg2ul-smarc-som.dtsi, where the phy child node is added. In
-> rzfive-smarc-som.dtsi, the ethernet node is marked disabled & the
-> interrupt properties are deleted from the phy child node. As a result,
-> the produced dts looks like:
-> 	ethernet@11c20000 {
-> 		compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
-> 		/* snip */
-> 		#address-cells = <0x01>;
-> 		#size-cells = <0x00>;
-> 		status = "disabled";
-> 
-> 		ethernet-phy@7 {
-> 		};
-> 	};
-> 
-> Adding a corresponding `#if (!SW_ET0_EN_N)` around the node in
-> rzfive-smarc-som.dtsi avoids the complaint, as the empty child node is
-> not added:
-> 	ethernet@11c20000 {
-> 		compatible = "renesas,r9a07g043-gbeth\0renesas,rzg2l-gbeth";
-> 		/* snip */
-> 		#address-cells = <0x01>;
-> 		#size-cells = <0x00>;
-> 		status = "disabled";
-> 	};
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-[...]
+That's gonna fail miserably on e.g. ARM and RISC-V, where BogoMIPS
+depends on some timer frequency.
 
-> diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> index d6f18754eb5d..c62debc7ca7e 100644
-> --- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-> @@ -22,6 +22,7 @@ &dmac {
->  	status = "disabled";
->  };
->  
-> +#if (!SW_ET0_EN_N)
+R-Car M2-W with 1.5 GHz Cortex-A15: 40.00 BogoMIPS
+R-Car V4H with 1.8 GHz Cortex-A76: 33.33 BogoMIPS
 
-   Are the parens really needed here?
+while the real slow 48 MHz VexRiscV gets 128 BogoMIPS.
 
->  &eth0 {
->  	status = "disabled";
->  
-[...]
+Gr{oetje,eeting}s,
 
-MBR, Sergey
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
