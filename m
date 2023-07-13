@@ -2,177 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C12B7528E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jul 2023 18:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B61752A94
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jul 2023 20:54:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234768AbjGMQjn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jul 2023 12:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48622 "EHLO
+        id S232539AbjGMSyk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jul 2023 14:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234930AbjGMQjb (ORCPT
+        with ESMTP id S232744AbjGMSyg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jul 2023 12:39:31 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0220530E2;
-        Thu, 13 Jul 2023 09:38:14 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-992af8b3b1bso129876466b.1;
-        Thu, 13 Jul 2023 09:38:13 -0700 (PDT)
+        Thu, 13 Jul 2023 14:54:36 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B41BE3589;
+        Thu, 13 Jul 2023 11:54:08 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-262fa79e97fso524530a91.2;
+        Thu, 13 Jul 2023 11:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689266278; x=1691858278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zTECy0XE9pksvk9rdGARn97yQLZqz//+TnGl/dlhC8U=;
-        b=LxmQm36UdLQFMfeY8RdzbMNvYNdRO3URIM2OIPYsIdK1cKvUj9Ws0A/Yc9Sr6UWgjD
-         XSvC+1+8qKw7jZeFn+070dRy6AmOsjW4s+xqVsrOXwGutRjhn8aRKPUAlqv4KfQLcEcY
-         VHAiiebL9Bt8ehlrlSIR/qbz5xy2K1DCBpMOMLoUyruZhV4ozqCXTrpwe8iqBe+KHwIQ
-         fIp5x0kZS8TGi/PwAhYDafhvnU0oXsxxzFxVrE5VdkqDWlj67ITUtyehmpeO8bkWZI9i
-         Nd4NqOL5vpu1+8J1W63f8lyZrzPwfn7nNbklr9FhVM5SQPk7aa541SWy+mzph8eQxRk8
-         uCBw==
+        d=gmail.com; s=20221208; t=1689274437; x=1691866437;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S/Rh3N7Hpk2RvvFOi7xZjggtoYOkILDnWZuYI4DoA10=;
+        b=HW5cIj8f6UrrRKqCSEGCEMigQIuAtz5FZOoyenrcfjQXnkfk3x91KqAgmOfMu8rjb0
+         Ck7tu7PddO79GoM9qYGS7C5Xmp7NtD3l3Ns10x1+yAakLRUN0IwG4ffbzHFORM5JjEK7
+         XoqNvaQKUfKQuOFxG8WDYi3aM5Mwe7+AaPuBKK9Iih+Z8SC1e7KILlhVi9WuzfQdrHlp
+         tX9sJsE4pQET7vVqcOht85rsQOHTeT9LGfxwrSPrzw69KHgZP3dH4E01yzu5A0S6DWwQ
+         7EBTGYF8Cw5Pp86VOfuv5xYomnc9HKvK9VUJmyCveJoOvbxWORxNPPNzkQ1CVAsvt35m
+         O2XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689266278; x=1691858278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zTECy0XE9pksvk9rdGARn97yQLZqz//+TnGl/dlhC8U=;
-        b=bp9rJp86gziskVtkkUsJ44TvRjchlTFFOBkYgDaxhcO+xnJgQKqcM7d/AqqHMZCW4V
-         SfIgkCTNpNuvcCC2oOP7m4ejqntSbs6OpJg4/DSYXADJW3Dp3N7BAhh2HqJpJX2tajkg
-         yai4/97wKV0PMZQQxP8/hCXeCuKnHs29AL2uSPP0i3/++ikB7Ltn9EOMgjJRCi0E8QTm
-         R8q5yN2zwV38iHfWKJoTim4KA8pMhy/16rg/ivlMZ3JSsnRXVlM09pjVJXJ2l9RQSdeZ
-         SMXB7/DAWzGJnMq4Q/VI9Z2zU5GccondEqsPaUQ9bKDxGkOIAOYzIRIWiURw2WwHvR3F
-         fbIA==
-X-Gm-Message-State: ABy/qLag7fQViwS5vKHooFizebG3X8LyAcKsUlbXgB7Rmjwfh8xO1g7C
-        DvkFwS0E5j64plnc1ZQxCKuziABauMxs45urKOw=
-X-Google-Smtp-Source: APBJJlGzH3G9XAI9c6oMbI4Oz6FFlkjKXtasXUPbuk8ioVjP+JYGwaJgV512pPkq6HUAcrL7dexnIafPgpeALgsVoTo=
-X-Received: by 2002:a17:906:1d6:b0:993:ce6c:685c with SMTP id
- 22-20020a17090601d600b00993ce6c685cmr1647900ejj.18.1689266277529; Thu, 13 Jul
- 2023 09:37:57 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689274437; x=1691866437;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S/Rh3N7Hpk2RvvFOi7xZjggtoYOkILDnWZuYI4DoA10=;
+        b=Q4zGKmKl3FfJ0jQjeHwnZedqU36DzpOMEd8XvNjxrsiY+7JEl8jdnoyBngf0HMJXXq
+         l6Iz7U15V46irymToyX+50XyLH2Mo7rYjFPehEZnETASLIfi7nnktEodehKtKnC+cV/l
+         g4g9VSrfvT30crZwf/ynQZXHehufoQyhg2jh8kTRtEU7sld6RWQlCZEJqfmPALv0fD5R
+         CFNsDzr7AHlDY3XuGL4aVS5dFvK41qq2P8IzuZMHJ6Zq3xzF642J6/qOk9FgUAHSQHuy
+         eV2nDR9RBBdzl373mRmNwavfNbsoCW2Tkgx2EYU7dm23bS/FPJf1wAQF3A6bqdl1bvaO
+         IvNg==
+X-Gm-Message-State: ABy/qLbMADM/57V1QEUvcfMFHsF4+M5JYfbZa+GtQBGr5HFEYNnizQUO
+        nC7oVVsw9CN0x6LIaCJHqvs=
+X-Google-Smtp-Source: APBJJlH+ZBRMwsng5OvfXU8dbB3Xd4jXwQ7bYsHQHvrkPh/St/88lWUsQjEONL/kaZAV4BM6m8npqA==
+X-Received: by 2002:a17:90a:43c3:b0:260:d8c0:ae79 with SMTP id r61-20020a17090a43c300b00260d8c0ae79mr1339393pjg.35.1689274436784;
+        Thu, 13 Jul 2023 11:53:56 -0700 (PDT)
+Received: from localhost (dhcp-72-235-13-41.hawaiiantel.net. [72.235.13.41])
+        by smtp.gmail.com with ESMTPSA id d13-20020a17090a2a4d00b00262eccfa29fsm13036699pjg.33.2023.07.13.11.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jul 2023 11:53:56 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 13 Jul 2023 08:53:55 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rtc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
+ mechanism)
+Message-ID: <ZLBIQ550U-PhkuKJ@slm.duckdns.org>
+References: <20230511181931.869812-1-tj@kernel.org>
+ <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
+ <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+ <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
+ <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
+ <20230712122745.GH3100107@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-References: <20230622113341.657842-1-fabrizio.castro.jz@renesas.com>
- <20230622113341.657842-4-fabrizio.castro.jz@renesas.com> <ZKVI4XPbPXfzQa9J@surfacebook>
- <TYWPR01MB8775144ADA4B4FF2CB9B940BC237A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB8775144ADA4B4FF2CB9B940BC237A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 13 Jul 2023 19:37:20 +0300
-Message-ID: <CAHp75VcJvRq7BotoODW_BOh84+TD_1Q3vbXSQv3FCiJfnBx8Vw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] spi: Add support for Renesas CSI
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230712122745.GH3100107@hirez.programming.kicks-ass.net>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 6:52=E2=80=AFPM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
+On Wed, Jul 12, 2023 at 02:27:45PM +0200, Peter Zijlstra wrote:
+> On Wed, Jul 12, 2023 at 11:04:16AM +0200, Geert Uytterhoeven wrote:
+> > Hoi Peter,
+> > 
+> > On Wed, Jul 12, 2023 at 10:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
+> > > > I wonder whether the right thing to do here is somehow scaling the threshold
+> > > > according to the relative processing power. It's difficult to come up with a
+> > > > threshold which works well across the latest & fastest and really tiny CPUs.
+> > > > I'll think about it some more but if you have some ideas, please feel free
+> > > > to suggest.
+> > >
+> > > We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
+> > > the name, but it does have some relation to how fast the machine is.
+> > 
+> > That's gonna fail miserably on e.g. ARM and RISC-V, where BogoMIPS
+> > depends on some timer frequency.
+> > 
+> > R-Car M2-W with 1.5 GHz Cortex-A15: 40.00 BogoMIPS
+> > R-Car V4H with 1.8 GHz Cortex-A76: 33.33 BogoMIPS
+> > 
+> > while the real slow 48 MHz VexRiscV gets 128 BogoMIPS.
+> 
+> Hehe, OK, really bogus then. Lets file this idea in the bit-bucket then.
 
-...
+I think it can still be useful. On ryzen 3975wx, it's 6989.92, so while it
+may be off by some hundreds of percents, there are still orders of magnitude
+signal range and that should be enough to suppress most spurious warnings.
+I'll post something later today.
 
-> > > +#define CSI_CKS_MAX                0x3FFF
-> >
-> > If it's limited by number of bits, i would explicitly use that informat=
-ion
-> > as
-> > (BIT(14) - 1).
->
-> That value represents the register setting for the maximum clock divider.
-> The maximum divider and corresponding register setting are plainly stated
-> in the HW User Manual, therefore I would like to use either (plain) value
-> to make it easier for the reader.
->
-> I think perhaps the below makes this clearer:
-> #define CSI_CKS_MAX_DIV_RATIO   32766
+Thanks.
 
-Hmm... To me it's a bit confusing now. Shouldn't it be 32767?
-
-> #define CSI_CKS_MAX             (CSI_CKS_MAX_DIV_RATIO >> 1)
-
-Whatever you choose it would be better to add a comment to explain
-this. Because the above is more clear to me with BIT(14)-1 if the
-register field is 14-bit long.
-With this value(s) I'm lost. Definitely needs a comment.
-
-...
-
-> > > +static const unsigned char x_trg[] =3D {
-> > > +   0, 1, 1, 2, 2, 2, 2, 3,
-> > > +   3, 3, 3, 3, 3, 3, 3, 4,
-> > > +   4, 4, 4, 4, 4, 4, 4, 4,
-> > > +   4, 4, 4, 4, 4, 4, 4, 5
-> > > +};
-> > > +
-> > > +static const unsigned char x_trg_words[] =3D {
-> > > +   1,  2,  2,  4,  4,  4,  4,  8,
-> > > +   8,  8,  8,  8,  8,  8,  8,  16,
-> > > +   16, 16, 16, 16, 16, 16, 16, 16,
-> > > +   16, 16, 16, 16, 16, 16, 16, 32
-> > > +};
-> >
-> > Why do you need tables? At the first glance these values can be easily
-> > calculated from indexes.
->
-> I think I am going to replace those tables with the below (and of course
-> adjust the callers accordingly since the argument is not an index anymore=
-):
->
-> static inline unsigned int x_trg(unsigned int words)
-> {
->         return fls(words) - 1;
-> }
-
-OK, but I think you can use it just inplace, no need to have such as a
-standalone function.
-
-> static inline unsigned int x_trg_words(unsigned int words)
-> {
->         return 1 << x_trg(words);
-> }
-
-Besides a better form of BIT(...) this looks to me like NIH
-roundup_pow_of_two().
-
-...
-
-> > > +   /* Setup clock polarity and phase timing */
-> > > +   rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_CKP,
-> > > +                           !(spi->mode & SPI_CPOL));
-> > > +   rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_DAP,
-> > > +                           !(spi->mode & SPI_CPHA));
-> >
-> > Is it a must to do in a sequential writes?
->
-> It's not a must, I'll combine those 2 statements into 1.
-
-If so, you can use SPI_MODE_X_MASK.
-
-...
-
-> > > +   controller->mode_bits =3D SPI_CPOL | SPI_CPHA | SPI_LSB_FIRST;
-> >
-> > SPI_MODE_X_MASK
->
-> This statement sets the mode_bits. Using a macro meant to be used as a
-> mask in this context is something I would want to avoid if possible.
-
-Hmm... not a big deal, but I think that's what covers all mode_bits,
-and mode_bits by nature _is_ a mask.
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+tejun
