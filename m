@@ -2,57 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F032751A1B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jul 2023 09:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE09A751A31
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jul 2023 09:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232160AbjGMHme convert rfc822-to-8bit (ORCPT
+        id S232359AbjGMHpZ convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jul 2023 03:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
+        Thu, 13 Jul 2023 03:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231304AbjGMHmd (ORCPT
+        with ESMTP id S231238AbjGMHpY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jul 2023 03:42:33 -0400
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C7E6210B;
-        Thu, 13 Jul 2023 00:42:32 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-cada5e4e3f6so350328276.3;
-        Thu, 13 Jul 2023 00:42:32 -0700 (PDT)
+        Thu, 13 Jul 2023 03:45:24 -0400
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91BD26BB;
+        Thu, 13 Jul 2023 00:45:06 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-cb37a0ea5b3so234950276.0;
+        Thu, 13 Jul 2023 00:45:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689234151; x=1691826151;
+        d=1e100.net; s=20221208; t=1689234305; x=1691826305;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8krer+8j95T/aDRBj7B54mUFVi5tYtXPjB0AgqOLDoA=;
-        b=BHkpxyXbpBnfSEO0dPSdjorGO/UBxOhyXeW8+UCguWlPvUeq9XhqgnNGmYKkzpMX15
-         vwVGaIr4AxCDa/K7v/o996JfnEnkk2HyRxpkVOBpfgW6IMc8LbjkaUPqAlmLxuEIV898
-         NQxBBsb7oWoaGaDoBgxRrUsXgD7BOTKGWT8f7KD32dHTLvYzNDvubJg//DQra3jFVqFP
-         2uRLMnvCZRA6oRrFjDoFTd4zPHLaN+TNbbhoLrB0RVtRnLszYPk4nLVlsbSaXgEEbInD
-         9JVQ0CTgZ66BbNpRYqLHO0t02uJwpWxhqj3wGS6eVSArvey0xYKexssTCWCGy0GCXwEH
-         XKOg==
-X-Gm-Message-State: ABy/qLYiABgRELMUAoTy4Fb5LBcZX9uOyr3Sr/zp9hinDh9A7fdky6/i
-        bXq4navuCU/wmC2elGWg/6L7Yr9GDQnCMN1D
-X-Google-Smtp-Source: APBJJlEzROJ6a3dqpypYWUpA72pdAG7euvIAe/0SCN4XYpVpqEP+ilSmoQmUPi41+gL8JMLxRTPIkQ==
-X-Received: by 2002:a25:4e88:0:b0:cad:8d36:2a34 with SMTP id c130-20020a254e88000000b00cad8d362a34mr614372ybb.49.1689234151347;
-        Thu, 13 Jul 2023 00:42:31 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id b8-20020a252e48000000b00c61af359b15sm1260798ybn.43.2023.07.13.00.42.31
+        bh=SG3PKVPC3LXczbcdw4qaLpSGd2SI5ZbZgcR7us1BJMA=;
+        b=BpoQ3LjelVmCSi4TOb3wwISUoEiFraYRi//En+4xOkAj+dN9KdCfsfS30wnGwcBUSe
+         E7RV3BI4SUi/dwBYaRrOk2XU5Y4PyJfxOfanyRE8Dvp8Fd3ea+K/S/eXjrCquaDsSfve
+         OXZJvGMRGMQLCYND6SVikO71qRLl8jZf+1ooa8kTmbo6OqeCcLFWBfLt5/WAYKQlM4+3
+         XfZe6gAAkcNPzBCozTNQQyULesbeaTUq+AxDGERhnG+P4WUYzMXdDMdtOTWkAyaeJjZz
+         REU1jqAr6M4jHgaw6yH8gpH/N3o2fLWeKx3XGg8Ow/z/IPC2muHq3Wucj00VZ5oCr9hJ
+         +fXQ==
+X-Gm-Message-State: ABy/qLaD4J3460IMYTtekq9po4By32ANp2sWRSfiVUsQeolXwJNHpLid
+        aIMvdA+W5oybwCD7EFGg+WbOkdUCvB37ljS4
+X-Google-Smtp-Source: APBJJlGSOB2bMl83Dxb6f55d30Buz98iO4A2DfjDriBdJo0lybGGipCExURmkr/irWYNjjdangCe2A==
+X-Received: by 2002:a25:738b:0:b0:ca3:d53c:fff with SMTP id o133-20020a25738b000000b00ca3d53c0fffmr1097843ybc.1.1689234305535;
+        Thu, 13 Jul 2023 00:45:05 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id x7-20020a5b0947000000b00c5ec980da48sm1271130ybq.9.2023.07.13.00.45.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 00:42:31 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-cada5e4e3f6so350314276.3;
-        Thu, 13 Jul 2023 00:42:31 -0700 (PDT)
-X-Received: by 2002:a25:ad91:0:b0:c75:fcf8:7a22 with SMTP id
- z17-20020a25ad91000000b00c75fcf87a22mr693581ybi.25.1689234150976; Thu, 13 Jul
- 2023 00:42:30 -0700 (PDT)
+        Thu, 13 Jul 2023 00:45:05 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-cb37a0ea5b3so234922276.0;
+        Thu, 13 Jul 2023 00:45:05 -0700 (PDT)
+X-Received: by 2002:a0d:ea44:0:b0:580:83fe:25cc with SMTP id
+ t65-20020a0dea44000000b0058083fe25ccmr2732248ywe.5.1689234304838; Thu, 13 Jul
+ 2023 00:45:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230712151153.81965-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230712151153.81965-1-biju.das.jz@bp.renesas.com>
+References: <20230712151342.82690-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230712151342.82690-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 13 Jul 2023 09:42:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXJP0hjiPwuo=7v6jO38Vv0BgmdScyHRCkmGga38O2o=w@mail.gmail.com>
-Message-ID: <CAMuHMdXJP0hjiPwuo=7v6jO38Vv0BgmdScyHRCkmGga38O2o=w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc-som: Add PHY interrupt
- support for ETH0
+Date:   Thu, 13 Jul 2023 09:44:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUJP2MMp25k4t4=cE6My6hnH1=H_FrSn2ekmbcUYSc3Jg@mail.gmail.com>
+Message-ID: <CAMuHMdUJP2MMp25k4t4=cE6My6hnH1=H_FrSn2ekmbcUYSc3Jg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc-som: Enable PMIC and
+ built-in RTC
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -73,8 +73,9 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 5:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The PHY interrupt (INT_N) pin is connected to IRQ0 for ETH0.
+On Wed, Jul 12, 2023 at 5:13 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable PMIC RAA215300 and the built-in RTC on the RZ/G2LC SMARC
+> EVK.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
