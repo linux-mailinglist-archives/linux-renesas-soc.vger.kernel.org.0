@@ -2,61 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F1875396F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jul 2023 13:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7869F753A38
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jul 2023 13:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231362AbjGNLWl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jul 2023 07:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36376 "EHLO
+        id S235484AbjGNLyt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jul 2023 07:54:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230470AbjGNLWk (ORCPT
+        with ESMTP id S235017AbjGNLys (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jul 2023 07:22:40 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB6C2D63;
-        Fri, 14 Jul 2023 04:22:38 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fb7373dd35so3738326e87.1;
-        Fri, 14 Jul 2023 04:22:38 -0700 (PDT)
+        Fri, 14 Jul 2023 07:54:48 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3740C136;
+        Fri, 14 Jul 2023 04:54:46 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4fba86f069bso3083686e87.3;
+        Fri, 14 Jul 2023 04:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689333756; x=1691925756;
+        d=gmail.com; s=20221208; t=1689335684; x=1691927684;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aZT/Qjdh5GMBGtWQXvo6npwrY36WT68qfBl+5iQTBFU=;
-        b=kAhEZz7YO0A1XVsXgQSp8UmWPM+jdPlZHRTjznnWiqhZslcYJODeYWbM67/QC2vKDn
-         +OG+6qhWvx9KVM/R2ofgInjeOKrC7QBAVUoh7O949NHu+y3cXDfMtdGF9Gw+PYqwHzuJ
-         +yIcvVdxg8myv8sIRvseqySGubRqhOdPSdfc+uQxFSHievwNcSEmjHHSRp8vT1WXEm2s
-         Bjb588LMHaI4uo0ayypn1EFn/nodTagyXQf5BlZ6oPVaVACOkKFCiB2an4UX5dTB0WSq
-         gWBYlI2wHLnjXQpblzqfrQLGReKpqK6rDHRoQKPOwtbN6Vw0Lbz3Jp10wqs01Ujh2rHu
-         i88w==
+        bh=YS++m7UJb7+5nezOKfUuKjyikzvghZKtWIWx8R+b8V8=;
+        b=hVohwqaHvGRQL13bKGa7BtX2j/4uH+tVGvMjkkPbI+63UJeLrB9ZlZSv2wQyt86eUu
+         Th68VDET0kSm71m+HB399T57oDDGz1Mi/rPoF1nMMA1OctmbBYxHWZ0fXbMBpSjHHza+
+         mE2BOdafKZ+jMhNru81TzK1LwUTO1FHNDEQjfsnVvOiqBUgvD65KKtQ7nh9DodBS69ps
+         C1XJuWeie/UsCuw3/TfiIYSE+xG/kIJxIxL4mY+7tREcBQGhW9VhTVdik+ZkJR6qFg47
+         ubYgOrNm2eDEAgqioP09z1CuABprKsiARHc1PZpIcg5ABBlw0KKWwySWduWHOi0LRQEj
+         W80Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689333756; x=1691925756;
+        d=1e100.net; s=20221208; t=1689335684; x=1691927684;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aZT/Qjdh5GMBGtWQXvo6npwrY36WT68qfBl+5iQTBFU=;
-        b=QqyRMBnpLd0lgTkoFoQnvmG/MJHqCr4MyzjAbe70G5jzVWBtni820BDPdRnWC1+KTC
-         n1BQLwO0gzluMk8ncZs608uHKe2vapqzGJqXDKs9QvhrWuD9o3v74gNvooBu0CECXv78
-         F6nj2p3aIE7p6KBgQLzI8JZnkPdZdEdEbnPrEA7gCNHBhRWsf3Sj4oc673YmreOM//Oe
-         oOnNqnck6q61qnfJ/DwCiXp4t6S1jdexXqqebupoVWGeoZRuvK84dk1zvGaEXe8Ot+wY
-         QzJm10mduANnBiwlgGsc+aeHA979spI2uoN20IiHKiIGyiL3kO1z8BHSmNx7a3PGqQfM
-         dRVA==
-X-Gm-Message-State: ABy/qLZ6smovXSh0N0bOLBSqo1hMAirM4HfMlEXpD2purtaxsGe1AEN+
-        EvTOdEJLAYOGI69w57wbwGI=
-X-Google-Smtp-Source: APBJJlGb5EIsirQxy6nWI3ukmNjT5D6auzs/j+nhABFXlT1ir3WduCjIRR+yPC/VlUfXfIV6rmKUzw==
-X-Received: by 2002:a05:6512:6cc:b0:4f7:6404:4638 with SMTP id u12-20020a05651206cc00b004f764044638mr1099487lff.17.1689333756140;
-        Fri, 14 Jul 2023 04:22:36 -0700 (PDT)
+        bh=YS++m7UJb7+5nezOKfUuKjyikzvghZKtWIWx8R+b8V8=;
+        b=lICZKQb/PBL7o+q4m3QcRKYzuKZNKDAEDsDFbsw7LITjhbH9l2+EtnxMm8/Vna4JUz
+         20MinFBiTKo7OYW2rrxc5AzjeVwOehezE2yC4Nqki3xAOfVVhGPld+aC+B8v9ZEqtLMK
+         MgiGPXVKbophyn5dgNRT3kA3gvzUbc9B0qbif2vUQlsfxIJRgjslvAP2Xrfjg8sZfy5m
+         uEiaMnk2ZDQVaU6FM5EeKM6XMjDEzn5R1Niy3b8VQG/nCaAnnhfOITl0lB1STuOB3DcS
+         oBfnXr8FBlfrK0B5pHVGfbmpCeOjhuKcQoHt2qcFq8bq6t/IYYl5rQzIk6yY/e3wjrIO
+         FcZw==
+X-Gm-Message-State: ABy/qLZN+DDqFGvgArbXObMtsCWR1cxId5RtXsq1DGxIeu5ZUMTijaad
+        CP2CLsafi2B9rEOap9YCcBc=
+X-Google-Smtp-Source: APBJJlFrsDMDG0HVPs/2KInOvrMK1PLd9Nqb96IaXRxMtBckmpBzPcpViKf/eBI028IRom4/wYsPJg==
+X-Received: by 2002:ac2:520e:0:b0:4fb:7be5:7404 with SMTP id a14-20020ac2520e000000b004fb7be57404mr3043152lfl.63.1689335684219;
+        Fri, 14 Jul 2023 04:54:44 -0700 (PDT)
 Received: from mobilestation ([85.249.20.77])
-        by smtp.gmail.com with ESMTPSA id a19-20020ac25213000000b004fa59c1dfebsm1450762lfl.259.2023.07.14.04.22.34
+        by smtp.gmail.com with ESMTPSA id e10-20020ac2546a000000b004fba808ab76sm1461227lfn.181.2023.07.14.04.54.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 04:22:35 -0700 (PDT)
-Date:   Fri, 14 Jul 2023 14:22:32 +0300
+        Fri, 14 Jul 2023 04:54:43 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 14:54:40 +0300
 From:   Serge Semin <fancer.lancer@gmail.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
         "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "kishon@kernel.org" <kishon@kernel.org>,
         "krzysztof.kozlowski+dt@linaro.org" 
@@ -67,643 +69,219 @@ Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v17 17/20] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
- support
-Message-ID: <3hfxosymyrr7bcoaha2xss46iml3aynwvxbaaysusqjgylefwa@sb6sv2xss3uq>
+Subject: Re: [PATCH v17 07/20] PCI: dwc: endpoint: Add multiple PFs support
+ for dbi2
+Message-ID: <sagt5fyru3qbahrfzw63ijw2wx5vppxotxeeczja6x4qpszkmp@szh5acihoydg>
 References: <20230705114206.3585188-1-yoshihiro.shimoda.uh@renesas.com>
- <20230705114206.3585188-18-yoshihiro.shimoda.uh@renesas.com>
- <knx6kir3ulvc25u6qcxoyxwwpbtcnjfpuigjnsjhtwe47q245m@gdce3voh73k5>
- <TYBPR01MB53416364686C6437CE85A97CD834A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <20230705114206.3585188-8-yoshihiro.shimoda.uh@renesas.com>
+ <j4g4ijnxd7qyacszlwyi3tdztkw2nmnjwyhdqf2l2yj3h2mvje@iqsrqiodqbhq>
+ <TYBPR01MB5341E825A7FFE163CE2364D4D834A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYBPR01MB53416364686C6437CE85A97CD834A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB5341E825A7FFE163CE2364D4D834A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 02:21:52AM +0000, Yoshihiro Shimoda wrote:
-> Hi Serge,
+On Fri, Jul 14, 2023 at 02:01:16AM +0000, Yoshihiro Shimoda wrote:
+> Hi,
 > 
-> > From: Serge Semin, Sent: Wednesday, July 12, 2023 8:35 PM
+> > From: Serge Semin, Sent: Wednesday, July 12, 2023 5:32 AM
 > > 
-> > On Wed, Jul 05, 2023 at 08:42:03PM +0900, Yoshihiro Shimoda wrote:
-> > > Add R-Car Gen4 PCIe Host support. This controller is based on
-> > > Synopsys DesignWare PCIe, but this controller has vendor-specific
-> > > registers so that requires initialization code like mode setting
-> > > and retraining and so on.
+> > On Wed, Jul 05, 2023 at 08:41:53PM +0900, Yoshihiro Shimoda wrote:
+> > > The commit 24ede430fa49 ("PCI: designware-ep: Add multiple PFs support
+> > > for DWC") added .func_conf_select() to get the configuration space of
+
+> > > different PFs and assumed that the offsets between dbi and dbi would
+                                                                  ^
+                                                                  |
+s/dbi/dbi2 -------------------------------------------------------+
+
+> > > be the same. However, Renesas R-Car Gen4 PCIe controllers have different
+> > > offsets of function 1: dbi (+0x1000) and dbi2 (+0x800). To get
+> > > the offset for dbi2, add .func_conf_select2() and
+> > > dw_pcie_ep_func_select2().
 > > >
-> > > To reduce code delta, adds some helper functions which are used by
-> > > both the host driver and the endpoint driver (which is added
-> > > immediately afterwards) into a separate file.
+> > > Notes that dw_pcie_ep_func_select2() will call .func_conf_select()
+> > > if .func_conf_select2() doesn't exist for backward compatibility.
 > > >
 > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > > > ---
-> > >  drivers/pci/controller/dwc/Kconfig            |   9 +
-> > >  drivers/pci/controller/dwc/Makefile           |   2 +
-> > >  .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 144 +++++++++++++
-> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 197 ++++++++++++++++++
-> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  43 ++++
-> > >  5 files changed, 395 insertions(+)
-> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
-> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
+> > >  .../pci/controller/dwc/pcie-designware-ep.c   | 32 ++++++++++++++-----
+> > >  drivers/pci/controller/dwc/pcie-designware.h  |  3 +-
+> > >  2 files changed, 26 insertions(+), 9 deletions(-)
 > > >
-> > > diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-> > > index ab96da43e0c2..64d4d37bc891 100644
-> > > --- a/drivers/pci/controller/dwc/Kconfig
-> > > +++ b/drivers/pci/controller/dwc/Kconfig
-> > > @@ -415,4 +415,13 @@ config PCIE_VISCONTI_HOST
-> > >  	  Say Y here if you want PCIe controller support on Toshiba Visconti SoC.
-> > >  	  This driver supports TMPV7708 SoC.
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > index 1d24ebf9686f..bd57516d5313 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > @@ -54,21 +54,35 @@ static unsigned int dw_pcie_ep_func_select(struct dw_pcie_ep *ep, u8 func_no)
+> > >  	return func_offset;
+> > >  }
 > > >
-> > > +config PCIE_RCAR_GEN4
-> > > +	tristate "Renesas R-Car Gen4 PCIe Host controller"
-> > > +	depends on ARCH_RENESAS || COMPILE_TEST
-> > > +	depends on PCI_MSI
-> > > +	select PCIE_DW_HOST
-> > > +	help
-> > > +	  Say Y here if you want PCIe host controller support on R-Car Gen4 SoCs.
-> > > +	  This uses the DesignWare core.
+> > > +static unsigned int dw_pcie_ep_func_select2(struct dw_pcie_ep *ep, u8 func_no)
+> > > +{
+> > > +	unsigned int func_offset = 0;
 > > > +
-> > >  endmenu
-> > > diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
-> > > index bf5c311875a1..486cf706b53d 100644
-> > > --- a/drivers/pci/controller/dwc/Makefile
-> > > +++ b/drivers/pci/controller/dwc/Makefile
-> > > @@ -26,6 +26,8 @@ obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
-> > >  obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
-> > >  obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
-> > >  obj-$(CONFIG_PCIE_VISCONTI_HOST) += pcie-visconti.o
-> > > +pcie-rcar-gen4-host-drv-objs := pcie-rcar-gen4.o pcie-rcar-gen4-host.o
-> > > +obj-$(CONFIG_PCIE_RCAR_GEN4) += pcie-rcar-gen4-host-drv.o
+> > > +	if (ep->ops->func_conf_select2)
+> > > +		func_offset = ep->ops->func_conf_select2(ep, func_no);
+> > > +	else if (ep->ops->func_conf_select)	/* for backward compatibility */
+> > > +		func_offset = ep->ops->func_conf_select(ep, func_no);
+> > > +
+> > > +	return func_offset;
+> > > +}
+> > > +
+> > >  static void __dw_pcie_ep_reset_bar(struct dw_pcie *pci, u8 func_no,
+> > >  				   enum pci_barno bar, int flags)
+> > >  {
+> > > -	u32 reg;
+> > > -	unsigned int func_offset = 0;
+> > > +	u32 reg, reg_dbi2;
+> > > +	unsigned int func_offset, func_offset_dbi2;
+> > >  	struct dw_pcie_ep *ep = &pci->ep;
 > > >
-> > >  # The following drivers are for devices that use the generic ACPI
-> > >  # pci_root.c driver but don't support standard ECAM config access.
-> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c b/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
-> > > new file mode 100644
-> > > index 000000000000..e7c1eef792ec
-> > > --- /dev/null
-> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
-> > > @@ -0,0 +1,144 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * PCIe host controller driver for Renesas R-Car Gen4 Series SoCs
-> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
-> > > + */
-> > > +
-> > > +#include <linux/delay.h>
-> > > +#include <linux/interrupt.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of_device.h>
-> > > +#include <linux/pci.h>
-> > > +#include <linux/platform_device.h>
-> > > +
-> > > +#include "pcie-rcar-gen4.h"
-> > > +#include "pcie-designware.h"
-> > > +
-> > > +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
-> > > +{
-> > > +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> > > +	int ret;
-> > > +	u32 val;
-> > > +
-> > > +	gpiod_set_value_cansleep(dw->pe_rst, 1);
-> > > +
-> > > +	ret = clk_bulk_prepare_enable(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
-> > > +	if (ret) {
-> > > +		dev_err(dw->dev, "Failed to enable ref clocks\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	ret = rcar_gen4_pcie_basic_init(rcar);
-> > > +	if (ret < 0) {
-> > > +		clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
-> > > +	 * Rev.5.20a, we should disable two BARs to avoid unnecessary memory
-> > > +	 * assignment during device enumeration.
-> > > +	 */
-> > > +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
-> > > +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
-> > > +
-> > > +	if (IS_ENABLED(CONFIG_PCI_MSI)) {
-> > > +		/* Enable MSI interrupt signal */
-> > > +		val = readl(rcar->base + PCIEINTSTS0EN);
-> > > +		val |= MSI_CTRL_INT;
-> > > +		writel(val, rcar->base + PCIEINTSTS0EN);
-> > > +	}
-> > > +
-> > > +	msleep(100);	/* pe_rst requires 100msec delay */
-> > > +
-> > > +	gpiod_set_value_cansleep(dw->pe_rst, 0);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct dw_pcie_host_ops rcar_gen4_pcie_host_ops = {
-> > > +	.host_init = rcar_gen4_pcie_host_init,
-> > > +};
-> > > +
-> > > +static int rcar_gen4_add_dw_pcie_rp(struct rcar_gen4_pcie *rcar,
+> > >  	func_offset = dw_pcie_ep_func_select(ep, func_no);
+> > > +	func_offset_dbi2 = dw_pcie_ep_func_select2(ep, func_no);
 > > 
-> > > +				   struct platform_device *pdev)
+> > IMO this will make the code even more complicated than it's already
+> > with the offsets calculated and added here and there. What about
+> > implementing a set of methods like this:
 > > 
-> > The argument is unused. What about dropping it?
+> > +static void dw_pcie_ep_writeX_dbi(struct dw_pcie_ep *ep, u8 func_no, u32 reg, uYZ val)
+> > +{
+> > +	unsigned int ofs = dw_pcie_ep_func_select(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	dw_pcie_writeX_dbi(pci, reg + ofs, val);
+> > +}
+> > +
+> > +static uYZ dw_pcie_ep_readX_dbi(struct dw_pcie_ep *ep, u8 func_no, u32 reg)
+> > +{
+> > +	unsigned int ofs = dw_pcie_ep_func_select(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	return dw_pcie_readX_dbi(pci, reg + ofs);
+> > +}
+> > 
+> > and converting the entire DW PCIe EP core driver to using them instead
+> > of always separately calculating the func_offset? Then in a subsequent
+> > patch you can add a new method like this:
+> > 
+> > +static void dw_pcie_ep_writel_dbi2(struct dw_pcie_ep *ep, u8 func_no, u32 reg, u32 val)
+> > +{
+> > +	unsigned int ofs = dw_pcie_ep_func_select2(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	dw_pcie_writel_dbi2(pci, reg + ofs, val);
+> > +}
+> > 
+> > and have it utilized in the shadow registers update parts as you
+> > originally intended. This will make the code much better readable with
+> > no much harm to the performance since the most of setups are performed
+> > once during the initial end-point configuration.
+> > 
+> > Note my suggestion is quite heavy to implement and implies the code
+> > cleanup. So I'd wait for the maintainers comment about this (Mani is
+> > now responsible for the driver maintaining).
+> > Mani, Krzysztof, Lorenzo, Rob, what do you think about that?
 > 
-> You're correct. I'll drop it on v18.
-> 
-> > > +{
+> To be honest, if possible, I would like to implement such clean up code
+> after this patch series are applied (because this patch set had been
+> developed for a year and more...).
 
-> > > +	struct dw_pcie *dw = &rcar->dw;
-> > > +	struct dw_pcie_rp *pp = &dw->pp;
+I would be glad to review it then. Without the suggested modification
+you have no other choice but to implement the change as is. No
+objections against this patch from my side then.
 
-BTW, this can be wrapper to just:
-+struct dw_pcie_rp *pp = &rcar->dw.pp;
-seeing you aren't using pointer to dw_pcie here.
-
-> > > +
-> > > +	pp->num_vectors = MAX_MSI_IRQS;
-> > > +	pp->ops = &rcar_gen4_pcie_host_ops;
-> > > +
-> > > +	return dw_pcie_host_init(pp);
-> > > +}
-> > > +
-> > > +static void rcar_gen4_remove_dw_pcie_rp(struct rcar_gen4_pcie *rcar)
-> > > +{
-> > > +	dw_pcie_host_deinit(&rcar->dw.pp);
-> > > +	gpiod_set_value_cansleep(rcar->dw.pe_rst, 1);
-> > > +}
-> > > +
-> > > +static int rcar_gen4_pcie_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct device *dev = &pdev->dev;
-> > > +	struct rcar_gen4_pcie *rcar;
-> > > +	int err;
-> > > +
-> > > +	rcar = rcar_gen4_pcie_devm_alloc(dev);
-> > > +	if (!rcar)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	err = rcar_gen4_pcie_get_resources(rcar, pdev);
-> > > +	if (err < 0) {
-> > > +		dev_err(dev, "Failed to request resource: %d\n", err);
-> > > +		return err;
-> > > +	}
-> > > +
-> > 
-> > > +	platform_set_drvdata(pdev, rcar);
-> > 
-> > This could have been moved to rcar_gen4_pcie_devm_alloc(). But see my
-> > last comment first.
-> 
-> I think so.
-> 
-> > > +
-> > > +	err = rcar_gen4_pcie_prepare(rcar);
-> > > +	if (err < 0)
-> > > +		return err;
-> > > +
-> > 
-> > > +	rcar->mode = DW_PCIE_RC_TYPE;
-> > 
-> > What about moving this to the rcar_gen4_add_dw_pcie_rp() method? Thus
-> > it will look similar to the rcar_gen4_add_pcie_ep() method you
-> > implemented in the Rcar Gen4 EP driver.
-> 
-> Yes. I'll move this to the rcar_gen4_add_dw_pcie_rp().
-> 
-> > > +	err = rcar_gen4_add_dw_pcie_rp(rcar, pdev);
-> > > +	if (err < 0)
-> > > +		goto err_add;
-> > > +
-> > > +	return 0;
-> > > +
-> > > +err_add:
-> > > +	rcar_gen4_pcie_unprepare(rcar);
-> > > +
-> > > +	return err;
-> > > +}
-> > > +
-> > 
-> > > +static int rcar_gen4_pcie_remove(struct platform_device *pdev)
-> > > +{
-> > > +	struct rcar_gen4_pcie *rcar = platform_get_drvdata(pdev);
-> > > +
-> > > +	rcar_gen4_remove_dw_pcie_rp(rcar);
-> > > +	rcar_gen4_pcie_unprepare(rcar);
-> > > +
-> > > +	return 0;
-> > > +}
-> > 
-> > Please convert this function to returning void and assign to the
-> > platform_driver.remove_new pointer instead.
-> 
-> I got it.
-> 
-> > > +
-> > > +static const struct of_device_id rcar_gen4_pcie_of_match[] = {
-> > > +	{ .compatible = "renesas,rcar-gen4-pcie", },
-> > > +	{},
-> > > +};
-> > > +
-> > > +static struct platform_driver rcar_gen4_pcie_driver = {
-> > > +	.driver = {
-> > > +		.name = "pcie-rcar-gen4",
-> > > +		.of_match_table = rcar_gen4_pcie_of_match,
-> > > +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> > > +	},
-> > > +	.probe = rcar_gen4_pcie_probe,
-> > 
-> > > +	.remove = rcar_gen4_pcie_remove,
-> > 
-> > ditto
-> 
-> I'll fix this.
-> 
-> > > +};
-> > > +module_platform_driver(rcar_gen4_pcie_driver);
-> > > +
-> > > +MODULE_DESCRIPTION("Renesas R-Car Gen4 PCIe host controller driver");
-> > > +MODULE_LICENSE("GPL");
-> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > > new file mode 100644
-> > > index 000000000000..2cd5c17c1695
-> > > --- /dev/null
-> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > > @@ -0,0 +1,197 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * PCIe host/endpoint controller driver for Renesas R-Car Gen4 Series SoCs
-> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
-> > > + */
-> > > +
-> > > +#include <linux/delay.h>
-> > > +#include <linux/io.h>
-> > > +#include <linux/of_device.h>
-> > > +#include <linux/pci.h>
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <linux/reset.h>
-> > > +
-> > > +#include "pcie-rcar-gen4.h"
-> > > +#include "pcie-designware.h"
-> > > +
-> > > +/* Renesas-specific */
-> > > +#define PCIERSTCTRL1		0x0014
-> > > +#define  APP_HOLD_PHY_RST	BIT(16)
-> > > +#define  APP_LTSSM_ENABLE	BIT(0)
-> > > +
-> > > +#define RCAR_NUM_SPEED_CHANGE_RETRIES	10
-> > > +#define RCAR_MAX_LINK_SPEED		4
-> > > +
-> > > +static void rcar_gen4_pcie_ltssm_enable(struct rcar_gen4_pcie *rcar,
-> > > +					bool enable)
-> > > +{
-> > > +	u32 val;
-> > > +
-> > > +	val = readl(rcar->base + PCIERSTCTRL1);
-> > > +	if (enable) {
-> > > +		val |= APP_LTSSM_ENABLE;
-> > > +		val &= ~APP_HOLD_PHY_RST;
-> > > +	} else {
-> > > +		/*
-> > > +		 * Since the datasheet of R-Car doesn't mention how to assert
-> > > +		 * the APP_HOLD_PHY_RST, don't assert it again. Otherwise,
-> > > +		 * hang-up issue happened in the dw_edma_core_off() when
-> > > +		 * the controller didn't detect a PCI device.
-> > > +		 */
-> > > +		val &= ~APP_LTSSM_ENABLE;
-> > > +	}
-> > > +	writel(val, rcar->base + PCIERSTCTRL1);
-> > > +}
-> > > +
-> > > +static int rcar_gen4_pcie_link_up(struct dw_pcie *dw)
-> > > +{
-> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> > > +	u32 val, mask;
-> > > +
-> > > +	val = readl(rcar->base + PCIEINTSTS0);
-> > > +	mask = RDLH_LINK_UP | SMLH_LINK_UP;
-> > > +
-> > > +	return (val & mask) == mask;
-> > > +}
-> > > +
-> > > +static bool rcar_gen4_pcie_speed_change(struct dw_pcie *dw)
-> > > +{
-> > > +	u32 val;
-> > > +	int i;
-> > > +
-> > > +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
-> > > +	val &= ~PORT_LOGIC_SPEED_CHANGE;
-> > > +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
-> > > +
-> > > +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
-> > > +	val |= PORT_LOGIC_SPEED_CHANGE;
-> > > +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
-> > > +
-> > > +	for (i = 0; i < RCAR_NUM_SPEED_CHANGE_RETRIES; i++) {
-> > > +		val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
-> > > +		if (!(val & PORT_LOGIC_SPEED_CHANGE))
-> > > +			return true;
-> > > +		usleep_range(10000, 11000);
-> > > +	}
-> > > +
-> > > +	return false;
-> > > +}
-> > > +
-> > > +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
-> > > +{
-> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> > > +	int i, changes;
-> > > +
-> > > +	rcar_gen4_pcie_ltssm_enable(rcar, true);
-> > > +
-> > > +	/*
-> > > +	 * Require direct speed change with retrying here if the link_gen is
-> > 
-> > > +	 * PCIe Gen2 or later.
-> > 
-> > s/later/higher
-> 
-> I'll fix this.
-> 
-> > > +	 */
-> > > +	changes = min_not_zero(dw->link_gen, RCAR_MAX_LINK_SPEED) - 1;
-> > > +
-> > > +	/*
-> > > +	 * Since dw_pcie_setup_rc() sets it once, PCIe Gen2 will be trained.
-> > 
-> > > +	 * So, this needs remaining times for PCIe Gen4 if RC mode.
-> > 
-> > For "_up to_ PCIe Gen4", isn't it? Because AFAIR PCIe Gen3 will need
-> > to have one changes-iteration for RC mode.
-> 
-> You're correct. I'll fix it.
-> 
-> > > +	 */
-> > > +	if (changes && rcar->mode == DW_PCIE_RC_TYPE)
-> > > +		changes--;
-> > > +
-> > > +	for (i = 0; i < changes; i++) {
-> > > +		if (!rcar_gen4_pcie_speed_change(dw))
-> > > +			break;	/* No error because possible disconnected here if EP mode */
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void rcar_gen4_pcie_stop_link(struct dw_pcie *dw)
-> > > +{
-> > > +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> > > +
-> > > +	rcar_gen4_pcie_ltssm_enable(rcar, false);
-> > > +}
-> > > +
-> > > +int rcar_gen4_pcie_basic_init(struct rcar_gen4_pcie *rcar)
-> > > +{
-> > > +	struct dw_pcie *dw = &rcar->dw;
-> > > +	u32 val;
-> > > +
-> > > +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
-> > > +		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
-> > > +
-> > > +	val = readl(rcar->base + PCIEMSR0);
-> > > +	if (rcar->mode == DW_PCIE_RC_TYPE)
-> > > +		val |= DEVICE_TYPE_RC;
-> > > +	else if (rcar->mode == DW_PCIE_EP_TYPE)
-> > > +		val |= DEVICE_TYPE_EP;
-> > > +	else
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (dw->num_lanes < 4)
-> > > +		val |= BIFUR_MOD_SET_ON;
-> > > +
-> > > +	writel(val, rcar->base + PCIEMSR0);
-> > > +
-> > > +	return reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
-> > > +}
-> > > +
-> > > +int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
-> > > +{
-> > > +	struct device *dev = rcar->dw.dev;
-> > > +	int err;
-> > > +
-> > > +	pm_runtime_enable(dev);
-> > > +	err = pm_runtime_resume_and_get(dev);
-> > > +	if (err < 0) {
-> > > +		dev_err(dev, "Failed to resume/get Runtime PM\n");
-> > > +		pm_runtime_disable(dev);
-> > > +	}
-> > > +
-> > 
-> > > +	dw_pcie_cap_set(&rcar->dw, REQ_RES);
-> > 
-> > Hmm, why is this here? Isn't it more appropriate to have it in
-> > rcar_gen4_pcie_devm_alloc() together with the EDMA_UNROLL flag
-> > setting? REQ_RES flag indicates a request for the driver core to get
-> > the generic DW PCIe RP/EP resources. It doesn't look as being
-> > suitable to be set in a prepare()-like method.
-> 
-> I don't have a special reason.. So, I'll move this to
-> the rcar_gen4_pcie_devm_alloc().
-> 
-> > > +
-> > > +	return err;
-> > > +}
-> > > +
-> > > +void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
-> > > +{
-> > > +	struct device *dev = rcar->dw.dev;
-> > > +	struct dw_pcie *dw = &rcar->dw;
-> > > +
-> > 
-> > > +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
-> > > +		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
-> > 
-> > The de-assertion is performed in rcar_gen4_pcie_basic_init() which is
-> > called from the host_init() method. The respective antagonist is
-> > supposed to be performed in the host_deinit() in order to revert the
-> > changes on any error spotted in the host_init() and have a fully
-> > cleaned up device on the remove() procedure. Having something like
-> > rcar_gen4_pcie_basic_deinit() for it seems suitable.
-> > 
-> > BTW I would have added dw->pe_rst assertion to
-> > dw_pcie_host_ops.host_deinit() too.
-> 
-> I understood it. I'll fix it.
-> 
-> > > +	pm_runtime_put(dev);
-> > > +	pm_runtime_disable(dev);
-> > > +}
-> > > +
-> > > +int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar,
-> > > +				 struct platform_device *pdev)
-> > > +{
-> > > +	/* Renesas-specific registers */
-> > > +	rcar->base = devm_platform_ioremap_resource_byname(pdev, "app");
-> > > +	if (IS_ERR(rcar->base))
-> > > +		return PTR_ERR(rcar->base);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct dw_pcie_ops dw_pcie_ops = {
-> > > +	.start_link = rcar_gen4_pcie_start_link,
-> > > +	.stop_link = rcar_gen4_pcie_stop_link,
-> > > +	.link_up = rcar_gen4_pcie_link_up,
-> > > +};
-> > > +
-> > > +struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct device *dev)
-> > > +{
-> > > +	struct rcar_gen4_pcie *rcar;
-> > > +
-> > > +	rcar = devm_kzalloc(dev, sizeof(*rcar), GFP_KERNEL);
-> > > +	if (!rcar)
-> > > +		return NULL;
-> > > +
-> > > +	rcar->dw.dev = dev;
-> > > +	rcar->dw.ops = &dw_pcie_ops;
-> > > +	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
-> > > +
-> > > +	return rcar;
-> > > +}
-> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.h b/drivers/pci/controller/dwc/pcie-rcar-gen4.h
-> > > new file mode 100644
-> > > index 000000000000..e9cb816b33fa
-> > > --- /dev/null
-> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.h
-> > > @@ -0,0 +1,43 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > +/*
-> > > + * PCIe host/endpoint controller driver for Renesas R-Car Gen4 Series SoCs
-> > > + * Copyright (C) 2022-2023 Renesas Electronics Corporation
-> > > + */
-> > > +
-> > > +#ifndef _PCIE_RCAR_GEN4_H_
-> > > +#define _PCIE_RCAR_GEN4_H_
-> > > +
-> > > +#include <linux/io.h>
-> > > +#include <linux/pci.h>
-> > > +
-> > > +#include "pcie-designware.h"
-> > > +
-> > > +/* Renesas-specific */
-> > > +#define PCIEMSR0		0x0000
-> > > +#define  BIFUR_MOD_SET_ON	BIT(0)
-> > > +#define  DEVICE_TYPE_EP		0
-> > > +#define  DEVICE_TYPE_RC		BIT(4)
-> > > +
-> > > +#define PCIEINTSTS0		0x0084
-> > > +#define PCIEINTSTS0EN		0x0310
-> > > +#define  MSI_CTRL_INT		BIT(26)
-> > > +#define  SMLH_LINK_UP		BIT(7)
-> > > +#define  RDLH_LINK_UP		BIT(6)
-> > > +#define PCIEDMAINTSTSEN		0x0314
-> > > +#define  PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
-> > > +
-> > > +struct rcar_gen4_pcie {
-> > > +	enum dw_pcie_device_mode mode;
-> > 
-> > > +	struct dw_pcie dw;
-> > 
-> > By moving this field to the head of the structure you'll have a
-> > zero offset dw field with respect to the base-address of the
-> > container. This will convert the container_of() macro to the just
-> > type-cast.
-> 
-> I'll move it.
-> 
-> > > +	void __iomem *base;
-> > > +};
-> > 
-> > > +#define to_rcar_gen4_pcie(x)	dev_get_drvdata((x)->dev)
-> > 
-> > Why? You have dw_pcie instance embedded into the rcar_gen4_pcie
-> > structure. What about using the container_of() pattern then?
-> > +#define to_rcar_gen4_pcie(_dw) container_of(_dw, struct rcar_gen4_pcie, dw)
-> 
-
-> This is because almost other drivers in drivers/pci/controller/dwc/ use dev_get_drvdata().
-> I believe either way is fine.
-
-It doesn't mean they are doing that correctly in all the cases.
-
-In fact more than half of the DW PCIe vendor drivers keep a pointer to
-the dw_pcie structure in the driver private data structure and perform
-two allocations: one to get a private data instance and another one to
-get the dw_pcie structure instance. Then they have no other way but to
-use the generic device driver data pointer to retain the pointer to
-the private data instance and then use the dev_get_drvdata() to
-retrieve a pointer to their vendor-specific data.
-
-Such pattern is redundant if you have the dw_pcie structure embedded
-into the driver private data structure especially seeing all the DW
-PCIe core driver operations pass the DW PCIe RP/EP data pointers. It
-makes you free from the double allocations and let you get to your
-private data pointer as long as the pointer to the dw_pcie available
-(it's the case for all the DW PCIe core driver callbacks) with no need
-in using the generic device pointer at all.
-
-Regarding the rest of the drivers. Some of them using the
-container_of()-based pattern (including mine), but the rest (Rockchip,
-fu740, Qcom, Uniphier, Visconti, Exynos, Meson) are using an
-intermixed version of the patterns described above. IMO it's not
-right. If I were the core driver maintainer I would have converted
-them to being more concise in that regard. It would be even more
-correct to convert all the LLDDs to using the container_of()-pattern
-where it's appropriate.
+Regarding the review timing. I fully understand your feelings. From my
+experience the bigger series and the more various changes it implies,
+the longer it takes to review especially if the corresponding driver
+has no active maintainership. The later has been relevant to the DW
+PCIe/eDMA core drivers up to recent Mani' assignment. Some of my even
+smaller patchsets were even longer time in the review limbo. My very
+first series was under review for about one year. I had to fully
+rewrite it several times. It was very much irritating indeed. So the
+kernel contributors must have a great deal of patience sometime in
+order to finally have their patches taken. That gets to be even more
+actual seeing the requirements may differ from subsystem to subsystem,
+sometimes from maintainer to maintainer.
 
 -Serge(y)
 
-> 
-> > > +
-> > > +int rcar_gen4_pcie_basic_init(struct rcar_gen4_pcie *rcar);
-> > 
-> > > +int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *pcie);
-> > > +void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *pcie);
-> > 
-> > s/pcie/rcar
-> 
-> I'll fix it.
-> 
-> > > +int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar,
-> > 
-> > > +				 struct platform_device *pdev);
-> > > +struct rcar_gen4_pcie *rcar_gen4_pcie_devm_alloc(struct device *dev);
-> > 
-> > Just a general note you may find useful. If I were you I would have
-> > added struct platform_device *pdev field to struct rcar_gen4_pcie and
-> > initialized it in the rcar_gen4_pcie_devm_alloc() method (it shall
-> > accept the platform_device pointer argument instead of just device).
-> > Thus you'll always have the {platform_}device pointer around as soon
-> > as you have the rcar_gen4_pcie pointer available which much more
-> > common case in the most of LLDD. This will greatly simplify any
-> > possible driver updates in future. Moreover you won't need to pass an
-> > additional device-pointer to the methods defined in your driver. For
-> > instance, in that case the rcar_gen4_pcie_get_resources() will need to
-> > accept just rcar_gen4_pcie pointer. Thus it will look unified aside
-> > with the rest of the methods in your driver.
-> 
-> Thank you for your suggestion. I think so. So, I'll fix it.
 > 
 > Best regards,
 > Yoshihiro Shimoda
 > 
 > > -Serge(y)
 > > 
-> > > +
-> > > +#endif /* _PCIE_RCAR_GEN4_H_ */
+> > >
+> > >  	reg = func_offset + PCI_BASE_ADDRESS_0 + (4 * bar);
+> > > +	reg_dbi2 = func_offset_dbi2 + PCI_BASE_ADDRESS_0 + (4 * bar);
+> > >  	dw_pcie_dbi_ro_wr_en(pci);
+> > > -	dw_pcie_writel_dbi2(pci, reg, 0x0);
+> > > +	dw_pcie_writel_dbi2(pci, reg_dbi2, 0x0);
+> > >  	dw_pcie_writel_dbi(pci, reg, 0x0);
+> > >  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> > > -		dw_pcie_writel_dbi2(pci, reg + 4, 0x0);
+> > > +		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, 0x0);
+> > >  		dw_pcie_writel_dbi(pci, reg + 4, 0x0);
+> > >  	}
+> > >  	dw_pcie_dbi_ro_wr_dis(pci);
+> > > @@ -232,13 +246,15 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+> > >  	enum pci_barno bar = epf_bar->barno;
+> > >  	size_t size = epf_bar->size;
+> > >  	int flags = epf_bar->flags;
+> > > -	unsigned int func_offset = 0;
+> > > +	unsigned int func_offset, func_offset_dbi2;
+> > >  	int ret, type;
+> > > -	u32 reg;
+> > > +	u32 reg, reg_dbi2;
+> > >
+> > >  	func_offset = dw_pcie_ep_func_select(ep, func_no);
+> > > +	func_offset_dbi2 = dw_pcie_ep_func_select2(ep, func_no);
+> > >
+> > >  	reg = PCI_BASE_ADDRESS_0 + (4 * bar) + func_offset;
+> > > +	reg_dbi2 = PCI_BASE_ADDRESS_0 + (4 * bar) + func_offset_dbi2;
+> > >
+> > >  	if (!(flags & PCI_BASE_ADDRESS_SPACE))
+> > >  		type = PCIE_ATU_TYPE_MEM;
+> > > @@ -254,11 +270,11 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+> > >
+> > >  	dw_pcie_dbi_ro_wr_en(pci);
+> > >
+> > > -	dw_pcie_writel_dbi2(pci, reg, lower_32_bits(size - 1));
+> > > +	dw_pcie_writel_dbi2(pci, reg_dbi2, lower_32_bits(size - 1));
+> > >  	dw_pcie_writel_dbi(pci, reg, flags);
+> > >
+> > >  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> > > -		dw_pcie_writel_dbi2(pci, reg + 4, upper_32_bits(size - 1));
+> > > +		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, upper_32_bits(size - 1));
+> > >  		dw_pcie_writel_dbi(pci, reg + 4, 0);
+> > >  	}
+> > >
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > > index 812c221b3f7c..94bc20f5f600 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > > @@ -340,9 +340,10 @@ struct dw_pcie_ep_ops {
+> > >  	 * access for different platform, if different func have different
+> > >  	 * offset, return the offset of func. if use write a register way
+> > >  	 * return a 0, and implement code in callback function of platform
+> > > -	 * driver.
+> > > +	 * driver. The func_conf_select2 is for dbi2.
+> > >  	 */
+> > >  	unsigned int (*func_conf_select)(struct dw_pcie_ep *ep, u8 func_no);
+> > > +	unsigned int (*func_conf_select2)(struct dw_pcie_ep *ep, u8 func_no);
+> > >  };
+> > >
+> > >  struct dw_pcie_ep_func {
 > > > --
 > > > 2.25.1
 > > >
