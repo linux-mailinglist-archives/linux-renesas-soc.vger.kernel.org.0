@@ -2,117 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C832754207
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jul 2023 20:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B9597541B1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jul 2023 19:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236324AbjGNSAJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jul 2023 14:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47104 "EHLO
+        id S236420AbjGNRvf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jul 2023 13:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235954AbjGNSAI (ORCPT
+        with ESMTP id S236405AbjGNRv3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jul 2023 14:00:08 -0400
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F23E73AAE;
-        Fri, 14 Jul 2023 10:59:26 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-794b8fe8cc4so2300030241.0;
-        Fri, 14 Jul 2023 10:59:26 -0700 (PDT)
+        Fri, 14 Jul 2023 13:51:29 -0400
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA15A3AB0;
+        Fri, 14 Jul 2023 10:51:02 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7837329a00aso86183739f.2;
+        Fri, 14 Jul 2023 10:51:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689357496; x=1691949496;
+        d=1e100.net; s=20221208; t=1689356979; x=1691948979;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0qcm+1BvZtY+sss5hBqf3SVUL+ciZCYo21hFJ2ZAvdU=;
-        b=CnFZIwXDtNLYhKXK1Vt7HAcD3iYGQpqkPfk9/NxwP+KlQhAjYFzPltfKTjgzsl5Xbi
-         0v0VzY4xwUHdeHkqQysvlZ/kgre2u1zlM0EEiC0OJ+NDKoc9OhrNv+8Nhg4xt1B1Xil4
-         vLoT5B7dj190uqu4hVFoLEQGTUVICShhRHdmWBNL6o5uLjx7i6t0JMR5uEiqx82Gtz/G
-         OR9ZRemNe4o54PP9gJqUcUhCnD6duNGNjkMzAG1nU/YWqxnn95hqKsf1s9FDoMqoix/Y
-         j4QGJZtnolPC3/hqJVZgxEFEo81nJGLr3nbs8lRrXytiZKZycnsKCv8N9c7gccfL9uNg
-         Fk6Q==
-X-Gm-Message-State: ABy/qLbvOcSbwYdFlU0Uq0fHIFOmX2aKU+ZMaP9S3m0Ddvl1eBJpwjx4
-        zZjWC5kGYxJtY+Ay9Rv7VKXm6J9lp6Tn
-X-Google-Smtp-Source: APBJJlFvUpaluwwTRE6l/XAwJH6sV1f7SgqQt3J2ms1EKgUuPjRvJs8HrrBWmYcZQ6BsBytUA6zYoA==
-X-Received: by 2002:a92:609:0:b0:346:7ab9:e1b9 with SMTP id x9-20020a920609000000b003467ab9e1b9mr2501695ilg.0.1689356947261;
-        Fri, 14 Jul 2023 10:49:07 -0700 (PDT)
+        bh=d2bjrUW/w+bzQ76q35Yw5sXHUeVMi5XctZ0HXU4U2gs=;
+        b=LPTyx0p5IES43Z0cKS8RRzqf82Dr2f61Z/8f3J2zAB/Z7XSC9Q/9BZ6GLGAqPwUeXl
+         XahqTgaBloBKFr7pZDWvaKYZrVK00OSYjBI/WjE/I8y1fhuI9NMhTgEVGB5jKpKhPG39
+         DMoqhaiGwhhP6svk65gT/Rr8YAU/ue1ZOQCyjKp4f4Gi8ziUzIJ0tcOALBQmVBy0k/NV
+         gxftvFucUzqIyLuJCRPYNqGQA4LjQgD1rllYpHf49wrHxLXi8UrohM6T8hSTETS5wYD6
+         2BUvwPQQQvag/8AlPhfxS1f7bNFcmOpiiYMDYNpB8xlSG/GG4TZfdd7aaYhONmQkAt18
+         vyDg==
+X-Gm-Message-State: ABy/qLajt6nURD3QL7oK5iiFwvhBHt6Zdd9E3aPUxG5cYRG4AsD5vQxq
+        Dd+UeQd7FvYVuz5hZWCJWA==
+X-Google-Smtp-Source: APBJJlEorJPPWROw+dhjzZQv7v0OK7+aU7bF8WgAffwXL3NuLdT/xpAzwIm1zA+Ou1on8pu0+XiYTA==
+X-Received: by 2002:a92:dc04:0:b0:345:f28f:cc26 with SMTP id t4-20020a92dc04000000b00345f28fcc26mr5036001iln.24.1689356978723;
+        Fri, 14 Jul 2023 10:49:38 -0700 (PDT)
 Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id y9-20020a92d809000000b003460b8505easm2928746ilm.19.2023.07.14.10.49.02
+        by smtp.gmail.com with ESMTPSA id l10-20020a02cd8a000000b0042b149aeccdsm2790610jap.104.2023.07.14.10.49.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:49:06 -0700 (PDT)
-Received: (nullmailer pid 4062208 invoked by uid 1000);
-        Fri, 14 Jul 2023 17:48:50 -0000
+        Fri, 14 Jul 2023 10:49:38 -0700 (PDT)
+Received: (nullmailer pid 4062696 invoked by uid 1000);
+        Fri, 14 Jul 2023 17:49:08 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sean Wang <sean.wang@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
         Kevin Hilman <khilman@baylibre.com>,
         Jerome Brunet <jbrunet@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Yu Chen <chenyu56@huawei.com>,
-        Binghui Wang <wangbinghui@hisilicon.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Alban Bedel <albeu@free.fr>, Andy Gross <agross@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Chester Lin <clin@suse.com>, NXP S32 Linux Team <s32@nxp.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Marko <robert.marko@sartura.hr>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heiko Stuebner <heiko@sntech.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jianlong Huang <jianlong.huang@starfivetech.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Vincent Shih <vincent.sunplus@gmail.com>,
+        Dvorkin Dmitry <dvorkin@tibbo.com>,
+        Wells Lu <wellslutw@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Cc:     devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-can@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-oxnas@groups.io, linux-rockchip@lists.infradead.org,
+        linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         linux-samsung-soc@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] phy: Explicitly include correct DT includes
-Date:   Fri, 14 Jul 2023 11:48:35 -0600
-Message-Id: <20230714174841.4061919-1-robh@kernel.org>
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH] pinctrl: Explicitly include correct DT includes
+Date:   Fri, 14 Jul 2023 11:48:54 -0600
+Message-Id: <20230714174901.4062397-1-robh@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -131,1127 +133,1545 @@ explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/phy/allwinner/phy-sun4i-usb.c                 | 2 --
- drivers/phy/allwinner/phy-sun50i-usb3.c               | 1 +
- drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c         | 2 +-
- drivers/phy/amlogic/phy-meson-axg-mipi-pcie-analog.c  | 1 +
- drivers/phy/amlogic/phy-meson-axg-pcie.c              | 1 +
- drivers/phy/amlogic/phy-meson-g12a-mipi-dphy-analog.c | 1 +
- drivers/phy/amlogic/phy-meson-g12a-usb2.c             | 2 +-
- drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c        | 2 +-
- drivers/phy/amlogic/phy-meson-gxl-usb2.c              | 2 +-
- drivers/phy/amlogic/phy-meson8-hdmi-tx.c              | 2 +-
- drivers/phy/amlogic/phy-meson8b-usb2.c                | 2 +-
- drivers/phy/broadcom/phy-bcm63xx-usbh.c               | 1 +
- drivers/phy/broadcom/phy-brcm-usb.c                   | 1 -
- drivers/phy/cadence/cdns-dphy-rx.c                    | 1 +
- drivers/phy/cadence/cdns-dphy.c                       | 3 +--
- drivers/phy/cadence/phy-cadence-torrent.c             | 2 --
- drivers/phy/freescale/phy-fsl-imx8m-pcie.c            | 2 +-
- drivers/phy/freescale/phy-fsl-imx8mq-usb.c            | 2 +-
- drivers/phy/freescale/phy-fsl-lynx-28g.c              | 1 +
- drivers/phy/hisilicon/phy-hi3660-usb3.c               | 1 +
- drivers/phy/hisilicon/phy-hi3670-usb3.c               | 1 +
- drivers/phy/hisilicon/phy-hi6220-usb.c                | 1 +
- drivers/phy/hisilicon/phy-hisi-inno-usb2.c            | 3 ++-
- drivers/phy/hisilicon/phy-histb-combphy.c             | 3 ++-
- drivers/phy/hisilicon/phy-hix5hd2-sata.c              | 1 +
- drivers/phy/ingenic/phy-ingenic-usb.c                 | 1 +
- drivers/phy/lantiq/phy-lantiq-rcu-usb2.c              | 1 -
- drivers/phy/marvell/phy-armada38x-comphy.c            | 1 +
- drivers/phy/marvell/phy-berlin-sata.c                 | 1 +
- drivers/phy/marvell/phy-mmp3-hsic.c                   | 1 +
- drivers/phy/marvell/phy-mmp3-usb.c                    | 1 +
- drivers/phy/marvell/phy-mvebu-a3700-comphy.c          | 1 +
- drivers/phy/marvell/phy-mvebu-a3700-utmi.c            | 2 +-
- drivers/phy/marvell/phy-mvebu-cp110-comphy.c          | 1 +
- drivers/phy/marvell/phy-mvebu-cp110-utmi.c            | 2 +-
- drivers/phy/marvell/phy-mvebu-sata.c                  | 1 +
- drivers/phy/marvell/phy-pxa-28nm-usb2.c               | 1 -
- drivers/phy/mediatek/phy-mtk-hdmi.h                   | 1 -
- drivers/phy/mediatek/phy-mtk-mipi-dsi.h               | 1 -
- drivers/phy/mediatek/phy-mtk-pcie.c                   | 2 +-
- drivers/phy/mediatek/phy-mtk-tphy.c                   | 2 +-
- drivers/phy/mediatek/phy-mtk-ufs.c                    | 1 +
- drivers/phy/phy-can-transceiver.c                     | 1 +
- drivers/phy/phy-xgene.c                               | 1 +
- drivers/phy/qualcomm/phy-ath79-usb.c                  | 1 +
- drivers/phy/qualcomm/phy-qcom-edp.c                   | 2 --
- drivers/phy/qualcomm/phy-qcom-eusb2-repeater.c        | 1 -
- drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c           | 3 +--
- drivers/phy/qualcomm/phy-qcom-ipq806x-usb.c           | 2 +-
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c             | 1 -
- drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c      | 1 -
- drivers/phy/qualcomm/phy-qcom-qmp-pcie.c              | 1 -
- drivers/phy/qualcomm/phy-qcom-qmp-ufs.c               | 1 -
- drivers/phy/qualcomm/phy-qcom-qmp-usb.c               | 1 -
- drivers/phy/qualcomm/phy-qcom-qusb2.c                 | 1 -
- drivers/phy/qualcomm/phy-qcom-snps-eusb2.c            | 1 +
- drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c         | 1 -
- drivers/phy/qualcomm/phy-qcom-usb-hs.c                | 2 +-
- drivers/phy/ralink/phy-mt7621-pci.c                   | 3 +--
- drivers/phy/renesas/phy-rcar-gen2.c                   | 1 -
- drivers/phy/renesas/phy-rcar-gen3-pcie.c              | 1 -
- drivers/phy/renesas/phy-rcar-gen3-usb2.c              | 2 --
- drivers/phy/renesas/r8a779f0-ether-serdes.c           | 1 +
- drivers/phy/rockchip/phy-rockchip-dphy-rx0.c          | 1 -
- drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c      | 2 +-
- drivers/phy/rockchip/phy-rockchip-inno-hdmi.c         | 1 -
- drivers/phy/rockchip/phy-rockchip-naneng-combphy.c    | 3 ++-
- drivers/phy/rockchip/phy-rockchip-snps-pcie3.c        | 3 ++-
- drivers/phy/samsung/phy-exynos-dp-video.c             | 2 --
- drivers/phy/samsung/phy-exynos-mipi-video.c           | 3 +--
- drivers/phy/samsung/phy-exynos5-usbdrd.c              | 2 --
- drivers/phy/samsung/phy-samsung-usb2.c                | 2 --
- drivers/phy/socionext/phy-uniphier-pcie.c             | 2 +-
- drivers/phy/st/phy-spear1310-miphy.c                  | 3 ++-
- drivers/phy/st/phy-spear1340-miphy.c                  | 3 ++-
- drivers/phy/st/phy-stm32-usbphyc.c                    | 3 ++-
- drivers/phy/sunplus/phy-sunplus-usb2.c                | 2 +-
- drivers/phy/tegra/phy-tegra194-p2u.c                  | 2 +-
- drivers/phy/tegra/xusb.c                              | 3 ++-
- drivers/phy/ti/phy-tusb1210.c                         | 1 +
- drivers/phy/ti/phy-twl4030-usb.c                      | 1 +
- 81 files changed, 65 insertions(+), 65 deletions(-)
+ drivers/pinctrl/bcm/pinctrl-iproc-gpio.c               | 4 ++--
+ drivers/pinctrl/bcm/pinctrl-nsp-gpio.c                 | 5 ++---
+ drivers/pinctrl/freescale/pinctrl-imx.c                | 2 +-
+ drivers/pinctrl/freescale/pinctrl-imx1-core.c          | 3 ++-
+ drivers/pinctrl/freescale/pinctrl-imx23.c              | 3 ++-
+ drivers/pinctrl/freescale/pinctrl-imx25.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx27.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx28.c              | 3 ++-
+ drivers/pinctrl/freescale/pinctrl-imx35.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx50.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx51.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx53.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6dl.c             | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6q.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6sl.c             | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6sll.c            | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6sx.c             | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx6ul.c             | 2 +-
+ drivers/pinctrl/freescale/pinctrl-imx7d.c              | 2 +-
+ drivers/pinctrl/freescale/pinctrl-imx7ulp.c            | 5 ++---
+ drivers/pinctrl/freescale/pinctrl-imx8dxl.c            | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx8mm.c             | 2 +-
+ drivers/pinctrl/freescale/pinctrl-imx8mq.c             | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx8qxp.c            | 3 ++-
+ drivers/pinctrl/freescale/pinctrl-imx8ulp.c            | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imx93.c              | 4 ++--
+ drivers/pinctrl/freescale/pinctrl-imxrt1050.c          | 2 +-
+ drivers/pinctrl/freescale/pinctrl-imxrt1170.c          | 2 +-
+ drivers/pinctrl/freescale/pinctrl-vf610.c              | 4 ++--
+ drivers/pinctrl/mediatek/pinctrl-mt2701.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt2712.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt6397.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8127.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8135.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8167.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8173.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8365.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mt8516.c              | 1 -
+ drivers/pinctrl/mediatek/pinctrl-mtk-common.c          | 2 --
+ drivers/pinctrl/meson/pinctrl-meson.c                  | 1 -
+ drivers/pinctrl/mvebu/pinctrl-ac5.c                    | 1 -
+ drivers/pinctrl/mvebu/pinctrl-armada-370.c             | 1 -
+ drivers/pinctrl/mvebu/pinctrl-armada-375.c             | 1 -
+ drivers/pinctrl/mvebu/pinctrl-armada-37xx.c            | 2 --
+ drivers/pinctrl/mvebu/pinctrl-mvebu.c                  | 2 --
+ drivers/pinctrl/nxp/pinctrl-s32cc.c                    | 2 +-
+ drivers/pinctrl/nxp/pinctrl-s32g2.c                    | 2 +-
+ drivers/pinctrl/pinctrl-axp209.c                       | 1 -
+ drivers/pinctrl/pinctrl-k210.c                         | 2 +-
+ drivers/pinctrl/pinctrl-lpc18xx.c                      | 4 ++--
+ drivers/pinctrl/pinctrl-ocelot.c                       | 4 +---
+ drivers/pinctrl/pinctrl-oxnas.c                        | 1 -
+ drivers/pinctrl/pinctrl-palmas.c                       | 1 -
+ drivers/pinctrl/pinctrl-pic32.c                        | 1 -
+ drivers/pinctrl/pinctrl-rockchip.c                     | 5 ++---
+ drivers/pinctrl/pinctrl-single.c                       | 3 +--
+ drivers/pinctrl/pinctrl-sx150x.c                       | 1 -
+ drivers/pinctrl/pxa/pinctrl-pxa25x.c                   | 1 -
+ drivers/pinctrl/pxa/pinctrl-pxa27x.c                   | 1 -
+ drivers/pinctrl/qcom/pinctrl-lpass-lpi.c               | 3 ++-
+ drivers/pinctrl/qcom/pinctrl-sdx75.c                   | 1 -
+ drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c               | 2 +-
+ drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c                | 2 +-
+ drivers/pinctrl/renesas/core.c                         | 1 -
+ drivers/pinctrl/renesas/pinctrl-rza1.c                 | 3 +--
+ drivers/pinctrl/renesas/pinctrl-rza2.c                 | 3 ++-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c                | 3 ++-
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c                | 3 ++-
+ drivers/pinctrl/samsung/pinctrl-samsung.c              | 2 +-
+ drivers/pinctrl/spear/pinctrl-spear1310.c              | 2 +-
+ drivers/pinctrl/spear/pinctrl-spear1340.c              | 2 +-
+ drivers/pinctrl/spear/pinctrl-spear300.c               | 2 +-
+ drivers/pinctrl/spear/pinctrl-spear310.c               | 2 +-
+ drivers/pinctrl/spear/pinctrl-spear320.c               | 2 +-
+ drivers/pinctrl/sprd/pinctrl-sprd.c                    | 1 -
+ drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c | 5 +----
+ drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c | 2 --
+ drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c     | 1 -
+ drivers/pinctrl/stm32/pinctrl-stm32.c                  | 3 +--
+ drivers/pinctrl/sunplus/sppctl.c                       | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c          | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c           | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c             | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c          | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun5i.c                  | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun6i-a31.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a23.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a33.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c           | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c             | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-h3-r.c             | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-h3.c               | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c            | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sun9i-a80.c              | 1 -
+ drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c          | 1 -
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c                  | 3 ---
+ drivers/pinctrl/tegra/pinctrl-tegra194.c               | 1 -
+ 107 files changed, 80 insertions(+), 145 deletions(-)
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 56d53f78d002..ec551464dd4f 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -23,8 +23,6 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/of_gpio.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-sun4i-usb.h>
-diff --git a/drivers/phy/allwinner/phy-sun50i-usb3.c b/drivers/phy/allwinner/phy-sun50i-usb3.c
-index 84055b720016..363f9a0df503 100644
---- a/drivers/phy/allwinner/phy-sun50i-usb3.c
-+++ b/drivers/phy/allwinner/phy-sun50i-usb3.c
-@@ -16,6 +16,7 @@
- #include <linux/clk.h>
- #include <linux/err.h>
+diff --git a/drivers/pinctrl/bcm/pinctrl-iproc-gpio.c b/drivers/pinctrl/bcm/pinctrl-iproc-gpio.c
+index cc3eb7409ab3..dcec671661e2 100644
+--- a/drivers/pinctrl/bcm/pinctrl-iproc-gpio.c
++++ b/drivers/pinctrl/bcm/pinctrl-iproc-gpio.c
+@@ -21,8 +21,8 @@
  #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-index 6e9af79e152c..08a86962d949 100644
---- a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-+++ b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-@@ -13,8 +13,8 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-pcie-analog.c b/drivers/phy/amlogic/phy-meson-axg-mipi-pcie-analog.c
-index a3e1108b736d..ae898f93f97b 100644
---- a/drivers/phy/amlogic/phy-meson-axg-mipi-pcie-analog.c
-+++ b/drivers/phy/amlogic/phy-meson-axg-mipi-pcie-analog.c
-@@ -11,6 +11,7 @@
- #include <linux/regmap.h>
- #include <linux/delay.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <dt-bindings/phy/phy.h>
- 
-diff --git a/drivers/phy/amlogic/phy-meson-axg-pcie.c b/drivers/phy/amlogic/phy-meson-axg-pcie.c
-index 2299bab38e05..60be5cdc600b 100644
---- a/drivers/phy/amlogic/phy-meson-axg-pcie.c
-+++ b/drivers/phy/amlogic/phy-meson-axg-pcie.c
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (C) 2020 Remi Pommarel <repk@triplefau.lt>
-  */
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/amlogic/phy-meson-g12a-mipi-dphy-analog.c b/drivers/phy/amlogic/phy-meson-g12a-mipi-dphy-analog.c
-index cabdddbbabfd..46e5f7e7eb6c 100644
---- a/drivers/phy/amlogic/phy-meson-g12a-mipi-dphy-analog.c
-+++ b/drivers/phy/amlogic/phy-meson-g12a-mipi-dphy-analog.c
-@@ -13,6 +13,7 @@
- #include <linux/regmap.h>
- #include <linux/delay.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <dt-bindings/phy/phy.h>
- 
-diff --git a/drivers/phy/amlogic/phy-meson-g12a-usb2.c b/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-index ec2555bb83d5..a628c59e5cf0 100644
---- a/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-+++ b/drivers/phy/amlogic/phy-meson-g12a-usb2.c
-@@ -14,7 +14,7 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c b/drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c
-index d2a1da8d9e58..2712c4bd549d 100644
---- a/drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c
-+++ b/drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c
-@@ -11,7 +11,7 @@
- #include <linux/bitops.h>
- #include <linux/clk.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/amlogic/phy-meson-gxl-usb2.c b/drivers/phy/amlogic/phy-meson-gxl-usb2.c
-index db17c3448bfe..14ea89927ab1 100644
---- a/drivers/phy/amlogic/phy-meson-gxl-usb2.c
-+++ b/drivers/phy/amlogic/phy-meson-gxl-usb2.c
-@@ -8,8 +8,8 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/amlogic/phy-meson8-hdmi-tx.c b/drivers/phy/amlogic/phy-meson8-hdmi-tx.c
-index f9a6572c27d8..2617f7f6c2ec 100644
---- a/drivers/phy/amlogic/phy-meson8-hdmi-tx.c
-+++ b/drivers/phy/amlogic/phy-meson8-hdmi-tx.c
-@@ -10,7 +10,7 @@
- #include <linux/clk.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-diff --git a/drivers/phy/amlogic/phy-meson8b-usb2.c b/drivers/phy/amlogic/phy-meson8b-usb2.c
-index dd96763911b8..d63147c41b8c 100644
---- a/drivers/phy/amlogic/phy-meson8b-usb2.c
-+++ b/drivers/phy/amlogic/phy-meson8b-usb2.c
-@@ -8,8 +8,8 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/broadcom/phy-bcm63xx-usbh.c b/drivers/phy/broadcom/phy-bcm63xx-usbh.c
-index 6c05ba8b08be..f8183dea774b 100644
---- a/drivers/phy/broadcom/phy-bcm63xx-usbh.c
-+++ b/drivers/phy/broadcom/phy-bcm63xx-usbh.c
-@@ -17,6 +17,7 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/broadcom/phy-brcm-usb.c b/drivers/phy/broadcom/phy-brcm-usb.c
-index a4cfb777dd83..a16f0b58eb74 100644
---- a/drivers/phy/broadcom/phy-brcm-usb.c
-+++ b/drivers/phy/broadcom/phy-brcm-usb.c
-@@ -11,7 +11,6 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/phy/cadence/cdns-dphy-rx.c b/drivers/phy/cadence/cdns-dphy-rx.c
-index c05b043893a9..7729cf80a9bd 100644
---- a/drivers/phy/cadence/cdns-dphy-rx.c
-+++ b/drivers/phy/cadence/cdns-dphy-rx.c
-@@ -7,6 +7,7 @@
- #include <linux/bitops.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-mipi-dphy.h>
-diff --git a/drivers/phy/cadence/cdns-dphy.c b/drivers/phy/cadence/cdns-dphy.c
-index 6e58012b6488..dddb66de6dba 100644
---- a/drivers/phy/cadence/cdns-dphy.c
-+++ b/drivers/phy/cadence/cdns-dphy.c
-@@ -9,8 +9,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
- 
-diff --git a/drivers/phy/cadence/phy-cadence-torrent.c b/drivers/phy/cadence/phy-cadence-torrent.c
-index 37b6b5c05be8..81e1c43fb803 100644
---- a/drivers/phy/cadence/phy-cadence-torrent.c
-+++ b/drivers/phy/cadence/phy-cadence-torrent.c
-@@ -17,8 +17,6 @@
+ #include <linux/ioport.h>
  #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
 -#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/freescale/phy-fsl-imx8m-pcie.c b/drivers/phy/freescale/phy-fsl-imx8m-pcie.c
-index d4c92498ad1e..b700f52b7b67 100644
---- a/drivers/phy/freescale/phy-fsl-imx8m-pcie.c
-+++ b/drivers/phy/freescale/phy-fsl-imx8m-pcie.c
-@@ -11,7 +11,7 @@
- #include <linux/mfd/syscon.h>
- #include <linux/mfd/syscon/imx7-iomuxc-gpr.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
+-#include <linux/of_irq.h>
 +#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/freescale/phy-fsl-imx8mq-usb.c b/drivers/phy/freescale/phy-fsl-imx8mq-usb.c
-index 88826ceb72f8..e1d769402696 100644
---- a/drivers/phy/freescale/phy-fsl-imx8mq-usb.c
-+++ b/drivers/phy/freescale/phy-fsl-imx8mq-usb.c
-@@ -6,7 +6,7 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/phy/freescale/phy-fsl-lynx-28g.c b/drivers/phy/freescale/phy-fsl-lynx-28g.c
-index 569f12af2aaf..4f036c77284e 100644
---- a/drivers/phy/freescale/phy-fsl-lynx-28g.c
-+++ b/drivers/phy/freescale/phy-fsl-lynx-28g.c
-@@ -2,6 +2,7 @@
- /* Copyright (c) 2021-2022 NXP. */
- 
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/hisilicon/phy-hi3660-usb3.c b/drivers/phy/hisilicon/phy-hi3660-usb3.c
-index 84adce9b4277..e2a09d67faed 100644
---- a/drivers/phy/hisilicon/phy-hi3660-usb3.c
-+++ b/drivers/phy/hisilicon/phy-hi3660-usb3.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/hisilicon/phy-hi3670-usb3.c b/drivers/phy/hisilicon/phy-hi3670-usb3.c
-index b9ffe08abaab..40d3cf128b44 100644
---- a/drivers/phy/hisilicon/phy-hi3670-usb3.c
-+++ b/drivers/phy/hisilicon/phy-hi3670-usb3.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/hisilicon/phy-hi6220-usb.c b/drivers/phy/hisilicon/phy-hi6220-usb.c
-index e92ba78da4c8..97bd363dfe87 100644
---- a/drivers/phy/hisilicon/phy-hi6220-usb.c
-+++ b/drivers/phy/hisilicon/phy-hi6220-usb.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include <linux/mfd/syscon.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/hisilicon/phy-hisi-inno-usb2.c b/drivers/phy/hisilicon/phy-hisi-inno-usb2.c
-index 15dafe359552..498afd81696b 100644
---- a/drivers/phy/hisilicon/phy-hisi-inno-usb2.c
-+++ b/drivers/phy/hisilicon/phy-hisi-inno-usb2.c
-@@ -9,8 +9,9 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
 +#include <linux/platform_device.h>
- #include <linux/reset.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
  
- #define INNO_PHY_PORT_NUM	2
-diff --git a/drivers/phy/hisilicon/phy-histb-combphy.c b/drivers/phy/hisilicon/phy-histb-combphy.c
-index f1cb3e4d2add..c44588fd5a53 100644
---- a/drivers/phy/hisilicon/phy-histb-combphy.c
-+++ b/drivers/phy/hisilicon/phy-histb-combphy.c
-@@ -13,8 +13,9 @@
+diff --git a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+index 5045a7e57f1d..e8a5ecd7fb3b 100644
+--- a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
++++ b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+@@ -15,12 +15,11 @@
+ #include <linux/io.h>
+ #include <linux/ioport.h>
  #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
+-#include <linux/of_address.h>
 -#include <linux/of_device.h>
+-#include <linux/of_irq.h>
 +#include <linux/of.h>
- #include <linux/phy/phy.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ 
+ #include "../pinctrl-utils.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx.c b/drivers/pinctrl/freescale/pinctrl-imx.c
+index 93ffb5fc04e7..9bc16943014f 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx.c
+@@ -14,7 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
 +#include <linux/platform_device.h>
  #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <dt-bindings/phy/phy.h>
-diff --git a/drivers/phy/hisilicon/phy-hix5hd2-sata.c b/drivers/phy/hisilicon/phy-hix5hd2-sata.c
-index b0f99a9ac857..1b26ddb4c8a7 100644
---- a/drivers/phy/hisilicon/phy-hix5hd2-sata.c
-+++ b/drivers/phy/hisilicon/phy-hix5hd2-sata.c
-@@ -8,6 +8,7 @@
- #include <linux/io.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/ingenic/phy-ingenic-usb.c b/drivers/phy/ingenic/phy-ingenic-usb.c
-index 28c28d816484..eb2721f72a4c 100644
---- a/drivers/phy/ingenic/phy-ingenic-usb.c
-+++ b/drivers/phy/ingenic/phy-ingenic-usb.c
-@@ -11,6 +11,7 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/phy/lantiq/phy-lantiq-rcu-usb2.c b/drivers/phy/lantiq/phy-lantiq-rcu-usb2.c
-index 29d246ea24b4..82f1ffc0b0ad 100644
---- a/drivers/phy/lantiq/phy-lantiq-rcu-usb2.c
-+++ b/drivers/phy/lantiq/phy-lantiq-rcu-usb2.c
-@@ -12,7 +12,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-diff --git a/drivers/phy/marvell/phy-armada38x-comphy.c b/drivers/phy/marvell/phy-armada38x-comphy.c
-index 0fe408964334..b7d99861526a 100644
---- a/drivers/phy/marvell/phy-armada38x-comphy.c
-+++ b/drivers/phy/marvell/phy-armada38x-comphy.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-berlin-sata.c b/drivers/phy/marvell/phy-berlin-sata.c
-index d70ba9bc42d9..f972d78372ea 100644
---- a/drivers/phy/marvell/phy-berlin-sata.c
-+++ b/drivers/phy/marvell/phy-berlin-sata.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/clk.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/io.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-mmp3-hsic.c b/drivers/phy/marvell/phy-mmp3-hsic.c
-index f2537fdcc3ab..271f1a2258ef 100644
---- a/drivers/phy/marvell/phy-mmp3-hsic.c
-+++ b/drivers/phy/marvell/phy-mmp3-hsic.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-mmp3-usb.c b/drivers/phy/marvell/phy-mmp3-usb.c
-index 04c0bada3519..5b71deb08851 100644
---- a/drivers/phy/marvell/phy-mmp3-usb.c
-+++ b/drivers/phy/marvell/phy-mmp3-usb.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-mvebu-a3700-comphy.c b/drivers/phy/marvell/phy-mvebu-a3700-comphy.c
-index d641b345afa3..24c3371e2bb2 100644
---- a/drivers/phy/marvell/phy-mvebu-a3700-comphy.c
-+++ b/drivers/phy/marvell/phy-mvebu-a3700-comphy.c
-@@ -19,6 +19,7 @@
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-mvebu-a3700-utmi.c b/drivers/phy/marvell/phy-mvebu-a3700-utmi.c
-index 8834436bc9db..04f4fb4bed70 100644
---- a/drivers/phy/marvell/phy-mvebu-a3700-utmi.c
-+++ b/drivers/phy/marvell/phy-mvebu-a3700-utmi.c
-@@ -13,7 +13,7 @@
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/marvell/phy-mvebu-cp110-comphy.c b/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-index 34672e868a1e..0a3589ea0dfe 100644
---- a/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-+++ b/drivers/phy/marvell/phy-mvebu-cp110-comphy.c
-@@ -11,6 +11,7 @@
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/marvell/phy-mvebu-cp110-utmi.c b/drivers/phy/marvell/phy-mvebu-cp110-utmi.c
-index aa27c7994610..4922a5f3327d 100644
---- a/drivers/phy/marvell/phy-mvebu-cp110-utmi.c
-+++ b/drivers/phy/marvell/phy-mvebu-cp110-utmi.c
-@@ -12,7 +12,7 @@
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/marvell/phy-mvebu-sata.c b/drivers/phy/marvell/phy-mvebu-sata.c
-index 51a4646e2933..89a5a2b69d80 100644
---- a/drivers/phy/marvell/phy-mvebu-sata.c
-+++ b/drivers/phy/marvell/phy-mvebu-sata.c
-@@ -10,6 +10,7 @@
- #include <linux/clk.h>
- #include <linux/phy/phy.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- 
- struct priv {
-diff --git a/drivers/phy/marvell/phy-pxa-28nm-usb2.c b/drivers/phy/marvell/phy-pxa-28nm-usb2.c
-index 1b2107f80f3a..64afb82cf70e 100644
---- a/drivers/phy/marvell/phy-pxa-28nm-usb2.c
-+++ b/drivers/phy/marvell/phy-pxa-28nm-usb2.c
-@@ -11,7 +11,6 @@
- #include <linux/delay.h>
+ #include <linux/seq_file.h>
  #include <linux/slab.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/err.h>
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi.h b/drivers/phy/mediatek/phy-mtk-hdmi.h
-index fc2ad6a0527f..71c02d043485 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi.h
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi.h
-@@ -11,7 +11,6 @@
- #include <linux/delay.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
-diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
-index 47b60b1a7226..b9a8df3bcdde 100644
---- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
-+++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
-@@ -12,7 +12,6 @@
- #include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
- #include <linux/slab.h>
-diff --git a/drivers/phy/mediatek/phy-mtk-pcie.c b/drivers/phy/mediatek/phy-mtk-pcie.c
-index 25dbd6e35722..a2f69d6c72f0 100644
---- a/drivers/phy/mediatek/phy-mtk-pcie.c
-+++ b/drivers/phy/mediatek/phy-mtk-pcie.c
-@@ -7,7 +7,7 @@
- #include <linux/bitfield.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-diff --git a/drivers/phy/mediatek/phy-mtk-tphy.c b/drivers/phy/mediatek/phy-mtk-tphy.c
-index 0d110e50bbfd..05eab9014132 100644
---- a/drivers/phy/mediatek/phy-mtk-tphy.c
-+++ b/drivers/phy/mediatek/phy-mtk-tphy.c
-@@ -13,8 +13,8 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
-+#include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/mediatek/phy-mtk-ufs.c b/drivers/phy/mediatek/phy-mtk-ufs.c
-index fc19e0fa8ed5..0cb5a25b1b7a 100644
---- a/drivers/phy/mediatek/phy-mtk-ufs.c
-+++ b/drivers/phy/mediatek/phy-mtk-ufs.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/phy-can-transceiver.c b/drivers/phy/phy-can-transceiver.c
-index 5487b9dd1ead..840b7f8a31c5 100644
---- a/drivers/phy/phy-can-transceiver.c
-+++ b/drivers/phy/phy-can-transceiver.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2021 Texas Instruments Incorporated - https://www.ti.com
-  *
-  */
-+#include <linux/of.h>
- #include<linux/phy/phy.h>
- #include<linux/platform_device.h>
- #include<linux/module.h>
-diff --git a/drivers/phy/phy-xgene.c b/drivers/phy/phy-xgene.c
-index d0f4546648f0..1f0f908323f0 100644
---- a/drivers/phy/phy-xgene.c
-+++ b/drivers/phy/phy-xgene.c
-@@ -39,6 +39,7 @@
-  * Currently, this driver only supports Gen3 SATA mode with external clock.
-  */
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/delay.h>
-diff --git a/drivers/phy/qualcomm/phy-ath79-usb.c b/drivers/phy/qualcomm/phy-ath79-usb.c
-index 09a77e556ece..f8d0199c6e78 100644
---- a/drivers/phy/qualcomm/phy-ath79-usb.c
-+++ b/drivers/phy/qualcomm/phy-ath79-usb.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2015-2018 Alban Bedel <albeu@free.fr>
-  */
- 
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-index fc8ca0f3018d..e0e722b9be31 100644
---- a/drivers/phy/qualcomm/phy-qcom-edp.c
-+++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-@@ -13,8 +13,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-eusb2-repeater.c b/drivers/phy/qualcomm/phy-qcom-eusb2-repeater.c
-index 90f8543ba265..52c275fbb2a1 100644
---- a/drivers/phy/qualcomm/phy-qcom-eusb2-repeater.c
-+++ b/drivers/phy/qualcomm/phy-qcom-eusb2-repeater.c
-@@ -8,7 +8,6 @@
- #include <linux/regulator/consumer.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- 
- /* eUSB2 status registers */
-diff --git a/drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c b/drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c
-index d3e7d5e1d1b6..da6f290af722 100644
---- a/drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c
-+++ b/drivers/phy/qualcomm/phy-qcom-ipq4019-usb.c
-@@ -13,8 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
--#include <linux/of_platform.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-ipq806x-usb.c b/drivers/phy/qualcomm/phy-qcom-ipq806x-usb.c
-index 7bacc527fbad..06392ed7c91b 100644
---- a/drivers/phy/qualcomm/phy-qcom-ipq806x-usb.c
-+++ b/drivers/phy/qualcomm/phy-qcom-ipq806x-usb.c
-@@ -4,7 +4,7 @@
- #include <linux/err.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/delay.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index bebce8c591a3..7a96dca061e8 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c b/drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c
-index 0c603bc06e09..ab61a9c73b18 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-pcie.c b/drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
-index df505279edfd..a3bff4b71ffd 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
-@@ -13,7 +13,6 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/phy/pcie.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c b/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
-index 8c877b668bb9..70a8e2dbc7f9 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-ufs.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usb.c b/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-index 466f0a56c82e..b879b323eea6 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-usb.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-qusb2.c b/drivers/phy/qualcomm/phy-qcom-qusb2.c
-index bec6e40d5280..c52655a383ce 100644
---- a/drivers/phy/qualcomm/phy-qcom-qusb2.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qusb2.c
-@@ -12,7 +12,6 @@
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-snps-eusb2.c b/drivers/phy/qualcomm/phy-qcom-snps-eusb2.c
-index eeaa1eb0e24b..1484691a41d5 100644
---- a/drivers/phy/qualcomm/phy-qcom-snps-eusb2.c
-+++ b/drivers/phy/qualcomm/phy-qcom-snps-eusb2.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/iopoll.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c b/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-index 6c237f3cc66d..a7af77536d4a 100644
---- a/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-+++ b/drivers/phy/qualcomm/phy-qcom-snps-femto-v2.c
-@@ -10,7 +10,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/qualcomm/phy-qcom-usb-hs.c b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-index 53e46c220a3a..98a18987f1be 100644
---- a/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-+++ b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-@@ -7,7 +7,7 @@
- #include <linux/ulpi/regs.h>
- #include <linux/clk.h>
- #include <linux/regulator/consumer.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/reset.h>
- #include <linux/extcon.h>
-diff --git a/drivers/phy/ralink/phy-mt7621-pci.c b/drivers/phy/ralink/phy-mt7621-pci.c
-index 85888ab2d307..2f876f158e1d 100644
---- a/drivers/phy/ralink/phy-mt7621-pci.c
-+++ b/drivers/phy/ralink/phy-mt7621-pci.c
-@@ -9,8 +9,7 @@
- #include <linux/bitfield.h>
- #include <linux/bitops.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/renesas/phy-rcar-gen2.c b/drivers/phy/renesas/phy-rcar-gen2.c
-index c375a4676a3d..507435af2656 100644
---- a/drivers/phy/renesas/phy-rcar-gen2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen2.c
-@@ -16,7 +16,6 @@
- #include <linux/platform_device.h>
- #include <linux/spinlock.h>
- #include <linux/atomic.h>
--#include <linux/of_device.h>
- 
- #define USBHS_LPSTS			0x02
- #define USBHS_UGCTRL			0x80
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-pcie.c b/drivers/phy/renesas/phy-rcar-gen3-pcie.c
-index 9cf786a7daac..0ce7e9c94444 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-pcie.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-pcie.c
-@@ -10,7 +10,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/phy/phy.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/spinlock.h>
- 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index d4e2ee7e4efb..e53eace7c91e 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -15,8 +15,6 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/phy/renesas/r8a779f0-ether-serdes.c b/drivers/phy/renesas/r8a779f0-ether-serdes.c
-index 55b7bdfc10d3..f4e20a29df6d 100644
---- a/drivers/phy/renesas/r8a779f0-ether-serdes.c
-+++ b/drivers/phy/renesas/r8a779f0-ether-serdes.c
-@@ -8,6 +8,7 @@
- #include <linux/err.h>
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
-+#include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c b/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-index 639452f47869..e6a768bbb9b3 100644
---- a/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-+++ b/drivers/phy/rockchip/phy-rockchip-dphy-rx0.c
-@@ -21,7 +21,6 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-mipi-dphy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-index 401b0aabb159..c879ec69bfd6 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-@@ -14,7 +14,7 @@
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx1-core.c b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+index 3726c0ac2560..90c696046b38 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx1-core.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+@@ -15,7 +15,8 @@
  #include <linux/init.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-index 1e1563f5fffc..058cbe6a0025 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-@@ -15,7 +15,6 @@
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/phy/rockchip/phy-rockchip-naneng-combphy.c b/drivers/phy/rockchip/phy-rockchip-naneng-combphy.c
-index 7b8b001e4f9e..5de5e2e97ffa 100644
---- a/drivers/phy/rockchip/phy-rockchip-naneng-combphy.c
-+++ b/drivers/phy/rockchip/phy-rockchip-naneng-combphy.c
-@@ -8,8 +8,9 @@
- #include <dt-bindings/phy/phy.h>
- #include <linux/clk.h>
- #include <linux/mfd/syscon.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/units.h>
-diff --git a/drivers/phy/rockchip/phy-rockchip-snps-pcie3.c b/drivers/phy/rockchip/phy-rockchip-snps-pcie3.c
-index 1d355b32ba55..121e5961ce11 100644
---- a/drivers/phy/rockchip/phy-rockchip-snps-pcie3.c
-+++ b/drivers/phy/rockchip/phy-rockchip-snps-pcie3.c
-@@ -12,9 +12,10 @@
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/pcie.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- 
-diff --git a/drivers/phy/samsung/phy-exynos-dp-video.c b/drivers/phy/samsung/phy-exynos-dp-video.c
-index 6069fedbd8f3..a636dee07585 100644
---- a/drivers/phy/samsung/phy-exynos-dp-video.c
-+++ b/drivers/phy/samsung/phy-exynos-dp-video.c
-@@ -12,8 +12,6 @@
- #include <linux/module.h>
- #include <linux/mfd/syscon.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/samsung/phy-exynos-mipi-video.c b/drivers/phy/samsung/phy-exynos-mipi-video.c
-index a7f67857e5b2..592d8067e848 100644
---- a/drivers/phy/samsung/phy-exynos-mipi-video.c
-+++ b/drivers/phy/samsung/phy-exynos-mipi-video.c
-@@ -11,9 +11,8 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/spinlock.h>
- #include <linux/soc/samsung/exynos-regs-pmu.h>
-diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-index ee0848fe8432..06484abb5705 100644
---- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
-+++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
-@@ -14,8 +14,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/iopoll.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/phy/samsung/phy-samsung-usb2.c b/drivers/phy/samsung/phy-samsung-usb2.c
-index ec2befabeea6..68a174eca0ba 100644
---- a/drivers/phy/samsung/phy-samsung-usb2.c
-+++ b/drivers/phy/samsung/phy-samsung-usb2.c
-@@ -10,8 +10,6 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/spinlock.h>
-diff --git a/drivers/phy/socionext/phy-uniphier-pcie.c b/drivers/phy/socionext/phy-uniphier-pcie.c
-index ebca296ef123..c19173492b79 100644
---- a/drivers/phy/socionext/phy-uniphier-pcie.c
-+++ b/drivers/phy/socionext/phy-uniphier-pcie.c
-@@ -11,7 +11,7 @@
- #include <linux/iopoll.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/phy/st/phy-spear1310-miphy.c b/drivers/phy/st/phy-spear1310-miphy.c
-index 292413db7da4..35a9831b5161 100644
---- a/drivers/phy/st/phy-spear1310-miphy.c
-+++ b/drivers/phy/st/phy-spear1310-miphy.c
-@@ -13,8 +13,9 @@
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
- /* SPEAr1310 Registers */
-diff --git a/drivers/phy/st/phy-spear1340-miphy.c b/drivers/phy/st/phy-spear1340-miphy.c
-index c1d9ffa5a311..34a1cf21015f 100644
---- a/drivers/phy/st/phy-spear1340-miphy.c
-+++ b/drivers/phy/st/phy-spear1340-miphy.c
-@@ -13,8 +13,9 @@
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
- /* SPEAr1340 Registers */
-diff --git a/drivers/phy/st/phy-stm32-usbphyc.c b/drivers/phy/st/phy-stm32-usbphyc.c
-index 0a8552628cbd..d5e7e44000b5 100644
---- a/drivers/phy/st/phy-stm32-usbphyc.c
-+++ b/drivers/phy/st/phy-stm32-usbphyc.c
-@@ -12,8 +12,9 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- #include <linux/reset.h>
- #include <linux/units.h>
- 
-diff --git a/drivers/phy/sunplus/phy-sunplus-usb2.c b/drivers/phy/sunplus/phy-sunplus-usb2.c
-index 56de41091d63..0efe74ac9c6a 100644
---- a/drivers/phy/sunplus/phy-sunplus-usb2.c
-+++ b/drivers/phy/sunplus/phy-sunplus-usb2.c
-@@ -16,7 +16,7 @@
  #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c b/drivers/phy/tegra/phy-tegra194-p2u.c
-index 633e6b747275..f49b417c9eb6 100644
---- a/drivers/phy/tegra/phy-tegra194-p2u.c
-+++ b/drivers/phy/tegra/phy-tegra194-p2u.c
-@@ -11,8 +11,8 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_platform.h>
- #include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
- 
- #define P2U_CONTROL_CMN			0x74
- #define P2U_CONTROL_CMN_ENABLE_L2_EXIT_RATE_CHANGE		BIT(13)
-diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
-index a296b87dced1..ed30866e7647 100644
---- a/drivers/phy/tegra/xusb.c
-+++ b/drivers/phy/tegra/xusb.c
-@@ -8,10 +8,11 @@
- #include <linux/mailbox_client.h>
- #include <linux/module.h>
  #include <linux/of.h>
 -#include <linux/of_device.h>
 +#include <linux/of_platform.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/tegra/xusb.h>
- #include <linux/platform_device.h>
 +#include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/reset.h>
+ #include <linux/seq_file.h>
  #include <linux/slab.h>
-diff --git a/drivers/phy/ti/phy-tusb1210.c b/drivers/phy/ti/phy-tusb1210.c
-index 669c13d6e402..b4881cb34475 100644
---- a/drivers/phy/ti/phy-tusb1210.c
-+++ b/drivers/phy/ti/phy-tusb1210.c
-@@ -14,6 +14,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/phy/ulpi_phy.h>
- #include <linux/power_supply.h>
-+#include <linux/property.h>
- #include <linux/workqueue.h>
  
- #define TUSB1211_POWER_CONTROL				0x3d
-diff --git a/drivers/phy/ti/phy-twl4030-usb.c b/drivers/phy/ti/phy-twl4030-usb.c
-index da50732625d1..6b265992d988 100644
---- a/drivers/phy/ti/phy-twl4030-usb.c
-+++ b/drivers/phy/ti/phy-twl4030-usb.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx23.c b/drivers/pinctrl/freescale/pinctrl-imx23.c
+index 144020764a4b..0404efbf2a86 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx23.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx23.c
+@@ -6,7 +6,8 @@
+ // Copyright 2012 Freescale Semiconductor, Inc.
+ 
  #include <linux/init.h>
- #include <linux/interrupt.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include "pinctrl-mxs.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx25.c b/drivers/pinctrl/freescale/pinctrl-imx25.c
+index 51748da1668f..d2b0b6aad306 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx25.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx25.c
+@@ -14,8 +14,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx27.c b/drivers/pinctrl/freescale/pinctrl-imx27.c
+index 67e7105be4f3..1738df461235 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx27.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx27.c
+@@ -9,8 +9,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx1.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx28.c b/drivers/pinctrl/freescale/pinctrl-imx28.c
+index 13730dd193f1..eb847151713a 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx28.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx28.c
+@@ -6,7 +6,8 @@
+ // Copyright 2012 Freescale Semiconductor, Inc.
+ 
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include "pinctrl-mxs.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx35.c b/drivers/pinctrl/freescale/pinctrl-imx35.c
+index c8671ad5214c..1546517d8110 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx35.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx35.c
+@@ -12,8 +12,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx50.c b/drivers/pinctrl/freescale/pinctrl-imx50.c
+index a245b4011c00..9b044aee4f7c 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx50.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx50.c
+@@ -9,8 +9,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx51.c b/drivers/pinctrl/freescale/pinctrl-imx51.c
+index 307cf5fe4d15..e580c022bebe 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx51.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx51.c
+@@ -10,8 +10,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx53.c b/drivers/pinctrl/freescale/pinctrl-imx53.c
+index 02bf3bda69ac..1034192ab410 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx53.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx53.c
+@@ -10,8 +10,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6dl.c b/drivers/pinctrl/freescale/pinctrl-imx6dl.c
+index 2b6d5141a477..09542fdcd405 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6dl.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6dl.c
+@@ -8,8 +8,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6q.c b/drivers/pinctrl/freescale/pinctrl-imx6q.c
+index a7507def26a9..ae5cec74a3e8 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6q.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6q.c
+@@ -10,8 +10,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6sl.c b/drivers/pinctrl/freescale/pinctrl-imx6sl.c
+index 236f3bf120c2..3111f50263f6 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6sl.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6sl.c
+@@ -8,8 +8,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6sll.c b/drivers/pinctrl/freescale/pinctrl-imx6sll.c
+index dfefcecbe072..72a7214811ab 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6sll.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6sll.c
+@@ -7,8 +7,8 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6sx.c b/drivers/pinctrl/freescale/pinctrl-imx6sx.c
+index b7b97c274dcc..aa76bc6d7402 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6sx.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6sx.c
+@@ -8,8 +8,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx6ul.c b/drivers/pinctrl/freescale/pinctrl-imx6ul.c
+index 3b8747482e36..9cb02444f8aa 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx6ul.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx6ul.c
+@@ -9,7 +9,7 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx7d.c b/drivers/pinctrl/freescale/pinctrl-imx7d.c
+index 4126387344cb..8acf2b73aefa 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx7d.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx7d.c
+@@ -9,7 +9,7 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx7ulp.c b/drivers/pinctrl/freescale/pinctrl-imx7ulp.c
+index 1915378d92b2..ba0ef1ea5722 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx7ulp.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx7ulp.c
+@@ -8,9 +8,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx8dxl.c b/drivers/pinctrl/freescale/pinctrl-imx8dxl.c
+index f947b1d0d1aa..7dec709ebd9a 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx8dxl.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx8dxl.c
+@@ -8,10 +8,10 @@
+ #include <linux/firmware/imx/sci.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ 
+ #include "pinctrl-imx.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx8mm.c b/drivers/pinctrl/freescale/pinctrl-imx8mm.c
+index 39dc73281ce6..47d14902a01a 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx8mm.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx8mm.c
+@@ -6,7 +6,7 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx8mq.c b/drivers/pinctrl/freescale/pinctrl-imx8mq.c
+index 3ed3c98bcedb..529eebe46298 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx8mq.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx8mq.c
+@@ -8,10 +8,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ 
+ #include "pinctrl-imx.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx8qxp.c b/drivers/pinctrl/freescale/pinctrl-imx8qxp.c
+index 0a0acc0038d0..37ef3229231b 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx8qxp.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx8qxp.c
+@@ -10,10 +10,11 @@
+ #include <linux/firmware/imx/sci.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ 
+ #include "pinctrl-imx.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx8ulp.c b/drivers/pinctrl/freescale/pinctrl-imx8ulp.c
+index f8572597a54e..2e86ca9fc7ac 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx8ulp.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx8ulp.c
+@@ -6,10 +6,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ 
+ #include "pinctrl-imx.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx93.c b/drivers/pinctrl/freescale/pinctrl-imx93.c
+index 91b3ee1e6fa9..5977dda3b759 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx93.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx93.c
+@@ -6,10 +6,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
++#include <linux/platform_device.h>
+ 
+ #include "pinctrl-imx.h"
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imxrt1050.c b/drivers/pinctrl/freescale/pinctrl-imxrt1050.c
+index def683839ebe..f6435227d4fb 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imxrt1050.c
++++ b/drivers/pinctrl/freescale/pinctrl-imxrt1050.c
+@@ -6,7 +6,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-imxrt1170.c b/drivers/pinctrl/freescale/pinctrl-imxrt1170.c
+index 5da1545fde91..d8857f329e25 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imxrt1170.c
++++ b/drivers/pinctrl/freescale/pinctrl-imxrt1170.c
+@@ -6,7 +6,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/freescale/pinctrl-vf610.c b/drivers/pinctrl/freescale/pinctrl-vf610.c
+index 700e5a136814..76adcc5abdec 100644
+--- a/drivers/pinctrl/freescale/pinctrl-vf610.c
++++ b/drivers/pinctrl/freescale/pinctrl-vf610.c
+@@ -7,8 +7,8 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-imx.h"
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt2701.c b/drivers/pinctrl/mediatek/pinctrl-mt2701.c
+index b185538452a0..5fb377c1668b 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt2701.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt2701.c
+@@ -7,7 +7,6 @@
+ #include <dt-bindings/pinctrl/mt65xx.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt2712.c b/drivers/pinctrl/mediatek/pinctrl-mt2712.c
+index 730a496848dc..8a6daa0db54b 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt2712.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt2712.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/regmap.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt6397.c b/drivers/pinctrl/mediatek/pinctrl-mt6397.c
+index bc5c3dfcdc76..03d0f65d7bcc 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt6397.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt6397.c
+@@ -7,7 +7,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/mfd/mt6397/core.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8127.c b/drivers/pinctrl/mediatek/pinctrl-mt8127.c
+index e8772dcfe69e..f5030a9ea40b 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8127.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8127.c
+@@ -8,7 +8,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/regmap.h>
+ #include <dt-bindings/pinctrl/mt65xx.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8135.c b/drivers/pinctrl/mediatek/pinctrl-mt8135.c
+index cdb0252071fb..77c6ac464e86 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8135.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8135.c
+@@ -7,7 +7,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/regmap.h>
+ #include <dt-bindings/pinctrl/mt65xx.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8167.c b/drivers/pinctrl/mediatek/pinctrl-mt8167.c
+index 866da2c4a890..ba7f30c3296f 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8167.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8167.c
+@@ -6,7 +6,6 @@
+ 
+ #include <dt-bindings/pinctrl/mt65xx.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8173.c b/drivers/pinctrl/mediatek/pinctrl-mt8173.c
+index 37d8cec1c3ce..455eec018f93 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8173.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8173.c
+@@ -7,7 +7,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/regmap.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8365.c b/drivers/pinctrl/mediatek/pinctrl-mt8365.c
+index 75a505035e96..1db04bbdb423 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8365.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8365.c
+@@ -6,7 +6,6 @@
+ 
+ #include <dt-bindings/pinctrl/mt65xx.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mt8516.c b/drivers/pinctrl/mediatek/pinctrl-mt8516.c
+index e929339dd2cb..950275c47122 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mt8516.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mt8516.c
+@@ -6,7 +6,6 @@
+ 
+ #include <dt-bindings/pinctrl/mt65xx.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/mediatek/pinctrl-mtk-common.c b/drivers/pinctrl/mediatek/pinctrl-mtk-common.c
+index 665dec419e7c..74b15952b742 100644
+--- a/drivers/pinctrl/mediatek/pinctrl-mtk-common.c
++++ b/drivers/pinctrl/mediatek/pinctrl-mtk-common.c
+@@ -8,8 +8,6 @@
+ #include <linux/io.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pinctrl/machine.h>
+diff --git a/drivers/pinctrl/meson/pinctrl-meson.c b/drivers/pinctrl/meson/pinctrl-meson.c
+index 530f3f934e19..524424ee6c4e 100644
+--- a/drivers/pinctrl/meson/pinctrl-meson.c
++++ b/drivers/pinctrl/meson/pinctrl-meson.c
+@@ -43,7 +43,6 @@
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/mvebu/pinctrl-ac5.c b/drivers/pinctrl/mvebu/pinctrl-ac5.c
+index 292633e61129..09ddfc434c6b 100644
+--- a/drivers/pinctrl/mvebu/pinctrl-ac5.c
++++ b/drivers/pinctrl/mvebu/pinctrl-ac5.c
+@@ -12,7 +12,6 @@
+ #include <linux/io.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-mvebu.h"
+diff --git a/drivers/pinctrl/mvebu/pinctrl-armada-370.c b/drivers/pinctrl/mvebu/pinctrl-armada-370.c
+index d3195557a901..a50c2183e49a 100644
+--- a/drivers/pinctrl/mvebu/pinctrl-armada-370.c
++++ b/drivers/pinctrl/mvebu/pinctrl-armada-370.c
+@@ -13,7 +13,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-mvebu.h"
+diff --git a/drivers/pinctrl/mvebu/pinctrl-armada-375.c b/drivers/pinctrl/mvebu/pinctrl-armada-375.c
+index e6aaa3708e58..64e2096a05e4 100644
+--- a/drivers/pinctrl/mvebu/pinctrl-armada-375.c
++++ b/drivers/pinctrl/mvebu/pinctrl-armada-375.c
+@@ -13,7 +13,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-mvebu.h"
+diff --git a/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c b/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
+index 67c6751a6f06..1e1f3fdaba21 100644
+--- a/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
++++ b/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
+@@ -13,8 +13,6 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinconf.h>
+diff --git a/drivers/pinctrl/mvebu/pinctrl-mvebu.c b/drivers/pinctrl/mvebu/pinctrl-mvebu.c
+index 8e6aac4164df..84a119718f86 100644
+--- a/drivers/pinctrl/mvebu/pinctrl-mvebu.c
++++ b/drivers/pinctrl/mvebu/pinctrl-mvebu.c
+@@ -11,8 +11,6 @@
+ #include <linux/io.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+-#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/pinctrl/nxp/pinctrl-s32cc.c b/drivers/pinctrl/nxp/pinctrl-s32cc.c
+index 3ae043b27463..7daff9f186cd 100644
+--- a/drivers/pinctrl/nxp/pinctrl-s32cc.c
++++ b/drivers/pinctrl/nxp/pinctrl-s32cc.c
+@@ -14,7 +14,7 @@
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/nxp/pinctrl-s32g2.c b/drivers/pinctrl/nxp/pinctrl-s32g2.c
+index 224a12ce70ed..440ff1879424 100644
+--- a/drivers/pinctrl/nxp/pinctrl-s32g2.c
++++ b/drivers/pinctrl/nxp/pinctrl-s32g2.c
+@@ -12,7 +12,7 @@
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-s32.h"
+diff --git a/drivers/pinctrl/pinctrl-axp209.c b/drivers/pinctrl/pinctrl-axp209.c
+index b3ba25435c34..9f5b3ab8e184 100644
+--- a/drivers/pinctrl/pinctrl-axp209.c
++++ b/drivers/pinctrl/pinctrl-axp209.c
+@@ -15,7 +15,6 @@
+ #include <linux/mfd/axp20x.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/drivers/pinctrl/pinctrl-k210.c b/drivers/pinctrl/pinctrl-k210.c
+index 97920fb517bc..b6d1ed9ec9a3 100644
+--- a/drivers/pinctrl/pinctrl-k210.c
++++ b/drivers/pinctrl/pinctrl-k210.c
+@@ -7,7 +7,7 @@
+ #include <linux/clk.h>
+ #include <linux/io.h>
+ #include <linux/mfd/syscon.h>
+-#include <linux/of_device.h>
 +#include <linux/of.h>
  #include <linux/platform_device.h>
- #include <linux/workqueue.h>
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/pinctrl/pinctrl-lpc18xx.c b/drivers/pinctrl/pinctrl-lpc18xx.c
+index 13c041dd2ce0..0f5a7bed2f81 100644
+--- a/drivers/pinctrl/pinctrl-lpc18xx.c
++++ b/drivers/pinctrl/pinctrl-lpc18xx.c
+@@ -12,8 +12,8 @@
+ #include <linux/clk.h>
+ #include <linux/init.h>
  #include <linux/io.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinconf.h>
+diff --git a/drivers/pinctrl/pinctrl-ocelot.c b/drivers/pinctrl/pinctrl-ocelot.c
+index 1dcbd0937ef5..f8ae2e974221 100644
+--- a/drivers/pinctrl/pinctrl-ocelot.c
++++ b/drivers/pinctrl/pinctrl-ocelot.c
+@@ -11,9 +11,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/mfd/ocelot.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+diff --git a/drivers/pinctrl/pinctrl-oxnas.c b/drivers/pinctrl/pinctrl-oxnas.c
+index fb10a8473ebe..2b2f36994323 100644
+--- a/drivers/pinctrl/pinctrl-oxnas.c
++++ b/drivers/pinctrl/pinctrl-oxnas.c
+@@ -13,7 +13,6 @@
+ #include <linux/io.h>
+ #include <linux/irq.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/pinctrl-palmas.c b/drivers/pinctrl/pinctrl-palmas.c
+index fecc25d35d02..9e272f9deb4f 100644
+--- a/drivers/pinctrl/pinctrl-palmas.c
++++ b/drivers/pinctrl/pinctrl-palmas.c
+@@ -11,7 +11,6 @@
+ #include <linux/module.h>
+ #include <linux/mfd/palmas.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/pinctrl-pic32.c b/drivers/pinctrl/pinctrl-pic32.c
+index dad05294fa72..d0737ef926e3 100644
+--- a/drivers/pinctrl/pinctrl-pic32.c
++++ b/drivers/pinctrl/pinctrl-pic32.c
+@@ -11,7 +11,6 @@
+ #include <linux/io.h>
+ #include <linux/irq.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/pinctrl-rockchip.c b/drivers/pinctrl/pinctrl-rockchip.c
+index 0276b52f3716..45e416f68e74 100644
+--- a/drivers/pinctrl/pinctrl-rockchip.c
++++ b/drivers/pinctrl/pinctrl-rockchip.c
+@@ -21,9 +21,8 @@
+ #include <linux/io.h>
+ #include <linux/bitops.h>
+ #include <linux/gpio/driver.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/pinctrl-single.c b/drivers/pinctrl/pinctrl-single.c
+index 0dabbcf68b9f..f056923ecc98 100644
+--- a/drivers/pinctrl/pinctrl-single.c
++++ b/drivers/pinctrl/pinctrl-single.c
+@@ -12,14 +12,13 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/io.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
+ #include <linux/list.h>
+ #include <linux/interrupt.h>
+ #include <linux/irqchip/chained_irq.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+-#include <linux/of_address.h>
+ #include <linux/of_irq.h>
+ #include <linux/seq_file.h>
+ 
+diff --git a/drivers/pinctrl/pinctrl-sx150x.c b/drivers/pinctrl/pinctrl-sx150x.c
+index 35faea8dfb0b..fef1ee7b7945 100644
+--- a/drivers/pinctrl/pinctrl-sx150x.c
++++ b/drivers/pinctrl/pinctrl-sx150x.c
+@@ -19,7 +19,6 @@
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/pxa/pinctrl-pxa25x.c b/drivers/pinctrl/pxa/pinctrl-pxa25x.c
+index 95640698422f..2a4842557bb2 100644
+--- a/drivers/pinctrl/pxa/pinctrl-pxa25x.c
++++ b/drivers/pinctrl/pxa/pinctrl-pxa25x.c
+@@ -7,7 +7,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-pxa2xx.h"
+diff --git a/drivers/pinctrl/pxa/pinctrl-pxa27x.c b/drivers/pinctrl/pxa/pinctrl-pxa27x.c
+index ff9302e4803a..b3acbaf8c85f 100644
+--- a/drivers/pinctrl/pxa/pinctrl-pxa27x.c
++++ b/drivers/pinctrl/pxa/pinctrl-pxa27x.c
+@@ -7,7 +7,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-pxa2xx.h"
+diff --git a/drivers/pinctrl/qcom/pinctrl-lpass-lpi.c b/drivers/pinctrl/qcom/pinctrl-lpass-lpi.c
+index fdb6585a9234..417ba02b1afb 100644
+--- a/drivers/pinctrl/qcom/pinctrl-lpass-lpi.c
++++ b/drivers/pinctrl/qcom/pinctrl-lpass-lpi.c
+@@ -8,7 +8,8 @@
+ #include <linux/clk.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/seq_file.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+diff --git a/drivers/pinctrl/qcom/pinctrl-sdx75.c b/drivers/pinctrl/qcom/pinctrl-sdx75.c
+index 2ade7866dbc5..3cfe8c7f04df 100644
+--- a/drivers/pinctrl/qcom/pinctrl-sdx75.c
++++ b/drivers/pinctrl/qcom/pinctrl-sdx75.c
+@@ -5,7 +5,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-msm.h"
+ 
+diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+index dec1ffc49ffd..e0d43d076c01 100644
+--- a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
++++ b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+@@ -7,7 +7,7 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_irq.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
+index b5aed540f07e..985d1a0ee8f8 100644
+--- a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
++++ b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
+@@ -7,7 +7,7 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_irq.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index 0c8d081da6a8..6e250a9225a4 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -19,7 +19,6 @@
+ #include <linux/kernel.h>
+ #include <linux/math.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/platform_device.h>
+ #include <linux/psci.h>
+diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
+index 68c7af5d86bc..f43f1196fea8 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rza1.c
++++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
+@@ -19,11 +19,10 @@
+ #include <linux/ioport.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinmux.h>
++#include <linux/platform_device.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/pinctrl/renesas/pinctrl-rza2.c b/drivers/pinctrl/renesas/pinctrl-rza2.c
+index 40b1326a1077..0b454a31c4bd 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rza2.c
++++ b/drivers/pinctrl/renesas/pinctrl-rza2.c
+@@ -14,8 +14,9 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pinctrl/pinmux.h>
++#include <linux/platform_device.h>
+ 
+ #include "../core.h"
+ #include "../pinmux.h"
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 9511d920565e..87ca761a1aec 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -11,8 +11,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/seq_file.h>
+ #include <linux/spinlock.h>
+ 
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzv2m.c b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+index e5472293bc7f..dd2342b757be 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzv2m.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+@@ -14,7 +14,8 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/spinlock.h>
+ 
+ #include <linux/pinctrl/consumer.h>
+diff --git a/drivers/pinctrl/samsung/pinctrl-samsung.c b/drivers/pinctrl/samsung/pinctrl-samsung.c
+index 833e170e3d99..e54847040b4a 100644
+--- a/drivers/pinctrl/samsung/pinctrl-samsung.c
++++ b/drivers/pinctrl/samsung/pinctrl-samsung.c
+@@ -20,7 +20,7 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/irqdomain.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/pinctrl/spear/pinctrl-spear1310.c b/drivers/pinctrl/spear/pinctrl-spear1310.c
+index 0180eb544f02..fb624a051e26 100644
+--- a/drivers/pinctrl/spear/pinctrl-spear1310.c
++++ b/drivers/pinctrl/spear/pinctrl-spear1310.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-spear.h"
+ 
+diff --git a/drivers/pinctrl/spear/pinctrl-spear1340.c b/drivers/pinctrl/spear/pinctrl-spear1340.c
+index 0ca961219b3b..48f068cf5e24 100644
+--- a/drivers/pinctrl/spear/pinctrl-spear1340.c
++++ b/drivers/pinctrl/spear/pinctrl-spear1340.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-spear.h"
+ 
+diff --git a/drivers/pinctrl/spear/pinctrl-spear300.c b/drivers/pinctrl/spear/pinctrl-spear300.c
+index d53a04597cbe..7530252ef7bc 100644
+--- a/drivers/pinctrl/spear/pinctrl-spear300.c
++++ b/drivers/pinctrl/spear/pinctrl-spear300.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-spear3xx.h"
+ 
+diff --git a/drivers/pinctrl/spear/pinctrl-spear310.c b/drivers/pinctrl/spear/pinctrl-spear310.c
+index 9d9facc4a6e4..c476e5478646 100644
+--- a/drivers/pinctrl/spear/pinctrl-spear310.c
++++ b/drivers/pinctrl/spear/pinctrl-spear310.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-spear3xx.h"
+ 
+diff --git a/drivers/pinctrl/spear/pinctrl-spear320.c b/drivers/pinctrl/spear/pinctrl-spear320.c
+index e629e3035543..401477cfbf57 100644
+--- a/drivers/pinctrl/spear/pinctrl-spear320.c
++++ b/drivers/pinctrl/spear/pinctrl-spear320.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include "pinctrl-spear3xx.h"
+ 
+diff --git a/drivers/pinctrl/sprd/pinctrl-sprd.c b/drivers/pinctrl/sprd/pinctrl-sprd.c
+index ca9659f4e4b1..ccdcc91c7fa5 100644
+--- a/drivers/pinctrl/sprd/pinctrl-sprd.c
++++ b/drivers/pinctrl/sprd/pinctrl-sprd.c
+@@ -11,7 +11,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c
+index 8cf28aaed254..4bfe3aa57f8a 100644
+--- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c
++++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c
+@@ -10,11 +10,8 @@
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c
+index bc279a39613f..20c85db1cd3a 100644
+--- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c
++++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c
+@@ -13,8 +13,6 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/spinlock.h>
+diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c
+index 5fe729b4a03d..b9081805c8f6 100644
+--- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c
++++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c
+@@ -14,7 +14,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
+index 4b97bd00191b..cbdb28358965 100644
+--- a/drivers/pinctrl/stm32/pinctrl-stm32.c
++++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+@@ -13,9 +13,8 @@
+ #include <linux/irq.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
++#include <linux/of_address.h>
+ #include <linux/of_irq.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+diff --git a/drivers/pinctrl/sunplus/sppctl.c b/drivers/pinctrl/sunplus/sppctl.c
+index 150996949ede..bb5ef391dbe4 100644
+--- a/drivers/pinctrl/sunplus/sppctl.c
++++ b/drivers/pinctrl/sunplus/sppctl.c
+@@ -11,7 +11,6 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/overflow.h>
+ #include <linux/platform_device.h>
+ #include <linux/seq_file.h>
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+index 9cc94be1046d..8e2aab542fcf 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+@@ -9,7 +9,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c b/drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c
+index 0c7c361ebac5..fa47fe36ee5b 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c
+@@ -13,7 +13,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
+index b82ad135bf2a..6d121bec4445 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
+@@ -8,7 +8,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+index f682e0e4244d..df90c75fb3c5 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+@@ -8,7 +8,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c
+index ef261eccda56..8693cd4877e1 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c
+@@ -21,7 +21,6 @@
+  */
+ 
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c
+index 7b83d3755a0e..1c23ce9df52f 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c
+@@ -15,7 +15,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c
+index 96a350e70668..669793c6578e 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h5.c
+@@ -18,7 +18,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c
+index 3aba0aec3d78..394476a35cad 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c
+@@ -14,7 +14,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c
+index 3cc1121589c9..517118341316 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h6.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c
+index c39ea46046c2..d1f7cfa824c5 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c
+@@ -10,7 +10,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
+index d6ca720ee8d8..73f012823a98 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
+@@ -10,7 +10,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun5i.c b/drivers/pinctrl/sunxi/pinctrl-sun5i.c
+index 27ec99e81c4c..06ecb121c827 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun5i.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun5i.c
+@@ -12,7 +12,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c b/drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c
+index 2486cdf345e1..c983243cd6fb 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c
+@@ -15,7 +15,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun6i-a31.c b/drivers/pinctrl/sunxi/pinctrl-sun6i-a31.c
+index 82ffaf466892..82ac064931df 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun6i-a31.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun6i-a31.c
+@@ -13,7 +13,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c
+index 4fae12c905b7..de00d3ef5e82 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c
+@@ -18,7 +18,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a23.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a23.c
+index 402fd7d21e7b..f6b01a8a8977 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a23.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a23.c
+@@ -17,7 +17,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a33.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a33.c
+index f043afa1aac5..f48f3e8cbe87 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a33.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a33.c
+@@ -15,7 +15,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c
+index 0cb6c1a970c9..c6a3ab3461ac 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
+index b5c1a8f363f3..fd1c65c0180c 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
+@@ -15,7 +15,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-h3-r.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-h3-r.c
+index b795a199e240..45e1531697fb 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-h3-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-h3-r.c
+@@ -11,7 +11,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-h3.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-h3.c
+index d1719a738c20..1c0823d50250 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-h3.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-h3.c
+@@ -15,7 +15,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
+index ca85438e379a..49c9a0b6a0eb 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c
+@@ -18,7 +18,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c b/drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c
+index f11cb5bba0f7..919b6a20af83 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c
+@@ -12,7 +12,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun9i-a80.c b/drivers/pinctrl/sunxi/pinctrl-sun9i-a80.c
+index 0633a03d5e13..61137c7f09b6 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun9i-a80.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun9i-a80.c
+@@ -13,7 +13,6 @@
+ #include <linux/init.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+index b8fc88a23cf4..bfc39cc3b3e3 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
++++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+@@ -25,7 +25,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "pinctrl-sunxi.h"
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 1dc1882cbdd7..096f1357850f 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -18,10 +18,7 @@
+ #include <linux/irqchip/chained_irq.h>
+ #include <linux/irqdomain.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+ #include <linux/of_clk.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
+index 69f58df62897..6d77954d286b 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra194.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
+@@ -16,7 +16,6 @@
+ 
+ #include <linux/init.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinmux.h>
 -- 
 2.40.1
 
