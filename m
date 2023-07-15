@@ -2,141 +2,370 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8002E7549A6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 17:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD047549D9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 17:41:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbjGOPLx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Jul 2023 11:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58712 "EHLO
+        id S229973AbjGOPl0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jul 2023 11:41:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbjGOPLx (ORCPT
+        with ESMTP id S229629AbjGOPlZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Jul 2023 11:11:53 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3783A2D7B
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 08:11:50 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-3461053677eso6531835ab.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 08:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1689433909; x=1692025909;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x9XlpRMNdAAEFImKOS7TDT4umEsjSeY77+bJ4P1MRe8=;
-        b=KpbiwA9NRF8+W6tdUk7oAEajedYliLcT3fLwx1hKWNPafETFpJG9nnPmhVRp1UdI1a
-         ec9mVwfBesk49WkdsrPfeQTQNowRCIhbKJuP16XD7dO7TZekJ8yDxNsj6kgUO5dmVinN
-         O/xItmOPmt9BnCnKdfjfmpm5zf8eizKb7wHPU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689433909; x=1692025909;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9XlpRMNdAAEFImKOS7TDT4umEsjSeY77+bJ4P1MRe8=;
-        b=RkbdWbgMMO2pPz6A5AFkEJsY5/Qs3x0x3GDG5lb/ELXeyNS/WBIAY05Bx3SxVhCEhJ
-         SkgLJuNPd3C4mr/OqrXvgL2OmxbXOLBxUkjGfdEgRqH1VleLOcbja935J44rTEKN+8hL
-         EJ/iIfXcHq50OhvZgp4vY1pZo7T19gMDB2jMlQNlP48YsfvXOvsTgjHNYuW0NAjOJCCP
-         S+Nf7eCG0Nt9UovDzA2SsaNK3oikP9meZy5fxlQIP4bIbub69HZ8HKWbgICndnalfY+Z
-         vgY/+q+snX5xXjOb+TPubUQcuCURcRNBkbYrKL4sSxwAm6wKw0+LWzdXfG7Ad+zLC5DJ
-         jkMA==
-X-Gm-Message-State: ABy/qLY5472YQlfVLA2pjcrAsdSQ4bHBZAr0UzV+2TuAAr0i3/GcZSbO
-        v495hhfUyiIEBgzA1E9W8sbDrw==
-X-Google-Smtp-Source: APBJJlGJVqbBu5lKEA54CgyQF24n/fOTJfhIYz9w3XH4VGOvH3KCmWksDsEmgsEiSCeG83sO26Hgmw==
-X-Received: by 2002:a05:6e02:1148:b0:343:ef5e:8286 with SMTP id o8-20020a056e02114800b00343ef5e8286mr3847417ill.7.1689433909634;
-        Sat, 15 Jul 2023 08:11:49 -0700 (PDT)
-Received: from [10.211.55.3] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id f8-20020a056638022800b0042b2959e6dcsm3321388jaq.87.2023.07.15.08.11.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Jul 2023 08:11:48 -0700 (PDT)
-Message-ID: <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
-Date:   Sat, 15 Jul 2023 10:11:46 -0500
+        Sat, 15 Jul 2023 11:41:25 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9282D7B;
+        Sat, 15 Jul 2023 08:41:22 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0794BC0004;
+        Sat, 15 Jul 2023 15:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1689435679;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dx1hsltG+GS7GVxSpUxmJ8g4K6vQcrTXG0/HvBc/tbU=;
+        b=A0YL2XjHakazCSZxBEAgvvFz+zO/q6MvW/VWQbL4uXtrm77eLe7cnit7/T8i/AuGOl7OmT
+        YN++8QaxP9uM3tgqSVdbFUnWRWqxsOJV5bWYasJpx+Cy1LYzoD8PftOmoRYFj21IyBCAI5
+        JO0t/bxRZzXCQOfu1e9sM0qCXBwrcUQdH+RihsTsFt3DIFR2JQ1cDTr+Qcmrnb0SR6Ybme
+        fcXexHoisB0ENB+2rnbwpWzBjYQu7I5XizRbcqeC7dmqQaXYcWpZPzLjYOI2u7yUXhT3xr
+        SXoQdjTlkuldFhbZ0dpwyQkGtKicY/Lv7sYc5w9KkLSHvhRY8j1jFssNmZ8VQQ==
+Date:   Sat, 15 Jul 2023 17:41:12 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Alexander Usyskin <alexander.usyskin@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Vitaly Lubart <vitaly.lubart@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: Re: [PATCH 1/2] mtd: use refcount to prevent corruption
+Message-ID: <20230715174112.3909e43f@xps-13>
+In-Reply-To: <TYWPR01MB87756794A30EB389AB017EB1C234A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+References: <20230620131905.648089-1-alexander.usyskin@intel.com>
+        <20230620131905.648089-2-alexander.usyskin@intel.com>
+        <TYWPR01MB87756794A30EB389AB017EB1C234A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] net: Explicitly include correct DT includes
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Alex Elder <elder@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
-        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-wpan@vger.kernel.org, ath10k@lists.infradead.org,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-        wcn36xx@lists.infradead.org
-References: <20230714174809.4060885-1-robh@kernel.org>
-From:   Alex Elder <elder@ieee.org>
-In-Reply-To: <20230714174809.4060885-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/14/23 12:48 PM, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi Fabrizio,
 
-(I significantly reduced the addressee list to permit the message
-to be sent.)
+fabrizio.castro.jz@renesas.com wrote on Fri, 14 Jul 2023 16:10:45 +0000:
 
-For "drivers/net/ipa/ipa_main.c":
+> Dear All,
+>=20
+> I am sorry for reopening this topic, but as it turns out (after bisecting
+> linux-next/master) this patch is interfering with a use case I am working
+> on.
+>=20
+> I am using a Renesas RZ/V2M EVK v2.0 platform, I have an SPI NOR memory
+> ("micron,mt25ql256a") wired up to a connector on the platform, the SPI
+> master is using driver (built as module):
+> drivers/spi/spi-rzv2m-csi.c
+>=20
+> Although the board device tree in mainline does not reflect the connection
+> of CSI4 (which is the SPI master) from the SoC to the "micron,mt25ql256a"
+> (SPI slave device), my local device tree comes with the necessary definit=
+ions.
+>=20
+> Without this patch, when I load up the module, I get the below 3 devices:
+> /dev/mtd0
+> /dev/mtd0ro
+> /dev/mtdblock0
+>=20
+> They get cleaned up correctly upon module removal.
+> I can reload the same module, and everything works just fine.
+>=20
+> With this patch applied, when I load up the module, I get the same 3
+> devices:
+> /dev/mtd0
+> /dev/mtd0ro
+> /dev/mtdblock0
+>=20
+> Upon removal, the below 2 devices still hang around:
+> /dev/mtd0
+> /dev/mtd0ro
 
-Acked-by: Alex Elder <elder@linaro.org>
+Looks like the refcounting change is still not even in some cases, can
+you investigate and come up with a proper patch? You can either improve
+the existing patch or revert it and try your own approach if deemed
+better.
 
-> ---
->   drivers/net/can/bxcan.c                                 | 1 -
->   drivers/net/can/ifi_canfd/ifi_canfd.c                   | 1 -
-. . .
->   drivers/net/ieee802154/ca8210.c                         | 1 -
->   drivers/net/ipa/ipa_main.c                              | 2 +-
->   drivers/net/pcs/pcs-rzn1-miic.c                         | 1 +
->   drivers/net/phy/marvell-88x2222.c                       | 1 -
->   drivers/net/phy/mediatek-ge-soc.c                       | 2 --
->   drivers/net/wireless/ath/ath10k/ahb.c                   | 2 +-
->   drivers/net/wireless/ath/ath11k/qmi.c                   | 1 -
->   drivers/net/wireless/ath/wcn36xx/main.c                 | 3 +--
->   drivers/net/wireless/intersil/orinoco/airport.c         | 2 +-
->   drivers/net/wireless/mediatek/mt76/mt7915/soc.c         | 1 -
->   drivers/net/wireless/silabs/wfx/bus_sdio.c              | 2 +-
->   net/core/of_net.c                                       | 1 +
->   124 files changed, 110 insertions(+), 120 deletions(-)
+Thanks,
+Miqu=C3=A8l
 
-. . .
-
-> diff --git a/drivers/net/ipa/ipa_main.c b/drivers/net/ipa/ipa_main.c
-> index 6a2f2fc2f501..da853353a5c7 100644
-> --- a/drivers/net/ipa/ipa_main.c
-> +++ b/drivers/net/ipa/ipa_main.c
-> @@ -13,8 +13,8 @@
->   #include <linux/firmware.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
-> -#include <linux/of_device.h>
->   #include <linux/of_address.h>
-> +#include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   #include <linux/firmware/qcom/qcom_scm.h>
->   #include <linux/soc/qcom/mdt_loader.h>
-
-. . .
+> Preventing the module from being (re)loaded correctly:
+> rzv2m_csi a4020200.spi: error -EBUSY: register controller failed
+> rzv2m_csi: probe of a4020200.spi failed with error -16
+>=20
+> Are you guys aware of this sort of side effect?
+>=20
+> Thanks,
+> Fab
+>=20
+> > From: Alexander Usyskin <alexander.usyskin@intel.com>
+> > Subject: [PATCH 1/2] mtd: use refcount to prevent corruption
+> >=20
+> > From: Tomas Winkler <tomas.winkler@intel.com>
+> >=20
+> > When underlying device is removed mtd core will crash
+> > in case user space is holding open handle.
+> > Need to use proper refcounting so device is release
+> > only when has no users.
+> >=20
+> > Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
+> > Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> > ---
+> >  drivers/mtd/mtdcore.c   | 72 ++++++++++++++++++++++------------------
+> > -
+> >  drivers/mtd/mtdcore.h   |  1 +
+> >  drivers/mtd/mtdpart.c   | 14 ++++----
+> >  include/linux/mtd/mtd.h |  2 +-
+> >  4 files changed, 49 insertions(+), 40 deletions(-)
+> >=20
+> > diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+> > index abf4cb58a8ab..84bd1878367d 100644
+> > --- a/drivers/mtd/mtdcore.c
+> > +++ b/drivers/mtd/mtdcore.c
+> > @@ -93,10 +93,33 @@ static void mtd_release(struct device *dev)
+> >  	struct mtd_info *mtd =3D dev_get_drvdata(dev);
+> >  	dev_t index =3D MTD_DEVT(mtd->index);
+> >=20
+> > +	if (mtd_is_partition(mtd))
+> > +		release_mtd_partition(mtd);
+> > +
+> >  	/* remove /dev/mtdXro node */
+> >  	device_destroy(&mtd_class, index + 1);
+> >  }
+> >=20
+> > +static void mtd_device_release(struct kref *kref)
+> > +{
+> > +	struct mtd_info *mtd =3D container_of(kref, struct mtd_info,
+> > refcnt);
+> > +
+> > +	debugfs_remove_recursive(mtd->dbg.dfs_dir);
+> > +
+> > +	/* Try to remove the NVMEM provider */
+> > +	nvmem_unregister(mtd->nvmem);
+> > +
+> > +	device_unregister(&mtd->dev);
+> > +
+> > +	/* Clear dev so mtd can be safely re-registered later if desired
+> > */
+> > +	memset(&mtd->dev, 0, sizeof(mtd->dev));
+> > +
+> > +	idr_remove(&mtd_idr, mtd->index);
+> > +	of_node_put(mtd_get_of_node(mtd));
+> > +
+> > +	module_put(THIS_MODULE);
+> > +}
+> > +
+> >  #define MTD_DEVICE_ATTR_RO(name) \
+> >  static DEVICE_ATTR(name, 0444, mtd_##name##_show, NULL)
+> >=20
+> > @@ -666,7 +689,7 @@ int add_mtd_device(struct mtd_info *mtd)
+> >  	}
+> >=20
+> >  	mtd->index =3D i;
+> > -	mtd->usecount =3D 0;
+> > +	kref_init(&mtd->refcnt);
+> >=20
+> >  	/* default value if not set by driver */
+> >  	if (mtd->bitflip_threshold =3D=3D 0)
+> > @@ -779,7 +802,6 @@ int del_mtd_device(struct mtd_info *mtd)
+> >  {
+> >  	int ret;
+> >  	struct mtd_notifier *not;
+> > -	struct device_node *mtd_of_node;
+> >=20
+> >  	mutex_lock(&mtd_table_mutex);
+> >=20
+> > @@ -793,28 +815,8 @@ int del_mtd_device(struct mtd_info *mtd)
+> >  	list_for_each_entry(not, &mtd_notifiers, list)
+> >  		not->remove(mtd);
+> >=20
+> > -	if (mtd->usecount) {
+> > -		printk(KERN_NOTICE "Removing MTD device #%d (%s) with use
+> > count %d\n",
+> > -		       mtd->index, mtd->name, mtd->usecount);
+> > -		ret =3D -EBUSY;
+> > -	} else {
+> > -		mtd_of_node =3D mtd_get_of_node(mtd);
+> > -		debugfs_remove_recursive(mtd->dbg.dfs_dir);
+> > -
+> > -		/* Try to remove the NVMEM provider */
+> > -		nvmem_unregister(mtd->nvmem);
+> > -
+> > -		device_unregister(&mtd->dev);
+> > -
+> > -		/* Clear dev so mtd can be safely re-registered later if
+> > desired */
+> > -		memset(&mtd->dev, 0, sizeof(mtd->dev));
+> > -
+> > -		idr_remove(&mtd_idr, mtd->index);
+> > -		of_node_put(mtd_of_node);
+> > -
+> > -		module_put(THIS_MODULE);
+> > -		ret =3D 0;
+> > -	}
+> > +	kref_put(&mtd->refcnt, mtd_device_release);
+> > +	ret =3D 0;
+> >=20
+> >  out_error:
+> >  	mutex_unlock(&mtd_table_mutex);
+> > @@ -1228,19 +1230,21 @@ int __get_mtd_device(struct mtd_info *mtd)
+> >  	if (!try_module_get(master->owner))
+> >  		return -ENODEV;
+> >=20
+> > +	kref_get(&mtd->refcnt);
+> > +
+> >  	if (master->_get_device) {
+> >  		err =3D master->_get_device(mtd);
+> >=20
+> >  		if (err) {
+> > +			kref_put(&mtd->refcnt, mtd_device_release);
+> >  			module_put(master->owner);
+> >  			return err;
+> >  		}
+> >  	}
+> >=20
+> > -	master->usecount++;
+> > -
+> >  	while (mtd->parent) {
+> > -		mtd->usecount++;
+> > +		if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER) || mtd- =20
+> > >parent !=3D master) =20
+> > +			kref_get(&mtd->parent->refcnt);
+> >  		mtd =3D mtd->parent;
+> >  	}
+> >=20
+> > @@ -1327,18 +1331,20 @@ void __put_mtd_device(struct mtd_info *mtd)
+> >  {
+> >  	struct mtd_info *master =3D mtd_get_master(mtd);
+> >=20
+> > -	while (mtd->parent) {
+> > -		--mtd->usecount;
+> > -		BUG_ON(mtd->usecount < 0);
+> > -		mtd =3D mtd->parent;
+> > -	}
+> > +	while (mtd !=3D master) {
+> > +		struct mtd_info *parent =3D mtd->parent;
+> >=20
+> > -	master->usecount--;
+> > +		kref_put(&mtd->refcnt, mtd_device_release);
+> > +		mtd =3D parent;
+> > +	}
+> >=20
+> >  	if (master->_put_device)
+> >  		master->_put_device(master);
+> >=20
+> >  	module_put(master->owner);
+> > +
+> > +	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER))
+> > +		kref_put(&master->refcnt, mtd_device_release);
+> >  }
+> >  EXPORT_SYMBOL_GPL(__put_mtd_device);
+> >=20
+> > diff --git a/drivers/mtd/mtdcore.h b/drivers/mtd/mtdcore.h
+> > index b5eefeabf310..b014861a06a6 100644
+> > --- a/drivers/mtd/mtdcore.h
+> > +++ b/drivers/mtd/mtdcore.h
+> > @@ -12,6 +12,7 @@ int __must_check add_mtd_device(struct mtd_info
+> > *mtd);
+> >  int del_mtd_device(struct mtd_info *mtd);
+> >  int add_mtd_partitions(struct mtd_info *, const struct mtd_partition
+> > *, int);
+> >  int del_mtd_partitions(struct mtd_info *);
+> > +void release_mtd_partition(struct mtd_info *mtd);
+> >=20
+> >  struct mtd_partitions;
+> >=20
+> > diff --git a/drivers/mtd/mtdpart.c b/drivers/mtd/mtdpart.c
+> > index a46affbb037d..23483db8f30c 100644
+> > --- a/drivers/mtd/mtdpart.c
+> > +++ b/drivers/mtd/mtdpart.c
+> > @@ -32,6 +32,12 @@ static inline void free_partition(struct mtd_info
+> > *mtd)
+> >  	kfree(mtd);
+> >  }
+> >=20
+> > +void release_mtd_partition(struct mtd_info *mtd)
+> > +{
+> > +	WARN_ON(!list_empty(&mtd->part.node));
+> > +	free_partition(mtd);
+> > +}
+> > +
+> >  static struct mtd_info *allocate_partition(struct mtd_info *parent,
+> >  					   const struct mtd_partition *part,
+> >  					   int partno, uint64_t cur_offset)
+> > @@ -309,13 +315,11 @@ static int __mtd_del_partition(struct mtd_info
+> > *mtd)
+> >=20
+> >  	sysfs_remove_files(&mtd->dev.kobj, mtd_partition_attrs);
+> >=20
+> > +	list_del_init(&mtd->part.node);
+> >  	err =3D del_mtd_device(mtd);
+> >  	if (err)
+> >  		return err;
+> >=20
+> > -	list_del(&mtd->part.node);
+> > -	free_partition(mtd);
+> > -
+> >  	return 0;
+> >  }
+> >=20
+> > @@ -333,6 +337,7 @@ static int __del_mtd_partitions(struct mtd_info
+> > *mtd)
+> >  			__del_mtd_partitions(child);
+> >=20
+> >  		pr_info("Deleting %s MTD partition\n", child->name);
+> > +		list_del_init(&child->part.node);
+> >  		ret =3D del_mtd_device(child);
+> >  		if (ret < 0) {
+> >  			pr_err("Error when deleting partition \"%s\" (%d)\n",
+> > @@ -340,9 +345,6 @@ static int __del_mtd_partitions(struct mtd_info
+> > *mtd)
+> >  			err =3D ret;
+> >  			continue;
+> >  		}
+> > -
+> > -		list_del(&child->part.node);
+> > -		free_partition(child);
+> >  	}
+> >=20
+> >  	return err;
+> > diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
+> > index 7c58c44662b8..914a9f974baa 100644
+> > --- a/include/linux/mtd/mtd.h
+> > +++ b/include/linux/mtd/mtd.h
+> > @@ -379,7 +379,7 @@ struct mtd_info {
+> >=20
+> >  	struct module *owner;
+> >  	struct device dev;
+> > -	int usecount;
+> > +	struct kref refcnt;
+> >  	struct mtd_debug_info dbg;
+> >  	struct nvmem_device *nvmem;
+> >  	struct nvmem_device *otp_user_nvmem;
+> > --
+> > 2.34.1 =20
+>=20
