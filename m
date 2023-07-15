@@ -2,135 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46D4C7547F1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 11:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8002E7549A6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 17:11:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbjGOJ0y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Jul 2023 05:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55718 "EHLO
+        id S230064AbjGOPLx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jul 2023 11:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbjGOJ0w (ORCPT
+        with ESMTP id S230043AbjGOPLx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Jul 2023 05:26:52 -0400
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A156B2D75;
-        Sat, 15 Jul 2023 02:26:50 -0700 (PDT)
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1ba4460f0a4so1016438fac.0;
-        Sat, 15 Jul 2023 02:26:50 -0700 (PDT)
+        Sat, 15 Jul 2023 11:11:53 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3783A2D7B
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 08:11:50 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-3461053677eso6531835ab.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 08:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689413210; x=1692005210;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wHphB4LnIXM8B5KTzxaE1knTLhvmv4UUsDUmEXJtUjc=;
-        b=KNtkg40Donc1RJ+Y/N6bMmujMSl9cywEa6fXVSQYqV4W4lT8G1IFlO5DKCTqezy9NY
-         lefwY54PRhNWProidCgY7SJny7AEfavu3g+BjFgAL5dZzNMIElbAwgo4QZnm4OLwjy+V
-         CVJWSo1L7gWOhYkpGKP0r9oukax6+UlfkfofBx8xxPcLUf3ek7zbTjABn/JHDdvTWXCu
-         WWDX31kpkxyfmd7Q/WE+0i7y3grMAoIl2p8ABV+V0g6ZwAueUBzPNbjvXwLF4/1Voo58
-         THpoQ4ecU8W2lHElPdLC420Acx2PDSK/3KkrYlQGhj1Cbwmy3bV4wSFCbbKfSoIqtJyV
-         8cKw==
+        d=ieee.org; s=google; t=1689433909; x=1692025909;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x9XlpRMNdAAEFImKOS7TDT4umEsjSeY77+bJ4P1MRe8=;
+        b=KpbiwA9NRF8+W6tdUk7oAEajedYliLcT3fLwx1hKWNPafETFpJG9nnPmhVRp1UdI1a
+         ec9mVwfBesk49WkdsrPfeQTQNowRCIhbKJuP16XD7dO7TZekJ8yDxNsj6kgUO5dmVinN
+         O/xItmOPmt9BnCnKdfjfmpm5zf8eizKb7wHPU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689413210; x=1692005210;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wHphB4LnIXM8B5KTzxaE1knTLhvmv4UUsDUmEXJtUjc=;
-        b=JiGU52lQ8FfyJkp6QjJQSRzyHbk7kqyAUFscruPUEYIw7RNWvZZ21NHMBrIeQbhqD1
-         6GtMln/NTVUZw49joEErfXV/f6tgMdbGdAZnOfAP2YKB4uuCv6bIGP4HTyjTqlGjSoac
-         grXLh0eefJph+lUq1Z4xoT1vHI8tR8OZP223JRtIXP5ozuQBw1UGNmT266Qc7uFcqybh
-         vajWY4OVbOaEcuuvLzlH5too7GCT7CssvOXAt81dSvNxxrimlcQBf3SlZbhnQKh3/LCx
-         DHTC23/Jwgn4onqFXjA+V5CvyStnfidFSV8/OCeIFgGH00MADcc+bbkWEbELFNACTjkj
-         NYRA==
-X-Gm-Message-State: ABy/qLaY+efmPdXrwZqHx79HVnpLXMlNT08ZV5WWBpmQIssnVrzkVTFm
-        vcyCdAU0RNP7yc8sKOtjzkCWTdpLZNeNCQprWPM=
-X-Google-Smtp-Source: APBJJlGwdJmxyzGjSGIAgoqFi7CGlWiMJBmcsPBzo9lxW5BLyYxxPOYfHlixbBaupkZxkAV8b0mEWpZJ8j8VMX6oWRI=
-X-Received: by 2002:a05:6870:328d:b0:177:a158:9ef6 with SMTP id
- q13-20020a056870328d00b00177a1589ef6mr6679986oac.52.1689413209848; Sat, 15
- Jul 2023 02:26:49 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689433909; x=1692025909;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x9XlpRMNdAAEFImKOS7TDT4umEsjSeY77+bJ4P1MRe8=;
+        b=RkbdWbgMMO2pPz6A5AFkEJsY5/Qs3x0x3GDG5lb/ELXeyNS/WBIAY05Bx3SxVhCEhJ
+         SkgLJuNPd3C4mr/OqrXvgL2OmxbXOLBxUkjGfdEgRqH1VleLOcbja935J44rTEKN+8hL
+         EJ/iIfXcHq50OhvZgp4vY1pZo7T19gMDB2jMlQNlP48YsfvXOvsTgjHNYuW0NAjOJCCP
+         S+Nf7eCG0Nt9UovDzA2SsaNK3oikP9meZy5fxlQIP4bIbub69HZ8HKWbgICndnalfY+Z
+         vgY/+q+snX5xXjOb+TPubUQcuCURcRNBkbYrKL4sSxwAm6wKw0+LWzdXfG7Ad+zLC5DJ
+         jkMA==
+X-Gm-Message-State: ABy/qLY5472YQlfVLA2pjcrAsdSQ4bHBZAr0UzV+2TuAAr0i3/GcZSbO
+        v495hhfUyiIEBgzA1E9W8sbDrw==
+X-Google-Smtp-Source: APBJJlGJVqbBu5lKEA54CgyQF24n/fOTJfhIYz9w3XH4VGOvH3KCmWksDsEmgsEiSCeG83sO26Hgmw==
+X-Received: by 2002:a05:6e02:1148:b0:343:ef5e:8286 with SMTP id o8-20020a056e02114800b00343ef5e8286mr3847417ill.7.1689433909634;
+        Sat, 15 Jul 2023 08:11:49 -0700 (PDT)
+Received: from [10.211.55.3] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id f8-20020a056638022800b0042b2959e6dcsm3321388jaq.87.2023.07.15.08.11.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Jul 2023 08:11:48 -0700 (PDT)
+Message-ID: <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
+Date:   Sat, 15 Jul 2023 10:11:46 -0500
 MIME-Version: 1.0
-References: <20230714174841.4061919-1-robh@kernel.org>
-In-Reply-To: <20230714174841.4061919-1-robh@kernel.org>
-From:   Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date:   Sat, 15 Jul 2023 11:26:38 +0200
-Message-ID: <CAMhs-H-6tAV-+U-4zZDKs47eKCJr+kZ-Op8vR4SyJyE5LK_2aw@mail.gmail.com>
-Subject: Re: [PATCH] phy: Explicitly include correct DT includes
-To:     Rob Herring <robh@kernel.org>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Yu Chen <chenyu56@huawei.com>,
-        Binghui Wang <wangbinghui@hisilicon.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Alban Bedel <albeu@free.fr>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Marko <robert.marko@sartura.hr>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Vincent Shih <vincent.sunplus@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>, devicetree@vger.kernel.org,
-        linux-phy@lists.infradead.org,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] net: Explicitly include correct DT includes
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Alex Elder <elder@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-can@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-wpan@vger.kernel.org, ath10k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        wcn36xx@lists.infradead.org
+References: <20230714174809.4060885-1-robh@kernel.org>
+From:   Alex Elder <elder@ieee.org>
+In-Reply-To: <20230714174809.4060885-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 7:49=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
+On 7/14/23 12:48 PM, Rob Herring wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -139,12 +94,49 @@ On Fri, Jul 14, 2023 at 7:49=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
 > files used throughout the tree. In order to detangle these headers and
 > replace the implicit includes with struct declarations, users need to
 > explicitly include the correct includes.
->
+> 
 > Signed-off-by: Rob Herring <robh@kernel.org>
+
+(I significantly reduced the addressee list to permit the message
+to be sent.)
+
+For "drivers/net/ipa/ipa_main.c":
+
+Acked-by: Alex Elder <elder@linaro.org>
+
 > ---
->  drivers/phy/ralink/phy-mt7621-pci.c                   | 3 +--
+>   drivers/net/can/bxcan.c                                 | 1 -
+>   drivers/net/can/ifi_canfd/ifi_canfd.c                   | 1 -
+. . .
+>   drivers/net/ieee802154/ca8210.c                         | 1 -
+>   drivers/net/ipa/ipa_main.c                              | 2 +-
+>   drivers/net/pcs/pcs-rzn1-miic.c                         | 1 +
+>   drivers/net/phy/marvell-88x2222.c                       | 1 -
+>   drivers/net/phy/mediatek-ge-soc.c                       | 2 --
+>   drivers/net/wireless/ath/ath10k/ahb.c                   | 2 +-
+>   drivers/net/wireless/ath/ath11k/qmi.c                   | 1 -
+>   drivers/net/wireless/ath/wcn36xx/main.c                 | 3 +--
+>   drivers/net/wireless/intersil/orinoco/airport.c         | 2 +-
+>   drivers/net/wireless/mediatek/mt76/mt7915/soc.c         | 1 -
+>   drivers/net/wireless/silabs/wfx/bus_sdio.c              | 2 +-
+>   net/core/of_net.c                                       | 1 +
+>   124 files changed, 110 insertions(+), 120 deletions(-)
 
-Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+. . .
 
-Thanks,
-    Sergio Paracuellos
+> diff --git a/drivers/net/ipa/ipa_main.c b/drivers/net/ipa/ipa_main.c
+> index 6a2f2fc2f501..da853353a5c7 100644
+> --- a/drivers/net/ipa/ipa_main.c
+> +++ b/drivers/net/ipa/ipa_main.c
+> @@ -13,8 +13,8 @@
+>   #include <linux/firmware.h>
+>   #include <linux/module.h>
+>   #include <linux/of.h>
+> -#include <linux/of_device.h>
+>   #include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+>   #include <linux/pm_runtime.h>
+>   #include <linux/firmware/qcom/qcom_scm.h>
+>   #include <linux/soc/qcom/mdt_loader.h>
+
+. . .
