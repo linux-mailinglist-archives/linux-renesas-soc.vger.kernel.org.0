@@ -2,434 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71967754BEC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 22:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE978754BFF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 22:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjGOUNR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Jul 2023 16:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42390 "EHLO
+        id S230184AbjGOUTV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jul 2023 16:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbjGOUNR (ORCPT
+        with ESMTP id S229554AbjGOUTU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Jul 2023 16:13:17 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF93E270A
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 13:13:12 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbc244d307so31034785e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 13:13:12 -0700 (PDT)
+        Sat, 15 Jul 2023 16:19:20 -0400
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D856F2718
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 13:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689451991; x=1692043991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p31/5h+LFLIKKZ4VC5mvHjMhjc1CxQgfCXNzsvF0AHk=;
-        b=5Zc/s+pBk7wVZJuFY5bKnc/YxWCeAqxrHy0dXID9iqntLdenjRCyty1Tx0k8hP5Dqm
-         PBYO/RPt2hJ2L3WVdd/22n47yo14ikgDeqxP+ZGN/IRMJ5RHGitts8Xe8wEYOMfU3US+
-         Gayu8uXyUDci+QPdchT3z1Bl5tiOKsgJemMId3rZ+KiW7kgAHGxYh4jz6msx1mX6dhkB
-         JkSTS9+BRnImSvajuV1cDvOkMvtUY62fAGdn5hzPI2+8f4sInYhxROMqpoxbF3HP6O3Z
-         DvlbXfYtVSO5GcoMc8Bn/I8qfmVbG+IWhrrR8hD285EAIh6kimP/EMXp/vypuW7udEwo
-         SW4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689451991; x=1692043991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p31/5h+LFLIKKZ4VC5mvHjMhjc1CxQgfCXNzsvF0AHk=;
-        b=JA9TAPOPUMUVI0oIvp7ut37tFL0nJ8GWYlUTSw0diUuw8MCqev9w76r9q2RM8igLpW
-         3OQBQwx7ovrLjU5Rz5V/XAabNHdq+yNm2LzT7RLnn5/AVuBzO2u4I7VFt16Hku3j5vEu
-         JwMMYavdIGDYQ9/pFn3r4z+nbAxChUkJsP5le2LGP0wb34iYxJ7PB11wInKsu4ga/lU/
-         YYASeISRaGlbrM06qFAXMQsi1jSv1rDjdgHgDBe8I0Ds7UYjVnTFpNsKWxAiRmVUDsh7
-         mXfC8nw7xjOjj6MgRT8PnNiphrAKDxaXntcwevly+rsXW/oij5cgE7Xzp3bQbCuNx02h
-         pPaw==
-X-Gm-Message-State: ABy/qLYl0iKIOSXnUx9lRKoJNAsEqfYb/qHP1B+fMIxaotb6CWFmvYOB
-        6O5KGlOCNN+H07NUJKey6iVmOg==
-X-Google-Smtp-Source: APBJJlHsoxfbCACzRLeiDmF2GfFE0IBcSRaHR55x/kdpz8UXdE9rucKEqJajYkNJX4zmCwtsSA5j2w==
-X-Received: by 2002:a7b:c449:0:b0:3fb:a937:6024 with SMTP id l9-20020a7bc449000000b003fba9376024mr7078577wmi.29.1689451990875;
-        Sat, 15 Jul 2023 13:13:10 -0700 (PDT)
-Received: from sleipner.berto.se (p54ac5327.dip0.t-ipconnect.de. [84.172.83.39])
-        by smtp.googlemail.com with ESMTPSA id v3-20020a05600c470300b003f7f475c3bcsm8162344wmo.1.2023.07.15.13.13.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jul 2023 13:13:10 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
-Date:   Sat, 15 Jul 2023 22:12:39 +0200
-Message-ID: <20230715201239.29014-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.41.0
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=JxBhhYK0Y5VT2HXGIOu9TJojogxR36dmFxRFhj6IWCk=;
+        b=EVElt5TCflzYgiRrmN27f0ZK5MwnAlXBDddOCHg6/OVohDn42qAtgNTo5OfcLdzxWG2SRBFfTehox
+         xNOBoSfNDJzs3G7hNViFJKi/eWgcZSc8XjfH227Fu8qgxnV8T/L9k2kbIA0TZQokuWJ+ry5L7uGt3S
+         eDRotSkr5oRNdgzxdg7YaiwxS1dKxGLKWYbj3gEJyCEtA+CikK6SwC793O4AA7oPFy3WliBjXaujiN
+         jIW5IRtD7dVIQTKWn5fuE38KmwgPMYpkppyDRBcw0Lj664vpEaR8bSW8fFgvBrj4JprqbJ9guXY0Cs
+         zK0jiHS5+p6sj2f0nA1gLqEzVUOMj3w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=JxBhhYK0Y5VT2HXGIOu9TJojogxR36dmFxRFhj6IWCk=;
+        b=Z/37LrNNgkFmoRmOnuPWeSyBJ3zkNDMuzDj4yl37D//Yx8vlrZ1t4ZtvhEx9F98EMcvKO2OmDB7Cz
+         mpB1B+iCw==
+X-HalOne-ID: da40b60a-234c-11ee-b5d0-99461c6a3fe8
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay1 (Halon) with ESMTPSA
+        id da40b60a-234c-11ee-b5d0-99461c6a3fe8;
+        Sat, 15 Jul 2023 20:19:11 +0000 (UTC)
+Date:   Sat, 15 Jul 2023 22:19:08 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Yongqin Liu <yongqin.liu@linaro.org>,
+        John Stultz <jstultz@google.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Qiang Yu <yuq825@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+        Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Emma Anholt <emma@anholt.net>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+        lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+Message-ID: <20230715201908.GA321950@ravnborg.org>
+References: <20230714174545.4056287-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
-and C-PHY this patch only adds support for the C-PHY mode due to lack of
-documentation and hardware to test on.
+Hi Rob,
 
-The V4H is the first Gen4 device that is enabled in the rcar-csi2
-driver. There is much overlap with the Gen3 driver, the primary
-difference is in how the receiver is started. The V4H have a much larger
-register space and some addresses overlap with Gen3.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v1
-- Rebased to latest media-tree.
-
-* changes since v2
-- Do not attempt to divide by a float, multiply and divided.
-- Check return value for rcsi2_code_to_fmt().
----
- .../platform/renesas/rcar-vin/rcar-csi2.c     | 291 ++++++++++++++++++
- 1 file changed, 291 insertions(+)
-
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-index 7a134c0eff57..b3c3958ea652 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-@@ -133,6 +133,111 @@ struct rcar_csi2;
- #define PHYFRX_FORCERX_MODE_1		BIT(1)
- #define PHYFRX_FORCERX_MODE_0		BIT(0)
- 
-+/* V4H BASE registers */
-+#define V4H_N_LANES_REG					0x0004
-+#define V4H_CSI2_RESETN_REG				0x0008
-+#define V4H_PHY_MODE_REG				0x001c
-+#define V4H_PHY_SHUTDOWNZ_REG				0x0040
-+#define V4H_DPHY_RSTZ_REG				0x0044
-+#define V4H_FLDC_REG					0x0804
-+#define V4H_FLDD_REG					0x0808
-+#define V4H_IDIC_REG					0x0810
-+#define V4H_PHY_EN_REG					0x2000
-+
-+#define V4H_ST_PHYST_REG				0x2814
-+#define V4H_ST_PHYST_ST_PHY_READY			BIT(31)
-+#define V4H_ST_PHYST_ST_STOPSTATE_3			BIT(3)
-+#define V4H_ST_PHYST_ST_STOPSTATE_2			BIT(2)
-+#define V4H_ST_PHYST_ST_STOPSTATE_1			BIT(1)
-+#define V4H_ST_PHYST_ST_STOPSTATE_0			BIT(0)
-+
-+/* V4H PPI registers */
-+#define V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(n)		(0x21800 + ((n) * 2)) /* n = 0 - 9 */
-+#define V4H_PPI_STARTUP_RW_COMMON_STARTUP_1_1_REG	0x21822
-+#define V4H_PPI_CALIBCTRL_RW_COMMON_BG_0_REG		0x2184c
-+#define V4H_PPI_RW_LPDCOCAL_TIMEBASE_REG		0x21c02
-+#define V4H_PPI_RW_LPDCOCAL_NREF_REG			0x21c04
-+#define V4H_PPI_RW_LPDCOCAL_NREF_RANGE_REG		0x21c06
-+#define V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG		0x21c0a
-+#define V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG		0x21c0c
-+#define V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG		0x21c10
-+#define V4H_PPI_RW_COMMON_CFG_REG			0x21c6c
-+#define V4H_PPI_RW_TERMCAL_CFG_0_REG			0x21c80
-+#define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
-+
-+/* V4H CORE registers */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(n)	(0x22040 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(n)	(0x22440 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(n)	(0x22840 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(n)	(0x22c40 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(n)	(0x23040 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
-+#define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
-+#define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG		0x2a400
-+#define V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG		0x2a60c
-+
-+/* V4H C-PHY */
-+#define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_RW_TRIO1_REG(n)			(0x22500 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_RW_TRIO2_REG(n)			(0x22900 + ((n) * 2)) /* n = 0 - 3 */
-+#define V4H_CORE_DIG_CLANE_0_RW_LP_0_REG		0x2a080
-+#define V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(n)		(0x2a100 + ((n) * 2)) /* n = 0 - 6 */
-+#define V4H_CORE_DIG_CLANE_1_RW_LP_0_REG		0x2a480
-+#define V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(n)		(0x2a500 + ((n) * 2)) /* n = 0 - 6 */
-+#define V4H_CORE_DIG_CLANE_2_RW_LP_0_REG		0x2a880
-+#define V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(n)		(0x2a900 + ((n) * 2)) /* n = 0 - 6 */
-+
-+struct rcsi2_cphy_setting {
-+	u16 msps;
-+	u16 rx2;
-+	u16 trio0;
-+	u16 trio1;
-+	u16 trio2;
-+	u16 lane27;
-+	u16 lane29;
-+};
-+
-+static const struct rcsi2_cphy_setting cphy_setting_table_r8a779g0[] = {
-+	{ .msps =   80, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0134, .trio2 = 0x6a, .lane27 = 0x0000, .lane29 = 0x0a24 },
-+	{ .msps =  100, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x00f5, .trio2 = 0x55, .lane27 = 0x0000, .lane29 = 0x0a24 },
-+	{ .msps =  200, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0077, .trio2 = 0x2b, .lane27 = 0x0000, .lane29 = 0x0a44 },
-+	{ .msps =  300, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x004d, .trio2 = 0x1d, .lane27 = 0x0000, .lane29 = 0x0a44 },
-+	{ .msps =  400, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0038, .trio2 = 0x16, .lane27 = 0x0000, .lane29 = 0x0a64 },
-+	{ .msps =  500, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x002b, .trio2 = 0x12, .lane27 = 0x0000, .lane29 = 0x0a64 },
-+	{ .msps =  600, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0023, .trio2 = 0x0f, .lane27 = 0x0000, .lane29 = 0x0a64 },
-+	{ .msps =  700, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x001d, .trio2 = 0x0d, .lane27 = 0x0000, .lane29 = 0x0a84 },
-+	{ .msps =  800, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0018, .trio2 = 0x0c, .lane27 = 0x0000, .lane29 = 0x0a84 },
-+	{ .msps =  900, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0015, .trio2 = 0x0b, .lane27 = 0x0000, .lane29 = 0x0a84 },
-+	{ .msps = 1000, .rx2 = 0x3e, .trio0 = 0x024a, .trio1 = 0x0012, .trio2 = 0x0a, .lane27 = 0x0400, .lane29 = 0x0a84 },
-+	{ .msps = 1100, .rx2 = 0x44, .trio0 = 0x024a, .trio1 = 0x000f, .trio2 = 0x09, .lane27 = 0x0800, .lane29 = 0x0a84 },
-+	{ .msps = 1200, .rx2 = 0x4a, .trio0 = 0x024a, .trio1 = 0x000e, .trio2 = 0x08, .lane27 = 0x0c00, .lane29 = 0x0a84 },
-+	{ .msps = 1300, .rx2 = 0x51, .trio0 = 0x024a, .trio1 = 0x000c, .trio2 = 0x08, .lane27 = 0x0c00, .lane29 = 0x0aa4 },
-+	{ .msps = 1400, .rx2 = 0x57, .trio0 = 0x024a, .trio1 = 0x000b, .trio2 = 0x07, .lane27 = 0x1000, .lane29 = 0x0aa4 },
-+	{ .msps = 1500, .rx2 = 0x5d, .trio0 = 0x044a, .trio1 = 0x0009, .trio2 = 0x07, .lane27 = 0x1000, .lane29 = 0x0aa4 },
-+	{ .msps = 1600, .rx2 = 0x63, .trio0 = 0x044a, .trio1 = 0x0008, .trio2 = 0x07, .lane27 = 0x1400, .lane29 = 0x0aa4 },
-+	{ .msps = 1700, .rx2 = 0x6a, .trio0 = 0x044a, .trio1 = 0x0007, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
-+	{ .msps = 1800, .rx2 = 0x70, .trio0 = 0x044a, .trio1 = 0x0007, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
-+	{ .msps = 1900, .rx2 = 0x76, .trio0 = 0x044a, .trio1 = 0x0006, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
-+	{ .msps = 2000, .rx2 = 0x7c, .trio0 = 0x044a, .trio1 = 0x0005, .trio2 = 0x06, .lane27 = 0x1800, .lane29 = 0x0aa4 },
-+	{ .msps = 2100, .rx2 = 0x83, .trio0 = 0x044a, .trio1 = 0x0005, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
-+	{ .msps = 2200, .rx2 = 0x89, .trio0 = 0x064a, .trio1 = 0x0004, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
-+	{ .msps = 2300, .rx2 = 0x8f, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
-+	{ .msps = 2400, .rx2 = 0x95, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
-+	{ .msps = 2500, .rx2 = 0x9c, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0aa4 },
-+	{ .msps = 2600, .rx2 = 0xa2, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 2700, .rx2 = 0xa8, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 2800, .rx2 = 0xae, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 2900, .rx2 = 0xb5, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3000, .rx2 = 0xbb, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3100, .rx2 = 0xc1, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3200, .rx2 = 0xc7, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3300, .rx2 = 0xce, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3400, .rx2 = 0xd4, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ .msps = 3500, .rx2 = 0xda, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
-+	{ /* sentinel */ },
-+};
-+
- struct phtw_value {
- 	u16 data;
- 	u16 code;
-@@ -538,6 +643,11 @@ static void rcsi2_write(struct rcar_csi2 *priv, unsigned int reg, u32 data)
- 	iowrite32(data, priv->base + reg);
- }
- 
-+static void rcsi2_write16(struct rcar_csi2 *priv, unsigned int reg, u16 data)
-+{
-+	iowrite16(data, priv->base + reg);
-+}
-+
- static void rcsi2_enter_standby_gen3(struct rcar_csi2 *priv)
- {
- 	rcsi2_write(priv, PHYCNT_REG, 0);
-@@ -645,6 +755,10 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
- 	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
- 	do_div(mbps, lanes * 1000000);
- 
-+	/* Adjust for C-PHY, divide by 2.8. */
-+	if (priv->cphy)
-+		mbps = (mbps * 5) / 14;
-+
- 	return mbps;
- }
- 
-@@ -834,6 +948,173 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
- 	return 0;
- }
- 
-+static int rcsi2_wait_phy_start_v4h(struct rcar_csi2 *priv, u32 match)
-+{
-+	unsigned int timeout;
-+	u32 status;
-+
-+	for (timeout = 0; timeout <= 10; timeout++) {
-+		status = rcsi2_read(priv, V4H_ST_PHYST_REG);
-+		if ((status & match) == match)
-+			return 0;
-+
-+		usleep_range(1000, 2000);
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
-+{
-+	const struct rcsi2_cphy_setting *conf;
-+
-+	for (conf = cphy_setting_table_r8a779g0; conf->msps != 0; conf++) {
-+		if (conf->msps > msps)
-+			break;
-+	}
-+
-+	if (!conf->msps) {
-+		dev_err(priv->dev, "Unsupported PHY speed for msps setting (%u Msps)", msps);
-+		return -ERANGE;
-+	}
-+
-+	/* C-PHY specific */
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0155);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), 0x0068);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0010);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_LP_0_REG, 0x463c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_LP_0_REG, 0x463c);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_LP_0_REG, 0x463c);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(0), 0x00d5);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(0), 0x00d5);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(0), 0x00d5);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(1), 0x0013);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(1), 0x0013);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(1), 0x0013);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(5), 0x0013);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(5), 0x0013);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(5), 0x0013);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(6), 0x000a);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(6), 0x000a);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(6), 0x000a);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(2), conf->rx2);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(2), conf->rx2);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(2), conf->rx2);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(2), 0x0001);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(2), 0);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(2), 0x0001);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(2), 0x0001);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(2), 0);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(0), conf->trio0);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(0), conf->trio0);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(0), conf->trio0);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(2), conf->trio2);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(2), conf->trio2);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(2), conf->trio2);
-+
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(1), conf->trio1);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(1), conf->trio1);
-+	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(1), conf->trio1);
-+
-+	/*
-+	 * Configure pin-swap.
-+	 * TODO: This registers is not documented yet, the values should depend
-+	 * on the 'clock-lanes' and 'data-lanes' devicetree properties.
-+	 */
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG, 0xf5);
-+	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG, 0x5000);
-+
-+	/* Leave Shutdown mode */
-+	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
-+	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, BIT(0));
-+
-+	/* Wait for calibration */
-+	if (rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_PHY_READY)) {
-+		dev_err(priv->dev, "PHY calibration failed\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	/* C-PHY setting - analog programing*/
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(9), conf->lane29);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(7), conf->lane27);
-+
-+	return 0;
-+}
-+
-+static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
-+{
-+	const struct rcar_csi2_format *format;
-+	unsigned int lanes;
-+	int msps;
-+	int ret;
-+
-+	/* Calculate parameters */
-+	format = rcsi2_code_to_fmt(priv->mf.code);
-+	if (!format)
-+		return -EINVAL;
-+
-+	ret = rcsi2_get_active_lanes(priv, &lanes);
-+	if (ret)
-+		return ret;
-+
-+	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
-+	if (msps < 0)
-+		return msps;
-+
-+	/* Reset LINK and PHY*/
-+	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
-+	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, 0);
-+	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, 0);
-+
-+	/* PHY static setting */
-+	rcsi2_write(priv, V4H_PHY_EN_REG, BIT(0));
-+	rcsi2_write(priv, V4H_FLDC_REG, 0);
-+	rcsi2_write(priv, V4H_FLDD_REG, 0);
-+	rcsi2_write(priv, V4H_IDIC_REG, 0);
-+	rcsi2_write(priv, V4H_PHY_MODE_REG, BIT(0));
-+	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
-+
-+	/* Reset CSI2 */
-+	rcsi2_write(priv, V4H_CSI2_RESETN_REG, BIT(0));
-+
-+	/* Registers static setting through APB */
-+	/* Common setting */
-+	rcsi2_write16(priv, V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(0), 0x1bfd);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_STARTUP_1_1_REG, 0x0233);
-+	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(6), 0x0027);
-+	rcsi2_write16(priv, V4H_PPI_CALIBCTRL_RW_COMMON_BG_0_REG, 0x01f4);
-+	rcsi2_write16(priv, V4H_PPI_RW_TERMCAL_CFG_0_REG, 0x0013);
-+	rcsi2_write16(priv, V4H_PPI_RW_OFFSETCAL_CFG_0_REG, 0x0003);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_TIMEBASE_REG, 0x004f);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_NREF_REG, 0x0320);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_NREF_RANGE_REG, 0x000f);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG, 0xfe18);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG, 0x0c3c);
-+	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG, 0x0105);
-+	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(6), 0x1000);
-+	rcsi2_write16(priv, V4H_PPI_RW_COMMON_CFG_REG, 0x0003);
-+
-+	/* C-PHY settings */
-+	ret = rcsi2_c_phy_setting_v4h(priv, msps);
-+	if (ret)
-+		return ret;
-+
-+	rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_STOPSTATE_0 |
-+				 V4H_ST_PHYST_ST_STOPSTATE_1 |
-+				 V4H_ST_PHYST_ST_STOPSTATE_2);
-+
-+	return 0;
-+}
-+
- static int rcsi2_start(struct rcar_csi2 *priv)
- {
- 	int ret;
-@@ -1496,6 +1777,12 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
- 	.support_dphy = true,
- };
- 
-+static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
-+	.start_receiver = rcsi2_start_receiver_v4h,
-+	.use_isp = true,
-+	.support_cphy = true,
-+};
-+
- static const struct of_device_id rcar_csi2_of_table[] = {
- 	{
- 		.compatible = "renesas,r8a774a1-csi2",
-@@ -1545,6 +1832,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
- 		.compatible = "renesas,r8a779a0-csi2",
- 		.data = &rcar_csi2_info_r8a779a0,
- 	},
-+	{
-+		.compatible = "renesas,r8a779g0-csi2",
-+		.data = &rcar_csi2_info_r8a779g0,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, rcar_csi2_of_table);
--- 
-2.41.0
-
+On Fri, Jul 14, 2023 at 11:45:34AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
