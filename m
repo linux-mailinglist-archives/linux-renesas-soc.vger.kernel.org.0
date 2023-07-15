@@ -2,370 +2,434 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD047549D9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 17:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71967754BEC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jul 2023 22:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjGOPl0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Jul 2023 11:41:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
+        id S230039AbjGOUNR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jul 2023 16:13:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjGOPlZ (ORCPT
+        with ESMTP id S229780AbjGOUNR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Jul 2023 11:41:25 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9282D7B;
-        Sat, 15 Jul 2023 08:41:22 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0794BC0004;
-        Sat, 15 Jul 2023 15:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1689435679;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dx1hsltG+GS7GVxSpUxmJ8g4K6vQcrTXG0/HvBc/tbU=;
-        b=A0YL2XjHakazCSZxBEAgvvFz+zO/q6MvW/VWQbL4uXtrm77eLe7cnit7/T8i/AuGOl7OmT
-        YN++8QaxP9uM3tgqSVdbFUnWRWqxsOJV5bWYasJpx+Cy1LYzoD8PftOmoRYFj21IyBCAI5
-        JO0t/bxRZzXCQOfu1e9sM0qCXBwrcUQdH+RihsTsFt3DIFR2JQ1cDTr+Qcmrnb0SR6Ybme
-        fcXexHoisB0ENB+2rnbwpWzBjYQu7I5XizRbcqeC7dmqQaXYcWpZPzLjYOI2u7yUXhT3xr
-        SXoQdjTlkuldFhbZ0dpwyQkGtKicY/Lv7sYc5w9KkLSHvhRY8j1jFssNmZ8VQQ==
-Date:   Sat, 15 Jul 2023 17:41:12 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Alexander Usyskin <alexander.usyskin@intel.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Vitaly Lubart <vitaly.lubart@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: Re: [PATCH 1/2] mtd: use refcount to prevent corruption
-Message-ID: <20230715174112.3909e43f@xps-13>
-In-Reply-To: <TYWPR01MB87756794A30EB389AB017EB1C234A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-References: <20230620131905.648089-1-alexander.usyskin@intel.com>
-        <20230620131905.648089-2-alexander.usyskin@intel.com>
-        <TYWPR01MB87756794A30EB389AB017EB1C234A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Sat, 15 Jul 2023 16:13:17 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF93E270A
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 13:13:12 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbc244d307so31034785e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Jul 2023 13:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689451991; x=1692043991;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p31/5h+LFLIKKZ4VC5mvHjMhjc1CxQgfCXNzsvF0AHk=;
+        b=5Zc/s+pBk7wVZJuFY5bKnc/YxWCeAqxrHy0dXID9iqntLdenjRCyty1Tx0k8hP5Dqm
+         PBYO/RPt2hJ2L3WVdd/22n47yo14ikgDeqxP+ZGN/IRMJ5RHGitts8Xe8wEYOMfU3US+
+         Gayu8uXyUDci+QPdchT3z1Bl5tiOKsgJemMId3rZ+KiW7kgAHGxYh4jz6msx1mX6dhkB
+         JkSTS9+BRnImSvajuV1cDvOkMvtUY62fAGdn5hzPI2+8f4sInYhxROMqpoxbF3HP6O3Z
+         DvlbXfYtVSO5GcoMc8Bn/I8qfmVbG+IWhrrR8hD285EAIh6kimP/EMXp/vypuW7udEwo
+         SW4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689451991; x=1692043991;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p31/5h+LFLIKKZ4VC5mvHjMhjc1CxQgfCXNzsvF0AHk=;
+        b=JA9TAPOPUMUVI0oIvp7ut37tFL0nJ8GWYlUTSw0diUuw8MCqev9w76r9q2RM8igLpW
+         3OQBQwx7ovrLjU5Rz5V/XAabNHdq+yNm2LzT7RLnn5/AVuBzO2u4I7VFt16Hku3j5vEu
+         JwMMYavdIGDYQ9/pFn3r4z+nbAxChUkJsP5le2LGP0wb34iYxJ7PB11wInKsu4ga/lU/
+         YYASeISRaGlbrM06qFAXMQsi1jSv1rDjdgHgDBe8I0Ds7UYjVnTFpNsKWxAiRmVUDsh7
+         mXfC8nw7xjOjj6MgRT8PnNiphrAKDxaXntcwevly+rsXW/oij5cgE7Xzp3bQbCuNx02h
+         pPaw==
+X-Gm-Message-State: ABy/qLYl0iKIOSXnUx9lRKoJNAsEqfYb/qHP1B+fMIxaotb6CWFmvYOB
+        6O5KGlOCNN+H07NUJKey6iVmOg==
+X-Google-Smtp-Source: APBJJlHsoxfbCACzRLeiDmF2GfFE0IBcSRaHR55x/kdpz8UXdE9rucKEqJajYkNJX4zmCwtsSA5j2w==
+X-Received: by 2002:a7b:c449:0:b0:3fb:a937:6024 with SMTP id l9-20020a7bc449000000b003fba9376024mr7078577wmi.29.1689451990875;
+        Sat, 15 Jul 2023 13:13:10 -0700 (PDT)
+Received: from sleipner.berto.se (p54ac5327.dip0.t-ipconnect.de. [84.172.83.39])
+        by smtp.googlemail.com with ESMTPSA id v3-20020a05600c470300b003f7f475c3bcsm8162344wmo.1.2023.07.15.13.13.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Jul 2023 13:13:10 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
+Date:   Sat, 15 Jul 2023 22:12:39 +0200
+Message-ID: <20230715201239.29014-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
+and C-PHY this patch only adds support for the C-PHY mode due to lack of
+documentation and hardware to test on.
 
-fabrizio.castro.jz@renesas.com wrote on Fri, 14 Jul 2023 16:10:45 +0000:
+The V4H is the first Gen4 device that is enabled in the rcar-csi2
+driver. There is much overlap with the Gen3 driver, the primary
+difference is in how the receiver is started. The V4H have a much larger
+register space and some addresses overlap with Gen3.
 
-> Dear All,
->=20
-> I am sorry for reopening this topic, but as it turns out (after bisecting
-> linux-next/master) this patch is interfering with a use case I am working
-> on.
->=20
-> I am using a Renesas RZ/V2M EVK v2.0 platform, I have an SPI NOR memory
-> ("micron,mt25ql256a") wired up to a connector on the platform, the SPI
-> master is using driver (built as module):
-> drivers/spi/spi-rzv2m-csi.c
->=20
-> Although the board device tree in mainline does not reflect the connection
-> of CSI4 (which is the SPI master) from the SoC to the "micron,mt25ql256a"
-> (SPI slave device), my local device tree comes with the necessary definit=
-ions.
->=20
-> Without this patch, when I load up the module, I get the below 3 devices:
-> /dev/mtd0
-> /dev/mtd0ro
-> /dev/mtdblock0
->=20
-> They get cleaned up correctly upon module removal.
-> I can reload the same module, and everything works just fine.
->=20
-> With this patch applied, when I load up the module, I get the same 3
-> devices:
-> /dev/mtd0
-> /dev/mtd0ro
-> /dev/mtdblock0
->=20
-> Upon removal, the below 2 devices still hang around:
-> /dev/mtd0
-> /dev/mtd0ro
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v1
+- Rebased to latest media-tree.
 
-Looks like the refcounting change is still not even in some cases, can
-you investigate and come up with a proper patch? You can either improve
-the existing patch or revert it and try your own approach if deemed
-better.
+* changes since v2
+- Do not attempt to divide by a float, multiply and divided.
+- Check return value for rcsi2_code_to_fmt().
+---
+ .../platform/renesas/rcar-vin/rcar-csi2.c     | 291 ++++++++++++++++++
+ 1 file changed, 291 insertions(+)
 
-Thanks,
-Miqu=C3=A8l
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+index 7a134c0eff57..b3c3958ea652 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+@@ -133,6 +133,111 @@ struct rcar_csi2;
+ #define PHYFRX_FORCERX_MODE_1		BIT(1)
+ #define PHYFRX_FORCERX_MODE_0		BIT(0)
+ 
++/* V4H BASE registers */
++#define V4H_N_LANES_REG					0x0004
++#define V4H_CSI2_RESETN_REG				0x0008
++#define V4H_PHY_MODE_REG				0x001c
++#define V4H_PHY_SHUTDOWNZ_REG				0x0040
++#define V4H_DPHY_RSTZ_REG				0x0044
++#define V4H_FLDC_REG					0x0804
++#define V4H_FLDD_REG					0x0808
++#define V4H_IDIC_REG					0x0810
++#define V4H_PHY_EN_REG					0x2000
++
++#define V4H_ST_PHYST_REG				0x2814
++#define V4H_ST_PHYST_ST_PHY_READY			BIT(31)
++#define V4H_ST_PHYST_ST_STOPSTATE_3			BIT(3)
++#define V4H_ST_PHYST_ST_STOPSTATE_2			BIT(2)
++#define V4H_ST_PHYST_ST_STOPSTATE_1			BIT(1)
++#define V4H_ST_PHYST_ST_STOPSTATE_0			BIT(0)
++
++/* V4H PPI registers */
++#define V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(n)		(0x21800 + ((n) * 2)) /* n = 0 - 9 */
++#define V4H_PPI_STARTUP_RW_COMMON_STARTUP_1_1_REG	0x21822
++#define V4H_PPI_CALIBCTRL_RW_COMMON_BG_0_REG		0x2184c
++#define V4H_PPI_RW_LPDCOCAL_TIMEBASE_REG		0x21c02
++#define V4H_PPI_RW_LPDCOCAL_NREF_REG			0x21c04
++#define V4H_PPI_RW_LPDCOCAL_NREF_RANGE_REG		0x21c06
++#define V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG		0x21c0a
++#define V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG		0x21c0c
++#define V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG		0x21c10
++#define V4H_PPI_RW_COMMON_CFG_REG			0x21c6c
++#define V4H_PPI_RW_TERMCAL_CFG_0_REG			0x21c80
++#define V4H_PPI_RW_OFFSETCAL_CFG_0_REG			0x21ca0
++
++/* V4H CORE registers */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(n)	(0x22040 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(n)	(0x22440 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(n)	(0x22840 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(n)	(0x22c40 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(n)	(0x23040 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(n)	(0x23840 + ((n) * 2)) /* n = 0 - 11 */
++#define V4H_CORE_DIG_RW_COMMON_REG(n)			(0x23880 + ((n) * 2)) /* n = 0 - 15 */
++#define V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(n)	(0x239e0 + ((n) * 2)) /* n = 0 - 3 */
++#define V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG		0x2a400
++#define V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG		0x2a60c
++
++/* V4H C-PHY */
++#define V4H_CORE_DIG_RW_TRIO0_REG(n)			(0x22100 + ((n) * 2)) /* n = 0 - 3 */
++#define V4H_CORE_DIG_RW_TRIO1_REG(n)			(0x22500 + ((n) * 2)) /* n = 0 - 3 */
++#define V4H_CORE_DIG_RW_TRIO2_REG(n)			(0x22900 + ((n) * 2)) /* n = 0 - 3 */
++#define V4H_CORE_DIG_CLANE_0_RW_LP_0_REG		0x2a080
++#define V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(n)		(0x2a100 + ((n) * 2)) /* n = 0 - 6 */
++#define V4H_CORE_DIG_CLANE_1_RW_LP_0_REG		0x2a480
++#define V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(n)		(0x2a500 + ((n) * 2)) /* n = 0 - 6 */
++#define V4H_CORE_DIG_CLANE_2_RW_LP_0_REG		0x2a880
++#define V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(n)		(0x2a900 + ((n) * 2)) /* n = 0 - 6 */
++
++struct rcsi2_cphy_setting {
++	u16 msps;
++	u16 rx2;
++	u16 trio0;
++	u16 trio1;
++	u16 trio2;
++	u16 lane27;
++	u16 lane29;
++};
++
++static const struct rcsi2_cphy_setting cphy_setting_table_r8a779g0[] = {
++	{ .msps =   80, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0134, .trio2 = 0x6a, .lane27 = 0x0000, .lane29 = 0x0a24 },
++	{ .msps =  100, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x00f5, .trio2 = 0x55, .lane27 = 0x0000, .lane29 = 0x0a24 },
++	{ .msps =  200, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0077, .trio2 = 0x2b, .lane27 = 0x0000, .lane29 = 0x0a44 },
++	{ .msps =  300, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x004d, .trio2 = 0x1d, .lane27 = 0x0000, .lane29 = 0x0a44 },
++	{ .msps =  400, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0038, .trio2 = 0x16, .lane27 = 0x0000, .lane29 = 0x0a64 },
++	{ .msps =  500, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x002b, .trio2 = 0x12, .lane27 = 0x0000, .lane29 = 0x0a64 },
++	{ .msps =  600, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0023, .trio2 = 0x0f, .lane27 = 0x0000, .lane29 = 0x0a64 },
++	{ .msps =  700, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x001d, .trio2 = 0x0d, .lane27 = 0x0000, .lane29 = 0x0a84 },
++	{ .msps =  800, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0018, .trio2 = 0x0c, .lane27 = 0x0000, .lane29 = 0x0a84 },
++	{ .msps =  900, .rx2 = 0x38, .trio0 = 0x024a, .trio1 = 0x0015, .trio2 = 0x0b, .lane27 = 0x0000, .lane29 = 0x0a84 },
++	{ .msps = 1000, .rx2 = 0x3e, .trio0 = 0x024a, .trio1 = 0x0012, .trio2 = 0x0a, .lane27 = 0x0400, .lane29 = 0x0a84 },
++	{ .msps = 1100, .rx2 = 0x44, .trio0 = 0x024a, .trio1 = 0x000f, .trio2 = 0x09, .lane27 = 0x0800, .lane29 = 0x0a84 },
++	{ .msps = 1200, .rx2 = 0x4a, .trio0 = 0x024a, .trio1 = 0x000e, .trio2 = 0x08, .lane27 = 0x0c00, .lane29 = 0x0a84 },
++	{ .msps = 1300, .rx2 = 0x51, .trio0 = 0x024a, .trio1 = 0x000c, .trio2 = 0x08, .lane27 = 0x0c00, .lane29 = 0x0aa4 },
++	{ .msps = 1400, .rx2 = 0x57, .trio0 = 0x024a, .trio1 = 0x000b, .trio2 = 0x07, .lane27 = 0x1000, .lane29 = 0x0aa4 },
++	{ .msps = 1500, .rx2 = 0x5d, .trio0 = 0x044a, .trio1 = 0x0009, .trio2 = 0x07, .lane27 = 0x1000, .lane29 = 0x0aa4 },
++	{ .msps = 1600, .rx2 = 0x63, .trio0 = 0x044a, .trio1 = 0x0008, .trio2 = 0x07, .lane27 = 0x1400, .lane29 = 0x0aa4 },
++	{ .msps = 1700, .rx2 = 0x6a, .trio0 = 0x044a, .trio1 = 0x0007, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
++	{ .msps = 1800, .rx2 = 0x70, .trio0 = 0x044a, .trio1 = 0x0007, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
++	{ .msps = 1900, .rx2 = 0x76, .trio0 = 0x044a, .trio1 = 0x0006, .trio2 = 0x06, .lane27 = 0x1400, .lane29 = 0x0aa4 },
++	{ .msps = 2000, .rx2 = 0x7c, .trio0 = 0x044a, .trio1 = 0x0005, .trio2 = 0x06, .lane27 = 0x1800, .lane29 = 0x0aa4 },
++	{ .msps = 2100, .rx2 = 0x83, .trio0 = 0x044a, .trio1 = 0x0005, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
++	{ .msps = 2200, .rx2 = 0x89, .trio0 = 0x064a, .trio1 = 0x0004, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
++	{ .msps = 2300, .rx2 = 0x8f, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
++	{ .msps = 2400, .rx2 = 0x95, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1800, .lane29 = 0x0aa4 },
++	{ .msps = 2500, .rx2 = 0x9c, .trio0 = 0x064a, .trio1 = 0x0003, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0aa4 },
++	{ .msps = 2600, .rx2 = 0xa2, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 2700, .rx2 = 0xa8, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x05, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 2800, .rx2 = 0xae, .trio0 = 0x064a, .trio1 = 0x0002, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 2900, .rx2 = 0xb5, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3000, .rx2 = 0xbb, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3100, .rx2 = 0xc1, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3200, .rx2 = 0xc7, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3300, .rx2 = 0xce, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3400, .rx2 = 0xd4, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ .msps = 3500, .rx2 = 0xda, .trio0 = 0x084a, .trio1 = 0x0001, .trio2 = 0x04, .lane27 = 0x1c00, .lane29 = 0x0ad4 },
++	{ /* sentinel */ },
++};
++
+ struct phtw_value {
+ 	u16 data;
+ 	u16 code;
+@@ -538,6 +643,11 @@ static void rcsi2_write(struct rcar_csi2 *priv, unsigned int reg, u32 data)
+ 	iowrite32(data, priv->base + reg);
+ }
+ 
++static void rcsi2_write16(struct rcar_csi2 *priv, unsigned int reg, u16 data)
++{
++	iowrite16(data, priv->base + reg);
++}
++
+ static void rcsi2_enter_standby_gen3(struct rcar_csi2 *priv)
+ {
+ 	rcsi2_write(priv, PHYCNT_REG, 0);
+@@ -645,6 +755,10 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+ 	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
+ 	do_div(mbps, lanes * 1000000);
+ 
++	/* Adjust for C-PHY, divide by 2.8. */
++	if (priv->cphy)
++		mbps = (mbps * 5) / 14;
++
+ 	return mbps;
+ }
+ 
+@@ -834,6 +948,173 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
+ 	return 0;
+ }
+ 
++static int rcsi2_wait_phy_start_v4h(struct rcar_csi2 *priv, u32 match)
++{
++	unsigned int timeout;
++	u32 status;
++
++	for (timeout = 0; timeout <= 10; timeout++) {
++		status = rcsi2_read(priv, V4H_ST_PHYST_REG);
++		if ((status & match) == match)
++			return 0;
++
++		usleep_range(1000, 2000);
++	}
++
++	return -ETIMEDOUT;
++}
++
++static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
++{
++	const struct rcsi2_cphy_setting *conf;
++
++	for (conf = cphy_setting_table_r8a779g0; conf->msps != 0; conf++) {
++		if (conf->msps > msps)
++			break;
++	}
++
++	if (!conf->msps) {
++		dev_err(priv->dev, "Unsupported PHY speed for msps setting (%u Msps)", msps);
++		return -ERANGE;
++	}
++
++	/* C-PHY specific */
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0155);
++	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), 0x0068);
++	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0010);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_LP_0_REG, 0x463c);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_LP_0_REG, 0x463c);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_LP_0_REG, 0x463c);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(0), 0x00d5);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(0), 0x00d5);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(0), 0x00d5);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(1), 0x0013);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(1), 0x0013);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(1), 0x0013);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(5), 0x0013);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(5), 0x0013);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(5), 0x0013);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(6), 0x000a);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(6), 0x000a);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(6), 0x000a);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(2), conf->rx2);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(2), conf->rx2);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(2), conf->rx2);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(2), 0);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(2), 0x0001);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(2), 0);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(0), conf->trio0);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(0), conf->trio0);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(0), conf->trio0);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(2), conf->trio2);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(2), conf->trio2);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(2), conf->trio2);
++
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(1), conf->trio1);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(1), conf->trio1);
++	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(1), conf->trio1);
++
++	/*
++	 * Configure pin-swap.
++	 * TODO: This registers is not documented yet, the values should depend
++	 * on the 'clock-lanes' and 'data-lanes' devicetree properties.
++	 */
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG, 0xf5);
++	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG, 0x5000);
++
++	/* Leave Shutdown mode */
++	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
++	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, BIT(0));
++
++	/* Wait for calibration */
++	if (rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_PHY_READY)) {
++		dev_err(priv->dev, "PHY calibration failed\n");
++		return -ETIMEDOUT;
++	}
++
++	/* C-PHY setting - analog programing*/
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(9), conf->lane29);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(7), conf->lane27);
++
++	return 0;
++}
++
++static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
++{
++	const struct rcar_csi2_format *format;
++	unsigned int lanes;
++	int msps;
++	int ret;
++
++	/* Calculate parameters */
++	format = rcsi2_code_to_fmt(priv->mf.code);
++	if (!format)
++		return -EINVAL;
++
++	ret = rcsi2_get_active_lanes(priv, &lanes);
++	if (ret)
++		return ret;
++
++	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
++	if (msps < 0)
++		return msps;
++
++	/* Reset LINK and PHY*/
++	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
++	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, 0);
++	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, 0);
++
++	/* PHY static setting */
++	rcsi2_write(priv, V4H_PHY_EN_REG, BIT(0));
++	rcsi2_write(priv, V4H_FLDC_REG, 0);
++	rcsi2_write(priv, V4H_FLDD_REG, 0);
++	rcsi2_write(priv, V4H_IDIC_REG, 0);
++	rcsi2_write(priv, V4H_PHY_MODE_REG, BIT(0));
++	rcsi2_write(priv, V4H_N_LANES_REG, lanes - 1);
++
++	/* Reset CSI2 */
++	rcsi2_write(priv, V4H_CSI2_RESETN_REG, BIT(0));
++
++	/* Registers static setting through APB */
++	/* Common setting */
++	rcsi2_write16(priv, V4H_CORE_DIG_ANACTRL_RW_COMMON_ANACTRL_REG(0), 0x1bfd);
++	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_STARTUP_1_1_REG, 0x0233);
++	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(6), 0x0027);
++	rcsi2_write16(priv, V4H_PPI_CALIBCTRL_RW_COMMON_BG_0_REG, 0x01f4);
++	rcsi2_write16(priv, V4H_PPI_RW_TERMCAL_CFG_0_REG, 0x0013);
++	rcsi2_write16(priv, V4H_PPI_RW_OFFSETCAL_CFG_0_REG, 0x0003);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_TIMEBASE_REG, 0x004f);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_NREF_REG, 0x0320);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_NREF_RANGE_REG, 0x000f);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_TWAIT_CONFIG_REG, 0xfe18);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_VT_CONFIG_REG, 0x0c3c);
++	rcsi2_write16(priv, V4H_PPI_RW_LPDCOCAL_COARSE_CFG_REG, 0x0105);
++	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_REG(6), 0x1000);
++	rcsi2_write16(priv, V4H_PPI_RW_COMMON_CFG_REG, 0x0003);
++
++	/* C-PHY settings */
++	ret = rcsi2_c_phy_setting_v4h(priv, msps);
++	if (ret)
++		return ret;
++
++	rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_STOPSTATE_0 |
++				 V4H_ST_PHYST_ST_STOPSTATE_1 |
++				 V4H_ST_PHYST_ST_STOPSTATE_2);
++
++	return 0;
++}
++
+ static int rcsi2_start(struct rcar_csi2 *priv)
+ {
+ 	int ret;
+@@ -1496,6 +1777,12 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
+ 	.support_dphy = true,
+ };
+ 
++static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
++	.start_receiver = rcsi2_start_receiver_v4h,
++	.use_isp = true,
++	.support_cphy = true,
++};
++
+ static const struct of_device_id rcar_csi2_of_table[] = {
+ 	{
+ 		.compatible = "renesas,r8a774a1-csi2",
+@@ -1545,6 +1832,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
+ 		.compatible = "renesas,r8a779a0-csi2",
+ 		.data = &rcar_csi2_info_r8a779a0,
+ 	},
++	{
++		.compatible = "renesas,r8a779g0-csi2",
++		.data = &rcar_csi2_info_r8a779g0,
++	},
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, rcar_csi2_of_table);
+-- 
+2.41.0
 
-> Preventing the module from being (re)loaded correctly:
-> rzv2m_csi a4020200.spi: error -EBUSY: register controller failed
-> rzv2m_csi: probe of a4020200.spi failed with error -16
->=20
-> Are you guys aware of this sort of side effect?
->=20
-> Thanks,
-> Fab
->=20
-> > From: Alexander Usyskin <alexander.usyskin@intel.com>
-> > Subject: [PATCH 1/2] mtd: use refcount to prevent corruption
-> >=20
-> > From: Tomas Winkler <tomas.winkler@intel.com>
-> >=20
-> > When underlying device is removed mtd core will crash
-> > in case user space is holding open handle.
-> > Need to use proper refcounting so device is release
-> > only when has no users.
-> >=20
-> > Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-> > Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
-> > ---
-> >  drivers/mtd/mtdcore.c   | 72 ++++++++++++++++++++++------------------
-> > -
-> >  drivers/mtd/mtdcore.h   |  1 +
-> >  drivers/mtd/mtdpart.c   | 14 ++++----
-> >  include/linux/mtd/mtd.h |  2 +-
-> >  4 files changed, 49 insertions(+), 40 deletions(-)
-> >=20
-> > diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-> > index abf4cb58a8ab..84bd1878367d 100644
-> > --- a/drivers/mtd/mtdcore.c
-> > +++ b/drivers/mtd/mtdcore.c
-> > @@ -93,10 +93,33 @@ static void mtd_release(struct device *dev)
-> >  	struct mtd_info *mtd =3D dev_get_drvdata(dev);
-> >  	dev_t index =3D MTD_DEVT(mtd->index);
-> >=20
-> > +	if (mtd_is_partition(mtd))
-> > +		release_mtd_partition(mtd);
-> > +
-> >  	/* remove /dev/mtdXro node */
-> >  	device_destroy(&mtd_class, index + 1);
-> >  }
-> >=20
-> > +static void mtd_device_release(struct kref *kref)
-> > +{
-> > +	struct mtd_info *mtd =3D container_of(kref, struct mtd_info,
-> > refcnt);
-> > +
-> > +	debugfs_remove_recursive(mtd->dbg.dfs_dir);
-> > +
-> > +	/* Try to remove the NVMEM provider */
-> > +	nvmem_unregister(mtd->nvmem);
-> > +
-> > +	device_unregister(&mtd->dev);
-> > +
-> > +	/* Clear dev so mtd can be safely re-registered later if desired
-> > */
-> > +	memset(&mtd->dev, 0, sizeof(mtd->dev));
-> > +
-> > +	idr_remove(&mtd_idr, mtd->index);
-> > +	of_node_put(mtd_get_of_node(mtd));
-> > +
-> > +	module_put(THIS_MODULE);
-> > +}
-> > +
-> >  #define MTD_DEVICE_ATTR_RO(name) \
-> >  static DEVICE_ATTR(name, 0444, mtd_##name##_show, NULL)
-> >=20
-> > @@ -666,7 +689,7 @@ int add_mtd_device(struct mtd_info *mtd)
-> >  	}
-> >=20
-> >  	mtd->index =3D i;
-> > -	mtd->usecount =3D 0;
-> > +	kref_init(&mtd->refcnt);
-> >=20
-> >  	/* default value if not set by driver */
-> >  	if (mtd->bitflip_threshold =3D=3D 0)
-> > @@ -779,7 +802,6 @@ int del_mtd_device(struct mtd_info *mtd)
-> >  {
-> >  	int ret;
-> >  	struct mtd_notifier *not;
-> > -	struct device_node *mtd_of_node;
-> >=20
-> >  	mutex_lock(&mtd_table_mutex);
-> >=20
-> > @@ -793,28 +815,8 @@ int del_mtd_device(struct mtd_info *mtd)
-> >  	list_for_each_entry(not, &mtd_notifiers, list)
-> >  		not->remove(mtd);
-> >=20
-> > -	if (mtd->usecount) {
-> > -		printk(KERN_NOTICE "Removing MTD device #%d (%s) with use
-> > count %d\n",
-> > -		       mtd->index, mtd->name, mtd->usecount);
-> > -		ret =3D -EBUSY;
-> > -	} else {
-> > -		mtd_of_node =3D mtd_get_of_node(mtd);
-> > -		debugfs_remove_recursive(mtd->dbg.dfs_dir);
-> > -
-> > -		/* Try to remove the NVMEM provider */
-> > -		nvmem_unregister(mtd->nvmem);
-> > -
-> > -		device_unregister(&mtd->dev);
-> > -
-> > -		/* Clear dev so mtd can be safely re-registered later if
-> > desired */
-> > -		memset(&mtd->dev, 0, sizeof(mtd->dev));
-> > -
-> > -		idr_remove(&mtd_idr, mtd->index);
-> > -		of_node_put(mtd_of_node);
-> > -
-> > -		module_put(THIS_MODULE);
-> > -		ret =3D 0;
-> > -	}
-> > +	kref_put(&mtd->refcnt, mtd_device_release);
-> > +	ret =3D 0;
-> >=20
-> >  out_error:
-> >  	mutex_unlock(&mtd_table_mutex);
-> > @@ -1228,19 +1230,21 @@ int __get_mtd_device(struct mtd_info *mtd)
-> >  	if (!try_module_get(master->owner))
-> >  		return -ENODEV;
-> >=20
-> > +	kref_get(&mtd->refcnt);
-> > +
-> >  	if (master->_get_device) {
-> >  		err =3D master->_get_device(mtd);
-> >=20
-> >  		if (err) {
-> > +			kref_put(&mtd->refcnt, mtd_device_release);
-> >  			module_put(master->owner);
-> >  			return err;
-> >  		}
-> >  	}
-> >=20
-> > -	master->usecount++;
-> > -
-> >  	while (mtd->parent) {
-> > -		mtd->usecount++;
-> > +		if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER) || mtd- =20
-> > >parent !=3D master) =20
-> > +			kref_get(&mtd->parent->refcnt);
-> >  		mtd =3D mtd->parent;
-> >  	}
-> >=20
-> > @@ -1327,18 +1331,20 @@ void __put_mtd_device(struct mtd_info *mtd)
-> >  {
-> >  	struct mtd_info *master =3D mtd_get_master(mtd);
-> >=20
-> > -	while (mtd->parent) {
-> > -		--mtd->usecount;
-> > -		BUG_ON(mtd->usecount < 0);
-> > -		mtd =3D mtd->parent;
-> > -	}
-> > +	while (mtd !=3D master) {
-> > +		struct mtd_info *parent =3D mtd->parent;
-> >=20
-> > -	master->usecount--;
-> > +		kref_put(&mtd->refcnt, mtd_device_release);
-> > +		mtd =3D parent;
-> > +	}
-> >=20
-> >  	if (master->_put_device)
-> >  		master->_put_device(master);
-> >=20
-> >  	module_put(master->owner);
-> > +
-> > +	if (IS_ENABLED(CONFIG_MTD_PARTITIONED_MASTER))
-> > +		kref_put(&master->refcnt, mtd_device_release);
-> >  }
-> >  EXPORT_SYMBOL_GPL(__put_mtd_device);
-> >=20
-> > diff --git a/drivers/mtd/mtdcore.h b/drivers/mtd/mtdcore.h
-> > index b5eefeabf310..b014861a06a6 100644
-> > --- a/drivers/mtd/mtdcore.h
-> > +++ b/drivers/mtd/mtdcore.h
-> > @@ -12,6 +12,7 @@ int __must_check add_mtd_device(struct mtd_info
-> > *mtd);
-> >  int del_mtd_device(struct mtd_info *mtd);
-> >  int add_mtd_partitions(struct mtd_info *, const struct mtd_partition
-> > *, int);
-> >  int del_mtd_partitions(struct mtd_info *);
-> > +void release_mtd_partition(struct mtd_info *mtd);
-> >=20
-> >  struct mtd_partitions;
-> >=20
-> > diff --git a/drivers/mtd/mtdpart.c b/drivers/mtd/mtdpart.c
-> > index a46affbb037d..23483db8f30c 100644
-> > --- a/drivers/mtd/mtdpart.c
-> > +++ b/drivers/mtd/mtdpart.c
-> > @@ -32,6 +32,12 @@ static inline void free_partition(struct mtd_info
-> > *mtd)
-> >  	kfree(mtd);
-> >  }
-> >=20
-> > +void release_mtd_partition(struct mtd_info *mtd)
-> > +{
-> > +	WARN_ON(!list_empty(&mtd->part.node));
-> > +	free_partition(mtd);
-> > +}
-> > +
-> >  static struct mtd_info *allocate_partition(struct mtd_info *parent,
-> >  					   const struct mtd_partition *part,
-> >  					   int partno, uint64_t cur_offset)
-> > @@ -309,13 +315,11 @@ static int __mtd_del_partition(struct mtd_info
-> > *mtd)
-> >=20
-> >  	sysfs_remove_files(&mtd->dev.kobj, mtd_partition_attrs);
-> >=20
-> > +	list_del_init(&mtd->part.node);
-> >  	err =3D del_mtd_device(mtd);
-> >  	if (err)
-> >  		return err;
-> >=20
-> > -	list_del(&mtd->part.node);
-> > -	free_partition(mtd);
-> > -
-> >  	return 0;
-> >  }
-> >=20
-> > @@ -333,6 +337,7 @@ static int __del_mtd_partitions(struct mtd_info
-> > *mtd)
-> >  			__del_mtd_partitions(child);
-> >=20
-> >  		pr_info("Deleting %s MTD partition\n", child->name);
-> > +		list_del_init(&child->part.node);
-> >  		ret =3D del_mtd_device(child);
-> >  		if (ret < 0) {
-> >  			pr_err("Error when deleting partition \"%s\" (%d)\n",
-> > @@ -340,9 +345,6 @@ static int __del_mtd_partitions(struct mtd_info
-> > *mtd)
-> >  			err =3D ret;
-> >  			continue;
-> >  		}
-> > -
-> > -		list_del(&child->part.node);
-> > -		free_partition(child);
-> >  	}
-> >=20
-> >  	return err;
-> > diff --git a/include/linux/mtd/mtd.h b/include/linux/mtd/mtd.h
-> > index 7c58c44662b8..914a9f974baa 100644
-> > --- a/include/linux/mtd/mtd.h
-> > +++ b/include/linux/mtd/mtd.h
-> > @@ -379,7 +379,7 @@ struct mtd_info {
-> >=20
-> >  	struct module *owner;
-> >  	struct device dev;
-> > -	int usecount;
-> > +	struct kref refcnt;
-> >  	struct mtd_debug_info dbg;
-> >  	struct nvmem_device *nvmem;
-> >  	struct nvmem_device *otp_user_nvmem;
-> > --
-> > 2.34.1 =20
->=20
