@@ -2,91 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 624547550BD
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jul 2023 20:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 125BA755892
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 00:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229886AbjGPSvP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 Jul 2023 14:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
+        id S229936AbjGPWKY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 Jul 2023 18:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGPSvP (ORCPT
+        with ESMTP id S229613AbjGPWKV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 Jul 2023 14:51:15 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0A5A1B5;
-        Sun, 16 Jul 2023 11:51:13 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,211,1684767600"; 
-   d="scan'208";a="169308612"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Jul 2023 03:51:13 +0900
-Received: from localhost.localdomain (unknown [10.226.92.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 11E294003EBD;
-        Mon, 17 Jul 2023 03:51:10 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Peter Rosin <peda@axentia.se>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        linux-i2c@vger.kernel.org,
+        Sun, 16 Jul 2023 18:10:21 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FD310FA;
+        Sun, 16 Jul 2023 15:10:03 -0700 (PDT)
+Received: from i53875a6a.versanet.de ([83.135.90.106] helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1qL9uD-0000aN-Ki; Mon, 17 Jul 2023 00:07:53 +0200
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andreas =?ISO-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Alex Helms <alexander.helms.jy@renesas.com>,
+        Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] i2c: mux: ltc4306: Simplify probe()
-Date:   Sun, 16 Jul 2023 19:51:08 +0100
-Message-Id: <20230716185108.283447-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Hal Feng <hal.feng@starfivetech.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Emilio =?ISO-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michal Simek <michal.simek@amd.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-oxnas@groups.io,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] clk: Explicitly include correct DT includes
+Date:   Mon, 17 Jul 2023 00:07:49 +0200
+Message-ID: <7247786.Sb9uPGUboI@phil>
+In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
+References: <20230714174342.4052882-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The ltc4306_id[].driver_data could store a pointer to the chips,
-like for DT-based matching, making I2C and DT-based matching
-more similar.
+Am Freitag, 14. Juli 2023, 19:43:29 CEST schrieb Rob Herring:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-After that, we can simplify the probe() by replacing of_device_get_
-match_data() and i2c_match_id() by i2c_get_match_data() as we have
-similar I2C and DT-based matching table.
+>  drivers/clk/rockchip/clk-rk3568.c                | 2 +-
+>  drivers/clk/rockchip/clk-rv1126.c                | 2 +-
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/i2c/muxes/i2c-mux-ltc4306.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Acked-by: Heiko Stuebner <heiko@sntech.de> #rockchip
 
-diff --git a/drivers/i2c/muxes/i2c-mux-ltc4306.c b/drivers/i2c/muxes/i2c-mux-ltc4306.c
-index 5a03031519be..c7dfd5eba413 100644
---- a/drivers/i2c/muxes/i2c-mux-ltc4306.c
-+++ b/drivers/i2c/muxes/i2c-mux-ltc4306.c
-@@ -192,8 +192,8 @@ static int ltc4306_deselect_mux(struct i2c_mux_core *muxc, u32 chan)
- }
- 
- static const struct i2c_device_id ltc4306_id[] = {
--	{ "ltc4305", ltc_4305 },
--	{ "ltc4306", ltc_4306 },
-+	{ "ltc4305", .driver_data = (kernel_ulong_t)&chips[ltc_4305] },
-+	{ "ltc4306", .driver_data = (kernel_ulong_t)&chips[ltc_4306] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ltc4306_id);
-@@ -216,10 +216,9 @@ static int ltc4306_probe(struct i2c_client *client)
- 	unsigned int val = 0;
- 	int num, ret;
- 
--	chip = of_device_get_match_data(&client->dev);
--
-+	chip = i2c_get_match_data(client);
- 	if (!chip)
--		chip = &chips[i2c_match_id(ltc4306_id, client)->driver_data];
-+		return -ENODEV;
- 
- 	idle_disc = device_property_read_bool(&client->dev,
- 					      "i2c-mux-idle-disconnect");
--- 
-2.25.1
 
