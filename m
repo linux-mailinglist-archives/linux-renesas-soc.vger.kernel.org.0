@@ -2,116 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D0D1756A81
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 19:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D29CB756AED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 19:46:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbjGQR36 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 13:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
+        id S231126AbjGQRq5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 13:46:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbjGQR3x (ORCPT
+        with ESMTP id S229940AbjGQRq4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 13:29:53 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572C41720;
-        Mon, 17 Jul 2023 10:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689614970; x=1721150970;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=B7c/2IAOq+QysQrRwOIUK5uC4eESX4PCd4P3LMdk97c=;
-  b=WuRzze1Y+/L64c2n/xwY175f+SEXpd4tlEJNKcYs3U99ggHUtsQMhNfC
-   Cr26z/NJLVw/LC8402ErDLEy/AKaF+mM/IULQ/amcK2OfVK4FgaG/oqz+
-   n4+wli124n9/35DOH8MymHBhSTVMaXlxFLq1xmaz9JXBhWPgFAA63BkY7
-   CIBbSR+iLM0YyQ1xac3D/LTEzDjvmq6SjX3zIY3N06o8U5pAF9d3YzA46
-   qOMA3Vt3KtlQUDaRuqkWI8GgI3uxPt7cpKPUn5H7kDc0t297BHpz21hVO
-   KORRGhm+kCMVDKuvU/Lywsd7ZHb0JjmLVLU+CNehGc2jI4WJASj5IGM0s
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="355927005"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="355927005"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 10:28:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="673604218"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="673604218"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2023 10:28:40 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 51B8F748; Mon, 17 Jul 2023 20:28:40 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Balsam CHIHI <bchihi@baylibre.com>,
+        Mon, 17 Jul 2023 13:46:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA70189;
+        Mon, 17 Jul 2023 10:46:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F146611A5;
+        Mon, 17 Jul 2023 17:46:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FCE7C433CB;
+        Mon, 17 Jul 2023 17:46:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689616014;
+        bh=aTPuf0Zd8OpbwoKQZ65jJYeSg9DTodI+njCE2/27PY8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fBMcwhUNcM0V4autvJVgcKQnhFbO7brLAEesnhEzKxTvyYBZsqjwc+cojOZv8v9UC
+         C1fFtr+snZnoCQBuIjCC+uqbL1txzClbWIi6/Eqa6m+4RGip54iRnMoz47f6udL2oG
+         QgKwwUVcwaxROldmVq5NNT3ndThlYFno/GItwYo30sXRqpZ3vtfi8rmQeHUZPSZsw8
+         nBomaa0tVX346pR41e0rqob0iI2Yo27n4Om1YAlYa9235UCWZuLT6xOi/p3K5HKm5U
+         yiAaqVLPCkUZKmnHgR84LUxhUnkrP+Q15V/RcRNk1rR8kEkcW0/GgWyopYhnj8btQ/
+         HW5N4J95bcJrg==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-992b27e1c55so627045266b.2;
+        Mon, 17 Jul 2023 10:46:54 -0700 (PDT)
+X-Gm-Message-State: ABy/qLYHsdcjkilx0BN7/t1n4Ml1FGgPfUozaQr7DJMRdOQG1eYr+Xez
+        pIFJhaGijYNxuSNKXyBT+K794cSdGc3vqW3RdQ==
+X-Google-Smtp-Source: APBJJlEaii1O/P4FM3AIiFrxrm+c2/2j2dMof6/ew372YwZ9YuuOJ20F60zHYXA1FfdAlxaKv4uhiryEoY4fwMAMSwI=
+X-Received: by 2002:a2e:7a1a:0:b0:2b5:bc27:d6eb with SMTP id
+ v26-20020a2e7a1a000000b002b5bc27d6ebmr8861286ljc.8.1689615991907; Mon, 17 Jul
+ 2023 10:46:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230714174745.4060260-1-robh@kernel.org>
+In-Reply-To: <20230714174745.4060260-1-robh@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 17 Jul 2023 11:46:19 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+H5jcTfuAdE=XvcWP+Td3xn9hdq1QA3HKouPJDaedwYg@mail.gmail.com>
+Message-ID: <CAL_Jsq+H5jcTfuAdE=XvcWP+Td3xn9hdq1QA3HKouPJDaedwYg@mail.gmail.com>
+Subject: Re: [PATCH] mmc: Explicitly include correct DT includes
+To:     Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Haibo Chen <haibo.chen@nxp.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Michal Simek <michal.simek@amd.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Ben Dooks <ben-linux@fluff.org>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
-Subject: [PATCH v2 10/10] pinctrl: tegra: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
-Date:   Mon, 17 Jul 2023 20:28:21 +0300
-Message-Id: <20230717172821.62827-11-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
-In-Reply-To: <20230717172821.62827-1-andriy.shevchenko@linux.intel.com>
-References: <20230717172821.62827-1-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-actions@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since pm.h provides a helper for system no-IRQ PM callbacks,
-switch the driver to use it instead of open coded variant.
+On Fri, Jul 14, 2023 at 11:48=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/mmc/host/atmel-mci.c                  | 1 -
+>  drivers/mmc/host/cavium-octeon.c              | 2 ++
+>  drivers/mmc/host/cavium-thunderx.c            | 1 +
+>  drivers/mmc/host/davinci_mmc.c                | 1 -
+>  drivers/mmc/host/meson-gx-mmc.c               | 2 +-
+>  drivers/mmc/host/mtk-sd.c                     | 4 +---
+>  drivers/mmc/host/mxcmmc.c                     | 1 -
+>  drivers/mmc/host/mxs-mmc.c                    | 1 -
+>  drivers/mmc/host/owl-mmc.c                    | 3 ++-
+>  drivers/mmc/host/pxamci.c                     | 1 -
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 3 ++-
+>  drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 3 ++-
+>  drivers/mmc/host/sdhci-bcm-kona.c             | 1 -
+>  drivers/mmc/host/sdhci-cadence.c              | 2 +-
+>  drivers/mmc/host/sdhci-esdhc-imx.c            | 2 +-
+>  drivers/mmc/host/sdhci-iproc.c                | 2 +-
+>  drivers/mmc/host/sdhci-msm.c                  | 2 +-
+>  drivers/mmc/host/sdhci-of-arasan.c            | 3 ++-
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/pinctrl/tegra/pinctrl-tegra.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Not visible in the diff, but there's a double include of of.h. v2 coming.
 
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-index 4547cf66d03b..734c71ef005b 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-@@ -747,10 +747,7 @@ static int tegra_pinctrl_resume(struct device *dev)
- 	return 0;
- }
- 
--const struct dev_pm_ops tegra_pinctrl_pm = {
--	.suspend_noirq = &tegra_pinctrl_suspend,
--	.resume_noirq = &tegra_pinctrl_resume
--};
-+DEFINE_NOIRQ_DEV_PM_OPS(tegra_pinctrl_pm, tegra_pinctrl_suspend, tegra_pinctrl_resume);
- 
- static bool tegra_pinctrl_gpio_node_has_range(struct tegra_pmx *pmx)
- {
--- 
-2.40.0.1.gaa8946217a0b
-
+>  drivers/mmc/host/sdhci-of-at91.c              | 2 +-
+>  drivers/mmc/host/sdhci-of-dwcmshc.c           | 2 +-
+>  drivers/mmc/host/sdhci-of-sparx5.c            | 2 +-
+>  drivers/mmc/host/sdhci-omap.c                 | 1 -
+>  drivers/mmc/host/sdhci-pxav2.c                | 1 -
+>  drivers/mmc/host/sdhci-s3c.c                  | 1 -
+>  drivers/mmc/host/sdhci-sprd.c                 | 1 -
+>  drivers/mmc/host/sdhci-tegra.c                | 1 -
+>  drivers/mmc/host/sh_mmcif.c                   | 1 -
+>  drivers/mmc/host/uniphier-sd.c                | 1 -
+>  drivers/mmc/host/wmt-sdmmc.c                  | 1 -
+>  29 files changed, 20 insertions(+), 29 deletions(-)
