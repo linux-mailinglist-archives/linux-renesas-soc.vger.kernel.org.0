@@ -2,142 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D88E275645C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 15:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F76B756510
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 15:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbjGQNT4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 09:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54266 "EHLO
+        id S229687AbjGQNeR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 09:34:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbjGQNTo (ORCPT
+        with ESMTP id S229517AbjGQNeQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 09:19:44 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C6503C3A;
-        Mon, 17 Jul 2023 06:18:16 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,211,1684767600"; 
-   d="scan'208";a="173149956"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Jul 2023 22:18:07 +0900
-Received: from localhost.localdomain (unknown [10.226.92.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D08BA4208E5B;
-        Mon, 17 Jul 2023 22:18:04 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        linux-input@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/2] Input: exc3000 - Drop enum eeti_dev_id and split exc3000_info[]
-Date:   Mon, 17 Jul 2023 14:17:56 +0100
-Message-Id: <20230717131756.240645-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
-References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
+        Mon, 17 Jul 2023 09:34:16 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3240A6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jul 2023 06:34:15 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
+        by laurent.telenet-ops.be with bizsmtp
+        id NDaE2A0030ucMBo01DaEsE; Mon, 17 Jul 2023 15:34:14 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qLOMX-001fzk-83;
+        Mon, 17 Jul 2023 15:34:14 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qLOMg-007RAi-4y;
+        Mon, 17 Jul 2023 15:34:14 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH resend] drm/panel: simple: Simplify matching using of_device_get_match_data()
+Date:   Mon, 17 Jul 2023 15:34:13 +0200
+Message-Id: <bca1d6f6a0582988accbb48d709aa9de7ad49ed7.1689600771.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Drop enum eeti_dev_id and split the array exc3000_info[] as individual
-variables, and make lines shorter by referring to e.g. &exc3000_info
-instead of &exc3000_info[EETI_EXC3000].
+Both the patform_driver and mipi_dsi_driver structures contain pointers
+to the match table used, so the custom code to obtain match and match
+data can be replaced by calls to of_device_get_match_data().
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2:
- * New patch.
----
- drivers/input/touchscreen/exc3000.c | 42 +++++++++++++----------------
- 1 file changed, 18 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index 8b65b4e2aa50..b124a64f8164 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -47,25 +47,19 @@ struct eeti_dev_info {
- 	int max_xy;
- };
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 241243447b3e5c81..70326f335f44c295 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -4457,13 +4457,13 @@ MODULE_DEVICE_TABLE(of, platform_of_match);
  
--enum eeti_dev_id {
--	EETI_EXC3000,
--	EETI_EXC80H60,
--	EETI_EXC80H84,
-+static const struct eeti_dev_info exc3000_info = {
-+	.name = "EETI EXC3000 Touch Screen",
-+	.max_xy = SZ_4K - 1
- };
+ static int panel_simple_platform_probe(struct platform_device *pdev)
+ {
+-	const struct of_device_id *id;
++	const struct panel_desc *desc;
  
--static struct eeti_dev_info exc3000_info[] = {
--	[EETI_EXC3000] = {
--		.name = "EETI EXC3000 Touch Screen",
--		.max_xy = SZ_4K - 1,
--	},
--	[EETI_EXC80H60] = {
--		.name = "EETI EXC80H60 Touch Screen",
--		.max_xy = SZ_16K - 1,
--	},
--	[EETI_EXC80H84] = {
--		.name = "EETI EXC80H84 Touch Screen",
--		.max_xy = SZ_16K - 1,
--	},
-+static const struct eeti_dev_info exc80h60_info = {
-+	.name = "EETI EXC80H60 Touch Screen",
-+	.max_xy = SZ_16K - 1
-+};
-+
-+static const struct eeti_dev_info exc80h84_info = {
-+	.name = "EETI EXC80H84 Touch Screen",
-+	.max_xy = SZ_16K - 1
- };
+-	id = of_match_node(platform_of_match, pdev->dev.of_node);
+-	if (!id)
++	desc = of_device_get_match_data(&pdev->dev);
++	if (!desc)
+ 		return -ENODEV;
  
- struct exc3000_data {
-@@ -441,18 +435,18 @@ static int exc3000_probe(struct i2c_client *client)
+-	return panel_simple_probe(&pdev->dev, id->data);
++	return panel_simple_probe(&pdev->dev, desc);
  }
  
- static const struct i2c_device_id exc3000_id[] = {
--	{ "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC3000] },
--	{ "exc80h60", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
--	{ "exc80h84", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H84] },
-+	{ "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info },
-+	{ "exc80h60", .driver_data = (kernel_ulong_t)&exc80h60_info },
-+	{ "exc80h84", .driver_data = (kernel_ulong_t)&exc80h84_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, exc3000_id);
+ static void panel_simple_platform_remove(struct platform_device *pdev)
+@@ -4734,15 +4734,12 @@ MODULE_DEVICE_TABLE(of, dsi_of_match);
+ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
+ {
+ 	const struct panel_desc_dsi *desc;
+-	const struct of_device_id *id;
+ 	int err;
  
- #ifdef CONFIG_OF
- static const struct of_device_id exc3000_of_match[] = {
--	{ .compatible = "eeti,exc3000", .data = &exc3000_info[EETI_EXC3000] },
--	{ .compatible = "eeti,exc80h60", .data = &exc3000_info[EETI_EXC80H60] },
--	{ .compatible = "eeti,exc80h84", .data = &exc3000_info[EETI_EXC80H84] },
-+	{ .compatible = "eeti,exc3000", .data = &exc3000_info },
-+	{ .compatible = "eeti,exc80h60", .data = &exc80h60_info },
-+	{ .compatible = "eeti,exc80h84", .data = &exc80h84_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, exc3000_of_match);
-@@ -460,7 +454,7 @@ MODULE_DEVICE_TABLE(of, exc3000_of_match);
+-	id = of_match_node(dsi_of_match, dsi->dev.of_node);
+-	if (!id)
++	desc = of_device_get_match_data(&dsi->dev);
++	if (!desc)
+ 		return -ENODEV;
  
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id exc3000_acpi_match[] = {
--	{ "EGA00001", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
-+	{ "EGA00001", .driver_data = (kernel_ulong_t)&exc80h60_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, exc3000_acpi_match);
+-	desc = id->data;
+-
+ 	err = panel_simple_probe(&dsi->dev, &desc->desc);
+ 	if (err < 0)
+ 		return err;
 -- 
-2.25.1
+2.34.1
 
