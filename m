@@ -2,170 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EBD775659F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 15:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2623E75664D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 16:27:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231440AbjGQN6H convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 09:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59714 "EHLO
+        id S229833AbjGQO1t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 10:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjGQN6G (ORCPT
+        with ESMTP id S230096AbjGQO1s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 09:58:06 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB1FD1;
-        Mon, 17 Jul 2023 06:58:05 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-579dfae6855so46121057b3.1;
-        Mon, 17 Jul 2023 06:58:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689602284; x=1692194284;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6GY8g2XJYhobD5XMmXXGSiDcdH93n2WuBZ9x5pzjlb0=;
-        b=R1P33IUvCbB1CyfeeqVN/J7QBLkZ6HY7yWB4XXj4ut7naPKTBJbgB75Pg6Rr2I5HkS
-         dYjZgn5Sr6atxC3wkaPpV53q0ePWntXY6jssH3TyM+Av7vnwQq1SF8s8DXQcNGcJQWaF
-         xyxO7blMYExPOmwHCil4A7VKNTdt18u4RaXhBvn4dVxgDrNc9Qq4xO+dRCSrvOApLQ8L
-         u7SyNU7w+OHnMFjWZTo/PiWgY3+8fOlBvD5o7EKawnw8qqXmgAvKa9oky4Jvs/J5O+1u
-         wfCgMHNBLNuXmuoH5MF01DAtqBcYGmuwQK2NyoqxBIwMyNsgh3Qi4scH1Jqc2s7pF0tf
-         QFFA==
-X-Gm-Message-State: ABy/qLaTFA8/br6jecLtaVxu74Bmc7LI60SPaLki2zxIc5WjzofqT9Nm
-        Y2iBMDNuo8MknaeHjuWICcBfQajKbIVj8A==
-X-Google-Smtp-Source: APBJJlFdT4/Yt2cig2+G2UVzhBFv1G+0PB7y2WmAYl2xvC+kVoF2lI69MNKxbyPzWK24ubSNY2GHNQ==
-X-Received: by 2002:a81:85c7:0:b0:56d:464e:db7e with SMTP id v190-20020a8185c7000000b0056d464edb7emr13549710ywf.13.1689602284050;
-        Mon, 17 Jul 2023 06:58:04 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id x134-20020a0dd58c000000b005832fe29034sm1023710ywd.89.2023.07.17.06.58.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 06:58:03 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-ca3cc52ee62so4604994276.0;
-        Mon, 17 Jul 2023 06:58:03 -0700 (PDT)
-X-Received: by 2002:a25:2105:0:b0:c14:68fd:6e30 with SMTP id
- h5-20020a252105000000b00c1468fd6e30mr9475180ybh.16.1689602283054; Mon, 17 Jul
- 2023 06:58:03 -0700 (PDT)
+        Mon, 17 Jul 2023 10:27:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048DEC0;
+        Mon, 17 Jul 2023 07:27:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F081610A5;
+        Mon, 17 Jul 2023 14:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE66CC433BC;
+        Mon, 17 Jul 2023 14:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689604065;
+        bh=rkLKjJGA9W9V1hgJstWBCmZrxpmjuvUsbHV5ieMMp8c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tbqM5G1Bre2zBYNYlSaGpYvtGMUIHymVMKeK/TzG0KjBzCmaAHwEaXmM+fnWr8QHf
+         A5IwGR12akMgYWcxzwUULBkB0mekTRl4kMKQRSfx+pzkXO2wU5OR+OPuWWdNpyb/9Y
+         27H/XVZnsbuLv2tvpMFxcyKcBrfhw24Ct3Dtn6k2jIwf9fiUxfMZRE5qGgbeygcQZ2
+         vy5S/pTq31758S5Um6WTDPfgsWL212q22eKGrybewvdX7t97Q3XcLfmDw1+8j8e8ow
+         KnsnOeGJcjyYNIZVOv3JTTaB9YED46K0NRnfA2+aAkAVdCs2rPfSquk+go0eGVrLFe
+         3iKfcFajgoGdg==
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3128fcd58f3so4906778f8f.1;
+        Mon, 17 Jul 2023 07:27:45 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZghUs7lncWXZM1dChUiBvE2K96n+Y7rN059Pv2fwxl6iHVk14T
+        6ODXg/fvJP4CsTxsqg2NjYnOS2p4QPrexgZRBA==
+X-Google-Smtp-Source: APBJJlFSY1EKmbumZhe1Fkfe0qsodiNyBdGN/d2gmlGF1ZwWgImoQ1RpodF7t1ooNJHJiRju6eg8DIGKKeloqUgo0eo=
+X-Received: by 2002:a2e:8945:0:b0:2b9:48f1:b195 with SMTP id
+ b5-20020a2e8945000000b002b948f1b195mr576527ljk.44.1689604043579; Mon, 17 Jul
+ 2023 07:27:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1687423204.git.geert+renesas@glider.be> <2259ff548f007afcb5a315a4c95c83a0ee4b7e03.1687423204.git.geert+renesas@glider.be>
- <20230622145213.GA1678457-robh@kernel.org>
-In-Reply-To: <20230622145213.GA1678457-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 Jul 2023 15:57:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX1Y9jkKv+cOAzs6YibkNoTrvY-qDY4FOzgrSyA4pHynQ@mail.gmail.com>
-Message-ID: <CAMuHMdX1Y9jkKv+cOAzs6YibkNoTrvY-qDY4FOzgrSyA4pHynQ@mail.gmail.com>
-Subject: Re: [PATCH 01/39] dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+References: <20230714174545.4056287-1-robh@kernel.org> <114500369.nniJfEyVGO@phil>
+In-Reply-To: <114500369.nniJfEyVGO@phil>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 17 Jul 2023 08:27:10 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+Message-ID: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+To:     Heiko Stuebner <heiko@sntech.de>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Yongqin Liu <yongqin.liu@linaro.org>,
+        John Stultz <jstultz@google.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Qiang Yu <yuq825@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+        Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Emma Anholt <emma@anholt.net>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        devicetree@vger.kernel.org, Ondrej Jirman <megous@megous.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-mips@vger.kernel.org, lima@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
-
-Thanks for your review!
-
-On Thu, Jun 22, 2023 at 4:52 PM Rob Herring <robh@kernel.org> wrote:
-> On Thu, Jun 22, 2023 at 11:21:13AM +0200, Geert Uytterhoeven wrote:
-> > Add device tree bindings for the LCD Controller (LCDC) found in Renesas
-> > SuperH SH-Mobile and ARM SH/R-Mobile SOCs.
+On Sun, Jul 16, 2023 at 3:26=E2=80=AFAM Heiko Stuebner <heiko@sntech.de> wr=
+ote:
+>
+> Am Freitag, 14. Juli 2023, 19:45:34 CEST schrieb Rob Herring:
+> > The DT of_device.h and of_platform.h date back to the separate
+> > of_platform_bus_type before it as merged into the regular platform bus.
+> > As part of that merge prepping Arm DT support 13 years ago, they
+> > "temporarily" include each other. They also include platform_device.h
+> > and of.h. As a result, there's a pretty much random mix of those includ=
+e
+> > files used throughout the tree. In order to detangle these headers and
+> > replace the implicit includes with struct declarations, users need to
+> > explicitly include the correct includes.
 > >
-> > Based on a plain text prototype by Laurent Pinchart.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
-> > @@ -0,0 +1,108 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/renesas,shmobile-lcdc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas SH-Mobile LCD Controller (LCDC)
-> > +
-> > +maintainers:
-> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - renesas,r8a7740-lcdc # R-Mobile A1
-> > +      - renesas,sh73a0-lcdc  # SH-Mobile AG5
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 1
-> > +    maxItems: 5
-> > +    description:
-> > +      Only the functional clock is mandatory.
-> > +      Some of the optional clocks are model-dependent (e.g. "video" (a.k.a.
-> > +      "vou" or "dv_clk") is available on R-Mobile A1 only).
-> > +
-> > +  clock-names:
-> > +    minItems: 1
-> > +    maxItems: 5
-> > +    items:
-> > +      enum: [ fck, media, lclk, hdmi, video ]
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +    description: |
-> > +      The connections to the output video ports are modeled using the OF graph
-> > +      bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
 >
-> Please read this file.
+> [...]
 >
-> > +      The number of ports and their assignment are model-dependent.
-> > +      Each port shall have a single endpoint.
+> > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/=
+gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > index 917e79951aac..2744d8f4a6fa 100644
+> > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > @@ -12,7 +12,9 @@
+> >  #include <linux/mfd/syscon.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of_device.h>
+> > +#include <linux/of_platform.h>
+> >  #include <linux/phy/phy.h>
+> > +#include <linux/platform_device.h>
+> >  #include <linux/pm_runtime.h>
+> >  #include <linux/regmap.h>
 >
-> I'd just drop the whole description.
->
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: LCD port (R-Mobile A1 and SH-Mobile AG5)
-> > +        unevaluatedProperties: false
->
-> Don't need this.
+> I'm not sure if I'm just misreading something, but in all other places
+> of_device.h gets removed while here is stays as an include. Is this
+> correct this way?
 
-You mean the "unevaluatedProperties: false"?
-Or more?
+Yes, because of_match_device() is used.
 
-Thanks again!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
