@@ -2,123 +2,238 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9586C75615D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 13:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929387561A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 13:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbjGQLTE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 07:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
+        id S230097AbjGQLgJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 07:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbjGQLTC (ORCPT
+        with ESMTP id S229461AbjGQLgI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 07:19:02 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7084E48;
-        Mon, 17 Jul 2023 04:19:00 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-993d1f899d7so635098066b.2;
-        Mon, 17 Jul 2023 04:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689592739; x=1692184739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QijUibtG40+t5LDtP3Zsswxs5UnjGxpVCNjyPMZLJl8=;
-        b=iq1FnouNw8hu78GVyoQBK0Cv8f50DC2LDmg0E/jmuE7TL2mhCtlpiBtRW3xMyfbiCP
-         s7Um1pL125YQciF26uaBkmJ7Sv3OseJHp+TXcKplLPdFIksRY7LGvs4h6XDKkhAqJKDj
-         1cVJkAHafFI9I8eVtDFdAzjoVq2BV2qTegcJh80HbIKh1fcXi0mXS4gUINK9gDtvx9lb
-         1BggqdiatGURBcKH9MqIzGcMqrzDA2HmJ7LZg+Uxd42pdVngIwYZvd3bvSUzc6gp29zu
-         /wppIfELH8hKqxugJ7ig069072Mlua7HtiKIVE8l/eAqlH7Pv/Qwk3sVouIZ+OkJGU3J
-         ehGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689592739; x=1692184739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QijUibtG40+t5LDtP3Zsswxs5UnjGxpVCNjyPMZLJl8=;
-        b=W46qXIbH2njzUpLEszAq3bgHyfQdUEWZ105JAZP8xBBxVbj3ebpx7hkXv+JRBaes/g
-         +ESS1577aGyyPhjT9KTZnVT0Sz/E0RPNCR9DPa2fB80mfnf2Mv9xYWEFDj9Y/3YFaeB5
-         pnyJwwE0A6jj03e+1v3rc1LbgObf6ezpmEBoN88p6m0QHkuCT2fsPUeC8ujkfRN4BapQ
-         HeRsO7z7+93eg2/5URrz6cDiFPAp9FRP9vgivlmNdjdfc5DlvMl7BsdbifPbtlqNJ80T
-         IGj1FRmbHmmSUEuIkdORJdh79d9j7dJgVG962ZrAEPop12gfCf2cXdWtUiE1vVHpxn9L
-         oCwQ==
-X-Gm-Message-State: ABy/qLYfzUUYvqzaqrV3AziMI0w5S7GfquJLC6NyGxmL0SNzwNUrYcLc
-        rXSs2K/nbCSIZEhSaMfr67T6R6NOAVy7W3j1dOw=
-X-Google-Smtp-Source: APBJJlFgxJ9kqESM2vJO7AKAUkjY4G9ICt4eSFqnKKc+eDe0rOvAKel/IRN6zzvlQGEnfjkZIXlQpd77OnW6Y8Ra2Yo=
-X-Received: by 2002:a17:906:e213:b0:992:48b7:99e3 with SMTP id
- gf19-20020a170906e21300b0099248b799e3mr10396878ejb.63.1689592739105; Mon, 17
- Jul 2023 04:18:59 -0700 (PDT)
+        Mon, 17 Jul 2023 07:36:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D92E4C;
+        Mon, 17 Jul 2023 04:36:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC0DD16C4;
+        Mon, 17 Jul 2023 13:35:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689593710;
+        bh=Q3mYfdnpaLKlY8/jxmRm80QstU9e0PZzEci91ZZE1j4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=D34b2nk3MBeIsD4Hh9go1cz7KYgQfaVb0QwyTeWrvQudhj3fcvsR86k18n5c2Eh/a
+         11cp7FnDEwboNqdfvQSni7J+NuSf4nawSesO0QfLQ1Tb/Qq/1vhrC/00e2IYaQomU7
+         muczhfhcRx636pqbzTWg6NH753X76UJuCpEmbpUo=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230715010407.1751715-1-fabrizio.castro.jz@renesas.com>
- <20230715010407.1751715-8-fabrizio.castro.jz@renesas.com> <CAMuHMdUzxQfi2w8dyF8gCitkSKkw_fRE074EUuB+tHKn8WM3=w@mail.gmail.com>
- <TYWPR01MB8775869576E4B3F0FEFCF3DCC23BA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB8775869576E4B3F0FEFCF3DCC23BA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 17 Jul 2023 14:18:22 +0300
-Message-ID: <CAHp75VdNvWS04VN58r5VcSJskeVJF0g0_spSRb8f0_OP1P04QQ@mail.gmail.com>
-Subject: Re: [PATCH 07/10] spi: rzv2m-csi: Switch to using {read,write}s{b,w}
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mark Brown <broonie@kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+References: <20230714174545.4056287-1-robh@kernel.org>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, Ondrej Jirman <megous@megous.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-mips@vger.kernel.org, lima@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+To:     Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Emma Anholt <emma@anholt.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Guido =?utf-8?q?G=C3=BCnther?= <agx@sigxcpu.org>,
+        Heiko =?utf-8?q?St=C3=BCbner?= <heiko@sntech.de>,
+        Icenow y Zheng <icenowy@aosc.io>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        John Stultz <jstultz@google.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liu Ying <victor.liu@nxp.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Marek Vasut <marex@denx.de>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Ondrej Jirman <megi@xff.cz>, Orson Zhai <orsonzhai@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Qiang Yu <yuq825@gmail.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Steven Price <steven.price@arm.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Yongqin Liu <yongqin.liu@linaro.org>
+Date:   Mon, 17 Jul 2023 12:35:59 +0100
+Message-ID: <168959375926.3515353.7529038208688306372@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 1:36=E2=80=AFPM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Subject: Re: [PATCH 07/10] spi: rzv2m-csi: Switch to using
-> > {read,write}s{b,w}
-> > On Sat, Jul 15, 2023 at 3:04=E2=80=AFAM Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
+Quoting Rob Herring (2023-07-14 18:45:34)
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-...
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c         | 2 +-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c         | 2 ++
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c         | 1 +
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c       | 1 -
+>  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c      | 1 -
 
-> > According to the hardware documentation[1], the access size for both
-> > the
-> > CSI_OFIFO and CSI_IFIFO registers is 32 bits, so you must use writel()
-> > resp. readl().  So please check with the hardware people first.
-> >
-> > [1] RZ/V2M User's Manual Hardware, Rev. 1.30.
->
-> You are right, access is 32 bits (and although this patch works fine,
-> we should avoid accessing those regs any other way). Now I remember
-> why I decided to go for the bespoke loops in the first place, writesl
-> and readsl provide the right register access, but the wrong pointer
-> arithmetic for this use case.
-> For this patch I ended up selecting writesw/writesb/readsw/readsb to
-> get the right pointer arithmetic, but the register access is not as
-> per manual.
->
-> I can either fallback to using the bespoke loops (I can still
-> remove the unnecessary u8* and u16* casting ;-) ), or I can add
-> new APIs for this sort of access to io.h (e.g. writesbl, writeswl,
-> readsbl, readswl, in order to get the pointer arithmetic right for
-> the type of array handled, while keeping memory access as expected).
->
-> What are your thoughts on that?
+For drivers/gpu/drm/renesas/rcar-du/
 
-I think that you need to use readsl() / writesl() on the custom buffer
-with something like
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_drv.c
+> index 1ffde19cb87f..3904b0cca814 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+> @@ -12,7 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_kms.c
+> index adfb36b0e815..9ff4537c26c8 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -20,8 +20,10 @@
+> =20
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> +#include <linux/of.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/wait.h>
+> =20
+>  #include "rcar_du_crtc.h"
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_vsp.c
+> index 45c05d0ffc70..9cbb5e6e2cba 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/bitops.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+>  #include <linux/videodev2.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gp=
+u/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> index e10e4d4b89a2..db2e6f16f954 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -12,7 +12,6 @@
+>  #include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/reset.h>
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/g=
+pu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> index aa95b85a2964..8048bdca2d6c 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
 
-*_sparse() / *_condence() APIs added (perhaps locally to this driver)
-as they may be reused by others in the future.
-Having all flavours of read*()/write*() does not scale in my opinion.
-
---=20
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
