@@ -2,91 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07124755EC8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 10:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7A4755ED9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 11:00:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjGQIxD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 04:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54350 "EHLO
+        id S229739AbjGQJAJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 05:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbjGQIxC (ORCPT
+        with ESMTP id S229827AbjGQJAI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 04:53:02 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25DDAE4B;
-        Mon, 17 Jul 2023 01:53:01 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-577ddda6ab1so60517547b3.0;
-        Mon, 17 Jul 2023 01:53:01 -0700 (PDT)
+        Mon, 17 Jul 2023 05:00:08 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3CC1BE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jul 2023 02:00:07 -0700 (PDT)
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 586373F730
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jul 2023 09:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1689584404;
+        bh=JHnHS0B61qcl/Td8/lm9RDjYsfSOyiiTTr5PsC3FWaA=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=iaYVq55rdX9ZOQzOEBnT6j8l7mCyW/myKb8kLteoxLQDt70VpKcY/sgOADb4ILtq2
+         DYbT2KH6OGmgKKhyfcW3A3DG/HULfhsmivJs6D/AvcVqcc1r3iKZsq3YZDBFcND2HC
+         cggBJvrvBWB3+7B72rqP5KJMgMcVpnfbv86zAvv6EijrKPCjae5MQ7+ihQRSDaBqjh
+         3PaZZsWRpkIaNIVhvi+AGH6ol2r5SX9j7VE0chX2x44XGJ2jrgUTSgu+31plGOEvEK
+         SSx/CG1LiJwdy7t9ciNCvh9oBR/Lwh+byC4ZDUAGEOi87EyRBtBG0pbB9G/vGSfkCN
+         FSowSxBDIOP4w==
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-767564705f5so492619485a.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jul 2023 02:00:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689583980; x=1692175980;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ESokity3SjM9JRRMG/QaRj+skICfRvp6MwvJNIUhFH4=;
-        b=Ovn3BB2LPl4m875AqX0uqIA7V6V/7QLRG1RWu/l7FQD79xJ0cs7aES7nlM94WlBOmo
-         0VjUe+YoLW5DoYlT0vpyh8ta4H66+wwKJ9DqAizk+iFYwJ52Y+2p+BaJpWfDh4uw4E0Q
-         jntM2hkxGh6kersBXeOPsSgE9SjjyV1OxmVoyESSrLHQmvu48kXftpvwuTTKDUMU86uk
-         rQIM7w49fueeCMzLTJBzBR2QdNiY1oEIBs5WIc8fFvIc1m0WzF4jPY0wCta+EhmPypGB
-         gmm8Y1l/TBmCNmScOEyI4oXhZrBxxx/88ApLK3+sV5oI+jM08ut2kiOUdc++SImbdFhy
-         5Ceg==
-X-Gm-Message-State: ABy/qLarGjQC0JoR6i3ZWdKWm8PEFQFPudqXlRcY30rEi7AWc2TEk6jd
-        y6bjQ1UBzhTzVgGeWD8vGAtK2FW+wzoaow==
-X-Google-Smtp-Source: APBJJlFOBLk7RmpXcUFPNPnAUKR0l0E3APRtnwBttK5/AIwQtSBqYOT3osLFDlnUmEpgoscA25ceuA==
-X-Received: by 2002:a81:4915:0:b0:577:186c:2a3c with SMTP id w21-20020a814915000000b00577186c2a3cmr9993078ywa.19.1689583980162;
-        Mon, 17 Jul 2023 01:53:00 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id r186-20020a0dcfc3000000b005772b76cb18sm3744731ywd.4.2023.07.17.01.52.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 01:52:59 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-bad0c4f6f50so6052856276.1;
-        Mon, 17 Jul 2023 01:52:59 -0700 (PDT)
-X-Received: by 2002:a25:df0c:0:b0:cb2:7e6:191c with SMTP id
- w12-20020a25df0c000000b00cb207e6191cmr11645536ybg.20.1689583979097; Mon, 17
- Jul 2023 01:52:59 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689584401; x=1692176401;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JHnHS0B61qcl/Td8/lm9RDjYsfSOyiiTTr5PsC3FWaA=;
+        b=Xxq8qbZ1mmtMkaG6MwDVlPHVXWkBATmyGQmN6kLtVS5LwNqC4JLLDkVcJorASHF4Bf
+         md5HGO/wjIldVzdtR+OOG6WD8BCE0oMM17OiCbTOW+gCdHPadE7hbmncxktbD0Zh4Fq5
+         O7isXjpzKrl/tdGIBvnReGKPCiNIkFkg4NlO3YuS8iwbwpyeh254X43OiFw0emQaKD2Y
+         lcr+Gv4mVoPqEMI9t0LbuPzSO7pQ55dJJNbDUXqeFxD40l+ZTZJ9M7QWKSXEK+sF+OVm
+         NF6AQKtJjL1Yb9LjzfI74iZjZZpLVRXkFxOYewyCe29pSd5EEi2wpwgYNnWDJX/vUR9/
+         KSOw==
+X-Gm-Message-State: ABy/qLZRUhllaAKovYUF+OY82Zsy7flSLNjT1nEVXRc0pPVXT2N4HK0C
+        +gI0Gre+sGtfdj+TgAx9e/g6A/BTsJ5XP8vIXAHbVs2RaNwFnKtUKOs4a6vYcqWtefxTwfrODb6
+        KzwjtU4+vpkJn7aolRczRlf79vysoKJhDg//vWINjBT67m5MPgRD96HiQwhfledob
+X-Received: by 2002:ac8:7c48:0:b0:403:2dfd:1fdf with SMTP id o8-20020ac87c48000000b004032dfd1fdfmr15892564qtv.23.1689584401499;
+        Mon, 17 Jul 2023 02:00:01 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEMazgMYki8IR1CHHFS4st+/s+/y1hah0oj0+nBQlO+NhXDM06BTdCzgvWJM4HcjDSd4KVriXj5Pmlo8MNpIrE=
+X-Received: by 2002:ac8:7c48:0:b0:403:2dfd:1fdf with SMTP id
+ o8-20020ac87c48000000b004032dfd1fdfmr15892526qtv.23.1689584401259; Mon, 17
+ Jul 2023 02:00:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230716175218.130557-1-biju.das.jz@bp.renesas.com> <20230716175218.130557-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230716175218.130557-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 Jul 2023 10:52:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUdhm_XZU8ShNCmHUGz0fbk5gfTA2yznR_15NvfEUFuNw@mail.gmail.com>
-Message-ID: <CAMuHMdUdhm_XZU8ShNCmHUGz0fbk5gfTA2yznR_15NvfEUFuNw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] iio: accel: adxl313: Use i2c_get_match_data
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Lucas Stankus <lucas.p.stankus@gmail.com>,
-        linux-iio@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
+References: <20230714174901.4062397-1-robh@kernel.org>
+In-Reply-To: <20230714174901.4062397-1-robh@kernel.org>
+From:   Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Date:   Mon, 17 Jul 2023 10:59:45 +0200
+Message-ID: <CAJM55Z_Eba-LKxKAH0i0_vDM6JO_HvWgDLCLFQDave2+UFLMzA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Explicitly include correct DT includes
+To:     Rob Herring <robh@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sean Wang <sean.wang@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Chester Lin <clin@suse.com>, NXP S32 Linux Team <s32@nxp.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jianlong Huang <jianlong.huang@starfivetech.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dvorkin Dmitry <dvorkin@tibbo.com>,
+        Wells Lu <wellslutw@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-oxnas@groups.io, linux-rockchip@lists.infradead.org,
+        linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Jul 16, 2023 at 7:52 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Replace of_device_get_match_data() and i2c_match_id() by i2c_get_match
-> _data() as we have similar I2C and DT-based matching table.
+On Fri, 14 Jul 2023 at 19:52, Rob Herring <robh@kernel.org> wrote:
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c | 5 +----
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c | 2 --
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c     | 1 -
 
-Gr{oetje,eeting}s,
+Acked-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+/Emil
