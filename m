@@ -2,167 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C64F7756944
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 18:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BE9F756A74
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 19:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjGQQfN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 12:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
+        id S231407AbjGQR3y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jul 2023 13:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjGQQfL (ORCPT
+        with ESMTP id S231347AbjGQR3r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 12:35:11 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2120.outbound.protection.outlook.com [40.107.113.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F87191;
-        Mon, 17 Jul 2023 09:35:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=msNt+uT3cT3juYdVp8ijnijxTKM75hbZi2aQnu9ECDP8aOvWB4ldOytZP5ijvFoW3ZSAJHzkK1x2y6F64VssEkr9EfTU2eBmG5w5WlenGlNlFu1L5OKUQ0HwTWHfD43futFf1PRHTEtIPjV5hXGMctpuZFoM1bFrTQBYLeb2QajsslqmCqkVCZ/tR5+r9qVhnJEJf9CeewiCAZ3aj875zK5hTD6KqehFmXzaZb+bE/oD7W6shNcTa6c/iN+ctvhQ3h1A4uLXWQ02XcwM4qw87kDK91YnopYBEuXbA1GyJ/prvye5BYnScsVjM2k8Y1gpqCGwg0wT4Nqncr1TyYO0TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lO43Tria0KpwGOR5/S0QvJOIe1v/jfK2g3ugTv2i0jk=;
- b=fohCSwZJEweUG8UaplAXZ1GPV1fEEkNx96BljnIVlpdBBtEhtsmo01hulSkiuBQpatkCQ3Fcnjcyzvwr5oDCu2iRxqhdOK0PVWfNKWkKrCQXtO4U2EaMWLTdOFWp1wa/N5GLbTfdVWFOx+/JnXQWYCDBFytzvgNp2KNA8RejoJJHk2xLlIwI/y0/AJEB1KDrKVTyfRcYi7CiTnhcadgIzYqKMq6J8OFjmMFh+BoRdaNmZd+6nrvsDsvehz9pdmHqCVQt1R+i65eW4TZaO3Ro1mki7t6C/8DT2Qwl3AcrBTovjURGpxaG63oILO7IzSapLIT0zKg2ghLixbiKGYi3iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lO43Tria0KpwGOR5/S0QvJOIe1v/jfK2g3ugTv2i0jk=;
- b=K3SuFzVyf9I+jvgiJP/Lx/W1MH+Nn7uRQexTb++SyCCMaIlUcvwPmc5hem68eKO/v/gcKK5a62woS2IxVIC3gRdQgr5mlaE/gh3Vo2YSql/GDgfxVDepGnPu/HEBRHdyBLuW2ha0Lng3i9lY9QXOsE99wq8VVLgF0sYSOGZ4Ibc=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSZPR01MB8720.jpnprd01.prod.outlook.com (2603:1096:604:158::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Mon, 17 Jul
- 2023 16:35:06 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::834b:28df:28dc:7f95]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::834b:28df:28dc:7f95%7]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
- 16:35:03 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     Mike Looijmans <mike.looijmans@topic.nl>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
+        Mon, 17 Jul 2023 13:29:47 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C3F1716;
+        Mon, 17 Jul 2023 10:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689614965; x=1721150965;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cfXxY8OSt6dnoWrqrmzF+bK5umSU80545NZ+VPDZ5MY=;
+  b=jUWdOK7rZE+3FkhptycuE6fFmLvh1SnUGqEf0Euh9UUpUBsMdsHSBgJP
+   1rCePC+IjMsA8QdILB6JT7WiOjIOFW57NT8B//JemO6Gwjg0NwvRpnwIm
+   LvxoFEDUNG74rSPNEnrCCX6EjDf7ehY0zijtHmBWdA2zpN1GdVurIqUCT
+   mvEmMOvwq4YPtLzkoNcLMAdEusA+Yy6N7xDdWfnLwhVhjFuQO3vuOQdOE
+   csf5a7wI9885m6xKtt1H0yHyj0kVy5O+wvjr8Mjw3DH5DHpIN5+O4MP8t
+   1isJggQgjwx7kDc3Sva4qi4z8NtHpElgR8OWqXMLEbiZD5jy9lQqDtnb7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="350854485"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="350854485"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 10:28:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="813426654"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="813426654"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2023 10:28:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id CBFC1256; Mon, 17 Jul 2023 20:28:39 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: RE: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Thread-Topic: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Thread-Index: AQHZuLEfke7PxT5AM0ulEoLw/IRIvq++HaYAgAAHzdA=
-Date:   Mon, 17 Jul 2023 16:35:02 +0000
-Message-ID: <OS0PR01MB592264ADC86061AB003048DD863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
- <20230717131756.240645-2-biju.das.jz@bp.renesas.com>
- <ZLVlIPHdmEGdG5D1@google.com>
-In-Reply-To: <ZLVlIPHdmEGdG5D1@google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB8720:EE_
-x-ms-office365-filtering-correlation-id: f63a68b4-7123-462a-f990-08db86e3c567
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: UZHih55y6pE6sEIGdXHBhx1JM0VJ4ugm1CkPM1QOZ59FWQjzT6W14+W0jR6iCr67qfscjI/7kwmQayQKRArABeYFF7doJcVTumqDBpAwgwg5FU1C3Wpusm8JtiUfY9tera2WB1GVrnbygoyHWB8ERCPg7g/F62pg0uFtL2zduNZQ58HqnX+2KZmcR2gOUkME5NiwKjQdVxC40g/E6AOHd81UoxDTVjm8J43c5DnL5eDDkFohspXDruSnO5QadaBhJeR078dVxeX52rOpeWN7Bx+JsBs7tdWuO28yFl64qcCi9oZSUEnp1MOMvrwCMqthNaVfs0Rs4t1qRN3GKUuyu6GqSq8OslliKTIjMFuitF/6rAwb/x3o0eaw0NQ2+LFTgl/SZpwtPsLQ5Ltr5EjrT1yqPi3lWcFMQRDX+/2S7zpX3dPNoIyOk5mNgx/kRuhHa8l/V8ZVMUR7d57W8g2pEh4IxLdMXYQcMDjT6Ihfyr5J1OVpxn9LKNw2NuMda4+maj0Djhe9piPDFHGCxlBPcB3OwuPeLMPi127odoxXpNQRK46GuXPY7HctAOJRwFtXyh0YRp3hQKYyq73xEbeQyG9ZzgUXQkFDAjN2Hs9aeM6tNqSAmD/WwpLA1CmB8gJT
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(451199021)(66556008)(66446008)(66476007)(54906003)(64756008)(86362001)(186003)(66946007)(76116006)(6916009)(4326008)(478600001)(41300700001)(9686003)(316002)(7696005)(71200400001)(38100700002)(8676002)(8936002)(38070700005)(26005)(5660300002)(6506007)(52536014)(83380400001)(2906002)(122000001)(53546011)(55016003)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?8bZw0s8WAvjDG1Rz/Ze5tbwH3drlQNhh53DRvggrmKF2s1HVbZOmBPRkGm?=
- =?iso-8859-1?Q?NePzu34wZ7pbE74hZ1ef/jzvvJUUnoK+c8joKjDe3PkJhAabDA+dvQmHs0?=
- =?iso-8859-1?Q?w/RSDw6+StEeUAHQ1OJ6J8UxZXxAaK1kBbcxMztPrjbrg+4OxsSTTOMLgl?=
- =?iso-8859-1?Q?QaPa6GGUyxYYKav0GOfFxuqWJLiFVCHBposAh9oxn+ycRq7ZlwG9WUowCI?=
- =?iso-8859-1?Q?kDYQcIPaUaegIrDKmjbaTyoIk/Y0WhiUcFnKrDaJeWf8JSHmL2oYVWY0Z9?=
- =?iso-8859-1?Q?388zU10feWIB74FoRKPTWyGtA2/k5rDxKz8vZNxjJWFNGMstnCE3NFpLRP?=
- =?iso-8859-1?Q?7blCBBAJ8hUIAhdf5cblFdx6mzehJH79ww85n1Y+Zm0b8MB+1cr7ZuWwas?=
- =?iso-8859-1?Q?2vw9/7EchcaY1443Bwc685JfMei4h2geeiGEPnrXYbZ/ULiiJrOSVkkl9h?=
- =?iso-8859-1?Q?e00lUKkkQaxWgw0Fd4bjHBiUP3JmvFFFsZcQEvQa41AFFJaeVkJnGT6acC?=
- =?iso-8859-1?Q?2C5KbibwkztprTs6A4M6L5OZcavv0OY3C2btmdcBTPSKSBmSRqJcIV6iyj?=
- =?iso-8859-1?Q?boaiY1pH00Qx2SzGwioPhjvI9oOO85GQDjgb74ghAA+BYzWSAbv6F6iyuo?=
- =?iso-8859-1?Q?Kn7x66R3XnAIOz6ZNvyzT5exE9fQeQ36zT2SMMfeonHhFp8qWkJMf7RCVA?=
- =?iso-8859-1?Q?6oSrON/l7RAg+DjlS9Vpk+fdYNsBR8S4jqu6721j5nakGnkKVsaY72hctX?=
- =?iso-8859-1?Q?/YEEhn2+rI4NH5JGc0ykb1yJTxrJyjOIevqZXT4qscerDzlXyYnRlXUmeW?=
- =?iso-8859-1?Q?yXJsm/meD1pbXZcHeYKbRynjn5RPUxU2nKyr13qwydNddjJvFpxW/MPlJS?=
- =?iso-8859-1?Q?E3hw7GGYAfsZHzjppGRdSjYZKt9KKcZ1CX08RGOF2UOhC525g5muYpDVkE?=
- =?iso-8859-1?Q?HR2RggWrmeuaAUUxGtR3TtYDrd2BUPHVeutyn+Hm4M67GQnJFLrGRtsEBu?=
- =?iso-8859-1?Q?oYyigYOu/tntOkWoCFIxpOmp7WlFADZOI7cmuR1290SrYdedLWhEDs3ox4?=
- =?iso-8859-1?Q?z+uem3N5sG1RgpKYK2qrD7rJbxGIAQ6yob8xKtIR4Tb3eqGVJ9obd51oL1?=
- =?iso-8859-1?Q?rxNOJQ3L43dt7FRtRFiKtR4zJlMkvOzERdjq/oniyO6yCxmrloTFCxUo7b?=
- =?iso-8859-1?Q?rRdREkkEfnulcXnN/kiXc5GLlEv84DSNmyYquTOvFglsq0yaNrcydzNZhr?=
- =?iso-8859-1?Q?WSRpUc3dJge6EhOFH4epudnvAF2EK9hE2om3Bw4EiF3BDefWTDcZzV8jsY?=
- =?iso-8859-1?Q?/nYile4zZLxB92DcAajnrvye3qAF5Uoo58FBQ+Vi7ykFmSvEzd1SOu93uL?=
- =?iso-8859-1?Q?EgIWLlHXKF0Wv/Wlxy5Kn4evE5p+D7DpDn3zstNeLt7poYvJ5nEi2W/IO8?=
- =?iso-8859-1?Q?WEsdwqjzGO955jjkiUTI+3Nj2F3xuLxIHWc22TAbwX90x4ve5Hk/6/yjYA?=
- =?iso-8859-1?Q?ONsBYW5M0guyCpXVpf5+HPf3jCJtyihD/+pna3LF/d1AQJvs2knOR74CR4?=
- =?iso-8859-1?Q?9tpNxbuk1gPtkMiweq8mF3BWo4Pn4OV1pduPpaF2meMDJiBeJoropTzsJs?=
- =?iso-8859-1?Q?lF+ODUM0pleF9tgOwFSkN8rsvIm96ImPHYW64C4i72Q+PhXOCKhrgAPA?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Cc:     Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
+Subject: [PATCH v2 00/10] pinctrl: Provide NOIRQ PM helper and use it
+Date:   Mon, 17 Jul 2023 20:28:11 +0300
+Message-Id: <20230717172821.62827-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f63a68b4-7123-462a-f990-08db86e3c567
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2023 16:35:03.0234
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WismvkofBO61/qiY+8/Wq/9XoF/W8T8/+H2lNnwzNAwaQo9px5WgssSpYAo7RCPBh/BooZxQhWfKfvEANPOGw8NcpFNm/hyPH3S1mmUGpwo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8720
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+ Mark and Wolfram
+Intel pin control drivers use NOIRQ variant of the PM callbacks.
+Besides that several other drivers do similar. Provide a helper
+to make them smaller and less error prone against different
+kernel configurations (with possible defined but not used variables).
 
-> -----Original Message-----
-> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Sent: Monday, July 17, 2023 4:58 PM
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: Mike Looijmans <mike.looijmans@topic.nl>; Andreas Helbech Kleist
-> <andreaskleist@gmail.com>; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>; linux-
-> input@vger.kernel.org; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
-> Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
->=20
-> Hi Biju,
->=20
-> On Mon, Jul 17, 2023 at 02:17:55PM +0100, Biju Das wrote:
-> > The exc3000_id.driver_data could store a pointer to the info, like for
-> > ACPI/DT-based matching, making I2C, ACPI and DT-based matching more
-> > similar.
-> >
-> > After that, we can simplify the probe() by replacing device_get_
-> > match_data() and i2c_match_id() by i2c_get_match_data() as we have
-> > similar I2C, ACPI and DT-based matching table.
->=20
-> Have you considered enhancing device_get_match_data() to allow for bus-
-> specific "get_match_data" implementations? This way the drivers would
-> simply call device_get_match_data() and not care if they are I2C, SPI,
-> or something else...
+The idea is to have an immutable branch that PM tree can pull as well as
+main pin control one. We also can do other way around, if Rafael prefers
+that.
 
-The .device_get_match_data callbacks are missing for I2C and SPI bus subsys=
-tems.
-Can you please throw some lights on this?=20
+Changelog v2:
+- rewritten commit message in patch 1 (Rafael)
+- converted non-Intel pin control drivers as well
+- added couple of kinda related patches to use pm_ptr()
 
-Cheers,
-Biju
+Andy Shevchenko (10):
+  pm: Introduce DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: baytrail: Make use of pm_ptr()
+  pinctrl: cherryview: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: intel: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: lynxpoint: Make use of pm_ptr()
+  pinctrl: at91: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: mediatek: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: mvebu: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: renesas: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
+  pinctrl: tegra: Switch to use DEFINE_NOIRQ_DEV_PM_OPS() helper
 
+ drivers/pinctrl/intel/pinctrl-baytrail.c      | 11 +++--------
+ drivers/pinctrl/intel/pinctrl-cherryview.c    |  9 ++-------
+ drivers/pinctrl/intel/pinctrl-intel.c         |  5 +----
+ drivers/pinctrl/intel/pinctrl-intel.h         |  9 ++-------
+ drivers/pinctrl/intel/pinctrl-lynxpoint.c     |  7 +++----
+ drivers/pinctrl/mediatek/pinctrl-mtk-common.c |  5 +----
+ drivers/pinctrl/mediatek/pinctrl-paris.c      |  9 +++------
+ drivers/pinctrl/mvebu/pinctrl-armada-37xx.c   | 14 +++-----------
+ drivers/pinctrl/pinctrl-at91.c                | 10 ++++------
+ drivers/pinctrl/renesas/core.c                | 16 +++++++---------
+ drivers/pinctrl/tegra/pinctrl-tegra.c         |  5 +----
+ include/linux/pm.h                            |  9 +++++++++
+ 12 files changed, 39 insertions(+), 70 deletions(-)
+
+-- 
+2.40.0.1.gaa8946217a0b
 
