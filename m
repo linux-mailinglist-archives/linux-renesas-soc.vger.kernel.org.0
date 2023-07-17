@@ -2,64 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0A6755F06
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 11:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2748D755F0C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jul 2023 11:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229450AbjGQJNb convert rfc822-to-8bit (ORCPT
+        id S229601AbjGQJQ6 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jul 2023 05:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        Mon, 17 Jul 2023 05:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbjGQJNa (ORCPT
+        with ESMTP id S229458AbjGQJQ6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jul 2023 05:13:30 -0400
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9461A10DC;
-        Mon, 17 Jul 2023 02:13:29 -0700 (PDT)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a44cccbd96so892964b6e.3;
-        Mon, 17 Jul 2023 02:13:29 -0700 (PDT)
+        Mon, 17 Jul 2023 05:16:58 -0400
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10836BF;
+        Mon, 17 Jul 2023 02:16:57 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4812e36d989so1246569e0c.0;
+        Mon, 17 Jul 2023 02:16:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689585209; x=1692177209;
+        d=1e100.net; s=20221208; t=1689585416; x=1692177416;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TdrN/ZJ0pC+C/CLOxTgcuvVVnl/hzHk0xaoKGe34MfY=;
-        b=YmuuiZnNyeE4iEm7VIi+wmwVW0dOUhJDD2kH8hWDx+E7IELUd+L4a/GvbVzjZYN4dI
-         e1c+E1i7K1OJLJcM+aSau1FoLnyfpJupOLjqQ9Y5cILbz9OFtHL3F/u2Mt9TNb+kTelV
-         QfgUzx1REK3/uf4xNWgvPjt2bUZhJZSZNxQ5IGo8MVjGdTz6MVxg/TpOftIa+WNIbdV6
-         HyacrkevFAE73gVCw3jKQ0H3P+xRZpLuAHtSKiiDp48yfLBKqt8o+HCCixqpWM+0h+MS
-         2xev/qWSeKYzIEFfbpvKqGpyz7puTFqwbmXVo+Oa8EooxOhE/6WpHu45+KEL4kAFCLzI
-         Kq/A==
-X-Gm-Message-State: ABy/qLaE7wf5yriI7FssHqWl2E7Q6EiYxrf5u9+khM9vDoblw7NYMSCW
-        m45dhqfNLCMB9wtAzSLoMaWDPIECk7Y/GQ==
-X-Google-Smtp-Source: APBJJlGBqS8Km2Ka0fM4r9XIHn21dUt6mvAhBVwoRsTu2i4maxm4gX93iemdMmGz5NRwb2qUqKYSOg==
-X-Received: by 2002:a05:6358:9211:b0:134:c584:5585 with SMTP id d17-20020a056358921100b00134c5845585mr6286134rwb.3.1689585208571;
-        Mon, 17 Jul 2023 02:13:28 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id r186-20020a8181c3000000b00577357201e2sm3753414ywf.14.2023.07.17.02.13.28
+        bh=nR0NNkRHQMImNSlPZe0+LpHYgBtzrVjpsMNsBClDx0o=;
+        b=fsbz2S2YugShXE7g/2SSaTZ43dw4LI+nvOr8wfDo2LVrpe+L9OFu1OpLBY7tFDMN4K
+         wq7Me7u9/mxyu58XPAC1HNzitj15BR9wA50kkhzNk3Ty+wF9RVwMm8cbFLsWtp+Zku+H
+         XUZIVBa8RNtocGaVgMQlCQCqaxEWnyuBA0jOZOaPYLpkOQ2WQ/6A551logLB4WdEM2rX
+         9RTcnYnKAlL7kGYj/vjG9/Rox40gi8ii+B6Tg5tpsLPXIAMvSOrldWCxppinUT55QMQw
+         i+2qNe7Kh0ogSWM88l5KA2jKGhdounxyR7MGaSazqW0MxI0Mu4EjD1ltAp7b9BMlveL9
+         odtQ==
+X-Gm-Message-State: ABy/qLY6XLmmIlXKqc8KQ4K9nxMxohe/jhQswUoveuVpjvfoPHjEt4N4
+        OdaUTLgVYLjnGQAmxp4jFSMMoHyo3DOZcg==
+X-Google-Smtp-Source: APBJJlF6vCHOcBFVn2MExqIyd5YK618wFe9KeAs9d3YM2SzL0avSUU8xs+PtozjJCYlbfsrT3Czm6g==
+X-Received: by 2002:a1f:5f55:0:b0:44f:e6ff:f30e with SMTP id t82-20020a1f5f55000000b0044fe6fff30emr5507428vkb.10.1689585415895;
+        Mon, 17 Jul 2023 02:16:55 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id g1-20020ac5c5c1000000b004814091d81fsm1528668vkl.31.2023.07.17.02.16.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 02:13:28 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c15a5ed884dso4342065276.2;
-        Mon, 17 Jul 2023 02:13:28 -0700 (PDT)
-X-Received: by 2002:a25:8290:0:b0:c16:ba32:1b1c with SMTP id
- r16-20020a258290000000b00c16ba321b1cmr10758324ybk.58.1689585208148; Mon, 17
- Jul 2023 02:13:28 -0700 (PDT)
+        Mon, 17 Jul 2023 02:16:55 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-44096f01658so1406495137.0;
+        Mon, 17 Jul 2023 02:16:55 -0700 (PDT)
+X-Received: by 2002:a67:ed84:0:b0:443:6cb3:ea61 with SMTP id
+ d4-20020a67ed84000000b004436cb3ea61mr4430457vsp.18.1689585415081; Mon, 17 Jul
+ 2023 02:16:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230716182455.216335-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230716182455.216335-1-biju.das.jz@bp.renesas.com>
+References: <20230716185108.283447-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230716185108.283447-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 Jul 2023 11:13:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUSxVxuiwtbHR8OP35Hjsq34=FPfjBccVVoYQUzO6FK9Q@mail.gmail.com>
-Message-ID: <CAMuHMdUSxVxuiwtbHR8OP35Hjsq34=FPfjBccVVoYQUzO6FK9Q@mail.gmail.com>
-Subject: Re: [PATCH] Input: exc3000 - Simplify probe()
+Date:   Mon, 17 Jul 2023 11:16:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX2NuqFVW5LBV4xY9ecU1z5oAVwAj=tebiuu+377EBaig@mail.gmail.com>
+Message-ID: <CAMuHMdX2NuqFVW5LBV4xY9ecU1z5oAVwAj=tebiuu+377EBaig@mail.gmail.com>
+Subject: Re: [PATCH] i2c: mux: ltc4306: Simplify probe()
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        linux-input@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Peter Rosin <peda@axentia.se>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        linux-i2c@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -76,14 +72,14 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Sun, Jul 16, 2023 at 8:25 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The exc3000_id.driver_data could store a pointer to the info,
-> like for ACPI/DT-based matching, making I2C, ACPI and DT-based
-> matching more similar.
+On Sun, Jul 16, 2023 at 8:51 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The ltc4306_id[].driver_data could store a pointer to the chips,
+> like for DT-based matching, making I2C and DT-based matching
+> more similar.
 >
 > After that, we can simplify the probe() by replacing of_device_get_
 > match_data() and i2c_match_id() by i2c_get_match_data() as we have
-> similar I2C, ACPI and DT-based matching table.
+> similar I2C and DT-based matching table.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
@@ -92,35 +88,27 @@ Thanks for your patch!
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 A suggestion for improvement (which can be a separate patch, as it would
-touch exc3000_of_match[]) below.
+touch ltc4306_of_match[] too) below.
 
-> ---
->  drivers/input/touchscreen/exc3000.c | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-> index 4c0d99aae9e0..8b65b4e2aa50 100644
-> --- a/drivers/input/touchscreen/exc3000.c
-> +++ b/drivers/input/touchscreen/exc3000.c
-> @@ -445,9 +441,9 @@ static int exc3000_probe(struct i2c_client *client)
+> --- a/drivers/i2c/muxes/i2c-mux-ltc4306.c
+> +++ b/drivers/i2c/muxes/i2c-mux-ltc4306.c
+> @@ -192,8 +192,8 @@ static int ltc4306_deselect_mux(struct i2c_mux_core *muxc, u32 chan)
 >  }
 >
->  static const struct i2c_device_id exc3000_id[] = {
-> -       { "exc3000", EETI_EXC3000 },
-> -       { "exc80h60", EETI_EXC80H60 },
-> -       { "exc80h84", EETI_EXC80H84 },
-> +       { "exc3000", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC3000] },
-> +       { "exc80h60", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H60] },
-> +       { "exc80h84", .driver_data = (kernel_ulong_t)&exc3000_info[EETI_EXC80H84] },
+>  static const struct i2c_device_id ltc4306_id[] = {
+> -       { "ltc4305", ltc_4305 },
+> -       { "ltc4306", ltc_4306 },
+> +       { "ltc4305", .driver_data = (kernel_ulong_t)&chips[ltc_4305] },
+> +       { "ltc4306", .driver_data = (kernel_ulong_t)&chips[ltc_4306] },
 
-As after this the eeti_dev_id values are used only for hardcoded
-indexing inside the exc3000_info array, you can get rid of them by
-splitting the array in individual variables, shortening the lines above
-(and in exc3000_of_match[] below) in the process.
+As after this the ltc_type enum values are used only for hardcoded
+indexing inside the chips array, you can get rid of them by splitting
+the array in individual variables, shortening the lines above
+(and in ltc4306_of_match[] below) in the process.
 
 >         { }
 >  };
->  MODULE_DEVICE_TABLE(i2c, exc3000_id);
+>  MODULE_DEVICE_TABLE(i2c, ltc4306_id);
 
 Gr{oetje,eeting}s,
 
