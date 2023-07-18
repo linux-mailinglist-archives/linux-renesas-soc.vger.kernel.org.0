@@ -2,134 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D44957584E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 20:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EDFA758501
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 20:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbjGRSgm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 14:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36192 "EHLO
+        id S230146AbjGRSqy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 14:46:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230249AbjGRSgl (ORCPT
+        with ESMTP id S229452AbjGRSqx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 14:36:41 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 168FFE8;
-        Tue, 18 Jul 2023 11:36:39 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bb119be881so41282465ad.3;
-        Tue, 18 Jul 2023 11:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689705398; x=1692297398;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ngs6NxqbbvKL5FGt10bZTML0qOvGXRNhOAXTfCZSuew=;
-        b=q9m1OtZKhN3VSqPbAApc76mgUM5Y/Bu3h9znBFqRO+gH9FL3aSv9ukyCf8SRaLoVPe
-         Nj3NcP3IAFCHYZz31ruYkH6UPrt7pO03cNHppaa3aOuZZOkaN6KqKQ1w2TNC4AfFks0b
-         nGD+0MpkWrbps0UNGbyHpwtvKqrOvBIlLJ1K++MJdk+//8X5RsxKO/3v4LNfdYSUMjgF
-         sbHEieXZOldT9tmTg7Zsb7VXS7GoR0VLknnE2YTnPXobF+Le3tqW+ufwoj0JzkKjF0+j
-         Kh79kHyqIHfQvZ/aAByD9wwqMOywgcPcMamQZHkMUx4dAyjV8CqUBbJw86CcxNnq9mKc
-         pJ2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689705398; x=1692297398;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ngs6NxqbbvKL5FGt10bZTML0qOvGXRNhOAXTfCZSuew=;
-        b=IgRjJyQ36KkfFvhyEmgxfbvQhrR+Wh0fAQaTGtNxU0fYDkN37GiE58ruip5CdqECJN
-         XuZECZ6ON7jVRGZsB34g3yL3RxEFNFDlklfK2C25Hp59IFK3npmiDy+3YA3M4rvOeyWM
-         3ykqjRE2ks6h11gGxnfV1tNFvYJ8xBB1iND8YUAVnwoIKHosDowCINGM1dyPyij563Gx
-         Hc7faxODGCYOTiFEl78Uzkle3IPXyRpsuUWV1xxdKoUFxPt7ulGCI5El2vXrX2hQ+l5a
-         Z9epcTNdPwVcN+tbrw+bPHxGGn8pcNC9wCmDQCwBG2zy4TXZwOpFXUiaOvKGVMOuaUjd
-         sIow==
-X-Gm-Message-State: ABy/qLZstU3UMVIFT1mvCgPH5tkrBpiq9WjkoD4vcynJIxbJ2pHCErih
-        0SUEv1p6t5Gio9tCY3lDN9c=
-X-Google-Smtp-Source: APBJJlHjzkwqorRZXPAnihurwm3BMbvKE5lTP2uD0GkPBdxUx1Ujb6AY6SEEWQ9pbWtVvOyNWXcD1Q==
-X-Received: by 2002:a17:903:230e:b0:1b9:e97f:3846 with SMTP id d14-20020a170903230e00b001b9e97f3846mr20970670plh.15.1689705398201;
-        Tue, 18 Jul 2023 11:36:38 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:798:b6f:a67a:7ac1])
-        by smtp.gmail.com with ESMTPSA id 4-20020a170902c14400b001b9bebb7a9dsm2210659plj.90.2023.07.18.11.36.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 11:36:37 -0700 (PDT)
-Date:   Tue, 18 Jul 2023 11:36:34 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Mike Looijmans <mike.looijmans@topic.nl>,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-Message-ID: <ZLbbslBiIQXFWpmN@google.com>
-References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
- <20230717131756.240645-2-biju.das.jz@bp.renesas.com>
- <ZLVlIPHdmEGdG5D1@google.com>
- <OS0PR01MB592264ADC86061AB003048DD863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <66228ad3-c087-418c-925f-b9fd4a60fb16@sirena.org.uk>
- <ZLWIPPAfeR1+KbeH@google.com>
- <OS0PR01MB59225D8CF3E96808DD776A8E863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Tue, 18 Jul 2023 14:46:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1C4F0;
+        Tue, 18 Jul 2023 11:46:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A1078616B0;
+        Tue, 18 Jul 2023 18:46:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4155EC433C8;
+        Tue, 18 Jul 2023 18:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689706012;
+        bh=E0xg5i3PsLwOZ+xVGItr6XQ7+8A2YuzDBfiyQIwFzqA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=MU318Xy59qZ603MLkd+k/kl6Yoxs5wgtXp8/WgKKqy/TrNUu2PhK+dzMqSpIcauzc
+         IxZ1oanjeNzrmB0rRZZge9DsldEn3DltuGHFUJ9tyUBAcCsPGfZ2Rf+/dNU1tXUUhE
+         PZczng3wybrlynsh+zlM5rm6MlyQ09QkLAyEDH5tj45WCDoIWmN1dglHcZ5VCWob5C
+         qY7nrHl/oINGa3rMkUYiSfGWH5zaQ8oKM3JWYZJeFEJP5IfQANYPvgx7PH+u3JZfBA
+         60gC0M5krkVXx8wbhKFi/A4CDRoe+2OSl6Ho5A+ymc/r5tOD/+ngV4gywpEE5xXLnJ
+         tb0bJCobZ9uWg==
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20230715010407.1751715-1-fabrizio.castro.jz@renesas.com>
+References: <20230715010407.1751715-1-fabrizio.castro.jz@renesas.com>
+Subject: Re: (subset) [PATCH 00/10] spi: rzv2m-csi: Code refactoring
+Message-Id: <168970600997.94192.11376983705102685200.b4-ty@kernel.org>
+Date:   Tue, 18 Jul 2023 19:46:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59225D8CF3E96808DD776A8E863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 06:45:27PM +0000, Biju Das wrote:
-> Hi Dmitry,
+On Sat, 15 Jul 2023 02:03:57 +0100, Fabrizio Castro wrote:
+> this series is to follow up on Geert and Andy feedback:
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230622113341.657842-4-fabrizio.castro.jz@renesas.com/
 > 
-> > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
-> > 
-> > On Mon, Jul 17, 2023 at 07:15:50PM +0100, Mark Brown wrote:
-> > > On Mon, Jul 17, 2023 at 04:35:02PM +0000, Biju Das wrote:
-> > >
-> > > > The .device_get_match_data callbacks are missing for I2C and SPI bus
-> > subsystems.
-> > > > Can you please throw some lights on this?
-> > >
-> > > It's the first time I've ever heard of that callback, I don't know why
-> > > whoever added it wouldn't have done those buses in particular or if it
-> > > just didn't happen.  Try adding it and if it works send the patches?
-> > 
-> > I think there is a disconnect. Right now device_get_match_data callbacks
-> > are part of fwnode_operations. I was proposing to add another optional
-> > device_get_match_data callback to 'struct bus_type' to allow individual
-> > buses control how match data is handled, before (or after) jumping into
-> > the fwnode-backed device_get_match_data callbacks.
+> Thanks,
+> Fab
 > 
-> That is what implemented here [1] and [2] right?
+> Fabrizio Castro (10):
+>   spi: rzv2m-csi: Add missing include
+>   spi: rzv2m-csi: Adopt HZ_PER_MHZ for max spi clock
+>   spi: rzv2m-csi: Rework CSI_CKS_MAX definition
+>   spi: rzv2m-csi: Leave readl_poll_timeout calls for last
+>   spi: rzv2m-csi: Replace unnecessary ternary operators
+>   spi: rzv2m-csi: Squash timing settings into one statement
+>   spi: rzv2m-csi: Switch to using {read,write}s{b,w}
+>   spi: rzv2m-csi: Improve data types and alignment
+>   spi: rzv2m-csi: Get rid of the x_trg{_words} tables
+>   spi: rzv2m-csi: Make use of device_set_node
 > 
-> [1] https://elixir.bootlin.com/linux/v6.5-rc2/source/drivers/i2c/i2c-core-base.c#L117
-> [2] https://elixir.bootlin.com/linux/v6.5-rc2/source/drivers/spi/spi.c#L364
-> 
-> First it check for fwnode-backed device_get_match_data callbacks and
-> Fallback is bus-type based match.
-> 
-> Looks like you are proposing to unify [1] and [2] and you want the
-> logic to be other way around. ie, first bus-type match, then
-> fwnode-backed callbacks?
-> 
+> [...]
 
-I do not have a strong preference for the ordering, i.e. I think it is
-perfectly fine to do the generic fwnode-based lookup and if there is no
-match have bus method called as a fallback, but I do not want driver
-writers to learn about multiple <bus-prefix>_get_match_data()
-implementations, I would prefer if they could call
-device_get_match_data() and the right thing happened in all cases.
+Applied to
 
-Thanks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
--- 
-Dmitry
+Thanks!
+
+[01/10] spi: rzv2m-csi: Add missing include
+        commit: f572ba797c639c9b1705908d3f5d71ed7c3f53e0
+[02/10] spi: rzv2m-csi: Adopt HZ_PER_MHZ for max spi clock
+        commit: 74e27ce8d23c3aeb1a9fdcaf6261462506bbbfc3
+[03/10] spi: rzv2m-csi: Rework CSI_CKS_MAX definition
+        commit: aecf9fbdb7a4dc6d83e8d9984c8d9dc074d8ea2e
+[04/10] spi: rzv2m-csi: Leave readl_poll_timeout calls for last
+        commit: 2ed2699f58891c72fcd462129345d09424f986c5
+[05/10] spi: rzv2m-csi: Replace unnecessary ternary operators
+        commit: 9f5ac599801c0f7c0969fa94c638265ed988b9bc
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
