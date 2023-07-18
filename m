@@ -2,131 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61D827576E5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 10:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3C47577F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 11:28:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232001AbjGRInQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 04:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60012 "EHLO
+        id S232350AbjGRJ2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 05:28:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232030AbjGRIm7 (ORCPT
+        with ESMTP id S232314AbjGRJ2G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 04:42:59 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B77F1A6;
-        Tue, 18 Jul 2023 01:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1689669770;
+        Tue, 18 Jul 2023 05:28:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00EB7FD
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 02:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689672438;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lvBHRW1hX7jSHUc5Dd1yf8Vt754q3/Qv7wxhKNRg9lU=;
-        b=maEuuMJ23VwXgPP1BYNWDWH9FoDi8ssbRkcHwVHdHZ+2liVDNNtSFXoi/Ucm7tD8fFcWkz
-        Y1+1pyzlgXX8KdYt9Wa7GKYCY48VbAbD6BnoH3PHwrKdfGz5uVVGeT1MlJH1yeEkON6JDi
-        BIcoju3Ka9xM3kidK/COzZ4sCOkXIp0=
-Message-ID: <5e4b5bc23f3edb3ed30cb465420a51ffceceb53d.camel@crapouillou.net>
-Subject: Re: [PATCH v2 10/10] pinctrl: tegra: Switch to use
- DEFINE_NOIRQ_DEV_PM_OPS() helper
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Balsam CHIHI <bchihi@baylibre.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
-Date:   Tue, 18 Jul 2023 10:42:47 +0200
-In-Reply-To: <ZLZDL27zzDpY4q8E@orome>
-References: <20230717172821.62827-1-andriy.shevchenko@linux.intel.com>
-         <20230717172821.62827-11-andriy.shevchenko@linux.intel.com>
-         <13f7153786cfcdc3c6185a3a674686f7fbf480dc.camel@crapouillou.net>
-         <ZLZDL27zzDpY4q8E@orome>
+        bh=z0vyMeOfw7fSC/qxKnZBBj+xlz8lL8pZMksMNnnuzCg=;
+        b=K7TqF0DNUlcG9za22J4Zz7DRxNCZQ3nix1UAh2gErwSgekXMLIhPvNGwNCQqqTFyNMdwhy
+        etWVYGfmGf6QJaOGaHpOHCzwxkezWulucN8FEtJUtDoprmEn3RA4SZglG0Xt8+fe/Ddwi5
+        FG/j3EbMWqoPAJ0KlAKvKiRo6VXdn0A=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-7-LujUMrUpMVC3m_5EMgmTuw-1; Tue, 18 Jul 2023 05:27:16 -0400
+X-MC-Unique: LujUMrUpMVC3m_5EMgmTuw-1
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-635eb5b04e1so13842256d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 02:27:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689672436; x=1690277236;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z0vyMeOfw7fSC/qxKnZBBj+xlz8lL8pZMksMNnnuzCg=;
+        b=AFQ3Kjh0zduLMiVRUMnO8//LABeRWitoHlXz1SHZtXAY/nxhIQIQIO7hBbeeJfOJw4
+         Diryci+Q6JpniUcV+WmRgbJUb7FcukHUj2NAUVM3Svgd3X5hiYNzWA7qpU9k/j6FqTe5
+         eLP+/zPdht7gU3tw1Y2mCoHO1YxwMCTDQil6lfXap/JHq/cXC6RdiXuS//SDXButcFLo
+         qtwLoEimJckyPKkEsX5rs1T6Nsxv5ZzDpyKIlYa78If5AH/JCuUXUiXDz3USaEQjadRk
+         Ij2keZoogFLOzqma65FJ+3cNgfPaEYC0lGhwYCucM1JefWaqEq4eOj4qBdfHhNN/+rKb
+         Gngg==
+X-Gm-Message-State: ABy/qLblSpJgaNUI5L4fRZt7iJKCBlTlPy+dCuuuHGz2yPQhvKZs3Lsv
+        FDNhFUIwrA2YqwJ1rjdZk1iTHmRE67w/gmkNo99/bq2Ac/RjTBWGNCo5FHC34EOJdmVWkCU1aw8
+        Aals9zVxPViM1/bIF9Dn89kFg1jJb+mA=
+X-Received: by 2002:a05:6214:509d:b0:63c:7427:e7e9 with SMTP id kk29-20020a056214509d00b0063c7427e7e9mr12261351qvb.6.1689672436182;
+        Tue, 18 Jul 2023 02:27:16 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFYFNw7x3jThmvZICEe6iXFu0qG+zQql7vEpRKMvc0qVPxJUK7o8zW+ji84Z85dUEkIw+qD2g==
+X-Received: by 2002:a05:6214:509d:b0:63c:7427:e7e9 with SMTP id kk29-20020a056214509d00b0063c7427e7e9mr12261327qvb.6.1689672435965;
+        Tue, 18 Jul 2023 02:27:15 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-226-170.dyn.eolo.it. [146.241.226.170])
+        by smtp.gmail.com with ESMTPSA id h10-20020a0cf20a000000b00635fc10afd6sm592785qvk.70.2023.07.18.02.27.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 02:27:15 -0700 (PDT)
+Message-ID: <ee31215ededd386eba19fb62b0de8d0bad78d687.camel@redhat.com>
+Subject: Re: [PATCH] net: Explicitly include correct DT includes
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Alex Elder <elder@ieee.org>, Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-wpan@vger.kernel.org, ath10k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        wcn36xx@lists.infradead.org
+Date:   Tue, 18 Jul 2023 11:27:10 +0200
+In-Reply-To: <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
+References: <20230714174809.4060885-1-robh@kernel.org>
+         <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thierry,
+Hi,
 
-Le mardi 18 juillet 2023 =C3=A0 09:45 +0200, Thierry Reding a =C3=A9crit=C2=
-=A0:
-> On Mon, Jul 17, 2023 at 09:14:12PM +0200, Paul Cercueil wrote:
-> > Hi Andy,
+On Sat, 2023-07-15 at 10:11 -0500, Alex Elder wrote:
+> On 7/14/23 12:48 PM, Rob Herring wrote:
+> > The DT of_device.h and of_platform.h date back to the separate
+> > of_platform_bus_type before it as merged into the regular platform bus.
+> > As part of that merge prepping Arm DT support 13 years ago, they
+> > "temporarily" include each other. They also include platform_device.h
+> > and of.h. As a result, there's a pretty much random mix of those includ=
+e
+> > files used throughout the tree. In order to detangle these headers and
+> > replace the implicit includes with struct declarations, users need to
+> > explicitly include the correct includes.
 > >=20
-> > Le lundi 17 juillet 2023 =C3=A0 20:28 +0300, Andy Shevchenko a =C3=A9cr=
-it=C2=A0:
-> > > Since pm.h provides a helper for system no-IRQ PM callbacks,
-> > > switch the driver to use it instead of open coded variant.
-> > >=20
-> > > Signed-off-by: Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com>
-> > > ---
-> > > =C2=A0drivers/pinctrl/tegra/pinctrl-tegra.c | 5 +----
-> > > =C2=A01 file changed, 1 insertion(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c
-> > > b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> > > index 4547cf66d03b..734c71ef005b 100644
-> > > --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-> > > +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> > > @@ -747,10 +747,7 @@ static int tegra_pinctrl_resume(struct
-> > > device
-> > > *dev)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> > > =C2=A0}
-> > > =C2=A0
-> > > -const struct dev_pm_ops tegra_pinctrl_pm =3D {
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.suspend_noirq =3D &tegra_=
-pinctrl_suspend,
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.resume_noirq =3D &tegra_p=
-inctrl_resume
-> > > -};
-> > > +DEFINE_NOIRQ_DEV_PM_OPS(tegra_pinctrl_pm, tegra_pinctrl_suspend,
-> > > tegra_pinctrl_resume);
-> > > =C2=A0
-> > > =C2=A0static bool tegra_pinctrl_gpio_node_has_range(struct tegra_pmx
-> > > *pmx)
-> > > =C2=A0{
-> >=20
-> > Another driver where using EXPORT_GPL_DEV_PM_OPS() would make more
-> > sense.
+> > Signed-off-by: Rob Herring <robh@kernel.org>
 >=20
-> We don't currently export these PM ops because none of the Tegra
-> pinctrl
-> drivers can be built as a module.
+> (I significantly reduced the addressee list to permit the message
+> to be sent.)
+>=20
+> For "drivers/net/ipa/ipa_main.c":
+>=20
+> Acked-by: Alex Elder <elder@linaro.org>
 
-This doesn't change anything. You'd want to use EXPORT_GPL_DEV_PM_OPS
-(or better, the namespaced version) so that the PM ops can be defined
-in one file and referenced in another, while still having them garbage-
-collected when CONFIG_PM is disabled.
+The patch does not apply cleanly to net-next. Rob, could you please re-
+spin it? While at that, have you considered splitting it in a few
+smaller patches (e.g. can, dsa, freescale, ibm, marvel, mediatek,
+stmmicro,  sun, ti, xilinx, wireless, remaining)?
 
-Cheers,
--Paul
+Thanks!
+
+Paolo
+
