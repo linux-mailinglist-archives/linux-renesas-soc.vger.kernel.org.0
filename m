@@ -2,96 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A7F757F7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 16:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BA13757F8A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 16:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232859AbjGROaw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 10:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50338 "EHLO
+        id S232956AbjGRObW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 10:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbjGROat (ORCPT
+        with ESMTP id S232096AbjGRObV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 10:30:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B529E;
-        Tue, 18 Jul 2023 07:30:46 -0700 (PDT)
+        Tue, 18 Jul 2023 10:31:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3C1170E;
+        Tue, 18 Jul 2023 07:31:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EAA6F615DD;
-        Tue, 18 Jul 2023 14:30:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86FBAC433C7;
-        Tue, 18 Jul 2023 14:30:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A511E615A9;
+        Tue, 18 Jul 2023 14:31:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD910C433C9;
+        Tue, 18 Jul 2023 14:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689690645;
-        bh=C1ZOzm/Pw7IVXJNFy9j+wAwq/2bOUY9836t5/c65Apg=;
+        s=k20201202; t=1689690664;
+        bh=HFuY1Cjqgujo0hwfrqnQglAT2HUw2FWQel+8316MUmk=;
         h=From:To:Cc:Subject:Date:From;
-        b=PgP9uoW3S6y09XUTUNwdM7kwJ7+Aq3knB1l0CUlF6cHpcGaHY9rNCi/4qG0edsq3p
-         DdA9nszHelZSylrm28vn5Ry/M3MKhMjaeaymhch3lY7XS8f+l340+Kq8bv/dVhgNzv
-         VbcL/dITrvFSxWLKcnonnust3jiBPxqSSpUYKICb0EYOj0tD6qCh+mJNXyUeUt1EIa
-         K+tcNAJ9Pua8C74Y/x+T11aAZy3LkhKfkPXgiyNWPWzU6WnrJJS81oEF5EDHL1OUsu
-         2UtOCAFWxhnhZm9uqhwspOnV2l8QW8HzsqplRnoHGqKX6qKAQXS8hWnyM0uwDZVuY/
-         AOFDSI3syDmRQ==
-Received: (nullmailer pid 1065026 invoked by uid 1000);
-        Tue, 18 Jul 2023 14:30:39 -0000
+        b=c2AMHtG3EDEzhWpumzWjIXtZxVQHy8w8ayUmbYRQ0qKSH6FcauoW8JEL8hwoqi1tu
+         Kj6kwMY23MewN95GtN4Ld/mD34FwOvkZTlwcsFTcHD0AEtkSLEVnICivnenZbSBO9D
+         kRj/joyjG0/U2wvZum6qnC+sIvqBkN1pDy1jmS5RmOoljqCXMTuGTQgpjMnEoYO3sR
+         UlIfEf7kHw5z+npN+BKPgtEXxPB9FBeikeBRO+iwYq93g7cXbDIHRqHhlR8lfnRmpm
+         P6WvQYnK5iMfOkLB+6WER9X5GhxP+xfBCuG6ypcrtVNDuGsTFNLOmBn1ktBfp1CmHV
+         Azq5U9DkaihCA==
+Received: (nullmailer pid 1065421 invoked by uid 1000);
+        Tue, 18 Jul 2023 14:30:58 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To:     Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Robert Richter <rric@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Chaotian Jing <chaotian.jing@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Li Yang <leoyang.li@nxp.com>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Richard Leitner <richard.leitner@linux.dev>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Florian Fainel li <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Haibo Chen <haibo.chen@nxp.com>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2] usb: Explicitly include correct DT includes
-Date:   Tue, 18 Jul 2023 08:30:23 -0600
-Message-Id: <20230718143027.1064731-1-robh@kernel.org>
+        Michal Simek <michal.simek@amd.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Ben Dooks <ben-linux@fluff.org>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-actions@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v2] mmc: Explicitly include correct DT includes
+Date:   Tue, 18 Jul 2023 08:30:52 -0600
+Message-Id: <20230718143054.1065288-1-robh@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -108,742 +115,425 @@ files used throughout the tree. In order to detangle these headers and
 replace the implicit includes with struct declarations, users need to
 explicitly include the correct includes.
 
-Acked-by: Herve Codina <herve.codina@bootlin.com>
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 v2:
 - Fix double include of of.h
 ---
- drivers/usb/cdns3/cdns3-gadget.c                    | 1 +
- drivers/usb/cdns3/cdns3-plat.c                      | 1 +
- drivers/usb/cdns3/cdns3-ti.c                        | 1 +
- drivers/usb/cdns3/core.c                            | 1 +
- drivers/usb/chipidea/ci_hdrc_imx.c                  | 1 +
- drivers/usb/chipidea/ci_hdrc_tegra.c                | 3 ++-
- drivers/usb/chipidea/usbmisc_imx.c                  | 3 ++-
- drivers/usb/common/common.c                         | 1 +
- drivers/usb/core/message.c                          | 1 +
- drivers/usb/core/of.c                               | 1 -
- drivers/usb/core/usb.c                              | 1 +
- drivers/usb/dwc2/gadget.c                           | 1 -
- drivers/usb/dwc2/platform.c                         | 2 +-
- drivers/usb/dwc3/dwc3-imx8mp.c                      | 1 +
- drivers/usb/dwc3/dwc3-keystone.c                    | 1 +
- drivers/usb/gadget/udc/fsl_udc_core.c               | 1 -
- drivers/usb/gadget/udc/gr_udc.c                     | 5 ++---
- drivers/usb/gadget/udc/max3420_udc.c                | 4 +---
- drivers/usb/gadget/udc/pxa27x_udc.c                 | 2 +-
- drivers/usb/gadget/udc/renesas_usb3.c               | 2 +-
- drivers/usb/gadget/udc/renesas_usbf.c               | 5 ++---
- drivers/usb/gadget/udc/tegra-xudc.c                 | 1 -
- drivers/usb/gadget/udc/udc-xilinx.c                 | 6 ++----
- drivers/usb/host/ehci-fsl.c                         | 2 +-
- drivers/usb/host/ehci-orion.c                       | 2 --
- drivers/usb/host/fhci-hcd.c                         | 3 ++-
- drivers/usb/host/fsl-mph-dr-of.c                    | 3 ++-
- drivers/usb/host/ohci-at91.c                        | 2 +-
- drivers/usb/host/ohci-da8xx.c                       | 1 +
- drivers/usb/host/ohci-ppc-of.c                      | 3 ++-
- drivers/usb/host/xhci-plat.c                        | 1 -
- drivers/usb/host/xhci-rcar.c                        | 1 -
- drivers/usb/host/xhci-tegra.c                       | 2 +-
- drivers/usb/misc/usb251xb.c                         | 2 +-
- drivers/usb/mtu3/mtu3.h                             | 1 +
- drivers/usb/mtu3/mtu3_host.c                        | 1 +
- drivers/usb/musb/jz4740.c                           | 2 +-
- drivers/usb/musb/mediatek.c                         | 1 +
- drivers/usb/musb/mpfs.c                             | 1 +
- drivers/usb/musb/musb_dsps.c                        | 2 --
- drivers/usb/musb/sunxi.c                            | 1 -
- drivers/usb/phy/phy-mxs-usb.c                       | 2 +-
- drivers/usb/phy/phy-tegra-usb.c                     | 2 +-
- drivers/usb/renesas_usbhs/common.c                  | 2 +-
- drivers/usb/renesas_usbhs/rza.c                     | 2 +-
- drivers/usb/renesas_usbhs/rza2.c                    | 1 -
- drivers/usb/typec/tcpm/fusb302.c                    | 2 +-
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c       | 2 +-
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c | 2 --
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c  | 1 -
- drivers/usb/typec/ucsi/ucsi_glink.c                 | 1 -
- 51 files changed, 46 insertions(+), 48 deletions(-)
+ drivers/mmc/host/atmel-mci.c                  | 1 -
+ drivers/mmc/host/cavium-octeon.c              | 2 ++
+ drivers/mmc/host/cavium-thunderx.c            | 1 +
+ drivers/mmc/host/davinci_mmc.c                | 1 -
+ drivers/mmc/host/meson-gx-mmc.c               | 2 +-
+ drivers/mmc/host/mtk-sd.c                     | 4 +---
+ drivers/mmc/host/mxcmmc.c                     | 1 -
+ drivers/mmc/host/mxs-mmc.c                    | 1 -
+ drivers/mmc/host/owl-mmc.c                    | 3 ++-
+ drivers/mmc/host/pxamci.c                     | 1 -
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 3 ++-
+ drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 3 ++-
+ drivers/mmc/host/sdhci-bcm-kona.c             | 1 -
+ drivers/mmc/host/sdhci-cadence.c              | 2 +-
+ drivers/mmc/host/sdhci-esdhc-imx.c            | 2 +-
+ drivers/mmc/host/sdhci-iproc.c                | 2 +-
+ drivers/mmc/host/sdhci-msm.c                  | 2 +-
+ drivers/mmc/host/sdhci-of-arasan.c            | 4 ++--
+ drivers/mmc/host/sdhci-of-at91.c              | 2 +-
+ drivers/mmc/host/sdhci-of-dwcmshc.c           | 2 +-
+ drivers/mmc/host/sdhci-of-sparx5.c            | 2 +-
+ drivers/mmc/host/sdhci-omap.c                 | 1 -
+ drivers/mmc/host/sdhci-pxav2.c                | 1 -
+ drivers/mmc/host/sdhci-s3c.c                  | 1 -
+ drivers/mmc/host/sdhci-sprd.c                 | 1 -
+ drivers/mmc/host/sdhci-tegra.c                | 1 -
+ drivers/mmc/host/sh_mmcif.c                   | 1 -
+ drivers/mmc/host/uniphier-sd.c                | 1 -
+ drivers/mmc/host/wmt-sdmmc.c                  | 1 -
+ 29 files changed, 20 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index ea19253fd2d0..e6f6aeb7b5bb 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -61,6 +61,7 @@
+diff --git a/drivers/mmc/host/atmel-mci.c b/drivers/mmc/host/atmel-mci.c
+index dd18440a90c5..2fdf352b3d86 100644
+--- a/drivers/mmc/host/atmel-mci.c
++++ b/drivers/mmc/host/atmel-mci.c
+@@ -18,7 +18,6 @@
+ #include <linux/ioport.h>
  #include <linux/module.h>
- #include <linux/dmapool.h>
- #include <linux/iopoll.h>
-+#include <linux/property.h>
- 
- #include "core.h"
- #include "gadget-export.h"
-diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
-index 884e2301237f..b15ff5bd91c2 100644
---- a/drivers/usb/cdns3/cdns3-plat.c
-+++ b/drivers/usb/cdns3/cdns3-plat.c
-@@ -15,6 +15,7 @@
- #include <linux/module.h>
- #include <linux/irq.h>
- #include <linux/kernel.h>
-+#include <linux/of.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_gpio.h>
  #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- 
-diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
-index 81b9132e3aaa..5945c4b1e11f 100644
---- a/drivers/usb/cdns3/cdns3-ti.c
-+++ b/drivers/usb/cdns3/cdns3-ti.c
-@@ -15,6 +15,7 @@
- #include <linux/io.h>
+ #include <linux/scatterlist.h>
+diff --git a/drivers/mmc/host/cavium-octeon.c b/drivers/mmc/host/cavium-octeon.c
+index 12dca91a8ef6..02429f7afb42 100644
+--- a/drivers/mmc/host/cavium-octeon.c
++++ b/drivers/mmc/host/cavium-octeon.c
+@@ -13,7 +13,9 @@
+ #include <linux/mmc/mmc.h>
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/module.h>
++#include <linux/of.h>
  #include <linux/of_platform.h>
- #include <linux/pm_runtime.h>
-+#include <linux/property.h>
++#include <linux/platform_device.h>
+ #include <asm/octeon/octeon.h>
+ #include "cavium.h"
  
- /* USB Wrapper register offsets */
- #define USBSS_PID		0x0
-diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
-index dbcdf3b24b47..baa154cee352 100644
---- a/drivers/usb/cdns3/core.c
-+++ b/drivers/usb/cdns3/core.c
+diff --git a/drivers/mmc/host/cavium-thunderx.c b/drivers/mmc/host/cavium-thunderx.c
+index 202b1d6da678..2e2ff984f0b3 100644
+--- a/drivers/mmc/host/cavium-thunderx.c
++++ b/drivers/mmc/host/cavium-thunderx.c
 @@ -14,6 +14,7 @@
- #include <linux/dma-mapping.h>
  #include <linux/module.h>
- #include <linux/kernel.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
+ #include <linux/of.h>
+ #include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/pci.h>
+ #include "cavium.h"
+ 
+diff --git a/drivers/mmc/host/davinci_mmc.c b/drivers/mmc/host/davinci_mmc.c
+index 7138dfa065bf..17a137f85cbe 100644
+--- a/drivers/mmc/host/davinci_mmc.c
++++ b/drivers/mmc/host/davinci_mmc.c
+@@ -21,7 +21,6 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/mmc/mmc.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/mmc/slot-gpio.h>
  #include <linux/interrupt.h>
- #include <linux/io.h>
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index 336ef6dd8e7d..aa2aebed8e2d 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -6,6 +6,7 @@
-  */
  
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
-index ca36d11a69ea..8e78bf643e25 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -6,7 +6,8 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- 
-diff --git a/drivers/usb/chipidea/usbmisc_imx.c b/drivers/usb/chipidea/usbmisc_imx.c
-index 9ee9621e2ccc..e8a712e5abad 100644
---- a/drivers/usb/chipidea/usbmisc_imx.c
-+++ b/drivers/usb/chipidea/usbmisc_imx.c
-@@ -4,10 +4,11 @@
-  */
- 
- #include <linux/module.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/err.h>
- #include <linux/io.h>
- #include <linux/delay.h>
-+#include <linux/platform_device.h>
- #include <linux/usb/otg.h>
- 
- #include "ci_hdrc_imx.h"
-diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
-index c9bdeb4ddcb5..b84efae26e15 100644
---- a/drivers/usb/common/common.c
-+++ b/drivers/usb/common/common.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/of.h>
- #include <linux/usb/otg.h>
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index b5811620f1de..0d2bfc909019 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -9,6 +9,7 @@
- #include <linux/pci.h>	/* for scatterlist macros */
- #include <linux/usb.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/slab.h>
- #include <linux/mm.h>
- #include <linux/timer.h>
-diff --git a/drivers/usb/core/of.c b/drivers/usb/core/of.c
-index 617e92569b2c..db4ccf9ce3d9 100644
---- a/drivers/usb/core/of.c
-+++ b/drivers/usb/core/of.c
-@@ -8,7 +8,6 @@
-  */
- 
- #include <linux/of.h>
--#include <linux/of_platform.h>
- #include <linux/usb/of.h>
- 
- /**
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 901ec732321c..396a338d801e 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -25,6 +25,7 @@
- 
- #include <linux/module.h>
- #include <linux/moduleparam.h>
-+#include <linux/of.h>
- #include <linux/string.h>
- #include <linux/bitops.h>
- #include <linux/slab.h>
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 8b15742d9e8a..b517a7216de2 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -22,7 +22,6 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/slab.h>
--#include <linux/of_platform.h>
- 
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index 0a806f80217e..b1d48019e944 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
+diff --git a/drivers/mmc/host/meson-gx-mmc.c b/drivers/mmc/host/meson-gx-mmc.c
+index ee9a25b900ae..0669993108ec 100644
+--- a/drivers/mmc/host/meson-gx-mmc.c
++++ b/drivers/mmc/host/meson-gx-mmc.c
 @@ -11,7 +11,7 @@
- #include <linux/clk.h>
+ #include <linux/delay.h>
  #include <linux/device.h>
- #include <linux/dma-mapping.h>
+ #include <linux/iopoll.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/mutex.h>
  #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-index 8b9a3bb587bf..4285bde58d2e 100644
---- a/drivers/usb/dwc3/dwc3-imx8mp.c
-+++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-@@ -10,6 +10,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/usb/dwc3/dwc3-keystone.c b/drivers/usb/dwc3/dwc3-keystone.c
-index 0a09aedc2573..4155e8d5a559 100644
---- a/drivers/usb/dwc3/dwc3-keystone.c
-+++ b/drivers/usb/dwc3/dwc3-keystone.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_device.h>
+ #include <linux/ioport.h>
  #include <linux/dma-mapping.h>
- #include <linux/io.h>
-+#include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/phy/phy.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
-index a67873a074b7..5265ca418cde 100644
---- a/drivers/usb/gadget/udc/fsl_udc_core.c
-+++ b/drivers/usb/gadget/udc/fsl_udc_core.c
-@@ -36,7 +36,6 @@
- #include <linux/platform_device.h>
- #include <linux/fsl_devices.h>
- #include <linux/dmapool.h>
+diff --git a/drivers/mmc/host/mtk-sd.c b/drivers/mmc/host/mtk-sd.c
+index 02403ff99e0d..6c68c642ef61 100644
+--- a/drivers/mmc/host/mtk-sd.c
++++ b/drivers/mmc/host/mtk-sd.c
+@@ -12,9 +12,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/ioport.h>
+ #include <linux/irq.h>
+-#include <linux/of_address.h>
 -#include <linux/of_device.h>
- 
- #include <asm/byteorder.h>
- #include <asm/io.h>
-diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
-index 09762559912d..0c3969301a53 100644
---- a/drivers/usb/gadget/udc/gr_udc.c
-+++ b/drivers/usb/gadget/udc/gr_udc.c
-@@ -23,6 +23,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/errno.h>
-@@ -36,9 +37,7 @@
- #include <linux/dmapool.h>
- #include <linux/debugfs.h>
- #include <linux/seq_file.h>
--#include <linux/of_platform.h>
 -#include <linux/of_irq.h>
--#include <linux/of_address.h>
-+#include <linux/of.h>
- 
- #include <asm/byteorder.h>
- 
-diff --git a/drivers/usb/gadget/udc/max3420_udc.c b/drivers/usb/gadget/udc/max3420_udc.c
-index 12c519f32bf7..2d57786d3db7 100644
---- a/drivers/usb/gadget/udc/max3420_udc.c
-+++ b/drivers/usb/gadget/udc/max3420_udc.c
-@@ -19,9 +19,7 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/bitfield.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/of_irq.h>
- #include <linux/prefetch.h>
- #include <linux/usb/ch9.h>
-diff --git a/drivers/usb/gadget/udc/pxa27x_udc.c b/drivers/usb/gadget/udc/pxa27x_udc.c
-index c4e1d957f913..61424cfd2e1c 100644
---- a/drivers/usb/gadget/udc/pxa27x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa27x_udc.c
-@@ -23,7 +23,7 @@
- #include <linux/prefetch.h>
- #include <linux/byteorder/generic.h>
- #include <linux/platform_data/pxa2xx_udc.h>
--#include <linux/of_device.h>
 +#include <linux/of.h>
  #include <linux/of_gpio.h>
- 
- #include <linux/usb.h>
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index 59bb25de2015..3b01734ce1b7 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -14,7 +14,7 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
+ #include <linux/pinctrl/consumer.h>
  #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/usb/gadget/udc/renesas_usbf.c b/drivers/usb/gadget/udc/renesas_usbf.c
-index 6cd0af83e91e..3482b41d0646 100644
---- a/drivers/usb/gadget/udc/renesas_usbf.c
-+++ b/drivers/usb/gadget/udc/renesas_usbf.c
-@@ -12,10 +12,9 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/kfifo.h>
+diff --git a/drivers/mmc/host/mxcmmc.c b/drivers/mmc/host/mxcmmc.c
+index 668f865f3efb..226a10202d25 100644
+--- a/drivers/mmc/host/mxcmmc.c
++++ b/drivers/mmc/host/mxcmmc.c
+@@ -31,7 +31,6 @@
+ #include <linux/dmaengine.h>
+ #include <linux/types.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/mmc/slot-gpio.h>
+ 
+diff --git a/drivers/mmc/host/mxs-mmc.c b/drivers/mmc/host/mxs-mmc.c
+index 8c3655d3be96..951c6c48b4f7 100644
+--- a/drivers/mmc/host/mxs-mmc.c
++++ b/drivers/mmc/host/mxs-mmc.c
+@@ -11,7 +11,6 @@
+ #include <linux/init.h>
+ #include <linux/ioport.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+diff --git a/drivers/mmc/host/owl-mmc.c b/drivers/mmc/host/owl-mmc.c
+index 1bf22b08b373..62d2993573d0 100644
+--- a/drivers/mmc/host/owl-mmc.c
++++ b/drivers/mmc/host/owl-mmc.c
+@@ -16,8 +16,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/mmc/host.h>
+ #include <linux/mmc/slot-gpio.h>
 +#include <linux/mod_devicetable.h>
  #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
 -#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/types.h>
- #include <linux/usb/composite.h>
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 83eaa65ddde3..065046f1c9cb 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -16,7 +16,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/tegra/xusb.h>
- #include <linux/pm_domain.h>
-diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
-index a4a7b90a97e7..0a025bf14e06 100644
---- a/drivers/usb/gadget/udc/udc-xilinx.c
-+++ b/drivers/usb/gadget/udc/udc-xilinx.c
-@@ -18,10 +18,8 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
--#include <linux/of_platform.h>
--#include <linux/of_irq.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/prefetch.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
-diff --git a/drivers/usb/host/ehci-fsl.c b/drivers/usb/host/ehci-fsl.c
-index 81d60a695510..3c776f4de4b8 100644
---- a/drivers/usb/host/ehci-fsl.c
-+++ b/drivers/usb/host/ehci-fsl.c
-@@ -22,7 +22,7 @@
- #include <linux/usb/otg.h>
- #include <linux/platform_device.h>
- #include <linux/fsl_devices.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/io.h>
+ #include <linux/reset.h>
+ #include <linux/spinlock.h>
  
- #include "ehci.h"
-diff --git a/drivers/usb/host/ehci-orion.c b/drivers/usb/host/ehci-orion.c
-index 2cfb27dc943a..a5f4e2f98346 100644
---- a/drivers/usb/host/ehci-orion.c
-+++ b/drivers/usb/host/ehci-orion.c
-@@ -13,8 +13,6 @@
- #include <linux/platform_data/usb-ehci-orion.h>
+diff --git a/drivers/mmc/host/pxamci.c b/drivers/mmc/host/pxamci.c
+index 2a988f942b6c..d274e4433fc1 100644
+--- a/drivers/mmc/host/pxamci.c
++++ b/drivers/mmc/host/pxamci.c
+@@ -30,7 +30,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/gfp.h>
  #include <linux/of.h>
- #include <linux/phy/phy.h>
 -#include <linux/of_device.h>
--#include <linux/of_irq.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
- #include <linux/io.h>
-diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
-index 66a045e01dad..9a1b5224f239 100644
---- a/drivers/usb/host/fhci-hcd.c
-+++ b/drivers/usb/host/fhci-hcd.c
-@@ -22,9 +22,10 @@
- #include <linux/io.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
+ #include <linux/soc/pxa/cpu.h>
+ 
+ #include <linux/sizes.h>
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index 9ab813903b2c..4cc5bcb3213a 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -15,7 +15,8 @@
+ #include <linux/mmc/host.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
--#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/gpio/consumer.h>
- #include <soc/fsl/qe/qe.h>
-diff --git a/drivers/usb/host/fsl-mph-dr-of.c b/drivers/usb/host/fsl-mph-dr-of.c
-index a9877f2569f4..8508d37a2aff 100644
---- a/drivers/usb/host/fsl-mph-dr-of.c
-+++ b/drivers/usb/host/fsl-mph-dr-of.c
-@@ -10,7 +10,8 @@
- #include <linux/fsl_devices.h>
- #include <linux/err.h>
- #include <linux/io.h>
--#include <linux/of_platform.h>
+ #include <linux/pagemap.h>
+ #include <linux/scatterlist.h>
+ #include <linux/sys_soc.h>
+diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+index b559ad38b667..452982e670d2 100644
+--- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+@@ -15,7 +15,8 @@
+ #include <linux/mmc/host.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
 +#include <linux/of.h>
-+#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pagemap.h>
+ #include <linux/scatterlist.h>
+ #include <linux/sys_soc.h>
+diff --git a/drivers/mmc/host/sdhci-bcm-kona.c b/drivers/mmc/host/sdhci-bcm-kona.c
+index 6a93a54fe067..ef1fb383e1e7 100644
+--- a/drivers/mmc/host/sdhci-bcm-kona.c
++++ b/drivers/mmc/host/sdhci-bcm-kona.c
+@@ -11,7 +11,6 @@
  #include <linux/clk.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/mmc/slot-gpio.h>
+ 
+ #include "sdhci-pltfm.h"
+diff --git a/drivers/mmc/host/sdhci-cadence.c b/drivers/mmc/host/sdhci-cadence.c
+index d2f625054689..25d9849ef0d1 100644
+--- a/drivers/mmc/host/sdhci-cadence.c
++++ b/drivers/mmc/host/sdhci-cadence.c
+@@ -11,7 +11,7 @@
+ #include <linux/mmc/host.h>
+ #include <linux/mmc/mmc.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/reset.h>
+ 
+ #include "sdhci-pltfm.h"
+diff --git a/drivers/mmc/host/sdhci-esdhc-imx.c b/drivers/mmc/host/sdhci-esdhc-imx.c
+index eebf94604a7f..e767fe058023 100644
+--- a/drivers/mmc/host/sdhci-esdhc-imx.c
++++ b/drivers/mmc/host/sdhci-esdhc-imx.c
+@@ -22,7 +22,7 @@
+ #include <linux/mmc/sdio.h>
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include "sdhci-cqhci.h"
+diff --git a/drivers/mmc/host/sdhci-iproc.c b/drivers/mmc/host/sdhci-iproc.c
+index 86eb0045515e..6a93b1ee0b30 100644
+--- a/drivers/mmc/host/sdhci-iproc.c
++++ b/drivers/mmc/host/sdhci-iproc.c
+@@ -10,7 +10,7 @@
  #include <linux/module.h>
- #include <linux/dma-mapping.h>
-diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
-index b9ce8d80f20b..3b023ea71f8d 100644
---- a/drivers/usb/host/ohci-at91.c
-+++ b/drivers/usb/host/ohci-at91.c
-@@ -17,13 +17,13 @@
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/gpio/consumer.h>
--#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/platform_data/atmel.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
-diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
-index e4191a868944..9bd6cb9af364 100644
---- a/drivers/usb/host/ohci-da8xx.c
-+++ b/drivers/usb/host/ohci-da8xx.c
-@@ -15,6 +15,7 @@
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_data/usb-davinci.h>
-diff --git a/drivers/usb/host/ohci-ppc-of.c b/drivers/usb/host/ohci-ppc-of.c
-index 35a7ad7e2569..f64bfe5f4d4d 100644
---- a/drivers/usb/host/ohci-ppc-of.c
-+++ b/drivers/usb/host/ohci-ppc-of.c
-@@ -15,9 +15,10 @@
+ #include <linux/mmc/host.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include "sdhci-pltfm.h"
+ 
+ struct sdhci_iproc_data {
+diff --git a/drivers/mmc/host/sdhci-msm.c b/drivers/mmc/host/sdhci-msm.c
+index 1c935b5bafe1..c0ce187e740a 100644
+--- a/drivers/mmc/host/sdhci-msm.c
++++ b/drivers/mmc/host/sdhci-msm.c
+@@ -6,7 +6,6 @@
   */
  
- #include <linux/signal.h>
-+#include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
--#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
- 
- static int
- ohci_ppc_of_start(struct usb_hcd *hcd)
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index b26ea7cb4357..28218c8f1837 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -13,7 +13,6 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/usb/phy.h>
- #include <linux/slab.h>
-diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index bf5261fed32c..ab9c5969e462 100644
---- a/drivers/usb/host/xhci-rcar.c
-+++ b/drivers/usb/host/xhci-rcar.c
-@@ -10,7 +10,6 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/usb/phy.h>
- 
- #include "xhci.h"
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 6ca8a37e53e1..51e236c1ff71 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -14,7 +14,7 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/of_irq.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/tegra/xusb.h>
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index e4edb486b69e..7da404f55a6d 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -16,7 +16,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/nls.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index b4a7662dded5..c11840b9a6f1 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -16,6 +16,7 @@
- #include <linux/extcon.h>
- #include <linux/interrupt.h>
- #include <linux/list.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/regulator/consumer.h>
- #include <linux/usb.h>
-diff --git a/drivers/usb/mtu3/mtu3_host.c b/drivers/usb/mtu3/mtu3_host.c
-index 177d2caf887c..9f2be22af844 100644
---- a/drivers/usb/mtu3/mtu3_host.c
-+++ b/drivers/usb/mtu3/mtu3_host.c
-@@ -11,6 +11,7 @@
- #include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/regmap.h>
- 
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index 5aabdd7e2511..b38df9226278 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -10,7 +10,7 @@
- #include <linux/errno.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/usb/role.h>
-diff --git a/drivers/usb/musb/mediatek.c b/drivers/usb/musb/mediatek.c
-index 598ee5c0bf34..0a35aab3ab81 100644
---- a/drivers/usb/musb/mediatek.c
-+++ b/drivers/usb/musb/mediatek.c
-@@ -10,6 +10,7 @@
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/usb/role.h>
-diff --git a/drivers/usb/musb/mpfs.c b/drivers/usb/musb/mpfs.c
-index 24b98716f7fc..f0f56df38835 100644
---- a/drivers/usb/musb/mpfs.c
-+++ b/drivers/usb/musb/mpfs.c
-@@ -13,6 +13,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/usb/usb_phy_generic.h>
- #include "musb_core.h"
-diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
-index 9119b1d51370..98b42dc04dee 100644
---- a/drivers/usb/musb/musb_dsps.c
-+++ b/drivers/usb/musb/musb_dsps.c
-@@ -26,9 +26,7 @@
- #include <linux/sizes.h>
- 
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
--#include <linux/of_irq.h>
- #include <linux/usb/of.h>
- 
- #include <linux/debugfs.h>
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index c5c6c4e09300..d54283fd026b 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -15,7 +15,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy-sun4i-usb.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-diff --git a/drivers/usb/phy/phy-mxs-usb.c b/drivers/usb/phy/phy-mxs-usb.c
-index e1a2b2ea098b..50cf0003384a 100644
---- a/drivers/usb/phy/phy-mxs-usb.c
-+++ b/drivers/usb/phy/phy-mxs-usb.c
-@@ -14,7 +14,7 @@
  #include <linux/delay.h>
- #include <linux/err.h>
- #include <linux/io.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/mfd/syscon.h>
- #include <linux/iopoll.h>
-diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-index 8b2ff3a8882d..4ea47e6f835b 100644
---- a/drivers/usb/phy/phy-tegra-usb.c
-+++ b/drivers/usb/phy/phy-tegra-usb.c
-@@ -16,7 +16,7 @@
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/resource.h>
- #include <linux/slab.h>
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 111b7ee152c4..dd1c17542439 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -11,7 +11,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
+ #include <linux/mmc/mmc.h>
  #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/slab.h>
-diff --git a/drivers/usb/renesas_usbhs/rza.c b/drivers/usb/renesas_usbhs/rza.c
-index 2d77edefb4b3..97b5217c5a90 100644
---- a/drivers/usb/renesas_usbhs/rza.c
-+++ b/drivers/usb/renesas_usbhs/rza.c
-@@ -8,7 +8,7 @@
- 
- #include <linux/delay.h>
- #include <linux/io.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include "common.h"
- #include "rza.h"
- 
-diff --git a/drivers/usb/renesas_usbhs/rza2.c b/drivers/usb/renesas_usbhs/rza2.c
-index 3eed3334a17f..f079817250bb 100644
---- a/drivers/usb/renesas_usbhs/rza2.c
-+++ b/drivers/usb/renesas_usbhs/rza2.c
-@@ -8,7 +8,6 @@
- 
- #include <linux/delay.h>
- #include <linux/io.h>
--#include <linux/of_device.h>
- #include <linux/phy/phy.h>
- #include "common.h"
- #include "rza.h"
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 7fc1ffa14f76..bc21006e979c 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -15,7 +15,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
--#include <linux/of_device.h>
+@@ -15,6 +14,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/interconnect.h>
 +#include <linux/of.h>
  #include <linux/pinctrl/consumer.h>
- #include <linux/proc_fs.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-index a905160dd860..f2f3601cbbfb 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-@@ -8,7 +8,7 @@
- #include <linux/kernel.h>
- #include <linux/mod_devicetable.h>
+ #include <linux/reset.h>
+ 
+diff --git a/drivers/mmc/host/sdhci-of-arasan.c b/drivers/mmc/host/sdhci-of-arasan.c
+index 294dd605fd2b..2f9de2518942 100644
+--- a/drivers/mmc/host/sdhci-of-arasan.c
++++ b/drivers/mmc/host/sdhci-of-arasan.c
+@@ -18,11 +18,11 @@
+ #include <linux/clk-provider.h>
+ #include <linux/mfd/syscon.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
++#include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
  #include <linux/regmap.h>
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-index 4e1b846627d2..bb0b8479d80f 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
-@@ -8,8 +8,6 @@
+ #include <linux/reset.h>
+-#include <linux/of.h>
+ #include <linux/firmware/xlnx-zynqmp.h>
+ 
+ #include "cqhci.h"
+diff --git a/drivers/mmc/host/sdhci-of-at91.c b/drivers/mmc/host/sdhci-of-at91.c
+index cd0134580a90..808307a211f2 100644
+--- a/drivers/mmc/host/sdhci-of-at91.c
++++ b/drivers/mmc/host/sdhci-of-at91.c
+@@ -17,7 +17,7 @@
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pm.h>
+ #include <linux/pm_runtime.h>
+ 
+diff --git a/drivers/mmc/host/sdhci-of-dwcmshc.c b/drivers/mmc/host/sdhci-of-dwcmshc.c
+index e68cd87998c8..55e1e2d0494d 100644
+--- a/drivers/mmc/host/sdhci-of-dwcmshc.c
++++ b/drivers/mmc/host/sdhci-of-dwcmshc.c
+@@ -14,7 +14,7 @@
  #include <linux/kernel.h>
- #include <linux/mod_devicetable.h>
  #include <linux/module.h>
+ #include <linux/of.h>
 -#include <linux/of_device.h>
--#include <linux/of_irq.h>
- #include <linux/platform_device.h>
++#include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/sizes.h>
+ 
+diff --git a/drivers/mmc/host/sdhci-of-sparx5.c b/drivers/mmc/host/sdhci-of-sparx5.c
+index 28e4ee69e100..2e983cf49bc6 100644
+--- a/drivers/mmc/host/sdhci-of-sparx5.c
++++ b/drivers/mmc/host/sdhci-of-sparx5.c
+@@ -13,9 +13,9 @@
+ #include <linux/delay.h>
+ #include <linux/module.h>
  #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-index 94285f64b67d..fdd916292675 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-@@ -9,7 +9,6 @@
- #include <linux/kernel.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
 -#include <linux/of_device.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/dma-mapping.h>
++#include <linux/of.h>
+ 
+ #include "sdhci-pltfm.h"
+ 
+diff --git a/drivers/mmc/host/sdhci-omap.c b/drivers/mmc/host/sdhci-omap.c
+index 8ed9256b83da..2593e3fbd0d9 100644
+--- a/drivers/mmc/host/sdhci-omap.c
++++ b/drivers/mmc/host/sdhci-omap.c
+@@ -11,7 +11,6 @@
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
  #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-index 1fe9cb5b6bd9..bb1854b3311d 100644
---- a/drivers/usb/typec/ucsi/ucsi_glink.c
-+++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-@@ -5,7 +5,6 @@
-  */
- #include <linux/auxiliary_bus.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/mmc/host/sdhci-pxav2.c b/drivers/mmc/host/sdhci-pxav2.c
+index 91aca8f8d6ef..86b60b0447b3 100644
+--- a/drivers/mmc/host/sdhci-pxav2.c
++++ b/drivers/mmc/host/sdhci-pxav2.c
+@@ -19,7 +19,6 @@
+ #include <linux/platform_data/pxa_sdhci.h>
+ #include <linux/slab.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/mmc/sdio.h>
+ #include <linux/mmc/mmc.h>
+ #include <linux/pinctrl/consumer.h>
+diff --git a/drivers/mmc/host/sdhci-s3c.c b/drivers/mmc/host/sdhci-s3c.c
+index 504015e84308..6245fb4584fe 100644
+--- a/drivers/mmc/host/sdhci-s3c.c
++++ b/drivers/mmc/host/sdhci-s3c.c
+@@ -20,7 +20,6 @@
+ #include <linux/gpio.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_gpio.h>
+ #include <linux/pm.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+index 7f4ee2e12735..a21d6524d7ca 100644
+--- a/drivers/mmc/host/sdhci-sprd.c
++++ b/drivers/mmc/host/sdhci-sprd.c
+@@ -11,7 +11,6 @@
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_gpio.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index bff084f178c9..1e1eac953691 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -19,7 +19,6 @@
+ #include <linux/mmc/mmc.h>
+ #include <linux/mmc/slot-gpio.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
+ #include <linux/of.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
+index 5cf53348372a..838dab179724 100644
+--- a/drivers/mmc/host/sh_mmcif.c
++++ b/drivers/mmc/host/sh_mmcif.c
+@@ -46,7 +46,6 @@
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/mod_devicetable.h>
  #include <linux/mutex.h>
- #include <linux/property.h>
- #include <linux/soc/qcom/pdr.h>
+-#include <linux/of_device.h>
+ #include <linux/pagemap.h>
+ #include <linux/platform_data/sh_mmcif.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/mmc/host/uniphier-sd.c b/drivers/mmc/host/uniphier-sd.c
+index 61acd69fac0e..c1400d616fff 100644
+--- a/drivers/mmc/host/uniphier-sd.c
++++ b/drivers/mmc/host/uniphier-sd.c
+@@ -13,7 +13,6 @@
+ #include <linux/mmc/host.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/mmc/host/wmt-sdmmc.c b/drivers/mmc/host/wmt-sdmmc.c
+index 68525d900046..f860f363be56 100644
+--- a/drivers/mmc/host/wmt-sdmmc.c
++++ b/drivers/mmc/host/wmt-sdmmc.c
+@@ -21,7 +21,6 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_device.h>
+ 
+ #include <linux/mmc/host.h>
+ #include <linux/mmc/mmc.h>
 -- 
 2.40.1
 
