@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D3A7582CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 18:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2004C758295
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 18:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233037AbjGRQzc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 12:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58356 "EHLO
+        id S232431AbjGRQy7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 12:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233049AbjGRQzG (ORCPT
+        with ESMTP id S231896AbjGRQy5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 12:55:06 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1EE1BEE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 09:54:56 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
-        by andre.telenet-ops.be with bizsmtp
-        id Ngur2A00f0ucMBo01gurGk; Tue, 18 Jul 2023 18:54:54 +0200
+        Tue, 18 Jul 2023 12:54:57 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B9D1702
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 09:54:54 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by xavier.telenet-ops.be with bizsmtp
+        id Ngur2A00i1C8whw01gur1W; Tue, 18 Jul 2023 18:54:53 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qLnyD-001nZO-K0;
+        id 1qLnyD-001nZR-KZ;
         Tue, 18 Jul 2023 18:54:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qLnyN-000gdW-L6;
+        id 1qLnyN-000gdb-Li;
         Tue, 18 Jul 2023 18:54:51 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -37,11 +37,10 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v2 30/41] drm: renesas: shmobile: Use drm_crtc_handle_vblank()
-Date:   Tue, 18 Jul 2023 18:54:35 +0200
-Message-Id: <c4dbba81c3067f31e8b99c481da8ae960fd07013.1689698048.git.geert+renesas@glider.be>
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 31/41] drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+Date:   Tue, 18 Jul 2023 18:54:36 +0200
+Message-Id: <cb72002e1f36e176f8ed20c0d6985b5a6393e553.1689698048.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689698048.git.geert+renesas@glider.be>
 References: <cover.1689698048.git.geert+renesas@glider.be>
@@ -49,40 +48,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace the call to the legacy drm_handle_vblank() function with a call
-to the new drm_crtc_handle_vblank() helper.
+Move the shmob_drm_crtc_finish_page_flip() function up, to avoid having
+to move it during the modification in the next change.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
 v2:
-  - Add Reviewed-by.
+  - Add Reviewed-by,
+  - Move further up.
 ---
- drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 36 ++++++++++---------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-index 6bc05a9e9661915e..44f12bfcb3ce575d 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-@@ -86,7 +86,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
- 	spin_unlock_irqrestore(&sdev->irq_lock, flags);
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+index f55b5263e611c782..0adf5d33ba31695e 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+@@ -35,6 +35,26 @@
+  * TODO: panel support
+  */
  
- 	if (status & LDINTR_VES) {
--		drm_handle_vblank(dev, 0);
-+		drm_crtc_handle_vblank(&sdev->crtc.base);
- 		shmob_drm_crtc_finish_page_flip(&sdev->crtc);
- 	}
++/* -----------------------------------------------------------------------------
++ * Page Flip
++ */
++
++void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
++{
++	struct drm_pending_vblank_event *event;
++	struct drm_device *dev = scrtc->base.dev;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->event_lock, flags);
++	event = scrtc->event;
++	scrtc->event = NULL;
++	if (event) {
++		drm_crtc_send_vblank_event(&scrtc->base, event);
++		drm_crtc_vblank_put(&scrtc->base);
++	}
++	spin_unlock_irqrestore(&dev->event_lock, flags);
++}
++
+ /* -----------------------------------------------------------------------------
+  * CRTC
+  */
+@@ -364,22 +384,6 @@ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
+ 	.mode_set_base = shmob_drm_crtc_mode_set_base,
+ };
  
+-void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
+-{
+-	struct drm_pending_vblank_event *event;
+-	struct drm_device *dev = scrtc->base.dev;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->event_lock, flags);
+-	event = scrtc->event;
+-	scrtc->event = NULL;
+-	if (event) {
+-		drm_crtc_send_vblank_event(&scrtc->base, event);
+-		drm_crtc_vblank_put(&scrtc->base);
+-	}
+-	spin_unlock_irqrestore(&dev->event_lock, flags);
+-}
+-
+ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
+ 				    struct drm_framebuffer *fb,
+ 				    struct drm_pending_vblank_event *event,
 -- 
 2.34.1
 
