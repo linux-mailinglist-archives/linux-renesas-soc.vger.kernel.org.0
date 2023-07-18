@@ -2,154 +2,430 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5B86758015
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 16:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F787582B1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 18:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjGROtC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 10:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34690 "EHLO
+        id S232778AbjGRQzQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 12:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233409AbjGROsu (ORCPT
+        with ESMTP id S232829AbjGRQzD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 10:48:50 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F56A199C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 07:48:33 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fc03aa6e04so53977475e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 07:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1689691711; x=1692283711;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z3PeHDGShv0/Y1SaTBcwWlp0DgIC2lqoORc+f/lyUag=;
-        b=a8ZhbREt0uH7gJ9cBW17TnUuIeY9lua9HO/AozN0hssszX/Phmw738FVOnzPEoqKPM
-         9g4ej6yAf/cuK4nEWyxjfBYtwq2t48q5q+nSJ+5OQlOzhsONtMZQnc+j6RCyZcUN1oz/
-         WJHBxQoDbrIWi0QyPl72CzT34+UDqSNvbRnQbvEHLyPBKdnn5nr3RT3iXFXMDi5NLpyh
-         FK1WZibGA4JoIsa4IL/UxG9P0jvEctbL10XGpyZRaKz+cEvrufbngxfwDfXOD15lMLC7
-         etDDOD4GaZZtjqltQf05sbbfL2Pe45hszeZCcAgOKSgMQQVmIrrOfYsXhwu4Vt/0vXQy
-         ekaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689691711; x=1692283711;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z3PeHDGShv0/Y1SaTBcwWlp0DgIC2lqoORc+f/lyUag=;
-        b=kzJE5hrPOLRU7eO1RBo/2urvD7LrUJa+brLesStFpcZBK4foN7F5n20VEXzK0WtkfZ
-         BbXnKF2Sx/qxPByQDykEkBxhYnMyY48qQRlcNrWzinLtKYnmNMhvHxuNLE97eLlfaZRB
-         29E/xkOQzrk4/ATUaNyZpGxV8a5a1s0jvitYCHP0XeT4I05mIrlnCElrHgL2IwJ7uVOY
-         KBi3El9WHz9qHS8wVDhI7JfZv5t7/GFDEe1hybIdxZ12/NaL+HuURS1/84jC7jhoRrMa
-         q9GnJXcbk52btvsZC9hl5KHhQ3x1BZBYb7dvm5bdguIkjTAgFEKxHp7Vfv5jw4Gi604h
-         qTnQ==
-X-Gm-Message-State: ABy/qLbohbRSihES/0Ed/G05ncJ00fGamiGZ2rmF+FvzIqo17Mydsbga
-        eXn3IlAdboXPh2rZ2jEtGteaQA==
-X-Google-Smtp-Source: APBJJlH8FgksFnhHrYa/bYaQB7Lf3bViTB+cyeDz8GdO0wx0X43DqCQgnSsDAnuYgKuzpQVErJxIqg==
-X-Received: by 2002:a05:600c:d5:b0:3fc:5606:c246 with SMTP id u21-20020a05600c00d500b003fc5606c246mr2052029wmm.22.1689691711290;
-        Tue, 18 Jul 2023 07:48:31 -0700 (PDT)
-Received: from [10.0.2.15] ([82.78.167.79])
-        by smtp.gmail.com with ESMTPSA id f22-20020a7bc8d6000000b003fbb5142c4bsm10659329wml.18.2023.07.18.07.48.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jul 2023 07:48:30 -0700 (PDT)
-Message-ID: <b0bdccb7-e10e-8d8a-fb64-0d41248adf8a@tuxon.dev>
-Date:   Tue, 18 Jul 2023 17:48:25 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 06/10] pinctrl: at91: Switch to use
- DEFINE_NOIRQ_DEV_PM_OPS() helper
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Balsam CHIHI <bchihi@baylibre.com>,
+        Tue, 18 Jul 2023 12:55:03 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DA21FC4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 09:54:58 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
+        by andre.telenet-ops.be with bizsmtp
+        id Ngur2A0060ucMBo01gurGW; Tue, 18 Jul 2023 18:54:58 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qLnyD-001nXV-1c;
+        Tue, 18 Jul 2023 18:54:51 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qLnyN-000gbB-19;
+        Tue, 18 Jul 2023 18:54:51 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
-References: <20230717172821.62827-1-andriy.shevchenko@linux.intel.com>
- <20230717172821.62827-7-andriy.shevchenko@linux.intel.com>
-From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20230717172821.62827-7-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 00/41] drm: renesas: shmobile: Atomic conversion + DT support
+Date:   Tue, 18 Jul 2023 18:54:05 +0200
+Message-Id: <cover.1689698048.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17.07.2023 20:28, Andy Shevchenko wrote:
-> Since pm.h provides a helper for system no-IRQ PM callbacks,
-> switch the driver to use it instead of open coded variant.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	Hi all,
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+It has been 3 years since the last conversion of a DRM driver to atomic
+modesetting, so I guess it's time for another one? ;-)
 
-> ---
->   drivers/pinctrl/pinctrl-at91.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
-> index 39956d821ad7..608f55c5ba5f 100644
-> --- a/drivers/pinctrl/pinctrl-at91.c
-> +++ b/drivers/pinctrl/pinctrl-at91.c
-> @@ -1657,7 +1657,7 @@ static int gpio_irq_set_wake(struct irq_data *d, unsigned state)
->   	return 0;
->   }
->   
-> -static int __maybe_unused at91_gpio_suspend(struct device *dev)
-> +static int at91_gpio_suspend(struct device *dev)
->   {
->   	struct at91_gpio_chip *at91_chip = dev_get_drvdata(dev);
->   	void __iomem *pio = at91_chip->regbase;
-> @@ -1675,7 +1675,7 @@ static int __maybe_unused at91_gpio_suspend(struct device *dev)
->   	return 0;
->   }
->   
-> -static int __maybe_unused at91_gpio_resume(struct device *dev)
-> +static int at91_gpio_resume(struct device *dev)
->   {
->   	struct at91_gpio_chip *at91_chip = dev_get_drvdata(dev);
->   	void __iomem *pio = at91_chip->regbase;
-> @@ -1903,15 +1903,13 @@ static int at91_gpio_probe(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> -static const struct dev_pm_ops at91_gpio_pm_ops = {
-> -	NOIRQ_SYSTEM_SLEEP_PM_OPS(at91_gpio_suspend, at91_gpio_resume)
-> -};
-> +static DEFINE_NOIRQ_DEV_PM_OPS(at91_gpio_pm_ops, at91_gpio_suspend, at91_gpio_resume);
->   
->   static struct platform_driver at91_gpio_driver = {
->   	.driver = {
->   		.name = "gpio-at91",
->   		.of_match_table = at91_gpio_of_match,
-> -		.pm = pm_ptr(&at91_gpio_pm_ops),
-> +		.pm = pm_sleep_ptr(&at91_gpio_pm_ops),
->   	},
->   	.probe = at91_gpio_probe,
->   };
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
+
+This patch series converts the SH-Mobile DRM driver to atomic
+modesetting, and adds DT support, complemented by the customary set of
+fixes and improvements.
+
+Overview:
+  - Patch 1 adds a separate maintainer entry.
+  - Patch 2 adds DT bindings for the SH-Mobile LCD controller,
+  - Patch 3 adds definitions for RGB666 9:9 media bus formats,
+  - Patches 4-35 contains miscellaneous fixes, improvements, and
+    cleanups for the SH-Mobile DRM driver,
+  - Patches 36-40 convert the SH-Mobile DRM driver to atomic
+    modesetting,
+  - Patch 41 adds DT support to the SH-Mobile DRM driver.
+
+To reduce strain on the audience, I have CCed the DT and media people
+only on the cover letter and the DT resp. media patches.  If interested,
+the full series should be available through lore.kernel.org.
+
+Some comments and questions can be found in the individual patches.
+
+Changes compared to v1[1]:
+  - New patches
+      - "[PATCH v2 01/41] MAINTAINER: Create entry for Renesas SH-Mobile
+	 DRM drivers",
+      - "[PATCH v2 18/41] drm: renesas: shmobile: Remove custom plane
+	 destroy callback",
+  - Add myself as co-maintainer,
+  - Make fck clock required,
+  - Drop ports description referring to obsolete graph.txt,
+  - Condition ports to compatible strings,
+  - Drop label and status from example,
+  - Add Reviewed-by,
+  - Drop unused MEDIA_BUS_FMT_RGB666_2X9_LE, as requested by Laurent,
+  - Move explicit clock handling to Runtime PM callbacks,
+  - Move devm_pm_runtime_enable() after shmob_drm_setup_clocks(),
+  - Depend on PM,
+  - Split off removal of call to drm_plane_force_disable(),
+  - Select VIDEOMODE_HELPERS,
+  - Keep table instead of replacing it by a switch() statement,
+  - Fix shmob_drm_interface_data.bus_fmt comment,
+  - Drop superfluous blank lines,
+  - Keep initialization of info fields together,
+  - Use shmob_drm_bus_fmts[],
+  - Keep bus format validation at probe time,
+  - Pass plane type to shmob_drm_plane_create() to avoid having to shift
+    all overlay plane indices by one,
+  - Rename primary_plane_funcs to shmob_drm_primary_plane_funcs,
+  - Rename shmob_drm_plane_funcs to shmob_drm_overlay_plane_funcs,
+  - Move shmob_drm_crtc_finish_page_flip() further up,
+  - Inline shmob_drm_crtc_st{art,op}(),
+  - Use devm_drm_of_get_bridge(),
+  - Don't print bridge->of_node on failure, as this field depends on
+    CONFIG_OF.
+
+This has been tested on the R-Mobile A1-based Atmark Techno
+Armadillo-800-EVA development board, using both legacy[2] and
+DT-based[3] instantiation, with the fbdev-emulated text console and
+modetest, a.o.
+
+    modetest -M shmob-drm -s 43:800x480@RG16 -P 33@41:640x320+80+80@RG16
+    modetest -M shmob-drm -s 43:800x480@RG16
+
+The output of "modetest -M shmob-drm" can be found below[4].
+
+Thanks for your comments!
+
+[1] "[PATCH 00/39] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1687423204.git.geert+renesas@glider.be/
+
+[2] "[PATCH/RFC] staging: board: armadillo800eva: Add DRM support"
+    https://lore.kernel.org/r/f7874a9da4bcb20fbc9cd133147b67862ebcf0b9.1687418281.git.geert+renesas@glider.be
+
+[3] "[PATCH 0/2] ARM: dts: r8a7740/armadillo800eva: Add LCD support"
+    https://lore.kernel.org/r/cover.1687417585.git.geert+renesas@glider.be
+
+[4] Encoders:
+    id	crtc	type	possible crtcs	possible clones	
+    42	41	DPI	0x00000001	0x00000001
+
+    Connectors:
+    id	encoder	status		name		size (mm)	modes	encoders
+    43	42	connected	DPI-1          	111x67		1	42
+      modes:
+	    index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    1 EDID:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+	    2 DPMS:
+		    flags: enum
+		    enums: On=0 Standby=1 Suspend=2 Off=3
+		    value: 0
+	    5 link-status:
+		    flags: enum
+		    enums: Good=0 Bad=1
+		    value: 0
+	    6 non-desktop:
+		    flags: immutable range
+		    values: 0 1
+		    value: 0
+	    4 TILE:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+
+    CRTCs:
+    id	fb	pos	size
+    41	44	(0,0)	(800x480)
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    24 VRR_ENABLED:
+		    flags: range
+		    values: 0 1
+		    value: 0
+
+    Planes:
+    id	crtc	fb	CRTC x,y	x,y	gamma size	possible crtcs
+    31	41	44	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 1
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    33	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    35	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    37	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    39	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+
+    Frame buffers:
+    id	size	pitch
+
+Geert Uytterhoeven (36):
+  MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+  dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+  media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+  drm: renesas: shmobile: Fix overlay plane disable
+  drm: renesas: shmobile: Fix ARGB32 overlay format typo
+  drm: renesas: shmobile: Correct encoder/connector types
+  drm: renesas: shmobile: Add support for Runtime PM
+  drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+  drm: renesas: shmobile: Use %p4cc to print fourcc code
+  drm: renesas: shmobile: Add missing YCbCr formats
+  drm: renesas: shmobile: Improve shmob_drm_format_info table
+  drm: renesas: shmobile: Improve error handling
+  drm: renesas: shmobile: Convert to use devm_request_irq()
+  drm: renesas: shmobile: Remove custom plane destroy callback
+  drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+  drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+  drm: renesas: shmobile: Convert container helpers to static inline functions
+  drm: renesas: shmobile: Replace .dev_private with container_of()
+  drm: renesas: shmobile: Use media bus formats in platform data
+  drm: renesas: shmobile: Move interface handling to connector setup
+  drm: renesas: shmobile: Unify plane allocation
+  drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+  drm: renesas: shmobile: Rename shmob_drm_connector.connector
+  drm: renesas: shmobile: Rename shmob_drm_plane.plane
+  drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+  drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+  drm: renesas: shmobile: Wait for page flip when turning CRTC off
+  drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+  drm: renesas: shmobile: Shutdown the display on remove
+  drm: renesas: shmobile: Cleanup encoder
+  drm: renesas: shmobile: Atomic conversion part 1
+  drm: renesas: shmobile: Atomic conversion part 2
+  drm: renesas: shmobile: Use suspend/resume helpers
+  drm: renesas: shmobile: Remove internal CRTC state tracking
+  drm: renesas: shmobile: Atomic conversion part 3
+  drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+  drm: renesas: shmobile: Remove backlight support
+  drm: renesas: shmobile: Don't set display info width and height twice
+  drm: renesas: shmobile: Rename input clocks
+  drm: renesas: shmobile: Remove support for SYS panels
+  drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../display/renesas,shmobile-lcdc.yaml        | 130 ++++
+ .../media/v4l/subdev-formats.rst              |  72 ++
+ MAINTAINERS                                   |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig      |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile     |   3 +-
+ .../renesas/shmobile/shmob_drm_backlight.c    |  82 ---
+ .../renesas/shmobile/shmob_drm_backlight.h    |  19 -
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 650 ++++++++----------
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  27 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 180 +++--
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |  18 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  |  77 ++-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.h  |   9 +-
+ .../drm/renesas/shmobile/shmob_drm_plane.c    | 326 +++++----
+ .../drm/renesas/shmobile/shmob_drm_plane.h    |   5 +-
+ include/linux/platform_data/shmob_drm.h       |  57 +-
+ include/uapi/linux/media-bus-format.h         |   3 +-
+ 17 files changed, 860 insertions(+), 814 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: devicetree@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+-- 
+2.34.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
