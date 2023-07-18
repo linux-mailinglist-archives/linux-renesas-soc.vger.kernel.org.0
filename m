@@ -2,39 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A91A757DEE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 15:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F9F757DF9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 15:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231691AbjGRNl1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 09:41:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42324 "EHLO
+        id S231931AbjGRNn2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 09:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjGRNl1 (ORCPT
+        with ESMTP id S232800AbjGRNnY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 09:41:27 -0400
+        Tue, 18 Jul 2023 09:43:24 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AB319D1;
-        Tue, 18 Jul 2023 06:41:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 430F312F
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 06:43:19 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,214,1684767600"; 
-   d="scan'208";a="169764035"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Jul 2023 22:41:24 +0900
+   d="scan'208";a="169764312"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 18 Jul 2023 22:43:18 +0900
 Received: from localhost.localdomain (unknown [10.226.92.137])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CB680400F32B;
-        Tue, 18 Jul 2023 22:41:21 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id ABAB5421555A;
+        Tue, 18 Jul 2023 22:43:16 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Lee Jones <lee@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
+To:     Lee Jones <lee@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Randy Dunlap <rd.dunlab@gmail.com>
-Subject: [PATCH] mfd: rz-mtu3: Fix COMPILE_TEST build issue
-Date:   Tue, 18 Jul 2023 14:41:19 +0100
-Message-Id: <20230718134119.118018-1-biju.das.jz@bp.renesas.com>
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] mfd: rz-mtu3: Fix COMPILE_TEST build error
+Date:   Tue, 18 Jul 2023 14:43:14 +0100
+Message-Id: <20230718134314.118333-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -49,61 +47,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When (MFD) RZ_MTU3=m and PWM_RZ_MTU3=y, there are numerous build errors:
+When (MFD) RZ_MTU3=m and PWM_RZ_MTU3=y, It hits the below error
+aarch64-linux-gnu-ld: rz-mtu3.c:(.text+0x544): undefined reference to `mfd_remove_devices'
 
-ld: vmlinux.o: in function `rz_mtu3_pwm_config':
-drivers/pwm/pwm-rz-mtu3.c:374: undefined reference to `rz_mtu3_disable'
-ld: drivers/pwm/pwm-rz-mtu3.c:377: undefined reference to `rz_mtu3_8bit_ch_write'
-ld: vmlinux.o: in function `rz_mtu3_pwm_write_tgr_registers':
-drivers/pwm/pwm-rz-mtu3.c:110: undefined reference to `rz_mtu3_16bit_ch_write'
-ld: vmlinux.o: in function `rz_mtu3_pwm_config':
-drivers/pwm/pwm-rz-mtu3.c:382: undefined reference to `rz_mtu3_8bit_ch_write'
-ld: vmlinux.o: in function `rz_mtu3_pwm_write_tgr_registers':
-drivers/pwm/pwm-rz-mtu3.c:110: undefined reference to `rz_mtu3_16bit_ch_write'
-ld: drivers/pwm/pwm-rz-mtu3.c:111: undefined reference to `rz_mtu3_16bit_ch_write'
-ld: vmlinux.o: in function `rz_mtu3_pwm_config':
-drivers/pwm/pwm-rz-mtu3.c:397: undefined reference to `rz_mtu3_enable'
-ld: vmlinux.o: in function `rz_mtu3_pwm_disable':
-drivers/pwm/pwm-rz-mtu3.c:259: undefined reference to `rz_mtu3_8bit_ch_write'
-ld: drivers/pwm/pwm-rz-mtu3.c:264: undefined reference to `rz_mtu3_disable'
-ld: vmlinux.o: in function `rz_mtu3_pwm_enable':
-drivers/pwm/pwm-rz-mtu3.c:230: undefined reference to `rz_mtu3_8bit_ch_write'
-ld: drivers/pwm/pwm-rz-mtu3.c:234: undefined reference to `rz_mtu3_8bit_ch_write'
-ld: drivers/pwm/pwm-rz-mtu3.c:238: undefined reference to `rz_mtu3_enable'
-ld: vmlinux.o: in function `rz_mtu3_pwm_is_ch_enabled':
-drivers/pwm/pwm-rz-mtu3.c:155: undefined reference to `rz_mtu3_is_enabled'
-ld: drivers/pwm/pwm-rz-mtu3.c:162: undefined reference to `rz_mtu3_8bit_ch_read'
-ld: vmlinux.o: in function `rz_mtu3_pwm_read_tgr_registers':
-drivers/pwm/pwm-rz-mtu3.c:102: undefined reference to `rz_mtu3_16bit_ch_read'
-ld: drivers/pwm/pwm-rz-mtu3.c:102: undefined reference to `rz_mtu3_16bit_ch_read'
-ld: drivers/pwm/pwm-rz-mtu3.c:103: undefined reference to `rz_mtu3_16bit_ch_read'
-ld: vmlinux.o: in function `rz_mtu3_pwm_get_state':
-drivers/pwm/pwm-rz-mtu3.c:296: undefined reference to `rz_mtu3_8bit_ch_read'
+Fix this issue by selecting MFD_CORE.
 
-Replace the macro IS_ENABLED->IS_REACHABLE, allowing COMPILE_TEST to be built
-for PWM_RZ_MTU3.
-
-Reported-by: Randy Dunlap <rd.dunlab@gmail.com>
-Closes: https://lore.kernel.org/linux-pwm/TYWPR01MB877550F95CF000B63E9AD022C238A@TYWPR01MB8775.jpnprd01.prod.outlook.com/T/#t
+Reported-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Closes: https://lore.kernel.org/linux-pwm/20230718090023.wo6m6ffzaifgctkj@pengutronix.de/
 Suggested-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- include/linux/mfd/rz-mtu3.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mfd/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/mfd/rz-mtu3.h b/include/linux/mfd/rz-mtu3.h
-index c5173bc06270..4f15c0dead60 100644
---- a/include/linux/mfd/rz-mtu3.h
-+++ b/include/linux/mfd/rz-mtu3.h
-@@ -151,7 +151,7 @@ struct rz_mtu3 {
- 	void *priv_data;
- };
- 
--#if IS_ENABLED(CONFIG_RZ_MTU3)
-+#if IS_REACHABLE(CONFIG_RZ_MTU3)
- static inline bool rz_mtu3_request_channel(struct rz_mtu3_channel *ch)
- {
- 	mutex_lock(&ch->lock);
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 99cdeedae0bb..8ff16f42c77e 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1350,6 +1350,7 @@ config MFD_SC27XX_PMIC
+ config RZ_MTU3
+ 	tristate "Renesas RZ/G2L MTU3a core driver"
+ 	depends on (ARCH_RZG2L && OF) || COMPILE_TEST
++	select MFD_CORE
+ 	help
+ 	  Select this option to enable Renesas RZ/G2L MTU3a core driver for
+ 	  the Multi-Function Timer Pulse Unit 3 (MTU3a) hardware available
 -- 
 2.25.1
 
