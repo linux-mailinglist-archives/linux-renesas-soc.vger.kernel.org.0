@@ -2,87 +2,240 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C01D17585E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 22:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F4B7587E7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jul 2023 00:01:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbjGRUBF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 16:01:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
+        id S230506AbjGRWBH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 18:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGRUBE (ORCPT
+        with ESMTP id S229679AbjGRWBG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 16:01:04 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631339D;
-        Tue, 18 Jul 2023 13:01:02 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4fbc0314a7bso10047258e87.2;
-        Tue, 18 Jul 2023 13:01:02 -0700 (PDT)
+        Tue, 18 Jul 2023 18:01:06 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E02B198D;
+        Tue, 18 Jul 2023 15:01:05 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b8bd586086so49972035ad.2;
+        Tue, 18 Jul 2023 15:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689710460; x=1692302460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nsvfuniumUvrIUad+FZ+IggHzjIA9v5b89HgRnRmbbg=;
-        b=WMS3LPUYM7SRTV2JJy9QuMJh1i0EYGYpz6wE8LhTEEpaE99le5jH45Q0wwlLhfpVXB
-         JVjgnlRIXxkpf2nlYRxO27/g5GGFSCZV3gizRLlvARf0mKrJ2GhwmsMQQDs+31SIYimp
-         GSxtN63kFs4rVyfT4eKZRd4GdZbHMauvwW7O8qpKclPc/igFnwEUVVeueA9JAvfFrLQp
-         VjVbn3trrbAen/oY8/7J/JDqCpPPWAGaBtJA7JfEpZLIQ4HobzJ8SvarbDUC8STUSSsZ
-         bpsRAqgbCr7kOaYC6BCY0hklixnexf5bJ8MZ+KoPcIJfcR7WC0PU6Wj0ZhNj8UlCZcjf
-         o1gQ==
+        d=gmail.com; s=20221208; t=1689717664; x=1692309664;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/DBv5NGK1dmc+CZMq0/WXS3utH3EmBQl9zIKDmjQ1i4=;
+        b=cathwXRCdEL7wvuiZ7bcMAHF2YkxTm1Pa99hNgy2x+3oEKy8vP5p1pu9MijkOsOxyc
+         jVjO8T1YTkH454Bng4g8CC+ThLmAff8Zub0Wh44Fl8hmA3B+pz1cCE8AhFvDJSoUkJID
+         NS7KV1XDtpxLbe2HWUcgGi+EM6yjEGw6Sq2n/Qnwk0U558oV9/CsEMgkI+jF8M4J14Bl
+         j/CISxZtgmOZEeF8ngbj99zwzx/DpIifrqP3yzGJWnNbKrjb9QyRTvPr1aPJ88+oJ9jy
+         batIZ/8swsAtixDHJfvcm05Qd0arLM9+ER1NC94CBHpMmwXt1e8Hdw90O3brBFBThqFk
+         WTSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689710460; x=1692302460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689717664; x=1692309664;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nsvfuniumUvrIUad+FZ+IggHzjIA9v5b89HgRnRmbbg=;
-        b=MSVRfwMqsnzbF/YyKr8AeUXOhKwPR4a53ZCi/TXWTasHWKygKo0W71qkaRQf1Uxrv5
-         /q/wEhhizxyzaxDgfEDLTRrCKGk7m58OJNHRgFcoef2kfQLvJ8c8wXDlHVUCt/Rmics0
-         cbxcsdBjYB73dw2YEkJDUKSzZLO5pKHhFOazHk1LxkuMUilTeHa2MQyRmM4ojBsLaFVI
-         /pghAq7L62ifvjNfOaZojQhvFhVPUC3FYXCjL7WQDcdzWZK7FsxfpGLhRvx0pcn15Xfb
-         2psMTUEomOs1ePtQ1j11JZV7Iwz5v3W9rNFFlAn3VOBfawXFqVZjhLAcVM0SRE9RgepL
-         uNQA==
-X-Gm-Message-State: ABy/qLaVo/dKcRn/b6gixUD0IAYaGpwtDBuG71SnHbOBZ8CSUQ0xVqSG
-        cY2rOXEKJ9lEKLGtuTBCjDsQohqaYG7SXg2eGjc=
-X-Google-Smtp-Source: APBJJlFEkIxPU1zRHgCE0Yvos/6nBFcpXuNGPNI0RSv7fO058aV+jKep38zsgnKxdwypcLoMcfu6eoUSdbtGssw3OAk=
-X-Received: by 2002:a05:6512:2214:b0:4fb:a990:bb28 with SMTP id
- h20-20020a056512221400b004fba990bb28mr12199600lfu.18.1689710460410; Tue, 18
- Jul 2023 13:01:00 -0700 (PDT)
+        bh=/DBv5NGK1dmc+CZMq0/WXS3utH3EmBQl9zIKDmjQ1i4=;
+        b=F/tUQgnLIUh7k4cfUVhIpjDliLqZwwf0l41Huwl4zjXkQA0JKojnj2mFfHcFN90heM
+         ZNbtYX3rUTK3Nol+nW4v4BHKcgNmwO8xMX7lkLLXW1z5OYg0rBbtYNeufujSJz0LudmE
+         ap9YOyYtsubLNUtxkhGuddJbAgc/nUy1cvxsrNN+KIPG/ZbvETsLH6xukHX8VlDZ3k5v
+         MyMC5tQd+mF/VtpXuLOImcgLrPZFCR6j/kcY2F88npPbhsrgio1+cn7GrLyRJuqWkitc
+         1UDaQ1QcWVifKaNcMEl7zHrT7scCcyHv8E04X3vVdoUvgB8dLJ1QIhgSp3NuPs1SkXgs
+         JIIw==
+X-Gm-Message-State: ABy/qLY304gpiS7wb5vBgM1nPYoUGsg7u5ovfsOTbAjHNu9NVn6WTmIk
+        +62EVgK6e1cxGvCCLb8O2xk=
+X-Google-Smtp-Source: APBJJlEKmijXIQPxNbeLXXqgtsMDd/YUFQr0MtJ3gF/quDqVxbtlCH7F50lGttR5T6rSx/zqeT1Vfg==
+X-Received: by 2002:a17:902:768c:b0:1ba:ff05:d8b1 with SMTP id m12-20020a170902768c00b001baff05d8b1mr982129pll.19.1689717664188;
+        Tue, 18 Jul 2023 15:01:04 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:fbd8])
+        by smtp.gmail.com with ESMTPSA id g15-20020a1709029f8f00b001b8b2a6c4a4sm2354458plq.172.2023.07.18.15.01.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 15:01:03 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 18 Jul 2023 12:01:02 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rtc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
+ mechanism)
+Message-ID: <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
+References: <20230511181931.869812-1-tj@kernel.org>
+ <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
+ <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+ <ZK30CR196rs-OWLq@slm.duckdns.org>
+ <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
+ <ZLXIvXBvhsnL-ik_@slm.duckdns.org>
+ <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230718192453.543549-1-fabrizio.castro.jz@renesas.com> <20230718192453.543549-5-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20230718192453.543549-5-fabrizio.castro.jz@renesas.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 18 Jul 2023 23:00:24 +0300
-Message-ID: <CAHp75Ve-q6ZgYBzKwhTpOHjS1ib8WcZkSPE_vzhxzOsvMTVacg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] spi: rzv2m-csi: Make use of device_set_node
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 10:25=E2=80=AFPM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
->
-> Use device_set_node instead of assigning controller->dev.of_node
+Hello,
 
-device_set_node()
+On Tue, Jul 18, 2023 at 11:54:58AM +0200, Geert Uytterhoeven wrote:
+> I gave it a try on a system with an 800 MHz Cortex A9, only to discover
+> it makes no difference, as that machine has 1600 BogoMIPS:
 
-> directly because it also sets the firmware node.
+Oops.
 
---=20
-With Best Regards,
-Andy Shevchenko
+> workqueue: blk_mq_run_work_fn hogged CPU for >10000us 4 times,
+> consider switching to WQ_UNBOUND
+
+It could be that we actually want to switch to UNBOUND for some reports but
+the above triggering most likely indicates that the threshold is too
+aggressive.
+
+> Artificially low BogoMIPS numbers only happen on systems that have
+> the related timers (Cortex A7/A15 and later, Cortex A9 MPCore,
+> and arm64).
+
+Ah, I see. Thanks for the explanation.
+
+> I will test on more systems, but that will probably not happen until
+> next week...
+
+Thanks, really appreciate it. Can you try the following instead when you
+have time? I just pushed up the lower boundary to 4000 MIPS. The scaling is
+still capped at 1s.
+
+From 8555cbd4b22e5f85eb2bdcb84fd1d1f519a0a0d3 Mon Sep 17 00:00:00 2001
+From: Tejun Heo <tj@kernel.org>
+Date: Mon, 17 Jul 2023 12:50:02 -1000
+Subject: [PATCH] workqueue: Scale up wq_cpu_intensive_thresh_us if BogoMIPS is
+ below 4000
+
+wq_cpu_intensive_thresh_us is used to detect CPU-hogging per-cpu work items.
+Once detected, they're excluded from concurrency management to prevent them
+from blocking other per-cpu work items. If CONFIG_WQ_CPU_INTENSIVE_REPORT is
+enabled, repeat offenders are also reported so that the code can be updated.
+
+The default threshold is 10ms which is long enough to do fair bit of work on
+modern CPUs while short enough to be usually not noticeable. This
+unfortunately leads to a lot of, arguable spurious, detections on very slow
+CPUs. Using the same threshold across CPUs whose performance levels may be
+apart by multiple levels of magnitude doesn't make whole lot of sense.
+
+This patch scales up wq_cpu_intensive_thresh_us upto 1 second when BogoMIPS
+is below 4000. This is obviously very inaccurate but it doesn't have to be
+accurate to be useful. The mechanism is still useful when the threshold is
+fully scaled up and the benefits of reports are usually shared with everyone
+regardless of who's reporting, so as long as there are sufficient number of
+fast machines reporting, we don't lose much.
+
+Some (or is it all?) ARM CPUs systemtically report significantly lower
+BogoMIPS. While this doesn't break anything, given how widespread ARM CPUs
+are, it's at least a missed opportunity and it probably would be a good idea
+to teach workqueue about it.
+
+Signed-off-by: Tejun Heo <tj@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ kernel/workqueue.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index 02a8f402eeb5..0d7a3d29762f 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -52,6 +52,7 @@
+ #include <linux/sched/debug.h>
+ #include <linux/nmi.h>
+ #include <linux/kvm_para.h>
++#include <linux/delay.h>
+ 
+ #include "workqueue_internal.h"
+ 
+@@ -338,8 +339,10 @@ static cpumask_var_t *wq_numa_possible_cpumask;
+  * Per-cpu work items which run for longer than the following threshold are
+  * automatically considered CPU intensive and excluded from concurrency
+  * management to prevent them from noticeably delaying other per-cpu work items.
++ * ULONG_MAX indicates that the user hasn't overridden it with a boot parameter.
++ * The actual value is initialized in wq_cpu_intensive_thresh_init().
+  */
+-static unsigned long wq_cpu_intensive_thresh_us = 10000;
++static unsigned long wq_cpu_intensive_thresh_us = ULONG_MAX;
+ module_param_named(cpu_intensive_thresh_us, wq_cpu_intensive_thresh_us, ulong, 0644);
+ 
+ static bool wq_disable_numa;
+@@ -6513,6 +6516,42 @@ void __init workqueue_init_early(void)
+ 	       !system_freezable_power_efficient_wq);
+ }
+ 
++static void __init wq_cpu_intensive_thresh_init(void)
++{
++	unsigned long thresh;
++	unsigned long mips;
++
++	/* if the user set it to a specific value, keep it */
++	if (wq_cpu_intensive_thresh_us != ULONG_MAX)
++		return;
++
++	/*
++	 * The default of 10ms is derived from the fact that most modern (as of
++	 * 2023) processors can do a lot in 10ms and that it's just below what
++	 * most consider human-perceivable. However, the kernel also runs on a
++	 * lot slower CPUs including microcontrollers where the threshold is way
++	 * too low.
++	 *
++	 * Let's scale up the threshold upto 1 second if BogoMips is below 4000.
++	 * This is by no means accurate but it doesn't have to be. The mechanism
++	 * is still useful even when the threshold is fully scaled up. Also, as
++	 * the reports would usually be applicable to everyone, some machines
++	 * operating on longer thresholds won't significantly diminish their
++	 * usefulness.
++	 */
++	thresh = 10 * USEC_PER_MSEC;
++
++	/* see init/calibrate.c for lpj -> BogoMIPS calculation */
++	mips = max_t(unsigned long, loops_per_jiffy / 500000 * HZ, 1);
++	if (mips < 4000)
++		thresh = min_t(unsigned long, thresh * 4000 / mips, USEC_PER_SEC);
++
++	pr_debug("wq_cpu_intensive_thresh: lpj=%lu mips=%lu thresh_us=%lu\n",
++		 loops_per_jiffy, mips, thresh);
++
++	wq_cpu_intensive_thresh_us = thresh;
++}
++
+ /**
+  * workqueue_init - bring workqueue subsystem fully online
+  *
+@@ -6528,6 +6567,8 @@ void __init workqueue_init(void)
+ 	struct worker_pool *pool;
+ 	int cpu, bkt;
+ 
++	wq_cpu_intensive_thresh_init();
++
+ 	/*
+ 	 * It'd be simpler to initialize NUMA in workqueue_init_early() but
+ 	 * CPU to node mapping may not be available that early on some
+-- 
+2.41.0
+
