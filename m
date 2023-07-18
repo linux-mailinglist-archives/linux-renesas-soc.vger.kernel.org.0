@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 718B475829F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 18:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E82A7582A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jul 2023 18:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232950AbjGRQzF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jul 2023 12:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58054 "EHLO
+        id S231896AbjGRQzK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jul 2023 12:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232111AbjGRQy6 (ORCPT
+        with ESMTP id S232562AbjGRQzA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jul 2023 12:54:58 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A00171B
+        Tue, 18 Jul 2023 12:55:00 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 030191723
         for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jul 2023 09:54:54 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
-        by albert.telenet-ops.be with bizsmtp
-        id Ngur2A00R0ucMBo06gurSd; Tue, 18 Jul 2023 18:54:52 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id Ngur2A00F0ucMBo01gurGZ; Tue, 18 Jul 2023 18:54:51 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qLnyD-001nYX-BX;
+        id 1qLnyD-001nYb-CD;
         Tue, 18 Jul 2023 18:54:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qLnyN-000gcT-Ch;
+        id 1qLnyN-000gcX-DI;
         Tue, 18 Jul 2023 18:54:51 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -36,11 +36,10 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2 17/41] drm: renesas: shmobile: Convert to use devm_request_irq()
-Date:   Tue, 18 Jul 2023 18:54:22 +0200
-Message-Id: <e0ffc4f5a39586d07f202abd4b458d40f7eb2b15.1689698048.git.geert+renesas@glider.be>
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 18/41] drm: renesas: shmobile: Remove custom plane destroy callback
+Date:   Tue, 18 Jul 2023 18:54:23 +0200
+Message-Id: <3413108e3110b8b9ca3954769de27326882d0077.1689698048.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689698048.git.geert+renesas@glider.be>
 References: <cover.1689698048.git.geert+renesas@glider.be>
@@ -48,63 +47,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert to managed IRQ handling, to simplify cleanup.
+There is no need to call drm_plane_force_disable() from the plane's
+.destroy() callback, as the plane should have been disabled already
+before.  See also commit 3c858a33858baa8c ("drm/plane_helper: don't
+disable plane in destroy function") for the generic plane helper case.
+
+After removing this call, shmob_drm_plane_destroy() becomes a simple
+wrapper around shmob_drm_plane_destroy(), hence replace it by the
+latter.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v2:
-  - Add Reviewed-by.
+  - New.
 ---
- drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-index 91daab80b0ede058..381e184abf552c4c 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-@@ -196,7 +196,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(ddev);
- 	drm_kms_helper_poll_fini(ddev);
--	free_irq(sdev->irq, ddev);
- 	drm_dev_put(ddev);
- 
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+index 0b2ab153e9ae76df..3a5db319bad14218 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+@@ -176,16 +176,10 @@ static int shmob_drm_plane_disable(struct drm_plane *plane,
  	return 0;
-@@ -279,8 +278,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 		goto err_modeset_cleanup;
- 	sdev->irq = ret;
+ }
  
--	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
--			  ddev);
-+	ret = devm_request_irq(&pdev->dev, sdev->irq, shmob_drm_irq, 0,
-+			       ddev->driver->name, ddev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "failed to install IRQ handler\n");
- 		goto err_modeset_cleanup;
-@@ -292,14 +291,12 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	 */
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret < 0)
--		goto err_irq_uninstall;
-+		goto err_modeset_cleanup;
+-static void shmob_drm_plane_destroy(struct drm_plane *plane)
+-{
+-	drm_plane_force_disable(plane);
+-	drm_plane_cleanup(plane);
+-}
+-
+ static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+ 	.update_plane = shmob_drm_plane_update,
+ 	.disable_plane = shmob_drm_plane_disable,
+-	.destroy = shmob_drm_plane_destroy,
++	.destroy = drm_plane_cleanup,
+ };
  
- 	drm_fbdev_generic_setup(ddev, 16);
- 
- 	return 0;
- 
--err_irq_uninstall:
--	free_irq(sdev->irq, ddev);
- err_modeset_cleanup:
- 	drm_kms_helper_poll_fini(ddev);
- err_free_drm_dev:
+ static const uint32_t formats[] = {
 -- 
 2.34.1
 
