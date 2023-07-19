@@ -2,110 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42C7E75998C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jul 2023 17:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD13759A6E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jul 2023 18:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231748AbjGSPXx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jul 2023 11:23:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60832 "EHLO
+        id S231978AbjGSQFi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jul 2023 12:05:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231738AbjGSPXv (ORCPT
+        with ESMTP id S231772AbjGSQFe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jul 2023 11:23:51 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAA6E75
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jul 2023 08:23:49 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:51f7:4083:c317:cdf])
-        by xavier.telenet-ops.be with bizsmtp
-        id P3Pg2A00E2xuRWb013Pgqz; Wed, 19 Jul 2023 17:23:48 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qM91W-001tYA-6y;
-        Wed, 19 Jul 2023 17:23:40 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qM91g-001Bju-7o;
-        Wed, 19 Jul 2023 17:23:40 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v3 4/4] drm: Fix references to drm_plane_helper_check_state()
-Date:   Wed, 19 Jul 2023 17:23:37 +0200
-Message-Id: <8bb42a92fc20e3d11e5847e7f15a47c687b73104.1689779916.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1689779916.git.geert+renesas@glider.be>
-References: <cover.1689779916.git.geert+renesas@glider.be>
+        Wed, 19 Jul 2023 12:05:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9567EE75;
+        Wed, 19 Jul 2023 09:05:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D6E476178F;
+        Wed, 19 Jul 2023 16:05:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5DFC433C8;
+        Wed, 19 Jul 2023 16:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689782731;
+        bh=/tb6Lbrwdhatp+AsYZjp6uY0cMgxTGbIbMh0XQFsrTo=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=N2UPtybDErSj5om1oRoCxeCA3sUT7indVYN8NR1oCsM87Mdcuqvzj4kZU52PNTNQO
+         0H7F2gzr9y3ffXwMXEjT79fkuQ0Q+JG4/BWPRBgDAREZtuDO+CP8qU8AtEU1rPgeIs
+         UWVCqoV38XVrMtKIlXanYa2QI43OY81OryviP0SIkh6uoaz/EWtBCiFzVb2w7zUoRc
+         41DQFs9i0doO5Kf48UoPIM7JbjxHoOLOy3WRx7QBZOJpgY5p4sV/W5N8kgBC3kni3n
+         3+p+6GKOEqK5s4Kmr7jOjJUackkYFRZWmxEssnNqEAjnIzxf0l7EjbC2AYbXZvjE7z
+         bhndMVUaCQXoQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20230718192453.543549-1-fabrizio.castro.jz@renesas.com>
+References: <20230718192453.543549-1-fabrizio.castro.jz@renesas.com>
+Subject: Re: [PATCH v2 0/4] spi: rzv2m-csi: Code refactoring
+Message-Id: <168978272902.92263.3160901473000080563.b4-ty@kernel.org>
+Date:   Wed, 19 Jul 2023 17:05:29 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As of commit a01cb8ba3f628293 ("drm: Move drm_plane_helper_check_state()
-into drm_atomic_helper.c"), drm_plane_helper_check_state() no longer
-exists, but is part of drm_atomic_helper_check_plane_state().
+On Tue, 18 Jul 2023 20:24:49 +0100, Fabrizio Castro wrote:
+> I am sending this series to follow up on the comments received
+> from the first version of this series.
+> The first 5 patches of the first series have been taken by Mark
+> already (thanks Mark), this second version only addresses the
+> remaining patches.
+> 
+> I would like to highlight that I have dropped patch
+> "spi: rzv2m-csi: Switch to using {read,write}s{b,w}" for now,
+> and maybe I will send a follow up patch later on.
+> 
+> [...]
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-v3:
-  - No changes,
+Applied to
 
-v2:
-  - Add Reviewed-by.
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c | 3 ++-
- drivers/gpu/drm/tidss/tidss_plane.c             | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-index d759e019218181ce..e445fac8e0b46c21 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c
-@@ -600,7 +600,8 @@ int __rcar_du_plane_atomic_check(struct drm_plane *plane,
- 	if (!state->crtc) {
- 		/*
- 		 * The visible field is not reset by the DRM core but only
--		 * updated by drm_plane_helper_check_state(), set it manually.
-+		 * updated by drm_atomic_helper_check_plane_state(), set it
-+		 * manually.
- 		 */
- 		state->visible = false;
- 		*format = NULL;
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 6bdd6e4a955ab3cc..e1c0ef0c3894c855 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -38,7 +38,8 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->crtc) {
- 		/*
- 		 * The visible field is not reset by the DRM core but only
--		 * updated by drm_plane_helper_check_state(), set it manually.
-+		 * updated by drm_atomic_helper_check_plane_state(), set it
-+		 * manually.
- 		 */
- 		new_plane_state->visible = false;
- 		return 0;
--- 
-2.34.1
+Thanks!
+
+[1/4] spi: rzv2m-csi: Squash timing settings into one statement
+      commit: d5737d12779a171e76ad07635d1ed06a22009da7
+[2/4] spi: rzv2m-csi: Improve data types, casting and alignment
+      commit: 8dc4038a026a79b6222a43ccf7adf070c4ba54ea
+[3/4] spi: rzv2m-csi: Get rid of the x_trg{_words} tables
+      commit: 7b63568fce9cb34cb0ad4caf9231555eb768c8e6
+[4/4] spi: rzv2m-csi: Make use of device_set_node
+      commit: c5a7b66811d22a4901bd358447e59160dbda8f65
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
