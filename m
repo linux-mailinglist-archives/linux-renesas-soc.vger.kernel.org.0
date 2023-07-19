@@ -2,58 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD13759A6E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jul 2023 18:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E929759D8A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jul 2023 20:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbjGSQFi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jul 2023 12:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35308 "EHLO
+        id S230044AbjGSSjj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jul 2023 14:39:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbjGSQFe (ORCPT
+        with ESMTP id S229497AbjGSSji (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jul 2023 12:05:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9567EE75;
-        Wed, 19 Jul 2023 09:05:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Wed, 19 Jul 2023 14:39:38 -0400
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C1C6C6;
+        Wed, 19 Jul 2023 11:39:35 -0700 (PDT)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+        by mx1.sberdevices.ru (Postfix) with ESMTP id 660A412007A;
+        Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 660A412007A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1689791973;
+        bh=sc+94aLvgVUxBUEzSPbWOsr9WhtmbJCsOLteFFzOoLU=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+        b=ftS9UdnFVupfX9JxONl46s/RGEHl80jPk77NDDqzvRlD1qSq1jhJ6yXhfHaSPewnr
+         LEQ6tu0ClcfcCUU9btQ8pcnKoaAO2EJBXjugGbhFMHWzBlTJxypP0F3af+WF7YnUcT
+         qwRJV+UdIg9Tq/ng5S2MnxsHFZSDjXsqkqprkZ/FAn6+PAzMRaUZQlMaszmoB8jzPf
+         AAU7c/jMuvSi1AM8yvRzt0m4L7ILTyWgBLaRMTnYKOJhuMJljph7thz7MAefNZECdm
+         ASZdS2Hm97OvI4aj7PSdUXrCYM7KLsHLwhBPeZ4VRaDC7sbNbBsJ+UEFUFLlGc1JiM
+         1mc7vWHZzj6DA==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6E476178F;
-        Wed, 19 Jul 2023 16:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5DFC433C8;
-        Wed, 19 Jul 2023 16:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689782731;
-        bh=/tb6Lbrwdhatp+AsYZjp6uY0cMgxTGbIbMh0XQFsrTo=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=N2UPtybDErSj5om1oRoCxeCA3sUT7indVYN8NR1oCsM87Mdcuqvzj4kZU52PNTNQO
-         0H7F2gzr9y3ffXwMXEjT79fkuQ0Q+JG4/BWPRBgDAREZtuDO+CP8qU8AtEU1rPgeIs
-         UWVCqoV38XVrMtKIlXanYa2QI43OY81OryviP0SIkh6uoaz/EWtBCiFzVb2w7zUoRc
-         41DQFs9i0doO5Kf48UoPIM7JbjxHoOLOy3WRx7QBZOJpgY5p4sV/W5N8kgBC3kni3n
-         3+p+6GKOEqK5s4Kmr7jOjJUackkYFRZWmxEssnNqEAjnIzxf0l7EjbC2AYbXZvjE7z
-         bhndMVUaCQXoQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20230718192453.543549-1-fabrizio.castro.jz@renesas.com>
-References: <20230718192453.543549-1-fabrizio.castro.jz@renesas.com>
-Subject: Re: [PATCH v2 0/4] spi: rzv2m-csi: Code refactoring
-Message-Id: <168978272902.92263.3160901473000080563.b4-ty@kernel.org>
-Date:   Wed, 19 Jul 2023 17:05:29 +0100
+        by mx1.sberdevices.ru (Postfix) with ESMTPS;
+        Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
+Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
+ (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 19 Jul
+ 2023 21:39:33 +0300
+Date:   Wed, 19 Jul 2023 21:39:27 +0300
+From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
+To:     Rob Herring <robh@kernel.org>
+CC:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Alex Helms <alexander.helms.jy@renesas.com>,
+        Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+        <soc@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Hal Feng <hal.feng@starfivetech.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michal Simek <michal.simek@amd.com>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-actions@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-oxnas@groups.io>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH] clk: Explicitly include correct DT includes
+Message-ID: <20230719183927.c4ykdjw3iekmugzy@CAB-WSD-L081021>
+References: <20230714174342.4052882-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-099c9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
+User-Agent: NeoMutt/20220415
+X-Originating-IP: [100.64.160.123]
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 178730 [Jul 19 2023]
+X-KSMG-AntiSpam-Version: 5.9.59.0
+X-KSMG-AntiSpam-Envelope-From: DDRokosov@sberdevices.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 524 524 9753033d6953787301affc41bead8ed49c47b39d, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;100.64.160.123:7.1.2, FromAlignment: s, {Tracking_white_helo}, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/07/19 15:29:00 #21641898
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,50 +157,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 18 Jul 2023 20:24:49 +0100, Fabrizio Castro wrote:
-> I am sending this series to follow up on the comments received
-> from the first version of this series.
-> The first 5 patches of the first series have been taken by Mark
-> already (thanks Mark), this second version only addresses the
-> remaining patches.
+On Fri, Jul 14, 2023 at 11:43:29AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
-> I would like to highlight that I have dropped patch
-> "spi: rzv2m-csi: Switch to using {read,write}s{b,w}" for now,
-> and maybe I will send a follow up patch later on.
-> 
-> [...]
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-Applied to
+[...]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+For
 
-Thanks!
+>  drivers/clk/meson/a1-peripherals.c               | 2 +-
+>  drivers/clk/meson/a1-pll.c                       | 2 +-
 
-[1/4] spi: rzv2m-csi: Squash timing settings into one statement
-      commit: d5737d12779a171e76ad07635d1ed06a22009da7
-[2/4] spi: rzv2m-csi: Improve data types, casting and alignment
-      commit: 8dc4038a026a79b6222a43ccf7adf070c4ba54ea
-[3/4] spi: rzv2m-csi: Get rid of the x_trg{_words} tables
-      commit: 7b63568fce9cb34cb0ad4caf9231555eb768c8e6
-[4/4] spi: rzv2m-csi: Make use of device_set_node
-      commit: c5a7b66811d22a4901bd358447e59160dbda8f65
+Reviewed-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+[...]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Thank you,
+Dmitry
