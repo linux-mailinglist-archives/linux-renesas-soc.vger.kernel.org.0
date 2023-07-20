@@ -2,62 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBBA75A2E4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jul 2023 01:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CFCB75A8F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jul 2023 10:18:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjGSXkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jul 2023 19:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41440 "EHLO
+        id S230499AbjGTISx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jul 2023 04:18:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjGSXkg (ORCPT
+        with ESMTP id S231142AbjGTISw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jul 2023 19:40:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D23D11B9;
-        Wed, 19 Jul 2023 16:40:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 67B5261861;
-        Wed, 19 Jul 2023 23:40:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD21C433C9;
-        Wed, 19 Jul 2023 23:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689810034;
-        bh=X+Q7vZNz0gi3IW1qK4+Ti/lKXsq3agFLU+cGPV2jtS8=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=nPe+KNXDlAFunkxSn+bV5niiotBgVvaCkuqEOPDbpRBxgO5z7Paq8qayYlN5AXSAG
-         sL+0Gvaoxf+K86yd9viJ3q2ZFq7WIe032WmuURjCucD7qmtaQ+ebzULMLCa0uS6sk8
-         1xkhPoux47GJW7qQHeBLxm6IgoxS69YXAgvZsbM2IQw3q9zaWwVx0yxXBO36zDV/cr
-         kia5C/1An/+1SkF5WPa/KtWEXvsnSm8s90i2IymkO+S3GuGcXp6dD+6gT94qLRGtS0
-         vjslx/WnV45dO3uLZpk4k1xqOgYofqfb87STlQVkcENNtcDcGUaG/nP6HagWzYNeK/
-         m9eDXn90PuW8Q==
-Message-ID: <f291f0e018aecf2aef1f1960eca18fcd.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+        Thu, 20 Jul 2023 04:18:52 -0400
+Received: from mail.bizcodes.pl (mail.bizcodes.pl [151.80.57.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B11D268F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jul 2023 01:18:46 -0700 (PDT)
+Received: by mail.bizcodes.pl (Postfix, from userid 1002)
+        id 32DDFA6381; Thu, 20 Jul 2023 08:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizcodes.pl; s=mail;
+        t=1689841019; bh=5QPMt7jNntM5ZbstM20BWsHIeLbmRE8lVU4Iu89IleQ=;
+        h=Date:From:To:Subject:From;
+        b=ljM3vHwyMxRkUPtBBylkYjyoP1pwnWoWIPKIQYsNgUSwqZbboAKa4AHYMHCw7+muG
+         AhxoGqQKGV5IJhTp64R+359j08nG9exs8YArBtyNDc2ccU/It5vJpqrSHiCjZXVCrw
+         XV0D3kz3z5JuiqjobAqQduai23rJTPHy/L50pM+ersnnBXCh30I6E/MhryOMSu9wl5
+         GoimY5JQQSUmZZ1ORVCP5riEQ9NyfaGwqPrBMA+LWN7l73RDYpRSJLuVTs5esnWoM4
+         P7S4V3LVGcR/WA3z00wy8lWJny93iqTWXtOL1W5yV9trszrj0YxDUJn3HVH6zZu2Cz
+         ImQkgfQVXVS1g==
+Received: by mail.bizcodes.pl for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jul 2023 08:16:01 GMT
+Message-ID: <20230720064501-0.1.al.18703.0.j0e4247zc9@bizcodes.pl>
+Date:   Thu, 20 Jul 2023 08:16:01 GMT
+From:   "Marcin Chruszcz" <marcin.chruszcz@bizcodes.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: Prezentacja
+X-Mailer: mail.bizcodes.pl
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230705171000.85786-2-biju.das.jz@bp.renesas.com>
-References: <20230705171000.85786-1-biju.das.jz@bp.renesas.com> <20230705171000.85786-2-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v6 1/2] dt-bindings: clock: Add Renesas versa3 clock generator bindings
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 19 Jul 2023 16:40:32 -0700
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,17 +46,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Biju Das (2023-07-05 10:09:59)
-> Document Renesas versa3 clock generator(5P35023) bindings.
->=20
-> The 5P35023 is a VersaClock programmable clock generator and
-> is designed for low-power, consumer, and high-performance PCI
-> Express applications. The 5P35023 device is a three PLL
-> architecture design, and each PLL is individually programmable
-> and allowing for up to 6 unique frequency outputs.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Dzie=C5=84 dobry!
 
-Applied to clk-next
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
+=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
+zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
+
+Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
+=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
+dostaw.
+
+Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
+nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
+ co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
+
+Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
+=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
+zania w Pa=C5=84stwa firmie.
+
+
+Pozdrawiam
+Marcin Chruszcz
