@@ -2,82 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B02A975BF34
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 09:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF6275BF67
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 09:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230112AbjGUHAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jul 2023 03:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44138 "EHLO
+        id S229622AbjGUHQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jul 2023 03:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbjGUHAc (ORCPT
+        with ESMTP id S229451AbjGUHQK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jul 2023 03:00:32 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1EAD0270B;
-        Fri, 21 Jul 2023 00:00:31 -0700 (PDT)
+        Fri, 21 Jul 2023 03:16:10 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3AB1A2715;
+        Fri, 21 Jul 2023 00:16:09 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,220,1684767600"; 
-   d="scan'208";a="170340947"
+   d="scan'208";a="173993438"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Jul 2023 16:00:30 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 21 Jul 2023 16:16:08 +0900
 Received: from localhost.localdomain (unknown [10.226.92.55])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 083904006190;
-        Fri, 21 Jul 2023 16:00:27 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 16AA04007F54;
+        Fri, 21 Jul 2023 16:16:05 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alex Helms <alexander.helms.jy@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
+To:     Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@mailbox.org>
-Subject: [PATCH v2 2/2] clk: vc7: Use i2c_get_match_data() instead of device_get_match_data()
-Date:   Fri, 21 Jul 2023 08:00:19 +0100
-Message-Id: <20230721070019.96627-3-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] iio: potentiometer: mcp4018: Use i2c_get_match_data()
+Date:   Fri, 21 Jul 2023 08:16:03 +0100
+Message-Id: <20230721071603.158114-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230721070019.96627-1-biju.das.jz@bp.renesas.com>
-References: <20230721070019.96627-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The device_get_match_data(), is to get match data for firmware interfaces
-such as just OF/ACPI. This driver has I2C matching table as well. Use
-i2c_get_match_data() to get match data for I2C, ACPI and DT-based
-matching.
+Replace of_device_get_match_data() and i2c_match_id() by i2c_get_match
+_data() by making similar I2C and DT-based matching table.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v1->v2:
- * Added Rb tags from Geert and Marek.
- * Removed error check as all tables have data pointers.
- * Retained Rb tag as the change is trivial.
----
- drivers/clk/clk-versaclock7.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ * Added similar similar I2C and DT-based matching table.
+ * Fixed typo i2c_get_match_data(dev)->i2c_get_match_data(client).
+ * Dropped error check as all tables have data pointers.
 
-diff --git a/drivers/clk/clk-versaclock7.c b/drivers/clk/clk-versaclock7.c
-index 7f4361084882..9ab35c1af0ff 100644
---- a/drivers/clk/clk-versaclock7.c
-+++ b/drivers/clk/clk-versaclock7.c
-@@ -1108,7 +1108,7 @@ static int vc7_probe(struct i2c_client *client)
+Note:
+ This patch is only compile tested.
+---
+ drivers/iio/potentiometer/mcp4018.c | 34 +++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/iio/potentiometer/mcp4018.c b/drivers/iio/potentiometer/mcp4018.c
+index 89daecc90305..b064e86ecce8 100644
+--- a/drivers/iio/potentiometer/mcp4018.c
++++ b/drivers/iio/potentiometer/mcp4018.c
+@@ -99,20 +99,24 @@ static const struct iio_info mcp4018_info = {
+ 	.write_raw = mcp4018_write_raw,
+ };
  
- 	i2c_set_clientdata(client, vc7);
- 	vc7->client = client;
--	vc7->chip_info = device_get_match_data(&client->dev);
-+	vc7->chip_info = i2c_get_match_data(client);
++#define MCP4018_ID_TABLE(name, cfg) {				\
++	name, .driver_data = (kernel_ulong_t)&mcp4018_cfg[cfg],	\
++}
++
+ static const struct i2c_device_id mcp4018_id[] = {
+-	{ "mcp4017-502", MCP4018_502 },
+-	{ "mcp4017-103", MCP4018_103 },
+-	{ "mcp4017-503", MCP4018_503 },
+-	{ "mcp4017-104", MCP4018_104 },
+-	{ "mcp4018-502", MCP4018_502 },
+-	{ "mcp4018-103", MCP4018_103 },
+-	{ "mcp4018-503", MCP4018_503 },
+-	{ "mcp4018-104", MCP4018_104 },
+-	{ "mcp4019-502", MCP4018_502 },
+-	{ "mcp4019-103", MCP4018_103 },
+-	{ "mcp4019-503", MCP4018_503 },
+-	{ "mcp4019-104", MCP4018_104 },
+-	{}
++	MCP4018_ID_TABLE("mcp4017-502", MCP4018_502),
++	MCP4018_ID_TABLE("mcp4017-103", MCP4018_103),
++	MCP4018_ID_TABLE("mcp4017-503", MCP4018_503),
++	MCP4018_ID_TABLE("mcp4017-104", MCP4018_104),
++	MCP4018_ID_TABLE("mcp4018-502", MCP4018_502),
++	MCP4018_ID_TABLE("mcp4018-103", MCP4018_103),
++	MCP4018_ID_TABLE("mcp4018-503", MCP4018_503),
++	MCP4018_ID_TABLE("mcp4018-104", MCP4018_104),
++	MCP4018_ID_TABLE("mcp4019-502", MCP4018_502),
++	MCP4018_ID_TABLE("mcp4019-103", MCP4018_103),
++	MCP4018_ID_TABLE("mcp4019-503", MCP4018_503),
++	MCP4018_ID_TABLE("mcp4019-104", MCP4018_104),
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(i2c, mcp4018_id);
  
- 	vc7->pin_xin = devm_clk_get(&client->dev, "xin");
- 	if (PTR_ERR(vc7->pin_xin) == -EPROBE_DEFER) {
+@@ -157,9 +161,7 @@ static int mcp4018_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, indio_dev);
+ 	data->client = client;
+ 
+-	data->cfg = device_get_match_data(dev);
+-	if (!data->cfg)
+-		data->cfg = &mcp4018_cfg[i2c_match_id(mcp4018_id, client)->driver_data];
++	data->cfg = i2c_get_match_data(client);
+ 
+ 	indio_dev->info = &mcp4018_info;
+ 	indio_dev->channels = &mcp4018_channel;
 -- 
 2.25.1
 
