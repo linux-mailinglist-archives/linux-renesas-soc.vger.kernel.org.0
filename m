@@ -2,43 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF6275BF67
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 09:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E06E75C012
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 09:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjGUHQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jul 2023 03:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50492 "EHLO
+        id S230398AbjGUHpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jul 2023 03:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGUHQK (ORCPT
+        with ESMTP id S229914AbjGUHpE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jul 2023 03:16:10 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3AB1A2715;
-        Fri, 21 Jul 2023 00:16:09 -0700 (PDT)
+        Fri, 21 Jul 2023 03:45:04 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50FD719AD;
+        Fri, 21 Jul 2023 00:45:02 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,220,1684767600"; 
-   d="scan'208";a="173993438"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Jul 2023 16:16:08 +0900
-Received: from localhost.localdomain (unknown [10.226.92.55])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 16AA04007F54;
-        Fri, 21 Jul 2023 16:16:05 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] iio: potentiometer: mcp4018: Use i2c_get_match_data()
-Date:   Fri, 21 Jul 2023 08:16:03 +0100
-Message-Id: <20230721071603.158114-1-biju.das.jz@bp.renesas.com>
+   d="scan'208";a="170346690"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 21 Jul 2023 16:45:01 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5BFB5418F5E1;
+        Fri, 21 Jul 2023 16:45:01 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
+        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, fancer.lancer@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v18 00/20] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Fri, 21 Jul 2023 16:44:32 +0900
+Message-Id: <20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,75 +48,110 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace of_device_get_match_data() and i2c_match_id() by i2c_get_match
-_data() by making similar I2C and DT-based matching table.
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Added similar similar I2C and DT-based matching table.
- * Fixed typo i2c_get_match_data(dev)->i2c_get_match_data(client).
- * Dropped error check as all tables have data pointers.
+Changes from v17:
+https://lore.kernel.org/linux-pci/20230705114206.3585188-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Add comments in the commit log in the patch 01/20.
+ - Drop "Implicit" from "Message Routing" in the patch 01/20.
+ - Add Reviewed-by tag in the patch 0[14569]/20.
+ - Fix typo in the patch 07/20.
+ - Drop unnecessary description from the commit log in the patch 09/20.
+ - Add clk_bulk_disable_unprepare() calling in the patch 1[78]/20.
+ - Use .remove_new() in the patch 1[78]/20.
+ - Add rcar_gen4_pcie_basic_deinit() and .deinit() in the patch 17/20.
+ - Call rcar_gen4_pcie_basic_deinit() in .ep_deinit() in the patch 18/20.
+ - Minor updates for improved code readability in the patch 1[78]/20.
 
-Note:
- This patch is only compile tested.
----
- drivers/iio/potentiometer/mcp4018.c | 34 +++++++++++++++--------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+Changes from v16:
+https://lore.kernel.org/linux-pci/20230510062234.201499-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on next-20230704.
+ - Drop a patch about PCI_EXP_LNKCAP_MLW.
+ - Drop a patch about PCI_HEADER_TYPE_MULTI_FUNC.
+ - Update comments in the patch [01/20].
+ - Drop CC-list from actual commit log in the patch [02/20].
+ - Update the commit log in the patch [04/20].
+ - Remove unnecessary bit setting in the patch [05/20].
+ - (New) Add .func_conf_select2() ops for multiple PFs support in the patch [07/20].
+ - Modify dw_pcie_link_set_max_link_width() refactoring in the patch [08/20].
+ - Use FIELD_PREP() to improve code readability in the patch [09/20].
+ - Add Reviewed-by in the patch [1[02]/20] (Thanks, Serge!).
+ - Minor fix of the commit log in the patch [11/20].
+ - Add clock-names property in the patch [1[56]/20].
+ - Add max-functions property in the patch [16/20].
+ - Drop unnecessary dw_pcie_dbi_ro_wr_en() in the patch [17/20].
+ - Modify .stark_link() handling in the patch [17/20].
+ - Change function name of rcar_gen4_pcie_set_device_type() in the patch [17/20].
+ - Modify reset/clock handling in the patch [17/20].
+ - Add enum dw_pcie_device_mode handling in the patch [17/20].
+ - Drop single-function setting in the patch [18/20].
+ - Add multi PFs support in the patch [18/20].
+ - Fix .reserved_bar value in the patch [18/20].
 
-diff --git a/drivers/iio/potentiometer/mcp4018.c b/drivers/iio/potentiometer/mcp4018.c
-index 89daecc90305..b064e86ecce8 100644
---- a/drivers/iio/potentiometer/mcp4018.c
-+++ b/drivers/iio/potentiometer/mcp4018.c
-@@ -99,20 +99,24 @@ static const struct iio_info mcp4018_info = {
- 	.write_raw = mcp4018_write_raw,
- };
- 
-+#define MCP4018_ID_TABLE(name, cfg) {				\
-+	name, .driver_data = (kernel_ulong_t)&mcp4018_cfg[cfg],	\
-+}
-+
- static const struct i2c_device_id mcp4018_id[] = {
--	{ "mcp4017-502", MCP4018_502 },
--	{ "mcp4017-103", MCP4018_103 },
--	{ "mcp4017-503", MCP4018_503 },
--	{ "mcp4017-104", MCP4018_104 },
--	{ "mcp4018-502", MCP4018_502 },
--	{ "mcp4018-103", MCP4018_103 },
--	{ "mcp4018-503", MCP4018_503 },
--	{ "mcp4018-104", MCP4018_104 },
--	{ "mcp4019-502", MCP4018_502 },
--	{ "mcp4019-103", MCP4018_103 },
--	{ "mcp4019-503", MCP4018_503 },
--	{ "mcp4019-104", MCP4018_104 },
--	{}
-+	MCP4018_ID_TABLE("mcp4017-502", MCP4018_502),
-+	MCP4018_ID_TABLE("mcp4017-103", MCP4018_103),
-+	MCP4018_ID_TABLE("mcp4017-503", MCP4018_503),
-+	MCP4018_ID_TABLE("mcp4017-104", MCP4018_104),
-+	MCP4018_ID_TABLE("mcp4018-502", MCP4018_502),
-+	MCP4018_ID_TABLE("mcp4018-103", MCP4018_103),
-+	MCP4018_ID_TABLE("mcp4018-503", MCP4018_503),
-+	MCP4018_ID_TABLE("mcp4018-104", MCP4018_104),
-+	MCP4018_ID_TABLE("mcp4019-502", MCP4018_502),
-+	MCP4018_ID_TABLE("mcp4019-103", MCP4018_103),
-+	MCP4018_ID_TABLE("mcp4019-503", MCP4018_503),
-+	MCP4018_ID_TABLE("mcp4019-104", MCP4018_104),
-+	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, mcp4018_id);
- 
-@@ -157,9 +161,7 @@ static int mcp4018_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, indio_dev);
- 	data->client = client;
- 
--	data->cfg = device_get_match_data(dev);
--	if (!data->cfg)
--		data->cfg = &mcp4018_cfg[i2c_match_id(mcp4018_id, client)->driver_data];
-+	data->cfg = i2c_get_match_data(client);
- 
- 	indio_dev->info = &mcp4018_info;
- 	indio_dev->channels = &mcp4018_channel;
+Yoshihiro Shimoda (20):
+  PCI: Add INTx Mechanism Messages macros
+  PCI: Rename PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX
+  PCI: dwc: Rename "legacy_irq" to "INTx_irq"
+  PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+  PCI: dwc: Add outbound MSG TLPs support
+  PCI: designware-ep: Add INTx IRQs support
+  PCI: dwc: endpoint: Add multiple PFs support for dbi2
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Add PCI_EXP_LNKCAP_MLW handling
+  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting.
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Introduce .ep_pre_init() and .ep_deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
+
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        | 106 ++++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 123 +++++++++++
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   2 +-
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ drivers/pci/controller/dwc/pci-dra7xx.c       |   2 +-
+ drivers/pci/controller/dwc/pci-imx6.c         |   4 +-
+ drivers/pci/controller/dwc/pci-keystone.c     |   2 +-
+ .../pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c     |   2 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   | 133 ++++++++++--
+ .../pci/controller/dwc/pcie-designware-host.c |  52 +++--
+ .../pci/controller/dwc/pcie-designware-plat.c |   4 +-
+ drivers/pci/controller/dwc/pcie-designware.c  | 155 +++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h  |  35 ++-
+ drivers/pci/controller/dwc/pcie-keembay.c     |   2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     |   4 +-
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 189 +++++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 149 +++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 200 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  44 ++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   8 +-
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c |   2 +-
+ drivers/pci/controller/pcie-rcar-ep.c         |   2 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |  10 +-
+ drivers/pci/pci.h                             |  18 ++
+ include/linux/pci-epc.h                       |   4 +-
+ 32 files changed, 1134 insertions(+), 159 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
+
 -- 
 2.25.1
 
