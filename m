@@ -2,85 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C37075C04B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 09:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EE3875C0A9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jul 2023 10:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbjGUHpV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jul 2023 03:45:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37496 "EHLO
+        id S230518AbjGUICF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jul 2023 04:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbjGUHpR (ORCPT
+        with ESMTP id S230475AbjGUICB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jul 2023 03:45:17 -0400
+        Fri, 21 Jul 2023 04:02:01 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E9A219A1;
-        Fri, 21 Jul 2023 00:45:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 90320270A;
+        Fri, 21 Jul 2023 01:01:58 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,220,1684767600"; 
-   d="scan'208";a="170346745"
+   d="scan'208";a="170349238"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Jul 2023 16:45:05 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F407C418F610;
-        Fri, 21 Jul 2023 16:45:04 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
-        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, fancer.lancer@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v18 20/20] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Fri, 21 Jul 2023 16:44:52 +0900
-Message-Id: <20230721074452.65545-21-yoshihiro.shimoda.uh@renesas.com>
+  by relmlie5.idc.renesas.com with ESMTP; 21 Jul 2023 17:01:58 +0900
+Received: from localhost.localdomain (unknown [10.226.92.55])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C5CF64196E50;
+        Fri, 21 Jul 2023 17:01:55 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] iio: potentiometer: mcp4531: Use i2c_get_match_data()
+Date:   Fri, 21 Jul 2023 09:01:53 +0100
+Message-Id: <20230721080153.179274-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+Replace device_get_match_data() and i2c_match_id() by i2c_get_match
+_data() by making similar I2C and DT-based matching table.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+v1->v2:
+ * Added similar similar I2C and DT-based matching table.
+ * Dropped error check as all tables have data pointers.
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ed4d0ef5e5c3..150083dab71a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
+Note:
+ This patch is only compile tested.
+---
+ drivers/iio/potentiometer/mcp4531.c | 138 ++++++++++++++--------------
+ 1 file changed, 70 insertions(+), 68 deletions(-)
+
+diff --git a/drivers/iio/potentiometer/mcp4531.c b/drivers/iio/potentiometer/mcp4531.c
+index c513c00c8243..6b251b7acb60 100644
+--- a/drivers/iio/potentiometer/mcp4531.c
++++ b/drivers/iio/potentiometer/mcp4531.c
+@@ -206,72 +206,76 @@ static const struct iio_info mcp4531_info = {
+ 	.write_raw = mcp4531_write_raw,
+ };
  
- static DEFINE_IDA(pci_endpoint_test_ida);
++#define MCP4531_ID_TABLE(name, cfg) {				\
++	name, .driver_data = (kernel_ulong_t)&mcp4531_cfg[cfg],	\
++}
++
+ static const struct i2c_device_id mcp4531_id[] = {
+-	{ "mcp4531-502", MCP453x_502 },
+-	{ "mcp4531-103", MCP453x_103 },
+-	{ "mcp4531-503", MCP453x_503 },
+-	{ "mcp4531-104", MCP453x_104 },
+-	{ "mcp4532-502", MCP453x_502 },
+-	{ "mcp4532-103", MCP453x_103 },
+-	{ "mcp4532-503", MCP453x_503 },
+-	{ "mcp4532-104", MCP453x_104 },
+-	{ "mcp4541-502", MCP454x_502 },
+-	{ "mcp4541-103", MCP454x_103 },
+-	{ "mcp4541-503", MCP454x_503 },
+-	{ "mcp4541-104", MCP454x_104 },
+-	{ "mcp4542-502", MCP454x_502 },
+-	{ "mcp4542-103", MCP454x_103 },
+-	{ "mcp4542-503", MCP454x_503 },
+-	{ "mcp4542-104", MCP454x_104 },
+-	{ "mcp4551-502", MCP455x_502 },
+-	{ "mcp4551-103", MCP455x_103 },
+-	{ "mcp4551-503", MCP455x_503 },
+-	{ "mcp4551-104", MCP455x_104 },
+-	{ "mcp4552-502", MCP455x_502 },
+-	{ "mcp4552-103", MCP455x_103 },
+-	{ "mcp4552-503", MCP455x_503 },
+-	{ "mcp4552-104", MCP455x_104 },
+-	{ "mcp4561-502", MCP456x_502 },
+-	{ "mcp4561-103", MCP456x_103 },
+-	{ "mcp4561-503", MCP456x_503 },
+-	{ "mcp4561-104", MCP456x_104 },
+-	{ "mcp4562-502", MCP456x_502 },
+-	{ "mcp4562-103", MCP456x_103 },
+-	{ "mcp4562-503", MCP456x_503 },
+-	{ "mcp4562-104", MCP456x_104 },
+-	{ "mcp4631-502", MCP463x_502 },
+-	{ "mcp4631-103", MCP463x_103 },
+-	{ "mcp4631-503", MCP463x_503 },
+-	{ "mcp4631-104", MCP463x_104 },
+-	{ "mcp4632-502", MCP463x_502 },
+-	{ "mcp4632-103", MCP463x_103 },
+-	{ "mcp4632-503", MCP463x_503 },
+-	{ "mcp4632-104", MCP463x_104 },
+-	{ "mcp4641-502", MCP464x_502 },
+-	{ "mcp4641-103", MCP464x_103 },
+-	{ "mcp4641-503", MCP464x_503 },
+-	{ "mcp4641-104", MCP464x_104 },
+-	{ "mcp4642-502", MCP464x_502 },
+-	{ "mcp4642-103", MCP464x_103 },
+-	{ "mcp4642-503", MCP464x_503 },
+-	{ "mcp4642-104", MCP464x_104 },
+-	{ "mcp4651-502", MCP465x_502 },
+-	{ "mcp4651-103", MCP465x_103 },
+-	{ "mcp4651-503", MCP465x_503 },
+-	{ "mcp4651-104", MCP465x_104 },
+-	{ "mcp4652-502", MCP465x_502 },
+-	{ "mcp4652-103", MCP465x_103 },
+-	{ "mcp4652-503", MCP465x_503 },
+-	{ "mcp4652-104", MCP465x_104 },
+-	{ "mcp4661-502", MCP466x_502 },
+-	{ "mcp4661-103", MCP466x_103 },
+-	{ "mcp4661-503", MCP466x_503 },
+-	{ "mcp4661-104", MCP466x_104 },
+-	{ "mcp4662-502", MCP466x_502 },
+-	{ "mcp4662-103", MCP466x_103 },
+-	{ "mcp4662-503", MCP466x_503 },
+-	{ "mcp4662-104", MCP466x_104 },
+-	{}
++	MCP4531_ID_TABLE("mcp4531-502", MCP453x_502),
++	MCP4531_ID_TABLE("mcp4531-103", MCP453x_103),
++	MCP4531_ID_TABLE("mcp4531-503", MCP453x_503),
++	MCP4531_ID_TABLE("mcp4531-104", MCP453x_104),
++	MCP4531_ID_TABLE("mcp4532-502", MCP453x_502),
++	MCP4531_ID_TABLE("mcp4532-103", MCP453x_103),
++	MCP4531_ID_TABLE("mcp4532-503", MCP453x_503),
++	MCP4531_ID_TABLE("mcp4532-104", MCP453x_104),
++	MCP4531_ID_TABLE("mcp4541-502", MCP454x_502),
++	MCP4531_ID_TABLE("mcp4541-103", MCP454x_103),
++	MCP4531_ID_TABLE("mcp4541-503", MCP454x_503),
++	MCP4531_ID_TABLE("mcp4541-104", MCP454x_104),
++	MCP4531_ID_TABLE("mcp4542-502", MCP454x_502),
++	MCP4531_ID_TABLE("mcp4542-103", MCP454x_103),
++	MCP4531_ID_TABLE("mcp4542-503", MCP454x_503),
++	MCP4531_ID_TABLE("mcp4542-104", MCP454x_104),
++	MCP4531_ID_TABLE("mcp4551-502", MCP455x_502),
++	MCP4531_ID_TABLE("mcp4551-103", MCP455x_103),
++	MCP4531_ID_TABLE("mcp4551-503", MCP455x_503),
++	MCP4531_ID_TABLE("mcp4551-104", MCP455x_104),
++	MCP4531_ID_TABLE("mcp4552-502", MCP455x_502),
++	MCP4531_ID_TABLE("mcp4552-103", MCP455x_103),
++	MCP4531_ID_TABLE("mcp4552-503", MCP455x_503),
++	MCP4531_ID_TABLE("mcp4552-104", MCP455x_104),
++	MCP4531_ID_TABLE("mcp4561-502", MCP456x_502),
++	MCP4531_ID_TABLE("mcp4561-103", MCP456x_103),
++	MCP4531_ID_TABLE("mcp4561-503", MCP456x_503),
++	MCP4531_ID_TABLE("mcp4561-104", MCP456x_104),
++	MCP4531_ID_TABLE("mcp4562-502", MCP456x_502),
++	MCP4531_ID_TABLE("mcp4562-103", MCP456x_103),
++	MCP4531_ID_TABLE("mcp4562-503", MCP456x_503),
++	MCP4531_ID_TABLE("mcp4562-104", MCP456x_104),
++	MCP4531_ID_TABLE("mcp4631-502", MCP463x_502),
++	MCP4531_ID_TABLE("mcp4631-103", MCP463x_103),
++	MCP4531_ID_TABLE("mcp4631-503", MCP463x_503),
++	MCP4531_ID_TABLE("mcp4631-104", MCP463x_104),
++	MCP4531_ID_TABLE("mcp4632-502", MCP463x_502),
++	MCP4531_ID_TABLE("mcp4632-103", MCP463x_103),
++	MCP4531_ID_TABLE("mcp4632-503", MCP463x_503),
++	MCP4531_ID_TABLE("mcp4632-104", MCP463x_104),
++	MCP4531_ID_TABLE("mcp4641-502", MCP464x_502),
++	MCP4531_ID_TABLE("mcp4641-103", MCP464x_103),
++	MCP4531_ID_TABLE("mcp4641-503", MCP464x_503),
++	MCP4531_ID_TABLE("mcp4641-104", MCP464x_104),
++	MCP4531_ID_TABLE("mcp4642-502", MCP464x_502),
++	MCP4531_ID_TABLE("mcp4642-103", MCP464x_103),
++	MCP4531_ID_TABLE("mcp4642-503", MCP464x_503),
++	MCP4531_ID_TABLE("mcp4642-104", MCP464x_104),
++	MCP4531_ID_TABLE("mcp4651-502", MCP465x_502),
++	MCP4531_ID_TABLE("mcp4651-103", MCP465x_103),
++	MCP4531_ID_TABLE("mcp4651-503", MCP465x_503),
++	MCP4531_ID_TABLE("mcp4651-104", MCP465x_104),
++	MCP4531_ID_TABLE("mcp4652-502", MCP465x_502),
++	MCP4531_ID_TABLE("mcp4652-103", MCP465x_103),
++	MCP4531_ID_TABLE("mcp4652-503", MCP465x_503),
++	MCP4531_ID_TABLE("mcp4652-104", MCP465x_104),
++	MCP4531_ID_TABLE("mcp4661-502", MCP466x_502),
++	MCP4531_ID_TABLE("mcp4661-103", MCP466x_103),
++	MCP4531_ID_TABLE("mcp4661-503", MCP466x_503),
++	MCP4531_ID_TABLE("mcp4661-104", MCP466x_104),
++	MCP4531_ID_TABLE("mcp4662-502", MCP466x_502),
++	MCP4531_ID_TABLE("mcp4662-103", MCP466x_103),
++	MCP4531_ID_TABLE("mcp4662-503", MCP466x_503),
++	MCP4531_ID_TABLE("mcp4662-104", MCP466x_104),
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(i2c, mcp4531_id);
  
-@@ -990,6 +991,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
+@@ -368,9 +372,7 @@ static int mcp4531_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, indio_dev);
+ 	data->client = client;
+ 
+-	data->cfg = device_get_match_data(dev);
+-	if (!data->cfg)
+-		data->cfg = &mcp4531_cfg[i2c_match_id(mcp4531_id, client)->driver_data];
++	data->cfg = i2c_get_match_data(client);
+ 
+ 	indio_dev->info = &mcp4531_info;
+ 	indio_dev->channels = mcp4531_channels;
 -- 
 2.25.1
 
