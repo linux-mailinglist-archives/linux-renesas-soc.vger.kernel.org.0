@@ -2,106 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48AB675DA2F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 07:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6338275DB9E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 12:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbjGVFTO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jul 2023 01:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59468 "EHLO
+        id S229682AbjGVKGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jul 2023 06:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjGVFTA (ORCPT
+        with ESMTP id S229576AbjGVKG3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jul 2023 01:19:00 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4AE46B7;
-        Fri, 21 Jul 2023 22:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690003116; x=1721539116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B8t2gm7EDukEfOzodNthZCOkWrOCkHaglu+1T6jozLA=;
-  b=UipA4J1gQ9VlDH6yu24m+THbtgkOTfgfJD2y7mJoK/mxGfvJ0IGne1F7
-   n7t/Vq4D9ue5u/yJcSzDjX2Xj5WTGp41wWLfqAQbMyjHHvYQLgF5CqhCW
-   CAES+SE2+MIZjJaobZpoiQpHfz1tG/GJSxglFfVKEv/V9E6KmvGW59NNj
-   l8RBELIAQ9JsSi2+o3HUQS9JUdg64VIM+OmTKRwZDIE7xCu+nG21/riTy
-   W5nES5sqezI2NX7XrvyLSyVJK+VYrvM6aI9gEDYFknyp1pNVRJDkHLP1N
-   Gb5geTm+sAuZ+wSCiTF29ikw0XBBSOiIrNBC1QvjogJM3r58K7rzBVUKq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="352060112"
-X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="352060112"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 22:16:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055799089"
-X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="1055799089"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Jul 2023 22:16:38 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qN4yr-0007zh-3D;
-        Sat, 22 Jul 2023 05:16:38 +0000
-Date:   Sat, 22 Jul 2023 13:16:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Sat, 22 Jul 2023 06:06:29 -0400
+X-Greylist: delayed 372 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 22 Jul 2023 03:06:25 PDT
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED821999;
+        Sat, 22 Jul 2023 03:06:25 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 1365910006C; Sat, 22 Jul 2023 11:00:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1690020008; bh=YcBVF9OByPJWzCU45MSsTPERsEXi6qu8BVTu0NkN++c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RwUTEpJM3LXz5vvd/Y0UX8jlKMMGY5MBgH5ORtxvVA9epRgGRHV+EJ5bxsx5U1fQ6
+         be1F7Q3RwRnOO5wlKAT0dYHSsoH4oFxvkbJDIwD8j47iVVLvWgdnaMVaH+O93y4uzm
+         j3qDxiYJK6H8/rdrOpRd03QDT0xv1AjEWYkR9+0NsPhEsbWdUX1bQSfAM/Gx+soJCw
+         ruhU+je4WXNX+nPIr793k7oHAUiPHpLY2zVhHHyJqGcJAQpdoBqqBU/02KtJcabL8p
+         iq/Ie/NdHUd1BPLYxd1Z7aDweYfgxI67HdC317LlyUi4QUHxgrFjo0fCSxudDhfrPM
+         X4oARS48J/LLA==
+Date:   Sat, 22 Jul 2023 11:00:08 +0100
+From:   Sean Young <sean@mess.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Eddie James <eajames@linux.ibm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Add MTU3a node
-Message-ID: <202307221318.jz5pDcvU-lkp@intel.com>
-References: <20230720131016.331793-6-biju.das.jz@bp.renesas.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krz ysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v2] media: Explicitly include correct DT includes
+Message-ID: <ZLuoqDxYUAPHCPgo@gofer.mess.org>
+References: <20230718143118.1065743-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720131016.331793-6-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230718143118.1065743-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Tue, Jul 18, 2023 at 08:31:14AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-[auto build test ERROR on geert-renesas-devel/next]
-[also build test ERROR on robh/for-next linus/master v6.5-rc2 next-20230721]
-[cannot apply to tip/timers/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-timer-renesas-rz-mtu3-Improve-documentation/20230720-213033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20230720131016.331793-6-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Add MTU3a node
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230722/202307221318.jz5pDcvU-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221318.jz5pDcvU-lkp@intel.com/reproduce)
+>  drivers/media/rc/meson-ir.c                                   | 2 +-
+>  drivers/media/rc/mtk-cir.c                                    | 3 ++-
+>  drivers/media/rc/sunxi-cir.c                                  | 3 ++-
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307221318.jz5pDcvU-lkp@intel.com/
+Reviewed-by: Sean Young <sean@mess.org>
 
-All errors (new ones prefixed by >>):
+Thanks,
 
->> Error: scripts/dtc/include-prefixes/arm64/renesas/r9a07g043.dtsi:81.18-19 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sean
