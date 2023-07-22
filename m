@@ -2,81 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B38675DE6C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 22:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CDCD75DE97
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 22:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbjGVUHb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jul 2023 16:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
+        id S229864AbjGVUmD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jul 2023 16:42:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbjGVUHa (ORCPT
+        with ESMTP id S229477AbjGVUmC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jul 2023 16:07:30 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D0EA11FE1;
-        Sat, 22 Jul 2023 13:07:29 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,224,1684767600"; 
-   d="scan'208";a="174116637"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Jul 2023 05:07:29 +0900
-Received: from localhost.localdomain (unknown [10.226.92.35])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2F25C4005625;
-        Sun, 23 Jul 2023 05:07:26 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lucas Stankus <lucas.p.stankus@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/2] iio: accel: adxl313: Use i2c_get_match_data
-Date:   Sat, 22 Jul 2023 21:07:18 +0100
-Message-Id: <20230722200718.142366-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230722200718.142366-1-biju.das.jz@bp.renesas.com>
-References: <20230722200718.142366-1-biju.das.jz@bp.renesas.com>
+        Sat, 22 Jul 2023 16:42:02 -0400
+Received: from smtp.smtpout.orange.fr (smtp-28.smtpout.orange.fr [80.12.242.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A84B1708
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Jul 2023 13:42:00 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id NJQLqgycdZWkDNJQLqk8SS; Sat, 22 Jul 2023 22:41:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1690058519;
+        bh=bWA5n6DBMnr6LPqtlqyYrLqir8O7olbWs97Uom4gQgI=;
+        h=From:To:Cc:Subject:Date;
+        b=BmfgCTgHGZmPLZfgh6/5mQP4E2wdZaHbTRVBvvHjna2XPxdRTQunjAprimqsHjq//
+         28oQACOKrz7hn5tCjfbN6bemF83SmLS+ApR/p9MhTQ+YjNo2MwFYtUb0PN9kUhuiJf
+         inYIVqrF1IUwUyjIDKdUiEY6m+AXl/beuXy+2+yNAfRLxjcjC4YOMK9NhurBYWdaGx
+         tBlD8jhpaF1DjxIfGQ8zEVQJTfDOoWiIx2O0I2ov0MJWuvjLGrwFsRHwdXiYLw5jgX
+         CgIBt8suBeBH8XG66NmQWCneNIMeJNQk7l2gLZjYVM0D6rk/PwkQApOIS9+SvcUEyl
+         zNkh5nN/SX/lg==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 22 Jul 2023 22:41:59 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH] pinctrl: renesas: rzg2l: Use devm_clk_get_enabled() helper
+Date:   Sat, 22 Jul 2023 22:41:56 +0200
+Message-Id: <a4a586337d692f0ca396b80d275ba634eb419593.1690058500.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace device_get_match_data() and i2c_match_id() by i2c_get_match
-_data() as we have similar I2C and DT-based matching table.
+The devm_clk_get_enabled() helper:
+   - calls devm_clk_get()
+   - calls clk_prepare_enable() and registers what is needed in order to
+     call clk_disable_unprepare() when needed, as a managed resource.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2:
- * Added Rb tag from Geert
- * Removed error check as all tables have data pointers.
- * retained Rb tag as the change is trivial.
----
- drivers/iio/accel/adxl313_i2c.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This simplifies the code and avoids the need of a dedicated function used
+with devm_add_action_or_reset().
 
-diff --git a/drivers/iio/accel/adxl313_i2c.c b/drivers/iio/accel/adxl313_i2c.c
-index e0a860ab9e58..a4cf0cf2c5aa 100644
---- a/drivers/iio/accel/adxl313_i2c.c
-+++ b/drivers/iio/accel/adxl313_i2c.c
-@@ -65,9 +65,7 @@ static int adxl313_i2c_probe(struct i2c_client *client)
- 	 * Retrieves device specific data as a pointer to a
- 	 * adxl313_chip_info structure
- 	 */
--	chip_data = device_get_match_data(&client->dev);
--	if (!chip_data)
--		chip_data = (const struct adxl313_chip_info *)i2c_match_id(adxl313_i2c_id, client)->driver_data;
-+	chip_data = i2c_get_match_data(client);
+While at it, use dev_err_probe() which filters -EPROBE_DEFER.
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 30 ++++---------------------
+ 1 file changed, 4 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 2f1a08210fd6..b2d05cfe5d8c 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -1471,11 +1471,6 @@ static int rzg2l_pinctrl_register(struct rzg2l_pinctrl *pctrl)
+ 	return 0;
+ }
  
- 	regmap = devm_regmap_init_i2c(client,
- 				      &adxl31x_i2c_regmap_config[chip_data->type]);
+-static void rzg2l_pinctrl_clk_disable(void *data)
+-{
+-	clk_disable_unprepare(data);
+-}
+-
+ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+ {
+ 	struct rzg2l_pinctrl *pctrl;
+@@ -1501,33 +1496,16 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pctrl->base))
+ 		return PTR_ERR(pctrl->base);
+ 
+-	pctrl->clk = devm_clk_get(pctrl->dev, NULL);
+-	if (IS_ERR(pctrl->clk)) {
+-		ret = PTR_ERR(pctrl->clk);
+-		dev_err(pctrl->dev, "failed to get GPIO clk : %i\n", ret);
+-		return ret;
+-	}
++	pctrl->clk = devm_clk_get_enabled(pctrl->dev, NULL);
++	if (IS_ERR(pctrl->clk))
++		return dev_err_probe(pctrl->dev, PTR_ERR(pctrl->clk),
++				     "failed to get GPIO clk\n");
+ 
+ 	spin_lock_init(&pctrl->lock);
+ 	spin_lock_init(&pctrl->bitmap_lock);
+ 
+ 	platform_set_drvdata(pdev, pctrl);
+ 
+-	ret = clk_prepare_enable(pctrl->clk);
+-	if (ret) {
+-		dev_err(pctrl->dev, "failed to enable GPIO clk: %i\n", ret);
+-		return ret;
+-	}
+-
+-	ret = devm_add_action_or_reset(&pdev->dev, rzg2l_pinctrl_clk_disable,
+-				       pctrl->clk);
+-	if (ret) {
+-		dev_err(pctrl->dev,
+-			"failed to register GPIO clk disable action, %i\n",
+-			ret);
+-		return ret;
+-	}
+-
+ 	ret = rzg2l_pinctrl_register(pctrl);
+ 	if (ret)
+ 		return ret;
 -- 
-2.25.1
+2.34.1
 
