@@ -2,110 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C18C75DC49
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 13:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E008275DD70
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 18:25:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbjGVL7m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jul 2023 07:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36172 "EHLO
+        id S229750AbjGVQZ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jul 2023 12:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjGVL7j (ORCPT
+        with ESMTP id S229468AbjGVQZ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jul 2023 07:59:39 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A7435B7;
-        Sat, 22 Jul 2023 04:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1690026803;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cDKwmBrSHDbvvXF7OyKsUvepLA1ouw+cJYaTFRNC5YE=;
-        b=Qj/sCk8tyAcmh0z0+MS8uYnDQoAZWTqbFzZcVoCwBT8rDu3oWELh/AV7Lke5gA0QFl5y83
-        b60b5HTyzrN6GeRnwi8DjsjwqKMKL4/S9XGR8k76SztJ6SP99KrlwDhVERPspr6PFYaoGf
-        kWDblSSNtW9txOKkzftznIk4kyYyKgg=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sat, 22 Jul 2023 12:25:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20B792699;
+        Sat, 22 Jul 2023 09:25:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B1A7960AF7;
+        Sat, 22 Jul 2023 16:25:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76CA0C433C7;
+        Sat, 22 Jul 2023 16:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690043127;
+        bh=FCh6mMfH98pmylSNo+FT45c0lEWjtiwrsQV0G3r1acQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KrGl0mTBGGyq56JkR2vPaAwMwRMontw3bv93Om3qkanmCv7IJzEtiqPckz1SrGfzH
+         WxZj8UtSyKhiDgTmsH78+B0ZRCrBi3Rse+Ulk86yq4T8vbVmXdN1rkpdu2bIWONCD3
+         193G7TD68XoNvSDPGgeTkgtai9u5MAIICs3xPxqrJB6Wl+B96xA+yp3n1BYy7NFZe1
+         uXh9JB309vC75PZNKzk0AsIFIEx6eN6IigFspQzdBj79uka9GDEFLM2WAYxZwL1d9l
+         fUZDXhtpcoIvH0a199tlJdEqFaPGyG1OKZqrJXPhYmiyhBNocPzLwZSK4SQB+jfWCn
+         1pIJDQghfIJVA==
+Date:   Sat, 22 Jul 2023 17:25:21 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 20/22] i2c: sh-mobile: Remove #ifdef guards for PM related functions
-Date:   Sat, 22 Jul 2023 13:53:08 +0200
-Message-Id: <20230722115310.27681-4-paul@crapouillou.net>
-In-Reply-To: <20230722115046.27323-1-paul@crapouillou.net>
-References: <20230722115046.27323-1-paul@crapouillou.net>
+Subject: Re: [PATCH 1/4] iio: accel: adxl355: Simplify probe()
+Message-ID: <20230722172521.3b4e34cf@jic23-huawei>
+In-Reply-To: <20230716175218.130557-2-biju.das.jz@bp.renesas.com>
+References: <20230716175218.130557-1-biju.das.jz@bp.renesas.com>
+        <20230716175218.130557-2-biju.das.jz@bp.renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the new PM macros for the suspend and resume functions to be
-automatically dropped by the compiler when CONFIG_PM or
-CONFIG_PM_SLEEP are disabled, without having to use #ifdef guards.
+On Sun, 16 Jul 2023 18:52:15 +0100
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-This has the advantage of always compiling these functions in,
-independently of any Kconfig option. Thanks to that, bugs and other
-regressions are subsequently easier to catch.
+> Simplify the probe() by replacing of_device_get_match_data() and
+> i2c_match_id() by i2c_get_match_data() as we have similar I2C
+> and DT-based matching table.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Applied to the togreg branch of iio.git, initially pushed out as testing
+for 0-day to take a look at.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks,
 
----
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/i2c/busses/i2c-sh_mobile.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+Jonathan
 
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index 21717b943a9e..324407196a10 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -965,7 +965,6 @@ static void sh_mobile_i2c_remove(struct platform_device *dev)
- 	pm_runtime_disable(&dev->dev);
- }
- 
--#ifdef CONFIG_PM_SLEEP
- static int sh_mobile_i2c_suspend(struct device *dev)
- {
- 	struct sh_mobile_i2c_data *pd = dev_get_drvdata(dev);
-@@ -983,20 +982,15 @@ static int sh_mobile_i2c_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops sh_mobile_i2c_pm_ops = {
--	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(sh_mobile_i2c_suspend,
--				      sh_mobile_i2c_resume)
-+	NOIRQ_SYSTEM_SLEEP_PM_OPS(sh_mobile_i2c_suspend,
-+				  sh_mobile_i2c_resume)
- };
- 
--#define DEV_PM_OPS (&sh_mobile_i2c_pm_ops)
--#else
--#define DEV_PM_OPS NULL
--#endif /* CONFIG_PM_SLEEP */
--
- static struct platform_driver sh_mobile_i2c_driver = {
- 	.driver		= {
- 		.name		= "i2c-sh_mobile",
- 		.of_match_table = sh_mobile_i2c_dt_ids,
--		.pm	= DEV_PM_OPS,
-+		.pm	= pm_sleep_ptr(&sh_mobile_i2c_pm_ops),
- 	},
- 	.probe		= sh_mobile_i2c_probe,
- 	.remove_new	= sh_mobile_i2c_remove,
--- 
-2.40.1
+> ---
+>  drivers/iio/accel/adxl355_i2c.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/iio/accel/adxl355_i2c.c b/drivers/iio/accel/adxl355_i2c.c
+> index d5beea61479d..32398cde9608 100644
+> --- a/drivers/iio/accel/adxl355_i2c.c
+> +++ b/drivers/iio/accel/adxl355_i2c.c
+> @@ -24,19 +24,10 @@ static int adxl355_i2c_probe(struct i2c_client *client)
+>  {
+>  	struct regmap *regmap;
+>  	const struct adxl355_chip_info *chip_data;
+> -	const struct i2c_device_id *adxl355;
+>  
+> -	chip_data = device_get_match_data(&client->dev);
+> -	if (!chip_data) {
+> -		adxl355 = to_i2c_driver(client->dev.driver)->id_table;
+> -		if (!adxl355)
+> -			return -EINVAL;
+> -
+> -		chip_data = (void *)i2c_match_id(adxl355, client)->driver_data;
+> -
+> -		if (!chip_data)
+> -			return -EINVAL;
+> -	}
+> +	chip_data = i2c_get_match_data(client);
+> +	if (!chip_data)
+> +		return -ENODEV;
+>  
+>  	regmap = devm_regmap_init_i2c(client, &adxl355_i2c_regmap_config);
+>  	if (IS_ERR(regmap)) {
 
