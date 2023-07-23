@@ -2,227 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B93E375DE9F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jul 2023 23:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A388275DF8B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jul 2023 03:17:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbjGVVjp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jul 2023 17:39:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44212 "EHLO
+        id S229682AbjGWBRQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jul 2023 21:17:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjGVVjo (ORCPT
+        with ESMTP id S229476AbjGWBRP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jul 2023 17:39:44 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2115.outbound.protection.outlook.com [40.107.22.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1A710D8;
-        Sat, 22 Jul 2023 14:39:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WQER/emON5/RZ2cspjfh+BUa6DjnD3I+z0y7oDtyut1MFjKmaaKnluYPTNFoZn9Mta/yHLnmQcINuHWqbXa2h0TjeoccyataiVWcZrcNJos2muktiR+D7nEhThQs9D+yYuT7lAzYAnd2G3Xgsz6cfZ8L9FNmgUzaFqaZ6hGMOi37eEeV13jDoUaCAhZObwwGOgz03yX/BMTKo/cVj+5Ia34uKPpncywgSV4HNp9/7SEfNya4rCU4ysQIh2EuJBMeWENZYZ1W5yC9vVJdqBzdij2r/YTzpUr+rwDnfiz9GO7IGeVnkDA3qhrczTWYjsivAMRglZ+O8nfcmPim36o5QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NjGQRtSHUqQo2HVyb9CAb00vpmAcEC7ozSvZe9OuU3k=;
- b=SkdhbyQKcf9embbpkTwdEurEAoH8iM7DP1NV1WaypT1+Z75UkZ04fNFEG9QHr5Snr77ObOlB45UMgl78zKXyQydx3TLlZM3dmUN93+Wtekyq4nr6ATHvI58uoR+MA2sVtPkZw9ZhN8bo4kF50WobwsEGHDicLkNNSLS0wM2sw0sPJdVqsoqXAxzkK7HnlJfw6nR0KZtMdHXulXzd3FRJ8d9HJhHmst9SSsoGp0dLvx8n8j81F2il9OJghQbqn410ZW4CWFYqJHd8TkMU/xXNaWF6FuGPG+viXKkSfDSG5MIBcgILw4ZtZpIuRQb7nBki5X9DbrcPLyZvtzYeAlybug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NjGQRtSHUqQo2HVyb9CAb00vpmAcEC7ozSvZe9OuU3k=;
- b=RrmPNqWGAYwea2qbyexly2OkFFVJ1dKs1kBnvgnSwXn5a4BWJw54sK5ECqkrIwawSmsgigBPDEB5jSXZZ42smmdj1clL1L7HQTlblsnfhDEJJHWZZqfJIiq/E0pLWBCQlZ3rbhm/aoCfEs85UF+OiAXYlpjQh3aXJWHe/bMiukI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axentia.se;
-Received: from AM0PR02MB4436.eurprd02.prod.outlook.com (2603:10a6:208:ed::15)
- by PAVPR02MB9181.eurprd02.prod.outlook.com (2603:10a6:102:328::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.16; Sat, 22 Jul
- 2023 21:39:40 +0000
-Received: from AM0PR02MB4436.eurprd02.prod.outlook.com
- ([fe80::2a6d:c845:6c5:2aad]) by AM0PR02MB4436.eurprd02.prod.outlook.com
- ([fe80::2a6d:c845:6c5:2aad%4]) with mapi id 15.20.6631.017; Sat, 22 Jul 2023
- 21:39:40 +0000
-Message-ID: <6e5a099e-57bb-7eb3-212b-494b5c30e4d7@axentia.se>
-Date:   Sat, 22 Jul 2023 23:39:31 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] iio: potentiometer: mcp4018: Use i2c_get_match_data()
-Content-Language: sv-SE, en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20230721071603.158114-1-biju.das.jz@bp.renesas.com>
-From:   Peter Rosin <peda@axentia.se>
-In-Reply-To: <20230721071603.158114-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GVX0EPF000013DD.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1::a) To AM0PR02MB4436.eurprd02.prod.outlook.com
- (2603:10a6:208:ed::15)
+        Sat, 22 Jul 2023 21:17:15 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A3F1FCB;
+        Sat, 22 Jul 2023 18:17:14 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id 46e09a7af769-6b9c9944da8so2618348a34.3;
+        Sat, 22 Jul 2023 18:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690075034; x=1690679834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jq18TQbFJVUbRS2A9/AE9j8fQVqfGncfEJK6UGNMjtA=;
+        b=jltIEs0l3MyofZeB7aYzlzzBBctV1vBEHXCODMrHe4bY7KIVX5+0QQkjQPcM+hfMuK
+         Fn7cwVgIBfE+mw7bNfnSW1KzK6WOek1GlDD9wc5pbfKJUdyaT/vRUs27IGn7blM42Nyq
+         scITMQsQWWDTbM2S/9UkSiWFLFiT9UKQZOi/ihyv6WXXlZaSYnvKpvuLEeSZjKNyaV+w
+         6pZCFUYm1zNG0iKQsX7UUW/nRSzmNdW+ldutRb2xDLe5Cuh94Nop3SGBjnZ8Pl0qDK7I
+         5VoM9KsZu8A9vibx8p3x2PGTeIZsyn2yyXw7LeHocUHfp0axVi871Un/aXBpPKz6GUSo
+         Fp5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690075034; x=1690679834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jq18TQbFJVUbRS2A9/AE9j8fQVqfGncfEJK6UGNMjtA=;
+        b=Dc38mnx8x/JNDQJpbNY7iVEr9wjGp4bPCGPpfLwc/2/P0jpXdI5aC4UvEiemjZ70+l
+         J/QqB+kWD7XLMyn2rT0vgn2WePBEQnoddfg1f0wSMNDXjIYAglGkwdTmP+MWMj9punaE
+         KESOrLVtnlxLHuNlOrS40sYLxdDmxZzJQBsSFPfu/9uzaN8O+q252sBmReryrWLskHtl
+         lUvKe4+XGUtXLlJfrqr62yq27agquIWBkEtf87k3/JD7X8zY1QkdliJhcKGTv4le0tcL
+         /33Jvu5E32iDOI9Mr7kK1KqvzVXoBkf+oEIteCRIE3XS9ER26lCnK9sx6I0Ca1mDuiB/
+         SAew==
+X-Gm-Message-State: ABy/qLapmWNryGzbXU9f/ChIgXK4ZXyl9Eei80Vl8DNsY6slJcK1rGd4
+        pA2SYIlh9K7tfxroes/qqbkiEo2om0E9dj0ysMinyPhq
+X-Google-Smtp-Source: APBJJlEB4n30cmwxjiC1uj2ildKP/OpO71rAhdB/lyLvvZcnPo3SjOqFggSAa68bJZn2KMsOY+VtVcULNVYzz8GWmq4=
+X-Received: by 2002:a05:6870:a91e:b0:1b7:3fd5:87cd with SMTP id
+ eq30-20020a056870a91e00b001b73fd587cdmr5395563oab.48.1690075033855; Sat, 22
+ Jul 2023 18:17:13 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR02MB4436:EE_|PAVPR02MB9181:EE_
-X-MS-Office365-Filtering-Correlation-Id: 660bef2a-fa31-4380-ef9b-08db8afc2730
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aKgY3JCnP+r/3vMPx1VOT2uIMEfMhwg4zonb+lej/k4sIMRO3mfPWJffd8aB57NTI+9tagKJ1OKnbHnd5GxlEQzcJiY/QfngcLOGhadAUPd3Zj7U/1MAmn3fIP8qvHsrML83ug5567pt27f21sTqaW2/Bz9ZyIsHq2F9u0M+iSmr/yQaxKY2yAICOuT9MScwCoA+AqKLZiRkePZMHZ0TlUAS3bVbGbB1xqLdSxi7XKIbsBgElJ53dplYNyuOZconPM7862DRMO0VlvP16fJ/UJOJXBXW5CCqVtf+kNnTrMX4yTce77hVkDMHRvVtFeXMVhUlwYqYFJjIjf9tbAAhT0JZAixGYDhl6hFWgvBjtC/nW2Z6G+wKMZJCj4pOudeOdO2wFTOFxlOYLKhNZoGJVPQo8JiWtaHkw5KAklRBiGemeq+zTRlbc0peBdLbgb0MREsqAiXHQvnEpGWPfdgv9Xn7FwB8itGbVYGWKcxOCM0TUmmLdx0sf58oMzQbAjP09E75Pa42UyCxx8JrnRnyBMURE5SaXEzu/hQums8dmDYriNOqgPjPqsWJderjSuu3Lkuppwwgw9qY6FZh4ODkdbUWrz4LLpZFSQmjl4X+q1sj+7f1In+NR7tVlY5i4cuhLukugxbkm3dfCRvzZqObIA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR02MB4436.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(346002)(39830400003)(366004)(376002)(451199021)(31686004)(6512007)(478600001)(316002)(6666004)(6486002)(36756003)(31696002)(66476007)(86362001)(110136005)(54906003)(41300700001)(66946007)(66556008)(4326008)(6506007)(2616005)(186003)(83380400001)(38100700002)(2906002)(8676002)(8936002)(5660300002)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFB3VkQwdGdlUTU1TVVPbHk2SC9tOVJoVHY4SU5uZzdXYlFaMEsxR2s0Q1VE?=
- =?utf-8?B?Nm1hNUJaYUJNYnZ3VGc0YW9JczhhUXR3dGZtQTJNYzV0eEdleExOSFhoZ0FP?=
- =?utf-8?B?dkt1WFpuV0lBSjk3Z3VldHNYWEI2OEh1ajRJd1Z0U0YvWkY0UVVkajk3QzRT?=
- =?utf-8?B?KzdiZkp1N1RVZ2JXWW4vMW5ncytmcUUzVzk4VlptMG51b0lEVTdtRXIyWi9q?=
- =?utf-8?B?SjkyTXlNVjk0ckdZREF4VnR5Zm1oaDI2Nm5qUUZSR3hPSlYwWVZqbk1wTnlE?=
- =?utf-8?B?TGJ2RVpPUDY5YnJuOXl5QWNOOFN2K0p0VGtpL2pFNS9LVEdicVUvRkxxNUlk?=
- =?utf-8?B?K0tsZnZnSXFmOU1HNC9GV3dvYjMyNXU3M3VBMUdNUXYzMEJOY2hQdVM5SWlE?=
- =?utf-8?B?TEd3L2dXQlBjY3ZXSno2SVIyWnQxMmJ5QVlRNDVKRXg4VThKeURIU2dLUE96?=
- =?utf-8?B?TXY1Yk9NUlAwZGRMd2hyWmIzQ3ozQWlGUlArQml4WVNsRUtxejFaZWVFSmpm?=
- =?utf-8?B?ZndCWDVMbGhTeG1iTW4vMnhPTzhKdkdCYTgxNGM3UlBaNEF1S3kvNzAwcEhM?=
- =?utf-8?B?WTN2UmdoVjU2RnhlMmpoMXFCUlBBVG5NcWJqWG5WZHNpR0laZXBJSjJoWjBG?=
- =?utf-8?B?MHJzSWMzcTI4VGp0ZzhkNlE5RHhNY0NBdEJ2bjdGL1ZXaFg3bklZSEVDYkVi?=
- =?utf-8?B?RzZFVHFWRUpzQzdmd0l4OVBsNDc0YjNKUFJKYi90S3ljcWhTb1NaaTBsRmZ0?=
- =?utf-8?B?YW45OWg1V1V5d0g4ZWhLTUxQd3Rkbzd3ZG4wVXd0TWF0b083emVDdUVRMVpH?=
- =?utf-8?B?c2w3RDEzK09scTJmWHhsYTZTVWRlRXVId1U2R01iNXZBRHR5d2RheEV4cE11?=
- =?utf-8?B?K3Uzb3VLNWZBQWx6MlRURnZLOU0zUTlQa0hnSlhQMGtlVXdVM2E3S0tKbjNk?=
- =?utf-8?B?WXZkL3Jwa3lGYnlyeGNjcE5KeExuQkFSMldrRGNnQ05KUVhTKzl4VG5zcHFD?=
- =?utf-8?B?SFdvdEg4ZUdZWFBvNHA5ZyswbHpVNkVFTG1nZ0JqVkhMUkFvdUd2bjhaclA4?=
- =?utf-8?B?Q1FZUGlQSnhVUDZKYmtCeW9qQkVkaW1WUHo2ZEVMWG5CdTN3N09GZTEzTWIv?=
- =?utf-8?B?NjBYV3FGelVaeGJrM1NPRTZJNENoaXdBY1FJUC83SVd4S3Y5aEdDV2UybTFT?=
- =?utf-8?B?UU9mWDE1SHhkTjdXRVZhTHY2a3R1bmVSYXRuT2J4U2RvazRITHNPZFdjMS96?=
- =?utf-8?B?U3ZQMnVJRUh0eFhPZm91N0VDT3BlRjJRaTRLSHJsQ28xZHJOaXkvc2dtWSts?=
- =?utf-8?B?SVRaNGZnTExPaVlkMWFGR2hWMlZkaGwxVU9kdmRCQ2NFeTZTOUdrcUxwMUZn?=
- =?utf-8?B?MHYreHduNVRPQ3dIVVF1MmRMOTkxM0E4V1BZRG4wcWEySDJkV3dGZXladnlV?=
- =?utf-8?B?VWJydWtrZm0vR0c3YVZKWkFZMklDeWdoRHk0ZU9mMXp4UmxucFNjRk43S21L?=
- =?utf-8?B?Yk5ENGsxU2RLT0xHbSs1SmU0dDFXNHZkR1dQSVVkR1NmMFRSSm5GckxxMUNr?=
- =?utf-8?B?QUpndFVqWWV4RUdCVGtheTBTRUl4enA4alcvZStCdE9wK0ZDT0tDTjdJaUM4?=
- =?utf-8?B?Z1FabHl0eEdRMWJhWHBEbnVjd1NhT2YzZjFkcE5GTzllSDhIbFJHMzU0a05m?=
- =?utf-8?B?Yk9GY3ZXbTM0MzVkMkFwN1duSTJsZHRobzVWM00rN1d4eFpCTEFiQlNDcVJX?=
- =?utf-8?B?Ukc1OUp4MDFBQlhuNTlMa3c5bXc4ckVzM3Jrc3N5OTVxNFkveW9oaXpnMHli?=
- =?utf-8?B?N2NzVDh6SnlXQmt2QXc5aytFSTIvZ3ZPZHZrMDdWVmZBb1c0SkozREQ5c0pF?=
- =?utf-8?B?QURRdHVyMzcvNmNGTjZSazVxS1ZGa3Q4a2FaeW1jTTczbkZkRzBXUnp3OWQ2?=
- =?utf-8?B?TFlTLytnTmVhemptSmcvMmVmTTFIdCtVYmxFSWVJcFJKcDFkWVIyZitIQUlj?=
- =?utf-8?B?UHIzMHIxeGV0UDd1UDROTHFicG9lWkpDRWFTZjRjeXdubmxEdkZNdGVVaFBp?=
- =?utf-8?B?UmVYazVtbHVycS96SXFtZTBDME1ONVNaQW90Z0d6NmlYTkszeUFJVE9oYXM3?=
- =?utf-8?Q?yPZvhfAn3ERookJqZG6d0JBta?=
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 660bef2a-fa31-4380-ef9b-08db8afc2730
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR02MB4436.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2023 21:39:39.8396
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wSTda74sokSJ3D4ixQez71okMct2Rut4pOzXgkGyh/YyKjmMcZNMMUJZQp1VeTas
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9181
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230717131756.240645-1-biju.das.jz@bp.renesas.com>
+ <20230717131756.240645-2-biju.das.jz@bp.renesas.com> <ZLVlIPHdmEGdG5D1@google.com>
+ <OS0PR01MB592264ADC86061AB003048DD863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <66228ad3-c087-418c-925f-b9fd4a60fb16@sirena.org.uk> <ZLWIPPAfeR1+KbeH@google.com>
+ <OS0PR01MB59225D8CF3E96808DD776A8E863BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZLbbslBiIQXFWpmN@google.com> <TYCPR01MB593346FBBA320260A290EAFD8639A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <ZLsCOj1t4JvG3SEp@google.com> <TYCPR01MB5933D4252360AAE57D90FE1C863CA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB5933D4252360AAE57D90FE1C863CA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Sat, 22 Jul 2023 18:17:02 -0700
+Message-ID: <CAKdAkRT9tMnLnDLgWAevE_4HQ0wYMPehvsYaAeYrXdGGiyjXRA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Mike Looijmans <mike.looijmans@topic.nl>,
+        Andreas Helbech Kleist <andreaskleist@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi!
+On Sat, Jul 22, 2023 at 05:51:17PM +0000, Biju Das wrote:
+> Hi Dmitry Torokhov,
+>
+> Thanks for the feedback.
+>
+> > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
+> >
+> > On Wed, Jul 19, 2023 at 06:43:47AM +0000, Biju Das wrote:
+> > > Hi Dmitry Torokhov,
+> > >
+> > > Thanks for the feedback.
+> > >
+> > > > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
+> > > >
+> > > > On Mon, Jul 17, 2023 at 06:45:27PM +0000, Biju Das wrote:
+> > > > > Hi Dmitry,
+> > > > >
+> > > > > > Subject: Re: [PATCH v2 1/2] Input: exc3000 - Simplify probe()
+> > > > > >
+> > > > > > On Mon, Jul 17, 2023 at 07:15:50PM +0100, Mark Brown wrote:
+> > > > > > > On Mon, Jul 17, 2023 at 04:35:02PM +0000, Biju Das wrote:
+> > > > > > >
+> > > > > > > > The .device_get_match_data callbacks are missing for I2C and
+> > > > > > > > SPI bus
+> > > > > > subsystems.
+> > > > > > > > Can you please throw some lights on this?
+> > > > > > >
+> > > > > > > It's the first time I've ever heard of that callback, I don't
+> > > > > > > know why whoever added it wouldn't have done those buses in
+> > > > > > > particular or if it just didn't happen.  Try adding it and if
+> > > > > > > it works send
+> > > > the patches?
+> > > > > >
+> > > > > > I think there is a disconnect. Right now device_get_match_data
+> > > > > > callbacks are part of fwnode_operations. I was proposing to add
+> > > > > > another optional device_get_match_data callback to 'struct
+> > bus_type'
+> > > > > > to allow individual buses control how match data is handled,
+> > > > > > before (or after) jumping into the fwnode-backed
+> > > > > > device_get_match_data
+> > > > callbacks.
+> > > > >
+> > > > > That is what implemented here [1] and [2] right?
+> > > > >
+> > > > >
+> > > > > First it check for fwnode-backed device_get_match_data callbacks
+> > > > > and Fallback is bus-type based match.
+> > > > >
+> > > > > Looks like you are proposing to unify [1] and [2] and you want the
+> > > > > logic to be other way around. ie, first bus-type match, then
+> > > > > fwnode-backed callbacks?
+> > > > >
+> > > >
+> > > > I do not have a strong preference for the ordering, i.e. I think it
+> > > > is perfectly fine to do the generic fwnode-based lookup and if there
+> > > > is no match have bus method called as a fallback,
+> > >
+> > > That involves a bit of work.
+> > >
+> > > const void *device_get_match_data(const struct device *dev);
+> > >
+> > > const struct i2c_device_id *i2c_match_id(const struct i2c_device_id
+> > *id,
+> > >                                    const struct i2c_client *client);
+> > >
+> > > const struct spi_device_id *spi_get_device_id(const struct spi_device
+> > > *sdev);
+> > >
+> > > Basically, the bus-client driver(such as exc3000) needs to pass struct
+> > > device and device_get_match_data after generic fwnode-based lookup,
+> > > needs to find the bus type based on struct device and call a new
+> > > generic
+> > > void* bus_get_match_data(void*) callback, so that each bus interface
+> > > can do a match.
+> >
+> > Yes, something like this (which does not seem that involved to me...):
+>
+> Looks it will work.
+>
+> But there is some 2 additional checks in core code, every driver which is not bus type need to go through this checks.
+>
+> Also in Bus specific callback, there are 2 additional checks.
+>
+> So, performance wise [1] is better.
 
-2023-07-21 at 09:16, Biju Das wrote:
-> Replace of_device_get_match_data() and i2c_match_id() by i2c_get_match
-> _data() by making similar I2C and DT-based matching table.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Added similar similar I2C and DT-based matching table.
->  * Fixed typo i2c_get_match_data(dev)->i2c_get_match_data(client).
->  * Dropped error check as all tables have data pointers.
-> 
-> Note:
->  This patch is only compile tested.
-> ---
->  drivers/iio/potentiometer/mcp4018.c | 34 +++++++++++++++--------------
->  1 file changed, 18 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/iio/potentiometer/mcp4018.c b/drivers/iio/potentiometer/mcp4018.c
-> index 89daecc90305..b064e86ecce8 100644
-> --- a/drivers/iio/potentiometer/mcp4018.c
-> +++ b/drivers/iio/potentiometer/mcp4018.c
-> @@ -99,20 +99,24 @@ static const struct iio_info mcp4018_info = {
->  	.write_raw = mcp4018_write_raw,
->  };
->  
-> +#define MCP4018_ID_TABLE(name, cfg) {				\
-> +	name, .driver_data = (kernel_ulong_t)&mcp4018_cfg[cfg],	\
-> +}
+I do not believe this is a concern whatsoever: majority of
+architectures/boards have been converted to ACPI/DT, which are being
+matched first as they are now, so the fallback to bus-specific matching
+against bus-specific device ID tables will be very infrequent.
+Additionally, device_get_match_data() is predominantly called from
+driver probe paths, so we need not be concerned with it being used with
+class devices or other kinds of devices not associated with a bus.
 
-It is inconsistent to have a named field for .driver_data but not
-for .name. Also, I dislike the cast and wonder if the trivial
-simplification in probe() is really worth this churn when that
-ugly cast is needed? The reason the two tables differ and do not
-both have pointers already is precisely my dislike for that cast.
+>
+> Moreover, we need to avoid code duplication with [1]
+>
+> [1] https://elixir.bootlin.com/linux/v6.5-rc2/source/drivers/i2c/i2c-core-base.c#L125
 
-Anyway, something like this instead? Or _name instead of id?
-Whatever...
+If and when my proposed solution gets into the kernel we can drop
+i2c_get_match_data() altogether.
 
-#define MCP4018_ID_TABLE(id, cfg) {				\
-	.name = id,						\
-	.driver_data = (kernel_ulong_t)&mcp4018_cfg[cfg],	\
-}
+Thanks.
 
-> +
->  static const struct i2c_device_id mcp4018_id[] = {
-> -	{ "mcp4017-502", MCP4018_502 },
-> -	{ "mcp4017-103", MCP4018_103 },
-> -	{ "mcp4017-503", MCP4018_503 },
-> -	{ "mcp4017-104", MCP4018_104 },
-> -	{ "mcp4018-502", MCP4018_502 },
-> -	{ "mcp4018-103", MCP4018_103 },
-> -	{ "mcp4018-503", MCP4018_503 },
-> -	{ "mcp4018-104", MCP4018_104 },
-> -	{ "mcp4019-502", MCP4018_502 },
-> -	{ "mcp4019-103", MCP4018_103 },
-> -	{ "mcp4019-503", MCP4018_503 },
-> -	{ "mcp4019-104", MCP4018_104 },
-> -	{}
-> +	MCP4018_ID_TABLE("mcp4017-502", MCP4018_502),
-> +	MCP4018_ID_TABLE("mcp4017-103", MCP4018_103),
-> +	MCP4018_ID_TABLE("mcp4017-503", MCP4018_503),
-> +	MCP4018_ID_TABLE("mcp4017-104", MCP4018_104),
-> +	MCP4018_ID_TABLE("mcp4018-502", MCP4018_502),
-> +	MCP4018_ID_TABLE("mcp4018-103", MCP4018_103),
-> +	MCP4018_ID_TABLE("mcp4018-503", MCP4018_503),
-> +	MCP4018_ID_TABLE("mcp4018-104", MCP4018_104),
-> +	MCP4018_ID_TABLE("mcp4019-502", MCP4018_502),
-> +	MCP4018_ID_TABLE("mcp4019-103", MCP4018_103),
-> +	MCP4018_ID_TABLE("mcp4019-503", MCP4018_503),
-> +	MCP4018_ID_TABLE("mcp4019-104", MCP4018_104),
-> +	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(i2c, mcp4018_id);
->  
-> @@ -157,9 +161,7 @@ static int mcp4018_probe(struct i2c_client *client)
->  	i2c_set_clientdata(client, indio_dev);
->  	data->client = client;
->  
-> -	data->cfg = device_get_match_data(dev);
-> -	if (!data->cfg)
-> -		data->cfg = &mcp4018_cfg[i2c_match_id(mcp4018_id, client)->driver_data];
-> +	data->cfg = i2c_get_match_data(client);
 
-NULL-check here? I know the original i2c_match_id call is not
-checked for non-matches, but that feels like a simpler function
-than i2c_get_match_data. And less prone to changes.
-
-Same comments of course applies to the mcp4531 patch as well.
-
-Cheers,
-Peter
-
->  
->  	indio_dev->info = &mcp4018_info;
->  	indio_dev->channels = &mcp4018_channel;
+--
+Dmitry
