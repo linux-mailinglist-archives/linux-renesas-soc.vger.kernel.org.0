@@ -2,42 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABFB75EEF8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jul 2023 11:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68CB775EEFA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jul 2023 11:19:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbjGXJTw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jul 2023 05:19:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
+        id S232231AbjGXJT7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jul 2023 05:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231136AbjGXJTv (ORCPT
+        with ESMTP id S232230AbjGXJT5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jul 2023 05:19:51 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E3FB12A;
-        Mon, 24 Jul 2023 02:19:49 -0700 (PDT)
+        Mon, 24 Jul 2023 05:19:57 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C728FE43;
+        Mon, 24 Jul 2023 02:19:53 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,228,1684767600"; 
-   d="scan'208";a="174273217"
+   d="scan'208";a="170613728"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Jul 2023 18:19:49 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 24 Jul 2023 18:19:53 +0900
 Received: from localhost.localdomain (unknown [10.226.92.186])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5FC484199711;
-        Mon, 24 Jul 2023 18:19:45 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2ECA74199711;
+        Mon, 24 Jul 2023 18:19:49 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-iio@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 3/6] dt-bindings: timer: renesas,rz-mtu3: Document RZ/G2UL SoC
-Date:   Mon, 24 Jul 2023 10:19:24 +0100
-Message-Id: <20230724091927.123847-4-biju.das.jz@bp.renesas.com>
+        stable@kernel.org
+Subject: [PATCH v2 4/6] arm64: dts: renesas: r9a07g044: Update overfow/underflow IRQ names for MTU3 channels
+Date:   Mon, 24 Jul 2023 10:19:25 +0100
+Message-Id: <20230724091927.123847-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230724091927.123847-1-biju.das.jz@bp.renesas.com>
 References: <20230724091927.123847-1-biju.das.jz@bp.renesas.com>
@@ -52,33 +50,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add MTU3a binding documentation for Renesas RZ/G2UL SoC.
+As per R01UH0914EJ0130 Rev.1.30 HW manual the MTU3 overflow/underflow
+interrupt names starts with 'tci' instead of 'tgi'.
 
-MTU3a block is identical to one found on RZ/G2L, so no driver changes are
-required. The fallback compatible string "renesas,rz-mtu3" will be used
-on RZ/G2UL.
+Replace the below overflow/underflow interrupt names:
+ - tgiv0->tciv0
+ - tgiv1->tciv1
+ - tgiu1->tciu1
+ - tgiv2->tciv2
+ - tgiu2->tciu2
+ - tgiv3->tciv3
+ - tgiv4->tciv4
+ - tgiv6->tciv6
+ - tgiv7->tciv7
+ - tgiv8->tciv8
+ - tgiu8->tciu8
 
+Fixes: 26336d66d021 ("arm64: dts: renesas: r9a07g044: Add MTU3a node")
+Fixes: dd123dd01def ("arm64: dts: renesas: r9a07g054: Add MTU3a node")
+Cc: stable@kernel.org
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 v1->v2:
- * Added ack from Conor Dooley.
+ * No change.
 ---
- Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 16 ++++++++--------
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 16 ++++++++--------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-index 670a2ebaacdb..2269e0bf8818 100644
---- a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-@@ -109,6 +109,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - renesas,r9a07g043-mtu3  # RZ/G2UL
-           - renesas,r9a07g044-mtu3  # RZ/G2{L,LC}
-           - renesas,r9a07g054-mtu3  # RZ/V2L
-       - const: renesas,rz-mtu3
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 232910e07444..66f68fc2b241 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -223,20 +223,20 @@ mtu3: timer@10001200 {
+ 				     <GIC_SPI 212 IRQ_TYPE_EDGE_RISING>,
+ 				     <GIC_SPI 213 IRQ_TYPE_EDGE_RISING>;
+ 			interrupt-names = "tgia0", "tgib0", "tgic0", "tgid0",
+-					  "tgiv0", "tgie0", "tgif0",
+-					  "tgia1", "tgib1", "tgiv1", "tgiu1",
+-					  "tgia2", "tgib2", "tgiv2", "tgiu2",
++					  "tciv0", "tgie0", "tgif0",
++					  "tgia1", "tgib1", "tciv1", "tciu1",
++					  "tgia2", "tgib2", "tciv2", "tciu2",
+ 					  "tgia3", "tgib3", "tgic3", "tgid3",
+-					  "tgiv3",
++					  "tciv3",
+ 					  "tgia4", "tgib4", "tgic4", "tgid4",
+-					  "tgiv4",
++					  "tciv4",
+ 					  "tgiu5", "tgiv5", "tgiw5",
+ 					  "tgia6", "tgib6", "tgic6", "tgid6",
+-					  "tgiv6",
++					  "tciv6",
+ 					  "tgia7", "tgib7", "tgic7", "tgid7",
+-					  "tgiv7",
++					  "tciv7",
+ 					  "tgia8", "tgib8", "tgic8", "tgid8",
+-					  "tgiv8", "tgiu8";
++					  "tciv8", "tciu8";
+ 			clocks = <&cpg CPG_MOD R9A07G044_MTU_X_MCK_MTU3>;
+ 			power-domains = <&cpg>;
+ 			resets = <&cpg R9A07G044_MTU_X_PRESET_MTU3>;
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index 2eba3a8a100d..1f1d481dc783 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+@@ -223,20 +223,20 @@ mtu3: timer@10001200 {
+ 				     <GIC_SPI 212 IRQ_TYPE_EDGE_RISING>,
+ 				     <GIC_SPI 213 IRQ_TYPE_EDGE_RISING>;
+ 			interrupt-names = "tgia0", "tgib0", "tgic0", "tgid0",
+-					  "tgiv0", "tgie0", "tgif0",
+-					  "tgia1", "tgib1", "tgiv1", "tgiu1",
+-					  "tgia2", "tgib2", "tgiv2", "tgiu2",
++					  "tciv0", "tgie0", "tgif0",
++					  "tgia1", "tgib1", "tciv1", "tciu1",
++					  "tgia2", "tgib2", "tciv2", "tciu2",
+ 					  "tgia3", "tgib3", "tgic3", "tgid3",
+-					  "tgiv3",
++					  "tciv3",
+ 					  "tgia4", "tgib4", "tgic4", "tgid4",
+-					  "tgiv4",
++					  "tciv4",
+ 					  "tgiu5", "tgiv5", "tgiw5",
+ 					  "tgia6", "tgib6", "tgic6", "tgid6",
+-					  "tgiv6",
++					  "tciv6",
+ 					  "tgia7", "tgib7", "tgic7", "tgid7",
+-					  "tgiv7",
++					  "tciv7",
+ 					  "tgia8", "tgib8", "tgic8", "tgid8",
+-					  "tgiv8", "tgiu8";
++					  "tciv8", "tciu8";
+ 			clocks = <&cpg CPG_MOD R9A07G054_MTU_X_MCK_MTU3>;
+ 			power-domains = <&cpg>;
+ 			resets = <&cpg R9A07G054_MTU_X_PRESET_MTU3>;
 -- 
 2.25.1
 
