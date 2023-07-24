@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE92175E63A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jul 2023 03:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E21B75E6DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jul 2023 03:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbjGXBQ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Jul 2023 21:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
+        id S230296AbjGXBXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Jul 2023 21:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjGXBQO (ORCPT
+        with ESMTP id S231137AbjGXBWz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:16:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B662E6D;
-        Sun, 23 Jul 2023 18:15:56 -0700 (PDT)
+        Sun, 23 Jul 2023 21:22:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAB019BD;
+        Sun, 23 Jul 2023 18:22:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 63B1360EFB;
-        Mon, 24 Jul 2023 01:15:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84758C433C7;
-        Mon, 24 Jul 2023 01:15:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AA68060F37;
+        Mon, 24 Jul 2023 01:22:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028D1C433C7;
+        Mon, 24 Jul 2023 01:22:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161303;
-        bh=Cdcujhefp+F/lgSM91aXFzs9IPrdSeeAbCx2a0V5XZQ=;
+        s=k20201202; t=1690161727;
+        bh=3EMk2o0Q0xBharwdoEGgunrjb5LYrw1JPMEvYbiz/5s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GYbQKvHiChzGWH71zt13a5Vpeze9SAOzmAY3EVAcQAOnFEz7rmMTcHZmxDMetGc6B
-         u8sqErqKUsSY/6qlxM1qE8zogavmybVEFrnoEPvE1QH8XMu8DFW0Ln1vqGUgOBUdjf
-         VYKw8EyCmAuTr6ubKZ+jIdp7o8TdyJRD73h15m6e2s62qcVwDhbWgcvfdQFbqEaFt+
-         8G82Ia7/JZtyTBnJhx+Qt597nnP81Sd6ejFqkM3MJI2EDtkA47eL1LmRNQZ+hmF+O2
-         jfGvObilNAlrzaRPCr0HT0Z5wzh1TSecYuDZ/dCWXx4fMx8SjnPAmxXkfBpI1NmXer
-         NNl3KgC/G0BnQ==
+        b=iuQNGc/XdMB1X6qh6tOW/r9nHUuFn8ic7dSsKI9fg/loM/4WDKJJhLhfpvfvLNLD8
+         YA3V30ecTuy8YAxxAd/mSS3Wam4vJT1NPBmq5JzhCSbr0CVDrQHzz7h4JLxgR+vGAP
+         iGUtO2LM1O6ViRJLKj0c8fCtOyscDpXHyKYWxuJ9aFnKQ5NfHTofQIaKjLh4d0YvPJ
+         S2QAEDQJ0nrr/MtTebX6qhnhG2vJxjS1rswGrQfEXwGgGot4ocOpLIDtcxiqcIrW5w
+         gN0AzT293V+y0To8nvbArlBhf8HlQAWxHzzrw2ZSGqP44tgmYTX7LkGYfYnLu45rKV
+         fp/qjV0Fow4Aw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -42,21 +42,21 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         laurent.pinchart@ideasonboard.com, airlied@gmail.com,
         daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 18/58] drm: rcar-du: remove R-Car H3 ES1.* workarounds
-Date:   Sun, 23 Jul 2023 21:12:46 -0400
-Message-Id: <20230724011338.2298062-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 12/41] drm: rcar-du: remove R-Car H3 ES1.* workarounds
+Date:   Sun, 23 Jul 2023 21:20:45 -0400
+Message-Id: <20230724012118.2316073-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
-References: <20230724011338.2298062-1-sashal@kernel.org>
+In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
+References: <20230724012118.2316073-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.5
+X-stable-base: Linux 6.1.40
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -85,7 +85,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 4 insertions(+), 86 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index d6d29be6b4f48..7e175dbfd8924 100644
+index b7dd59fe119e6..9edb5edb2bad9 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 @@ -223,20 +223,6 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
@@ -144,7 +144,7 @@ index d6d29be6b4f48..7e175dbfd8924 100644
  
  		escr = ESCR_DCLKSEL_DCLKIN | div;
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index b9a94c5260e9d..1ffde19cb87fe 100644
+index 6381578c4db58..bd7003d6e0753 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 @@ -16,7 +16,6 @@
@@ -199,7 +199,7 @@ index b9a94c5260e9d..1ffde19cb87fe 100644
  static const struct rcar_du_device_info rcar_du_r8a7796_info = {
  	.gen = 3,
  	.features = RCAR_DU_FEATURE_CRTC_IRQ
-@@ -614,11 +576,6 @@ static const struct of_device_id rcar_du_of_table[] = {
+@@ -592,11 +554,6 @@ static const struct of_device_id rcar_du_of_table[] = {
  
  MODULE_DEVICE_TABLE(of, rcar_du_of_table);
  
@@ -211,7 +211,7 @@ index b9a94c5260e9d..1ffde19cb87fe 100644
  const char *rcar_du_output_name(enum rcar_du_output output)
  {
  	static const char * const names[] = {
-@@ -707,7 +664,6 @@ static void rcar_du_shutdown(struct platform_device *pdev)
+@@ -688,7 +645,6 @@ static void rcar_du_shutdown(struct platform_device *pdev)
  
  static int rcar_du_probe(struct platform_device *pdev)
  {
@@ -219,7 +219,7 @@ index b9a94c5260e9d..1ffde19cb87fe 100644
  	struct rcar_du_device *rcdu;
  	unsigned int mask;
  	int ret;
-@@ -725,10 +681,6 @@ static int rcar_du_probe(struct platform_device *pdev)
+@@ -706,10 +662,6 @@ static int rcar_du_probe(struct platform_device *pdev)
  
  	rcdu->info = of_device_get_match_data(rcdu->dev);
  
@@ -244,7 +244,7 @@ index acc3673fefe18..5cfa2bb7ad93d 100644
  enum rcar_du_output {
  	RCAR_DU_OUTPUT_DPAD0,
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-index 6c750fab6ebb7..391de6661d8bc 100644
+index 789ae9285108e..288eff12b2b1a 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
 @@ -283,8 +283,7 @@
