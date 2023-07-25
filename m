@@ -2,218 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1E27624E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 23:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE457624ED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 23:55:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbjGYVwQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jul 2023 17:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S231602AbjGYVzs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jul 2023 17:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjGYVwP (ORCPT
+        with ESMTP id S229620AbjGYVzq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jul 2023 17:52:15 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F831FEB;
-        Tue, 25 Jul 2023 14:52:12 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3a1d9b64837so4174240b6e.0;
-        Tue, 25 Jul 2023 14:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690321931; x=1690926731;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w2G/e8y/tvnNGTMmNmnaD68PLNtHT6GiMZvoHdRg+aU=;
-        b=R3puFFKq+ZSGzNHmxPCpnTeYSaLCatWyIWrrZry4+8MTe4ZYoHOqQyVLOJkTIO6LdI
-         XaZlYEeLZHO5anL2SR2yyCgHJFsLbOnlsLOfAevIYDaKTrV3FP9DSGTEk5umBkS6Q2dO
-         +oI4fzhIMqls8oEpa2uNjE7O3BuVthvGynrKXA6FpaRE3528ZMBIrmT8HzY2K9bzVHBT
-         wsJmUYGsKcB0Mv3agSU3IhgvbUbt+lS4vYybGAHs4dk0slYivmLKTp8T+FuhMpSadz5g
-         kNAWtZkrOSD1djGuw4pc+DumKUy0XZZoyGEvFkgvlVfE7JXlLLixSwTFiGx3FTnuQCoA
-         6Tbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690321931; x=1690926731;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w2G/e8y/tvnNGTMmNmnaD68PLNtHT6GiMZvoHdRg+aU=;
-        b=BdZkmo38UcSC8khF8Oxa+EcqizzKVhJfzIKQ+YuDswRYVxy5h5JS/rqByerLYCKjkw
-         K47HASx0zixu6q9o4tvor86Hn0YKNc2/tCrPLtnjhgvu/4GUDbstkrGcxkvhPEYSCulz
-         pGNm6J/QmIR+Pzdq6SDMshG2HpTEhp0Sn4I308ziN19SdqYne/c+0IYuUcrbsfCs92kp
-         OEwCLejod+D7tt5DA0fNy7umeNLwj8dRTdPuiG2uNuDr7+hPlf+nOlCvopRLppGJNnFu
-         BG1O036M36Kg5DI83v5AMM8eN7Xhrrgiyp/bYbzFdEqSARAU610Hhv1vnNZ/EUdPE7w4
-         VTgg==
-X-Gm-Message-State: ABy/qLZPo1xO0eMx3Fox9TCi4h+KyDO+TPtYfw45sntaTzEdF00Tb0tK
-        +LC7r6vX5tcmOlb/ox3NR6g=
-X-Google-Smtp-Source: APBJJlG54o8WY98CP+xjRTeR1S+q2Ldy/fPlKKU1BXd7oYHQ/qegEG4jGeoIlI/AUnc8VPS3G6mssQ==
-X-Received: by 2002:a05:6808:e87:b0:3a4:225d:82c0 with SMTP id k7-20020a0568080e8700b003a4225d82c0mr179900oil.31.1690321931094;
-        Tue, 25 Jul 2023 14:52:11 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:18d])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a005d00b002612150d958sm57830pjb.16.2023.07.25.14.52.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 14:52:10 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Tue, 25 Jul 2023 11:52:09 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-team@meta.com, Linux PM list <linux-pm@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rtc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH wq/for-6.5-fixes] workqueue: Drop the special locking rule
- for worker->flags and worker_pool->flags
-Message-ID: <ZMBECezjAixaMccA@slm.duckdns.org>
-References: <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
- <ZK30CR196rs-OWLq@slm.duckdns.org>
- <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
- <ZLXIvXBvhsnL-ik_@slm.duckdns.org>
- <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
- <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
- <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        Tue, 25 Jul 2023 17:55:46 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E991FE6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jul 2023 14:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690322144; x=1721858144;
+  h=date:from:to:cc:subject:message-id;
+  bh=weKK1RPK0S6QF/8h8W/urljPYL+mNogWHwbYIB0Bjik=;
+  b=bdGZrT4Fjuw3xwQ9yaOKxkF67ihMIDhG74w0/wt1Zl6EGrPLsbRcap8o
+   Kj/TB8R0GIV9bAnaFLYdUT1YKOQHsXtxU9XDkugWM5N3Fwflu8ugKu7my
+   PNtM23NZMa8ZicIhdmjNGyb0ZXya5vR+NLjUAQqUr4ZuG1BTQfIdCzdTl
+   E3HJcwN0vTDPxJ7BlTccPOndeFh9ovQs6DMc38kc07yUsTvG2oQbvPq05
+   8Kb1NuGQSvKrKYcIz/jI/AWQqdZQ5/DQvEAt7OvcbwqaEqxnMdFTIRaZX
+   Kv3JaV8shYjT+j8ZN8TN79IeI2Azb9ertVJikaT5K/mls+q8dmpHlT5CA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="454231852"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="454231852"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 14:55:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="729546514"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="729546514"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2023 14:55:27 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qOQ06-0000N4-2z;
+        Tue, 25 Jul 2023 21:55:26 +0000
+Date:   Wed, 26 Jul 2023 05:55:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:fixes] BUILD SUCCESS
+ 4c188fa183ebb45238ef16504c4c7606955cf9d4
+Message-ID: <202307260512.NwE5VvII-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From aa6fde93f3a49e42c0fe0490d7f3711bac0d162e Mon Sep 17 00:00:00 2001
-From: Tejun Heo <tj@kernel.org>
-Date: Mon, 17 Jul 2023 12:50:02 -1000
-Subject: [PATCH] workqueue: Scale up wq_cpu_intensive_thresh_us if BogoMIPS is
- below 4000
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git fixes
+branch HEAD: 4c188fa183ebb45238ef16504c4c7606955cf9d4  arm64: dts: renesas: rzg2l: Update overfow/underflow IRQ names for MTU3 channels
 
-wq_cpu_intensive_thresh_us is used to detect CPU-hogging per-cpu work items.
-Once detected, they're excluded from concurrency management to prevent them
-from blocking other per-cpu work items. If CONFIG_WQ_CPU_INTENSIVE_REPORT is
-enabled, repeat offenders are also reported so that the code can be updated.
+elapsed time: 721m
 
-The default threshold is 10ms which is long enough to do fair bit of work on
-modern CPUs while short enough to be usually not noticeable. This
-unfortunately leads to a lot of, arguable spurious, detections on very slow
-CPUs. Using the same threshold across CPUs whose performance levels may be
-apart by multiple levels of magnitude doesn't make whole lot of sense.
+configs tested: 96
+configs skipped: 129
 
-This patch scales up wq_cpu_intensive_thresh_us upto 1 second when BogoMIPS
-is below 4000. This is obviously very inaccurate but it doesn't have to be
-accurate to be useful. The mechanism is still useful when the threshold is
-fully scaled up and the benefits of reports are usually shared with everyone
-regardless of who's reporting, so as long as there are sufficient number of
-fast machines reporting, we don't lose much.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Some (or is it all?) ARM CPUs systemtically report significantly lower
-BogoMIPS. While this doesn't break anything, given how widespread ARM CPUs
-are, it's at least a missed opportunity and it probably would be a good idea
-to teach workqueue about it.
+tested configs:
+alpha                randconfig-r012-20230725   gcc  
+alpha                randconfig-r034-20230725   gcc  
+arc                              allyesconfig   gcc  
+arc                  randconfig-r013-20230725   gcc  
+arc                  randconfig-r023-20230725   gcc  
+arc                  randconfig-r024-20230725   gcc  
+arc                  randconfig-r033-20230725   gcc  
+arc                  randconfig-r035-20230725   gcc  
+arc                  randconfig-r036-20230725   gcc  
+arc                  randconfig-r043-20230725   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                            mmp2_defconfig   clang
+arm                       multi_v4t_defconfig   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r012-20230725   gcc  
+arm64                randconfig-r026-20230725   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r011-20230725   gcc  
+csky                 randconfig-r016-20230725   gcc  
+csky                 randconfig-r031-20230725   gcc  
+hexagon              randconfig-r023-20230725   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230725   clang
+i386         buildonly-randconfig-r005-20230725   clang
+i386         buildonly-randconfig-r006-20230725   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230725   clang
+i386                 randconfig-i002-20230725   clang
+i386                 randconfig-i003-20230725   clang
+i386                 randconfig-i004-20230725   clang
+i386                 randconfig-i005-20230725   clang
+i386                 randconfig-i006-20230725   clang
+i386                 randconfig-i011-20230725   gcc  
+i386                 randconfig-i012-20230725   gcc  
+i386                 randconfig-i013-20230725   gcc  
+i386                 randconfig-i014-20230725   gcc  
+i386                 randconfig-i015-20230725   gcc  
+i386                 randconfig-i016-20230725   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r015-20230725   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r035-20230725   gcc  
+microblaze           randconfig-r015-20230725   gcc  
+microblaze           randconfig-r021-20230725   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                      malta_kvm_defconfig   clang
+nios2                randconfig-r025-20230725   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r022-20230725   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230725   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230725   gcc  
+sparc                randconfig-r031-20230725   gcc  
+sparc64              randconfig-r014-20230725   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230725   clang
+x86_64       buildonly-randconfig-r002-20230725   clang
+x86_64       buildonly-randconfig-r003-20230725   clang
+x86_64                              defconfig   gcc  
+x86_64               randconfig-r016-20230725   gcc  
+x86_64               randconfig-x001-20230725   gcc  
+x86_64               randconfig-x002-20230725   gcc  
+x86_64               randconfig-x003-20230725   gcc  
+x86_64               randconfig-x004-20230725   gcc  
+x86_64               randconfig-x005-20230725   gcc  
+x86_64               randconfig-x006-20230725   gcc  
+x86_64               randconfig-x011-20230725   clang
+x86_64               randconfig-x012-20230725   clang
+x86_64               randconfig-x013-20230725   clang
+x86_64               randconfig-x014-20230725   clang
+x86_64               randconfig-x015-20230725   clang
+x86_64               randconfig-x016-20230725   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                         virt_defconfig   gcc  
 
-Signed-off-by: Tejun Heo <tj@kernel.org>
-Reported-and-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-Hello,
-
-Geert, applied this to wq/for-6.5-fixes. The local variable `mips` is
-renamed to `bogo` to avoid collision.
-
-Thanks for testing!
-
- kernel/workqueue.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 02a8f402eeb5..800b4208dba9 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -52,6 +52,7 @@
- #include <linux/sched/debug.h>
- #include <linux/nmi.h>
- #include <linux/kvm_para.h>
-+#include <linux/delay.h>
- 
- #include "workqueue_internal.h"
- 
-@@ -338,8 +339,10 @@ static cpumask_var_t *wq_numa_possible_cpumask;
-  * Per-cpu work items which run for longer than the following threshold are
-  * automatically considered CPU intensive and excluded from concurrency
-  * management to prevent them from noticeably delaying other per-cpu work items.
-+ * ULONG_MAX indicates that the user hasn't overridden it with a boot parameter.
-+ * The actual value is initialized in wq_cpu_intensive_thresh_init().
-  */
--static unsigned long wq_cpu_intensive_thresh_us = 10000;
-+static unsigned long wq_cpu_intensive_thresh_us = ULONG_MAX;
- module_param_named(cpu_intensive_thresh_us, wq_cpu_intensive_thresh_us, ulong, 0644);
- 
- static bool wq_disable_numa;
-@@ -6513,6 +6516,42 @@ void __init workqueue_init_early(void)
- 	       !system_freezable_power_efficient_wq);
- }
- 
-+static void __init wq_cpu_intensive_thresh_init(void)
-+{
-+	unsigned long thresh;
-+	unsigned long bogo;
-+
-+	/* if the user set it to a specific value, keep it */
-+	if (wq_cpu_intensive_thresh_us != ULONG_MAX)
-+		return;
-+
-+	/*
-+	 * The default of 10ms is derived from the fact that most modern (as of
-+	 * 2023) processors can do a lot in 10ms and that it's just below what
-+	 * most consider human-perceivable. However, the kernel also runs on a
-+	 * lot slower CPUs including microcontrollers where the threshold is way
-+	 * too low.
-+	 *
-+	 * Let's scale up the threshold upto 1 second if BogoMips is below 4000.
-+	 * This is by no means accurate but it doesn't have to be. The mechanism
-+	 * is still useful even when the threshold is fully scaled up. Also, as
-+	 * the reports would usually be applicable to everyone, some machines
-+	 * operating on longer thresholds won't significantly diminish their
-+	 * usefulness.
-+	 */
-+	thresh = 10 * USEC_PER_MSEC;
-+
-+	/* see init/calibrate.c for lpj -> BogoMIPS calculation */
-+	bogo = max_t(unsigned long, loops_per_jiffy / 500000 * HZ, 1);
-+	if (bogo < 4000)
-+		thresh = min_t(unsigned long, thresh * 4000 / bogo, USEC_PER_SEC);
-+
-+	pr_debug("wq_cpu_intensive_thresh: lpj=%lu BogoMIPS=%lu thresh_us=%lu\n",
-+		 loops_per_jiffy, bogo, thresh);
-+
-+	wq_cpu_intensive_thresh_us = thresh;
-+}
-+
- /**
-  * workqueue_init - bring workqueue subsystem fully online
-  *
-@@ -6528,6 +6567,8 @@ void __init workqueue_init(void)
- 	struct worker_pool *pool;
- 	int cpu, bkt;
- 
-+	wq_cpu_intensive_thresh_init();
-+
- 	/*
- 	 * It'd be simpler to initialize NUMA in workqueue_init_early() but
- 	 * CPU to node mapping may not be available that early on some
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
