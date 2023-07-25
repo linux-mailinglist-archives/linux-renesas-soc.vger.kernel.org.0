@@ -2,60 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B9A760C5D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 09:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4A24760DA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 10:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232833AbjGYHuT convert rfc822-to-8bit (ORCPT
+        id S230398AbjGYIxl convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jul 2023 03:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34784 "EHLO
+        Tue, 25 Jul 2023 04:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbjGYHuP (ORCPT
+        with ESMTP id S232853AbjGYIxE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jul 2023 03:50:15 -0400
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05FD918F;
-        Tue, 25 Jul 2023 00:50:12 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d124309864dso1506544276.3;
-        Tue, 25 Jul 2023 00:50:11 -0700 (PDT)
+        Tue, 25 Jul 2023 04:53:04 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE071BFF;
+        Tue, 25 Jul 2023 01:52:39 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-583c48a9aa1so29279497b3.1;
+        Tue, 25 Jul 2023 01:52:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690271411; x=1690876211;
+        d=1e100.net; s=20221208; t=1690275159; x=1690879959;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EqNUObKtnWU7CrTgMoTHsyHzfdm6+8QmUNqv2A2543c=;
-        b=W25unTmO+RfycN1l8WT7ryXU9FBMgt7QOmIwLHM1iX69xrN9udUj/2TaLbbJqXBTRi
-         PJNgqYgQ76p9Iu3ygzYVoCl7hdEsCGBgG9u4R04ZWvUluliOKI3NhZNwfznVVmgJrMg3
-         0IeHjRhd9HfdX7tDDuHRaoMqlPe068WvI4S0T90rtjG9PyjrTW4E5Z9DCb90VA//mX88
-         4/UIO0iO+X3BHknO3LwiI+lEie2sWFl0NjQcwPoDvGlwdqAKZlu3h3+LyvKHbuZtZY7d
-         yG8vkLQTJgRRYfOqn48z2Py42wN4EtL0XhAmZOpGGJT68sofqv6gvMhyld4RemnfLSnM
-         g0QQ==
-X-Gm-Message-State: ABy/qLasU/fcRjrSLC9l5iUV7/7NIrLi69gd6mlaDiB8kqy/W3HFtBfz
-        XJfqJruz4wKDR4nP92hYC/U69D9lC+uvmQ==
-X-Google-Smtp-Source: APBJJlElEeLzNDkqVv5Ha6SmFKBNhkmPkkd9zzOFXmZaCX/hlW8q997P44WTi7zH3O0d0LBIVjpn2Q==
-X-Received: by 2002:a81:4602:0:b0:562:16d7:e6eb with SMTP id t2-20020a814602000000b0056216d7e6ebmr7561645ywa.40.1690271410776;
-        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id j187-20020a816ec4000000b0058038e6609csm3372000ywc.74.2023.07.25.00.50.10
+        bh=NDr9hS6khTUlmm2vbG4nmWvTWrQEOKQO3wf8w3RM/ow=;
+        b=hHIvUiipTxKyWhY4nevZK/WBRWPlFAWYmPhUvCJGtJLtzP01oJiTNdx/KSlT/9MfTH
+         iAa2d6PcjDX/gttiLilLVUKDrCuEiLBquyiZ0jLSYGo+LzXHqlpPAcniDGIGkT9POTXi
+         PRoOwCsYkpbghijMV4asBH3rN1TpuFNIG7C6zQr7tC1o79Xe2a8sgdJ9m//n0fhYUu9H
+         mDdGE4ScRF9vWZ+fM0S4YXh5vg95UtDFhecMGQKHuNo6xD7rhZRauOglJNoknne8Rcrw
+         NTgGKnsyFdun3pNKunnXzK1WdjvOkWk+QD4RJIyrgQzwU004buWDvZKwpeFrjPotvac1
+         jhIA==
+X-Gm-Message-State: ABy/qLbxXMD3JiMcI8haVD5TB4/zW3bWy9B0mP6vqwM9YQPcIrKeKKW+
+        bK+/CIk0oIgeT522lVlUsCgn1Plut1Es20Bc
+X-Google-Smtp-Source: APBJJlF85U+dLq3Q63S8ocHlNvelLsEfTzI1+DFdV5dA/ukduiTbGmMt1b73Yk5Fh4+PD7v6xXVGyw==
+X-Received: by 2002:a0d:d757:0:b0:576:bfc7:1e43 with SMTP id z84-20020a0dd757000000b00576bfc71e43mr7937492ywd.25.1690275158704;
+        Tue, 25 Jul 2023 01:52:38 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id q128-20020a818086000000b0055a07c7be39sm3425386ywf.31.2023.07.25.01.52.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c5f98fc4237so4431004276.2;
-        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
-X-Received: by 2002:a25:dfc8:0:b0:d0d:cd30:3967 with SMTP id
- w191-20020a25dfc8000000b00d0dcd303967mr5769959ybg.51.1690271410365; Tue, 25
- Jul 2023 00:50:10 -0700 (PDT)
+        Tue, 25 Jul 2023 01:52:37 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-c5cf26e9669so4474426276.0;
+        Tue, 25 Jul 2023 01:52:37 -0700 (PDT)
+X-Received: by 2002:a25:b327:0:b0:d07:d88b:4843 with SMTP id
+ l39-20020a25b327000000b00d07d88b4843mr6854583ybj.20.1690275157049; Tue, 25
+ Jul 2023 01:52:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <a4a586337d692f0ca396b80d275ba634eb419593.1690058500.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <a4a586337d692f0ca396b80d275ba634eb419593.1690058500.git.christophe.jaillet@wanadoo.fr>
+References: <20230724091927.123847-1-biju.das.jz@bp.renesas.com> <20230724091927.123847-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230724091927.123847-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Jul 2023 09:49:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW-Dp0TLixZMOcZfe9U05GKZY7S-wvNGCvzL=WVeZWeWw@mail.gmail.com>
-Message-ID: <CAMuHMdW-Dp0TLixZMOcZfe9U05GKZY7S-wvNGCvzL=WVeZWeWw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Use devm_clk_get_enabled() helper
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Date:   Tue, 25 Jul 2023 10:52:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWXN2GWeSoG-5Ht66zaR8Y0EzUUh7_5+4Hmtf_YOGpVNQ@mail.gmail.com>
+Message-ID: <CAMuHMdWXN2GWeSoG-5Ht66zaR8Y0EzUUh7_5+4Hmtf_YOGpVNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] dt-bindings: timer: renesas,rz-mtu3: Fix
+ overflow/underflow interrupt names
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lee Jones <lee@kernel.org>, linux-iio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        stable@kernel.org, Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -68,67 +77,70 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christophe,
+Hi Biju,
 
-On Sat, Jul 22, 2023 at 10:42 PM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
-> The devm_clk_get_enabled() helper:
->    - calls devm_clk_get()
->    - calls clk_prepare_enable() and registers what is needed in order to
->      call clk_disable_unprepare() when needed, as a managed resource.
+On Mon, Jul 24, 2023 at 11:19 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> As per R01UH0914EJ0130 Rev.1.30 HW manual the MTU3 overflow/underflow
+> interrupt names starts with 'tci' instead of 'tgi'.
 >
-> This simplifies the code and avoids the need of a dedicated function used
-> with devm_add_action_or_reset().
+> Fix this documentation issue by replacing below overflow/underflow
+> interrupt names:
+>  - tgiv0->tciv0
+>  - tgiv1->tciv1
+>  - tgiu1->tciu1
+>  - tgiv2->tciv2
+>  - tgiu2->tciu2
+>  - tgiv3->tciv3
+>  - tgiv4->tciv4
+>  - tgiv6->tciv6
+>  - tgiv7->tciv7
+>  - tgiv8->tciv8
+>  - tgiu8->tciu8
 >
-> While at it, use dev_err_probe() which filters -EPROBE_DEFER.
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Fixes: 0a9d6b54297e ("dt-bindings: timer: Document RZ/G2L MTU3a bindings")
+> Cc: stable@kernel.org
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v1->v2:
+>  * Added Ack from Conor Dooley.
 
 Thanks for your patch!
 
-> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> @@ -1471,11 +1471,6 @@ static int rzg2l_pinctrl_register(struct rzg2l_pinctrl *pctrl)
->         return 0;
->  }
->
-> -static void rzg2l_pinctrl_clk_disable(void *data)
-> -{
-> -       clk_disable_unprepare(data);
-> -}
-> -
->  static int rzg2l_pinctrl_probe(struct platform_device *pdev)
->  {
->         struct rzg2l_pinctrl *pctrl;
-> @@ -1501,33 +1496,16 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
->         if (IS_ERR(pctrl->base))
->                 return PTR_ERR(pctrl->base);
->
-> -       pctrl->clk = devm_clk_get(pctrl->dev, NULL);
-> -       if (IS_ERR(pctrl->clk)) {
-> -               ret = PTR_ERR(pctrl->clk);
-> -               dev_err(pctrl->dev, "failed to get GPIO clk : %i\n", ret);
-> -               return ret;
-> -       }
-> +       pctrl->clk = devm_clk_get_enabled(pctrl->dev, NULL);
+> --- a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
 
-clk can become a local variable now.
+> @@ -197,18 +197,18 @@ properties:
+>        - const: tgib6
+>        - const: tgic6
+>        - const: tgid6
+> -      - const: tgiv6
+> +      - const: tciv6
+>        - const: tgia7
+>        - const: tgib7
+>        - const: tgic7
+>        - const: tgid7
+> -      - const: tgiv7
+> +      - const: tciv7
+>        - const: tgia8
+>        - const: tgib8
+>        - const: tgic8
+>        - const: tgid8
+> -      - const: tgiv8
+> -      - const: tgiu8
+> +      - const: tciv8
+> +      - const: tciu8
 
-> +       if (IS_ERR(pctrl->clk))
-> +               return dev_err_probe(pctrl->dev, PTR_ERR(pctrl->clk),
-> +                                    "failed to get GPIO clk\n");
+According to the documentation, there is no underflow interrupt for
+channel 8?
 
-failed to enable
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.6 with the above changes.
-No need to resend.
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
