@@ -2,61 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1C1760C26
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 09:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B9A760C5D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 09:50:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232767AbjGYHmF convert rfc822-to-8bit (ORCPT
+        id S232833AbjGYHuT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jul 2023 03:42:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54480 "EHLO
+        Tue, 25 Jul 2023 03:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232689AbjGYHlq (ORCPT
+        with ESMTP id S232837AbjGYHuP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jul 2023 03:41:46 -0400
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678A610C8;
-        Tue, 25 Jul 2023 00:41:31 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-583fe10bb3cso18214837b3.2;
-        Tue, 25 Jul 2023 00:41:31 -0700 (PDT)
+        Tue, 25 Jul 2023 03:50:15 -0400
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05FD918F;
+        Tue, 25 Jul 2023 00:50:12 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d124309864dso1506544276.3;
+        Tue, 25 Jul 2023 00:50:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690270890; x=1690875690;
+        d=1e100.net; s=20221208; t=1690271411; x=1690876211;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mV4Y61G+p23gRP0f3Y4DyWUGgGHP+04UFPlgKbqr1k8=;
-        b=dwZaFdsRXL77sHcd3rHfWM/F9sJrRA0FW5C+fKxZASm+pFn8cBFW5iv31bfuI0lEJx
-         nbg/xm3HvN90v0+PNAQCPiQkClhO/9iRZpiMKHZ4hgB6By/3Knb4rOWBjyUZmYIv+6Hg
-         miNXG+9RyPd1PG2+ideLPtClon51/ySS27acjphAT66SB+LRxY2HgFBU4YX9jvvHdRO4
-         EmEgMhkHaZ97PfmJdDC+6bI9UW09D1xJEHEUETKqKWyx8FO9kFHSuFOR2RXjnlXv3/sm
-         9/Bq/BuwPEqL5IJJ11krhcydTaWYLjIrBAwqcXSkNeeh1UvEQDmjBxzFserOE24yNseP
-         z0hg==
-X-Gm-Message-State: ABy/qLZCzv13ZU7YO3Zt9rZTXwYmECODe5cwiDe0hjVayvFcSRlVmLgu
-        dRMYxRSEJbAjoAgKhpHwXU67xGOCl9EQkg==
-X-Google-Smtp-Source: APBJJlHG2Chnee9PQ6zka3CfgM3ppHSVUcxXVmEo3UUpRnJCzicg2UndTwdQMlDpsXmL4xmikkEqyA==
-X-Received: by 2002:a0d:d491:0:b0:583:af98:6fb3 with SMTP id w139-20020a0dd491000000b00583af986fb3mr6680153ywd.15.1690270890521;
-        Tue, 25 Jul 2023 00:41:30 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id e126-20020a0df584000000b005773afca47bsm3379693ywf.27.2023.07.25.00.41.30
+        bh=EqNUObKtnWU7CrTgMoTHsyHzfdm6+8QmUNqv2A2543c=;
+        b=W25unTmO+RfycN1l8WT7ryXU9FBMgt7QOmIwLHM1iX69xrN9udUj/2TaLbbJqXBTRi
+         PJNgqYgQ76p9Iu3ygzYVoCl7hdEsCGBgG9u4R04ZWvUluliOKI3NhZNwfznVVmgJrMg3
+         0IeHjRhd9HfdX7tDDuHRaoMqlPe068WvI4S0T90rtjG9PyjrTW4E5Z9DCb90VA//mX88
+         4/UIO0iO+X3BHknO3LwiI+lEie2sWFl0NjQcwPoDvGlwdqAKZlu3h3+LyvKHbuZtZY7d
+         yG8vkLQTJgRRYfOqn48z2Py42wN4EtL0XhAmZOpGGJT68sofqv6gvMhyld4RemnfLSnM
+         g0QQ==
+X-Gm-Message-State: ABy/qLasU/fcRjrSLC9l5iUV7/7NIrLi69gd6mlaDiB8kqy/W3HFtBfz
+        XJfqJruz4wKDR4nP92hYC/U69D9lC+uvmQ==
+X-Google-Smtp-Source: APBJJlElEeLzNDkqVv5Ha6SmFKBNhkmPkkd9zzOFXmZaCX/hlW8q997P44WTi7zH3O0d0LBIVjpn2Q==
+X-Received: by 2002:a81:4602:0:b0:562:16d7:e6eb with SMTP id t2-20020a814602000000b0056216d7e6ebmr7561645ywa.40.1690271410776;
+        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id j187-20020a816ec4000000b0058038e6609csm3372000ywc.74.2023.07.25.00.50.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 00:41:30 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-57a6df91b1eso63831657b3.1;
-        Tue, 25 Jul 2023 00:41:30 -0700 (PDT)
-X-Received: by 2002:a0d:ea8c:0:b0:579:e8de:3580 with SMTP id
- t134-20020a0dea8c000000b00579e8de3580mr12966229ywe.9.1690270889959; Tue, 25
- Jul 2023 00:41:29 -0700 (PDT)
+        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c5f98fc4237so4431004276.2;
+        Tue, 25 Jul 2023 00:50:10 -0700 (PDT)
+X-Received: by 2002:a25:dfc8:0:b0:d0d:cd30:3967 with SMTP id
+ w191-20020a25dfc8000000b00d0dcd303967mr5769959ybg.51.1690271410365; Tue, 25
+ Jul 2023 00:50:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230717225614.3214179-1-robh@kernel.org>
-In-Reply-To: <20230717225614.3214179-1-robh@kernel.org>
+References: <a4a586337d692f0ca396b80d275ba634eb419593.1690058500.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <a4a586337d692f0ca396b80d275ba634eb419593.1690058500.git.christophe.jaillet@wanadoo.fr>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Jul 2023 09:41:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXp+AZ2puWEdmPuXc=oa=nQRTF=80y+S8xXo1AF8aso9w@mail.gmail.com>
-Message-ID: <CAMuHMdXp+AZ2puWEdmPuXc=oa=nQRTF=80y+S8xXo1AF8aso9w@mail.gmail.com>
-Subject: Re: [PATCH] ARM: shmobile: Drop unused includes
-To:     Rob Herring <robh@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Tue, 25 Jul 2023 09:49:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW-Dp0TLixZMOcZfe9U05GKZY7S-wvNGCvzL=WVeZWeWw@mail.gmail.com>
+Message-ID: <CAMuHMdW-Dp0TLixZMOcZfe9U05GKZY7S-wvNGCvzL=WVeZWeWw@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Use devm_clk_get_enabled() helper
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -69,13 +68,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 1:00 AM Rob Herring <robh@kernel.org> wrote:
-> of_platform.h is not needed, so drop it.
+Hi Christophe,
+
+On Sat, Jul 22, 2023 at 10:42 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+> The devm_clk_get_enabled() helper:
+>    - calls devm_clk_get()
+>    - calls clk_prepare_enable() and registers what is needed in order to
+>      call clk_disable_unprepare() when needed, as a managed resource.
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> This simplifies the code and avoids the need of a dedicated function used
+> with devm_add_action_or_reset().
+>
+> While at it, use dev_err_probe() which filters -EPROBE_DEFER.
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+
+Thanks for your patch!
+
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -1471,11 +1471,6 @@ static int rzg2l_pinctrl_register(struct rzg2l_pinctrl *pctrl)
+>         return 0;
+>  }
+>
+> -static void rzg2l_pinctrl_clk_disable(void *data)
+> -{
+> -       clk_disable_unprepare(data);
+> -}
+> -
+>  static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+>  {
+>         struct rzg2l_pinctrl *pctrl;
+> @@ -1501,33 +1496,16 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+>         if (IS_ERR(pctrl->base))
+>                 return PTR_ERR(pctrl->base);
+>
+> -       pctrl->clk = devm_clk_get(pctrl->dev, NULL);
+> -       if (IS_ERR(pctrl->clk)) {
+> -               ret = PTR_ERR(pctrl->clk);
+> -               dev_err(pctrl->dev, "failed to get GPIO clk : %i\n", ret);
+> -               return ret;
+> -       }
+> +       pctrl->clk = devm_clk_get_enabled(pctrl->dev, NULL);
+
+clk can become a local variable now.
+
+> +       if (IS_ERR(pctrl->clk))
+> +               return dev_err_probe(pctrl->dev, PTR_ERR(pctrl->clk),
+> +                                    "failed to get GPIO clk\n");
+
+failed to enable
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.6.
+i.e. will queue in renesas-clk-for-v6.6 with the above changes.
+No need to resend.
 
 Gr{oetje,eeting}s,
 
