@@ -2,211 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C527604A7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 03:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 296DB760636
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 05:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbjGYB0P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jul 2023 21:26:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47708 "EHLO
+        id S229685AbjGYDCF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jul 2023 23:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjGYB0P (ORCPT
+        with ESMTP id S231578AbjGYDBv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jul 2023 21:26:15 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D30170E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jul 2023 18:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690248374; x=1721784374;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZaPXVvtOiICyhGn8IoE+2hP6RiONvPifj6kIGGXbzGU=;
-  b=BMDqmTvS8Nyv7S+9iBDxqUYTO5/M74qpXOuzDCodxlhzoz/MfFGt7KEn
-   QqcPKIarjQfNuRdG95dXPJu3j8Kkz2p9wVUqdoycKpQLIzFwUVr7MUddB
-   tBogamgXzb2KYgrmdNAcXzy/eNHfpCEOMBfffV/qtiWf6YZ+idJ5O1reR
-   owqJwadw50gYLJjKQbAagX+USWI1k+zq6Sp0NFvYanies8XiU2qnySKv1
-   BRKSYPllpXIIg9S/jqkwDSAY04NpXZumSAA2FhbxNl4WLPujpG8Ot53aZ
-   QtoGmvLehQLTcftryRwVZ6BElFs1Tcrs85+JKe/GQSfBZiT4IB06IoI/1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="370261312"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="370261312"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 18:26:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="755528291"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="755528291"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jul 2023 18:26:11 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qO6oU-000ABD-1b;
-        Tue, 25 Jul 2023 01:26:10 +0000
-Date:   Tue, 25 Jul 2023 09:25:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 3afcbc65f109fbd6a28db00002f9cd6be40a6d03
-Message-ID: <202307250909.U5SaxP5v-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Mon, 24 Jul 2023 23:01:51 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 83DBD173D;
+        Mon, 24 Jul 2023 20:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Y7Db9
+        CtYu9IW3X/wWavIFjW3pwP0JBOPHcat5DJxUPQ=; b=RIRF2W4aI3DUUx39z4OG9
+        6v5Rz2dG6AjeONNuuML9MW2NRCODYyvWmVmZpNYpiZOWefl+5OT8yGrRKmgyEnac
+        IRiTO13k/Aa8QajqA79MbT55ZwFSnhz38Bi55aelv5dFicALob56UF+FwOtBVUc6
+        ORWNfK4LtN2IpIIIXTiSik=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g1-2 (Coremail) with SMTP id _____wC3TZbMOr9kRW7dBA--.23188S2;
+        Tue, 25 Jul 2023 11:00:29 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     s.shtylyov@omp.ru
+Cc:     lee@kernel.org, linyunsheng@huawei.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        richardcochran@gmail.com, p.zabel@pengutronix.de,
+        geert+renesas@glider.be, magnus.damm@gmail.com,
+        yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
+        wsa+renesas@sang-engineering.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hackerzheng666@gmail.com, 1395428693sheep@gmail.com,
+        alex000young@gmail.com, Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
+Date:   Tue, 25 Jul 2023 11:00:26 +0800
+Message-Id: <20230725030026.1664873-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wC3TZbMOr9kRW7dBA--.23188S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CF1DZF48JrWrZryUtr1xGrg_yoW8Xry3p3
+        9xKa4F9ws5J3WUWa1xJFs7ZFWrCw17Kr909FZ7Aw1rZ3Zay3WDXr1FgFy8Aw1UJFZ5t3Wa
+        vrWUZ3Wxu3WDAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pM4E_DUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBRw+3U2I0Ut2f+wAAsR
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 3afcbc65f109fbd6a28db00002f9cd6be40a6d03  Merge tag 'v6.5-rc3' into renesas-devel
+In ravb_probe, priv->work was bound with ravb_tx_timeout_work.
+If timeout occurs, it will start the work. And if we call
+ravb_remove without finishing the work, there may be a
+use-after-free bug on ndev.
 
-elapsed time: 729m
+Fix it by finishing the job before cleanup in ravb_remove.
 
-configs tested: 133
-configs skipped: 16
+Note that this bug is found by static analysis, it might be
+false positive.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+---
+v4:
+- add information about the bug was found suggested by Yunsheng Lin
+v3:
+- fix typo in commit message
+v2:
+- stop dev_watchdog so that handle no more timeout work suggested by Yunsheng Lin,
+add an empty line to make code clear suggested by Sergey Shtylyov
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r001-20230724   gcc  
-alpha                randconfig-r015-20230724   gcc  
-alpha                randconfig-r016-20230724   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r024-20230724   gcc  
-arc                  randconfig-r043-20230724   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r011-20230724   gcc  
-arm                  randconfig-r046-20230724   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r031-20230724   gcc  
-csky                                defconfig   gcc  
-hexagon              randconfig-r041-20230724   clang
-hexagon              randconfig-r045-20230724   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230723   clang
-i386         buildonly-randconfig-r004-20230724   gcc  
-i386         buildonly-randconfig-r005-20230723   clang
-i386         buildonly-randconfig-r005-20230724   gcc  
-i386         buildonly-randconfig-r006-20230723   clang
-i386         buildonly-randconfig-r006-20230724   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230724   gcc  
-i386                 randconfig-i002-20230724   gcc  
-i386                 randconfig-i003-20230724   gcc  
-i386                 randconfig-i004-20230724   gcc  
-i386                 randconfig-i005-20230724   gcc  
-i386                 randconfig-i006-20230724   gcc  
-i386                 randconfig-i011-20230724   clang
-i386                 randconfig-i012-20230724   clang
-i386                 randconfig-i013-20230724   clang
-i386                 randconfig-i014-20230724   clang
-i386                 randconfig-i015-20230724   clang
-i386                 randconfig-i016-20230724   clang
-i386                 randconfig-r011-20230724   clang
-i386                 randconfig-r034-20230724   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r025-20230724   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r023-20230724   gcc  
-m68k                 randconfig-r035-20230724   gcc  
-microblaze           randconfig-r004-20230724   gcc  
-microblaze           randconfig-r015-20230724   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r035-20230724   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r001-20230724   gcc  
-nios2                randconfig-r031-20230724   gcc  
-nios2                randconfig-r032-20230724   gcc  
-openrisc             randconfig-r012-20230724   gcc  
-openrisc             randconfig-r014-20230724   gcc  
-openrisc             randconfig-r021-20230724   gcc  
-openrisc             randconfig-r026-20230724   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r001-20230724   gcc  
-parisc               randconfig-r021-20230724   gcc  
-parisc               randconfig-r023-20230724   gcc  
-parisc               randconfig-r033-20230724   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r002-20230724   gcc  
-powerpc              randconfig-r006-20230724   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230724   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r003-20230724   gcc  
-s390                 randconfig-r044-20230724   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r004-20230724   gcc  
-sh                   randconfig-r013-20230724   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r003-20230724   gcc  
-sparc                randconfig-r005-20230724   gcc  
-sparc                randconfig-r012-20230724   gcc  
-sparc                randconfig-r025-20230724   gcc  
-sparc64              randconfig-r013-20230724   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r005-20230724   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230723   clang
-x86_64       buildonly-randconfig-r001-20230724   gcc  
-x86_64       buildonly-randconfig-r002-20230723   clang
-x86_64       buildonly-randconfig-r002-20230724   gcc  
-x86_64       buildonly-randconfig-r003-20230723   clang
-x86_64       buildonly-randconfig-r003-20230724   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r006-20230724   gcc  
-x86_64               randconfig-r011-20230724   clang
-x86_64               randconfig-r013-20230724   clang
-x86_64               randconfig-x001-20230724   clang
-x86_64               randconfig-x002-20230724   clang
-x86_64               randconfig-x003-20230724   clang
-x86_64               randconfig-x004-20230724   clang
-x86_64               randconfig-x005-20230724   clang
-x86_64               randconfig-x006-20230724   clang
-x86_64               randconfig-x011-20230724   gcc  
-x86_64               randconfig-x012-20230724   gcc  
-x86_64               randconfig-x013-20230724   gcc  
-x86_64               randconfig-x014-20230724   gcc  
-x86_64               randconfig-x015-20230724   gcc  
-x86_64               randconfig-x016-20230724   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r001-20230724   gcc  
-xtensa               randconfig-r003-20230724   gcc  
-xtensa               randconfig-r004-20230724   gcc  
-
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 4d6b3b7d6abb..ce2da5101e51 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -2885,6 +2885,9 @@ static int ravb_remove(struct platform_device *pdev)
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	const struct ravb_hw_info *info = priv->info;
+ 
++	netif_carrier_off(ndev);
++	netif_tx_disable(ndev);
++	cancel_work_sync(&priv->work);
+ 	/* Stop PTP Clock driver */
+ 	if (info->ccc_gac)
+ 		ravb_ptp_stop(ndev);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
