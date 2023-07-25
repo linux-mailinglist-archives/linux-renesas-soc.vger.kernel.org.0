@@ -2,75 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED02760F58
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 11:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 390AE760F5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jul 2023 11:35:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233013AbjGYJe6 convert rfc822-to-8bit (ORCPT
+        id S233429AbjGYJfw convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jul 2023 05:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39248 "EHLO
+        Tue, 25 Jul 2023 05:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233439AbjGYJee (ORCPT
+        with ESMTP id S233431AbjGYJf2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jul 2023 05:34:34 -0400
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6B31FFF;
-        Tue, 25 Jul 2023 02:33:09 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-583a8596e2aso38627587b3.1;
-        Tue, 25 Jul 2023 02:33:09 -0700 (PDT)
+        Tue, 25 Jul 2023 05:35:28 -0400
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF93E7;
+        Tue, 25 Jul 2023 02:34:09 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-57a551ce7e9so65765367b3.3;
+        Tue, 25 Jul 2023 02:34:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690277538; x=1690882338;
+        d=1e100.net; s=20221208; t=1690277648; x=1690882448;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UxiEHcyRSdeO5cMoHU/dEJabT+bEe1KQ+YDB392Zv7Y=;
-        b=b2UdOC59CIbKxvFxhNmNMFsqhh1htJ9fsbXgGkV75XoBf5E9vm1ZBWyT22duPvPYZL
-         u/I+I0U6g27h7T9bgiiFZ4r8IKvPVX1Z9cIcqC0Bg3H+O7LalbVY6pQSW3kZci4ztZjR
-         dIyR7qxKkbCrk6EcRkrvasU1SFTLcvjPeVV1OGUMwkwBZbVvoGrCVoLCW/m2c9EkP4Od
-         k1gP3dfY31ewVswTHb0cws9jRyfmo5P8EC17+3lsXg/9VjJeD4CNiwKzDA5Gos+BoxsX
-         reQ8QADJPb169jetHAblcR26cs+dUEiXMyblC/uUno36whAVGV4IJZbcN/CNxVoLfO48
-         iJAQ==
-X-Gm-Message-State: ABy/qLYmVJtWmKzrIGkMReIKgM9V30NUj2ftV7BWMFzIZ6aTnwa/b9N4
-        UIuHamptcYf5hWI3HSqd3eJaNmp0VVoJGUdJ
-X-Google-Smtp-Source: APBJJlH6YNej8fqCsvbYX8p9h6nATyTSIHw1y+Yf9XbqoH9UJnt8z5y2QA7/9s7i8v+UkaHyDjpAZw==
-X-Received: by 2002:a0d:c8c7:0:b0:57d:24e9:e7f3 with SMTP id k190-20020a0dc8c7000000b0057d24e9e7f3mr7540370ywd.38.1690277538130;
-        Tue, 25 Jul 2023 02:32:18 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id x186-20020a0dd5c3000000b00565cf40238csm2383532ywd.110.2023.07.25.02.32.17
+        bh=Yg4EyG3YuV1sOQVVfFzZXbTlPDHwFPQhatLbKXpKXzA=;
+        b=NuHZZkX7dEPcjzaL7BQGAw3EX8jUczB2ux9lrvNQO3QmDNy+f3ohF2pWJa78ZH7l9D
+         IJVn/Liws1EW1M2W9NNvMBPmMJD7e7t1Ys5ionng3U8BnO8EVNboMiz1qIM0dFP1poZC
+         63nMd3Afxp4hxicnteEozDe4ZAuquF8RoymRFXHp9y8Z2hBpqlGYp/gVLhsx9OqJ3bul
+         NTASUSTAViXF+SvuelEy/vLRJtzr2q+IN//4CbdAuGWMY3NTJ/vtNBwHHJjS66a54efK
+         +Bnm26pV2KwnLdRf/sOfatpEPD9w5GvDLEa4401i+/JecSwz8CV+BgbCOFtrEJdcBwDQ
+         FXpQ==
+X-Gm-Message-State: ABy/qLZXYDc/gXlfojrtePLeZOhfEFDPJnYToATLOr6W24ZIoL42d0uj
+        suHYzmqRUS7TSlrUEuLqFpOc8819NcfEAvMh
+X-Google-Smtp-Source: APBJJlEqjC/i8n7mf/5YnSRoYHWpMkDZnxMOKi91+yFeZM+6RA5VlxeUt+JuIsT8fc1XZZzEZJsPGQ==
+X-Received: by 2002:a81:88c6:0:b0:579:ed5f:5cd3 with SMTP id y189-20020a8188c6000000b00579ed5f5cd3mr10418047ywf.23.1690277648497;
+        Tue, 25 Jul 2023 02:34:08 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id k184-20020a0dfac1000000b005838c619a08sm3131161ywf.111.2023.07.25.02.34.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 02:32:17 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso4464694276.1;
-        Tue, 25 Jul 2023 02:32:17 -0700 (PDT)
-X-Received: by 2002:a25:5050:0:b0:d06:a4f3:4b04 with SMTP id
- e77-20020a255050000000b00d06a4f34b04mr7704105ybb.21.1690277537279; Tue, 25
- Jul 2023 02:32:17 -0700 (PDT)
+        Tue, 25 Jul 2023 02:34:08 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-cb19b1b9a36so5912149276.0;
+        Tue, 25 Jul 2023 02:34:08 -0700 (PDT)
+X-Received: by 2002:a25:aba7:0:b0:d10:17c9:2f0d with SMTP id
+ v36-20020a25aba7000000b00d1017c92f0dmr5042492ybi.2.1690277647868; Tue, 25 Jul
+ 2023 02:34:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230724091927.123847-1-biju.das.jz@bp.renesas.com>
- <20230724091927.123847-3-biju.das.jz@bp.renesas.com> <CAMuHMdWXN2GWeSoG-5Ht66zaR8Y0EzUUh7_5+4Hmtf_YOGpVNQ@mail.gmail.com>
- <OS0PR01MB59225A1EFC3FDECEA8803B498603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59225A1EFC3FDECEA8803B498603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230724091927.123847-5-biju.das.jz@bp.renesas.com> <CAMuHMdUoPugUVtPwrPEvKXjOOU-Bq=-tDbCtFFT3Ryh6B8O+pg@mail.gmail.com>
+ <OS0PR01MB5922DEEC8C64ECBD00F7605D8603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922DEEC8C64ECBD00F7605D8603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Jul 2023 11:32:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVKBuX_FN01LAdKkZi0qa2n+abeU3apHCYDT1W9KdG1cA@mail.gmail.com>
-Message-ID: <CAMuHMdVKBuX_FN01LAdKkZi0qa2n+abeU3apHCYDT1W9KdG1cA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] dt-bindings: timer: renesas,rz-mtu3: Fix
- overflow/underflow interrupt names
+Date:   Tue, 25 Jul 2023 11:33:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUf9H5yN0g-2OeH=m=S6VNiTJCLj77XAaHY-r-_tw_P=A@mail.gmail.com>
+Message-ID: <CAMuHMdUf9H5yN0g-2OeH=m=S6VNiTJCLj77XAaHY-r-_tw_P=A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] arm64: dts: renesas: r9a07g044: Update
+ overfow/underflow IRQ names for MTU3 channels
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "stable@kernel.org" <stable@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>
+        "stable@kernel.org" <stable@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -83,16 +78,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Tue, Jul 25, 2023 at 11:11 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Tue, Jul 25, 2023 at 11:14 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 > > On Mon, Jul 24, 2023 at 11:19 AM Biju Das <biju.das.jz@bp.renesas.com>
 > > wrote:
 > > > As per R01UH0914EJ0130 Rev.1.30 HW manual the MTU3 overflow/underflow
 > > > interrupt names starts with 'tci' instead of 'tgi'.
 > > >
-> > > Fix this documentation issue by replacing below overflow/underflow
-> > > interrupt names:
+> > > Replace the below overflow/underflow interrupt names:
 > > >  - tgiv0->tciv0
 > > >  - tgiv1->tciv1
 > > >  - tgiu1->tciu1
@@ -105,56 +97,17 @@ On Tue, Jul 25, 2023 at 11:11 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 > > >  - tgiv8->tciv8
 > > >  - tgiu8->tciu8
 > > >
-> > > Fixes: 0a9d6b54297e ("dt-bindings: timer: Document RZ/G2L MTU3a
-> > > bindings")
-> > > Cc: stable@kernel.org
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > > ---
-> > > v1->v2:
-> > >  * Added Ack from Conor Dooley.
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-> > > +++ b/Documentation/devicetree/bindings/timer/renesas,rz-mtu3.yaml
-> >
-> > > @@ -197,18 +197,18 @@ properties:
-> > >        - const: tgib6
-> > >        - const: tgic6
-> > >        - const: tgid6
-> > > -      - const: tgiv6
-> > > +      - const: tciv6
-> > >        - const: tgia7
-> > >        - const: tgib7
-> > >        - const: tgic7
-> > >        - const: tgid7
-> > > -      - const: tgiv7
-> > > +      - const: tciv7
-> > >        - const: tgia8
-> > >        - const: tgib8
-> > >        - const: tgic8
-> > >        - const: tgid8
-> > > -      - const: tgiv8
-> > > -      - const: tgiu8
-> > > +      - const: tciv8
-> > > +      - const: tciu8
-> >
-> > According to the documentation, there is no underflow interrupt for
-> > channel 8?
+> > > Fixes: 26336d66d021 ("arm64: dts: renesas: r9a07g044: Add MTU3a node")
+> > > Fixes: dd123dd01def ("arm64: dts: renesas: r9a07g054: Add MTU3a node")
+
+> > While SPI 213 is documented to be used for TCIU8, the actual MTU3a
+> > documentation does not mention this interrupt.
 >
-> I got confirmation from HW manual team.
->
-> Table 8.2 in the HW manual is correct. ie, underflow interrupt is present
-> for channel 8.
-
-Thanks for checking!
-
-> They are going to correct Table16.78 in Chapter 16 MTU3a.
-
-+ Table 16.2 and Figure 16.1.
+> Current change is fine.
+> HW manual team is going to correct Table16.78 in Chapter 16 MTU3a.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue as a fix for v6.5.
 
 Gr{oetje,eeting}s,
 
