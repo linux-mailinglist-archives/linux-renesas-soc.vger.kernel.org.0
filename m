@@ -2,66 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B44763CC3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 18:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C722763D5E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 19:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231585AbjGZQo3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 12:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+        id S229672AbjGZRNe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jul 2023 13:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbjGZQo1 (ORCPT
+        with ESMTP id S229755AbjGZRNd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 12:44:27 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13509270B;
-        Wed, 26 Jul 2023 09:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690389862; x=1721925862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R6tWix3vXBLyeMyulZdWadAGPMWkClckhVvIhSeYx7g=;
-  b=PqjSsm137MsVYiNm85GqA1NMfeDJHU3lxIuBHF8B2pKoguXotBj8+1Hm
-   6NqTkTZzuxCcvlg/v7hfp/YWzf10+1xV6zsk/YLxdsPpMPFShy7NTbXJT
-   zCWSCvRXifZqJHnPOFh4SJ73haf7liT0FAMG/rYZDIDVlDwcXpiTzrpmB
-   YJhA66YbCoKfRjWgSeaRBKKXwv9qeRhc/i5Iq7kdi4UyEbI8dDTRF7rKC
-   HHGMdMnza5XYwTakAfcsZPVMqYutq7UyzoljRrt6J8zeRPWRAPDR09Jl9
-   lzJYfEfqsxY7/eQjuaJdsFwt4KhtTiCdeay91fsIhYD1wNK418TiBUPcN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="366949002"
-X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="366949002"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 09:44:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="840320949"
-X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="840320949"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Jul 2023 09:44:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1qOhcY-00FZqO-0P;
-        Wed, 26 Jul 2023 19:44:18 +0300
-Date:   Wed, 26 Jul 2023 19:44:17 +0300
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] i2c: Add i2c_device_get_match_data() callback
-Message-ID: <ZMFNYQHqWrS+zSXQ@smile.fi.intel.com>
-References: <20230726130804.186313-1-biju.das.jz@bp.renesas.com>
- <20230726130804.186313-3-biju.das.jz@bp.renesas.com>
+        Wed, 26 Jul 2023 13:13:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFED0173B;
+        Wed, 26 Jul 2023 10:13:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44F9961B91;
+        Wed, 26 Jul 2023 17:13:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA68C433C7;
+        Wed, 26 Jul 2023 17:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690391611;
+        bh=uinc+PlK0DxZ8IiJOe8uavjgZENuZUMEP+CAK1Ls7PU=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=vDteGE8rkGoTouO6LMvp/Bkh/G1LY6C4ADTRU9uPDYbZgdcsZ+dQ34kXerC1trjtV
+         hkqs6pYBOYflgktVZLudDTa4zBKd6gIJ5k74Zkor5kuSBV6wI1b7FYSWD9S5MU7LhK
+         V6JGXq1m6R2puQ1AgLfHJGyS18UvexduIeFmTaEBivqBAvzqp1hctNYhkn6mUjJoLI
+         hnBzkfGyp/IXiVcyz+UD97Ofxd312MPauddT+QY1vwOduDNh2WiwdstYIjybYXfZVr
+         LzK0P+v6pifh1FeXZSQ2D/vzP4bDCaIGH+hLTnt9Rm1a45dEMfkXHTIEpIuObZrJ8z
+         WRJO/q1He/iIg==
+Received: (nullmailer pid 1629661 invoked by uid 1000);
+        Wed, 26 Jul 2023 17:13:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230726130804.186313-3-biju.das.jz@bp.renesas.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>
+Cc:     linux-hwmon@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Conor Dooley <conor+dt@kernel.org>
+In-Reply-To: <20230726152235.249569-3-mail@carsten-spiess.de>
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-3-mail@carsten-spiess.de>
+Message-Id: <169039160967.1629533.10637007255726842811.robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: hwmon: add renesas,isl28022
+Date:   Wed, 26 Jul 2023 11:13:29 -0600
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,64 +65,54 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 26, 2023 at 02:08:04PM +0100, Biju Das wrote:
-> Add i2c_device_get_match_data() callback to struct bus_type().
+
+On Wed, 26 Jul 2023 17:22:34 +0200, Carsten Spieß wrote:
+> Add dt-bindings for Renesase ISL28022 power monitor.
 > 
-> While at it, introduced i2c_get_match_data_helper() to avoid code
-> duplication with i2c_get_match_data().
+> Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
+> ---
+>  .../bindings/hwmon/renesas,isl28022.yaml      | 67 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 68 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+> 
 
-I have not been Cc'ed to this...
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-...
+yamllint warnings/errors:
 
-> +static const void *i2c_device_get_match_data(const struct device *dev)
-> +{
-> +	const struct i2c_client *client = (dev->type == &i2c_client_type) ?
-> +					  to_i2c_client(dev) : NULL;
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml: 'anyOf' conditional failed, one must be fixed:
+	'type' is a required property
+	'properties' is a required property
+	'patternProperties' is a required property
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml: 'Required properties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml: 'Optional properties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml: 'anyOf' conditional failed, one must be fixed:
+	'properties' is a required property
+	'patternProperties' is a required property
+	hint: Metaschema for devicetree binding documentation
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+Documentation/devicetree/bindings/hwmon/renesas,isl28022.example.dts:22.30-28.15: Warning (i2c_bus_reg): /example-0/i2c/power-monitor@40: I2C bus unit address format error, expected "10"
 
-There is an API i2c_verify_client() or something like this, I don't remember
-by heart.
+doc reference errors (make refcheckdocs):
 
-> +	if (!dev->driver)
-> +		return NULL;
-> +
-> +	return i2c_get_match_data_helper(to_i2c_driver(dev->driver), client);
-> +}
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230726152235.249569-3-mail@carsten-spiess.de
 
-...
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> +const void *i2c_get_match_data(const struct i2c_client *client)
-> +{
-> +	const struct i2c_driver *driver = to_i2c_driver(client->dev.driver);
->  	const void *data;
->  
->  	data = device_get_match_data(&client->dev);
-> -	if (!data) {
-> -		match = i2c_match_id(driver->id_table, client);
-> -		if (!match)
-> -			return NULL;
-> -
-> -		data = (const void *)match->driver_data;
-> -	}
-> +	if (!data)
-> +		data = i2c_get_match_data_helper(driver, client);
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-	if (data)
-		return data;
+pip3 install dtschema --upgrade
 
-	return i2c_...;
-
->  
->  	return data;
->  }
-
-...
-
-Side question, what is the idea for i2c_of_match_device()? Shouldn't you also
-take it into consideration?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
