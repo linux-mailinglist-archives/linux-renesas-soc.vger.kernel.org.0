@@ -2,129 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFEE76371D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 15:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F047763974
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 16:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbjGZNIW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 09:08:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
+        id S232709AbjGZOpE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jul 2023 10:45:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbjGZNIU (ORCPT
+        with ESMTP id S231566AbjGZOpD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 09:08:20 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 63EC22109;
-        Wed, 26 Jul 2023 06:08:19 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,232,1684767600"; 
-   d="scan'208";a="174574209"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jul 2023 22:08:17 +0900
-Received: from localhost.localdomain (unknown [10.226.92.63])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AE5F1400F93F;
-        Wed, 26 Jul 2023 22:08:15 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-i2c@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/2] i2c: Add i2c_device_get_match_data() callback
-Date:   Wed, 26 Jul 2023 14:08:04 +0100
-Message-Id: <20230726130804.186313-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230726130804.186313-1-biju.das.jz@bp.renesas.com>
-References: <20230726130804.186313-1-biju.das.jz@bp.renesas.com>
+        Wed, 26 Jul 2023 10:45:03 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2750219A0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jul 2023 07:44:58 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d80c:aaca:e11d:6940])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Rqkv2A00U4qLm8F01qkvNW; Wed, 26 Jul 2023 16:44:56 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qOfko-002Ym1-FD;
+        Wed, 26 Jul 2023 16:44:55 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qOfl1-00A8Hg-Ix;
+        Wed, 26 Jul 2023 16:44:55 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] arm64: renesas: r8a779f0: Add INTC-EX support
+Date:   Wed, 26 Jul 2023 16:44:40 +0200
+Message-Id: <cover.1690382328.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add i2c_device_get_match_data() callback to struct bus_type().
+	Hi all,
 
-While at it, introduced i2c_get_match_data_helper() to avoid code
-duplication with i2c_get_match_data().
+This patch series attempts to support for the Interrupt Controller for
+External Devices (INTC-EX) on the Renesas R-Car S4-8 (R8A779F0) SoC.
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-RFC V1->v2:
- * Replaced "Signed-off-by"->"Suggested-by" tag for Dmitry.
- * Fixed build warnings reported by kernel test robot <lkp@intel.com>
- * Added const qualifier to return type and parameter struct i2c_driver
-   in i2c_get_match_data_helper().
- * Added const qualifier to struct i2c_driver in i2c_get_match_data()
- * Dropped driver variable from i2c_device_get_match_data()
- * Replaced to_i2c_client with logic for assigning verify_client as it
-   returns non const pointer.
----
- drivers/i2c/i2c-core-base.c | 36 +++++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
+As I do not have physical access to a Spider development board,
+I am sending this out to a limited audience, and hope someone can test
+it, using patch 3/3.
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 60746652fd52..6183e9e36889 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -114,20 +114,37 @@ const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
- }
- EXPORT_SYMBOL_GPL(i2c_match_id);
- 
--const void *i2c_get_match_data(const struct i2c_client *client)
-+static const void *i2c_get_match_data_helper(const struct i2c_driver *driver,
-+					     const struct i2c_client *client)
- {
--	struct i2c_driver *driver = to_i2c_driver(client->dev.driver);
- 	const struct i2c_device_id *match;
-+
-+	match = i2c_match_id(driver->id_table, client);
-+	if (!match)
-+		return NULL;
-+
-+	return (const void *)match->driver_data;
-+}
-+
-+static const void *i2c_device_get_match_data(const struct device *dev)
-+{
-+	const struct i2c_client *client = (dev->type == &i2c_client_type) ?
-+					  to_i2c_client(dev) : NULL;
-+
-+	if (!dev->driver)
-+		return NULL;
-+
-+	return i2c_get_match_data_helper(to_i2c_driver(dev->driver), client);
-+}
-+
-+const void *i2c_get_match_data(const struct i2c_client *client)
-+{
-+	const struct i2c_driver *driver = to_i2c_driver(client->dev.driver);
- 	const void *data;
- 
- 	data = device_get_match_data(&client->dev);
--	if (!data) {
--		match = i2c_match_id(driver->id_table, client);
--		if (!match)
--			return NULL;
--
--		data = (const void *)match->driver_data;
--	}
-+	if (!data)
-+		data = i2c_get_match_data_helper(driver, client);
- 
- 	return data;
- }
-@@ -695,6 +712,7 @@ struct bus_type i2c_bus_type = {
- 	.probe		= i2c_device_probe,
- 	.remove		= i2c_device_remove,
- 	.shutdown	= i2c_device_shutdown,
-+	.get_match_data	= i2c_device_get_match_data,
- };
- EXPORT_SYMBOL_GPL(i2c_bus_type);
- 
+Thanks for testing, and for your comments!
+
+Geert Uytterhoeven (3):
+  dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
+  arm64: dts: renesas: r8a779f0: Add INTC-EX node
+  [RFT] arm64: dts: renesas: spider: Add keyboard to test IRQ[0145]
+
+ .../interrupt-controller/renesas,irqc.yaml    |  1 +
+ .../boot/dts/renesas/r8a779f0-spider.dts      | 52 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     | 15 ++++++
+ 3 files changed, 68 insertions(+)
+
 -- 
-2.25.1
+2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
