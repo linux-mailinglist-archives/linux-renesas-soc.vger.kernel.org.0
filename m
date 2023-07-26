@@ -2,109 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBFC7632FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 11:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9DB7636F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 15:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbjGZJ7E convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 05:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39790 "EHLO
+        id S232768AbjGZNA3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jul 2023 09:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232715AbjGZJ6n (ORCPT
+        with ESMTP id S233279AbjGZNA2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 05:58:43 -0400
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEDB131;
-        Wed, 26 Jul 2023 02:58:21 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-cb19b1b9a36so7199508276.0;
-        Wed, 26 Jul 2023 02:58:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690365500; x=1690970300;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ecr5DuKM0I5ynjeHKow0SnRxwSONxQfyEz+Sj1iub0A=;
-        b=PqDxwBJNweXmRb4wbpOHO3TnVTUOZ99Y4BaBhXvYy4X98+oaSyOWGjhrCGRtHXvyZZ
-         pNLbkaC7rOox32wGsYjnI9ItSKah35lmZsdf0tdGdgRrCRJnxiNxsAlaULmAfqwywJiO
-         Q81sv2PiUglecDZYe1E2JRLn9hqqjy9k9j6edXT0jCOhr5B0p3m7DV5nIUFUW1oy1vU4
-         rx1g/Vrxo9t2CLKrUzYsKylHRqS9rUsu3Crh5jsHdx2RcwMb49G50SQaCXeXJBFYRv+2
-         IM6uAZyoPS249QJg07bDx/XQemwp1ITeeIWFhOemQYWBe8aPIws9l8pcXQzWKIZGt61q
-         rNxA==
-X-Gm-Message-State: ABy/qLYrrS3wIdeHkU0eIwxjL8bmZ2woNMpD73HP068NYb0nhgzabuIh
-        9WHZnE0IGP0YIxSV/IGdj+4MZhfXPTdn6Q==
-X-Google-Smtp-Source: APBJJlEM6pbl/4YHVw/RESPmzGwX5JRSJZSeWMonyew2g1ozpz9DfQSjGAHYdld4UxbWMGJ4wQj+cg==
-X-Received: by 2002:a81:49cf:0:b0:583:9c78:9a84 with SMTP id w198-20020a8149cf000000b005839c789a84mr1479590ywa.43.1690365499905;
-        Wed, 26 Jul 2023 02:58:19 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id d205-20020a8168d6000000b00577269ba9e9sm4089394ywc.86.2023.07.26.02.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 02:58:19 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-cf284f4d7afso7185648276.3;
-        Wed, 26 Jul 2023 02:58:19 -0700 (PDT)
-X-Received: by 2002:a05:6902:154d:b0:c4b:ada8:8b86 with SMTP id
- r13-20020a056902154d00b00c4bada88b86mr1571135ybu.64.1690365499428; Wed, 26
- Jul 2023 02:58:19 -0700 (PDT)
+        Wed, 26 Jul 2023 09:00:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9661BC2;
+        Wed, 26 Jul 2023 06:00:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C2D56617A5;
+        Wed, 26 Jul 2023 13:00:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C66C433CA;
+        Wed, 26 Jul 2023 13:00:19 +0000 (UTC)
+Date:   Wed, 26 Jul 2023 18:30:15 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Serge Semin <fancer.lancer@gmail.com>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, kishon@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v18 04/20] PCI: dwc: Change arguments of
+ dw_pcie_prog_outbound_atu()
+Message-ID: <20230726130015.GA5633@thinkpad>
+References: <20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230721074452.65545-5-yoshihiro.shimoda.uh@renesas.com>
+ <20230724074556.GC6291@thinkpad>
+ <ezuyypjmhkb4nsruy5kdoopg537yqg2paf4acgfyib6p7kj7g5@kumpnp2cr4zh>
 MIME-Version: 1.0
-References: <20230726070241.103545-1-krzysztof.kozlowski@linaro.org>
- <CAMuHMdWfwTyJoLyGs=8gPt4jT-3nc0ywA_NNGr6r+4+cD=Lygg@mail.gmail.com> <cb272650-e829-7528-de6d-f99fef2d7f81@linaro.org>
-In-Reply-To: <cb272650-e829-7528-de6d-f99fef2d7f81@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Jul 2023 11:58:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1=DCU-uqhvmtFeJX6v23VHo3-N5drWbr=R_A32GZrsA@mail.gmail.com>
-Message-ID: <CAMuHMdV1=DCU-uqhvmtFeJX6v23VHo3-N5drWbr=R_A32GZrsA@mail.gmail.com>
-Subject: Re: [PATCH] AMR: dts: renesas: r8a7740-armadillo: switch to enable-gpios
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ezuyypjmhkb4nsruy5kdoopg537yqg2paf4acgfyib6p7kj7g5@kumpnp2cr4zh>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Wed, Jul 26, 2023 at 08:02:24AM +0300, Serge Semin wrote:
+> On Mon, Jul 24, 2023 at 01:15:56PM +0530, Manivannan Sadhasivam wrote:
+> > On Fri, Jul 21, 2023 at 04:44:36PM +0900, Yoshihiro Shimoda wrote:
+> > > The __dw_pcie_prog_outbound_atu() currently has 6 arguments.
+> > > To support INTx IRQs in the future, it requires an additional 2
+> > > arguments. For improved code readability, introduce the struct
+> > > dw_pcie_ob_atu_cfg and update the arguments of
+> > > dw_pcie_prog_outbound_atu().
+> > > 
+> > > Consequently, remove __dw_pcie_prog_outbound_atu() and
+> > > dw_pcie_prog_ep_outbound_atu() because there is no longer
+> > > a need.
+> > > 
+> > > No behavior changes.
+> > > 
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > 
+> > One nit below. With that,
+> > 
+> > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > 
+> > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> > > ---
+> > >  .../pci/controller/dwc/pcie-designware-ep.c   | 21 +++++---
+> > >  .../pci/controller/dwc/pcie-designware-host.c | 52 +++++++++++++------
+> > >  drivers/pci/controller/dwc/pcie-designware.c  | 49 ++++++-----------
+> > >  drivers/pci/controller/dwc/pcie-designware.h  | 15 ++++--
+> > >  4 files changed, 77 insertions(+), 60 deletions(-)
+> > > 
+> > 
+> > [...]
+> > 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > > index 3c06e025c905..85de0d8346fa 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > > @@ -288,6 +288,15 @@ enum dw_pcie_core_rst {
+> > >  	DW_PCIE_NUM_CORE_RSTS
+> > >  };
+> > >  
+> > > +struct dw_pcie_ob_atu_cfg {
+> > > +	int index;
+> > > +	int type;
+> > > +	u8 func_no;
+> > > +	u64 cpu_addr;
+> > > +	u64 pci_addr;
+> > > +	u64 size;
+> > 
+> 
+> > Reorder the members in below order to avoid holes:
+> > 
+> > u64
+> > int
+> > u8
+> 
+> One more time. Your suggestion won't prevent the compiler from adding
+> the pads. (If by "holes" you meant the padding. Otherwise please
+> elaborate what you meant?).
 
-On Wed, Jul 26, 2023 at 11:47 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 26/07/2023 11:11, Geert Uytterhoeven wrote:
-> > On Wed, Jul 26, 2023 at 9:02 AM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> >> The recommended name for enable GPIOs property in regulator-gpio is
-> >> "enable-gpios".  This is also required by bindings:
-> >>
-> >>   r8a7740-armadillo800eva.dtb: regulator-vccq-sdhi0: Unevaluated properties are not allowed ('enable-gpio' was unexpected)
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v6.6.
->
-> I think I made typo in subject prefix:
-> AMR -> ARM
+Struct padding is often referred as struct holes. So yes, I'm referring the
+same.
 
-I had noticed ;-)
+> The structure will have the same size of
+> 40 bytes in both cases. So your suggestion will just worsen the
+> structure readability from having a more natural parameters order (MW
+> index, type, function, and then the mapping parameters) to a redundant
+> type-based order.
+> 
 
-> Can you fix it while applying?
+This is a common comment I provide for all structures. Even though the current
+result (reordering) doesn't save any space, when the structure grows big (who
+knows), we often see more holes/padding being inserted by the compiler if the
+members are not ordered in the descending order w.r.t their size.
 
-Sure, already done.
+I agree that it makes more clear if the members are grouped based on their
+function etc... but for large structures this would often add more padding/hole.
 
-Gr{oetje,eeting}s,
+- Mani
 
-                        Geert
+> -Serge(y)
+> 
+> > 
+> > - Mani
+> > 
+> > > +};
+> > > +
+> > >  struct dw_pcie_host_ops {
+> > >  	int (*host_init)(struct dw_pcie_rp *pp);
+> > >  	void (*host_deinit)(struct dw_pcie_rp *pp);
+> > > @@ -416,10 +425,8 @@ void dw_pcie_write_dbi2(struct dw_pcie *pci, u32 reg, size_t size, u32 val);
+> > >  int dw_pcie_link_up(struct dw_pcie *pci);
+> > >  void dw_pcie_upconfig_setup(struct dw_pcie *pci);
+> > >  int dw_pcie_wait_for_link(struct dw_pcie *pci);
+> > > -int dw_pcie_prog_outbound_atu(struct dw_pcie *pci, int index, int type,
+> > > -			      u64 cpu_addr, u64 pci_addr, u64 size);
+> > > -int dw_pcie_prog_ep_outbound_atu(struct dw_pcie *pci, u8 func_no, int index,
+> > > -				 int type, u64 cpu_addr, u64 pci_addr, u64 size);
+> > > +int dw_pcie_prog_outbound_atu(struct dw_pcie *pci,
+> > > +			      const struct dw_pcie_ob_atu_cfg *atu);
+> > >  int dw_pcie_prog_inbound_atu(struct dw_pcie *pci, int index, int type,
+> > >  			     u64 cpu_addr, u64 pci_addr, u64 size);
+> > >  int dw_pcie_prog_ep_inbound_atu(struct dw_pcie *pci, u8 func_no, int index,
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
+> > -- 
+> > மணிவண்ணன் சதாசிவம்
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+மணிவண்ணன் சதாசிவம்
