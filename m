@@ -2,58 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E653276405F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 22:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456EC764163
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 23:48:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjGZURG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 16:17:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
+        id S229799AbjGZVsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jul 2023 17:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjGZURE (ORCPT
+        with ESMTP id S229752AbjGZVsP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 16:17:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089D3BF;
-        Wed, 26 Jul 2023 13:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=yuiiWkOyokMmy3oNcsrkE13yvDt/eiHy47siwX5h/e0=; b=T7EqR7rCntzT+liauuhq3uFE2O
-        LOCiRppR1NF9LZysSbvjZ68NsyLgO83t8nRdu34zEnOoncng+BTRA5TpxaLWeIzFSLdSfjfBPZXMC
-        4f+OmJ18QaZ2KwSaEeOYkOVsIAl8GY22JUnk3qgnDPOzQ8f6gARk77jIeaX9kpGh1nmZuIqtUMv3J
-        bUxsazqKuuDFGxBxuw4QpHbSbaxUWTK4dXY0lXggA0dwevcdZYRlYWpY897zo/7+Vn0q7IqAq+J0D
-        KKneTZGLjQK1HonaBABw4ka6AlF0r0kwD9u4lU7K9BfRAPOITHfohHalBhVIXbrCs/KypSzN4VZVE
-        AZ/TwVTA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOkwD-00BT2f-0C;
-        Wed, 26 Jul 2023 20:16:49 +0000
-Message-ID: <96275adc-c047-2e0c-5748-366c3e867b27@infradead.org>
-Date:   Wed, 26 Jul 2023 13:16:47 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Content-Language: en-US
-To:     =?UTF-8?Q?Carsten_Spie=c3=9f?= <mail@carsten-spiess.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Wed, 26 Jul 2023 17:48:15 -0400
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16129E78
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jul 2023 14:48:14 -0700 (PDT)
+Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-7870821d9a1so142482241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jul 2023 14:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690408093; x=1691012893;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P2GIhGVcby32mIJ7MPIu1EoCC5uLJavrxNrbJD8I4Mw=;
+        b=hCft1AGOUoBwX7OpvINjbeClc2O7dJzA5n5dvbdNreXH9Y/i4TMA0mjV9j78UCvAKG
+         rO+vf72y8ovLRYYd2gxcle/Xtviswc0IlXAFwv9psiScceqWbMWFAVZVUbOOPMn5VUIw
+         dhy9AlFpa+7Qgu2ykxC5w5IvPneAPLR1PG98QbkhNd2g4n//hcnMcQ1eAkgiWFW9C/Az
+         Q/wDcnexOGLiNa2a67dzFiB6klzUG0OUSyUvcaF6Z5P4R+8dojjzNrs6mnYVeH5qTHkf
+         maFd2nf5/RT6++1Ya0DcaVhqZhKe5B8ko3kN3R4nvlBLGwDSUdA/aBcEvZL3Z7Sac4bx
+         upmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690408093; x=1691012893;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P2GIhGVcby32mIJ7MPIu1EoCC5uLJavrxNrbJD8I4Mw=;
+        b=kNYVndN8KtyrTCl+3n50uQuG+L5l7Gc14EUB6ADmW2KVTD8bl29/J5Xuo1WTs06vEg
+         It2Y4MzCPoS/UXEnE0GDw8dVmbJeK2Pzmyo1nT49S6wFkk21lHkj09SNlpzMgtbNpAF1
+         FiXb6Llcs0nuC2zY7S6+IR3FG+rEHTWp865VmT2vUEDnKsN+2pFQHKrcV6h+Ac070isc
+         Hs4sfFPVEFQtX+BOX/B/nPZ4xqQwtoCaD7KVSt/f/3pS9F0vyJRnDUTfjqpPIVKGTxTv
+         VXcR3Uj0C06RP5E9yBQ5IDdxqXIoGwgEjcJPY/L5YJEPTmdMRHLBsEHUPRJDRH2ehOWc
+         eF/Q==
+X-Gm-Message-State: ABy/qLbyWQ0ik9V5lvXaLciTmGXyt9WNhk1k2mMHMG0RTI3nl6ij9eWv
+        XpVzsU4oCI8s4f3P4isl++YiIA==
+X-Google-Smtp-Source: APBJJlGDYVzBC2hvsQ8FGWq56rTl1YjlH0aAMXhOLrd4J+uQVF0169ZwLnkB95LXZ/zTMnvWTZvJHA==
+X-Received: by 2002:a05:6102:7a8:b0:443:5ddf:4f5b with SMTP id x8-20020a05610207a800b004435ddf4f5bmr95081vsg.11.1690408093114;
+        Wed, 26 Jul 2023 14:48:13 -0700 (PDT)
+Received: from fedora (072-189-067-006.res.spectrum.com. [72.189.67.6])
+        by smtp.gmail.com with ESMTPSA id ei8-20020a056102470800b004476173564bsm134417vsb.30.2023.07.26.14.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 14:48:11 -0700 (PDT)
+Date:   Wed, 26 Jul 2023 17:48:09 -0400
+From:   William Breathitt Gray <william.gray@linaro.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20230726152235.249569-1-mail@carsten-spiess.de>
- <20230726152235.249569-2-mail@carsten-spiess.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230726152235.249569-2-mail@carsten-spiess.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        Pavel Machek <pavel@denx.de>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: ABI: sysfs-bus-counter: Fix indentation
+Message-ID: <ZMGUmed0JaR0dezA@fedora>
+References: <20230721151243.282435-1-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="TmqJ1/AmkgGlDBRM"
+Content-Disposition: inline
+In-Reply-To: <20230721151243.282435-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,30 +76,76 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
+--TmqJ1/AmkgGlDBRM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/26/23 08:22, Carsten Spieß wrote:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7abb5710e1bb..c61aa688cd11 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11072,6 +11072,13 @@ S:	Maintained
->  F:	Documentation/filesystems/isofs.rst
->  F:	fs/isofs/
->  
+On Fri, Jul 21, 2023 at 04:12:43PM +0100, Biju Das wrote:
+> Fix the indentation of the KernelVersion, Contact, and Description in
+> external_input_phase_clock_select_available block by replacing
+> spaces with tabs similar to other blocks.
+>=20
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Closes: https://patchwork.kernel.org/project/cip-dev/patch/20230606075235=
+=2E183132-5-biju.das.jz@bp.renesas.com/
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-New entry is not quite in the correct place for alphabetical order.
-It should be just before the ISOFS entry, not just after it.
+Hi Biju,
 
-> +ISL28022 HARDWARE MONITORING DRIVER
-> +M:	Carsten Spieß <mail@carsten-spiess.de>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/isl28022.rst
-> +F:	drivers/hwmon/isl28022.c
-> +
->  IT87 HARDWARE MONITORING DRIVER
->  M:	Jean Delvare <jdelvare@suse.com>
->  L:	linux-hwmon@vger.kernel.org
+I'll queue this for counter-next with the Closes tag changed to point to
+Pavel's initial report on lore [^1] (let me know if that's not correct).
 
--- 
-~Randy
+Thanks,
+
+William Breathitt Gray
+
+[1] https://lore.kernel.org/r/ZH8D3lCobUJP2T4K@duo.ucw.cz/
+
+> ---
+> v1->v2:
+>  * Updated commit description
+>  * Replaced spaces->tab for Contact and Description lines.
+> ---
+>  Documentation/ABI/testing/sysfs-bus-counter | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/ABI/testing/sysfs-bus-counter b/Documentation/=
+ABI/testing/sysfs-bus-counter
+> index dc3b3a5c876b..73ac84c0bca7 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-counter
+> +++ b/Documentation/ABI/testing/sysfs-bus-counter
+> @@ -22,11 +22,11 @@ Description:
+>  			phase clock.
+> =20
+>  What:		/sys/bus/counter/devices/counterX/external_input_phase_clock_sele=
+ct_available
+> -KernelVersion:  6.4
+> -Contact:        linux-iio@vger.kernel.org
+> +KernelVersion:	6.4
+> +Contact:	linux-iio@vger.kernel.org
+>  Description:
+> -                Discrete set of available values for the respective devi=
+ce
+> -                configuration are listed in this file.
+> +		Discrete set of available values for the respective device
+> +		configuration are listed in this file.
+> =20
+>  What:		/sys/bus/counter/devices/counterX/countY/count
+>  KernelVersion:	5.2
+> --=20
+> 2.25.1
+>=20
+
+--TmqJ1/AmkgGlDBRM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCZMGUmQAKCRC1SFbKvhIj
+KzjgAP4juJC0ahv7zGUlL7Y+YZHMEZMrHTHPLIw5z6IvNuBp1gEA5fP0S3ZulvRj
+Ktu4LnpInTzifPZIblgez8xe+Oo8Fwg=
+=GLHQ
+-----END PGP SIGNATURE-----
+
+--TmqJ1/AmkgGlDBRM--
