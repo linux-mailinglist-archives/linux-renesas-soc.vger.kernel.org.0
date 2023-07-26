@@ -2,64 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC29E763E45
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 20:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 300E6763E62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jul 2023 20:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231604AbjGZSTR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 14:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56612 "EHLO
+        id S229554AbjGZS1P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jul 2023 14:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbjGZSTQ (ORCPT
+        with ESMTP id S230196AbjGZS1O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 14:19:16 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59149B;
-        Wed, 26 Jul 2023 11:19:15 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-78358268d1bso1931639f.3;
-        Wed, 26 Jul 2023 11:19:15 -0700 (PDT)
+        Wed, 26 Jul 2023 14:27:14 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB79A1FC0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jul 2023 11:27:11 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-317798b359aso102451f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jul 2023 11:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690395555; x=1691000355;
+        d=linaro.org; s=google; t=1690396030; x=1691000830;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=/oiMZ3nM+eoY03UlmzmtvCU+X4kjpJCTaAiEoMbtWRw=;
-        b=TTYB51D/NfVxcpJZ50QX69jPp5RnP66HP+Mm1y+cHh8S73VhSbF2CSbf9WBWTbJYw7
-         Q9mq79frCZWI3Am7inEscZObXOCvoAPXu7lsR+p6nddLFd61Cs7hs9VclrB0NH6NjILd
-         xcBkPblHdydQbFO1Gj6XXq638+Sf9Eq2ZnfqjAJK+5cfLVpUkOTTPqLa0nxKdg+Me0MK
-         Bq53UZWoKZFJUTjp3Auo9rnjUODLo0Utj9obPeOLXQUuvSOfze5vZy1qw+sNIWJXwa9a
-         XT0Wm7S815b8ewCfQxzi/va8z/dQHRnoiUmu9P6DaPOkUSKXr4cQrewysIdP/pYAZW9c
-         r3Uw==
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hzqLjK8Xkeivl0wa82o9EWmkTswR7UuotwLLOVNsxDI=;
+        b=XIeExHC3gE95BlPr7LcDASW+2lbz9h6J603EJA7u/73d3JODLmmjMLlEbUbx4I/+q3
+         1f+y0Cxq2PWBooI0+1TmIA+UOOyU2im1uQl05kqLJRB3Dkh6pk5+hvEM3cx2F+5zkjWQ
+         jDyY1pZYFvxQ+AiqaxYDsi3+84ACj0qze363zDYWIZ6atuz0KmLiS/XTzsZmkeD3psAb
+         QohvsTdKueeG8UD2kN5XnsJ0cv1ucAVlANsSih5w7WXcnye5p+QQOq2fME2Nsx3OCzSi
+         ueSgn//FAL5MSXcICy/VI0JNHiebjYd4vd4UQ8GRzMyNjuWayfgv1NArR9oPi7mH2vv+
+         rVDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690395555; x=1691000355;
+        d=1e100.net; s=20221208; t=1690396030; x=1691000830;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/oiMZ3nM+eoY03UlmzmtvCU+X4kjpJCTaAiEoMbtWRw=;
-        b=Ohnerji/J5sES6mIekWfnXF0ymU0+SW1zkNQ+kxjuJsgqQfbZYE9djC4ecCmaXLj9W
-         DTtCExr9VWJdk99Lb2fyCewO18281ZW/EYDBllbzpuxCWBBDRl4DSKMK9GBUdVzHyUAV
-         VO6+nEvlnx/oQQVkjUm29t3tqcXt/JuAlxLwpPr+W0WABWdtX67CRNI6KaXWv2Rzz31V
-         y/pq5nhKIXsWMOGYm2AfLTv2wxD8MrAUXPdtwP5/O07rH5aoothndxPnTAwcBzj8YFJC
-         DrvVH2nV8vSk9hE0xG0vFCcFhvpjLAtFXoYfwLBgU4/3eUq6fqrxd8YbEFzcWztRanTJ
-         4kUQ==
-X-Gm-Message-State: ABy/qLYA8dKD6IhAQoVLJW4VtAzs5Q/M+5X9hOOSnwkWSWDiCm0a4iGq
-        PWvs8CaZfqx1SELNO2Atk6c=
-X-Google-Smtp-Source: APBJJlHNp4dH2bfTxrRyc4ibGTHNazCtS0BOD5yQy3CrePzCW13/b6S6HKoZ1gLC73MoWpKjDyWNfw==
-X-Received: by 2002:a5e:c006:0:b0:77a:c741:b749 with SMTP id u6-20020a5ec006000000b0077ac741b749mr2700865iol.1.1690395554980;
-        Wed, 26 Jul 2023 11:19:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q9-20020a0566380ec900b004182f88c368sm4472081jas.67.2023.07.26.11.19.13
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzqLjK8Xkeivl0wa82o9EWmkTswR7UuotwLLOVNsxDI=;
+        b=LTxUTZCbdxqrB/VYWD6GXhqX5VTaE5rNtTtrBd6dJpl7PmcFj2sRZpUwyL0D1oU6VM
+         JK9og9Uk59nDSvEIhEotvqexNiSI2IM/CS7uyiEDwm1/FLDGoR6cK3mz3F7KMgy9Aqon
+         2j4XN0lP0r6rjm05BDDB6vRJAdODtvj5u+x3KrstpC2wQFCpMRVGdw71TUKeAG8FuayP
+         wBg2AjYWI6pQPMlg5YZTWI3iKNUTDkMpOd35sxeIVzRgpZkp5A9r65JNzHMKPc62PScJ
+         jpcROOCK2jqMdiaWrFaZY1VzETxii9qF5moOo2gY7qNvSmWKhXj+8JbbnLTft+QjCBY/
+         9ddQ==
+X-Gm-Message-State: ABy/qLZIHNbcFSlx2Pxko+U7tQzIOKqnzt0piPP+O1Exiu0GMMJ3qhUe
+        z6++bwPntHUH9BwkRYz25+QB6Q==
+X-Google-Smtp-Source: APBJJlGl9LY0jYBeuOLBKY/QOl/1k5dmLtdC/W/SevHXT9DXZyuU6rQZUTHdpsXNOj0X1NBGoz+fNA==
+X-Received: by 2002:a5d:5142:0:b0:317:3f64:4901 with SMTP id u2-20020a5d5142000000b003173f644901mr1899720wrt.41.1690396030280;
+        Wed, 26 Jul 2023 11:27:10 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id b10-20020a170906038a00b009929ab17bdfsm9914020eja.168.2023.07.26.11.27.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 11:19:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4105d77e-e011-8df7-35bf-bbfca0b640da@roeck-us.net>
-Date:   Wed, 26 Jul 2023 11:19:12 -0700
+        Wed, 26 Jul 2023 11:27:09 -0700 (PDT)
+Message-ID: <7a44e513-2b6b-aed3-3d71-e56bd0be2417@linaro.org>
+Date:   Wed, 26 Jul 2023 20:27:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH 2/2] dt-bindings: hwmon: add renesas,isl28022
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+To:     Guenter Roeck <linux@roeck-us.net>,
         =?UTF-8?Q?Carsten_Spie=c3=9f?= <mail@carsten-spiess.de>,
         Jean Delvare <jdelvare@suse.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -72,127 +70,41 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
 References: <20230726152235.249569-1-mail@carsten-spiess.de>
  <20230726152235.249569-3-mail@carsten-spiess.de>
  <82628237-e087-269e-9673-cf3873fe4b35@linaro.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <82628237-e087-269e-9673-cf3873fe4b35@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+ <4105d77e-e011-8df7-35bf-bbfca0b640da@roeck-us.net>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <4105d77e-e011-8df7-35bf-bbfca0b640da@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/26/23 09:14, Krzysztof Kozlowski wrote:
-> On 26/07/2023 17:22, Carsten Spieß wrote:
->> Add dt-bindings for Renesase ISL28022 power monitor.
+On 26/07/2023 20:19, Guenter Roeck wrote:
 >>
->> Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
->> ---
-> 
-> Thank you for your patch. There is something to discuss/improve.
-> 
-> 
->>   .../bindings/hwmon/renesas,isl28022.yaml      | 67 +++++++++++++++++++
->>   MAINTAINERS                                   |  1 +
->>   2 files changed, 68 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+>>> +    enum: [1, 2, 4, 8]
+>>> +
+>>> +  average:
+>>> +    description: |
+>>> +      Number of samples to be used to report voltage, current and power values.
+>>> +      defaults to <0> when not set
+>>> +    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128]
 >>
->> diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
->> new file mode 100644
->> index 000000000000..5ecf892db269
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
->> @@ -0,0 +1,67 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +
+>> I am sure hwmon has some property for this. Are you sure it is called
+>> "average"?
+>>
 > 
-> No blank line.
-> 
->> +$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Renesas ISL28022 power monitor
->> +
->> +maintainers:
->> +  - Carsten Spieß <mail@carsten-spiess.de>
->> +
->> +description: |
->> +  The ISL28022 is a power monitor with I2C interface. The device monitors
->> +  voltage, current via shunt resistor and calculated power.
->> +
->> +  Datasheets:
->> +    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
->> +
->> +Required properties:
->> +  compatible:
->> +    enum:
->> +      - renesas,isl28022
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +Optional properties:
-> 
-> It does not look like you tested the bindings, at least after quick
-> look. Please run `make dt_binding_check` (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
-> Maybe you need to update your dtschema and yamllint.
-> 
-> These are "properties"
-> 
->> +  shunt-resistor-micro-ohms:
->> +    description:
->> +      Shunt resistor value in micro-Ohm
->> +      defaults to <0> when not set
->> +      monitoring of current and power not supported when <0>
->> +
->> +  shunt-gain:
-> 
-> 1. Missing vendor prefix (does not look like generic property)
-> 2. -microvolt
-> 
->> +    description:
->> +      Shunt gain to scale maximal shunt voltage to
->> +      40mV, 80mV, 160mV, 320mV
->> +      defaults to <8> (320mV) when not set
-> 
-> And then enum is for 40, 80, 160 and 320.
-> 
->> +    enum: [1, 2, 4, 8]
->> +
->> +  average:
->> +    description: |
->> +      Number of samples to be used to report voltage, current and power values.
->> +      defaults to <0> when not set
->> +    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128]
-> 
-> I am sure hwmon has some property for this. Are you sure it is called
-> "average"?
-> 
+> Something with samples. adi,power-sample-average is similar. Others
+> use average-samples, qcom,avg-samples, touchscreen-average-samples.
 
-Something with samples. adi,power-sample-average is similar. Others
-use average-samples, qcom,avg-samples, touchscreen-average-samples.
+So probably it's a time to come with something generic, e.g.:
+average-samples in some hwmon.yaml
 
-Guenter
-
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> +
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+Best regards,
+Krzysztof
 
