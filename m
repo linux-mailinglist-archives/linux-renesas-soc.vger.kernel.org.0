@@ -2,66 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2DC7648FC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 09:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1921764917
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 09:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232433AbjG0Hkm convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 03:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50436 "EHLO
+        id S232019AbjG0HoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 03:44:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232550AbjG0HkY (ORCPT
+        with ESMTP id S233657AbjG0HnV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:40:24 -0400
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67581B4;
-        Thu, 27 Jul 2023 00:33:41 -0700 (PDT)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b9b52724ccso565854a34.1;
-        Thu, 27 Jul 2023 00:33:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690443220; x=1691048020;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HMg5UvkC3t621T16FyA+RQwu73DIw5SgUYvp8HwLnhk=;
-        b=c187fBrojk06vByPjo6ALi5r+gx8EahVfVJompnH1FpxaIYEFVJnFHPo7T8XykMGon
-         Pz46un/ABX08T6rEDlJlkI18CcJSIzQ2xsP6r/UpmVG8jVTGRUG//j5Dz/rcz1uQmTAH
-         cuYsllYxyvw81zw5BNp4IzjoRUDG9dYP3vpzHSichIelOSeACMvLPF+aa0LBO2dRg19a
-         HPJrUis0XbGkaVh+o76lqglLNHitnqkkg72OCZGnWjeEDH5g2QygGEF/pcNu1h8LUh/Z
-         wILsedXTEhHfG2xClMfsKepwzmdiU6/yceubkTviJCBmMmiE+oe9g+BS3julqmcvBY0u
-         Bmyg==
-X-Gm-Message-State: ABy/qLZ/nE/F3GHhGWhfAFjpFcQgaWJjjQHHFvVAPuFZdfHpaf1EbIJc
-        zo1LpBy7sVJcfQGxMYU7XssFfAV/NUNdPA==
-X-Google-Smtp-Source: APBJJlGG+basVdIBieAJLLCE3d8MYdrWkKwcsI6nd/A3E+D0CFcCwbRakujhm9RIbM6WNzVzDlAzkQ==
-X-Received: by 2002:a05:6870:e394:b0:1bb:a30a:299b with SMTP id x20-20020a056870e39400b001bba30a299bmr2349836oad.48.1690443220461;
-        Thu, 27 Jul 2023 00:33:40 -0700 (PDT)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com. [209.85.161.53])
-        by smtp.gmail.com with ESMTPSA id h7-20020a056870d34700b001bbb4f34a7bsm442431oag.49.2023.07.27.00.33.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 00:33:38 -0700 (PDT)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-56c4457c82eso502776eaf.0;
-        Thu, 27 Jul 2023 00:33:37 -0700 (PDT)
-X-Received: by 2002:a05:6808:1a10:b0:3a1:c841:f026 with SMTP id
- bk16-20020a0568081a1000b003a1c841f026mr2761680oib.27.1690443217548; Thu, 27
- Jul 2023 00:33:37 -0700 (PDT)
+        Thu, 27 Jul 2023 03:43:21 -0400
+Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E7A36A5B;
+        Thu, 27 Jul 2023 00:37:30 -0700 (PDT)
+Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1qOvXS-0001KS-TP; Thu, 27 Jul 2023 09:35:58 +0200
+Date:   Thu, 27 Jul 2023 09:35:28 +0200
+From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: hwmon: add renesas,isl28022
+Message-ID: <20230727093528.594ce3a7.mail@carsten-spiess.de>
+In-Reply-To: <f8fdc8d7-6ac5-5e20-10ef-7417d79c1b91@roeck-us.net>
+References: <20230726152235.249569-1-mail@carsten-spiess.de>
+ <20230726152235.249569-3-mail@carsten-spiess.de>
+ <f8fdc8d7-6ac5-5e20-10ef-7417d79c1b91@roeck-us.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230727101128.2752153-1-ruanjinjie@huawei.com>
-In-Reply-To: <20230727101128.2752153-1-ruanjinjie@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 Jul 2023 09:33:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXhBx5e=EH731NxcKWajFniDHtCATpjZzM-UvOrKfJwQg@mail.gmail.com>
-Message-ID: <CAMuHMdXhBx5e=EH731NxcKWajFniDHtCATpjZzM-UvOrKfJwQg@mail.gmail.com>
-Subject: Re: [PATCH -next] media: rcar_jpu: Remove redundant dev_err()
-To:     Ruan Jinjie <ruanjinjie@huawei.com>
-Cc:     mikhail.ulyanov@cogentembedded.com, mchehab@kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/e/q7Xi+4mzcxvn1ecSyofAo";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690443451;3e94405d;
+X-HE-SMSGID: 1qOvXS-0001KS-TP
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,22 +50,116 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 4:37 AM Ruan Jinjie <ruanjinjie@huawei.com> wrote:
-> There is no need to call the dev_err() function directly to print a custom
-> message when handling an error from platform_get_irq() function as
-> it is going to display an appropriate error message in case of a failure.
->
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+--Sig_/e/q7Xi+4mzcxvn1ecSyofAo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+thanks all for your input.
+I conclude here in one answer:
 
-Gr{oetje,eeting}s,
+On 7/26/23 18:14, Krzysztof Kozlowski wrote:
+> It does not look like you tested the bindings, at least after quick
+> look. Please run `make dt_binding_check` (see
+sorry i missed that, fixed for [Patch v2].
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+On 7/26/23 18:14, Krzysztof Kozlowski wrote:
+>> +  shunt-gain: =20
+> 1. Missing vendor prefix (does not look like generic property)
+> 2. -microvolt
+> And then enum is for 40, 80, 160 and 320.
+replaced with
+  renesas,shunt-range-milli-volts:
+    description: |
+      maximal shunt voltage range of 40mV, 80mV, 160mV or 320mV
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    default: 320
+    enum: [40, 80, 160, 320]
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+On 26/07/2023 18:16, Guenter Roeck wrote:
+>> +  shunt-resistor-micro-ohms:
+>> +    description:
+>> +      Shunt resistor value in micro-Ohm
+>> +      defaults to <0> when not set
+>> +      monitoring of current and power not supported when <0>
+> + =20
+> Should not default to 0 (disabled).
+When shunt resistor value is not known, current and power calculation can n=
+ot be done,
+but the shunt voltage still can be measured.
+As the resistor is externaly connected to the ISL28022 chip there is no def=
+ault.
+When i set default to any value (e.g 1000 micro Ohm), current and power cal=
+culation
+will give wrong results (except when the shunt _is_ 1000 micro Ohm)
+
+On 26/07/2023 18:16, Guenter Roeck wrote:
+>> +  average:
+>> +    description: |
+>> +      Number of samples to be used to report voltage, current and power=
+ values.
+>> +      defaults to <0> when not set
+>> +    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128] =20
+> Should not default to 0 (disabled).
+=46rom datasheet table 6 on page 15 there are two similar ADC modes:
+  3 - without samples
+  8 - with one? sample
+I intended enum 0 to ADC mode 3, 1 to ADC mode 8,
+but i can live without ADC mode 3.
+
+On 26/07/2023 20:59, Guenter Roeck wrote:
+> On 7/26/23 11:27, Krzysztof Kozlowski wrote: =20
+>> On 26/07/2023 20:19, Guenter Roeck wrote: =20
+>>>>> +  average:
+>>>>> +    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128] =20
+>>>>
+>>>> I am sure hwmon has some property for this. Are you sure it is called
+>>>> "average"?
+>>>> =20
+>>>
+>>> Something with samples. adi,power-sample-average is similar. Others
+>>> use average-samples, qcom,avg-samples, touchscreen-average-samples. =20
+>>
+>> So probably it's a time to come with something generic, e.g.:
+>> average-samples in some hwmon.yaml
+
+As there's no generic yet, replaced with
+  renesas,average-samples:
+    description: |
+      Number of samples to be used to report voltage, current and power val=
+ues.
+    default: 1
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
+
+
+
+On 26/07/2023 19:13, Rob Herring wrote:
+> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Fixed for [Patch v2], runs without errors or warnings
+
+Regards, Carsten
+
+--Sig_/e/q7Xi+4mzcxvn1ecSyofAo
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCHkAACgkQM1JQzV9L
+KSw/sQ//YfEBYzZ21ij/3yDpY81XyOVnjsICovJPxeClmxPbvA92RC+q9v+k8a+7
+jcAvaTKVr8gFeMoUQe9jQ6br9M+tx8TH3CzWW8oGw7dSWCr+y6yofqeAGxpSuL9V
+Hce6sEe//lQgHgVWUaqVHmo4jJBY2RsBBJuNHYz45noRv/ESekq+vnIgKyERlpcQ
+/bwwdO/nEyR76sNsPyMXepaipRjKsRDZA+0RysCAby3D8MDf+e7nIvUhgyvt37ne
+dpI78cEJ05JF7ZYvXUfXC2q67Qr6VsaNwsDVaXEFxA//Cy88rVlSb/bN70qoSutf
+3pwczGGln9vJNx7dG6fgXSo0o3QZKC/ifCfey7nkVbKonBIKvNhoJKeGBrO4ETIG
+c3yZ69O1Sb+hdinXrOXTjBFciieSP4OIqUnHBSywNjM+u1WmAaP3tt6GgyXMu84X
+A1K9hgmD/1cbbBabFTa750LEud/q17OU+B9h+IiS2nARWDEvjl2cWKB290s3AFP7
+wjmdr3FCczVTRq1OpbwLieromZ6yaiXfgTJXenhclaHo3lh7n+LGOiSMT0MIDs4Z
+iV/X06ad6wzp1AfgSdtOYhtJL6Z+RZoJoRqoTD6E2Wzl5uYZrv5BbjIdFm2C1qEw
+uwZmK6aGVmGMiTt9XuhjIExWzt06krZRtbFtUh27R8xsASXk6qw=
+=KFij
+-----END PGP SIGNATURE-----
+
+--Sig_/e/q7Xi+4mzcxvn1ecSyofAo--
