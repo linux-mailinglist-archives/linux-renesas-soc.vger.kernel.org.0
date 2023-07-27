@@ -2,423 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1938765A5B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 19:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5440F765B06
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 19:58:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231569AbjG0Rdd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 13:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
+        id S230027AbjG0R6R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 13:58:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjG0Rdc (ORCPT
+        with ESMTP id S229481AbjG0R6Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 13:33:32 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78972D68
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 10:33:30 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b9ecf0cb4cso8476345ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 10:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20221208.gappssmtp.com; s=20221208; t=1690479209; x=1691084009;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=THhBtK272vS8q3XGuI13CfTilYC9pgFyXvQhtktvkZ4=;
-        b=Omfj+9vYUOL4KrKqRH90ypYcYcBIpWrJfqtEvcbdqh6lcwPnfLY2vlvVu/bqMtqc8Z
-         qhRcG81gyu8aILA0yauxgqh3jmcMGUjHdfzNn0WKq6sJtow8RWqvNx++sy6oRhI4VqYK
-         UYb90VpUuzje9v69SZFgkBQyZ6rMM565ONQRi2Vh8720ypopmgWDelQl5L71MPTznemX
-         b5+iMnqA7R+ez8znRZO6QTH1E+jTukY5gGcNwoZYvz+m4OLRNQCrffqeIPMSyu0OZTOY
-         MpdU3mWzr6cSnMag2gSov4xMU9xekCPy2vCSW0a/ul9O1Kx8ArDIYsXE0zlD7hFjlcnw
-         EBUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690479209; x=1691084009;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=THhBtK272vS8q3XGuI13CfTilYC9pgFyXvQhtktvkZ4=;
-        b=CGvdr+XCiPrVoxKz/dhIuYsopAK5s5ggav6QyhOsDRHPMl9qqori12lWMe9KxXaLlO
-         32LqQb4ab+cardBO+5eIINQ9Gqbr9M+spt2gMn2DYE57xbcJ00MQ3aB3UxLEKSdTDjR7
-         0/nCPlBtWRM5FKQeI71yToZIpnIYDc2P3m7mzs1hoPCo/qI4gulHvKLxkPuu38YlOo9F
-         Bi/CFFZ/gOgcfnKlNhMJTe6aMKt6mJn86SWo2l7Kp+TUmWlciFKjMGqUYpUfyin/Krwp
-         6aVyUf91q6g1KqJyfWud/2QOlAjzeBEU5rhR+fYFcl9+NGL69pF7DEm6PcS8dw3S7BZe
-         8VKg==
-X-Gm-Message-State: ABy/qLbggdEJfjAyA0ugpk/ymwwWcSDCvoRyQ23GoNyTAP4CiI64y029
-        ms+tCSWjbXuRO66yMhNBpz8dmiaIdTPEMLEcVY9giA==
-X-Google-Smtp-Source: APBJJlGmGvoj9PvO9LMEeAu43jNNxy7pXKcYi9qiv4vrhprIxyWOxvjRITTiGhuD3O4Bnu0+se0v5A==
-X-Received: by 2002:a17:903:120d:b0:1bb:833c:6ba8 with SMTP id l13-20020a170903120d00b001bb833c6ba8mr5521485plh.56.1690479209579;
-        Thu, 27 Jul 2023 10:33:29 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170902748600b001b392bf9192sm1910352pll.145.2023.07.27.10.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 10:33:28 -0700 (PDT)
-Message-ID: <64c2aa68.170a0220.eb4e8.3e6e@mx.google.com>
-Date:   Thu, 27 Jul 2023 10:33:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 27 Jul 2023 13:58:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE10B2D5F;
+        Thu, 27 Jul 2023 10:58:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 746D761EDD;
+        Thu, 27 Jul 2023 17:58:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0215C433CA;
+        Thu, 27 Jul 2023 17:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690480694;
+        bh=n1k2sMEjVb3F5RqXb/sa8LMkQ85lhKH+jJx8TpURg40=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=L4BcBPZvNG0ikPm6iVgmr/k0m0lSx4bJdALGpSYRKDbp5ECEaw7wlpfT+G+Yucoud
+         2ZJ0rMyjxvI2DshxOr5r4Cpq+hCCxXS9O47OH19zp8OwG1+/1GMdRzXcUvP7UFG888
+         Ri7nGr7FkMV0vPswD5QLIww7MBoGjY03xYJXBD/E8z02Ug9JXo45inyFiBh5XfmDxw
+         os1Aw7A2BJtOgK8TbWz/mL2k0kl/pDPLmou2ztKFLmZCsMKLJAaspSB4DvSOKULsbK
+         WYB5nxQbdr3HvPx+S9L7Gugi125ncvNTKfbdIHV6/8YaeQX/FJk1j02OGqxU4tlnht
+         lKSztFJnxVcIQ==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b962535808so20381731fa.0;
+        Thu, 27 Jul 2023 10:58:14 -0700 (PDT)
+X-Gm-Message-State: ABy/qLY3sgfJKdChnEZpVWpCnu6e9oJwoWvC/myWsDmW2QqlR+vpr3Ml
+        bq2+lLH7itKWYdz0glZfPGU62eTwSz33URpU4A==
+X-Google-Smtp-Source: APBJJlHIiInknIDpNIIi9X2WGUWytO0qqbQcnp2aDRsib5t1XpoIlTOPeNVXlPCsGvnkgTwCgHcYuhglYq5zD3bYv7o=
+X-Received: by 2002:a2e:9982:0:b0:2b6:a08d:e142 with SMTP id
+ w2-20020a2e9982000000b002b6a08de142mr2258506lji.7.1690480692828; Thu, 27 Jul
+ 2023 10:58:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1689776064.git.geert+renesas@glider.be> <b733ee0b398ace191a787cce965829f2777fc49e.1689776064.git.geert+renesas@glider.be>
+ <20230720183130.GA2939849-robh@kernel.org> <CAMuHMdWNnO3gyH-w7LmQ4T7pEANXtwTgdfx41+tSSP4oKs7zBQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWNnO3gyH-w7LmQ4T7pEANXtwTgdfx41+tSSP4oKs7zBQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 27 Jul 2023 11:58:00 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKj5qRzddUYwpdv2Xe1cfub2+OeyVuVL0ha-cYS2uPkwA@mail.gmail.com>
+Message-ID: <CAL_JsqKj5qRzddUYwpdv2Xe1cfub2+OeyVuVL0ha-cYS2uPkwA@mail.gmail.com>
+Subject: Re: [PATCH 06/13] of: unittest: Merge of_unittest_apply{,_revert}_overlay_check()
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-X-Kernelci-Kernel: renesas-next-2023-07-27-v6.5-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/next baseline: 50 runs,
- 6 regressions (renesas-next-2023-07-27-v6.5-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline: 50 runs, 6 regressions (renesas-next-2023-07-27-v6.5=
--rc1)
+On Thu, Jul 27, 2023 at 8:04=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Rob,
+>
+> On Thu, Jul 20, 2023 at 8:31=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > On Wed, Jul 19, 2023 at 05:00:06PM +0200, Geert Uytterhoeven wrote:
+> > > of_unittest_apply_overlay_check() and the first part of
+> > > of_unittest_apply_revert_overlay_check() are identical.
+> > > Reduce code duplication by replacing them by two wrappers around a
+> > > common helper.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  drivers/of/unittest.c | 61 ++++++++++++++++-------------------------=
+--
+> > >  1 file changed, 22 insertions(+), 39 deletions(-)
+> >
+> > I would do something like this instead:
+> >
+> > 8<-------------------------------------------------------------------
+> > diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+> > index a406a12eb208..a9635935aa26 100644
+> > --- a/drivers/of/unittest.c
+> > +++ b/drivers/of/unittest.c
+> > @@ -2102,7 +2102,7 @@ static int __init of_unittest_apply_overlay(int o=
+verlay_nr, int *ovcs_id)
+> >  }
+> >
+> >  /* apply an overlay while checking before and after states */
+> > -static int __init of_unittest_apply_overlay_check(int overlay_nr,
+> > +static int __init _of_unittest_apply_overlay_check(int overlay_nr,
+> >                 int unittest_nr, int before, int after,
+> >                 enum overlay_type ovtype)
+> >  {
+> > @@ -2133,6 +2133,16 @@ static int __init of_unittest_apply_overlay_chec=
+k(int overlay_nr,
+> >                 return -EINVAL;
+> >         }
+> >
+> > +       return ovcs_id;
+> > +}
+> > +
+> > +static int __init of_unittest_apply_overlay_check(int overlay_nr,
+> > +               int unittest_nr, int before, int after,
+> > +               enum overlay_type ovtype)
+> > +{
+> > +       int ovcs_id =3D _of_unittest_apply_overlay_check(overlay_nr, un=
+ittest_nr, before, after, ovtype);
+> > +       if (ovcs_id < 0)
+> > +               return ovcs_id;
+> >         return 0;
+> >  }
+> >
+> > @@ -2143,31 +2153,9 @@ static int __init of_unittest_apply_revert_overl=
+ay_check(int overlay_nr,
+> >  {
+> >         int ret, ovcs_id, save_ovcs_id;
+> >
+> > -       /* unittest device must be in before state */
+> > -       if (of_unittest_device_exists(unittest_nr, ovtype) !=3D before)=
+ {
+> > -               unittest(0, "%s with device @\"%s\" %s\n",
+> > -                               overlay_name_from_nr(overlay_nr),
+> > -                               unittest_path(unittest_nr, ovtype),
+> > -                               !before ? "enabled" : "disabled");
+> > -               return -EINVAL;
+> > -       }
+> > -
+> > -       /* apply the overlay */
+> > -       ovcs_id =3D 0;
+> > -       ret =3D of_unittest_apply_overlay(overlay_nr, &ovcs_id);
+> > -       if (ret !=3D 0) {
+> > -               /* of_unittest_apply_overlay already called unittest() =
+*/
+> > -               return ret;
+> > -       }
+> > -
+> > -       /* unittest device must be in after state */
+> > -       if (of_unittest_device_exists(unittest_nr, ovtype) !=3D after) =
+{
+> > -               unittest(0, "%s failed to create @\"%s\" %s\n",
+> > -                               overlay_name_from_nr(overlay_nr),
+> > -                               unittest_path(unittest_nr, ovtype),
+> > -                               !after ? "enabled" : "disabled");
+> > -               return -EINVAL;
+> > -       }
+> > +       ovcs_id =3D _of_unittest_apply_overlay_check(overlay_nr, unitte=
+st_nr, before, after, ovtype);
+> > +       if (ovcs_id < 0)
+> > +               return ovcs_id;
+> >
+> >         save_ovcs_id =3D ovcs_id;
+> >         ret =3D of_overlay_remove(&ovcs_id);
+>
+> That's what I had done first, before I realized I could reduce it by
+> five more lines of code ;-)
+>
+> mine:  1 file changed, 22 insertions(+), 39 deletions(-)
+> yours: 1 file changed, 14 insertions(+), 26 deletions(-)
 
-Regressions Summary
--------------------
+Less change to review is also worthwhile.
 
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-fsl-ls2088a-rdb              | arm64 | lab-nxp       | gcc-10   | defconfig=
- | 1          =
+> Anyway, you're the maintainer, so I can update my patch if you insist...
 
-r8a77960-ulcb                | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
+The other thing about this that I noticed is I recall gregkh not
+liking the pattern where function parameters change what the function
+does (e.g. do_x_or_y(bool do_y)).
 
-r8a779m1-ulcb                | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
+So yes, I prefer mine.
 
-sun50i-a64-pine64-plus       | arm64 | lab-broonie   | gcc-10   | defconfig=
- | 1          =
-
-sun50i-h5-lib...ch-all-h3-cc | arm64 | lab-broonie   | gcc-10   | defconfig=
- | 1          =
-
-sun50i-h6-pine-h64           | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2023-07-27-v6.5-rc1/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2023-07-27-v6.5-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      13512fa6af4abcdd8645daabd4ad22576694c7a5 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-fsl-ls2088a-rdb              | arm64 | lab-nxp       | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c2791afcd17e54ae8acef7
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-nxp/baseline-fsl-ls2088a-rdb.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-nxp/baseline-fsl-ls2088a-rdb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/64c2791afcd17e54ae8acefa
-        failing since 13 days (last pass: renesas-next-2022-08-29-v6.0-rc1,=
- first fail: renesas-next-2023-07-10-v6.5-rc1)
-
-    2023-07-27T14:02:56.660146  + [   15.954575] <LAVA_SIGNAL_ENDRUN 0_dmes=
-g 1239049_1.5.2.4.1>
-    2023-07-27T14:02:56.660445  set +x
-    2023-07-27T14:02:56.765743  =
-
-    2023-07-27T14:02:56.867296  / # #export SHELL=3D/bin/sh
-    2023-07-27T14:02:56.867751  =
-
-    2023-07-27T14:02:56.968921  / # export SHELL=3D/bin/sh. /lava-1239049/e=
-nvironment
-    2023-07-27T14:02:56.969520  =
-
-    2023-07-27T14:02:57.070818  / # . /lava-1239049/environment/lava-123904=
-9/bin/lava-test-runner /lava-1239049/1
-    2023-07-27T14:02:57.071928  =
-
-    2023-07-27T14:02:57.075654  / # /lava-1239049/bin/lava-test-runner /lav=
-a-1239049/1 =
-
-    ... (12 line(s) more)  =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-r8a77960-ulcb                | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c278b84183ee67a38ace33
-
-  Results:     4 PASS, 2 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a77960-ulcb=
-.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a77960-ulcb=
-.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/64c278b84183ee67a38ace38
-        new failure (last pass: renesas-next-2023-07-11-v6.5-rc1)
-
-    2023-07-27T14:02:46.806850  / # #
-
-    2023-07-27T14:02:46.908983  export SHELL=3D/bin/sh
-
-    2023-07-27T14:02:46.909681  #
-
-    2023-07-27T14:02:47.011071  / # export SHELL=3D/bin/sh. /lava-11151520/=
-environment
-
-    2023-07-27T14:02:47.011769  =
-
-
-    2023-07-27T14:02:47.113185  / # . /lava-11151520/environment/lava-11151=
-520/bin/lava-test-runner /lava-11151520/1
-
-    2023-07-27T14:02:47.114263  =
-
-
-    2023-07-27T14:02:47.131301  / # /lava-11151520/bin/lava-test-runner /la=
-va-11151520/1
-
-    2023-07-27T14:02:47.180397  + export 'TESTRUN_ID=3D1_bootrr'
-
-    2023-07-27T14:02:47.180926  + cd /lava-111515<8>[   19.149148] <LAVA_SI=
-GNAL_STARTRUN 1_bootrr 11151520_1.5.2.4.5>
- =
-
-    ... (28 line(s) more)  =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-r8a779m1-ulcb                | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c278b64183ee67a38ace25
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a779m1-ulcb=
-.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a779m1-ulcb=
-.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/64c278b64183ee67a38ace2a
-        new failure (last pass: renesas-next-2023-07-11-v6.5-rc1)
-
-    2023-07-27T14:01:22.322002  / # #
-
-    2023-07-27T14:01:23.401122  export SHELL=3D/bin/sh
-
-    2023-07-27T14:01:23.402891  #
-
-    2023-07-27T14:01:24.892560  / # export SHELL=3D/bin/sh. /lava-11151508/=
-environment
-
-    2023-07-27T14:01:24.894333  =
-
-
-    2023-07-27T14:01:27.615365  / # . /lava-11151508/environment/lava-11151=
-508/bin/lava-test-runner /lava-11151508/1
-
-    2023-07-27T14:01:27.617497  =
-
-
-    2023-07-27T14:01:27.630142  / # /lava-11151508/bin/lava-test-runner /la=
-va-11151508/1
-
-    2023-07-27T14:01:27.689174  + export 'TESTRUN_ID=3D1_bootrr'
-
-    2023-07-27T14:01:27.689675  + cd /lava-111515<8>[   28.523822] <LAVA_SI=
-GNAL_STARTRUN 1_bootrr 11151508_1.5.2.4.5>
- =
-
-    ... (38 line(s) more)  =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-sun50i-a64-pine64-plus       | arm64 | lab-broonie   | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c27992615c5257298ace29
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-sun50i-a64-pine=
-64-plus.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-sun50i-a64-pine=
-64-plus.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/64c27992615c5257298ac=
-e2a
-        failing since 16 days (last pass: renesas-next-2023-06-06-v6.4-rc1,=
- first fail: renesas-next-2023-07-10-v6.5-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-sun50i-h5-lib...ch-all-h3-cc | arm64 | lab-broonie   | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c278f02fbf4f0bbf8ace63
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-sun50i-h5-libre=
-tech-all-h3-cc.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-sun50i-h5-libre=
-tech-all-h3-cc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/64c278f02fbf4f0bbf8ac=
-e64
-        failing since 51 days (last pass: renesas-next-2023-03-16-v6.3-rc1,=
- first fail: renesas-next-2023-06-06-v6.4-rc1) =
-
- =
-
-
-
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-sun50i-h6-pine-h64           | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/64c278b60f884b12598ace5b
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-sun50i-h6-pin=
-e-h64.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
--07-27-v6.5-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-sun50i-h6-pin=
-e-h64.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/64c278b60f884b12598ace60
-        new failure (last pass: renesas-next-2023-07-11-v6.5-rc1)
-
-    2023-07-27T14:02:58.484112  / # #
-
-    2023-07-27T14:02:58.586489  export SHELL=3D/bin/sh
-
-    2023-07-27T14:02:58.587253  #
-
-    2023-07-27T14:02:58.688697  / # export SHELL=3D/bin/sh. /lava-11151510/=
-environment
-
-    2023-07-27T14:02:58.689514  =
-
-
-    2023-07-27T14:02:58.790963  / # . /lava-11151510/environment/lava-11151=
-510/bin/lava-test-runner /lava-11151510/1
-
-    2023-07-27T14:02:58.792163  =
-
-
-    2023-07-27T14:02:58.808656  / # /lava-11151510/bin/lava-test-runner /la=
-va-11151510/1
-
-    2023-07-27T14:02:58.876780  + export 'TESTRUN_ID=3D1_bootrr'
-
-    2023-07-27T14:02:58.877330  + cd /lava-11151510/1/tests/1_boot<8>[   17=
-.676005] <LAVA_SIGNAL_STARTRUN 1_bootrr 11151510_1.5.2.4.5>
- =
-
-    ... (11 line(s) more)  =
-
- =20
+Rob
