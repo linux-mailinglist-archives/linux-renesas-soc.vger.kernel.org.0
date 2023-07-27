@@ -2,146 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3983F765BA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 20:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D6F765C2B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 21:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjG0Stj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 14:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38912 "EHLO
+        id S229995AbjG0Teb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 15:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbjG0Sti (ORCPT
+        with ESMTP id S229550AbjG0Tea (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 14:49:38 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2FF719A4;
-        Thu, 27 Jul 2023 11:49:04 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.82.161) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 27 Jul
- 2023 21:48:42 +0300
-Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-To:     Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-        Zheng Wang <zyytlz.wz@163.com>
-CC:     <lee@kernel.org>, <linyunsheng@huawei.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <richardcochran@gmail.com>,
-        <p.zabel@pengutronix.de>, <geert+renesas@glider.be>,
-        <magnus.damm@gmail.com>, <yoshihiro.shimoda.uh@renesas.com>,
-        <biju.das.jz@bp.renesas.com>, <wsa+renesas@sang-engineering.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <hackerzheng666@gmail.com>,
-        <1395428693sheep@gmail.com>, <alex000young@gmail.com>
-References: <20230725030026.1664873-1-zyytlz.wz@163.com>
- <20230725201952.2f23bb3b@kernel.org>
- <9cfa70cca3cb1dd20bb2cab70a213e5a4dd28f89.camel@redhat.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
-Date:   Thu, 27 Jul 2023 21:48:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 27 Jul 2023 15:34:30 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387AF2D68;
+        Thu, 27 Jul 2023 12:34:29 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-583b4522927so13471477b3.3;
+        Thu, 27 Jul 2023 12:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690486468; x=1691091268;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3ouXSBMQ9XfaLV2cnC7CmnxUEXunSTe45cPHPFLrssE=;
+        b=e+h0P3t0tiLM4TQ9WkOu/zX32eqePLew4QUhh9kMmcahKWUp7a5c2Ucw88nFQS7IcJ
+         u04w56Ie1jCm3tImJbvnZS5WZN24v15xxvnNUZVA2ZvIdqsNZEH1yV8vCYlrEDKOcPwW
+         0dyiL7D1kB41X1BPmE3R2vQGcJ3hqS4KcKWkj2mQWJUwSovtgDfEEo2h+nR7kMFHBTbY
+         4hTpdBHNpa4SofI2N2K86QCjOyR3E+vW5jhVCwANrqqJc3xm/A7a+zebvtq21TTxY+Ng
+         4YJIj1itwP6pfxfACNV+6FB1Sop+D72C1uW+zm/bgUDJcU1VptK2NpPmubhKOtPQwCN2
+         F1JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690486468; x=1691091268;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ouXSBMQ9XfaLV2cnC7CmnxUEXunSTe45cPHPFLrssE=;
+        b=O5JBF7MygVOUhQjhq+grqkON3W6NnDQ2e4B5FF2CS3XlwPRiiP8bxn5Ahd8nn/noKP
+         sBAqgTRi3U2JBHbPtlmg4+cg+/JFrj8EMd8gAaGWX6x87SWK3PRAoLZk/k1TPFmtaaCx
+         GVZHooE1Akp7tdt0xm8sLE7s3cw2cSI52DBnmQmCtrkV8loODM1rWPBJIhRR89zlU4Zu
+         +4AN/ncOf65LIzx4cbiB5P0wlfXI7B+bzCvQD4O0C3sNxnZYcpJkmgDsrjCJnc6cvruH
+         KU8433Om7J47iRyRQSv+WB1eJKUhG0hLt9FY51e/kJATYq58xSNEC/OSreMkSkZ2ZFmx
+         ei0w==
+X-Gm-Message-State: ABy/qLYUY5y7umwCLILqq2zL19LTRw/pt7hzzqXz9qHN76y0EKVyocmE
+        hjwGIov1QoYLB+WgsJ6DWh2sy4U3bqk=
+X-Google-Smtp-Source: APBJJlGjhlH7e8kuTfMlW0HThaV2fCO9UO1OC1agKXfUHVi1LaW3X4KwB06kniTbwRJCM1OsJHXqJg==
+X-Received: by 2002:a0d:ef07:0:b0:577:a46:26e5 with SMTP id y7-20020a0def07000000b005770a4626e5mr225020ywe.31.1690486468410;
+        Thu, 27 Jul 2023 12:34:28 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:a5e9:8d43:2f62:e7bb? ([2600:1700:2442:6db0:a5e9:8d43:2f62:e7bb])
+        by smtp.gmail.com with ESMTPSA id i145-20020a819197000000b005844ae2bfa3sm529271ywg.95.2023.07.27.12.34.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 12:34:27 -0700 (PDT)
+Message-ID: <459984f5-9375-3faf-527c-1b8626fd0604@gmail.com>
+Date:   Thu, 27 Jul 2023 14:34:27 -0500
 MIME-Version: 1.0
-In-Reply-To: <9cfa70cca3cb1dd20bb2cab70a213e5a4dd28f89.camel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 00/13] of: overlay/unittest: Miscellaneous fixes and
+ improvements
 Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1689776064.git.geert+renesas@glider.be>
+ <20230720183752.GB2939849-robh@kernel.org>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <20230720183752.GB2939849-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.82.161]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/27/2023 18:34:46
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 178910 [Jul 27 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 526 526 7a6a9b19f6b9b3921b5701490f189af0e0cd5310
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.161 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.161 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.161 in (user) bl.spamcop.net}
-X-KSE-AntiSpam-Info: 31.173.82.161:7.4.1,7.7.3;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;elixir.bootlin.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {iprep_blacklist}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: {rdns complete}
-X-KSE-AntiSpam-Info: {fromrtbl complete}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.161
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/27/2023 18:39:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/27/2023 3:20:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 7/27/23 11:21 AM, Paolo Abeni wrote:
-[...]
->>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>> index 4d6b3b7d6abb..ce2da5101e51 100644
->>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>> @@ -2885,6 +2885,9 @@ static int ravb_remove(struct platform_device *pdev)
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	const struct ravb_hw_info *info = priv->info;
->>>  
->>> +	netif_carrier_off(ndev);
->>> +	netif_tx_disable(ndev);
->>> +	cancel_work_sync(&priv->work);
+On 7/20/23 13:37, Rob Herring wrote:
+> On Wed, Jul 19, 2023 at 05:00:00PM +0200, Geert Uytterhoeven wrote:
+>> 	Hi all,
 >>
->> Still racy, the carrier can come back up after canceling the work.
+>> This patch series contains miscellaneous fixes and improvements for
+>> dynamic DT overlays and the related unit tests.
+>>
+>> The first two patches are fixes for a lock-up and a crash.
+>> The remaining patches are smaller fixes, enhancements and cleanups for
+>> the overlay tests, including one new test.
+>>
+>> I ran into the crash when accidentally loading the wrong overlay (using
+>> the out-of-tree DT overlay configfs[1]), and removing it afterwards.
+>> As this case was not yet covered by the unittests, I added a test.
+>> I enhanced the tests to clean up partial state after a failed
+>> overlay apply attempt, which triggered the lock-up.
+>>
+>> Thanks for your comments!
 > 
-> I must admit I don't see how/when this driver sets the carrier on ?!?
-
-   The phylib code does it for this MAC driver, see the call tree of
-phy_link_change(), on e.g. https://elixir.bootlin.com/linux/v6.5-rc3/source/...
-
->> But whatever, this is a non-issue in the first place.
+> Other than my comments all looks good to me. Of course, I treat code 
+> deletions, documentation additions, and test additions the same: 
+> automatic acceptance. ;)
 > 
-> Do you mean the UaF can't happen? I think that is real. 
+> I'll give it a bit more time in case Frank has comments.
 
-   Looks possible to me, at least now... and anyway, shouldn't we clean up
-after ourselves if we call schedule_work()?However my current impression is
-that cancel_work_sync() should be called from ravb_close(), after calling
-phy_{stop|disconnect}()...
+Thanks Rob, but no need to wait for me as I'm easing out of devicetree.
 
->> The fact that ravb_tx_timeout_work doesn't take any locks seems much
->> more suspicious.
+-Frank
+
 > 
-> Indeed! But that should be a different patch, right?
+> Rob
 
-   Yes.
-
-> Waiting a little more for feedback from renesas.
-
-   Renesas historically hasn't shown much interest to reviewing the sh_eth/ravb
-driver patches, so I took that task upon myself. I also happen to be a nominal
-author of this driver... :-)
-
-> /P
-
-MBR, Sergey
