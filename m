@@ -2,110 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC86F76504C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 11:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EE6A765076
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 11:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbjG0JvR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 05:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35922 "EHLO
+        id S231308AbjG0J7l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 05:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233571AbjG0Jug (ORCPT
+        with ESMTP id S231195AbjG0J7k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 05:50:36 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 626872D57;
-        Thu, 27 Jul 2023 02:50:19 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-583a8596e2aso8209077b3.1;
-        Thu, 27 Jul 2023 02:50:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690451379; x=1691056179;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GSOkOoKHfhkcM2bnkAGy8Q/iSlVgZMGyGgIwpENE1tg=;
-        b=fqLH3zGBN5QfjoxNT82ayX5kRx+79mzDkp7jUXoQ9bUMLTaby8WryAh5w7YwEqMPgj
-         McjvH67bA493mq3dMaWXJuT1+iVlXv65tqrKoHiwwMVNA2NMszSD68+tkzDk5UErl+bU
-         uBavSwameac2kfAy/94ZyR1K1Dq4dklK0tXmF6/6Xo81ZLdr6se1YN1y/kXL8mjQqG3G
-         reO2W3ujeMiIzeskojBv2qLE3nLVcGb/4zlkIma7u909dzPgJNnSOuirjmAKYM3A3IpW
-         EU4j80ITkuKu8UHwlFHZEwd9w4ESHmAR+XNBOpKW2iYb2NVXKmKZ4bF/HK8fkjWvXzPP
-         gOjw==
-X-Gm-Message-State: ABy/qLZJgRNgwaAd0xUnq6VqiJggsDhfTOq7luLNEKerCU4zCS4lZtqF
-        22dDwQ1dplwJBNChDwLh92wr11AJlGyAdw==
-X-Google-Smtp-Source: APBJJlHAIBG0CKhG09enKj/u9keV2HN4Hicv5z42jzLUBAMXYWRqgcjNumSaCSQPRNWIIj2E8wDgdw==
-X-Received: by 2002:a0d:d082:0:b0:583:b4fe:f9c7 with SMTP id s124-20020a0dd082000000b00583b4fef9c7mr4596821ywd.39.1690451378866;
-        Thu, 27 Jul 2023 02:49:38 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id p1-20020a0de601000000b005612fc707bfsm304947ywe.120.2023.07.27.02.49.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 02:49:38 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-bff89873d34so645450276.2;
-        Thu, 27 Jul 2023 02:49:38 -0700 (PDT)
-X-Received: by 2002:a25:da4a:0:b0:c5d:1407:f2bc with SMTP id
- n71-20020a25da4a000000b00c5d1407f2bcmr4476933ybf.17.1690451378182; Thu, 27
- Jul 2023 02:49:38 -0700 (PDT)
+        Thu, 27 Jul 2023 05:59:40 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7B510B;
+        Thu, 27 Jul 2023 02:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690451979; x=1721987979;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OCXm02Zod6VyNif3Q3EV8aonYhegGQT68qvk/fnFMSw=;
+  b=Q2pvB5vw6rNqE8oIbBkb06ShPrshz3thvsKskIS1A0lebj0B++i06flI
+   +f9+U7t0wTj37q6JmSI0mndLHXnETMPDLbxzuL/AW1ybXEiz2J9ZrNgjd
+   S/uMxcenkrkfbsnqZClRdA+/IqzlGi7KNE5KnAWxcBvHlvLRJdh6Z2+zf
+   Y9646bgREiNpVE8kZycgmsWJM1aG6xJGRW7XwGqOVm34+a40h/FPHoAsj
+   s7fXXt11vxR+Y79Pvsz8FNvSCqYjbR//hUa+SjFc/+nUidr1SEvW9J7r3
+   xJ0cqFHgH7LgqTYrxVVDH/JvYTLaqc/+ch/cnJY8tTGEPeFDsMlE7p6sP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="347878951"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="347878951"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:59:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="796912408"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="796912408"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 27 Jul 2023 02:59:37 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1qOxmS-00GFf6-0D;
+        Thu, 27 Jul 2023 12:59:36 +0300
+Date:   Thu, 27 Jul 2023 12:59:35 +0300
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] i2c: Add i2c_device_get_match_data() callback
+Message-ID: <ZMJAB7RcICd9wjdv@smile.fi.intel.com>
+References: <20230726130804.186313-1-biju.das.jz@bp.renesas.com>
+ <20230726130804.186313-3-biju.das.jz@bp.renesas.com>
+ <ZMFNYQHqWrS+zSXQ@smile.fi.intel.com>
+ <CAKdAkRT1Zdut28YYG9PxOQXfvMGZuXD8=qG9q4KtHKNvsxy76A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230705171000.85786-1-biju.das.jz@bp.renesas.com> <20230705171000.85786-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230705171000.85786-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 Jul 2023 11:49:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUHD+bEco=WYTYWsTAyRt3dTQQt4Xpaejss0Y2ZpLCMNg@mail.gmail.com>
-Message-ID: <CAMuHMdUHD+bEco=WYTYWsTAyRt3dTQQt4Xpaejss0Y2ZpLCMNg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] drivers: clk: Add support for versa3 clock driver
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKdAkRT1Zdut28YYG9PxOQXfvMGZuXD8=qG9q4KtHKNvsxy76A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Wed, Jul 26, 2023 at 10:56:41AM -0700, Dmitry Torokhov wrote:
+> On Wed, Jul 26, 2023 at 07:44:17PM +0300, Andy Shevchenko wrote:
+> > On Wed, Jul 26, 2023 at 02:08:04PM +0100, Biju Das wrote:
 
-On Wed, Jul 5, 2023 at 7:10 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add support for Renesas versa3 clock driver(5p35023).
-> The clock generator provides 6 output clocks.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+...
 
-Thanks for your patch, which is now commit 6e9aff555db7b681 ("clk: Add
-support for versa3 clock driver") in clk/clk-next.
+> > > +static const void *i2c_device_get_match_data(const struct device *dev)
+> > > +{
+> > > +   const struct i2c_client *client = (dev->type == &i2c_client_type) ?
+> > > +                                     to_i2c_client(dev) : NULL;
+> >
+> > There is an API i2c_verify_client() or something like this, I don't remember
+> > by heart.
+> 
+> It's been discussed in a separate thread. i2c_verify_client() needs a
+> non-const pointer. It would be nice to clean up i2c_verify_client() to
+> accept both variants, but that can be done later.
 
-> --- /dev/null
-> +++ b/drivers/clk/clk-versaclock3.c
+Then this code needs a TODO comment:
 
-> +enum vc3_clk {
-> +       VC3_DIFF2,
-> +       VC3_DIFF1,
-> +       VC3_SE3,
-> +       VC3_SE2,
-> +       VC3_SE1,
-> +       VC3_REF,
-> +};
+	/* TODO: use i2c_verify_client() when it accepts const pointer */
 
-The bindings do not mention the mapping from clock indices to actual
-outputs.  According to Table 3. ("Output Source") in the 5P35023
-datasheet, I would expect the mapping to be 0=REF, 1=SE1, 2=SE2, 3=SE3,
-4=DIFF1, 5=DIFF2.  But the above uses the order in the Block Diagram,
-which is the inverse...
 
-Gr{oetje,eeting}s,
+> > > +   if (!dev->driver)
+> > > +           return NULL;
+> > > +
+> > > +   return i2c_get_match_data_helper(to_i2c_driver(dev->driver), client);
+> > > +}
 
-                        Geert
+...
+
+> > Side question, what is the idea for i2c_of_match_device()? Shouldn't you also
+> > take it into consideration?
+> 
+> Good call. I think we need to add something like
+> 
+>         if (!data && driver->driver.of_match_table) {
+>                 match =
+> i2c_of_match_device_sysfs(driver->driver.of_match_table, client);
+>                 if (match)
+>                         data = match->data;
+>         }
+> 
+> to i2c_device_get_match_data().
+
+Haven't checked myself, by I trust your suggestion. Let's see it in v3 then.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+With Best Regards,
+Andy Shevchenko
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
