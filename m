@@ -2,100 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E8876491E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 09:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2B97649DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 10:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232279AbjG0HoH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 03:44:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
+        id S233733AbjG0IEA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 04:04:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233627AbjG0HnS (ORCPT
+        with ESMTP id S233848AbjG0IDL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:43:18 -0400
-Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2576F6A40;
-        Thu, 27 Jul 2023 00:37:22 -0700 (PDT)
-Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1qOvXT-0001KS-Ho; Thu, 27 Jul 2023 09:35:59 +0200
-Date:   Thu, 27 Jul 2023 09:35:48 +0200
-From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-hwmon@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <20230727093548.0cb0d6e8.mail@carsten-spiess.de>
-In-Reply-To: <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
-References: <20230726152235.249569-1-mail@carsten-spiess.de>
- <20230726152235.249569-2-mail@carsten-spiess.de>
- <bbf1aba4-48ce-289d-aaa9-bc861effaffd@roeck-us.net>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thu, 27 Jul 2023 04:03:11 -0400
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACDD30E8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 01:01:00 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-583b0637c04so8817227b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 01:01:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690444859; x=1691049659;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZKI/0muyQ68eiYvRFSQFrbKff4BpnpTfrENBxrIEOLA=;
+        b=aHhA9YPgWRKxbylwPMALx7IB8s38z3OEcqlkUiQWzu8xO0973jbyeeBgaAZ2Vb8DZY
+         srsCSo613Trz7XLPPl/9uhWrc5U3IDQcAbmENnoB2hh0AKtCV1jFZfYe65VLQvXRWp1/
+         WutACNnxhhsguPEYimDNrY4SQLOjvnxnpav5wlK4j7mCGxd2RBZ0hdZd17v17tBL5Ibw
+         jRe05CEJFiyTFUenIcezyn29Zxy2uSHHI5+NgJ10ADLK3UT63Tb67r7pTfpEq1AQsZzQ
+         RJaX0V0Zqs/q46H6vUrTnkQyxBSymTQ0LwlZOZw+9WYY9toFLKhQymFyC3kSFjUFPktS
+         fThA==
+X-Gm-Message-State: ABy/qLaZfGj7xUKruTVh+Hmr09j/QATTVE5rybwaMQ71Au25oaCNK7PS
+        EzwS3J8JO9eVOoF6MEfGKq7kgB4atsrB2g==
+X-Google-Smtp-Source: APBJJlHIx6/f0ib7rwqPbbBqiT9zOX25L5OHBD3pOWL8dtG0lH5jvLvWt4I2ENfrTMwPJuaikGw4Uw==
+X-Received: by 2002:a81:a088:0:b0:580:83fe:25cc with SMTP id x130-20020a81a088000000b0058083fe25ccmr2135281ywg.5.1690444859605;
+        Thu, 27 Jul 2023 01:00:59 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id f7-20020a0dc307000000b005772fc5912dsm277553ywd.91.2023.07.27.01.00.59
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 01:00:59 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5768a7e3adbso27314107b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 01:00:59 -0700 (PDT)
+X-Received: by 2002:a0d:cccb:0:b0:583:7564:49de with SMTP id
+ o194-20020a0dcccb000000b00583756449demr2321537ywd.3.1690444859017; Thu, 27
+ Jul 2023 01:00:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Lp+eURiMW8MUrBzpr8v_GGg";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690443444;f83c0e10;
-X-HE-SMSGID: 1qOvXT-0001KS-Ho
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <cover.1690382328.git.geert+renesas@glider.be> <d6ccbb7b7a73eb35f1e1a8d85adcf9f1f980b2c1.1690382328.git.geert+renesas@glider.be>
+ <TYBPR01MB53412530BDC2567E23EDDF00D801A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB53412530BDC2567E23EDDF00D801A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 27 Jul 2023 10:00:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWNzY3bF5abQUqcUKSNxNsTnwQFqnczfRQ8tsqmDjVwPg@mail.gmail.com>
+Message-ID: <CAMuHMdWNzY3bF5abQUqcUKSNxNsTnwQFqnczfRQ8tsqmDjVwPg@mail.gmail.com>
+Subject: Re: [PATCH/RFT 3/3] arm64: dts: renesas: spider: Add keyboard to test IRQ[0145]
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---Sig_/Lp+eURiMW8MUrBzpr8v_GGg
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Shimoda-san,
 
- On 7/26/23 18:19, Guenter Roeck wrote:
-> Please provide a register dump (using i2cdump) for this chip.=20
+On Thu, Jul 27, 2023 at 7:48 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Wednesday, July 26, 2023 11:45 PM
+> >
+> > Add an interrupt-controlled keyboard to test operation of the Interrupt
+> > Controller for External Devices (INTC-EX) on the Spider development
+> > board.
+> >
+> > Test procedure:
+> >   - Run "evtest" (select device event number "0"),
+> >   - Pull one of the following signals on the Spider Breakout Board low
+> >     to trigger the corresponding interrupt and keypress (key release is
+> >     automatic):
+> >       - Test point CP18 -> IRQ0 (KEY_0),
+> >       - Test point CP17 -> IRQ1 (KEY_1),
+> >       - CN37 pin 4 -> IRQ4 (KEY_4),
+> >       - CN37 pin 2 -> IRQ5 (KEY_5).
+> >
+> > GND is available on e.g. pin 8 of CN37 (MSIOF0 PIN HEADER).
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Not intended for upstream merge.
+>
+> Thank you for the patch! I got it.
+>
+> > I do not have physical access to a Spider development board.
+> > Thanks for testing!
+> >
+> > Note that this IRQ conflicts with operation of LED7, so do not apply the
+> > LED patch while testing.
+>
+> I also tested on my Spider board about IRQ4 and IRQ5.
+>
+> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>
+> # For the record. My environment is Spider ES1.2 board which has a switch board.
+> # Since the SW3 pin 7 of the switch board is low, we cannot use CN37.
+> # However, we can use the SW3 pin 7 instead.
 
-# i2cdump -y -r 0-9 1 0x40 w
-     0,8  1,9  2,a  3,b  4,c  5,d  6,e  7,f
-00: ff67 ca00 a25d c803 5006 0080 817f 00ff=20
-08: 0000 0000 =20
+Thanks for testing!
+I will convert this to a DTS overlay, and will add it to my
+topic/renesas-overlays
+branch.
 
-Please note that due to big vs.- little endian bytes are swapped,
-should be read as:
-00: 67ff 00ca 5da2 03c8 0650 8000 7f81 ff00
-08: 0000 0000 =20
+Gr{oetje,eeting}s,
 
-corresponding sensor values are about (not read at same time):
-in0:           1.99 V =20
-in1:          23.97 V =20
-power1:        6.10 W =20
-curr1:       248.00 mA=20
+                        Geert
 
-in0 should be read as mV
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Regards, Carsten
-
---Sig_/Lp+eURiMW8MUrBzpr8v_GGg
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCHlQACgkQM1JQzV9L
-KSzWMg/+Mp/CNQhmKivVvjjhWPjXYqNHF0t2T6dOh8hVJA6JaMfiGML0OmIFeLtj
-SmXBWHTi8ZE8OotBAx4yMIJPxnGa9pxCkvZ33WJsq9w4aUmVqymu1TbMcXkWuKPJ
-U+jGl7ZhSycI8r+wOjgm59hybz9KU+aDi8uibvFxXUo0PflIufO2ZbqTEPkmaYjc
-mUUOtkgcN/WbZ0CkG0Fdzj6lsCNzLRITHqOE7aTfa0ju8JJQgqSdxVSSFgN8/8gF
-Lsf3WgU7EOtBRarz0H/AW1Cp0nNYRQT+mnbqU544aUC+FC7BNh706ROIKiji6vE2
-Vsrn32o3cyYOK6xG2z/kJy3T3UAWHdMBgmpmB48spAdMjM3J2dRxP/cUNVAOUd24
-dEw40bPZ5qrvDTyGzdqCTqacZtBlnhLEjB8rq7zaLNMvJ0Ytb49B4npsLHQDi7c0
-e70FKnY6t5jMyEtPCQqCKM+WtJu2ac4E6S+T3LQSt9CVs4nY/qpz2g6hrXiqD55+
-tuYltPTVyimPlSOzw9Uxd3JGwPUdFSlFDJmb2D6pskCwHzSx1KRf8LmhrzA/AhNr
-trRFVGz9CIQjDfDu1+TMmnt/kTXuOqRZ8pLPlLlMH/S2G/V+6kF58LrmjovVguwy
-LcxnkEd+a9Eg5OLLc/csEBDNTLF5n8QXSkjEpJbBIyZUTLEYsrg=
-=RTpb
------END PGP SIGNATURE-----
-
---Sig_/Lp+eURiMW8MUrBzpr8v_GGg--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
