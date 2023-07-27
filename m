@@ -2,104 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36385764B35
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 10:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B013764D85
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 10:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233826AbjG0IOV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 04:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48764 "EHLO
+        id S234422AbjG0IgJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 04:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233818AbjG0IMX (ORCPT
+        with ESMTP id S234431AbjG0Ifw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 04:12:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06D4658A;
-        Thu, 27 Jul 2023 01:08:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 15D9E61D96;
-        Thu, 27 Jul 2023 08:07:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154E2C433C9;
-        Thu, 27 Jul 2023 08:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690445234;
-        bh=kEMX5vYmAK+1z5HfoJdExkrb1Pppilb2DBlJXxEWNAc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=N/uBNuy2WeU8HhMnrHUKVPbQolOoxTBdaarY5kQnlUYV1vDjrcCdkWiXeFb4JbIIh
-         RrFBo2yI4ChpO7AW/5Vy4vLPG2Mo/JGcgwryfIKV1F7vKl0p2x0s6+qHNOdCrApIjm
-         Ru6Z/Bj4Pbpkj0F85ts5pzR6lt4kgad4Qhm8fFtJrZ5kX3dQ0q1HrKas/FNBeIfjI8
-         D2b8IOwh9np2ryPHAX7rDyT6+WTUQlrvXAjkygs9V/QsnkQZkBFyfOl1s767jvcIQx
-         ismyg+MeD3MOPrCyM+YmhibPZMbdoAM7OHzeMlRjZRKRmQ4ei1p1dJmCoaswN9re4i
-         BhY8jg0uJnJAQ==
-Date:   Thu, 27 Jul 2023 09:07:09 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Thu, 27 Jul 2023 04:35:52 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EDD21E42;
+        Thu, 27 Jul 2023 01:19:17 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,234,1684767600"; 
+   d="scan'208";a="174688905"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Jul 2023 17:18:55 +0900
+Received: from localhost.localdomain (unknown [10.226.93.33])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 21F2541C9E93;
+        Thu, 27 Jul 2023 17:18:50 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: hwmon: add renesas,isl28022
-Message-ID: <20230727-prong-crimp-0c758681172c@spud>
-References: <20230726152235.249569-1-mail@carsten-spiess.de>
- <20230726152235.249569-3-mail@carsten-spiess.de>
- <f8fdc8d7-6ac5-5e20-10ef-7417d79c1b91@roeck-us.net>
- <20230727093528.594ce3a7.mail@carsten-spiess.de>
+        Magnus Damm <magnus.damm@gmail.com>, linux-iio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/5] Add RZ/G2UL MTU3a support
+Date:   Thu, 27 Jul 2023 09:18:43 +0100
+Message-Id: <20230727081848.100834-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OPtzLY3pv5H2w5QG"
-Content-Disposition: inline
-In-Reply-To: <20230727093528.594ce3a7.mail@carsten-spiess.de>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This patch series aims to add MTU3a support for RZ/G2UL SMARC EVK.
+Also it fixes overflow/underflow interrupt names.
 
---OPtzLY3pv5H2w5QG
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2->v3:
+ * Dropped patch#4, as it accepted for 6.5 fixes.
+ * Moved patch#2 to patch#1 as it is fixes patch.
+ * Added Rb tag from Geert for patch#1 and patch#3.
+ * Updated the link to lore for Closes tag for patch#2.
+ * Documented RZ/Five SoC as the same IP used in RZ/G2UL SoC.
 
-On Thu, Jul 27, 2023 at 09:35:28AM +0200, Carsten Spie=DF wrote:
+v1->v2:
+ * Added Ack tags from Conor Dooley for binding patches
+ * Updated commit description RZ/G2UL->RZ/{G2UL,Five} for patch#5.
+ * Fixed build error reported by kernel test robot by replacing
+   GIC_SPI x ->SOC_PERIPHERAL_IRQ(x) for patch#5.
 
-> On 7/26/23 18:14, Krzysztof Kozlowski wrote:
-> >> +  shunt-gain: =20
-> > 1. Missing vendor prefix (does not look like generic property)
-> > 2. -microvolt
-> > And then enum is for 40, 80, 160 and 320.
-> replaced with
->   renesas,shunt-range-milli-volts:
->     description: |
->       maximal shunt voltage range of 40mV, 80mV, 160mV or 320mV
->     $ref: /schemas/types.yaml#/definitions/uint32-array
->     default: 320
->     enum: [40, 80, 160, 320]
+Biju Das (5):
+  dt-bindings: timer: renesas,rz-mtu3: Fix overflow/underflow interrupt
+    names
+  dt-bindings: timer: renesas,rz-mtu3: Improve documentation
+  dt-bindings: timer: renesas,rz-mtu3: Document RZ/{G2UL,Five} SoCs
+  arm64: dts: renesas: r9a07g043: Add MTU3a node
+  arm64: dts: renesas: rzg2ul-smarc: Add support for enabling MTU3
 
-The point of using -microvolt is that it is a standard suffix:
-https://github.com/devicetree-org/dt-schema/blob/c1e73ebea9fc07f7d7848f3043=
-01f755f1278a67/dtschema/schemas/property-units.yaml#L101
+ .../bindings/timer/renesas,rz-mtu3.yaml       | 67 +++++++++---------
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    | 70 +++++++++++++++++++
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 11 +++
+ .../dts/renesas/rzg2ul-smarc-pinfunction.dtsi |  6 ++
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi | 13 ++++
+ 5 files changed, 134 insertions(+), 33 deletions(-)
 
---OPtzLY3pv5H2w5QG
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMIlrQAKCRB4tDGHoIJi
-0ldLAQDY89Fp4G5KjdiAN0mlbIPAAe8VYldm167TUVgvOTUW9QEAmtxt6mqt+AaN
-DKSnofC/QUzAU666DQGiCG7Uknrv+wA=
-=Oiex
------END PGP SIGNATURE-----
-
---OPtzLY3pv5H2w5QG--
