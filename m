@@ -2,76 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 042FC7643B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 04:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42E7C764534
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 07:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbjG0CKt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jul 2023 22:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
+        id S229820AbjG0FAZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 01:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjG0CKs (ORCPT
+        with ESMTP id S230385AbjG0FAX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jul 2023 22:10:48 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7059A19A0;
-        Wed, 26 Jul 2023 19:10:47 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RBDgs3YptzLntD;
-        Thu, 27 Jul 2023 10:08:09 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 27 Jul
- 2023 10:10:44 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <mikhail.ulyanov@cogentembedded.com>, <mchehab@kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] media: rcar_jpu: Remove redundant dev_err()
-Date:   Thu, 27 Jul 2023 10:11:28 +0000
-Message-ID: <20230727101128.2752153-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 27 Jul 2023 01:00:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC26426A6;
+        Wed, 26 Jul 2023 22:00:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 515B161D34;
+        Thu, 27 Jul 2023 05:00:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3E10C433D9;
+        Thu, 27 Jul 2023 05:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690434021;
+        bh=FFH1pgMbxUQkbi+W6prTc8hoMQARLRPlW3fqf2rZAL8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=hU+QuS93JAT1VG0BV4/1vkXRtYNlsPiMDnZMIJMNrUGBhTQwago6dU7nrctIYJNce
+         zOamyaphbsrFVLn9XRR3pNzthZgCf8KNTCPxgAg/K64xZAp+LCTwa1Fp1RUczsxAaC
+         PeRFdbKCAIHS/R8PsiZB6QYO/nw9y4S9rsRENzQJrQwsekdtTrviTXA/QRHm0XGUaa
+         nIcvTNRsHXsB+MEfm14XY0IPxfIV/r4aNysr65kT4uQQAjV8HoE92Yq37Lz5gbaY5n
+         hhgTYhPkdLaRoR3WZSIDv68Pv5h3xUMRByCrFFPCvpoO5NE1/gnSO+8bOHHgl6A9NU
+         GRoBBxGMRj+Xw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8BBE9C59A4C;
+        Thu, 27 Jul 2023 05:00:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] net: phy/pcs: Explicitly include correct DT includes
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169043402156.24382.3029642693015868159.git-patchwork-notify@kernel.org>
+Date:   Thu, 27 Jul 2023 05:00:21 +0000
+References: <20230724211905.805665-1-robh@kernel.org>
+In-Reply-To: <20230724211905.805665-1-robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     clement.leger@bootlin.com, andrew@lunn.ch, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, daniel@makrotopia.org,
+        dqfext@gmail.com, SkyLake.Huang@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is no need to call the dev_err() function directly to print a custom
-message when handling an error from platform_get_irq() function as
-it is going to display an appropriate error message in case of a failure.
+Hello:
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/media/platform/renesas/rcar_jpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 2b8cb50f54de..2c01bf14ccb4 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -1601,10 +1601,8 @@ static int jpu_probe(struct platform_device *pdev)
- 
- 	/* interrupt service routine registration */
- 	jpu->irq = ret = platform_get_irq(pdev, 0);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "cannot find IRQ\n");
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	ret = devm_request_irq(&pdev->dev, jpu->irq, jpu_irq_handler, 0,
- 			       dev_name(&pdev->dev), jpu);
+On Mon, 24 Jul 2023 15:19:05 -0600 you wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v2] net: phy/pcs: Explicitly include correct DT includes
+    https://git.kernel.org/netdev/net-next/c/ac3cb6de32b6
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
