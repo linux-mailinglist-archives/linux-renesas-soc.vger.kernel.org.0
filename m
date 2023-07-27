@@ -2,99 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E20765E43
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 23:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E858A76604D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jul 2023 01:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjG0VcG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 17:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55076 "EHLO
+        id S230128AbjG0XsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 19:48:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbjG0VcF (ORCPT
+        with ESMTP id S229448AbjG0XsY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 17:32:05 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB5D113;
-        Thu, 27 Jul 2023 14:32:03 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B14E81BF205;
-        Thu, 27 Jul 2023 21:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1690493521;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RVzGt1hU6/zJ2p8ESrItLga9WOYSY12aapmt+gJTTm0=;
-        b=KuzkthgvdjwJnivEU/aryJfGIVIwS2Jo2FGYznAjBe2XO2ObIJRvGb4lZ+5IDN1HoNpZYG
-        4od2IsUmCvD1rkxDQUX70EEy/OerDBhxZu3PYbTnWRsnA+Uh3PCr6Soiqs7oTND51Z5H12
-        vPxGYo5bgxbp54fa9pK//rRC9ZjhXRAtXs5LXD+g2zg8loPvxEOC0OU9LKtcey5kXGqFUV
-        3owWu3CEW9oVKY03yZ19bLiumKfiItmQPfrW7xy4+Zjs6amZuo4MDBNNBF0yaCOsre4eZ+
-        CZksNyGouFQz3JfaVim3BzM6WwJl4QqifmvRDrXEUYS0+aUG+hl2XEUkrWRj6g==
-Date:   Thu, 27 Jul 2023 23:31:51 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Eddie Huang <eddie.huang@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] rtc: Explicitly include correct DT includes
-Message-ID: <169049349537.641428.12895115995770744599.b4-ty@bootlin.com>
-References: <20230724205456.767430-1-robh@kernel.org>
+        Thu, 27 Jul 2023 19:48:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F58530F7;
+        Thu, 27 Jul 2023 16:48:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E749061EFF;
+        Thu, 27 Jul 2023 23:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB57C433C7;
+        Thu, 27 Jul 2023 23:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690501702;
+        bh=leAC5f+fPlZ/cfu7jAxbCYBzhzOHtZlQG/UH+1WwYJQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=k0s7B5clwMRIUnKXxzjuwBkCWS4MLUNGeaj8MCrix0Inaxm9GcXL01oJrC+TDOlTg
+         ArMX+warqSug5XXdNKHTZ+WX+q0fXx7DfyExGtR38N4NQkgnDQN334EWobNwkDFXzh
+         9lruDdJRfoyOwZBR3iYUL0anjcSSh/ouNhV9UhGYauq3idrDurIAb9ZJGOUDNezQ+h
+         TT2BJYT6OMZ4L+TjeYbUMLrDuNN8QjsnvgmKLIPThgDbfVxf5MZ9mL/SZXfVU8E+uG
+         R1SMBWAVNuHQNbUcS4otOrKg7FPdPx2r52OeUp59iL+dspB9gSnzatRN0Z0Mv+/yoZ
+         P4ezf3AdhlvcA==
+Date:   Thu, 27 Jul 2023 16:48:20 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Paolo Abeni <pabeni@redhat.com>, Zheng Wang <zyytlz.wz@163.com>,
+        <lee@kernel.org>, <linyunsheng@huawei.com>, <davem@davemloft.net>,
+        <edumazet@google.com>, <richardcochran@gmail.com>,
+        <p.zabel@pengutronix.de>, <geert+renesas@glider.be>,
+        <magnus.damm@gmail.com>, <yoshihiro.shimoda.uh@renesas.com>,
+        <biju.das.jz@bp.renesas.com>, <wsa+renesas@sang-engineering.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <hackerzheng666@gmail.com>,
+        <1395428693sheep@gmail.com>, <alex000young@gmail.com>
+Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
+Message-ID: <20230727164820.48c9e685@kernel.org>
+In-Reply-To: <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
+References: <20230725030026.1664873-1-zyytlz.wz@163.com>
+        <20230725201952.2f23bb3b@kernel.org>
+        <9cfa70cca3cb1dd20bb2cab70a213e5a4dd28f89.camel@redhat.com>
+        <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230724205456.767430-1-robh@kernel.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-On Mon, 24 Jul 2023 14:54:54 -0600, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Thu, 27 Jul 2023 21:48:41 +0300 Sergey Shtylyov wrote:
+> >> Still racy, the carrier can come back up after canceling the work.  
+> > 
+> > I must admit I don't see how/when this driver sets the carrier on ?!?  
 > 
-> [...]
+>    The phylib code does it for this MAC driver, see the call tree of
+> phy_link_change(), on e.g. https://elixir.bootlin.com/linux/v6.5-rc3/source/...
+> 
+> >> But whatever, this is a non-issue in the first place.  
+> > 
+> > Do you mean the UaF can't happen? I think that is real.   
+> 
+>    Looks possible to me, at least now... and anyway, shouldn't we clean up
+> after ourselves if we call schedule_work()?However my current impression is
+> that cancel_work_sync() should be called from ravb_close(), after calling
+> phy_{stop|disconnect}()...
+>
+> >> The fact that ravb_tx_timeout_work doesn't take any locks seems much
+> >> more suspicious.  
+> > 
+> > Indeed! But that should be a different patch, right?  
+> 
+>    Yes.
+> 
+> > Waiting a little more for feedback from renesas.  
+> 
+>    Renesas historically hasn't shown much interest to reviewing the sh_eth/ravb
+> driver patches, so I took that task upon myself. I also happen to be a nominal
+> author of this driver... :-)
 
-Applied, thanks!
-
-[1/1] rtc: Explicitly include correct DT includes
-      commit: 48144c2890503b919bc8ee128b63e37008d69250
-
-Best regards,
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Simplest fix I can think of is to take a reference on the netdev before
+scheduling the work, and then check if it's still registered in the work
+itself. Wrap the timeout work in rtnl_lock() to avoid any races there.
