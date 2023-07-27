@@ -2,38 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BC0765C76
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 21:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD26765CB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jul 2023 21:58:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbjG0TwC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jul 2023 15:52:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33974 "EHLO
+        id S231701AbjG0T6R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jul 2023 15:58:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjG0TwB (ORCPT
+        with ESMTP id S232845AbjG0T6C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jul 2023 15:52:01 -0400
+        Thu, 27 Jul 2023 15:58:02 -0400
 Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661B22D45
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 12:52:00 -0700 (PDT)
-Received: from [2001:a61:6209:7f40:c80a:ff:fe00:4098] (helo=cs-office3.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1qP71i-00027Z-TD; Thu, 27 Jul 2023 21:51:58 +0200
-Date:   Thu, 27 Jul 2023 21:51:51 +0200
-From:   Carsten =?UTF-8?B?U3BpZcOf?= <mail@carsten-spiess.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4904B3C16
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jul 2023 12:57:07 -0700 (PDT)
+Received: from [2001:a61:6209:7f01:c80a:ff:fe00:19d] (helo=cs-wrt.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpa
+        id 1qP75a-0002zl-Ov; Thu, 27 Jul 2023 21:55:58 +0200
+From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/2] hwmon: (isl28022) new driver for ISL28022 power
- monitor
-Message-ID: <20230727215057.1976357b.mail@carsten-spiess.de>
-In-Reply-To: <20230727194813.2245116-1-mail@carsten-spiess.de>
-References: <20230727194813.2245116-1-mail@carsten-spiess.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Cc:     =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+Date:   Thu, 27 Jul 2023 21:55:39 +0200
+Message-Id: <20230727195541.2245289-1-mail@carsten-spiess.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/XKNlUmE4NO9fEZx=YSRnzkv";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690487520;d5034fd6;
-X-HE-SMSGID: 1qP71i-00027Z-TD
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690487827;358a1f23;
+X-HE-SMSGID: 1qP75a-0002zl-Ov
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -43,33 +41,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---Sig_/XKNlUmE4NO9fEZx=YSRnzkv
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Driver for Renesas ISL28022 power monitor chip.
+Found e.g. on Ubiquiti Edgerouter ER-6P
 
-sorry, forgot to add the v2 to [Patch ], resending it again.
+v1: created
+v2: properties reworked
+v2: calculations fixed
+v2: shunt voltage input moved to debugfs
+v2: documentation and devicetree schema reworked
 
-Regards, Carsten
+Carsten Spieß (2):
+  hwmon: (isl28022) new driver for ISL28022 power monitor
+  dt-bindings: hwmon: add renesas,isl28022
 
---Sig_/XKNlUmE4NO9fEZx=YSRnzkv
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
+ .../bindings/hwmon/renesas,isl28022.yaml      |  65 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/isl28022.rst              |  63 +++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/isl28022.c                      | 496 ++++++++++++++++++
+ 7 files changed, 645 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+ create mode 100644 Documentation/hwmon/isl28022.rst
+ create mode 100644 drivers/hwmon/isl28022.c
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.34.1
 
-iQIzBAEBCgAdFiEEWM+MlUpz/bWsZllTM1JQzV9LKSwFAmTCytcACgkQM1JQzV9L
-KSxw2w//aM0dtPqEgjaI93tE5N8uOrFbZhvLXt9gpUHYUrsQa3xArbvsXy1tSrp7
-xIUVvCjiYnRE/NduBDYAWZgZXDu3Lo+/UIQQPqwWCf0b3xTTnZvngBTKrB3j9TUQ
-sBNBTCxsOD2XJynQ3GnMlB80gZKQTaTiiY7dHqhcsC5VHoy6r4//pCOcxcvfBt/1
-+oPXDpt05kCaHuxyZdHEE8w/qkTLSbKFE2nAUp0Zf8w+WnMVVHfwixhLxUVOz7La
-+P9Ls2+KHLtcejeLlM8hRTe1dgiLQlWj+vfQvRM4du3gB11HF8ES5H1svPPHRA2/
-UPLOL9l26kpZQKd23Gt5Z1AeonrV1LMxEuIcFO9J0JC7oXbV3ntqS7ohL6wHRrhO
-/a2+cwOx3Jqw6CcU93eec+MA1P1l3pc4E4KdE0N3JYHVxx+tnvh5FEx/ubS61C/0
-trn3Wr0wOoLBEiHF1972ddrus+QpjguXbmyHwGnjEnNXebshSskPEq08pW1z+RY0
-2yXTCUMaKK7fQMeApiuVmjigUCSlLyNjghEvjq7KQK01FpgbvmN2Xs/RuaEZqq6V
-/L8qr/1VLMdij9WPw3Vmanu/B+pVlQ/NO1VmqwnDQZbXxppi10AUFjuEG/Uk5WvC
-fgCmFrZMpTSr7HpfYXPNXSV853hRnn4QOmiEoyElmpsq+oOTQec=
-=JK9S
------END PGP SIGNATURE-----
-
---Sig_/XKNlUmE4NO9fEZx=YSRnzkv--
