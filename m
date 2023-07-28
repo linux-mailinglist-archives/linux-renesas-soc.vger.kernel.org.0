@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45039766C38
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jul 2023 13:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED63766C3A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jul 2023 13:57:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234529AbjG1L5M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jul 2023 07:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
+        id S234138AbjG1L5N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jul 2023 07:57:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233794AbjG1L5L (ORCPT
+        with ESMTP id S231848AbjG1L5M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jul 2023 07:57:11 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66960FA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jul 2023 04:57:09 -0700 (PDT)
+        Fri, 28 Jul 2023 07:57:12 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8FDEC
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jul 2023 04:57:11 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:12b0:7b7e:d1ff:7873])
-        by laurent.telenet-ops.be with bizsmtp
-        id Sbx62A0020d1nm801bx66X; Fri, 28 Jul 2023 13:57:07 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id Sbx62A0010d1nm806bx63U; Fri, 28 Jul 2023 13:57:09 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qPM5U-002mIg-Mr;
+        id 1qPM5U-002mIh-Mq;
         Fri, 28 Jul 2023 13:57:05 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qPM5h-00AqNg-QH;
+        id 1qPM5h-00AqNj-RN;
         Fri, 28 Jul 2023 13:57:05 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
@@ -33,10 +33,12 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 0/3] Renesas SoC updates for v6.6
-Date:   Fri, 28 Jul 2023 13:56:59 +0200
-Message-Id: <cover.1690545139.git.geert+renesas@glider.be>
+Subject: [GIT PULL 1/3] Renesas ARM defconfig updates for v6.6
+Date:   Fri, 28 Jul 2023 13:57:00 +0200
+Message-Id: <cover.1690545141.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1690545139.git.geert+renesas@glider.be>
+References: <cover.1690545139.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
@@ -48,42 +50,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi SoC folks,
+The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
 
-This is my first pull request for the inclusion of Renesas SoC updates
-for v6.5.
+  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
 
-It consists of 3 parts:
+are available in the Git repository at:
 
-  [GIT PULL 1/3] Renesas ARM defconfig updates for v6.6
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v6.6-tag1
 
-    - Enable CSI driver support for Renesas RZ/V2M based platforms,
-    - Enable MTU3a PWM and RAA215300 PMIC/RTC driver support, as used on
-      Renesas RZ/{G2L,G2LC,G2UL,V2L} SMARC EVKs.
+for you to fetch changes up to 0bfe5475f6b9fc766aa1fabb0a90c88b882c2f70:
 
-  [GIT PULL 2/3] Renesas ARM SoC updates for v6.6
+  arm64: defconfig: Enable PMIC RAA215300 and RTC ISL 1208 configs (2023-07-10 09:29:21 +0200)
 
-    -   Drop unused OF includes.
+----------------------------------------------------------------
+Renesas ARM defconfig updates for v6.6
 
-  [GIT PULL 3/3] Renesas DTS updates for v6.6
+  - Enable CSI driver support for Renesas RZ/V2M based platforms,
+  - Enable MTU3a PWM and RAA215300 PMIC/RTC driver support, as used on
+    Renesas RZ/{G2L,G2LC,G2UL,V2L} SMARC EVKs.
 
-    - Add Clocked Serial Interface (CSI) support for the RZ/V2M SoC,
-    - Add PMIC, RTC, and PWM support for the RZ/G2L, RZ/G2LC, and RZ/V2L
-      SMARC EVK development boards,
-    - Add PWM (MTU3a) support for the RZ/G2UL and RZ/Five SoCs,
-    - Add External interrupt (INTC-EX) support for the R-Car S4-8 SoC,
-    - Add LED support for the Spider development board,
-    - Miscellaneous fixes and improvements.
+----------------------------------------------------------------
+Biju Das (2):
+      arm64: defconfig: Enable Renesas MTU3a PWM config
+      arm64: defconfig: Enable PMIC RAA215300 and RTC ISL 1208 configs
 
-Thanks for pulling!
+Fabrizio Castro (1):
+      arm64: defconfig: Enable Renesas RZ/V2M CSI driver
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+ arch/arm64/configs/defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
