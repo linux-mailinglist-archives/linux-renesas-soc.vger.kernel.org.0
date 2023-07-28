@@ -2,93 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ACB0766560
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jul 2023 09:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48DB2766568
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jul 2023 09:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233212AbjG1HbI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jul 2023 03:31:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58928 "EHLO
+        id S233546AbjG1HeI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jul 2023 03:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231978AbjG1HbG (ORCPT
+        with ESMTP id S231910AbjG1HeH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jul 2023 03:31:06 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AC22728;
-        Fri, 28 Jul 2023 00:31:05 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99454855de1so240321866b.2;
-        Fri, 28 Jul 2023 00:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690529464; x=1691134264;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NFaMKzaM38EwIrtZmz3qhYzztZrvQsEU1lTjN4MApUc=;
-        b=bUOMc9gQZmrZpWF5Lb7Tn5mLgPQPNGQwr4z27vKuOSbXddvcJxvCCTp8gJ2TO1ah5L
-         AW4H4oy9UY7SskleUWfDdZxT8iqWzv9iAl0iZXKG2JRUwo+0IjFpoMdEm0u/VkbePFiY
-         hlRqVuX44fEDqxcgrQrCpadY7r7bJze1oJBgzC9WRNzvP3B0XoHCRGGVQJJqLS5baWF0
-         n+NyKl41Ha9yv8d4ymJuBZXETZpVL0dGJrUAm1QHIu8cIus82MIg+DKhkSIK6lGs9aCK
-         IGBXaVRRygKDKCQF7+0A/57ZvPwvefhuRcAZtAZxbe+hSPnz4skzv3D6IA4oWmJQvBTm
-         5EzQ==
+        Fri, 28 Jul 2023 03:34:07 -0400
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E7EB6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jul 2023 00:34:06 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-583f837054eso19307587b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jul 2023 00:34:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690529464; x=1691134264;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1690529645; x=1691134445;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NFaMKzaM38EwIrtZmz3qhYzztZrvQsEU1lTjN4MApUc=;
-        b=VMHr3Uu+gxqQ3EAE97eqcKKYbM14YLwcCHa/MWu0Sjsz9QSjEgNVdx7Y+CPj3r/Fb8
-         s81nwNDm/TeRG0RFLCj1QVSa5mgacOWp/rKQBU2Yu1XFrTenuyMmbzQljkz86wPH7xr+
-         /OPTdLsGfVI2fRKWYYJA3QNzpsKsAwSoGxwnmET312UHJT/xec/k7cZsO1lO4BjtrUUN
-         5uDLSvZnQcFj85cRAJ12KVHF9955z/H7jz1vZ7DVqFGAe6AX/uwToOELigRUtc3q3kz6
-         xS2kaSiijYLvOiy/tbVbymhwSOOKdMAXIZEbVKOZVbB5HhBUiva2wSUDYmSEhjdJN/+g
-         qgkg==
-X-Gm-Message-State: ABy/qLZ7N+iSwD8geIjD3EytHo19q399jCp8h8RM3i+O0Zo7G4Ldn0CM
-        LnVB8pBvRoUG/MIfNuQwX9o=
-X-Google-Smtp-Source: APBJJlFnIS6gg6OHXQKb9YoOntwrFo14c4Sljtmuxwi0mzgtQcGgUTg9rcu4DOoeWZWCxX4jrEbJZA==
-X-Received: by 2002:a17:907:7759:b0:99b:c949:5ef9 with SMTP id kx25-20020a170907775900b0099bc9495ef9mr1308608ejc.11.1690529463543;
-        Fri, 28 Jul 2023 00:31:03 -0700 (PDT)
-Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id si15-20020a170906cecf00b00992e265495csm1732004ejb.212.2023.07.28.00.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 00:31:03 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] pwm: rz-mtu3: Fix build warning 'num_channel_ios' not described
-Date:   Fri, 28 Jul 2023 09:31:00 +0200
-Message-ID: <169052945393.3512110.17989354046392764890.b4-ty@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230725135921.125765-1-biju.das.jz@bp.renesas.com>
-References: <20230725135921.125765-1-biju.das.jz@bp.renesas.com>
+        bh=LjZ+2lMyWd1yujiMboXAmmUAYWYVQiLkKfCWB6zgCK8=;
+        b=WFFdAoazJX2VTnoZSQyDdNQLsg7nNFK9GXLrpfk7jmxz1UOeiEowlzmZiWF3jYxepk
+         Ov6cB1vMlqPXoPZkC7fl184Fbp8HB3xRRihk3pyFeK5yIFT6L+x41fkRTFJ+Lx5DRadC
+         1ojNdGbJjHLXV87BM/UPfjVqYDNucrZLJ04P/tG3oos4ATUOtDdnmDY8sbSWIkZyfDbh
+         1eQ/wlgk6ZRibQKw30SNjwZvkCeYAMHIVHNBDX6OtzUtlf7J7+fbFP5KKSkoeOrTHnfu
+         CyCjpx8GIrSC8e69ap91NbPpxhPMKVUqcxQ9zPAJhsGnKo9uhkqvSHVMRGmv81aCLfQO
+         xnWw==
+X-Gm-Message-State: ABy/qLYX7j6v+DnqTxi0JbvOw40eK9q5rOTKE7HGqsnhD2J1zRYDH8Jb
+        q1a6/mcSBZMoX4QcieL8qrU3ZIxHYES/lQ==
+X-Google-Smtp-Source: APBJJlFY/HPSxBcU9W9LUJa0EVWFjV8b1ye18j963H9x1a8jPQFth9Ic+zv6A2bhLYtNrAKaJQyc8w==
+X-Received: by 2002:a0d:d443:0:b0:57a:8ecb:11ad with SMTP id w64-20020a0dd443000000b0057a8ecb11admr1161580ywd.43.1690529644896;
+        Fri, 28 Jul 2023 00:34:04 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id v186-20020a0dd3c3000000b0055a373a7e5asm908725ywd.131.2023.07.28.00.34.04
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 00:34:04 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-cfd4ea89978so1627716276.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jul 2023 00:34:04 -0700 (PDT)
+X-Received: by 2002:a25:514:0:b0:d06:f0ab:e17b with SMTP id
+ 20-20020a250514000000b00d06f0abe17bmr984545ybf.55.1690529644412; Fri, 28 Jul
+ 2023 00:34:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230728014659.411751-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230728014659.411751-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 28 Jul 2023 09:33:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXzWE7NrtPi0hW_APo+Dg-skDMeyAEjVxmUXy9M0jKn_Q@mail.gmail.com>
+Message-ID: <CAMuHMdXzWE7NrtPi0hW_APo+Dg-skDMeyAEjVxmUXy9M0jKn_Q@mail.gmail.com>
+Subject: Re: [PATCH v4] iommu/ipmmu-vmsa: Allow PCIe devices
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+        iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Jul 28, 2023 at 4:40 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> IPMMU hardware on R-Car Gen3 and RZ/G2 is simple. Each bus-master
+> device like eMMC host and PCIe controllers has a micro-TLB of
+> The IPMMU, and after enabled it, all transactions of the device are
+> under the IPMMU.
+>
+>  eMMC host ---(micro-TLB of eMMC)--- IPMMU cache --- IPMMU main
+>  PCIe --------(micro-TLB of PCIe)--- IPMMU cache --- IPMMU main
+>
+> Now this IPMMU driver allows eMMC host, and it is safe to use
+> the IPMMU. So, we can assume that it is safe to use the IPMMU
+> from PCIe devices too, because all PCIe devices transactions will
+> go to the micro-TLB of PCIe. So, add a new condition whether
+> the device is a PCIe device or not in the ipmmu_device_is_allowed()
+> which will be called if the PCIe host controller has iommu-map
+> property.
+>
+> This can improve CPU load because the PCIe controllers only have
+> a capability for lower 32-bit memory area so that this can avoid
+> using swiotlb.
+>
+> Note that IPMMU on R-Car Gen4 is different than R-Car Gen3 and
+> RZ/G2's one, especially OS-ID. But, for now, the IPMMU driver
+> takes care of OS-ID 0 only. In other words, all PCIe devices will
+> go to the micro-TLB of PCIe.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+> Changes from v3:
+> https://lore.kernel.org/all/20230529063928.1030014-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Rebase the latest iommu/next branch.
 
-On Tue, 25 Jul 2023 14:59:21 +0100, Biju Das wrote:
-> Fix the below build warning:
-> warning: Function parameter or member 'num_channel_ios' not described
-> in 'rz_mtu3_channel_io_map'
-> 
-> 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Applied, thanks!
+Gr{oetje,eeting}s,
 
-[1/1] pwm: rz-mtu3: Fix build warning 'num_channel_ios' not described
-      commit: bdebe27e3dc22c11c72b0d1ef4ed30355f154e58
+                        Geert
 
-Best regards,
 -- 
-Thierry Reding <thierry.reding@gmail.com>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
