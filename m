@@ -2,56 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AFAF76802F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jul 2023 16:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25265768060
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jul 2023 17:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231778AbjG2O5M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 29 Jul 2023 10:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36520 "EHLO
+        id S231197AbjG2PcG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 29 Jul 2023 11:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230233AbjG2O5M (ORCPT
+        with ESMTP id S230403AbjG2PcG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 29 Jul 2023 10:57:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422FA3A8F;
-        Sat, 29 Jul 2023 07:57:07 -0700 (PDT)
+        Sat, 29 Jul 2023 11:32:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6762D71;
+        Sat, 29 Jul 2023 08:32:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF5C860C5A;
-        Sat, 29 Jul 2023 14:57:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FB27C433C7;
-        Sat, 29 Jul 2023 14:57:04 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AB7D60C74;
+        Sat, 29 Jul 2023 15:32:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B561C433C8;
+        Sat, 29 Jul 2023 15:32:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690642626;
-        bh=h7trpoW75HkJCrtrchp5jezD0/xvJY/0b1ncC+DS7rw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XWg/De2GFB+uVcDpatwWXCQQaIONO9qHN1lf8R88VvIPI3wyvxEM2rrrhvO265gK6
-         kSghg5cOIqBSCpLHj0uwu4C3WUalFDoIbzDix2VBL3ZivvamUr9GL9yjPzIfMa3ywJ
-         XUHlBZIJovT2GBaTZEN+Vu7o9+IX1PIE6dCRikss/cQZAoTlGxVDLMXUzph4pJdVPX
-         COlAVE+MaOqaTBmaPf8oQUBak3xGLRP57n9wmNY5gXhrH6nHYhJULFosPkHNZ2nDwX
-         mDCxZbYKR7CUOHByZ94bDziP1UmTPmQ+/irJdQSytQC+pI0b0AKKLf8eTo/fDg/rvf
-         aztq/eiX6dmSA==
-Date:   Sat, 29 Jul 2023 15:57:10 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Peter Rosin <peda@axentia.se>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 RESEND] iio: potentiometer: mcp4531: Use
- i2c_get_match_data()
-Message-ID: <20230729155710.1ecdf690@jic23-huawei>
-In-Reply-To: <20230723102743.102284-1-biju.das.jz@bp.renesas.com>
-References: <20230723102743.102284-1-biju.das.jz@bp.renesas.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        s=k20201202; t=1690644723;
+        bh=arfJjyoj6bnNUk+Ht4kjfA6xcBR5noSAdP8ZO3gscJ8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Us2BtoP8txnTyyPyHwIip329r1qowNU9zbHkrYzoOpNyMK3BtCffb1gOO6sSEU4CB
+         9eJzSQxy+kSEm65Yw2gicWP2pvmqTHcaXvIdh8HMTEeAzc1Y6lF0VbcwK7DHkMigSJ
+         ZqWJGFWPdpKIqx7DFdvsrbf+vndkded0ZMXLHMTAq1pSLeLLmnvZIL8FrvlSNuhKQX
+         IseoWyrplGS3dTjUT/XdB+MKFpHmy3vTXF4y9j7NF1UFfCfR/dTxhj2WV9DQK06QjO
+         J++k5bZs8Om6iAw8Bxb7YRJ9iLiw6j/u8UPZsn0Ju9kbyrciqZhnIOQNi61FsC10n6
+         b5dGfVpTFZeFA==
+Date:   Sat, 29 Jul 2023 10:32:01 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Damien Le Moal <dlemoal@kernel.org>
+Cc:     Serge Semin <fancer.lancer@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, kishon@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Minghuan Lian <minghuan.Lian@nxp.com>,
+        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+        Srikanth Thokala <srikanth.thokala@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v18 02/20] PCI: Rename PCI_EPC_IRQ_LEGACY to
+ PCI_EPC_IRQ_INTX
+Message-ID: <20230729153201.GA852521@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dea62385-7f3a-9396-dcec-4a743bda0fca@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,196 +82,97 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 23 Jul 2023 11:27:43 +0100
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
-
-> Replace device_get_match_data() and i2c_match_id() by i2c_get_match
-> _data() by making similar I2C and DT-based matching table.
+On Sat, Jul 29, 2023 at 10:58:46AM +0900, Damien Le Moal wrote:
+> On 7/29/23 10:55, Damien Le Moal wrote:
+> > On 7/29/23 10:35, Serge Semin wrote:
+> >> On Mon, Jul 24, 2023 at 01:02:11PM +0530, Manivannan Sadhasivam wrote:
+> >>> On Fri, Jul 21, 2023 at 05:10:27PM +0900, Damien Le Moal wrote:
+> >>>> On 7/21/23 16:44, Yoshihiro Shimoda wrote:
+> >>>>> Using "INTx" instead of "legacy" is more specific. So, rename
+> >>>>> PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX.
+> >>>>>
+> >>>>> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
+> >>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> >>>>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> >>>>> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com> # ARTPEC
+> >>>>> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> >>>>
+> >>
+> >>>> I would rather drop completely the PCI_EPC_IRQ_XXX enum and simply use the
+> >>>> PCI_IRQ_XXX macros used everywhere. Less definitions :)
+> >>>>
+> >>>> See attached patch that I have in my queue (about to send that).
+> >>>>
+> >>>
+> >>> It looks better! This patch should be dropped.
+> >>
+> >> Back then Bjorn specifically asked to change the names suffix in a
+> >> preparation patch before adding the INTx support to the DW PCIe core
+> >> driver (see the Sb tag in the patch log). Damien, seeing you cleanup
+> >> the names anyway what about fixing the macro suffix too: INTx instead
+> >> of LEGACY)?
+> > 
+> > Sure, I can do that. That is going to be a gigantic patch though given that
+> > PCI_IRQ_LEGACY is used well beyond the ep/pcie controller drivers.
+> > While I agree it would be nice to do, not sure it is worth such code churn.
+> > 
+> >> Mani, Damien, what do you suggest to Yoshihiro to do with the
+> >> LEGACY/INTx names in the following up patches of this series?
+> > 
+> > If everyone is OK with the patch I proposed (the PCI_IRQ_LEGACY -> PCI_IRQ_INTx
+> > change can go on top), then I can rebase it and send it next week (the remaining
+> > of my EP cleanup series needs some more testing & rebasing). Yoshihiro can
+> > either include it in his series or rebase on it if the patch is added to
+> > pci-next quickly.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Applied.
-
-Whilst I think these are good in general, I don't particularly want to
-see blanket conversions of drivers that do it differently (unless they
-are buggy ;)  I don't mind such stuff that I'd consider a small cleanup
-but it does take review time so I'll push them behind other series with
-a greater benefit.
-
-Thanks,
-
-Jonathan
-
-> ---
-> v2->v3:
->  * Added .name field to MCP4531_ID_TABLE macro
->  * Replaced MCP4531_ID_TABLE(name, cfg)->MCP4531_ID_TABLE(_name, cfg)
-> v1->v2:
->  * Added similar similar I2C and DT-based matching table.
->  * Fixed typo i2c_get_match_data(dev)->i2c_get_match_data(client).
->  * Dropped error check as all tables have data pointers.
+> Note that we could start by simply defining an alias:
 > 
-> Note:
->  This patch is only compile tested.
-> ---
->  drivers/iio/potentiometer/mcp4531.c | 139 ++++++++++++++--------------
->  1 file changed, 71 insertions(+), 68 deletions(-)
+> #define PCI_IRQ_INTx	PCI_IRQ_LEGACY
 > 
-> diff --git a/drivers/iio/potentiometer/mcp4531.c b/drivers/iio/potentiometer/mcp4531.c
-> index c513c00c8243..f28880ebd758 100644
-> --- a/drivers/iio/potentiometer/mcp4531.c
-> +++ b/drivers/iio/potentiometer/mcp4531.c
-> @@ -206,72 +206,77 @@ static const struct iio_info mcp4531_info = {
->  	.write_raw = mcp4531_write_raw,
->  };
->  
-> +#define MCP4531_ID_TABLE(_name, cfg) {				\
-> +	.name = _name,						\
-> +	.driver_data = (kernel_ulong_t)&mcp4531_cfg[cfg],	\
-> +}
-> +
->  static const struct i2c_device_id mcp4531_id[] = {
-> -	{ "mcp4531-502", MCP453x_502 },
-> -	{ "mcp4531-103", MCP453x_103 },
-> -	{ "mcp4531-503", MCP453x_503 },
-> -	{ "mcp4531-104", MCP453x_104 },
-> -	{ "mcp4532-502", MCP453x_502 },
-> -	{ "mcp4532-103", MCP453x_103 },
-> -	{ "mcp4532-503", MCP453x_503 },
-> -	{ "mcp4532-104", MCP453x_104 },
-> -	{ "mcp4541-502", MCP454x_502 },
-> -	{ "mcp4541-103", MCP454x_103 },
-> -	{ "mcp4541-503", MCP454x_503 },
-> -	{ "mcp4541-104", MCP454x_104 },
-> -	{ "mcp4542-502", MCP454x_502 },
-> -	{ "mcp4542-103", MCP454x_103 },
-> -	{ "mcp4542-503", MCP454x_503 },
-> -	{ "mcp4542-104", MCP454x_104 },
-> -	{ "mcp4551-502", MCP455x_502 },
-> -	{ "mcp4551-103", MCP455x_103 },
-> -	{ "mcp4551-503", MCP455x_503 },
-> -	{ "mcp4551-104", MCP455x_104 },
-> -	{ "mcp4552-502", MCP455x_502 },
-> -	{ "mcp4552-103", MCP455x_103 },
-> -	{ "mcp4552-503", MCP455x_503 },
-> -	{ "mcp4552-104", MCP455x_104 },
-> -	{ "mcp4561-502", MCP456x_502 },
-> -	{ "mcp4561-103", MCP456x_103 },
-> -	{ "mcp4561-503", MCP456x_503 },
-> -	{ "mcp4561-104", MCP456x_104 },
-> -	{ "mcp4562-502", MCP456x_502 },
-> -	{ "mcp4562-103", MCP456x_103 },
-> -	{ "mcp4562-503", MCP456x_503 },
-> -	{ "mcp4562-104", MCP456x_104 },
-> -	{ "mcp4631-502", MCP463x_502 },
-> -	{ "mcp4631-103", MCP463x_103 },
-> -	{ "mcp4631-503", MCP463x_503 },
-> -	{ "mcp4631-104", MCP463x_104 },
-> -	{ "mcp4632-502", MCP463x_502 },
-> -	{ "mcp4632-103", MCP463x_103 },
-> -	{ "mcp4632-503", MCP463x_503 },
-> -	{ "mcp4632-104", MCP463x_104 },
-> -	{ "mcp4641-502", MCP464x_502 },
-> -	{ "mcp4641-103", MCP464x_103 },
-> -	{ "mcp4641-503", MCP464x_503 },
-> -	{ "mcp4641-104", MCP464x_104 },
-> -	{ "mcp4642-502", MCP464x_502 },
-> -	{ "mcp4642-103", MCP464x_103 },
-> -	{ "mcp4642-503", MCP464x_503 },
-> -	{ "mcp4642-104", MCP464x_104 },
-> -	{ "mcp4651-502", MCP465x_502 },
-> -	{ "mcp4651-103", MCP465x_103 },
-> -	{ "mcp4651-503", MCP465x_503 },
-> -	{ "mcp4651-104", MCP465x_104 },
-> -	{ "mcp4652-502", MCP465x_502 },
-> -	{ "mcp4652-103", MCP465x_103 },
-> -	{ "mcp4652-503", MCP465x_503 },
-> -	{ "mcp4652-104", MCP465x_104 },
-> -	{ "mcp4661-502", MCP466x_502 },
-> -	{ "mcp4661-103", MCP466x_103 },
-> -	{ "mcp4661-503", MCP466x_503 },
-> -	{ "mcp4661-104", MCP466x_104 },
-> -	{ "mcp4662-502", MCP466x_502 },
-> -	{ "mcp4662-103", MCP466x_103 },
-> -	{ "mcp4662-503", MCP466x_503 },
-> -	{ "mcp4662-104", MCP466x_104 },
-> -	{}
-> +	MCP4531_ID_TABLE("mcp4531-502", MCP453x_502),
-> +	MCP4531_ID_TABLE("mcp4531-103", MCP453x_103),
-> +	MCP4531_ID_TABLE("mcp4531-503", MCP453x_503),
-> +	MCP4531_ID_TABLE("mcp4531-104", MCP453x_104),
-> +	MCP4531_ID_TABLE("mcp4532-502", MCP453x_502),
-> +	MCP4531_ID_TABLE("mcp4532-103", MCP453x_103),
-> +	MCP4531_ID_TABLE("mcp4532-503", MCP453x_503),
-> +	MCP4531_ID_TABLE("mcp4532-104", MCP453x_104),
-> +	MCP4531_ID_TABLE("mcp4541-502", MCP454x_502),
-> +	MCP4531_ID_TABLE("mcp4541-103", MCP454x_103),
-> +	MCP4531_ID_TABLE("mcp4541-503", MCP454x_503),
-> +	MCP4531_ID_TABLE("mcp4541-104", MCP454x_104),
-> +	MCP4531_ID_TABLE("mcp4542-502", MCP454x_502),
-> +	MCP4531_ID_TABLE("mcp4542-103", MCP454x_103),
-> +	MCP4531_ID_TABLE("mcp4542-503", MCP454x_503),
-> +	MCP4531_ID_TABLE("mcp4542-104", MCP454x_104),
-> +	MCP4531_ID_TABLE("mcp4551-502", MCP455x_502),
-> +	MCP4531_ID_TABLE("mcp4551-103", MCP455x_103),
-> +	MCP4531_ID_TABLE("mcp4551-503", MCP455x_503),
-> +	MCP4531_ID_TABLE("mcp4551-104", MCP455x_104),
-> +	MCP4531_ID_TABLE("mcp4552-502", MCP455x_502),
-> +	MCP4531_ID_TABLE("mcp4552-103", MCP455x_103),
-> +	MCP4531_ID_TABLE("mcp4552-503", MCP455x_503),
-> +	MCP4531_ID_TABLE("mcp4552-104", MCP455x_104),
-> +	MCP4531_ID_TABLE("mcp4561-502", MCP456x_502),
-> +	MCP4531_ID_TABLE("mcp4561-103", MCP456x_103),
-> +	MCP4531_ID_TABLE("mcp4561-503", MCP456x_503),
-> +	MCP4531_ID_TABLE("mcp4561-104", MCP456x_104),
-> +	MCP4531_ID_TABLE("mcp4562-502", MCP456x_502),
-> +	MCP4531_ID_TABLE("mcp4562-103", MCP456x_103),
-> +	MCP4531_ID_TABLE("mcp4562-503", MCP456x_503),
-> +	MCP4531_ID_TABLE("mcp4562-104", MCP456x_104),
-> +	MCP4531_ID_TABLE("mcp4631-502", MCP463x_502),
-> +	MCP4531_ID_TABLE("mcp4631-103", MCP463x_103),
-> +	MCP4531_ID_TABLE("mcp4631-503", MCP463x_503),
-> +	MCP4531_ID_TABLE("mcp4631-104", MCP463x_104),
-> +	MCP4531_ID_TABLE("mcp4632-502", MCP463x_502),
-> +	MCP4531_ID_TABLE("mcp4632-103", MCP463x_103),
-> +	MCP4531_ID_TABLE("mcp4632-503", MCP463x_503),
-> +	MCP4531_ID_TABLE("mcp4632-104", MCP463x_104),
-> +	MCP4531_ID_TABLE("mcp4641-502", MCP464x_502),
-> +	MCP4531_ID_TABLE("mcp4641-103", MCP464x_103),
-> +	MCP4531_ID_TABLE("mcp4641-503", MCP464x_503),
-> +	MCP4531_ID_TABLE("mcp4641-104", MCP464x_104),
-> +	MCP4531_ID_TABLE("mcp4642-502", MCP464x_502),
-> +	MCP4531_ID_TABLE("mcp4642-103", MCP464x_103),
-> +	MCP4531_ID_TABLE("mcp4642-503", MCP464x_503),
-> +	MCP4531_ID_TABLE("mcp4642-104", MCP464x_104),
-> +	MCP4531_ID_TABLE("mcp4651-502", MCP465x_502),
-> +	MCP4531_ID_TABLE("mcp4651-103", MCP465x_103),
-> +	MCP4531_ID_TABLE("mcp4651-503", MCP465x_503),
-> +	MCP4531_ID_TABLE("mcp4651-104", MCP465x_104),
-> +	MCP4531_ID_TABLE("mcp4652-502", MCP465x_502),
-> +	MCP4531_ID_TABLE("mcp4652-103", MCP465x_103),
-> +	MCP4531_ID_TABLE("mcp4652-503", MCP465x_503),
-> +	MCP4531_ID_TABLE("mcp4652-104", MCP465x_104),
-> +	MCP4531_ID_TABLE("mcp4661-502", MCP466x_502),
-> +	MCP4531_ID_TABLE("mcp4661-103", MCP466x_103),
-> +	MCP4531_ID_TABLE("mcp4661-503", MCP466x_503),
-> +	MCP4531_ID_TABLE("mcp4661-104", MCP466x_104),
-> +	MCP4531_ID_TABLE("mcp4662-502", MCP466x_502),
-> +	MCP4531_ID_TABLE("mcp4662-103", MCP466x_103),
-> +	MCP4531_ID_TABLE("mcp4662-503", MCP466x_503),
-> +	MCP4531_ID_TABLE("mcp4662-104", MCP466x_104),
-> +	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(i2c, mcp4531_id);
->  
-> @@ -368,9 +373,7 @@ static int mcp4531_probe(struct i2c_client *client)
->  	i2c_set_clientdata(client, indio_dev);
->  	data->client = client;
->  
-> -	data->cfg = device_get_match_data(dev);
-> -	if (!data->cfg)
-> -		data->cfg = &mcp4531_cfg[i2c_match_id(mcp4531_id, client)->driver_data];
-> +	data->cfg = i2c_get_match_data(client);
->  
->  	indio_dev->info = &mcp4531_info;
->  	indio_dev->channels = mcp4531_channels;
+> and gradually convert all drivers using it until we can get rid of PCI_IRQ_LEGACY.
 
+I try to catch additions of "legacy," e.g., in new drivers, but I
+agree this patch looks like it might be more churn than it's worth.
+
+But I like your idea of an alias, Damien.  Maybe something like the
+below to make it more obvious that the preferred usage is the "INTX"
+form.
+
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 5cb694031072..6c0bb4c5d12e 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -21,11 +21,13 @@ enum pci_epc_interface_type {
+ 
+ enum pci_epc_irq_type {
+ 	PCI_EPC_IRQ_UNKNOWN,
+-	PCI_EPC_IRQ_LEGACY,
++	PCI_EPC_IRQ_INTX,
+ 	PCI_EPC_IRQ_MSI,
+ 	PCI_EPC_IRQ_MSIX,
+ };
+ 
++#define PCI_EPC_IRQ_LEGACY	PCI_EPC_IRQ_INTX
++
+ static inline const char *
+ pci_epc_interface_string(enum pci_epc_interface_type type)
+ {
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index c69a2cc1f412..6638e0cd487f 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1048,11 +1048,13 @@ enum {
+ 	PCI_SCAN_ALL_PCIE_DEVS	= 0x00000040,	/* Scan all, not just dev 0 */
+ };
+ 
+-#define PCI_IRQ_LEGACY		(1 << 0) /* Allow legacy interrupts */
++#define PCI_IRQ_INTX		(1 << 0) /* Allow INTx interrupts */
+ #define PCI_IRQ_MSI		(1 << 1) /* Allow MSI interrupts */
+ #define PCI_IRQ_MSIX		(1 << 2) /* Allow MSI-X interrupts */
+ #define PCI_IRQ_AFFINITY	(1 << 3) /* Auto-assign affinity */
+ 
++#define PCI_IRQ_LEGACY 		PCI_IRQ_INTX	/* prefer PCI_IRQ_INTX */
++
+ /* These external functions are only available when PCI support is enabled */
+ #ifdef CONFIG_PCI
+ 
