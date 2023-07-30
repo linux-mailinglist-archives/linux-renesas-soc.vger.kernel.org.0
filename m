@@ -2,81 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E68587683C2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jul 2023 06:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9908768623
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Jul 2023 17:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjG3E6r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Jul 2023 00:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42454 "EHLO
+        id S229965AbjG3PJQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Jul 2023 11:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjG3E6q (ORCPT
+        with ESMTP id S229520AbjG3PJP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Jul 2023 00:58:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8EF19A5;
-        Sat, 29 Jul 2023 21:58:44 -0700 (PDT)
+        Sun, 30 Jul 2023 11:09:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6697CD;
+        Sun, 30 Jul 2023 08:09:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E95360B3F;
-        Sun, 30 Jul 2023 04:58:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 081D1C433C7;
-        Sun, 30 Jul 2023 04:58:32 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D59360C8F;
+        Sun, 30 Jul 2023 15:09:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D1FCC433C8;
+        Sun, 30 Jul 2023 15:09:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690693123;
-        bh=/9Vkfs2EdzwYMbbblvQSvnNQ17Onc4iF0/Npucm3JXQ=;
+        s=k20201202; t=1690729752;
+        bh=i6Um7zwUZZ/IUCCNWHWQm1K0RmCrv6YoXL840drPBtA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ic3cXX5tPc0ChQdbGnh3a6oHYM8gscwM8gqwf0caR5BUqdsEsEklb6KRagF0DdPI0
-         mCMCtxe58Q5gNypWX5PLgqF2B0HXqO2lyEzkJzBBIg4DPcV425nJXvt0jbdW9ofedJ
-         DAFiefxjYvNhmdozXbMpXuN12lxgFZA+EXCLee2PiYZFC7a4QR0fslurbQGK0f9+pL
-         EtWY8ooWd66RbkrvLZPC1DAuz3oKTyix4SqVl7AWNj/nc0lEa5q+RpKk1NkAJerfwH
-         WuA+ZxCNuvLCRMvVBsf5rkUs63ZtX/HOP3uP2SK0G7rYbb+ZND6hObsWpZVVcgp00Y
-         rnfj3YFY6nEIA==
-Date:   Sun, 30 Jul 2023 10:28:28 +0530
-From:   Manivannan Sadhasivam <mani@kernel.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Damien Le Moal <dlemoal@kernel.org>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, kishon@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jesper Nilsson <jesper.nilsson@axis.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Zhu <hongxing.zhu@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Minghuan Lian <minghuan.Lian@nxp.com>,
-        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-        Srikanth Thokala <srikanth.thokala@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v18 02/20] PCI: Rename PCI_EPC_IRQ_LEGACY to
- PCI_EPC_IRQ_INTX
-Message-ID: <20230730045828.GA20264@thinkpad>
-References: <dea62385-7f3a-9396-dcec-4a743bda0fca@kernel.org>
- <20230729153201.GA852521@bhelgaas>
+        b=tSXTirDFqcdHZajDAdeX7GgivtbJKzcJP5uxaNpQ+w/VjAWOfWX+i1vrV3DogWOzn
+         jORLxUbv02r/Pi2n2b2KdXTclN1vOTq0uS7ww11tObMCillIzytcYht19AxNl5WQoP
+         npfpLOgugUwd6BkZnX0FcQ0maRffqzwzWUGoqd1TMDnQmJscVlSdi7oddYcHv3vlas
+         4VMzslRoC6CalNO9Vq6nvQDILfjgsEc3vaarMlQmfbz4DnOX39U/AKhddSWzQPJNll
+         uBDPhE2cXZSOoO41gtoKr1i1q4W19zBOjiABB8QxLLh9lXbQCkbwp+4fjI7pmHJ0h/
+         Nkqs0KM1XvyRg==
+Date:   Sun, 30 Jul 2023 22:57:32 +0800
+From:   Jisheng Zhang <jszhang@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v10 3/6] riscv: mm: dma-noncoherent: nonstandard cache
+ operations support
+Message-ID: <ZMZ6XB6gX2kFd/Nt@xhacker>
+References: <20230702203429.237615-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230702203429.237615-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230729153201.GA852521@bhelgaas>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230702203429.237615-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -85,108 +72,237 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jul 29, 2023 at 10:32:01AM -0500, Bjorn Helgaas wrote:
-> On Sat, Jul 29, 2023 at 10:58:46AM +0900, Damien Le Moal wrote:
-> > On 7/29/23 10:55, Damien Le Moal wrote:
-> > > On 7/29/23 10:35, Serge Semin wrote:
-> > >> On Mon, Jul 24, 2023 at 01:02:11PM +0530, Manivannan Sadhasivam wrote:
-> > >>> On Fri, Jul 21, 2023 at 05:10:27PM +0900, Damien Le Moal wrote:
-> > >>>> On 7/21/23 16:44, Yoshihiro Shimoda wrote:
-> > >>>>> Using "INTx" instead of "legacy" is more specific. So, rename
-> > >>>>> PCI_EPC_IRQ_LEGACY to PCI_EPC_IRQ_INTX.
-> > >>>>>
-> > >>>>> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
-> > >>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > >>>>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> > >>>>> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com> # ARTPEC
-> > >>>>> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> > >>>>
-> > >>
-> > >>>> I would rather drop completely the PCI_EPC_IRQ_XXX enum and simply use the
-> > >>>> PCI_IRQ_XXX macros used everywhere. Less definitions :)
-> > >>>>
-> > >>>> See attached patch that I have in my queue (about to send that).
-> > >>>>
-> > >>>
-> > >>> It looks better! This patch should be dropped.
-> > >>
-> > >> Back then Bjorn specifically asked to change the names suffix in a
-> > >> preparation patch before adding the INTx support to the DW PCIe core
-> > >> driver (see the Sb tag in the patch log). Damien, seeing you cleanup
-> > >> the names anyway what about fixing the macro suffix too: INTx instead
-> > >> of LEGACY)?
-> > > 
-> > > Sure, I can do that. That is going to be a gigantic patch though given that
-> > > PCI_IRQ_LEGACY is used well beyond the ep/pcie controller drivers.
-> > > While I agree it would be nice to do, not sure it is worth such code churn.
-> > > 
-> > >> Mani, Damien, what do you suggest to Yoshihiro to do with the
-> > >> LEGACY/INTx names in the following up patches of this series?
-> > > 
-> > > If everyone is OK with the patch I proposed (the PCI_IRQ_LEGACY -> PCI_IRQ_INTx
-> > > change can go on top), then I can rebase it and send it next week (the remaining
-> > > of my EP cleanup series needs some more testing & rebasing). Yoshihiro can
-> > > either include it in his series or rebase on it if the patch is added to
-> > > pci-next quickly.
-> > 
-> > Note that we could start by simply defining an alias:
-> > 
-> > #define PCI_IRQ_INTx	PCI_IRQ_LEGACY
-> > 
-> > and gradually convert all drivers using it until we can get rid of PCI_IRQ_LEGACY.
+On Sun, Jul 02, 2023 at 09:34:26PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> I try to catch additions of "legacy," e.g., in new drivers, but I
-> agree this patch looks like it might be more churn than it's worth.
+> Introduce support for nonstandard noncoherent systems in the RISC-V
+> architecture. It enables function pointer support to handle cache
+> management in such systems.
 > 
-> But I like your idea of an alias, Damien.  Maybe something like the
-> below to make it more obvious that the preferred usage is the "INTX"
-> form.
-
-Looks good to me. I'd prefer to merge these (Damien's) patches first and let
-Yoshihiro rebase on top of pci-next instead of clubbing everything in a single
-series.
-
-- Mani
-
+> This patch adds a new configuration option called
+> "RISCV_NONSTANDARD_CACHE_OPS." This option is a boolean flag that
+> depends on "RISCV_DMA_NONCOHERENT" and enables the function pointer
+> support for cache management in nonstandard noncoherent systems.
 > 
-> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-> index 5cb694031072..6c0bb4c5d12e 100644
-> --- a/include/linux/pci-epc.h
-> +++ b/include/linux/pci-epc.h
-> @@ -21,11 +21,13 @@ enum pci_epc_interface_type {
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Tested-by: Conor Dooley <conor.dooley@microchip.com> # tyre-kicking on a d1
+> ---
+> v9 -> v10
+> * Added __ro_after_init compiler attribute for noncoherent_cache_ops
+> * Renamed clean -> wback
+> * Renamed inval -> inv
+> * Renamed flush -> wback_inv
+> 
+> v8 -> v9
+> * New patch
+> ---
+>  arch/riscv/Kconfig                       |  7 ++++
+>  arch/riscv/include/asm/dma-noncoherent.h | 28 +++++++++++++++
+>  arch/riscv/mm/dma-noncoherent.c          | 43 ++++++++++++++++++++++++
+>  arch/riscv/mm/pmem.c                     | 13 +++++++
+>  4 files changed, 91 insertions(+)
+>  create mode 100644 arch/riscv/include/asm/dma-noncoherent.h
+> 
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index d9e451ac862a..42c86b13c5e1 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -265,6 +265,13 @@ config RISCV_DMA_NONCOHERENT
+>  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+>  	select DMA_DIRECT_REMAP
 >  
->  enum pci_epc_irq_type {
->  	PCI_EPC_IRQ_UNKNOWN,
-> -	PCI_EPC_IRQ_LEGACY,
-> +	PCI_EPC_IRQ_INTX,
->  	PCI_EPC_IRQ_MSI,
->  	PCI_EPC_IRQ_MSIX,
->  };
->  
-> +#define PCI_EPC_IRQ_LEGACY	PCI_EPC_IRQ_INTX
+> +config RISCV_NONSTANDARD_CACHE_OPS
+> +	bool
+> +	depends on RISCV_DMA_NONCOHERENT
+> +	help
+> +	  This enables function pointer support for non-standard noncoherent
+> +	  systems to handle cache management.
+
+Per Documentation/riscv/patch-acceptance.rst:
+
+"we'll only consider patches for extensions that either:
+
+- Have been officially frozen or ratified by the RISC-V Foundation, or
+- Have been implemented in hardware that is widely available, per standard
+  Linux practice."
+
+I'm not sure which item this patch series belongs to.
+
 > +
->  static inline const char *
->  pci_epc_interface_string(enum pci_epc_interface_type type)
+>  config AS_HAS_INSN
+>  	def_bool $(as-instr,.insn r 51$(comma) 0$(comma) 0$(comma) t0$(comma) t0$(comma) zero)
+>  
+> diff --git a/arch/riscv/include/asm/dma-noncoherent.h b/arch/riscv/include/asm/dma-noncoherent.h
+> new file mode 100644
+> index 000000000000..969cf1f1363a
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/dma-noncoherent.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2023 Renesas Electronics Corp.
+> + */
+> +
+> +#ifndef __ASM_DMA_NONCOHERENT_H
+> +#define __ASM_DMA_NONCOHERENT_H
+> +
+> +#include <linux/dma-direct.h>
+> +
+> +/*
+> + * struct riscv_cache_ops - Structure for CMO function pointers
+
+can we reword this line as
+"struct riscv_nonstd_cache_ops - Structure for non-standard CMO function
+pointers" to explictly note this is only for non-standard CMO.
+
+> + *
+> + * @wback: Function pointer for cache writeback
+> + * @inv: Function pointer for invalidating cache
+> + * @wback_inv: Function pointer for flushing the cache (writeback + invalidating)
+> + */
+> +struct riscv_cache_ops {
+> +	void (*wback)(phys_addr_t paddr, unsigned long size);
+> +	void (*inv)(phys_addr_t paddr, unsigned long size);
+> +	void (*wback_inv)(phys_addr_t paddr, unsigned long size);
+> +};
+> +
+> +extern struct riscv_cache_ops noncoherent_cache_ops;
+> +
+> +void riscv_noncoherent_register_cache_ops(const struct riscv_cache_ops *ops);
+> +
+> +#endif	/* __ASM_DMA_NONCOHERENT_H */
+> diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+> index b9a9f57e02be..4c2e3f1cdfe6 100644
+> --- a/arch/riscv/mm/dma-noncoherent.c
+> +++ b/arch/riscv/mm/dma-noncoherent.c
+> @@ -9,13 +9,26 @@
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/mm.h>
+>  #include <asm/cacheflush.h>
+> +#include <asm/dma-noncoherent.h>
+>  
+>  static bool noncoherent_supported;
+>  
+> +struct riscv_cache_ops noncoherent_cache_ops __ro_after_init = {
+> +	.wback = NULL,
+> +	.inv = NULL,
+> +	.wback_inv = NULL,
+> +};
+> +
+>  static inline void arch_dma_cache_wback(phys_addr_t paddr, size_t size)
 >  {
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index c69a2cc1f412..6638e0cd487f 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1048,11 +1048,13 @@ enum {
->  	PCI_SCAN_ALL_PCIE_DEVS	= 0x00000040,	/* Scan all, not just dev 0 */
->  };
+>  	void *vaddr = phys_to_virt(paddr);
 >  
-> -#define PCI_IRQ_LEGACY		(1 << 0) /* Allow legacy interrupts */
-> +#define PCI_IRQ_INTX		(1 << 0) /* Allow INTx interrupts */
->  #define PCI_IRQ_MSI		(1 << 1) /* Allow MSI interrupts */
->  #define PCI_IRQ_MSIX		(1 << 2) /* Allow MSI-X interrupts */
->  #define PCI_IRQ_AFFINITY	(1 << 3) /* Auto-assign affinity */
->  
-> +#define PCI_IRQ_LEGACY 		PCI_IRQ_INTX	/* prefer PCI_IRQ_INTX */
-> +
->  /* These external functions are only available when PCI support is enabled */
->  #ifdef CONFIG_PCI
->  
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.wback)) {
 
--- 
-மணிவண்ணன் சதாசிவம்
+I'm worried about the performance impact here.
+For unified kernel Image reason, RISCV_NONSTANDARD_CACHE_OPS will be
+enabled by default, so standard CMO and T-HEAD's CMO platform's
+performance will be impacted, because even an unlikely is put
+here, the check action still needs to be done.
+
+> +		noncoherent_cache_ops.wback(paddr, size);
+> +		return;
+> +	}
+> +#endif
+>  	ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
+>  }
+>  
+> @@ -23,6 +36,13 @@ static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
+>  {
+>  	void *vaddr = phys_to_virt(paddr);
+>  
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.inv)) {
+> +		noncoherent_cache_ops.inv(paddr, size);
+> +		return;
+> +	}
+> +#endif
+> +
+>  	ALT_CMO_OP(inval, vaddr, size, riscv_cbom_block_size);
+>  }
+>  
+> @@ -30,6 +50,13 @@ static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
+>  {
+>  	void *vaddr = phys_to_virt(paddr);
+>  
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.wback_inv)) {
+> +		noncoherent_cache_ops.wback_inv(paddr, size);
+> +		return;
+> +	}
+> +#endif
+> +
+>  	ALT_CMO_OP(flush, vaddr, size, riscv_cbom_block_size);
+>  }
+>  
+> @@ -50,6 +77,13 @@ void arch_dma_prep_coherent(struct page *page, size_t size)
+>  {
+>  	void *flush_addr = page_address(page);
+>  
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.wback_inv)) {
+> +		noncoherent_cache_ops.wback_inv(page_to_phys(page), size);
+> +		return;
+> +	}
+> +#endif
+> +
+>  	ALT_CMO_OP(flush, flush_addr, size, riscv_cbom_block_size);
+>  }
+>  
+> @@ -75,3 +109,12 @@ void riscv_noncoherent_supported(void)
+>  	     "Non-coherent DMA support enabled without a block size\n");
+>  	noncoherent_supported = true;
+>  }
+> +
+> +void riscv_noncoherent_register_cache_ops(const struct riscv_cache_ops *ops)
+> +{
+> +	if (!ops)
+> +		return;
+> +
+> +	noncoherent_cache_ops = *ops;
+> +}
+> +EXPORT_SYMBOL_GPL(riscv_noncoherent_register_cache_ops);
+> diff --git a/arch/riscv/mm/pmem.c b/arch/riscv/mm/pmem.c
+> index 089df92ae876..c5fc5ec96f6d 100644
+> --- a/arch/riscv/mm/pmem.c
+> +++ b/arch/riscv/mm/pmem.c
+> @@ -7,15 +7,28 @@
+>  #include <linux/libnvdimm.h>
+>  
+>  #include <asm/cacheflush.h>
+> +#include <asm/dma-noncoherent.h>
+>  
+>  void arch_wb_cache_pmem(void *addr, size_t size)
+>  {
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.wback)) {
+> +		noncoherent_cache_ops.wback(virt_to_phys(addr), size);
+> +		return;
+> +	}
+> +#endif
+>  	ALT_CMO_OP(clean, addr, size, riscv_cbom_block_size);
+>  }
+>  EXPORT_SYMBOL_GPL(arch_wb_cache_pmem);
+>  
+>  void arch_invalidate_pmem(void *addr, size_t size)
+>  {
+> +#ifdef CONFIG_RISCV_NONSTANDARD_CACHE_OPS
+> +	if (unlikely(noncoherent_cache_ops.inv)) {
+> +		noncoherent_cache_ops.inv(virt_to_phys(addr), size);
+> +		return;
+> +	}
+> +#endif
+>  	ALT_CMO_OP(inval, addr, size, riscv_cbom_block_size);
+>  }
+>  EXPORT_SYMBOL_GPL(arch_invalidate_pmem);
+> -- 
+> 2.34.1
+> 
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
