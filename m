@@ -2,237 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A595176A3F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 00:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C851176A500
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 01:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbjGaWML (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jul 2023 18:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41792 "EHLO
+        id S230155AbjGaXtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Jul 2023 19:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231836AbjGaWMG (ORCPT
+        with ESMTP id S229887AbjGaXtU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jul 2023 18:12:06 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F105A1FCD;
-        Mon, 31 Jul 2023 15:11:50 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fe0e23a4b1so7918886e87.3;
-        Mon, 31 Jul 2023 15:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690841509; x=1691446309;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DUlc8Zih7AFjdjr0cHfklZW7ElrNX3VLil/OBBbUrMY=;
-        b=exRzhGKri0JNGp+JykLJz2qmEmiGw4jK2+r2VUkX5t9F2HieXXrZ474OQynpNlhywM
-         5gcvQ9ka0fmzC0czTXYV3jyDHfkOCExHd9IGE0KJNviGJzTMl7QsEtiI0yaVS8iuEJMr
-         Fbvk1wn0vgNeIE5FGqbQD198wk5ycV0izhA2NUE153zIeCKEII0IHFKAN8JASO9e/pus
-         QTzzB/6rJb/h+btn8ybv1yjlIh81DvAKHJLPY6/IXDECHDnpwPWsHNuu9exnX9o0OzCh
-         Wka+lFLVqq60v426LDq4Er/l46ZOxOHL7ZzRNfplKauVmRypmUjH032kIhUHL9lGwuif
-         RgBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690841509; x=1691446309;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUlc8Zih7AFjdjr0cHfklZW7ElrNX3VLil/OBBbUrMY=;
-        b=fRqiLBXPJkV4bFU/1hdC+GcXr4Vv53XW5WNUHAEbhJnBoy4FS0CyCJeH4SMvbdxuMF
-         Bo1fTIGrx/IBuNBig6dX2hJx20LEeu0docBcU9ElUW9qQpfMPVttPww8dQCZLxbglOPB
-         8QaH+m5jD+dqkwZ1CABFLu0tUvPTrcc9pqQSlT9DARkwzCrnUkv7ujdVzKa3GMHYsrYg
-         Fumv0+dz5LGWqmVIfSkp1wjksdC+cGQVsvD7cat0Ue8k/qLc946ENdHUYAN3Cqlz87k4
-         DDrpH+XLdzLwu0eSSUlBdzp6A+kzjT9R8nkG58XSC1ZX/CNklnHqduJ86Vi1jrOLEs6s
-         1HuQ==
-X-Gm-Message-State: ABy/qLZID+H1Wn+UuIP18VyYF6q13uSIANvqydU4PaJZCRvcsMkV6x32
-        iCSu7C+46XOOz7/GSYw4iYk=
-X-Google-Smtp-Source: APBJJlFLRHbIxgDyV7QZdXM2yQnSJkIWhHakZtTZVVHLNId66kyMOxl/QR/vysO8GP/dRDWeCsRtWg==
-X-Received: by 2002:a19:ab09:0:b0:4fe:1ecf:8ab4 with SMTP id u9-20020a19ab09000000b004fe1ecf8ab4mr695584lfe.18.1690841508500;
-        Mon, 31 Jul 2023 15:11:48 -0700 (PDT)
-Received: from mobilestation ([95.79.172.181])
-        by smtp.gmail.com with ESMTPSA id j15-20020ac2550f000000b004fe432108aesm99177lfk.261.2023.07.31.15.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 15:11:48 -0700 (PDT)
-Date:   Tue, 1 Aug 2023 01:11:46 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v18 05/20] PCI: dwc: Add outbound MSG TLPs support
-Message-ID: <b6jzau7mwbnomy2whhwfbtww6p5hiikiay5jvcz5em422q2ycb@pe3au6vvcygc>
-References: <20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com>
- <20230721074452.65545-6-yoshihiro.shimoda.uh@renesas.com>
- <20230724081250.GD6291@thinkpad>
- <qckzwhgcx7eux7qi6a27hww7wbva6r4nylxo437gnohpsxuja3@6dj2ld7qlvix>
- <OSYPR01MB5334600364096E6FDE573394D805A@OSYPR01MB5334.jpnprd01.prod.outlook.com>
+        Mon, 31 Jul 2023 19:49:20 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2115.outbound.protection.outlook.com [40.107.114.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A284310CA;
+        Mon, 31 Jul 2023 16:49:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E32DkSCDZs361RXjtf0aLK0rKgdB2YV+5OU0xPsmAvOzW5AmsrIJkwqvNqLqR4OEC9+oj38f0l7pMTjXc+EDqknCPULZrif/hq5L+MVdeo6W4CNcejquV0k2YgsEkpemd4CW5LNDA0NB+RhZXxId7p3btwPZVKHdr/oNQm7z1VWtUkGNHveuZnsXagcNaFiEYOAh6eTTAt5CnhOMgh3iUzvpD9Jm9S5aW4fHKftfPL2A1Y4S/8AK5xTa/rqswA7B2YoZMIShvV35Xs0AB0QjFBckTZrwLR4+PeTsCEgOs2I5ru7P7Q1qTeniC+TwW0fD9JP2+ZR6425fxAdcc1mytQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ryQsomgTzmwvSq+/AiPv3JWiBHslErf7/wSrdRlp1+Q=;
+ b=kMiM0pNxJfVdEY+QY4VodKcQbtJ4zuz2hxYlnf4w5li0Q8Zs7wCiMvIG7FXr/phZtOTB9zF/dJ18gmqoVFtiVv+E9TQN7QYyrOts1XNk3+agoKoFzqjU5k3lPxVNTedNUWqioe09Ys6wzeIL1LlqCid2/98KwvKvoaK3ompSz755DiZDkR5xEDRRslaB6gEZocIvmhCHdCjwXU8VeBtr1F9jd71auga/s//B5XGwEFGyQhy3r76x6WnNXQduA+ueYyUme21C85eQJ1Jn4+1J9l19LA1Hg7buDDEWrdi3tbKAU5E230N0r22ZemTqr0PiQFK1ihEmMK3jFVsyeZ5Lzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ryQsomgTzmwvSq+/AiPv3JWiBHslErf7/wSrdRlp1+Q=;
+ b=hQgRrd6deWKHCfA26E6+8ePh6CVIyzuzLwJfwMBqJtpSjPH4ukBa6/D98FZb9s+NFBmbqHG+4Op4zUbIBy3GHX1i4PsfsHVOR5kKQzkBt76LdAjKqPixqd16jBIAsDvFBDJUwJE0ShBxf4MaDqS8+up8X5EXlsv1+/JmBWURdmU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TY3PR01MB11995.jpnprd01.prod.outlook.com (2603:1096:400:3dc::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Mon, 31 Jul
+ 2023 23:49:15 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::e6db:c2b4:3f89:e3a5]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::e6db:c2b4:3f89:e3a5%3]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
+ 23:49:15 +0000
+Message-ID: <87r0onprph.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/9] clk: renesas: add 922 ADG bit
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date:   Mon, 31 Jul 2023 23:49:15 +0000
+X-ClientProxiedBy: TYCP286CA0209.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::12) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OSYPR01MB5334600364096E6FDE573394D805A@OSYPR01MB5334.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TY3PR01MB11995:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6405d8b4-2e18-4e11-eff6-08db9220bfa5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3ho8+mogPoG6y0dGxJpD8g80WRpG4Q3LTcbsWKEu7ry02saeXoqIdKg+UP9AGRN7vgazGI+lL/pHLQm2HBC9gsn7KPiMUiv1Gm27Pd1wPC631isgfvr7kEYmDw0FAQ2uLEwxhyLAZW5PVF7Q0pBPUvOXfMKt6c9cEpPJHNgfbwwrgRSlV2wIuALVaP6N4hCxW5GRF33DcIJVyFg1RJk4ZRdx5IeMb31XhbbWLxgykcCrNrAqzOmV3Y9c/cDo1b1DpH0MfMURMlvsGMo80pWiqXBmQEn/+YV9EONgQ+zacYXlWzw1EhePmMbw1Er862kQqdtrof7Z2Xz0hpNml1+EC2mnpjmYjkFppi/NSUza2MFGfptFbrf/wO9NH6sAXjhlVZbFj0SRG6BrQAeO8qANKN/uoijqkwA4VdhHQEUJOC3chy3OzdJPy//cah/v0y28TvyBO7bRRPN8ujD4IlS7ZdT1n+tgUy1+K77lRRWDbgrA8pdoZsuE02DlXdghO/YVZJNhCqxsiirRbp3gIKijknfzu18CVLzHjMGrY80/pjIF/tlbcJ7MXAIxe0kzxxxeKCOs8s5aBxKrURkTZbIKhEbMGsNguikH914VTUX6J89FTF974aO/Zi7L8K3hJw/k
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(346002)(376002)(39860400002)(366004)(451199021)(478600001)(6486002)(6512007)(52116002)(66476007)(41300700001)(26005)(6506007)(186003)(2616005)(316002)(66556008)(2906002)(5660300002)(66946007)(8936002)(8676002)(38350700002)(86362001)(36756003)(83380400001)(38100700002)(4326008);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RziNc1fYvCt3ZuCX/t1q1lz2HwEzNHmSISzyOzL8SRW8wfZau0F4OZXlWHla?=
+ =?us-ascii?Q?ecXsPSHu30P9zChFZysvnVs3Bqupn33PCVI3M9vPrb82RVdLa5pxhINbAdKO?=
+ =?us-ascii?Q?tsLe+pLT+rM4iLjcIiGRq9EZc8gPbvhRtrs+FKBB3f1DYkdOxEvSJ7+ytUrY?=
+ =?us-ascii?Q?bZZU1dMDSyMKyUUoBtV4EG4+SKZ5a5/MhQjvEDxzWZzz6jxP0gY6Q8JlHr0q?=
+ =?us-ascii?Q?4A4kwocwnjpdaHgxaArYF8t0f+IAtySPe1shfqnu7qJg5h3mhCP36fm9EoP2?=
+ =?us-ascii?Q?vLcMkTEP1hlZoLob8zLwmpnP+7lWzRabveNvJLqhnX08Lk8B5Cw+RV4LrruX?=
+ =?us-ascii?Q?7CARWQixO5Faj9R1/ejEQlYdIOOQ6D3uAfltSZIVRXmWdjvE2OuxiYMJJ8+K?=
+ =?us-ascii?Q?WyM0lFHcChJfNtYIFpmeHOI6Xlgc9lCMaTktW3BWgldWDihplP8cHyjSUc9q?=
+ =?us-ascii?Q?itzF7x5Sboy8+qz40eZLQ2ZNAZtPXSEJL576Fp4Bh/qHVskN0ANdSA5w925W?=
+ =?us-ascii?Q?CCRL1Xv+tGzb4+xPCXSxxhcehuKjLY1wWnmWsfC36lBRpnwTCuPp4fzSv1/j?=
+ =?us-ascii?Q?li95edO1uQEJquCRtldQ9KzrjZYqZTIJslGDmCSFfUC+27ozYoPOxd+qzggO?=
+ =?us-ascii?Q?h0+0rwXwwyDB1Zf7CLuoIRN4gvtqsMReXtQiPX6FR6oM1JZMObDX08wOaPVN?=
+ =?us-ascii?Q?A10gYHJmW/jnpdtUfqJJVL0PAnOnZTVDC9vxQHS7z57tpNelolKOQV0lnphz?=
+ =?us-ascii?Q?daLHeoRIScxtGQxCNq1iI9EmdSL2iGPpuN8hIwZ6GGYsNKyEOxs6iyoSXCIr?=
+ =?us-ascii?Q?DsFkAMqswFG+lzNCPQNXyG7LZ3sLxXxw7LDWqk47jScsn6lYrl9uk+2yEFeN?=
+ =?us-ascii?Q?ffIsQKpWa3n0TCNtg6IRsxaXijDFVwMAKyP2n+34CadFHLGSrGt3QjlQmNzS?=
+ =?us-ascii?Q?0Mk8n+yYsCqgNf+A1NJ8xk9HD/0CmfQoVeN7k+6CrMPrB022gxTLXUWrE3Iq?=
+ =?us-ascii?Q?pLlAVF4w7pHJ5gowqCo1lpv4AHptM3iiSlNgx7zN8Pd8sBcn7uDodaknrdLE?=
+ =?us-ascii?Q?KwlMFBKFe8D5KwZ+JC2Mz/P+bf49nHDjXMu/9Q3LFoMICt9TdY7RV/46M1Sl?=
+ =?us-ascii?Q?+5CY7Cfkr+n6a8khXvIt9KSJw5F1ak4fVrt20DTp3Or9Mfn5vDaArpnj3vxl?=
+ =?us-ascii?Q?N66DTSq7FZxYpQ58cavDM2zTl0QwlyrbndeGuXFE79htICCkXJTyBDA0gBHd?=
+ =?us-ascii?Q?vzGy+BWUkN8Eb8ojTHx0vV9i9khcglG5KWP8nRDp/N7/eLjUpHLZqHr6XM10?=
+ =?us-ascii?Q?67wTiOai1L8aiqytPjWg4l+IEi3JUsUktC9lumS5ZD5p2Anni9YyRnQkFuxp?=
+ =?us-ascii?Q?n4gBs8NLjJStKvf6lWLPSH29hk0Ae5bCpuwh9pCEB0cekAqssYESjyBzF6ra?=
+ =?us-ascii?Q?b7G3ikJE0j6GzlxuTifUefWBKgfiwiYquKgbVVtZ8lIqW21+J0emLB0xPJKz?=
+ =?us-ascii?Q?1/pfxnR7HZ7gzTFPt+V3wdNvj3rJI4Puarv+cmKmz1TNnBQw0sZ0jC87tUfJ?=
+ =?us-ascii?Q?ux0eyscSOCMFtsqXGXLUYH6lgqsQzZnb/WBqsWvyOYNmRBX7cs5pa1/fzVok?=
+ =?us-ascii?Q?POTp6Dy1Wk5MGFtTTm1fSzY=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6405d8b4-2e18-4e11-eff6-08db9220bfa5
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 23:49:15.5850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9Jf7Izg6nZ5nGLYUiWOMtEWTRrfyVqqUcOHlTzxyxgRFI47KyExAJB8FR+ykZjSBiEBlUrIYtndKm+OhZ6JcY+Aj9h3fFdWSayf9h6N74+YzRiLlEyzjgX/uLCg5WRow
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11995
+X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 01:18:30AM +0000, Yoshihiro Shimoda wrote:
-> Hi Serge,
-> 
-> > From: Serge Semin, Sent: Saturday, July 29, 2023 10:41 AM
-> > 
-> > On Mon, Jul 24, 2023 at 01:42:50PM +0530, Manivannan Sadhasivam wrote:
-> > > On Fri, Jul 21, 2023 at 04:44:37PM +0900, Yoshihiro Shimoda wrote:
-> > > > Add "code" and "routing" into struct dw_pcie_ob_atu_cfg for sending
-> > > > MSG by iATU in the PCIe endpoint mode in near the future.
-> > >
-> > > It's better to specify the exact requirement here "triggering INTx IRQs"
-> > > instead of implying.
-> > >
-> > > > PCIE_ATU_INHIBIT_PAYLOAD is set to issue TLP type of Msg instead of
-> > > > MsgD. So, this implementation supports the data-less messages only
-> > > > for now.
-> > > >
-> > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > >
-> > 
-> > > Same comment for patch 4/20 applies here also. With that fixed,
-> > 
-> > Yoshihiro, as we greed with Mani in the PATCH 4/20 discussion please
-> > ignore this request.
-> 
 
-> By the way, do you have any comment about my suggestion? [1]
-> 
-> [1]
-> https://lore.kernel.org/linux-pci/TYBPR01MB5341407DC508F0B390B84090D801A@TYBPR01MB5341.jpnprd01.prod.outlook.com/
-> 
-> If you don't agree my suggestion, I'll ignore this request.
+Hi Geert
 
-Your suggested is not good for several reasons:
+Renesas Sound is possible to use internal clock
+(we have never use it before).
+In such case, we need to enable both S0D4/ZA2 and ADG on Gen3,
+and we are missing later bit.
+This patch-set add missing 922 ADG bit on each Gen3 clock driver.
+I will post DT patch to use it if these were accepted.
 
-1. You suggest to add the function caller context-wise comments to the
-structure. It will cause the maintainers to keep the comments and the
-callers semantics in sync which is almost always gets to be diverged
-at some point.
+Kuninori Morimoto (9):
+  clk: renesas: r8a7795: add 922 ADG
+  clk: renesas: r8a7796: add 922 ADG
+  clk: renesas: r8a774a1: add 922 ADG
+  clk: renesas: r8a774b1: add 922 ADG
+  clk: renesas: r8a774c0: add 922 ADG
+  clk: renesas: r8a774e1: add 922 ADG
+  clk: renesas: r8a77965: add 922 ADG
+  clk: renesas: r8a77990: add 922 ADG
+  clk: renesas: r8a77995: add 922 ADG
 
-2. dw_pcie_prog_outbound_atu() doesn't know whether it is called for
-an End-point or a Root Port controller. It just maps the CPU->PCIe
-spaces by means of the outbound iATU engine with the specified mapping
-parameters. This makes the comments you suggest misleading. Moreover
-depending on the application the low-level drivers or even the DW PCIe
-core driver may decided to map them in any way. In that case the
-respective change will need to update the comments too, otherwise
-they'll get to be wrong which gets us to the reason 1.
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774c0-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774e1-cpg-mssr.c | 2 +-
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77990-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 1 +
+ 9 files changed, 9 insertions(+), 1 deletion(-)
 
-3. The current arguments/fields order more-or-less preserves the
-natural settings setup: first you specifies the entity index, then you
-specify the mapping settings, then you specified the mapping itself
-(addresses and size). Ideally the "func_no" field should be moved to
-the head of the structure since it also represents the mapping entity
-index but it will cause having the pads (so called "holes") if we
-didn't change it type. Anyway inverting the order so the mapping
-itself goes first will break that, the structure will look as if, for
-instance, the device-managed function taking the device pointer
-somewhere in the middle or at the tail of the arguments lists. The
-most important settings which are normally initialized first will be
-defined at some random place in the structure.
+-- 
+2.25.1
 
-So to speak, it's better to keep the structure fields as is for
-now.
-
--Serge(y)
-
-> 
-> Best regards,
-> Yoshihiro Shimoda
-> 
-> > -Serge(y)
-> > 
-> > >
-> > > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > >
-> > > - Mani
-> > >
-> > > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> > > > ---
-> > > >  drivers/pci/controller/dwc/pcie-designware.c | 9 +++++++--
-> > > >  drivers/pci/controller/dwc/pcie-designware.h | 4 ++++
-> > > >  2 files changed, 11 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > index 49b785509576..2d0f816fa0ab 100644
-> > > > --- a/drivers/pci/controller/dwc/pcie-designware.c
-> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > @@ -498,7 +498,7 @@ int dw_pcie_prog_outbound_atu(struct dw_pcie *pci,
-> > > >  	dw_pcie_writel_atu_ob(pci, atu->index, PCIE_ATU_UPPER_TARGET,
-> > > >  			      upper_32_bits(atu->pci_addr));
-> > > >
-> > > > -	val = atu->type | PCIE_ATU_FUNC_NUM(atu->func_no);
-> > > > +	val = atu->type | atu->routing | PCIE_ATU_FUNC_NUM(atu->func_no);
-> > > >  	if (upper_32_bits(limit_addr) > upper_32_bits(cpu_addr) &&
-> > > >  	    dw_pcie_ver_is_ge(pci, 460A))
-> > > >  		val |= PCIE_ATU_INCREASE_REGION_SIZE;
-> > > > @@ -506,7 +506,12 @@ int dw_pcie_prog_outbound_atu(struct dw_pcie *pci,
-> > > >  		val = dw_pcie_enable_ecrc(val);
-> > > >  	dw_pcie_writel_atu_ob(pci, atu->index, PCIE_ATU_REGION_CTRL1, val);
-> > > >
-> > > > -	dw_pcie_writel_atu_ob(pci, atu->index, PCIE_ATU_REGION_CTRL2, PCIE_ATU_ENABLE);
-> > > > +	val = PCIE_ATU_ENABLE;
-> > > > +	if (atu->type == PCIE_ATU_TYPE_MSG) {
-> > > > +		/* The data-less messages only for now */
-> > > > +		val |= PCIE_ATU_INHIBIT_PAYLOAD | atu->code;
-> > > > +	}
-> > > > +	dw_pcie_writel_atu_ob(pci, atu->index, PCIE_ATU_REGION_CTRL2, val);
-> > > >
-> > > >  	/*
-> > > >  	 * Make sure ATU enable takes effect before any subsequent config
-> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> > > > index 85de0d8346fa..c626d21243b0 100644
-> > > > --- a/drivers/pci/controller/dwc/pcie-designware.h
-> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> > > > @@ -147,11 +147,13 @@
-> > > >  #define PCIE_ATU_TYPE_IO		0x2
-> > > >  #define PCIE_ATU_TYPE_CFG0		0x4
-> > > >  #define PCIE_ATU_TYPE_CFG1		0x5
-> > > > +#define PCIE_ATU_TYPE_MSG		0x10
-> > > >  #define PCIE_ATU_TD			BIT(8)
-> > > >  #define PCIE_ATU_FUNC_NUM(pf)           ((pf) << 20)
-> > > >  #define PCIE_ATU_REGION_CTRL2		0x004
-> > > >  #define PCIE_ATU_ENABLE			BIT(31)
-> > > >  #define PCIE_ATU_BAR_MODE_ENABLE	BIT(30)
-> > > > +#define PCIE_ATU_INHIBIT_PAYLOAD	BIT(22)
-> > > >  #define PCIE_ATU_FUNC_NUM_MATCH_EN      BIT(19)
-> > > >  #define PCIE_ATU_LOWER_BASE		0x008
-> > > >  #define PCIE_ATU_UPPER_BASE		0x00C
-> > > > @@ -292,6 +294,8 @@ struct dw_pcie_ob_atu_cfg {
-> > > >  	int index;
-> > > >  	int type;
-> > > >  	u8 func_no;
-> > > > +	u8 code;
-> > > > +	u8 routing;
-> > > >  	u64 cpu_addr;
-> > > >  	u64 pci_addr;
-> > > >  	u64 size;
-> > > > --
-> > > > 2.25.1
-> > > >
-> > >
-> > > --
-> > > மணிவண்ணன் சதாசிவம்
