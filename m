@@ -2,108 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B1A3769160
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jul 2023 11:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5D87694C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jul 2023 13:27:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbjGaJSJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jul 2023 05:18:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45978 "EHLO
+        id S229800AbjGaL1a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Jul 2023 07:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231972AbjGaJRj (ORCPT
+        with ESMTP id S230402AbjGaL11 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jul 2023 05:17:39 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C065119A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jul 2023 02:16:52 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qQP1C-0000Cb-Ju; Mon, 31 Jul 2023 11:16:46 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qQP1B-0005lM-TJ; Mon, 31 Jul 2023 11:16:45 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qQP1A-009GVx-Uw; Mon, 31 Jul 2023 11:16:44 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Damien Le Moal <dlemoal@kernel.org>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 12/12] ata/sata_rcar: Convert to platform remove callback returning void
-Date:   Mon, 31 Jul 2023 11:16:36 +0200
-Message-Id: <20230731091636.693193-13-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230731091636.693193-1-u.kleine-koenig@pengutronix.de>
-References: <20230731091636.693193-1-u.kleine-koenig@pengutronix.de>
+        Mon, 31 Jul 2023 07:27:27 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A0761B7;
+        Mon, 31 Jul 2023 04:27:25 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-7835c92c373so124111739f.0;
+        Mon, 31 Jul 2023 04:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690802845; x=1691407645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iJH1cy35Z/dyiXUx/UDotPeNv2Pad/0I0FqjA2xNQj4=;
+        b=plT+MBU3MkIi3vHhGqYT2gFxn21ipFMcDu9L6V5v+UgoVt4UGJlSS7WtHGYB9h0nCj
+         K6BDb8/scVUG8sgmvxsf473s58PVntywrvrJHDMQHkO8CGZETtaK4iE7wdHqOWGFYMWb
+         MVn58+aWvHr5jLaUMglvUC1usTA0tefQBkfTsQFOBeEtvI7LbH0CVX1VX4ltOdZSBzgP
+         XyS7LBYth80zcJMyJoJsTq+GKr/Wk4wgEbT/0ZibfTgEcO5kTKopATwBVvF+DlC/+KwM
+         76UXLEgiIpIZUKDz7HObHG8ua0xBkPlIf8PrQubuFj+cXtEjBWotJSQPAbc2jZ+ys/Ga
+         fFtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690802845; x=1691407645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iJH1cy35Z/dyiXUx/UDotPeNv2Pad/0I0FqjA2xNQj4=;
+        b=MSuYJdRtSVDdxGxuiE3EPXgKiAZsmiWLJiSl91F4VIaZ+lVU9LrqvrOhzSQXJDgXAc
+         gosP6WUzkN8zG4wrOT+dhxGzNxhSeWg91wh555QXic66IJMepUMe7TPwGKgApGbmMJfV
+         IcmrtXB46O2lpjkuw3Dqpr8WDUKIGy3B9lErEZJtUJdjYt3XvucEXwdld8lSprsA+C2T
+         l+JG3Ds22M51P3TG0rFS9f0RNKVwdJVsp8GewL/yxJo3NuFqefONip9UfoxEi/YpCFpC
+         r+TL4/ZMp1t9VXJ89V6+APbQIZqtHlD77f2xO+Un30rXxzxhgHUjwWmkn/Sont5BJ35s
+         Y7ow==
+X-Gm-Message-State: ABy/qLbKAVl1scsU9b3Zn3qmBFyz89GBPpaRLyN/HRaGG+ABS1OerGt2
+        u1RmmICqZVBznPkLqnnATeIP/LozJ32jF1Fea5c=
+X-Google-Smtp-Source: APBJJlFvcDToSfHeWegIEU1VJdujozidStMyByOJkqqLgCYOoaaGH8Byv1gTZSQBK2JEi+qxz0zW1JwCFmuUi8UtLA8=
+X-Received: by 2002:a05:6602:381:b0:783:4135:5b96 with SMTP id
+ f1-20020a056602038100b0078341355b96mr8488367iov.5.1690802844941; Mon, 31 Jul
+ 2023 04:27:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1846; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=BS+HPWqvfpOOyfh762W1BEcrMJu/vYZRKWMg/5yzIIA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkx3uL+qb/o+R3rCzSDrte8YLmWlyIL+7LO5gHl 2/kjB3WhS+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZMd7iwAKCRCPgPtYfRL+ TiKGB/9vi0RA/Hm7pYrZWn/yuZwc4Xqh6iiclc3N2DPxOTsRKh9HEut50dsIlo5TV62krShS5gB M5/8zbVlTzmkOtHtqYUWkpKQNqPucnyfDc/M0pyNE0Ibtbcdl8E3UtDoe1sKWEm+/DUsu+KBqRG uxfVxwOUTbvTQF64UA++6Rkda3KX1Do7zqj0ErC1gI7fgJ3/QgGkuBRA0YJuAf+9XCVY0mzmzto 1mJ9+2Pc4BqjDUPHFdOs/oOCszFvqZS6yTym2Uq2gBmzxBZxoqwWRTUblCkv1xi6ZWxRh6oVML9 FO2NuvxTOQhCDQTxJqQVAjEfU34CA6Ceix1N0n58u7HoQyOZ
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230702203429.237615-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230702203429.237615-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAJM55Z_ZoKY5A6icpkZo+U5JQ5rMfNmCWz35EJ9RrH7bEgv53g@mail.gmail.com>
+In-Reply-To: <CAJM55Z_ZoKY5A6icpkZo+U5JQ5rMfNmCWz35EJ9RrH7bEgv53g@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 31 Jul 2023 12:26:58 +0100
+Message-ID: <CA+V-a8t=R1EoEei_q6S9nsTyo9wNZwuvMOcCOJhrWPbG=XDxZg@mail.gmail.com>
+Subject: Re: [PATCH v10 5/6] cache: Add L2 cache management for Andes AX45MP
+ RISC-V core
+To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new() which already returns void. Eventually after all drivers
-are converted, .remove_new() is renamed to .remove().
+Hi Emil,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Thank you for the review.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/ata/sata_rcar.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Mon, Jul 31, 2023 at 9:53=E2=80=AFAM Emil Renner Berthing
+<emil.renner.berthing@canonical.com> wrote:
+>
+> On Sun, 2 Jul 2023 at 22:37, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > I/O Coherence Port (IOCP) provides an AXI interface for connecting
+> > external non-caching masters, such as DMA controllers. The accesses
+> > from IOCP are coherent with D-Caches and L2 Cache.
+> >
+> > IOCP is a specification option and is disabled on the Renesas RZ/Five
+> > SoC due to this reason IP blocks using DMA will fail.
+> >
+> > The Andes AX45MP core has a Programmable Physical Memory Attributes (PM=
+A)
+> > block that allows dynamic adjustment of memory attributes in the runtim=
+e.
+> > It contains a configurable amount of PMA entries implemented as CSR
+> > registers to control the attributes of memory locations in interest.
+> > Below are the memory attributes supported:
+> > * Device, Non-bufferable
+> > * Device, bufferable
+> > * Memory, Non-cacheable, Non-bufferable
+> > * Memory, Non-cacheable, Bufferable
+> > * Memory, Write-back, No-allocate
+> > * Memory, Write-back, Read-allocate
+> > * Memory, Write-back, Write-allocate
+> > * Memory, Write-back, Read and Write-allocate
+> >
+> > More info about PMA (section 10.3):
+> > Link: http://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-=
+Datasheet.pdf
+> >
+> > As a workaround for SoCs with IOCP disabled CMO needs to be handled by
+> > software. Firstly OpenSBI configures the memory region as
+> > "Memory, Non-cacheable, Bufferable" and passes this region as a global
+> > shared dma pool as a DT node. With DMA_GLOBAL_POOL enabled all DMA
+> > allocations happen from this region and synchronization callbacks are
+> > implemented to synchronize when doing DMA transactions.
+> >
+<snip>
+> > +static const struct riscv_cache_ops ax45mp_cmo_ops =3D {
+> > +       .wback =3D &ax45mp_dma_cache_wback,
+> > +       .inv =3D &ax45mp_dma_cache_inv,
+> > +       .wback_inv =3D &ax45mp_dma_cache_wback_inv,
+> > +};
+>
+> Hi Prabhakar,
+>
+> If you're respinning this patchset anyway, I think you can mark this
+> struct as __initdata since it's only used by
+> riscv_noncoherent_register_cache_ops which copies the contents.
+>
+Agreed, I will update it in the next version.
 
-diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
-index 34790f15c1b8..1a0752255959 100644
---- a/drivers/ata/sata_rcar.c
-+++ b/drivers/ata/sata_rcar.c
-@@ -914,7 +914,7 @@ static int sata_rcar_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int sata_rcar_remove(struct platform_device *pdev)
-+static void sata_rcar_remove(struct platform_device *pdev)
- {
- 	struct ata_host *host = platform_get_drvdata(pdev);
- 	struct sata_rcar_priv *priv = host->private_data;
-@@ -930,8 +930,6 @@ static int sata_rcar_remove(struct platform_device *pdev)
- 
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- #ifdef CONFIG_PM_SLEEP
-@@ -1016,7 +1014,7 @@ static const struct dev_pm_ops sata_rcar_pm_ops = {
- 
- static struct platform_driver sata_rcar_driver = {
- 	.probe		= sata_rcar_probe,
--	.remove		= sata_rcar_remove,
-+	.remove_new	= sata_rcar_remove,
- 	.driver = {
- 		.name		= DRV_NAME,
- 		.of_match_table	= sata_rcar_match,
--- 
-2.39.2
-
+Cheers,
+Prabhakar
