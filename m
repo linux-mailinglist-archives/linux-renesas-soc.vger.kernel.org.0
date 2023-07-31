@@ -2,44 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79D0976AA5E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 09:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F4676B3EF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 13:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbjHAH66 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Aug 2023 03:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56050 "EHLO
+        id S232469AbjHALzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Aug 2023 07:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjHAH64 (ORCPT
+        with ESMTP id S230049AbjHALz2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Aug 2023 03:58:56 -0400
-Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62181729
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 00:58:53 -0700 (PDT)
-Received: by mail.durme.pl (Postfix, from userid 1002)
-        id EA1494AF53; Tue,  1 Aug 2023 07:55:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
-        t=1690876577; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        Tue, 1 Aug 2023 07:55:28 -0400
+Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A0411722
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 04:55:27 -0700 (PDT)
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+        id 7262783098; Mon, 31 Jul 2023 10:36:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+        t=1690792572; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
         h=Date:From:To:Subject:From;
-        b=k/m/e7fR5lTJFdkzE4rLWVYnIpWCj1PDwEb+8YO/XRZhZcP3BiCnB4D+QCMO5gVUP
-         Rf+E+97CKyjxE1OzosYEtK+LCNHY4LUhPhPEnjSdAuhYwqsvn9/+yU4MkfCsL6bKeb
-         Rd6EzwDIyzPf/nb5FJao4UCmjImWFbOLDNCkm2FMczAbG9aWJUoW1YvuUSdh8Q2Vev
-         NULavV2rtIbGYUGmHqy9r1Dn3C/XZYX+qmPhEx9I1cm4omLjMzQBGN59sF+Bn7LtHg
-         wPxsW6dNfQ9XUXVt17Kwt/KjZt9FuaDR9B9LxD2v9ef2riic5pBHiR4S1u9QBkdAi9
-         8zXXDPKdxAlzQ==
-Received: by mail.durme.pl for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 07:55:32 GMT
-Message-ID: <20230801064501-0.1.3f.clud.0.bne21lwa4p@durme.pl>
-Date:   Tue,  1 Aug 2023 07:55:32 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
+        b=O98sA4gUdxpT/56qV5pYNOHZ1Ep69CSdjAloB5MTEOokayDO/kXpNQpXisZEKs0eC
+         2wXb271Gj7gCvrnvvhligqIiet36WYYJw3Zay2Yxr1iInoDrLQ5017w/zwoJKR5hJ1
+         yMVlJ/NyGZyoetZxWtlLrKY8nAt53HoLlYWx5H2obOozDtjbI8KWBr5kBgZ/A3qqug
+         GGRCCzdB1omAuNJGuhFsipsBngAxkwir7SdYPeFpY8DKSWn9F5jc7W1qskZhbJd9C3
+         YiO97gSsKC3KmRipA9YpHmMsxPmA4iMGXYts2VvuLYkr41nccs92pnL5mY8Ib9jaT5
+         6qDv+ZNyMB70A==
+Received: by mail.cothiafon.pl for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.omr0.0.bpi3a6rcmh@cothiafon.pl>
+Date:   Mon, 31 Jul 2023 08:35:48 GMT
+From:   =?UTF-8?Q? "Rados=C5=82aw_Grabowski" ?= 
+        <radoslaw.grabowski@cothiafon.pl>
 To:     <linux-renesas-soc@vger.kernel.org>
 Subject: W sprawie samochodu
-X-Mailer: mail.durme.pl
+X-Mailer: mail.cothiafon.pl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -65,4 +66,4 @@ b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
 
 
 Pozdrawiam
-Krystian Wieczorek
+Rados=C5=82aw Grabowski
