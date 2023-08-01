@@ -2,153 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E787276B9BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 18:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 238AC76BA87
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 19:04:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbjHAQgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Aug 2023 12:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
+        id S234432AbjHARD7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Aug 2023 13:03:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbjHAQgW (ORCPT
+        with ESMTP id S234232AbjHARDl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Aug 2023 12:36:22 -0400
-Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B2D1BFD;
-        Tue,  1 Aug 2023 09:36:17 -0700 (PDT)
-Received: from [2001:a61:6215:d040:c80a:ff:fe00:409d] (helo=cs-wrt.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpa
-        id 1qQsM0-0007BE-KR; Tue, 01 Aug 2023 18:36:12 +0200
-From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
-To:     =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        Tue, 1 Aug 2023 13:03:41 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B37E92D41;
+        Tue,  1 Aug 2023 10:03:26 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,247,1684767600"; 
+   d="scan'208";a="171566335"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2023 02:03:25 +0900
+Received: from localhost.localdomain (unknown [10.226.92.54])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5A6EB402842A;
+        Wed,  2 Aug 2023 02:03:21 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-acpi@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/2] dt-bindings: hwmon: add renesas,isl28022
-Date:   Tue,  1 Aug 2023 18:35:46 +0200
-Message-Id: <20230801163546.3170-3-mail@carsten-spiess.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230801163546.3170-1-mail@carsten-spiess.de>
-References: <20230801163546.3170-1-mail@carsten-spiess.de>
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/2] Extend device_get_match_data() to struct bus_type
+Date:   Tue,  1 Aug 2023 18:03:16 +0100
+Message-Id: <20230801170318.82682-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690907778;8db166c8;
-X-HE-SMSGID: 1qQsM0-0007BE-KR
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
-        T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add dt-bindings for Renesas ISL28022 power monitor.
+This patch series extend device_get_match_data() to struct bus_type,
+so that buses like I2C can get matched data.
 
-Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
----
-v3:
-- changelog added
-v2/v3:
-- schema errors fixed
-- properties reworked
-- shunt-resistor minimum and default value added
----
- .../bindings/hwmon/renesas,isl28022.yaml      | 65 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+v2->v3:
+ * Added Rb tag from Andy for patch#1.
+ * Extended to support i2c_of_match_device() as suggested by Andy.
+ * Changed i2c_of_match_device_sysfs() as non-static function as it is
+   needed for i2c_device_get_match_data().
+ * Added a TODO comment to use i2c_verify_client() when it accepts const
+   pointer.
+ * Added multiple returns to make code path for device_get_match_data()
+   faster in i2c_get_match_data().
+RFC v1->v2:
+ * Replaced "Signed-off-by"->"Suggested-by" tag for Dmitry.
+ * Documented device_get_match_data().
+ * Added multiple returns to make code path for generic fwnode-based
+   lookup faster.
+ * Fixed build warnings reported by kernel test robot <lkp@intel.com>
+ * Added const qualifier to return type and parameter struct i2c_driver
+   in i2c_get_match_data_helper().
+ * Added const qualifier to struct i2c_driver in i2c_get_match_data()
+ * Dropped driver variable from i2c_device_get_match_data()
+ * Replaced to_i2c_client with logic for assigning verify_client as it
+   returns non const pointer.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-new file mode 100644
-index 000000000000..1e0971287941
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas ISL28022 power monitor
-+
-+maintainers:
-+  - Carsten Spieß <mail@carsten-spiess.de>
-+
-+description: |
-+  The ISL28022 is a power monitor with I2C interface. The device monitors
-+  voltage, current via shunt resistor and calculated power.
-+
-+  Datasheets:
-+    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,isl28022
-+
-+  reg:
-+    maxItems: 1
-+
-+  shunt-resistor-micro-ohms:
-+    description: |
-+      Shunt resistor value in micro-Ohm
-+    minimum: 800
-+    default: 10000
-+
-+  renesas,shunt-range-microvolt:
-+    description: |
-+      Maximal shunt voltage range of +/- 40 mV, 80 mV, 160 mV or 320 mV
-+    default: 320000
-+    enum: [40000, 80000, 160000, 320000]
-+
-+  renesas,average-samples:
-+    description: |
-+      Number of samples to be used to report voltage, current and power values.
-+    default: 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        power-monitor@40 {
-+            compatible = "renesas,isl28022";
-+            reg = <0x40>;
-+            shunt-resistor-micro-ohms = <8000>;
-+            renesas,shunt-range-microvolt = <40000>;
-+            renesas,average-samples = <128>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b02e3b991676..23b8e8183ece 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11069,6 +11069,7 @@ ISL28022 HARDWARE MONITORING DRIVER
- M:	Carsten Spieß <mail@carsten-spiess.de>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
- F:	Documentation/hwmon/isl28022.rst
- F:	drivers/hwmon/isl28022.c
- 
+Biju Das (2):
+  drivers: fwnode: Extend device_get_match_data() to struct bus_type
+  i2c: Add i2c_device_get_match_data() callback
+
+ drivers/base/property.c     | 21 +++++++++++++++-
+ drivers/i2c/i2c-core-base.c | 49 +++++++++++++++++++++++++++++++------
+ drivers/i2c/i2c-core-of.c   |  3 ++-
+ include/linux/device/bus.h  |  3 +++
+ include/linux/i2c.h         | 11 +++++++++
+ 5 files changed, 77 insertions(+), 10 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
