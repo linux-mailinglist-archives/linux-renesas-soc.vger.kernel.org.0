@@ -2,79 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C63676B66F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 15:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7355276B9BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 18:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233957AbjHAN4A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Aug 2023 09:56:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53498 "EHLO
+        id S230245AbjHAQgS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Aug 2023 12:36:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbjHANz7 (ORCPT
+        with ESMTP id S229978AbjHAQgR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Aug 2023 09:55:59 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 66DBDC3;
-        Tue,  1 Aug 2023 06:55:58 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,247,1684767600"; 
-   d="scan'208";a="175237211"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Aug 2023 22:55:57 +0900
-Received: from localhost.localdomain (unknown [10.226.93.70])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2876C422CE99;
-        Tue,  1 Aug 2023 22:55:54 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Julia Lawall <julia.lawall@inria.fr>
-Subject: [PATCH] clk: vc3: Fix 64 by 64 division
-Date:   Tue,  1 Aug 2023 14:55:52 +0100
-Message-Id: <20230801135552.386796-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 1 Aug 2023 12:36:17 -0400
+Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 159351BF9
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 09:36:13 -0700 (PDT)
+Received: from [2001:a61:6215:d040:c80a:ff:fe00:409d] (helo=cs-wrt.lan.local); authenticated
+        by wp534.webpack.hosteurope.de running ExIM with esmtpa
+        id 1qQsLy-0007BE-Dq; Tue, 01 Aug 2023 18:36:10 +0200
+From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/2] hwmon: (isl28022) new driver for ISL28022 power monitor
+Date:   Tue,  1 Aug 2023 18:35:44 +0200
+Message-Id: <20230801163546.3170-1-mail@carsten-spiess.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1690907773;689c48e8;
+X-HE-SMSGID: 1qQsLy-0007BE-Dq
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
+        T_SPF_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix the below cocci warnings by replacing do_div()->div64_ul() and
-bound the result with a max value of U16_MAX.
+Driver for Renesas ISL28022 power monitor chip.
+Found e.g. on Ubiquiti Edgerouter ER-6P
 
-cocci warnings:
-	drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a
-	64-by-32 division, please consider using div64_ul instead.
+v3: changelog added
+v2: properties reworked
+v2: calculations fixed
+v2: shunt voltage input moved to debugfs
+v2: documentation and devicetree schema reworked
+v1: created
 
-Reported-by: Julia Lawall <julia.lawall@inria.fr>
-Closes: https://lore.kernel.org/r/202307270841.yr5HxYIl-lkp@intel.com/
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/clk/clk-versaclock3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Carsten Spieß (2):
+  hwmon: (isl28022) new driver for ISL28022 power monitor
+  dt-bindings: hwmon: add renesas,isl28022
 
-diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-index 4ceb7fcf7fcb..7ca413a5b1fb 100644
---- a/drivers/clk/clk-versaclock3.c
-+++ b/drivers/clk/clk-versaclock3.c
-@@ -401,9 +401,8 @@ static long vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
- 		/* Determine best fractional part, which is 16 bit wide */
- 		div_frc = rate % *parent_rate;
- 		div_frc *= BIT(16) - 1;
--		do_div(div_frc, *parent_rate);
- 
--		vc3->div_frc = (u32)div_frc;
-+		vc3->div_frc = min_t(u64, div64_ul(div_frc, *parent_rate), U16_MAX);
- 		rate = (*parent_rate *
- 			(vc3->div_int * VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
- 	} else {
+ .../bindings/hwmon/renesas,isl28022.yaml      |  65 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/isl28022.rst              |  63 +++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/isl28022.c                      | 496 ++++++++++++++++++
+ 7 files changed, 645 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+ create mode 100644 Documentation/hwmon/isl28022.rst
+ create mode 100644 drivers/hwmon/isl28022.c
+
 -- 
-2.25.1
+2.34.1
 
