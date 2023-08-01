@@ -2,44 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F4676B3EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 13:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9794476B2BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 13:09:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbjHALzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Aug 2023 07:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47542 "EHLO
+        id S233921AbjHALJw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Aug 2023 07:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230049AbjHALz2 (ORCPT
+        with ESMTP id S233998AbjHALJ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Aug 2023 07:55:28 -0400
-Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A0411722
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 04:55:27 -0700 (PDT)
-Received: by mail.cothiafon.pl (Postfix, from userid 1002)
-        id 7262783098; Mon, 31 Jul 2023 10:36:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
-        t=1690792572; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
-        h=Date:From:To:Subject:From;
-        b=O98sA4gUdxpT/56qV5pYNOHZ1Ep69CSdjAloB5MTEOokayDO/kXpNQpXisZEKs0eC
-         2wXb271Gj7gCvrnvvhligqIiet36WYYJw3Zay2Yxr1iInoDrLQ5017w/zwoJKR5hJ1
-         yMVlJ/NyGZyoetZxWtlLrKY8nAt53HoLlYWx5H2obOozDtjbI8KWBr5kBgZ/A3qqug
-         GGRCCzdB1omAuNJGuhFsipsBngAxkwir7SdYPeFpY8DKSWn9F5jc7W1qskZhbJd9C3
-         YiO97gSsKC3KmRipA9YpHmMsxPmA4iMGXYts2VvuLYkr41nccs92pnL5mY8Ib9jaT5
-         6qDv+ZNyMB70A==
-Received: by mail.cothiafon.pl for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jul 2023 08:35:48 GMT
-Message-ID: <20230731095940-0.1.28.omr0.0.bpi3a6rcmh@cothiafon.pl>
-Date:   Mon, 31 Jul 2023 08:35:48 GMT
-From:   =?UTF-8?Q? "Rados=C5=82aw_Grabowski" ?= 
-        <radoslaw.grabowski@cothiafon.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.cothiafon.pl
+        Tue, 1 Aug 2023 07:09:28 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC472D67
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Aug 2023 04:03:51 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qQn9L-0006er-TG; Tue, 01 Aug 2023 13:02:47 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qQn9G-000MYc-Qz; Tue, 01 Aug 2023 13:02:42 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qQn9F-009bb2-Rs; Tue, 01 Aug 2023 13:02:41 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Russell King <linux@armlinux.org.uk>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Jessica Zhang <quic_jesszhan@quicinc.com>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Su Hui <suhui@nfschina.com>,
+        Kuogee Hsieh <quic_khsieh@quicinc.com>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Karol Herbst <kherbst@redhat.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Danilo Krummrich <dakr@redhat.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
+        Steven Price <steven.price@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>
+Cc:     dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        etnaviv@lists.freedesktop.org, Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 00/12] drm: Convert to platform remove callback returning void
+Date:   Tue,  1 Aug 2023 13:02:27 +0200
+Message-Id: <20230801110239.831099-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4647; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=lLYOduakdAZPV7h2t7p0GtcJJgBTffjjiGktWPRzcYQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkyOWz7AY2J/amMZa1ly1xZnt1qVfdI+rjtzZOC 8JCyUY0p4KJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZMjlswAKCRCPgPtYfRL+ ToYFCACzSxwyZvnMzJgJyOkvEePf/ZXRnGrtlXaVQ3ZoUTHkj+i/+jpBQWVCP7WrMGN7DsJJNtK 0JA9E3Yn8ljBPqK2hZbNAJIiaj3l1RjP00t00TVHzUaRcD8bpf0MQbCl7XVh+S1lGpscwAhUhU5 EuB/uIagIPze58OicfVqTEO6iH3tvWG6Tiw+Vj2etWniKNEhnyG94qzpKxsJ1UQxqjG+th5ODs2 R/fbiH6ltN6uLcrT7oBmUbtwgnmFm0z6KSzEqBKSAi6WhI4Cz6iIb1+Kt+G3TH2c0+5ZjkMcAix V3zjdSfyyffaoQc3LkxVPtw9eSDLh/jJp7lNI4Ci05e+WBPm
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,23 +113,93 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hello,
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+(implicit) v1 of this series can be found at
+https://lore.kernel.org/dri-devel/20230507162616.1368908-1-u.kleine-koenig@pengutronix.de
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+Back then the series contained 53 patches. A big bunch was already
+applied to drm-misc, this is the remainder; with only little changes
+compared to v1:
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
+ - rebased to todays drm-misc-next
+ - Squashed together the two mediatek patches
+ - Adapted the subject prefix for the arcpgu as pointed out by Thomas
+   Zimmermann. (This affected two patches originally, one of them was merged
+   already before anyhow (next-20230801~41^2~34^2~179).)
 
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+All these patches are pairwise independant of each other and so can be
+applied individually to their respective maintainer trees. I'm open to
+get these all in together via drm-misc, but each maintainer picking the
+individual patches that they are repsonsible for is maybe the easier
+approach?!
 
+Best regards
+Uwe
+   
 
-Pozdrawiam
-Rados=C5=82aw Grabowski
+Uwe Kleine-König (12):
+  drm/armada: Convert to platform remove callback returning void
+  drm/etnaviv: Convert to platform remove callback returning void
+  drm/imx/dcss: Convert to platform remove callback returning void
+  drm/imx/ipuv3: Convert to platform remove callback returning void
+  drm/ingenic: Convert to platform remove callback returning void
+  drm/kmb: Convert to platform remove callback returning void
+  drm/mediatek: Convert to platform remove callback returning void
+  drm/msm: Convert to platform remove callback returning void
+  drm/nouveau: Convert to platform remove callback returning void
+  drm/shmobile: Convert to platform remove callback returning void
+  drm/sprd: Convert to platform remove callback returning void
+  drm/arcpgu: Convert to platform remove callback returning void
+
+ drivers/gpu/drm/armada/armada_crtc.c             | 5 ++---
+ drivers/gpu/drm/armada/armada_drv.c              | 5 ++---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c            | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c            | 5 ++---
+ drivers/gpu/drm/imx/dcss/dcss-drv.c              | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c          | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c         | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c              | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c              | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c           | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c     | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c        | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-ipu.c            | 5 ++---
+ drivers/gpu/drm/kmb/kmb_drv.c                    | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_cec.c               | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_color.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c         | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dp.c                | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c               | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dsi.c               | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c              | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c          | 5 ++---
+ drivers/gpu/drm/msm/adreno/adreno_device.c       | 5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c          | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c         | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c         | 5 ++---
+ drivers/gpu/drm/msm/dp/dp_display.c              | 6 ++----
+ drivers/gpu/drm/msm/dsi/dsi.c                    | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi.c                  | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c              | 6 ++----
+ drivers/gpu/drm/msm/msm_drv.c                    | 6 ++----
+ drivers/gpu/drm/msm/msm_mdss.c                   | 6 ++----
+ drivers/gpu/drm/nouveau/nouveau_platform.c       | 5 ++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 6 ++----
+ drivers/gpu/drm/sprd/sprd_dpu.c                  | 6 ++----
+ drivers/gpu/drm/sprd/sprd_drm.c                  | 5 ++---
+ drivers/gpu/drm/sprd/sprd_dsi.c                  | 6 ++----
+ drivers/gpu/drm/tiny/arcpgu.c                    | 6 ++----
+ 45 files changed, 90 insertions(+), 164 deletions(-)
+
+base-commit: 290cdd7959a734a0ef20ec096af7810177c4b9f8
+-- 
+2.39.2
+
