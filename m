@@ -2,62 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77CDD76BDC0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 21:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F13BB76BDEB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Aug 2023 21:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232426AbjHAT3i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Aug 2023 15:29:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56250 "EHLO
+        id S232555AbjHATjX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Aug 2023 15:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbjHAT3g (ORCPT
+        with ESMTP id S231517AbjHATjW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Aug 2023 15:29:36 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A85199F;
-        Tue,  1 Aug 2023 12:29:35 -0700 (PDT)
+        Tue, 1 Aug 2023 15:39:22 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992B91BF1;
+        Tue,  1 Aug 2023 12:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690918176; x=1722454176;
+  t=1690918759; x=1722454759;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nTLt/HhmxrDmDa3nOde9MUzoI/KRxer2J9vnTgnAEZQ=;
-  b=XrWGq1ajSRnMN4I0HH+l14rXXptteaHrgdoilwmkhD/frqAbVIuG7XuH
-   0ppMcKeC4Th0rHN23oWbfyYCqzp0cOdyWneaPAhGM4Jnh3vm1N24HPjn9
-   3KI3Egajv9tno8TiZ2p3+6aBBPx+MqVuqkSxWwCyIWLhLO4f97gD8oZWU
-   cXRrr6ojY/clvKkhlpIqHKRZcbDeUrxhpUmioqVxARRzqBbsSXq3d8dEu
-   oeLKxKXosw+Uq97d3rdnkXTMYf8l6jk7LzegRCApWUmtrM0Q+wIh73bp4
-   EMU7xj/REODmAtYYb1XPIBaev79k614iFTUN1bXSqLkdhwjvO/7wGrJTU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="366861626"
+  bh=Oa6jUYKUJk4xKUInJM8nAus+RSs4y5jHWcsddX766Yg=;
+  b=VJzPBS0UJCH8Brf9Y3XSw38kjbdLeCtO/RSit8IM9wgFyOQtT4RvLx0G
+   Oxx2p6yfMLZRnI8G/Mci+VgJHqBFdJmfxFcV5JO7MFm90+HVoP6SnvI3Q
+   XWt7CpKFfzxhwRS9Q+ABUVA0zlbDq0ig1r3PYP6//kVKXJjqCjONrMoci
+   HvPxQYJ9LtdHj/bLkZWOorcOnqXLpMIM1ZhGonY9ZREi4QbA4R3v7q2n4
+   QI+0s++FVFk89NP1AqjVAnIT3CuTc6cGpRSI+Chv3dg9w0CuB/g/gaYxa
+   xJmeOZ40ryi5R4DDCDGsMQn8iUuIw8CCsVnRyS8fR2YbFXwVWU+MHMsPp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="373038043"
 X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="366861626"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 12:29:32 -0700
+   d="scan'208";a="373038043"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 12:39:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="1059534887"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="798793810"
 X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="1059534887"
+   d="scan'208";a="798793810"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Aug 2023 12:29:30 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 01 Aug 2023 12:39:15 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qQv3g-00GdCW-25;
-        Tue, 01 Aug 2023 22:29:28 +0300
-Date:   Tue, 1 Aug 2023 22:29:28 +0300
+        id 1qQvD7-00Gxg7-1t;
+        Tue, 01 Aug 2023 22:39:13 +0300
+Date:   Tue, 1 Aug 2023 22:39:13 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] i2c: Add i2c_device_get_match_data() callback
-Message-ID: <ZMldGIYbjDa51587@smile.fi.intel.com>
+Subject: Re: [PATCH v3 1/2] drivers: fwnode: Extend device_get_match_data()
+ to struct bus_type
+Message-ID: <ZMlfYU3rOQle0VuH@smile.fi.intel.com>
 References: <20230801170318.82682-1-biju.das.jz@bp.renesas.com>
- <20230801170318.82682-3-biju.das.jz@bp.renesas.com>
+ <20230801170318.82682-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230801170318.82682-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230801170318.82682-2-biju.das.jz@bp.renesas.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
@@ -69,18 +76,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 01, 2023 at 06:03:18PM +0100, Biju Das wrote:
-> Add i2c_device_get_match_data() callback to struct bus_type().
-> 
-> While at it, introduced i2c_get_match_data_helper() to avoid code
-> duplication with i2c_get_match_data().
+On Tue, Aug 01, 2023 at 06:03:17PM +0100, Biju Das wrote:
+> Extend device_get_match_data() to buses (for eg: I2C) by adding a
+> callback device_get_match_data() to struct bus_type() and call this method
+> as a fallback for generic fwnode based device_get_match_data().
+
+Because of anticipation of v4, see one additional comment below.
 
 ...
 
->  * Changed i2c_of_match_device_sysfs() as non-static function as it is
->    needed for i2c_device_get_match_data().
+> +/**
+> + * device_get_match_data - get match data from OF/ACPI/Bus match tables
+> + * @dev: device to find the match data
+> + *
+> + * Find match data using generic fwnode-based lookup and if there is no
+> + * match, call the bus->get_match_data() for finding match data.
+> + *
+> + * Return: a match data pointer or NULL if there is no match in the matching
+> + * table.
 
-Btw, this can be split to a separate change.
+Also add a note for the corner case.
+
+"""
+ *
+ * Besides the fact that some drivers abuse the device ID driver_data type
+ * and claim it to be integer, for the bus specific ID tables the driver_data
+ * may be defined as kernel_ulong_t. For these tables 0 is a valid response,
+ * but not for this function. It's recommended to covert those either to avoid
+ * 0 or use a real pointer to the predefined driver data.
+"""
+
+> + */
 
 -- 
 With Best Regards,
