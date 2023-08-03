@@ -2,109 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F63476F35D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Aug 2023 21:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9898576F3A8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Aug 2023 21:48:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbjHCTWf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Aug 2023 15:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59162 "EHLO
+        id S231397AbjHCTst (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Aug 2023 15:48:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjHCTWd (ORCPT
+        with ESMTP id S231356AbjHCTss (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Aug 2023 15:22:33 -0400
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E38330EB
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Aug 2023 12:22:32 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-44757af136cso596849137.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Aug 2023 12:22:32 -0700 (PDT)
+        Thu, 3 Aug 2023 15:48:48 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D9E273A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Aug 2023 12:48:37 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b9a2033978so21532861fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Aug 2023 12:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691090551; x=1691695351;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1T2gH68DArT9FmYrPj9BMhK77ECutQD6S0cdO/cxM0=;
-        b=ny84zohfpmzmtt0eYE61+7x5gx6BbdREdY81Vr973udeoVVY8AKYPLmVx1AYaSMEWY
-         XJ2rExN7Cuw0Ovhf0XNk0YFt/B3prBwO516BJRAtjOJQASz/AScIZGZ+eUea1mpPeYCh
-         MooxQRXVSKGTtu3+8eVEjbEfzjGhCTIYBSI6vMxH8X2x+PpxrzzLwE19Q1ohmXFo11r4
-         8N13qe7YqeZ3GCVgksAc+vTJBFn3K29QOMzbulRh/zmJUs8brkfDrFlX7Np6xg6RMlrZ
-         STPFouGaVLYBt3A3pbrS9dWIDizU7h31fZugVNxxRpKjMPzf7FSFoDTSM+vImlRNSWXy
-         UxPg==
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1691092115; x=1691696915;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Z7RavCZaOPDwL16SmZAwND6YT5Gjm/jHSJPLs+Fz01M=;
+        b=zCM/TAo7Jx2wU0k+b/XTTp0NzbDDvI3nTi3zkPvW2vP2s8tg5WpZ0zSpHbKDXaOQKp
+         Z/Z6POoPyaZq6UqoxCEhUFCMXscPn1LsUztXXukya2gVor7DA5V8QBxs5J9kqXLfcPXN
+         q8z3pX3M6Yba5jauyoCL205Y2x9jjYV/uzJaiWY8FkQNP9rnteMNX8FN+aXmyc0u2YN9
+         VFDp38L8UOmSyyB3R7nQpFqyGTSs+iX5abHLG6XldBNO/eeUHEZnbjxjoZeTt/IpmVTY
+         Ukl4XUF2z/Rgs9/0iKV+SrlgCK1n32QIabJI6hbQBAJ4Rtg3liYEDP2jy7uVQOv3RVpN
+         7hfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691090551; x=1691695351;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o1T2gH68DArT9FmYrPj9BMhK77ECutQD6S0cdO/cxM0=;
-        b=azNNm37iLGmvIJc8784cqJdO3ND1NEDyBUVD2MbccEv9ncSem941qwN5Y1VEJiGZiM
-         dl5XZGA+lFBDroDuZ59nYcek5wIQw0TN1jhKxAl/D8GcTp0vYGQj3GpVD9eTf+qg8350
-         Mc7BQym7JVd3/IAyY8RZjSsYKiUFC5InIkutmJqQkgR8i/LC66BqybcUOPKbC/hJGldG
-         Q0GEkWj1kVYMOQVqLvw3U+CFueSXJc2pFH1P/uFp+6B9Xpl+lbWyscZG95ft3VH0oV6d
-         I1UJE6l4Nes7xLDoxtPW8vzWgqCDppVXghFyaq9b6jcoRxiSOWOalKtGn57dzlGv83cr
-         NDMA==
-X-Gm-Message-State: ABy/qLbTtTrP7y6Ys2pNsYEqZQKNgTlHWfM3spwtcpn+mGfkt5aj/xK8
-        QXxH/dQwfx+D0aLTTVQNaaXFTg==
-X-Google-Smtp-Source: APBJJlGyfRXQMER1Gt5fDu8Rdp2YZU7so89bf9DIrdnQtZPa3YHIvsOIjX6tpZc0ra1uNwewnbg0Eg==
-X-Received: by 2002:a67:fd69:0:b0:444:c644:c231 with SMTP id h9-20020a67fd69000000b00444c644c231mr7199155vsa.12.1691090551551;
-        Thu, 03 Aug 2023 12:22:31 -0700 (PDT)
-Received: from fedora (072-189-067-006.res.spectrum.com. [72.189.67.6])
-        by smtp.gmail.com with ESMTPSA id i19-20020a67c213000000b0044794fe40f3sm81153vsj.21.2023.08.03.12.22.30
+        d=1e100.net; s=20221208; t=1691092115; x=1691696915;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z7RavCZaOPDwL16SmZAwND6YT5Gjm/jHSJPLs+Fz01M=;
+        b=Zf+cYfZ+hHvOxPLmAuXYot2Wv/s8SnhQdsxaFYreqOpFM979fzYgN0Hvc4qyj2rbWJ
+         ym6eqgg7UCFHrBz6oxgt2yNDaa/FnrtGvOhF4w5aMMt89UfXwNALbGx8kXOFT+w6eYHb
+         mvdpuBEkDlTCwrSnz6N5RjE2Vo8ZbrrfPY0hZjhFREd9o1gTP724KB/H0dL667dRsMpR
+         oWhyb6uSqv+5FxJ672ifkDT/WXzjfKmBNVkq7Xd3bsMjO3h0+RbGBwse3GceHaQzi1fY
+         QS6wyc+bXALXafwg3Db2YC4yKqRM6a6PHH+sLpry7xXrO9Gcr/MtLc4owfE2D9PmHOo6
+         YKwA==
+X-Gm-Message-State: ABy/qLZvR2zjzuEuTAVJquzrIpmKDwh5LswGF9jRY2Rj1aSnShIcgdtT
+        /QInvTCViWKQRRvnaRNqi7nl+g==
+X-Google-Smtp-Source: APBJJlGr+fqW/4srT5C+9tYUdBGhMx4PnovCOePBRG9QiO13v6bQFJ/Jxuc6mvXH7UCglebqCNGGrg==
+X-Received: by 2002:a2e:94d0:0:b0:2b9:54e1:6711 with SMTP id r16-20020a2e94d0000000b002b954e16711mr8229168ljh.7.1691092115437;
+        Thu, 03 Aug 2023 12:48:35 -0700 (PDT)
+Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
+        by smtp.gmail.com with ESMTPSA id r19-20020a2e9953000000b002b6cdbd9e35sm96138ljj.55.2023.08.03.12.48.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 12:22:30 -0700 (PDT)
-Date:   Thu, 3 Aug 2023 15:22:28 -0400
-From:   William Breathitt Gray <william.gray@linaro.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3] counter: rz-mtu3-cnt: Reorder locking sequence for
- consistency
-Message-ID: <ZMv+dICGMsWoVpfU@fedora>
-References: <20230725154611.227556-1-biju.das.jz@bp.renesas.com>
+        Thu, 03 Aug 2023 12:48:34 -0700 (PDT)
+Date:   Thu, 3 Aug 2023 21:48:34 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
+Message-ID: <ZMwEktpQeverQJbK@oden.dyn.berto.se>
+References: <20230715201239.29014-1-niklas.soderlund+renesas@ragnatech.se>
+ <ZMVwhYmXkubetq8p@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="UibedGS5+vaQ13nT"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230725154611.227556-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZMVwhYmXkubetq8p@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hej Sakari,
 
---UibedGS5+vaQ13nT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023-07-29 20:03:17 +0000, Sakari Ailus wrote:
+> Hejssan Niklas,
+> 
+> On Sat, Jul 15, 2023 at 10:12:39PM +0200, Niklas Söderlund wrote:
+> > Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
+> > and C-PHY this patch only adds support for the C-PHY mode due to lack of
+> > documentation and hardware to test on.
+> > 
+> > The V4H is the first Gen4 device that is enabled in the rcar-csi2
+> > driver. There is much overlap with the Gen3 driver, the primary
+> > difference is in how the receiver is started. The V4H have a much larger
+> > register space and some addresses overlap with Gen3.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> I've made this change to the patch, it won't build otherwise (arm arch):
 
-On Tue, Jul 25, 2023 at 04:46:11PM +0100, Biju Das wrote:
-> All functions except rz_mtu3_count_enable_write(), call
-> pm_runtime_{get,put} inside the lock. For consistency do the same here.
->=20
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Closes: https://lore.kernel.org/r/ZH8Fmom8vZ4DwxqA@duo.ucw.cz
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Super, thanks a bunch! Sorry I did not test this.
 
-Applied to counter-next.
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+> index 99d190a9e637..f6326df0b09b 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+> @@ -756,7 +756,7 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+>  
+>  	/* Adjust for C-PHY, divide by 2.8. */
+>  	if (priv->cphy)
+> -		mbps = (mbps * 5) / 14;
+> +		mbps = div_u64(mbps * 5, 14);
+>  
+>  	return mbps;
+>  }
+> 
+> -- 
+> Sakari Ailus
 
-Thanks,
-
-William Breathitt Gray
-
---UibedGS5+vaQ13nT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCZMv+dAAKCRC1SFbKvhIj
-K/RtAP9TCfM4UxCGQVG1P2aWQTVJHQ5DFEzToiJfx8uI08ecmgD8DF+rWeTgFQSr
-oa5KQUHNKF5kxByXX1wGkWAu/9jkIAQ=
-=d4Z9
------END PGP SIGNATURE-----
-
---UibedGS5+vaQ13nT--
+-- 
+Kind Regards,
+Niklas Söderlund
