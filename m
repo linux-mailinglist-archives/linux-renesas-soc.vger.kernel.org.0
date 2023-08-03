@@ -2,69 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDC476E7E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Aug 2023 14:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2586A76E7D6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Aug 2023 14:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233322AbjHCMHM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Aug 2023 08:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57748 "EHLO
+        id S235681AbjHCMHG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Aug 2023 08:07:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235789AbjHCMHI (ORCPT
+        with ESMTP id S232662AbjHCMHD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Aug 2023 08:07:08 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 01C412D7E;
-        Thu,  3 Aug 2023 05:07:02 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,252,1684767600"; 
-   d="scan'208";a="175485439"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Aug 2023 21:06:33 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B7ED140031E0;
-        Thu,  3 Aug 2023 21:06:33 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next 2/2] net: renesas: rswitch: Add .[gs]et_link_ksettings support
-Date:   Thu,  3 Aug 2023 21:06:21 +0900
-Message-Id: <20230803120621.1471440-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230803120621.1471440-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230803120621.1471440-1-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 3 Aug 2023 08:07:03 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A4C30E0;
+        Thu,  3 Aug 2023 05:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691064403; x=1722600403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TAPgztHRobpBw6gzSgekudQ1pJARsoQRiCukcu60D2I=;
+  b=cHOLNpifVfmVavJjpmpSMDuSS9rRioTgMEtHfardFs8jWVrubz+xXJPM
+   J8XxCmyjxJKANYOMzQ0lrudRrfQ0WbRGVmfRa9Loi7XY/0n7aX0yoTPUu
+   fuvvckRLGTmZM9w14L4lI/t0DOXRnssClIoqp1jhEZPzZdS3BOUGGh8jN
+   gGbWhbqJJW7yH0k+BItwA9HWOn6/2smSiHF18UCGArXv7LeXEebUDC0vN
+   Q5rf8xK6tC/KYgFGE663LuSvBXfK2Vx/JNQkWNUPgvjVH0Ef7T8gr8GXh
+   TGjxNmGr99UArsA+KV8OgfLIlCw6jy7UCLJ5fcB0/U+wyHAiCvKPywjPW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="400793181"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="400793181"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 05:06:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="843572813"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="843572813"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2023 05:06:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qRX69-00BSsM-19;
+        Thu, 03 Aug 2023 15:06:33 +0300
+Date:   Thu, 3 Aug 2023 15:06:33 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Andi Shyti <andi.shyti@kernel.org>
+Cc:     Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 RESEND 2/4] i2c: Add i2c_device_get_match_data()
+ callback
+Message-ID: <ZMuYSdVfiCiUXU8L@smile.fi.intel.com>
+References: <20230803103102.323987-1-biju.das.jz@bp.renesas.com>
+ <20230803103102.323987-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803103102.323987-3-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add .[gs]et_link_ksettings support by using
-phy_ethtool_[gs]et_link_ksettings() functions.
+On Thu, Aug 03, 2023 at 11:31:00AM +0100, Biju Das wrote:
+> Add i2c_device_get_match_data() callback to struct bus_type().
+> 
+> While at it, introduced i2c_get_match_data_helper() to avoid code
+> duplication with i2c_get_match_data().
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 2 ++
- 1 file changed, 2 insertions(+)
+It seems you are missing to Cc Andi for all these... (not your fault,
+rather unfortunately).
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 2c1c584f0ca4..e1731f179d30 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1664,6 +1664,8 @@ static int rswitch_get_ts_info(struct net_device *ndev, struct ethtool_ts_info *
- 
- static const struct ethtool_ops rswitch_ethtool_ops = {
- 	.get_ts_info = rswitch_get_ts_info,
-+	.get_link_ksettings = phy_ethtool_get_link_ksettings,
-+	.set_link_ksettings = phy_ethtool_set_link_ksettings,
- };
- 
- static const struct of_device_id renesas_eth_sw_of_table[] = {
+Yes, while he is not directly involved into core changes the drivers
+are pretty much should consider this change.
+
+...
+
+>  	data = device_get_match_data(&client->dev);
+> -	if (!data) {
+> -		match = i2c_match_id(driver->id_table, client);
+> -		if (!match)
+> -			return NULL;
+> +	if (data)
+> +		return data;
+>  
+> -		data = (const void *)match->driver_data;
+> -	}
+> -
+> -	return data;
+
+Looking at this, it _might_ make sense to split another patch to prepare for
+better difference here.
+
+ -	if (!data) {
+ -		match = i2c_match_id(driver->id_table, client);
+ -		if (!match)
+ -			return NULL;
+ +	if (data)
+ +		return data;
+ +
+ +	match = i2c_match_id(driver->id_table, client);
+ +	if (!match)
+ +		return NULL;
+ +
+ +	return (const void *)match->driver_data;
+
+ Just play with this idea.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
