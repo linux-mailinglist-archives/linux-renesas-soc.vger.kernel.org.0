@@ -2,86 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FF876F8A1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Aug 2023 05:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FFAF76F8BD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Aug 2023 06:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233416AbjHDDyx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Aug 2023 23:54:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53250 "EHLO
+        id S232400AbjHDEGG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Aug 2023 00:06:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233187AbjHDDyt (ORCPT
+        with ESMTP id S229527AbjHDEGF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Aug 2023 23:54:49 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A4EB3C31;
-        Thu,  3 Aug 2023 20:54:47 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RHBdx2X1qz1KCCw;
-        Fri,  4 Aug 2023 11:53:41 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 11:54:44 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <sgoutham@marvell.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <jesse.brandeburg@intel.com>, <anthony.l.nguyen@intel.com>,
-        <tariqt@nvidia.com>, <s.shtylyov@omp.ru>, <aspriel@gmail.com>,
-        <franky.lin@broadcom.com>, <hante.meuleman@broadcom.com>,
-        <kvalo@kernel.org>, <richardcochran@gmail.com>,
-        <yoshihiro.shimoda.uh@renesas.com>, <ruanjinjie@huawei.com>,
-        <u.kleine-koenig@pengutronix.de>, <mkl@pengutronix.de>,
-        <lee@kernel.org>, <set_pte_at@outlook.com>,
-        <linux-arm-kernel@lists.infradead.org>, <netdev@vger.kernel.org>,
-        <intel-wired-lan@lists.osuosl.org>, <linux-rdma@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-wireless@vger.kernel.org>,
-        <brcm80211-dev-list.pdl@broadcom.com>,
-        <SHA-cyfmac-dev-list@infineon.com>
-Subject: [PATCH -next 6/6] brcm80211: Remove an unnecessary ternary operator
-Date:   Fri, 4 Aug 2023 11:53:46 +0800
-Message-ID: <20230804035346.2879318-7-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230804035346.2879318-1-ruanjinjie@huawei.com>
-References: <20230804035346.2879318-1-ruanjinjie@huawei.com>
+        Fri, 4 Aug 2023 00:06:05 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983BBE7;
+        Thu,  3 Aug 2023 21:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691121963; x=1722657963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8Ri+879dpjTsGVSdU4l/01Crn9p2QEtVdk2BwNRNNuU=;
+  b=FfPBAh+DbxrBe8CUw0OL/8eJYY+bZHCxjqhQZp4uboRFHGE2mWLv9uGd
+   kdGfv9FSQ0txPi7ircyAqicAUzBqo999X+B0gr8lSpvh+XDDDQBsTi45K
+   pWly0SAPIsTvd+3pGj1IomFNPBbPKU2wD6VB4XKw91fcvZPms1mdLds0d
+   j+O3+OeDGGr3VPljGgItVSiELs37jEX+do0orVgFK8q44Y/KmkdsvFa6Q
+   x23VZCZzLiOjzCKV4ctBfck2ykDa3DSpQ1VqwwWgDoOgcVWveCjRW+tBq
+   PWFhtEPeobY7aUrjlxvkysimKwOyLiXFLUhFMg/xTPKFejH0ZnuVgIuyQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="456433349"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="456433349"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 21:06:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="706820621"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="706820621"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 03 Aug 2023 21:06:00 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qRm4d-008n0a-0s;
+        Fri, 04 Aug 2023 07:05:59 +0300
+Date:   Fri, 4 Aug 2023 07:05:58 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v5 RESEND 2/4] i2c: Add i2c_device_get_match_data()
+ callback
+Message-ID: <ZMx5Jn0VCNrinrOl@smile.fi.intel.com>
+References: <20230803103102.323987-1-biju.das.jz@bp.renesas.com>
+ <20230803103102.323987-3-biju.das.jz@bp.renesas.com>
+ <ZMuYSdVfiCiUXU8L@smile.fi.intel.com>
+ <OS0PR01MB5922933E8AE4B9D17C0158E48608A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922933E8AE4B9D17C0158E48608A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a ternary operator, the true or false judgement of which
-is unnecessary in C language semantics.
+On Thu, Aug 03, 2023 at 01:52:05PM +0000, Biju Das wrote:
+> > On Thu, Aug 03, 2023 at 11:31:00AM +0100, Biju Das wrote:
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> Does these below 2 patches ok?
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
-index 8580a2754789..8328b22829c5 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
-@@ -27351,8 +27351,7 @@ static int wlc_phy_cal_rxiq_nphy_rev3(struct brcms_phy *pi,
- 
- 	for (rx_core = 0; rx_core < pi->pubpi.phy_corenum; rx_core++) {
- 
--		skip_rxiqcal =
--			((rxcore_state & (1 << rx_core)) == 0) ? true : false;
-+		skip_rxiqcal = (rxcore_state & (1 << rx_core)) == 0;
- 
- 		wlc_phy_rxcal_physetup_nphy(pi, rx_core);
- 
+Looks awesome!
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
