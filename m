@@ -2,177 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB64176FABF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Aug 2023 09:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A93477022C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Aug 2023 15:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234054AbjHDHJq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Aug 2023 03:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55394 "EHLO
+        id S231371AbjHDNsF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Aug 2023 09:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234038AbjHDHJo (ORCPT
+        with ESMTP id S231387AbjHDNsE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Aug 2023 03:09:44 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DC9EC30DB;
-        Fri,  4 Aug 2023 00:09:41 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,254,1684767600"; 
-   d="scan'208";a="171902704"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Aug 2023 16:09:41 +0900
-Received: from localhost.localdomain (unknown [10.226.93.35])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D5CC3419E609;
-        Fri,  4 Aug 2023 16:09:37 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-i2c@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>, linux-rtc@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 4/4] i2c: Add i2c_device_get_match_data() callback
-Date:   Fri,  4 Aug 2023 08:09:15 +0100
-Message-Id: <20230804070915.117829-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230804070915.117829-1-biju.das.jz@bp.renesas.com>
-References: <20230804070915.117829-1-biju.das.jz@bp.renesas.com>
+        Fri, 4 Aug 2023 09:48:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059F4139
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Aug 2023 06:48:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C41A62032
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Aug 2023 13:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3827CC433C7;
+        Fri,  4 Aug 2023 13:48:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691156882;
+        bh=M3AVbzofjePunM1DJ7jUjc6Jb+HBc0C43cmjoAAht64=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=og8ScSaRJ7ah3csLRIwxK6DDDeJSwU5/mFi3z9XBdxDr5V7yHSJNswUJrrVIG4GWg
+         zRRLZ7NqW0YTI4kX/jwoJN+g1Jrh6YQiae1gHZbA0btZ+2c9NzAoT+pl6U5rzk2hMs
+         /bKcCcIzcQ/poM0xXvlK25y/lIrEHgldy332svvNYgEP1fHoidhlKH+SGksC5no2Gi
+         YJ2EghEpJnD9YI8gcRLSC0vpJAcdpqMSo3+l+FCq2992okRfRWGbkCyaT6rbiteZvx
+         ZPQdkh77HID2E4LrbMqXQVzdf3rwJiexwkRViYnb6MDQe2wGpObheb6MLPXPegQmY0
+         c59R7l3pbEvwA==
+Date:   Fri, 4 Aug 2023 15:47:57 +0200
+From:   Simon Horman <horms@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, alexanderduyck@fb.com
+Subject: Re: [PATCH net-next 0/2] net: renesas: rswitch: Add speed change
+ support
+Message-ID: <ZM0BjaVJ6D+tAXOj@kernel.org>
+References: <20230803120621.1471440-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803120621.1471440-1-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add i2c_device_get_match_data() callback to struct bus_type().
++ Alexander Duyck
 
-While at it, introduced i2c_get_match_data_helper() to avoid code
-duplication with i2c_get_match_data().
+On Thu, Aug 03, 2023 at 09:06:19PM +0900, Yoshihiro Shimoda wrote:
+> Add speed change support at runtime for the latest SoC version.
+> Also, add ethtool .[gs]et_link_ksettings.
+> 
+> Yoshihiro Shimoda (2):
+>   net: renesas: rswitch: Add runtime speed change support
+>   net: renesas: rswitch: Add .[gs]et_link_ksettings support
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v5->v6:
- * Merged with patch#3 from v5.
- * Separate patch#3 to prepare for better difference for
-   i2c_match_id() changes.
-v4->v5:
- * Added const struct device_driver variable 'drv' in i2c_device_get_match
-   _data().
- * For code readability and maintenance perspective, added separate NULL
-   check for drv and client variable and added comment for NULL check for
-   drv variable.
-v3->v4:
- * Dropped struct i2c_driver parameter from i2c_get_match_data_helper()
- * Split I2C sysfs handling in separate patch.
-v2->v3:
- * Extended to support i2c_of_match_device() as suggested by Andy.
- * Changed i2c_of_match_device_sysfs() as non-static function as it is
-   needed for i2c_device_get_match_data().
- * Added a TODO comment to use i2c_verify_client() when it accepts const
-   pointer.
- * Added multiple returns to make code path for device_get_match_data()
-   faster in i2c_get_match_data().
-RFC v1->v2:
- * Replaced "Signed-off-by"->"Suggested-by" tag for Dmitry.
- * Fixed build warnings reported by kernel test robot <lkp@intel.com>
- * Added const qualifier to return type and parameter struct i2c_driver
-   in i2c_get_match_data_helper().
- * Added const qualifier to struct i2c_driver in i2c_get_match_data()
- * Dropped driver variable from i2c_device_get_match_data()
- * Replaced to_i2c_client with logic for assigning verify_client as it
-   returns non const pointer.
----
- drivers/i2c/i2c-core-base.c | 53 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 6 deletions(-)
+Thanks Shimoda-san,
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 7005dfe64066..d543460e47c2 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -114,15 +114,10 @@ const struct i2c_device_id *i2c_match_id(const struct i2c_device_id *id,
- }
- EXPORT_SYMBOL_GPL(i2c_match_id);
- 
--const void *i2c_get_match_data(const struct i2c_client *client)
-+static const void *i2c_get_match_data_helper(const struct i2c_client *client)
- {
- 	const struct i2c_driver *driver = to_i2c_driver(client->dev.driver);
- 	const struct i2c_device_id *match;
--	const void *data;
--
--	data = device_get_match_data(&client->dev);
--	if (data)
--		return data;
- 
- 	match = i2c_match_id(driver->id_table, client);
- 	if (!match)
-@@ -130,6 +125,51 @@ const void *i2c_get_match_data(const struct i2c_client *client)
- 
- 	return (const void *)match->driver_data;
- }
-+
-+static const void *i2c_device_get_match_data(const struct device *dev)
-+{
-+	const struct device_driver *drv = dev->driver;
-+	const struct i2c_client *client;
-+	const void *data;
-+
-+	/*
-+	 * It is not guaranteed that the function is always called on a device
-+	 * bound to a driver (even though we normally expect this to be the
-+	 * case).
-+	 */
-+	if (!drv)
-+		return NULL;
-+
-+	/* TODO: use i2c_verify_client() when it accepts const pointer */
-+	client = (dev->type == &i2c_client_type) ? to_i2c_client(dev) : NULL;
-+	if (!client)
-+		return NULL;
-+
-+	data = i2c_get_match_data_helper(client);
-+	if (data)
-+		return data;
-+
-+	if (drv->of_match_table) {
-+		const struct of_device_id *match;
-+
-+		match = i2c_of_match_device_sysfs(drv->of_match_table, client);
-+		if (match)
-+			return match->data;
-+	}
-+
-+	return NULL;
-+}
-+
-+const void *i2c_get_match_data(const struct i2c_client *client)
-+{
-+	const void *data;
-+
-+	data = device_get_match_data(&client->dev);
-+	if (data)
-+		return data;
-+
-+	return i2c_get_match_data_helper(client);
-+}
- EXPORT_SYMBOL(i2c_get_match_data);
- 
- static int i2c_device_match(struct device *dev, struct device_driver *drv)
-@@ -694,6 +734,7 @@ struct bus_type i2c_bus_type = {
- 	.probe		= i2c_device_probe,
- 	.remove		= i2c_device_remove,
- 	.shutdown	= i2c_device_shutdown,
-+	.get_match_data	= i2c_device_get_match_data,
- };
- EXPORT_SYMBOL_GPL(i2c_bus_type);
- 
--- 
-2.25.1
+this looks good to me.
+
+For the series,
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
 
