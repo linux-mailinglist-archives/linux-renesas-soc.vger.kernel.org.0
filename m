@@ -2,61 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FAC1770CF5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Aug 2023 03:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95AD6770FD9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  5 Aug 2023 15:12:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjHEBUj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Aug 2023 21:20:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48620 "EHLO
+        id S229564AbjHENMM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 5 Aug 2023 09:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjHEBUi (ORCPT
+        with ESMTP id S229460AbjHENML (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Aug 2023 21:20:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C743C4EDE;
-        Fri,  4 Aug 2023 18:20:37 -0700 (PDT)
+        Sat, 5 Aug 2023 09:12:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C712DE7;
+        Sat,  5 Aug 2023 06:12:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 578D1620F0;
-        Sat,  5 Aug 2023 01:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B392AC433C8;
-        Sat,  5 Aug 2023 01:20:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5168F60E07;
+        Sat,  5 Aug 2023 13:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5788AC433C8;
+        Sat,  5 Aug 2023 13:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691198436;
-        bh=9qAUJKWo25a23w4m5MuvYklEUaHcovxbWs3tx+POsKw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=QKK52NJEKAiL/WwzTChe9LU10WozFPPUGGFy6OwD1dtuqeloenn/TrVM5Gsb1p8kV
-         SkM3jzz13lTSfb1c4i/ZbM5CYM6C2GV/IGl74q2irZEYXQyc+KucYsXHsHmRID6fRc
-         oDtblZF8k7B3P3IXbcEUpMCQ5kqn41XGu8qYVy8IbZ6e/rqRzTh1eyU2MYb69l1COJ
-         G/rkm0eY32Ql7Q8dJr2iBtBK8Lm8pqfim6li/qVw0W3b5u1IHjszYEpoiCGltrp1Nw
-         CaGI1pCfI7VyZ83DROZyLM5YlTgZ9n2ErOqd/QNYtlFtTCiHx1vlBh896njUZ/Q3pK
-         nSU4MK3oBd0+A==
-Message-ID: <aa7d127df5fb91e9a3c61d78d4aa7cb9.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230725175140.361479-1-biju.das.jz@bp.renesas.com>
-References: <20230725175140.361479-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] clk: Fix undefined reference to `clk_rate_exclusive_{get,put}'
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        linux-clk@vger.kernel.org,
+        s=k20201202; t=1691241128;
+        bh=xd7QcIrP+oGHdgOD4wl+BCQpaCxEUJEaYrxkHUgb4SU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bAnVpBMAVKCNybnDwOteOSNkf57rKLQm8D5vorHRhICk3+kIBNb8gjzpFEAhgMD5l
+         ZB2U4x8W46mOXcSAxfSLlebRTywHY9ccgBt+nzPJ1PsL7vWog/Z69QLvcs/EClUd5/
+         6c9nnM3bBs9P8WEWA/wkdzxeXeIc9X24pb+lmuQUpZB/67kSxiEYA0wM6Be+AsGRmo
+         BQSIyD//hCF+4bGtu/4KzmRreoClB8SvXax9ynkzGrU1mTLE5xEezHoffYKiHq/6r9
+         wn1HowonrP2Ivzq3hhMMtRjmLJd/Sp/yrMCqvMtiopbgDQUZxzkPdSAIL1++Lmx5/o
+         iLtudnvMoQuzg==
+Date:   Sat, 5 Aug 2023 15:12:05 +0200
+From:   Andi Shyti <andi.shyti@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Peter Rosin <peda@axentia.se>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        linux-i2c@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Russell King <linux@armlinux.org.uk>
-Date:   Fri, 04 Aug 2023 18:20:34 -0700
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] i2c: mux: ltc4306: Drop enum ltc_type and split
+ chips[]
+Message-ID: <20230805131205.fzkp2asyuh24ktab@intel.intel>
+References: <20230717134807.265302-1-biju.das.jz@bp.renesas.com>
+ <20230717134807.265302-3-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230717134807.265302-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,22 +60,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Biju Das (2023-07-25 10:51:40)
-> The COMMON_CLK config is not enabled in some of the architectures.
-> This causes below build issues:
->=20
-> pwm-rz-mtu3.c:(.text+0x114):
-> undefined reference to `clk_rate_exclusive_put'
-> pwm-rz-mtu3.c:(.text+0x32c):
-> undefined reference to `clk_rate_exclusive_get'
->=20
-> Fix these issues by moving clk_rate_exclusive_{get,put} inside COMMON_CLK
-> code block, as clk.c is enabled by COMMON_CLK.
->=20
-> Fixes: 55e9b8b7b806 ("clk: add clk_rate_exclusive api")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/all/202307251752.vLfmmhYm-lkp@intel.com/
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
+Hi Biju,
 
-Applied to clk-fixes
+On Mon, Jul 17, 2023 at 02:48:07PM +0100, Biju Das wrote:
+> Drop enum ltc_type and split the array chips[] as individual
+> variables, and make lines shorter by referring to e.g. &ltc_4305_chip
+> instead of &chips[ltc_4305].
+> 
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
+
+Andi
