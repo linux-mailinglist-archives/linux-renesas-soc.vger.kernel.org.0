@@ -2,133 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72EB9771671
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Aug 2023 21:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C700F771723
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Aug 2023 00:03:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbjHFTGc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 6 Aug 2023 15:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54516 "EHLO
+        id S229881AbjHFWDc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 6 Aug 2023 18:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjHFTGb (ORCPT
+        with ESMTP id S229445AbjHFWDb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 6 Aug 2023 15:06:31 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A67F1712;
-        Sun,  6 Aug 2023 12:06:30 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-790ca0ed6d3so129791539f.3;
-        Sun, 06 Aug 2023 12:06:30 -0700 (PDT)
+        Sun, 6 Aug 2023 18:03:31 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C83171E;
+        Sun,  6 Aug 2023 15:03:30 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6873f64a290so1136137b3a.0;
+        Sun, 06 Aug 2023 15:03:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691348789; x=1691953589;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FtA/DXQ16Iik0MVLRswYcHvRP3Ma3gJUyRXapnCHuSU=;
-        b=g5yQZhefWvLdV2003/eA374xxnL4k+Av25DWV3BT9LQ8LYc7uHrRw+vIxKCm8zzudc
-         s5Uu/mIkaaAu2P3DYICFlo+4Iozq43ueYNdJtiyjyDRbSKre1fi6zRkoby1dy7idRCvj
-         9NcQtEBYdSSnRB0Vpr3ijiYPAy5UoBdOMAsYs9vWRVCz4SZZGZ6ckbWGkCdVVHa0GaYH
-         MV/Qq+V0GnLC5k0lzzkYBhhMSmWW77L8T/d4mk03BF97BBidvLH+hsyg8DI61d67kGQy
-         lLUX3KQ13o6+EtRrT3dLOWojiRm+ORgZXdo+1BwajLDHAvaWq7oJhDI0BBrUzA97Uj3a
-         T5Cw==
+        d=gmail.com; s=20221208; t=1691359410; x=1691964210;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cOidpmVp/xxSwpWie7WoIKgwL7vUHi8JHFlasqVV/3k=;
+        b=qB1ZzoWxyRO/EWeLEM6mlkLLQxOPMdyJDyDTIyv2NnJU050hHOqIckTPbpsqKBLtgY
+         Am59hbg3B4qfJ4RQf9sRuy/QX/nuXb2CA6aX1Zl8CXgJHii+Lk1jTFoo+lT50h4ojcrg
+         CsvXDD5uGK9mC9I27eSZVL5O4wLql1ioYgM75kvtKzMHjLbEg3NpZuMeKAyelPA3PkhA
+         Ok/8C0vXWQAIidTYLsqSXwMuuzdpB6qmga4D/xZhOKWABSEG0MfHSE/VRoN0WaK9BeOa
+         hS7G2wLZd1qqRhLnHEVRpNQwXEBtHGfyr7XxEMkAUWPCg0Qem0AQZMv78afnHYVcLWoa
+         yPYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691348789; x=1691953589;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FtA/DXQ16Iik0MVLRswYcHvRP3Ma3gJUyRXapnCHuSU=;
-        b=fayFrpfF3fJcbZ/JN3JDbeaZC8GToxu1UgTW6cdIgG9Z+hTqVdoBI1gEU5cbmpPgLS
-         H/iRNeEDzV+doLh7QTvDYZS/SfAYxsvSusMC7zvihCGWgmlJ9bT37mUct9oKAS1OFowq
-         VUwsK7BM4nNKXMBHtHPwUneaN6dSTHYk2YCxep/VzfNfFyWS1UAdFvaxvhUCkq/NEVRU
-         A/AIq5SNLAeMOgLLDPFAcnmJ3gqZoVmM54KMlJiv/j/ZXxdKmeevPXW+3ZArIZiIOjXb
-         DK7qntKI3Cy1r++vUuhmP1Tz3NXwTbi7Y3oz60tuIjFkYqxd+SRjHkrf3ZcWE1R59GMQ
-         Kwpw==
-X-Gm-Message-State: AOJu0YzSm3D7xPDT6BopaTSbrdQkIu3GiXFURbUx076hdmYbaQ+J1uW6
-        Hqd/yvPgYVRJSR7rMPCkDMk=
-X-Google-Smtp-Source: AGHT+IFWbyDPDi3n+1IiJNyDqVllymgmvBn0GL0USdFN0qfpO9oaRGJz4Td6pb38IM0q9HcaFt1HZg==
-X-Received: by 2002:a6b:6b0d:0:b0:790:d813:2d38 with SMTP id g13-20020a6b6b0d000000b00790d8132d38mr9144889ioc.11.1691348789548;
-        Sun, 06 Aug 2023 12:06:29 -0700 (PDT)
-Received: from aford-B741.lan ([2601:447:d001:897f:3be6:798d:d8e6:3ba5])
-        by smtp.gmail.com with ESMTPSA id i24-20020a02b698000000b0042b1dd89b0bsm1982400jam.155.2023.08.06.12.06.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 12:06:28 -0700 (PDT)
-From:   Adam Ford <aford173@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     aford@beaconembedded.com, cstevens@beaconembedded.com,
-        Adam Ford <aford173@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        d=1e100.net; s=20221208; t=1691359410; x=1691964210;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cOidpmVp/xxSwpWie7WoIKgwL7vUHi8JHFlasqVV/3k=;
+        b=krVqyuXTI1rdv8+YbUNkCVI8Ecj+1gvYleeoIyzZwnDFIKwj40NIQXMhtthIzRjqvY
+         TNsyyow4uV0UpjF4XYv4ywhHuOt0+gwA5q7t0ueEDETmpCdHzWYJZSockKHLuLEmQ3aw
+         4UypHOwZPRia4nESlKhaKOcZQTSO7RN2Lj7T026Ad3YvHy0bi9/Z9F5D8WJds9SXISIH
+         zo0H4dZlPUacvdOu69q/5cH5Dgl/xoMJZp75DHXuu07En9l+l9FgJ2vlHoS0oDl6IkE9
+         /hBHWIGxn1gpTyO7rrbmQfFTTdRtELKSuwRzy2vPV9+eK/b9l7+d5Z1SwOIAHemaqkVm
+         BS3Q==
+X-Gm-Message-State: ABy/qLaYW2s+5niqftKUURv12pNJUtIoToL7u52lJSb3sGBFs/FZQKsP
+        iIeTYEvwWLN/XQKJoMoQgfIHIneto6chlgIDd5k=
+X-Google-Smtp-Source: APBJJlGlqzQusrwUjZ7NEaibag3Y54D/uIkAvi6T260pbFuuxukhMEGvFyYAYY81WV9mzk/eh0/rKwg9Tr+XrRAssGU=
+X-Received: by 2002:a17:90a:7282:b0:263:f36e:d610 with SMTP id
+ e2-20020a17090a728200b00263f36ed610mr22428701pjg.0.1691359410236; Sun, 06 Aug
+ 2023 15:03:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230806190622.505887-1-aford173@gmail.com>
+In-Reply-To: <20230806190622.505887-1-aford173@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Sun, 6 Aug 2023 19:03:19 -0300
+Message-ID: <CAOMZO5DfZufEDfjGDj2toMN-AT84O8u5qh5z_MVC4-6iyjy0CA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: imx8mp-beacon: Configure 100MHz PCIe Ref Clk
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-arm-kernel@lists.infradead.org, aford@beaconembedded.com,
+        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] arm64: dts: imx8mp-beacon: Configure 100MHz PCIe Ref Clk
-Date:   Sun,  6 Aug 2023 14:06:21 -0500
-Message-Id: <20230806190622.505887-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a I2C controlled 100MHz Reference clock used by the PCIe
-controller. Configure this clock's DIF1 output to be used by
-the PCIe.
+Hi Adam,
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
+On Sun, Aug 6, 2023 at 4:06=E2=80=AFPM Adam Ford <aford173@gmail.com> wrote=
+:
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
-index 06e91297fb16..332269dedeee 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
-@@ -23,6 +23,12 @@ chosen {
- 		stdout-path = &uart2;
- 	};
- 
-+	clk_xtal25: clk-xtal25 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <25000000>;
-+	};
-+
- 	connector {
- 		compatible = "usb-c-connector";
- 		label = "USB-C";
-@@ -246,6 +252,13 @@ pca6416_3: gpio@20 {
- 		interrupt-controller;
- 		#interrupt-cells = <2>;
- 	};
-+
-+	pcieclk: clk@68 {
-+		compatible = "renesas,9fgv0241";
-+		reg = <0x68>;
-+		clocks = <&clk_xtal25>;
-+		#clock-cells = <1>;
-+	};
- };
- 
- &i2c3 {
-@@ -372,8 +385,9 @@ &pcie {
- };
- 
- &pcie_phy {
-+	fsl,clkreq-unsupported;
- 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
--	clocks = <&pcie0_refclk>;
-+	clocks = <&pcieclk 1>;
- 	clock-names = "ref";
- 	status = "okay";
- };
--- 
-2.39.2
+>  &pcie_phy {
+> +       fsl,clkreq-unsupported;
+>         fsl,refclk-pad-mode =3D <IMX8_PCIE_REFCLK_PAD_INPUT>;
+> -       clocks =3D <&pcie0_refclk>;
 
+Should the pcie0_refclk node be also removed? It seems to be unused
+after this patch.
+
+> +       clocks =3D <&pcieclk 1>;
+
+Isn't clocks =3D <&pcieclk>; (without the extra 1) enough?
