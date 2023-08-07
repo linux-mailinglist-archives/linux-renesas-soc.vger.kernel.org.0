@@ -2,136 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B2B977193B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Aug 2023 07:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49959771C14
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Aug 2023 10:12:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbjHGFAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Aug 2023 01:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41896 "EHLO
+        id S229934AbjHGIMI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Aug 2023 04:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjHGFAl (ORCPT
+        with ESMTP id S229515AbjHGIMH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Aug 2023 01:00:41 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6CC10FA;
-        Sun,  6 Aug 2023 22:00:39 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RK3wY0dzpz1Z1Y9;
-        Mon,  7 Aug 2023 12:57:49 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemi500008.china.huawei.com (7.221.188.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 7 Aug 2023 13:00:35 +0800
-Message-ID: <e4d0e004-e436-6a43-17d2-96c0fe4dd551@huawei.com>
-Date:   Mon, 7 Aug 2023 13:00:35 +0800
+        Mon, 7 Aug 2023 04:12:07 -0400
+Received: from mail.loanfly.pl (mail.loanfly.pl [141.94.250.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471D3170A
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Aug 2023 01:12:07 -0700 (PDT)
+Received: by mail.loanfly.pl (Postfix, from userid 1002)
+        id 4A148A6342; Mon,  7 Aug 2023 08:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=loanfly.pl; s=mail;
+        t=1691395883; bh=Y0HnXqH+26AP5Uq6M8BQXaj1HIAPQY/WndV9tkpAHHU=;
+        h=Date:From:To:Subject:From;
+        b=nhbcm5VVl1CZzk8PXeLdXE8ocS+CspWDAw9RJKq7rCG8kOLLsJV0dirkTlfbYM8eQ
+         hUNDJqWWl41mvSWxuGqTNl2WYUGMBHg/zysy7VyFbYWyvAa73kSnPkzPbJgsJl+LBF
+         jDWIBHnLUHtA4pmWW+UJ0veXdjBj/eh6rHRaNvIiQd9AjE7nTFkolpKAKhC23IMT35
+         VD6pCYMnt2DTsgtd+u4vV5reaesfGMImxVbW+qbWd2PNbITVvFXaYZ0LL+Y1meEkUL
+         Pv2F5MLPe95z0ZNcsbFxfPXduK02m+8pSgaP/VY3LEgwHMIpXYIgjHEBKOlhl+aeat
+         sxIqaP0QVAl1w==
+Received: by mail.loanfly.pl for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Aug 2023 08:10:18 GMT
+Message-ID: <20230807064501-0.1.br.1cnek.0.0kcwkr55wm@loanfly.pl>
+Date:   Mon,  7 Aug 2023 08:10:18 GMT
+From:   "Damian Cichocki" <damian.cichocki@loanfly.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
+X-Mailer: mail.loanfly.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next 6/6] brcm80211: Remove an unnecessary ternary
- operator
-Content-Language: en-US
-To:     Ping-Ke Shih <pkshih@realtek.com>,
-        "sgoutham@marvell.com" <sgoutham@marvell.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "jesse.brandeburg@intel.com" <jesse.brandeburg@intel.com>,
-        "anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-        "tariqt@nvidia.com" <tariqt@nvidia.com>,
-        "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
-        "aspriel@gmail.com" <aspriel@gmail.com>,
-        "franky.lin@broadcom.com" <franky.lin@broadcom.com>,
-        "hante.meuleman@broadcom.com" <hante.meuleman@broadcom.com>,
-        "kvalo@kernel.org" <kvalo@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "yoshihiro.shimoda.uh@renesas.com" <yoshihiro.shimoda.uh@renesas.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "mkl@pengutronix.de" <mkl@pengutronix.de>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "set_pte_at@outlook.com" <set_pte_at@outlook.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "brcm80211-dev-list.pdl@broadcom.com" 
-        <brcm80211-dev-list.pdl@broadcom.com>,
-        "SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>
-References: <20230804035346.2879318-1-ruanjinjie@huawei.com>
- <20230804035346.2879318-7-ruanjinjie@huawei.com>
- <f72991b36d6a449ea5cf476d438bcd1d@realtek.com>
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-In-Reply-To: <f72991b36d6a449ea5cf476d438bcd1d@realtek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.109.254]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-6.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL,URIBL_CSS_A
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Dzie=C5=84 dobry,
+
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
 
-On 2023/8/7 9:42, Ping-Ke Shih wrote:
-> 
-> 
->> -----Original Message-----
->> From: Ruan Jinjie <ruanjinjie@huawei.com>
->> Sent: Friday, August 4, 2023 11:54 AM
->> To: sgoutham@marvell.com; davem@davemloft.net; edumazet@google.com; kuba@kernel.org; pabeni@redhat.com;
->> jesse.brandeburg@intel.com; anthony.l.nguyen@intel.com; tariqt@nvidia.com; s.shtylyov@omp.ru;
->> aspriel@gmail.com; franky.lin@broadcom.com; hante.meuleman@broadcom.com; kvalo@kernel.org;
->> richardcochran@gmail.com; yoshihiro.shimoda.uh@renesas.com; ruanjinjie@huawei.com;
->> u.kleine-koenig@pengutronix.de; mkl@pengutronix.de; lee@kernel.org; set_pte_at@outlook.com;
->> linux-arm-kernel@lists.infradead.org; netdev@vger.kernel.org; intel-wired-lan@lists.osuosl.org;
->> linux-rdma@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-wireless@vger.kernel.org;
->> brcm80211-dev-list.pdl@broadcom.com; SHA-cyfmac-dev-list@infineon.com
->> Subject: [PATCH -next 6/6] brcm80211: Remove an unnecessary ternary operator
->>
->> There is a ternary operator, the true or false judgement of which
->> is unnecessary in C language semantics.
->>
->> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
->> ---
->>  drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
->> b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
->> index 8580a2754789..8328b22829c5 100644
->> --- a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
->> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/phy/phy_n.c
->> @@ -27351,8 +27351,7 @@ static int wlc_phy_cal_rxiq_nphy_rev3(struct brcms_phy *pi,
->>
->>         for (rx_core = 0; rx_core < pi->pubpi.phy_corenum; rx_core++) {
->>
->> -               skip_rxiqcal =
->> -                       ((rxcore_state & (1 << rx_core)) == 0) ? true : false;
->> +               skip_rxiqcal = (rxcore_state & (1 << rx_core)) == 0;
-> 
-> skip_rxiqcal = !(rxcore_state & (1 << rx_core));
-
-
-Thank you! I'll improve it sooner.
-
-> 
->>
->>                 wlc_phy_rxcal_physetup_nphy(pi, rx_core);
->>
->> --
->> 2.34.1
->>
->>
->> ------Please consider the environment before printing this e-mail.
-> 
+Pozdrawiam,
+Damian Cichocki
