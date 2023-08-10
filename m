@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FCB777776A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Aug 2023 13:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29B0677776F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Aug 2023 13:43:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbjHJLnJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Aug 2023 07:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
+        id S234558AbjHJLnq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Aug 2023 07:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233446AbjHJLnI (ORCPT
+        with ESMTP id S232642AbjHJLnp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Aug 2023 07:43:08 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A4783
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Aug 2023 04:43:08 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-c5f98fc4237so692695276.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Aug 2023 04:43:08 -0700 (PDT)
+        Thu, 10 Aug 2023 07:43:45 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046E2C6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Aug 2023 04:43:45 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-586b78aa26eso10060807b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Aug 2023 04:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691667787; x=1692272587;
+        d=linaro.org; s=google; t=1691667824; x=1692272624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=oL36QLiViprzn+D+ZWCkWvBnqNCptB0lN73iKQuirFQ=;
-        b=qRFkbYuqL7ggurMP+JBfz/Q97CexZe6yk/1Z2oUlieMSuXYSgWT0X6/WxxflEBXQKw
-         7GqGyxVLN2cBVH1mV1HJoectovdstuhGkLbiVv5vbRu1RxQXyf4GcsggOxCQM6gPOZeY
-         5463j1hhtGiYyz3rZ/KqBtk7VDLuQ4Ep/NUeOw3ONRxZExPzorr0qX9PDVn4uu2KlRsU
-         t9MnGbSiM5aRrHm5gDem/mmbEMMITnqC7SrhxyWzHgnQhRcF3aG9pHC/F3G0U/xvfnoO
-         gcEktFIu5kf62bYF535rxJjSYia54CEIGfFwFX0J19CEaFcwZ/GYv4svdmGwi4XHmGR7
-         NzZg==
+        b=y7kCnI69HxExw+MxsiCIfcA49blmdcjUyl5SS0/8bRbzfkNopPZTw4lvFNhr7Jr9VT
+         QIudvkr6xe24/0japmubXLvd4/OmMJuTl1bb9UsZAQHDmrKizjE34aYrbYPXdGGCGllY
+         0J6lqmp58uUGSJM9uqiLjO2sr0MWS2M7bdc7VHcdzGTtUYllOvtLCWDUwO+NrXgllXxo
+         RaIC8utmFE2Wzzkl0AYpSJjhBa2GveWIUstkLFW/4NWchwSU4bSAzWvCdkggyxEIVDpn
+         WhcGue46u/fi1AoMhC1mUVMQ0saQoFncgBSqRSUG5kKsgJPyj15Oda5qM1RkkkaWBT+V
+         v4TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691667787; x=1692272587;
+        d=1e100.net; s=20221208; t=1691667824; x=1692272624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=oL36QLiViprzn+D+ZWCkWvBnqNCptB0lN73iKQuirFQ=;
-        b=kIOkaQqYwHtR3QZpRRlUThZo1wQR6FHL2g8hyQWNF2tfs/mTGX4qXYGLlrvh18U3LA
-         7ir4DqGFkdNDcxFaqarXmBK9X0CZ0ANs+J6aYzi2KgozSjuGTXii34y+ukEt9I/RnXv2
-         QlaRtSJf7d2BmsfDrUlOEk7BlaMGeEmJf6M0SFHwUp+RCwGbnThmVJlAmMoX+GnfTRxp
-         y46JBDLPzGshFaA1RI/r+ErHxGucYIyf3mk6NqjLIAK/R0ylSNA6djb+saCMIVOEIko2
-         OuoegUS7PcqVistgxGjOE/Ivh+x43JCFwT2BkdP3cwh4Ft3jgkrtNic30HE6qUCJNLLV
-         428Q==
-X-Gm-Message-State: AOJu0YyrAmo+OHP0uWIaG0TgzQ6jXfUH5LqqrgFZOMsenbHzO0TRAMkY
-        lK6j3KsQxowP5pdP3sRVD8TmL9H+iEWGuJzLU+yS0A==
-X-Google-Smtp-Source: AGHT+IF33zszTEy6qxiqNv7L7RWHO25feaifS32PLUxt1xLMJx8ywh8Ip+nh/ZGptVv7/qgWjOvPSRff7nYWXVcaYAI=
-X-Received: by 2002:a25:2402:0:b0:d0a:fa7f:2fbf with SMTP id
- k2-20020a252402000000b00d0afa7f2fbfmr2136189ybk.48.1691667787296; Thu, 10 Aug
- 2023 04:43:07 -0700 (PDT)
+        b=eHHcgDHykOIzs+tToej3AOaXtTfGo0QOgNDblWPWL3OnMsJB9EcnEAiznKf6qlqnTp
+         CSGJgcvS3a/ZkdizDdaXppzlXJzQTc0EblrfB8QlGgNApxMbbD3hR1TWHUy1kOJWkGvO
+         gocsu55PaRWput/PHmu8Kax24KDHEVkXY98FEMTF6vpk5iQYQv9Wwh5ZbCF9JzfF1IPG
+         ZZV3PZty99cWi8h3b1Ew8DRVrNuy05T9rP00F2oE022PaiNkECdzrAQ0Txs0v18SElYx
+         SalV+I8GfZNFIrHZ7NDh1JE7ri72LlrCv77jR/tCq3ZqK/6OZ9JDEnsARtLuElz0Di4Y
+         icUA==
+X-Gm-Message-State: AOJu0YzjIcaeXjjFf+WlcBFi5vl4ldSTOt5F8gTswg1LHXlOiNuGFxh0
+        DjRK8TXRaZSsC1pPgLerlgzNRVbTEpcmH2j2wFmcpg==
+X-Google-Smtp-Source: AGHT+IGWqccxb4eaBa7viDsBH2qiuOr+FG9TqsbGIftGtcqIE8Z07l9Awkx2SSQ1v2jf3lFLrsuig7uobLg7jc9ceaU=
+X-Received: by 2002:a25:3786:0:b0:d1c:77de:cf7a with SMTP id
+ e128-20020a253786000000b00d1c77decf7amr2082342yba.64.1691667824245; Thu, 10
+ Aug 2023 04:43:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230810081102.2981505-1-ruanjinjie@huawei.com> <20230810081102.2981505-2-ruanjinjie@huawei.com>
-In-Reply-To: <20230810081102.2981505-2-ruanjinjie@huawei.com>
+References: <20230810081102.2981505-1-ruanjinjie@huawei.com> <20230810081102.2981505-4-ruanjinjie@huawei.com>
+In-Reply-To: <20230810081102.2981505-4-ruanjinjie@huawei.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 10 Aug 2023 13:42:56 +0200
-Message-ID: <CACRpkdafBPVQ80A-qwYjF_ZOBM6vj-cqgZ49FEGB-bL7Z2-gqQ@mail.gmail.com>
-Subject: Re: [patch net-next 1/5] net: dsa: realtek: Remove redundant of_match_ptr()
+Date:   Thu, 10 Aug 2023 13:43:33 +0200
+Message-ID: <CACRpkda_9jKvew2EzqHJa9Bs7cbV4TAZx9s5AoxTdbbV=0g1CQ@mail.gmail.com>
+Subject: Re: [patch net-next 3/5] net: gemini: Remove redundant of_match_ptr()
 To:     Ruan Jinjie <ruanjinjie@huawei.com>
 Cc:     alsi@bang-olufsen.dk, andrew@lunn.ch, f.fainelli@gmail.com,
         olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
@@ -70,7 +70,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
