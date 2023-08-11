@@ -2,139 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB96D7791DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Aug 2023 16:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85ADC779213
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Aug 2023 16:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235533AbjHKOaN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Aug 2023 10:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41606 "EHLO
+        id S236199AbjHKOlr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Aug 2023 10:41:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235467AbjHKOaM (ORCPT
+        with ESMTP id S236189AbjHKOlq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Aug 2023 10:30:12 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCB02728;
-        Fri, 11 Aug 2023 07:30:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691764212; x=1723300212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FUo3SmG4D+rVXIoe4dtN9MY0CACMsCcU7kUpx9H9i2E=;
-  b=CcMp5HuToh6AT6MxNBUqu6MPvz+nITaYhh2DzaRF5aGGujoJfmC9sDQD
-   oYJsvuVC97CMCxI9Vskwc5X/oSV8j9LOJPU3NOWg9tPZgTcVGHcDjX0NK
-   8vNcnquQ8Hh3QeXa4G8p31azrSLjkE8pkPAj//TTImtRlH2k738uoZRKu
-   Hw0AYlMBYYTiyQcQauvt6ZealfLlxcC3/4tf+7s3AWDatAV1wSUCy7PYm
-   Oy4uD3CVnNi2bk1DS0UMXp9fgnLX6IGAANrtIaG5dYeyrjF8AaHeNaMh1
-   APYwPfCUzaVN8p6BqwWKv7STR/pWO+dwQ5iIcGfqjUwA0Wb66qkNgj8wa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="370586495"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="370586495"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 07:30:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="735808482"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="735808482"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2023 07:30:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qUT9O-001HgB-0J;
-        Fri, 11 Aug 2023 17:30:02 +0300
-Date:   Fri, 11 Aug 2023 17:30:01 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v7 0/4] Extend device_get_match_data() to struct bus_type
-Message-ID: <ZNZF6cjx5N+ZsIJx@smile.fi.intel.com>
-References: <20230805174036.129ffbc2@jic23-huawei>
- <OS0PR01MB59220491C7C8AA40BEFAAD82860EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230806142950.6c409600@jic23-huawei>
- <ZNEFjyAloqlkMWn7@smile.fi.intel.com>
- <ZNFV+C1HCIRJpbdC@google.com>
- <ZNIyrG/2h/PeS9Oz@smile.fi.intel.com>
- <20230809182551.7eca502e@jic23-huawei>
- <OS0PR01MB59221A1ADB67E96E9E39D0198613A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZNT+NY99n7y3abwa@smile.fi.intel.com>
- <OS0PR01MB5922DD3C809B78F1E9C5949B8610A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Fri, 11 Aug 2023 10:41:46 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAAF2D7B;
+        Fri, 11 Aug 2023 07:41:42 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A7F4FE000C;
+        Fri, 11 Aug 2023 14:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1691764901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/4m5U0LhjY1Jq5li399j2cUJWhFltS+fVPgIybFfJYE=;
+        b=NrDc3y+ncrw7qejY/qgtpRZrXf4ZpivvC94Rk0NJB6Z1XTVfgogG1p6BPFoJ5SxWl3TFsB
+        XhlOpU02iZEFE12M8PKqOHH2KmlpuyzGMcWM0outgV2wpBEqLdxVdI78QReg2cJlveuASs
+        mmRo0kRfQy61iByc2Qsrj9gNs5t+H8ozoj1TnG0Rs4MJhsi9S4Z6cqvlH4JPt42Moh12oQ
+        9cYKnWWx2xrUX0OPnC7ouKKSrlVv6pPIOTZyInwXAsSH/6kNB6oBB/g7ayb4mkk+4ZGqbS
+        iNX0h0cZNGUqTMOTkzVw05AA5IWXfogjOrYosgbTnqK5zFBDctm0ndsm5NajGg==
+Message-ID: <252cdb0b-3630-9e29-45a6-ea0474f0d983@bootlin.com>
+Date:   Fri, 11 Aug 2023 16:42:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922DD3C809B78F1E9C5949B8610A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 2/3] net: dsa: rzn1-a5psw: add support for
+ .port_bridge_flags
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     =?UTF-8?Q?Cl=C3=A9ment_Leger?= <clement@clement-leger.fr>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20230810093651.102509-1-alexis.lothore@bootlin.com>
+ <20230810093651.102509-3-alexis.lothore@bootlin.com>
+ <20230811100307.ocqkijjj5f6hi3q2@skbuf>
+Content-Language: en-US
+From:   =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+In-Reply-To: <20230811100307.ocqkijjj5f6hi3q2@skbuf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 11, 2023 at 01:27:36PM +0000, Biju Das wrote:
-> > On Thu, Aug 10, 2023 at 09:05:10AM +0000, Biju Das wrote:
-
-...
-
-> > I'm good with this approach, but make sure you checked the whole kernel
-> > source tree for a such.
+Hello Vladimir,
+On 8/11/23 12:03, Vladimir Oltean wrote:
+> Hi Alexis,
 > 
-> Checking against 16 is too short I guess??
+> On Thu, Aug 10, 2023 at 11:36:50AM +0200, alexis.lothore@bootlin.com wrote:
+>> +	if (flags.mask & BR_FLOOD) {
+>> +		val = flags.val & BR_FLOOD ? BIT(port) : 0;
+>> +		a5psw_reg_rmw(a5psw, A5PSW_UCAST_DEF_MASK, BIT(port), val);
+>> +	}
+>> +
+>> +	if (flags.mask & BR_MCAST_FLOOD) {
+>> +		val = flags.val & BR_MCAST_FLOOD ? BIT(port) : 0;
+>> +		a5psw_reg_rmw(a5psw, A5PSW_MCAST_DEF_MASK, BIT(port), val);
+>> +	}
+>> +
+>> +	if (flags.mask & BR_BCAST_FLOOD) {
+>> +		val = flags.val & BR_BCAST_FLOOD ? BIT(port) : 0;
+>> +		a5psw_reg_rmw(a5psw, A5PSW_BCAST_DEF_MASK, BIT(port), val);
+>> +	}
 > 
-> drivers/iio/imu/inv_mpu6050/inv_mpu_iio.h has 18 enums.
+> These 3 port masks will only do what you expect while the bridge has
+> vlan_filtering=0, correct? When vlan_filtering=1, packets classified to
+> a VLAN which don't hit any FDB entry will be always flooded to all ports
+> in that VLAN, correct?
 
-So, what does prevent us from moving that tables to use pointers?
+After thoroughly reading the A5PSW doc again, I feel that this sentence is not
+exactly true. If I refer to section 4.5.3.9, paragraph 3.c:
 
-> /*device enum */
-> enum inv_devices {
-> 	INV_MPU6050,
-> 	INV_MPU6500,
-> 	INV_MPU6515,
-> 	INV_MPU6880,
-> 	INV_MPU6000,
-> 	INV_MPU9150,
-> 	INV_MPU9250,
-> 	INV_MPU9255,
-> 	INV_ICM20608,
-> 	INV_ICM20608D,
-> 	INV_ICM20609,
-> 	INV_ICM20689,
-> 	INV_ICM20600,
-> 	INV_ICM20602,
-> 	INV_ICM20690,
-> 	INV_IAM20680,
-> 	INV_NUM_PARTS
-> };
+The VLAN table is used for both, VLAN domain verification [...] as well as VLAN
+resolution. Once the frame has passed any VLAN domain verification (i.e. will
+not be discarded by the verification function already), the forwarding
+resolution applies.
+[...]
+- If the destination MAC address (Unicast or Multicast) is not found in the MAC
+address table, or if the destination address is the Broadcast address, the frame
+is forwarded according to the following rules:
+  - The destination port mask is loaded from the respective register
+U/M/BCAST_DEFAULT_MASK depending on unicast, multicast or broadcast. Then the
+following filtering on this mask applies.
+    - If the frame carries a VLAN tag, the VLAN resolution table is searched for
+a matching VLAN ID and the frame is sent only to ports that are associated with
+the VLAN ID.
+    - If the frame carries a VLAN tag and the VLAN ID does not match any entry
+in the VLAN Resolution Table, or the frame does not carry a VLAN tag, the frame
+is forwarded to all ports that are enabled by the default mask.
+    - If it cannot be associated with any VLAN group and if the default group
+has been set to all zero, the frame is discarded.
+[...]
+
+I understand from the second bullet that even when vlan filtering is enabled
+(which occurs as first step), the first flooding filter (used in second step,
+resolution) remains the flooding masks from unicast/multicast/broadcast default
+mask registers. The vlan resolution is then applied over it as a second filter,
+and only make the flooding more "restrictive", it does not bypass it (so if a
+port is in the vlan which VID is in an incoming packet but the port is not also
+defined in the U/M/B default mask, incoming packet won't be flooded to it).
 > 
-> The new helper function
-
-You mean for debugging? We don't need that in production.
-
-I think what you need is a coccinelle script to find these.
+> Maybe you could restrict transitions to flooding disabled on ports with
+> vlan_filtering 1, and restrict transitions to vlan_filtering 1 on ports
+> with flooding disabled. Or at least add some comments about the
+> limitations. I wouldn't want subtle incompatibilities between the
+> hardware design and Linux' expectations to go under the radar like this.
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Alexis Lothoré, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
