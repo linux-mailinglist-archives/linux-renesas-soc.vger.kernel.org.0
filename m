@@ -2,40 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 215CB77A56E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Aug 2023 09:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8587077A582
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Aug 2023 10:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjHMHfD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Aug 2023 03:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
+        id S229737AbjHMIF1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Aug 2023 04:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjHMHfC (ORCPT
+        with ESMTP id S229522AbjHMIF0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Aug 2023 03:35:02 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0CCE1F5
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Aug 2023 00:35:04 -0700 (PDT)
+        Sun, 13 Aug 2023 04:05:26 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 900F49D
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Aug 2023 01:05:28 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,169,1684767600"; 
-   d="scan'208";a="172812623"
+   d="scan'208";a="176498261"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Aug 2023 16:35:03 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 13 Aug 2023 17:05:26 +0900
 Received: from localhost.localdomain (unknown [10.226.92.13])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id ADED94197BE3;
-        Sun, 13 Aug 2023 16:35:00 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 98FA341A1FFF;
+        Sun, 13 Aug 2023 17:05:22 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+To:     Phong LE <ple@baylibre.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        alsa-devel@alsa-project.org,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        dri-devel@lists.freedesktop.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] ASoC: ak4613: Simplify probe()
-Date:   Sun, 13 Aug 2023 08:34:58 +0100
-Message-Id: <20230813073458.59606-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] drm: bridge: it66121: Extend match support for OF tables
+Date:   Sun, 13 Aug 2023 09:05:20 +0100
+Message-Id: <20230813080520.65813-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,42 +53,69 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Simpilfy probe() by replacing of_device_get_match_data() and id lookup for
-retrieving match data by i2c_get_match_data().
+The driver has OF match table, still it uses ID lookup table for
+retrieving match data. Replace ID look up with i2c_get_match_data()
+for retrieving OF/ACPI/I2C match data by adding similar match data for
+OF table.
 
-While at it, drop unused local variable np from probe().
+While at it, drop unused local varibale id from probe().
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- sound/soc/codecs/ak4613.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ This patch is only compile tested.
+---
+ drivers/gpu/drm/bridge/ite-it66121.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
-index ad56caec9dac..619a817ee91c 100644
---- a/sound/soc/codecs/ak4613.c
-+++ b/sound/soc/codecs/ak4613.c
-@@ -880,20 +880,11 @@ static void ak4613_parse_of(struct ak4613_priv *priv,
- static int ak4613_i2c_probe(struct i2c_client *i2c)
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 466641c77fe9..a80246ef4ffe 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -1501,7 +1501,6 @@ static const char * const it66121_supplies[] = {
+ 
+ static int it66121_probe(struct i2c_client *client)
  {
- 	struct device *dev = &i2c->dev;
--	struct device_node *np = dev->of_node;
- 	const struct regmap_config *regmap_cfg;
- 	struct regmap *regmap;
- 	struct ak4613_priv *priv;
+-	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+ 	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+ 	struct device_node *ep;
+ 	int ret;
+@@ -1523,7 +1522,7 @@ static int it66121_probe(struct i2c_client *client)
  
--	regmap_cfg = NULL;
--	if (np)
--		regmap_cfg = of_device_get_match_data(dev);
--	else {
--		const struct i2c_device_id *id =
--			i2c_match_id(ak4613_i2c_id, i2c);
--		regmap_cfg = (const struct regmap_config *)id->driver_data;
--	}
+ 	ctx->dev = dev;
+ 	ctx->client = client;
+-	ctx->info = (const struct it66121_chip_info *) id->driver_data;
++	ctx->info = i2c_get_match_data(client);
+ 
+ 	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+ 	of_node_put(ep);
+@@ -1609,13 +1608,6 @@ static void it66121_remove(struct i2c_client *client)
+ 	mutex_destroy(&ctx->lock);
+ }
+ 
+-static const struct of_device_id it66121_dt_match[] = {
+-	{ .compatible = "ite,it66121" },
+-	{ .compatible = "ite,it6610" },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(of, it66121_dt_match);
 -
-+	regmap_cfg = i2c_get_match_data(i2c);
- 	if (!regmap_cfg)
- 		return -EINVAL;
+ static const struct it66121_chip_info it66121_chip_info = {
+ 	.id = ID_IT66121,
+ 	.vid = 0x4954,
+@@ -1628,6 +1620,13 @@ static const struct it66121_chip_info it6610_chip_info = {
+ 	.pid = 0x0611,
+ };
  
++static const struct of_device_id it66121_dt_match[] = {
++	{ .compatible = "ite,it66121", &it66121_chip_info },
++	{ .compatible = "ite,it6610", &it6610_chip_info },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, it66121_dt_match);
++
+ static const struct i2c_device_id it66121_id[] = {
+ 	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
+ 	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
 -- 
 2.25.1
 
