@@ -2,149 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FB7C77B70A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 12:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B03177B8A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 14:32:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233236AbjHNKrG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Aug 2023 06:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
+        id S229937AbjHNMbl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Aug 2023 08:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235053AbjHNKqv (ORCPT
+        with ESMTP id S230416AbjHNMbk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Aug 2023 06:46:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EA4195
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Aug 2023 03:46:49 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25BA46BE;
-        Mon, 14 Aug 2023 12:45:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692009936;
-        bh=uHA4FT1/nsL3A0N9TlbLzJH1/kxGoyrCZ9+BctG1mLE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vc5FX9NhkogOz2FCX2qn25J16R17pP1ErZycxQqyQMU1ZsBon4Pd2iZomq933wRmz
-         IPbp+hbDdpzbP3OBIA0dBVUQ2/A9/G3CfNBZZA05RQK1NwEjob2pkkrnOp4h9Q2g8P
-         cvbf7PeWlAUgGxngU6/JsB4u/W49edN7IrjncvS4=
-Date:   Mon, 14 Aug 2023 13:46:55 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Damian Hobson-Garcia <dhobsong@igel.co.jp>
-Cc:     kieran.bingham+renesas@ideasonboard.com, taki@igel.co.jp,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 1/2] drm: rcar-du: Add more formats to
- DRM_MODE_BLEND_PIXEL_NONE support
-Message-ID: <20230814104655.GB5723@pendragon.ideasonboard.com>
-References: <20230728200714.2084223-1-dhobsong@igel.co.jp>
- <20230803234703.GJ9722@pendragon.ideasonboard.com>
- <20230803235315.GL9722@pendragon.ideasonboard.com>
- <20230804000615.GN9722@pendragon.ideasonboard.com>
- <bf2001af-00f2-3a1e-8b79-5747e6607a12@igel.co.jp>
- <20230804155249.GJ12951@pendragon.ideasonboard.com>
+        Mon, 14 Aug 2023 08:31:40 -0400
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB3ECCC;
+        Mon, 14 Aug 2023 05:31:38 -0700 (PDT)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6bd3317144fso2236915a34.1;
+        Mon, 14 Aug 2023 05:31:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692016298; x=1692621098;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s5zdjpAVvPJGjc8hmPe4HUkuvZrJLOWwDr8kFYWsTpU=;
+        b=Q8qf5dqva8KmU5/ZP+8EG7HCuBALk6MDPXkKKJp5CWvLkcU9TgyxQI3TCSa6QqiWYp
+         S2wcjQgOc9fiOGOOXZEsmbML2ul2LzGa8h3UdbXoDCKS+8+H49FmXNIKzLSFKLgRCLz7
+         z1O8fX+4d44+GYHIyF8uRe24eYETGr0E5Sp5+km9cNH2cC+k54oZ109zEprB6Fjw6nb0
+         R7LyKUL4JL3ws56g9eX4GV5KL42kfLgTs7A/O0jqcev3ub+cBWbxPJlK2hO0rSkTr9Au
+         dmNUmTlSNbQZ1Ro17VjfYpMJ6gTzOeRhFci9cqPy/Tt8K2LcBGeaZEkBeQ55feiGjwPA
+         KI8Q==
+X-Gm-Message-State: AOJu0YzurgX6Ax1dF3o7aSKKz2LBaMsgC5nAqrUl0tnYvb+L0TyuYM6L
+        pHb9Av4fNtSju1+s3/Y4q37IYRKj8mZNfQ==
+X-Google-Smtp-Source: AGHT+IHKKjKJh2xdnKMtfNWeyuwL5Vj16WY4her4fyRi+RhTsfXi0i6sRbWlGKR3xVwQxsIpJ9aPkg==
+X-Received: by 2002:a05:6870:d10c:b0:19f:9495:95ff with SMTP id e12-20020a056870d10c00b0019f949595ffmr10517035oac.27.1692016297864;
+        Mon, 14 Aug 2023 05:31:37 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id r69-20020a0de848000000b00589a5bbeb43sm2728149ywe.117.2023.08.14.05.31.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Aug 2023 05:31:36 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d3d729a08e4so4220111276.3;
+        Mon, 14 Aug 2023 05:31:36 -0700 (PDT)
+X-Received: by 2002:a05:6902:4cf:b0:d43:e64f:bdcf with SMTP id
+ v15-20020a05690204cf00b00d43e64fbdcfmr9165426ybs.0.1692016296002; Mon, 14 Aug
+ 2023 05:31:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230804155249.GJ12951@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230812083204.55346-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230812083204.55346-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Aug 2023 14:31:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXbrh2B8-=v8NqQ2M-4hHqm-eVcO49-0P9L+=MMLLXchg@mail.gmail.com>
+Message-ID: <CAMuHMdXbrh2B8-=v8NqQ2M-4hHqm-eVcO49-0P9L+=MMLLXchg@mail.gmail.com>
+Subject: Re: [PATCH RFC/RFT] iio: imu: lsm6dsx: Use i2c_get_match_data()
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lorenzo Bianconi <lorenzo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 06:52:51PM +0300, Laurent Pinchart wrote:
-> On Fri, Aug 04, 2023 at 11:49:32AM -0400, Damian Hobson-Garcia wrote:
-> > On 2023/08/03 20:06, Laurent Pinchart wrote:
-> > > On Fri, Aug 04, 2023 at 02:53:17AM +0300, Laurent Pinchart wrote:
-> > >> On Fri, Aug 04, 2023 at 02:47:04AM +0300, Laurent Pinchart wrote:
-> > >>> On Fri, Jul 28, 2023 at 04:07:13PM -0400, Damian Hobson-Garcia wrote:
-> > >>>> Add additional pixel formats for which blending is disabling when
-> > >>>
-> > >>> Did you mean "disabled" instead of "disabling" ?
-> > 
-> > Oops.  Yes, that's exactly what I meant.
+Hi Biju,
 
-I'll fix this locally.
+On Sat, Aug 12, 2023 at 10:32 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Replace device_get_match_data() and id lookup for retrieving match data
+> by i2c_get_match_data() by converting enum->pointer for data in the
+> match table.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> > >>>> DRM_MODE_BLEND_PIXEL_NONE is set.
-> > >>>>
-> > >>>> Refactor the fourcc selection into a separate function to handle the
-> > >>>> increased number of formats.
-> > >>>>
-> > >>>> Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
-> > >>>> ---
-> > >>>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 49 ++++++++++++-------
-> > >>>>   1 file changed, 32 insertions(+), 17 deletions(-)
-> > >>>>
-> > >>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-> > >>>> index 45c05d0ffc70..96241c03b60f 100644
-> > >>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-> > >>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-> > >>>> @@ -176,6 +176,37 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
-> > >>>>   	DRM_FORMAT_Y212,
-> > >>>>   };
-> > >>>>   
-> > >>>> +static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
-> > >>>> +{
-> > >>>> +	u32 fourcc = state->format->fourcc;
-> > >>>> +
-> > >>>> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
-> > >>>> +		switch (fourcc) {
-> > >>>> +		case DRM_FORMAT_ARGB1555:
-> > >>>> +			fourcc = DRM_FORMAT_XRGB1555;
-> > >>>> +			break;
-> > >>>> +
-> > >>>> +		case DRM_FORMAT_ARGB4444:
-> > >>>> +			fourcc = DRM_FORMAT_XRGB4444;
-> > >>>> +			break;
-> > >>>> +
-> > >>>> +		case DRM_FORMAT_ARGB8888:
-> > >>>> +			fourcc = DRM_FORMAT_XRGB8888;
-> > >>>> +			break;
-> > >>>> +
-> > >>>> +		case DRM_FORMAT_BGRA8888:
-> > >>>> +			fourcc = DRM_FORMAT_BGRX8888;
-> > >>>> +			break;
-> > >>>> +
-> > >>>> +		case DRM_FORMAT_RGBA1010102:
-> > >>>> +			fourcc = DRM_FORMAT_RGBX1010102;
-> > >>>> +			break;
-> > >>>
-> > >>> Should DRM_FORMAT_ARGB2101010 be added as well, or did you leave it out
-> > >>> intentionally ?
-> > 
-> > Yes, it was intentionally left out for the time being for the
-> > reason that you noted (i.e. DRM_FORMAT_XRGB2101010 not
-> > being handled by the DU driver).
-> > 
-> > >> It looks like DRM_FORMAT_ARGB2101010 will require a bit more work, as
-> > >> DRM_FORMAT_XRGB2101010 is not handled by the DU driver at the moment.
-> > >> Let's do so with a patch on top of this series.
-> >
-> > Yes, I was thinking the same thing.
-> >
-> > > Replying to myself again, the datasheet doesn't explicitly list
-> > > DRM_FORMAT_XRGB2101010 as supported, but the generic mechanism to
-> > > specify the location of the components should work fine for that format.
-> > > Is this something you would be able to test ?
-> > 
-> > Unfortunately I don't have a Gen 4 system on hand to test the 2-10-10-10 
-> > formats with.
-> > I will double-check with the office in Japan, but I don't think that 
-> > they have one either.
-> 
-> Tomi, is this something you could test ?
+Thanks for your patch!
 
-Replying to myself, this is something we could test, but let's not delay
-this series, new formats can always be added on top.
+> index 911444ec57c0..a2def435c9c2 100644
+> --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.c
+> +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.c
+> @@ -16,6 +16,30 @@
+>
+>  #include "st_lsm6dsx.h"
+>
+> +static const int lsm6ds3 = ST_LSM6DS3_ID;
+> +static const int lsm6ds3h = ST_LSM6DS3H_ID;
 
-> > >> There's no need to send
-> > >> a v2, I can handle the simple change in the commit message if you let me
-> > >> know whether my comment is right or wrong.
+As these are single values, not structures with multiple members,
+I see not much value in adding all these variables, which increases
+kernel size...
+
+> @@ -23,12 +47,10 @@ static const struct regmap_config st_lsm6dsx_i2c_regmap_config = {
+>
+>  static int st_lsm6dsx_i2c_probe(struct i2c_client *client)
+>  {
+> -       int hw_id;
+> +       const int *hw_id;
+>         struct regmap *regmap;
+>
+> -       hw_id = (kernel_ulong_t)device_get_match_data(&client->dev);
+> -       if (!hw_id)
+> -               hw_id = i2c_client_get_device_id(client)->driver_data;
+> +       hw_id = i2c_get_match_data(client);
+>         if (!hw_id)
+>                 return -EINVAL;
+
+So just
+
+    -        hw_id = (kernel_ulong_t)device_get_match_data(&client->dev);
+    -       if (!hw_id)
+    -               hw_id = i2c_client_get_device_id(client)->driver_data;
+    +        hw_id = (kernel_ulong_t)i2c_get_match_data(client);
+
+and be done with it?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
