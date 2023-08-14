@@ -2,133 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE7DC77B61B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 12:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB7C77B70A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 12:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235691AbjHNKKY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Aug 2023 06:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
+        id S233236AbjHNKrG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Aug 2023 06:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236121AbjHNKKB (ORCPT
+        with ESMTP id S235053AbjHNKqv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Aug 2023 06:10:01 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD5B10E2;
-        Mon, 14 Aug 2023 03:10:00 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3a7f4f7a8easo608289b6e.2;
-        Mon, 14 Aug 2023 03:10:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692007740; x=1692612540;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tKLiWGpbaE6FVanglXgpVrInbU3TZ/KI9tDTgP+5a60=;
-        b=j822oBFVNykM/30q7GrYUVZyrX8dtv2V00e05cOX7xwvv5v2+3EfI4rvZ7TxsD1c/N
-         FZw4ff4+WW7Wl0Z0plWoWfNOovI4skE7vPz+BEtq21T4ISYG1VXyiT8pRjAyoZgeq/TK
-         YZJv0/sIHtG/nU/3wuRfnWWm8z58+DKILXQebnH7Z57+Pv3BH+latdoDS0ELNbKibz3j
-         y4QaBItSnnGrnpcpCQ4nhaYp6sppaOcm3OaMuavKVxyHWq7bNJp2Ith1KCHNXVfbSn2Z
-         GHieSfo/bBqaMN0vPNIcYW8qQi7Qk7Pj0OpdeqcgQISVXaJLrl0f9kxPCMKtT7JrqssK
-         37gw==
-X-Gm-Message-State: AOJu0YwGQkSTTJAFNdOW27iuSDeCCvqiQk5YRzuFpvzSAy9fxUt2AsKW
-        2H3gZKnXctDfd/gUOMUeWb3VYY8JbTLd1Q==
-X-Google-Smtp-Source: AGHT+IG9CAlQpw0D4CJ9aq6VwJVO5OBpKtTJObOR7nhkIjxVeHELj8hjjEk3kVR2tGSUHs3cEZJv0g==
-X-Received: by 2002:a05:6808:489:b0:3a7:3a47:b137 with SMTP id z9-20020a056808048900b003a73a47b137mr8269283oid.54.1692007740119;
-        Mon, 14 Aug 2023 03:09:00 -0700 (PDT)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
-        by smtp.gmail.com with ESMTPSA id t23-20020a0568080b3700b003a75739eac3sm4322604oij.13.2023.08.14.03.08.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 03:08:59 -0700 (PDT)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3a800814122so489032b6e.0;
-        Mon, 14 Aug 2023 03:08:59 -0700 (PDT)
-X-Received: by 2002:a05:6358:2621:b0:135:4003:7849 with SMTP id
- l33-20020a056358262100b0013540037849mr6526488rwc.4.1692007739437; Mon, 14 Aug
- 2023 03:08:59 -0700 (PDT)
+        Mon, 14 Aug 2023 06:46:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EA4195
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Aug 2023 03:46:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25BA46BE;
+        Mon, 14 Aug 2023 12:45:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692009936;
+        bh=uHA4FT1/nsL3A0N9TlbLzJH1/kxGoyrCZ9+BctG1mLE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vc5FX9NhkogOz2FCX2qn25J16R17pP1ErZycxQqyQMU1ZsBon4Pd2iZomq933wRmz
+         IPbp+hbDdpzbP3OBIA0dBVUQ2/A9/G3CfNBZZA05RQK1NwEjob2pkkrnOp4h9Q2g8P
+         cvbf7PeWlAUgGxngU6/JsB4u/W49edN7IrjncvS4=
+Date:   Mon, 14 Aug 2023 13:46:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Cc:     kieran.bingham+renesas@ideasonboard.com, taki@igel.co.jp,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 1/2] drm: rcar-du: Add more formats to
+ DRM_MODE_BLEND_PIXEL_NONE support
+Message-ID: <20230814104655.GB5723@pendragon.ideasonboard.com>
+References: <20230728200714.2084223-1-dhobsong@igel.co.jp>
+ <20230803234703.GJ9722@pendragon.ideasonboard.com>
+ <20230803235315.GL9722@pendragon.ideasonboard.com>
+ <20230804000615.GN9722@pendragon.ideasonboard.com>
+ <bf2001af-00f2-3a1e-8b79-5747e6607a12@igel.co.jp>
+ <20230804155249.GJ12951@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <cover.1690533838.git.geert+renesas@glider.be> <20230731161425.GA3165720-robh@kernel.org>
- <20230731163543.GA3246401-robh@kernel.org>
-In-Reply-To: <20230731163543.GA3246401-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Aug 2023 12:08:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUb3u9_m1sPGp0GsV=dPGpt4rg3VnMsypqO702tB4aN-A@mail.gmail.com>
-Message-ID: <CAMuHMdUb3u9_m1sPGp0GsV=dPGpt4rg3VnMsypqO702tB4aN-A@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] of: overlay/unittest: Miscellaneous fixes and improvements
-To:     Rob Herring <robh@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230804155249.GJ12951@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On Fri, Aug 04, 2023 at 06:52:51PM +0300, Laurent Pinchart wrote:
+> On Fri, Aug 04, 2023 at 11:49:32AM -0400, Damian Hobson-Garcia wrote:
+> > On 2023/08/03 20:06, Laurent Pinchart wrote:
+> > > On Fri, Aug 04, 2023 at 02:53:17AM +0300, Laurent Pinchart wrote:
+> > >> On Fri, Aug 04, 2023 at 02:47:04AM +0300, Laurent Pinchart wrote:
+> > >>> On Fri, Jul 28, 2023 at 04:07:13PM -0400, Damian Hobson-Garcia wrote:
+> > >>>> Add additional pixel formats for which blending is disabling when
+> > >>>
+> > >>> Did you mean "disabled" instead of "disabling" ?
+> > 
+> > Oops.  Yes, that's exactly what I meant.
 
-On Mon, Jul 31, 2023 at 6:35 PM Rob Herring <robh@kernel.org> wrote:
-> On Mon, Jul 31, 2023 at 10:14:25AM -0600, Rob Herring wrote:
-> > On Fri, Jul 28, 2023 at 10:50:26AM +0200, Geert Uytterhoeven wrote:
-> > > This patch series contains miscellaneous fixes and improvements for
-> > > dynamic DT overlays and the related unit tests.
-> > >
-> > > The first two patches are fixes for a lock-up and a crash.
-> > > The remaining patches are smaller fixes, enhancements and cleanups for
-> > > the overlay tests, including one new test.
-> > >
-> > > I ran into the crash when accidentally loading the wrong overlay (using
-> > > the out-of-tree DT overlay configfs[1]), and removing it afterwards.
-> > > As this case was not yet covered by the unittests, I added a test.
-> > > I enhanced the tests to clean up partial state after a failed
-> > > overlay apply attempt, which triggered the lock-up.
-> > >
-> > > Changes compared to v1[2]:
-> > >   - Correct fixes tag and update description.
-> > >   - Merge differently, as requested by Rob.
-> > >
-> > > Thanks for your comments!
-> > >
-> > > [1] https://elinux.org/R-Car/DT-Overlays
-> > > [2] https://lore.kernel.org/r/cover.1689776064.git.geert+renesas@glider.be
-> > >
-> > > Geert Uytterhoeven (13):
-> > >   of: dynamic: Do not use "%pOF" while holding devtree_lock
-> > >   of: overlay: Call of_changeset_init() early
-> > >   of: unittest: Fix overlay type in apply/revert check
-> > >   of: unittest: Restore indentation in overlay_bad_add_dup_prop test
-> > >   of: unittest: Improve messages and comments in apply/revert checks
-> > >   of: unittest: Merge of_unittest_apply{,_revert}_overlay_check()
-> > >   of: unittest: Cleanup partially-applied overlays
-> > >   of: unittest: Add separators to of_unittest_overlay_high_level()
-> > >   of: overlay: unittest: Add test for unresolved symbol
-> > >   of: unittest-data: Convert remaining overlay DTS files to sugar syntax
-> > >   of: unittest-data: Fix whitespace - blank lines
-> > >   of: unittest-data: Fix whitespace - indentation
-> > >   of: unittest-data: Fix whitespace - angular brackets
+I'll fix this locally.
+
+> > >>>> DRM_MODE_BLEND_PIXEL_NONE is set.
+> > >>>>
+> > >>>> Refactor the fourcc selection into a separate function to handle the
+> > >>>> increased number of formats.
+> > >>>>
+> > >>>> Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
+> > >>>> ---
+> > >>>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 49 ++++++++++++-------
+> > >>>>   1 file changed, 32 insertions(+), 17 deletions(-)
+> > >>>>
+> > >>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> > >>>> index 45c05d0ffc70..96241c03b60f 100644
+> > >>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> > >>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> > >>>> @@ -176,6 +176,37 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
+> > >>>>   	DRM_FORMAT_Y212,
+> > >>>>   };
+> > >>>>   
+> > >>>> +static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
+> > >>>> +{
+> > >>>> +	u32 fourcc = state->format->fourcc;
+> > >>>> +
+> > >>>> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
+> > >>>> +		switch (fourcc) {
+> > >>>> +		case DRM_FORMAT_ARGB1555:
+> > >>>> +			fourcc = DRM_FORMAT_XRGB1555;
+> > >>>> +			break;
+> > >>>> +
+> > >>>> +		case DRM_FORMAT_ARGB4444:
+> > >>>> +			fourcc = DRM_FORMAT_XRGB4444;
+> > >>>> +			break;
+> > >>>> +
+> > >>>> +		case DRM_FORMAT_ARGB8888:
+> > >>>> +			fourcc = DRM_FORMAT_XRGB8888;
+> > >>>> +			break;
+> > >>>> +
+> > >>>> +		case DRM_FORMAT_BGRA8888:
+> > >>>> +			fourcc = DRM_FORMAT_BGRX8888;
+> > >>>> +			break;
+> > >>>> +
+> > >>>> +		case DRM_FORMAT_RGBA1010102:
+> > >>>> +			fourcc = DRM_FORMAT_RGBX1010102;
+> > >>>> +			break;
+> > >>>
+> > >>> Should DRM_FORMAT_ARGB2101010 be added as well, or did you leave it out
+> > >>> intentionally ?
+> > 
+> > Yes, it was intentionally left out for the time being for the
+> > reason that you noted (i.e. DRM_FORMAT_XRGB2101010 not
+> > being handled by the DU driver).
+> > 
+> > >> It looks like DRM_FORMAT_ARGB2101010 will require a bit more work, as
+> > >> DRM_FORMAT_XRGB2101010 is not handled by the DU driver at the moment.
+> > >> Let's do so with a patch on top of this series.
 > >
-> > I've applied patches 2-13. For patch 1, I sent an alternative[1].
->
-> I guess there's a dependency on patch 1 because I hang here:
->
-> [    1.341292] OF: overlay: ERROR: multiple fragments add and/or delete node /testcase-data-2/substation@100/motor-1/controller
-> [    1.343222] OF: overlay: ERROR: multiple fragments add, update, and/or delete property /testcase-data-2/substation@100/motor-1/controller/name
+> > Yes, I was thinking the same thing.
+> >
+> > > Replying to myself again, the datasheet doesn't explicitly list
+> > > DRM_FORMAT_XRGB2101010 as supported, but the generic mechanism to
+> > > specify the location of the components should work fine for that format.
+> > > Is this something you would be able to test ?
+> > 
+> > Unfortunately I don't have a Gen 4 system on hand to test the 2-10-10-10 
+> > formats with.
+> > I will double-check with the office in Japan, but I don't think that 
+> > they have one either.
+> 
+> Tomi, is this something you could test ?
 
-Yes there is: during removal of a partially-applied overlay, some
-errors are printed using %pOF, which must not be done while holding
-devtree_lock.
+Replying to myself, this is something we could test, but let's not delay
+this series, new formats can always be added on top.
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> > >> There's no need to send
+> > >> a v2, I can handle the simple change in the commit message if you let me
+> > >> know whether my comment is right or wrong.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
