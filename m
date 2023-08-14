@@ -2,83 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B88377AFBC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 04:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BA7677B254
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 09:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232650AbjHNC4V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Aug 2023 22:56:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55468 "EHLO
+        id S232798AbjHNHY7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Aug 2023 03:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232651AbjHNC4I (ORCPT
+        with ESMTP id S234072AbjHNHYp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Aug 2023 22:56:08 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9A8E6A;
-        Sun, 13 Aug 2023 19:56:07 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RPJpl01B4ztRxS;
-        Mon, 14 Aug 2023 10:52:30 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 14 Aug
- 2023 10:56:04 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <linus.walleij@linaro.org>, <alsi@bang-olufsen.dk>,
-        <andrew@lunn.ch>, <f.fainelli@gmail.com>, <olteanv@gmail.com>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <clement.leger@bootlin.com>,
-        <ulli.kroll@googlemail.com>, <kvalo@kernel.org>,
-        <bhupesh.sharma@linaro.org>, <robh@kernel.org>, <elder@linaro.org>,
-        <wei.fang@nxp.com>, <nicolas.ferre@microchip.com>,
-        <simon.horman@corigine.com>, <romieu@fr.zoreil.com>,
-        <dmitry.torokhov@gmail.com>, <netdev@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH net-next v3 5/5] wlcore: spi: Remove redundant of_match_ptr()
-Date:   Mon, 14 Aug 2023 10:55:19 +0800
-Message-ID: <20230814025520.2708714-6-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230814025520.2708714-2-ruanjinjie@huawei.com>
-References: <20230814025520.2708714-2-ruanjinjie@huawei.com>
+        Mon, 14 Aug 2023 03:24:45 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B1A1EE71;
+        Mon, 14 Aug 2023 00:24:43 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,171,1684767600"; 
+   d="scan'208";a="176575841"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2023 16:24:42 +0900
+Received: from localhost.localdomain (unknown [10.226.92.104])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C5EB8419AC8E;
+        Mon, 14 Aug 2023 16:24:39 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH 0/3] Fix NULL pointer dereference in RZ/{G2L,V2M,A2} pinctrl driver
+Date:   Mon, 14 Aug 2023 08:24:33 +0100
+Message-Id: <20230814072436.3757-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The driver depends on CONFIG_OF, it is not necessary to use
-of_match_ptr() here.
+Fix NULL pointer dereference in RZ/{G2L,V2M,A2M} pinctrl driver due to
+a race condition during boot. We have seen issues with RZ/{G2L,V2M} boards.
+Based on the code, RZ/A2 will also hit this issue. So fixing RZ/A2 aswell.
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/net/wireless/ti/wlcore/spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This issue is reproducible with 1/200 reboots.
 
-diff --git a/drivers/net/wireless/ti/wlcore/spi.c b/drivers/net/wireless/ti/wlcore/spi.c
-index 3f88e6a0a510..7d9a139db59e 100644
---- a/drivers/net/wireless/ti/wlcore/spi.c
-+++ b/drivers/net/wireless/ti/wlcore/spi.c
-@@ -554,7 +554,7 @@ static void wl1271_remove(struct spi_device *spi)
- static struct spi_driver wl1271_spi_driver = {
- 	.driver = {
- 		.name		= "wl1271_spi",
--		.of_match_table = of_match_ptr(wlcore_spi_of_match_table),
-+		.of_match_table = wlcore_spi_of_match_table,
- 	},
- 
- 	.probe		= wl1271_probe,
+Biju Das (3):
+  pinctrl: renesas: rzg2l: Fix NULL pointer dereference in
+    rzg2l_dt_subnode_to_map()
+  pinctrl: renesas: rzv2m: Fix NULL pointer dereference in
+    rzv2m_dt_subnode_to_map()
+  pinctrl: renesas: rza2: Add lock around
+    pinctrl_generic{{add,remove}_group,{add,remove}_function}
+
+ drivers/pinctrl/renesas/pinctrl-rza2.c  | 11 ++++++++++-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c |  8 ++++++++
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c |  8 ++++++++
+ 3 files changed, 26 insertions(+), 1 deletion(-)
+
 -- 
-2.34.1
+2.25.1
 
