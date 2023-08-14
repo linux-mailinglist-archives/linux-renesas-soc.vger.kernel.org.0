@@ -2,92 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D893C77AEEB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 01:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F272677AFB3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 04:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231421AbjHMX1B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Aug 2023 19:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54520 "EHLO
+        id S232589AbjHNCzr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Aug 2023 22:55:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjHMX0j (ORCPT
+        with ESMTP id S232613AbjHNCz2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Aug 2023 19:26:39 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03CF910C0;
-        Sun, 13 Aug 2023 16:26:39 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-686f6231bdeso1067865b3a.1;
-        Sun, 13 Aug 2023 16:26:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691969198; x=1692573998;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BuNbu0gbni6xXLXBo/G7aeBfgO26R2ZGnsk2uYvwiOw=;
-        b=gTRv7Lyxt0jQpLY3S2vxMdR5Bswj9Dn7L/Tdq7DQqC1rIlsNAieoxQnYfj6Yd+abxT
-         qI8gr8X6k2YbqDDySB/atsnK5ifyd2LlHooXjkpMh3YkALKcTt9J0XS+ki8USpqJ1xva
-         lja3IFqlOFpTq0jddq73wMMQSt13kDJBN0GDsTeOd0+bmy3BCLZ/hvYCPFdhFvTBSenn
-         6WjjRxPdkQ0Ep/SnH8ntZXK1xckUOjTKLDFUbcEwctiZmofdsVmJDMEZ8/ub7NyGqd/d
-         MsuaA9HyJ5i4ZsUD/ZhImGnlabKt3sOfjpN9i+myHIjBh8r/JRGQH9UGsngoLweu5456
-         0Dfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691969198; x=1692573998;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BuNbu0gbni6xXLXBo/G7aeBfgO26R2ZGnsk2uYvwiOw=;
-        b=f6t+LyWDAhyzXp9yaUy0b3EwI3MbFdT8tURoNbF0Id9kFt9SWLqPfJ8HLPqV43Hj4P
-         53kIlIE9t23sVHMLhvLe1PzcRPhZu2Xi1M9daaXc9jCUIJi0Dm6zVabxYPdntm9DHAu0
-         7SalcBevFFuHCYe0BvTxI1UOa5YkpvSdgC8pg13PtvbgvyXrgOWo9K/Uu0zMws3fvOq/
-         WRqtYeFUwha6t8XQ0rK2JowjhPYPc90kaKFnmql9f8n6yze9Vmd7m2hym8dM4WZsUOMy
-         4mRv6H5vg1fxCe1NV8tsAhRA9AQFvM3ffnw9oSne608PIFVwXW+6HFha54mtGUrOYI7j
-         5PhA==
-X-Gm-Message-State: AOJu0YxILwfJ/Iese5N1DbFni9XPvfXRqXXcCCCel1oCrHi2PB7+bE84
-        AjrB8n8wBAGUWt6tDFy4UQv5NVrINIRrs77gQ0U=
-X-Google-Smtp-Source: AGHT+IGdBhtZ+hQTxv3eusdQZDNsm5z8qa01ROz2ftxFts8FbdAc+Zumj/zzXP0WxszQ61aZmXq9YCegUF7jtNBcjDI=
-X-Received: by 2002:a05:6a21:3289:b0:137:4fd0:e2e6 with SMTP id
- yt9-20020a056a21328900b001374fd0e2e6mr11547458pzb.6.1691969198407; Sun, 13
- Aug 2023 16:26:38 -0700 (PDT)
+        Sun, 13 Aug 2023 22:55:28 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D878E65;
+        Sun, 13 Aug 2023 19:55:26 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RPJqj5YsZzVkFh;
+        Mon, 14 Aug 2023 10:53:21 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 14 Aug
+ 2023 10:55:22 +0800
+From:   Ruan Jinjie <ruanjinjie@huawei.com>
+To:     <linus.walleij@linaro.org>, <alsi@bang-olufsen.dk>,
+        <andrew@lunn.ch>, <f.fainelli@gmail.com>, <olteanv@gmail.com>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <clement.leger@bootlin.com>,
+        <ulli.kroll@googlemail.com>, <kvalo@kernel.org>,
+        <bhupesh.sharma@linaro.org>, <robh@kernel.org>, <elder@linaro.org>,
+        <wei.fang@nxp.com>, <nicolas.ferre@microchip.com>,
+        <simon.horman@corigine.com>, <romieu@fr.zoreil.com>,
+        <dmitry.torokhov@gmail.com>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-wireless@vger.kernel.org>
+CC:     <ruanjinjie@huawei.com>
+Subject: [PATCH net-next v3 0/5] net: Remove redundant of_match_ptr() macro
+Date:   Mon, 14 Aug 2023 10:54:42 +0800
+Message-ID: <20230814025447.2708620-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230813164003.23665-1-aford173@gmail.com>
-In-Reply-To: <20230813164003.23665-1-aford173@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Sun, 13 Aug 2023 20:26:27 -0300
-Message-ID: <CAOMZO5D-EjhDwBKcnC7Npwtbg5ezM-Ce_Yockdkak_FRTa68zQ@mail.gmail.com>
-Subject: Re: [PATCH V2] arm64: dts: imx8mp-beacon: Configure 100MHz PCIe Ref Clk
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, aford@beaconembedded.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Aug 13, 2023 at 1:40=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
-e:
->
-> There is a I2C controlled 100MHz Reference clock used by the PCIe
-> controller. Configure this clock's DIF1 output to be used by
-> the PCIe.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
-> V2:  Remove the pcie0_refclk clock that the new one replaces.
+Since these net drivers depend on CONFIG_OF, there is
+no need to wrap the macro of_match_ptr() here.
 
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Changes in v3:
+- Collect responses from v1 and v2.
+
+Ruan Jinjie (5):
+  net: dsa: realtek: Remove redundant of_match_ptr()
+  net: dsa: rzn1-a5psw: Remove redundant of_match_ptr()
+  net: gemini: Remove redundant of_match_ptr()
+  net: qualcomm: Remove redundant of_match_ptr()
+  wlcore: spi: Remove redundant of_match_ptr()
+
+ drivers/net/dsa/realtek/realtek-mdio.c   | 2 +-
+ drivers/net/dsa/realtek/realtek-smi.c    | 2 +-
+ drivers/net/dsa/rzn1_a5psw.c             | 2 +-
+ drivers/net/ethernet/cortina/gemini.c    | 4 ++--
+ drivers/net/ethernet/qualcomm/qca_uart.c | 2 +-
+ drivers/net/wireless/ti/wlcore/spi.c     | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+2.34.1
+
