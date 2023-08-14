@@ -2,214 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DD1D77BD6C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 17:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4D6677BDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Aug 2023 18:28:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230401AbjHNPvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Aug 2023 11:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S229665AbjHNQ2D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Aug 2023 12:28:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbjHNPum (ORCPT
+        with ESMTP id S232776AbjHNQ1r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Aug 2023 11:50:42 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB70E10E3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Aug 2023 08:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=FYep
-        wEYtDzQvBpaqNq01ju5b6nuQwAUfmhoLQUMczxo=; b=hW+W0wmzjGTNGIoKy/ap
-        lEHAoznAyAfVL7icFHh183O6QhmQ/RFFz1bBxMIFqN4sVGcow6I1ev2ZyDM2yY5a
-        F0+vrfaAjzKbzTMTKdFnmxIFmX/mX5oTizcVu7pBpP3CXXNzXZBPkfpbSm8fZD3p
-        47yT+S4QJ0m1XyEsNDwmnV2MIbyGCMdsu+wttTFMTjG3HwB1o4JmmWtii6wfbTh9
-        WiiGlmpGudcaDNcJ1BVQCga1C1QXrrtJ+p18X1Sk5WWD8G29cY2FHbz9oITK8IW4
-        1Ias5CaMQ6Dm+VoLFhG49pbAADA+vtcd8Wj/FXZxUFPGFr3SfY0eknRzKvcJU8F/
-        Lg==
-Received: (qmail 95061 invoked from network); 14 Aug 2023 17:50:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Aug 2023 17:50:30 +0200
-X-UD-Smtp-Session: l3s3148p1@9OabBeQC6KAgAwDPXxIFAOXxDpD4UZq0
-Date:   Mon, 14 Aug 2023 17:50:30 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Jochen Friedrich <jochen@scram.de>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Khalil Blaiech <kblaiech@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Qii Wang <qii.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Stefan Roese <sr@denx.de>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
-        linux-actions@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] I2C: Explicitly include correct DT includes
-Message-ID: <ZNpNRlLSdjR7Zfv0@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh@kernel.org>,
-        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Jochen Friedrich <jochen@scram.de>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Jean-Marie Verdun <verdun@hpe.com>,
-        Nick Hawkins <nick.hawkins@hpe.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Khalil Blaiech <kblaiech@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Qii Wang <qii.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Stefan Roese <sr@denx.de>, Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>, Peter Rosin <peda@axentia.se>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
-        linux-actions@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20230714174619.4057577-1-robh@kernel.org>
+        Mon, 14 Aug 2023 12:27:47 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF69E65
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Aug 2023 09:27:38 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-3a751d2e6ecso3889260b6e.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Aug 2023 09:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20221208.gappssmtp.com; s=20221208; t=1692030458; x=1692635258;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qnJ0ZfY7u/gXkrzwVapX3Ay2G8CLjKdQBzM1RBGM0BQ=;
+        b=UQQDzxaHGhsKMiWZPPE8BPDYp67wsSvrpMGTflKv3HEGQOle7nl7ezFKqMj6hQmX+c
+         vADQRxxlUq1EZuqpG4Mi5jzuiApsa8mTqj5czjVShtf3eVEK0tI5n52Uakl5F5QIV5lK
+         k4XZfc+ztqoL5kzoxI7FXX0o/rNsElVrtRCYjod1gV3eqr7u36eMiQVrezmqWD6Ayloj
+         jIc7jiZMfgYeVAOz8Ef1vz4N1XNXkCYAgjw/l0XtqFqmWzKTfwpyVELnIJS38Og7neq9
+         xkW9m7yFWTwxkTQbgGpcqLtHnD2EPSVn2SLd4ZPzHHE2JrGyooNz77XA23D15Ttlr1Jz
+         D1eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692030458; x=1692635258;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qnJ0ZfY7u/gXkrzwVapX3Ay2G8CLjKdQBzM1RBGM0BQ=;
+        b=DiXDiwanTffSIh/j2Sl/Y7RQdwLJ3+oxbKII+Ur0Uou2hhOQGPranhuVxYQSLi9ibB
+         tVyd1xTN7dF/U8RT/nzd/WWCk0oD2Z0gLBQrZ5q6BfGRKnwXMw0QS+rIBdBXxI04g8Qq
+         lAjfr16mjQ9T0nmY/i56tLK/wZMp4yrY1IvSI2GoJGIglOpWXP13+jCOSkZlj2/jcjGu
+         mZ5t7ir3FvpT/xqQ51uy/NHChMh4QNl0C6EXdk/Y78sQM2WcM0Qv2yOZAbu3UjvqnA76
+         nRcfGYZ6uhR7luctIGxtvPd3lvsJ+L9gjEBVfg+lMxXRe7ugV+SpJdAaxXkfKSwLqbH0
+         sIZw==
+X-Gm-Message-State: AOJu0Yx7cMnViUxFBKTnytCsO66ePLuCtWw2UxWHjXz5BAQiMcOAP5aX
+        AOmnnDAmk24t13+BbCDQ9yz0ww==
+X-Google-Smtp-Source: AGHT+IGN+ncCNSUGt4HpvzhXjUkm63Eh7Se1W+uHEqnDbW3D5dUgLyYrM4FddwdZOSP1etM7pSbv7w==
+X-Received: by 2002:a05:6358:9188:b0:133:4ce:4e8c with SMTP id j8-20020a056358918800b0013304ce4e8cmr5843777rwa.29.1692030457876;
+        Mon, 14 Aug 2023 09:27:37 -0700 (PDT)
+Received: from [192.168.68.66] (69-165-247-94.cable.teksavvy.com. [69.165.247.94])
+        by smtp.gmail.com with ESMTPSA id g2-20020ac84b62000000b00403c1a19a2bsm3173601qts.92.2023.08.14.09.27.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Aug 2023 09:27:37 -0700 (PDT)
+Message-ID: <25a7fd96-d0a4-2d7f-dcc5-50abd048c6f4@igel.co.jp>
+Date:   Mon, 14 Aug 2023 12:27:35 -0400
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="17Pm2F6dlWUYnS2d"
-Content-Disposition: inline
-In-Reply-To: <20230714174619.4057577-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 1/2] drm: rcar-du: Add more formats to
+ DRM_MODE_BLEND_PIXEL_NONE support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     kieran.bingham+renesas@ideasonboard.com, taki@igel.co.jp,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20230728200714.2084223-1-dhobsong@igel.co.jp>
+ <20230803234703.GJ9722@pendragon.ideasonboard.com>
+ <20230803235315.GL9722@pendragon.ideasonboard.com>
+ <20230804000615.GN9722@pendragon.ideasonboard.com>
+ <bf2001af-00f2-3a1e-8b79-5747e6607a12@igel.co.jp>
+ <20230804155249.GJ12951@pendragon.ideasonboard.com>
+ <20230814104655.GB5723@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Damian Hobson-Garcia <dhobsong@igel.co.jp>
+In-Reply-To: <20230814104655.GB5723@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---17Pm2F6dlWUYnS2d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jul 14, 2023 at 11:46:16AM -0600, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Applied to for-next, thanks!
+Hi Laurent,
 
 
---17Pm2F6dlWUYnS2d
-Content-Type: application/pgp-signature; name="signature.asc"
+On 2023/08/14 6:46, Laurent Pinchart wrote:
+> On Fri, Aug 04, 2023 at 06:52:51PM +0300, Laurent Pinchart wrote:
+>> On Fri, Aug 04, 2023 at 11:49:32AM -0400, Damian Hobson-Garcia wrote:
+>>> On 2023/08/03 20:06, Laurent Pinchart wrote:
+>>>> On Fri, Aug 04, 2023 at 02:53:17AM +0300, Laurent Pinchart wrote:
+>>>>> On Fri, Aug 04, 2023 at 02:47:04AM +0300, Laurent Pinchart wrote:
+>>>>>> On Fri, Jul 28, 2023 at 04:07:13PM -0400, Damian Hobson-Garcia wrote:
+>>>>>>> Add additional pixel formats for which blending is disabling when
+>>>>>> Did you mean "disabled" instead of "disabling" ?
+>>> Oops.  Yes, that's exactly what I meant.
+> I'll fix this locally.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmTaTUIACgkQFA3kzBSg
-KbZaIg//XMJpFp3VA+SvgguI2F+p7s5pQ1LhS3BPR9cxnpeb9QOe8vkSLthUd35o
-9ImYsH82xfRxJL0/+gJ0axhPMMdC1Sf8wudKBxibLmYvlZnFyVXjzXPSjEbpuwjR
-JjrM8toQVug/vn3nAiHwd3PMG/rtWFhfv/sGSb7IscOaQOtJ52qdGzJWFlU81blQ
-4SXETUaeM+l3O10jJBpcL+WI/J5Gog31ORqi14hh4AMOO/GkEZrMBO1smByiPiGU
-oOWPfXyBDmT6O9e3MTtn5TCtrDHdcWI/JHnpl1pyiEjBFV6GmjcA+Ra36+L7RwCc
-1kIDHKc3OOLluAkbuZF+28s/SqDEXoued+TUfDTYtyR1PgqCDEM/W0G3pcfV49uM
-41m2pavMgKoYY6FnGaaS5/qghLvKAzqn9X+JqpH0TzvTaS3rIZl6izdrCvauL1Cg
-b+/wb9BUtfV3EgCUV0ruuvvlIgjGaBu9WW7vMPhmkfRMVjFTVgI+NTEIGfpDc8+i
-OVluYvBPotiiUP/SYw6Gy8jqgZmVByWr5RsGu3b/1x8Sqq9ia8Jh66UaUUUhLSRW
-MUoxnGxJb7gQTYQSv3q1ZDJJhHAhsTT1HMN5q7n3ueAXL1Ef3HmZ4Q/87YU5jJbn
-nNHpy13KwdwzqPw2iKii9Ab8GWvWjN8siNfPM2GCJvEH2/TfoyY=
-=PhdP
------END PGP SIGNATURE-----
+Thank you very much.
 
---17Pm2F6dlWUYnS2d--
+
+>
+>>>>>>> DRM_MODE_BLEND_PIXEL_NONE is set.
+>>>>>>>
+>>>>>>> Refactor the fourcc selection into a separate function to handle the
+>>>>>>> increased number of formats.
+>>>>>>>
+>>>>>>> Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
+>>>>>>> ---
+>>>>>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 49 ++++++++++++-------
+>>>>>>>    1 file changed, 32 insertions(+), 17 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+>>>>>>> index 45c05d0ffc70..96241c03b60f 100644
+>>>>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+>>>>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+>>>>>>> @@ -176,6 +176,37 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
+>>>>>>>    	DRM_FORMAT_Y212,
+>>>>>>>    };
+>>>>>>>    
+>>>>>>> +static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
+>>>>>>> +{
+>>>>>>> +	u32 fourcc = state->format->fourcc;
+>>>>>>> +
+>>>>>>> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
+>>>>>>> +		switch (fourcc) {
+>>>>>>> +		case DRM_FORMAT_ARGB1555:
+>>>>>>> +			fourcc = DRM_FORMAT_XRGB1555;
+>>>>>>> +			break;
+>>>>>>> +
+>>>>>>> +		case DRM_FORMAT_ARGB4444:
+>>>>>>> +			fourcc = DRM_FORMAT_XRGB4444;
+>>>>>>> +			break;
+>>>>>>> +
+>>>>>>> +		case DRM_FORMAT_ARGB8888:
+>>>>>>> +			fourcc = DRM_FORMAT_XRGB8888;
+>>>>>>> +			break;
+>>>>>>> +
+>>>>>>> +		case DRM_FORMAT_BGRA8888:
+>>>>>>> +			fourcc = DRM_FORMAT_BGRX8888;
+>>>>>>> +			break;
+>>>>>>> +
+>>>>>>> +		case DRM_FORMAT_RGBA1010102:
+>>>>>>> +			fourcc = DRM_FORMAT_RGBX1010102;
+>>>>>>> +			break;
+>>>>>> Should DRM_FORMAT_ARGB2101010 be added as well, or did you leave it out
+>>>>>> intentionally ?
+>>> Yes, it was intentionally left out for the time being for the
+>>> reason that you noted (i.e. DRM_FORMAT_XRGB2101010 not
+>>> being handled by the DU driver).
+>>>
+>>>>> It looks like DRM_FORMAT_ARGB2101010 will require a bit more work, as
+>>>>> DRM_FORMAT_XRGB2101010 is not handled by the DU driver at the moment.
+>>>>> Let's do so with a patch on top of this series.
+>>> Yes, I was thinking the same thing.
+>>>
+>>>> Replying to myself again, the datasheet doesn't explicitly list
+>>>> DRM_FORMAT_XRGB2101010 as supported, but the generic mechanism to
+>>>> specify the location of the components should work fine for that format.
+>>>> Is this something you would be able to test ?
+>>> Unfortunately I don't have a Gen 4 system on hand to test the 2-10-10-10
+>>> formats with.
+>>> I will double-check with the office in Japan, but I don't think that
+>>> they have one either.
+>> Tomi, is this something you could test ?
+> Replying to myself, this is something we could test, but let's not delay
+> this series, new formats can always be added on top.
+
+Ok, great.  Thanks very much.
+
+
+Damian
+
+>>>>> There's no need to send
+>>>>> a v2, I can handle the simple change in the commit message if you let me
+>>>>> know whether my comment is right or wrong.
