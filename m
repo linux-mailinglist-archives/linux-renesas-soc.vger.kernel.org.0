@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B4F577C8BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 09:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71C3F77C8C6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 09:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235284AbjHOHnB convert rfc822-to-8bit (ORCPT
+        id S235360AbjHOHng convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Aug 2023 03:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58126 "EHLO
+        Tue, 15 Aug 2023 03:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235386AbjHOHmx (ORCPT
+        with ESMTP id S235421AbjHOHnV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Aug 2023 03:42:53 -0400
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BD751736;
-        Tue, 15 Aug 2023 00:42:52 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-589f2fb1a88so19908117b3.2;
-        Tue, 15 Aug 2023 00:42:52 -0700 (PDT)
+        Tue, 15 Aug 2023 03:43:21 -0400
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9290DAB;
+        Tue, 15 Aug 2023 00:43:20 -0700 (PDT)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a1ebb85f99so4836276b6e.2;
+        Tue, 15 Aug 2023 00:43:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692085371; x=1692690171;
+        d=1e100.net; s=20221208; t=1692085400; x=1692690200;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6ZQrwOxrWyffD25n9GLtilWn3mmluKLzMUUVuXoXb90=;
-        b=khjg4CEKx12vRHJiwziVA3Kz+UybBO/LKd9g/9LhZB2dxkNnUnsEMsc9NoWQ7f72zW
-         7Bzq6RfPlby33N3LLI/zUJlFZjVFIGu6zZA7CLWel92/4soD+EiprSQUU/++wNU7nyDx
-         Txp7o/x8v6XVteAVrGc0y7eZQcp/pFTf2e3zSi+ka6hAx/7/CsJJji+vetSjP+YuL6Pi
-         UaO1u6jIW+GF0ORh1wBU036BTAFnCXoFPxXETs8SfLobcJEDbaOgwYxlRspznHMHWwJ6
-         ZEJ6G6aW5nFFvmXp6JqhxP6GD5jT8HcKqNdghKctNqoEh/ySLn0/JBqdDQqQT0Z+ecm2
-         NK9g==
-X-Gm-Message-State: AOJu0YyaT2HvyB5OAyJJoQNobZcbRvNb90c1H0gJ/nmAPTkhG23AM3uN
-        RxrAqXTdB8OlfVzhqiGMDfWigQ32Cd3Q8w==
-X-Google-Smtp-Source: AGHT+IFufOuuf0/LFkjR+lh8K4gNO/cxWFwm3EYQVFOqC91g/1NGD9MqQX5LfMmbDQncLweGX5arzw==
-X-Received: by 2002:a0d:e8c4:0:b0:573:b0d5:757 with SMTP id r187-20020a0de8c4000000b00573b0d50757mr13373095ywe.29.1692085371368;
-        Tue, 15 Aug 2023 00:42:51 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id dc22-20020a05690c0f1600b00584554be59dsm3237295ywb.85.2023.08.15.00.42.50
+        bh=RcSqMj1oxk+XcRkqUpUSGJ3z0luUcZQWsRNfhNSx+Ec=;
+        b=OEgewyrzGeq1BZ8R8EtLRvjlfx23+Q8fl1QnJcSyBA8d1vSaFRjxQqrHAH2ULJApTk
+         6hmAZ66ioCM3KYqyXh9xzziCIr2ZLJryoW0CmekXaAemrDk9En3eO8VD4AhhnnHh1WOj
+         720uw7CP8oDw1zEpmQRB43LXldPfv7cpJJpuYHYMb+4G8WLMkTTwp1kghJJHm/XWSHAr
+         owvSbb/2q3u5R3J5DjTP2+sySTEg74G74Bq0/LqRCHmLEiuP5ZWcBN5zauXHN+Q0G9t3
+         SGLJtXEAwXRrY63skoy1Omxt8oNJM9p0Ay/q5i9qPLNn+sqF06Iu+3cn+v/gBEg1grJZ
+         3p1Q==
+X-Gm-Message-State: AOJu0Yz1ymmkr73d8fScM1tegFatCflp9i4dWWmo8Jrh1l7+QB7cz3Vn
+        VVVqvMkR1xWKLYjZcaltClsfmLR12e3KNA==
+X-Google-Smtp-Source: AGHT+IF+VmbAuNI4buGd0z6IeDU2SBt+r9KWvvU4QBne0rUy5GQoybfsy2wv+SjiQTnH7mfq8MlIFw==
+X-Received: by 2002:a05:6358:7215:b0:139:833c:53f8 with SMTP id h21-20020a056358721500b00139833c53f8mr11212880rwa.24.1692085399722;
+        Tue, 15 Aug 2023 00:43:19 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id e191-20020a2537c8000000b00d071631665fsm2831960yba.59.2023.08.15.00.43.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Aug 2023 00:42:51 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d62b9bd5b03so4976229276.1;
-        Tue, 15 Aug 2023 00:42:50 -0700 (PDT)
-X-Received: by 2002:a25:428b:0:b0:c19:6a03:2704 with SMTP id
- p133-20020a25428b000000b00c196a032704mr12036447yba.25.1692085370705; Tue, 15
- Aug 2023 00:42:50 -0700 (PDT)
+        Tue, 15 Aug 2023 00:43:19 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-c5f98fc4237so3739815276.2;
+        Tue, 15 Aug 2023 00:43:19 -0700 (PDT)
+X-Received: by 2002:a25:8312:0:b0:d47:89c0:52aa with SMTP id
+ s18-20020a258312000000b00d4789c052aamr9836466ybk.13.1692085399035; Tue, 15
+ Aug 2023 00:43:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <87r0onprph.wl-kuninori.morimoto.gx@renesas.com> <87il9zpro8.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87il9zpro8.wl-kuninori.morimoto.gx@renesas.com>
+References: <87r0onprph.wl-kuninori.morimoto.gx@renesas.com> <87h6pjpro4.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87h6pjpro4.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Aug 2023 09:42:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXt+Ed755tCkcx_X10EWwd8Wt3d4mW5WqAHzLLowQNWEQ@mail.gmail.com>
-Message-ID: <CAMuHMdXt+Ed755tCkcx_X10EWwd8Wt3d4mW5WqAHzLLowQNWEQ@mail.gmail.com>
-Subject: Re: [PATCH 6/9] clk: renesas: r8a774e1: add 922 ADG
+Date:   Tue, 15 Aug 2023 09:43:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX-DphtkyzGd1Zyi0ySS7ipAwUrRGa7PNX6RL2zYNadWw@mail.gmail.com>
+Message-ID: <CAMuHMdX-DphtkyzGd1Zyi0ySS7ipAwUrRGa7PNX6RL2zYNadWw@mail.gmail.com>
+Subject: Re: [PATCH 7/9] clk: renesas: r8a77965: add 922 ADG
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         linux-clk@vger.kernel.org
@@ -75,7 +75,7 @@ On Tue, Aug 1, 2023 at 1:50 AM Kuninori Morimoto
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.6.
+i.e. will queue in renesas-clk-for-v6.6 with the tags given.
 
 Gr{oetje,eeting}s,
 
