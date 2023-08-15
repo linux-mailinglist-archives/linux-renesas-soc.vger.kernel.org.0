@@ -2,212 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F241477C805
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 08:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E50AD77C808
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 08:45:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235180AbjHOGox (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Aug 2023 02:44:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36486 "EHLO
+        id S235185AbjHOGoz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Aug 2023 02:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235176AbjHOGoc (ORCPT
+        with ESMTP id S234110AbjHOGok (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Aug 2023 02:44:32 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5113810C0;
-        Mon, 14 Aug 2023 23:44:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fmyhk0D1xzdr0LfJalmBvyd0ejzbGC4zvg1rubJchiut+iN0IZCiK0vqahXY95ghKs5dNSB48Y96pBvElWXo5WhCDVfMtDsmf6M5OTRIS/ibkJCMT4Pqcj//rBDeeyEWFqh80Ec5PQR9kZqUtIQ3CxSeqgOizY76QJ8DYKFzvdfQTnnZlG7tn8IqvHzNK1/lcVYyhlZnLDL8DZuJCVs0w9R1cWR7xFQEeq89XXNlFkbws8iE51rRtTVjd7XylU8Dz7H7mLLuX7lVXm9hHinNBJC6V/XBnmenE34ahogim0DLKfgEI901YbD/Nwg9tLiKMpBQ7UmWcOKCzU3nvqpBGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4m5BT0t+b/5331hOfoCOeXBrbQX1bYwO7xvNkauYad8=;
- b=WpculqHfoCmevvQakkx+Aa82yZSgkJRvNk8R5SQx3b4tMpOmrBrKpNmKJs3qe7BYp2GjJftpDZNtcFTNJGuDaaAxPhoiOztKDVKWek0fv3WNv4Pd6WuqtXlY//3VL4DTAVO15PjLl4NGupDlLNGDoMslOernOCTfG5bO7PFg1NxX46Hx7L8Z3+IDxyP+p0ZBUdLh1/kX4ylDiFsXZwga1SCLatwtlYIGiGfBvdhpRr7YTGFeQdhaKWWEV/N33KRU6nMOQfJ5vc7aVMKAkbmtMUvMr+/KAAy5jgt7+ybF4HuDRG36OwhXszAZkeqCM6WNdxOPn/rpAwdCrfz/9FyRxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4m5BT0t+b/5331hOfoCOeXBrbQX1bYwO7xvNkauYad8=;
- b=Se0EzyCpINpr/RYsyfvpqhRlsnRo9CkUCLlrczqEe7Wy3Sjfp+Vk1Ecqi+ZyUzJk/pzPvQSYDX9+avBj079gFQxlo22/gjbKUFX/JS2vaMm/R+1czBfuwR8XJzLZV5WTAYoLUWsRooLcWAdY6CN+ar3E+3NS8QfRLLvoIuk0Rkw=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSRPR01MB11423.jpnprd01.prod.outlook.com (2603:1096:604:233::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
- 2023 06:44:27 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0%6]) with mapi id 15.20.6678.025; Tue, 15 Aug 2023
- 06:44:26 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Tue, 15 Aug 2023 02:44:40 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87224E72;
+        Mon, 14 Aug 2023 23:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692081879; x=1723617879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WoRkywen7QyRJh5gY+NeF3XBAuuj7J1YVN5gmyneGXU=;
+  b=HwsMxuzTNnjKD4mNmnnpLkqJnmEIjMvJbxwqZ9Zty7pLwWtg/r2kJb4h
+   tYrJEy53LpG/6WXYT+8bDcl0uhMGZl0edgHlrFPCnC/1fToEg9JcHQRNV
+   PCr3bn1zjrMEtHVdaqe2xO6znx1VvXPu5+xgVjWm/3SmCYRND/ZQpWAt3
+   hF6+IYSfpbm7O+XGuNciB8jnJnNi9tPBUloQYJLxQ9/5yTWID3ZP9qUg9
+   sHkQvQVa9n2XAd3edXDVhiKHZpyvUN9sgqX1BP0p7X15GWQCEHkxr0vnA
+   CIulMNzpMucW/zxa8MD8uaeMKZ2iR4d06IfD+l1vBF9g6HRXeqUXgLdhH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="438554581"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="438554581"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 23:44:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="736809481"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="736809481"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2023 23:44:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qVnn5-006tP3-2q;
+        Tue, 15 Aug 2023 09:44:31 +0300
+Date:   Tue, 15 Aug 2023 09:44:31 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "stable@kernel.org" <stable@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: RE: [PATCH 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer dereference
- in rzg2l_dt_subnode_to_map()
-Thread-Topic: [PATCH 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer
- dereference in rzg2l_dt_subnode_to_map()
-Thread-Index: AQHZzoBnsm/pWpI5Aky3HO0TXCjGta/qRIsAgACj0QA=
-Date:   Tue, 15 Aug 2023 06:44:25 +0000
-Message-ID: <OS0PR01MB59222159C2B7AB4C41E9EE238614A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230814072436.3757-1-biju.das.jz@bp.renesas.com>
- <20230814072436.3757-2-biju.das.jz@bp.renesas.com>
- <ZNqTRrf2iC6xLvR7@surfacebook.localdomain>
-In-Reply-To: <ZNqTRrf2iC6xLvR7@surfacebook.localdomain>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSRPR01MB11423:EE_
-x-ms-office365-filtering-correlation-id: 381f2a59-042b-4a5a-87af-08db9d5b1141
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DnBK4lZyNFoE1FHo3EaIrbccWW2iVKVXzyBlKGIk+DIoWE9fX/zfCxF45ZTSZKrENI2J30u2rMgetv+2nUljgV3xigLL89E7MYlgJVwrfbMAxdNfkYZw6rRnm25wIRcoxAkkJVg/jyq8/aiWXtoOv8s7K7ObFRsJrAWT2TE+bXAByr3siQJ2CihD1bWsZ8ihTPiCitseHokt829DwKv7XHwFXpdnidr+BBxu0zwZp6b+Dlz5NlixxaLhwm2fZZxYm80VA9Y/iqfRF9zPlOWeK952tN7sA0YO9Xjs0OpmHjkYmME9Sx6MU+g+14mnaPKj0en460hNklkD2a/6Xcll4TkyRJnS4WdvzsGYHd+ggKAzX78bKvaR93wfGZRyXmUde8XaXBKjI13ZTQoyi/RZW8nrJnXz9c9THZEMLc/P//+BunmMw5wrfrPmgZDrBu05PBoTYozWEDTjG/lDsE03mCZ/Mt4VjdDY3GgxmjX4aANvQihZ2Ahp8/IvuEO6HF/zREJHaQy3+x8EhmhnFqBUMlam8lB887szU0kXl37N6hReUd6US0YwPuVurMho591/znPUQvZgUi1nVv2Wn04VBPNzkCdgrDnWbBsC7D1kJow=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199021)(1800799006)(186006)(7696005)(71200400001)(9686003)(966005)(54906003)(45080400002)(478600001)(55016003)(107886003)(6506007)(26005)(2906002)(4326008)(316002)(6916009)(64756008)(76116006)(66556008)(5660300002)(8936002)(66946007)(66476007)(8676002)(52536014)(41300700001)(66446008)(38070700005)(38100700002)(33656002)(86362001)(83380400001)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CZH2nIW4NA7begipWZ7INq19oSWUy/K0EDOdkZsLoZQxaqJ+FBshBotDEK7I?=
- =?us-ascii?Q?X3n83VRPKtRQUpMpZhp9kauYlfwd+/PfXEZAOtEO7jlMfSBDEcWF7n9g9P3R?=
- =?us-ascii?Q?Mo3H36ZXq1PzvEjnyO7JW8C/utYdVlDkLWoWNXRu0a8Y0SkhVTetYlEihPGN?=
- =?us-ascii?Q?gYSnzaSXuycdr88g4wXz695wfaYO0WZwYQ6O2Sw42HRnO17RvWvNKYzyoMFW?=
- =?us-ascii?Q?bpgQpuQVZZE9jabZwxr60UxyRCnV5qNJ7jvF42b2sCY+qKN6lYejA1TyDILb?=
- =?us-ascii?Q?JMoxvnKQbE9vpdfUEEWFeVxrH6sD/rnyuuXTLe4qVIN+HoIhdpGK5st3NM09?=
- =?us-ascii?Q?PilJw5/BamODkQYMjKZYXEq2AGDieKO3bDLyvJDDOTAXNtIpFEb8fVCaBaZ/?=
- =?us-ascii?Q?qrGUvUvnvM27GGScl3DKu02AZ+Slzmjv2BF5K3KMmg1SDGnM7LJW/urJ13MK?=
- =?us-ascii?Q?vbH7P8Mj+7i+RV2tE/FnRQf/fnqfTfNUXwOr5PT+HwMXuq7ThNyy4TEzgJGA?=
- =?us-ascii?Q?9A0yzY4JcLldR/z1hGa91g0w1QpqP1AnnRYRW9aohkUd4YVEu+fkqQZfbnCT?=
- =?us-ascii?Q?pv5Ek664n9irssdjXB+9fcP1L4bs0dwa6q6oXSIv+7GB5D6ow2z8AZAmDSOz?=
- =?us-ascii?Q?MfnKC9xBFb7+jx4p7BuDsHhQD08X7nEcNrt8j94OwJL5/ivzYAWUhhauk0J6?=
- =?us-ascii?Q?6z4qRnF3aNEgESZIf7OgesJrOxKszNNFAsimFK8Xe0NDSjBGwacNGu47PjgC?=
- =?us-ascii?Q?8hQ/grhC1YbyKfStJ2Flxd+lATC1nUwAfdVOaOOtv/j5FUQokKAbZWbXOKEQ?=
- =?us-ascii?Q?5Wj8kdi3+e9bcvy6/sq1LBga2r0Lvabc+A0Dym/EdkgNImX2cP0wIdQEsmBD?=
- =?us-ascii?Q?xFU0gS5T1nQw4E+Ei8DTw+lJhztBO320YLmMUpARMPSebv45QxAXX19MYdSX?=
- =?us-ascii?Q?UOZIi8oyisRUd50m2e0qtFflW9N0AvLDYEWS486Fxmwio5y8ijLAplut50Uh?=
- =?us-ascii?Q?iW9LRdsl4/k+Eusms4ahAC79rHtdKqlCDmicLIOICRWQLRVXRV64gjyXD4Ze?=
- =?us-ascii?Q?PKPdrKem4kfVN/jIZcOR0+3QqNqftEJxwD16UrrRCE/fE6LRMrbvyzb1z4uz?=
- =?us-ascii?Q?CxOZaT/7agU42Wvw6QS5WyXjLFO5V4z8YVrgYp/vGUFtGCNWyoF+WFlzKMNZ?=
- =?us-ascii?Q?thSkFNGa7NG/YjlfegcjmSfeITJfc7UNxcUoEuZ2K418vb4oyebQ+xgoxv6i?=
- =?us-ascii?Q?4gApz4mN4Cc8K6IaplZDyPwlrbNKY0JXTXpi1ntY+xUyPuyzmd+HjHcWTl6C?=
- =?us-ascii?Q?Qaw3rivjcDBj4AFwQc0jOleOFp2IBZ9o1B6UqYVdtVguIbg9OGfM1COUwVTI?=
- =?us-ascii?Q?NXSuqykDhZ7+rQ/l85mTcnbFnQLpemaNk/+Km9d057fLhttk1MGIUDUmyQnk?=
- =?us-ascii?Q?niEuvcDArrGdvTjWFDJ7J8IkaMxUtSZGtwZtDc3hhzx+VXZbLyZCH9SGOWzg?=
- =?us-ascii?Q?BL7H8ZmABNI7GCzDHr5Nj+fL8kshOh7CKheVs3IZDEcPzVKJQV7ChKeNH4vo?=
- =?us-ascii?Q?UPiRCxyOdYkqpL/tr47n/HPVRuekg7ySJwG+AL3P?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 0/4] Extend device_get_match_data() to struct bus_type
+Message-ID: <ZNsez3oWNcT72PGy@smile.fi.intel.com>
+References: <20230806142950.6c409600@jic23-huawei>
+ <ZNEFjyAloqlkMWn7@smile.fi.intel.com>
+ <ZNFV+C1HCIRJpbdC@google.com>
+ <ZNIyrG/2h/PeS9Oz@smile.fi.intel.com>
+ <20230809182551.7eca502e@jic23-huawei>
+ <OS0PR01MB59221A1ADB67E96E9E39D0198613A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZNT+NY99n7y3abwa@smile.fi.intel.com>
+ <OS0PR01MB5922DD3C809B78F1E9C5949B8610A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZNZF6cjx5N+ZsIJx@smile.fi.intel.com>
+ <OS0PR01MB5922E09340CDCFF54A9A6CBA8610A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 381f2a59-042b-4a5a-87af-08db9d5b1141
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2023 06:44:25.9849
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P4XFPTQfOT31+qi91OyqwjR7LthDMRuXoNBy0bnAAhgKggZI95QFPTLkR6eYAS1rdAnGUVeOiQQhrhx1xBgiMYC1QAL2E/gCeWXdIYXQOfg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11423
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922E09340CDCFF54A9A6CBA8610A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+On Fri, Aug 11, 2023 at 02:46:10PM +0000, Biju Das wrote:
+> > Subject: Re: [PATCH v7 0/4] Extend device_get_match_data() to struct
+> > bus_type
+> > On Fri, Aug 11, 2023 at 01:27:36PM +0000, Biju Das wrote:
+> > > > On Thu, Aug 10, 2023 at 09:05:10AM +0000, Biju Das wrote:
 
-Thanks for the feedback.
+...
 
-> Subject: Re: [PATCH 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer
-> dereference in rzg2l_dt_subnode_to_map()
->=20
-> Mon, Aug 14, 2023 at 08:24:34AM +0100, Biju Das kirjoitti:
-> > Fix the below random NULL pointer crash during boot by serializing
-> > pinctrl group and function creation/remove calls in
-> > rzg2l_dt_subnode_to_map() with mutex lock.
->=20
-> > Crash logs:
-> > [   15.310036] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000000
-> > [   15.354291] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000000
-> > [   15.870714] [0000000000000000] pgd=3D0000000000000000,
-> p4d=3D0000000000000000
-> > [   15.939989] Internal error: Oops: 0000000096000004 2 PREEMPT SMP
-> > [   15.946285] Modules linked in: drm_shmem_helper rzg2l_mipi_dsi
-> videobuf2_common display_connector gpu_sched mc drm_kms_helper rcar_fcp
-> drm rcar_canfd snd_soc_wm8978 rtc_isl1208 can_dev rzg2l_adc snd_soc_rz_ss=
-i
-> renesas_rpc_if spi_rspi backlight ipv6
-> > [   15.969077] CPU: 1 PID: 117 Comm: systemd-udevd Tainted: G      D
-> 6.5.0-rc4-next-20230801-00013-gd1819ab30a54 #986
-> > [   15.980351] Hardware name: Renesas SMARC EVK based on r9a07g054l2
-> (DT)
-> > [   15.986857] pstate: 40400005 (nZcv daif +PAN UAO -TCO -DIT -SSBS
-> BTYPE=3D-)
-> > [   15.993797] pc : __pi_strcmp+0x20/0x140
-> > [   15.997647] lr : pinmux_func_name_to_selector+0x68/0xa4
-> > [   16.002876] sp : ffff800082d9b5a0
-> > [   16.006210] x29: ffff800082d9b5a0 x28: 0000000000000002 x27:
-> ffff00000cda7080
-> > [   16.013338] x26: 0000000000000002 x25: ffff00000a1f26c0 x24:
-> ffff00000cda7080
-> > [   16.020456] x23: ffff800081224960 x22: ffff00007fc2e598 x21:
-> 000000000000000c
-> > [   16.027571] x20: ffff00000b6c8840 x19: 000000000000000b x18:
-> 0000000000000002
-> > [   16.034686] x17: 0000000000000000 x16: 0000000000000000 x15:
-> 0000000000000000
-> > [   16.041799] x14: 0000000000000001 x13: 0000000000068a68 x12:
-> 0000000000000040
-> > [   16.048913] x11: ffff00000b092ff8 x10: 0000ffff803d1a68 x9 :
-> ffff00000b6c8888
-> > [   16.056028] x8 : 0101010101010101 x7 : 0000000000000000 x6 :
-> 0000000000000000
-> > [   16.063142] x5 : ffff00000b092ff8 x4 : ffff00000b093078 x3 :
-> 0000000000000000
-> > [   16.070256] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
-> ffff00007fc2e598
-> > [   16.077370] Call trace:
-> > [   16.079807]  __pi_strcmp+0x20/0x140
-> > [   16.083296]  pinmux_generic_add_function+0x34/0xcc
-> > [   16.088077]  rzg2l_dt_subnode_to_map+0x314/0x44c
-> > [   16.092682]  rzg2l_dt_node_to_map+0x164/0x194
-> > [   16.097025]  pinctrl_dt_to_map+0x218/0x37c
-> > [   16.101107]  create_pinctrl+0x70/0x3d8
->=20
-> Submitting Patches says why the above is too noisy for the commit message=
-.
-> Please, amend accordingly.
+> > > > I'm good with this approach, but make sure you checked the whole
+> > > > kernel source tree for a such.
+> > >
+> > > Checking against 16 is too short I guess??
+> > >
+> > > drivers/iio/imu/inv_mpu6050/inv_mpu_iio.h has 18 enums.
+> > 
+> > So, what does prevent us from moving that tables to use pointers?
+> 
+> I think that will lead to ABI breakage(client->name vs id->name)
+> 
+> 	match = device_get_match_data(&client->dev);
+> 	if (match) {
+> 		chip_type = (uintptr_t)match;
+> 		name = client->name;
+> 	} else if (id) {
+> 		chip_type = (enum inv_devices)
+> 			id->driver_data;
+> 		name = id->name;
+> 	} else {
+> 		return -ENOSYS;
+> 	}
 
-OK, got it as per[1], this should be.=20
 
-Unable to handle kernel NULL pointer dereference at virtual address
-Call trace:
-	__pi_strcmp+0x20/0x140
-	pinmux_generic_add_function+0x34/0xcc
-	rzg2l_dt_subnode_to_map+0x314/0x44c
-	rzg2l_dt_node_to_map+0x164/0x194
-	pinctrl_dt_to_map+0x218/0x37c
-	create_pinctrl+0x70/0x3d8
+It's easy to work around (may be better fix can be found, haven't checked, just
+what first comes to my mind):
 
-[1] https://docs.kernel.org/process/submitting-patches.html#backtraces-in-c=
-ommit-messages
+	match ...
+	name = match->name;
 
-I will send V2 with these changes.
+	/* If enumerated via firmware node, fix the ABI */
+	if (dev_fwnode())
+		client->name
 
-Cheers,
-Biju
+> > > /*device enum */
+> > > enum inv_devices {
+> > > 	INV_MPU6050,
+> > > 	INV_MPU6500,
+> > > 	INV_MPU6515,
+> > > 	INV_MPU6880,
+> > > 	INV_MPU6000,
+> > > 	INV_MPU9150,
+> > > 	INV_MPU9250,
+> > > 	INV_MPU9255,
+> > > 	INV_ICM20608,
+> > > 	INV_ICM20608D,
+> > > 	INV_ICM20609,
+> > > 	INV_ICM20689,
+> > > 	INV_ICM20600,
+> > > 	INV_ICM20602,
+> > > 	INV_ICM20690,
+> > > 	INV_IAM20680,
+> > > 	INV_NUM_PARTS
+> > > };
+> > >
+> > > The new helper function
+> > 
+> > You mean for debugging? We don't need that in production.
+> 
+> That is sample code for iterating through id table to find max enum
+> and check against ZERO_OR_NULL_PTR
+
+Much better with a coccinelle. You will find all or almost all occurrences
+without too much effort done.
+
+> > I think what you need is a coccinelle script to find these.
+> 
+> I need to explore using coccinelle script as I have n't tried before.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
