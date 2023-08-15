@@ -2,107 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B7277CBFE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 13:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B6977CC3E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Aug 2023 14:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236846AbjHOLr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Aug 2023 07:47:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46066 "EHLO
+        id S236780AbjHOMA6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Aug 2023 08:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236861AbjHOLrW (ORCPT
+        with ESMTP id S235074AbjHOMA1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Aug 2023 07:47:22 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F6B173C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Aug 2023 04:46:49 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-d6d52f4f977so1434690276.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Aug 2023 04:46:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692100008; x=1692704808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWMgCRnZkuX6YpUNJlyFtpukcwpzyzuF5aeBLlwnJt8=;
-        b=Bdmp+fECNv7SVFC3CdeH1+ianmn6/4OojROznxF2pp1imlGMLchyY31cjCMNfZWRLI
-         RaaiPG2/TbMSDv6oNBlYpqWW+DjAQbUw8aAIRzdA+eJKFZ5fc+A8PhPRehMBXApfTnUo
-         A6pX6Tc6enF2WgsPVN8fLbrFqiJX1e1WG1TXZ3t7bH1TkEB51I4PAv8mS7sk8vkHtwXL
-         2EceHG9JCHJ1U3yGs20r7fyqBGO5HKXZZe9SbjxJjv6OTpnnjUsaI24twCkT/yP/z0+k
-         5N6NPJOPNK8sjzTkU4EOBi94PNx37znleqe0pC0TBcvxLoS1zz18bT7xW26+b3ZUMBm9
-         2myw==
+        Tue, 15 Aug 2023 08:00:27 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790A01986;
+        Tue, 15 Aug 2023 05:00:11 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-586a684e85aso58463847b3.2;
+        Tue, 15 Aug 2023 05:00:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692100008; x=1692704808;
+        d=1e100.net; s=20221208; t=1692100810; x=1692705610;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QWMgCRnZkuX6YpUNJlyFtpukcwpzyzuF5aeBLlwnJt8=;
-        b=aThoy5DT3tlfiTTAD7navU3SvxQK/fOVeR3lnAc7Hd7bNG/r1Jb/63KMH//W8u+JWy
-         M3SdBqQTuB5TbaeLIHXfqj8Xjb0L94//IbIKeoY1Lc03eAQ0cYbjXpB4jJq90fon6h0P
-         Y/dqgBkshgNf0X0A02aKonAHVVsjqDbZm/JUgFFe0nfHU8VJ3vdM4G/oOd7B/6Og+M1u
-         SIXeQgjliLGimo5ZuB+WmjJ2XKl7KdprdTSlRDGTdvznPl1ENVqrVAZjB9bqw0wFx5ka
-         rYbideJ+//0zYCRPHb6lg7trhjwki5JcXa7uY50Uo75T8UAWx5jQBwkQOK/s1fyOUn7t
-         1eSg==
-X-Gm-Message-State: AOJu0Ywv6KVu8c1bWoHLVbVRB/80lgu7ttkmDrkMQplRvvzDbaIFSxWZ
-        OWh5vVPaR394sCQZtZX0b9WJu0wzxEnFCe7EOG+LPQ==
-X-Google-Smtp-Source: AGHT+IHZUvPePMbjmE4Ehr0JCREkzKMDAVW96YzhFFE0c1lK+pTrManqxrD+fmG2nzFnspkMSH9tLe4sdSsE0L+WY9E=
-X-Received: by 2002:a25:2495:0:b0:d47:3d16:4afc with SMTP id
- k143-20020a252495000000b00d473d164afcmr11962877ybk.22.1692100008418; Tue, 15
- Aug 2023 04:46:48 -0700 (PDT)
+        bh=3u5LiIkAvVxxVW8WpXnX66pDAcHsjww5QTR5ehXhYNA=;
+        b=Hn453UsvfndxumrXvl0km6R3VIJcTpTQykqVCIZD9ramDszHvU6TNq7eHRJRwxOdzm
+         S38ZulOMDFN/5TrQnO0+38RjA7BRnqLiRsylxACTOsp5fhucbnsb3FZaMm2eIOJEPy7Y
+         X3UA6sTKu5AvcYqk2KBCqMG7TN3+9QgLJ3PnVgfq5cR9nNpTyA+up0AM+Iq6EWBJftdc
+         84V3Yd+fRzcjVTYUZV99JQjLAtXWMsjWIxCzWL/2sjQZvfelnJw2ZaAy7iSdL6YkCC8y
+         KFbmJ8L+vzstxPuJWA2Jd8U9L+7/6IjT9d4Mx1YkXgG7YmsFJY72KbGuS6sRVKPITDLh
+         SJmw==
+X-Gm-Message-State: AOJu0YxOcL2OvAUFH72rRErVQ2cMo1oirwWq21alX/6+xaszjCqZi2F5
+        vccrzvh9HiSk5Xv5zE8Pj8N0WuzpH2hGZw==
+X-Google-Smtp-Source: AGHT+IF7kIxXsAsVjN7i/XrmQh41p3/4MbZfd1ev637Wko1uza9drWxvSQzNxC0xBzPPNW5w/U1aOw==
+X-Received: by 2002:a0d:db82:0:b0:589:f494:3e42 with SMTP id d124-20020a0ddb82000000b00589f4943e42mr5512254ywe.40.1692100808994;
+        Tue, 15 Aug 2023 05:00:08 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id z16-20020a81c210000000b005463e45458bsm3339841ywc.123.2023.08.15.05.00.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Aug 2023 05:00:08 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d6d52f4f977so1444771276.2;
+        Tue, 15 Aug 2023 05:00:08 -0700 (PDT)
+X-Received: by 2002:a25:ac89:0:b0:d5d:4bae:6fe0 with SMTP id
+ x9-20020a25ac89000000b00d5d4bae6fe0mr13355730ybi.21.1692100808320; Tue, 15
+ Aug 2023 05:00:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230814072436.3757-1-biju.das.jz@bp.renesas.com>
- <20230814072436.3757-2-biju.das.jz@bp.renesas.com> <CACRpkdaZGrnV6bp0Sz5_yxG6y0oAqBeZh2UAz+pM4ULtpWq30Q@mail.gmail.com>
- <CAMuHMdU+544cr+Ykq9Z=0Q8YoNdwWyqHkN81v8UzJJXF23uQsw@mail.gmail.com>
-In-Reply-To: <CAMuHMdU+544cr+Ykq9Z=0Q8YoNdwWyqHkN81v8UzJJXF23uQsw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 15 Aug 2023 13:46:37 +0200
-Message-ID: <CACRpkdb1yW=jckcwFcjwQzx7JcxBWOoea_FEbBtj=FFWUmL_8A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer dereference
- in rzg2l_dt_subnode_to_map()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        stable@kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
-        Peter Zijlstra <peterz@infradead.org>
+References: <6702796fee0365bf399800326bbe6c88e5f73f68.1689014440.git.bcodding@redhat.com>
+ <54144a14-606a-4f2c-ca19-9b762e1f7e91@linux-m68k.org>
+In-Reply-To: <54144a14-606a-4f2c-ca19-9b762e1f7e91@linux-m68k.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Aug 2023 13:59:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWNW4dHZmPjJ9WUqA40_4ZvAM2DqcLMe18jWgmu=9UeRw@mail.gmail.com>
+Message-ID: <CAMuHMdWNW4dHZmPjJ9WUqA40_4ZvAM2DqcLMe18jWgmu=9UeRw@mail.gmail.com>
+Subject: Re: [PATCH] NFS: Fix sysfs server name memory leak
+To:     Benjamin Coddington <bcodding@redhat.com>
+Cc:     trond.myklebust@hammerspace.com, anna@kernel.org,
+        aahringo@redhat.com, linux-nfs@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Linux regressions mailing list <regressions@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 11:32=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Aug 15, 2023 at 11:14=E2=80=AFAM Linus Walleij <linus.walleij@lin=
-aro.org> wrote:
-> > On Mon, Aug 14, 2023 at 9:24=E2=80=AFAM Biju Das <biju.das.jz@bp.renesa=
-s.com> wrote:
-> > > Fix the below random NULL pointer crash during boot by serializing
-> > > pinctrl group and function creation/remove calls in
-> > > rzg2l_dt_subnode_to_map() with mutex lock.
+CC regressions
+
+On Fri, Jul 14, 2023 at 5:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, 10 Jul 2023, Benjamin Coddington wrote:
+> > Free the formatted server index string after it has been duplicated by
+> > kobject_rename().
 > >
-> > What about using, hehe, scoped guards? Bartosz premiered the use
-> > of this and I already like it a lot... see:
-> > https://lore.kernel.org/linux-gpio/20230812183635.5478-1-brgl@bgdev.pl/
+> > Fixes: 1c7251187dc0 ("NFS: add superblock sysfs entries")
+> > Reported-by: Alexander Aring <aahringo@redhat.com>
+> > Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
 >
-> Quoting the other Linus:
+> Thanks!
 >
->    "We should probably also strive to avoid it for bug-fixes that end up
->     going to stable."
+> This fixes the memory leaks I was seeing:
 >
-> https://lore.kernel.org/all/CAHk-=3Dwjsb5gZTvhXofPCQthk48S9_bSGohXKU8x8XD=
-nf7=3DbROw@mail.gmail.com
+>      # cat /sys/kernel/debug/kmemleak
+>      unreferenced object 0xc6d3b7c0 (size 64):
+>        comm "mount.nfs", pid 261, jiffies 4294943450 (age 1385.530s)
+>        hex dump (first 32 bytes):
+>         73 65 72 76 65 72 2d 32 00 00 00 00 00 00 00 00  server-2........
+>         00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>        backtrace:
+>         [<7849dbd6>] slab_post_alloc_hook.constprop.0+0x9c/0xac
+>         [<bf2297e0>] __kmem_cache_alloc_node+0xc4/0x124
+>         [<07299a52>] __kmalloc_node_track_caller+0x80/0xa4
+>         [<1876b300>] kvasprintf+0x5c/0xcc
+>         [<4fa40352>] kasprintf+0x28/0x58
+>         [<68e29ee6>] nfs_sysfs_move_sb_to_server+0x18/0x50
+>         [<6a98700b>] nfs_kill_super+0x18/0x34
+>         [<d388276a>] deactivate_locked_super+0x50/0x88
+>         [<3945c450>] cleanup_mnt+0x6c/0xc8
+>         [<fb0ac980>] task_work_run+0x84/0xb4
+>         [<d6ee2bd3>] do_work_pending+0x364/0x398
+>         [<c7a0dcab>] slow_work_pending+0xc/0x20
+>      unreferenced object 0xc6cdd6c0 (size 64):
+>        comm "mount.nfs", pid 261, jiffies 4294943456 (age 1385.470s)
+>        hex dump (first 32 bytes):
+>         73 65 72 76 65 72 2d 31 00 00 00 00 00 00 00 00  server-1........
+>         00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>        backtrace:
+>         [<7849dbd6>] slab_post_alloc_hook.constprop.0+0x9c/0xac
+>         [<bf2297e0>] __kmem_cache_alloc_node+0xc4/0x124
+>         [<07299a52>] __kmalloc_node_track_caller+0x80/0xa4
+>         [<1876b300>] kvasprintf+0x5c/0xcc
+>         [<4fa40352>] kasprintf+0x28/0x58
+>         [<68e29ee6>] nfs_sysfs_move_sb_to_server+0x18/0x50
+>         [<6a98700b>] nfs_kill_super+0x18/0x34
+>         [<d388276a>] deactivate_locked_super+0x50/0x88
+>         [<3945c450>] cleanup_mnt+0x6c/0xc8
+>         [<fb0ac980>] task_work_run+0x84/0xb4
+>         [<d6ee2bd3>] do_work_pending+0x364/0x398
+>         [<c7a0dcab>] slow_work_pending+0xc/0x20
+>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> > --- a/fs/nfs/sysfs.c
+> > +++ b/fs/nfs/sysfs.c
+> > @@ -345,8 +345,10 @@ void nfs_sysfs_move_sb_to_server(struct nfs_server *server)
+> >       int ret = -ENOMEM;
+> >
+> >       s = kasprintf(GFP_KERNEL, "server-%d", server->s_sysfs_id);
+> > -     if (s)
+> > +     if (s) {
+> >               ret = kobject_rename(&server->kobj, s);
+> > +             kfree(s);
+> > +     }
+> >       if (ret < 0)
+> >               pr_warn("NFS: rename sysfs %s failed (%d)\n",
+> >                                       server->kobj.name, ret);
 
-Right, I missed it's an urgent fix :/
+Gr{oetje,eeting}s,
 
-Let's put a mental note to sweep over the driver once this is done and
-see if we can use scoped guards to avoid more problems in the future?
+                        Geert
 
-Yours,
-Linus Walleij
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
