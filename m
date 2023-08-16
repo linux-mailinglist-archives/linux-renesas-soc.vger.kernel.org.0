@@ -2,180 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 107A077E8E0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 20:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D89E77EDC5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 01:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345600AbjHPSkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 14:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34572 "EHLO
+        id S1347144AbjHPXYI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 19:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345647AbjHPSkX (ORCPT
+        with ESMTP id S1347146AbjHPXXq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 14:40:23 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C8A41B2;
-        Wed, 16 Aug 2023 11:40:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,177,1684767600"; 
-   d="scan'208";a="173112494"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Aug 2023 03:40:20 +0900
-Received: from localhost.localdomain (unknown [10.226.92.33])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EC5F5406C46D;
-        Thu, 17 Aug 2023 03:40:17 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] iio: magnetometer: ak8975: Convert enum->pointer for data in the match tables
-Date:   Wed, 16 Aug 2023 19:40:15 +0100
-Message-Id: <20230816184015.12420-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 16 Aug 2023 19:23:46 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8AE271E;
+        Wed, 16 Aug 2023 16:23:45 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-318015ade49so6280203f8f.0;
+        Wed, 16 Aug 2023 16:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692228224; x=1692833024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tgdXOP4yR6ZnH/y1qGFKmHKWNqRrRuobjN/2x4b+FbA=;
+        b=WEB4xO5LWij5oKfwGh1OEk4FXjhCGsMXw/ewx7R6a0QjvqDafEoSNlCkRtFivEPFen
+         TLR8FfJ6EfvqoNSpjp+UlLgLKbHENMneStqXnyRRfQ/MX1+zGq+MIaqXmVITtO7AnLBB
+         6wgS2VYD3PZxXGqdMPzVw5YO8XpveYZZYBUMicCNZRSpqU9+0avSQ4edpW8fzJySwGps
+         D46siM0ztdasxWVy1ROb7n/oytocnGykiUrW+1zzTSoVokhEMB+/RKb+ZL6R9bmJ2DLX
+         9zVRSB0ExIhEmvCeXAk9SooDtsu9BtzefewFaDXf/8agZccM2E5kxe+eINljjw/4ikJl
+         CiNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692228224; x=1692833024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tgdXOP4yR6ZnH/y1qGFKmHKWNqRrRuobjN/2x4b+FbA=;
+        b=bI0R5Djic3DFLmie3W+jkE8HWULmR31RWHaydHBnckgaZpuUb9dJ1YzOX+CWCg2CRq
+         o31bVG8MCFE+gH0mztRlRpyxSt3ATIwWO9UK3e5mhfR3m6eLDTdGWVxLmyB/+4+tkf9V
+         fRsAfMb7b00vzAHKfI9xxd9ZvyFBNrgTh9NmKJFSeyvbx7LeuVIW2z8UG3sIVWtqpW7F
+         T0Mmay/8OsxAhHWb5avmWGq6e2eAT+PqN5w3Fc3ih+5oPB5ejkk4Er0SCaIH4lY60oVc
+         L8sOs77ir2FeSeyfKNBWUfYCLjn1vKYyOB7HxQZb3hXM9M+7pyc//C6f8xv3jywU6GDS
+         lI8Q==
+X-Gm-Message-State: AOJu0YzcObQawDMpUTKqSY6+9VlsvOXdP5pfNsaxKyBuTKgUmCV2pc9R
+        cHCv36IXV3vAeORsvUgF3gg=
+X-Google-Smtp-Source: AGHT+IEOsLQXTtu9Ww1G9TMwF+CJtQ5zAjl4dANCkwAMo4lC/cxbVGxVfQfn4ev6QwpY38US7Fbrmg==
+X-Received: by 2002:adf:db48:0:b0:317:74ce:3e27 with SMTP id f8-20020adfdb48000000b0031774ce3e27mr2422087wrj.67.1692228223853;
+        Wed, 16 Aug 2023 16:23:43 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:aeb8:832b:ebc0:1bbf])
+        by smtp.gmail.com with ESMTPSA id q4-20020adff944000000b003143c9beeaesm22752617wrr.44.2023.08.16.16.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 16:23:42 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/3] riscv: dma-mapping: unify support for cache flushes
+Date:   Thu, 17 Aug 2023 00:23:33 +0100
+Message-Id: <20230816232336.164413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert enum->pointer for data in the match tables to simplify the probe()
-by replacing device_get_match_data() and i2c_client_get_device_id by
-i2c_get_match_data() as we have similar I2C, ACPI and DT matching table.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Note:
- * This patch is only compile tested.
----
- drivers/iio/magnetometer/ak8975.c | 75 +++++++++++++------------------
- 1 file changed, 30 insertions(+), 45 deletions(-)
+This patch series is a subset from Arnd's original series [0]. Ive just
+picked up the bits required for RISC-V unification of cache flushing.
+Remaining patches from the series [0] will be taken care by Arnd soon.
 
-diff --git a/drivers/iio/magnetometer/ak8975.c b/drivers/iio/magnetometer/ak8975.c
-index eb706d0bf70b..104798549de1 100644
---- a/drivers/iio/magnetometer/ak8975.c
-+++ b/drivers/iio/magnetometer/ak8975.c
-@@ -813,13 +813,13 @@ static const struct iio_info ak8975_info = {
- };
- 
- static const struct acpi_device_id ak_acpi_match[] = {
--	{"AK8975", AK8975},
--	{"AK8963", AK8963},
--	{"INVN6500", AK8963},
--	{"AK009911", AK09911},
--	{"AK09911", AK09911},
--	{"AKM9911", AK09911},
--	{"AK09912", AK09912},
-+	{"AK8975", (kernel_ulong_t)&ak_def_array[AK8975] },
-+	{"AK8963", (kernel_ulong_t)&ak_def_array[AK8963] },
-+	{"INVN6500", (kernel_ulong_t)&ak_def_array[AK8963] },
-+	{"AK009911", (kernel_ulong_t)&ak_def_array[AK09911] },
-+	{"AK09911", (kernel_ulong_t)&ak_def_array[AK09911] },
-+	{"AKM9911", (kernel_ulong_t)&ak_def_array[AK09911] },
-+	{"AK09912", (kernel_ulong_t)&ak_def_array[AK09912] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, ak_acpi_match);
-@@ -883,10 +883,7 @@ static int ak8975_probe(struct i2c_client *client)
- 	struct iio_dev *indio_dev;
- 	struct gpio_desc *eoc_gpiod;
- 	struct gpio_desc *reset_gpiod;
--	const void *match;
--	unsigned int i;
- 	int err;
--	enum asahi_compass_chipset chipset;
- 	const char *name = NULL;
- 
- 	/*
-@@ -928,27 +925,15 @@ static int ak8975_probe(struct i2c_client *client)
- 		return err;
- 
- 	/* id will be NULL when enumerated via ACPI */
--	match = device_get_match_data(&client->dev);
--	if (match) {
--		chipset = (uintptr_t)match;
--		name = dev_name(&client->dev);
--	} else if (id) {
--		chipset = (enum asahi_compass_chipset)(id->driver_data);
--		name = id->name;
--	} else
--		return -ENOSYS;
--
--	for (i = 0; i < ARRAY_SIZE(ak_def_array); i++)
--		if (ak_def_array[i].type == chipset)
--			break;
--
--	if (i == ARRAY_SIZE(ak_def_array)) {
--		dev_err(&client->dev, "AKM device type unsupported: %d\n",
--			chipset);
-+	data->def = i2c_get_match_data(client);
-+	if (!data->def)
- 		return -ENODEV;
--	}
- 
--	data->def = &ak_def_array[i];
-+	/* If enumerated via firmware node, fix the ABI */
-+	if (dev_fwnode(&client->dev))
-+		name = dev_name(&client->dev);
-+	else
-+		name = id->name;
- 
- 	/* Fetch the regulators */
- 	data->vdd = devm_regulator_get(&client->dev, "vdd");
-@@ -1077,28 +1062,28 @@ static DEFINE_RUNTIME_DEV_PM_OPS(ak8975_dev_pm_ops, ak8975_runtime_suspend,
- 				 ak8975_runtime_resume, NULL);
- 
- static const struct i2c_device_id ak8975_id[] = {
--	{"ak8975", AK8975},
--	{"ak8963", AK8963},
--	{"AK8963", AK8963},
--	{"ak09911", AK09911},
--	{"ak09912", AK09912},
--	{"ak09916", AK09916},
-+	{"ak8975", (kernel_ulong_t)&ak_def_array[AK8975] },
-+	{"ak8963", (kernel_ulong_t)&ak_def_array[AK8963] },
-+	{"AK8963", (kernel_ulong_t)&ak_def_array[AK8963] },
-+	{"ak09911", (kernel_ulong_t)&ak_def_array[AK09911] },
-+	{"ak09912", (kernel_ulong_t)&ak_def_array[AK09912] },
-+	{"ak09916", (kernel_ulong_t)&ak_def_array[AK09916] },
- 	{}
- };
- 
- MODULE_DEVICE_TABLE(i2c, ak8975_id);
- 
- static const struct of_device_id ak8975_of_match[] = {
--	{ .compatible = "asahi-kasei,ak8975", },
--	{ .compatible = "ak8975", },
--	{ .compatible = "asahi-kasei,ak8963", },
--	{ .compatible = "ak8963", },
--	{ .compatible = "asahi-kasei,ak09911", },
--	{ .compatible = "ak09911", },
--	{ .compatible = "asahi-kasei,ak09912", },
--	{ .compatible = "ak09912", },
--	{ .compatible = "asahi-kasei,ak09916", },
--	{ .compatible = "ak09916", },
-+	{ .compatible = "asahi-kasei,ak8975", .data = &ak_def_array[AK8975] },
-+	{ .compatible = "ak8975", .data = &ak_def_array[AK8975] },
-+	{ .compatible = "asahi-kasei,ak8963", .data = &ak_def_array[AK8963] },
-+	{ .compatible = "ak8963", .data = &ak_def_array[AK8963] },
-+	{ .compatible = "asahi-kasei,ak09911", .data = &ak_def_array[AK09911] },
-+	{ .compatible = "ak09911", .data = &ak_def_array[AK09911] },
-+	{ .compatible = "asahi-kasei,ak09912", .data = &ak_def_array[AK09912] },
-+	{ .compatible = "ak09912", .data = &ak_def_array[AK09912] },
-+	{ .compatible = "asahi-kasei,ak09916", .data = &ak_def_array[AK09916] },
-+	{ .compatible = "ak09916", .data = &ak_def_array[AK09916] },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, ak8975_of_match);
+Cheers,
+Prabhakar
+
+v2->v3
+* Got rid of dma-sync.h and included the changes directly into dma-noncoherent.c
+
+v1->v2
+* Dropped others archs
+* Included RB and ACKs
+* Fixed checkpatch issues
+
+V1:
+[0] https://patchwork.kernel.org/project/linux-riscv/cover/20230327121317.4081816-1-arnd@kernel.org/
+
+Arnd Bergmann (2):
+  riscv: dma-mapping: only invalidate after DMA, not flush
+  riscv: dma-mapping: skip invalidation before bidirectional DMA
+
+Lad Prabhakar (1):
+  riscv: dma-mapping: switch over to generic implementation
+
+ arch/riscv/mm/dma-noncoherent.c | 60 ++++++++++++++++++++++++++++-----
+ 1 file changed, 51 insertions(+), 9 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
