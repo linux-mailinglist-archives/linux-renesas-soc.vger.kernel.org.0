@@ -2,103 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 480BD77DF04
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A4477DF12
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232470AbjHPKmX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 06:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48322 "EHLO
+        id S243901AbjHPKn2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 06:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243996AbjHPKmK (ORCPT
+        with ESMTP id S243857AbjHPKnW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:42:10 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 417C22135;
-        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-589d7755213so42704647b3.2;
-        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692182519; x=1692787319;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PjooYlfG2n2Y0uOGJPbxJ2rDRMjkL/VsMoli4wJTmcI=;
-        b=QPovr1uqBcTIwgqzqJvqBZ9acrBWrzaPcjs7yNWz4y9Qu00dyRi5gKmuyy3UmyWV/7
-         86uNqOb8+LYLhuw9jkxTI/KJrS2Ph/n34WQ2S+z+yyZEuJD1ERGMi/1mXH0J1VZF4KFj
-         /3OfDE7MdGkm4rhtjVj0uTeDOxtFFrk45hxDrNXWMPbZuPf1+KPwWRGe21E+eN28l9d9
-         ojxBLEgMz2gCEwi5fK4WMNO219lh0iq8a9yhnahm6fk8mZCcObCULWglolt8jV9bppT1
-         PlrxtPz8ASbnr2NEe0XLbzoiF+1k355Uz0kz6JoWPMMoWysoRX3Bh6mUzDY8hS5aMi3X
-         xriw==
-X-Gm-Message-State: AOJu0YwBIzqJTgbSzP4UDkJtw2nwZ2EG3e9YCp8XuOo25BrYr1LF3PJP
-        Zq6HEclhUV4dlbANxnIpQKGP8dHX9tLm3Q==
-X-Google-Smtp-Source: AGHT+IE0dBJF+Tux5a60NaUuZ2hDiHQb21amCP41W1Vhhdd4YRL8NOEnMIXippqPyaFJHx3V9UtjoA==
-X-Received: by 2002:a81:4ed1:0:b0:561:c5d4:ee31 with SMTP id c200-20020a814ed1000000b00561c5d4ee31mr1423008ywb.38.1692182519247;
-        Wed, 16 Aug 2023 03:41:59 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id i65-20020a0df844000000b005773afca47bsm3943177ywf.27.2023.08.16.03.41.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 03:41:59 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d6b0c2cca0aso2716771276.0;
-        Wed, 16 Aug 2023 03:41:59 -0700 (PDT)
-X-Received: by 2002:a25:f622:0:b0:d62:9b77:a41a with SMTP id
- t34-20020a25f622000000b00d629b77a41amr1308873ybd.31.1692182518870; Wed, 16
- Aug 2023 03:41:58 -0700 (PDT)
+        Wed, 16 Aug 2023 06:43:22 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0129C2723
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 03:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=k1; bh=+g5CczUC0LAQ/D
+        vPOJcyPdA8qzB+pAOqt2A3QG4u+4I=; b=NvJKnk0bLExDm1/E7mUH3Aan/y+Qc/
+        5It39boGsc/1KnBzb/UQAK5cCzBasyxcEupFiJa61uVDzIkl1QP1j/NTj7ZCDBYd
+        CR1pDQ9desc2sjaWqAeMQ53xIuqH8uGT5BnpByY+1253zHfF0TYIX3TyB7+QgVGl
+        9o3kovnJFunSTfyvERHDR6xGwkFrXNlo40uVW3tumGArLNKVRnB/lAqq5FlXs8ka
+        vA+7JTKSb+190sGjCO/7pnAGwgsaahYHVx8rHThtRvD6cTOvaaxDwlXf3+98wxrB
+        ckHf5cbKz3m9DBeUbpRqzavi3xu1kVGs3CwAqiIze0Xrmn3oU2nZdYkw==
+Received: (qmail 101914 invoked from network); 16 Aug 2023 12:43:09 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 12:43:09 +0200
+X-UD-Smtp-Session: l3s3148p1@u4Yd9gcDQL0gAwDPXy5qAJ1huuy56R1W
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v4 0/2] PCI: rcar: support regulators for PCIe
+Date:   Wed, 16 Aug 2023 12:42:48 +0200
+Message-Id: <20230816104251.19744-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20230816094013.1275068-1-yangyingliang@huawei.com> <20230816094013.1275068-20-yangyingliang@huawei.com>
-In-Reply-To: <20230816094013.1275068-20-yangyingliang@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Aug 2023 12:41:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUZq8CPLe6UK_igvGytkD7NcChZ1tCU+C4qSLy6Cd8grw@mail.gmail.com>
-Message-ID: <CAMuHMdUZq8CPLe6UK_igvGytkD7NcChZ1tCU+C4qSLy6Cd8grw@mail.gmail.com>
-Subject: Re: [PATCH -next 19/24] spi: sh-hspi: switch to use modern name
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-spi@vger.kernel.org, broonie@kernel.org, lukas@wunner.de,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yang,
+Here are the patches to make PCIe cards work in the slot CN15 on a
+KingFisher board. No code changes since v3, only rebased to 6.5-rc6 and
+reworded the commit messages. Please apply.
 
-On Wed, Aug 16, 2023 at 11:43 AM Yang Yingliang
-<yangyingliang@huawei.com> wrote:
-> Change legacy name master to modern name host.
->
-> No functional changed.
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Wolfram Sang (2):
+  dt-bindings: PCI: rcar-pci-host: add optional regulators
+  PCI: rcar-host: add support for optional regulators
 
-Thanks for your patch!
-
-> --- a/drivers/spi/spi-sh-hspi.c
-> +++ b/drivers/spi/spi-sh-hspi.c
-
-> @@ -137,7 +137,7 @@ static void hspi_hw_setup(struct hspi_priv *hspi,
->
->         hspi_write(hspi, SPCR, spcr);
->         hspi_write(hspi, SPSR, 0x0);
-> -       hspi_write(hspi, SPSCR, 0x21);  /* master mode / CS control */
-> +       hspi_write(hspi, SPSCR, 0x21);  /* host mode / CS control */
-
-Please do not change this comment, as it matches the register bit
-documentation in Rev. 1.00 of the  R-Car H1 Hardware User's Manual.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ .../devicetree/bindings/pci/rcar-pci-host.yaml   | 11 +++++++++++
+ drivers/pci/controller/pcie-rcar-host.c          | 16 +++++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.35.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
