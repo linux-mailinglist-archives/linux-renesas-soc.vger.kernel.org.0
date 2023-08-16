@@ -2,120 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B196777DF1B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2488877DFC9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234811AbjHPKn7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 06:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
+        id S234480AbjHPK6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 06:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243942AbjHPKnb (ORCPT
+        with ESMTP id S244348AbjHPK6E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:43:31 -0400
+        Wed, 16 Aug 2023 06:58:04 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22FC92737
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 03:43:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F5E230DB
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 03:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=JT/ceu3tRi/TtP6bujmqfafQ7JcoYnXeX4PGLaTdLSE=; b=ZE4bWY
-        xzImjPSE/fGTZArxDGKK/We1LyxUywLQ0RHkLRfA8V86IN11mT6uCdr9OBdHqnrn
-        iP6l8i9nSizrUfV4Rqud/S+uZLEi9+Gyd1mz3oJFKN2iA7/RmNiFE0YXZp63UrVm
-        bxCAiSU/fjtTT1y7NjJbB8JitoC5i0Hy0WFWaYJgAuI2inCrwqm2j2Qz5p+o2Res
-        8j1QazF/rq1tMtSBEScX6vpdnzFGHcbTRgj+5zN1QPsuMONR/znfd8jLpAVapMDh
-        y4cS9ZImugHHyeRAbbMY6I1hVDWhh1twGur3KNIi6gJMIlnBsmRgUhRRZFPpm8PX
-        PmHGQOCFoHioaf3A==
-Received: (qmail 102039 invoked from network); 16 Aug 2023 12:43:10 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 12:43:10 +0200
-X-UD-Smtp-Session: l3s3148p1@PlM19gcDUr0gAwDPXy5qAJ1huuy56R1W
+        :mime-version:content-transfer-encoding; s=k1; bh=T9M8vKB9PQPcVK
+        0oK3oL7ZmlZvtgEDH5nB+BV2yk7aM=; b=gK2mmvRhpJueZpW4/HIdabDbv+incR
+        22T9O33URbzJYqK1NZGyRa/chwOeGj7AFSBLID0JaFpBJW9zTGjOWW70teEDGr2v
+        AW3KY8S/0jd9DlTSyfDJvMPiReckTI3His4sFNQjVEzXliCYPQfO+9f9lKmF/9xC
+        aGJDmfOI6eehgL4vqnSnSa5AtpWtjE8PnnDb1iW4QMvvqb1zEVaOoZ+ttwvASrzM
+        ygWbb69jFAE1ReEBnXDO+ChjULHdyB3L3DR2KeBd/felPGITF2tZDS7M4B7fJBdV
+        MkbI+YLq5Qb0y7kXHLkTDrCzhP6kZh02qTv8rUMfQqVGmNMQ7uAH0ndQ==
+Received: (qmail 106903 invoked from network); 16 Aug 2023 12:56:59 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 12:56:59 +0200
+X-UD-Smtp-Session: l3s3148p1@5OiOJwgDBMEgAwDPXy5qAJ1huuy56R1W
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] PCI: rcar-host: add support for optional regulators
-Date:   Wed, 16 Aug 2023 12:42:50 +0200
-Message-Id: <20230816104251.19744-3-wsa+renesas@sang-engineering.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: renesas: rcar-du: use proper naming for R-Car
+Date:   Wed, 16 Aug 2023 12:56:41 +0200
+Message-Id: <20230816105642.20419-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230816104251.19744-1-wsa+renesas@sang-engineering.com>
-References: <20230816104251.19744-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The KingFisher board has regulators for miniPCIe, so enable these
-optional regulators using devm. devm will automatically disable them
-when the driver releases the device. Order variables in reverse-xmas
-while we are here.
+Not RCAR, but R-Car.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pci/controller/pcie-rcar-host.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 88975e40ee2f..7aecc114af4f 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -29,6 +29,7 @@
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+index f9893d7d6dfc..e9e59c5e70d5 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
+@@ -16,7 +16,7 @@ struct rcar_du_format_info;
+ struct rcar_du_group;
  
- #include "pcie-rcar.h"
- 
-@@ -953,14 +954,20 @@ static const struct of_device_id rcar_pcie_of_match[] = {
- 	{},
- };
- 
-+/* Design note 346 from Linear Technology says order is not important */
-+static const char * const rcar_pcie_supplies[] = {
-+	"vpcie12v", "vpcie3v3", "vpcie1v5"
-+};
-+
- static int rcar_pcie_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct pci_host_bridge *bridge;
- 	struct rcar_pcie_host *host;
- 	struct rcar_pcie *pcie;
-+	unsigned int i;
- 	u32 data;
- 	int err;
--	struct pci_host_bridge *bridge;
- 
- 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*host));
- 	if (!bridge)
-@@ -971,6 +978,13 @@ static int rcar_pcie_probe(struct platform_device *pdev)
- 	pcie->dev = dev;
- 	platform_set_drvdata(pdev, host);
- 
-+	for (i = 0; i < ARRAY_SIZE(rcar_pcie_supplies); i++) {
-+		err = devm_regulator_get_enable_optional(dev, rcar_pcie_supplies[i]);
-+		if (err < 0 && err != -ENODEV)
-+			return dev_err_probe(dev, err, "can't enable regulator %s\n",
-+					     rcar_pcie_supplies[i]);
-+	}
-+
- 	pm_runtime_enable(pcie->dev);
- 	err = pm_runtime_get_sync(pcie->dev);
- 	if (err < 0) {
+ /*
+- * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
++ * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
+  * As using overlay planes requires at least one of the CRTCs being enabled, no
+  * more than 7 overlay planes can be available. We thus create 1 primary plane
+  * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
 -- 
 2.35.1
 
