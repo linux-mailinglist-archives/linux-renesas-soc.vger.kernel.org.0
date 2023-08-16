@@ -2,99 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D00F077E762
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 19:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3611577E79B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 19:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345141AbjHPRPE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 13:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49660 "EHLO
+        id S1345230AbjHPRbx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 13:31:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345137AbjHPROd (ORCPT
+        with ESMTP id S1345215AbjHPRbb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 13:14:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF2A10F0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 10:14:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E590062232
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 17:14:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 423A1C433C8;
-        Wed, 16 Aug 2023 17:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692206071;
-        bh=F4cUJzysrXK5YoMFqnu2TIAQEvB0qEY6QIpk+2dm0ag=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=iJ3i8Na1fhrHrajaT78qwMBInrX0BBRxRNKxNOIfkg46HcJaKeOSWhxfXo+isr1rA
-         a6yV+dHuLWUsX1JRp1b0vP3K0fAzN4cAuB+8DjgZ7TjVWlfWLUZdDMzsVshraUGw4x
-         BNeKqIeN4gB8/1u9yl/W7+RSaq0SPSVeK2GSn9ufeCZVdnFzaiTRgOjnqSzlEcdbXT
-         qnRdPJ6zix1rEqa3E8SecI8VmOf1nvZV3dLrgdMTs01LsOqE7MzZmX2pU13APMbaoD
-         RyJaxKKEudzmYyctzNgxnh4hn7ll5AjgQ/shaAEfwgMqyKnq3QBDxpbSl9ebI0AxeG
-         4mm2l40kqlpTQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20230816135550.146657-1-biju.das.jz@bp.renesas.com>
-References: <20230816135550.146657-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 0/2] RAA215300 regulator driver improvements
-Message-Id: <169220606998.909854.15877882074805656913.b4-ty@kernel.org>
-Date:   Wed, 16 Aug 2023 18:14:29 +0100
+        Wed, 16 Aug 2023 13:31:31 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3029226BB
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 10:31:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=k1; bh=2aIfNWqGrHWnhM
+        MgxVsjILSSvZ1QVSgRc/A4riP0ths=; b=UKyqp2yc+MHTlWG14rkt0wtdd8CUoR
+        cHsgEX8zYh7fz5H9c8pIr/S0gx3eQ3kKuBpatTFz54RJlHBire+g5lktN4lS8M3i
+        k3Fq/H5crjuNUV7qkFW/1bxm6FatM3eRtwXI9CTXwh3NS7VPKRYzhQNODDssigDG
+        EXi/kb6ZQ0BGH8ywQwwz8EoAZm1iRa+H9LmC6lsEqIJJKSlcFm25TNMQzEQqlWxC
+        HKQhEdNbcWjkwHF5WTSvUoCk3LeLxIXWFOebroweP49zRdKlHj693MpfVLWQd5F6
+        Tnw7qlo8uABu1b0Pf2FGo7hGuimGV9GbKjNGVYhn/bqgoEi4rNxFmeRA==
+Received: (qmail 219392 invoked from network); 16 Aug 2023 19:31:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 19:31:25 +0200
+X-UD-Smtp-Session: l3s3148p1@pBkEqg0DtrpehhtV
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        devicetree@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] gnss: ubx: updates to support the Renesas KingFisher board
+Date:   Wed, 16 Aug 2023 19:31:12 +0200
+Message-Id: <20230816173116.1176-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-034f2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 16 Aug 2023 14:55:48 +0100, Biju Das wrote:
-> This patch series aims to fix a resource leak in probe() and adding
-> const definition to local variable 'name'.
-> 
-> Biju Das (2):
->   regulator: raa215300: Fix resource leak in case of error
->   regulator: raa215300: Add const definition
-> 
-> [...]
+For that, we need "reset-gpio" support (patches 2+3). But first,
+simplify regulator handling with a new helper (patch 1).
 
-Applied to
+For changes, see the patches.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Wolfram Sang (3):
+  gnss: ubx: use new helper to remove open coded regulator handling
+  dt-bindings: gnss: u-blox: add "reset-gpios" binding
+  gnss: ubx: add support for the reset gpio
 
-Thanks!
+ .../bindings/gnss/u-blox,neo-6m.yaml          |  5 +++
+ drivers/gnss/ubx.c                            | 35 ++++++++-----------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
 
-[1/2] regulator: raa215300: Fix resource leak in case of error
-      commit: e21ac64e669e960688e79bf5babeed63132dac8a
-[2/2] regulator: raa215300: Add const definition
-      commit: 727d7c1c3695657873d62030b968ba97c8698c54
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.35.1
 
