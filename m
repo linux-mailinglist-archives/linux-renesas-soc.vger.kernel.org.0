@@ -2,106 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 639BD77DD01
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 11:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E3E77DDDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 11:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233557AbjHPJLG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 05:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
+        id S243597AbjHPJv7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 05:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243330AbjHPJKe (ORCPT
+        with ESMTP id S243654AbjHPJvv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 05:10:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C86526AF;
-        Wed, 16 Aug 2023 02:10:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 44B2866349;
-        Wed, 16 Aug 2023 09:10:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 93202C433C9;
-        Wed, 16 Aug 2023 09:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692177021;
-        bh=bmFUkTY0/U/wRBaz9A+ggu1g77MT/EYx3l109QRL4HM=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=RvOwKvjRcA7MiOm605oQ9KfsL4JHhHFjSu22GxaW1nckK4a0MFIJG9M1wXjieUpgj
-         khzB/PxGs+ZzoAppw58uMaPSARKauo+GQP6k0jS3bmXhxTlSq6uFyzHa7rsvNVINDZ
-         CIkH16n9NTZ0LamMwFnYEtzaRY7EnlOrfAMBgagux+CRL/EvBuMbwoN37LGZ1aLFPA
-         oyEbqJaDuM8QDUVcUafRUL3EdX5l3BPVtwT83rVQfAufBmex5dZ41ALFI/fnb5NCLh
-         81Y7L+84TqwhBNNhA18cC64IEI0FGsAeAv//HEnt2ohi7LlqqPcVpD+SIwOwK/a2DB
-         dGPunp7yioeUw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7540FC691E1;
-        Wed, 16 Aug 2023 09:10:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v3 0/5] net: Remove redundant of_match_ptr() macro
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169217702147.13419.3048871621351512255.git-patchwork-notify@kernel.org>
-Date:   Wed, 16 Aug 2023 09:10:21 +0000
-References: <20230814025447.2708620-1-ruanjinjie@huawei.com>
-In-Reply-To: <20230814025447.2708620-1-ruanjinjie@huawei.com>
-To:     Ruan Jinjie <ruanjinjie@huawei.com>
-Cc:     linus.walleij@linaro.org, alsi@bang-olufsen.dk, andrew@lunn.ch,
-        f.fainelli@gmail.com, olteanv@gmail.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        clement.leger@bootlin.com, ulli.kroll@googlemail.com,
-        kvalo@kernel.org, bhupesh.sharma@linaro.org, robh@kernel.org,
-        elder@linaro.org, wei.fang@nxp.com, nicolas.ferre@microchip.com,
-        simon.horman@corigine.com, romieu@fr.zoreil.com,
-        dmitry.torokhov@gmail.com, netdev@vger.kernel.org,
+        Wed, 16 Aug 2023 05:51:51 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 973E82726
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 02:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=pjnA
+        d2IvOCH765Y6OcYlBsPrnBHU+4w4cKdan2DbybU=; b=Xhhdf8ZjHtgq+MdOxieJ
+        WaCHz4HSOhFXUaU/1owOoy3az1S9NZ8SDkSYFIImzZZCBwy/E5BAQLveLdOUq60Y
+        whd6UTJtBbfaTIjk+NYXcEP8YzCS6a2JeVvh2xViHN1/sSChflB46iuWIcDh6Acu
+        JfALuaHYsLUIx9rQrcnlvkqs8oezWdU/p48gsHtWpP86zRgDq+j+hDEoTPl8bULE
+        iPtlT30Qr21PqTsvtgH2QIdX/WyWlLEXp5F7czy/PTSdGYOoxkQx19FkxK2PQDvQ
+        FFwFKdAmH7n2qc6OaQTBaYjR3LkVnozlXbAKFIIouMaHWoxaK/u7y9oUakQzOYU0
+        Qw==
+Received: (qmail 87517 invoked from network); 16 Aug 2023 11:51:17 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 11:51:17 +0200
+X-UD-Smtp-Session: l3s3148p1@nPd0PAcDELwgAwDPXy5qAJ1huuy56R1W
+Date:   Wed, 16 Aug 2023 11:51:13 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 RESEND 2/2] PCI: rcar-host: add support for optional
+ regulators
+Message-ID: <ZNycEWhT7a7llUSZ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Bjorn Helgaas <helgaas@kernel.org>,
         linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-wireless@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230712103916.1631-3-wsa+renesas@sang-engineering.com>
+ <20230713153401.GA317502@bhelgaas>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Z+q6h2c7HBqfnx+w"
+Content-Disposition: inline
+In-Reply-To: <20230713153401.GA317502@bhelgaas>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+--Z+q6h2c7HBqfnx+w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 14 Aug 2023 10:54:42 +0800 you wrote:
-> Since these net drivers depend on CONFIG_OF, there is
-> no need to wrap the macro of_match_ptr() here.
-> 
-> Changes in v3:
-> - Collect responses from v1 and v2.
-> 
-> Ruan Jinjie (5):
->   net: dsa: realtek: Remove redundant of_match_ptr()
->   net: dsa: rzn1-a5psw: Remove redundant of_match_ptr()
->   net: gemini: Remove redundant of_match_ptr()
->   net: qualcomm: Remove redundant of_match_ptr()
->   wlcore: spi: Remove redundant of_match_ptr()
-> 
-> [...]
+On Thu, Jul 13, 2023 at 10:34:01AM -0500, Bjorn Helgaas wrote:
+> On Wed, Jul 12, 2023 at 12:39:16PM +0200, Wolfram Sang wrote:
+> > The KingFisher board has regulators. They just need to be en-/disabled,
+> > so we can leave the handling to devm. Order variables in reverse-xmas
+> > while we are here.
+> >=20
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> Krzysztof or Lorenzo may fix this up for you, but:
+> s/add support/Add support/ in subject to match history
+> and recast commit log to say what the patch *does* ("enable optional
+> regulators using devm, so devm will automatically disable them when
+> the driver releases the device"), not *what needs to be done*.
 
-Here is the summary with links:
-  - [net-next,v3,1/5] net: dsa: realtek: Remove redundant of_match_ptr()
-    https://git.kernel.org/netdev/net-next/c/aae249dfa089
-  - [net-next,v3,2/5] net: dsa: rzn1-a5psw: Remove redundant of_match_ptr()
-    https://git.kernel.org/netdev/net-next/c/81d463c02b91
-  - [net-next,v3,3/5] net: gemini: Remove redundant of_match_ptr()
-    https://git.kernel.org/netdev/net-next/c/21b566fda00f
-  - [net-next,v3,4/5] net: qualcomm: Remove redundant of_match_ptr()
-    https://git.kernel.org/netdev/net-next/c/537a6b992708
-  - [net-next,v3,5/5] wlcore: spi: Remove redundant of_match_ptr()
-    https://git.kernel.org/netdev/net-next/c/cf2abd872431
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I will fix the commit messages and resend. But frankly, except the
+latter is a tad more explicit, they both qualify for "what needs to be
+done" for me *shrug* Still, thanks for the review, I appreciate it!
 
 
+--Z+q6h2c7HBqfnx+w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmTcnAsACgkQFA3kzBSg
+KbZriw/+I09tLqG4hjE4xb6HV6gZWEB8x6u5l7Y9HEkqwcyECM/IWZT2iULs1Jf8
+l0MK5fOJB61p+VhicbfwXmcTaVgeOL22o1I0QfrW3bk8a79nueFH87x46jziYu3V
+aAtelZIvxpxYnI50UIM8Vkh1So674QWdfZ9mw70smbj9jF3uGnNdlIENqj0ufo+G
+Viogt7/KlncssCj5GRT1HKqjG5GLZXHPXk9FADMRLJGBJIryqK4hnsjfHymi+PYr
+tW1BtPN5jJDWUMT7wFNpewqO4lqtywJC36hIxdOtaGJlE+W4uHtm0YT4XkW29hlw
+JU0lij5nD/BwpfhW8DJjdhJn9Hggyh/pucizMGfAkpqpK75qnxiUMECFtXtLtiVl
+5Ra2snfJjqj9pse2A/jNs90cN6UkGLqeWp338Rt4dJKbPl9s01j7HdPqCkbKCeSx
+Yhoqjk1iCyXod4WyE6uRvvQ5v+LKw6uwjQVTSCSNICwZJuaUCpltgyc8Zgw0lROo
+TMpoVGKUXMGP5zSejs5bYTWet+JS4kGN/jhy8YHGCKidf/EOY+dRqeLuBSRcvlwD
+SDqfS4lz1CULEywwESn+xQDVAg6JYbzu/eQoaG8pdHXxuQP4N8ZXularhO+7wFlR
+lpnnke2tlPHgyb50k9Ccpzu8pszblXyBRDOogF4yPZ+elhQn5EQ=
+=VFZt
+-----END PGP SIGNATURE-----
+
+--Z+q6h2c7HBqfnx+w--
