@@ -2,102 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 138A877DEE4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD5277DF02
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Aug 2023 12:41:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243518AbjHPKhe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 06:37:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
+        id S237303AbjHPKlT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 06:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243923AbjHPKhR (ORCPT
+        with ESMTP id S243976AbjHPKlM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:37:17 -0400
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E6C52110;
-        Wed, 16 Aug 2023 03:37:15 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-58cbdf3eecaso4228907b3.0;
-        Wed, 16 Aug 2023 03:37:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692182234; x=1692787034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g+kEdb4MrmJUs3I1p66ZT1RM9WxXbD2BUVc2Yvn8nt4=;
-        b=EGO8l8ngtVmXjwOlk4OqktTr3ubwj5vrMimLrD60Mr6PybT0nXpIBUH7dONX229NzC
-         PIS22HG01SJQjCaY6l8pZ/tYaHjwnT25+dVP+L1GvFCLiOphkbNPa6u7KFIPNi2ZlER3
-         m/lYotEDJyCY2ENwqrfkcc7lldBqrdQh0LwME8MToDsnT0fpOTZkcb2+BKmyitQz8jnu
-         WJoDI15XXK+NgieWmoXzU6QKBy7OKG/Z7p/KHMj14ePYIP63Dz1EUMgQUep8W3WoVuvz
-         cYmyzz6iC+PFpuiUkSQ+aqDncTFJRf6V4xSkU3Gmedu88K1koDGFuX+87gdpByh6MIa6
-         Je/g==
-X-Gm-Message-State: AOJu0YzM4nowGk8BFeIsyV9tucn/w7gvZRCWMtKiGAkgUOcf7s6URrCt
-        DPOJ42J0+jXeaHIO9AAaUHgX5ztXjXsHUQ==
-X-Google-Smtp-Source: AGHT+IFqF8KYBLWA7CWcAneKilzmko+T3+HV3dVo/j1qUIkaxF6NpYhluxiAWIm0NZTTvuamN9BTbg==
-X-Received: by 2002:a0d:cb8c:0:b0:589:e4aa:7b67 with SMTP id n134-20020a0dcb8c000000b00589e4aa7b67mr1264404ywd.41.1692182234645;
-        Wed, 16 Aug 2023 03:37:14 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id v184-20020a0dd3c1000000b00586a3283e64sm3904923ywd.143.2023.08.16.03.37.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 03:37:14 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-583d702129cso68874117b3.3;
-        Wed, 16 Aug 2023 03:37:14 -0700 (PDT)
-X-Received: by 2002:a25:ab04:0:b0:d0d:102c:78a8 with SMTP id
- u4-20020a25ab04000000b00d0d102c78a8mr1118347ybi.31.1692182233947; Wed, 16 Aug
- 2023 03:37:13 -0700 (PDT)
+        Wed, 16 Aug 2023 06:41:12 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AEB270D
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Aug 2023 03:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=6vQ0
+        h/xc972mfLMgmRimyYP9Efjx5aTcx+wTym0+fZI=; b=OoaWl8UQSpOI4529d1zq
+        sD6Bcoo5HLh4ulXLey7Zr63mPO8H9D2m/l0AZfqKMsT1jStB/rkHkOkbF+LCnTEE
+        srvgCgyo3GRmO/Y3jyby6MHx59FxpLt5KheELnBx8K9OSd0pmpeIjQED/YuqI5M5
+        OnfbaYDnIWNf5t5PAUXAUIGGHY+dYH9/PqVwvzV3UGyBQ3SocRs8nX1le9kTdfHp
+        Uv8vpQkNCFLwAXBiqf4exhiCxmR8TdJdyEvc9SGi3gck6Vn/1o+QCoVRuoyTYa73
+        TpRaGVGzf0SYOWL3bAJjeyZ/dNeCuAGhwI3xzOskhYNtJA0M+JCuMIEfZ3MoJdsa
+        4w==
+Received: (qmail 101160 invoked from network); 16 Aug 2023 12:40:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Aug 2023 12:40:20 +0200
+X-UD-Smtp-Session: l3s3148p1@w/v36wcDuNcgAwDPXy5qAJ1huuy56R1W
+Date:   Wed, 16 Aug 2023 12:40:18 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: rcar: use proper naming for R-Car
+Message-ID: <ZNynkgf0Kv79naXo@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230607204750.27837-1-wsa+renesas@sang-engineering.com>
+ <20230624132228.GA2636347@rocinante>
+ <20230626154537.GA2019715@rocinante>
 MIME-Version: 1.0
-References: <20230816094013.1275068-1-yangyingliang@huawei.com> <20230816094013.1275068-21-yangyingliang@huawei.com>
-In-Reply-To: <20230816094013.1275068-21-yangyingliang@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Aug 2023 12:37:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX9R5SQ_GSRhcfBH+UN0rxYP7NOeyrQSgZ3G6zY=zJnHA@mail.gmail.com>
-Message-ID: <CAMuHMdX9R5SQ_GSRhcfBH+UN0rxYP7NOeyrQSgZ3G6zY=zJnHA@mail.gmail.com>
-Subject: Re: [PATCH -next 20/24] spi: sh-msiof: switch to use modern name
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-spi@vger.kernel.org, broonie@kernel.org, lukas@wunner.de,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NboSrFz4vGSFDTYU"
+Content-Disposition: inline
+In-Reply-To: <20230626154537.GA2019715@rocinante>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yang,
 
-On Wed, Aug 16, 2023 at 11:43 AM Yang Yingliang
-<yangyingliang@huawei.com> wrote:
-> Change legacy name master/slave to modern name host/target.
->
-> No functional changed.
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+--NboSrFz4vGSFDTYU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Tue, Jun 27, 2023 at 12:45:37AM +0900, Krzysztof Wilczy=C5=84ski wrote:
+> Hello,
+>=20
+> > > Neither RCar, nor Rcar, but R-Car.
+>=20
+> There might be one more variance left to correct:
 
-> --- a/drivers/spi/spi-sh-msiof.c
-> +++ b/drivers/spi/spi-sh-msiof.c
-> @@ -79,7 +79,7 @@ struct sh_msiof_spi_priv {
->  #define SIRFDR 0x60    /* Receive FIFO Data Register */
->
->  /* SITMDR1 and SIRMDR1 */
-> -#define SIMDR1_TRMD            BIT(31)         /* Transfer Mode (1 = Master mode) */
-> +#define SIMDR1_TRMD            BIT(31)         /* Transfer Mode (1 = Host mode) */
+You are right, thank you, I will fix it, too.
 
-Please do not change this register bit definition nor the comment, as
-they match Rev 0.81 of the R-Car V4H Series Hardware User's Manual.
 
-Gr{oetje,eeting}s,
+--NboSrFz4vGSFDTYU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmTcp44ACgkQFA3kzBSg
+KbZP2w//e129CkOJTuZz2apjTakOcqhsVAg7K31+oM1dia5iTYG/+q37yafXVQhe
+lhS0Xd/7h4q/+AP8aGqc1pC/kqrCEKKXTVihowsNgtamvM7U7h+FhivadaTJoLF5
+2Duz+Ds5fS8Y+wGeEGUN3SvvpUmAnIGdGvhoxOAjcbhJ0Z6xq4rcpmrqsbrhQhYT
+m3lqKsZbaJWpII5VFXSzocoHIuzjUCQLbP3up3UFd1w4cONG8siyQVYjLUJw/r+7
+DT/UHzZ+FMwKJpfQ6eOHZqT5AVFqvjR1B4Dzi/t34vLi581wyD62Z/QS2598LaS6
+W8Mda414c14ZY8ZS2dsqIDtH+GVGiKs5Dp0D2gKNU/Q5UqT3sMEAsuzI2msF7aj+
+QRq9zyehS4v5y3UwzSdLgHEEccZK8ogajzrVQ2wQa5cqBQdvIk1eB/cWtc2pnGvC
+v0WLOrRHKHI7AdvTaobh1yZQDJfj1l9lG0/hSAd67jzrjGXt8xxy8l7qzHoZZZod
+59dJluMYH0jcE7zNmu5Ijh/U2XDZHg/jZHaFAPBl014wGL+EKDUtABgcYFNBg3uX
+N6I1Vvnx01PPaSOR7VtYmbjbeW3xvSrpJtvC1XNjf/wErlvXVtspjH9/Bl6uSRDQ
++JudV/1fKUJ3X6OJuiJyHrHPLKrzLFCZ19nAWS55CU1y2WhU4d0=
+=iaay
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--NboSrFz4vGSFDTYU--
