@@ -2,209 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D7B77EDC6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 01:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8266D77EF74
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 05:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347158AbjHPXYJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Aug 2023 19:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37096 "EHLO
+        id S1347813AbjHQDSz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Aug 2023 23:18:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347151AbjHPXXw (ORCPT
+        with ESMTP id S1347799AbjHQDS2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Aug 2023 19:23:52 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D083271F;
-        Wed, 16 Aug 2023 16:23:50 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe8a1591c8so55757815e9.3;
-        Wed, 16 Aug 2023 16:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692228229; x=1692833029;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qa3AibLZ/flcMM8pjMbhTffSCLpDoNcTFNENKYYaFNY=;
-        b=HVyU7R+7NAHiP1FHnuES28Woqar0atRkeoYGbaaacWeuA4/koMeyt7sWGUK2Ynjwk6
-         47O7kvMM9nK3nI36bqh4DSCXGzVwhx0oTCphBopPWKKMVjyz/xjtF/WK2UmC7BukPkFc
-         j/TiiIgSJqnuheF9Rsdz6rOCZIT7SGCP9aaFepCP6Sgr1qBAXitiX1NBq2QfoY7lZYN+
-         V2g9luT63NSlPJCzbfSbqJZdutg+mM+QoCfCJ0cwJgwA2FiVj3rGoSvL0G3lfgqxZ9dT
-         kQQuCXiima/MAqL5WWi71hRzx2jA9zZfbP5gvYXrqBH7aTwz5NxMSAf94rAhe8HsqTI1
-         ODUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692228229; x=1692833029;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qa3AibLZ/flcMM8pjMbhTffSCLpDoNcTFNENKYYaFNY=;
-        b=af5m2iEcgIezMH37o+Y6F8E0s9GKqWriXgR2+96zThJnBk8ZA5PJtw40XF3m+XMaL3
-         ye1IfoZjWeUXKKJUcsqTaYLg1zli35fwB9eTmqUA4CZuXFbWklqeuERzlpHHJYVFs3DF
-         H0gJbkyg/Vy4vfF5svnPl1dvAzAaTon15j3vUnjR/m6N80GhcuaSRF7Z0u71sYBHezUF
-         MQgRxyas/fW6D3Wztj/rHeEU2AvtAS91wWh82nUXjqop6k1xnJmgWMI3dOMskHyEzzk4
-         q/AoEw9cd62Ja9ZZPSxWA1Zj0veu6FZGApnCvOaJBJl3d5jw9h8XG069PLEPt1wWUZ/G
-         ts4A==
-X-Gm-Message-State: AOJu0YxiJgm0KSaFHOifD4EUVPSjwIsbZFLevIS5NtnwzdcaTyyFNmX3
-        1vQPPK6GQoXTsLqxHWHpKI4uhSVtFTWvlw==
-X-Google-Smtp-Source: AGHT+IFnz3zO5DhsTq/r4acaRKYRoJxmqtk6kyVWxCNSs6D3aHnm7Cqcu25/wzXO/Vs8/Q9UZVonkA==
-X-Received: by 2002:a7b:c8ca:0:b0:3f6:1474:905 with SMTP id f10-20020a7bc8ca000000b003f614740905mr2692739wml.29.1692228228455;
-        Wed, 16 Aug 2023 16:23:48 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:aeb8:832b:ebc0:1bbf])
-        by smtp.gmail.com with ESMTPSA id q4-20020adff944000000b003143c9beeaesm22752617wrr.44.2023.08.16.16.23.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 16:23:47 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 3/3] riscv: dma-mapping: switch over to generic implementation
-Date:   Thu, 17 Aug 2023 00:23:36 +0100
-Message-Id: <20230816232336.164413-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230816232336.164413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20230816232336.164413-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 16 Aug 2023 23:18:28 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D43481724;
+        Wed, 16 Aug 2023 20:18:25 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RR9974m7zzNmyx;
+        Thu, 17 Aug 2023 11:14:51 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Thu, 17 Aug 2023 11:18:23 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Thu, 17 Aug 2023 11:18:23 +0800
+Subject: Re: [PATCH -next 20/24] spi: sh-msiof: switch to use modern name
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     <linux-spi@vger.kernel.org>, <broonie@kernel.org>,
+        <lukas@wunner.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        <yangyingliang@huawei.com>
+References: <20230816094013.1275068-1-yangyingliang@huawei.com>
+ <20230816094013.1275068-21-yangyingliang@huawei.com>
+ <CAMuHMdX9R5SQ_GSRhcfBH+UN0rxYP7NOeyrQSgZ3G6zY=zJnHA@mail.gmail.com>
+From:   Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <07483186-d503-2423-e881-2c6db6043ad5@huawei.com>
+Date:   Thu, 17 Aug 2023 11:18:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdX9R5SQ_GSRhcfBH+UN0rxYP7NOeyrQSgZ3G6zY=zJnHA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi
 
-Add helper functions for cache wback/inval/clean and use them
-arch_sync_dma_for_device()/arch_sync_dma_for_cpu() functions. The proposed
-changes are in preparation for switching over to generic implementation.
+On 2023/8/16 18:37, Geert Uytterhoeven wrote:
+> Hi Yang,
+>
+> On Wed, Aug 16, 2023 at 11:43 AM Yang Yingliang
+> <yangyingliang@huawei.com> wrote:
+>> Change legacy name master/slave to modern name host/target.
+>>
+>> No functional changed.
+>>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Thanks for your patch!
+>
+>> --- a/drivers/spi/spi-sh-msiof.c
+>> +++ b/drivers/spi/spi-sh-msiof.c
+>> @@ -79,7 +79,7 @@ struct sh_msiof_spi_priv {
+>>   #define SIRFDR 0x60    /* Receive FIFO Data Register */
+>>
+>>   /* SITMDR1 and SIRMDR1 */
+>> -#define SIMDR1_TRMD            BIT(31)         /* Transfer Mode (1 = Master mode) */
+>> +#define SIMDR1_TRMD            BIT(31)         /* Transfer Mode (1 = Host mode) */
+> Please do not change this register bit definition nor the comment, as
+> they match Rev 0.81 of the R-Car V4H Series Hardware User's Manual.
 
-Reorganization of the code is based on the patch (Link[0]) from Arnd.
-For now I have dropped CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU check as this
-will be enabled by default upon selection of RISCV_DMA_NONCOHERENT
-and also dropped arch_dma_mark_dcache_clean().
+Thanks for your review, I will change them, and send a v2.
 
-Link[0]: https://lore.kernel.org/all/20230327121317.4081816-22-arnd@kernel.org/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Hi Arnd,
-I have kept the changes minimal here as compared to your original patch and
-dropped arch_dma_mark_dcache_clean() function and config checks for now as we
-are currently implementing for riscv only.
-
-Cheers, Prabhakar
-
-v3:
-* New patch
----
- arch/riscv/mm/dma-noncoherent.c | 60 ++++++++++++++++++++++++++++-----
- 1 file changed, 51 insertions(+), 9 deletions(-)
-
-diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
-index fc6377a64c8d..06b8fea58e20 100644
---- a/arch/riscv/mm/dma-noncoherent.c
-+++ b/arch/riscv/mm/dma-noncoherent.c
-@@ -12,21 +12,61 @@
- 
- static bool noncoherent_supported __ro_after_init;
- 
--void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
--			      enum dma_data_direction dir)
-+static inline void arch_dma_cache_wback(phys_addr_t paddr, size_t size)
-+{
-+	void *vaddr = phys_to_virt(paddr);
-+
-+	ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
-+}
-+
-+static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
-+{
-+	void *vaddr = phys_to_virt(paddr);
-+
-+	ALT_CMO_OP(inval, vaddr, size, riscv_cbom_block_size);
-+}
-+
-+static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
- {
- 	void *vaddr = phys_to_virt(paddr);
- 
-+	ALT_CMO_OP(flush, vaddr, size, riscv_cbom_block_size);
-+}
-+
-+static inline bool arch_sync_dma_clean_before_fromdevice(void)
-+{
-+	return true;
-+}
-+
-+static inline bool arch_sync_dma_cpu_needs_post_dma_flush(void)
-+{
-+	return true;
-+}
-+
-+void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
-+			      enum dma_data_direction dir)
-+{
- 	switch (dir) {
- 	case DMA_TO_DEVICE:
--		ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
-+		arch_dma_cache_wback(paddr, size);
- 		break;
-+
- 	case DMA_FROM_DEVICE:
--		ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
--		break;
-+		if (!arch_sync_dma_clean_before_fromdevice()) {
-+			arch_dma_cache_inv(paddr, size);
-+			break;
-+		}
-+		fallthrough;
-+
- 	case DMA_BIDIRECTIONAL:
--		ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
-+		/* Skip the invalidate here if it's done later */
-+		if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) &&
-+		    arch_sync_dma_cpu_needs_post_dma_flush())
-+			arch_dma_cache_wback(paddr, size);
-+		else
-+			arch_dma_cache_wback_inv(paddr, size);
- 		break;
-+
- 	default:
- 		break;
- 	}
-@@ -35,15 +75,17 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- 			   enum dma_data_direction dir)
- {
--	void *vaddr = phys_to_virt(paddr);
--
- 	switch (dir) {
- 	case DMA_TO_DEVICE:
- 		break;
-+
- 	case DMA_FROM_DEVICE:
- 	case DMA_BIDIRECTIONAL:
--		ALT_CMO_OP(inval, vaddr, size, riscv_cbom_block_size);
-+		/* FROM_DEVICE invalidate needed if speculative CPU prefetch only */
-+		if (arch_sync_dma_cpu_needs_post_dma_flush())
-+			arch_dma_cache_inv(paddr, size);
- 		break;
-+
- 	default:
- 		break;
- 	}
--- 
-2.34.1
-
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
