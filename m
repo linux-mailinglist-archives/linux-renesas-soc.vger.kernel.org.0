@@ -2,133 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C3A77F27F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 10:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170EF77F2B0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 11:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349136AbjHQIyj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Aug 2023 04:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37330 "EHLO
+        id S233203AbjHQJDv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Aug 2023 05:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349184AbjHQIyY (ORCPT
+        with ESMTP id S1349255AbjHQJDT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Aug 2023 04:54:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744442D5F;
-        Thu, 17 Aug 2023 01:54:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 125AF64FCD;
-        Thu, 17 Aug 2023 08:54:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8574C433C7;
-        Thu, 17 Aug 2023 08:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692262461;
-        bh=GUqgAMRPiOb7bdxg5p++Fu/53Hyk/pUWyJB+asnngYM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lQ+ubKNjbU9kXbRCqm+5GOYkQgqy0nyu39C0P++cvDtIjLmMjYsvosZ0Gf1mRVfkC
-         qx/ntLLZVVjnwUbYUpncmv9CsTXVtXqRbIjXVxf1sqWpSf3k76JfL9Qv8+DezhGpk3
-         Rj7rbhI555jefptorI+gv0VMNCiVqPJwhzqIhWcPBgfimNoKDP6yJSaplHZNVsIRGr
-         UykwhL3Q7BUzytX/IHwuqtufAtujjZ6GWhjYWG0fIIebLNUtcK9ef1tW7R9i1a8cG2
-         YsxMS2i9s1OQ3oZSoSPWNpYIbcjtoXNdCnn8JERl7VGdRIGiwtO3D0YsxHvLuB6aTm
-         INLkvrBfj2GZQ==
-Date:   Thu, 17 Aug 2023 09:54:17 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: gnss: u-blox: add "reset-gpios"
- binding
-Message-ID: <20230817-sequence-aftermost-e662486bc2e9@spud>
-References: <20230816173116.1176-1-wsa+renesas@sang-engineering.com>
- <20230816173116.1176-3-wsa+renesas@sang-engineering.com>
+        Thu, 17 Aug 2023 05:03:19 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E582D210E
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Aug 2023 02:03:14 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d85a:258d:2c59:b44])
+        by xavier.telenet-ops.be with bizsmtp
+        id aZ3B2A00W4QHFyo01Z3BUk; Thu, 17 Aug 2023 11:03:12 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qWYuG-000tK5-6T;
+        Thu, 17 Aug 2023 11:03:11 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qWYlz-006xCM-7u;
+        Thu, 17 Aug 2023 10:54:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v6.6 (take two)
+Date:   Thu, 17 Aug 2023 10:54:29 +0200
+Message-Id: <cover.1692262242.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yqL3wsbo7nCP/hbJ"
-Content-Disposition: inline
-In-Reply-To: <20230816173116.1176-3-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi Mike, Stephen,
 
---yqL3wsbo7nCP/hbJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit dec57795efc4585d5bbca913af6683c5cce2a647:
 
-On Wed, Aug 16, 2023 at 07:31:14PM +0200, Wolfram Sang wrote:
-> Needed to enable this chip on a Renesas KingFisher board. Description
-> copied over from the Mediatek driver which already supports it.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  clk: renesas: r8a77965: Add 3DGE and ZG support (2023-07-27 14:32:46 +0200)
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+are available in the Git repository at:
 
-Thanks,
-Conor.
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.6-tag2
 
-> ---
->=20
-> Changes since v1:
-> * dropped obvious description (Thanks, Geert!)
-> * added missing include (Thanks, Krzysztof and Rob!)
->=20
-> I build tested the change this time.
->=20
->  Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml b/=
-Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml
-> index 4835a280b3bf..8e97e475613f 100644
-> --- a/Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml
-> +++ b/Documentation/devicetree/bindings/gnss/u-blox,neo-6m.yaml
-> @@ -41,6 +41,9 @@ properties:
->      description: >
->        Backup voltage regulator
-> =20
-> +  reset-gpios:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - vcc-supply
-> @@ -49,10 +52,12 @@ unevaluatedProperties: false
-> =20
->  examples:
->    - |
-> +    #include <dt-bindings/gpio/gpio.h>
->      serial {
->          gnss {
->              compatible =3D "u-blox,neo-8";
->              v-bckp-supply =3D <&gnss_v_bckp_reg>;
->              vcc-supply =3D <&gnss_vcc_reg>;
-> +            reset-gpios =3D <&gpio 1 GPIO_ACTIVE_LOW>;
->          };
->      };
-> --=20
-> 2.35.1
->=20
+for you to fetch changes up to 708cb698ffa219567dd5837aefae7a99fbb28b77:
 
---yqL3wsbo7nCP/hbJ
-Content-Type: application/pgp-signature; name="signature.asc"
+  clk: renesas: rcar-gen3: Add ADG clocks (2023-08-15 11:34:43 +0200)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+clk: renesas: Updates for v6.6 (take two)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZN3gOQAKCRB4tDGHoIJi
-0kJZAQCXOYcC9k2SSdWNIkC4KKcnA5NcoN2YZymR3/oEq6x8TQD/eAY6JhSm8tD3
-caRH2tqzlePoKL3WNfBZSf06F1Q4WQk=
-=23qR
------END PGP SIGNATURE-----
+  - Add Audio Clock Generator (ADG) clocks on R-Car Gen3 and RZ/G2 SoCs.
 
---yqL3wsbo7nCP/hbJ--
+A bit later than usual (holidays!), but it is better to apply this
+rather sooner than later, as it is a hard dependency for a future DT
+update.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Kuninori Morimoto (1):
+      clk: renesas: rcar-gen3: Add ADG clocks
+
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774c0-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a774e1-cpg-mssr.c | 2 +-
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77990-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 1 +
+ 9 files changed, 9 insertions(+), 1 deletion(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
