@@ -2,98 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 170EF77F2B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 11:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32E377F2C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 11:09:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233203AbjHQJDv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Aug 2023 05:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50832 "EHLO
+        id S1349298AbjHQJIk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Aug 2023 05:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349255AbjHQJDT (ORCPT
+        with ESMTP id S1349303AbjHQJIT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Aug 2023 05:03:19 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E582D210E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Aug 2023 02:03:14 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d85a:258d:2c59:b44])
-        by xavier.telenet-ops.be with bizsmtp
-        id aZ3B2A00W4QHFyo01Z3BUk; Thu, 17 Aug 2023 11:03:12 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qWYuG-000tK5-6T;
-        Thu, 17 Aug 2023 11:03:11 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qWYlz-006xCM-7u;
-        Thu, 17 Aug 2023 10:54:31 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
+        Thu, 17 Aug 2023 05:08:19 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 61DF91AE;
+        Thu, 17 Aug 2023 02:08:17 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,179,1684767600"; 
+   d="scan'208";a="173175563"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Aug 2023 18:08:16 +0900
+Received: from localhost.localdomain (unknown [10.226.93.71])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E675D41B65BA;
+        Thu, 17 Aug 2023 18:08:12 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.6 (take two)
-Date:   Thu, 17 Aug 2023 10:54:29 +0200
-Message-Id: <cover.1692262242.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] Fix Versa3 clock mapping
+Date:   Thu, 17 Aug 2023 10:08:07 +0100
+Message-Id: <20230817090810.203900-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+According to Table 3. ("Output Source") in the 5P35023 datasheet,
+the output clock mapping should be 0=REF, 1=SE1, 2=SE2, 3=SE3,
+4=DIFF1, 5=DIFF2. But the code uses inverse.
 
-The following changes since commit dec57795efc4585d5bbca913af6683c5cce2a647:
+This patch series aims to document clock-output-names in bindings and
+fix the mapping in driver.
 
-  clk: renesas: r8a77965: Add 3DGE and ZG support (2023-07-27 14:32:46 +0200)
+v1->v2:
+ * Updated binding commit description to make it clear it fixes
+   "assigned-clock-rates" in the example based on 5P35023 datasheet.
 
-are available in the Git repository at:
+Biju Das (3):
+  dt-bindings: clock: versaclock3: Document clock-output-names
+  clk: vc3: Fix output clock mapping
+  arm64: dts: renesas: rz-smarc-common: Use versa3 clk for audio mclk
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.6-tag2
+ .../bindings/clock/renesas,5p35023.yaml       | 14 ++--
+ .../boot/dts/renesas/rz-smarc-common.dtsi     | 14 ++--
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 23 +++++++
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 23 +++++++
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi | 27 ++++++++
+ drivers/clk/clk-versaclock3.c                 | 68 +++++++++----------
+ 6 files changed, 124 insertions(+), 45 deletions(-)
 
-for you to fetch changes up to 708cb698ffa219567dd5837aefae7a99fbb28b77:
+-- 
+2.25.1
 
-  clk: renesas: rcar-gen3: Add ADG clocks (2023-08-15 11:34:43 +0200)
-
-----------------------------------------------------------------
-clk: renesas: Updates for v6.6 (take two)
-
-  - Add Audio Clock Generator (ADG) clocks on R-Car Gen3 and RZ/G2 SoCs.
-
-A bit later than usual (holidays!), but it is better to apply this
-rather sooner than later, as it is a hard dependency for a future DT
-update.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Kuninori Morimoto (1):
-      clk: renesas: rcar-gen3: Add ADG clocks
-
- drivers/clk/renesas/r8a774a1-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a774b1-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a774c0-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a774e1-cpg-mssr.c | 2 +-
- drivers/clk/renesas/r8a7795-cpg-mssr.c  | 1 +
- drivers/clk/renesas/r8a7796-cpg-mssr.c  | 1 +
- drivers/clk/renesas/r8a77965-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a77990-cpg-mssr.c | 1 +
- drivers/clk/renesas/r8a77995-cpg-mssr.c | 1 +
- 9 files changed, 9 insertions(+), 1 deletion(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
