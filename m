@@ -2,102 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF01D77F81E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 15:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 174A877F8B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 16:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243972AbjHQNzA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Aug 2023 09:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43794 "EHLO
+        id S1351819AbjHQOWa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Aug 2023 10:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351590AbjHQNy3 (ORCPT
+        with ESMTP id S1351836AbjHQOWV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Aug 2023 09:54:29 -0400
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9302710;
-        Thu, 17 Aug 2023 06:54:27 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-584034c706dso83282327b3.1;
-        Thu, 17 Aug 2023 06:54:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692280466; x=1692885266;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Od0Qzw7CBtiU5ngMSqBwpqgivet5MGRtCFcKtapRUzU=;
-        b=CNpGmdu6PfvvTwK0nwxwCA7N/jPJubFezL5lEi1byTnLs5zjykcOhtdHOQLvRu6bYw
-         Tls6HiFMmU+Fn4/VWJuFyG+nr2ybEaiHJ24puH2qhUj8NWpASAUFVFAFPfTcoB/sMadw
-         J1Vd1OEMV6QTRyWT7wQ4KfEZ22Xyeklu+du7RxvFLFgTMMXhe51z46j7cMeudnvkGkeu
-         EcrouapjYWv6zzcVkP9auvNEByncw7LWICttxVZbpUmSX+WhVVNLkIx/UWNbRsPgjJs8
-         n/c4Kh+sa0vY/8peNVKK+p59WKfjYkLPkZ/Oyg3rvAYjutVu+Ss3ZC5RadWA1QPdcVMQ
-         62vQ==
-X-Gm-Message-State: AOJu0Yxzq81BYMIel3/m/RV2DZpwc4QmA+Cjj88lTg2lfUd24u/cC5uo
-        vCNwms8j0027HRPIMrZ5/gkN/BMudyaeHQ==
-X-Google-Smtp-Source: AGHT+IHRucCAYbZP7w2ww/R3DvuD/QjArZu+W3O00dzdcSndGXvFCWwvPz2/crOPkTHt54Nh2LLrLw==
-X-Received: by 2002:a25:408a:0:b0:d47:3d16:4afc with SMTP id n132-20020a25408a000000b00d473d164afcmr4659553yba.22.1692280466579;
-        Thu, 17 Aug 2023 06:54:26 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id l16-20020a25ad50000000b00d4fc4132653sm3999650ybe.11.2023.08.17.06.54.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 06:54:26 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d7225259f52so1393539276.0;
-        Thu, 17 Aug 2023 06:54:25 -0700 (PDT)
-X-Received: by 2002:a25:e691:0:b0:d4a:e40f:d446 with SMTP id
- d139-20020a25e691000000b00d4ae40fd446mr4367322ybh.36.1692280465668; Thu, 17
- Aug 2023 06:54:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230815131558.33787-1-biju.das.jz@bp.renesas.com>
- <20230815131558.33787-2-biju.das.jz@bp.renesas.com> <CAMuHMdV852knZ6UoGO-_B=xir=uUJZx2O1CHL+nsK0_BB_hStg@mail.gmail.com>
- <CACRpkdbWT333HNgSc0HMUvgDBkJdEvb23ZSHsQd-yfCOu3N=Ng@mail.gmail.com>
-In-Reply-To: <CACRpkdbWT333HNgSc0HMUvgDBkJdEvb23ZSHsQd-yfCOu3N=Ng@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Aug 2023 15:54:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW658cXSAHow3FoZU1DvXioktP68fBK2nQaGGFw0DDmtg@mail.gmail.com>
-Message-ID: <CAMuHMdW658cXSAHow3FoZU1DvXioktP68fBK2nQaGGFw0DDmtg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer
- dereference in rzg2l_dt_subnode_to_map()
-To:     Linus Walleij <linus.walleij@linaro.org>
+        Thu, 17 Aug 2023 10:22:21 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A2C902D76;
+        Thu, 17 Aug 2023 07:22:19 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,180,1684767600"; 
+   d="scan'208";a="173192468"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Aug 2023 23:22:18 +0900
+Received: from localhost.localdomain (unknown [10.226.93.71])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4F52D4270482;
+        Thu, 17 Aug 2023 23:22:15 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        stable@kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/4] Fix Versa3 clock mapping
+Date:   Thu, 17 Aug 2023 15:22:07 +0100
+Message-Id: <20230817142211.311366-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+According to Table 3. ("Output Source") in the 5P35023 datasheet,
+the output clock mapping should be 0=REF, 1=SE1, 2=SE2, 3=SE3,
+4=DIFF1, 5=DIFF2. But the code uses inverse.
 
-On Thu, Aug 17, 2023 at 3:38 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Thu, Aug 17, 2023 at 2:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > need protection by a lock.  If no one objects, I will back out that
-> > change myself, queue this patch in renesas-pinctrl-for-v6.6, and send
-> > a PR tomorrow.
->
-> Shouldn't this even go in for v6.5?
-> Or is it non-urgent?
->
-> (Maybe I already asked, I have teflon-memory.)
+This patch series aims to document clock-output-names in bindings and
+fix the mapping in driver.
 
-If you're still taking fixes for v6.5, I can do that.
-Else, it will have to wait for a stable backport after v6.6-rc1.
+Also added a fix for 64 by 64 division.
 
-Thanks!
+v2->v3:
+ * Dropped dts patch and added fix for 64 byte division to this patch
+   series.
+ * Added Rb tag from Geert for patch#3
+ * Added a patch to make vc3_clk_mux enum values depend on vc3_clk enum
+   values.
+v1->v2:
+ * Updated binding commit description to make it clear it fixes
+   "assigned-clock-rates" in the example based on 5P35023 datasheet.
 
-Gr{oetje,eeting}s,
+Biju Das (4):
+  dt-bindings: clock: versaclock3: Document clock-output-names
+  clk: vc3: Fix 64 by 64 division
+  clk: vc3: Fix output clock mapping
+  clk: vc3: Make vc3_clk_mux enum values based on vc3_clk enum values
 
-                        Geert
+ .../bindings/clock/renesas,5p35023.yaml       | 14 +++-
+ drivers/clk/clk-versaclock3.c                 | 79 +++++++++----------
+ 2 files changed, 49 insertions(+), 44 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
