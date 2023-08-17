@@ -2,156 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 465ED77F8F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 16:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D40477FB53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Aug 2023 17:58:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351924AbjHQOaH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Aug 2023 10:30:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        id S1349301AbjHQP5m convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Aug 2023 11:57:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351939AbjHQO3t (ORCPT
+        with ESMTP id S1353436AbjHQP5U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Aug 2023 10:29:49 -0400
-Received: from wp534.webpack.hosteurope.de (wp534.webpack.hosteurope.de [80.237.130.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C642701;
-        Thu, 17 Aug 2023 07:29:47 -0700 (PDT)
-Received: from [2001:a61:623e:e40:c80a:ff:fe00:409d] (helo=cs-wrt.lan.local); authenticated
-        by wp534.webpack.hosteurope.de running ExIM with esmtpa
-        id 1qWe0L-0004jV-Hg; Thu, 17 Aug 2023 16:29:41 +0200
-From:   =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>
-To:     =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 2/2] dt-bindings: hwmon: add renesas,isl28022
-Date:   Thu, 17 Aug 2023 16:29:21 +0200
-Message-Id: <3f98be38377cc556619c6876f6dcec2d54102271.1692033412.git.mail@carsten-spiess.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692033412.git.mail@carsten-spiess.de>
-References: <cover.1692033412.git.mail@carsten-spiess.de>
+        Thu, 17 Aug 2023 11:57:20 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792A230FE;
+        Thu, 17 Aug 2023 08:57:17 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-58c55d408daso34465227b3.2;
+        Thu, 17 Aug 2023 08:57:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692287836; x=1692892636;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYoTZXUCf1mgLspDfiO8MvWSdGhcImID4N9VyIOGIZ4=;
+        b=Oxm/BcwfoihmY2FvF+vrYBg/ZvwvHQoRELTyCiJ4B4f/ehe/hTt+bfRFsa1JF0E5Q3
+         Ws+XPXwhM/zjnPjtGxjYim4aVWtl4Tbhco20xBfjHHvQAFyFcQlpiQ4jQQpWgV9vmzua
+         e05pl89kXiYWZEK87vSBbZkhvYgx3cX9eeqYEPmnw85GdHt/OGNitGfM36FDeovu08+V
+         X38XUduWtBUgEzSMlOPvMGx7/cKwocRZjFsqnqVaeVODtV2oPkOLjtOSTD5N1Lduen8A
+         0RY6kYAdx526JDdxV6y5wQOa8zwuzmAziFYYJkZHSkEj9+m09caJ/xnouNuE5CVZHmvd
+         vqUA==
+X-Gm-Message-State: AOJu0YyTL4mf4fXio78NAb3yss1KjbNPTKnF0katfG2UhPePniydbo3s
+        efwgYttaMoFCIk0p0LWNzMn4u4+S/wb5NpdC
+X-Google-Smtp-Source: AGHT+IHGvklfpCzwrD3NX5R3aAspD6vAs0/AnjSdzPvBzNmwYxRpT4KGcMuUF+1lGD7ESBrHYgk9cw==
+X-Received: by 2002:a0d:ea91:0:b0:586:b686:8234 with SMTP id t139-20020a0dea91000000b00586b6868234mr6611399ywe.8.1692287836521;
+        Thu, 17 Aug 2023 08:57:16 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id n186-20020a8172c3000000b0058605521e6esm4687447ywc.125.2023.08.17.08.57.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Aug 2023 08:57:16 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d733844772eso15167276.3;
+        Thu, 17 Aug 2023 08:57:15 -0700 (PDT)
+X-Received: by 2002:a25:b090:0:b0:d53:f88a:dc09 with SMTP id
+ f16-20020a25b090000000b00d53f88adc09mr6207195ybj.2.1692287835140; Thu, 17 Aug
+ 2023 08:57:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;mail@carsten-spiess.de;1692282587;43d5b731;
-X-HE-SMSGID: 1qWe0L-0004jV-Hg
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230815131558.33787-1-biju.das.jz@bp.renesas.com>
+ <20230815131558.33787-2-biju.das.jz@bp.renesas.com> <CAMuHMdV852knZ6UoGO-_B=xir=uUJZx2O1CHL+nsK0_BB_hStg@mail.gmail.com>
+ <CACRpkdbWT333HNgSc0HMUvgDBkJdEvb23ZSHsQd-yfCOu3N=Ng@mail.gmail.com> <CAMuHMdW658cXSAHow3FoZU1DvXioktP68fBK2nQaGGFw0DDmtg@mail.gmail.com>
+In-Reply-To: <CAMuHMdW658cXSAHow3FoZU1DvXioktP68fBK2nQaGGFw0DDmtg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Aug 2023 17:57:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUzNR4vdcu_hxp=mQ0VTWOdcdeg6g5uFw0P2HG+5rGKRg@mail.gmail.com>
+Message-ID: <CAMuHMdUzNR4vdcu_hxp=mQ0VTWOdcdeg6g5uFw0P2HG+5rGKRg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] pinctrl: renesas: rzg2l: Fix NULL pointer
+ dereference in rzg2l_dt_subnode_to_map()
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        stable@kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add dt-bindings for Renesas ISL28022 power monitor.
+Hi Linus,
 
-Signed-off-by: Carsten Spieß <mail@carsten-spiess.de>
----
-v4:
-- compatible enum replaced by const
-- unneeded literal style removed
-v3:
-- changelog added
-v2/v3:
-- schema errors fixed
-- properties reworked
-- shunt-resistor minimum and default value added
----
- .../bindings/hwmon/renesas,isl28022.yaml      | 64 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
+On Thu, Aug 17, 2023 at 3:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Aug 17, 2023 at 3:38 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Thu, Aug 17, 2023 at 2:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > need protection by a lock.  If no one objects, I will back out that
+> > > change myself, queue this patch in renesas-pinctrl-for-v6.6, and send
+> > > a PR tomorrow.
+> >
+> > Shouldn't this even go in for v6.5?
+> > Or is it non-urgent?
+> >
+> > (Maybe I already asked, I have teflon-memory.)
+>
+> If you're still taking fixes for v6.5, I can do that.
+> Else, it will have to wait for a stable backport after v6.6-rc1.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-new file mode 100644
-index 000000000000..dd82a80e4115
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
-@@ -0,0 +1,64 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/renesas,isl28022.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas ISL28022 power monitor
-+
-+maintainers:
-+  - Carsten Spieß <mail@carsten-spiess.de>
-+
-+description: |
-+  The ISL28022 is a power monitor with I2C interface. The device monitors
-+  voltage, current via shunt resistor and calculated power.
-+
-+  Datasheets:
-+    https://www.renesas.com/us/en/www/doc/datasheet/isl28022.pdf
-+
-+properties:
-+  compatible:
-+    const: renesas,isl28022
-+
-+  reg:
-+    maxItems: 1
-+
-+  shunt-resistor-micro-ohms:
-+    description:
-+      Shunt resistor value in micro-Ohm
-+    minimum: 800
-+    default: 10000
-+
-+  renesas,shunt-range-microvolt:
-+    description:
-+      Maximal shunt voltage range of +/- 40 mV, 80 mV, 160 mV or 320 mV
-+    default: 320000
-+    enum: [40000, 80000, 160000, 320000]
-+
-+  renesas,average-samples:
-+    description:
-+      Number of samples to be used to report voltage, current and power values.
-+    default: 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        power-monitor@40 {
-+            compatible = "renesas,isl28022";
-+            reg = <0x40>;
-+            shunt-resistor-micro-ohms = <8000>;
-+            renesas,shunt-range-microvolt = <40000>;
-+            renesas,average-samples = <128>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b02e3b991676..23b8e8183ece 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11069,6 +11069,7 @@ ISL28022 HARDWARE MONITORING DRIVER
- M:	Carsten Spieß <mail@carsten-spiess.de>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/renesas,isl28022.yaml
- F:	Documentation/hwmon/isl28022.rst
- F:	drivers/hwmon/isl28022.c
- 
+IOW, please let me know if I should move these 3 commits to a fixes
+branch. BTW, they conflict with commit 060f03e95454a0f4 ("pinctrl:
+Explicitly include correct DT includes") in pinctrl/for-next...
+
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=renesas-pinctrl
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.34.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
