@@ -2,158 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4997378116C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 19:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFAA78117D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 19:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351478AbjHRRPd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Aug 2023 13:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
+        id S1358396AbjHRRSZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Aug 2023 13:18:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354384AbjHRRPK (ORCPT
+        with ESMTP id S1378925AbjHRRSH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Aug 2023 13:15:10 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2138.outbound.protection.outlook.com [40.107.113.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F093AB2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 10:15:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=APd9Kdz5db99+QfpSGX0sIt0waP+LQRkCZLKep5kKVp0D6G4aKvoPuyqobyMO1O9xtbvemVfu3eYPWZe+A02P0AQokKGBpQwCTGKfkAu/G6yagO9FxF4zt8fTnVfPwAZsZRR/nPvYn4Vw4EophKVYQJhBtD0xgDR1IjBmEHfXXaErfOeF11DML9jyTYz9sJqEzS4PfjA74NDmZOwWUOABlqHat61b6ugGYLgbh9VkHx5W4gellDJ+HU4da0AsI85UYVUdiLvRZ86Q3rjPinc3lae8MhwAYd3yCsS28Uxhm7RpmYBFokqjtSKGaVWUlbS1dX8KBAEONlyDX0AvhprUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ra4i5RaqWWHfQ8ZBrBQLng1HM1MWjhEQVa3/ziYoFUs=;
- b=RlVgo3tAwnAVjM0VNnm6ZiOye3cgk3CNKAXE2ffziFLNaOlWVqE+Vu2F1PwpopcDLBt6ECYQMxEyYD3WL5p1E2zjUF1ymOHgwZU2ciJFw7ZqfhCcpbb3xZkNZ3g10KL1cUM+ESN1P1ADBgDa8Yi56p2VPJBIZz7dvTpTDdMZqt6YRcmTFyCyFUpooosvwHdyajXGwq8GpTArgihKBlhiAW5PX+lXq3S3piPJJOmt9YwuIcc3MODVdpImnoDFMm5tS3LjTMG6pdRjosh7bZNDAa5EVG1gMwePGKA6M9KyqZUoE+MYJVK7qVdW/aV565esqkuTfHPiU5X1wKHKHZJwAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ra4i5RaqWWHfQ8ZBrBQLng1HM1MWjhEQVa3/ziYoFUs=;
- b=vxEZXCcI513fXXV8tab1a0QLsZ1JLUpfqm9SAW+Fiz4X7ZZWEMAnitxMJMn70dMoE/u54SOAlICI1ha2ANELy0e7fNkuTsJeMg7I9Z6IyM3DmrTXSkSAxEsIhDJep0EGCVmzds0sQJ/yTJ/5xhIUNnL5B46bD1mYJuhNBpHjlZI=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS0PR01MB5524.jpnprd01.prod.outlook.com (2603:1096:604:a6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Fri, 18 Aug
- 2023 17:15:03 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0%7]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 17:15:03 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     Phong LE <ple@baylibre.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] drm: bridge: it66121: Extend match support for OF
- tables
-Thread-Topic: [PATCH v2 1/2] drm: bridge: it66121: Extend match support for OF
- tables
-Thread-Index: AQHZ0fS+CW4XwsF28kSvpVPSEMdrMK/wSUKAgAABQXA=
-Date:   Fri, 18 Aug 2023 17:15:03 +0000
-Message-ID: <OS0PR01MB59227F10D4470A7B638A83F7861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230818165452.320984-1-biju.das.jz@bp.renesas.com>
- <20230818165452.320984-2-biju.das.jz@bp.renesas.com>
- <ZN+lgzthxaLbOkWi@smile.fi.intel.com>
-In-Reply-To: <ZN+lgzthxaLbOkWi@smile.fi.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS0PR01MB5524:EE_
-x-ms-office365-filtering-correlation-id: f4612b58-9425-4776-0f25-08dba00ea942
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1piVTHGlykNAHVKr9xcsIdunS8APlhXdib26Nk4kORx83hgv8Uzl8KP0X/oE07U2WwOgh8o5VE5AsDVBL9S6GaayDZ1YMSKq2Hc3yMr3BHInegYvKjmXi8NOOkK6+vlLquPnnOOoe2hSsA0lNueA4ajCqgcxzv8XqwSsA2s7gFqYFiB8PrFJmGBboLBfIt1YxV9C5/lyyGxqGX4elvTO50HtMN3Ta3jj39EvYb0S5OHX66n1muxXsw9RqoVgLI0cwNt7yKAWIE+VJf+0xSO8bzbUL2IU2L2ILEEA0QHvnNQGoPAD+v4JHSXLo2V1EOd0LoZwnmFEB1N/iPvYGWi+xNMgTShBW3D0xCek0HiVgp8EYny5X8zBoicF2uKbWOAUp4tJifVntirAC6dSyChO/46Qfp52SmlHBbmWyqtHkjfgEGXtNBQoGkY8Ve7ALA/gZQ2CDjpKzEBFX7+Dzpn9ujtFwsrDrU8DJzT6owT4X/OpppovxX3G5wa9bxZkk6QMXTV4It9Rzl7/x9XkkaeTDFVKcTtumM5tkiI4jENpnIn7NtvCpdO83+c726eWqJ0bKkNIay+MwjAYGL3dC5UG4I6a6KPpU16/TOKCVCmvDmCJ7TKXV8b8mHi+0g75rkP5
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(396003)(376002)(346002)(136003)(451199024)(186009)(1800799009)(76116006)(5660300002)(33656002)(41300700001)(4744005)(2906002)(66556008)(316002)(6916009)(66446008)(66946007)(66476007)(64756008)(54906003)(7416002)(8676002)(4326008)(52536014)(8936002)(478600001)(86362001)(71200400001)(38070700005)(9686003)(38100700002)(6506007)(7696005)(122000001)(26005)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?SapzZ1z9qYXvMi5pgYGCwyV/2g+gFA7z5skugtPviWKo0BoLmO7OGuGO6YKy?=
- =?us-ascii?Q?qv5AKShJC/NnSmKpY3JTGR+g7WktSzNn+r5pQ0J2G+WawEW0i0s+nY3+i8gX?=
- =?us-ascii?Q?o7epPCw7FS4Q7JgsDHRVDqPmMwsdhnvI5lPcsO+DfO7GE3/9TWsMF7UzEiew?=
- =?us-ascii?Q?/eCbUwDzESdweMKJ+APRLq3MGWzMtn2Fhi/gq/oFdTXOGb0bhhZkXRClSZ8j?=
- =?us-ascii?Q?mN+uH8PCNjJvxis0ttHOiTBnGwQgGpQMeGCRZmMi+HK3TGoaTDzSQqThRA5E?=
- =?us-ascii?Q?SFqyD4I7rLYcsvmcvsgHcQ43CTXNaO4Des7m3DqaKBN19EMtY0QMb/mXFN98?=
- =?us-ascii?Q?mCQpzoETNjrTPCx+a/40IR/0QRKd2/XsHDl6AKrO9T/b6rCnvUqQWA+5kwgH?=
- =?us-ascii?Q?c6kfvT7cyWHuVbyBtyVFs2hj9QlxyMQMjwoFYP89gKR6fpwTrAO6XO5evZaN?=
- =?us-ascii?Q?gfPypqh0njXJPsv8AgNRwVm0XHJesj5sW6lb1izykZaZaNkQKPZixMVvz4n1?=
- =?us-ascii?Q?U01FSLx0j+gdRwvyMi3jaMULdhc+H9NxnEoXg1BVk2+MSA+j/S/Exy/KQl1Y?=
- =?us-ascii?Q?J+6bXQSlPK46YKXtIFkMDpRw0eYlITEmqUJ8o7vmtkEbvzjsYPWOcmlJL8Ys?=
- =?us-ascii?Q?8y1+YhbqqvxF8iQsZIQ5JzfYpyPVQ86FzdvSrRsjbZwQUikcBG9vDgVy4Qbi?=
- =?us-ascii?Q?pDGvGmxfLU4+UlqE6eV95BvcIzCm8ZrSPnY9uEdOmL5PDoX8lWvxuPt0Go3U?=
- =?us-ascii?Q?k8AtNs21bTFfAd/L57lwcXZsSPgi+ksMmbxmd65b4+XZUiTnJ96iZjJh1w1d?=
- =?us-ascii?Q?6Y6XKdRs/e6vc5vFff5KsWcFMH6ON8dJh8Bl+8LtuftLj8Lu186NwXAm0IRZ?=
- =?us-ascii?Q?Un0rMOj30/HJoIz3rvW7lQtV+XkiFOKrPnUY337xdJ0OnfA9JH5b0qm6zqQi?=
- =?us-ascii?Q?I2TO09GA8omXTp62PReMyDTmdSj74UPTjnMdoB441REB3hrskgpHrtOCtBfg?=
- =?us-ascii?Q?Cpv4CX0ONqQcCNSNBrnIk5lE200zImQiOVraF2n1Qd0huawczw0QzckYCu0a?=
- =?us-ascii?Q?SQYQxxF9yw0LryGtNvGQrOniLqn2t3FcqEGWksdkyLBAmkqRQKID2vdgAplN?=
- =?us-ascii?Q?5w1zEy+dWJNQjee7UavPihjiHrwvqmsk4S1L1IqXwfnv97zp8oVzrn7eogc5?=
- =?us-ascii?Q?GgUAOzZUQd7S5WxT8OQv3vMpLMoX3s9EEda4+8i8/KVbkEvcAFho+OTzlJ+k?=
- =?us-ascii?Q?FfctwdlXztoZ/PxI1M9qDAtxjngSXsztx7K8QrDpqD1L9RRJrQDL791A49Sz?=
- =?us-ascii?Q?2UAAKknJcVHKfzCXd58tal8gkgTok/7pbHtvtPAYRR2FFds9L3tRFw80GUON?=
- =?us-ascii?Q?ufneynECo8OtMhyywQ13+8DMEXQaZ2zmqaDywzmuEY3VtsMMHTZipZFpi9Ms?=
- =?us-ascii?Q?J9mMTSMEMMJ6Uzuqogi6BRiWXw7zyeu6gtCJ1FdpS+9HRdnoLH2uJED+6ExQ?=
- =?us-ascii?Q?B1i8xb0CxGnQNywAVgrcf4anvJll0J3YoppseXmi23Q67WAYRfrqjNQKkNmA?=
- =?us-ascii?Q?0DvafXw3FDOSItOoRmChmb1kdKlQrJgrqHquf+DI?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 18 Aug 2023 13:18:07 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE901BF;
+        Fri, 18 Aug 2023 10:18:05 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-58f5f8f998bso10653597b3.0;
+        Fri, 18 Aug 2023 10:18:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692379085; x=1692983885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9QnDhU5gjq58p7FQxqcs72n7OvCNiSSW9ZnBUq7cRIg=;
+        b=eM9P0w8IYUigbA+RndNVKr3M+rKIhojPlhF9c0VXqPx7RqOH430wYerKe5JOabT9Mv
+         NVk+7BMfgP5beLqfuuiZNGAe4eijqGKhDmXwyHUW7tUyc+Ew2ezUR6gq2R8LqTqzX80d
+         7JR6QdbmFVSplYK7H9BPMWsU+fzFOabc2/uVRbiaYpJucPGOteOpdN+sMCKRn+u2d2sp
+         m1U2ymkBGXPhZWC7P0qATiF91znWdpGY7JUsoB76R9ulFwlNIbf1795h9K16AwmaM9mB
+         3c8gT8eAgdumfnA2hUknoQ2/bXXyFnNgD+fOe/70D3EklwATjGvGgUCDlBqASZ1ChqhH
+         2/+g==
+X-Gm-Message-State: AOJu0Ywr+GRtnZTG6kCSZdHGansOU6YWq400kYM+rtGIXxZQ3QhLkSKR
+        SKE2CaKLwnMf/03Rq2FTeurBO0pMQZHhxw==
+X-Google-Smtp-Source: AGHT+IE9jvCsH30+T95TGn8tp9N0mh2ysthqFhHy3uqDH3Ww4bbAD2IdjaHTT+57BXs5HzBbwkYrCQ==
+X-Received: by 2002:a81:6d53:0:b0:58c:6ddc:7717 with SMTP id i80-20020a816d53000000b0058c6ddc7717mr3552414ywc.37.1692379084787;
+        Fri, 18 Aug 2023 10:18:04 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id w10-20020a81620a000000b005774338d039sm608168ywb.96.2023.08.18.10.18.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Aug 2023 10:18:03 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso1083142276.1;
+        Fri, 18 Aug 2023 10:18:03 -0700 (PDT)
+X-Received: by 2002:a5b:74c:0:b0:c83:27d4:c0d6 with SMTP id
+ s12-20020a5b074c000000b00c8327d4c0d6mr3357274ybq.37.1692379083638; Fri, 18
+ Aug 2023 10:18:03 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4612b58-9425-4776-0f25-08dba00ea942
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2023 17:15:03.2455
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YON67BBP5zfULIyb4VSGKaTLwED1xvGSw1eV5c/S+6RCkWPhaoC590SG2xM1MOJy3GdCZUtB+ca8t2VqRr7gbSR9OJks0mjS2Dw+7FXGLrs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5524
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+ <20230818075600.24277-6-biju.das.jz@bp.renesas.com> <ZN9WVvo+pixspCsw@smile.fi.intel.com>
+ <CAMuHMdX0cnPDNHdUoquGTzZJE-CD81Lor=3q+j36rJyS23mJqw@mail.gmail.com>
+ <ZN+PpLsAayzfgTtb@smile.fi.intel.com> <CAMuHMdXAG8JmOaGzeRd8kgoZqMmG1Qf7PFjZFJiQBXpp9Sa8pg@mail.gmail.com>
+ <ZN+knFD5pFilfBcT@smile.fi.intel.com>
+In-Reply-To: <ZN+knFD5pFilfBcT@smile.fi.intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 18 Aug 2023 19:17:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVTSoKNt7D4f7kBgiGfuY7DympEyVt2t5PQmMXgESZzw@mail.gmail.com>
+Message-ID: <CAMuHMdVVTSoKNt7D4f7kBgiGfuY7DympEyVt2t5PQmMXgESZzw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] iio: magnetometer: ak8975: Sort OF table
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy Shevchenko,
+Hi Andy,
 
-> Subject: Re: [PATCH v2 1/2] drm: bridge: it66121: Extend match support fo=
-r
-> OF tables
->=20
-> On Fri, Aug 18, 2023 at 05:54:51PM +0100, Biju Das wrote:
-> > The driver has OF match table, still it uses ID lookup table for
-> > retrieving match data. Currently the driver is working on the
-> > assumption that a I2C device registered via OF will always match a
-> > legacy I2C device ID. The correct approach is to have an OF device ID
-> > table using of_device_match_data() if the devices are registered via OF=
-.
->=20
-> > Fixes: 9a9f4a01bdae ("drm: bridge: it66121: Move VID/PID to new
-> > it66121_chip_info structure")
->=20
-> What is the problem?
-> The match works either way with these compatible and i2c IDs.
+On Fri, Aug 18, 2023 at 7:04 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Fri, Aug 18, 2023 at 05:43:15PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Aug 18, 2023 at 5:35 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Fri, Aug 18, 2023 at 04:55:18PM +0200, Geert Uytterhoeven wrote:
+> > > > On Fri, Aug 18, 2023 at 1:30 PM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > On Fri, Aug 18, 2023 at 08:56:00AM +0100, Biju Das wrote:
+> > > > > > Sort OF table alphabetically by compatibles.
+> > > > >
+> > > > > > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > >
+> > > > > Wrong, I haven't suggested that. See comment to the previous patch.
+> > > > >
+> > > > > And this is definitely wrong as Geert explained already why.
+> > > > > You need to fix the code that handles the ID table first.
+> > > >
+> > > > I retracted my own comment:
+> > > > https://lore.kernel.org/r/CAMuHMdUVCS_D0SBtDBrLQbAkdt0ZUbMOca+ukdwUtnGqzUr+cA@mail.gmail.com
+> > > >
+> > > > Upon a second read, I agree my reply
+> > > >
+> > > >     Seems like it is, cfr. the scoring system in drivers/of/base.c
+> > > >
+> > > > was confusing, as it was not super clear if it was a response to the
+> > > > first or the second line of your comment:
+> > > >
+> > > >     You mean the OF ID list must be specifically ordered?! What a nice
+> > > > minefield!
+> > > >     This has to be fixed somewhere else, surely.
+> > > >
+> > > > Conclusion: there is no issue, the scoring system handles primary
+> > > > vs. fallback compatible values, irrespective of ordering.
+> > >
+> > > Now I'm totally confused. Previously you mentioned a couple of
+> > > different APIs — one in OF, one in SoC. AFAIU the second one
+> > > still needs to be fixed to follow the logic that OF does.
+> > >
+> > > My previous understanding was that
+> > >   OF code — no issue
+> > >   SoC code — the ordering is required to be correct
+> >
+> > Correct.
+> >
+> > > Can you confirm that there is no issue in that second case?
+> > > And if there is none, why did you mention it?
+> >
+> > There is still an issue (read: you have to be careful) in the second
+> > case, which does not matter here, as this driver does not use
+> > soc_device_match().
+> > I mentioned soc_device_match() because it is the second popular way
+> > to match on OF platforms, but behaves slightly different than
+> > of_match_node().
+>
+> Now it's clear, thanks.
+> Biju, please add that to the commit message.
 
-OK, will drop fixes tag as nothing is broken.
+All of that? The only thing that matters is that OF match tables
+use scoring, so order shouldn't matter.
 
-Cheers,
-Biju
+soc_device_match() uses different tables, and is irrelevant here.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
