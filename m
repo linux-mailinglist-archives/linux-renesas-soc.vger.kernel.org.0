@@ -2,79 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5596D7806C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 09:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 143077807BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 11:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358386AbjHRH5Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Aug 2023 03:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S1358870AbjHRJCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Aug 2023 05:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358436AbjHRH47 (ORCPT
+        with ESMTP id S1358900AbjHRJBz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Aug 2023 03:56:59 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 15905E5F;
-        Fri, 18 Aug 2023 00:56:42 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,182,1684767600"; 
-   d="scan'208";a="176955343"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Aug 2023 16:56:24 +0900
-Received: from localhost.localdomain (unknown [10.226.93.81])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C4F7D41BBD56;
-        Fri, 18 Aug 2023 16:56:21 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 5/5] iio: magnetometer: ak8975: Sort OF table
-Date:   Fri, 18 Aug 2023 08:56:00 +0100
-Message-Id: <20230818075600.24277-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
-References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+        Fri, 18 Aug 2023 05:01:55 -0400
+X-Greylist: delayed 1507 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Aug 2023 02:01:32 PDT
+Received: from mail.leachkin.pl (mail.leachkin.pl [217.61.97.203])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE84422C
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 02:01:32 -0700 (PDT)
+Received: by mail.leachkin.pl (Postfix, from userid 1001)
+        id 594CE84089; Fri, 18 Aug 2023 09:16:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leachkin.pl; s=mail;
+        t=1692346568; bh=elHzctRz/z3PfTIhGYJKd0TeBTmca98Y+JNgX4gfsPI=;
+        h=Date:From:To:Subject:From;
+        b=DX/MXa3kBV7T7QrOhvyQ89YyYoiMBPnpD7YAdhy7QOcDe5XviCAcpCpPBRXy4Gdlm
+         vf1ZYhOr51S9E77Z/Pb7oZ1uDMLHZ1j0Gnx8ewrnNyFFEDgt8ZVnChmYENBRGax2x1
+         UgK7AljwXBpXkJPF2Q0xa1bm8XENfqxSPiicaBA5M/y97hm6xtNhgTTgXDitx/ymET
+         UxrWE7m/LR1sqc+/QlDZZyG8xXzguuFUMMScQsWkQj+L6ka/CIWEV2LFoOQXuRpIDJ
+         fbTP6r5MoBNJAuMBGmJiUEgUTXgyePib5hDWWq180Cj16wgt8VAgUKmaT/QHKJPUPm
+         oREm9Nk+au1TQ==
+Received: by mail.leachkin.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 08:15:51 GMT
+Message-ID: <20230818074501-0.1.4u.ctuj.0.bpn13zl6l2@leachkin.pl>
+Date:   Fri, 18 Aug 2023 08:15:51 GMT
+From:   "Jakub Lemczak" <jakub.lemczak@leachkin.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
+X-Mailer: mail.leachkin.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Sort OF table alphabetically by compatibles.
+Dzie=C5=84 dobry,
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- * New patch
----
- drivers/iio/magnetometer/ak8975.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
-diff --git a/drivers/iio/magnetometer/ak8975.c b/drivers/iio/magnetometer/ak8975.c
-index 295b7be5e36d..7cc443a86995 100644
---- a/drivers/iio/magnetometer/ak8975.c
-+++ b/drivers/iio/magnetometer/ak8975.c
-@@ -1073,8 +1073,8 @@ static const struct i2c_device_id ak8975_id[] = {
- MODULE_DEVICE_TABLE(i2c, ak8975_id);
- 
- static const struct of_device_id ak8975_of_match[] = {
--	{ .compatible = "asahi-kasei,ak8975", .data = &ak_def_array[AK8975] },
- 	{ .compatible = "asahi-kasei,ak8963", .data = &ak_def_array[AK8963] },
-+	{ .compatible = "asahi-kasei,ak8975", .data = &ak_def_array[AK8975] },
- 	{ .compatible = "asahi-kasei,ak09911", .data = &ak_def_array[AK09911] },
- 	{ .compatible = "asahi-kasei,ak09912", .data = &ak_def_array[AK09912] },
- 	{ .compatible = "asahi-kasei,ak09916", .data = &ak_def_array[AK09916] },
--- 
-2.25.1
 
+Pozdrawiam,
+Jakub Lemczak
