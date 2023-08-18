@@ -2,145 +2,251 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE02780C9E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 15:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECBD7780CA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 15:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352317AbjHRNhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Aug 2023 09:37:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
+        id S1377202AbjHRNhr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Aug 2023 09:37:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377200AbjHRNgi (ORCPT
+        with ESMTP id S1377255AbjHRNhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Aug 2023 09:36:38 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2129.outbound.protection.outlook.com [40.107.113.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40C430F5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 06:36:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ipJ5l86AIC75A6FyCd/cvMNNqN7qBcYFeuTZuLQ8HH+3/QL/BU64Rvw7uyS7IrTOBrrmAlZGymbeGeMqW+clrDlNh7x7HQtC3aol5ftJP4qgPzsqgxnr0BaOBl+BBmDli8VaNUoH2r4kMKEutkbATLqgCZ8AZwVMH/dpzl6mhvt6X6OuSn0NXwiEym5X1t8ug60k7VFSSEGb9sP9cgTtGuVt3GoWpEK/tdGKWhv4Eq72NkTo5hSlB2msqpWPDeOTvDCgcrt1Iykynr8zqorDGTFpQrf5iI6PglobIWteULqc+kayMHFt4d7DdnSNWbgU+x8jsAcwXm1Mkgz4EUzijA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dRLthY0mbN7BlBpvqkpyMmJ6hXouuevFDhB85pE49XA=;
- b=QHBeqR3qkhmF518cBzbBquIUJTWEt2N0FLIVMVeHpPAawCnoqzxgbnjnvyjAn/axEKcYp/nHA6x0d94751xctTJw7s/bG5EzeAri73vTxhT7sojSyw2063Qm/aC/O6j2znk8o8QYRlhkXFT8G5mhK5THUgykrQZgxX4EOSGHlEAv4PAWNKqJpm6nEOCDxZrqBN1g2GSglKxCN6WCQZxgg39IRlLkAo4pUHDsPk4W9NIiLemuoi3io4D1JqV8hrymLPUi1S2bXDhTcsLe8mpIBSN/ze9uB3KIxpCE3MoaLxySkDnx2AtvZTK/6dQzlaZ8jYIHLC6dnlicvLRWTeYhbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dRLthY0mbN7BlBpvqkpyMmJ6hXouuevFDhB85pE49XA=;
- b=g2Jcoc7n/5qADJoD73NpTS/CVIma1YGHVxmtcQ//NafB+mfnV0JyZEQq6eoztQY+bvHDT069+WYmjloDA/6IBsyES4aR7pnkXbAJ5e5bCZWdB/RoSmW+TiPjELYeUzNwwTkmnDAHVjQkjmcMCFCBlzaU1dDxmUpNBm5Vf9aze1Q=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS7PR01MB11702.jpnprd01.prod.outlook.com (2603:1096:604:238::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Fri, 18 Aug
- 2023 13:36:34 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0%7]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 13:36:34 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     Liam Girdwood <lgirdwood@gmail.com>,
+        Fri, 18 Aug 2023 09:37:36 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC9C3589
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 06:37:34 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-5657add1073so642369a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 06:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692365854; x=1692970654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
+        b=OiRHoyQuAeILH8L1p9NOtXuqIhGsmUYCGmRLd3ZCTixSpbsR4SC9Vv/0LO2HlNqCaO
+         f0jgV5dNXs8gzIDX9EzziuJ6hjs4HcZgfn3cFjYMhdQPbLxxu8q2DyRxeTOnqMkPTTBc
+         ViKx4NpwnOOIcBZ3nisYkJtghFyJWfhUXMOOEloisHYWVP0+02dTGfdqR8BR2hXPWk4Z
+         4Jx6Nb3n6fVdwjk1qJtT0RSC8go86kSPZsgu36RwIEn/6esLdxd0HCN+evw1j7FVIkYv
+         HhaPhG8fjUUwoyEyJdWr+0SiFybMvmNhuLFwK5C6LyUo2Xh3naoiBnHjKMVj48zXgfKV
+         H2nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692365854; x=1692970654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HJWL7g3WawHT9Eqplual+QY+Lbi23cpsPvbekYPjBnM=;
+        b=S+Tb9wYqXRoea80tbhRaf5NbArsqRDkOBAIVMIGXSdo2f556EYkV54oO5QJfJy7Uua
+         pj6WUPUlMBUrjh14UGYIWGlSrQuKJLCBJZAJcVr6jFss7QaU7VY7YXR8y5Rtn54mnrzk
+         yNI0jz5SscQ5gjMyerdIi2PQ/SGfaF7tO+36dRDsaLQSxMRH3vpCG638AeQRZv7qcuKR
+         xPZDNI2p/bMwvyPbnpGlKOEfiRpyEkYhnWhl0jIKzUHE9r9LWtza8OihsjwGemdpwMrc
+         FePVI0zkJwFfy4SCHwEgf9vLvq+vU3oYgJ32dSsY/dKdhsjexFlboHwkiZsleCa9zSho
+         dUog==
+X-Gm-Message-State: AOJu0Yz12uP9JUT41t22uYJk2VxP6+R2Lf6jeQX3qS319AMLvTYXn7hL
+        DQZzlMrxx7QTekPdud4hR51xB1L1bu469lCwlT8=
+X-Google-Smtp-Source: AGHT+IGJucO45ZtG3erRbHMLsXdJR2CIx86aPA1L0ETefZyEQMEBv0FAMBmP7zAH+6nstox13VMTuKHX5d6z6nwSR2M=
+X-Received: by 2002:a17:90a:b015:b0:26d:5094:13ea with SMTP id
+ x21-20020a17090ab01500b0026d509413eamr1756836pjq.0.1692365853797; Fri, 18 Aug
+ 2023 06:37:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
+ <20230813180512.307418-8-biju.das.jz@bp.renesas.com> <CAHCN7xKo4Gnt+3rBgNyHq5tAAWU+nUpfJjzgb4RSPrgOgRsuyw@mail.gmail.com>
+ <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59226206B73CB28275EB9C3A861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 18 Aug 2023 08:37:22 -0500
+Message-ID: <CAHCN7xJZOSaGGQG56qmivYFAEzJayaOVF8qkhsZt5Jt_APN_nA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
+ struct adv7511_chip_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] regulator: raa215300: Change rate from 32000->32768
-Thread-Topic: [PATCH] regulator: raa215300: Change rate from 32000->32768
-Thread-Index: AQHZ0dhIXzO0N097ZkqOsqr7XoBB96/wDb0AgAAAR6A=
-Date:   Fri, 18 Aug 2023 13:36:34 +0000
-Message-ID: <OS0PR01MB59220E6AD6D97A467C5A695C861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230818133117.290897-1-biju.das.jz@bp.renesas.com>
- <c26f9be8-4e7d-46e2-ace6-ffa38c7ee131@sirena.org.uk>
-In-Reply-To: <c26f9be8-4e7d-46e2-ace6-ffa38c7ee131@sirena.org.uk>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS7PR01MB11702:EE_
-x-ms-office365-filtering-correlation-id: 3c138db7-5faf-46a2-7f7d-08db9ff023c1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mCDyjuS/1dN8+vYfcE09Nbl6hXoPDCcAOSCU6pPM49h1ApxDlfy+ltXAV2MkeBUPgM3EDxEylKrdzX7lkbFY5Ph3vjMex9wtTT2nrqfyxUnxfknBrA5lpENCeHJxpIovIykIMW42X0BLWAQB13sFFY7Bec125p/Q8g5yJL6oBfFUxP4qTsglETCeD4OjF9FS0Np8byYbyES8BPla5Zh2aEQ3j1L5MmrXJGa/WAD0Thizua3UOSGUdMHVIdmksy+zGsBftQ0iu4BFe6j4xHtEiW6lDVR2sSOZu2x9m9BwWdqS4S2s+49En16CIrHLemRGTPz5gtxY+151IFFTKV7g7RS0agO0TsN8QDC8WZyXWyFnaZ1R/mKqU4Etjh/C/EFYgpxBAvdRX+pBDmtC+A0Kq93YgGCT5sx4Cufm1GYciN4BSfIpT/fZ312dlZ1wDKWqxKyUTqhDQ/ZaqF5Ppe8u8CObUbt51pH50ThkTp4YXl5G61V26LC/yrmBN+j7oYumHHYklij4anQ5ZEwYxzrguf1bvGr9AvIE/R0s6/qxvJ6raHX1ZClVBbvOyBoU3ZKn3GiB91E+R7c6wWj9fHvMJF7J4rAFWJQYqTpZ2RgwMTo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(366004)(136003)(376002)(451199024)(1800799009)(186009)(26005)(71200400001)(7696005)(9686003)(6506007)(83380400001)(4326008)(5660300002)(8936002)(52536014)(8676002)(2906002)(4744005)(478600001)(41300700001)(76116006)(54906003)(64756008)(316002)(66446008)(66476007)(66556008)(66946007)(6916009)(38070700005)(38100700002)(122000001)(55016003)(33656002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?G5WhRSdIgYsGgoo8mbU4Pp/ICn2/aT0mJkh52XCTtoKdkwtkkq+hC64dpv/e?=
- =?us-ascii?Q?2mLvOifw0RgwI8R5ma9YwV4Rwoc5+K8L8WaT/s6YJYKjC5qAXlIZLfnRXjJO?=
- =?us-ascii?Q?8b4MM+GMO1JodSEjRNG/hmqyx3Gix5tIf1o50NlQdb6x6y83AXoQ1DiOVDbo?=
- =?us-ascii?Q?P5jqubQO3uodgNFIsnVdkMSJsRNQRev94vnhm+8734u0o9tlFQ7tRfGFZYyw?=
- =?us-ascii?Q?zs6E1lRYc7Zz22o9feNfS6NJRzys2q6Ttxm4HBr+GGflqyQuoNxgr0EDmzaA?=
- =?us-ascii?Q?ldz3QHq6tpWRpuUwUQlDqqjF0FnRzAWeEpYYLpaJrFRUTm7Y4aHvg+GDa/DW?=
- =?us-ascii?Q?j01eXiqrtE0XPoNCH7m0/yI8llWSdZgNHbwUnLEiCnw12witJWep9A+cEVaW?=
- =?us-ascii?Q?9eNcc2w5e8/o5VcaTlO/Z1jvl2egB9fOgooDv3ypBLaLbxsg2VWlODNjFCsR?=
- =?us-ascii?Q?yBREq01meUCb51uIA2Yp8tRc/e1F9nfI/pMlqiOse8Pgzsgund++4PzckaFd?=
- =?us-ascii?Q?3kik4RfIhp/jdFsWc5vHdTxhaMDbLswsjt+D/YQztL3nYZsYocjieU6ZKOly?=
- =?us-ascii?Q?GKV1i+2/DPW6yjanrhocmcGuM2+Pbf/hMPPYLv8MMEKwcy+YNntniXVDoNSY?=
- =?us-ascii?Q?KKNk5uP7DV14jp5QnsVgABYJKcvtOLxLkoCNntIkye+wb2A2KjHdHFT8dnxR?=
- =?us-ascii?Q?NS8PXqu51BDDZyOegDW25B++ouvnrYYyMOUrYyLdFWaYfr0gbgF5pQkHh8p3?=
- =?us-ascii?Q?8c+98O2coMgmNLydAjDLmHYT1ifiRDDFFpwsaWI3nZ3XMCJ5uten50tAPCUf?=
- =?us-ascii?Q?XiNNRJKeSqG6awTYBqRTaloy0LD1/TAYZ4TftzO0NuGo7YArxBylGCH2OuGh?=
- =?us-ascii?Q?SisNjpxgmAFwC6oRnED/Y4aJizPeyAXpvJ+QSXRWl31veI37z9sgoWmRQG1u?=
- =?us-ascii?Q?hyf3IVjn/FFOp3QHoD6oWxOgj3fXzZHfikoQrQRUxdQxqRS97nn+MMTmnvMF?=
- =?us-ascii?Q?krpD3LUH3h9Vmbq2MS/3LmBWspJtBwXQOED0/b0MVtN6GfCKlVUiT0IXJ986?=
- =?us-ascii?Q?R7lp9Gqb/D/h/BdlWbOcAeUxzf3ZvPpd+kTzWP15YdDgtsIzvPom+1xUQKOF?=
- =?us-ascii?Q?M6uosMSJHLQmcECXrzsbqs0WEbfFrEwofdF7JSd9bKxAzNETXyzCpYdhUL78?=
- =?us-ascii?Q?YArrVCqewqRa79Kp8TT8ZJOnXFaO+uclf4cdlWBLcSzYL5qNpaoQGv1B7ClO?=
- =?us-ascii?Q?7nj3N9vN9MzoiBiOfkCCuSmWJ1lq69toPGIWg/jBWiFOpMSzV6HqXWW9V7qV?=
- =?us-ascii?Q?QYbI9HDamWdTWP7ajI+GwgWrseG7QkkQpGDjoV5GNqReh1/gm7H8XN97lia9?=
- =?us-ascii?Q?ox0Wu1QsfTqw+SVJ7fsPbFGaxNlZclb/kRp5EdYPGTzWyH0XyKLG+DG/LFLF?=
- =?us-ascii?Q?A/z6kq6MfPcqtMouNmGrD+U722Yk9oKcAQlNsnNPaMXa3cJNcD0zMHO5HOL9?=
- =?us-ascii?Q?Usr9l76rgmTH/2TPqLchq8fcujj2PPJdeb+lSEF9RixdZ4a4w6qqpmH8AjRO?=
- =?us-ascii?Q?v9ioo6nR8JqCBv6xtxVh6CrXrWW9NhqQR+e3+uJR?=
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c138db7-5faf-46a2-7f7d-08db9ff023c1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2023 13:36:34.3460
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oQ5G54E/R9NOEgaCX7kF5I0dH1vU5+om3T64GCbh4HYsMkslydw65LXA3pw38E8urJ4O7+XIVvgUZpprV9AK75F6ILUHOytYQv1QfZC8aww=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11702
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
-
-Thanks for the feedback.
-
-> Subject: Re: [PATCH] regulator: raa215300: Change rate from 32000->32768
->=20
-> On Fri, Aug 18, 2023 at 02:31:17PM +0100, Biju Das wrote:
-> > Replace the rate 32000->32768 in devm_clk_hw_register_fixed_rate() as
-> > the 32kHz frequency mentioned in the hardware manual is actually
-> 32.768kHz.
+On Fri, Aug 18, 2023 at 8:35=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Adam Ford,
+>
+> Thanks for the feedback.
+>
+> > Subject: Re: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature =
+bit
+> > to struct adv7511_chip_info
 > >
-> > While at it, add the missing space in the comment block and also add
-> > module description to Kconfig.
->=20
-> These are clearly unrelated changes, the Kconfig change is not even in th=
+> > On Sun, Aug 13, 2023 at 1:06=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
+s.com>
+> > wrote:
+> > >
+> > > As per spec, it is allowed to pulse the HPD signal to indicate that
+> > > the EDID information has changed. Some monitors do this when they wak=
 e
-> same file, and so should be separate patches as per submitting-patches.rs=
-t.
+> > > up from standby or are enabled. When the HPD goes low the adv7511 is
+> > > reset and the outputs are disabled which might cause the monitor to g=
+o
+> > > to standby again. To avoid this we ignore the HPD pin for the first
+> > > few seconds after enabling the output. On the other hand,
+> > > adv7535 require to enable HPD Override bit for proper HPD.
+> > >
+> > > Add hpd_override_enable feature bit to struct adv7511_chip_info to
+> > > handle this scenario.
+> > >
+> > > While at it, drop the enum adv7511_type as it is unused.
+> >
+> > It seems like dropping adv7511_type is unrelated to the rest of the pat=
+ch,
+> > and I think it should be split from this into its own patch
+>
+> With this patch, there is no user for adv7511_type that is the
+> reason it is added here. I thought that is the common practice.
+>
+I wasn't sure.
 
-OK, will create separate patches for these changes.
+> Please correct me if that is not the case.
 
-Cheers,
-Biju
+I'll defer to the maintainers.  In general I like the series because
+it reduces the number of compare evaluations.  I'll try to run some
+tests on a board that I have with a adv7535 this weekend.
+
+adam
+>
+> Cheers,
+> Biju
+>
+> >
+> > adam
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
+> > >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
+> > >  2 files changed, 6 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > index 627531f48f84..c523ac4c9bc8 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> > > @@ -325,22 +325,16 @@ struct adv7511_video_config {
+> > >         struct hdmi_avi_infoframe avi_infoframe;  };
+> > >
+> > > -enum adv7511_type {
+> > > -       ADV7511,
+> > > -       ADV7533,
+> > > -       ADV7535,
+> > > -};
+> > > -
+> > >  #define ADV7511_MAX_ADDRS 3
+> > >
+> > >  struct adv7511_chip_info {
+> > > -       enum adv7511_type type;
+> > >         unsigned long max_mode_clock;
+> > >         unsigned long max_lane_freq;
+> > >         const char * const *supply_names;
+> > >         unsigned int num_supplies;
+> > >         unsigned has_dsi:1;
+> > >         unsigned link_config:1;
+> > > +       unsigned hpd_override_enable:1;
+> > >  };
+> > >
+> > >  struct adv7511 {
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > index 6974c267b1d5..7b06a0a21685 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511
+> > *adv7511)
+> > >          * first few seconds after enabling the output. On the other =
+hand
+> > >          * adv7535 require to enable HPD Override bit for proper HPD.
+> > >          */
+> > > -       if (adv7511->info->type =3D=3D ADV7535)
+> > > +       if (adv7511->info->hpd_override_enable)
+> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
+2,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
+> > > @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511
+> > > *adv7511)  static void __adv7511_power_off(struct adv7511 *adv7511)  =
+{
+> > >         /* TODO: setup additional power down modes */
+> > > -       if (adv7511->info->type =3D=3D ADV7535)
+> > > +       if (adv7511->info->hpd_override_enable)
+> > >                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER=
+2,
+> > >                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > > 0);
+> > >
+> > > @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct
+> > drm_connector *connector)
+> > >                         status =3D connector_status_disconnected;
+> > >         } else {
+> > >                 /* Renable HPD sensing */
+> > > -               if (adv7511->info->type =3D=3D ADV7535)
+> > > +               if (adv7511->info->hpd_override_enable)
+> > >                         regmap_update_bits(adv7511->regmap,
+> > ADV7511_REG_POWER2,
+> > >
+> > ADV7535_REG_POWER2_HPD_OVERRIDE,
+> > >
+> > > ADV7535_REG_POWER2_HPD_OVERRIDE); @@ -1360,14 +1360,12 @@ static void
+> > > adv7511_remove(struct i2c_client *i2c)  }
+> > >
+> > >  static const struct adv7511_chip_info adv7511_chip_info =3D {
+> > > -       .type =3D ADV7511,
+> > >         .supply_names =3D adv7511_supply_names,
+> > >         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
+> > >         .link_config =3D 1
+> > >  };
+> > >
+> > >  static const struct adv7511_chip_info adv7533_chip_info =3D {
+> > > -       .type =3D ADV7533,
+> > >         .max_mode_clock =3D 80000,
+> > >         .max_lane_freq =3D 800000,
+> > >         .supply_names =3D adv7533_supply_names, @@ -1376,12 +1374,12 =
+@@
+> > > static const struct adv7511_chip_info adv7533_chip_info =3D {  };
+> > >
+> > >  static const struct adv7511_chip_info adv7535_chip_info =3D {
+> > > -       .type =3D ADV7535,
+> > >         .max_mode_clock =3D 148500,
+> > >         .max_lane_freq =3D 891000,
+> > >         .supply_names =3D adv7533_supply_names,
+> > >         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
+> > > -       .has_dsi =3D 1
+> > > +       .has_dsi =3D 1,
+> > > +       .hpd_override_enable =3D 1
+> > >  };
+> > >
+> > >  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+> > > --
+> > > 2.25.1
+> > >
