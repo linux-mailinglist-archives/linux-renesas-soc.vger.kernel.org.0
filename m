@@ -2,177 +2,366 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4782780E47
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 16:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 003CB780E4A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Aug 2023 16:50:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345899AbjHROtR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Aug 2023 10:49:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49254 "EHLO
+        id S1345937AbjHROtt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Aug 2023 10:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239461AbjHROsw (ORCPT
+        with ESMTP id S1352001AbjHROtn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Aug 2023 10:48:52 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2134.outbound.protection.outlook.com [40.107.114.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1576C13D;
-        Fri, 18 Aug 2023 07:48:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gnK9945rVecDqBY7KUYz+eSYWVq8IO/WYV+x254jaRdmQj2dFUbwEV08e2OYe+yJyQ57m7R1N0Nmcyp+Mz3PhnFVQ++70IIeD/4sJbrTd32YuFzgmciZWf6x2reqpeVz+U3z8nLtkN7NHLonmmk+gpOnET9c6bk//6AhV9UthhVU2RVLUTmqvA18LnnGQOaZs3wgjFuqs6h4HCy0TtM3TlUq3CvteLKh9Ltqa+DES99Hg9zc9GuGLMjDQ4dUtMY7mbP5NNFz4/dgxcLchFX/KAARj5IstFg/5NMkD1wyWh/sIFl1zSXbDwAh/9Z2aJo8IzxmiviacXQNnvHmIvZOCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uR6ZBiF8iRXW6VUphG+wUljQXICeLVS7efsgwE6jGLc=;
- b=CW+SeZwgPplq1MFp/yk0MdOEsuD0G23QH5sL17MSkj0kv3RTFBlPSykfFsU96gHapDXOeF/xzNX3ro0wdep6/czQlUYA6UKBsBYrQdGpEKctbXPvb6QwCbrgJ/bJh81e1YFx4LyR50mHmPoU5tnTOQu5ytnB+41ciHnfBFn6XFHmC8bLqUMikFGc8+2U2MAGc/TwKbOTbjGXZALhmlg9Hg6I1jx5Vc2Nwmsl9VbqU+BW4p2JOdRS18KCCHl8Vho33BMrcOKfneZ2N/qVyYJGcAaOYo1xyBZ6KovLpjzglawYdN5fhra96SPIGhfoD/Nw9OuzPcBYjnOzE5O2YRvTaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uR6ZBiF8iRXW6VUphG+wUljQXICeLVS7efsgwE6jGLc=;
- b=jfpWBaT8UBm+01Zw1jmDhcpwntDfD2Wa/hpoFsl9CiumwxEhUkGKPclkpFNlAwaRI1iuzRcmd3ocsNzZrt9biQbkZcoGretqOXVJUqlMLzO7TaJuRpXKVhBSaooMMarNfdYD/WArS15FCnUKlbU2AjP+HGJHhdFqVOmadKhIgKI=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS0PR01MB5394.jpnprd01.prod.outlook.com (2603:1096:604:95::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Fri, 18 Aug
- 2023 14:48:45 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2168:623e:e186:4cf0%7]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 14:48:45 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        =?iso-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] iio: adc: max1363: Use i2c_get_match_data()
-Thread-Topic: [PATCH] iio: adc: max1363: Use i2c_get_match_data()
-Thread-Index: AQHZzO4GZ7D+A2SpqUSmNVzUIWA3Ia/q9ZeAgAU0ZGA=
-Date:   Fri, 18 Aug 2023 14:48:45 +0000
-Message-ID: <OS0PR01MB59223B11C14FE29FEE9CF080861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230812072419.42645-1-biju.das.jz@bp.renesas.com>
- <ZNslJ44ivDGKR6b1@smile.fi.intel.com>
-In-Reply-To: <ZNslJ44ivDGKR6b1@smile.fi.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS0PR01MB5394:EE_
-x-ms-office365-filtering-correlation-id: b4bcc1b1-2b83-48ef-932c-08db9ffa3913
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: N9wbxMJT0MPTNaNxwDVepss2DBknUj+F3xvDyr2cnQiy/Y4B0xDSSW2sux+Uo9KsVKXo5cukNKoEefgIz3pS38y0Gj+/fUmPD6Rf7YMBn4tny4wlia8QfzvZall9IDMKx64sLM08ALhWaXnmEXiW3y5hlI3sfNiFBMMxqMjBRUHEQYa8cgBAB1cq8MmglRRLjcPjH0cXIyfUO4TiD4w9N+OIWihofo/p92Z0KH2fn3IQ36IRdxcYiOFHcAkuhrimkpnSaaxHka+Ino+H2csmUNFWkD/DYNgxxOkeZkl0sGTTUBYz37gRIZBGzxtkbneZ4vcqKS0fUepVYR0JOEyP6rFcERLOU5RIXX+t7bAaU0tL04fu0+0ntPrN33n56UXivsgXKwmoO4+j16FgYhvPLy+IUz6j1ZxlN9sQm2v9jqUKufzn0I0Z4vADuSMaf0JAeFEkkC/XS7u7MmM/Vahl04Ls2AExr+6f3FShLvE0Pi9z/jB8QYTIrKFQzxEr7GlCqw7+Xw+HLdoDmm0CXmhVgwQMw/B2QoK1atIVRmEu1s1tmdvJ3W0Q0QBBG0Kx0VDeNjxB/z7pSl0aH9AbAWwdMVgs0pPk81Dwk3Ie7ju4JKKneObG39grHgurCLjA+N+5
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(39860400002)(366004)(376002)(396003)(186009)(1800799009)(451199024)(71200400001)(6506007)(7696005)(38070700005)(38100700002)(9686003)(122000001)(86362001)(55016003)(26005)(33656002)(2906002)(54906003)(64756008)(66946007)(66476007)(66446008)(66556008)(316002)(6916009)(41300700001)(76116006)(5660300002)(52536014)(8676002)(4326008)(8936002)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?h0ZR6iPXe3pIq0oCg6dZWierqque5rIuApudcv3O3OZ5hATqw73w5xokGi?=
- =?iso-8859-1?Q?rDuQS7TMY0NO9UFDCht/bU7wrEWStI5p2y0g4beXr0dd9QWDri/C1ispi4?=
- =?iso-8859-1?Q?DXNASprCaSBIBrfk6kNZLK34agAtHAOfnXzEZ0JqZ8wJYQU93rdKdjbfFy?=
- =?iso-8859-1?Q?yalP5yRnKlzwXYYb3Ai1DyTyH+Yzobn4OayhKTojg+tcvSGI6H+mje1I5b?=
- =?iso-8859-1?Q?yIKiMnyLk9Cr0mgX/q3opr856KYK90XoueIejS8zlsB1uayjfD8o2J23oH?=
- =?iso-8859-1?Q?XoT8KzxJAC2FZOeqF2jAfncLfLypt3zW860mJ4+vr8IY1C8BSgyLizyRLK?=
- =?iso-8859-1?Q?UsUW6GrU5wTWVn9P2EyqUDgWL91bo7A/eja9g+Xu+Osy6qwFa36vxci9nS?=
- =?iso-8859-1?Q?hCVOh8fsHKMbO430SURVOeKLvA21nwx4VVtTrpJDhrk1njsVUGRZ/gKCpX?=
- =?iso-8859-1?Q?YMLmnd6N+wVbTo/yQGOD4JilSLK14n/evgBVMkTupN6FVSRUceuuy7RWdE?=
- =?iso-8859-1?Q?Lm1u+LKlIV15940SI8Tz5pU0sxnucvIF7ad8YO5Lf/KSu+GWUxpl1zOmn2?=
- =?iso-8859-1?Q?IOw4D6TJIQR+1bDENARm6RpznpSw6jZP/ed73m/051PPyxrt7oTTlgOjIQ?=
- =?iso-8859-1?Q?EO8tk5DVzQi74ow0pu5xzZuspOzxn0wH+Unwg3nIEi2sktL1Ttqf0wzL9s?=
- =?iso-8859-1?Q?nNkPF2hEil+tBom+ksBTo/4otTe9+7XVfHBDZfCPBwujmIutSD/fFXZ/KV?=
- =?iso-8859-1?Q?ASkVWG9Oxneo7pyhwDstc+U7P8SrMwgXKEeQGSqSkchepnaT34lGVMuL+o?=
- =?iso-8859-1?Q?yA5XVzS8lAYuEqnzDjA1GEDiCMbZOZG//txyMyUsEig3mCEh29iPMFwSY2?=
- =?iso-8859-1?Q?uxn6N9UU25dqopyj0Mxb4NbpA5EFFMLv6aZXlU9wqxa84ShxVH+7kzxGzs?=
- =?iso-8859-1?Q?nnIaHO7IXhYWzThvMxv17n8aFlW7NDlWXZvsZ3vGu66A7oSSShJwPAZ4/G?=
- =?iso-8859-1?Q?eqwZwEuYmLz229yN8UmclCVQh540HS0O1VNH8N/KclvF7m3UJu2guOawVR?=
- =?iso-8859-1?Q?bpMblapZvWoJf4KQZL4clCv3Hyw3cO+WwspuwH98keaX7p3vCa0PDNOzH3?=
- =?iso-8859-1?Q?TSpYXwBfytEx0AtSw3icyQ8SYLtb2CYA43nFBqDkDWp1aAma/CZbPk0kEb?=
- =?iso-8859-1?Q?V4PU60zRp4duNx5FSL9QqeweSkVBT9UoGrsvBrwTY7//n+bnNd3Od5uzzi?=
- =?iso-8859-1?Q?cHA1ZI21apncJLX15zrtFMkAHAjY3Pm5yEnGqqBmuktAiJffb0awdjLGTu?=
- =?iso-8859-1?Q?2laB+foecBjrBoNFhrMC8eU9gW/DGudrV9yQNsLHdAEXzSNysXFfwZYT2G?=
- =?iso-8859-1?Q?LkNGKuEEWCusUv6DVF54ixRzAHkWJCei3TWN3s3WSRvgnnEU8KhXHs2L7L?=
- =?iso-8859-1?Q?v8PNHifg/4FyhViyw3tsbx+5Lhnbh69y/g8rr9pGrLhQJa8Pw1wRNOF7sh?=
- =?iso-8859-1?Q?bPcM7IUoOjcbPNcg/H1YTgNRCbneVbHqEqXkYeLrSxdatdzgjAyrmRgGrr?=
- =?iso-8859-1?Q?PAA1vUpWabs/yri3ZzkKGNwqsaedCYrz8QW//2p7fZliqqa7ulOFZqoEmZ?=
- =?iso-8859-1?Q?qQ0pgIc8s0Kmtlq0USTuoOvCf8qlVa0ode?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 18 Aug 2023 10:49:43 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D4A13D
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 07:49:41 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-26b44247123so746788a91.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Aug 2023 07:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692370181; x=1692974981;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C2LX2HzsOIkDf+npm74iqGCgCKWwRBtTWhdSG/vOeqM=;
+        b=creBQWtps1PHmLc4QtEtrCDSBhEsrNrokAM7RTEDfPRdpu47/hRlx/yukgcYFQbHq3
+         cI/QAy/SIoDXZMgEbv11wLPftmZQ4b9XgqeY0fnuAZNKn4et39/NMx2I1Jy0r3k5QFJv
+         hq0w64FE83xRTBcat9xN+vrP9wzp2x25m1bU1AO/VRCpuRJxwu+cmP7pL4qzUtwJwWUE
+         E1hT8looUYaS196m815ItaUszzH3UJ7D5Z/9lNcys5iTGpY0VMMuTau6RcMgyaBYuLFF
+         ph3v5bz+n5iVg9wIWh39PIB3++03ho+dv7Rv3fqPhVzY4JAi3WFJiVrWSbxKL7LQWaYU
+         w2VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692370181; x=1692974981;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C2LX2HzsOIkDf+npm74iqGCgCKWwRBtTWhdSG/vOeqM=;
+        b=Y5ofQ/yTbF5Tl1ckrlqOWm6ZwjWjMdsXt8pVOLbrYv8TxWt/Cs077Y/KugTk69gNxA
+         97R+Tsr8Hji+/hdSEkwj1UkxviWCa0gJ7Y6ekc8V4p0uTpHIiihgvkV+v/pRmkxVk5WY
+         zud+Nk5toSP3dQMkOfIL41UXyUJw5Y+MQS6yl8748xmSuP3XxxQicjbWZdIAJFjYYwzx
+         +gCE7cIwm1ndCvGMdsCvnSz/LTF4kL+OdijmJ9mcLfjPY1v+guV7P6w5ZZHSRYG0r1Zs
+         Zff7elRr4aHh2PGUMtm9Lhgf1lf8j7lZgAYZcPbnu4KGCVZREVygtmNfhhsPKjcLyC6U
+         dfVw==
+X-Gm-Message-State: AOJu0Yyj96EtUYQfu5J16/5j2XIEUkVnS+4bwbK9rotkT3kkFiRbuBlf
+        2lkjBRrw/hP3gIZLtVYgtlUQ0iupPRioa5JFxn8=
+X-Google-Smtp-Source: AGHT+IFCtF44LVTcwu0Km0D+LXnVkqhZj2YUD3b8ow9zzmfHWSmmVVIf9gF9ktKyNF8NHg98mdeuF4aJCRZhM68FeJ4=
+X-Received: by 2002:a17:90b:33c2:b0:269:154b:6290 with SMTP id
+ lk2-20020a17090b33c200b00269154b6290mr2592379pjb.24.1692370180787; Fri, 18
+ Aug 2023 07:49:40 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4bcc1b1-2b83-48ef-932c-08db9ffa3913
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2023 14:48:45.0731
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jS1QA+4WdFvQXKkVokTB5uMlzLUx1k/4MBCWkHXrdDM+4duL9ieyRo5NIEf8VogdGuM6mmiYHcon20bpX6MtRC8Zt5bx9SQIlLBza+kYZOE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5394
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com> <20230813180512.307418-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230813180512.307418-2-biju.das.jz@bp.renesas.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 18 Aug 2023 09:49:29 -0500
+Message-ID: <CAHCN7xK3CmK=0zsJZ5RmvomZ3yHprB34AQzqFBUwPxSvOOZMfw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm: adv7511: Add struct adv7511_chip_info and use i2c_get_match_data()
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        dri-devel@lists.freedesktop.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy Shevchenko,
+On Sun, Aug 13, 2023 at 1:05=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Add struct adv7511_chip_info to handle hw differences between various
+> chips rather checking against the 'type' variable in various places.
+> Replace 'adv->type'->'info->type' by moving variable 'type' from
+> struct adv7511 to struct adv7511_chip_info.
+>
+> Replace of_device_get_match_data() and ID lookup for retrieving match dat=
+a
+> with i2c_get_match_data() by adding adv7511_chip_info as device data for
+> both OF and ID tables.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for the feedback.
-
-> Subject: Re: [PATCH] iio: adc: max1363: Use i2c_get_match_data()
->=20
-> On Sat, Aug 12, 2023 at 08:24:19AM +0100, Biju Das wrote:
-> > Replace device_get_match_data() and i2c_match_id() by
-> > i2c_get_match_data() by making similar I2C and DT-based matching
-> > table.
->=20
-> ...
->=20
-> > +#define MAX1363_ID_TABLE(_name, cfg) {				\
-> > +	.name =3D _name,						\
-> > +	.driver_data =3D (kernel_ulong_t)&max1363_chip_info_tbl[cfg],	\
-> > +}
->=20
-> Just use them directly, like in 4 lines each instead of a single one.
->=20
-> 	{
-> 		.name =3D max1361,
-> 		.driver_data =3D (kernel_ulong_t)&max1363_chip_info_tbl[max1361]
-> 	},
->=20
-> or this, but it's almost 100 characters.
-
-OK, will create a separate patch for this change.
-
-Worst case, we can drop named fields?? (.name and .driver_data)
-
-Cheers,
-Biju
-
->=20
-> 	{ .name =3D "max1361", .driver_data =3D
-> (kernel_ulong_t)&max1363_chip_info_tbl[max1361] },
->=20
->=20
-> Otherwise I prefer to see something like a generic macro in i2c.h
->=20
-> 	I2C_DEVICE_DATA()
->=20
-> (in analogue with PCI_DEVICE_DATA).
->=20
+Reviewed-by: Adam Ford <aford173@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  6 +-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 68 +++++++++++---------
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     |  4 +-
+>  3 files changed, 46 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
+ridge/adv7511/adv7511.h
+> index 17445800248d..59e8ef10d72e 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -333,6 +333,10 @@ enum adv7511_type {
+>
+>  #define ADV7511_MAX_ADDRS 3
+>
+> +struct adv7511_chip_info {
+> +       enum adv7511_type type;
+> +};
+> +
+>  struct adv7511 {
+>         struct i2c_client *i2c_main;
+>         struct i2c_client *i2c_edid;
+> @@ -377,7 +381,7 @@ struct adv7511 {
+>         u8 num_dsi_lanes;
+>         bool use_timing_gen;
+>
+> -       enum adv7511_type type;
+> +       const struct adv7511_chip_info *info;
+>         struct platform_device *audio_pdev;
+>
+>         struct cec_adapter *cec_adap;
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 2611afd2c1c1..013d8d640ef4 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv751=
+1)
+>          * first few seconds after enabling the output. On the other hand
+>          * adv7535 require to enable HPD Override bit for proper HPD.
+>          */
+> -       if (adv7511->type =3D=3D ADV7535)
+> +       if (adv7511->info->type =3D=3D ADV7535)
+>                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
+> @@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+>          */
+>         regcache_sync(adv7511->regmap);
+>
+> -       if (adv7511->type =3D=3D ADV7533 || adv7511->type =3D=3D ADV7535)
+> +       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
+=3D ADV7535)
+>                 adv7533_dsi_power_on(adv7511);
+>         adv7511->powered =3D true;
+>  }
+> @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+>  static void __adv7511_power_off(struct adv7511 *adv7511)
+>  {
+>         /* TODO: setup additional power down modes */
+> -       if (adv7511->type =3D=3D ADV7535)
+> +       if (adv7511->info->type =3D=3D ADV7535)
+>                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
+>                                    ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
+>
+> @@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv75=
+11)
+>  static void adv7511_power_off(struct adv7511 *adv7511)
+>  {
+>         __adv7511_power_off(adv7511);
+> -       if (adv7511->type =3D=3D ADV7533 || adv7511->type =3D=3D ADV7535)
+> +       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
+=3D ADV7535)
+>                 adv7533_dsi_power_off(adv7511);
+>         adv7511->powered =3D false;
+>  }
+> @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_co=
+nnector *connector)
+>                         status =3D connector_status_disconnected;
+>         } else {
+>                 /* Renable HPD sensing */
+> -               if (adv7511->type =3D=3D ADV7535)
+> +               if (adv7511->info->type =3D=3D ADV7535)
+>                         regmap_update_bits(adv7511->regmap, ADV7511_REG_P=
+OWER2,
+>                                            ADV7535_REG_POWER2_HPD_OVERRID=
+E,
+>                                            ADV7535_REG_POWER2_HPD_OVERRID=
+E);
+> @@ -786,7 +786,7 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+>         else
+>                 low_refresh_rate =3D ADV7511_LOW_REFRESH_RATE_NONE;
+>
+> -       if (adv7511->type =3D=3D ADV7511)
+> +       if (adv7511->info->type =3D=3D ADV7511)
+>                 regmap_update_bits(adv7511->regmap, 0xfb,
+>                                    0x6, low_refresh_rate << 1);
+>         else
+> @@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid=
+(struct drm_bridge *bridge,
+>  {
+>         struct adv7511 *adv =3D bridge_to_adv7511(bridge);
+>
+> -       if (adv->type =3D=3D ADV7533 || adv->type =3D=3D ADV7535)
+> +       if (adv->info->type =3D=3D ADV7533 || adv->info->type =3D=3D ADV7=
+535)
+>                 return adv7533_mode_valid(adv, mode);
+>         else
+>                 return adv7511_mode_valid(adv, mode);
+> @@ -1009,7 +1009,7 @@ static int adv7511_init_regulators(struct adv7511 *=
+adv)
+>         unsigned int i;
+>         int ret;
+>
+> -       if (adv->type =3D=3D ADV7511) {
+> +       if (adv->info->type =3D=3D ADV7511) {
+>                 supply_names =3D adv7511_supply_names;
+>                 adv->num_supplies =3D ARRAY_SIZE(adv7511_supply_names);
+>         } else {
+> @@ -1093,7 +1093,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *=
+adv)
+>                 goto err;
+>         }
+>
+> -       if (adv->type =3D=3D ADV7533 || adv->type =3D=3D ADV7535) {
+> +       if (adv->info->type =3D=3D ADV7533 || adv->info->type =3D=3D ADV7=
+535) {
+>                 ret =3D adv7533_patch_cec_registers(adv);
+>                 if (ret)
+>                         goto err;
+> @@ -1192,7 +1192,7 @@ static int adv7511_parse_dt(struct device_node *np,
+>
+>  static int adv7511_probe(struct i2c_client *i2c)
+>  {
+> -       const struct i2c_device_id *id =3D i2c_client_get_device_id(i2c);
+> +       static const struct adv7511_chip_info *info;
+>         struct adv7511_link_config link_config;
+>         struct adv7511 *adv7511;
+>         struct device *dev =3D &i2c->dev;
+> @@ -1206,18 +1206,16 @@ static int adv7511_probe(struct i2c_client *i2c)
+>         if (!adv7511)
+>                 return -ENOMEM;
+>
+> +       info =3D i2c_get_match_data(i2c);
+> +
+>         adv7511->i2c_main =3D i2c;
+>         adv7511->powered =3D false;
+>         adv7511->status =3D connector_status_disconnected;
+> -
+> -       if (dev->of_node)
+> -               adv7511->type =3D (enum adv7511_type)of_device_get_match_=
+data(dev);
+> -       else
+> -               adv7511->type =3D id->driver_data;
+> +       adv7511->info =3D info;
+>
+>         memset(&link_config, 0, sizeof(link_config));
+>
+> -       if (adv7511->type =3D=3D ADV7511)
+> +       if (adv7511->info->type =3D=3D ADV7511)
+>                 ret =3D adv7511_parse_dt(dev->of_node, &link_config);
+>         else
+>                 ret =3D adv7533_parse_dt(dev->of_node, adv7511);
+> @@ -1254,7 +1252,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>                 goto uninit_regulators;
+>         dev_dbg(dev, "Rev. %d\n", val);
+>
+> -       if (adv7511->type =3D=3D ADV7511)
+> +       if (info->type =3D=3D ADV7511)
+>                 ret =3D regmap_register_patch(adv7511->regmap,
+>                                             adv7511_fixed_registers,
+>                                             ARRAY_SIZE(adv7511_fixed_regi=
+sters));
+> @@ -1306,7 +1304,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>
+>         i2c_set_clientdata(i2c, adv7511);
+>
+> -       if (adv7511->type =3D=3D ADV7511)
+> +       if (info->type =3D=3D ADV7511)
+>                 adv7511_set_link_config(adv7511, &link_config);
+>
+>         ret =3D adv7511_cec_init(dev, adv7511);
+> @@ -1325,7 +1323,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>
+>         adv7511_audio_init(dev, adv7511);
+>
+> -       if (adv7511->type =3D=3D ADV7533 || adv7511->type =3D=3D ADV7535)=
+ {
+> +       if (info->type =3D=3D ADV7533 || info->type =3D=3D ADV7535) {
+>                 ret =3D adv7533_attach_dsi(adv7511);
+>                 if (ret)
+>                         goto err_unregister_audio;
+> @@ -1368,22 +1366,34 @@ static void adv7511_remove(struct i2c_client *i2c=
+)
+>         i2c_unregister_device(adv7511->i2c_edid);
+>  }
+>
+> +static const struct adv7511_chip_info adv7511_chip_info =3D {
+> +       .type =3D ADV7511
+> +};
+> +
+> +static const struct adv7511_chip_info adv7533_chip_info =3D {
+> +       .type =3D ADV7533
+> +};
+> +
+> +static const struct adv7511_chip_info adv7535_chip_info =3D {
+> +       .type =3D ADV7535
+> +};
+> +
+>  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+> -       { "adv7511", ADV7511 },
+> -       { "adv7511w", ADV7511 },
+> -       { "adv7513", ADV7511 },
+> -       { "adv7533", ADV7533 },
+> -       { "adv7535", ADV7535 },
+> +       { "adv7511", (kernel_ulong_t)&adv7511_chip_info },
+> +       { "adv7511w", (kernel_ulong_t)&adv7511_chip_info },
+> +       { "adv7513", (kernel_ulong_t)&adv7511_chip_info },
+> +       { "adv7533", (kernel_ulong_t)&adv7533_chip_info },
+> +       { "adv7535", (kernel_ulong_t)&adv7535_chip_info },
+>         { }
+>  };
+>  MODULE_DEVICE_TABLE(i2c, adv7511_i2c_ids);
+>
+>  static const struct of_device_id adv7511_of_ids[] =3D {
+> -       { .compatible =3D "adi,adv7511", .data =3D (void *)ADV7511 },
+> -       { .compatible =3D "adi,adv7511w", .data =3D (void *)ADV7511 },
+> -       { .compatible =3D "adi,adv7513", .data =3D (void *)ADV7511 },
+> -       { .compatible =3D "adi,adv7533", .data =3D (void *)ADV7533 },
+> -       { .compatible =3D "adi,adv7535", .data =3D (void *)ADV7535 },
+> +       { .compatible =3D "adi,adv7511", .data =3D &adv7511_chip_info },
+> +       { .compatible =3D "adi,adv7511w", .data =3D &adv7511_chip_info },
+> +       { .compatible =3D "adi,adv7513", .data =3D &adv7511_chip_info },
+> +       { .compatible =3D "adi,adv7533", .data =3D &adv7533_chip_info },
+> +       { .compatible =3D "adi,adv7535", .data =3D &adv7535_chip_info },
+>         { }
+>  };
+>  MODULE_DEVICE_TABLE(of, adv7511_of_ids);
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/b=
+ridge/adv7511/adv7533.c
+> index 7e3e56441aed..c452c4dc1c3f 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -108,11 +108,11 @@ enum drm_mode_status adv7533_mode_valid(struct adv7=
+511 *adv,
+>         u8 bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+>
+>         /* Check max clock for either 7533 or 7535 */
+> -       if (mode->clock > (adv->type =3D=3D ADV7533 ? 80000 : 148500))
+> +       if (mode->clock > (adv->info->type =3D=3D ADV7533 ? 80000 : 14850=
+0))
+>                 return MODE_CLOCK_HIGH;
+>
+>         /* Check max clock for each lane */
+> -       max_lane_freq =3D (adv->type =3D=3D ADV7533 ? 800000 : 891000);
+> +       max_lane_freq =3D (adv->info->type =3D=3D ADV7533 ? 800000 : 8910=
+00);
+>
+>         if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
+>                 return MODE_CLOCK_HIGH;
 > --
-> With Best Regards,
-> Andy Shevchenko
->=20
-
+> 2.25.1
+>
