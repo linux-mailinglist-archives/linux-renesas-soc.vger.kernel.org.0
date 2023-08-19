@@ -2,43 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D880781ABC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Aug 2023 20:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63036781B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Aug 2023 01:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjHSSEw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 19 Aug 2023 14:04:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41248 "EHLO
+        id S229449AbjHSXhT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 19 Aug 2023 19:37:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjHSSEw (ORCPT
+        with ESMTP id S229441AbjHSXhR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 19 Aug 2023 14:04:52 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1781A81830;
-        Sat, 19 Aug 2023 11:04:49 -0700 (PDT)
+        Sat, 19 Aug 2023 19:37:17 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA58C2204C9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 19 Aug 2023 11:31:59 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.01,187,1684767600"; 
-   d="scan'208";a="177044449"
+   d="scan'208";a="173349262"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Aug 2023 03:04:49 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 20 Aug 2023 03:31:59 +0900
 Received: from localhost.localdomain (unknown [10.226.92.22])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B5B21404585F;
-        Sun, 20 Aug 2023 03:04:46 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 73A114050728;
+        Sun, 20 Aug 2023 03:31:57 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Lee Jones <lee@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] gpio: pcf857x: Extend match data support for OF tables
-Date:   Sat, 19 Aug 2023 19:04:43 +0100
-Message-Id: <20230819180443.16718-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] mfd: mc13xxx: Simplify probe()
+Date:   Sat, 19 Aug 2023 19:31:55 +0100
+Message-Id: <20230819183155.22335-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,75 +43,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The driver has OF match table, but still it uses an ID lookup table for
-retrieving match data. Currently, the driver is working on the
-assumption that an I2C device registered via OF will always match a
-legacy I2C device ID. Extend match data support for OF tables by using
-i2c_get_match_data() instead of the ID lookup for both OF/ID matches by
-making similar OF/ID tables.
+Simplify probe() by replacing of_match_device() and ID lookup
+for retrieving match data by i2c_get_match_data().
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 Note:
- This patch is only compile tested.
+ * This patch is only compile tested.
 ---
- drivers/gpio/gpio-pcf857x.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ drivers/mfd/mc13xxx-i2c.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/gpio/gpio-pcf857x.c b/drivers/gpio/gpio-pcf857x.c
-index c4c785548408..53b69abe6787 100644
---- a/drivers/gpio/gpio-pcf857x.c
-+++ b/drivers/gpio/gpio-pcf857x.c
-@@ -36,19 +36,19 @@ static const struct i2c_device_id pcf857x_id[] = {
- MODULE_DEVICE_TABLE(i2c, pcf857x_id);
+diff --git a/drivers/mfd/mc13xxx-i2c.c b/drivers/mfd/mc13xxx-i2c.c
+index de59b498c925..6bc0e755ba34 100644
+--- a/drivers/mfd/mc13xxx-i2c.c
++++ b/drivers/mfd/mc13xxx-i2c.c
+@@ -53,7 +53,6 @@ static const struct regmap_config mc13xxx_regmap_i2c_config = {
  
- static const struct of_device_id pcf857x_of_table[] = {
--	{ .compatible = "nxp,pcf8574" },
--	{ .compatible = "nxp,pcf8574a" },
--	{ .compatible = "nxp,pca8574" },
--	{ .compatible = "nxp,pca9670" },
--	{ .compatible = "nxp,pca9672" },
--	{ .compatible = "nxp,pca9674" },
--	{ .compatible = "nxp,pcf8575" },
--	{ .compatible = "nxp,pca8575" },
--	{ .compatible = "nxp,pca9671" },
--	{ .compatible = "nxp,pca9673" },
--	{ .compatible = "nxp,pca9675" },
--	{ .compatible = "maxim,max7328" },
--	{ .compatible = "maxim,max7329" },
-+	{ .compatible = "nxp,pcf8574", (void *)8 },
-+	{ .compatible = "nxp,pcf8574a", (void *)8 },
-+	{ .compatible = "nxp,pca8574", (void *)8 },
-+	{ .compatible = "nxp,pca9670", (void *)8 },
-+	{ .compatible = "nxp,pca9672", (void *)8 },
-+	{ .compatible = "nxp,pca9674", (void *)8 },
-+	{ .compatible = "nxp,pcf8575", (void *)16 },
-+	{ .compatible = "nxp,pca8575", (void *)16 },
-+	{ .compatible = "nxp,pca9671", (void *)16 },
-+	{ .compatible = "nxp,pca9673", (void *)16 },
-+	{ .compatible = "nxp,pca9675", (void *)16 },
-+	{ .compatible = "maxim,max7328", (void *)8 },
-+	{ .compatible = "maxim,max7329", (void *)8 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, pcf857x_of_table);
-@@ -272,7 +272,6 @@ static const struct irq_chip pcf857x_irq_chip = {
- 
- static int pcf857x_probe(struct i2c_client *client)
+ static int mc13xxx_i2c_probe(struct i2c_client *client)
  {
 -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	struct pcf857x *gpio;
- 	unsigned int n_latch = 0;
- 	int status;
-@@ -296,7 +295,7 @@ static int pcf857x_probe(struct i2c_client *client)
- 	gpio->chip.set_multiple		= pcf857x_set_multiple;
- 	gpio->chip.direction_input	= pcf857x_input;
- 	gpio->chip.direction_output	= pcf857x_output;
--	gpio->chip.ngpio		= id->driver_data;
-+	gpio->chip.ngpio		= (uintptr_t)i2c_get_match_data(client);
+ 	struct mc13xxx *mc13xxx;
+ 	int ret;
  
- 	/* NOTE:  the OnSemi jlc1562b is also largely compatible with
- 	 * these parts, notably for output.  It has a low-resolution
+@@ -73,13 +72,7 @@ static int mc13xxx_i2c_probe(struct i2c_client *client)
+ 		return ret;
+ 	}
+ 
+-	if (client->dev.of_node) {
+-		const struct of_device_id *of_id =
+-			of_match_device(mc13xxx_dt_ids, &client->dev);
+-		mc13xxx->variant = of_id->data;
+-	} else {
+-		mc13xxx->variant = (void *)id->driver_data;
+-	}
++	mc13xxx->variant = i2c_get_match_data(client);
+ 
+ 	return mc13xxx_common_init(&client->dev);
+ }
 -- 
 2.25.1
 
