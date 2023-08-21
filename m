@@ -2,104 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9ABB782B8F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 16:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2919F782D2B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 17:25:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235860AbjHUOV3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Aug 2023 10:21:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
+        id S233083AbjHUPZA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Aug 2023 11:25:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235864AbjHUOV2 (ORCPT
+        with ESMTP id S236263AbjHUPY7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Aug 2023 10:21:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD97EE9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Aug 2023 07:21:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E694F63962
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Aug 2023 14:20:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 143ECC433CA;
-        Mon, 21 Aug 2023 14:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692627635;
-        bh=Mle48rbA9k2jCMtnCXM6m7ZFhN2toGIz5oxzwxYI1/c=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=saJlUtBQV8TdP5sq9YPJlvWpC+V7VC2z41T392M6mvuCZpsYn6+EcIqlkjepUEuOG
-         W0T+BKoDyWJ6q8JRRsrQibXNMji/r4/Pzu4dmR8fZOOP+RRfM9pkyhUyK4ZENcxmT4
-         PpKrO6Km8m+5OxrSuk32+FouKrJJj1dnqrAsrd8mNTS8agbwY4/B9+9HQUcuaCKUF0
-         hdd9914VrbOtlH3ZyYevqpJvXmYT29TNj5NidB9pplutjOdNGUeiAP2XGcU7dR29R4
-         88oW456Y9/uyEqoUG3HQQZpH4w/Fzzrwtgm//nr7BatRLfB3LkepZUimtj8L2qcKWQ
-         c0uWZ/UWtJ3IQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mon, 21 Aug 2023 11:24:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097AAE9;
+        Mon, 21 Aug 2023 08:24:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692631498; x=1724167498;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lPfRKlKghnTIu6lxS3petCK7GMlzNdWzfWp3JYjwCEY=;
+  b=EaxWe9xwwiu6d9zRqQZ9w/kcWe5jjBgBqhkq6b2Vmereslt5MuequP+f
+   AqyL2JD+ltwueKlQcZD1l81I85jeV6R58u00+xklgfZVONS1dP0o8Cvmo
+   owizFFqSlYfyF/hKghrASpM7HFyF7Y8VrQoZbCiQEg2T4RDYfHdxrsMoJ
+   wYt1o+yOBQBQQ2texDudZhdepbfYtNiPFOoVwm4D00yqI1D6ry89/NgG9
+   WuXw7HbP5hNs5bkREEVczmugjb/VqmbPj8ZdMYjBisBX88gbn6NpyAhQq
+   XS/+AiWw/zRZBVekTWQ2aDletlidmcWojdvid5Rk7vQ01sDuZxYrCI5MC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376366726"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="376366726"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 08:24:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="805954485"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="805954485"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2023 08:24:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qY6lw-002Fsl-0A;
+        Mon, 21 Aug 2023 18:24:52 +0300
+Date:   Mon, 21 Aug 2023 18:24:51 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
         linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20230818141815.314197-1-biju.das.jz@bp.renesas.com>
-References: <20230818141815.314197-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 0/3] trivial fixes for raa215300 driver
-Message-Id: <169262763379.266290.6090018235862980506.b4-ty@kernel.org>
-Date:   Mon, 21 Aug 2023 15:20:33 +0100
+Subject: Re: [PATCH 2/4] usb: typec: tcpci_rt1711h: Convert enum->pointer for
+ data in the match tables
+Message-ID: <ZOOBw/3fqdinIwCh@smile.fi.intel.com>
+References: <20230820184402.102486-1-biju.das.jz@bp.renesas.com>
+ <20230820184402.102486-3-biju.das.jz@bp.renesas.com>
+ <ZONgzqlS8bGP0umn@smile.fi.intel.com>
+ <CAMuHMdVY6VNFhMMzub9RrXd1zo=_7brQVtoBtogNuVfhbkg_tA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-034f2
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdVY6VNFhMMzub9RrXd1zo=_7brQVtoBtogNuVfhbkg_tA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 18 Aug 2023 15:18:12 +0100, Biju Das wrote:
-> This patch series aims to add trivial fixes for raa215300 driver.
-> These issues were reported by Pavel while backporting this patch
-> to 6.1.y cip kernel[1].
+On Mon, Aug 21, 2023 at 03:27:43PM +0200, Geert Uytterhoeven wrote:
+> On Mon, Aug 21, 2023 at 3:04 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Sun, Aug 20, 2023 at 07:44:00PM +0100, Biju Das wrote:
+
+...
+
+> > For all your work likes this as I noted in the reply to Guenter that
+> > the couple of the selling points here are:
+> > 1) avoidance of the pointer abuse in OF table
+> >    (we need that to be a valid pointer);
 > 
-> [1] https://lore.kernel.org/all/ZN3%2FSjL50ls+3dnD@duo.ucw.cz/
-> 
-> v1->v2:
->  * Split Kconfig and add missing space for comment block as separate
->    patch.
-> 
-> [...]
+> There is no pointer abuse: both const void * (in e.g. of_device_id)
+> and kernel_ulong_t (in e.g. i2c_device_id) can be used by drivers
+> to store a magic cookie, being either a pointer, or an integer value.
+> The same is true for the various unsigned long and void * "driver_data"
+> fields in subsystem-specific driver structures.
 
-Applied to
+(void *)5 is the abuse of the pointer.
+We carry something which is not a valid pointer from kernel perspective.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
-
-[1/3] regulator: raa215300: Change rate from 32000->32768
-      commit: 5c1212a67e5838aca49707ef96be71612a72ab43
-[2/3] regulator: raa215300: Add missing blank space
-      commit: 6673fc98953231f5d85f780d3025ea95c7584683
-[3/3] regulator: raa215300: Update help description
-      commit: 8845252f6690e4fceca67f2bb7ee2920939d3ac5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
