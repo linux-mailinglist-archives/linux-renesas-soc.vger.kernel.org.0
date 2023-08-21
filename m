@@ -2,71 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2376B78257D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6B07825A4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234004AbjHUIdF convert rfc822-to-8bit (ORCPT
+        id S234053AbjHUIiy convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Aug 2023 04:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60944 "EHLO
+        Mon, 21 Aug 2023 04:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234003AbjHUIdE (ORCPT
+        with ESMTP id S234074AbjHUIix (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Aug 2023 04:33:04 -0400
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDAFB5;
-        Mon, 21 Aug 2023 01:33:02 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-79a46f02d45so815862241.0;
-        Mon, 21 Aug 2023 01:33:02 -0700 (PDT)
+        Mon, 21 Aug 2023 04:38:53 -0400
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D0213E;
+        Mon, 21 Aug 2023 01:38:16 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-58c4f6115bdso32543877b3.1;
+        Mon, 21 Aug 2023 01:38:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692606782; x=1693211582;
+        d=1e100.net; s=20221208; t=1692607082; x=1693211882;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W8DR2b7Nt+1F2KZPVYK0O6RgtMx3Ou+9WJvksXud4JY=;
-        b=I8WlgyvShn2pKbHytu6kQM///R+wegFvbhDYqNtpNPEKxgUEqxKuhp7qADeDSp/A5G
-         3QycxAhCNDp59afFHFpcbfaBfUhZx4gcxCpf0Hxb1YheUpVbU2dOtRRg+fGdAI2wiuAY
-         FTHM2+FBns+6J6t6WTwYH4J6lzh1uRkoBoRnKrebRUDRVfrm5jCPxu7z169NTF5av5JL
-         PO0m9ORBg3C+jjnK4d4/LvzSaihcALsv0z0dxXWgk2TsTxW7aaCV+9AGoEHF0A/uqlFt
-         raLaqX/fqFe43kYCb6XOnN3W17YeX9W/XGjVUjbAYANkKD3oz61guHHvLh2BxnBEiGz9
-         QXjA==
-X-Gm-Message-State: AOJu0YxkDm/nBVz+qCDD02FENJ/y21sDub/iI+/l6WYGBtKQrtbr6GuF
-        vwE76RhhC3OEn7ze2VvMpUZUIh3pjaRysQ==
-X-Google-Smtp-Source: AGHT+IGY34agOk/LIlvB11/AHsKM+WXO4A/fX0bfCXw9jAsG52Z39n+UvKNcPuroYTvKLEl8p5+ldA==
-X-Received: by 2002:a67:fb4f:0:b0:443:70ec:d28b with SMTP id e15-20020a67fb4f000000b0044370ecd28bmr4913416vsr.19.1692606781725;
-        Mon, 21 Aug 2023 01:33:01 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id h185-20020a0dc5c2000000b0058427045833sm2156001ywd.133.2023.08.21.01.33.01
+        bh=gPbgadW8+o8+G25GJyu/HQLA9QoKbFEZVcUvDmSKk8k=;
+        b=cphL1Vv8y+EKoIdn0IPVh+dozzFrJBZW2G4sgyJ26I+Am2MoJTUT7LwfFRFHABc+Tf
+         KkNAXsBsaUbrZijr/D6TGBXouP2fJQKpnebZdmaNedrS/TZ9wJwEqpMonYoprKllcCzE
+         wkUiZP1uX0zj/5dnIXcXWaYZPnrGuxM2GeT6PR2qXMyBxtBnoF9wgbyUl6hTWzEAl4z3
+         Uq+y9BhmpOLRoPTQfvoUOyfRi8vRnh/TXltHwr68UU/QOKiJY3TWpjbmQ7FJpc9IjcrB
+         krg2zimn1LvQRJQkixYirNk1fmyZfRWsIYsLZIzofDA5VBqMR1pe+RD2DvouO0DOnpbt
+         zp9Q==
+X-Gm-Message-State: AOJu0Yw0gI6dkO1n0WTgWP4I1loMAJT4MflroWaXCvYeAJUuZA1vxkW3
+        At4hcItkxbCLQqQugz7/Fl8v7kNFbDl7Fg==
+X-Google-Smtp-Source: AGHT+IE2gCXmcx8G5n5OwUlQMVEzjgX6uCx8ZClxLXNlDQYT4cMn0S1EWPhFf1naSDgkA9UZVqZEqw==
+X-Received: by 2002:a81:a507:0:b0:583:d8d4:7dfe with SMTP id u7-20020a81a507000000b00583d8d47dfemr6450704ywg.31.1692607082617;
+        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id p4-20020a0dff04000000b0058bcea54fc2sm2125286ywf.57.2023.08.21.01.38.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 01:33:01 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d749f57cb22so1113588276.3;
-        Mon, 21 Aug 2023 01:33:01 -0700 (PDT)
-X-Received: by 2002:a25:bc8a:0:b0:d1c:77de:cf7a with SMTP id
- e10-20020a25bc8a000000b00d1c77decf7amr6760391ybk.64.1692606780809; Mon, 21
- Aug 2023 01:33:00 -0700 (PDT)
+        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-c5ffb6cda23so3087219276.0;
+        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
+X-Received: by 2002:a25:cfcc:0:b0:bd0:8e5:d548 with SMTP id
+ f195-20020a25cfcc000000b00bd008e5d548mr6545014ybg.39.1692607082320; Mon, 21
+ Aug 2023 01:38:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230817090810.203900-1-biju.das.jz@bp.renesas.com>
- <20230817090810.203900-2-biju.das.jz@bp.renesas.com> <CAMuHMdUoOu2sGeWO0tQ89iU6rT=kWtpJ0qfhYvxnhQAfPwA7dg@mail.gmail.com>
- <OS0PR01MB5922A41D6D8A3164EECE7C05861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922A41D6D8A3164EECE7C05861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230820171145.82662-1-biju.das.jz@bp.renesas.com>
+ <20230820171145.82662-3-biju.das.jz@bp.renesas.com> <CAMuHMdX_5XtmUt_LBCHbbjS+Ds5j7KrPTtOLVYrHTw4Hipsu9A@mail.gmail.com>
+ <OS0PR01MB5922A59E515D4355366294CD861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922A59E515D4355366294CD861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Aug 2023 10:32:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV_WMdwj5dXGHi48F9wQY9WVyuA-L9zbnshP4SCvvAAiA@mail.gmail.com>
-Message-ID: <CAMuHMdV_WMdwj5dXGHi48F9wQY9WVyuA-L9zbnshP4SCvvAAiA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: clock: versaclock3: Document clock-output-names
+Date:   Mon, 21 Aug 2023 10:37:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXJV+fJHWWCm8w19ryErKhHcpKbWvtoOjCn4p1NUse1sQ@mail.gmail.com>
+Message-ID: <CAMuHMdXJV+fJHWWCm8w19ryErKhHcpKbWvtoOjCn4p1NUse1sQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 RESEND] power: supply: sbs-battery: Convert
+ enum->pointer for data in the match tables
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Sebastian Reichel <sre@kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -81,73 +77,48 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Mon, Aug 21, 2023 at 10:11 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v2 1/3] dt-bindings: clock: versaclock3: Document
-> > clock-output-names
-> > On Thu, Aug 17, 2023 at 11:08 AM Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, Aug 21, 2023 at 10:21 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > On Sun, Aug 20, 2023 at 7:12 PM Biju Das <biju.das.jz@bp.renesas.com>
 > > wrote:
-> > > Document clock-output-names property and fix the "assigned-clock-rates"
-> > > for each clock output in the example based on Table 3. ("Output
-> > > Source") in the 5P35023 datasheet(ie: {REF,SE1,SE2,SE3,DIFF1,DIFF2}).
+> > > Convert enum->pointer for data in the match tables, so that
+> > > device_get_match_data() can do match against OF/ACPI/I2C tables, once
+> > > i2c bus type match support added to it and it returns NULL for non-match.
 > > >
-> > > While at it, replace clocks phandle in the example from x1_x2->x1 as
-> > > X2 is a different 32768 kHz crystal.
+> > > Therefore it is better to convert enum->pointer for data match and
+> > > extend match support for both ID and OF tables using
+> > > i2c_get_match_data() by adding struct sbs_data with flags variable and
+> > > replacing flags->data in struct sbs_info.
 > > >
-> > > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Closes:
-> > > Fixes: a03d23f860eb ("dt-bindings: clock: Add Renesas versa3 clock
-> > > generator bindings")
 > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v1->v2:
-> > >  * Updated commit description to make it clear it fixes
-> > >    "assigned-clock-rates" in the example based on 5P35023 datasheet.
 > >
-> > Thanks for your patch!
-> > > ---
-> > >  .../devicetree/bindings/clock/renesas,5p35023.yaml | 14
-> > > ++++++++++----
-> > >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > > --- a/drivers/power/supply/sbs-battery.c
+> > > +++ b/drivers/power/supply/sbs-battery.c
+> > > @@ -201,6 +201,10 @@ static const enum power_supply_property
+> > > string_properties[] = {
 > > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> > > b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> > > index 839648e753d4..db8d01b291dd 100644
-> > > --- a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> > > @@ -49,6 +49,9 @@ properties:
-> > >      $ref: /schemas/types.yaml#/definitions/uint8-array
-> > >      maxItems: 37
+> > >  #define NR_STRING_BUFFERS      ARRAY_SIZE(string_properties)
 > > >
-> > > +  clock-output-names:
-> > > +    maxItems: 6
-> > > +
+> > > +struct sbs_data {
+> > > +       u32 flags;
+> > > +};
 > >
-> > Why do you need clock-output-names?
+> > Unless you plan to add more members to struct sbs_data, I see no point in
+> > this patch: it only increases kernel size.
+> >
+> > The various "data" members in <foo>_id structures are intended to contain
+> > either a pointer or a single integral value.
 >
-> I thought it will be useful information for a user, by looking at the example the name of clock-output-name and corresponding assigned-clocks and assigned-clock-rates.
+> The match data value for sbs_battery is 0. Here the API returns
+> NULL for a non-match. That is the reason it is converted to pointer.
 >
-> See below, from this one can understand the relation between index and actual clock output.
->
->   clock-output-names = "ref", "se1", "se2", "se3",
->                        "diff1", "diff2";
->
->   assigned-clocks = <&versa3 0>, <&versa3 1>,
->                     <&versa3 2>, <&versa3 3>,
->                     <&versa3 4>, <&versa3 5>;
->   assigned-clock-rates = <24000000>, <11289600>,
->                          <11289600>, <12000000>,
->                          <25000000>, <12288000>;
->
-> > The clock output names should be created by the driver (taking into account
-> > the instance number, so it works with multiple instances).
->
-> OK, so shall I remove it from bindings then?
+> So, we cannot differentiate actual matched data and error in this case.
 
-I think so, as it is not needed.
+If the driver's .probe() method is called, there must have been a
+valid match, so i2c_get_match_data() will never return NULL due to
+a non-match.
 
-What is still missing (contrary to the Closes tag) is the mapping from
-clock IDs to actual clock outputs.
+BTW, the driver does not check for a NULL return value from
+*_get_match_data() anyway (and there is no reason to change this!).
 
 Gr{oetje,eeting}s,
 
