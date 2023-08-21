@@ -2,67 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A79782502
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D66BC782512
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233886AbjHUIAQ convert rfc822-to-8bit (ORCPT
+        id S232820AbjHUIJK convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Aug 2023 04:00:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57326 "EHLO
+        Mon, 21 Aug 2023 04:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233883AbjHUIAP (ORCPT
+        with ESMTP id S231805AbjHUIJJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Aug 2023 04:00:15 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304E2B9;
-        Mon, 21 Aug 2023 01:00:14 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59205f26e47so10447137b3.2;
-        Mon, 21 Aug 2023 01:00:14 -0700 (PDT)
+        Mon, 21 Aug 2023 04:09:09 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E483FB5;
+        Mon, 21 Aug 2023 01:09:06 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-584034c706dso32524217b3.1;
+        Mon, 21 Aug 2023 01:09:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692604813; x=1693209613;
+        d=1e100.net; s=20221208; t=1692605346; x=1693210146;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Sr/u3uxtJtyWxrKenjm5U40+oHCcTags7xKF93pMO4=;
-        b=exgzZmlMd8X+bSIrBn/Js2rQZQ9CZchNruWkVFriYstqhIAMeUkKiW9Luruc6a6k8Q
-         uo91POhrLGe+sfxsrkLwg9ogyu7F23x8GbBlPgWb9xo+BIfHMyZQLYJ4F4v9o9Z67ELu
-         90Q240JzEi6NtK0zZiWexIm26qzAUi1y67CgeVzlBag+qpKU+ncZaLs+jGkTi8jHqSTF
-         xlhYCXJi6nkLQkIMhhTzgtJLxUQPLZoirtzw2jEkCxPcWTuw7vP4ooLwkrAbnsYPmrBV
-         eplrezUau5r8J/s3dxyzCQSH6Oqo1dvuSaL4mYHYeRYhK34RUZUHXJ6xisiZhI6IF0kZ
-         SLYw==
-X-Gm-Message-State: AOJu0YxVv+cLejifiSDzyRmsf0Jmjf5KW+Oi/jf9AHoSj9Mbgb/DyCdZ
-        PQEq+ARZn7jpD59sdea2/+Es+Qc4e+Wx4w==
-X-Google-Smtp-Source: AGHT+IHTlImsG3R9ohqB3sDVNEknUMweUP/PfLnKSi5zkYLLnPJf8CDE8tWuUDFgUfr0fsV3sqp0zg==
-X-Received: by 2002:a81:6243:0:b0:589:d942:5e8d with SMTP id w64-20020a816243000000b00589d9425e8dmr6683308ywb.9.1692604813038;
-        Mon, 21 Aug 2023 01:00:13 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id m14-20020a819c0e000000b005773babc3cdsm2084705ywa.83.2023.08.21.01.00.12
+        bh=48fQdqBaIQQrhkgOCi05tF2mCNTs8D0cqP0HbZhiW4Y=;
+        b=E0Ns4L19INeBIDXMBivLsWqqQijmYzdBYm9F3yx+zcfqH0eGn7jslqYmake0m44SCW
+         ESFpyK+gx5lqLR1AtdZDv5emtAP6pl+TEjdLR1CWWj5h96Z5k3Ohg/KYganjpDz001VJ
+         HGRV1ZQEhVqQeIxWG3sjnWCr6N8IWOPhOib+FWx9eaK1IqHjmzwBweqHxZ7CfUwd3BY5
+         pvD5QIUChCBhDDWFvHfo8PqOg2gAIMzZKeeVAvgXAQuGeZOWsTJyjzMzJBMNc0bxfk8l
+         /YbD5UIrMCE6pmnbqO28+E7015jTLgJehDME/sKYXA+hbqmr3naEks7TSAEvuobF8h8B
+         l46A==
+X-Gm-Message-State: AOJu0YznBn7DQFKy6BXbMNrfu/fuHxXUOn/Yh4bAfbSYdxEnpoYbjl2s
+        Un0XAMw3w2VYnDDONVsT9Za8GvtiJxhnVg==
+X-Google-Smtp-Source: AGHT+IGJYuXD+adO3SECMh6A69WiJPI5wheyrxyau9pS3gKiPNCAMniZjBI3KCQt99zJnMvVOui98A==
+X-Received: by 2002:a0d:d3c6:0:b0:577:4005:d885 with SMTP id v189-20020a0dd3c6000000b005774005d885mr5312453ywd.15.1692605345564;
+        Mon, 21 Aug 2023 01:09:05 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id w6-20020a814906000000b005773afca47bsm2133708ywa.27.2023.08.21.01.09.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 01:00:12 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d7225259f52so3130522276.0;
-        Mon, 21 Aug 2023 01:00:12 -0700 (PDT)
-X-Received: by 2002:a25:3491:0:b0:d73:ea25:f17b with SMTP id
- b139-20020a253491000000b00d73ea25f17bmr5569168yba.1.1692604812147; Mon, 21
- Aug 2023 01:00:12 -0700 (PDT)
+        Mon, 21 Aug 2023 01:09:05 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d7260fae148so3130251276.1;
+        Mon, 21 Aug 2023 01:09:05 -0700 (PDT)
+X-Received: by 2002:a05:6902:4c1:b0:d4b:cb62:9493 with SMTP id
+ v1-20020a05690204c100b00d4bcb629493mr5227606ybs.12.1692605344892; Mon, 21 Aug
+ 2023 01:09:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230817090810.203900-1-biju.das.jz@bp.renesas.com> <20230817090810.203900-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230817090810.203900-2-biju.das.jz@bp.renesas.com>
+References: <20230820171145.82662-1-biju.das.jz@bp.renesas.com> <20230820171145.82662-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230820171145.82662-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Aug 2023 10:00:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUoOu2sGeWO0tQ89iU6rT=kWtpJ0qfhYvxnhQAfPwA7dg@mail.gmail.com>
-Message-ID: <CAMuHMdUoOu2sGeWO0tQ89iU6rT=kWtpJ0qfhYvxnhQAfPwA7dg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: clock: versaclock3: Document clock-output-names
+Date:   Mon, 21 Aug 2023 10:08:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX_5XtmUt_LBCHbbjS+Ds5j7KrPTtOLVYrHTw4Hipsu9A@mail.gmail.com>
+Message-ID: <CAMuHMdX_5XtmUt_LBCHbbjS+Ds5j7KrPTtOLVYrHTw4Hipsu9A@mail.gmail.com>
+Subject: Re: [PATCH 2/2 RESEND] power: supply: sbs-battery: Convert
+ enum->pointer for data in the match tables
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -77,43 +73,35 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Thu, Aug 17, 2023 at 11:08 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document clock-output-names property and fix the "assigned-clock-rates"
-> for each clock output in the example based on Table 3. ("Output Source")
-> in the 5P35023 datasheet(ie: {REF,SE1,SE2,SE3,DIFF1,DIFF2}).
+On Sun, Aug 20, 2023 at 7:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it and it returns NULL for non-match.
 >
-> While at it, replace clocks phandle in the example from x1_x2->x1 as
-> X2 is a different 32768 kHz crystal.
+> Therefore it is better to convert enum->pointer for data match and extend
+> match support for both ID and OF tables using i2c_get_match_data() by
+> adding struct sbs_data with flags variable and replacing flags->data in
+> struct sbs_info.
 >
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Closes: https://lore.kernel.org/all/CAMuHMdUHD+bEco=WYTYWsTAyRt3dTQQt4Xpaejss0Y2ZpLCMNg@mail.gmail.com/
-> Fixes: a03d23f860eb ("dt-bindings: clock: Add Renesas versa3 clock generator bindings")
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Updated commit description to make it clear it fixes
->    "assigned-clock-rates" in the example based on 5P35023 datasheet.
 
 Thanks for your patch!
-> ---
->  .../devicetree/bindings/clock/renesas,5p35023.yaml | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> index 839648e753d4..db8d01b291dd 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> +++ b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-> @@ -49,6 +49,9 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/uint8-array
->      maxItems: 37
->
-> +  clock-output-names:
-> +    maxItems: 6
-> +
 
-Why do you need clock-output-names?
-The clock output names should be created by the driver (taking into
-account the instance number, so it works with multiple instances).
+> --- a/drivers/power/supply/sbs-battery.c
+> +++ b/drivers/power/supply/sbs-battery.c
+> @@ -201,6 +201,10 @@ static const enum power_supply_property string_properties[] = {
+>
+>  #define NR_STRING_BUFFERS      ARRAY_SIZE(string_properties)
+>
+> +struct sbs_data {
+> +       u32 flags;
+> +};
+
+Unless you plan to add more members to struct sbs_data, I see no point
+in this patch: it only increases kernel size.
+
+The various "data" members in <foo>_id structures are intended to
+contain either a pointer or a single integral value.
 
 Gr{oetje,eeting}s,
 
