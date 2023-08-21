@@ -2,107 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78CC1782870
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 14:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FDE9782888
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 14:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234127AbjHUMBM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Aug 2023 08:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S229938AbjHUMGO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Aug 2023 08:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232800AbjHUMBM (ORCPT
+        with ESMTP id S231537AbjHUMGN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Aug 2023 08:01:12 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D416DE9;
-        Mon, 21 Aug 2023 05:01:08 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59231a1ca9eso4289017b3.1;
-        Mon, 21 Aug 2023 05:01:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692619268; x=1693224068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oUUJ2/PRflFLbJIM097SQqKNn2Udb4Em6AFpSfljQKM=;
-        b=Xs1I1Bv4hIsYOvhC1G3PNzQydshwLaND1SvecruEHscDwxgEH3bTDAf13f3NLSTC4S
-         pUkWpocnIPhbrCA4YMR+/5+etP1AeVy43lelOaC3jR+IaDc+Zu53xK3orS90At5oCJwF
-         NTC5Ss3SGpj6llggflZUC4KvpDOSs5Oc0gDkMj1SdXN69Vt5B3mXIvqdWUOFSHiVJ4cB
-         NRC1dvyf3BOfIvPKTHMt1GUEbEQf7pAiPTLO0Y9klkkU4UW4PKW+CIStM4GrfeIlntEk
-         RiqlNLEXLXZ19Zy9R4DbKDCppXRDitfhUrvXJfMS6gabZiTSVUySUrp1s6NQHk/sD/Vu
-         t6hA==
-X-Gm-Message-State: AOJu0YwL6lfeafBcUE9wVF6lQiCY/BYEt+BdKn+zb14pNSLt4sIoU0x6
-        dweCUOUHaNs7l0CE2bpRu8TE4T+dnt8y8A==
-X-Google-Smtp-Source: AGHT+IGmDSzPhFYwMdcIrHFIzxQtJC76YO8IEpS2URkdLJE9bBDTmIfVHkmsg+iK0EDMfwrhU5i7QQ==
-X-Received: by 2002:a05:690c:3409:b0:58a:4b31:cbaf with SMTP id fn9-20020a05690c340900b0058a4b31cbafmr5495027ywb.35.1692619267911;
-        Mon, 21 Aug 2023 05:01:07 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id b67-20020a0dd946000000b005773b750d95sm2172330ywe.28.2023.08.21.05.01.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 05:01:07 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d7484cfdc11so1581536276.1;
-        Mon, 21 Aug 2023 05:01:07 -0700 (PDT)
-X-Received: by 2002:a25:ca54:0:b0:d13:e334:241b with SMTP id
- a81-20020a25ca54000000b00d13e334241bmr6529985ybg.21.1692619267052; Mon, 21
- Aug 2023 05:01:07 -0700 (PDT)
+        Mon, 21 Aug 2023 08:06:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A83EEBC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Aug 2023 05:06:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 361116326B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Aug 2023 12:06:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4870BC433C7;
+        Mon, 21 Aug 2023 12:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692619571;
+        bh=/405IyGtz9uQHDcRiIjBLZ1n/TpnUBYmu+d63qAE0Do=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=jGcedVNzU9GUzoHNk8mLgLFUHnWjAzMHY2M82p8bQnOWub0VcHpaaHzTIkBChemKV
+         /eVCuEh6vcyT5AOamOXVLsfD3q6Tl1JBKri4lWvd8o9O2sL9c9x+ksx9DAU3SgtOex
+         LeV4XEgOYdtaQayx61vMQUKqhsb2IY+BdeyR8qte1bhIQUbCIol+Awff8J0osPLdqp
+         MFGId2VknUfrIlTK2LklfUxav4ADo3LwAbXBeSMxvXjADbmpSktDvBToyFfxDZdsZk
+         asCZx/yUSARUUHG3SNkNBsLgMfPHfvBCXoXZFZt8QzezJMuJciCYsFDfFqsp0UgCo3
+         EiqoPeNUmeWIQ==
+From:   Lee Jones <lee@kernel.org>
+To:     Lee Jones <lee@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20230819183155.22335-1-biju.das.jz@bp.renesas.com>
+References: <20230819183155.22335-1-biju.das.jz@bp.renesas.com>
+Subject: Re: (subset) [PATCH] mfd: mc13xxx: Simplify probe()
+Message-Id: <169261957000.1563783.13916739565680727085.b4-ty@kernel.org>
+Date:   Mon, 21 Aug 2023 13:06:10 +0100
 MIME-Version: 1.0
-References: <20230819010928.916438-1-robh@kernel.org> <CACRpkda94qc1Mc_yz+c2rYFdyhXsX-XRFTntv1fiw=HrpDqAOg@mail.gmail.com>
-In-Reply-To: <CACRpkda94qc1Mc_yz+c2rYFdyhXsX-XRFTntv1fiw=HrpDqAOg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Aug 2023 14:00:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVUJ0U0ftjr+s=2p8gYwwEtxaKe7vGpm7CxCiGPq92y4g@mail.gmail.com>
-Message-ID: <CAMuHMdVUJ0U0ftjr+s=2p8gYwwEtxaKe7vGpm7CxCiGPq92y4g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2: Use
- 'additionalProperties' for child nodes
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+On Sat, 19 Aug 2023 19:31:55 +0100, Biju Das wrote:
+> Simplify probe() by replacing of_match_device() and ID lookup
+> for retrieving match data by i2c_get_match_data().
+> 
+> 
 
-On Mon, Aug 21, 2023 at 12:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Sat, Aug 19, 2023 at 3:09 AM Rob Herring <robh@kernel.org> wrote:
-> > A schema under 'additionalProperties' works better for matching any
-> > property/node other than the ones explicitly listed. Convert the schema
-> > to use that rather than the wildcard and if/then schema.
-> >
-> > Drop 'phandle' properties which never need to be explicitly listed while
-> > we're here.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
+Applied, thanks!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[1/1] mfd: mc13xxx: Simplify probe()
+      commit: 2c1375064ea6e62d529e9d545292537a0b21dbdf
 
-> Looks good to me, but Geert usually handles Renesas stuff so not
-> applying unless I get asked explicitly to do so.
+--
+Lee Jones [李琼斯]
 
-Unless some new bugs show up (hold wood etc.), I do not plan to
-send more pin control PRs for v6.5 or v6.6, so please take it.
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
