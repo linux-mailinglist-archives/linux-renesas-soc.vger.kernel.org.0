@@ -2,131 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C6B07825A4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 227F87825C2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Aug 2023 10:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234053AbjHUIiy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Aug 2023 04:38:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48370 "EHLO
+        id S232888AbjHUIqw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Aug 2023 04:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234074AbjHUIix (ORCPT
+        with ESMTP id S230241AbjHUIqw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Aug 2023 04:38:53 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D0213E;
-        Mon, 21 Aug 2023 01:38:16 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-58c4f6115bdso32543877b3.1;
-        Mon, 21 Aug 2023 01:38:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692607082; x=1693211882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gPbgadW8+o8+G25GJyu/HQLA9QoKbFEZVcUvDmSKk8k=;
-        b=cphL1Vv8y+EKoIdn0IPVh+dozzFrJBZW2G4sgyJ26I+Am2MoJTUT7LwfFRFHABc+Tf
-         KkNAXsBsaUbrZijr/D6TGBXouP2fJQKpnebZdmaNedrS/TZ9wJwEqpMonYoprKllcCzE
-         wkUiZP1uX0zj/5dnIXcXWaYZPnrGuxM2GeT6PR2qXMyBxtBnoF9wgbyUl6hTWzEAl4z3
-         Uq+y9BhmpOLRoPTQfvoUOyfRi8vRnh/TXltHwr68UU/QOKiJY3TWpjbmQ7FJpc9IjcrB
-         krg2zimn1LvQRJQkixYirNk1fmyZfRWsIYsLZIzofDA5VBqMR1pe+RD2DvouO0DOnpbt
-         zp9Q==
-X-Gm-Message-State: AOJu0Yw0gI6dkO1n0WTgWP4I1loMAJT4MflroWaXCvYeAJUuZA1vxkW3
-        At4hcItkxbCLQqQugz7/Fl8v7kNFbDl7Fg==
-X-Google-Smtp-Source: AGHT+IE2gCXmcx8G5n5OwUlQMVEzjgX6uCx8ZClxLXNlDQYT4cMn0S1EWPhFf1naSDgkA9UZVqZEqw==
-X-Received: by 2002:a81:a507:0:b0:583:d8d4:7dfe with SMTP id u7-20020a81a507000000b00583d8d47dfemr6450704ywg.31.1692607082617;
-        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id p4-20020a0dff04000000b0058bcea54fc2sm2125286ywf.57.2023.08.21.01.38.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-c5ffb6cda23so3087219276.0;
-        Mon, 21 Aug 2023 01:38:02 -0700 (PDT)
-X-Received: by 2002:a25:cfcc:0:b0:bd0:8e5:d548 with SMTP id
- f195-20020a25cfcc000000b00bd008e5d548mr6545014ybg.39.1692607082320; Mon, 21
- Aug 2023 01:38:02 -0700 (PDT)
+        Mon, 21 Aug 2023 04:46:52 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFAEA9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Aug 2023 01:46:49 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:3d9f:fab8:e0f9:31b])
+        by albert.telenet-ops.be with bizsmtp
+        id c8mm2A00y1n35Pz068mmvz; Mon, 21 Aug 2023 10:46:46 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qY0YX-001JRs-To;
+        Mon, 21 Aug 2023 10:46:46 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qY0Yg-00CvwC-Fi;
+        Mon, 21 Aug 2023 10:46:46 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.5-rc4
+Date:   Mon, 21 Aug 2023 10:46:45 +0200
+Message-Id: <cec37fd0fe2283ebf9fb93dc347e1f667083fbd4.1692607551.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230820171145.82662-1-biju.das.jz@bp.renesas.com>
- <20230820171145.82662-3-biju.das.jz@bp.renesas.com> <CAMuHMdX_5XtmUt_LBCHbbjS+Ds5j7KrPTtOLVYrHTw4Hipsu9A@mail.gmail.com>
- <OS0PR01MB5922A59E515D4355366294CD861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922A59E515D4355366294CD861EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Aug 2023 10:37:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXJV+fJHWWCm8w19ryErKhHcpKbWvtoOjCn4p1NUse1sQ@mail.gmail.com>
-Message-ID: <CAMuHMdXJV+fJHWWCm8w19ryErKhHcpKbWvtoOjCn4p1NUse1sQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2 RESEND] power: supply: sbs-battery: Convert
- enum->pointer for data in the match tables
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Sebastian Reichel <sre@kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Refresh the defconfig for Renesas ARM64 systems:
+  - Replace CONFIG_AUTOFS4_FS=y by CONFIG_AUTOFS_FS=y (cfr. commit
+    1f2190d6b7112d22 ("arch/*/configs/*defconfig: Replace AUTOFS4_FS by
+    AUTOFS_FS")).
 
-On Mon, Aug 21, 2023 at 10:21 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > On Sun, Aug 20, 2023 at 7:12 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > Convert enum->pointer for data in the match tables, so that
-> > > device_get_match_data() can do match against OF/ACPI/I2C tables, once
-> > > i2c bus type match support added to it and it returns NULL for non-match.
-> > >
-> > > Therefore it is better to convert enum->pointer for data match and
-> > > extend match support for both ID and OF tables using
-> > > i2c_get_match_data() by adding struct sbs_data with flags variable and
-> > > replacing flags->data in struct sbs_info.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > > --- a/drivers/power/supply/sbs-battery.c
-> > > +++ b/drivers/power/supply/sbs-battery.c
-> > > @@ -201,6 +201,10 @@ static const enum power_supply_property
-> > > string_properties[] = {
-> > >
-> > >  #define NR_STRING_BUFFERS      ARRAY_SIZE(string_properties)
-> > >
-> > > +struct sbs_data {
-> > > +       u32 flags;
-> > > +};
-> >
-> > Unless you plan to add more members to struct sbs_data, I see no point in
-> > this patch: it only increases kernel size.
-> >
-> > The various "data" members in <foo>_id structures are intended to contain
-> > either a pointer or a single integral value.
->
-> The match data value for sbs_battery is 0. Here the API returns
-> NULL for a non-match. That is the reason it is converted to pointer.
->
-> So, we cannot differentiate actual matched data and error in this case.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Not intended for upstream merge.
+To be applied to the topic/renesas-defconfig branch.
+---
+ arch/arm64/configs/renesas_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If the driver's .probe() method is called, there must have been a
-valid match, so i2c_get_match_data() will never return NULL due to
-a non-match.
-
-BTW, the driver does not check for a NULL return value from
-*_get_match_data() anyway (and there is no reason to change this!).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index cb145a0cbe2212cb..299a38437083b694 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -405,7 +405,7 @@ CONFIG_EXT4_FS=y
+ CONFIG_EXT4_FS_POSIX_ACL=y
+ CONFIG_FANOTIFY=y
+ CONFIG_QUOTA=y
+-CONFIG_AUTOFS4_FS=y
++CONFIG_AUTOFS_FS=y
+ CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
+ CONFIG_HUGETLBFS=y
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
