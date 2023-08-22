@@ -2,150 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A56D3784CE3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 00:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A015784D81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 01:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231416AbjHVWiw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Aug 2023 18:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43862 "EHLO
+        id S231788AbjHVXxP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Aug 2023 19:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbjHVWiw (ORCPT
+        with ESMTP id S229635AbjHVXxP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Aug 2023 18:38:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DECCDD;
-        Tue, 22 Aug 2023 15:38:50 -0700 (PDT)
+        Tue, 22 Aug 2023 19:53:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D95E45;
+        Tue, 22 Aug 2023 16:53:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 442E563D4B;
-        Tue, 22 Aug 2023 22:38:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3BACC433B6;
-        Tue, 22 Aug 2023 22:38:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 46C17611F8;
+        Tue, 22 Aug 2023 23:53:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2C5C433C8;
+        Tue, 22 Aug 2023 23:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692743929;
-        bh=U15eYY76gsnD/RHRrRp2WW4I4OCWvlLasJey1YPS3bA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Jn4NXR0lfbWYS5Bph9NDsU+CUS6oKPixIBuJYm6y13c3Oey4zsZFxl5LEbilQxJik
-         FeYi4hk81hW93Pito7BlDOIWLAaYnB0RhnPhbkxJtYjIwxdi5/i0pNyJyNN/nCccuI
-         fmY+ssuFxpfa7I30gkLK8YDwU53i5SgxztwwtwOd89uEzAB/wmwwNcI4B7etE38nUX
-         1KT94QzqmI87253Kc52MD6Y8fou1jBGiX1pJkpWJMnTdedMpWf+KZdUDC39Y5QFc9X
-         pamJJqabcmOvoF7HZyud2tyJQOPli0tj7WP4SaXb0FkLx82tm9eotCxnMBwonE7SUu
-         gzqa24AIGrPmA==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2bcb89b4767so43872971fa.3;
-        Tue, 22 Aug 2023 15:38:49 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyZus2vU2dDMD/W5mtDf7ItNOiHAf94VYBt93eGRNIVi07Bba4y
-        YLO+AhO3AfymF9WV/yf61eGt2ld82IGHHHEKPA==
-X-Google-Smtp-Source: AGHT+IF0JLsyZnXZQBcgCFuF2kEmLMhxys3SoS78ueuZDPswTtorzz1H8NCRQqi/aO+jact/25/WQ07MKCBccdqUsKI=
-X-Received: by 2002:a2e:9919:0:b0:2bb:8d96:6041 with SMTP id
- v25-20020a2e9919000000b002bb8d966041mr7975933lji.45.1692743927592; Tue, 22
- Aug 2023 15:38:47 -0700 (PDT)
+        s=k20201202; t=1692748392;
+        bh=VXjLfDLXW29nf4QA7vjtO9n14lKR802Jjb1/pOw8LS8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=ZMUdKUlIB01ybTpfQ43R5KrVs+KwmwlOulDOiY5DMyAt9tCMQy3k4j8pbfBaX1MTI
+         EmV87hiZ9avfH886O3NPSMfWd/NNNPfNmo9PlrOuEuXpM/Kk1cz9/7b8r1trHcs+xc
+         lHw8auCGCJm9UMyYcm6ywYy1X+otbm9lBostcA3kh8s0nme7a+lACjHeAUHrC5keek
+         c/ccfWMNYq21I2mdqTO+UN6xG108ZmjOxWV1kZDuhdfHLsW9nfDz/tCkHPUX4Gv90O
+         rSlwZXZtV5NRTnR7yjnGkOTSwNgNwFniJ6Oplz18lKUAz+95mMfBATsPDP14x+3b2O
+         eXdSMyFJiR61A==
+Message-ID: <19fde7851bb06b7103e6221ca9b97f86.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230714175008.4064592-1-robh@kernel.org> <CAJZ5v0i-OByOSjpxrj5d9S9QHRySK-MEUo+bK_J_4ihsCBmnSg@mail.gmail.com>
- <CAL_JsqLy22S5bTFu-ZKXhSMtMPPq9z1Gdb5kJMVmhui55miDsQ@mail.gmail.com> <CAJZ5v0hM63nVphwkYK1bL4uf_dXSew2+LBuG9kuhvvLdrhLxAw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0hM63nVphwkYK1bL4uf_dXSew2+LBuG9kuhvvLdrhLxAw@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 22 Aug 2023 17:38:32 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJGoDPLKgu8awJfuWpqzg8HOuruDa1z4s-Swb7Cm5OaJw@mail.gmail.com>
-Message-ID: <CAL_JsqJGoDPLKgu8awJfuWpqzg8HOuruDa1z4s-Swb7Cm5OaJw@mail.gmail.com>
-Subject: Re: [PATCH] thermal: Explicitly include correct DT includes
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Guillaume La Roque <glaroque@baylibre.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230817142211.311366-2-biju.das.jz@bp.renesas.com>
+References: <20230817142211.311366-1-biju.das.jz@bp.renesas.com> <20230817142211.311366-2-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: clock: versaclock3: Document clock-output-names
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 22 Aug 2023 16:53:10 -0700
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 1:50=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
->
-> On Fri, Jul 14, 2023 at 9:53=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
-te:
-> >
-> > On Fri, Jul 14, 2023 at 12:54=E2=80=AFPM Rafael J. Wysocki <rafael@kern=
-el.org> wrote:
-> > >
-> > > On Fri, Jul 14, 2023 at 7:51=E2=80=AFPM Rob Herring <robh@kernel.org>=
- wrote:
-> > > >
-> > > > The DT of_device.h and of_platform.h date back to the separate
-> > > > of_platform_bus_type before it as merged into the regular platform =
-bus.
-> > > > As part of that merge prepping Arm DT support 13 years ago, they
-> > > > "temporarily" include each other. They also include platform_device=
-.h
-> > > > and of.h. As a result, there's a pretty much random mix of those in=
-clude
-> > > > files used throughout the tree. In order to detangle these headers =
-and
-> > > > replace the implicit includes with struct declarations, users need =
-to
-> > > > explicitly include the correct includes.
-> > > >
-> > > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > >
-> > > Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-> > >
-> > > or please let me know if you want me to pick this up.
-> >
-> > Single patch in your subsystem with no dependencies. Please pick it up.
->
-> Done, thanks!
+Quoting Biju Das (2023-08-17 07:22:08)
+> Document clock-output-names property and fix the "assigned-clock-rates"
+> for each clock output in the example based on Table 3. ("Output Source")
+> in the 5P35023 datasheet(ie: {REF,SE1,SE2,SE3,DIFF1,DIFF2}).
+>=20
+> While at it, replace clocks phandle in the example from x1_x2->x1 as
+> X2 is a different 32768 kHz crystal.
+>=20
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Closes: https://lore.kernel.org/all/CAMuHMdUHD+bEco=3DWYTYWsTAyRt3dTQQt4X=
+paejss0Y2ZpLCMNg@mail.gmail.com/
+> Fixes: a03d23f860eb ("dt-bindings: clock: Add Renesas versa3 clock genera=
+tor bindings")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
 
-I'm not seeing this in linux-next.
-
-Rob
+Applied to clk-next
