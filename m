@@ -2,104 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2D6783BF1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 10:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C92783D28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 11:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233055AbjHVIku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Aug 2023 04:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60700 "EHLO
+        id S234425AbjHVJmI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Aug 2023 05:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233181AbjHVIkt (ORCPT
+        with ESMTP id S234426AbjHVJmH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Aug 2023 04:40:49 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9D5CC6;
-        Tue, 22 Aug 2023 01:40:45 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B5C221BF206;
-        Tue, 22 Aug 2023 08:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1692693643;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=CupauPWOKEGnv6ypWRmLX0hAKr1+lr/el0O5zqDzjfk=;
-        b=fv42u8yalRi3HMRzqs5MhcdRJbFJqszlkvGxUJE7pBQA7wIie08tDx6KDG+o/4sdXCb1KK
-        wocmGeAnJbzc1TyZ1YO0XDelBSYjbWfMlsd9m5CE+/eaWHx2rMqywVfk6vlGqYN2GXdfVQ
-        tSVLV8W+B6JVjiXNrIr/WXyMMGjsp9EiBv3VIZCXK5xJIYWhEo5CkH6QfTaEoSKMTQACb4
-        KJm3GL1ed1VZq65e76klD6cNO80J5sno2SxMIfS3FfadzGicUTxbWH3eLOmJ5u72hnIrFx
-        HvQqFm4SQ90t1t/1bbUmB2sbJFix8cWFyQgB9DUxOr6Gu5MbymlBVU0SHWjPQQ==
-From:   =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To:     =?UTF-8?q?Cl=C3=A9ment=20Leger?= <clement@clement-leger.fr>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH net-next] net: dsa: rzn1-a5psw: remove redundant logs
-Date:   Tue, 22 Aug 2023 10:41:12 +0200
-Message-ID: <20230822084112.54803-1-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.41.0
+        Tue, 22 Aug 2023 05:42:07 -0400
+Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAFB1A5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 02:42:01 -0700 (PDT)
+Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-48d0b70097fso723866e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 02:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1692697321; x=1693302121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RlrZc/v97on3iVIkMHvJhtbqFEB90Kl148r1FUXo47Q=;
+        b=HRvL/2m0zeq5XcmR3e6F/XjnhYl66r4rcAtDUsC0BxtFiPYLlDONI+FS8IqRwyTRBz
+         Q7seBGGbtkc+sjlEGEfd4m1/7ji822ZihQI/nI/J930HuFqsXr9Wwo61KqG9eI16LJsZ
+         zXNJYX3/v9E9xuQu6ddqGGbMY8JnidwTI5VvVFMdC9RcTUr5uQryuOuVaKCJoiI3zWf4
+         MmXXbQl0j51zC6Txuxf75Eef0ItITFL1rfyhjbFzJeStGspZ9HC3Or0ivjqdbze5tQOi
+         rhJnVgkk2RrYKArHDbwfXW9N5qtkjo4LA7ViJ1I5g9Y07PvoB+6zkiljjxabPSfi+kVf
+         Zb5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692697321; x=1693302121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RlrZc/v97on3iVIkMHvJhtbqFEB90Kl148r1FUXo47Q=;
+        b=IySPQ7Uu3mLDrMHJ1Uj1dRcYuRjCTHWf7Nkj+rtUWRKl/XmpFBfpau1mtTZlI/bAJM
+         k373phxkwa7t8DZwkqhaQ71lAs8WjH3f42IFIrch+1drJe9pkzy1BoQknAKoxCpydN64
+         mNJAiO7OXU59h1sAdIiiYmWz4bWK05krR1uvGaKdtIL8iN4Pt7wHntvhxGmo3/gpIPYo
+         rKcZjsTHvorXa+pZdLDf5eqWDCLSSp7rjkEkqjrfGVsSLgx5yGbU4Zj8LzxHHXfzsaEp
+         eZSV7BZwc+2FB/th+5uvHYr0x4+2B10P6bb556Mj1ZNYaFgzN1g7hbi19V0LBSRU50hH
+         P1Dw==
+X-Gm-Message-State: AOJu0YznvI9IUyu6ucXP7P9Z/oachT61H1NCJfLt0wtDcbtknC4j+egh
+        SY/Y/HwVtcHpG4rWYt4QZtTcIZq2Z1yE/dF4sLmyyUj+Zb24pMT6EQw=
+X-Google-Smtp-Source: AGHT+IFW8Z/t2lgQ06nzLJZ6QPZTPQj1hJ7FeMOi3zmTsKSMMWLSckf3xN9aPekD0PS80MEaGwhn56WJXIGiOGvh2l0=
+X-Received: by 2002:a1f:e002:0:b0:48f:280a:1d5a with SMTP id
+ x2-20020a1fe002000000b0048f280a1d5amr2720764vkg.1.1692697320854; Tue, 22 Aug
+ 2023 02:42:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230819180443.16718-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230819180443.16718-1-biju.das.jz@bp.renesas.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Tue, 22 Aug 2023 11:41:49 +0200
+Message-ID: <CAMRc=Mf3m4Rvs8w8VgvqA=mn26+kbPCdTGich00pW+W3E=Gmnw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: pcf857x: Extend match data support for OF tables
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+On Sat, Aug 19, 2023 at 8:04=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> The driver has OF match table, but still it uses an ID lookup table for
+> retrieving match data. Currently, the driver is working on the
+> assumption that an I2C device registered via OF will always match a
+> legacy I2C device ID. Extend match data support for OF tables by using
+> i2c_get_match_data() instead of the ID lookup for both OF/ID matches by
+> making similar OF/ID tables.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
 
-Remove debug logs in port vlan management, since there are already multiple
-tracepoints defined for those operations in DSA
+Applied, thanks!
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
-This update is a follow-up to Vladimir Oltean's comment (see [1]) which has
-not been addressed before the RZN1 A5PSW vlan series merge
-
-[1] https://lore.kernel.org/netdev/20230811100613.o77ei6updvbndkjm@skbuf/
----
- drivers/net/dsa/rzn1_a5psw.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-index 9167e83fbceb..2eda10b33f2e 100644
---- a/drivers/net/dsa/rzn1_a5psw.c
-+++ b/drivers/net/dsa/rzn1_a5psw.c
-@@ -735,10 +735,6 @@ static int a5psw_port_vlan_add(struct dsa_switch *ds, int port,
- 	u16 vid = vlan->vid;
- 	int vlan_res_id;
- 
--	dev_dbg(a5psw->dev, "Add VLAN %d on port %d, %s, %s\n",
--		vid, port, tagged ? "tagged" : "untagged",
--		pvid ? "PVID" : "no PVID");
--
- 	vlan_res_id = a5psw_find_vlan_entry(a5psw, vid);
- 	if (vlan_res_id < 0) {
- 		vlan_res_id = a5psw_new_vlan_res_entry(a5psw, vid);
-@@ -767,8 +763,6 @@ static int a5psw_port_vlan_del(struct dsa_switch *ds, int port,
- 	u16 vid = vlan->vid;
- 	int vlan_res_id;
- 
--	dev_dbg(a5psw->dev, "Removing VLAN %d on port %d\n", vid, port);
--
- 	vlan_res_id = a5psw_find_vlan_entry(a5psw, vid);
- 	if (vlan_res_id < 0)
- 		return -EINVAL;
--- 
-2.41.0
-
+Bart
