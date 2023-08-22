@@ -2,67 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 769BC7846AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 18:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB1337846DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 18:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237535AbjHVQOe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Aug 2023 12:14:34 -0400
+        id S234823AbjHVQSr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Aug 2023 12:18:47 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbjHVQOd (ORCPT
+        with ESMTP id S232019AbjHVQSq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Aug 2023 12:14:33 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2123.outbound.protection.outlook.com [40.107.113.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2026137;
-        Tue, 22 Aug 2023 09:14:27 -0700 (PDT)
+        Tue, 22 Aug 2023 12:18:46 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2126.outbound.protection.outlook.com [40.107.113.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C13E79
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 09:18:20 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=By8oNc067MA7OYV4s6SBYxYBVv7HavhtEO2jXZNaeI0/hp0hUamLorVjSwYCHYeiG7Jdd5PuevT5Vh/bIs/73FonHNWrzAckswL4WgUN6mpaKCM7YC7+iKXQk0cfewVVUGCLAx6nd/6l2MbxJA+5+ZINrfItNHtzsyJhKT86LeAzeQtKSjz+yVhVVJpM0mT0ZpP1RdX/f7Zb0SNn1Gp7hLn4a1rXnMIeeOoLS93t/to0oqOQCF0h3adkxrTOFUkOh8VKGLHxGd/zTsBAEBQYdeQlulivLBgoGJiLdlkMaofRz/WzulZpHRUv5MIF3qbNHBaZ8R3lHSen+viARmUPHQ==
+ b=e2ytI8WcVp6riEEU2DkeOTtu7o99nnSNyHQy6KNeahNDf81NKrQZMd58nhc/nYAepG/JnntAJFUsEsS1JlQA4Fy59uDeEGJMbgIWAFrV3ekiCw5TGGBlWQiuKGALZAwvAq5NzQGjqQFpWr2sRjIF9bTwevbobMeTMjFutNR83tEulzPk/KxwvcK5rRmoyyF0Vk4Io9g6YrZc1ePhpuoPoSHJkG/0K3NBEg1rNnZflWjhC/bWQC/CjJQkp+BfABwh8oIwfvLDDb34WA8STyeJvRQq5s675m1/kgU+UXwPkCs+DcII1tNf5HzvHt9egOFSuLyGW0tcRzr7e//l+XhmHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AxZgMfTdJc3Jse4I5YsuN1yOU6WIGTESJtmYNUwbgMg=;
- b=cf16KOf5a4hgrhbLXXZcgNS4sIguaGGRMWLIezbYuLXKoAwJVQZwF429W/9XwXlG2gzi3rmH6OBcFRjpzKsb/s7CgU08g+9hA9/3qQ5N5XYqSxxNiGvlCP3DWckuTJca9gclfJn2kfBWohrjBRRbVSqvxwxwTi0RjSfJLbcQdyNMcLByV22h7EVx4nSd22l6mN75LPmpDM7ZCGCk3a6Mg/kDuuMwglBC37ITEE95SixACZ5hb+sSNDaz44qTq2PmnGs9MBuCZlqJ2z1drN9/XqSWqk6Q29IdKo8De5gnF2sYfgRxZ/NrdA3Ss7AVEuqAp+a3NWYSXkaxpiSy+y5nHw==
+ bh=6s5QjcYAuMllfyaHdoY7cYBjkTS26RM5dGWMhw4azVs=;
+ b=eHsbuNfT6oDeTE+FoxlRESP1mx+QCZkWFoucsWI59lIHB5E9NWBzcrfXSSifThXfXCXbGIrOlHpX2MahKxW/ZkWuoU1dYWwjcX1dyNjxo1GQmolAo+fiK7WFZrX4rkSgbqktzkUI6k0guMuJiyBNJ1j2PiaBqhbXXcG9TZmY4QuTApWY2krlm85I15BA1gNsC7iL4v5yyVtYS2f9S/g0T73CWPtLyKkABBr1B2I27sTtGqFWg1+qy8fltPFsWiyHCZ9HmGK04TcVaR3vZNrnt9gGd+snCF9VftdQ8fXDkqAS8Lk9S+2Mez83ThrpXF0kwk+pSH22wHaMxMvVjwtZoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AxZgMfTdJc3Jse4I5YsuN1yOU6WIGTESJtmYNUwbgMg=;
- b=XYXGlj3dM5ZjkKTo/S6hnvMWqAXpMZbPb5YnGVcLnRO6+KKoTRDXSo/tECuepzD1LPXCiRJ+6c5OeJ5/tkK4x/2b6H1WQh8ritgIVmyM0xfMbXjGsjbpGiICY5Z6z3/et1oELR3WRK5ma503ocIFTt9WZ/tSndseOXwQr6ZXSBI=
+ bh=6s5QjcYAuMllfyaHdoY7cYBjkTS26RM5dGWMhw4azVs=;
+ b=kLyNaim3QTnp2ECiz7FmxlQLAmvSh6+cGxFrfUvJE4qIHk3OtWeGAYabdwnzyRr/d3Q27iwVlgTSZh3OcyaRYYnaeM2cYlTNlEJBX5A7nBM36nxyCZHB4bGKyXdE0r8IvLhbe1oxEyjYw7Ngad6zDRPOspxePl++fANfg/SAKZU=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
  by TYWPR01MB8872.jpnprd01.prod.outlook.com (2603:1096:400:16f::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Tue, 22 Aug
- 2023 16:14:24 +0000
+ 2023 16:17:53 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::2168:623e:e186:4cf0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::2168:623e:e186:4cf0%7]) with mapi id 15.20.6699.025; Tue, 22 Aug 2023
- 16:14:24 +0000
+ 16:17:53 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v15 0/4] Add support for RZ/G2L GPT
-Thread-Topic: [PATCH v15 0/4] Add support for RZ/G2L GPT
-Thread-Index: AQHZu5nRS9UEj1xjhEKw73iL/YoZtq/e00cAgBfcz4A=
-Date:   Tue, 22 Aug 2023 16:14:24 +0000
-Message-ID: <OS0PR01MB5922300A2784C863C4276D2E861FA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230721060840.8546-1-biju.das.jz@bp.renesas.com>
- <OS0PR01MB5922774DA08EBD836460BAC8860CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922774DA08EBD836460BAC8860CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <linux-renesas-soc@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v10 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
+Thread-Topic: [PATCH v10 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Index: AQHZrlaa38MndGA920+57Yp0DiWkBq/e7VYwgBfdjsA=
+Date:   Tue, 22 Aug 2023 16:17:53 +0000
+Message-ID: <OS0PR01MB59229075D5C1E201C210FF53861FA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230704090447.27420-1-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB5922C1FDA4200E067957EBC0860CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922C1FDA4200E067957EBC0860CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -71,55 +68,54 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB8872:EE_
-x-ms-office365-filtering-correlation-id: bb549e03-e799-456f-6e77-08dba32ada12
+x-ms-office365-filtering-correlation-id: 951d8b3b-9b08-401f-08b9-08dba32b565f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z+9cce94A3sgh+EB3F4VH0Vv6nTa2dQGPOkHOxA5xw/ERvPnQdGLA3fVUOeKRaAbdXIWSZGs/lqIDyugqsi94NzTtBS5ALeZYCxTt4iIwnr0kClnaq7135QSGDDtQzfTU59FB+j8PGKloQoxVs+IukI1by6v1RL82aIl3xriBU4mx8glRWc1eYtaXxi17qfzrr4gC6Nzx9bUVKPWi6UHi8Vknt01agToQAu1rM1uBPXxtVapkXCGG6AzwXxyZlR0BI3ZNEM8M/nCPZ8O51EOJAZNGuNyi4KYCCy0wBcyJ5Nq1f/A1q4VvYpYgpx0ZaDz9pDNfrtn0D6/HnhXppiH2nczJu9eEj7TYXzC63J/h2XUNuq8rSjaAPThFNYkXgtbzWeV5QFy7clEpn6Wr8TdaZOEVKKo9iedDIVxHdht7x4J2ONKGtmfemf19eEdys2uQwTdqKfJJxsQLIWo2Pip79dr08x/shP/PFXm0ujp+Qqr17u+QsdQhHcMgAYvhFHolNuK3KSdDtA/h9a2fob13OJMc3XNvJE5iUM9m2XgtOwgndVHR56Kyet6ifJegX7KNAR5OTlv6SCC0CKz7fgcySQiQ+rJr+L0BUWmdG6t2IVLwafcCjLIcqMgJEtrr+1A
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(396003)(346002)(376002)(186009)(1800799009)(451199024)(33656002)(86362001)(55016003)(122000001)(66946007)(316002)(66556008)(66476007)(478600001)(76116006)(110136005)(66446008)(38070700005)(38100700002)(41300700001)(966005)(54906003)(64756008)(45080400002)(9686003)(7696005)(6506007)(71200400001)(26005)(8936002)(7416002)(30864003)(8676002)(52536014)(2906002)(4326008)(5660300002)(83380400001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: C2IhFjwA3txoEecXJXuFoLUs/3IQ+c7/dTEe8I1Zs+AE3+vh1/mvhhPiEblCys1oVaJgLEKGBC3Pka1frPjRzDKfGevYdZN7cx3XcbqLKlx4CejWr3s3/hG4NJLahNzJx4HalZLEaKMM/2sRXiN6qEaRr4oab7sJfHj/T2+k0Z9HOecnKJWwBNSa1baqdwWp7+zqqRHhYC7dcK2XoQnm9L/WSYTa4d+NZIsWk6paOGjmAZqaR57lqLQsi20AKq4XardHaERizZDYjrOq9Keh+oTVDa2hlJXu8v/JZG/WBTRs0iDFMV6UzkeMoxXwmBB9kugmd8Tmsrd1yDTPtodxwkmPh6Bv+biNH1ILOcRYcR663aZi6a1ymE1lLJM8qhlbMaGlDJVvXVCoFBJ5ghEu1Yp70uCoMZttAmNdgGWBoOQAmaihAzIqsAJuhVbw2i7QOKgwh9dC4YvVGhEmPe2efzltjPNSF2RJ/A4fFwAlSyf3X5xTl/Ckch+9eiwM+CWqTUYn382P4HFcGS2pAJrVW6mKB2MRdVMrS6sljiExGDE2gSBi4sGpRx0PsoX9iCEJxFqo/9Io8h5YRTq6T8Sj1VagtCDltH5mf8ZmdsFnf9k=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(396003)(366004)(136003)(39860400002)(451199024)(186009)(1800799009)(66946007)(122000001)(316002)(26005)(107886003)(45080400002)(9686003)(7696005)(71200400001)(6506007)(5660300002)(83380400001)(8676002)(8936002)(52536014)(2906002)(4326008)(110136005)(76116006)(478600001)(66446008)(66556008)(66476007)(966005)(64756008)(54906003)(38070700005)(38100700002)(41300700001)(55016003)(86362001)(33656002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?gr1n8Z67Vb9qk/08Qm1s7cZErZ6gx+6Fjb07bmef6kxdsAWb/e+m7I+4SM?=
- =?iso-8859-1?Q?j7FtDPZFpYmDg3338Ae8x3ZzQQl2po/fAFDveqHyHS8TkpEw5E4J0ijWtq?=
- =?iso-8859-1?Q?3x41wRIqoJBjs+VUdqLJfAKVRr7IvHp+FG2KxmRCpogQydmZvJy92LmbQv?=
- =?iso-8859-1?Q?xgYmSwaLKrzRBdtsppC/FIl8UC4is+X+8lw//7PCXDL/iVnLyk4Nql6EKn?=
- =?iso-8859-1?Q?jwFQxah+mHpHHtsCLziykdNiW+CQv+e42qaN6ZovD7pjdpVhcrm8mkeuAP?=
- =?iso-8859-1?Q?/BUdFATnaxZISwhbtmCD3ObbD23w4BRbzYKANj93b9kL8l9h7OzBpdsHk5?=
- =?iso-8859-1?Q?qYsqo32ZssqB/eUgoTpXCGjpSQdaB6qsx5sQVh18i0hp2duUgPHoMm/QvQ?=
- =?iso-8859-1?Q?SWnVyGSlqPzialmyR362iALGg/MVqU1IpRdnionsORaJJ0CjDIu0bYqKq7?=
- =?iso-8859-1?Q?QLL8qKJaWddfBIIZH+C9fiZt/d19xDQPIBqkxmEROn33mM7vLNNwqZURM9?=
- =?iso-8859-1?Q?9pu+oO4C7XoE7m8ggG/Tc8SVydfLApyF7C1KqUj+vGIpu3uH5Z5o5kFhFn?=
- =?iso-8859-1?Q?eBVJiYQ3fSqZCUMqGU4n+tqeqGGKOCKPp1KHvnsHTwT3ybPDe8CnPaiTDX?=
- =?iso-8859-1?Q?I8+44CH4xA3/L3nW5kyLjjlAV0rhJ9daJZ1Egf637r6eiK78s8rnixwxdf?=
- =?iso-8859-1?Q?eLzK9POlEIN8cHDDOGZD+mCdO3nio2rRlnXPgzqFLHKGJBNrxbfk2/Vbzf?=
- =?iso-8859-1?Q?zKp4ZH2qLJWRBNcWdeJvnZW2H5+3kWGmmVOQw/N+BXZT7GFjnHvTPwUEWY?=
- =?iso-8859-1?Q?V+GDuv1XxGp6KUOtznGlQTB7BR00iRaqhN2EN8UIsT9G+clGrcQSLfP+MY?=
- =?iso-8859-1?Q?0BIryIvynBEP9B32FewmZ2MknUs/6b5baeHXt0BLErKQYD4u8F7lM4ytQN?=
- =?iso-8859-1?Q?DQOFPHsQZlHjhNrQk+U8Z/i5L9Ss0p2hOel2BhFBPaGvvnMOGv9uMrJiKQ?=
- =?iso-8859-1?Q?mExohMF/YYCoAxjH+EaYWC6uKzW6xSpMZyiihUC3Tx0LiohdXrCwovyVoM?=
- =?iso-8859-1?Q?4GKM3tQSWSqauxhWKqy0BQmD7xMC5Z8narXRSlbTo61aWnG3l+Qg4KeqFh?=
- =?iso-8859-1?Q?rNK2VbMSOruwJ9XX8rIxTSGzFVescVbTA8Guzh/Wo/363CTwTkvjFzeY41?=
- =?iso-8859-1?Q?K1JENatN6WFyXF2gic6mUbhROuWJ5La99qTC1B2Vpv+x1S13Ukwx0xeNBw?=
- =?iso-8859-1?Q?3rdn2OnlEDppcai7g2iHI1laYqEkYuDsDNBOXADF+vzKDnjz7J2LiaFuir?=
- =?iso-8859-1?Q?qeOJu7qtJYBUIkC61tNZDf7C7vtHGev+kdUuhu09IAg1a233NqqZicFpNx?=
- =?iso-8859-1?Q?DEohSpuN158urpgbKr5mlPlqrJaaIDP2Qpy6fWFLSNYDDza+i9ukr1wNVq?=
- =?iso-8859-1?Q?ZypNqZ0wSDmljE6uV0hmZDDMxqFGpdY3t4T1+KhrLSJYDX3IiZXdBKifAo?=
- =?iso-8859-1?Q?7MZaNVBalfHJk75MXDN93lk+Cs03PijFo0BP5YZ4VOOrPlpLOiWOUIwD1k?=
- =?iso-8859-1?Q?NOi6IBTG/RGBAM9I7ML1ypFbBy3y66t2nN/2mmecyv3DnDn48aitegCRET?=
- =?iso-8859-1?Q?TqKpQS63N5C4n0VlLOV3OsYLgJGtB702ae3WGTZ0DaKwZaS+NFtUp5mQ?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mbe3ec8GPmf89A4xGNvSAbKh6HBaH0g9BmJ776/SYzRce/6jeiuDFcV6EIhX?=
+ =?us-ascii?Q?U6JyL5FQ6aPmkZXZLoPHySL1ekUE0OyKWD7NlfEyo30fYokCg3CIwYfIBLU9?=
+ =?us-ascii?Q?gEUX6CJKbCJHnHaI7TH/6Uf52INYCAOfiQ9leFZfARKdxFsfZJntlpNcgpnt?=
+ =?us-ascii?Q?fPrURbskWFTusyOWAc3hlqEOMw7BmHy+Hw68mxVdb63QgTpF8pl5I//bmfJw?=
+ =?us-ascii?Q?FwdIjNyk/HEj35OvJh1xZTU64mDMGnIXy5esOBNghSW87nuXR/VKXNr/4wBG?=
+ =?us-ascii?Q?/z5ZUPBYlqqbmdqYDdtFMIspiIS+Tevfd+83lWZXcwY7Cryi8xg7hc5KXXjG?=
+ =?us-ascii?Q?2IbHkygmxNcA6HypqOH2DqgXurLK37k7zjcjztSMkTckWjZE7Y3p1aGM5992?=
+ =?us-ascii?Q?rZvLhvGyaOslOVps5/7B7oRYrCrgS3QP2u48rLoPDMGxaJKug3/PYilFyQvr?=
+ =?us-ascii?Q?PSGRxE0exbStg2QDQF4GnxOr+ETVtrjelFabzm6KkHhEXE3V7t/R2WaWXxxV?=
+ =?us-ascii?Q?XCX9nkzF5Vv6i/XRv4tTA0P05lWr2KEahPrIg9qNfcbDeLcy30whV62fg2hZ?=
+ =?us-ascii?Q?3MrDSdj03BnY0U2fJM1G9glqby2s1jCosJnTItREy3zBRlnwBBfRN0bV2wta?=
+ =?us-ascii?Q?5oEV8lyGkuKjEFQXZEXND98t88sdg2jElHZ6Kkr1gLuI1XIjo6DXB9y2gXqK?=
+ =?us-ascii?Q?wYskxHL2Qb2AFe6jxrOwqIg3Ub9YAO/eUn0JRwKjzrxldW+DVL4ldJrRHaNy?=
+ =?us-ascii?Q?1R8qSF+OinKj1tIoe8IPTBCv68jN+gzihO5vaAFS7Oy0zuYM2bF1LzCkbXiV?=
+ =?us-ascii?Q?jFQ6LKnAFs4TdQ8JvTZaOnYl049a2oqIiPXwrORg1vZD4gEdkQQyh4yD9V7L?=
+ =?us-ascii?Q?OQk/rvh04KpggY1vKOjQmA6XHaEm6ZwPOuR60qofjv02s+mOhIwmKtOdo7xZ?=
+ =?us-ascii?Q?q1QEJ23B4XHhopR1atbe9/SPvnGfAw2odBMAOJWCw3D8kkOBgMvDHJzgfyqT?=
+ =?us-ascii?Q?JEmydzPAatHyjmhEcNw6tyfy/Dylly5579/V8LBsmPjP5HchWMo9JB0x8ttq?=
+ =?us-ascii?Q?99msEBuNAC28zhlgx7evWUHtPi2s9D6OEnxuOpx0T3aUvkLw/e83qEgqbRJA?=
+ =?us-ascii?Q?TUYD10gFlIHXSKKfhVsw32DzLrupQym1u34a8B17/BO3oIx7MoRfuwH+oelZ?=
+ =?us-ascii?Q?nj0MIkE3myVUU/mjgnvzkiw5TTxnHylA0ezsfXjpgEpcZKYaeHNq8JGx2paG?=
+ =?us-ascii?Q?5Cj1LzvmonWfhMFwMBPikecZK5rryKw0rNz2RAJVAY4cSNXwEFEJgII41kZC?=
+ =?us-ascii?Q?+pSVT76LWoeH6XYKz3V2QmQ9ywZVkbQnOEV7q2gnwtKmwwHSID7gbIPaU+dO?=
+ =?us-ascii?Q?/Xon9cQ8zKrPoquo/1mETjjSZo1PoVgyAziN6YE6lVhAmbOziW7DBCA6LP2G?=
+ =?us-ascii?Q?yfNTw5m6BMh7h3Zu6qO1MiL54KvdyYnXhtZxiBxhTlf5/wsqUjOeSY1XRW2E?=
+ =?us-ascii?Q?lJgHxlh8QcV51Wj8PtDaW7oUfyfDcx5Dav5lrJYzmKMww3xKYzbbVxKww0I6?=
+ =?us-ascii?Q?JS5Q4DNRJmkqeWejYfRjE14474TomiMhfAQ9s/1Ajd3+88NzqXfqq3T6a0AZ?=
+ =?us-ascii?Q?kw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb549e03-e799-456f-6e77-08dba32ada12
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 16:14:24.5191
+X-MS-Exchange-CrossTenant-Network-Message-Id: 951d8b3b-9b08-401f-08b9-08dba32b565f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 16:17:53.1013
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H3gnYpf4T+v4mmCXWkdUo9gJhxHV9l1ITiXsN4+xZLybEAMkA4UusD3byEYSd+uUh2YOYsZaa1CGGoU+pXruHq8PRnHE1LZyfmyvE+CnYkE=
+X-MS-Exchange-CrossTenant-userprincipalname: P374v2AvFvho/tJxxpANjwe+EaJCHWDnoZIHKe1IGpEggb/Fc2PwxSRX4kdxBlM7dsxkdK6K8soBjZQV5DfGkLeZZcQj6Qp1aC5S8fDx3XA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8872
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -131,342 +127,209 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+Hi Laurent and all,
 
-Gentle ping.
+Gentle ping. Are we happy with this patch series?
+
+I will send follow up fixes if we find any issues later.
 
 Cheers,
 Biju
 
-> Subject: RE: [PATCH v15 0/4] Add support for RZ/G2L GPT
+> Subject: RE: [PATCH v10 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+> support
 >=20
-> Hi Uwe,
+> Hi Laurent and all,
 >=20
-> Gentle ping.
+> Gentle ping. Are we ok this patch series?
 >=20
 > Cheers,
 > Biju
 >=20
-> > Subject: [PATCH v15 0/4] Add support for RZ/G2L GPT
+> > Subject: [PATCH v10 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+> > support
 > >
-> > RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit
-> > timer (GPT32E). It supports the following functions
-> >  * 32 bits =D7 8 channels
-> >  * Up-counting or down-counting (saw waves) or up/down-counting
-> >    (triangle waves) for each counter.
-> >  * Clock sources independently selectable for each channel
-> >  * Two I/O pins per channel
-> >  * Two output compare/input capture registers per channel
-> >  * For the two output compare/input capture registers of each channel,
-> >    four registers are provided as buffer registers and are capable of
-> >    operating as comparison registers when buffering is not in use.
-> >  * In output compare operation, buffer switching can be at crests or
-> >    troughs, enabling the generation of laterally asymmetric PWM
-> waveforms.
-> >  * Registers for setting up frame cycles in each channel (with capabili=
-ty
-> >    for generating interrupts at overflow or underflow)
-> >  * Generation of dead times in PWM operation
-> >  * Synchronous starting, stopping and clearing counters for arbitrary
-> >    channels
-> >  * Starting, stopping, clearing and up/down counters in response to inp=
-ut
-> >    level comparison
-> >  * Starting, clearing, stopping and up/down counters in response to a
-> >    maximum of four external triggers
-> >  * Output pin disable function by dead time error and detected
-> >    short-circuits between output pins
-> >  * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
-> >  * Enables the noise filter for input capture and external trigger
-> >    operation
+> > This path series aims to add support for RZ/G2L DU DRM driver.
 > >
-> > This patch series aims to add basic pwm support for RZ/G2L GPT driver
-> > by creating separate logical channels for each IOs.
+> > RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> > Video signal processor (VSPD) and Display unit(DU). The output of LCDC
+> > is connected to Display parallel interface and MIPI link video interfac=
+e.
 > >
-> > v14->v15:
-> > * Added enable_count and ch_en_bits variables to struct rzg2l_gpt_chip
-> >   based on feedback for pwm_mtu3 driver.
-> > * Updated copyright header and commit description by replacing "This
-> patch
-> >   adds"-> "Add"
-> > * Replaced macro RZG2L_GET_CH_INDEX->RZG2L_GET_CH and replaced
-> > ch_index-
-> > >ch
-> >   throughout
-> > * rzg2l_gpt_{enable,disable}() enables/disables PWM based on the
-> >   enable_count.
-> > * Replaced pm_runtime_get_sync->pm_runtime_resume_and_get and propogate=
-d
-> >   the error in rzg2l_gpt_get_state() and rzg2l_gpt_config()
-> > * Reduced variable scope in rzg2l_gpt_get_state() by moving most of
-> > variables
-> >   inside the if statement.
-> > * Updated rzg2l_gpt_get_state() by moving duty > period check
-> >   inside the top if block.
-> > * Added helper functions rzg2l_gpt_calculate_pv_or_dc()to simplify
-> config.
-> >   Also Improved the logic in rzg2l_gpt_calculate_pv_or_dc() by using
-> >   min(period_or_duty_cycle >> (2 * prescale), (u64)U32_MAX);
-> > * Updated rzg2l_gpt_get_state() by moving duty > period check
-> >   inside the top if block.
-> > * Simplified rzg2l_gpt_config() for updating registers
-> > * Dropped pm_runtime_get_sync() and used bitmap variable "ch_en_bits"
-> >   to make balanced PM usage count in rzg2l_gpt_reset_assert_pm_disable(=
-)
-> >   For case were unbind is called before apply where pwm is enabled by
-> >   bootloader.
-> > * Added error check for clk_rate_exclusive_get() and clk_get_rate() in
-> >   probe().
-> > * Dropped prescale from struct rzg2l_gpt_chip.
-> > * Replaced of_match_ptr(rzg2l_gpt_of_table)->rzg2l_gpt_of_table in stru=
-ct
-> >   rzg2l_gpt_driver
-> > * Updated commit description of patch#4 by replacing "This patch add"->
-> >   "Add".
-> > v13->v14:
-> > * Moved the patch from series[1] to here.
-> >  [1]
-> > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flor=
-e
-> > .ker
-> > nel.org%2Flinux-renesas-soc%2F20221215205843.4074504-1-
-> > biju.das.jz%40bp.renesas.com%2FT%2F%23t&data=3D05%7C01%7Cbiju.das.jz%40=
-b
-> > p.re
-> > nesas.com%7C5e49c1dce57a4fb65f8008db89b0f2bc%7C53d82571da1947e49cb4625
-> > a166
-> > a4a2a%7C0%7C0%7C638255165297945656%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4
-> > wLjA
-> > wMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sd
-> > ata=3D
-> > zS%2FQnDta9svTRgCKwNQzxIZnK7ie8QOQufDZ6K18hc0%3D&reserved=3D0
-> >  * Add Rb tag from Rob for patch#2
-> >  * Removed parenthesis for RZG2L_MAX_HW_CHANNELS and
-> > RZG2L_CHANNELS_PER_IO
-> >  * Removed duty_cycle variable from struct rzg2l_gpt_chip and added
-> > comment
-> >    for cache for prescale variable.
-> >  * Fixed a bug in rzg2l_gpt_cntr_need_stop().
-> >  * Reordered rzg2l_gpt_config() just above apply()
-> >  * Replaced pwm_is_enabled()->pwm->state.enabled in config
-> >  * Replaced pm_runtime_resume_and_get with unconditional
-> > pm_runtime_get_sync()
-> >    in config().
-> >  * Restored duty_cycle > period check in rzg2l_gpt_get_state().
-> >  * Added error check for clk_prepare_enable() in probe() and
-> > propagating error
-> >    to the caller for pm_runtime_resume()
-> >  * clk_get_rate() is called after enabling the clock and
-> > clk_rate_exclusive_get()
-> >  * Simplified rzg2l_gpt_probe() by removing bitmap variables.
-> >  * Added pm_runtime_idle() to suspend the device during probe.
-> >  * Moved overflow condition check from config->probe().
-> >  * Simplified rzg2l_gpt_reset_assert_pm_disable().
-> >  * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
-> >  * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it
-> > not only parse
-> >    the properties but also implements the needed register writes.
-> >  * Added acomment here about the purpose of the function
-> > rzg2l_gpt_poeg_init()
-> >  * Removed magic numbers from rzg2l_gpt_poeg_init()
-> >  * Fixed resource leak in rzg2l_gpt_poeg_init().
-> > v12->v13:
-> >  * Added test logs in [1] below
-> >  * Replaced Kconfig dependency from ARCH_RENESAS->ARCH_RZG2L
-> >  * Sorted #include <linux/limits.h> alphabetically
-> >  * Added a comment for mutex_lock to fix check patch warning
-> >  * Replaced data type of duty_cycle from unsigned int->u32 as
-> >    the maximum value stored is U32_MAX.
-> >  * Improved rzg2l_gpt_config() by removing unwanted duty_cycle related
-> > code.
-> >  * Improved rzg2l_gpt_get_state() by setting "val =3D rzg2l_gpt-
-> > >duty_cycle[pwm->hwpwm];",
-> >    and factor "tmp =3D NSEC_PER_SEC * (u64)val;" out of the if-statemen=
-t.
-> >  * Started using DEFINE_RUNTIME_DEV_PM_OPS(), and dropped __maybe_unuse=
-d
-> >    from the callbacks.
-> > v11->v12:
-> >  * Added return code for get_state()
-> >  * Cache duty cycle/prescale as the driver cannot read the current duty
-> >    cycle/prescale from the hardware if the hardware is disabled. Cache
-> the
-> >    last programmed duty cycle/prescale value to return in that case.
-> >  * Updated rzg2l_gpt_enable to enable the clocks.
-> >  * Updated rzg2l_gpt_disable to disable the clocks.
-> >  * Updated rzg2l_gpt_config() to cache duty cucle/prescale value
-> >  * Updated rzg2l_gpt_get_state to use cached value of duty
-> > cycle/prescale,If the PWM
-> >    is disabled.
-> >  * Simplified rzg2l_gpt_apply()
-> >  * Added comments in rzg2l_gpt_reset_assert_pm_disable()
-> > v10->v11:
-> >  * Used bitmap_zero for initializing bitmap varable.
-> >  * Fixed clock imbalance during remove for the case bootloader turning
-> >    on PWM and module unload is called just after the boot.
-> >  * Fixed over flow condition in get_state() for a prescale value of 2
-> > & more.
-> >  * Improved rzg2l_gpt_cntr_need_stop() based on prescale as it is the
-> >    only runtime variable.
-> >  * Added array for Cache variables state_period and prescale
-> >  * Probe caches the prescale value set by the bootloader.
-> >  * Updated rzg2l_gpt_config() to make use of array variables.
+> > The output from DSI is connected to ADV7535.
+> >
+> > Ref:
+> >
+> >
+> >
+> > This patch series is tested with [2]
+> > [2]
+> >
 > > v9->v10:
-> >  * Updated the example gpt4: pwm@10048400-> gpt: pwm@10048000
-> >  * Keep Rb tag from Rob as the above change is trivial one.
-> >  * Updated the error handling in probe(), clk_disable_unprepare called
-> >    on the error path.
-> >  * Removed ch_en array and started using bitmask instead.
+> >  * patch#1 is mainlined, so dropped from this series.
+> >  * Added Rb tag from Laurent for the binding patch.
+> >  * Updated the commit description.
+> >  * Updated description of the port by dropping the text "specified in
+> >    Documentation/devicetree/bindings/graph.txt."
+> >  * Dropped empty endpoint from example.
+> >  * Dropped ARM64 dependency from Kconfig.
+> >  * Sorted the configs alphabetically in Kconfig.
+> >  * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
+> >    VIDEO_RENESAS_VSP1.
+> >  * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
+> >    clk rate with dclk rate.
+> >  * Added rzg2l_du_write() wrapper function.
+> >  * Updated the comment atomic_begin->atomic_flush.
+> >  * Dropped .atomic_check and .atomic_begin callback
+> >  * Renamed __rzg2l_du_crtc_plane_atomic_check-
+> >__rzg2l_du_vsp_plane_atomic
+> >    _check and moved it to rzg2l_du_vsp.c
+> >  * Added struct clk in rzg2l_du_crtc.h
+> >  * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
+> >    vblank_count from struct rzg2l_du_crtc.
+> >  * Replaced the macro to_rzg2l_crtc with static inline functions.
+> >  * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
+> >    wait.h and drm_managed.h from rzg2l_du_drv.c.
+> >  * Replaced DRM_INFO->drm_info
+> >  * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
+> >    gem_prime_mmap.
+> >  * Replaced the callback remove->remove_new.
+> >  * Dropped header file wait.h and added forward declarations struct
+> > clk and
+> >    rzg2l_du_device from rzg2l_du_drv.h.
+> >  * Dropped the dsi and dpad0_source variables from struct
+> rzg2l_du_device.
+> >  * Replaced the macro to_rzg2l_encoder with static inline functions.
+> >  * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
+> >  * Dropped struct sg_table and added the scatterlist.h header file in
+> >    rzg2l_du_vsp.h
+> >  * Added container_of.h header file, forward declarations struct
+> > device and
+> >    struct rzg2l_du_device in rzg2l_du_vsp.h.
 > > v8->v9:
-> >  * Added Rb tag from Rob.
-> >  * deassert after devm_clk_get() to avoid reset stays deasserted,in cas=
-e
-> >    clk_get() fails.
-> >  * Removed ch_offs from struct rzg2l_gpt_chip and use macro instead.
-> >  * Updated error handling in probe()
+> >  * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+> >  * Added Rb tag from Laurent and Geert for patch#3.
+> >  * Dropped reset_control_assert() from error patch for
+> > rzg2l_du_crtc_get() as
+> >    suggested by Philipp Zabel.
+> >  * Added Rb tag from Laurent oatch#5.
+> >  * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
 > > v7->v8:
-> >  * Removed Rb tags from Rob and Geert as it modelled as single GPT
-> >    device handling multiple channels.
-> >  * Updated description
-> >  * Updated interrupts and interrupt-names properties
-> >  * Updated binding example
-> >  * Modelled as single PWM device handling multiple channels
-> >  * Replaced shared reset->devm_reset_control_get_exclusive()
-> >  * Added PM runtime callbacks
-> >  * Updated PM handling and removed "pwm_enabled_by_bootloader"
-> > variable
-> >  * Replaced iowrite32->writel and ioread32->readl
-> >  * Updated prescale calculation
-> >  * Introduced rzg2l_gpt_is_ch_enabled for checking enable status on bot=
-h
-> >    IO's
-> >  * Moved enable/disable output pins from config->enable/disable.
-> >  * Added rzg2l_gpt_cntr_need_stop() for caching prescalar/mode values.
+> >  * Moved rcar-du and shmobile DRM drivers to renesas specific vendor
+> > directory.
+> >  * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+> >  * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+> >  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating
+> > rz_du folder.
+> >  * Updated MAINTAINERS entries.
 > > v6->v7:
-> >  * Added the comment for cacheing rzg2l_gpt->state_period.
-> >  * Fixed boundary values for pv and dc.
-> >  * Added comment for modifying mode, prescaler, timer counter and
-> > buffer enable
-> >    registers.
-> >  * Fixed buffer overflow in get_state()
-> >  * Removed unnecessary assignment of state->period value in get_state()=
-.
-> >  * Fixed state->duty_cycle value in get_state().
-> >  * Added a limitation for disabling the channels, when both channels
-> > used
+> >  * Split DU lib and  RZ/G2L du driver as separate patch series as
+> >    DU support added to more platforms based on RZ/G2L alike SoCs.
+> >  * Rebased to latest drm-tip.
+> >  * Added patch #2 for binding support for RZ/V2L DU
+> >  * Added patch #4 for driver support for RZ/V2L DU
+> >  * Added patch #5 for SoC DTSI support for RZ/G2L DU
+> >  * Added patch #6 for SoC DTSI support for RZ/V2L DU
+> >  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L}
+> SoCs.
+> >  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
 > > v5->v6:
-> >  * Updated macros RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH and
-> >    RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH with computation
-> >    involving FIELD_PREP macro.
-> >  * Removed struct rzg2l_gpt_phase and started using RZG2L_GTCCR macro
-> >    for duty_offset.
-> >  * replaced misnomer real_period->state_period.
-> >  * Added handling for values >=3D (1024 << 32) for both period
-> >    and duty cycle.
-> >  * Added comments for pwm {en,dis}abled by bootloader during probe.
+> >  * Merged DU lib and RZ/G2L du driver in same patch series
+> >  * Rebased to latest drm-misc.
+> >  * Merged patch#1 to RZ/G2L Driver patch.
+> >  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+> >  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+> >
 > > v4->v5:
-> >  * Added Hardware manual details
-> >  * Replaced the comment GTCNT->Counter
-> >  * Removed the macros RZG2L_GPT_IO_PER_CHANNEL and chip.npwm directly
-> >    used in probe.
-> >  * Removed the unsed macro RZG2L_GTPR_MAX_VALUE
-> >  * Added driver prefix for the type name and the variable.
-> >  * Initialization of per_channel data moved from request->probe.
-> >  * Updated clr parameter for rzg2l_gpt_modify for Start count.
-> >  * Started using mutex and usage_count for handling shared
-> >    period and prescalar for the 2 channels.
-> >  * Updated the comment cycle->period.
-> >  * Removed clk_disable from rzg2l_gpt_reset_assert_pm_disable()
-> >  * Replaced pc->rzg2l_gpt.
-> >  * Updated prescale calculation.
-> >  * Moved pm_runtime_{get_sync,put} from
-> > {request,free}->{enable,disable}
-> >  * Removed platform_set_drvdata as it is unused
-> >  * Removed the variable pwm_enabled_by_bootloader
-> >  * Added dev_err_probe in various probe error path.
-> >  * Added an error message, if devm_pwmchip_add fails.
+> >  * Added Rb tag from Rob for binding patch.
+> >  * Started using RCar DU libs(kms, vsp and encoder)
+> >  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+> >    rcar_du_format_info and rcar_du_encoder.
 > > v3->v4:
-> >  * Changed the local variable type i from u16->u8 and prescaled_period_
-> >    cycles from u64->u32 in calculate_prescale().
-> >  * Replaced mul_u64_u64_div_u64()->mul_u64_u32_div()
-> >  * Dropped the comma after the sentinel.
-> >  * Add a variable to track pwm enabled by bootloader and added comments
-> >    in probe().
-> >  * Removed unnecessary rzg2l_gpt_reset_assert_pm_disable() from probe.
-> >  * Replaced devm_clk_get()->devm_clk_get_prepared()
-> >  * Removed devm_clk_get_optional_enabled()
-> > v2->v3:
-> >  * Added Rb tag from Rob for the bindings.
-> >  * Updated limitation section
-> >  * Added prefix "RZG2L_" for all macros
-> >  * Modified prescale calculation
-> >  * Removed pwm_set_chip_data
-> >  * Updated comment related to modifying Mode and Prescaler
-> >  * Updated setting of prescale value in rzg2l_gpt_config()
-> >  * Removed else branch from rzg2l_gpt_get_state()
-> >  * removed the err label from rzg2l_gpt_apply()
-> >  * Added devm_clk_get_optional_enabled() to retain clk on status,
-> >    in case bootloader turns on the clk of pwm.
-> >  * Replaced devm_reset_control_get_exclusive-
-> > >devm_reset_control_get_shared
-> >    as single reset shared between 8 channels.
+> >  * Changed compatible name from
+> > renesas,du-r9a07g044->renesas,r9a07g044-du
+> >  * started using same compatible for RZ/G2{L,LC}
+> >  * Removed rzg2l_du_group.h and struct rzg2l_du_group
+> >  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+> >  * Removed rzg2l_du_group_restart
+> >  * Updated rzg2l_du_crtc_set_display_timing
+> >  * Removed mode_valid callback.
+> >  * Updated rzg2l_du_crtc_create() parameters
+> >  * Updated compatible
+> >  * Removed RZG2L_DU_MAX_GROUPS
+> > V2->v3:
+> >  * Added new bindings for RZ/G2L DU
+> >  * Removed indirection and created new DRM driver based on R-Car DU
 > > v1->v2:
-> >  * Added '|' after 'description:' to preserve formatting.
-> >  * Removed description for pwm_cells as it is common property.
-> >  * Changed the reg size in example from 0xa4->0x100
-> >  * Added Rb tag from Geert for bindings.
-> >  * Added Limitations section
-> >  * dropped "_MASK" from the define names.
-> >  * used named initializer for struct phase
-> >  * Added gpt_pwm_device into a flexible array member in rzg2l_gpt_chip
-> >  * Revised the logic for prescale
-> >  * Added .get_state callback
-> >  * Improved error handling in rzg2l_gpt_apply
-> >  * Removed .remove callback
-> >  * Tested the driver with PWM_DEBUG enabled.
+> >  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du=
+'
+> >  * Updated commit description for bindings
+> >  * Removed LCDC references from bindings
+> >  * Changed clock name from du.0->aclk from bindings
+> >  * Changed reset name from du.0->du from bindings
+> >  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+> >  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+> >  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+> >  * Added forward declaration for struct reset_control
 > >
-> > RFC->v1:
-> >  * Added Description in binding patch
-> >  * Removed comments from reg and clock
-> >  * replaced rzg2l_gpt_write_mask()->rzg2l_gpt_modify()
-> >  * Added rzg2l_gpt_read() and updated macros
-> >  * Removed dtsi patches, will send it separately
-> >
-> > RFC:
-> >  *
-> > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flor=
-e
-> > .ker
-> > nel.org%2Flinux-renesas-soc%2F20220430075915.5036-1-
-> > biju.das.jz%40bp.renesas.com%2FT%2F%23t&data=3D05%7C01%7Cbiju.das.jz%40=
-b
-> > p.re
-> > nesas.com%7C5e49c1dce57a4fb65f8008db89b0f2bc%7C53d82571da1947e49cb4625
-> > a166
-> > a4a2a%7C0%7C0%7C638255165297945656%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4
-> > wLjA
-> > wMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sd
-> > ata=3D
-> > 8Z2uXHblS94d1zundM01wgdT3pmasWhLuMlmPrSZAAQ%3D&reserved=3D0
+> > [1]
+> > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
+c
+> > hwor
+> > k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220312084205.31
+> > 462-
+> > 2-
+> > biju.das.jz%40bp.renesas.com%2F&data=3D05%7C01%7Cbiju.das.jz%40bp.renes=
+a
+> > s.co
+> > m%7C8e48927180a7413aaa7308db7c6dbc04%7C53d82571da1947e49cb4625a166a4a2
+> > a%7C
+> > 0%7C0%7C638240582971112471%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA
+> > iLCJ
+> > QIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DXsp=
+0
+> > khWV
+> > DyFkR%2F5Ww4%2B9NlE0RWC5w%2B2tSWcPp8cpbEo%3D&reserved=3D0
 > >
 > > Biju Das (4):
-> >   dt-bindings: pwm: Add RZ/G2L GPT binding
-> >   dt-bindings: pwm: rzg2l-gpt: Document renesas,poegs property
-> >   pwm: Add support for RZ/G2L GPT
-> >   pwm: rzg2l-gpt: Add support for gpt linking with poeg
+> >   dt-bindings: display: Document Renesas RZ/G2L DU bindings
+> >   dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+> >   drm: renesas: Add RZ/G2L DU Support
+> >   MAINTAINERS: Add maintainer for RZ DU drivers
 > >
-> >  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 401 +++++++++++
-> >  drivers/pwm/Kconfig                           |  11 +
-> >  drivers/pwm/Makefile                          |   1 +
-> >  drivers/pwm/pwm-rzg2l-gpt.c                   | 640 ++++++++++++++++++
-> >  4 files changed, 1053 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/pwm/renesas,rzg2l-
-> > gpt.yaml
-> >  create mode 100644 drivers/pwm/pwm-rzg2l-gpt.c
+> >  .../bindings/display/renesas,rzg2l-du.yaml    | 126 +++
+> >  MAINTAINERS                                   |  15 +-
+> >  drivers/gpu/drm/renesas/Kconfig               |   1 +
+> >  drivers/gpu/drm/renesas/Makefile              |   1 +
+> >  drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
+> >  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 599 ++++++++++++++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  92 +++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 180 +++++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  84
+> > ++  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 109
+> > +++  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 +
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 741 ++++++++++++++++++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 469 +++++++++++
+> > drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  97 +++
+> >  17 files changed, 2674 insertions(+), 2 deletions(-)  create mode
+> > 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+> >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
 > >
-> >
-> > base-commit: 92554cdd428fce212d2a71a06939e7cab90f7c77
 > > --
 > > 2.25.1
 
