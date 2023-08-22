@@ -2,88 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C92783D28
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 11:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B3CA783DCB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 12:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234425AbjHVJmI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Aug 2023 05:42:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
+        id S233909AbjHVKWo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Aug 2023 06:22:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234426AbjHVJmH (ORCPT
+        with ESMTP id S233676AbjHVKWo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Aug 2023 05:42:07 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAFB1A5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 02:42:01 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-48d0b70097fso723866e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 02:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1692697321; x=1693302121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RlrZc/v97on3iVIkMHvJhtbqFEB90Kl148r1FUXo47Q=;
-        b=HRvL/2m0zeq5XcmR3e6F/XjnhYl66r4rcAtDUsC0BxtFiPYLlDONI+FS8IqRwyTRBz
-         Q7seBGGbtkc+sjlEGEfd4m1/7ji822ZihQI/nI/J930HuFqsXr9Wwo61KqG9eI16LJsZ
-         zXNJYX3/v9E9xuQu6ddqGGbMY8JnidwTI5VvVFMdC9RcTUr5uQryuOuVaKCJoiI3zWf4
-         MmXXbQl0j51zC6Txuxf75Eef0ItITFL1rfyhjbFzJeStGspZ9HC3Or0ivjqdbze5tQOi
-         rhJnVgkk2RrYKArHDbwfXW9N5qtkjo4LA7ViJ1I5g9Y07PvoB+6zkiljjxabPSfi+kVf
-         Zb5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692697321; x=1693302121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RlrZc/v97on3iVIkMHvJhtbqFEB90Kl148r1FUXo47Q=;
-        b=IySPQ7Uu3mLDrMHJ1Uj1dRcYuRjCTHWf7Nkj+rtUWRKl/XmpFBfpau1mtTZlI/bAJM
-         k373phxkwa7t8DZwkqhaQ71lAs8WjH3f42IFIrch+1drJe9pkzy1BoQknAKoxCpydN64
-         mNJAiO7OXU59h1sAdIiiYmWz4bWK05krR1uvGaKdtIL8iN4Pt7wHntvhxGmo3/gpIPYo
-         rKcZjsTHvorXa+pZdLDf5eqWDCLSSp7rjkEkqjrfGVsSLgx5yGbU4Zj8LzxHHXfzsaEp
-         eZSV7BZwc+2FB/th+5uvHYr0x4+2B10P6bb556Mj1ZNYaFgzN1g7hbi19V0LBSRU50hH
-         P1Dw==
-X-Gm-Message-State: AOJu0YznvI9IUyu6ucXP7P9Z/oachT61H1NCJfLt0wtDcbtknC4j+egh
-        SY/Y/HwVtcHpG4rWYt4QZtTcIZq2Z1yE/dF4sLmyyUj+Zb24pMT6EQw=
-X-Google-Smtp-Source: AGHT+IFW8Z/t2lgQ06nzLJZ6QPZTPQj1hJ7FeMOi3zmTsKSMMWLSckf3xN9aPekD0PS80MEaGwhn56WJXIGiOGvh2l0=
-X-Received: by 2002:a1f:e002:0:b0:48f:280a:1d5a with SMTP id
- x2-20020a1fe002000000b0048f280a1d5amr2720764vkg.1.1692697320854; Tue, 22 Aug
- 2023 02:42:00 -0700 (PDT)
+        Tue, 22 Aug 2023 06:22:44 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEC51B0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Aug 2023 03:22:41 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c9ff:e2bc:6893:f4e3])
+        by michel.telenet-ops.be with bizsmtp
+        id caNd2A00M2hAXNh06aNd1a; Tue, 22 Aug 2023 12:22:37 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qYOWq-001Oc2-WC;
+        Tue, 22 Aug 2023 12:22:37 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qYOWz-00H0ho-Hi;
+        Tue, 22 Aug 2023 12:22:37 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Peng Fan <peng.fan@nxp.com>
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] of: unittest: Run overlay apply/revert sequence three times
+Date:   Tue, 22 Aug 2023 12:22:34 +0200
+Message-Id: <a9fb4eb560c58d11a7f167bc78a137b46e76cf15.1692699743.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230819180443.16718-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230819180443.16718-1-biju.das.jz@bp.renesas.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 22 Aug 2023 11:41:49 +0200
-Message-ID: <CAMRc=Mf3m4Rvs8w8VgvqA=mn26+kbPCdTGich00pW+W3E=Gmnw@mail.gmail.com>
-Subject: Re: [PATCH] gpio: pcf857x: Extend match data support for OF tables
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 19, 2023 at 8:04=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> The driver has OF match table, but still it uses an ID lookup table for
-> retrieving match data. Currently, the driver is working on the
-> assumption that an I2C device registered via OF will always match a
-> legacy I2C device ID. Extend match data support for OF tables by using
-> i2c_get_match_data() instead of the ID lookup for both OF/ID matches by
-> making similar OF/ID tables.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
+Run the test for the overlay apply/revert sequence three times, to
+test if there are unbalanced of_node_put() calls causing reference
+counts to become negative.
 
-Applied, thanks!
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This is a reproducer for the issue fixed by commit 7882541ca06d51a6
+("of/platform: increase refcount of fwnode") in dt/linus.
+---
+ drivers/of/unittest.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Bart
+diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+index 9af5337c76f62162..67e32977341a6f0c 100644
+--- a/drivers/of/unittest.c
++++ b/drivers/of/unittest.c
+@@ -3035,6 +3035,7 @@ static void __init of_unittest_overlay_notify(void)
+ static void __init of_unittest_overlay(void)
+ {
+ 	struct device_node *bus_np = NULL;
++	unsigned int i;
+ 
+ 	if (platform_driver_register(&unittest_driver)) {
+ 		unittest(0, "could not register unittest driver\n");
+@@ -3072,7 +3073,8 @@ static void __init of_unittest_overlay(void)
+ 	of_unittest_overlay_2();
+ 	of_unittest_overlay_3();
+ 	of_unittest_overlay_4();
+-	of_unittest_overlay_5();
++	for (i = 0; i < 3; i++)
++		of_unittest_overlay_5();
+ 	of_unittest_overlay_6();
+ 	of_unittest_overlay_8();
+ 
+-- 
+2.34.1
+
