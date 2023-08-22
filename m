@@ -2,158 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 784C2783AC8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 09:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33931783AD7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Aug 2023 09:28:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233303AbjHVHVt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Aug 2023 03:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38200 "EHLO
+        id S233121AbjHVH2c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Aug 2023 03:28:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233306AbjHVHVo (ORCPT
+        with ESMTP id S232958AbjHVH2c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Aug 2023 03:21:44 -0400
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A08ECCD;
-        Tue, 22 Aug 2023 00:21:33 -0700 (PDT)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-48d0e739e32so746506e0c.3;
-        Tue, 22 Aug 2023 00:21:33 -0700 (PDT)
+        Tue, 22 Aug 2023 03:28:32 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC14611C;
+        Tue, 22 Aug 2023 00:28:29 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9a18a4136a9so293926366b.2;
+        Tue, 22 Aug 2023 00:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692689308; x=1693294108;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OoVq2aQG2PZ6wC1UnXS/aAZAjiDXppj1nzI2Mwf3CQQ=;
+        b=KRHQTn0Lw9fL4mG8PDwSBodFOaNZs6uqJ+qlwNRe2n5irl1bXTwy6nPt3KKOmlmZcQ
+         yoP8pDluiTyGH7Z1VM4WbDqj78Uw9jDQS0p0OwNEacSWCejeZ8jWf/f/AcUztyryOg82
+         ScCQdOhAQhbhE1CjGf1bEuMhDt8tJWu3Ru1ev2guofZBFTPqKOF+n/DuvC5iXxovjAYn
+         N5ZKWzSmnaIGBsjTi2B8/+2lX0ayZbVCZLXb0kwyxkSnpv+99RryxRrsXn9ZLlUac4qq
+         fHm+OHGm3kLqduEQR2Wp6iKa31kNVONu4MXaMwrSfJRARRPfA0tnmvvBCl1ZpfMHn/BP
+         VNnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692688892; x=1693293692;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1692689308; x=1693294108;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tEqj/7VMYcFHe/k0i7FuQIhSZcp2uVDnPoA7oQf1bW4=;
-        b=L8d6Ep+PIdFwTDIdiKx5OJwgSObKATwC0NbD7IbnJfhmDMFtOZInIhMIEhQZr+ACrb
-         RqPlTfla2JB0vIUhcRQNeaoQCWJxA4alpOSzSLG3R7UeF6NnIpgoUA7JGgihIIIS0Pnn
-         ea0m5t4CekPSUgKPnIIAFwpPLMuTlBs5xtI/JW56XS5pjpcKwIOflk0ZToVUmY4ZnNxj
-         Qo1ANOexVRXJc+c9V9Nt/cZfrHjelBp6H38unEJ3QuSFeTRZnGFGYySDcqiVLrz0U1n2
-         nqzViE67Drh+WnVFulWYuSJZ4QtEtNqq7CDrhSfOyGjcPKKUapbJdpwJj1UGpA9ZAAi1
-         v1Yg==
-X-Gm-Message-State: AOJu0YyJU0arX4eyMnRpKAt9U3+tX8KeNo/CxxGcHmgipa+9Y+WdvEs1
-        1mL0yNs77zkGyZkesYkgNP8kdwq0+CQk8Q==
-X-Google-Smtp-Source: AGHT+IGhHYL1QXzaQc6nJh4ze05UBS5daFHUNbuUEYU1M8Bid91oCLBeQsuI9OpMhfP6qpvmXJp//A==
-X-Received: by 2002:a1f:dd44:0:b0:48d:2bcf:f959 with SMTP id u65-20020a1fdd44000000b0048d2bcff959mr4937878vkg.3.1692688892140;
-        Tue, 22 Aug 2023 00:21:32 -0700 (PDT)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id w25-20020ac5cc79000000b0048d3a82a9dcsm502758vkm.28.2023.08.22.00.21.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 00:21:31 -0700 (PDT)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-48cfdfa7893so958093e0c.0;
-        Tue, 22 Aug 2023 00:21:31 -0700 (PDT)
-X-Received: by 2002:a1f:c5c4:0:b0:48d:9a8:e2f6 with SMTP id
- v187-20020a1fc5c4000000b0048d09a8e2f6mr5726315vkf.14.1692688891082; Tue, 22
- Aug 2023 00:21:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230820184402.102486-1-biju.das.jz@bp.renesas.com>
- <20230820184402.102486-3-biju.das.jz@bp.renesas.com> <ZONgzqlS8bGP0umn@smile.fi.intel.com>
- <CAMuHMdVY6VNFhMMzub9RrXd1zo=_7brQVtoBtogNuVfhbkg_tA@mail.gmail.com>
- <ZOOBw/3fqdinIwCh@smile.fi.intel.com> <CAMuHMdW8mqtceDxuZ4Ccq0Wrg8ySfFzVC3OBB0AqvfSR-54KYA@mail.gmail.com>
- <ZOOaFioDSpasda82@smile.fi.intel.com>
-In-Reply-To: <ZOOaFioDSpasda82@smile.fi.intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Aug 2023 09:21:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU_4Mg==Jh14K0ecVXfLCDt-RbNia5gCwLPjPj3tBQbsA@mail.gmail.com>
-Message-ID: <CAMuHMdU_4Mg==Jh14K0ecVXfLCDt-RbNia5gCwLPjPj3tBQbsA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] usb: typec: tcpci_rt1711h: Convert enum->pointer for
- data in the match tables
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        bh=OoVq2aQG2PZ6wC1UnXS/aAZAjiDXppj1nzI2Mwf3CQQ=;
+        b=a68h2AP9uuS2HRm6K2h4tzl8SYxs/vYZEa9KSQpPdTRR0STpd0GQrVC1zHVip9m0Fo
+         uj6O7QCto0Gw+3f1IXfXnvt09iBkpQSnKAsyPDJx/hVPqbOhAbYupIknrN8FaGv42f7W
+         ANR5Klc4+NOzXDuTcyJCqVxr2jUwl1dllTFKJkVT3NTDhJm856nJYWuYzm1RoBGpmVh8
+         SFU0UmHG82HTvFw/iCx3PE1NlGuHc9PI4z7uQ6vch5zuzl08cDEJiHmQmSzMliojp1BP
+         DRxn6XdNgbmr/XYaISxDo5XyDvWITcNzyVqJbJRZiEdMCaVUrvPVuENEXZ5Wra033+pO
+         N/Cg==
+X-Gm-Message-State: AOJu0YwfjWGmbSloYYXP4EJkrwsxMOiBU2+wlDKDkQKORWB9cTJfKrII
+        P2d0cvdcHg4iYPrVCCQE0bU=
+X-Google-Smtp-Source: AGHT+IGuCZUskIEAnTK1yBK8JvjWHA0h/ZsRkZiBDyyIrQMGbJhYCPi9BlOWE+x1YsXAUlJY+8x6Uw==
+X-Received: by 2002:a17:906:2011:b0:99c:56d1:7c71 with SMTP id 17-20020a170906201100b0099c56d17c71mr6647307ejo.26.1692689307966;
+        Tue, 22 Aug 2023 00:28:27 -0700 (PDT)
+Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id k21-20020a1709063fd500b0099bcf1c07c6sm7797573ejj.138.2023.08.22.00.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 00:28:27 -0700 (PDT)
+Date:   Tue, 22 Aug 2023 09:28:25 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop 'phandle' properties
+Message-ID: <ZORjmR3QoYXCq18G@orome>
+References: <20230819010946.916772-1-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="lgwtEg2EGBEaqI76"
+Content-Disposition: inline
+In-Reply-To: <20230819010946.916772-1-robh@kernel.org>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
 
-CC DT
+--lgwtEg2EGBEaqI76
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 21, 2023 at 7:09 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Mon, Aug 21, 2023 at 05:40:05PM +0200, Geert Uytterhoeven wrote:
-> > On Mon, Aug 21, 2023 at 5:25 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Mon, Aug 21, 2023 at 03:27:43PM +0200, Geert Uytterhoeven wrote:
-> > > > On Mon, Aug 21, 2023 at 3:04 PM Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > On Sun, Aug 20, 2023 at 07:44:00PM +0100, Biju Das wrote:
->
-> ...
->
-> > > > > For all your work likes this as I noted in the reply to Guenter that
-> > > > > the couple of the selling points here are:
-> > > > > 1) avoidance of the pointer abuse in OF table
-> > > > >    (we need that to be a valid pointer);
-> > > >
-> > > > There is no pointer abuse: both const void * (in e.g. of_device_id)
-> > > > and kernel_ulong_t (in e.g. i2c_device_id) can be used by drivers
-> > > > to store a magic cookie, being either a pointer, or an integer value.
-> > > > The same is true for the various unsigned long and void * "driver_data"
-> > > > fields in subsystem-specific driver structures.
-> > >
-> > > (void *)5 is the abuse of the pointer.
-> > > We carry something which is not a valid pointer from kernel perspective.
-> >
-> > But the data field is not required to be a valid pointer.
-> > What kind and type of information it represents is specific to the driver.
->
-> Where to find necessary information which is not always an integer constant.
-> For example, for the driver data that has callbacks it can't be invalid pointer.
+On Fri, Aug 18, 2023 at 08:09:44PM -0500, Rob Herring wrote:
+> 'phandle' properties are implicitly supported on all nodes, so it
+> shouldn't be listed in schemas.
+>=20
+> dtschema had a bug where 'phandle' and other implicit properties weren't
+> being added under 'additionalProperties' schemas. That was fixed in
+> v2023.07 release.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/pinctrl/ingenic,pinctrl.yaml          | 4 ----
+>  .../devicetree/bindings/pinctrl/nvidia,tegra114-pinmux.yaml   | 2 --
+>  .../devicetree/bindings/pinctrl/nvidia,tegra124-pinmux.yaml   | 2 --
+>  .../devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.yaml   | 2 --
+>  .../devicetree/bindings/pinctrl/nvidia,tegra20-pinmux.yaml    | 2 --
+>  .../devicetree/bindings/pinctrl/nvidia,tegra210-pinmux.yaml   | 2 --
+>  .../devicetree/bindings/pinctrl/nvidia,tegra30-pinmux.yaml    | 2 --
+>  Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml    | 4 ----
+>  .../devicetree/bindings/pinctrl/renesas,rza1-ports.yaml       | 4 ----
+>  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    | 4 ----
+>  .../devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml     | 4 ----
+>  .../devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml    | 4 ----
+>  .../bindings/pinctrl/socionext,uniphier-pinctrl.yaml          | 2 --
+>  13 files changed, 38 deletions(-)
 
-If the driver uses it to store callbacks, of course it needs to be a
-valid pointer. But that is internal to the driver.  It is not that
-we're passing random integer values to a function that expects a
-pointer that can actually be dereferenced.
+I see it's already applied, but for the record:
 
-> Since OF ID table structure is universal, it uses pointers. Maybe you need to
-> update it to use plain integer instead?
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-It is fairly common in the kernel to use void * to indicate a
-driver-specific cookie, being either a real pointer or an integral
-value, that is passed verbatim.  See also e.g. the "dev" parameter
-of request_irq().
+--lgwtEg2EGBEaqI76
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> I think there is no more sense to continue this. We have to admit we have
-> a good disagreement on this and I do not see any way I can agree with your
-> arguments. Note, I'm fine if you "fix" OF ID structure to use kernel_ulong_t.
+-----BEGIN PGP SIGNATURE-----
 
-of_device_id is also used in userspace (e.g. modutils), but I believe
-that uses a copy of the structure definition, not the definition from
-the kernel headers. Still, changing the type would be a lot of work,
-for IMHO no real gain.
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmTkY5YACgkQ3SOs138+
+s6G7Fw//YU/MCCwoCZGynV8zKCE3BWyMblDBfcf7bn/Uusn5hLVSEBbMGzBihBhC
+O0QO8tWasWfBLczIYRutySJdwL8s8ZPcF1c8RvahyFUi5BNxVwYu0GkTUzIIttmK
+ZIuLn5dklgi91TLUZrqctAMNmCWG1+4lJJybRkvByzs/6gIhwdzrpd5TlHZC/0zy
+A/UCgckYT0CS/WZKX6AQnPhHY4bm9bSL8keW0c0GbPHINefLftNx/IeDzUK/R5Nb
+secRLpgtIxrqsnNPz0rsJeI9CCaffjLeeSjujyrZeuQD7/seU9snLyXIuVr9Mygr
+KQTNfq0cm4iRuoIrVM3LXGp1P1lEmkWklMei4kGDR6JMeQbfftW1ppJr4PPKOUio
+qzC3xjy7sT+ysZIu3dZYHtYjFt7Ntyfxyhlv2TttDPpSlAU1II6jBIzuMYiTli14
+4vq+oG170nUmNoomfClWeSZZQTj3u74SrSiZISCYKHX+KZrh0pBFTXYpcHjo6Vfy
+GMzD8E0wrNlokSxg0S1LO3v4h0OFGf0Sjt0bFiMixqBednxTdWSjqKzDsu4jH1KC
+0Tr6VhJtgZNAdhyaZolLm/uS6/8s9JkXr+Ft27JS6UFxxyDG3coSNjqwN3NNxxt2
+bJN6TBKhoiyMyApb7XM8WWwysYGiI6bElL9Kf6lpEX5vJbarvd0=
+=PAJ0
+-----END PGP SIGNATURE-----
 
-> The only objection there is that it may not carry on the const qualifier,
-> which I personally find being a huge downside of the whole driver_data.
-> I believe you haven't objected that.
-
-Having const is nice, indeed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--lgwtEg2EGBEaqI76--
