@@ -2,187 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F8957851D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 09:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCB06785225
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 09:59:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233505AbjHWHmB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Aug 2023 03:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
+        id S231701AbjHWH7t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Aug 2023 03:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233502AbjHWHmB (ORCPT
+        with ESMTP id S230447AbjHWH7m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Aug 2023 03:42:01 -0400
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF10CF1;
-        Wed, 23 Aug 2023 00:41:54 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d749f57cb22so3251651276.3;
-        Wed, 23 Aug 2023 00:41:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692776513; x=1693381313;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eOojWHfvo4XGe36n3iNSxASWGoagp54uI77wdR4H5e8=;
-        b=Pf0clr+0qLrYt4N4sbPT4kXziMy4Guhh/i45hf5Lqs+mXzYRJ53+zL7YPAEWOvOo/V
-         Z5Rd89ENlQW+hSGGzjSU6zR/C4UIfdqcEWRZo8VVl6dBb3MbaBnFUoA/ppiMCRkpMzoK
-         5mwX8G5vjU4ZSsmmNB6uQhmjfOQle7oJ6UweUZUlP6OSEF5bH0ou/5KsfUUa3kIfl6XG
-         n+hpH1D4IbkvPg3Nzd8So3/CRAurVlAKA3p7Z5dP0J2dLygV5A45+s5lZuQBJBwyocDO
-         ++Wc8dSsU7DYoHk++jvpkNkmlTguF1xh8x9WLyQJ/5qkDiEaWztiLFqLS38WmjwH/uDN
-         YiVg==
-X-Gm-Message-State: AOJu0YyG1NCjRzw22qqQPjPq8+pAg6kgUXFr9dzrvCuWH3A6JQUiwgVt
-        m1FTjRTxj2GJqPlOjVlpXy5RfBL5tjTehA==
-X-Google-Smtp-Source: AGHT+IFKQQ3XNpRFd1tb/b5e4MXGi8His/eEqkCvzgWGhSVTjrbi+fRyU/t8BRwcrCfOtM7EhOQUOg==
-X-Received: by 2002:a81:4843:0:b0:561:cb45:d7de with SMTP id v64-20020a814843000000b00561cb45d7demr12137400ywa.31.1692776513357;
-        Wed, 23 Aug 2023 00:41:53 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id q83-20020a815c56000000b005869d49212fsm3270095ywb.32.2023.08.23.00.41.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Aug 2023 00:41:53 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d749f57cb22so3251634276.3;
-        Wed, 23 Aug 2023 00:41:52 -0700 (PDT)
-X-Received: by 2002:a25:d1c9:0:b0:d4b:6a0:fe2b with SMTP id
- i192-20020a25d1c9000000b00d4b06a0fe2bmr11423175ybg.36.1692776512284; Wed, 23
- Aug 2023 00:41:52 -0700 (PDT)
+        Wed, 23 Aug 2023 03:59:42 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2105.outbound.protection.outlook.com [40.107.113.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F7A1BE;
+        Wed, 23 Aug 2023 00:59:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iq3/NmIF80+UZSQ4OGnfUoK0ys1oID3iBgaqWZd+Oq29IBVPAVNOYljYWqvLsr/NbNL90eIfb4Ccd90wxn5NvwcZt7Y9IDpSYZWb4E6DlwNr6HeyCfGKtr1dz7rJ1reRw9UHqWS9RLAEf2+czHQjRX4cbVSkFRBY16E33seatWTLVdWJ/wqRGbWZFMedUp1WDn0y0wk0Hzd7V/Qc0uQ9oUImMNIdF9eH3clQbR/NzmpGnamLhnhHjDwEMMq/6GPGN+V/Ghk+bCFj9BheSp3ggXnpv+EKx4B3R15DdU2QFI4AXUlhm8p6itYndDOGbpH3d40AyC4iN9utMK+H8f753A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OOR3aK5ojvYccRrVWna4MHXj8zTYZMSJLvS9eZavT08=;
+ b=IYKHyHib9NtN00DFfINAAcN+DMmc8rkJEoUoR/j+ctPMMkvdo2YbaGJu+XFda+Iu797mONWxN7/4UnKnAdqvVXz7nkDQxqkQoh+KMiqGZ1a8K7y9l7UdM5beTc5VCv3Aq9tm3Cvqx81exHul/3sd+uJVHP7PNboohzFoKiIaQ8GW2LsTPubroI33jQS6BVp6JZN/5BL+stTdznFS6ktkKvHAcjq3ScZ6FBU2EIHgSt18qEYlDQInBsvyYhTyR5z3AvB2wmR4VNQfzBMap0RTmrtJ9y/G52tgDc4ZrBJcKDzNEH8w3czh4F+LazXQ7oFDo6fZc0QSnBYaAq1dGIrYWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OOR3aK5ojvYccRrVWna4MHXj8zTYZMSJLvS9eZavT08=;
+ b=Ohl1msQ/UvP3A46TfBINIcYD4S4SPq7ZMbexe/0VGRekklA2RFTQZcIdW/G4yFhIW9aOStXkCtfoIiH8m8QNeBvRj1eaHcY6Ie0g+auqyN5SA2+TReGCN2PDPxVB4yviUSyigULb7vhpTOsRDrQGtAZiAFhIgkec4rx39PQQbzI=
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
+ by TY3PR01MB10143.jpnprd01.prod.outlook.com (2603:1096:400:1d8::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Wed, 23 Aug
+ 2023 07:59:36 +0000
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::8e13:cc46:2137:9b03]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::8e13:cc46:2137:9b03%6]) with mapi id 15.20.6699.025; Wed, 23 Aug 2023
+ 07:59:36 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v3 1/4] dt-bindings: clock: versaclock3: Document
+ clock-output-names
+Thread-Topic: [PATCH v3 1/4] dt-bindings: clock: versaclock3: Document
+ clock-output-names
+Thread-Index: AQHZ0RY+xq154w2KkEK6ZwkiWOB+8K/3BW8AgACGF/A=
+Date:   Wed, 23 Aug 2023 07:59:36 +0000
+Message-ID: <TYCPR01MB5933518F99785AD31073CA63861CA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+References: <20230817142211.311366-1-biju.das.jz@bp.renesas.com>
+ <20230817142211.311366-2-biju.das.jz@bp.renesas.com>
+ <19fde7851bb06b7103e6221ca9b97f86.sboyd@kernel.org>
+In-Reply-To: <19fde7851bb06b7103e6221ca9b97f86.sboyd@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB5933:EE_|TY3PR01MB10143:EE_
+x-ms-office365-filtering-correlation-id: e9b006ba-dbc6-4104-f237-08dba3aee4ce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: M8rq4Q6A1ZYoCRe2scWWn/e2GMxkY4PpMao8yBhXnGD+eGu2vQYw7++lVY7VcCpLUkKSfKnz/7HcmNTmwvd62TIf+Zi8SR2TG70eFq2aRzAzdhmBT5yLnRgMf2rzMtfwTL1ULgYWdrlW/WZjjGB0TLT6QCacbqrHSLNtK1Jd+eY7gcNvtC6++ASAzJpaiB3GTarQLUVV4Li2C6PFE5N8bzzyuBRo65KqTTDM9r9yaPdWVdF6wCz3Ge4hlsyPCONmR83f+5JyK96WhXroci4GiTNvJEwptvC+wNbI5l4fuMoDAFmXnIH1uSS6G2ASFHNuN4Cyz+y3sTqCspBtBiezb0HBr8Vc/AA/iaHk5gokknfEsc1Ii2wjGQyGk5HlPxzZzUjVmuj+sFoDgvZA0R/Nhm34syiyCVLeWVnmlwOwUjGtWFJ3WYk1FE4dBGi2nJaT3QaKk99HsEPILVneF1b37t91GkQW+BwyhNup2uj3s/GcdNrHsKRHAkaWqP9U81x8laBj2BTP/Ja/vRwrYZ9P7r+ORVDodDqqEA5YKzIjTQUGYJ9orMKZ5S2NLFSAugCE3YEppHWTGrsXko9Fk9O1EpFHZPMkjbK+1TcC5VhwCP4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(376002)(136003)(396003)(39860400002)(451199024)(1800799009)(186009)(2906002)(7416002)(38070700005)(38100700002)(6506007)(83380400001)(5660300002)(26005)(33656002)(52536014)(86362001)(7696005)(8676002)(107886003)(8936002)(4326008)(966005)(316002)(9686003)(64756008)(66946007)(76116006)(54906003)(66446008)(66556008)(66476007)(110136005)(478600001)(55016003)(122000001)(71200400001)(41300700001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Q61KLrnCsP26WDINMV3s0/dXXUPk0sbpIPeVatgkQpjukVz4ICNgpC135h4m?=
+ =?us-ascii?Q?QZHJ4K9ntK77zTMO1R7bgTyCKDqNMfuRM9lw3CI0jnJ7FN6LIAUq5H6YnU30?=
+ =?us-ascii?Q?QPMnNHbK+IDfuvKCto6cBuOc6nkVPYD7wZmTJ63pu8v9W5ttamb3GYZVm/2v?=
+ =?us-ascii?Q?bVXd0eo5oevYNUVxLjYMRy/j28PfSqzBd+FJ+4mFMFOevBCBC7cJlaATqSVb?=
+ =?us-ascii?Q?Nmms6/8OGPHjE/JLEt/Un7Rr/lO7K9o4lpMeoIFARx92h+yCJeWCLTVk920O?=
+ =?us-ascii?Q?tIyX7MftcWBtrMOfEftD2ntdM6cKVEENfazdvWluyzihdrgMiD20Tw9Gkunu?=
+ =?us-ascii?Q?o93mV8FGDcX5eae/syeRbZp6MuTUBU/bqCrBnv7MfGTKUImYFThU8s61MEs/?=
+ =?us-ascii?Q?cNyQ4ne5I4ud9l6bEQJYMqgNpZCHrXxd8nVg4Etw0qfjVglxU5lkcunZ9CGK?=
+ =?us-ascii?Q?7W1AZk/C5gd3q97f6Ep+A7uYju61a3AjLjbL4/2rad+/dKe9cxtIvTfQ1SJX?=
+ =?us-ascii?Q?7MDgkN9JNl/WELZLYixSub3YGfhu+feKw+S/qDKkvahBXzou4yXpXvu7Q8Gy?=
+ =?us-ascii?Q?bMSPFPoWvYm9Va5M+xsf5cyp2fsLJ31bLDpE+fFVd7e2HTh9k7oPQ1HPL1VV?=
+ =?us-ascii?Q?l1S6ElV1ssAw9sBOnvC4aPaYqycnau5KvWwn2YG27B6DdRlE4+/cVS+MV1i5?=
+ =?us-ascii?Q?lA1mYFnoeQWQB38qTxjdVwmWAl7ai7qtt3nhGr0V66turlq0LFSF4NB51Q2S?=
+ =?us-ascii?Q?OjUeqafUaizRJAe74XBnf5Z45iq5UVTvyl8JQj47s1L3+83mAbVD0NkbH6gZ?=
+ =?us-ascii?Q?1YVZ2VaebFJrK6ubUxM1dfs5ZjH7EU8maWwRsBNh0OX8Acu+897YuwKcCDQi?=
+ =?us-ascii?Q?rVi7FeiiiryNZN0DFA6owPtBb2ilPnQm65mdJDX1Lm+83fjGQca3y0pZEi1e?=
+ =?us-ascii?Q?Xlu9viu+hFOkXs9gd+GUK2Wc/Q1fzV0p/bmrkEmDJSw54DjZ3haBMAiOHhq9?=
+ =?us-ascii?Q?9zz8tA6vXoRXOCx/XlUG741mrWEex2jKCZeptHqvHdbwib3B3omSIbeyu4pJ?=
+ =?us-ascii?Q?hdZrJ5R69VjI/IzAahZXftxRLq1F3J3R2ShuNXgqW3mNzDQumxbOFABKixg0?=
+ =?us-ascii?Q?LVs9x19u8TJkuY+rGkl6o2d9BrMUaSvxwj4lw4ZpsuuCJiyTjdeZZVeqmxXg?=
+ =?us-ascii?Q?ks14ka0aoj3hpiQFUvajMMQN4Cz5hC76wc2KxapxmQF8QxX7wbSFrVn1NGyb?=
+ =?us-ascii?Q?RExGdKNIEelVjoAK+3mXCpVriwkrnkbFMr6dx2tNj4GQ4T/wgu5R6tl1yp0u?=
+ =?us-ascii?Q?l6YnWlKntz7BwaK1opp1vUSP94hvKvUVgzi3BVbNeAFWUtmA1gCEkrAnx32p?=
+ =?us-ascii?Q?s737qK+gd7NmDiQCQjWlJnY6q1PRUQGz2niaOJYGcmtifghPQQpGytec56Vc?=
+ =?us-ascii?Q?Vy7+kAN/ADAmG+CtIwP9Cacspk0uzS26AjlLWsAtvd/mgGp4Mbc3WUjv7aZl?=
+ =?us-ascii?Q?C1uJF7UCsde35u9dLMwie0F149IsJwWnZ0VaO5hreJBYbOe3XEKzyD+6uQUE?=
+ =?us-ascii?Q?X0RdRJSDIn4NjDayjZdImGNOyzsT8pZDVxCwTuy9?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <a9fb4eb560c58d11a7f167bc78a137b46e76cf15.1692699743.git.geert+renesas@glider.be>
- <20230822153230.GA219888-robh@kernel.org> <CAMuHMdWLuATOi_5eUtqDPLn3W80H-c+_2CpSV2fV46Kv9i0MqA@mail.gmail.com>
- <CAL_JsqJWyQNxWLTbFSVNOMO0aC9Cg74dyNZJ7A4oK87VJL0VTw@mail.gmail.com> <CAL_Jsq+oDjOA0p1S_=hFjR8gZWA_5qXhUEp5=_vZ46d6ZUAHxQ@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+oDjOA0p1S_=hFjR8gZWA_5qXhUEp5=_vZ46d6ZUAHxQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Aug 2023 09:41:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU_K5tJ+BAygfPD=GZNUCRKu1_SEaxg_YLbq0cZJS1fcQ@mail.gmail.com>
-Message-ID: <CAMuHMdU_K5tJ+BAygfPD=GZNUCRKu1_SEaxg_YLbq0cZJS1fcQ@mail.gmail.com>
-Subject: Re: [PATCH] of: unittest: Run overlay apply/revert sequence three times
-To:     Rob Herring <robh@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9b006ba-dbc6-4104-f237-08dba3aee4ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2023 07:59:36.0976
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0pGBTNe/f+/YcbjYiFwR3cuHuYV1f53yt6x39vebhRXWnsMA2WTVKJ8hzdcFRFChDmxDCmkntVls89ODEivNZyfnwh6sBOIsdEBaaDjMBw0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10143
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Stephen Boyd,
 
-On Tue, Aug 22, 2023 at 9:22 PM Rob Herring <robh@kernel.org> wrote:
-> On Tue, Aug 22, 2023 at 12:59 PM Rob Herring <robh@kernel.org> wrote:
-> > On Tue, Aug 22, 2023 at 12:52 PM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > >
-> > > Hi Rob,
-> > >
-> > > On Tue, Aug 22, 2023 at 5:32 PM Rob Herring <robh@kernel.org> wrote:
-> > > > On Tue, Aug 22, 2023 at 12:22:34PM +0200, Geert Uytterhoeven wrote:
-> > > > > Run the test for the overlay apply/revert sequence three times, to
-> > > > > test if there are unbalanced of_node_put() calls causing reference
-> > > > > counts to become negative.
-> > > > >
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > ---
-> > > > > This is a reproducer for the issue fixed by commit 7882541ca06d51a6
-> > > > > ("of/platform: increase refcount of fwnode") in dt/linus.
-> > > >
-> > > > Is this necessary? There were WARN backtraces without that fix.
-> > >
-> > > Did you see them?
+> Subject: Re: [PATCH v3 1/4] dt-bindings: clock: versaclock3: Document
+> clock-output-names
+>=20
+> Quoting Biju Das (2023-08-17 07:22:08)
+> > Document clock-output-names property and fix the "assigned-clock-rates"
+> > for each clock output in the example based on Table 3. ("Output
+> > Source") in the 5P35023 datasheet(ie: {REF,SE1,SE2,SE3,DIFF1,DIFF2}).
 > >
-> > Yes, but that was also with your series applied. When I tested the
-> > fix, I had dropped that, so maybe your series triggered it too.
->
-> With the fix reverted on my dt/linus branch, I get this:
->
-> [ 1.269977] ### dt-test ### pass of_unittest_overlay_10():2507
-> [ 1.270123] ### dt-test ### pass of_unittest_overlay_10():2513
-> [ 1.270290] ### dt-test ### pass of_unittest_overlay_10():2519
-> [ 1.275673] ------------[ cut here ]------------
-> [ 1.275790] refcount_t: addition on 0; use-after-free.
-> [ 1.276118] WARNING: CPU: 1 PID: 1 at lib/refcount.c:25
-> refcount_warn_saturate+0x120/0x144
-> [ 1.276343] Modules linked in:
-> [ 1.276558] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G N
-> 6.5.0-rc1-00010-g8e081e8346d1 #84
-> [ 1.276791] Hardware name: linux,dummy-virt (DT)
-> [ 1.276973] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [ 1.277114] pc : refcount_warn_saturate+0x120/0x144
-> [ 1.277219] lr : refcount_warn_saturate+0x120/0x144
-> [ 1.277332] sp : ffff80008002b630
-> [ 1.277410] x29: ffff80008002b630 x28: ffff80008002b978 x27: ffff0a00ffffff05
-> [ 1.277585] x26: ffff80008002b9a9 x25: ffffd5ba808bec2f x24: ffff452a08002f18
-> [ 1.277738] x23: ffff0000ffffff00 x22: ffff80008002b978 x21: 0000000000000000
-> [ 1.277895] x20: ffff80008002b9dd x19: ffff452a08002f80 x18: 0000000000000006
-> [ 1.278052] x17: 73657474696e752d x16: 747365743a313174 x15: 0765076507720766
-> [ 1.278200] x14: 072d077207650774 x13: ffffd5b9814a0660 x12: 000000000000069c
-> [ 1.278357] x11: 0000000000000234 x10: ffffd5b9814f8660 x9 : ffffd5b9814a0660
-> [ 1.278529] x8 : 00000000ffffefff x7 : ffffd5b9814f8660 x6 : 80000000fffff000
-> [ 1.278680] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-> [ 1.278829] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff452a02cb8000
-> [ 1.279041] Call trace:
-> [ 1.279171] refcount_warn_saturate+0x120/0x144
-> [ 1.279322] kobject_get+0xb8/0xbc
-> [ 1.279416] of_node_get+0x20/0x34
-> [ 1.279497] of_fwnode_get+0x34/0x54
-> [ 1.279567] fwnode_get_nth_parent+0xf0/0x12c
-> [ 1.279666] fwnode_full_name_string+0x48/0xb8
-> [ 1.279764] device_node_string+0x380/0x5a4
-> [ 1.279841] pointer+0x38c/0x4ac
-> [ 1.279900] vsnprintf+0x14c/0x6d0
-> [ 1.279970] vprintk_store+0x168/0x47c
-> [ 1.280055] vprintk_emit+0x104/0x2b4
-> [ 1.280122] vprintk_default+0x38/0x44
-> [ 1.280189] vprintk+0xd4/0xf0
-> [ 1.280262] _printk+0x5c/0x84
-> [ 1.280332] of_node_release+0x1ac/0x1b4
-> [ 1.280413] kobject_put+0xb0/0x220
-> [ 1.280492] of_changeset_destroy+0x50/0xf4
-> [ 1.280584] free_overlay_changeset+0x24/0x104
-> [ 1.280680] of_overlay_remove+0x240/0x2b8
-> [ 1.280766] of_unittest_apply_revert_overlay_check.constprop.0+0xa8/0x310
-> [ 1.280904] of_unittest+0xbf4/0x2e64
-> [ 1.280986] do_one_initcall+0x7c/0x1c0
-> [ 1.281072] kernel_init_freeable+0x1c4/0x294
-> [ 1.281161] kernel_init+0x24/0x1dc
-> [ 1.281242] ret_from_fork+0x10/0x20
->
-> Then later on:
->
-> [ 1.459652] ### dt-test ### EXPECT \ : ------------[ cut here ]------------
-> [ 1.459877] ### dt-test ### EXPECT \ : WARNING: <<all>>
-> [ 1.460227] ### dt-test ### EXPECT \ : refcount_t: underflow; use-after-free.
-> [ 1.460508] ### dt-test ### EXPECT \ : ---[ end trace <<int>> ]---
-> [ 1.460860] ### dt-test ### pass of_unittest_lifecycle():3187
-> [ 1.461455] ### dt-test ### EXPECT / : ---[ end trace <<int>> ]---
-> [ 1.461463] ### dt-test ### EXPECT / : refcount_t: underflow; use-after-free.
-> [ 1.461789] ### dt-test ### EXPECT / : WARNING: <<all>>
-> [ 1.462137] ### dt-test ### EXPECT / : ------------[ cut here ]------------
->
-> So it seems we were getting the warning, but at the wrong point.
+> > While at it, replace clocks phandle in the example from x1_x2->x1 as
+> > X2 is a different 32768 kHz crystal.
+> >
+> > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Closes:
+> > Fixes: a03d23f860eb ("dt-bindings: clock: Add Renesas versa3 clock
+> > generator bindings")
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+>=20
+> Applied to clk-next
 
-Thanks (and confirmed), I had missed that.
+As per Geert's suggestion [1], I am about to send a patch
+for dropping "clock-output-names", as there is no validation for it and peo=
+ple can get it wrong.
 
-Note that it did not cause any test failures, though:
+Is it ok,if I send a patch dropping clock-output-names? Please let me know =
+your opinion on this.
 
-    ### dt-test ### end of unittest - 302 passed, 0 failed
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2023081709=
+0810.203900-2-biju.das.jz@bp.renesas.com/
 
-With this patch:
-
-    ### dt-test ### end of unittest - 303 passed, 1 failed
-
-Anyway, it's up to you to decide to apply or not...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Biju
