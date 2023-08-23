@@ -2,139 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB7E778539C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 11:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F12F78541B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 11:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235180AbjHWJPA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Aug 2023 05:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
+        id S235233AbjHWJbm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Aug 2023 05:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235396AbjHWJJi (ORCPT
+        with ESMTP id S235580AbjHWJYC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Aug 2023 05:09:38 -0400
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9BD1FFC;
-        Wed, 23 Aug 2023 02:02:13 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-76da4437500so194601885a.1;
-        Wed, 23 Aug 2023 02:02:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692781282; x=1693386082;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DtV842noA4k0ZIyALimzf7oD/qGOzDsyzAeC5Bbahhw=;
-        b=Qc19fPJuEe1p3u0oQWV4AkCNYwpP9v3Ic0P7yx6HlKwP6OW8NHgP9k8G8yrQAKJFpG
-         Ix/SSNULDfPePAepcByNJt8spAxHYhnymvLmrgsHLrsKzgsAmaBB6kkVrpKLbuEJmV2H
-         PyOb6abatTlGWYwAxwHrNiGA6RFSMlY2QqOvfxerIZzP5tNny083YMUSD4C6RKGO/OoM
-         keuUu+ZNM/0Fm+yYztg+aWz8SyIeU/nz8B3RvSpfW7Ph2410jNVtC9d/AzjUtvDoS+8Z
-         IRsYUxan5XWWne5Qr5FCOeL8jwzkfbBs0xJEkUqWw9QPFDTqtGJx+sfnDcHa4c7h1KR8
-         Otxw==
-X-Gm-Message-State: AOJu0Yw8ek7rMaQZU7qlRTNaGXfexcM5mp6Ds1QUWKs3fAx3CPNcS7zi
-        ZczwfjbQ417KOQT+94x3ziocLsn97Q6sDg==
-X-Google-Smtp-Source: AGHT+IFKpxmoHYGhsmnguwReHG+/b22cfFCY4nYz+uUUUtSM2GT11veFqVBEGcCX6rtDSKCu+zL9DA==
-X-Received: by 2002:a05:620a:4706:b0:76c:a3ae:1f64 with SMTP id bs6-20020a05620a470600b0076ca3ae1f64mr13828174qkb.49.1692781281995;
-        Wed, 23 Aug 2023 02:01:21 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id t125-20020a0dd183000000b005837fe8dbe8sm3227563ywd.8.2023.08.23.02.01.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Aug 2023 02:01:20 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d63c0a6568fso5381640276.0;
-        Wed, 23 Aug 2023 02:01:20 -0700 (PDT)
-X-Received: by 2002:a25:cad7:0:b0:d12:46b1:4459 with SMTP id
- a206-20020a25cad7000000b00d1246b14459mr12184522ybg.6.1692781280284; Wed, 23
- Aug 2023 02:01:20 -0700 (PDT)
+        Wed, 23 Aug 2023 05:24:02 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A0775B9F;
+        Wed, 23 Aug 2023 02:12:02 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,195,1684767600"; 
+   d="scan'208";a="173694712"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Aug 2023 18:12:01 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CC25D4002942;
+        Wed, 23 Aug 2023 18:12:01 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
+        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, fancer.lancer@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v19 00/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Wed, 23 Aug 2023 18:11:34 +0900
+Message-Id: <20230823091153.2578417-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org> <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Aug 2023 11:01:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU7Gk5jTkD_hc_BAK0caQjzTBWrXedV+5rYrMRiZF1EAw@mail.gmail.com>
-Message-ID: <CAMuHMdU7Gk5jTkD_hc_BAK0caQjzTBWrXedV+5rYrMRiZF1EAw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in SPDX
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 10:52 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Documentation/process/license-rules.rst and checkpatch expect the SPDX
-> identifier syntax for multiple licenses to use capital "OR".  Correct it
-> to keep consistent format and avoid copy-paste issues.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
+To support them, modify PCIe DesignWare common codes.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Changes from v18:
+https://lore.kernel.org/linux-pci/20230721074452.65545-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch and the following patches:
+   [PATCH v3 0/2] Cleanup IRQ type definitions
+   https://lore.kernel.org/linux-pci/20230802094036.1052472-1-dlemoal@kernel.org/
+ - Drop some patches about converting "legacy" to "INTx".
+ - Add detailed description in the patch 0[26]/19.
+ - Add a new patch "Expose dw_pcie_write_dbi2" in the patch 11/19.
+ - Revise typo in the patch 12/19.
+ - Fix calling order of deinit in the patch 12/19.
+ - Revise Kconfig about kernel module names in the patch 1[67]/19.
+ - Rename drivers' file names in the patch 1[67]/19.
+ - Some other minor change/fix in the patch 1[67]/19.
 
->  arch/arm64/boot/dts/renesas/r8a77980a.dtsi                     | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0-spider.dts                | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m0.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts               | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts                  | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m2.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts               | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts                  | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m4.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m5.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m6.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m7.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m8.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779mb.dtsi                      | 2 +-
+Changes from v17:m
+https://lore.kernel.org/linux-pci/20230705114206.3585188-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Add comments ine the commit log in the patch 01/20.
+ - Drop "Implicit" from "Message Routing" in the patch 01/20.
+ - Add Reviewed-by tag in the patch 0[14569]/20.
+ - Fix typo in the patch 07/20.
+ - Drop unnecessary description from the commit log in the patch 09/20.
+ - Add clk_bulk_disable_unprepare() calling in the patch 1[78]/20.
+ - Use .remove_new() in the patch 1[78]/20.
+ - Add rcar_gen4_pcie_basic_deinit() and .deinit() in the patch 17/20.
+ - Call rcar_gen4_pcie_basic_deinit() in .ep_deinit() in the patch 18/20.
+ - Minor updates for improved code readability in the patch 1[78]/20.
 
-Mea culpa
+Yoshihiro Shimoda (19):
+  PCI: Add INTx Mechanism Messages macros
+  PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+  PCI: dwc: Add outbound MSG TLPs support
+  PCI: designware-ep: Add INTx IRQs support
+  PCI: dwc: endpoint: Add multiple PFs support for dbi2
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW handling
+  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Expose dw_pcie_write_dbi2() to module
+  PCI: dwc: endpoint: Introduce .pre_init() and .deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: rcar-gen4: Add R-Car Gen4 PCIe Host support
+  PCI: rcar-gen4-ep: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        | 106 +++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 123 +++++++++++
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ drivers/pci/controller/dwc/Kconfig            |  20 ++
+ drivers/pci/controller/dwc/Makefile           |   4 +
+ .../pci/controller/dwc/pcie-designware-ep.c   | 136 ++++++++++--
+ .../pci/controller/dwc/pcie-designware-host.c |  52 +++--
+ drivers/pci/controller/dwc/pcie-designware.c  | 156 ++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h  |  29 ++-
+ .../controller/dwc/pcie-rcar-gen4-ep-drv.c    | 178 +++++++++++++++
+ .../controller/dwc/pcie-rcar-gen4-host-drv.c  | 145 ++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 208 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  44 ++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   6 -
+ drivers/pci/pci.h                             |  18 ++
+ 18 files changed, 1107 insertions(+), 131 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep-drv.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
