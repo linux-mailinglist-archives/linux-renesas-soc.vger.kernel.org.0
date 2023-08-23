@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C6478606E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 21:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8D65786076
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 21:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238000AbjHWTOg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Aug 2023 15:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
+        id S238078AbjHWTPI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Aug 2023 15:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238031AbjHWTOF (ORCPT
+        with ESMTP id S238282AbjHWTOl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Aug 2023 15:14:05 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5EE10C3;
-        Wed, 23 Aug 2023 12:14:03 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99df431d4bfso777344366b.1;
-        Wed, 23 Aug 2023 12:14:03 -0700 (PDT)
+        Wed, 23 Aug 2023 15:14:41 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6D210DC;
+        Wed, 23 Aug 2023 12:14:38 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-99df11828c6so31546866b.1;
+        Wed, 23 Aug 2023 12:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692818042; x=1693422842;
+        d=gmail.com; s=20221208; t=1692818077; x=1693422877;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OCIrAxFDF25mzcKHeRcgDzkO8YOJQLUfVKMU+Ywn+CI=;
-        b=F0m1dC0r1D9CfIev6pc24EaKzGxk0UuGNnqavKUqIieO1QM7EZ7130J/Dl71vD6cck
-         b4tEURRXTFB8K8kYrJunVHW9jBttCV6oOn8MVoJC79gH1IKNI19yDUYtMafAbmCqjXGD
-         jVl603iPiqILuA4/TICEL/jjU1Zfbn8GRo7IvKdaiiAVALYvHyo8QXpiqsHXR3TLXa0H
-         BMTTH8pb0RyPS7pzI0xuKr4OWTzNw+a/EX5nYDengR5UprSeu/PNWdOWKKpalqT87OfD
-         yS2EFWh9G3CbcUle03vyDcSzD2TgQgsnuyYnmsRhV0Z/we7N8WB/AHWK+LsXaMGpdm0x
-         eX7w==
+        bh=3GfGoPJfPXeL122AI/Y6i59RXbA4MoNTzdh5/a56Xn0=;
+        b=QJvDLNUBheJo6Z3mPsuYD5nZRJyW2l/OZodVbzD4U6Js7o5S2sE9dGB1wsabKctn2S
+         9tU+TeFm/qQCuHFmp9+YSNZFscM73NNk/0EBbZRVYyqTAlZqp4llP5sc9BvKrnVLTE4J
+         ZiQmZdxoRYvkbANv806hjyyKLb20aZqCYbTPdPq7pKNf5wAclWk+vJwjgLjsyvyo6dWZ
+         T2klMKPTCV0/DPK1JuLl8yOQEBFqT+8qtxTQxaPkokhC38PM/QV2mIhDHi+rlUHr5Keu
+         pU+J2vBCFvlIhfOsnGyHdzCN6h3rlGbVFTKCR7qnIQBk8bLMt/LcglVDySFm/y50gqXY
+         GjIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692818042; x=1693422842;
+        d=1e100.net; s=20221208; t=1692818077; x=1693422877;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OCIrAxFDF25mzcKHeRcgDzkO8YOJQLUfVKMU+Ywn+CI=;
-        b=KhIrxkTnYyrlKngpOd4Q5IBFFSoXyxCjJOVNPbmjTdB3kxxiaGo75LkdE3Li7djVrx
-         U1LkRO8JFwnliNkc0wAxQlRPDGXMvQgL+TNC5hNVkzj2ST00hFj6vddYlYn64RgeXqkh
-         IO+0i6xTTLitwIxmCtY+PAdV7Tj+UDS0apaDL4JwJqwOejn4wWt+FSlZpmzUs5l1ei/p
-         LNWQdnJy4sBagE6uSqjIh0RvhvyvXVItQzW0SUavE8DkGQL/vx+2OGqv/l2JVvZtpB40
-         lb+kCexnyUOqN8IemcuomW1gZQiiNols2+or5U3ZqHNuen55epjqWF3YDHlaJRL0kUSS
-         tBWA==
-X-Gm-Message-State: AOJu0Yyhz9YDGwp14B0CiaXXM2zL/WPBocln+fg0WrHvbtldVAw0mGDS
-        j/qVVKCGXj2cR1KEdmnFyug=
-X-Google-Smtp-Source: AGHT+IFbojcSnWWb57HEiIyw8RL+IR9XS37Wm62sPrbcTpWpKP2WmF6c9EcbiBXGI99RpkWM2z7iJQ==
-X-Received: by 2002:a17:906:cc2:b0:99d:f560:5d3c with SMTP id l2-20020a1709060cc200b0099df5605d3cmr11357511ejh.23.1692818042131;
-        Wed, 23 Aug 2023 12:14:02 -0700 (PDT)
+        bh=3GfGoPJfPXeL122AI/Y6i59RXbA4MoNTzdh5/a56Xn0=;
+        b=PkmcXyB9Hk7aF+LbOagZ6kP82Ovcay6mqmHhSkSa8Dl+IYeQUelz57IZnc0zXUeQrQ
+         +5Eu2ex6LLK9LMXvNlQ2S5NUBQXxI1mD6knmN3Xp+RiQf4ousCEBDr9YY/Ou1nlBfYwJ
+         ghDL06Iv+WWVBirsFYHWd/RyRvlM8pg2B3U6zBGlzUJEoxREL/JOHDdLYEfyKDEZr/+L
+         CKwAOCQZ7LwT82G3RMH0X6jJD7qmPz5sGrMJFGDHkUAsgn1plRO90AnN/eu3nchwyqsH
+         BGhPm+v5sn4+r9FrBdp577EPV0FmnHAt7yCLuiAyGejJ8f934IMuvuTRiM6zXgUX0u4h
+         QJ6w==
+X-Gm-Message-State: AOJu0YyXvX+aDhMJ/Ry8E3Pbrv4sBCb4KoBcOfaG5HlLrEncaKOufmU/
+        Wke5fMtCgdx1r4fQVN+nFqEv8pn+bTi+Qg==
+X-Google-Smtp-Source: AGHT+IEyB/ZIs6kkflGm4CaDR9JI8pIkw1oTLixQ0Y4DZJKD0Tq/QtdPvoLjd898II3fszhvDVCRmw==
+X-Received: by 2002:a17:906:3051:b0:99c:5056:4e31 with SMTP id d17-20020a170906305100b0099c50564e31mr17063070ejd.15.1692818076698;
+        Wed, 23 Aug 2023 12:14:36 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id f15-20020a170906084f00b0099cf9bf4c98sm10059758ejd.8.2023.08.23.12.14.00
+        by smtp.gmail.com with ESMTPSA id ci16-20020a170906c35000b0098e34446464sm10091272ejb.25.2023.08.23.12.14.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 12:14:01 -0700 (PDT)
+        Wed, 23 Aug 2023 12:14:36 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
@@ -79,11 +79,12 @@ To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         linux-renesas-soc@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] ARM: dts: use capital "OR" for multiple licenses in SPDX
-Date:   Wed, 23 Aug 2023 21:13:59 +0200
-Message-ID: <4504114.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in SPDX
+Date:   Wed, 23 Aug 2023 21:14:34 +0200
+Message-ID: <4824782.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
 References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
+ <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -97,7 +98,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dne sreda, 23. avgust 2023 ob 10:51:45 CEST je Krzysztof Kozlowski napisal(a):
+Dne sreda, 23. avgust 2023 ob 10:51:46 CEST je Krzysztof Kozlowski napisal(a):
 > Documentation/process/license-rules.rst and checkpatch expect the SPDX
 > identifier syntax for multiple licenses to use capital "OR".  Correct it
 > to keep consistent format and avoid copy-paste issues.
@@ -109,9 +110,13 @@ Dne sreda, 23. avgust 2023 ob 10:51:45 CEST je Krzysztof Kozlowski napisal(a):
 > Rebased on next-20230822, so might not apply cleanly.  What does not
 > apply, can be skipped and I will fix it after next RC.
 > ---
->  arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts | 2 +-
->  arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi                  | 2 +-
->  arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi  | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts  | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi                 | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts   | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi   | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts   | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts         | 2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts   | 2 +-
 
 For Allwinner:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -119,20 +124,37 @@ Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Best regards,
 Jernej
 
->  arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts                  | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts                   | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts                  | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts                   | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts                   | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi                 | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi                  | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts              | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi                    | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts               | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi            | 2 +-
->  arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi                  | 2 +-
->  arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts              | 2 +-
->  arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi           | 2 +-
+>  arch/arm64/boot/dts/arm/corstone1000-fvp.dts                   | 2 +-
+>  arch/arm64/boot/dts/arm/corstone1000-mps3.dts                  | 2 +-
+>  arch/arm64/boot/dts/arm/corstone1000.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts       | 2 +-
+>  arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi | 2 +-
+>  arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi       | 2 +-
+>  arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi        | 2 +-
+>  arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts           | 2 +-
+>  arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi          | 2 +-
+>  arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi                | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a77980a.dtsi                     | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0-spider.dts                | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779f0.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m0.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts               | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts                  | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m1.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m2.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts               | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts                  | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m3.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m4.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts           | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m5.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m6.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m7.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779m8.dtsi                      | 2 +-
+>  arch/arm64/boot/dts/renesas/r8a779mb.dtsi                      | 2 +-
 
 
 
