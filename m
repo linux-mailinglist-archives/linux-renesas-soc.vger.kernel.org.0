@@ -2,88 +2,299 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBE90785321
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 10:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD72F78533A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 10:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234945AbjHWIyX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Aug 2023 04:54:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46350 "EHLO
+        id S234952AbjHWI4e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Aug 2023 04:56:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234910AbjHWIxe (ORCPT
+        with ESMTP id S234972AbjHWIzk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Aug 2023 04:53:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E88C198C;
-        Wed, 23 Aug 2023 01:50:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A69B6585D;
-        Wed, 23 Aug 2023 08:50:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD98CC433D9;
-        Wed, 23 Aug 2023 08:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692780622;
-        bh=2XtfpRtDnIU/IzTymjZdBOGFulqWEEJEegtUUR1ce9o=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=B7z9mvY5R3DS5mkLH5PZtEUIAFTM05i2+DoUbuKfPU3yAIQoqbDmQPWhvgiPzPbYW
-         Pm//3oXZL/nMrPW/u/nXdPP2IPRpzFy7VUWo20p6R0ECA60iG2r6FqM62N5YWneWCf
-         CzaAzOIukbdjucIAK3utBZ0Z0CfWmGIL/9ueBTRLwo+TR4IwcbI5edM+U4gnlRAtWR
-         uHfM9iivmawwgnCvErdkm7xKrV7gTfDxGPnt9fcSXAWwZ/7COIBOEz6teFYtWFzgOR
-         w/OB3Sssah1IbxJ1Z6my723fnZN51lWJsu50a6wv/JKaLkkW2S7pDZo9k3niogfh0q
-         07/FxMFywcDAw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AF514E4EAF6;
-        Wed, 23 Aug 2023 08:50:22 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 23 Aug 2023 04:55:40 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475391FE7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Aug 2023 01:52:02 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4ff91f2d7e2so7698273e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Aug 2023 01:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692780720; x=1693385520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7D2ouUhW30X6Tc9yQKY+DadfBMJeG3kxkyZx2pcZ+Fg=;
+        b=sIlOYGc/ZmKfI2RhksznWNTLXphb9ZU1vnoGgw+9kpuBCsrs+KwtG7j1eVs/ryvpFg
+         H6A5+1YRebYkjaA/UW6C/PPIEOXNlTcKpC4p/NtVg2r9wYMBZ7779wtWiJdrXcLFnBeH
+         ZvFiQGuTARPQxbHziGh6JDOqd2xUP5ZP6CSrKgP2Qvnvtu80JtBgCbUtcK0ioi9KhuA3
+         v6M+J92F0Soe/DfWS1BPm5YHlvQU4XCki6xXIrDZWoKBclI3KR8pA3JghKqS4dxvcnWQ
+         n2BiuDHFkUqLAumUTHqf4U/rkl6E7dXFXirxUnz2FA61IF+LiiWNLw6bIrwwumB0Folp
+         06Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692780720; x=1693385520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7D2ouUhW30X6Tc9yQKY+DadfBMJeG3kxkyZx2pcZ+Fg=;
+        b=R1uYOXUGh7JWAEAxdLfCCbKng2dzpSutHTW7wJlcoIUvg4oJuusB4XIBlg/sRZw3Sb
+         NmTAzwy4Iyc1a1BC3v6Uk53lsLvoZwmuY+J291M7Gh9CjesloXIjkFyqx1s+XqZjF8C1
+         fBGAidx6xOKWty9du5DhKVAWXFgD2Qr2mHK5cp1WVPYCRxgKjvX4qdM54GL7fhBA4fHs
+         Ug8T9VcdHAJhf9+/pbP9QZEz2VBySERuIg5B3SI9VODMPqquo3SQHPXv5fQiJggfC5TD
+         +zABsEgBSceaBqvO5J58/zuWBda+6DVSLccIjO5j55oiPh4wrbfYwzFqLuJNTEjVxmsB
+         xlHw==
+X-Gm-Message-State: AOJu0YwdGGTxRFeeEWXoUPN3f2vzNKjCHITO6uDWYstaviZJwF+dslkh
+        Pr6AmPJhqA449fHiT9ScJfrHaQ==
+X-Google-Smtp-Source: AGHT+IF5ZWP6+GMqNyYtzuRMXVyZPxGrTYqGvfpxsUPFPsvr3clkivSzzEml7p4XyTWsj2zwc843FQ==
+X-Received: by 2002:a19:385e:0:b0:4fd:d517:fbcd with SMTP id d30-20020a19385e000000b004fdd517fbcdmr6963552lfj.6.1692780720501;
+        Wed, 23 Aug 2023 01:52:00 -0700 (PDT)
+Received: from krzk-bin.. ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id s19-20020aa7c553000000b0051bed21a635sm9090986edr.74.2023.08.23.01.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 01:52:00 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] ARM: dts: use capital "OR" for multiple licenses in SPDX
+Date:   Wed, 23 Aug 2023 10:51:45 +0200
+Message-Id: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: dsa: rzn1-a5psw: remove redundant logs
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169278062271.13745.4624932060918576814.git-patchwork-notify@kernel.org>
-Date:   Wed, 23 Aug 2023 08:50:22 +0000
-References: <20230822084112.54803-1-alexis.lothore@bootlin.com>
-In-Reply-To: <20230822084112.54803-1-alexis.lothore@bootlin.com>
-To:     =?utf-8?q?Alexis_Lothor=C3=A9_=3Calexis=2Elothore=40bootlin=2Ecom=3E?=@ci.codeaurora.org
-Cc:     clement@clement-leger.fr, andrew@lunn.ch, f.fainelli@gmail.com,
-        olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, miquel.raynal@bootlin.com,
-        milan.stevanovic@se.com, jimmy.lalande@se.com,
-        pascal.eberhard@se.com, thomas.petazzoni@bootlin.com
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Documentation/process/license-rules.rst and checkpatch expect the SPDX
+identifier syntax for multiple licenses to use capital "OR".  Correct it
+to keep consistent format and avoid copy-paste issues.
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On Tue, 22 Aug 2023 10:41:12 +0200 you wrote:
-> From: Alexis Lothoré <alexis.lothore@bootlin.com>
-> 
-> Remove debug logs in port vlan management, since there are already multiple
-> tracepoints defined for those operations in DSA
-> 
-> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
-> 
-> [...]
+---
 
-Here is the summary with links:
-  - [net-next] net: dsa: rzn1-a5psw: remove redundant logs
-    https://git.kernel.org/netdev/net-next/c/2e0c8ee2b56f
+Rebased on next-20230822, so might not apply cleanly.  What does not
+apply, can be skipped and I will fix it after next RC.
+---
+ arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts | 2 +-
+ arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi                  | 2 +-
+ arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi  | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts                  | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts                   | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts                  | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts                   | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts                   | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi                 | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi                  | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts              | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi                    | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts               | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi            | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi                  | 2 +-
+ arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts              | 2 +-
+ arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi           | 2 +-
+ 17 files changed, 17 insertions(+), 17 deletions(-)
 
-You are awesome, thank you!
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts b/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
+index 94e24b5926dd..8b3a75383816 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
++++ b/arch/arm/boot/dts/allwinner/sun8i-t113s-mangopi-mq-r-t113.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Arm Ltd.
+ 
+ #include <dt-bindings/interrupt-controller/irq.h>
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
+index 804aa197a24f..c7181308ae6f 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-t113s.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Arm Ltd.
+ 
+ #define SOC_PERIPHERAL_IRQ(nr) GIC_SPI nr
+diff --git a/arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi b/arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi
+index e9bc749488bb..a415c4a78a70 100644
+--- a/arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi
++++ b/arch/arm/boot/dts/allwinner/sunxi-d1s-t113-mangopi-mq-r.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ // Copyright (C) 2022 Arm Ltd.
+ /*
+  * Common peripherals and configurations for MangoPi MQ-R boards.
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts
+index 411aa72d344b..7d4ae113c381 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b105pv2.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B105Pv2
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts
+index d011127c635b..9c5938e16d99 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b105v2.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B105v2
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts
+index ca840fa84052..01df7cffcef2 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b125pv2.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B125Pv2
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts
+index 81e5a9cb8900..a015453daf10 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b125v2.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B125v2
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts
+index c861937b30f6..b71ee6b79208 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b155v2.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B155v2
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi b/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi
+index 6e487ebf27a2..9f1655540cb9 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5pv2.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B1x5Pv2
+ // patient monitor series
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi b/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi
+index f028b6a191df..590dcc0953cc 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-b1x5v2.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for General Electric B1x5v2
+ // patient monitor series
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts b/arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts
+index 407ad8d43c84..77d7600b2675 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-emcon-avari.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (C) 2018 emtrion GmbH
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi b/arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi
+index 05fd8ff4da1e..8a637fdff073 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6dl-qmx6.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0 or MIT
++// SPDX-License-Identifier: GPL-2.0 OR MIT
+ //
+ // Device Tree Source for i.MX6DL based congatec QMX6
+ // System on Module
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts b/arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts
+index 0f582a9d4c0e..02813368a820 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6q-emcon-avari.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (C) 2018 emtrion GmbH
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi
+index c4e146f3341b..f1a41c76729c 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon-avari.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (C) 2018 emtrion GmbH
+ //
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi
+index ee2dd75cead6..a63e73adc1fc 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-emcon.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (C) 2018 emtrion GmbH
+ //
+diff --git a/arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts b/arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts
+index 33b3f11d24bb..a19c488cf7c8 100644
+--- a/arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts
++++ b/arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dts
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (c) 2021 emtrion GmbH
+ // Author: Reinhold Müller <reinhold.mueller@emtrion.de>.
+diff --git a/arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi b/arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi
+index 009209ca673b..f928cfb80b87 100644
+--- a/arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi
++++ b/arch/arm/boot/dts/st/stm32mp157c-emstamp-argon.dtsi
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: (GPL-2.0 or MIT)
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+ //
+ // Copyright (c) 2021 emtrion GmbH
+ // Author: Reinhold Müller <reinhold.mueller@emtrion.de>.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
