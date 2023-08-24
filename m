@@ -2,99 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 297B7786D1C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 12:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B346786D62
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 13:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236224AbjHXKtB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Aug 2023 06:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S230297AbjHXLGR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Aug 2023 07:06:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236262AbjHXKsd (ORCPT
+        with ESMTP id S231910AbjHXLFq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Aug 2023 06:48:33 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8880E10DA;
-        Thu, 24 Aug 2023 03:48:31 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.01,195,1684767600"; 
-   d="scan'208";a="173833553"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Aug 2023 19:48:31 +0900
-Received: from localhost.localdomain (unknown [10.226.93.115])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0B065400721C;
-        Thu, 24 Aug 2023 19:48:28 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v5 4/4] clk: vc3: Make vc3_clk_mux enum values based on vc3_clk enum values
-Date:   Thu, 24 Aug 2023 11:48:12 +0100
-Message-Id: <20230824104812.147775-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230824104812.147775-1-biju.das.jz@bp.renesas.com>
-References: <20230824104812.147775-1-biju.das.jz@bp.renesas.com>
+        Thu, 24 Aug 2023 07:05:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9E2E58
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Aug 2023 04:05:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3A13660F05
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Aug 2023 11:05:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E25C433C7;
+        Thu, 24 Aug 2023 11:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692875143;
+        bh=nPjOxjZZcTevjlfl94HJgpkhz5t8USny22T5xsJdqaI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dpHRQAaO2BhsxC5y8s4oloQHDiAzK8wRWb4AA4Lc51Kf0uU4wIyxSsIfII59N5NwN
+         RMgnAg7vk2G/o3tpXcPmWExDYa3EpIkUtUqhht10xiARttHTj7IDfF9OAitp2CsQUz
+         vdnZZzr4uBH5Y6rAJv+/UqcghnXEKg1bFCoSCXEasXgoRJe74wbOMN0J8BCXixvipD
+         BGNxqLkWKEqxf9dwzCCtJpGGe92PNVueOWY1fmRHBkNh0/LpiI7p7cHM2ks9l27Apk
+         27HYS9mu5YHQEib6VlM5moMdi8ABvSw513QFsGz0S+lo0E+Sn4lEC7YHh//N+OC8hl
+         nJEQEy7mo5fhw==
+Date:   Thu, 24 Aug 2023 13:05:37 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Doug Anderson <dianders@chromium.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Zhu Wang <wangzhu9@huawei.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
+ for ID table
+Message-ID: <20230824130537.5d4028c2@dellmb>
+In-Reply-To: <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
+References: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
+        <CAD=FV=W6aoaUuMx5OvG2xMX+fBG6B-c5Fmvmit4f2CTZq=x1vQ@mail.gmail.com>
+        <OS0PR01MB5922E0300F53BED1AFFD916E861CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <CAHp75VcjA-99ckLWNczNuP5f2FGx67o1=O8MFVThBTVzPzJBdA@mail.gmail.com>
+        <CAHp75VeJ-JjcrfLZd2dyisBmq5r66j=Sq5ubSLpK=kFrodzb-g@mail.gmail.com>
+        <CAD=FV=VbsfAc4Pb3LY3w3-krqfkmmaZLiBxcxjgea+4S0HU1Vw@mail.gmail.com>
+        <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Make vc3_clk_mux enum values depend upon vc3_clk enum valuesÂ to avoid
-any accidental breakage in the future.
+On Thu, 24 Aug 2023 12:59:19 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4->v5:
- * No change.
-v3->v4:
- * No change.
-v3:
- * New patch.
----
- drivers/clk/clk-versaclock3.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+> On Wed, Aug 23, 2023 at 9:39=E2=80=AFPM Doug Anderson <dianders@chromium.=
+org> wrote:
+> > On Wed, Aug 23, 2023 at 10:10=E2=80=AFAM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote: =20
+> > > =20
+> > > > No. Please, do not remove the I2C ID table. It had already been
+> > > > discussed a few years ago.
+> > > > =20
+> > > > > Yes, it make sense, as it saves some memory =20
+> > >
+> > > Okay, reading code a bit, it seems that it won't work with purely i2c
+> > > ID matching. =20
+> >
+> > OK, so you are in agreement that it would be OK to drop the I2C ID tabl=
+e? =20
+>=20
+> Yes.
+>=20
+> > > So the question here is "Do we want to allow enumeration via sysfs or=
+ not?" =20
+> >
+> > Is there some pressing need for it? If not, I guess I'd tend to wait
+> > until someone needs this support before adding it. =20
+>=20
+> Depends. Is this device anyhow useful IRL as standalone if
+> instantiated via sysfs? I think it may be not, so it's unlikely we
+> want to have sysfs option for it.
+>=20
 
-diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-index 157cf510b23a..3d7de355f8f6 100644
---- a/drivers/clk/clk-versaclock3.c
-+++ b/drivers/clk/clk-versaclock3.c
-@@ -118,14 +118,6 @@ enum vc3_div {
- 	VC3_DIV5,
- };
- 
--enum vc3_clk_mux {
--	VC3_SE1_MUX,
--	VC3_SE2_MUX,
--	VC3_SE3_MUX,
--	VC3_DIFF1_MUX,
--	VC3_DIFF2_MUX,
--};
--
- enum vc3_clk {
- 	VC3_REF,
- 	VC3_SE1,
-@@ -135,6 +127,14 @@ enum vc3_clk {
- 	VC3_DIFF2,
- };
- 
-+enum vc3_clk_mux {
-+	VC3_SE1_MUX = VC3_SE1 - 1,
-+	VC3_SE2_MUX = VC3_SE2 - 1,
-+	VC3_SE3_MUX = VC3_SE3 - 1,
-+	VC3_DIFF1_MUX = VC3_DIFF1 - 1,
-+	VC3_DIFF2_MUX = VC3_DIFF2 - 1,
-+};
-+
- struct vc3_clk_data {
- 	u8 offs;
- 	u8 bitmsk;
--- 
-2.25.1
+So this is what the id table is about :D I guess I should remove it for
+leds-turris-omnia :D
 
