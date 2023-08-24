@@ -2,159 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D65786076
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Aug 2023 21:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC354786475
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 03:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238078AbjHWTPI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Aug 2023 15:15:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57696 "EHLO
+        id S238945AbjHXBHB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Aug 2023 21:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238282AbjHWTOl (ORCPT
+        with ESMTP id S239023AbjHXBG2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Aug 2023 15:14:41 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6D210DC;
-        Wed, 23 Aug 2023 12:14:38 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-99df11828c6so31546866b.1;
-        Wed, 23 Aug 2023 12:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692818077; x=1693422877;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3GfGoPJfPXeL122AI/Y6i59RXbA4MoNTzdh5/a56Xn0=;
-        b=QJvDLNUBheJo6Z3mPsuYD5nZRJyW2l/OZodVbzD4U6Js7o5S2sE9dGB1wsabKctn2S
-         9tU+TeFm/qQCuHFmp9+YSNZFscM73NNk/0EBbZRVYyqTAlZqp4llP5sc9BvKrnVLTE4J
-         ZiQmZdxoRYvkbANv806hjyyKLb20aZqCYbTPdPq7pKNf5wAclWk+vJwjgLjsyvyo6dWZ
-         T2klMKPTCV0/DPK1JuLl8yOQEBFqT+8qtxTQxaPkokhC38PM/QV2mIhDHi+rlUHr5Keu
-         pU+J2vBCFvlIhfOsnGyHdzCN6h3rlGbVFTKCR7qnIQBk8bLMt/LcglVDySFm/y50gqXY
-         GjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692818077; x=1693422877;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3GfGoPJfPXeL122AI/Y6i59RXbA4MoNTzdh5/a56Xn0=;
-        b=PkmcXyB9Hk7aF+LbOagZ6kP82Ovcay6mqmHhSkSa8Dl+IYeQUelz57IZnc0zXUeQrQ
-         +5Eu2ex6LLK9LMXvNlQ2S5NUBQXxI1mD6knmN3Xp+RiQf4ousCEBDr9YY/Ou1nlBfYwJ
-         ghDL06Iv+WWVBirsFYHWd/RyRvlM8pg2B3U6zBGlzUJEoxREL/JOHDdLYEfyKDEZr/+L
-         CKwAOCQZ7LwT82G3RMH0X6jJD7qmPz5sGrMJFGDHkUAsgn1plRO90AnN/eu3nchwyqsH
-         BGhPm+v5sn4+r9FrBdp577EPV0FmnHAt7yCLuiAyGejJ8f934IMuvuTRiM6zXgUX0u4h
-         QJ6w==
-X-Gm-Message-State: AOJu0YyXvX+aDhMJ/Ry8E3Pbrv4sBCb4KoBcOfaG5HlLrEncaKOufmU/
-        Wke5fMtCgdx1r4fQVN+nFqEv8pn+bTi+Qg==
-X-Google-Smtp-Source: AGHT+IEyB/ZIs6kkflGm4CaDR9JI8pIkw1oTLixQ0Y4DZJKD0Tq/QtdPvoLjd898II3fszhvDVCRmw==
-X-Received: by 2002:a17:906:3051:b0:99c:5056:4e31 with SMTP id d17-20020a170906305100b0099c50564e31mr17063070ejd.15.1692818076698;
-        Wed, 23 Aug 2023 12:14:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id ci16-20020a170906c35000b0098e34446464sm10091272ejb.25.2023.08.23.12.14.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 12:14:36 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-renesas-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses in SPDX
-Date:   Wed, 23 Aug 2023 21:14:34 +0200
-Message-ID: <4824782.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
-References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
- <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+        Wed, 23 Aug 2023 21:06:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DB3101;
+        Wed, 23 Aug 2023 18:06:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 046D86394F;
+        Thu, 24 Aug 2023 01:06:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6968AC433C8;
+        Thu, 24 Aug 2023 01:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692839185;
+        bh=iP8W3tn22trb7ihWpxZtqU5t9wZAEMt5bFjTOf4SKE8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IMh5ENtQqLiDOaLltiDFdSZ4pLG1PTQZ2L7fEHXQuJY3B1iMfkMKn4aXw3w3M6OfJ
+         w/jur+DHNHbHiiiA8vDVK0wMgVRQsEE9fn5x/KoSNCWnmF4BLl4xzNoVUI+h8Ut7o0
+         YoVOqcW2PUEaOnzzVtYU9YHhzpzcxaRt6M10hGYlLz4qR5NycL6fDDMQAD25cCwT3z
+         xuCo/lDcRaqeg4YRnXnJBehxsg8r88LjBmKbQ37aZ60YNOCXYE0S7BHyH12yIS/LQ/
+         hO0KviasbYhjG1ldFmmBS0Y8qjpQUy9dBJeo9GUmxBgG4gPW5m2FPFyLchV8QpfqZQ
+         dS92806X0178Q==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50043cf2e29so7088317e87.2;
+        Wed, 23 Aug 2023 18:06:25 -0700 (PDT)
+X-Gm-Message-State: AOJu0YztxzgP2+2yxnKEtgfez2BIjkligp5apmqiEAif84xdf54Lx254
+        +FyWjhErATCtBBD2Gx0vOd8JPwl8rFF7JccVlw==
+X-Google-Smtp-Source: AGHT+IFZuwLPgt5rdCS3fJ8EjrWDLOp3Jribuuhv6YwylWc8YQkHDpPFMFORJOn6UfBMvzg2MfPE6XlRQTU4VUFBP+M=
+X-Received: by 2002:a2e:9b01:0:b0:2bc:c064:7252 with SMTP id
+ u1-20020a2e9b01000000b002bcc0647252mr7600829lji.5.1692839183252; Wed, 23 Aug
+ 2023 18:06:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <cover.1690533838.git.geert+renesas@glider.be> <594a6a8934e5569bf96d317a6a3c0a9129a2ae20.1690533838.git.geert+renesas@glider.be>
+ <CAL_JsqJhd+t1Am48S+EGEf51Zge=83v8avYbzYTUjinebHm+nw@mail.gmail.com> <CAMuHMdXrKzM5B6_=pQmnXb8wWHpkw0yjQnzwOfYwFqw4aCfGEA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXrKzM5B6_=pQmnXb8wWHpkw0yjQnzwOfYwFqw4aCfGEA@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 23 Aug 2023 20:06:10 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKF2m6XjO5OY3B4EPKpSY1LYd7F-v6BeDPZNS-cCYyCHw@mail.gmail.com>
+Message-ID: <CAL_JsqKF2m6XjO5OY3B4EPKpSY1LYd7F-v6BeDPZNS-cCYyCHw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/13] of: unittest: Cleanup partially-applied overlays
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dne sreda, 23. avgust 2023 ob 10:51:46 CEST je Krzysztof Kozlowski napisal(a):
-> Documentation/process/license-rules.rst and checkpatch expect the SPDX
-> identifier syntax for multiple licenses to use capital "OR".  Correct it
-> to keep consistent format and avoid copy-paste issues.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Rebased on next-20230822, so might not apply cleanly.  What does not
-> apply, can be skipped and I will fix it after next RC.
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a100-allwinner-perf1.dts  | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi                 | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dts   | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi   | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts   | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts         | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts   | 2 +-
+On Mon, Aug 14, 2023 at 4:21=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Rob,
+>
+> On Tue, Aug 1, 2023 at 10:50=E2=80=AFPM Rob Herring <robh+dt@kernel.org> =
+wrote:
+> > On Fri, Jul 28, 2023 at 2:50=E2=80=AFAM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > When of_overlay_fdt_apply() fails, the changeset may be partially
+> > > applied, and the caller is still expected to call of_overlay_remove()=
+ to
+> > > clean up this partial state.  However, overlay_17 is the only test th=
+at
+> > > takes care of cleaning up after an (expected) failure.
+> > >
+> > > Instead of adding cleanup code to each individual test, extend
+> > > overlay_info with the optional expected return value of
+> > > of_overlay_remove(), and handle cleanup in the overlay_data_apply()
+> > > helper.  While at it, simplify the end marker in the overlay_info tab=
+le.
+> > >
+> > > Update the expected error output for errors during the newly cleanup.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > v2:
+> > >   - No changes.
+>
+> > > --- a/drivers/of/unittest.c
+> > > +++ b/drivers/of/unittest.c
+>
+> > > @@ -3689,9 +3715,19 @@ static __init void of_unittest_overlay_high_le=
+vel(void)
+> > >         unittest(overlay_data_apply("overlay_bad_phandle", NULL),
+> > >                  "Adding overlay 'overlay_bad_phandle' failed\n");
+> > >
+> > > +       EXPECT_BEGIN(KERN_ERR,
+> > > +                    "OF: changeset: remove_property failed @/testcas=
+e-data-2/substation@100/hvac-medium-2/name");
+> > > +       EXPECT_BEGIN(KERN_ERR,
+> > > +                    "OF: resolver: overlay phandle fixup failed: -22=
+");
+> > > +
+> > >         unittest(overlay_data_apply("overlay_bad_symbol", NULL),
+> > >                  "Adding overlay 'overlay_bad_symbol' failed\n");
+> > >
+> > > +       EXPECT_END(KERN_ERR,
+> > > +                  "OF: resolver: overlay phandle fixup failed: -22")=
+;
+> >
+> > I'm seeing "OF: Error reverting changeset (-19)" here instead.
+> > Cut-n-paste error?
+>
+> Indeed. Thanks for pointing this out!
 
-For Allwinner:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I've fixed this up along with the other EXPECTs that changed due to my
+rework and applied the series.
 
-Best regards,
-Jernej
-
->  arch/arm64/boot/dts/arm/corstone1000-fvp.dts                   | 2 +-
->  arch/arm64/boot/dts/arm/corstone1000-mps3.dts                  | 2 +-
->  arch/arm64/boot/dts/arm/corstone1000.dtsi                      | 2 +-
->  arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dts       | 2 +-
->  arch/arm64/boot/dts/broadcom/stingray/stingray-board-base.dtsi | 2 +-
->  arch/arm64/boot/dts/broadcom/stingray/stingray-pcie.dtsi       | 2 +-
->  arch/arm64/boot/dts/broadcom/stingray/stingray-usb.dtsi        | 2 +-
->  arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dts           | 2 +-
->  arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtsi          | 2 +-
->  arch/arm64/boot/dts/freescale/imx8mm-emcon.dtsi                | 2 +-
->  arch/arm64/boot/dts/renesas/r8a77980a.dtsi                     | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0-spider.dts                | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779f0.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m0.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts               | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts                  | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m1.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m2.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts               | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts                  | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m3.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m4.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m5-salvator-xs.dts           | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m5.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m6.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m7.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779m8.dtsi                      | 2 +-
->  arch/arm64/boot/dts/renesas/r8a779mb.dtsi                      | 2 +-
-
-
-
+Thanks,
+Rob
