@@ -2,41 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82F5B787536
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 18:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE020787783
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 20:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242495AbjHXQYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Aug 2023 12:24:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54046 "EHLO
+        id S237332AbjHXSKx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Aug 2023 14:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242506AbjHXQXw (ORCPT
+        with ESMTP id S242991AbjHXSKm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Aug 2023 12:23:52 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3F86D1736;
-        Thu, 24 Aug 2023 09:23:50 -0700 (PDT)
+        Thu, 24 Aug 2023 14:10:42 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73C66133
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Aug 2023 11:10:39 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.02,195,1688396400"; 
-   d="scan'208";a="177560536"
+   d="scan'208";a="173861490"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 25 Aug 2023 01:23:49 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2023 03:10:38 +0900
 Received: from localhost.localdomain (unknown [10.226.93.115])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1F3AC40116B6;
-        Fri, 25 Aug 2023 01:23:46 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2FD1940116D2;
+        Fri, 25 Aug 2023 03:10:32 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-pm@vger.kernel.org,
+To:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Guenter Roeck <groeck@chromium.org>,
+        Zhu Wang <wangzhu9@huawei.com>,
+        dri-devel@lists.freedesktop.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] power: supply: sbs-battery: Make similar OF and ID table
-Date:   Thu, 24 Aug 2023 17:23:44 +0100
-Message-Id: <20230824162344.385151-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2] drm/bridge/analogix/anx78xx: Extend match data support for ID table
+Date:   Thu, 24 Aug 2023 19:10:30 +0100
+Message-Id: <20230824181030.389643-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,46 +59,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Make similar OF and ID table to extend support for ID match
-using i2c_match_data(). Currently it works only for OF match
-tables as the field is wrong for ID match.
+The driver has an ID table, but it uses the wrong API for retrieving match
+data and that will lead to a crash, if it is instantiated by user space or
+using ID. From this, there is no user for the ID table and let's drop it
+from the driver as it saves some memory.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * Dropped patch#2 as  Zero is a expected match value for this driver
-   and the driver does not check for a NULL return value from
-   *_get_match_data() anyway.
+ * Dropped ID table support.
 ---
- drivers/power/supply/sbs-battery.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/power/supply/sbs-battery.c b/drivers/power/supply/sbs-battery.c
-index cdfc8466d129..520bbde20451 100644
---- a/drivers/power/supply/sbs-battery.c
-+++ b/drivers/power/supply/sbs-battery.c
-@@ -1135,7 +1135,7 @@ static int sbs_probe(struct i2c_client *client)
- 	if (!chip)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 800555aef97f..6169db73d2fe 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
+ 	kfree(anx78xx->edid);
+ }
  
--	chip->flags = (u32)(uintptr_t)device_get_match_data(&client->dev);
-+	chip->flags = (u32)(uintptr_t)i2c_get_match_data(client);
- 	chip->client = client;
- 	psy_cfg.of_node = client->dev.of_node;
- 	psy_cfg.drv_data = chip;
-@@ -1253,9 +1253,9 @@ static SIMPLE_DEV_PM_OPS(sbs_pm_ops, sbs_suspend, NULL);
- #endif
- 
- static const struct i2c_device_id sbs_id[] = {
--	{ "bq20z65", 0 },
--	{ "bq20z75", 0 },
--	{ "sbs-battery", 1 },
-+	{ "bq20z65", SBS_FLAGS_TI_BQ20ZX5 },
-+	{ "bq20z75", SBS_FLAGS_TI_BQ20ZX5 },
-+	{ "sbs-battery", 0 },
- 	{}
+-static const struct i2c_device_id anx78xx_id[] = {
+-	{ "anx7814", 0 },
+-	{ /* sentinel */ }
+-};
+-MODULE_DEVICE_TABLE(i2c, anx78xx_id);
+-
+ static const struct of_device_id anx78xx_match_table[] = {
+ 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
+ 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
+@@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
+ 		  },
+ 	.probe = anx78xx_i2c_probe,
+ 	.remove = anx78xx_i2c_remove,
+-	.id_table = anx78xx_id,
  };
- MODULE_DEVICE_TABLE(i2c, sbs_id);
+ module_i2c_driver(anx78xx_driver);
+ 
 -- 
 2.25.1
 
