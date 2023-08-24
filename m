@@ -2,85 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5917874F7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 18:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D077F787500
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 18:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239363AbjHXQMx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Aug 2023 12:12:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
+        id S242414AbjHXQO3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Aug 2023 12:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242441AbjHXQMw (ORCPT
+        with ESMTP id S242418AbjHXQN6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Aug 2023 12:12:52 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8F619A9;
-        Thu, 24 Aug 2023 09:12:50 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id 46e09a7af769-6bcac140aaaso16389a34.2;
-        Thu, 24 Aug 2023 09:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692893570; x=1693498370;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SIQ9Igg/2vqL41c2PgdemJtzPYVN73XDB54b5bc8CSg=;
-        b=S2cHayVIbWGwLFnjIGdG2YDT5PjNJ2kXm8MWxfye+DxgpnF6pd+iykC+mPwYKeDSfj
-         oKyDdETUz0epUDSbi510qPlXtySRsTY6Hkao1eNyjXjteiy0/RtVYLyJJFUyGpoAsl7d
-         X43OnKCGFcphdf0ssj7O4/cJLhDxl+lNZYJmSXgA2719qhM0FcBdsgblQ6jN4kdk+kC4
-         P5CvglIBvAjsoGqB/GfDrFW5r2xqC2otDI9ALX7arQiM9rO2BMZdFiKUbO+bdRRHsE1E
-         tR0iWzi5F6hxVOXUNPRhjvOSgNCF7LgtqgpMuSXDIg9C+oRPuHlm1XZG6xekMgbHi21M
-         /1cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692893570; x=1693498370;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SIQ9Igg/2vqL41c2PgdemJtzPYVN73XDB54b5bc8CSg=;
-        b=HqRj0Y9km8xzvMpGtN2CzbyXj6q5GFLtH0JrZKdjgrN1nHM0nwclq6U/9vBXKXb5l0
-         8IOITZuZ4PI3qp2ZLBUdS90i7NFYr98Y0aMtYgK9lsrlvzpOlzEf11x1SfPTaTroW4Pl
-         +gWRU5lFgXEajP0sdlupsXVxr+/lnsW5ya0Ocx5+b1nXDOA9cajDp+nz+52C+kM1OFLb
-         34YOo7Eo28z8gjD+QIy7gHPr898JT3ExFsFq2HGSVg6H4QlSldUvbORP16FxDU9oTUE7
-         palIpqnWEUKPLyIR6TYmrWgN9UAXPBRaGnZT0CKCKsYQpAcx6AyeKX++65hBvnhhP7SR
-         izRw==
-X-Gm-Message-State: AOJu0Yx+xi4WW7cdBCBoN4WbNaVqa8y8M12c7kGjlNIXoi3zYGC8VyW5
-        I9Ka46ctbo5Ag4t/tb/i1DOkinwES/uMaCpbnxC8wqWgwr0Vvw==
-X-Google-Smtp-Source: AGHT+IFZusMY2GYTZCoXD3wu+fJu00iHpz5WwtTJUnvf2sQUQ6KtqVD0WrNCVoFblNNEqvkM4jzC0kQk0N5naaCgf9E=
-X-Received: by 2002:a05:6870:d60c:b0:1ba:caf2:acc3 with SMTP id
- a12-20020a056870d60c00b001bacaf2acc3mr232581oaq.5.1692893569811; Thu, 24 Aug
- 2023 09:12:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230824160017.368517-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230824160017.368517-1-biju.das.jz@bp.renesas.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 24 Aug 2023 19:12:14 +0300
-Message-ID: <CAHp75VePsJKEWM0v4pKk3=oXX3W=r=O-sajjQgh4qKX8uLbkMQ@mail.gmail.com>
-Subject: Re: [PATCH v2] gpio: pca953x: Use i2c_get_match_data()
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
+        Thu, 24 Aug 2023 12:13:58 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5340C19A9;
+        Thu, 24 Aug 2023 09:13:50 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.02,195,1688396400"; 
+   d="scan'208";a="177560078"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 25 Aug 2023 01:13:49 +0900
+Received: from localhost.localdomain (unknown [10.226.93.115])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 02E9C4013DC0;
+        Fri, 25 Aug 2023 01:13:46 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] arm64: dts: renesas: rz-smarc-common: Use versa3 clk for audio mclk
+Date:   Thu, 24 Aug 2023 17:13:44 +0100
+Message-Id: <20230824161344.382188-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 7:00=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Replace device_get_match_data() and id lookup for retrieving match data
-> by i2c_get_match_data().
+Currently audio mclk uses a fixed clk of 11.2896MHz (multiple of 44.1kHz).
+Replace this fixed clk with the programmable versa3 clk that can provide
+the clocking to support both 44.1kHz (with a clock of 11.2896MHz) and
+48kHz (with a clock of 12.2880MHz), based on audio sampling rate for
+playback and record.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Made Versa3 clock mapping as per HW manual and updated clocks
+   property in codec_dai.
+ * Replaced the node xtal->x1-clock and label x1_x2->x1 as x2 is a
+   different crystal.
+ * Updated clock-frequency = <400000> for i2c0 node in RZ/G2UL SMARC EVK.
+---
+ .../boot/dts/renesas/rz-smarc-common.dtsi     | 14 +++++------
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 20 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 20 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi | 24 +++++++++++++++++++
+ 4 files changed, 71 insertions(+), 7 deletions(-)
 
---=20
-With Best Regards,
-Andy Shevchenko
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+index a7594ba3a998..b7a3e6caa386 100644
+--- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+@@ -32,12 +32,6 @@ chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+-	audio_mclock: audio_mclock {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <11289600>;
+-	};
+-
+ 	snd_rzg2l: sound {
+ 		compatible = "simple-audio-card";
+ 		simple-audio-card,format = "i2s";
+@@ -55,7 +49,7 @@ cpu_dai: simple-audio-card,cpu {
+ 		};
+ 
+ 		codec_dai: simple-audio-card,codec {
+-			clocks = <&audio_mclock>;
++			clocks = <&versa3 2>;
+ 			sound-dai = <&wm8978>;
+ 		};
+ 	};
+@@ -76,6 +70,12 @@ vccq_sdhi1: regulator-vccq-sdhi1 {
+ 		gpios-states = <1>;
+ 		states = <3300000 1>, <1800000 0>;
+ 	};
++
++	x1: x1-clock {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++	};
+ };
+ 
+ &audio_clk1 {
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+index 68eab8e26bf2..c05acd70f1fa 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+@@ -105,6 +105,26 @@ &i2c3 {
+ 
+ 	status = "okay";
+ 
++	versa3: versa3@68 {
++		compatible = "renesas,5p35023";
++		reg = <0x68>;
++		#clock-cells = <1>;
++		clocks = <&x1>;
++
++		renesas,settings = [
++			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
++			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
++			80 b0 45 c4 95
++		];
++
++		assigned-clocks = <&versa3 0>, <&versa3 1>,
++				  <&versa3 2>, <&versa3 3>,
++				  <&versa3 4>, <&versa3 5>;
++		assigned-clock-rates = <24000000>, <11289600>,
++				       <11289600>, <12000000>,
++				       <25000000>, <12288000>;
++	};
++
+ 	wm8978: codec@1a {
+ 		compatible = "wlf,wm8978";
+ 		#sound-dai-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+index 83fce96a2575..3c40b66b33b0 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+@@ -121,6 +121,26 @@ &i2c2 {
+ 
+ 	status = "okay";
+ 
++	versa3: versa3@68 {
++		compatible = "renesas,5p35023";
++		reg = <0x68>;
++		#clock-cells = <1>;
++		clocks = <&x1>;
++
++		renesas,settings = [
++			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
++			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
++			80 b0 45 c4 95
++		];
++
++		assigned-clocks = <&versa3 0>, <&versa3 1>,
++				  <&versa3 2>, <&versa3 3>,
++				  <&versa3 4>, <&versa3 5>;
++		assigned-clock-rates = <24000000>, <11289600>,
++				       <11289600>, <12000000>,
++				       <25000000>, <12288000>;
++	};
++
+ 	wm8978: codec@1a {
+ 		compatible = "wlf,wm8978";
+ 		#sound-dai-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+index 8eb411aac80d..dacf35c16648 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+@@ -20,6 +20,30 @@ &cpu_dai {
+ 	sound-dai = <&ssi1>;
+ };
+ 
++&i2c0 {
++	clock-frequency = <400000>;
++
++	versa3: versa3@68 {
++		compatible = "renesas,5p35023";
++		reg = <0x68>;
++		#clock-cells = <1>;
++		clocks = <&x1>;
++
++		renesas,settings = [
++			80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
++			00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
++			80 b0 45 c4 95
++		];
++
++		assigned-clocks = <&versa3 0>, <&versa3 1>,
++				  <&versa3 2>, <&versa3 3>,
++				  <&versa3 4>, <&versa3 5>;
++		assigned-clock-rates = <24000000>, <11289600>,
++				       <11289600>, <12000000>,
++				       <25000000>, <12288000>;
++	};
++};
++
+ &i2c1 {
+ 	wm8978: codec@1a {
+ 		compatible = "wlf,wm8978";
+-- 
+2.25.1
+
