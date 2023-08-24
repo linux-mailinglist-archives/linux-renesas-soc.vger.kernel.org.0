@@ -2,171 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CAD7786CA2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 12:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FBB1786D0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Aug 2023 12:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237160AbjHXKOf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Aug 2023 06:14:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35322 "EHLO
+        id S235520AbjHXKpO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Aug 2023 06:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240880AbjHXKOd (ORCPT
+        with ESMTP id S240872AbjHXKpH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Aug 2023 06:14:33 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2114.outbound.protection.outlook.com [40.107.114.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C0A5198B
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Aug 2023 03:14:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iIjX71EDWkk1Y4nQCBJNbmJoJB9P9cSyeU6/9CluQpDWcpYzgKsYZKGK1wf7dR2gTxEAB3Gb9pIFgYLZk2i7HMWchRW8PoWbBH10gnclhhGGQc7yiAPJp/NJ9xaiqws0ilM1UQjeCLuZ7KwszDcLHT9HKJGGwsnassBZ02MAeOpE8tuRRDsg8TvGfufa8Y57P3SReymnVjCzDhJ167jDKddZQJsTETn3MpHTyqby/ZTlwI/T7zICsiMngp3vEPmZUnK4snCls2eD27l5LgP+D4vLVAsAXiv21+X9tIYb6tER684euS6AkvjjGk/MPzkyGy1qp2s8rc1AeyuywurgFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YeN1NwwwxoR29H5j6FFJj1RjlI1xDwvhRyquo8YdueA=;
- b=WD9Bubx2VDzher0lwZ+59BI9CFaeHQ5zRzPPMllqHHGf5bTbEbXqnL7UqO07QsGSdQONJZW/MZTwdFhpdBAw8xppjvhJTKqTW/Cr6ly2Pvre6fFr5OHC4U8ZGa4PpK1BdfGZD/PZUxFcuhr4Cwktougkrf9m1oZ+VgpvY0oPXG64sWSzP09nPnI6p+x4/kSdA9Ec17IqLN0FRsPTLwsgWO1f6wnXDN/LZCT/A27KZBzNjJqn0UiAB6pfsAIk9jU+Z0XSyHWw5xSP8V5s8kQjQwGdMV0u8pkLO8dul17K+0TAL/MPGGXLY3+NxXQHqBAHqPaUqxW314nLovlvHSZeLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YeN1NwwwxoR29H5j6FFJj1RjlI1xDwvhRyquo8YdueA=;
- b=N0MMP4gl1lBmfFeZDAQAcUfTlzpv/rMQpUCSXz8Ji4RE+8TyXw4fKjFshT3faBFdtnT5FLc8KTcc30JYZAT0gt3nKwGz1KNbJFfy8a3CXc/n2GqIdDB44r+w9mXAv0X3zIOAgByoV0wlC8LHhiMtVNQLj4npyxhEmsBNU48NkuY=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB10795.jpnprd01.prod.outlook.com (2603:1096:400:297::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Thu, 24 Aug
- 2023 10:14:27 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706%4]) with mapi id 15.20.6699.027; Thu, 24 Aug 2023
- 10:14:26 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Doug Anderson <dianders@chromium.org>
-CC:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
+        Thu, 24 Aug 2023 06:45:07 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C02871BC2;
+        Thu, 24 Aug 2023 03:44:18 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A5261042;
+        Thu, 24 Aug 2023 03:44:52 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB7FE3F740;
+        Thu, 24 Aug 2023 03:44:07 -0700 (PDT)
+Date:   Thu, 24 Aug 2023 11:44:05 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Zhu Wang <wangzhu9@huawei.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
- for ID table
-Thread-Topic: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support
- for ID table
-Thread-Index: AQHZzcNjEmgmmPkABUWy2CTKLw1ZbK/4AAKAgAACe0CAACZ1AIAABK0AgAAWxwCAAQNfgIAAA6kQ
-Date:   Thu, 24 Aug 2023 10:14:26 +0000
-Message-ID: <OS0PR01MB5922CFCC41295316D3F5739A861DA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
- <CAD=FV=W6aoaUuMx5OvG2xMX+fBG6B-c5Fmvmit4f2CTZq=x1vQ@mail.gmail.com>
- <OS0PR01MB5922E0300F53BED1AFFD916E861CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAHp75VcjA-99ckLWNczNuP5f2FGx67o1=O8MFVThBTVzPzJBdA@mail.gmail.com>
- <CAHp75VeJ-JjcrfLZd2dyisBmq5r66j=Sq5ubSLpK=kFrodzb-g@mail.gmail.com>
- <CAD=FV=VbsfAc4Pb3LY3w3-krqfkmmaZLiBxcxjgea+4S0HU1Vw@mail.gmail.com>
- <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
-In-Reply-To: <CAHp75Vf-KLMGL-Exo5-+-AC51KhW+YOJSr7GpqHUG1WzZ0nkvQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB10795:EE_
-x-ms-office365-filtering-correlation-id: 60e633c4-8eee-42f9-2f64-08dba48ae5b4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +6nGWVqUJSDD+4uYOeA1eBQO9CK75eHLPHRn0J2xWfC/uZ8TLFr6z4KvHHBDBpB4JJw55YsPCFAGz4WkZISoRWdWmjckISE1db39E9eOoRe0R/bhR+NCKxM9ScmPq0Dci+H5VPn4KDt9U38qdDh/jQTCWjorJMxZVHuQ4wG0xM3/xBQIEKnyjyO8hRcoe5UMCF6IRNWrhF63ZL27U+yYdJwPRQX9mrQ0l/TkAI7poPXUryXFIWUbb0OWjvLVvtRoce3TraAim/UHR631iWqdIu+JkHIatmNy7q11JY3TuPk6NUSjqfn18pEFQ4qrWGvWAEX2TlrP73ol2JKXGUppXWXK1Uq/6CeNLYNj+LMbQB/HLtJyZ04nMsPvZsq3Lqg3WQy0YBMUz3Mo4Ksw04r4cWytYcNgUpl629pfI1JyfXuUxJAZkQzgDoMI3Oc1lA303s22nxCSC4v6XuwB6AvLu7TJnqVAMVWOW6DJM2awiWR4lvlUocQrzRtZWY4aJN0yw4SiGA70JEruJKqcQlnxAS6a2aTVU4WmwrkYanD/4WzrlKsaJCzk3C020UdJOKYDf+YgsBwKqxH0ijvsI7rEeBGi/unuNRohOywM1+mIVa1K2lTqlULMKWcAWeDaIkxB
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(376002)(136003)(39860400002)(186009)(451199024)(1800799009)(6506007)(71200400001)(7696005)(53546011)(478600001)(26005)(2906002)(7416002)(41300700001)(316002)(54906003)(64756008)(66446008)(66476007)(66946007)(110136005)(66556008)(52536014)(76116006)(5660300002)(8936002)(8676002)(4326008)(33656002)(9686003)(55016003)(38070700005)(38100700002)(86362001)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eXN3TFJsNFVabGNoOTNlemt0VTRwR3RUNUJISzRoZHR4cW9kSWNqUmw4VWNw?=
- =?utf-8?B?ajVvSXJZTjBNWE1WRTBlOVJ0NlNmREtPTlZlS1ZmZVQ0b1FodlA1dTV5MEFP?=
- =?utf-8?B?SHcxRjN5c3FHUXJDZUVLRFplN2hsSmJWM0RxbEdXdE85MU9sL1gwQ2VNcXpW?=
- =?utf-8?B?aHlxenF0citPL0FWNEZDTGo5SWdCRGordThOalYzSThwVXVySUd2aDhLY1l2?=
- =?utf-8?B?d2pSd0pRRmxRREFhS0piVVQ1TVBZdUZjekxsNWU5UGFES2lzdmxBWVRBVktJ?=
- =?utf-8?B?Y1FGak5JMGUyM3Vxd1pUTmxoczRtblRUeGZMbTZlaVhhajNkOFRnelFCRWN3?=
- =?utf-8?B?cklLMjFUWUEweGZtWmM2Wi9UeU9uYzZPVFc2dVdmZkxPeE1OM1UxUHcrQ3ZW?=
- =?utf-8?B?Y1h3cGYyaTB1YmFJMUFEdGV0YW5GUWZNeUkvSHdnVXJnQlFwUzJNQ3VDUElC?=
- =?utf-8?B?Yk9XbmNJVHp1SHhhTVVnNFo5OE1MMnF4RHJoR0dSbis3UEtPbVFxSzZVNWcx?=
- =?utf-8?B?UTZDRUQydE5EYUcySmtjemU2MU5DRkMzTHhvcFVESUJHbEtNd0xhb0Vqb2pw?=
- =?utf-8?B?TE1CZnBGRjZPZVl0VG9JU3pNcGprUngzcGVJY1gvMVJnZHdKY1VyUUhtUW5r?=
- =?utf-8?B?UVZtTG1kZ3VPbEQwNWFpaFZ0b1hvcDlURTRhdWwvU0M0ZWd1am85Z0s1MVNj?=
- =?utf-8?B?MENFOUhJVmduQmFicGJMdUQzUHlXUDZNTFNwRW1aVFhjc0trY3NlRzNQaGJB?=
- =?utf-8?B?RmxLRHpiTFVBR1FKSmlFRUFrbDgwRGxqMVZKdmRneUNBNzk4ZkdWeHFxdWNX?=
- =?utf-8?B?MnJhYkdzT3A3cDRROWRBaUk0RUQ4akhub29WQmZxazVGaHBURW5mNGFYaXpa?=
- =?utf-8?B?QUhRMWdnVTdpNmljVDFqaTNwdys1Z3MvRkZDSzRnUGNmcFVVS3ExY1I5YUhB?=
- =?utf-8?B?V2JBYUZTazJBbFlUQXB3T2tTZFVqTnkxa3RuaFUzTkVFQWhFelFDYTRhREpB?=
- =?utf-8?B?WGs1aXdVK3p3YUJiSGdSK1dFMzhxQnA2WFNiMnQ1bXBiUXpkRVJqclRCS1Ev?=
- =?utf-8?B?aG1CWE1KWkRFWTdueDByVWh0V2E2enp2d3RhejFwMjdIZnh5TGxEN0Q5ZytT?=
- =?utf-8?B?UXhxMjludnNJbWY2QnRuc0dBTVlDc1c1T3NKUmkwdEdZVUZxNkI1WUZTa3kx?=
- =?utf-8?B?cDdMa2RzSzJlUC8veVI0b2tDcS84MDJSc2dvV2F6SXBvMFNGU1h5L21BMjlU?=
- =?utf-8?B?VWNrZDJWcG9uQVVoVzF6NWhTZitBSmM3anY1Mk9aeXVMdVh4YVhiSWpEOTRT?=
- =?utf-8?B?N0czSk5OWUhxWU9vZThzc01GcUhYUisxemZkWlZjSlk2Ty9HMVc2SzExS3Ns?=
- =?utf-8?B?QnQ4R3lUN2hLa3ozTlIwU1FMK29zNS9xNldFeVRlam5QbHBoa3BRWTJVbVo1?=
- =?utf-8?B?ZFFpbVFOSHZlcHNsSm9Dc1RRRzBPV25JblVCQi9RK1lBMmZuV1RGVUJ1TEZm?=
- =?utf-8?B?RVFqREIrUlkzMEZDY0xpZEI2dHZCaTllejdXR3NicUlkQ0JYOHRMWVRzZy94?=
- =?utf-8?B?cUs0U05qVG1KMGdGMjRrbkE2WUVvYWwrRklCYldUUG1PN0E4eGhHOFp3ZmVr?=
- =?utf-8?B?MXpYdEE4a0JwU3V6UjMydW41aEw5b0RzSEtyai9TT0l6M0JXQ29JeEhUTkhQ?=
- =?utf-8?B?ZUh2dkluNE4vQlFCM1BkRDcxSzJuWHlnWGRTQzFZSDl3WjBBTDVET3hOMTNu?=
- =?utf-8?B?Q2tMVHJKWW5zTUxZb3hxcmFhZFMxenBuWk12KytqK0xBK0JnRU8xNUcyRTZ6?=
- =?utf-8?B?OHYvTmlRLy9hYW9ucVRRWktlOXY5QmVqWURVM01LRDAvcDgrUzBoc2ZVYWt2?=
- =?utf-8?B?TDM4NGNhZUc0bjdwbENCbkZmUDZLM3lEM3ptMTFhUmxpVUlEY1diSHF6U3R2?=
- =?utf-8?B?ZEpPSkhvanB5Qm1PM0k3WmdiV3l0V3V1UDFPcUoxckovVDNBcEtDRmRKWXBZ?=
- =?utf-8?B?U2dma2lhZDlpK0lnVitaRzRrUGlQckY1cVFMK21xcklsUFMwVW0ycnFCV0Vs?=
- =?utf-8?B?ZjRSdFZZTDdsSzVhZDZuUnNicDVvaHdXV3UwSmI1Z2kyNzZHNU9ld3pGanRh?=
- =?utf-8?B?N3daTTRVb0pHUWRMZGQwRUtrZmtpaENNK0tWdjZTcmNCQitsT1pneFZ2Qi9T?=
- =?utf-8?B?Snc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Samuel Holland <samuel@sholland.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: dts: use capital "OR" for multiple licenses
+ in SPDX
+Message-ID: <20230824104405.e77spjl6jxedq5ee@bogus>
+References: <20230823085146.113562-1-krzysztof.kozlowski@linaro.org>
+ <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60e633c4-8eee-42f9-2f64-08dba48ae5b4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2023 10:14:26.9126
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7xi2GFh5xJKxwdcffCCYRvR4kMZ6A+EMmuo49IraSFvO3qlCCxx/elCDN2ae3ZYoaN1arTD735WZ9h5cdFTGHhbHmeaYj193QKy3N0E/pkQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10795
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230823085146.113562-2-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgQW5keSBTaGV2Y2hlbmtvLA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRybS9icmlkZ2Uv
-YW5hbG9naXgvYW54Nzh4eDogRXh0ZW5kIG1hdGNoIGRhdGEgc3VwcG9ydA0KPiBmb3IgSUQgdGFi
-bGUNCj4gDQo+IE9uIFdlZCwgQXVnIDIzLCAyMDIzIGF0IDk6MznigK9QTSBEb3VnIEFuZGVyc29u
-IDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+DQo+IHdyb3RlOg0KPiA+IE9uIFdlZCwgQXVnIDIzLCAy
-MDIzIGF0IDEwOjEw4oCvQU0gQW5keSBTaGV2Y2hlbmtvDQo+ID4gPGFuZHkuc2hldmNoZW5rb0Bn
-bWFpbC5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+ID4gTm8uIFBsZWFzZSwgZG8gbm90IHJlbW92
-ZSB0aGUgSTJDIElEIHRhYmxlLiBJdCBoYWQgYWxyZWFkeSBiZWVuDQo+ID4gPiA+IGRpc2N1c3Nl
-ZCBhIGZldyB5ZWFycyBhZ28uDQo+ID4gPiA+DQo+ID4gPiA+ID4gWWVzLCBpdCBtYWtlIHNlbnNl
-LCBhcyBpdCBzYXZlcyBzb21lIG1lbW9yeQ0KPiA+ID4NCj4gPiA+IE9rYXksIHJlYWRpbmcgY29k
-ZSBhIGJpdCwgaXQgc2VlbXMgdGhhdCBpdCB3b24ndCB3b3JrIHdpdGggcHVyZWx5DQo+ID4gPiBp
-MmMgSUQgbWF0Y2hpbmcuDQo+ID4NCj4gPiBPSywgc28geW91IGFyZSBpbiBhZ3JlZW1lbnQgdGhh
-dCBpdCB3b3VsZCBiZSBPSyB0byBkcm9wIHRoZSBJMkMgSUQgdGFibGU/DQo+IA0KPiBZZXMuDQo+
-IA0KPiA+ID4gU28gdGhlIHF1ZXN0aW9uIGhlcmUgaXMgIkRvIHdlIHdhbnQgdG8gYWxsb3cgZW51
-bWVyYXRpb24gdmlhIHN5c2ZzIG9yDQo+IG5vdD8iDQo+ID4NCj4gPiBJcyB0aGVyZSBzb21lIHBy
-ZXNzaW5nIG5lZWQgZm9yIGl0PyBJZiBub3QsIEkgZ3Vlc3MgSSdkIHRlbmQgdG8gd2FpdA0KPiA+
-IHVudGlsIHNvbWVvbmUgbmVlZHMgdGhpcyBzdXBwb3J0IGJlZm9yZSBhZGRpbmcgaXQuDQo+IA0K
-PiBEZXBlbmRzLiBJcyB0aGlzIGRldmljZSBhbnlob3cgdXNlZnVsIElSTCBhcyBzdGFuZGFsb25l
-IGlmIGluc3RhbnRpYXRlZCB2aWENCj4gc3lzZnM/IEkgdGhpbmsgaXQgbWF5IGJlIG5vdCwgc28g
-aXQncyB1bmxpa2VseSB3ZSB3YW50IHRvIGhhdmUgc3lzZnMgb3B0aW9uDQo+IGZvciBpdC4NCg0K
-U3lzZnMgb3B0aW9uIHdpbGwgbWF0Y2ggYWdhaW5zdCBJRCB0YWJsZSBvciBPRiB0YWJsZT8NCg0K
-SUQgdGFibGUsIG1lYW5zIGl0IHdpbGwgY3Jhc2guIE9GIHRhYmxlIG1lYW5zIGl0IHdvcmtzIG9r
-DQphcyBpdCBoYXMgcHJvcGVyIG1hdGNoaW5nIHN1cHBvcnQuDQoNCkNoZWVycywNCkJpanUNCg==
+On Wed, Aug 23, 2023 at 10:51:46AM +0200, Krzysztof Kozlowski wrote:
+> Documentation/process/license-rules.rst and checkpatch expect the SPDX
+> identifier syntax for multiple licenses to use capital "OR".  Correct it
+> to keep consistent format and avoid copy-paste issues.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Rebased on next-20230822, so might not apply cleanly.  What does not
+> apply, can be skipped and I will fix it after next RC.
+> ---
+>  arch/arm64/boot/dts/arm/corstone1000-fvp.dts                   | 2 +-
+>  arch/arm64/boot/dts/arm/corstone1000-mps3.dts                  | 2 +-
+>  arch/arm64/boot/dts/arm/corstone1000.dtsi                      | 2 +-
+
+Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+
+-- 
+Regards,
+Sudeep
