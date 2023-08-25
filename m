@@ -2,105 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 561DC787B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 00:02:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6370787D9E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 04:25:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243686AbjHXWCC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Aug 2023 18:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
+        id S232787AbjHYCYp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Aug 2023 22:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243823AbjHXWBm (ORCPT
+        with ESMTP id S237610AbjHYCYb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Aug 2023 18:01:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A251FDA
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Aug 2023 15:01:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B9A28808;
-        Fri, 25 Aug 2023 00:00:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692914409;
-        bh=njXF1BFmgLojXBHTViNb5H2eBLkMkjfk5gY9ejdbIlU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XX/uNdv6Se3VusoYvnlCar4o08oE16kpa1Pg+zDvhOR8UL4GSvhftY0I1eGv1CS/7
-         xaG39YYXfPZPdp8E20ySeN25T00hQxXcDWVlLXubyO5iLCKXju/QjXdcOOXlyBAAG5
-         Wz3gYth6nIN3PThtvoIlYTzl4NfL5//cuB63Nuho=
-Date:   Fri, 25 Aug 2023 01:01:33 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Guenter Roeck <groeck@chromium.org>,
-        Zhu Wang <wangzhu9@huawei.com>,
-        dri-devel@lists.freedesktop.org,
+        Thu, 24 Aug 2023 22:24:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3301CCB;
+        Thu, 24 Aug 2023 19:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692930269; x=1724466269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f82bEtM0XZPiS5OpFsZ8MaG9NjqCl0AA8I0uAHVTMsw=;
+  b=bM3sRyWcoPNY9NpmxVx3OLIsV/ACSdvomesum7ns1uSy65WiQ8sbMNdb
+   f9ASaOXN6Y3QiMUCHQpWvQsyk7UhERwYg0nn7IUn1iT4hdYk6Z0HVeVSy
+   ISPjrTx1OafI5C88jr0NOTO5A04AIylrcNARsn95sdpFojwtluCOXumpl
+   UHVt3klZXF49xKgcZGBFstEpzfkLn8XW6Juc2Fi6//fCmvTQbJGkRK2mO
+   JhNKLMD/1xKP6lKUopsI+Df0EQTDagh0ZzU+Hpk2fNwJpoLjcA4cfEP3J
+   Y8OngiOklFATVmPh3t6m/qbb//zAI5BuOpUb3AdqFVePB+LxK4SuWgLNf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359609165"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="359609165"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 19:24:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="766802120"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="766802120"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 24 Aug 2023 19:24:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qZMUq-00E4CU-2j;
+        Fri, 25 Aug 2023 05:24:24 +0300
+Date:   Fri, 25 Aug 2023 05:24:24 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Eric Tremblay <etremblay@distech-controls.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] drm/bridge/analogix/anx78xx: Drop ID table
-Message-ID: <20230824220133.GB6477@pendragon.ideasonboard.com>
-References: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
- <20230824182609.GA6477@pendragon.ideasonboard.com>
- <CAD=FV=Wg1LY3601vN1qhKOEuZ9hVf-+hX8ajC6DKsC-5TNpy7g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] hwmon: tmp513: Replace tmp51x_ids->max_channels
+ in struct tmp51x_data
+Message-ID: <ZOgQ2Fc1J8V7rdm4@smile.fi.intel.com>
+References: <20230824204456.401580-1-biju.das.jz@bp.renesas.com>
+ <20230824204456.401580-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Wg1LY3601vN1qhKOEuZ9hVf-+hX8ajC6DKsC-5TNpy7g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230824204456.401580-4-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 01:51:59PM -0700, Doug Anderson wrote:
-> On Thu, Aug 24, 2023 at 11:26 AM Laurent Pinchart wrote:
-> > On Thu, Aug 24, 2023 at 07:15:46PM +0100, Biju Das wrote:
-> > > The driver has an ID table, but it uses the wrong API for retrieving match
-> > > data and that will lead to a crash, if it is instantiated by user space or
-> > > using ID. From this, there is no user for the ID table and let's drop it
-> > > from the driver as it saves some memory.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > I wonder, as the device can only be instantiated from OF, should we add
-> >
-> >         depends on OF
-> >
-> > to Kconfig, and drop the
-> >
-> > #if IS_ENABLED(CONFIG_OF)
-> >
-> > from the driver ?
-> 
-> In my opinion we shouldn't add the "depends on OF" since that will
-> decrease the amount of compile testing. It's somewhat the opposite of
-> adding "if COMPILE_TEST" to your driver. ;-)
+On Thu, Aug 24, 2023 at 09:44:56PM +0100, Biju Das wrote:
+> The tmp512 chip has 3 channels whereas tmp513 has 4 channels. Avoid
+> using tmp51x_ids for this HW difference by replacing
+> tmp51x_ids->max_channels in struct tmp51x_data and drop
 
-We could add a || COMPILE_TEST :-)
+You don't replace it, you replaced "id" by it.
 
-> I think we could get rid of one of the "#if" statements in the driver
-> anyway as of commit c9e358dfc4a8 ("driver-core: remove conditionals
-> around devicetree pointers") from ~12 years ago. If we did something
-> similar in "struct drm_bridge" we could drop both #ifs.
+> enum tmp51x_ids as there is no user.
 
-I'd be fine with that too.
+...
+
+> +#define TMP51X_TEMP_CONFIG_DEFAULT(a) (0x8780 | GENMASK(11 + (a) - 1, 11))
+
+This seems fragile ("a" can't be 0, and can't be > 4) and will give not good
+code generation (for GENMASK() use), besides it has 0x8780 magic. What is that?
+Two bit field masks?
+
+	(BIT(15) | (GENMASK((a) - 1, 0) << 11) | GENMASK(10, 7))
+
+?
+
+Also add a comment to explain "a" and other bits.
+
+...
+
+>  	case hwmon_temp:
+> -		if (data->id == tmp512 && channel == 3)
+> +		if (data->max_channels == channel)
+
+This is not the same as it was previously. And looks like this kind of fix
+(if I understood the previous patch correctly) should be done there.
+
+Btw, avoid Yoda style
+
+		if (channel == data->max_channels)
+
+>  			return 0;
+
+...
+
+>  	ret = device_property_read_u32_array(dev, "ti,nfactor", nfactor,
+> -					    (data->id == tmp513) ? 3 : 2);
+> +					    data->max_channels - 1);
+>  	if (ret >= 0)
+> -		memcpy(data->nfactor, nfactor, (data->id == tmp513) ? 3 : 2);
+> +		memcpy(data->nfactor, nfactor, data->max_channels - 1);
+
+It looks like data->nfactor is of the same type as nfactor, right?
+Why this can't be simplified to just
+
+	device_property_read_u32_array(dev, "ti,nfactor",
+				       data->nfactor, data->max_channels - 1);
+
+...
+
+> -	data->temp_config = (data->id == tmp513) ?
+> -			TMP513_TEMP_CONFIG_DEFAULT : TMP512_TEMP_CONFIG_DEFAULT;
+
+Are those still being in use?
+
+> +	data->temp_config = TMP51X_TEMP_CONFIG_DEFAULT(data->max_channels);
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
