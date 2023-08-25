@@ -2,84 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9677883C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 11:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3206788543
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 12:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244264AbjHYJcv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Aug 2023 05:32:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38754 "EHLO
+        id S229933AbjHYK5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Aug 2023 06:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244270AbjHYJcc (ORCPT
+        with ESMTP id S239272AbjHYK5r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Aug 2023 05:32:32 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0EBF11FC4;
-        Fri, 25 Aug 2023 02:32:29 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.02,195,1688396400"; 
-   d="scan'208";a="177667266"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 25 Aug 2023 18:32:26 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id EE5FD40071FF;
-        Fri, 25 Aug 2023 18:32:25 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
-        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, fancer.lancer@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v20 19/19] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Fri, 25 Aug 2023 18:32:19 +0900
-Message-Id: <20230825093219.2685912-20-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 25 Aug 2023 06:57:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFCBF19AD
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Aug 2023 03:57:44 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22CB96BE;
+        Fri, 25 Aug 2023 12:56:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692960982;
+        bh=zoR0YokBKd/MGU58llzov4Yik2E+HryM2YY+WoItA3A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qq3vhOHIxOAmD5d13i8ALukwYD2OIjvNyC0KPrdnFNPvgI7IixIBMIjl8E0KYf2Zy
+         H5NKVwgc8Yhtv+VjeZXlwznuyI57Fu7j6RULHvYNWm4Ml/+3GZs7LIG+Mo4fKLhhNU
+         owhEabgOkzb80wHtE2C9fDhMqft1ji8DkzlZHIz8=
+Date:   Fri, 25 Aug 2023 13:57:48 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Douglas Anderson <dianders@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Guenter Roeck <groeck@chromium.org>,
+        Zhu Wang <wangzhu9@huawei.com>,
+        dri-devel@lists.freedesktop.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] drm/bridge/analogix/anx78xx: Drop ID table
+Message-ID: <20230825105748.GE14596@pendragon.ideasonboard.com>
+References: <20230824181546.391796-1-biju.das.jz@bp.renesas.com>
+ <20230824182609.GA6477@pendragon.ideasonboard.com>
+ <CAHp75VeK_0MnPtku7W6_ZDUWBTOFgmFZiwnOcnGgiVzbeU6FKQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAHp75VeK_0MnPtku7W6_ZDUWBTOFgmFZiwnOcnGgiVzbeU6FKQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+On Fri, Aug 25, 2023 at 06:48:45AM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 24, 2023 at 9:26 PM Laurent Pinchart wrote:
+> > On Thu, Aug 24, 2023 at 07:15:46PM +0100, Biju Das wrote:
+> 
+> ...
+> 
+> > I wonder, as the device can only be instantiated from OF, should we add
+> >
+> >         depends on OF
+> 
+> Generally speaking this is a bad idea. It prevents a component from
+> being instantiated on ACPI based systems (even if there is no ACPI ID
+> table, due to a gateway called PRP0001).
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+I'd be surprised if there were systems were that would work out of the
+box for this particular driver, so we could always drop the dependency
+when someone updates the driver to work on ACPI-based systems. I'm
+however not pushing to add the dependency though.
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ed4d0ef5e5c3..150083dab71a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -990,6 +991,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
+> > to Kconfig, and drop the
+> >
+> > #if IS_ENABLED(CONFIG_OF)
+> >
+> > from the driver ?
+> 
+> Contrary this is an idea I fully support!
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
