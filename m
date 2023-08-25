@@ -2,84 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE57788BC2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 16:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04CEF788E7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 20:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343722AbjHYOcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Aug 2023 10:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34524 "EHLO
+        id S231631AbjHYSSy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Aug 2023 14:18:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343794AbjHYObl (ORCPT
+        with ESMTP id S231354AbjHYSSe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Aug 2023 10:31:41 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC968E7F;
-        Fri, 25 Aug 2023 07:31:38 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf7423ef3eso7540175ad.3;
-        Fri, 25 Aug 2023 07:31:38 -0700 (PDT)
+        Fri, 25 Aug 2023 14:18:34 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415212705;
+        Fri, 25 Aug 2023 11:18:11 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4ff9b389677so1802652e87.3;
+        Fri, 25 Aug 2023 11:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692973898; x=1693578698;
+        d=gmail.com; s=20221208; t=1692987489; x=1693592289;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UXNd0JA4M6xGrrZb9fHKfxYGuaZv+5t54lzWlN+dLy0=;
-        b=AGg/pu17DzvitI388Fq1Lx3dUAI500mT33tf1bFx1AM4fYxRDDP8yyZPTQQOzcWX5S
-         YPkfU1CqjnJIV6xw622Sgn7FFbG9+PGCn9HDzL7+rbcu5NvAiWu3CGevTnPLiXhgkjHm
-         yjx5Je5jSmlPBvgrz2cSPZ2izPr7gn+sMxZj8gXpZwgrQcppf/sZuVMQhD9nKmdoF6ab
-         RWmVugKN38BxkahX8mCZXJ0LmkFTIroY3rXuK5335wAHThDLvcVkfRazqQA60nGuaJ95
-         0TW+Bqaf/E69K7q8SYkY98F+eJTZRA+lHPQKidwchc4fcsLYqtlMQF/TxCJVHT1aa+XN
-         iiIQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G0X3UqX4m99dG470vbFBA7W9C4W7OMNMtr/Z96kDhMs=;
+        b=iG1qbLOX8d+NuaIbJ1xmEQqMRolLCEzoM5JPoNp4iFH96pIGlbFXSx3BPClrUVQ3Ww
+         aJR2GTNgSqQF14VR9Z1s6WpqC+Wlzj2cRqXSgE3dxMa5yAiWa+1/Pg8itG21Dh15LxX4
+         jJLUEBk9+734O8LnUnHHG41pof4Lky1VZ2P00M5sIVETXcLIxlX+ONjDKQEO/nHTL0AL
+         YRfPpwglkvCncq6rREgHMTxi95gliBR8Zyl+kEKkwyQJ/Oi74KZ6JoJIDThPTP8+3K98
+         oBKAu6alXubNJqGEZELyDs+lHXilgYHGjIctLNBOqX/9HKyoWvzm6eio4C6qSy0kojHT
+         R+EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692973898; x=1693578698;
+        d=1e100.net; s=20221208; t=1692987489; x=1693592289;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UXNd0JA4M6xGrrZb9fHKfxYGuaZv+5t54lzWlN+dLy0=;
-        b=Uunwwdczix03VFhq4znD+q4djGds+T9esg5tk7Mq8VV49XekeDb7+lJjwmJHsTUxdz
-         NIDOfEhdkvi7dVieuIHpVuicRVi3JAzrbTUkBEL9VRXycp5qerDHihwUUNKAZb2XQZ7+
-         edt5oW5BB1MvJ1wLNJNqBeohp2zNqV7pbhH8fXpFXlnKAPABOol8EggDhDNxAowuYema
-         YPGWG4vFwo5mTEi9u/zT7FeAyb9/rmbWo5PUYKyeyRKp9BBEINNCbIaGTlil2n+ePvkD
-         3//j3gtBz0aUGZPaQytiIxOBaQqA4QVF0q5vIay3to3kxgAKJHIFGT00pvmc0sZCpPm7
-         9n2g==
-X-Gm-Message-State: AOJu0YyLN24HGX0/rnMStsA/AOEIRI6VdcRYKAujzHjU03QDI+EhE4E4
-        Zb8RQOeLrRDbE1iB0l7uOwA=
-X-Google-Smtp-Source: AGHT+IEciOPT9LmrSnAXKjFIeeEub8sXO5ERbvPOJS8e1zd2UmoQdejgfUpplUC0Wc75FfCyNwVKNw==
-X-Received: by 2002:a17:902:ab46:b0:1b8:3786:3344 with SMTP id ij6-20020a170902ab4600b001b837863344mr15004217plb.49.1692973898208;
-        Fri, 25 Aug 2023 07:31:38 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id iz15-20020a170902ef8f00b001bc6fe1b9absm1762215plb.276.2023.08.25.07.31.37
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G0X3UqX4m99dG470vbFBA7W9C4W7OMNMtr/Z96kDhMs=;
+        b=f6fo1apF0qC5iuCLIIc4hfZSQBOgdaU4Qya4wSbVPPxcfcexjkxrNzv7idftrKqpUz
+         tBaQ0vUU5uwpdovZv9bZR890Mh0wyiANlC149KEmxkzc1l9FRyZjZBXqBXa1tb7DZD68
+         Bbbb4ozes5aVNsmUOAEqSCtpCqkOz412VmmfgUazX0OMdrpJz9kBn/iwT4uILVZHqq00
+         uCE5xMz2QBcsudhHP/eVCXONJO1SkjdXmsGIPlBNwr3rwTVSp+2T6ZGpEONuzQM3I3TC
+         hANEDK8tbZRVF2hyXsiJYe7i3CVkRrc7SJNqdz2ZdJOMbXtnz1O2UGOn98DdVFUGbAGY
+         Xc8Q==
+X-Gm-Message-State: AOJu0Yym4bBLFdi4il09eaRHhSwhkdDp0u2+n5go3yuNcUpm39Ia4f0Q
+        xnwSkGz8SpX737qXc3gN780=
+X-Google-Smtp-Source: AGHT+IH5d+Nt32DIwba3HQHbsK6SbVRgHFZWL8JySCUSi7WSepToNY476wR1fVaKgms6PZG7slXPqg==
+X-Received: by 2002:ac2:4285:0:b0:500:9977:bdce with SMTP id m5-20020ac24285000000b005009977bdcemr5509455lfh.62.1692987489262;
+        Fri, 25 Aug 2023 11:18:09 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id i22-20020ac25236000000b004ff981955cesm376054lfl.228.2023.08.25.11.18.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 07:31:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 25 Aug 2023 07:31:36 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Eric Tremblay <etremblay@distech-controls.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] hwmon: tmp513: Replace tmp51x_ids->max_channels
- in struct tmp51x_data
-Message-ID: <e3bd21a2-a63b-4455-95dc-b1c959efcca6@roeck-us.net>
-References: <20230824204456.401580-1-biju.das.jz@bp.renesas.com>
- <20230824204456.401580-4-biju.das.jz@bp.renesas.com>
- <ZOgQ2Fc1J8V7rdm4@smile.fi.intel.com>
- <OS0PR01MB592292B941414BF452B14AB086E3A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <258bae5d-3602-4625-8ac1-375856d9b334@roeck-us.net>
- <CAMuHMdX8uBnnofkpVZ93318FRaNZ32GfNg3rh6NR-KBR1LJx8Q@mail.gmail.com>
+        Fri, 25 Aug 2023 11:18:08 -0700 (PDT)
+Date:   Fri, 25 Aug 2023 21:18:05 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
+        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v20 11/19] PCI: dwc: Expose dw_pcie_write_dbi2() to module
+Message-ID: <bc26tzeh5bcqtuz6opfb4pxp7avtmqlzm6xszmqvmjalwi7yhi@iy6ogi4beqpi>
+References: <20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230825093219.2685912-12-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdX8uBnnofkpVZ93318FRaNZ32GfNg3rh6NR-KBR1LJx8Q@mail.gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+In-Reply-To: <20230825093219.2685912-12-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,22 +77,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 09:43:24AM +0200, Geert Uytterhoeven wrote:
+On Fri, Aug 25, 2023 at 06:32:11PM +0900, Yoshihiro Shimoda wrote:
+> Since no PCIe controller drivers call this, this change is not required
+> for now. But, Renesas R-Car Gen4 PCIe controller driver will call this
+> and if the controller driver is built as a kernel module, the following
+> build error happens. So, expose dw_pcie_write_dbi2() for it.
 > 
-> > > > > - data->temp_config = (data->id == tmp513) ?
-> > > > > -                 TMP513_TEMP_CONFIG_DEFAULT : TMP512_TEMP_CONFIG_DEFAULT;
-> > > >
-> > > > Are those still being in use?
-> > >
-> > > Nope. Will remove it.
-> > >
-> > Not sure I understand. The above lines _are_ being removed
-> > (- in 1st column). What else is there to remove ?
+> ERROR: modpost: "dw_pcie_write_dbi2" [drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.ko] undefined!
 > 
-> The actual TMP51*TEMP_CONFIG_DEFAULT definitions are now unused.
-> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Ah yes, sure. Guess I had trouble parsing "those".
+Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
 
-Thanks,
-Guenter
+-Serge(y)
+
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 4812ce040f1e..0251fa1357f9 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -365,6 +365,7 @@ void dw_pcie_write_dbi2(struct dw_pcie *pci, u32 reg, size_t size, u32 val)
+>  	if (ret)
+>  		dev_err(pci->dev, "write DBI address failed\n");
+>  }
+> +EXPORT_SYMBOL_GPL(dw_pcie_write_dbi2);
+>  
+>  static inline void __iomem *dw_pcie_select_atu(struct dw_pcie *pci, u32 dir,
+>  					       u32 index)
+> -- 
+> 2.25.1
+> 
