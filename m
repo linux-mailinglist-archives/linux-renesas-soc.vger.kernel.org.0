@@ -2,68 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC3B788568
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 13:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3E8678888B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Aug 2023 15:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240506AbjHYLOB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Aug 2023 07:14:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52474 "EHLO
+        id S231812AbjHYN00 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Aug 2023 09:26:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244515AbjHYLN7 (ORCPT
+        with ESMTP id S245071AbjHYNZ7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Aug 2023 07:13:59 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167B91BDA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Aug 2023 04:13:58 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-44d3b9bc4c3so1163403137.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Aug 2023 04:13:58 -0700 (PDT)
+        Fri, 25 Aug 2023 09:25:59 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75086272A;
+        Fri, 25 Aug 2023 06:25:27 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-68becf931d0so760331b3a.3;
+        Fri, 25 Aug 2023 06:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1692962037; x=1693566837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zen7peyChUcOOjx95uzAjQLL/qr990ssbbyR06E/zbw=;
-        b=uDxVRqSxWY/VwMvIdQCTKPTLD1KFq1JQwC+J8qFbE1/wK6FgstTwnYI1u933aL5oQR
-         V1TnswaQkoRVRc6KHNnbWcXbORir28Itsa4yPX2uqKr92uMZP5d5Nzm36Ja0OqwyNHUr
-         FkX8EtGaPsM5QQ48E30qXmSjUKPP7Wv1j2kWv+P1F3JD522m6QmWn5jPDGErkoc5LD4k
-         eGHU8fX0aTcCXRAQk8Qay4Id/53gnDvLLCi9kyj82CXn4u4N6LqrrobGt+9+6J6xBnWL
-         e53I4PqfbvfT/UJcsqXDylgZjGtvgyw31LLKtMTJdUAI5Zyik3++U+YK9KpFe4HV0Lem
-         cWSA==
+        d=gmail.com; s=20221208; t=1692969926; x=1693574726;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t/+eFeQANgoDs6BDH6E1eMtzqI4quQex5h6vYPQFVmI=;
+        b=YyY4/70jJdDnQwL6grdE2X0EiGJecqndms19PKo4nILsKk32X7dye5mL7jeUCCIWxG
+         7LUXnmLj5WwB0fUpHDCWAf1BUHaDp73zlcVw0/IcaAg2UddJ4b6JfxRuP8gEOHVFq6Sl
+         SzRwXTsRG/AgN+Ug+OXX8w914naxoOMqx1tQq8Co6ni7rhTqljOZzMfbVpuaKtM9SYS2
+         cHzkIMXCAq6rAj7RF//AnZCDqWwSovm8FX5/V+/IP9DUolgR7mXtrVkPqw5m9XJ+FxwA
+         13+aJTeXsg9WpgwDnh3fIv5QXzzjAtErUqXE+XjfWlcoB47jUDOyFxYGIrevRXCAw78h
+         8RbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692962037; x=1693566837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1692969926; x=1693574726;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zen7peyChUcOOjx95uzAjQLL/qr990ssbbyR06E/zbw=;
-        b=L9M1Ryk1zSm3L70y9bU+mKJadNjEL2nGuNjqoDx4E1rhgHkRD5ERIpLZJGLK34Z30A
-         4L7uiJo2fVTRfxob69R3iUzqC5SDrQFwhMw9yG0IzyIz5NEKACf2NKCDISSWAg3InzAk
-         3ejf7UwVAg8W5IKdwiOmTtdjwfdMYRRdJnLI00JPax9S7EWxA8Q9M/mxmwGGvgAt4iY4
-         p7GaVejKBoc904+CwS6ibT7ULOFBosJuko8QemKLuBcBrLrxpHJ79r+hQPA2q9ybDHkE
-         AudDECDZTRfVotoJMGvhudfYzBHhTne8HMguZu9gtcJEGir0OyejHKdevPw4kxDdnkxn
-         IqxA==
-X-Gm-Message-State: AOJu0YzMRmSKxub0jsaciG7mKT8BF5SlF/XZIQku43KdPMI/IevtHVu6
-        4dZneO3vggml90M8ZMedPZp6GETMNGsqvm6mfQWN2NtLDvvJJytg
-X-Google-Smtp-Source: AGHT+IHzgfofw/PTgO9XWq2HEls/SuyKirBEcYV6hHZAadFf1hkicM5Wyq73fsWmn6R3GVZvRFt95zGufCTf17QJNSc=
-X-Received: by 2002:a05:6102:3c88:b0:44d:6281:4fc2 with SMTP id
- c8-20020a0561023c8800b0044d62814fc2mr5493656vsv.3.1692962037195; Fri, 25 Aug
- 2023 04:13:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230824160017.368517-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230824160017.368517-1-biju.das.jz@bp.renesas.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 25 Aug 2023 13:13:46 +0200
-Message-ID: <CAMRc=MeG6-7YwHsc++ZjaB+v4MJF_bsepJ+X--BBxs0+XZ_uYA@mail.gmail.com>
-Subject: Re: [PATCH v2] gpio: pca953x: Use i2c_get_match_data()
+        bh=t/+eFeQANgoDs6BDH6E1eMtzqI4quQex5h6vYPQFVmI=;
+        b=FetitdBBug13jTsdRKlIepF3A3pFL44K2Lh+sy1zl54QqHIoqGJ8KVm+GvKm7cpDtN
+         DKhJNKsYp6F//7wH0dPUdAhD7ByGzKec8Msx2Rx/QBhaxLmlFOG2JyFS/Hszj2R7IqIW
+         ldeSf8jYSMq0rKy/MUxlfJ5QGLAwcy7hwXXkqxTV57cBsgrVbx99blIDyfRpiEoLmJ9K
+         OhDK9MK86u1rU/fv0UwU+Nmes5pdVL341GN3qRHf2ezylQNNUD4vZI5MNJl+zJFCmxix
+         z3yVAuQGdlXqAP3SFVU2YoNNidBRyx2gm8lN0BSSEM4axQA0hCAGjqjascgjmic//Hjm
+         9uow==
+X-Gm-Message-State: AOJu0YzFf+ekuDUTy0fvvOiCMzPCJFjkM/tkfAhCeolxKpBjkh/sTRF0
+        KBI+SBGkTeKbTqz/c7det0FcRtfChvM=
+X-Google-Smtp-Source: AGHT+IHhEVdN020fIPu86aadYFKpL2xmpfC9KZXvY0oHwrK9osnUCn2UgWGzE13kmKVNGKIGvAnScA==
+X-Received: by 2002:a05:6a00:1a13:b0:68a:4bef:5f9a with SMTP id g19-20020a056a001a1300b0068a4bef5f9amr15376622pfv.0.1692969926124;
+        Fri, 25 Aug 2023 06:25:26 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d3-20020aa78143000000b00682868714fdsm1569741pfn.95.2023.08.25.06.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Aug 2023 06:25:25 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 25 Aug 2023 06:25:24 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
+Cc:     Eric Tremblay <etremblay@distech-controls.com>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Subject: Re: [PATCH v2 1/3] hwmon: tmp513: Fix the channel number in
+ tmp51x_is_visible()
+Message-ID: <3baafb4e-58c8-40dc-b1bc-aeb227bbe5f9@roeck-us.net>
+References: <20230824204456.401580-1-biju.das.jz@bp.renesas.com>
+ <20230824204456.401580-2-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230824204456.401580-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,71 +80,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 6:00=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Replace device_get_match_data() and id lookup for retrieving match data
-> by i2c_get_match_data().
->
+On Thu, Aug 24, 2023 at 09:44:54PM +0100, Biju Das wrote:
+> The supported channels for this driver are {0..3}. Fix the incorrect
+> channel in tmp51x_is_visible().
+> 
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Closes: https://lore.kernel.org/all/ea0eccc0-a29f-41e4-9049-a1a13f8b16f1@roeck-us.net/
+> Fixes: 59dfa75e5d82 ("hwmon: Add driver for Texas Instruments TMP512/513 sensor chips.")
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Moved i2c_get_match_data() to be called before devm_regulator_get() as
->    it doesn't require regulator to be enabled for functioning.
-> ---
->  drivers/gpio/gpio-pca953x.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-pca953x.c b/drivers/gpio/gpio-pca953x.c
-> index a806a3c1b801..929a2d075fe4 100644
-> --- a/drivers/gpio/gpio-pca953x.c
-> +++ b/drivers/gpio/gpio-pca953x.c
-> @@ -1051,7 +1051,6 @@ static int device_pca957x_init(struct pca953x_chip =
-*chip, u32 invert)
->
->  static int pca953x_probe(struct i2c_client *client)
->  {
-> -       const struct i2c_device_id *i2c_id =3D i2c_client_get_device_id(c=
-lient);
->         struct pca953x_platform_data *pdata;
->         struct pca953x_chip *chip;
->         int irq_base =3D 0;
-> @@ -1090,6 +1089,9 @@ static int pca953x_probe(struct i2c_client *client)
->         }
->
->         chip->client =3D client;
-> +       chip->driver_data =3D (uintptr_t)i2c_get_match_data(client);
-> +       if (!chip->driver_data)
-> +               return -ENODEV;
->
->         reg =3D devm_regulator_get(&client->dev, "vcc");
->         if (IS_ERR(reg))
-> @@ -1102,20 +1104,6 @@ static int pca953x_probe(struct i2c_client *client=
-)
->         }
->         chip->regulator =3D reg;
->
-> -       if (i2c_id) {
-> -               chip->driver_data =3D i2c_id->driver_data;
-> -       } else {
-> -               const void *match;
-> -
-> -               match =3D device_get_match_data(&client->dev);
-> -               if (!match) {
-> -                       ret =3D -ENODEV;
-> -                       goto err_exit;
-> -               }
-> -
-> -               chip->driver_data =3D (uintptr_t)match;
-> -       }
-> -
->         i2c_set_clientdata(client, chip);
->
->         pca953x_setup_gpio(chip, chip->driver_data & PCA_GPIO_MASK);
-> --
-> 2.25.1
->
 
-Applied, thanks!
+Applied.
 
-Bart
+Thanks,
+Guenter
+
+> ---
+> v2:
+>  * New patch
+> ---
+>  drivers/hwmon/tmp513.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwmon/tmp513.c b/drivers/hwmon/tmp513.c
+> index 7db5d0fc24a4..8ee6e02b02e3 100644
+> --- a/drivers/hwmon/tmp513.c
+> +++ b/drivers/hwmon/tmp513.c
+> @@ -434,7 +434,7 @@ static umode_t tmp51x_is_visible(const void *_data,
+>  
+>  	switch (type) {
+>  	case hwmon_temp:
+> -		if (data->id == tmp512 && channel == 4)
+> +		if (data->id == tmp512 && channel == 3)
+>  			return 0;
+>  		switch (attr) {
+>  		case hwmon_temp_input:
