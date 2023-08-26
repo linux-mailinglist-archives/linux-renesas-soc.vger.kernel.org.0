@@ -2,37 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D133C78953A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Aug 2023 11:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9569B7895AD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Aug 2023 12:00:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232277AbjHZJi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Aug 2023 05:38:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
+        id S229817AbjHZJ73 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Aug 2023 05:59:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232357AbjHZJiP (ORCPT
+        with ESMTP id S231725AbjHZJ7X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Aug 2023 05:38:15 -0400
+        Sat, 26 Aug 2023 05:59:23 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4909894
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Aug 2023 02:38:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73AA1C9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Aug 2023 02:59:20 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.02,203,1688396400"; 
-   d="scan'208";a="177737945"
+   d="scan'208";a="177738416"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Aug 2023 18:38:11 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Aug 2023 18:49:10 +0900
 Received: from localhost.localdomain (unknown [10.226.92.24])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6372141991DC;
-        Sat, 26 Aug 2023 18:38:09 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2D5E34143434;
+        Sat, 26 Aug 2023 18:49:07 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Lee Jones <lee@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Support Opensource <support.opensource@diasemi.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] mfd: da9062: Simplify probe()
-Date:   Sat, 26 Aug 2023 10:38:07 +0100
-Message-Id: <20230826093807.60993-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] mfd: max8997: Simplify probe() and drop max8997_i2c_get_driver_data()
+Date:   Sat, 26 Aug 2023 10:49:05 +0100
+Message-Id: <20230826094905.64430-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,41 +44,50 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Simplify probe() by replacing of_device_get_match_data() and ID lookup for
-retrieving match data by i2c_get_match_data().
+Simplify probe() by using i2c_get_match_data() instead of
+max8997_i2c_get_driver_data() for retrieving match data from
+OF/ID tables.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 Note:
  This patch is only compile tested.
 ---
- drivers/mfd/da9062-core.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/mfd/max8997.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/mfd/da9062-core.c b/drivers/mfd/da9062-core.c
-index 45da007d3e70..28c5fcdafcfa 100644
---- a/drivers/mfd/da9062-core.c
-+++ b/drivers/mfd/da9062-core.c
-@@ -597,7 +597,6 @@ MODULE_DEVICE_TABLE(of, da9062_dt_ids);
+diff --git a/drivers/mfd/max8997.c b/drivers/mfd/max8997.c
+index 110bef71f208..fcb8fd1ec25d 100644
+--- a/drivers/mfd/max8997.c
++++ b/drivers/mfd/max8997.c
+@@ -142,18 +142,8 @@ static struct max8997_platform_data *max8997_i2c_parse_dt_pdata(
+ 	return pd;
+ }
  
- static int da9062_i2c_probe(struct i2c_client *i2c)
+-static inline unsigned long max8997_i2c_get_driver_data(struct i2c_client *i2c,
+-						const struct i2c_device_id *id)
+-{
+-	if (i2c->dev.of_node)
+-		return (unsigned long)of_device_get_match_data(&i2c->dev);
+-
+-	return id->driver_data;
+-}
+-
+ static int max8997_i2c_probe(struct i2c_client *i2c)
  {
 -	const struct i2c_device_id *id = i2c_client_get_device_id(i2c);
- 	struct da9062 *chip;
- 	unsigned int irq_base = 0;
- 	const struct mfd_cell *cell;
-@@ -611,10 +610,7 @@ static int da9062_i2c_probe(struct i2c_client *i2c)
- 	if (!chip)
- 		return -ENOMEM;
+ 	struct max8997_dev *max8997;
+ 	struct max8997_platform_data *pdata = dev_get_platdata(&i2c->dev);
+ 	int ret = 0;
+@@ -166,7 +156,7 @@ static int max8997_i2c_probe(struct i2c_client *i2c)
+ 	i2c_set_clientdata(i2c, max8997);
+ 	max8997->dev = &i2c->dev;
+ 	max8997->i2c = i2c;
+-	max8997->type = max8997_i2c_get_driver_data(i2c, id);
++	max8997->type = (unsigned long)i2c_get_match_data(i2c);
+ 	max8997->irq = i2c->irq;
  
--	if (i2c->dev.of_node)
--		chip->chip_type = (uintptr_t)of_device_get_match_data(&i2c->dev);
--	else
--		chip->chip_type = id->driver_data;
-+	chip->chip_type = (uintptr_t)i2c_get_match_data(i2c);
- 
- 	i2c_set_clientdata(i2c, chip);
- 	chip->dev = &i2c->dev;
+ 	if (IS_ENABLED(CONFIG_OF) && max8997->dev->of_node) {
 -- 
 2.25.1
 
