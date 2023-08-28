@@ -2,165 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6679178B294
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 16:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4252478B2E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 16:22:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbjH1OFY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 10:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56006 "EHLO
+        id S230085AbjH1OVe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 10:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231841AbjH1OFT (ORCPT
+        with ESMTP id S231691AbjH1OVY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 10:05:19 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2092.outbound.protection.outlook.com [40.107.114.92])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E671D106;
-        Mon, 28 Aug 2023 07:05:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lL1qEBJD+RyeRyflciYGZ20k5E4rH6jHcS1joni2bGxDWWV7ajUhZ9qUp4+OaNz6PY8ZlHA4Ia6H88PXZCiUJPHDxZ19ZmYePUJOp6wMTUkW+X1WFtuzoh74r4jXOCygWO3Z7G3Pxylj2SKe/mamwH35WBt2qKRCr9GFn7MGPMOC9129D9qxDHC4H0V+xZ2I0YhGF2pv1f/FnOggcL42UmbS0aUrRPuqgw1znS1Ya4JMf6sg5kOQBuvDP4i6eLI6jU+TDPZVM0hW/Ac1+W367KoOkUM3uXnhpm9xlaVoD0IxZRJzWHdUFvB3VMFBJXbOzR27BDJs4e2GQrjQoY2I3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bi766OIzXibcokcFKpknOKCVDgQgvPY695ICAkFzRJU=;
- b=ESN0zRY1fbUw/wGOh2V1U668W6lVe7B+SilSUdyrcvci9F6esxjKV0wnmnfp2UpGuOGgF6PTBXVJB6KGyRswRVCzgr8qI5OKR8ssMVAn1foboP0AW3CLhYMD2NQZZbTfClGmIKLjeWg8f73arkmGkNq02pMsYQ4GxyR3Hhp46lP0lrcnsRQhsamuSExrFv6b1/d2EeaNqSbunTkE7Iy0Y++SUshc2wrDjIM66XX6d1/zBwpDV2mTC6eWPPPtl3j+qRncoNLhcNGSvE2+UVOdnu0pP4M8iZbcpJlTshxbh3K+9ZNtZTSzQ7zHmDcjbmJ3nLg6gwjdmJUwWCxanqo6vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bi766OIzXibcokcFKpknOKCVDgQgvPY695ICAkFzRJU=;
- b=cRPJ9+fb9LPUQQQhqy7SbdZ/46EYJi1mWqGs3KEm79GyD5bjqt1/gRFiXUeIJLCDE8UNQavjjkZjRq2FIG9jeOhBB0IaFCVn5LsgWdi835l+fJmEcXWvJkNCztQEIr6eYgcjuiuJ4T9rWOTSWHLHuNAY6QYuhAywxRzRCyitf3k=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB11418.jpnprd01.prod.outlook.com (2603:1096:400:3b9::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
- 2023 14:05:13 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706%4]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
- 14:05:13 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
+        Mon, 28 Aug 2023 10:21:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208BA103;
+        Mon, 28 Aug 2023 07:21:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B2A0161025;
+        Mon, 28 Aug 2023 14:21:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F63C433C8;
+        Mon, 28 Aug 2023 14:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693232477;
+        bh=xpNfgoWofuEd3QNaE6srsrtNynbjtKnemyhrAeAl+Ak=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=k8sj5q+Bo9/Bw+7MODPt1MacHjhmyalrQHmMaAnPSrA0sIkTBv5XHk5nwzJDsGksj
+         M+npj7iPLUSF2/ExOlhUQDthkps4OMftVGtnk7xlZ9vNVgfEks9EiponF8qlsLSGuo
+         3dUwqu3WVdGNialXTcUKOnf8hevwTtCZFes7yFcvDb/L0iNpO7+8oedxG+BQwcLlc2
+         xSrNUtkiOjG+RnyDFA9DvsXRn18KpifEj+uI961SmzFvR2Iscwe+EqWjZlCTD/UwPb
+         j8OeFg2DoctrwDq/mBtCcQNEIU7gvguX2HeB5IepKESheKMvfuuXFrH70WyKgdcMNO
+         QDC8Vt0m3GtLQ==
+Date:   Mon, 28 Aug 2023 15:21:37 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Jonathan Cameron <jic23@kernel.org>,
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Lars-Peter Clausen <lars@metafoo.de>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
         <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>
-Subject: RE: [PATCH v2] iio: chemical: vz89x: Convert enum->pointer for data
- in the match tables
-Thread-Topic: [PATCH v2] iio: chemical: vz89x: Convert enum->pointer for data
- in the match tables
-Thread-Index: AQHZ0gbUmy/zC4DAjkC8+0qQGcYEt6//tC6AgAAASjCAABLagIAABasg
-Date:   Mon, 28 Aug 2023 14:05:12 +0000
-Message-ID: <OS0PR01MB592236BFA965886D6CBAED0D86E0A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230818190429.338065-1-biju.das.jz@bp.renesas.com>
- <20230828133525.5afaea4f@jic23-huawei>
- <OS0PR01MB59225F5472B4BE500429394C86E0A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUEtjrEUCPk_G-kAyp8oEDu21oU+BwWVCZ8N4JJ6VTJUg@mail.gmail.com>
-In-Reply-To: <CAMuHMdUEtjrEUCPk_G-kAyp8oEDu21oU+BwWVCZ8N4JJ6VTJUg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB11418:EE_
-x-ms-office365-filtering-correlation-id: 2d3e585d-52a6-477b-6a2e-08dba7cfcc3b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NM1D2fENLHqxFaNhLAzXEHMEN0YrnrtLPF6Mbw72g24/4KS4ygdyZxI2I7iY+Z6gTS3PLFbRt0XUndBKafGFEFXRzsr/PQvVogCdoJidxAf8RxZBfZxxUZp7M9ZwP2ir5pKFfoN4dUtZe+uNK/RI+Y3Rw7POybdggvGv+G5v/lOFwnJlFhCL9lVhQ3tk1XbY1WTbXH/FzY+G+dN5b9l5wl27JOYk24YpLrEuOqNk5c8vGvjiTiNu6xFegIqEALwCNZEwgBABOFL0uZqGbwUd6j7CwGUD0itGe5PxJNc5W+1tCNFiykoGBpDXhLJaORk99EEROzJC7V6a8FDOeC517zAedPikyI2D8nrpcSgfdGka5uBfTc/eBul5RhJ/glwecoeFWzruuc4sOJRWQOmPy5ma1smeU5yaDMGMiLj21FDCZzzLVlGZpi29oTZNqljylUEIVZJx2Re0QhPLk0pg9Og+ugsf06xpCTNck6OrBjLwqssvbjm8vabI/OIc+iHIjtEBFT0RUnEpLbnpvEWT65xGanqfu39urtdfsUTItU00ND/6DrKJ8/IUv2agh6B08A1TacRPKnyUXae1NbX9XaiC7y5O58LJC7SkECVl/6bLBjDMV5b9RYF4n6RM9MYG
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(376002)(39860400002)(366004)(346002)(1800799009)(451199024)(186009)(5660300002)(8936002)(8676002)(4326008)(52536014)(316002)(26005)(66476007)(76116006)(66946007)(54906003)(41300700001)(66446008)(64756008)(66556008)(2906002)(6916009)(478600001)(71200400001)(7696005)(6506007)(53546011)(9686003)(55016003)(122000001)(38100700002)(86362001)(38070700005)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OVVKNUFXdWh0cGgyajVZMEJodkkwV0l1dE5wZ0twMlZ6blhNcTByakNUb3Jo?=
- =?utf-8?B?WERyeENiZk9PV3dXZnFVNVNEeE8xNGRZK0htWmM1RGV2TFdqUGZ2OU1kdVJm?=
- =?utf-8?B?QTd3djU0aFI0TTJ0Y3YzL3k5azJxb1ZYL1F2V095MnNHek1mNStQN2NobmxL?=
- =?utf-8?B?aVg1RFAwQXRmbVJlNUtjTlNCb0ZmSmxOUXZhT2VIakZlUEorV0NEakNIQUpy?=
- =?utf-8?B?dWcvRStWcGwvZi9RZWJvTjlWcElEd2xsWVF6TjR0ZWMycCt4SGlOSU9KbWoz?=
- =?utf-8?B?YkZpeFZQZ0h0WlVIV3Zidk40OGZSaDRVWXRTcUtxbGl3OU9vWUViWWpTOERP?=
- =?utf-8?B?WU5MaWlXaDdzWlpHZG9IcERuditFZWYxMGVZVkZJQ0J4K3F4QmhJRlBubVR3?=
- =?utf-8?B?Zi84c0ljYno0eGsyZEdHTE10clF6K1FmbC82OWgzRXBybVlIZFlDa29sWFh3?=
- =?utf-8?B?Uzh0ZUtYQ3h0RUJqYnBPUGxkWURkNXVZSEkzNWwxNjdHd2RuR1I1b0Zoay9q?=
- =?utf-8?B?bzR5OGF2N0dkSzc4bWdSK21pSFhRUFVoeHBNR3JqZXd3aVZrOS9DYjN5cEhK?=
- =?utf-8?B?K09Ea2xRd1ZScTkxMTJ0blN2SjRzR2tmMW1aMmJydE9lNjVNaWRUOXF5WGxJ?=
- =?utf-8?B?cjVTTXQrUmIrUzRCbVNXSUVEYmVvRkJYYVhBcEN5eHIzeTBWWE5GbnZaMzUz?=
- =?utf-8?B?R29mck1EU3FVYjJrcDFBcU84MU9RakFuWmJ1OERPcHhGYjNsblNXeVlKZVFu?=
- =?utf-8?B?TzVLTWhFTlllelZaZXBEeDV4Zkx2YmNFL0dkM240ekJFcDhJK3JmdUtoVzNJ?=
- =?utf-8?B?bE5nMmtDOE54QTJ6Rk1XN1FzQ3pucm9YUWpNZUNCUGQ0c2dZYmh0ZXp6Q2VC?=
- =?utf-8?B?dlkrdXNPNjhrRW9yai8xOGNlYi9UdGxyMStZVnpwZncwdTFNWi8vb2FHbjFp?=
- =?utf-8?B?MUhQQThnMGZRNmkzVFY4TVRENUdBMEdQSWxNTko4d0ZaZFZFeEFNblYzNjh4?=
- =?utf-8?B?b3dxNEJtaHc5N01zcVIycDBYY0pMSkkzbUlUNk9Jd3FLbVJCUUVEOXpKTEY3?=
- =?utf-8?B?SkVNaDJHNndsSGVWVEZiRzBweHFoZDFOTWIrWU9hZTU3UzdCVVlFSmt3RXNa?=
- =?utf-8?B?aWpBSVFxUDMyQXQrQXpoejlGaEN5Vkd2MEVzWjNkUXQvS1Zjb2R0SzVJa0xH?=
- =?utf-8?B?dlNLMXNwa1F3Sm1IV1pURnQ5WnIrSXJQT1hIeldKaFNLd2cvM0hCV1ZNY1p6?=
- =?utf-8?B?Y3JqRGpNdlJ4RHE0V3FPbzZXVWp4V0dLNCtobGhPK2lBSml4c1F1N1dDbzRK?=
- =?utf-8?B?N2pYaDlkby9yVVdOT2Y1M0xvQVVna2Z1aUEwaXRNWGMzSlF0eHd3L2J6bXBu?=
- =?utf-8?B?ZU1sNy9OcHA0MGNUdktsSWxZOGVuMmpUcWdvME96K2RlaStLelpwU3FZczdw?=
- =?utf-8?B?VHBheG1vNzVncFJKNE9xSzhaVXpmdGMwQVdqQ1Y5aXErL1lXYytGa0pJY1Ft?=
- =?utf-8?B?RXJwTllzVnJVYmNRMFJrK3UyVjhaeWxQQjcvRlUybjRiY3dsMzUvZTJRRE1I?=
- =?utf-8?B?OE1acndYZm5DQXIzcEFSczlnYWg2a3U1czd0MTlITE1pMlY3QisweTNPNTNQ?=
- =?utf-8?B?bTY4ajdrdGZDd1B1emQ1QXM0blVVS3krSkVkeTFaL0hpSHNsR0N3aG9pL3lr?=
- =?utf-8?B?MXJ1V3M3SUdWRXdYSEpienl4d3lKMnlSMXZtR2dva2NrbXdFVVdiZ2ZCUWlI?=
- =?utf-8?B?ZXZBYU1iQTFSUURhRGJQRTNnMFN0TzRPL3d3TVI2SUJYbS9xTWdZZFE2M3dM?=
- =?utf-8?B?MkhtQ3dqbHNmOVpKdjlZKzAwVFVNeFpyZ2tLMm5rL3hVcmV3MFdjdUlEcmxl?=
- =?utf-8?B?YS9aT2VQNnUrUXdTR1ZnR2IrcTBibktxNmFtVGpObWlmVVlaQjh2SS9id3dW?=
- =?utf-8?B?RzhHNnVzcDVOSVNEMXpKTjA4ZUVGcjQwZ0RGd3FhekdnQmplUUptK0RxMFps?=
- =?utf-8?B?NVh6Z2RreHJHRVduUEMzaWNJQWVINGwvZHJBTkxvNzY0L2xBaTVWTVlPdVJQ?=
- =?utf-8?B?S09EWm1wRSsrdVNKRGZrSGFycGpmYUhVRmNSOVpjd2lCRy9JQi9kUGFKYzNt?=
- =?utf-8?B?VXgwa3RNbndmUzN5K2ZWbHJFeVNteXVmdWtxSG5jNGJORUpsQTZFT2dwUTUy?=
- =?utf-8?B?Znc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v2 4/5] iio: magnetometer: ak8975: Drop deprecated enums
+ from OF table
+Message-ID: <20230828152137.2db2668d@jic23-huawei>
+In-Reply-To: <CAMuHMdWwo1hYnbztoRUtHD7iw53f7Np-vPsfMMBdwbMP7-Q98A@mail.gmail.com>
+References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+        <20230818075600.24277-5-biju.das.jz@bp.renesas.com>
+        <ZN9WCKQ/hv4zKfsK@smile.fi.intel.com>
+        <OS0PR01MB5922F93ABF408AA9037A8EAC861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        <ZN+IDGfc0MJfqOV9@smile.fi.intel.com>
+        <CAMuHMdWwo1hYnbztoRUtHD7iw53f7Np-vPsfMMBdwbMP7-Q98A@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d3e585d-52a6-477b-6a2e-08dba7cfcc3b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2023 14:05:12.9491
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ilOVAd5B0kMudxWfiHv4QlTATG6BSn/iN1lGSAeynhKu6g/Oezl0Xxiz3yIi9nmz2aCeNiXsHr5PmcS8CYnwnlexr+lOb2DVViRu9m41xhM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11418
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQgVXl0dGVyaG9ldmVuLA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjJdIGlpbzog
-Y2hlbWljYWw6IHZ6ODl4OiBDb252ZXJ0IGVudW0tPnBvaW50ZXIgZm9yDQo+IGRhdGEgaW4gdGhl
-IG1hdGNoIHRhYmxlcw0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIE1vbiwgQXVnIDI4LCAyMDIz
-IGF0IDI6NDPigK9QTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdy
-b3RlOg0KPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gaWlvOiBjaGVtaWNhbDogdno4OXg6
-IENvbnZlcnQgZW51bS0+cG9pbnRlcg0KPiA+ID4gZm9yIGRhdGEgaW4gdGhlIG1hdGNoIHRhYmxl
-cw0KPiA+ID4NCj4gPiA+IE9uIEZyaSwgMTggQXVnIDIwMjMgMjA6MDQ6MjkgKzAxMDANCj4gPiA+
-IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+
-ID4gPiBDb252ZXJ0IGVudW0tPnBvaW50ZXIgZm9yIGRhdGEgaW4gdGhlIG1hdGNoIHRhYmxlcywg
-c28gdGhhdA0KPiA+ID4gPiBkZXZpY2VfZ2V0X21hdGNoX2RhdGEoKSBjYW4gZG8gbWF0Y2ggYWdh
-aW5zdCBPRi9BQ1BJL0kyQyB0YWJsZXMsDQo+ID4gPiA+IG9uY2UgaTJjIGJ1cyB0eXBlIG1hdGNo
-IHN1cHBvcnQgYWRkZWQgdG8gaXQuDQo+ID4gPiA+DQo+ID4gPiA+IFJlcGxhY2UgZW51bS0+c3Ry
-dWN0ICp2ejg5eF9jaGlwX2RhdGEgZm9yIGRhdGEgaW4gdGhlIG1hdGNoIHRhYmxlLg0KPiA+ID4g
-PiBTaW1wbGlmeSB0aGUgcHJvYmUoKSBieSByZXBsYWNpbmcgZGV2aWNlX2dldF9tYXRjaF9kYXRh
-KCkgYW5kIElEDQo+ID4gPiA+IGxvb2t1cCBmb3IgcmV0cmlldmluZyBkYXRhIGJ5IGkyY19nZXRf
-bWF0Y2hfZGF0YSgpLg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8
-YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gPiA+IFJldmlld2VkLWJ5OiBBbmR5IFNo
-ZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4NCj4gPiA+DQo+ID4g
-PiBCaWp1LA0KPiA+ID4NCj4gPiA+IE1ha2Ugc3VyZSB5b3UgY2MgdGhlIGRyaXZlciBhdXRob3Jz
-IGV0Yy4NCj4gPg0KPiA+IE5vcm1hbGx5LCBJIHJhbiBhIHNjcmlwdCBhZ2FpbnN0IHRoZSBwYXRj
-aCB0byBnZXQgZGV0YWlscyBhbmQNCj4gYWRkaXRpb25hbGx5IEkgYWRkIEdlZXJ0LCByZW5lc2Fz
-LXNvYyAsIEFuZHkgaW4gQ2MgbGlzdC4NCj4gDQo+IEkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYSBu
-ZWVkIHRvIGFkZCByZW5lc2FzLXNvYyAob3IgbWUsIEZXSVcgOy0pLCB1bmxlc3MNCj4gdGhlIHNw
-ZWNpZmljIGRldmljZSBpcyB1c2VkIG9uIFJlbmVzYXMgcGxhdGZvcm1zLg0KDQpUaGFua3MgZm9y
-IGxldHRpbmcgbWUga25vdy4gU29ycnkgZm9yIHRoZSBub2lzZS4NCg0KQ2hlZXJzLA0KQmlqdQ0K
+On Fri, 18 Aug 2023 17:17:44 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+> Hi Andy,
+>=20
+> CC devicetree
+>=20
+> On Fri, Aug 18, 2023 at 5:03=E2=80=AFPM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Aug 18, 2023 at 11:40:37AM +0000, Biju Das wrote: =20
+> > > > Subject: Re: [PATCH v2 4/5] iio: magnetometer: ak8975: Drop depreca=
+ted
+> > > > enums from OF table
+> > > >
+> > > > On Fri, Aug 18, 2023 at 08:55:59AM +0100, Biju Das wrote: =20
+> > > > > Drop deprecated enums from OF table as corresponding entries are
+> > > > > removed from bindings and it also saves memory. =20
+> > > >
+> > > > You can't do this.
+> > > >
+> > > > Only sorting by "prefixed first" criteria is possible. =20
+> > >
+> > > The rule applies only for fallback compatible. I checked bindings and=
+ I don't
+> > > find any fallback compatibles. All compatibles are just enums. Am I m=
+issing
+> > > anything here?? =20
+> >
+> > Yes. As per above patch. The _whole_ world is not under your / our cont=
+rol.
+> > NAK to this change, sorry. =20
+>=20
+> The single user ever in the upstream kernel was fixed in commit
+> 9846210b1ec9bbaa ("ARM: tegra: seaboard: add missing DT vendor
+> prefixes") in v3.8 back in 2012.
+> And it had to be fixed again 9 years later in commit fa0fdb78cb5d4cde
+> ("ARM: dts: am335x: Use correct vendor prefix for Asahi Kasei Corp.").
+>=20
+> There may be other out-of-tree users, which would be broken by this
+> change.  Typically we wait a few years between deprecating a compatible
+> value and removing support from the driver.
+>=20
+> As Biju is only deprecating these compatible values in PATCH 3/5 of
+> his series, this may be a bit premature.
+Absolutely.  I'd go a bit further.
+Unless there is a maintenance reason to remove these (after a few years from
+removal in the binding doc) then we never remove them as it can only hurt u=
+sers.
+
+Jonathan
+
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+
