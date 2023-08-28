@@ -2,118 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B81378A6BB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 09:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F5478A83D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 10:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbjH1Hpt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 03:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52296 "EHLO
+        id S229523AbjH1Iwx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 04:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbjH1Hpd (ORCPT
+        with ESMTP id S229796AbjH1Iwb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 03:45:33 -0400
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F25F3;
-        Mon, 28 Aug 2023 00:45:30 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5921a962adfso34346837b3.1;
-        Mon, 28 Aug 2023 00:45:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693208729; x=1693813529;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=omFQ1a+8ec2563b9X8NA9taUjJt9oDMi0qwccvgcoAQ=;
-        b=DWPejEPapUP7wvF/19dCRCSquBxnT4op1b9GX1k5EoogvxWp+YOuWx+6QosewVRWAd
-         s9pGZxTYRFVU1fLSi1TTtVv3FeS0wtTvm63SHqv5/aL5dw23W2dw5hyLroaYEkjkd1eJ
-         wo8cfksgMswI/bgmAdif2SocBR2w96eWpdavku1q+v/0lbKUQgXfPkbbRwSgOR2Uwax2
-         Rb//OG+n4XQFZDEep+OVUoM3VpSDCCT/w/HrwCCAl11WPXYuHjmNCJoOffVoqWa+GVzO
-         NyZZLrlAxbkQAO7ARPjUxAy+K4/NCoMAhvzKV2SZ0LCaRJ5PfQXrt1yMmcs0LCiL7l9t
-         eSfQ==
-X-Gm-Message-State: AOJu0Ywv20+nCwW3eV8IH7Xd4NWiI7At3qUXRqJcFXGfO7Z9Tl8U9oip
-        4xE3+uVgqKCBsSufbgxgnyp62uy9wNkBUA==
-X-Google-Smtp-Source: AGHT+IFyxiPaWKituSdp+HInlri+9crUV/qdsYYGdtSxti068XTPV7tpfyhqTdPwIxzFP5fboh0vnw==
-X-Received: by 2002:a81:99d2:0:b0:592:9035:8356 with SMTP id q201-20020a8199d2000000b0059290358356mr9797783ywg.26.1693208729479;
-        Mon, 28 Aug 2023 00:45:29 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id gz2-20020a05690c470200b0059511008958sm765773ywb.76.2023.08.28.00.45.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 00:45:28 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-58d31f142eeso34591057b3.0;
-        Mon, 28 Aug 2023 00:45:28 -0700 (PDT)
-X-Received: by 2002:a25:d78c:0:b0:d73:e979:d5c8 with SMTP id
- o134-20020a25d78c000000b00d73e979d5c8mr25921990ybg.34.1693208728597; Mon, 28
- Aug 2023 00:45:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230825205345.632792-1-biju.das.jz@bp.renesas.com> <20230825205345.632792-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230825205345.632792-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Aug 2023 09:45:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWESYVB2UXAHrKuBNway2zDzm-D-7rX8bz0OESAACK+OA@mail.gmail.com>
-Message-ID: <CAMuHMdWESYVB2UXAHrKuBNway2zDzm-D-7rX8bz0OESAACK+OA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] hwmon: tmp513: Simplify tmp51x_read_properties()
+        Mon, 28 Aug 2023 04:52:31 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B14BF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 01:52:28 -0700 (PDT)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37S6OAFx024620;
+        Mon, 28 Aug 2023 03:52:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=PODMain02222019; bh=B6KJLTAdmFDxECd
+        BGbyUKRAnHF4kQncp/v1Fnep0F4U=; b=Zlann/7U0btf8Xm/ENMLKKt2ZFde6zk
+        m93u0U9MDZZ3S0hfoJUp/4dQV7CwGABlpbP8hLBoWosx11PlCanJ5k9an0fu1kvh
+        /SlAMBlSCfytyGD2tjVY4Jgji6gPL6Wm86CqA0bJyQC/J9H+8kKEGOcxh+e+WZhZ
+        GA95HSjQxRZbdvXLO59SgtsuoEOSx0M/GZ0Zho7u243yC73tRtL96cqkgZXz/WPw
+        Bd8iw7iiXyxDmvQ0BgV5YzJeI3GLYA21YGEzWgc6dpCjI39lRC39eWAYhisRkYCK
+        PCKzU49N666IUouAFY2t3a5OxCpyUo4JXIhSUpVgZNgFNisg04qihVg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3sqesy9wqy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Aug 2023 03:52:12 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Mon, 28 Aug
+ 2023 09:52:09 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.37 via Frontend Transport; Mon, 28 Aug 2023 09:52:09 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9484411AA;
+        Mon, 28 Aug 2023 08:52:09 +0000 (UTC)
+Date:   Mon, 28 Aug 2023 08:52:09 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Eric Tremblay <etremblay@distech-controls.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+CC:     Lee Jones <lee@kernel.org>, <patches@opensource.cirrus.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,RCVD_IN_SORBS_WEB,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] mfd: arizona-i2c: Simplify probe()
+Message-ID: <20230828085209.GK103419@ediswmail.ad.cirrus.com>
+References: <20230826092721.55225-1-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230826092721.55225-1-biju.das.jz@bp.renesas.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: 05b0x_Xd6sozKM1M0AZ0H03WhPKzISAB
+X-Proofpoint-GUID: 05b0x_Xd6sozKM1M0AZ0H03WhPKzISAB
+X-Proofpoint-Spam-Reason: safe
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Fri, Aug 25, 2023 at 10:54 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Simplify tmp51x_read_properties() by replacing 'nfactor' ->'data->nfactor'
-> in device_property_read_u32_array() and drop the local variable as it is
-> unused.
->
+On Sat, Aug 26, 2023 at 10:27:21AM +0100, Biju Das wrote:
+> Simplify probe() by replacing device_get_match_data() and ID lookup for
+> retrieving match data by i2c_get_match_data().
+> 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
 
-Thanks for your patch!
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-> --- a/drivers/hwmon/tmp513.c
-> +++ b/drivers/hwmon/tmp513.c
-> @@ -680,10 +679,8 @@ static int tmp51x_read_properties(struct device *dev, struct tmp51x_data *data)
->         if (ret < 0)
->                 return ret;
->
-> -       ret = device_property_read_u32_array(dev, "ti,nfactor", nfactor,
-> -                                           data->max_channels - 1);
-> -       if (ret >= 0)
-> -               memcpy(data->nfactor, nfactor, data->max_channels - 1);
-> +       device_property_read_u32_array(dev, "ti,nfactor", data->nfactor,
-> +                                      data->max_channels - 1);
-
-My first thought was that this could cause a small change in behavior.
-However, the comments for of_property_read_u32_array() and
-of_property_read_variable_u32_array() state:
-
- * The out_values is modified only if a valid u32 value can be decoded.
-
-and the implementation behaves that way.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Charles
