@@ -2,231 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494DA78BA72
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 23:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B01578BB0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Aug 2023 00:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229952AbjH1Vub (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 17:50:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52428 "EHLO
+        id S233840AbjH1Wgu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 18:36:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233854AbjH1VuL (ORCPT
+        with ESMTP id S233804AbjH1Wgu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 17:50:11 -0400
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5AEE188
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 14:50:08 -0700 (PDT)
-Date:   Mon, 28 Aug 2023 21:49:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elementarea.net;
-        s=protonmail3; t=1693259404; x=1693518604;
-        bh=8JhmInorRNbyWE4vmvDnBIpqY1K7kOB/P3D6yMlT/Es=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=kko6iHPG/mJAxMQpQ5BZqftjzL0ZtfaByH5dznkNOELA67yiS7nBtXTtXj7cTKD8S
-         RvvsE+HyZ5AhLaVEuxnrEJ+cVn9ei+UTKKyaKamb/Y6wF158c73k5vhABCX5K/8pWQ
-         YS6imHRXO6Is91Ar4t4pNIAjweon0n+IXkXncYzPtZN0qLrTUbzOKom1hBP2h2CpJx
-         uUtc/rWNayREW+7g40X4omLmngonFcUXUsEyuPzZHfoRkeUBkYKZhrk+XmU45rS5Cd
-         T1qLBGZ8LiBHWYo2tOOvsq8SwdBNnUhnC9SV+oB/g+nq5323WfwTPDTg04OTuKvdbU
-         VRqUST7J+Jsbg==
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-From:   Andreas Brauchli <a.brauchli@elementarea.net>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?utf-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        Pascal Sachs <pascal.sachs@sensirion.com>
-Subject: Re: [PATCH] iio: chemical: sgp30: Convert enum->pointer for data in the match tables
-Message-ID: <a8a0ea077c55c00c83e65a9f6f4c574378720c4f.camel@elementarea.net>
-In-Reply-To: <20230828171326.7623a254@jic23-huawei>
-References: <20230812165730.216180-1-biju.das.jz@bp.renesas.com> <20230828171326.7623a254@jic23-huawei>
-Feedback-ID: 30354973:user:proton
+        Mon, 28 Aug 2023 18:36:50 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983BB184
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 15:36:47 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6bdcbde9676so3043479a34.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 15:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693262207; x=1693867007;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IecrG5N4IH7F6ZerOlqmJsF0xD6JKD/qSd81We10bDU=;
+        b=laLBKbFI9+y55DOgGQL3x607LZcw6VJZXmLVKmHiWVK1o1UHmXW6Daa8ozJhypbR4x
+         pgcHo3sr+o98/N5XLTba8y2JearQy4qo7oYvvhtg3teCpPoln3bIcUj0kvD96vpXtjpd
+         wrlfad+s326GDxJ2PQUyTANgiskiDdnKfJC/G21JYACTcc1qwlWSzpFLU1XVPT6j0Own
+         5Pho2Xtdc1avGnb6pEjQvp7e1k/Ym3arqdOiPTZx1eAcnexzC/tf/sgv3XFO/cygCf+A
+         COLaeYlr2PewRP6VIAvgr3ffxJ8g7MwQJLMy55Sku8k+PzOno7AwBDynXulUsniezKBf
+         iG1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693262207; x=1693867007;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IecrG5N4IH7F6ZerOlqmJsF0xD6JKD/qSd81We10bDU=;
+        b=VngQUvr7/dFtMfqMexTw3Z0L8Yy1mLyVD2Blz9YDIao13LtsXKIW6W4Q2MeW9GniRU
+         D1RSzBmzeEtmKVv3cKhWOZLyUf2Ym+mtFE2aVSjsStoJc4ds28dxnE5GaD5lOyHOKMfS
+         fRSK9tVeOjH3gKOTfAxCWfSX146SeKwnG9puouaZ//EIufhuWucoqphpokhEmTAIRjNR
+         DKLRLxdWUh3zodQC6YeMlAo/4jhMea+0xl1uzSOcolkAWXK2jvPyywTqgVLvW4G010Mv
+         DMEHBAjrvjqIQTRpSF6S8nXxUVw0XlgbLvTYRlhZjLG9VsLGcMhmExRhGbryh75ncZC7
+         8sAw==
+X-Gm-Message-State: AOJu0Yw36TfHA1rbH9U5/huaBYuM7gvqVNCWMkeb02dRoZpFzYZzFnjT
+        kZh1YIQMivGGRQ6auASaduTm6Uf4In99jjQ2wGA=
+X-Google-Smtp-Source: AGHT+IEKPsawjxD9UjcfpuIXDMO/SiaqZJnPfcnQEQCWWQWRxGOKbOGAaBFmNwXYnzuA2RAdCFcR7FT5tLVd92dtdo4=
+X-Received: by 2002:a05:6870:c21f:b0:1b0:805:8678 with SMTP id
+ z31-20020a056870c21f00b001b008058678mr13652229oae.24.1693262206842; Mon, 28
+ Aug 2023 15:36:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com> <20230813180512.307418-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230813180512.307418-3-biju.das.jz@bp.renesas.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 28 Aug 2023 17:36:35 -0500
+Message-ID: <CAHCN7xLw=PVZh=XfrD8cNXxMopimCja26WJYADtG7VyC=e2pVg@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm: adv7511: Add max_mode_clock variable to struct adv7511_chip_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        dri-devel@lists.freedesktop.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 2023-08-28 at 17:13 +0100, Jonathan Cameron wrote:
-> On Sat, 12 Aug 2023 17:57:30 +0100
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
->=20
-> > Convert enum->pointer for data in the match tables, so that
-> > device_get_match_data() can do match against OF/ACPI/I2C tables,
-> > once i2c
-> > bus type match support added to it.
-> >=20
-> > Add product_id variable to struct sgp_device and remove the local
-> > variable
-> > product_id in probe() and replace enum->struct *sgp_device for data
-> > in the
-> > match table. Simplify theprobe() by replacing
-> > device_get_match_data() and
-> > ID lookup for retrieving data by i2c_get_match_data().
-> >=20
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> +CC Andreas (comments still welcome!)
-ACK. Thanks, LGTM.
+On Sun, Aug 13, 2023 at 1:05=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> The ADV7533 supports a maximum pixel clock of 80MHz whereas it is 148.5MH=
+z
+> for ADV7535.  Add max_mode_clock variable to struct adv7511_chip_info to
+> handle this difference.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-+CC Pascal at Sensirion
+For the series:
 
->=20
-> Applied to the togreg branch of iio.git but only pushed out as
-> testing for
-> now because I'll be rebasing on rc1 once available.=C2=A0 0-day can poke
-> at
-> it in the meantime.
->=20
-> Thanks,
->=20
-> Jonathan
->=20
-> > ---
-> > =C2=A0drivers/iio/chemical/sgp30.c | 24 ++++++++++++------------
-> > =C2=A01 file changed, 12 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/drivers/iio/chemical/sgp30.c
-> > b/drivers/iio/chemical/sgp30.c
-> > index b509cff9ce37..21730d62b5c8 100644
-> > --- a/drivers/iio/chemical/sgp30.c
-> > +++ b/drivers/iio/chemical/sgp30.c
-> > @@ -114,6 +114,7 @@ struct sgp_data {
-> > =C2=A0};
-> >=20
-> > =C2=A0struct sgp_device {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long product_id;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct iio_chan_s=
-pec *channels;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int num_channels;
-> > =C2=A0};
-> > @@ -182,10 +183,12 @@ static const struct iio_chan_spec
-> > sgpc3_channels[] =3D {
-> >=20
-> > =C2=A0static const struct sgp_device sgp_devices[] =3D {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0[SGP30] =3D {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0.product_id =3D SGP30,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.channels =3D sgp30_channels,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_channels =3D ARRAY_SIZE(sgp30_channels),
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0[SGPC3] =3D {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0.product_id =3D SGPC3,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.channels =3D sgpc3_channels,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_channels =3D ARRAY_SIZE(sgpc3_channels),
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
-> > @@ -491,28 +494,25 @@ static const struct iio_info sgp_info =3D {
-> > =C2=A0};
-> >=20
-> > =C2=A0static const struct of_device_id sgp_dt_ids[] =3D {
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "sensirion=
-,sgp30", .data =3D (void *)SGP30 },
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "sensirion=
-,sgpc3", .data =3D (void *)SGPC3 },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "sensirion=
-,sgp30", .data =3D
-> > &sgp_devices[SGP30] },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "sensirion=
-,sgpc3", .data =3D
-> > &sgp_devices[SGPC3] },
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ }
-> > =C2=A0};
-> >=20
-> > =C2=A0static int sgp_probe(struct i2c_client *client)
-> > =C2=A0{
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct i2c_device=
-_id *id =3D
-> > i2c_client_get_device_id(client);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct sgp_device *mat=
-ch_data;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device *dev =3D =
-&client->dev;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iio_dev *indio_d=
-ev;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct sgp_data *data;
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long product_id;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev =3D devm_iio_=
-device_alloc(dev, sizeof(*data));
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!indio_dev)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return -ENOMEM;
-> >=20
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dev_fwnode(dev))
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0product_id =3D (unsigned
-> > long)device_get_match_data(dev);
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0product_id =3D id->driver_data;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0match_data =3D i2c_get_match=
-_data(client);
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data =3D iio_priv(indio=
-_dev);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0i2c_set_clientdata(clie=
-nt, indio_dev);
-> > @@ -528,15 +528,15 @@ static int sgp_probe(struct i2c_client
-> > *client)
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0data->feature_set =3D b=
-e16_to_cpu(data-
-> > >buffer.raw_words[0].value);
-> >=20
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D sgp_check_compat(dat=
-a, product_id);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D sgp_check_compat(dat=
-a, match_data->product_id);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->info =3D &sg=
-p_info;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->name =3D id-=
->name;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->modes =3D IN=
-DIO_DIRECT_MODE;
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->channels =3D sgp_=
-devices[product_id].channels;
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->num_channels =3D
-> > sgp_devices[product_id].num_channels;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->channels =3D matc=
-h_data->channels;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0indio_dev->num_channels =3D =
-match_data->num_channels;
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sgp_init(data);
-> >=20
-> > @@ -562,8 +562,8 @@ static void sgp_remove(struct i2c_client
-> > *client)
-> > =C2=A0}
-> >=20
-> > =C2=A0static const struct i2c_device_id sgp_id[] =3D {
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "sgp30", SGP30 },
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "sgpc3", SGPC3 },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "sgp30", (kernel_ulong_t)&=
-sgp_devices[SGP30] },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "sgpc3", (kernel_ulong_t)&=
-sgp_devices[SGPC3] },
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ }
-> > =C2=A0};
-> >=20
->=20
+Reviewed-by: Adam Ford <aford173@gmail.com>
+Tested-by: Adam Ford <aford173@gmail.com> #imx8mm-beacon
 
-
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 ++++--
+>  drivers/gpu/drm/bridge/adv7511/adv7533.c     | 2 +-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
+ridge/adv7511/adv7511.h
+> index 59e8ef10d72e..f8190442ffca 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -335,6 +335,7 @@ enum adv7511_type {
+>
+>  struct adv7511_chip_info {
+>         enum adv7511_type type;
+> +       unsigned long max_mode_clock;
+>  };
+>
+>  struct adv7511 {
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 013d8d640ef4..193b2d5bc7e6 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1371,11 +1371,13 @@ static const struct adv7511_chip_info adv7511_chi=
+p_info =3D {
+>  };
+>
+>  static const struct adv7511_chip_info adv7533_chip_info =3D {
+> -       .type =3D ADV7533
+> +       .type =3D ADV7533,
+> +       .max_mode_clock =3D 80000
+>  };
+>
+>  static const struct adv7511_chip_info adv7535_chip_info =3D {
+> -       .type =3D ADV7535
+> +       .type =3D ADV7535,
+> +       .max_mode_clock =3D 148500
+>  };
+>
+>  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/b=
+ridge/adv7511/adv7533.c
+> index c452c4dc1c3f..e92b27e0afd1 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+> @@ -108,7 +108,7 @@ enum drm_mode_status adv7533_mode_valid(struct adv751=
+1 *adv,
+>         u8 bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+>
+>         /* Check max clock for either 7533 or 7535 */
+> -       if (mode->clock > (adv->info->type =3D=3D ADV7533 ? 80000 : 14850=
+0))
+> +       if (mode->clock > adv->info->max_mode_clock)
+>                 return MODE_CLOCK_HIGH;
+>
+>         /* Check max clock for each lane */
+> --
+> 2.25.1
+>
