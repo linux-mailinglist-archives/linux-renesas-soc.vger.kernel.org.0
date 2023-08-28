@@ -2,87 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 925B078AEDA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB85078AEDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbjH1L27 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 07:28:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36890 "EHLO
+        id S232284AbjH1L3e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 07:29:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232283AbjH1L2j (ORCPT
+        with ESMTP id S232476AbjH1L3R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 07:28:39 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361B3B3;
-        Mon, 28 Aug 2023 04:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693222117; x=1724758117;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ALLFNC5QZgS5B04y67Q24R+Sg/T/d/X4TJvWok4tkn8=;
-  b=MJgs/QuaG4DRZ6HS2FMRNUUzYVvSFc0Q6xD4b2XJ4Gbu5442O7YN3QRf
-   X5IVXbt8s+JrPxhlZxySsmW/PcPL1ly5sa5gBBB+pH08iWboSjEvA1zGl
-   x51EXnRXC0DspaO/ntalGcb9CcVaZm/KqP6t1guzStZMsfl8tY3QK7dq2
-   TR1J7tMQd43he9KSEaNKASBb0QfeNJejcRJ+b8aNZE5GgELG5xIaeLuwJ
-   eHLCnO92xIjA0I36ED/RS5kPpX1DxXK9u1v973eJL7zdlsyJLGV2oa/qi
-   gA6VLLX//68a/RmBvWLCNQe+ogHyE8iewAXEuiRH2QNU3fyEe+TGg0cJR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="378854775"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="378854775"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 04:28:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="688072303"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="688072303"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2023 04:28:32 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qaaQ3-00GB37-13;
-        Mon, 28 Aug 2023 14:28:31 +0300
-Date:   Mon, 28 Aug 2023 14:28:31 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org,
+        Mon, 28 Aug 2023 07:29:17 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF6EF4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 04:29:13 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90E004E6;
+        Mon, 28 Aug 2023 13:27:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1693222070;
+        bh=Z2yGqZnWmLRCLstxt4PFV4RmzJjPF4lqtqgp9OWLgFQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HAcQqvKrMafzD5Ty19d4NOXGtaVkvI6zyhMIVTdLrRoRPd35eTodKu2gM3QlEk02H
+         n0MPGm6g1Q3exE/VCb/CiF3Ihb8awF/TK5yWyMJsyZaS3afCCye0srf7jNtVvI69ar
+         HqaabJjg9rss8n/Ur6giJvmY67+N9wfpXMTNd4+c=
+Date:   Mon, 28 Aug 2023 14:29:21 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Douglas Anderson <dianders@chromium.org>,
+        Zhu Wang <wangzhu9@huawei.com>,
+        dri-devel@lists.freedesktop.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] power: supply: sbs-battery: Make similar OF and ID
- table
-Message-ID: <ZOyE3/Y7RINxOgjy@smile.fi.intel.com>
-References: <20230824162344.385151-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4 2/2] drm/bridge: Drop conditionals around of_node
+ pointers
+Message-ID: <20230828112921.GJ14596@pendragon.ideasonboard.com>
+References: <20230826071901.29420-1-biju.das.jz@bp.renesas.com>
+ <20230826071901.29420-3-biju.das.jz@bp.renesas.com>
+ <ZOyCLijP4fb6zxKn@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230824162344.385151-1-biju.das.jz@bp.renesas.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZOyCLijP4fb6zxKn@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 05:23:44PM +0100, Biju Das wrote:
-> Make similar OF and ID table to extend support for ID match
-> using i2c_match_data(). Currently it works only for OF match
-> tables as the field is wrong for ID match.
+On Mon, Aug 28, 2023 at 02:17:02PM +0300, Andy Shevchenko wrote:
+> On Sat, Aug 26, 2023 at 08:19:01AM +0100, Biju Das wrote:
+> > Having conditional around the of_node pointers turns out to make driver
+> > code use ugly #ifdef and #if blocks. So drop the conditionals.
+> 
+> ...
+> 
+> > -#ifdef CONFIG_OF
+> >  	/** @of_node: device node pointer to the bridge */
+> >  	struct device_node *of_node;
+> > -#endif
+> 
+> This simply has to be struct fwnode_handle to begin with.
+> Can you convert the driver to use it?
 
-...
-
-> -	chip->flags = (u32)(uintptr_t)device_get_match_data(&client->dev);
-> +	chip->flags = (u32)(uintptr_t)i2c_get_match_data(client);
-
-Why is (u32)casting still needed?
-Why it was there beforehand?.. Do we have a compiler warning?
+While that's possibly a good idea, it will require touching all the
+bridge drivers that set this field, so I think it could be done
+separately.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
