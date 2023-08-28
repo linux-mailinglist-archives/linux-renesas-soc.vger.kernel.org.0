@@ -2,190 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC3E78B3C0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 16:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445F078B3ED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 17:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbjH1O4b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 10:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58586 "EHLO
+        id S229742AbjH1PDj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 11:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231990AbjH1O43 (ORCPT
+        with ESMTP id S232131AbjH1PDG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 10:56:29 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2114.outbound.protection.outlook.com [40.107.113.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BECBF;
-        Mon, 28 Aug 2023 07:56:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hjSKQg56UcRqD6XPICwkgVJhzPBoyMQtb0qLDSjoU3Wg/D8cKxIKXVWV0IOysPV5BNGTCHFjaIjsDayECmIa6Zm6J4tIyP5cFft7IGcNqT3MEnu8H6KGwvyCYDHnyIGmfH0mo6mfjop3qtR7bfjLRXGXShqOHb9jtIGTn7m/zupiQ0xUKu5GY0w6jRiI22kDeaucbs/0CyfzyY6TEq19wDg3YvioKd7XM/bAJR119U98Y85uCM123MMXMhIzNRIvRm0x+YTuuXWHyjkASjjbk69XCDlrU+RflPMS3Ytf+uOSRztFyCwlg2akpqt+y775uHPOpz+9vY3B3VWlPDuLdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wUjOa3VWTFJNBVzAQ3N9k38U+QaDHo6N4o5WvLCBAt0=;
- b=NC4mjeJEytLkkAjmtEcev7G31l+jSIX7vEs0qnDfcw4lhVVWfujNGa82/PRiwXQEDPuXiftA0cH96EY/TZB6K3527QwUHrKqGiqkATbKV/M9Wn8k3jn2+9QfN174EzawjT/1DA1x/EGSYWnciXTLL4coCwPDiecok29jDefRET/3OXpd8h8m0GU/5CtHhGADk+x18y+r6zZ0XIK0NLYwrJHYnWcPAznJ7LogBmRF2N0cbB57qkwNPMAMtoe+u4PZciKoWtqrfkYjgVEHkYAw/SVLvzHHLbIkWHvbDVKKv4SXJERVQC4o+wpZBI+s68Obxod9h1/3tbMStfLdLQMOUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUjOa3VWTFJNBVzAQ3N9k38U+QaDHo6N4o5WvLCBAt0=;
- b=Ao8DKGxY/1fdLbOiqZZaDkeRiY1fYGYC/IEM6yrW/sbbacy40eRSgryQ2+xlCDOOA8NEmQ2vxU+v8RHTvWVcHkqIExjgwgRT7XzL9flq6ke8pdJrVwZ3ElJQZsFihuN5L8ac3KErbmceooC/z/cRhp8JzdJqYwmVnlpmpp/BgyI=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB5654.jpnprd01.prod.outlook.com (2603:1096:604:b4::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Mon, 28 Aug
- 2023 14:56:21 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706%4]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
- 14:56:21 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-CC:     Crt Mori <cmo@melexis.com>, Lars-Peter Clausen <lars@metafoo.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Mon, 28 Aug 2023 11:03:06 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC0DCC;
+        Mon, 28 Aug 2023 08:03:04 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-34ca22e3b3dso11570365ab.3;
+        Mon, 28 Aug 2023 08:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693234983; x=1693839783;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VwNIZBavXMZo1akHKZTjOyuetxIq1qrOPfRzCXAyJaw=;
+        b=eeu+jRET8twmVPrNLzZhzjXd35HZJNSaMDo0KWlrW+ryQC4Ucg9kgPP9/2FQcIBkd4
+         r0whdupaVjskodqtqs2NSEbIhnORsSQxo6zS5L4O+tla+MVw1x/0QHrVeDngtmX4RiWc
+         tSIewY7ZS7/VWMk0uLNrQMxy+XOJ3mSup5A2m1yjEBWnAcIGyYUXTTMIoIeGdvLnXOwK
+         nIN7PWuNfwUz5KA6oichoZSZlT6DtW8qK/QN/Y+Jb7dD1PI5b+Gxpj046Y7LeVXcOpPc
+         fyxeJ71NKOQEb6/h1OzFsqV+KC1gPfL9qfh3Xsc95vtTZrojNJiq6Lpbi2AvdSNkDhcg
+         q41g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693234983; x=1693839783;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VwNIZBavXMZo1akHKZTjOyuetxIq1qrOPfRzCXAyJaw=;
+        b=FxUXaiH1z/TBqxLjF2qDpl2fxm1uTZQPZOdPOyw3zQuI78A9acG1Et9UfUM0csLvdJ
+         K2Gcmt054bBYtn0yx8am1w/QTPkJ5g6Ifq0BuKz8rLgBnul4iEnwpWKZvZXJcSWMk50Y
+         58UKbhtZPu2RwemEaNJI4YFiPdfd3DMZRsQxc7xc5lEENT2bPbKbZlIUYRfzIVeBMGze
+         yFDh6+YoQHVJMKkVvdXTlNa6vtsnsDmNg0BWizpLjsAqLyMCOP7yOiaf/4oscGaWD+Cb
+         kpXJCVgm2iW7nAX+4cRYRSWo7WLi1QSkOKhvv4ponOh2veJR1vw9bH29Sc3UKMLMVUtT
+         movg==
+X-Gm-Message-State: AOJu0YwhOE9ll90+NRONnEbIwxFdcLGpMzNVLSQLS6HS/09i7rZzpBxY
+        6ClK+oMSbPdoTyWhsvw9b5yYXFf9jy8=
+X-Google-Smtp-Source: AGHT+IHxuAXeAKESABQAMyOc89nh/dB41UduiD4bgrkStCyTgDNKW06l5xJdZHUks9kjikTyZCD2VA==
+X-Received: by 2002:a05:6e02:152f:b0:346:d51:9922 with SMTP id i15-20020a056e02152f00b003460d519922mr17884072ilu.13.1693234983415;
+        Mon, 28 Aug 2023 08:03:03 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t9-20020a92dc09000000b0034a93f0709esm2496223iln.37.2023.08.28.08.03.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Aug 2023 08:03:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 28 Aug 2023 08:03:00 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Eric Tremblay <etremblay@distech-controls.com>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] iio: mlx90614: Use i2c_get_match_data()
-Thread-Topic: [PATCH] iio: mlx90614: Use i2c_get_match_data()
-Thread-Index: AQHZzTkxU3tnEzpQsUChcb0A0nZmRq/o0sOAgACi2+CAFlhpAIAAFviQ
-Date:   Mon, 28 Aug 2023 14:56:21 +0000
-Message-ID: <OS0PR01MB5922B91989C9F1B1E194B5C986E0A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230812162222.200004-1-biju.das.jz@bp.renesas.com>
-        <CAKv63uvEu3kPYF=idNyW4RkwVWFgixdstQyvuUhhHzc_rPgqqg@mail.gmail.com>
-        <OS0PR01MB592204FC9A5A054CDFC300F38617A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230828143332.48bfa4ed@jic23-huawei>
-In-Reply-To: <20230828143332.48bfa4ed@jic23-huawei>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB5654:EE_
-x-ms-office365-filtering-correlation-id: 8c2924ca-3129-4049-180c-08dba7d6f101
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: p+7ArABFkdeFXreqC1BgTreB/Rn2J9HGNWruJjjahxyTWEafovWo9OyGSfe70pI64164tKC2lF5dNSsp7dR6SCFS3W76ZcbHt1xd4BkP9GZYu2htp6pj+ZFRwnOVqdU5zkMLk8MPh3rktRpHzbAxgdV6CfE4IH+bw0gbbhGDL+gPMrAZQXaotbNGMSBb0o6HdwgJ8Dg7/vLsieeoLfqWndTXDVD5xwPDbE4ABw+m8W5wCWmN+dIEQ3m/JeQTLGD7m9uahZU+LxEZD8/Gtnseep1RydYouxkJckSAd4+eBF7vMHEiVFAd/ORSwRvGYKwV/v4R7Pxp3FQG7zdItYa8BloAY4ut465V2Y2IY3vcqiitmmFXe00RgwdkmakxLiDt/y2eT/MbYzZqJBERqvvVVkGxZzT7/zxc61obFBNPVeOP2wsu5nP1IYWLb2hyXiKE7gDNHR4BQ24mzOIf6BNRQYsMaG1wrtEi0xS/Jt/KHTQKLAz5lhlmPdLg/WOyVZQ3852DeISFVt38gYrMLPiIudXI6x61dQBSXs4FsGgghuzLgN1U8oMYZ71EGqo5nfTKrIJJwlXaI4nGuC5dsiAMTvM/A/O84yr6bk02aNkXZvfWQ9f9PK4PVIVvCNmxpi3Z
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(396003)(39860400002)(346002)(451199024)(1800799009)(186009)(7696005)(6506007)(71200400001)(9686003)(33656002)(86362001)(38100700002)(38070700005)(122000001)(55016003)(2906002)(26005)(83380400001)(478600001)(76116006)(52536014)(66476007)(66556008)(66946007)(41300700001)(8676002)(4326008)(8936002)(5660300002)(64756008)(66446008)(54906003)(6916009)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ho+HwvVJ/Js2dU0d0EG5SmBZwZfq4dsHT3czGuEDURTbvE4JjYh578H4JkiR?=
- =?us-ascii?Q?NtkJWZPKEapXMpfCVM34x8G2ce58cLpqDVBvyGoT4iElpHGu6zdxNXilB2va?=
- =?us-ascii?Q?3KB1lqMa9vuuQjXe8Yo93mu+shgo4zhM30niJj+/mjaYotid4JR1GIQN83wY?=
- =?us-ascii?Q?Ms43oelDvYh4FkzIPBc6XVjgWKYoxXCjuFQcDI1PyGZOp7vYl4MZ4V1YnI4s?=
- =?us-ascii?Q?S+zScuJ4LZf2EU8cjHflmkPCM6eOA+xZVJf3Vqxwt8rXea3BO0+OyHJk9pfv?=
- =?us-ascii?Q?3wWa1TBOFAAW+W3rNBXS444od9CbU4zhxVegvpwD6+cS/LT4h3H4tDBSz+CL?=
- =?us-ascii?Q?CewIUrwozjxxNutLlfGu/2QIBPyIue0MKewEZnC6RjhJgjDtH5Y5X/KKIk5v?=
- =?us-ascii?Q?V8yQ9PS6imfGfhXjTv+jSnDID3YXLvcEPRui6hA7n1m8lMvXQ/dsX1p56H0i?=
- =?us-ascii?Q?KF7TyfTt5BdLpuN9y9kAmH+ewQqcSs80KF19gjkyk0zh+Yw7HHzHf2b5ctfq?=
- =?us-ascii?Q?/5YYxwjKeKdqTIVU2b4nrjSjAGlRugiPWvfaYVB/Ys48bhzceZnf/CC3Sdu4?=
- =?us-ascii?Q?Cj73CR0a4yGn5z/FKLRm3+GrbVgDnAhII0LtChAta0sS+3Xdw6/L7owMubPa?=
- =?us-ascii?Q?cC0u/s/2UMbIAucZ5THrf96dbiHzKa4haOZAIY2/JiO49FhX9ASjBIWIndOY?=
- =?us-ascii?Q?1x2Naxq0yyFubfD+wVEqHzqINStkCRDZqxDE8QBCqsCdBgymh2qt3zmE1RUK?=
- =?us-ascii?Q?rkyU71GCRK3YCklfNQHfcy00MFNLrhE1ij6xUAqf84ubcNBtD8pdu+UwK86+?=
- =?us-ascii?Q?f7k7/ZdMlRv8qqCM+hTKuz1NXFQXbqXsublloxp+vDx4JLqvf35OIfJ8Oymd?=
- =?us-ascii?Q?5LQGOuz0I/oD3VGtCDOJyOp0phKrpFEleuiiV76plBm94Xbu1AW+IKW28sBv?=
- =?us-ascii?Q?CXSqvuSy+7s/ANHVmpooggszKIxMe8QGVCa10nPRejKDTE+4+6Il8hy55HBO?=
- =?us-ascii?Q?mtiSE3aNitWFQh3w7nSVcjeJXIpaBwIpvOz/aCxnjURCaxFqIpYgGSyYMuWg?=
- =?us-ascii?Q?K5T8x/CPfKihMzJOOiZlUdrRdgC3UENhZUzT77NqVLfjhnqSpU/aqBjo+pfU?=
- =?us-ascii?Q?OHywWryqUnTI9JqPXCUYfsObFHXbffAmXJkqUcsziDcGmbyucoxyyv5z2nl7?=
- =?us-ascii?Q?piGkdzMZIN68x/kNwWZB9i9KqfOi2WIIg+zcTCKIfqntgnn1nfCpcSBnljMW?=
- =?us-ascii?Q?iq9TEeEuiVFD0PNyzH5trRjq7ijpqVzgAOb2uFmRFA57yMDcTETLpHWePuRS?=
- =?us-ascii?Q?2lR6Z40dpTD9eKDP6MOgQSNSmYK6lVrulkEQ3prYadFXNLQx8rZH1SrToT4T?=
- =?us-ascii?Q?ErUC9U9NM6m1L7xyjjORj5Rzdai1QzmoUZiwPg3sH3olxardNQ/luDulUu1C?=
- =?us-ascii?Q?OEVp+ONGRJn80T8GO+6J8PVJfIwRfQ6dctt1w/eEGAh1rwS05j7HxHldX6Q1?=
- =?us-ascii?Q?UH5RMRQ+wNBpWZbzrcCOSlM78C/an5ZyKbJkMqxlcJ1ULVFFMnfz8qiR0aWV?=
- =?us-ascii?Q?NLJQqvEIGM0g/3H6wugMD5unbNnsk+HZHtz4ClGHcaSOFLT40YQZBCjMf4ai?=
- =?us-ascii?Q?iA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] hwmon: tmp513: Drop enum tmp51x_ids and variable
+ id from struct tmp51x_data
+Message-ID: <01b19c73-d158-401b-8a0b-3fdef61294c0@roeck-us.net>
+References: <20230825205345.632792-1-biju.das.jz@bp.renesas.com>
+ <20230825205345.632792-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c2924ca-3129-4049-180c-08dba7d6f101
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2023 14:56:21.0876
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dcCVYZSJmJUvURz5+FNQDDj5uNSuDaseC4/h/Df+ZySU5EmeK2BRJBB0CACPcBnSOWp8xifGNdZoI245ALImMitSTx80JV+cTwRqA+jfdns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5654
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230825205345.632792-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jonathan Cameron,
+On Fri, Aug 25, 2023 at 09:53:44PM +0100, Biju Das wrote:
+> Drop variable id from struct tmp51x_data and enum tmp51x_ids as all the
+> hw differences can be handled by max_channels.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Updated the macro TMP51X_TEMP_CONFIG_DEFAULT by adding bit definitions.
+>  * Dropped unused macros TMP51{2,3}_TEMP_CONFIG_DEFAULT.
+> ---
 
-> Subject: Re: [PATCH] iio: mlx90614: Use i2c_get_match_data()
->=20
-> On Mon, 14 Aug 2023 08:28:28 +0000
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
->=20
-> > Hi Crt Mori,
-> >
-> > > Subject: Re: [PATCH] iio: mlx90614: Use i2c_get_match_data()
-> > >
-> > > It should not break some backwards compatibility so:
-> >
-> > You mean,
-> >
-> > Fixes: 3d5ead238bc8 ("iio: mlx90614: Factor our register IO and
-> > constants into model specific descriptor")
-> >
-> > Hi Jonathan,
-> >
-> > Is it some thing you can do while applying Cc ing stable@kernel.org ?
->=20
-> You've lost me.
->=20
-> I think Crt was just saying this patch is fine, not referring to any othe=
-r
-> changes.
+[ ... ]
 
-Ok,
+I had another look at those. First of all, using MASK and FIELD_PREP
+for single-bit fields doesn't add value. Just drop the _MASK from
+all those and just use BIT().
 
-Biju
+> +#define TMP51X_TEMP_CONFIG_GPM_MASK	BIT(2)
 
-> > Biju
-> >
-> > > Acked-by: "Crt Mori <cmo@melexis.com>"
-> > >
-> > > On Sat, 12 Aug 2023 at 18:22, Biju Das <biju.das.jz@bp.renesas.com>
-> wrote:
-> > > >
-> > > > Replace device_get_match_data()->i2c_get_match_data() to extend
-> > > > matching support for ID table.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > ---
-> > > >  drivers/iio/temperature/mlx90614.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/iio/temperature/mlx90614.c
-> > > > b/drivers/iio/temperature/mlx90614.c
-> > > > index 07bb5df24ab3..740018d4b3df 100644
-> > > > --- a/drivers/iio/temperature/mlx90614.c
-> > > > +++ b/drivers/iio/temperature/mlx90614.c
-> > > > @@ -600,7 +600,7 @@ static int mlx90614_probe(struct i2c_client
-> *client)
-> > > >         data->client =3D client;
-> > > >         mutex_init(&data->lock);
-> > > >         data->wakeup_gpio =3D mlx90614_probe_wakeup(client);
-> > > > -       data->chip_info =3D device_get_match_data(&client->dev);
-> > > > +       data->chip_info =3D i2c_get_match_data(client);
-> > > >
-> > > >         mlx90614_wakeup(data);
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
+GPM is bit 0 and 1, so this is wrong. This should probably
+be TMP51X_TEMP_CONFIG_GP which is bit 2. It is also a read-only
+value, so setting it is never warranted.
 
+> +#define TMP51X_TEMP_CONFIG_RC_MASK	BIT(10)
+> +#define TMP51X_TEMP_CONFIG_CONT_MASK	BIT(15)
+
+Drop _MASK.
+
+> +
+> +#define TMP51X_TEMP_CONFIG_GPM		FIELD_PREP(GENMASK(1, 0), 0)
+
+Technically, using a 2-bit field here is misleading, since bit 1 defines
+if the gpio bit is an input or output, and bit 0 defines the state of
+the pin if it is an output.  This would have to change if and when gpio
+support is added to the driver, so it is best to not define anything GP
+related in the first place.
+
+> +#define TMP51X_TEMP_CONFIG_GP		FIELD_PREP(TMP51X_TEMP_CONFIG_GPM_MASK, 0)
+> +#define TMP51X_TEMP_CONFIG_CONV_RATE	FIELD_PREP(GENMASK(9, 7), 0x7)
+> +#define TMP51X_TEMP_CONFIG_RC		FIELD_PREP(TMP51X_TEMP_CONFIG_RC_MASK, 1)
+
+Those are really the values to be put into the configuration register,
+which I find is just confusing. But define the register bits, set the bit
+if needed, and otherwise keep it alone.
+
+> +#define TMP51X_TEMP_CHANNEL_MASK(n)	FIELD_PREP(GENMASK(14, 11), GENMASK(n, 0) > 1)
+
+This is wrong. Either s/>/>>/ or GENMASK((n) - 1, 0). I personally prefer
+the latter since I find it easier to understand.
+
+> +#define TMP51X_TEMP_CONFIG_CONT		FIELD_PREP(TMP51X_TEMP_CONFIG_CONT_MASK, 1)
+> +
+> +#define TMP51X_TEMP_CONFIG_DEFAULT(n) \
+> +			(TMP51X_TEMP_CONFIG_GPM | TMP51X_TEMP_CONFIG_GP | \
+> +			 TMP51X_TEMP_CONFIG_CONV_RATE | TMP51X_TEMP_CONFIG_RC | \
+> +			 TMP51X_TEMP_CHANNEL_MASK(n) | TMP51X_TEMP_CONFIG_CONT)
+> +
+
+I would very much prefer something like
+
+#define TMP51X_TEMP_CONFIG_DEFAULT(n)	(TMP51X_TEMP_CONFIG_CONT | \
+			TMP51X_TEMP_CHANNEL_MASK(n) \
+			TMP51X_TEMP_CONFIG_CONV_RATE | TMP51X_TEMP_CONFIG_RC)
+
+and drop the unnecessary complexity of defining single bit values with
+FIELD_PREP().
+
+Guenter
