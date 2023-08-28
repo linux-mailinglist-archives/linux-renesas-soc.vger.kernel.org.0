@@ -2,92 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D272E78A881
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 11:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4079A78A8A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 11:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbjH1JJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 05:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45916 "EHLO
+        id S229927AbjH1JTa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 05:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjH1JIq (ORCPT
+        with ESMTP id S229925AbjH1JTS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 05:08:46 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C2DDEC;
-        Mon, 28 Aug 2023 02:08:43 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.02,207,1688396400"; 
-   d="scan'208";a="177906192"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Aug 2023 18:08:43 +0900
-Received: from localhost.localdomain (unknown [10.226.92.234])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 62E2641B7376;
-        Mon, 28 Aug 2023 18:08:40 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-rtc@vger.kernel.org,
+        Mon, 28 Aug 2023 05:19:18 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25E710C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 02:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693214355; x=1724750355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pwcKM9ImQnHotrWIjRxgD4lolnpUj4hVuJsJe6W9S7Y=;
+  b=hZu0obJJaGxRj/LB5dy7pVi2NyVgDZ92+oXARzgxnVX9oQJWGwHg21li
+   Ahws4/egmYoRzC5eQhqriYtvB/3CRkmWJsRRiPTLPDdABgC0WiYny/R5A
+   YyDHj1yR+V+L3XW1ognfyLdSEmSvOqfLsWE3V8RhcWYQ+oVP5OA4rt7IP
+   owfXj82mno1UIPJyBq+6OCnQMK7gmMRBsMGSRWRhpT7J/cTQz44dTTvsP
+   xOoQdJoXykRvL8lmMW41AsrZM76iOypqjyPtmSWFRPIIUualThrAHDkas
+   yqEPdbghQjHVQn3HRtuvl39SgYiTEYv9GRPM7OHm2KHtburgFqqjX2cP2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377786952"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="377786952"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 02:19:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="767592161"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="767592161"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 28 Aug 2023 02:19:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qaYOu-00Bvum-01;
+        Mon, 28 Aug 2023 12:19:12 +0300
+Date:   Mon, 28 Aug 2023 12:19:11 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] rtc: rx8581: Simplify probe()
-Date:   Mon, 28 Aug 2023 10:08:28 +0100
-Message-Id: <20230828090828.26897-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] regulator: pv880x0: Simplify probe()
+Message-ID: <ZOxmj4A5gx2Vra3L@smile.fi.intel.com>
+References: <20230826114919.73897-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230826114919.73897-1-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Make similar OF and ID table and simplify probe() by replacing
-of_device_get_match_data()->i2c_get_match_data().
+On Sat, Aug 26, 2023 at 12:49:19PM +0100, Biju Das wrote:
+> Replace pv88080_types->pv88080_compatible_regmap in OF/ID tables and
+> simplify the probe() by replacing of_match_node() and ID lookup for
+> retrieving match data by i2c_get_match_data(). After this there is
+> no user of enum pv88080_types. So drop it.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Note:
- * This patch is only compile tested.
----
- drivers/rtc/rtc-rx8581.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+...
 
-diff --git a/drivers/rtc/rtc-rx8581.c b/drivers/rtc/rtc-rx8581.c
-index 48efd61a114d..68dd8b9b52f9 100644
---- a/drivers/rtc/rtc-rx8581.c
-+++ b/drivers/rtc/rtc-rx8581.c
-@@ -250,8 +250,7 @@ static const struct rx85x1_config rx8571_config = {
- static int rx8581_probe(struct i2c_client *client)
- {
- 	struct rx8581 *rx8581;
--	const struct rx85x1_config *config = &rx8581_config;
--	const void *data = of_device_get_match_data(&client->dev);
-+	const struct rx85x1_config *config = i2c_get_match_data(client);
- 	static struct nvmem_config nvmem_cfg[] = {
- 		{
- 			.name = "rx85x1-",
-@@ -273,9 +272,6 @@ static int rx8581_probe(struct i2c_client *client)
- 
- 	dev_dbg(&client->dev, "%s\n", __func__);
- 
--	if (data)
--		config = data;
--
- 	rx8581 = devm_kzalloc(&client->dev, sizeof(struct rx8581), GFP_KERNEL);
- 	if (!rx8581)
- 		return -ENOMEM;
-@@ -307,7 +303,7 @@ static int rx8581_probe(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id rx8581_id[] = {
--	{ "rx8581", 0 },
-+	{ "rx8581", (kernel_ulong_t)&rx8581_config },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rx8581_id);
+>  #ifdef CONFIG_OF
+>  static const struct of_device_id pv88080_dt_ids[] = {
+> -	{ .compatible = "pvs,pv88080",    .data = (void *)TYPE_PV88080_AA },
+> -	{ .compatible = "pvs,pv88080-aa", .data = (void *)TYPE_PV88080_AA },
+> -	{ .compatible = "pvs,pv88080-ba", .data = (void *)TYPE_PV88080_BA },
+> +	{ .compatible = "pvs,pv88080",    .data = &pv88080_aa_regs },
+> +	{ .compatible = "pvs,pv88080-aa", .data = &pv88080_aa_regs  },
+> +	{ .compatible = "pvs,pv88080-ba", .data = &pv88080_ba_regs },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, pv88080_dt_ids);
+>  #endif
+
+With this patch it makes sense to get rid of ugly ifdeffery, correct header
+inclusions (if needed) and Kconfig.
+
+See similar patches
+$ git log --no-merges --grep "Make use of device properties"
+
+> +static const struct i2c_device_id pv88080_i2c_id[] = {
+> +	{ "pv88080",    (kernel_ulong_t)&pv88080_aa_regs },
+> +	{ "pv88080-aa", (kernel_ulong_t)&pv88080_aa_regs },
+> +	{ "pv88080-ba", (kernel_ulong_t)&pv88080_ba_regs },
+
+> +	{},
+
+Please, remove trailing comma in the terminator entry. Same you can do for
+other ID tables and in other patches you prepared.
+
+> +};
+
+...
+
+> -static const struct i2c_device_id pv88080_i2c_id[] = {
+> -	{ "pv88080",    TYPE_PV88080_AA },
+> -	{ "pv88080-aa", TYPE_PV88080_AA },
+> -	{ "pv88080-ba", TYPE_PV88080_BA },
+> -	{},
+> -};
+> -MODULE_DEVICE_TABLE(i2c, pv88080_i2c_id);
+> -
+
+Why do you move this one up? Shouldn't it be other way around, i.e. moving the
+other closer to its user, namely here?
+
+>  static struct i2c_driver pv88080_regulator_driver = {
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
