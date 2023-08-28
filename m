@@ -2,110 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBED978B01B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 570EB78B083
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjH1M1i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 08:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
+        id S229798AbjH1Mfl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 08:35:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232662AbjH1M1X (ORCPT
+        with ESMTP id S229560AbjH1MfI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 08:27:23 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB61107;
-        Mon, 28 Aug 2023 05:27:19 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 45F1D1BF20B;
-        Mon, 28 Aug 2023 12:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1693225637;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jT92x1VpqM6L8dx75FLolaWxUtRbvluTatFVmG6lbL4=;
-        b=JXK1hAYVLOMvhA53K+H8BrVrtftFGeHltHgWSqR9QUhE28fYkj0pDqARZ346Eyt+sFRzPs
-        bNxSXmr8pzxCno9PNdaMHg+QcuXv90ngInXxpUh6jMTZh6UGLgU693yyPSPoE2BQ0Whwzj
-        ni3CeoqNADIvMg0ReRwNpNLQ1Y/0jqsiOmX9tD4RIl3/p/dyAn6rEZHI31ccDaF4x8hQ2P
-        DwB3xwfpxif9naMvTYUH7fjJyRmSf7Cuv+0Gsdoj9gQqNCnzttwFg/biUyHNnlgcxJb2yf
-        W4PYT+gudZAixV3A/3+iMitOh1VGUsQTE/sgxsXZe50Lpx83V1rpqtOuUscpLw==
-Date:   Mon, 28 Aug 2023 14:27:13 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+        Mon, 28 Aug 2023 08:35:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A3EB6;
+        Mon, 28 Aug 2023 05:35:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EABCA64715;
+        Mon, 28 Aug 2023 12:35:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB550C433C8;
+        Mon, 28 Aug 2023 12:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693226105;
+        bh=ZLecRXe4nCCOe6k3tzeMLLPIVj8DEPANgv8jB6rB+mM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=c/IrYXayzNGjfvfrBMvO0PfEbzI77z3bd3wzJCK2IJRpwE5Mmtdx+cxdkxFszqQdM
+         txmm3IZvZY0D/dZd20tYrzD6nWU/Enyx49DGkSzYd746MXcGnmlo/GlAXachLiQ9Dq
+         bmDsy7xO/QZcTf9Bc1u3Jy/zr74EhwWHYv8HgA1nW5GT/+GSFfbGU2gN30OmcEfjJO
+         MnrJnnNC59sj7yRsRKDVPJnJxGdGDGfOrKBIvPCms9hcuK4lC55LdJeR2vw06ad6Mo
+         Wz9tVFbZjr8Omqw8vZW7sWIUPDb6+83II3pF4b/PjjkfZrQCGpJEeafDuiASUTLly4
+         AinriyZon7+jw==
+Date:   Mon, 28 Aug 2023 13:35:25 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>, linux-rtc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?= =?UTF-8?B?Zw==?= 
+        <u.kleine-koenig@pengutronix.de>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] rtc: rx8581: Simplify probe()
-Message-ID: <2023082812271359f2dadd@mail.local>
-References: <20230828090828.26897-1-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org,
+        Matt Ranostay <matt.ranostay@konsulko.com>
+Subject: Re: [PATCH v2] iio: chemical: vz89x: Convert enum->pointer for data
+ in the match tables
+Message-ID: <20230828133525.5afaea4f@jic23-huawei>
+In-Reply-To: <20230818190429.338065-1-biju.das.jz@bp.renesas.com>
+References: <20230818190429.338065-1-biju.das.jz@bp.renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230828090828.26897-1-biju.das.jz@bp.renesas.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 28/08/2023 10:08:28+0100, Biju Das wrote:
-> Make similar OF and ID table and simplify probe() by replacing
-> of_device_get_match_data()->i2c_get_match_data().
+On Fri, 18 Aug 2023 20:04:29 +0100
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
+
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it.
+> 
+> Replace enum->struct *vz89x_chip_data for data in the match table. Simplify
+> the probe() by replacing device_get_match_data() and ID lookup for
+> retrieving data by i2c_get_match_data().
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Note:
->  * This patch is only compile tested.
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-As you have access to a rx8571, please actually test.
+Biju,
+
+Make sure you cc the driver authors etc.
+
+I'll queue this one up, but Matt feel free to comment if you have time
+
+Thanks,
+
+Jonathan
+
 
 > ---
->  drivers/rtc/rtc-rx8581.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+> v1->v2:
+>  * Added Rb tag from Andy.
+>  * Dropped id variable removal from commit description.
+> ---
+>  drivers/iio/chemical/vz89x.c | 16 +++++-----------
+>  1 file changed, 5 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/rtc/rtc-rx8581.c b/drivers/rtc/rtc-rx8581.c
-> index 48efd61a114d..68dd8b9b52f9 100644
-> --- a/drivers/rtc/rtc-rx8581.c
-> +++ b/drivers/rtc/rtc-rx8581.c
-> @@ -250,8 +250,7 @@ static const struct rx85x1_config rx8571_config = {
->  static int rx8581_probe(struct i2c_client *client)
->  {
->  	struct rx8581 *rx8581;
-> -	const struct rx85x1_config *config = &rx8581_config;
-> -	const void *data = of_device_get_match_data(&client->dev);
-> +	const struct rx85x1_config *config = i2c_get_match_data(client);
->  	static struct nvmem_config nvmem_cfg[] = {
->  		{
->  			.name = "rx85x1-",
-> @@ -273,9 +272,6 @@ static int rx8581_probe(struct i2c_client *client)
+> diff --git a/drivers/iio/chemical/vz89x.c b/drivers/iio/chemical/vz89x.c
+> index 13555f4f401a..5b358bcd311b 100644
+> --- a/drivers/iio/chemical/vz89x.c
+> +++ b/drivers/iio/chemical/vz89x.c
+> @@ -342,19 +342,17 @@ static const struct vz89x_chip_data vz89x_chips[] = {
+>  };
 >  
->  	dev_dbg(&client->dev, "%s\n", __func__);
->  
-> -	if (data)
-> -		config = data;
-> -
->  	rx8581 = devm_kzalloc(&client->dev, sizeof(struct rx8581), GFP_KERNEL);
->  	if (!rx8581)
->  		return -ENOMEM;
-> @@ -307,7 +303,7 @@ static int rx8581_probe(struct i2c_client *client)
->  }
->  
->  static const struct i2c_device_id rx8581_id[] = {
-> -	{ "rx8581", 0 },
-> +	{ "rx8581", (kernel_ulong_t)&rx8581_config },
+>  static const struct of_device_id vz89x_dt_ids[] = {
+> -	{ .compatible = "sgx,vz89x", .data = (void *) VZ89X },
+> -	{ .compatible = "sgx,vz89te", .data = (void *) VZ89TE },
+> +	{ .compatible = "sgx,vz89x", .data = &vz89x_chips[VZ89X] },
+> +	{ .compatible = "sgx,vz89te", .data = &vz89x_chips[VZ89TE] },
 >  	{ }
 >  };
->  MODULE_DEVICE_TABLE(i2c, rx8581_id);
-> -- 
-> 2.25.1
-> 
+>  MODULE_DEVICE_TABLE(of, vz89x_dt_ids);
+>  
+>  static int vz89x_probe(struct i2c_client *client)
+>  {
+> -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+>  	struct device *dev = &client->dev;
+>  	struct iio_dev *indio_dev;
+>  	struct vz89x_data *data;
+> -	int chip_id;
+>  
+>  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+>  	if (!indio_dev)
+> @@ -369,14 +367,10 @@ static int vz89x_probe(struct i2c_client *client)
+>  	else
+>  		return -EOPNOTSUPP;
+>  
+> -	if (!dev_fwnode(dev))
+> -		chip_id = id->driver_data;
+> -	else
+> -		chip_id = (unsigned long)device_get_match_data(dev);
+> +	data->chip = i2c_get_match_data(client);
+>  
+>  	i2c_set_clientdata(client, indio_dev);
+>  	data->client = client;
+> -	data->chip = &vz89x_chips[chip_id];
+>  	data->last_update = jiffies - HZ;
+>  	mutex_init(&data->lock);
+>  
+> @@ -391,8 +385,8 @@ static int vz89x_probe(struct i2c_client *client)
+>  }
+>  
+>  static const struct i2c_device_id vz89x_id[] = {
+> -	{ "vz89x", VZ89X },
+> -	{ "vz89te", VZ89TE },
+> +	{ "vz89x", (kernel_ulong_t)&vz89x_chips[VZ89X] },
+> +	{ "vz89te", (kernel_ulong_t)&vz89x_chips[VZ89TE] },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(i2c, vz89x_id);
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
