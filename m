@@ -2,109 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C70E78AF33
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B921C78AF39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbjH1Lnk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 07:43:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
+        id S229487AbjH1Lol (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 07:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232530AbjH1LnL (ORCPT
+        with ESMTP id S232521AbjH1LoL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 07:43:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E477FE7;
-        Mon, 28 Aug 2023 04:43:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 76E7B6140C;
-        Mon, 28 Aug 2023 11:43:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 676C2C433CC;
-        Mon, 28 Aug 2023 11:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693222986;
-        bh=72TztgUYNH11IGNCSOKuN1rbP+ed/poncefHEK1ZlE0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=doDGZ3wiO4uuyKpoRYrvbiz4DAEiBNJLIB7Zx/3hJad6559ugCD0Iak3sK4Z4c8vf
-         MEDgnit+9GKyTiFSHmeLp9pIupuOKyDaPcbjf2af+ync33cPSomkMB87B9NwFresRX
-         3xon8JBcqcAT7FeEZMTc5EZ9SDODkR9ao6s0/BvobV5pSsjjxoDNhzgmGSiEX1uOWy
-         QRMLp/ZgUmw1rYNDZwsjisfDH8jNewc3ZhLQTsuIybvjtwBZvGHhoImUTbByOa0jum
-         efPYwT2krD//HSkKZyRGOhvKzdyV62nt5gk4iXiziOHzNkymoYc0vWDIpJTu75MyVB
-         s0Z1L4gDZshbQ==
-Date:   Mon, 28 Aug 2023 12:43:25 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
+        Mon, 28 Aug 2023 07:44:11 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0ED4120
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 04:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693223038; x=1724759038;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=whheSNXHsQG1orTxTzSh/6KRRp7u8Vqdkbn3UmPa6Os=;
+  b=Pkij9CiDtVGFCVvxh8RaFiRGxsjBsvJpj1DK+P25uisi2bOLjiemxero
+   ElHQ0bY58t9iTdp47YsRF5QHu09N1R2a3vP/dygFpX8aspSQtC9qWmkts
+   RbTsnmzwa3n0HHNBlD9OlOQPwnRyE5P8iztGXEkHfSFpWig23HawOwOJW
+   lEj60GKvJAIKj9NjSfMb4lrqv3aQFeVPiT/Dch0Ti8yuQhtfJUydXKRg0
+   smEaXUx+pzJfCXVaLPlZS458yLnFk1GSHLIF5sfo7QqU+AkGwrYvQg0Iv
+   /U+42NLf9ZrCehwkWXh1e0LA01Ai3cZExYhZASY8ks+QCDJoCaz9pCZXQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="375048879"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="375048879"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 04:43:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="741355579"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="741355579"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Aug 2023 04:43:56 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qaaex-00GgHx-1B;
+        Mon, 28 Aug 2023 14:43:55 +0300
+Date:   Mon, 28 Aug 2023 14:43:55 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?= =?UTF-8?B?Zw==?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-iio@vger.kernel.org,
+Cc:     Lee Jones <lee@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] iio: chemical: atlas-ezo-sensor: Simplify probe()
-Message-ID: <20230828124325.44589f84@jic23-huawei>
-In-Reply-To: <20230818183128.334233-1-biju.das.jz@bp.renesas.com>
-References: <20230818183128.334233-1-biju.das.jz@bp.renesas.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] mfd: max77541: Simplify probe()
+Message-ID: <ZOyIe4ZxBFSh6/Ro@smile.fi.intel.com>
+References: <20230826091020.45621-1-biju.das.jz@bp.renesas.com>
+ <ZOyC++vjeg4TGCpx@smile.fi.intel.com>
+ <OS0PR01MB592265EAF67FDF987675630A86E0A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB592265EAF67FDF987675630A86E0A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 18 Aug 2023 19:31:28 +0100
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Mon, Aug 28, 2023 at 11:36:54AM +0000, Biju Das wrote:
+> > On Sat, Aug 26, 2023 at 10:10:20AM +0100, Biju Das wrote:
 
-> Simplify the probe() by replacing device_get_match_data() and ID lookup
-> match by i2c_get_match_data() as we have similar I2C and DT-based matching
-> table.
+...
+
+> > > -		return -EINVAL;
+> > > +		return -ENODEV;
+> > 
+> > Why?
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Applied.
+> If I remember correctly, previously you mentioned to return -ENODEV
+> for non-match. I will return -EINVAL.
 
-Thanks,
+Maybe I was unclear, I meant to return -ENODEV, if this is a _new_ code.
+For the existing one, please preserve the error code.
 
-J
-> ---
-> v1->v2:
->  * Dropped the sentence for removing id from commit description.
->  * Added Rb tag from Andy.
-> ---
->  drivers/iio/chemical/atlas-ezo-sensor.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iio/chemical/atlas-ezo-sensor.c b/drivers/iio/chemical/atlas-ezo-sensor.c
-> index 8fc926a2d33b..761a853a4d17 100644
-> --- a/drivers/iio/chemical/atlas-ezo-sensor.c
-> +++ b/drivers/iio/chemical/atlas-ezo-sensor.c
-> @@ -203,7 +203,6 @@ MODULE_DEVICE_TABLE(of, atlas_ezo_dt_ids);
->  
->  static int atlas_ezo_probe(struct i2c_client *client)
->  {
-> -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
->  	const struct atlas_ezo_device *chip;
->  	struct atlas_ezo_data *data;
->  	struct iio_dev *indio_dev;
-> @@ -212,10 +211,7 @@ static int atlas_ezo_probe(struct i2c_client *client)
->  	if (!indio_dev)
->  		return -ENOMEM;
->  
-> -	if (dev_fwnode(&client->dev))
-> -		chip = device_get_match_data(&client->dev);
-> -	else
-> -		chip = (const struct atlas_ezo_device *)id->driver_data;
-> +	chip = i2c_get_match_data(client);
->  	if (!chip)
->  		return -EINVAL;
->  
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
