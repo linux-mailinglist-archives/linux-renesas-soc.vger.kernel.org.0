@@ -2,83 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4B7D78AEAF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC2278AEB1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjH1LVa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 07:21:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59510 "EHLO
+        id S230187AbjH1LWD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 07:22:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232445AbjH1LVY (ORCPT
+        with ESMTP id S230261AbjH1LVr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 07:21:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6B3E7;
-        Mon, 28 Aug 2023 04:21:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 53CFC621A6;
-        Mon, 28 Aug 2023 11:21:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302C8C433C7;
-        Mon, 28 Aug 2023 11:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693221677;
-        bh=TZmKaBVmangkdek3JbxffDFdaDrgU4VpX7OVExruEfY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CAOIx8+oJ5YLBqNsoJ3Zma8bAKfR58Pw6JZbEQDDSvJLT16zDT3eI56RuFGTNfZV0
-         /ZGbnJHdDm9U1J3SthBVK1nM4Yi51RPkuWXpQyICyqR3IKDrP3Gecnh0OrXXJRNuYy
-         uK0L7dhEg2Ao92mE6wQbZM0ijVGvvoR0fHJNOoP7+l035jY6VoIYbO2tQQ+CHr5ks3
-         19uMRRjGdenyyS6seT8DBIEXoQYsTMSlMVD0iUhDA/Sl0Qpiw9CcXLDIn3Pnk2QKk0
-         hjMJEeg0O7TinVzeZZiEk63zDzHpH3DJh6AAi0p3PfBr0gwJoYZpdRcEfkBd10XhPF
-         CKTskRgK8ft4A==
-Date:   Mon, 28 Aug 2023 12:21:36 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mehdi Djait <mehdi.djait.k@gmail.com>,
-        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
+        Mon, 28 Aug 2023 07:21:47 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 372A6B6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 04:21:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693221705; x=1724757705;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pZCnkb7ozrDqqfnUlj0YBSpkU2zjL41e+0N85OkjBhk=;
+  b=WBywN+W68dggOZ1nT0mteAIwqe0I/3igkkgJhmcYsJ4YMwBrPJ9E7K4Y
+   De3UBZ2uzuIUGv0K7pGzaeBw/yLm8zzWoM3uPpJ24NuNxuhXKKdGmjl5Z
+   IS46gPBPcZhauhbYc9HeJ4A19WxBsxSHyV8yUCiITunBJaF/mo0enVg2J
+   7lOQl0EKWuBVl8K3J3QtMFX/tsqmw4GrZbiei3rSuj7xVr4m3d/c0NrFH
+   n2OnvDc6OiHUlqIQcVf0Dvi2vhUFr9x9yRIgjLWYNnVkGA7K9x8ybMWJB
+   7kwMUIqY3Alqxc53eab9+Lo7mXE+TpAB6+4ht4CPgmhUVfIyYH+2hvMbN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="378853645"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="378853645"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 04:21:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="688071357"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="688071357"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2023 04:21:43 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qaaJR-00FxRY-2M;
+        Mon, 28 Aug 2023 14:21:41 +0300
+Date:   Mon, 28 Aug 2023 14:21:41 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lee Jones <lee@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 RESEND 2/2] iio: accel: mma8452: Sort match tables
-Message-ID: <20230828122136.27a3dba7@jic23-huawei>
-In-Reply-To: <ZONiWnLpY7FD/+lj@smile.fi.intel.com>
-References: <20230818184033.335502-1-biju.das.jz@bp.renesas.com>
-        <20230818184033.335502-3-biju.das.jz@bp.renesas.com>
-        <ZONiWnLpY7FD/+lj@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Subject: Re: [PATCH] mfd: max8998: Simplify probe() and drop
+ max8998_i2c_get_driver_data()
+Message-ID: <ZOyDRa5qR1nR3gz0@smile.fi.intel.com>
+References: <20230826095536.67962-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230826095536.67962-1-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 21 Aug 2023 16:10:50 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Sat, Aug 26, 2023 at 10:55:36AM +0100, Biju Das wrote:
+> Simplify probe() by using i2c_get_match_data() instead of
+> max8998_i2c_get_driver_data() for retrieving match data from
+> OF/ID tables.
 
-> On Fri, Aug 18, 2023 at 07:40:33PM +0100, Biju Das wrote:
-> > Sort ID table alphabetically by name and OF table by compatible.  
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Ditto.
 
-Series applied to the togreg branch of iio.git. I'll push that out
-as testing until I can rebase on rc1.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks
-
-Jonathan
-
-> 
 
