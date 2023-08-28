@@ -2,110 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEDA78AF62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBED978B01B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:28:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbjH1MAS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 08:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42246 "EHLO
+        id S229746AbjH1M1i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 08:27:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbjH1L7v (ORCPT
+        with ESMTP id S232662AbjH1M1X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 07:59:51 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EF511A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 04:59:49 -0700 (PDT)
-Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
-        by madras.collabora.co.uk (Postfix) with ESMTP id 770A16607197;
-        Mon, 28 Aug 2023 12:59:46 +0100 (BST)
-From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
-In-Reply-To: <20230826071901.29420-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-Date:   Mon, 28 Aug 2023 12:59:46 +0100
-Cc:     "Andrzej Hajda" <andrzej.hajda@intel.com>,
-        "Neil Armstrong" <neil.armstrong@linaro.org>,
-        "Robert Foss" <rfoss@kernel.org>,
-        "David Airlie" <airlied@gmail.com>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        "Zhu Wang" <wangzhu9@huawei.com>,
-        "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Jonas Karlman" <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
-        "Douglas Anderson" <dianders@chromium.org>,
-        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-To:     "Biju Das" <biju.das.jz@bp.renesas.com>
+        Mon, 28 Aug 2023 08:27:23 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB61107;
+        Mon, 28 Aug 2023 05:27:19 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 45F1D1BF20B;
+        Mon, 28 Aug 2023 12:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1693225637;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jT92x1VpqM6L8dx75FLolaWxUtRbvluTatFVmG6lbL4=;
+        b=JXK1hAYVLOMvhA53K+H8BrVrtftFGeHltHgWSqR9QUhE28fYkj0pDqARZ346Eyt+sFRzPs
+        bNxSXmr8pzxCno9PNdaMHg+QcuXv90ngInXxpUh6jMTZh6UGLgU693yyPSPoE2BQ0Whwzj
+        ni3CeoqNADIvMg0ReRwNpNLQ1Y/0jqsiOmX9tD4RIl3/p/dyAn6rEZHI31ccDaF4x8hQ2P
+        DwB3xwfpxif9naMvTYUH7fjJyRmSf7Cuv+0Gsdoj9gQqNCnzttwFg/biUyHNnlgcxJb2yf
+        W4PYT+gudZAixV3A/3+iMitOh1VGUsQTE/sgxsXZe50Lpx83V1rpqtOuUscpLw==
+Date:   Mon, 28 Aug 2023 14:27:13 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>, linux-rtc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rtc: rx8581: Simplify probe()
+Message-ID: <2023082812271359f2dadd@mail.local>
+References: <20230828090828.26897-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Message-ID: <1abd-64ec8c00-3-39cf3d80@13682584>
-Subject: =?utf-8?q?Re=3A?= [PATCH v4 1/2] =?utf-8?q?drm/bridge/analogix/anx78xx=3A?= 
- Drop ID table
-User-Agent: SOGoMail 5.8.4
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230828090828.26897-1-biju.das.jz@bp.renesas.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Saturday, August 26, 2023 04:19 -03, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-
-> The driver has an ID table, but it uses the wrong API for retrieving match
-> data and that will lead to a crash, if it is instantiated by user space or
-> using ID. From this, there is no user for the ID table and let's drop it
-> from the driver as it saves some memory.
+On 28/08/2023 10:08:28+0100, Biju Das wrote:
+> Make similar OF and ID table and simplify probe() by replacing
+> of_device_get_match_data()->i2c_get_match_data().
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Note:
+>  * This patch is only compile tested.
 
-Reviewed-by: Helen Koike <helen.koike@collabora.com>
+As you have access to a rx8571, please actually test.
 
 > ---
-> v3->v4:
->  * Added Rb tag from Laurent and Douglas Anderson.
-> v2->v3:
->  * Updated commit header.
-> v1->v2:
->  * Dropped ID table support.
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 7 -------
->  1 file changed, 7 deletions(-)
+>  drivers/rtc/rtc-rx8581.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> index 800555aef97f..6169db73d2fe 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> @@ -1367,12 +1367,6 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
->  	kfree(anx78xx->edid);
+> diff --git a/drivers/rtc/rtc-rx8581.c b/drivers/rtc/rtc-rx8581.c
+> index 48efd61a114d..68dd8b9b52f9 100644
+> --- a/drivers/rtc/rtc-rx8581.c
+> +++ b/drivers/rtc/rtc-rx8581.c
+> @@ -250,8 +250,7 @@ static const struct rx85x1_config rx8571_config = {
+>  static int rx8581_probe(struct i2c_client *client)
+>  {
+>  	struct rx8581 *rx8581;
+> -	const struct rx85x1_config *config = &rx8581_config;
+> -	const void *data = of_device_get_match_data(&client->dev);
+> +	const struct rx85x1_config *config = i2c_get_match_data(client);
+>  	static struct nvmem_config nvmem_cfg[] = {
+>  		{
+>  			.name = "rx85x1-",
+> @@ -273,9 +272,6 @@ static int rx8581_probe(struct i2c_client *client)
+>  
+>  	dev_dbg(&client->dev, "%s\n", __func__);
+>  
+> -	if (data)
+> -		config = data;
+> -
+>  	rx8581 = devm_kzalloc(&client->dev, sizeof(struct rx8581), GFP_KERNEL);
+>  	if (!rx8581)
+>  		return -ENOMEM;
+> @@ -307,7 +303,7 @@ static int rx8581_probe(struct i2c_client *client)
 >  }
 >  
-> -static const struct i2c_device_id anx78xx_id[] = {
-> -	{ "anx7814", 0 },
-> -	{ /* sentinel */ }
-> -};
-> -MODULE_DEVICE_TABLE(i2c, anx78xx_id);
-> -
->  static const struct of_device_id anx78xx_match_table[] = {
->  	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
->  	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
-> @@ -1389,7 +1383,6 @@ static struct i2c_driver anx78xx_driver = {
->  		  },
->  	.probe = anx78xx_i2c_probe,
->  	.remove = anx78xx_i2c_remove,
-> -	.id_table = anx78xx_id,
+>  static const struct i2c_device_id rx8581_id[] = {
+> -	{ "rx8581", 0 },
+> +	{ "rx8581", (kernel_ulong_t)&rx8581_config },
+>  	{ }
 >  };
->  module_i2c_driver(anx78xx_driver);
->  
+>  MODULE_DEVICE_TABLE(i2c, rx8581_id);
 > -- 
 > 2.25.1
->
+> 
 
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
