@@ -2,98 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91EC378AE37
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 12:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D09F78AE5C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 13:03:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbjH1K6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 06:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S232401AbjH1LCr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 07:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232473AbjH1K5e (ORCPT
+        with ESMTP id S232417AbjH1LCY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 06:57:34 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5FC9B9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 03:57:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693220240; x=1724756240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xvFEscjR4f9rt4nAnENeMbkYhJrU88vGsU6khu2tj9o=;
-  b=UWI2L1+6A8DKtzfigjexm2lMgOGD05OEhxid+T0nA5ijPBshsd5ktgEl
-   nsYbEwf3Ioyu1vTD3aOZ9gD6EMW3PemNQW/K+dUkEC2FLh3pirJ2lkW5/
-   1JY6PQG/ZmzEAseQjGSPhUiL/phevfId/ue1q+1IhsQvVYCYSZMFDy+DV
-   TiWAVQsKfQdrpuAi4Jt4X941elRgV1VyutpzkM9cDVm6sciNuWBupOL8Z
-   hN4vrNWvmPQyhXxEewsNLapmWVzWTBV+DcG0CLYZ/S1lOrUy2va8y6ZSZ
-   Hdg483cpVCTxNkziWG9gq5NnbsUdR9IdWUvL+JCPFWXCk9muWciTnGHHP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="372479063"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="372479063"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 03:57:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068994837"
-X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="1068994837"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Aug 2023 03:57:14 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qaZvk-00FAK6-1a;
-        Mon, 28 Aug 2023 13:57:12 +0300
-Date:   Mon, 28 Aug 2023 13:57:12 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        Mon, 28 Aug 2023 07:02:24 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C23A1BE;
+        Mon, 28 Aug 2023 04:02:21 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.02,207,1688396400"; 
+   d="scan'208";a="177918588"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 28 Aug 2023 20:02:21 +0900
+Received: from localhost.localdomain (unknown [10.226.92.234])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8FE4C41A4FB0;
+        Mon, 28 Aug 2023 20:02:18 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-rtc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] regulator: sy8824x: Make similar OF and ID table
-Message-ID: <ZOx9iNd4tfiqPrx5@smile.fi.intel.com>
-References: <20230826171158.82219-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] rtc: rv8803: Simplify probe()
+Date:   Mon, 28 Aug 2023 12:02:16 +0100
+Message-Id: <20230828110216.49102-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230826171158.82219-1-biju.das.jz@bp.renesas.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 26, 2023 at 06:11:58PM +0100, Biju Das wrote:
-> Make similar OF and ID table to extend support for ID match using
-> i2c_match_data(). Currently it works only for OF match tables as the
-> driver_data is wrong for ID match.
+Simpilfy probe() by replacing of_device_get_match_data() and id lookup for
+retrieving match data by i2c_get_match_data().
 
-...
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Note:
+ * This patch is only compile tested.
+---
+ drivers/rtc/rtc-rv8803.c | 26 ++++++++++----------------
+ 1 file changed, 10 insertions(+), 16 deletions(-)
 
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, sy8824_dt_ids);
-
-...
-
->  static const struct i2c_device_id sy8824_id[] = {
-> -	{ "sy8824", },
-> +	{ "sy8824", (kernel_ulong_t)&sy8824c_cfg },
-
->  	{ },
-
-Here is even inconsistency with usage of trailing comma in the terminator
-entry.
-
->  };
-
+diff --git a/drivers/rtc/rtc-rv8803.c b/drivers/rtc/rtc-rv8803.c
+index 1a3ec1bb5b81..ce54048be736 100644
+--- a/drivers/rtc/rtc-rv8803.c
++++ b/drivers/rtc/rtc-rv8803.c
+@@ -607,15 +607,6 @@ static int rv8803_regs_configure(struct rv8803_data *rv8803)
+ 	return 0;
+ }
+ 
+-static const struct i2c_device_id rv8803_id[] = {
+-	{ "rv8803", rv_8803 },
+-	{ "rv8804", rx_8804 },
+-	{ "rx8803", rx_8803 },
+-	{ "rx8900", rx_8900 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, rv8803_id);
+-
+ static int rv8803_probe(struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+@@ -644,13 +635,7 @@ static int rv8803_probe(struct i2c_client *client)
+ 
+ 	mutex_init(&rv8803->flags_lock);
+ 	rv8803->client = client;
+-	if (client->dev.of_node) {
+-		rv8803->type = (uintptr_t)of_device_get_match_data(&client->dev);
+-	} else {
+-		const struct i2c_device_id *id = i2c_match_id(rv8803_id, client);
+-
+-		rv8803->type = id->driver_data;
+-	}
++	rv8803->type = (uintptr_t)i2c_get_match_data(client);
+ 	i2c_set_clientdata(client, rv8803);
+ 
+ 	flags = rv8803_read_reg(client, RV8803_FLAG);
+@@ -712,6 +697,15 @@ static int rv8803_probe(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++static const struct i2c_device_id rv8803_id[] = {
++	{ "rv8803", rv_8803 },
++	{ "rv8804", rx_8804 },
++	{ "rx8803", rx_8803 },
++	{ "rx8900", rx_8900 },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, rv8803_id);
++
+ static const __maybe_unused struct of_device_id rv8803_of_match[] = {
+ 	{
+ 		.compatible = "microcrystal,rv8803",
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
