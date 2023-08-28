@@ -2,113 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B73A678B517
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 18:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E251A78B52C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 18:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232655AbjH1QHW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 12:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51062 "EHLO
+        id S232533AbjH1QNS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 12:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232670AbjH1QHS (ORCPT
+        with ESMTP id S232701AbjH1QNM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 12:07:18 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FB111A;
-        Mon, 28 Aug 2023 09:07:16 -0700 (PDT)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-68becf931d0so2401162b3a.3;
-        Mon, 28 Aug 2023 09:07:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693238836; x=1693843636;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+XsL/00PF9/8sA2oKagxC6NwbgxKDpHaDCE49iGbgg4=;
-        b=aIeQyoRpIxPUa/xvxd9qW32k1P6oQehGW6KDUBwTBh67G6pIoa09wjQsee6FKdLLCF
-         NrpilLClRfteEOM0IjthirmRai9wmLE78nVCEkfAiSGwvDg3OLhDH44ICNNvcri59ZAi
-         zvL1rqvV5EmUHK5NjOlcA7PfxWFo1dYWqkDmkRml3daT9RhAwAXLaNhO3BvPEEhK58WE
-         gHHgpbEZQpuRlJ+TwZYcY9bv54AoPv59bksy8vMwFdTJRn1UYLwtROZIRZqvYar/M9Tn
-         Us8ozgPCZkGxugl9CTIGCFn+it4SeERvH1IIk3ALFRvTO8mSIsQQ+LOSS6zmNRqSaADZ
-         0biw==
-X-Gm-Message-State: AOJu0Yzt3S3WCvMJkzcF901U9BAj00PBJMzW5v2KBVQ4hbkxgLM0pWsG
-        7a+D7VImJMlXUr9uKaCuPlJDV891xKrsag==
-X-Google-Smtp-Source: AGHT+IE8MtyM/qFrxwb0AQSGr69DTwsrmprLspNhoU1OxjlwtT2yinZQ8NgjAlrL7zwCsS16o6LnZQ==
-X-Received: by 2002:a05:6a20:3d20:b0:137:2f8c:fab0 with SMTP id y32-20020a056a203d2000b001372f8cfab0mr26377428pzi.49.1693238835694;
-        Mon, 28 Aug 2023 09:07:15 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id k4-20020a633d04000000b0056c3ee09b71sm7514766pga.74.2023.08.28.09.07.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 09:07:14 -0700 (PDT)
-Date:   Tue, 29 Aug 2023 01:07:12 +0900
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Serge Semin <fancer.lancer@gmail.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v20 00/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
-Message-ID: <20230828160712.GA2127814@rocinante>
-References: <20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com>
- <dgxpl5ubvpdgtgtkokgtn23kski2j57dwjddsthv6flza7bw2j@gp6rnifrxpbr>
- <20230827065903.GA1514918@rocinante>
- <TYBPR01MB53416B179CA1C6709B216136D8E0A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+        Mon, 28 Aug 2023 12:13:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CBC011A;
+        Mon, 28 Aug 2023 09:13:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E34F861842;
+        Mon, 28 Aug 2023 16:13:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C0AC433C8;
+        Mon, 28 Aug 2023 16:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693239189;
+        bh=JjmhmMqfpF5r3bunbB960c6WKcXtbhhdoL9h9MPdIxU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=AHOFa92wixfMzpJvcJVGDwE9IzNCye3SDE25aZOfjrMFTsRyIjAA1r5b5oaEohJGE
+         WE9Q1TR2Y1LhRYiDisC6uoSqG/uIUrm/4hJB/Kn4Wy3MU4G7KXC59cG7yRiErK/E7G
+         S4u6TRHC01VyzMqyR3eyKJwWvxOq/UGqGcuTVjNq1EhdlCjbNoINQznIqqXbwiPHtP
+         vmbsk+W3lg2FRs6kifci8KpJ02+2OytVqBsuTtqwHFsRyjm9rH0Xa/Y3P6F55O/prz
+         tzk8UUX6khSN/IYjtTTgvzDbzs13j9ZTPLJqwNtY8S/f1+XT6+lAWAcZpfvZXPzl/D
+         eCnqQBWqc8E+w==
+Date:   Mon, 28 Aug 2023 17:13:26 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?= =?UTF-8?B?Zw==?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Andreas Brauchli <a.brauchli@elementarea.net>
+Subject: Re: [PATCH] iio: chemical: sgp30: Convert enum->pointer for data in
+ the match tables
+Message-ID: <20230828171326.7623a254@jic23-huawei>
+In-Reply-To: <20230812165730.216180-1-biju.das.jz@bp.renesas.com>
+References: <20230812165730.216180-1-biju.das.jz@bp.renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYBPR01MB53416B179CA1C6709B216136D8E0A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+On Sat, 12 Aug 2023 17:57:30 +0100
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-[...]
-> > That said, some patches in the series do not apply cleanly against 6.5-rc1,
-> > so I need to have a closer look a little bit later, hopefully I will be
-> > able to get it in time before Bjorn sends his Pull Request.
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it.
 > 
-> I'm sorry for bothering you about the conflict because my patch set is based on pci.git / next,
-> not 6.5-rc1... But, anyway, thank you for applying to controller/rcar!
-
-No problem!  
-
-That said, it's always a good idea to check the main branch from the
-following the repository to see which version to work against if
-possible.  PCI development lives at:
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git 
-
-> > シモダさん、
-> > 
-> > 一連のシリーズお疲れ様でした！
-> > 特に、作業が少し前に開始され、レビューされるまでに時間がかかった点お手数をおかけいたしました
-> > 全ての要求変更の追加にご協力いただき、ありがとうございます。 個人的にも本当に有難いです。
-> > ご担当いただいた仕事は素晴らしいものでした。 重ねてにはなりますが、どうもありがとう！
+> Add product_id variable to struct sgp_device and remove the local variable
+> product_id in probe() and replace enum->struct *sgp_device for data in the
+> match table. Simplify theprobe() by replacing device_get_match_data() and
+> ID lookup for retrieving data by i2c_get_match_data().
 > 
-> Thank you for your comment in Japanese!
-> こちらこそ、ありがとうございました！
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
++CC Andreas (comments still welcome!)
 
-Sure thing!  Greetings from Yokohama. :)
+Applied to the togreg branch of iio.git but only pushed out as testing for
+now because I'll be rebasing on rc1 once available.  0-day can poke at
+it in the meantime.
 
-	Krzysztof
+Thanks,
+
+Jonathan
+
+> ---
+>  drivers/iio/chemical/sgp30.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/iio/chemical/sgp30.c b/drivers/iio/chemical/sgp30.c
+> index b509cff9ce37..21730d62b5c8 100644
+> --- a/drivers/iio/chemical/sgp30.c
+> +++ b/drivers/iio/chemical/sgp30.c
+> @@ -114,6 +114,7 @@ struct sgp_data {
+>  };
+>  
+>  struct sgp_device {
+> +	unsigned long product_id;
+>  	const struct iio_chan_spec *channels;
+>  	int num_channels;
+>  };
+> @@ -182,10 +183,12 @@ static const struct iio_chan_spec sgpc3_channels[] = {
+>  
+>  static const struct sgp_device sgp_devices[] = {
+>  	[SGP30] = {
+> +		.product_id = SGP30,
+>  		.channels = sgp30_channels,
+>  		.num_channels = ARRAY_SIZE(sgp30_channels),
+>  	},
+>  	[SGPC3] = {
+> +		.product_id = SGPC3,
+>  		.channels = sgpc3_channels,
+>  		.num_channels = ARRAY_SIZE(sgpc3_channels),
+>  	},
+> @@ -491,28 +494,25 @@ static const struct iio_info sgp_info = {
+>  };
+>  
+>  static const struct of_device_id sgp_dt_ids[] = {
+> -	{ .compatible = "sensirion,sgp30", .data = (void *)SGP30 },
+> -	{ .compatible = "sensirion,sgpc3", .data = (void *)SGPC3 },
+> +	{ .compatible = "sensirion,sgp30", .data = &sgp_devices[SGP30] },
+> +	{ .compatible = "sensirion,sgpc3", .data = &sgp_devices[SGPC3] },
+>  	{ }
+>  };
+>  
+>  static int sgp_probe(struct i2c_client *client)
+>  {
+>  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+> +	const struct sgp_device *match_data;
+>  	struct device *dev = &client->dev;
+>  	struct iio_dev *indio_dev;
+>  	struct sgp_data *data;
+> -	unsigned long product_id;
+>  	int ret;
+>  
+>  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+>  	if (!indio_dev)
+>  		return -ENOMEM;
+>  
+> -	if (dev_fwnode(dev))
+> -		product_id = (unsigned long)device_get_match_data(dev);
+> -	else
+> -		product_id = id->driver_data;
+> +	match_data = i2c_get_match_data(client);
+>  
+>  	data = iio_priv(indio_dev);
+>  	i2c_set_clientdata(client, indio_dev);
+> @@ -528,15 +528,15 @@ static int sgp_probe(struct i2c_client *client)
+>  
+>  	data->feature_set = be16_to_cpu(data->buffer.raw_words[0].value);
+>  
+> -	ret = sgp_check_compat(data, product_id);
+> +	ret = sgp_check_compat(data, match_data->product_id);
+>  	if (ret)
+>  		return ret;
+>  
+>  	indio_dev->info = &sgp_info;
+>  	indio_dev->name = id->name;
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+> -	indio_dev->channels = sgp_devices[product_id].channels;
+> -	indio_dev->num_channels = sgp_devices[product_id].num_channels;
+> +	indio_dev->channels = match_data->channels;
+> +	indio_dev->num_channels = match_data->num_channels;
+>  
+>  	sgp_init(data);
+>  
+> @@ -562,8 +562,8 @@ static void sgp_remove(struct i2c_client *client)
+>  }
+>  
+>  static const struct i2c_device_id sgp_id[] = {
+> -	{ "sgp30", SGP30 },
+> -	{ "sgpc3", SGPC3 },
+> +	{ "sgp30", (kernel_ulong_t)&sgp_devices[SGP30] },
+> +	{ "sgpc3", (kernel_ulong_t)&sgp_devices[SGPC3] },
+>  	{ }
+>  };
+>  
+
