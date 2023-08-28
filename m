@@ -2,117 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C46B978B0FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD2278B107
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Aug 2023 14:51:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbjH1MuM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Aug 2023 08:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
+        id S231533AbjH1Mup (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Aug 2023 08:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjH1Mtq (ORCPT
+        with ESMTP id S231675AbjH1Mu0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Aug 2023 08:49:46 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873FE123
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Aug 2023 05:49:36 -0700 (PDT)
-Received: from hamburger.collabora.co.uk (hamburger.collabora.co.uk [IPv6:2a01:4f8:1c1c:f269::1])
-        by madras.collabora.co.uk (Postfix) with ESMTP id 275B06606F65;
-        Mon, 28 Aug 2023 13:49:32 +0100 (BST)
-From:   "Helen Mae Koike Fornazier" <helen.koike@collabora.com>
-In-Reply-To: <20230826071901.29420-3-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-Date:   Mon, 28 Aug 2023 13:49:31 +0100
-Cc:     "Andrzej Hajda" <andrzej.hajda@intel.com>,
-        "Neil Armstrong" <neil.armstrong@linaro.org>,
-        "Robert Foss" <rfoss@kernel.org>,
-        "David Airlie" <airlied@gmail.com>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
-        "Maxime Ripard" <mripard@kernel.org>,
-        "Thomas Zimmermann" <tzimmermann@suse.de>,
-        "Zhu Wang" <wangzhu9@huawei.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Jonas Karlman" <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
-        "Douglas Anderson" <dianders@chromium.org>,
-        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-To:     "Biju Das" <biju.das.jz@bp.renesas.com>
+        Mon, 28 Aug 2023 08:50:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EBA7107;
+        Mon, 28 Aug 2023 05:50:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B09AE64781;
+        Mon, 28 Aug 2023 12:50:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 546B5C433C7;
+        Mon, 28 Aug 2023 12:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693227023;
+        bh=MbQoEIXMuaNJzjz9uMSa4zwmOMSFlS9dpa0CtiWq1Z0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=TG6P2YyCXSZs0CUD1pg4gPkEBx6gqpj8oHYqFrYF7gS9onKpN/VBT+Fx3seZe8cEi
+         fPr/aONJjI1xqwblpj58ZqFWJKjz3E7bwmInzKK5gTjxeRw2XNeZGLk3/XIFxNaqAB
+         tRjYGoR1yS5MaS9Ht3F4J5ZFmdC9JjBzAqYK6lxqQNmW0/5Z4ilJr3DnzKyzeCgDhY
+         1pqgqQ2XwuBvwMFqdeQWBlz5cdwt0K3SxFh9u8WZlN62p9xFhxz0x+2U2mXVNCcKZL
+         CRy5J6I390i40wSObCWQGY1g6x+ml0WC87657qn/LOy/a4pgn1RYnrIERU/mT3lOB0
+         XwLSKTnH6b28w==
+Date:   Mon, 28 Aug 2023 13:50:40 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?= =?UTF-8?B?Zw==?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Sean Nyekjaer <sean@geanix.com>
+Subject: Re: [PATCH v2 0/2] Match data improvements for ti-dac5571 driver
+Message-ID: <20230828135040.37e1aeb7@jic23-huawei>
+In-Reply-To: <20230818173907.323640-1-biju.das.jz@bp.renesas.com>
+References: <20230818173907.323640-1-biju.das.jz@bp.renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Message-ID: <31ff-64ec9800-1-66482280@42123241>
-Subject: =?utf-8?q?Re=3A?= [PATCH v4 2/2] =?utf-8?q?drm/bridge=3A?= Drop 
- conditionals around =?utf-8?q?of=5Fnode?= pointers
-User-Agent: SOGoMail 5.8.4
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On Fri, 18 Aug 2023 18:39:05 +0100
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-Thanks for the patch.
+> This patch series aims to add match data improvements for ti-dac5571
+> driver.
+> 
+> v1->v2:
+>  * Split the patch into two.
+>  * Added patch#2 for sorting match tables.
+> 
+> Biju Das (2):
+>   iio: dac: ti-dac5571: Use i2c_get_match_data()
+>   iio: dac: ti-dac5571: Sort match tables
++CC Sean,
 
-On Saturday, August 26, 2023 04:19 -03, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+Applied to the togreg branch of iio.git and pushed out for now as testing.
+I'll be rebasing that tree on rc1 once available, so I won't push these
+out in a form linux-next will pick up until then.
 
-> Having conditional around the of_node pointers turns out to make driver
-> code use ugly #ifdef and #if blocks. So drop the conditionals.
+Thanks,
 
-It would be nice to explain why those ifdev/if conditionals are
-not required anymore (besides the cosmetic part).
-
-Regards,
-Helen
+Jonathan
 
 > 
-> Suggested-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4:
->  * New patch
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 2 --
->  include/drm/drm_bridge.h                           | 2 --
->  2 files changed, 4 deletions(-)
+>  drivers/iio/dac/ti-dac5571.c | 48 ++++++++++++++++--------------------
+>  1 file changed, 21 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> index 6169db73d2fe..ad8241758896 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> @@ -1231,9 +1231,7 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
->  
->  	mutex_init(&anx78xx->lock);
->  
-> -#if IS_ENABLED(CONFIG_OF)
->  	anx78xx->bridge.of_node = client->dev.of_node;
-> -#endif
->  
->  	anx78xx->client = client;
->  	i2c_set_clientdata(client, anx78xx);
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index c339fc85fd07..d49d5c03df3e 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -716,10 +716,8 @@ struct drm_bridge {
->  	struct drm_encoder *encoder;
->  	/** @chain_node: used to form a bridge chain */
->  	struct list_head chain_node;
-> -#ifdef CONFIG_OF
->  	/** @of_node: device node pointer to the bridge */
->  	struct device_node *of_node;
-> -#endif
->  	/** @list: to keep track of all added bridges */
->  	struct list_head list;
->  	/**
-> -- 
-> 2.25.1
->
 
