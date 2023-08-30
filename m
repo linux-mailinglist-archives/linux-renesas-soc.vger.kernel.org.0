@@ -2,103 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66DB78CDD4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Aug 2023 22:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B6378D2C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Aug 2023 06:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239881AbjH2Utu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Aug 2023 16:49:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45168 "EHLO
+        id S239730AbjH3Eam (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Aug 2023 00:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240387AbjH2Ut0 (ORCPT
+        with ESMTP id S241941AbjH3Eai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Aug 2023 16:49:26 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31081BB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Aug 2023 13:49:22 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-500c6ff99acso220596e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Aug 2023 13:49:22 -0700 (PDT)
+        Wed, 30 Aug 2023 00:30:38 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721EACD2;
+        Tue, 29 Aug 2023 21:30:29 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-26d4e1ba2dbso2948818a91.1;
+        Tue, 29 Aug 2023 21:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693342161; x=1693946961; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wmkFChDv+8wEuMHUlBFf+bYcihrh5O9J7mo8VcvR34o=;
-        b=FmhS6P9ySkPh6Sp8QVJxTtJVYsMPtWzSyeTQdoATOWJshBm9ROI80i0ZRxjUDNXiZ9
-         pr/44Tmf0B29P/dsSrq4JLjY49ZCfCu/2xU72byJ6/XrwFNmHvg/tc/nYxvDPsm47+y7
-         Alxqb9zAhsJEqbueu4Cy5T5cICACb+j0OX9jA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693342161; x=1693946961;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1693369829; x=1693974629; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wmkFChDv+8wEuMHUlBFf+bYcihrh5O9J7mo8VcvR34o=;
-        b=QyJbmDiCzxrP0ZhajT1Lh1ZcpjQjJdt7zvlLrWIt0TXCu9rLblEHiCkxx6SD/v5rxR
-         QHxRr92AO+MmrU47OT3L8KBhqaJ2sWhVO4NAhok4Zj5SltFraP5O8NyYi04RlFs4G9KJ
-         LDIgqucCdFN6NEmFkECaR+tvWQbZSRv1lramH4JXEeu1X7VB+auxxeGuBTFL6e8TXZR3
-         9cPejBRHNqaonQ1Za0vwAI9ueV7Qc/p3zVz56vKKcX1/kuKS7ZmMi1R+TZOtnlYnPlMN
-         8SmHABTU32g61VqoBj0YbV+KdZt406IKqhzOcpmzSUGKoZs+yWQ2/I4/sONAhurWw5va
-         EeKg==
-X-Gm-Message-State: AOJu0YwJKC7JoyhdbOE/gxmkHmZUOLaZK9gVKA71a40wruNR/TAVquvS
-        Vgg0R3pC1GiQfCqBna+AmqUjXIu5v8ypV/hQ1VzJ/Q==
-X-Google-Smtp-Source: AGHT+IFXSgclTeRrHpYSYN/loka8vQax+6EBcpFkMLZs1lhOMNMRjt1rtXJLvpy0hz76lI9fJN44UHzMYt1HXgrg/K4=
-X-Received: by 2002:a05:6512:3b29:b0:500:8676:aa7f with SMTP id
- f41-20020a0565123b2900b005008676aa7fmr1423753lfv.23.1693342161132; Tue, 29
- Aug 2023 13:49:21 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 29 Aug 2023 15:49:20 -0500
+        bh=pnYWkTXfRyVeeYgLLXstaC/GdYz4SXqmNKJW5ZQfQUY=;
+        b=EPjYGsWPMkgYt/AxO7whMJDlqvelgLkVFUrZ8qQE6myMc+ofmngI6Icv34tUGpPlyE
+         FDGBL3gk8GPBZ7WDWeLRz3kG2ZjVQubicPgW9xEZW5X71Edtt2U1F6Aytjzz4yx8iISh
+         Id22lh0NIsIUwq7rOqOINxeT+pr/9OB44djTgCnkVwVjkYX91c18ecTPLXBuSo59cvmA
+         2GrqyYR9ezsnpgqZ0BqjGYXWjm4L6Db2aaBAkCUZSzvlFr6Shr0RYz4rOJq0+Yp/HphP
+         7FDouuldACO1r1gkFVJPnnCuFGC2DVfbv8wWhnCzrievHnjOBcRoxFUOQyxD1I2t9AdT
+         MqAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693369829; x=1693974629;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pnYWkTXfRyVeeYgLLXstaC/GdYz4SXqmNKJW5ZQfQUY=;
+        b=OLsGALp43GDwQW/ja9gdPOJCQi+X0mCdygqURF4sh6QuVTH4woVktELEod9sjtCVDV
+         PtUcuNxvGYicmx7wiZOEX8iaZZ4beQD4tESXyVGKdNx5Xd66H29VJWiO5r6zrMDmCVQJ
+         NnIJV/wxx4ueHOPCvN1Yj01dbAryRZpsFIaluXGJPMVBmPYJX/PRQE9qZ9JLdEtbo567
+         oSvXkVnkXRo+SzU6UF7n+UK/bsNsFfEx3N2aM3Xb6WL1v4gJRSuugRbT9g+kQNpkw+Rq
+         tcRvQ3L2gnILVvquzmL/Vk2XXS2xVHbmhhLpFsxpgLWPFKIXeh+iqZcixfBzWeWq7CG1
+         Ul/w==
+X-Gm-Message-State: AOJu0Yx2Q+U71WoGpw8Lx0XdvNNv53rYmaShdhfcLI6mQtOwMe7WCLAM
+        KCjRrNI3+b9ZBMepLNFfMQImzLdkss7Wr9YWEzo=
+X-Google-Smtp-Source: AGHT+IE0m+TewUb+YqF0jpT02UbdDTlFCmxrBqWej0lVTwR0+LgjXhBZv2n+y7uiJVQsMLe65g+JCU7iKaA3NgWgddw=
+X-Received: by 2002:a17:90a:e2c9:b0:26b:f18:799a with SMTP id
+ fr9-20020a17090ae2c900b0026b0f18799amr1065576pjb.16.1693369828648; Tue, 29
+ Aug 2023 21:30:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230828133933.1ef5145a@jic23-huawei>
-References: <20230818175819.325663-1-biju.das.jz@bp.renesas.com> <20230828133933.1ef5145a@jic23-huawei>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Tue, 29 Aug 2023 15:49:20 -0500
-Message-ID: <CAE-0n532Q_sj8AB0d-HhPun7id-cGgDwcNfqH3T4ATcjw01vsg@mail.gmail.com>
-Subject: Re: [PATCH v2] iio: proximity: sx9310: Convert enum->pointer for
- match data table
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-iio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Gwendal Grignou <gwendal@chromium.org>
+References: <20230725030026.1664873-1-zyytlz.wz@163.com> <20230815100844.GA495519@google.com>
+ <20230829134616.GA215597@google.com>
+In-Reply-To: <20230829134616.GA215597@google.com>
+From:   Zheng Hacker <hackerzheng666@gmail.com>
+Date:   Wed, 30 Aug 2023 12:30:17 +0800
+Message-ID: <CAJedcCyFqJiXa9QHM6-Mg1ezF2tOKkyv2ukoOu+_T3YAdEhWdQ@mail.gmail.com>
+Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
+To:     Lee Jones <lee@kernel.org>
+Cc:     Zheng Wang <zyytlz.wz@163.com>, s.shtylyov@omp.ru,
+        linyunsheng@huawei.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
+        p.zabel@pengutronix.de, geert+renesas@glider.be,
+        magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        biju.das.jz@bp.renesas.com, wsa+renesas@sang-engineering.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, 1395428693sheep@gmail.com,
+        alex000young@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Jonathan Cameron (2023-08-28 05:39:33)
-> On Fri, 18 Aug 2023 18:58:19 +0100
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> > Convert enum->pointer for data in match data table, so that
-> > device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
-> > bus type match support added to it.
-> >
-> > Add struct sx931x_info and replace enum->sx931x_info in the match table
-> > and simplify sx9310_check_whoami().
->
-> +CC Gwendal,
->
-> I've applied this but note there is a comment inline + there is still plenty
-> of time for others to comment before I push this out as non rebasing.
->
-> Thanks,
->
-> Jonathan
->
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > ---
+Sorry for my late reply. I'll update another patch later today.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Best regards,
+Zheng
+
+Lee Jones <lee@kernel.org> =E4=BA=8E2023=E5=B9=B48=E6=9C=8829=E6=97=A5=E5=
+=91=A8=E4=BA=8C 21:46=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, 15 Aug 2023, Lee Jones wrote:
+>
+> > On Tue, 25 Jul 2023, Zheng Wang wrote:
+> >
+> > > In ravb_probe, priv->work was bound with ravb_tx_timeout_work.
+> > > If timeout occurs, it will start the work. And if we call
+> > > ravb_remove without finishing the work, there may be a
+> > > use-after-free bug on ndev.
+> > >
+> > > Fix it by finishing the job before cleanup in ravb_remove.
+> > >
+> > > Note that this bug is found by static analysis, it might be
+> > > false positive.
+> > >
+> > > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> > > Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> > > ---
+> > > v4:
+> > > - add information about the bug was found suggested by Yunsheng Lin
+> > > v3:
+> > > - fix typo in commit message
+> > > v2:
+> > > - stop dev_watchdog so that handle no more timeout work suggested by =
+Yunsheng Lin,
+> > > add an empty line to make code clear suggested by Sergey Shtylyov
+> > > ---
+> > >  drivers/net/ethernet/renesas/ravb_main.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> >
+> > Trying my best not to sound like a broken record, but ...
+> >
+> > What's the latest with this fix?  Is a v5 en route?
+>
+> Any update please Zheng Wang?
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
