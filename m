@@ -2,136 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EAD478DCA1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Aug 2023 20:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1379778DCB4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Aug 2023 20:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243139AbjH3SqK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Aug 2023 14:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
+        id S243167AbjH3Sq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Aug 2023 14:46:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245054AbjH3OZD (ORCPT
+        with ESMTP id S245264AbjH3O6o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Aug 2023 10:25:03 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EBFC6124
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Aug 2023 07:25:00 -0700 (PDT)
+        Wed, 30 Aug 2023 10:58:44 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 95F3BA3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Aug 2023 07:58:40 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.02,213,1688396400"; 
-   d="scan'208";a="178194122"
+   d="scan'208";a="174488241"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Aug 2023 23:25:00 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 30 Aug 2023 23:58:39 +0900
 Received: from localhost.localdomain (unknown [10.226.92.150])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 83DBE42170F5;
-        Wed, 30 Aug 2023 23:24:54 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3B0674218435;
+        Wed, 30 Aug 2023 23:58:37 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Rob Herring <robh@kernel.org>,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        Adam Ford <aford173@gmail.com>,
-        dri-devel@lists.freedesktop.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 8/8] drm: adv7511: Add hpd_override_enable variable to struct adv7511_chip_info
-Date:   Wed, 30 Aug 2023 15:23:58 +0100
-Message-Id: <20230830142358.275459-9-biju.das.jz@bp.renesas.com>
+Subject: [PATCH] memory: renesas-rpc-if: Fix IO state based on flash type
+Date:   Wed, 30 Aug 2023 15:58:35 +0100
+Message-Id: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As per spec, it is allowed to pulse the HPD signal to indicate that the
-EDID information has changed. Some monitors do this when they wake up
-from standby or are enabled. When the HPD goes low the adv7511 is
-reset and the outputs are disabled which might cause the monitor to
-go to standby again. To avoid this we ignore the HPD pin for the
-first few seconds after enabling the output. On the other hand,
-adv7535 require to enable HPD Override bit for proper HPD.
+Currently, RZ/G2L-alike SoCs use 2 different SPI serial flash memories
+ 1) AT25QL128A  embedded in RZ/{G2UL,Five} SMARC EVKs
+ 2) MT25QU512AB embedded in RZ/{G2L,G2LC,V2L} SMARC EVKs
 
-Add hpd_override_enable variable to struct adv7511_chip_info to handle
-this scenario.
+As per section 8.14 on the AT25QL128A hardware manual,
+IO1..IO3 must be set to Hi-Z state for this flash for fast read quad IO.
+Snippet from HW manual section 8.14:
+The upper nibble of the Mode(M7-4) controls the length of the next FAST
+Read Quad IO instruction through the inclusion or exclusion of the first
+byte instruction code. The lower nibble bits of the Mode(M3-0) are don't
+care. However, the IO pins must be high-impedance before the falling edge
+of the first data out clock.
+
+As per the Figure 20: QUAD INPUT/OUTPUT FAST READ on MT25QU512AB mentions
+IO1..IO2 to be in Hi-Z state and IO3 in '1' state
+
+Add a variable io3_fv to struct rpcif_priv and check the child
+node compatible value to detect micron flash and set IO1..IO3 states
+based on flash type.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v1->v2:
- * Restored enum adv7511_type as there are users.
- * Replaced variable type from unsigned->bool.
----
- drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 7 ++++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/memory/renesas-rpc-if.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 0d39e32b0793..39c9ece373b0 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -342,6 +342,7 @@ struct adv7511_chip_info {
- 	unsigned int reg_cec_offset;
- 	bool has_dsi;
- 	bool link_config;
-+	bool hpd_override_enable;
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 9695b2d3ae59..68f2bb3f8e61 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -189,6 +189,7 @@ struct rpcif_priv {
+ 	u32 enable;		/* DRENR or SMENR */
+ 	u32 dummy;		/* DRDMCR or SMDMCR */
+ 	u32 ddr;		/* DRDRENR or SMDRENR */
++	u32 io3_fv;
  };
  
- struct adv7511 {
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index e0ec3c098225..83ff4206b3b7 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv7511)
- 	 * first few seconds after enabling the output. On the other hand
- 	 * adv7535 require to enable HPD Override bit for proper HPD.
- 	 */
--	if (adv7511->info->type == ADV7535)
-+	if (adv7511->info->hpd_override_enable)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE);
-@@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
- static void __adv7511_power_off(struct adv7511 *adv7511)
- {
- 	/* TODO: setup additional power down modes */
--	if (adv7511->info->type == ADV7535)
-+	if (adv7511->info->hpd_override_enable)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
+ static const struct rpcif_info rpcif_info_r8a7796 = {
+@@ -367,7 +368,8 @@ int rpcif_hw_init(struct device *dev, bool hyperflash)
+ 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
+ 				   RPCIF_CMNCR_MOIIO(3) | RPCIF_CMNCR_IOFV(3) |
+ 				   RPCIF_CMNCR_BSZ(3),
+-				   RPCIF_CMNCR_MOIIO(1) | RPCIF_CMNCR_IOFV(2) |
++				   RPCIF_CMNCR_MOIIO(1) | RPCIF_CMNCR_IO0FV(2) |
++				   RPCIF_CMNCR_IO2FV(3) | rpc->io3_fv |
+ 				   RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+ 	else
+ 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
+@@ -774,6 +776,12 @@ static int rpcif_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
-@@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
- 			status = connector_status_disconnected;
- 	} else {
- 		/* Renable HPD sensing */
--		if (adv7511->info->type == ADV7535)
-+		if (adv7511->info->hpd_override_enable)
- 			regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 					   ADV7535_REG_POWER2_HPD_OVERRIDE,
- 					   ADV7535_REG_POWER2_HPD_OVERRIDE);
-@@ -1379,6 +1379,7 @@ static const struct adv7511_chip_info adv7535_chip_info = {
- 	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
- 	.reg_cec_offset = ADV7533_REG_CEC_OFFSET,
- 	.has_dsi = true,
-+	.hpd_override_enable = true,
- };
++	if (rpc->info->type == RPCIF_RZ_G2L &&
++	    of_device_is_compatible(flash, "micron,mt25qu512a"))
++		rpc->io3_fv = RPCIF_CMNCR_IO3FV(1);
++	else
++		rpc->io3_fv = RPCIF_CMNCR_IO3FV(3);
++
+ 	return 0;
+ }
  
- static const struct i2c_device_id adv7511_i2c_ids[] = {
 -- 
 2.25.1
 
