@@ -2,124 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B6378D2C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Aug 2023 06:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5553878DCA7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Aug 2023 20:50:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239730AbjH3Eam (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Aug 2023 00:30:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60488 "EHLO
+        id S243143AbjH3SqQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Aug 2023 14:46:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241941AbjH3Eai (ORCPT
+        with ESMTP id S242368AbjH3IR4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Aug 2023 00:30:38 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721EACD2;
-        Tue, 29 Aug 2023 21:30:29 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-26d4e1ba2dbso2948818a91.1;
-        Tue, 29 Aug 2023 21:30:29 -0700 (PDT)
+        Wed, 30 Aug 2023 04:17:56 -0400
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4EE51A1;
+        Wed, 30 Aug 2023 01:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693369829; x=1693974629; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pnYWkTXfRyVeeYgLLXstaC/GdYz4SXqmNKJW5ZQfQUY=;
-        b=EPjYGsWPMkgYt/AxO7whMJDlqvelgLkVFUrZ8qQE6myMc+ofmngI6Icv34tUGpPlyE
-         FDGBL3gk8GPBZ7WDWeLRz3kG2ZjVQubicPgW9xEZW5X71Edtt2U1F6Aytjzz4yx8iISh
-         Id22lh0NIsIUwq7rOqOINxeT+pr/9OB44djTgCnkVwVjkYX91c18ecTPLXBuSo59cvmA
-         2GrqyYR9ezsnpgqZ0BqjGYXWjm4L6Db2aaBAkCUZSzvlFr6Shr0RYz4rOJq0+Yp/HphP
-         7FDouuldACO1r1gkFVJPnnCuFGC2DVfbv8wWhnCzrievHnjOBcRoxFUOQyxD1I2t9AdT
-         MqAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693369829; x=1693974629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pnYWkTXfRyVeeYgLLXstaC/GdYz4SXqmNKJW5ZQfQUY=;
-        b=OLsGALp43GDwQW/ja9gdPOJCQi+X0mCdygqURF4sh6QuVTH4woVktELEod9sjtCVDV
-         PtUcuNxvGYicmx7wiZOEX8iaZZ4beQD4tESXyVGKdNx5Xd66H29VJWiO5r6zrMDmCVQJ
-         NnIJV/wxx4ueHOPCvN1Yj01dbAryRZpsFIaluXGJPMVBmPYJX/PRQE9qZ9JLdEtbo567
-         oSvXkVnkXRo+SzU6UF7n+UK/bsNsFfEx3N2aM3Xb6WL1v4gJRSuugRbT9g+kQNpkw+Rq
-         tcRvQ3L2gnILVvquzmL/Vk2XXS2xVHbmhhLpFsxpgLWPFKIXeh+iqZcixfBzWeWq7CG1
-         Ul/w==
-X-Gm-Message-State: AOJu0Yx2Q+U71WoGpw8Lx0XdvNNv53rYmaShdhfcLI6mQtOwMe7WCLAM
-        KCjRrNI3+b9ZBMepLNFfMQImzLdkss7Wr9YWEzo=
-X-Google-Smtp-Source: AGHT+IE0m+TewUb+YqF0jpT02UbdDTlFCmxrBqWej0lVTwR0+LgjXhBZv2n+y7uiJVQsMLe65g+JCU7iKaA3NgWgddw=
-X-Received: by 2002:a17:90a:e2c9:b0:26b:f18:799a with SMTP id
- fr9-20020a17090ae2c900b0026b0f18799amr1065576pjb.16.1693369828648; Tue, 29
- Aug 2023 21:30:28 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1693383474;
+  x=1724919474;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=8gp+IA90MwFlUeeprhwQm0j4Bk4TJUc4FWQT8UTfbhA=;
+  b=ltRipzC7ARagevmBDUsEjZd6uCViuPqUK6AmXDWM5+4rA92a4IeE8GBl
+   FlwUhix/9X1oH29ywkHGn4PXly3WZGBu1f7Om13lovL10l+hEXeZKyvCz
+   2uOR8qqZnX2mkADMEHVvOigytk0wXM/ZWsWuIdM++A+HzKtHZhrVSzpZZ
+   5lBKOdzu4wh8Sr0+Kls4CupcMqRGKVsljk9vD9YaYFZCEZ9nQeE7iBaQt
+   1XRV+tUkxyDFEn0Fp1jhg++fLpGJU4B11KV1IuCKcuygUuHwfSudpyAgv
+   g2Wa5d39EMluNNKtEHZG/3BxUXKNWvnO0BXBEDxNVOochIZ+ZAYx/IrRA
+   A==;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T4/vEjaER9F49rr8yHo099ad5qAccPa6nbnFYFkuz8fLVLqbddg2Lylb7nyqRj5Tem2aHH1xsZijgC4pf9tJb2n7lSGNvvYj8VBSplHXq/bCuOgmx1A4vD1L2SfTi7lsOjTQlFJSyLxe1R/04r9bzWlyWpE6xLPwuy82cnFQ9ytP5bhmVdnz7SBsoTmo0iG+WHaLc4ESeXQTSQvi+zDsMtjR5epPbDgN/cn3mXiPFvcsBTKLYiws8+kNWracQWMBFa/XBBcSSgOi3wJcae1GD2IoiFW7gnJb8Kr2D2nCIwhN/HeFBAWaMal8/k1j/1zuYUMd67s1TCdjxv+YTeYQLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8gp+IA90MwFlUeeprhwQm0j4Bk4TJUc4FWQT8UTfbhA=;
+ b=EL+GjO7Yyt6kFf+ZxXbABdgUllRwSINq6Iic4nvBNdoft3HmvjK0d7F/ubbg+0yvBpqeLPCCP3lFa2XzJNki9tFqesxeArbS6BRpPjEY9u8Z6LmJ7Ha+nu7o8lYboVpEphNNetXcTB1nyrfxxZ09u+ojW/42xat+R+K72Iph3FFK8HJogfrNV9JSquuVLkUpI9D8+LDsCqiTHHL+QknGQ2vv1oqXrnuVJVznjHst+a6S3tAJ8891F8S51a61Hotq5DxfkRbvQdmKv2NpL5Isq41Uc6qDX3ltc0D12bOEcUOhX1C60XjzXV6FvYkf9PNuEgLMrkJPZPZIMXoTwW/vZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8gp+IA90MwFlUeeprhwQm0j4Bk4TJUc4FWQT8UTfbhA=;
+ b=e/OcBCeU0e+gudO1/FCcqOReniadQxu4K8GUqDxXe4482cU3rdRiPbDejiPbwCY8s/KzCYoPP+XVLMJ+ssjqw6PV/a2CKLvWOkBBS7N53nkVM2Dd/1JU3AAdN4UtP6pI9YmXe0qBaPC6+rXfcmLDVntHre9Lfpx1JaKsDoGG1ck=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Message-ID: <ab94e388-2de2-f3ba-12ae-aad0e3a04eac@axis.com>
+Date:   Wed, 30 Aug 2023 10:17:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] iio: light: opt4001: Use i2c_get_match_data()
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>
+CC:     Lars-Peter Clausen <lars@metafoo.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        <linux-iio@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        <linux-renesas-soc@vger.kernel.org>
+References: <20230812151908.188696-1-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From:   Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
+In-Reply-To: <20230812151908.188696-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MM0P280CA0118.SWEP280.PROD.OUTLOOK.COM (2603:10a6:190:9::8)
+ To AS8PR02MB9602.eurprd02.prod.outlook.com (2603:10a6:20b:5a9::17)
 MIME-Version: 1.0
-References: <20230725030026.1664873-1-zyytlz.wz@163.com> <20230815100844.GA495519@google.com>
- <20230829134616.GA215597@google.com>
-In-Reply-To: <20230829134616.GA215597@google.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Wed, 30 Aug 2023 12:30:17 +0800
-Message-ID: <CAJedcCyFqJiXa9QHM6-Mg1ezF2tOKkyv2ukoOu+_T3YAdEhWdQ@mail.gmail.com>
-Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-To:     Lee Jones <lee@kernel.org>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, s.shtylyov@omp.ru,
-        linyunsheng@huawei.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
-        p.zabel@pengutronix.de, geert+renesas@glider.be,
-        magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        biju.das.jz@bp.renesas.com, wsa+renesas@sang-engineering.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR02MB9602:EE_|AS2PR02MB10083:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f831fd7-a7d4-4e9c-ed73-08dba93197e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /Sh/gE+FTVSyDleiovCh529Sum0qNgx1tIsHyy0zrURTGJzlUHo+/nVsYmL1RWzoSdbEY5ldzNo4UEdNhZn8UHd0nHk7uB1LPc0S1OdCsWG355JjhTxfWmorzFgfMBlFmTCf+KalXdJ6J1/2APIAqkjICbkTFF8anMc01oUbqYUKzpjd89aZEr8F+F7NJgC1sVBwY3WszMNJMX6nFHB3+0Oz953M9BfXveQb7GHLSZ6A0zvX51PswTWkQd8O7HfoiRaL9NULIIbsrFwv4fSwGlWqZyhIvkguk16OOvcMimfMueCyaeQ3z0Sf3EzfhNwzh5T3c2BbsD47gL8cGR9VI6hirHhxGtmuCVykquuY145imCFV9fmFL3uapaVEcSfQ2rclVcdfZeeZ4KJ1PlUYbyy8Ee3tbl5FQqZNDh9z1JLVesfN9gxXaP47Z69lrgBmOTsCeEf1ReKb+dbywH60kQcqonTri3k/pKyUA7gZaS0KFdt0jV+ePPEIlaUemhIp9m6yJ41apx6j47K/doJDB4NV0d2PZ1cP02vzkatTdTjlpWmCQjEAK6rThkiW/bcwr2V+6YEeyfcE3FuJNOxhaOMjXaZBzctpZ/pfhhCSN0XGvhucy6/qX/VQGMvZPY6hqXo++tNFW9eUVY7PEYDEtg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR02MB9602.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(366004)(396003)(39860400002)(1800799009)(451199024)(186009)(31686004)(6666004)(6486002)(6512007)(54906003)(110136005)(478600001)(38100700002)(4744005)(2616005)(26005)(6506007)(53546011)(66946007)(83380400001)(36756003)(41300700001)(86362001)(66556008)(31696002)(4326008)(66476007)(8936002)(316002)(5660300002)(8676002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REZ6bytlSlN6R3hZMlNaOGJjQ0l2eHpsclR3T1JVY1JsYUEwa01RVWNocDE3?=
+ =?utf-8?B?d2h0clBFVGIvb0JaZUZIWlB2M1E4RzBlb1FwcHZLelpuUURrdVhZSjd5QkQr?=
+ =?utf-8?B?N3I4NWNxelFOTXZlVmN0ZTY5RXJ3YjZUajBxbksycHVldFVPM1RVMDIvSjZx?=
+ =?utf-8?B?VUx5RUtWNW55a2xDYXBZaUNGcEdKcHB4N1FzR1V4VEdSSHNaL3dGZUhCY3ZY?=
+ =?utf-8?B?UDNqSFJmVTZacElCYW5mNEQ5Wjhzb0ZxTXVrMTRrNkJzN1V3Rm9WeHZHNEI1?=
+ =?utf-8?B?R0tzL2YyRnQyYldGa0NaRVFOWEg5MUVOMmQwRXpoRTN0Mk0rVU85dks2djlP?=
+ =?utf-8?B?ekNmUGNCRnkvUEdnelFXb0hINUl4QkU5MmJaK3F3M20yY3RaNkYwSEJyNndj?=
+ =?utf-8?B?cTFlMW1VazFLWDIzUTVpT1p3aTBXZFlKUG9Wek8wZ0RNb1M5ZGtNcGJRQVNw?=
+ =?utf-8?B?aDJHRTk1ZmYyNW5ZbC9LOGwyOE9LakUvV01pQWEvalFKS2NYTnNZN2VZVzBt?=
+ =?utf-8?B?M0lRd2xjejh5bUlpeFB0NVhqaWZUc1VHRUN2Kzc0Y3VuRUNCa0tocDJTQWg2?=
+ =?utf-8?B?T3lDN3pxTHdzTWs4bDNKeVlLWVB2a0RoUGxBN3gzMUpRdGlpcm1OM2RaeDFq?=
+ =?utf-8?B?Q3hnK2gzeDFpdWkwejl6MUZkYW1HVGZCYTdEamJ3RUUzZ3F1bHEzQytUSWZP?=
+ =?utf-8?B?OWdNdUhpUkx3S1kyb2h1eklHVEhpSlpPS055c3FoanBrQXBRNXhlWjBDZCt4?=
+ =?utf-8?B?K2p6NVpiZk5BR0dqK0w1Z2JIWWJnRFNGVXhtYVpCb3hBUVhUc1hhTkcyYXgw?=
+ =?utf-8?B?RW1UaGlXUHhzV09XeWE4UjNOZlVKd0RvWDNHTUlxS05ZNGl6Mi9lemRhYkZG?=
+ =?utf-8?B?a0hudTJOVUoybGZ2bzZWeXk1TjU1b0xWKy8zWVVvbVhBVFJPMXg2ZHNlUk5w?=
+ =?utf-8?B?bU9uUnlLZU5kOVVUT3ErdjBHK2lnSjdnZU81eEJhUDh0RHJPWXF2Y3grZzBI?=
+ =?utf-8?B?Yi9QVVE1cjd1eUZxWmxXdERKUlA0NHlVTTlOZ1hxL0MrNXY3YmtpcEl4UlIw?=
+ =?utf-8?B?WUg0Tlp6Y2cwSzdXY1djVUFTaXlTWVhKTmRLbnZFZWhYc20rb0YrSE5KNXp1?=
+ =?utf-8?B?RjV5Qy8wQ0RkQk4zQk13aThtOUxlMUtCcmE0ck9sbGlub3kveUpiOHlKRFdN?=
+ =?utf-8?B?QlFQd2t2cnJEaDRabzd5VzY5YkY3U20wT3FwbDFaMGJkajJYZnZHeGk3NUlR?=
+ =?utf-8?B?aVNjYWRhUE1kNENRMEoxNVBmTmZUQWJkYnRJWWl2dktycGtGYmYzOHVZZlp1?=
+ =?utf-8?B?TnJncUhxOHVUS1NyWnpjeHJxelJmb0RPZEtQSDZFT2pka2ZWa2xqcEJnNU5h?=
+ =?utf-8?B?UFlCWUwzMFlHOXN6MzlnTHhNMUtMbWhKQ3pOam1RbGMrSlcxNktGQUMvYVln?=
+ =?utf-8?B?WHlnWlpZb0VvQVJzTWs5TW9MQ1JDNjlocUp0MlpHOGtxcGhoVk8vaXpNL0Nz?=
+ =?utf-8?B?U1FIYys5UlhuQ09RM2xRK29ZY0RqdHZQa1E4Q1dEemdPWjg5VjJjbGhVNWEr?=
+ =?utf-8?B?YjlWdm5YdTRPMlN5ZTlndEFaV3hKRkdKaktWb2h5L25UZmpUb3JMQ3J2Zjlu?=
+ =?utf-8?B?RDR4K256cWlrUG5XR3NqdVRUT2RhSmVIS2Z4dEVLS3ZHRloxM0hMWG5XY0pI?=
+ =?utf-8?B?dzQ0SkVRT2pHb3NzaGc4dnVlckNDclBjeUlLMWMvbVpUZ1c0OWdMYmRRWG1Q?=
+ =?utf-8?B?akpWeWVkQlcyQkZFSGNyU0Rnd211N04vQTVZdVVyM0ZBV1FoRWI3YUpCVzE0?=
+ =?utf-8?B?Y215NHZpVks3NjVibEQrYUozbTFkWFl3M0VudXQ0eGdzMnBMUEcvMUFKZUMw?=
+ =?utf-8?B?UFBpeWszL3JXWk5QaFI4dWNEUzBDYVdDdS8vRE9VdERtUmhIbWYyLzFKMmM0?=
+ =?utf-8?B?TGZ6NHozUXhwSDFUU1JhenBGem44TElnbU5HaWd1bTRlOENkVDdER0cyLzZo?=
+ =?utf-8?B?NmwreVNGL21pWTg3MmNQOHBiYldmZUJGSG02NnFBNGNPK2hwdUd1VWNIUkU3?=
+ =?utf-8?B?MWdPekhmZlZUK28zMEZYQzRzYStSU3NCdkxDSTNnTkh1VW51ZEZnZHRhODky?=
+ =?utf-8?Q?ZWbQ=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f831fd7-a7d4-4e9c-ed73-08dba93197e4
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB9602.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 08:17:47.2134
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SSlm2RPkexWIpHg+5vJ9JouwhyUoR3JDD09C/RJpUnHM1ahsIon3U32bU0JshCIhGWs4wC9vhky9EoUDkDr6iA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB10083
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Sorry for my late reply. I'll update another patch later today.
+On 8/12/23 17:19, Biju Das wrote:
+> Replace device_get_match_data()->i2c_get_match_data() to extend matching
+> support for ID table.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>   drivers/iio/light/opt4001.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/light/opt4001.c b/drivers/iio/light/opt4001.c
+> index 502946bf9f94..6cf60151b3d8 100644
+> --- a/drivers/iio/light/opt4001.c
+> +++ b/drivers/iio/light/opt4001.c
+> @@ -412,7 +412,7 @@ static int opt4001_probe(struct i2c_client *client)
+>   	if (dev_id != OPT4001_DEVICE_ID_VAL)
+>   		dev_warn(&client->dev, "Device ID: %#04x unknown\n", dev_id);
+>   
+> -	chip->chip_info = device_get_match_data(&client->dev);
+> +	chip->chip_info = i2c_get_match_data(client);
+>   
+>   	indio_dev->channels = opt4001_channels;
+>   	indio_dev->num_channels = ARRAY_SIZE(opt4001_channels);
 
-Best regards,
-Zheng
-
-Lee Jones <lee@kernel.org> =E4=BA=8E2023=E5=B9=B48=E6=9C=8829=E6=97=A5=E5=
-=91=A8=E4=BA=8C 21:46=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, 15 Aug 2023, Lee Jones wrote:
->
-> > On Tue, 25 Jul 2023, Zheng Wang wrote:
-> >
-> > > In ravb_probe, priv->work was bound with ravb_tx_timeout_work.
-> > > If timeout occurs, it will start the work. And if we call
-> > > ravb_remove without finishing the work, there may be a
-> > > use-after-free bug on ndev.
-> > >
-> > > Fix it by finishing the job before cleanup in ravb_remove.
-> > >
-> > > Note that this bug is found by static analysis, it might be
-> > > false positive.
-> > >
-> > > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > > Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> > > ---
-> > > v4:
-> > > - add information about the bug was found suggested by Yunsheng Lin
-> > > v3:
-> > > - fix typo in commit message
-> > > v2:
-> > > - stop dev_watchdog so that handle no more timeout work suggested by =
-Yunsheng Lin,
-> > > add an empty line to make code clear suggested by Sergey Shtylyov
-> > > ---
-> > >  drivers/net/ethernet/renesas/ravb_main.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> >
-> > Trying my best not to sound like a broken record, but ...
-> >
-> > What's the latest with this fix?  Is a v5 en route?
->
-> Any update please Zheng Wang?
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+Reviewed-by: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
+Tested-by: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
