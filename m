@@ -2,129 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2D078EEF3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 15:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D91778EF31
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 16:04:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbjHaNs3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Aug 2023 09:48:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
+        id S234395AbjHaOEc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Aug 2023 10:04:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237312AbjHaNs2 (ORCPT
+        with ESMTP id S1344764AbjHaOEb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Aug 2023 09:48:28 -0400
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEADAE49
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Aug 2023 06:48:23 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5921a962adfso9727617b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Aug 2023 06:48:23 -0700 (PDT)
+        Thu, 31 Aug 2023 10:04:31 -0400
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005CEC3;
+        Thu, 31 Aug 2023 07:04:28 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68a4bcf8a97so586164b3a.1;
+        Thu, 31 Aug 2023 07:04:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693489703; x=1694094503;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=huob+juk1MvDlKb3P76j6Egm5eBBLMovT0B1mKB2U/E=;
-        b=YMIchB76nMejeIsm6/J0XULJLvUAx9STMwaXwkgZfu+ne6PmyLnw/+FJ+RiBnL33vz
-         pxjBV8D75IKpvwc3e7MgTZOk0EwFP17MaskGbMeq1AOTuDbFZL0BtTvvNkQr6q6pQJpp
-         5MsL6RrwfHQhX/GR7OLNGKRAcQ4Zw3d/vc2JniV/yDOMbGM6byx8wGC7oyaCUAXyUmyx
-         J97JIeujaI7nvyyHoxTl5Ojt5/1NOpir967sMKiwz3j0VcSYUGRMRwx/8fUB7TdIFWra
-         KOFRUXJ/HpAvsM6me66szSaxRoIwgLXlF9uskbJTGRoHnYjfge8do7ft//bHf4FRbCuP
-         bqOg==
-X-Gm-Message-State: AOJu0YxOVAKUKV3K13lH4i1o6Y7jLuklzov8jvLyDtNOw38WwZjNOx8X
-        rMrrYmGxUvCIHFTeknuhu8aJ573P7Gzu9g==
-X-Google-Smtp-Source: AGHT+IFuQvYqNFMM10EaIZeF8voHqO2JrNGFWD1WduJv5gLJwdVlM+Ed3saCwTuEi23fb22Oe2kzcA==
-X-Received: by 2002:a0d:cc8e:0:b0:561:206a:ee52 with SMTP id o136-20020a0dcc8e000000b00561206aee52mr5565403ywd.24.1693489702793;
-        Thu, 31 Aug 2023 06:48:22 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id i185-20020a8191c2000000b00583e52232f1sm416748ywg.112.2023.08.31.06.48.22
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Aug 2023 06:48:22 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d7bb34576b9so576760276.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Aug 2023 06:48:22 -0700 (PDT)
-X-Received: by 2002:a25:cc85:0:b0:d1a:c21:3bcf with SMTP id
- l127-20020a25cc85000000b00d1a0c213bcfmr5842790ybf.55.1693489702226; Thu, 31
- Aug 2023 06:48:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230828041434.2747699-1-yoshihiro.shimoda.uh@renesas.com> <20230828041434.2747699-3-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230828041434.2747699-3-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 31 Aug 2023 15:48:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXAF4m7sHiPRDCnbAGd2yh9cVzgw_p=vXaVjVHpeLNEGA@mail.gmail.com>
-Message-ID: <CAMuHMdXAF4m7sHiPRDCnbAGd2yh9cVzgw_p=vXaVjVHpeLNEGA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a779f0: spider: Enable PCIe
- Host ch0
+        d=1e100.net; s=20221208; t=1693490668; x=1694095468;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O8XXEK9RmQdx4SObXPw7grPK1RuzChzezZcq/KGPIaU=;
+        b=iL7NjubHWbW4NNqDJV6AqjlT/s6fwEe1Y2a/khyio81FrDCRpYNx5uXeuOIPHtQjKa
+         T4RXG7j4AzOUeT1W09l2SHjc68aL+6wg2mtF7nGDK18RVJUKA9p2Wa6IXJFFT2o9mGNA
+         9Tv3PtPPfbiT6oVW3GyocgUSG2f4Jabf4cEf2QNCFfn70CLvhSLH0qVwn/juACkeWhcS
+         XbAvwpc3KjNH5YFFTfM7wGpObOkpPVEVsFv7YSDumGldqZfYS/mq7ScEudncnyBehc4E
+         YLv7L9CMLDbF6LMBgEcbiPnkywDVqnlneZjBhooNORs9aCyCaAo9gmCZY+wa4KQkDOWo
+         cjrg==
+X-Gm-Message-State: AOJu0YyjmQ0Byw3Cx1Ud6MUkS2wKWo4f4TP9gzBIRDRX3xZzejtn/qv6
+        QoD/nKfcaHuJN5d8uGzOdv/yI5VUbCWSNxXZ
+X-Google-Smtp-Source: AGHT+IFrImfvhxUlwlYWoYEXfUl82NOevalyTknYYsbnfWjTdX7MBH8dWwUiibVajT9Jt0Zu2u9UiQ==
+X-Received: by 2002:a05:6a00:1a8f:b0:68b:dbbc:dcea with SMTP id e15-20020a056a001a8f00b0068bdbbcdceamr5046916pfv.9.1693490668247;
+        Thu, 31 Aug 2023 07:04:28 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id n12-20020aa7904c000000b0068a0b5df6b2sm1355474pfo.196.2023.08.31.07.04.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Aug 2023 07:04:27 -0700 (PDT)
+Date:   Thu, 31 Aug 2023 23:04:26 +0900
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     geert+renesas@glider.be, magnus.damm@gmail.com,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Cc:     "bhelgaas@google.com" <bhelgaas@google.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v20 00/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe support
+Message-ID: <20230831140426.GA255922@rocinante>
+References: <20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230827162721.GA2932694@rocinante>
+ <TYBPR01MB5341A56DBA3E4335FE8A35F0D8E5A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB5341A56DBA3E4335FE8A35F0D8E5A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hello,
 
-On Mon, Aug 28, 2023 at 6:14 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
->
-> Since this board has an Oculink connector, CLKREQ# pin of PFC for PCIe
-> should not be used. So, using a GPIO is used to output the clock instead.
-> Otherwise the controller cannot detect a PCIe device.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+[...]
+> > Applied to controller/rcar, thank you!
+> 
+> I should have asked you before, but is it possible to merge this for Linux v6.6?
+> Today I realized that "[GIT PULL] PCI changes for v6.6" [1] didn't have the controller/rcar...
 
-Thanks for your patch!
+Bjorn chosen not to include the series as the scope of the changes also
+spans across the DWC code base, not only adding a new driver, and he wanted
+for it to remain a little bit longer on the -next, so that if there are
+issues, we can catch things...
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+... like the dt-bindings issues that Geert is asking about.
 
-> @@ -145,6 +157,11 @@ &mmc0 {
->         status = "okay";
->  };
->
-> +&pciec0 {
-> +       reset-gpio = <&gpio_exp_20 0 GPIO_ACTIVE_LOW>;
-> +       status = "okay";
-> +};
-> +
->  &pfc {
->         pinctrl-0 = <&scif_clk_pins>;
->         pinctrl-names = "default";
-> @@ -202,6 +219,13 @@ &ufs {
->         status = "okay";
->  };
->
-> +&pcie0_clkref {
+That said, there will be no need to send an entire series again, if you
+have anything to fix there in the dt-bindings or the dts patches, and just
+send a new patches for these - I will pull and squash everything later.
 
-Please move this node up to preserve alphabetical sort order.
+We are getting there. :)
 
-> +       compatible = "gpio-gate-clock";
-> +       clocks = <&rc21012_pci>;
-> +       enable-gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
-> +       /delete-property/ clock-frequency;
-> +};
-> +
->  &ufs30_clk {
->         compatible = "gpio-gate-clock";
->         clocks = <&rc21012_ufs>;
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+	Krzysztof
