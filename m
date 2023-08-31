@@ -2,139 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBA578E6BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 08:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A02F578E7E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 10:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231592AbjHaGqy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Aug 2023 02:46:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50282 "EHLO
+        id S243682AbjHaI0G convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Aug 2023 04:26:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbjHaGqx (ORCPT
+        with ESMTP id S242547AbjHaI0F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Aug 2023 02:46:53 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07297A4;
-        Wed, 30 Aug 2023 23:46:51 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-26d0d376ec7so371958a91.2;
-        Wed, 30 Aug 2023 23:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693464410; x=1694069210; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hwsn/fhLrXXqL5sdshf2nxUI7vcdgz+hyuqbEx4WJpU=;
-        b=XSwoOqw9iye92fg49LCWJoD7tbwBLcr0w/4Sb0L481G36aNuk4KV+RCkBlhQo9zTzP
-         CRfdbL0DY+JIpi0egfl3RtgxTd5JJ5h7kQTv6bEWUdWD2wRFbbWqBEE7EwlJzMH9w747
-         ezY7ZBDLQ/j03KYTPGxv3DRq7jfIDzcIKF3SqJXk52k1NEVJND2ZdxISjdd896+Nflqe
-         7KPJ55s2YZiCKn4x/3mUwdETcBA83soCz16jsqSrdLp4fki5REvTUrY9slRCjQ/I4Hr6
-         JfLB7xuJdEIWvImLjmte/UrQkeexjH4oBkQ2eWQY2gtCfBA0unk9wbcBVWAEw/p/gFFm
-         FOWw==
+        Thu, 31 Aug 2023 04:26:05 -0400
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF501CE8;
+        Thu, 31 Aug 2023 01:26:01 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59231a1ca9eso7226617b3.1;
+        Thu, 31 Aug 2023 01:26:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693464410; x=1694069210;
+        d=1e100.net; s=20221208; t=1693470361; x=1694075161;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hwsn/fhLrXXqL5sdshf2nxUI7vcdgz+hyuqbEx4WJpU=;
-        b=h/GVZ4ct3u91HpBljzZ6JYWTFqYewU1UOWYdlf7SqNbFK0dz9Va22B31GHLiZhUpnR
-         1lBvF5vpKwh8JDffUtwIs/V7VWONJWTxB+jFgx++vBUUAHnEldH9sUHkhUtEGULcjQ55
-         NgKRzf9MKWHhiIjR36qk6/syRpFRqKbF3dyQBBV5/JmVijJJH7U8GA5X3gCnlUnt9tur
-         CkplZ91YjM5H7IT9MYe/l1bv7rAxjGSDG5EuWcYST6y7S8XYQoF640zCjyMks3+gBXrN
-         M3yXKH220KCuw8ZVFQux6D01Azm4UagVk6NdIE5bweQMXC8azxLZ5Rbyz6LCH2qbkZG8
-         tG5w==
-X-Gm-Message-State: AOJu0YyyZPRn65P/OL8MLggvpXIsHMXEJ0zIH3Q6D+DGmoGFezB3DHUv
-        QafHM06Rw4F77KejIhVsXvy6PEgePIDcMmUX82U=
-X-Google-Smtp-Source: AGHT+IFoRkwGonaGpiH4PQM+abnBEm7q/IGhhzLOeOQMfiF7bwrsvt1J75ta+aGQdSdMdA5GtegUPiVAwRqS5tw0MIA=
-X-Received: by 2002:a17:90a:bb15:b0:26d:227c:9068 with SMTP id
- u21-20020a17090abb1500b0026d227c9068mr4164858pjr.16.1693464410160; Wed, 30
- Aug 2023 23:46:50 -0700 (PDT)
+        bh=3gECEIQ8q4bEKdtz9WWubbyYY9T718J8FYjKOYpkjsQ=;
+        b=lpU5kXSM5krRHhk+mcnYFiNZpoDhUUPzAqIc2koRA8NcliTNRuL4wQJnCls+HdW3s9
+         8eXvEReJBiWlVIiwG70a9okI0KBZz0oOOYRTmf3gK2+/HYGqBFVZ6s1OfD4o3w88e313
+         raVCaTQddzNpTgHBFUF71T/v6cWn0QR6swqPDSoq9HMiezSzrvcyklFfY2qzHJvMIyye
+         qw2CIOh+3sKsAnLVF9jDWhE2qX+spWpI51Oggrfkmt9P6rXsiF6K1LA7h/R5nbReDe+q
+         ItOSBLhrExl7X7/IddrnZA0+hrBWx+LDC60s7ymHYNvK1TnEM9LNuXGrUT326JcM8Vcf
+         Gd9A==
+X-Gm-Message-State: AOJu0YzZ5e+Am+u7SgPUeMVoWZSjHNTvbosnTuz2+cuVnPiSG60sCKCB
+        dnU0NOmFkNnDW2F11+kDBXERv7APALpGoQ==
+X-Google-Smtp-Source: AGHT+IFfzUILuB4Xi4UdqMtWcIOvPL6mXkpH73lGDKDyiBylA6efSc+Ofe4nuGFEZU0givCpy09tLA==
+X-Received: by 2002:a0d:ea15:0:b0:592:4fb1:be46 with SMTP id t21-20020a0dea15000000b005924fb1be46mr4415583ywe.39.1693470360768;
+        Thu, 31 Aug 2023 01:26:00 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id m125-20020a0de383000000b00583d44b4b30sm276164ywe.99.2023.08.31.01.26.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Aug 2023 01:26:00 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d776e1f181bso338618276.3;
+        Thu, 31 Aug 2023 01:26:00 -0700 (PDT)
+X-Received: by 2002:a25:f50d:0:b0:d7b:5d30:5f80 with SMTP id
+ a13-20020a25f50d000000b00d7b5d305f80mr4093448ybe.24.1693470360206; Thu, 31
+ Aug 2023 01:26:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230725030026.1664873-1-zyytlz.wz@163.com> <20230815100844.GA495519@google.com>
- <20230829134616.GA215597@google.com> <CAJedcCyFqJiXa9QHM6-Mg1ezF2tOKkyv2ukoOu+_T3YAdEhWdQ@mail.gmail.com>
-In-Reply-To: <CAJedcCyFqJiXa9QHM6-Mg1ezF2tOKkyv2ukoOu+_T3YAdEhWdQ@mail.gmail.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Thu, 31 Aug 2023 14:46:38 +0800
-Message-ID: <CAJedcCxE3gbiF4_MTeTXNpcr4zPA0KtBw_qEq_pP8x=3PhVo5Q@mail.gmail.com>
-Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-To:     Lee Jones <lee@kernel.org>,
-        Simon Horman <simon.horman@corigine.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, s.shtylyov@omp.ru,
-        linyunsheng@huawei.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
-        p.zabel@pengutronix.de, geert+renesas@glider.be,
-        magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        biju.das.jz@bp.renesas.com, wsa+renesas@sang-engineering.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
+References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
+ <20230819004356.1454718-2-Liam.Howlett@oracle.com> <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
+ <87v8cv22jh.fsf@mail.lhotse>
+In-Reply-To: <87v8cv22jh.fsf@mail.lhotse>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 31 Aug 2023 10:25:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXMpr0spdprjwsV56nJE3vHGTFaodcnVXUa=GMYaB5yKw@mail.gmail.com>
+Message-ID: <CAMuHMdXMpr0spdprjwsV56nJE3vHGTFaodcnVXUa=GMYaB5yKw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
+ readers are possible
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi everyone,
+Hi Michael,
 
-After reviewing all comments about the patch. I agree with Jakub. But
-adding reference on net_device is a big move. All related drivers must
-modify the code.
-For now, I couldn't think a better idea about the fix. Thanks for your
-effort and sorry for my late reply.
+On Thu, Aug 31, 2023 at 7:39 AM Michael Ellerman <mpe@ellerman.id.au> wrote:
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> > On Fri, 18 Aug 2023, Liam R. Howlett wrote:
+> >> The current implementation of append may cause duplicate data and/or
+> >> incorrect ranges to be returned to a reader during an update.  Although
+> >> this has not been reported or seen, disable the append write operation
+> >> while the tree is in rcu mode out of an abundance of caution.
+> >>
+> >> During the analysis of the mas_next_slot() the following was
+> >> artificially created by separating the writer and reader code:
+> >>
+> >> Writer:                                 reader:
+> >> mas_wr_append
+> >>    set end pivot
+> >>    updates end metata
+> >>    Detects write to last slot
+> >>    last slot write is to start of slot
+> >>    store current contents in slot
+> >>    overwrite old end pivot
+> >>                                        mas_next_slot():
+> >>                                                read end metadata
+> >>                                                read old end pivot
+> >>                                                return with incorrect range
+> >>    store new value
+> >>
+> >> Alternatively:
+> >>
+> >> Writer:                                 reader:
+> >> mas_wr_append
+> >>    set end pivot
+> >>    updates end metata
+> >>    Detects write to last slot
+> >>    last lost write to end of slot
+> >>    store value
+> >>                                        mas_next_slot():
+> >>                                                read end metadata
+> >>                                                read old end pivot
+> >>                                                read new end pivot
+> >>                                                return with incorrect range
+> >>    set old end pivot
+> >>
+> >> There may be other accesses that are not safe since we are now updating
+> >> both metadata and pointers, so disabling append if there could be rcu
+> >> readers is the safest action.
+> >>
+> >> Fixes: 54a611b60590 ("Maple Tree: add new data structure")
+> >> Cc: stable@vger.kernel.org
+> >> Signed-off-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+> >
+> > Thanks for your patch, which is now commit cfeb6ae8bcb96ccf
+> > ("maple_tree: disable mas_wr_append() when other readers are
+> > possible") in v6.5, and is being backported to stable.
+> >
+> > On Renesas RZ/A1 and RZ/A2 (single-core Cortex-A9), this causes the
+> > following warning:
+> >
+> >       clocksource: timer@e803b000: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 28958491609 ns
+> >       sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 32537631224ns
+> >       /soc/timer@e803b000: used for clocksource
+> >       /soc/timer@e803c000: used for clock events
+> >      +------------[ cut here ]------------
+> >      +WARNING: CPU: 0 PID: 0 at init/main.c:992 start_kernel+0x2f0/0x480
+> >      +Interrupts were enabled early
+> ...
+> >
+> > I do not see this issue on any other platform
+> > (arm/arm64/risc-v/mips/sh/m68k), several of them use the same
+> > RCU configuration.
+>
+> There's something similar on pmac32 / mac99.
+>
+> > Do you have a clue?
+>
+> It seems something in the maple tree code is setting TIF_NEED_RESCHED,
+> and that causes a subsequent call to cond_resched() to call schedule()
+> and enable interrupts.
+>
+> On pmac32 enabling CONFIG_DEBUG_ATOMIC_SLEEP fixes/hides the problem.
+> But I don't see why.
 
-Best regards,
-Zheng Wang
+Enabling CONFIG_DEBUG_ATOMIC_SLEEP on RZ/A1 and RZ/A2 does
+fix the problem.
+But there must be more to it, as some of my test configs had it enabled,
+and others hadn't, while only RZ/A showed the issue.
+I tried disabling it on R-Car M2-W (arm32) and R-Car H3 (arm64), and
+that did not cause the problem to happen...
 
-Zheng Hacker <hackerzheng666@gmail.com> =E4=BA=8E2023=E5=B9=B48=E6=9C=8830=
-=E6=97=A5=E5=91=A8=E4=B8=89 12:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> Sorry for my late reply. I'll update another patch later today.
->
-> Best regards,
-> Zheng
->
-> Lee Jones <lee@kernel.org> =E4=BA=8E2023=E5=B9=B48=E6=9C=8829=E6=97=A5=E5=
-=91=A8=E4=BA=8C 21:46=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Tue, 15 Aug 2023, Lee Jones wrote:
-> >
-> > > On Tue, 25 Jul 2023, Zheng Wang wrote:
-> > >
-> > > > In ravb_probe, priv->work was bound with ravb_tx_timeout_work.
-> > > > If timeout occurs, it will start the work. And if we call
-> > > > ravb_remove without finishing the work, there may be a
-> > > > use-after-free bug on ndev.
-> > > >
-> > > > Fix it by finishing the job before cleanup in ravb_remove.
-> > > >
-> > > > Note that this bug is found by static analysis, it might be
-> > > > false positive.
-> > > >
-> > > > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> > > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > > > Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> > > > ---
-> > > > v4:
-> > > > - add information about the bug was found suggested by Yunsheng Lin
-> > > > v3:
-> > > > - fix typo in commit message
-> > > > v2:
-> > > > - stop dev_watchdog so that handle no more timeout work suggested b=
-y Yunsheng Lin,
-> > > > add an empty line to make code clear suggested by Sergey Shtylyov
-> > > > ---
-> > > >  drivers/net/ethernet/renesas/ravb_main.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > >
-> > > Trying my best not to sound like a broken record, but ...
-> > >
-> > > What's the latest with this fix?  Is a v5 en route?
-> >
-> > Any update please Zheng Wang?
-> >
-> > --
-> > Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
