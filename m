@@ -2,201 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E989F78E9B4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 11:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7828978EBCB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 13:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240413AbjHaJnx convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Aug 2023 05:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47588 "EHLO
+        id S241118AbjHaLSC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Aug 2023 07:18:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbjHaJnw (ORCPT
+        with ESMTP id S242203AbjHaLSA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Aug 2023 05:43:52 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A015BCF2;
-        Thu, 31 Aug 2023 02:43:40 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-58dce1f42d6so24752047b3.0;
-        Thu, 31 Aug 2023 02:43:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693475020; x=1694079820;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=15fJYkK70EO/L01pQbhlxvsvLOdh5C+6wf2tECW+cxA=;
-        b=BBhr1m1cDVSyTTpYlnoyT2KFW3qtPNpUjX8Y8dl9aVpZ8w92/P8NDjx0I9D6ZQKUJa
-         LpeQTA2B2oM32VjTw2UKD8eG2Fe7X68txhelrzTflfmRjJcNANnhPJ41TbirHVbRMx1y
-         Q5KUkcNnZUSy6FyzSWDvW2Cnf5nMSJhiagPSXY4J3mxiFnlTe7Fv16rHI1bAKKNpVtLi
-         0V15CUZy2vQSY+p2fjVcxb5/fEFop+pp/EtOM6YPi4cc9FbKIBnhg1cx0MpzTaCMGMpN
-         GjJ2wdXm5JWElggTbKpOHOraqRACs74RI+jf5JuIv9vONwE99y2t+X9ltPAvYhUiWKwz
-         GMOQ==
-X-Gm-Message-State: AOJu0YzVGL+QxJZUhWVJLv5CgU3tFoJ42GBYRCnqiBx+Ju07ZAo9vbOL
-        uWhLwZj/d/iOdf1W1q5k8mVl8kKT2DZw/A==
-X-Google-Smtp-Source: AGHT+IGV3oWpIkFQCRh6pUiD+AR9nPLL5f/86qEUlIQ9akcbu6HwX10apBOMez98Nv80e89ipFpuzQ==
-X-Received: by 2002:a81:498b:0:b0:58c:5598:be97 with SMTP id w133-20020a81498b000000b0058c5598be97mr2002843ywa.15.1693475019652;
-        Thu, 31 Aug 2023 02:43:39 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id b131-20020a0dd989000000b005772abf6234sm305977ywe.11.2023.08.31.02.43.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Aug 2023 02:43:39 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d7830c5b20aso785038276.0;
-        Thu, 31 Aug 2023 02:43:39 -0700 (PDT)
-X-Received: by 2002:a25:fc10:0:b0:d71:7d2f:c548 with SMTP id
- v16-20020a25fc10000000b00d717d2fc548mr2178292ybd.15.1693475018810; Thu, 31
- Aug 2023 02:43:38 -0700 (PDT)
+        Thu, 31 Aug 2023 07:18:00 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5CBCF4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Aug 2023 04:17:56 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6c13:6b1b:7366:87c0])
+        by xavier.telenet-ops.be with bizsmtp
+        id gBHs2A00Y3874jb01BHs0h; Thu, 31 Aug 2023 13:17:53 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qbfgC-0026un-5m;
+        Thu, 31 Aug 2023 13:17:52 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qbfgO-00CHXo-JG;
+        Thu, 31 Aug 2023 13:17:52 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mtd@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC 0/4] ARM: shmobile: Reserve boot area when SMP is enabled
+Date:   Thu, 31 Aug 2023 13:17:43 +0200
+Message-Id: <cover.1693409184.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
- <20230819004356.1454718-2-Liam.Howlett@oracle.com> <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
- <87v8cv22jh.fsf@mail.lhotse> <CAMuHMdXMpr0spdprjwsV56nJE3vHGTFaodcnVXUa=GMYaB5yKw@mail.gmail.com>
- <6f663185-2ef1-5075-99c9-e16050329d74@bytedance.com>
-In-Reply-To: <6f663185-2ef1-5075-99c9-e16050329d74@bytedance.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 31 Aug 2023 11:43:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW+wNma-Nr+595kRgZfG_fS2zgbZxJNbtcNRxnmpCJ=5w@mail.gmail.com>
-Message-ID: <CAMuHMdW+wNma-Nr+595kRgZfG_fS2zgbZxJNbtcNRxnmpCJ=5w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
- readers are possible
-To:     Peng Zhang <zhangpeng.00@bytedance.com>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        maple-tree@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Peng,
+	Hi all,
 
-On Thu, Aug 31, 2023 at 10:45 AM Peng Zhang <zhangpeng.00@bytedance.com> wrote:
-> 在 2023/8/31 16:25, Geert Uytterhoeven 写道:
-> > On Thu, Aug 31, 2023 at 7:39 AM Michael Ellerman <mpe@ellerman.id.au> wrote:
-> >> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >>> On Fri, 18 Aug 2023, Liam R. Howlett wrote:
-> >>>> The current implementation of append may cause duplicate data and/or
-> >>>> incorrect ranges to be returned to a reader during an update.  Although
-> >>>> this has not been reported or seen, disable the append write operation
-> >>>> while the tree is in rcu mode out of an abundance of caution.
-> >>>>
-> >>>> During the analysis of the mas_next_slot() the following was
-> >>>> artificially created by separating the writer and reader code:
-> >>>>
-> >>>> Writer:                                 reader:
-> >>>> mas_wr_append
-> >>>>     set end pivot
-> >>>>     updates end metata
-> >>>>     Detects write to last slot
-> >>>>     last slot write is to start of slot
-> >>>>     store current contents in slot
-> >>>>     overwrite old end pivot
-> >>>>                                         mas_next_slot():
-> >>>>                                                 read end metadata
-> >>>>                                                 read old end pivot
-> >>>>                                                 return with incorrect range
-> >>>>     store new value
-> >>>>
-> >>>> Alternatively:
-> >>>>
-> >>>> Writer:                                 reader:
-> >>>> mas_wr_append
-> >>>>     set end pivot
-> >>>>     updates end metata
-> >>>>     Detects write to last slot
-> >>>>     last lost write to end of slot
-> >>>>     store value
-> >>>>                                         mas_next_slot():
-> >>>>                                                 read end metadata
-> >>>>                                                 read old end pivot
-> >>>>                                                 read new end pivot
-> >>>>                                                 return with incorrect range
-> >>>>     set old end pivot
-> >>>>
-> >>>> There may be other accesses that are not safe since we are now updating
-> >>>> both metadata and pointers, so disabling append if there could be rcu
-> >>>> readers is the safest action.
-> >>>>
-> >>>> Fixes: 54a611b60590 ("Maple Tree: add new data structure")
-> >>>> Cc: stable@vger.kernel.org
-> >>>> Signed-off-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-> >>>
-> >>> Thanks for your patch, which is now commit cfeb6ae8bcb96ccf
-> >>> ("maple_tree: disable mas_wr_append() when other readers are
-> >>> possible") in v6.5, and is being backported to stable.
-> >>>
-> >>> On Renesas RZ/A1 and RZ/A2 (single-core Cortex-A9), this causes the
-> >>> following warning:
-> >>>
-> >>>        clocksource: timer@e803b000: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 28958491609 ns
-> >>>        sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 32537631224ns
-> >>>        /soc/timer@e803b000: used for clocksource
-> >>>        /soc/timer@e803c000: used for clock events
-> >>>       +------------[ cut here ]------------
-> >>>       +WARNING: CPU: 0 PID: 0 at init/main.c:992 start_kernel+0x2f0/0x480
-> >>>       +Interrupts were enabled early
-> >> ...
-> >>>
-> >>> I do not see this issue on any other platform
-> >>> (arm/arm64/risc-v/mips/sh/m68k), several of them use the same
-> >>> RCU configuration.
-> >>
-> >> There's something similar on pmac32 / mac99.
-> >>
-> >>> Do you have a clue?
-> >>
-> >> It seems something in the maple tree code is setting TIF_NEED_RESCHED,
-> >> and that causes a subsequent call to cond_resched() to call schedule()
-> >> and enable interrupts.
-> >>
-> >> On pmac32 enabling CONFIG_DEBUG_ATOMIC_SLEEP fixes/hides the problem.
-> >> But I don't see why.
-> >
-> > Enabling CONFIG_DEBUG_ATOMIC_SLEEP on RZ/A1 and RZ/A2 does
-> > fix the problem.
-> > But there must be more to it, as some of my test configs had it enabled,
-> > and others hadn't, while only RZ/A showed the issue.
-> > I tried disabling it on R-Car M2-W (arm32) and R-Car H3 (arm64), and
-> > that did not cause the problem to happen...
->
-> I guess this patch triggers a potential problem with the maple tree.
-> I don't have the environment to trigger the problem. Can you apply the
-> following patch to see if the problem still exists? This can help locate
-> the root cause. At least narrow down the scope of the code that has bug.
+On Renesas ARM SoCs predating R-Car Gen3, CPU core bringup does not use
+a hardware register to program the CPU boot address directly.  Instead,
+it uses a set of registers (thus not involving the MMU) to remap any CPU
+access to the page(s) at physical address zero to the specified address
+block containing the CPU core startup code.  the MMU.  Hence when this
+is enabled, any device residing in this low part of physical address
+space cannot be accessed.  On some boards, a CFI FLASH lives there.
 
-Thanks for your suggestion!
+Hence this causes conflicts between CPU onlining and FLASH operation:
+  - Reading the first page(s) of FLASH returns the CPU startup code
+    instead of the FLASH contents,
+  - CFI FLASH probing fails, as it operates on the RAM that contains the
+    CPU startup code.  Moreover, as this probing involves writes, it
+    corrupts the CPU startup code, causing any subsequent CPU onlining
+    to fail.
 
-> diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-> index f723024e1426..1b4b6f6e3095 100644
-> --- a/lib/maple_tree.c
-> +++ b/lib/maple_tree.c
-> @@ -4351,9 +4351,6 @@ static inline void mas_wr_modify(struct
-> ma_wr_state *wr_mas)
->         if (new_end == wr_mas->node_end && mas_wr_slot_store(wr_mas))
->                 return;
->
-> -       if (mas_wr_node_store(wr_mas, new_end))
-> -               return;
-> -
->         if (mas_is_err(mas))
->                 return;
+CPU cores can be onlined in 3 places:
+  A. Secondary core bringup, during early boot (FLASH not yet in use),
+  B. Enabling secondary CPUs when resuming after s2ram (FLASH not in
+     use),
+  C. Manual CPU hotplug (at any time, FLASH may or may not be in use).
 
-Unfortunately removing these lines does not help.
+Possible solutions:
+  1. Disable FLASH in SMP initialization:
+       - Simple to implement,
+       - Accessing the FLASH from Linux needs a reboot with nosmp.
+
+  2. Disable SMP when FLASH@0 is used:
+       - How to check if @0 is actually used/mapped?
+         SMP is initialized before FLASH.
+
+  3. Map core startup code only when needed:
+      - Unmap core startup code after secondary core bringup,
+      - Map/unmap core startup code during s2ram suspend/resume,
+      - Call cpu_hotplug_disable() from smp_cpus_done(),
+	  - CPU hotplug is broken.
+	  - How to check if @0 is actually used/mapped?
+
+  4. As this FLASH is typically used to boot the system, Marek suggested
+     to fix this in the boot loader (e.g. put a (modified) copy of the
+     CPU bringup code in FLASH).  But I think this is fragile, and cannot
+     be a generic solution, as there are other ways to boot the system,
+     and the FLASH may be used for other purposes.
+
+This patch series implements solution 1, by marking the boot area region
+reserved during SMP initialization (an alternative method would be to
+disable any device node in DT that resides in this area).  Subsequent
+probing of FLASH will fail with -EBUSY:
+
+    physmap-flash 0.flash: can't request region for resource [mem 0x00000000-0x03ffffff]
+    physmap-flash: probe of 0.flash failed with error -16
+
+When CONFIG_SMP is disabled, or when booted with "nosmp", the FLASH
+is available again.
+
+The first patch is a small cleanup in code affected by the third patch.
+The other three patches fix the issue on R-Car Gen2 (and RZ/G1), R-Car
+H1, and SH-Mobile AG5 SoCs.
+
+Other Renesas SoCs:
+  - R-Mobile APE6 is also affected, but has no upstream SMP support yet,
+  - EMMA Mobile EV2 is unaffected, as it uses internal boot ROM code
+    that watches a special general purpose register in the SMU block,
+  - RZ/N1 is not affected, as it uses a "cpu-release-addr" property in
+    DT,
+  - R-Car Gen3 is not affected, as it extended the R-Car Gen2 RST block
+    with Cortex-A53/A57 Boot Address Registers for 64-bit mode
+    (CA5[37]CPUnBAR[HL]), which control the boot address directly,
+  - R-Car Gen4 is not affected, as it has Reset Vector Base Address
+    Registers (RVBAR[HL]Cn), which control the boot address directly.
+
+This series has been tested on R-Car V2H (Blanche) and R-Car H1
+(Marzen).  With this, the CFI FLASHes on Marzen[1] and Blanche (DTS
+patch to be posted) work when booted with nosmp.
+
+Thanks for your comments!
+
+[1] "[PATCH/RFC] ARM: dts: marzen: Add FLASH node"
+    https://lore.kernel.org/r/07cf5e2b466f3ba217403afc66a8246460609e09.1679330105.git.geert+renesas@glider.be/
+
+Geert Uytterhoeven (4):
+  ARM: shmobile: rcar-gen2: Remove unneeded once handling
+  ARM: shmobile: rcar-gen2: Reserve boot area when SMP is enabled
+  ARM: shmobile: r8a7779: Reserve boot area when SMP is enabled
+  ARM: shmobile: sh73a0: Reserve boot area when SMP is enabled
+
+ arch/arm/mach-shmobile/pm-rcar-gen2.c |  5 +++--
+ arch/arm/mach-shmobile/smp-r8a7779.c  |  9 ++++++++-
+ arch/arm/mach-shmobile/smp-sh73a0.c   | 10 ++++++++--
+ 3 files changed, 19 insertions(+), 5 deletions(-)
+
+-- 
+2.34.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
