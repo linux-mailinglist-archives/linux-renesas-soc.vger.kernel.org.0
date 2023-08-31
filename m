@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B021378EC8A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 13:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB9478EC92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Aug 2023 13:53:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243200AbjHaLxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Aug 2023 07:53:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
+        id S1346141AbjHaLxP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Aug 2023 07:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346168AbjHaLxE (ORCPT
+        with ESMTP id S1346177AbjHaLxE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 31 Aug 2023 07:53:04 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20B5410D7
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7DB10D5
         for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Aug 2023 04:52:41 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6c13:6b1b:7366:87c0])
-        by baptiste.telenet-ops.be with bizsmtp
-        id gBse2A00Z3874jb01BseNd; Thu, 31 Aug 2023 13:52:39 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id gBse2A00Q3874jb06Bse6M; Thu, 31 Aug 2023 13:52:39 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qbgDq-00274h-8p;
+        id 1qbgDq-00274l-9c;
         Thu, 31 Aug 2023 13:52:38 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qbgE2-00CIUu-Oe;
+        id 1qbgE2-00CIUz-PN;
         Thu, 31 Aug 2023 13:52:38 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>,
@@ -36,9 +36,9 @@ To:     Magnus Damm <magnus.damm@gmail.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 06/13] ARM: dts: renesas: r8a7792: Add LBSC node
-Date:   Thu, 31 Aug 2023 13:52:28 +0200
-Message-Id: <182fce2257679f6a8963ecb77aae68af617556d1.1693481518.git.geert+renesas@glider.be>
+Subject: [PATCH 07/13] ARM: dts: renesas: marzen: Move Ethernet node to LBSC
+Date:   Thu, 31 Aug 2023 13:52:29 +0200
+Message-Id: <74a8ee61ed89c9ca0489156a4f135ecb825e56b9.1693481518.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693481518.git.geert+renesas@glider.be>
 References: <cover.1693481518.git.geert+renesas@glider.be>
@@ -53,33 +53,65 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a minimal device node for the Local Bus State Controller (LBSC) on
-the R-Car V2H SoC, to be extended by board DTS files for devices
-residing in the LBSC external address space.
+The SMSC LAN89218AQ Ethernet controller on the Marzen development board
+resides in the external address space of the Local Bus State Controller
+(LBSC).  Move the Ethernet device node to reflect this.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r8a7792.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/boot/dts/renesas/r8a7779-marzen.dts | 32 +++++++++++---------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7792.dtsi b/arch/arm/boot/dts/renesas/r8a7792.dtsi
-index a6d9367f8fa047be..ecfab3ff59e843ff 100644
---- a/arch/arm/boot/dts/renesas/r8a7792.dtsi
-+++ b/arch/arm/boot/dts/renesas/r8a7792.dtsi
-@@ -84,6 +84,13 @@ extal_clk: extal {
- 		clock-frequency = <0>;
+diff --git a/arch/arm/boot/dts/renesas/r8a7779-marzen.dts b/arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+index 50a468c8018351df..9c001cbfc02f79f7 100644
+--- a/arch/arm/boot/dts/renesas/r8a7779-marzen.dts
++++ b/arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+@@ -52,21 +52,6 @@ vccq_sdhi0: regulator-vccq-sdhi0 {
+ 		states = <3300000 1>, <1800000 0>;
  	};
  
-+	lbsc: lbsc {
-+		compatible = "simple-bus";
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges = <0 0 0 0x1c000000>;
-+	};
+-	ethernet@18000000 {
+-		compatible = "smsc,lan89218", "smsc,lan9115";
+-		reg = <0x18000000 0x100>;
+-		pinctrl-0 = <&ethernet_pins>;
+-		pinctrl-names = "default";
+-
+-		phy-mode = "mii";
+-		interrupt-parent = <&irqpin0>;
+-		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
+-		smsc,irq-push-pull;
+-		reg-io-width = <4>;
+-		vddvario-supply = <&fixedregulator3v3>;
+-		vdd33a-supply = <&fixedregulator3v3>;
+-	};
+-
+ 	keyboard-irq {
+ 		compatible = "gpio-keys";
+ 
+@@ -229,6 +214,23 @@ &extal_clk {
+ 	clock-frequency = <31250000>;
+ };
+ 
++&lbsc {
++	ethernet@18000000 {
++		compatible = "smsc,lan89218", "smsc,lan9115";
++		reg = <0x18000000 0x100>;
++		pinctrl-0 = <&ethernet_pins>;
++		pinctrl-names = "default";
 +
- 	pmu {
- 		compatible = "arm,cortex-a15-pmu";
- 		interrupts-extended = <&gic GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
++		phy-mode = "mii";
++		interrupt-parent = <&irqpin0>;
++		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
++		smsc,irq-push-pull;
++		reg-io-width = <4>;
++		vddvario-supply = <&fixedregulator3v3>;
++		vdd33a-supply = <&fixedregulator3v3>;
++	};
++};
++
+ &tmu0 {
+ 	status = "okay";
+ };
 -- 
 2.34.1
 
