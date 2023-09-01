@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71C7378F968
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Sep 2023 09:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E8378F96A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Sep 2023 09:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345076AbjIAH7r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Sep 2023 03:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        id S1348562AbjIAH7w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Sep 2023 03:59:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233430AbjIAH7q (ORCPT
+        with ESMTP id S1347227AbjIAH7w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Sep 2023 03:59:46 -0400
+        Fri, 1 Sep 2023 03:59:52 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 091BF10D7;
-        Fri,  1 Sep 2023 00:59:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4735410DA;
+        Fri,  1 Sep 2023 00:59:47 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="6.02,219,1688396400"; 
-   d="scan'208";a="174709492"
+   d="scan'208";a="174709504"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 01 Sep 2023 16:59:43 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Sep 2023 16:59:46 +0900
 Received: from localhost.localdomain (unknown [10.226.92.203])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5E98541B65DD;
-        Fri,  1 Sep 2023 16:59:39 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D070141B6D0B;
+        Fri,  1 Sep 2023 16:59:43 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -29,15 +29,11 @@ To:     Rob Herring <robh+dt@kernel.org>,
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 1/3] arm64: dts: renesas: rzg2ul-smarc-som: Enable serial NOR flash
-Date:   Fri,  1 Sep 2023 08:59:30 +0100
-Message-Id: <20230901075932.105822-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 2/3] arm64: dts: renesas: rzg2l-smarc-som: Enable 4-bit tx support
+Date:   Fri,  1 Sep 2023 08:59:31 +0100
+Message-Id: <20230901075932.105822-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230901075932.105822-1-biju.das.jz@bp.renesas.com>
 References: <20230901075932.105822-1-biju.das.jz@bp.renesas.com>
@@ -51,91 +47,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable Renesas at25ql128a flash connected to QSPI0. Also disable
-the node from rzfive-smarc-som as it is untested.
+Enable 4-bit tx support for sbc node.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2->v3:
- * Dropped subnodes, as all pins use the same power-source value.
-v1->v2:
- * Enabled 4-bit tx support
+ * Added Rb tag from Geert.
+v2:
+ * New patch
 ---
- .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    | 38 +++++++++++++++++++
- .../boot/dts/renesas/rzfive-smarc-som.dtsi    |  4 ++
- 2 files changed, 42 insertions(+)
+ arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index 97cdad2a12e2..e28c1e3d5315 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -179,6 +179,12 @@ eth1_pins: eth1 {
- 			 <RZG2L_PORT_PINMUX(18, 5, 1)>; /* IRQ7 */
- 	};
- 
-+	qspi0_pins: qspi0 {
-+		pins = "QSPI0_IO0", "QSPI0_IO1", "QSPI0_IO2", "QSPI0_IO3",
-+		       "QSPI0_SPCLK", "QSPI0_SSL";
-+		power-source = <1800>;
-+	};
-+
- 	sdhi0_emmc_pins: sd0emmc {
- 		sd0_emmc_data {
- 			pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
-@@ -230,6 +236,38 @@ sd0_mux_uhs {
- 	};
- };
- 
-+&sbc {
-+	pinctrl-0 = <&qspi0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <50000000>;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+index 547859c388ce..4409c47239b9 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+@@ -312,6 +312,7 @@ flash@0 {
+ 		m25p,fast-read;
+ 		spi-max-frequency = <50000000>;
+ 		spi-rx-bus-width = <4>;
 +		spi-tx-bus-width = <4>;
-+		spi-rx-bus-width = <4>;
-+
-+		spi-cpol;
-+		spi-cpha;
-+		m25p,fast-read;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			boot@0 {
-+				reg = <0x00000000 0x200000>;
-+				read-only;
-+			};
-+			user@200000 {
-+				reg = <0x200000 0xE00000>;
-+			};
-+		};
-+	};
-+};
-+
- #if (SW_SW0_DEV_SEL)
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_emmc_pins>;
-diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-index c62debc7ca7e..0c9d72c32879 100644
---- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-+++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-@@ -42,6 +42,10 @@ phy1: ethernet-phy@7 {
- 	};
- };
  
-+&sbc {
-+	status = "disabled";
-+};
-+
- &sdhi0 {
- 	status = "disabled";
- };
+ 		partitions {
+ 			compatible = "fixed-partitions";
 -- 
 2.25.1
 
