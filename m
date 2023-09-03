@@ -2,69 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37ED279044C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Sep 2023 01:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 597C3790C24
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Sep 2023 15:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351373AbjIAXoQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Sep 2023 19:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40014 "EHLO
+        id S238056AbjICNhm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Sep 2023 09:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351313AbjIAXoH (ORCPT
+        with ESMTP id S238032AbjICNhi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Sep 2023 19:44:07 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F941998
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Sep 2023 16:43:33 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3a85b9c6ccdso1604006b6e.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Sep 2023 16:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693611777; x=1694216577; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IdM+lGT73cjSOBSP8IlsC1l9xDfQI2J1yvb0n4/3ZvY=;
-        b=WrfUkV6fBZa/HNDQ+C+jGvmAdKnM10L7WP0qDDbOx2EdlehV0DJFZhhRU3HT+3pnzP
-         scfXOaqUoKqJTTMBps7t9Sf62aaET+vtqAGk5Z4AZMm9hhmu8Enj5O9F/5R+iAr0tSO5
-         wRyZ9miECUr7NapzzC/bqty/Clm8YAKw5kQ8U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693611777; x=1694216577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IdM+lGT73cjSOBSP8IlsC1l9xDfQI2J1yvb0n4/3ZvY=;
-        b=jBoJ+eSXqcSuv2hNA8mwg0toKqUqLHv5lXkcaYixD3tN503lumegOIwt7yxHvGlnvC
-         7HcyhQGSMfqV4yLbSQ1dy9PRtDfFre0nbV+w4C9eYNjLsjJN8dv41o9zujjc3M905dlU
-         TvUMXQzy4Z6LNJ7CQHzk5M55+hHK4WgyAj2YP2COgJomHXADt6tsRkQDQHOwtz/l2qSQ
-         7OiQM8A1c1Vo0XlPCnkaZzHFTr22MC/i78SKBf1fY7QG4WVC6rEFrmmZGXTsrtmiVA11
-         WL4BdrqVe1PJEkq4F7Yrdkh7ClehPjc8fxCN4FZwfjkaSmm/tQBfIJva427km23ezBxR
-         PmNQ==
-X-Gm-Message-State: AOJu0Yx8rSD1rcK/qRvFSIjV49hR23fe8hn+8BEZnB6by2KubDquFbLT
-        5b2xo8PIO/N2OSNvgSKOO3eKzw==
-X-Google-Smtp-Source: AGHT+IFcdBjJJQwlyQ5ZEP5yP3QLZHGZAWqiXZ/QhDSapWZmB7jAL9+asxO5XakvnmAO3TBkPL5opA==
-X-Received: by 2002:a05:6808:919:b0:3a7:46d2:5203 with SMTP id w25-20020a056808091900b003a746d25203mr4110653oih.51.1693611776821;
-        Fri, 01 Sep 2023 16:42:56 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:8d94:1fc5:803c:41cc])
-        by smtp.gmail.com with ESMTPSA id o9-20020a639a09000000b0056c3a4a3ca5sm3326390pge.36.2023.09.01.16.42.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Sep 2023 16:42:56 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>, airlied@gmail.com,
-        biju.das.jz@bp.renesas.com, daniel@ffwll.ch,
-        geert+renesas@glider.be, kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, paul@crapouillou.net,
-        tzimmermann@suse.de
-Subject: [RFT PATCH 15/15] drm/renesas/shmobile: Call drm_helper_force_disable_all() at shutdown/remove time
-Date:   Fri,  1 Sep 2023 16:41:26 -0700
-Message-ID: <20230901164111.RFT.15.Iaf638a1d4c8b3c307a6192efabb4cbb06b195f15@changeid>
-X-Mailer: git-send-email 2.42.0.283.g2d96d420d3-goog
-In-Reply-To: <20230901234202.566951-1-dianders@chromium.org>
-References: <20230901234202.566951-1-dianders@chromium.org>
+        Sun, 3 Sep 2023 09:37:38 -0400
+Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CEA7FB;
+        Sun,  3 Sep 2023 06:37:35 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 248D41866A1A;
+        Sun,  3 Sep 2023 16:37:32 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id QQ9uYetXdeN2; Sun,  3 Sep 2023 16:37:31 +0300 (MSK)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id C17561866B52;
+        Sun,  3 Sep 2023 16:37:31 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id K58ZH9uiW7iq; Sun,  3 Sep 2023 16:37:31 +0300 (MSK)
+Received: from rbta-msk-lt-302690.astralinux.ru (unknown [10.177.232.241])
+        by mail.astralinux.ru (Postfix) with ESMTPSA id 5E6201866A1A;
+        Sun,  3 Sep 2023 16:37:30 +0300 (MSK)
+From:   Alexandra Diupina <adiupina@astralinux.ru>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexandra Diupina <adiupina@astralinux.ru>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: [PATCH] drm/rcar-du: fix comment to rcar_du_group_get()
+Date:   Sun,  3 Sep 2023 16:37:09 +0300
+Message-Id: <20230903133709.8049-1-adiupina@astralinux.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,69 +56,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Based on grepping through the source code, this driver appears to be
-missing a call to drm_atomic_helper_shutdown(), or in this case the
-non-atomic equivalent drm_helper_force_disable_all(), at system
-shutdown time and at driver remove time. This is important because
-drm_helper_force_disable_all() will cause panels to get disabled
-cleanly which may be important for their power sequencing. Future
-changes will remove any custom powering off in individual panel
-drivers so the DRM drivers need to start getting this right.
+rcar_du_group_get() never returns a negative
+error code (always returns 0), so change
+the comment about returned value
 
-The fact that we should call drm_atomic_helper_shutdown(), or in this
-case the non-atomic equivalent drm_helper_force_disable_all(), in the
-case of OS shutdown/restart comes straight out of the kernel doc
-"driver instance overview" in drm_drv.c.
-
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Fixes: cb2025d2509f ("drm/rcar-du: Introduce CRTCs groups")
+Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
 ---
-This commit is only compile-time tested.
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-index 30493ce87419..d6dd46c925c5 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-@@ -15,6 +15,7 @@
- #include <linux/pm.h>
- #include <linux/slab.h>
- 
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_generic.h>
- #include <drm/drm_gem_dma_helper.h>
-@@ -179,12 +180,20 @@ static int shmob_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(ddev);
- 	drm_kms_helper_poll_fini(ddev);
-+	drm_helper_force_disable_all(ddev);
- 	free_irq(sdev->irq, ddev);
- 	drm_dev_put(ddev);
- 
- 	return 0;
- }
- 
-+static void shmob_drm_shutdown(struct platform_device *pdev)
-+{
-+	struct shmob_drm_device *sdev = platform_get_drvdata(pdev);
-+
-+	drm_helper_force_disable_all(sdev->ddev);
-+}
-+
- static int shmob_drm_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gp=
+u/drm/renesas/rcar-du/rcar_du_group.c
+index 2ccd2581f544..499d4e56c32d 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+@@ -200,7 +200,7 @@ static void rcar_du_group_setup(struct rcar_du_group =
+*rgrp)
+  *
+  * This function must be called with the DRM mode_config lock held.
+  *
+- * Return 0 in case of success or a negative error code otherwise.
++ * Always return 0.
+  */
+ int rcar_du_group_get(struct rcar_du_group *rgrp)
  {
- 	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
-@@ -289,6 +298,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
- static struct platform_driver shmob_drm_platform_driver = {
- 	.probe		= shmob_drm_probe,
- 	.remove		= shmob_drm_remove,
-+	.shutdown	= shmob_drm_shutdown,
- 	.driver		= {
- 		.name	= "shmob-drm",
- 		.pm	= pm_sleep_ptr(&shmob_drm_pm_ops),
--- 
-2.42.0.283.g2d96d420d3-goog
+--=20
+2.30.2
 
