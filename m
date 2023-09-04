@@ -2,134 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7B3A7913DA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Sep 2023 10:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53A137915D6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Sep 2023 12:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234105AbjIDIse convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Sep 2023 04:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
+        id S237692AbjIDKrk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Sep 2023 06:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjIDIse (ORCPT
+        with ESMTP id S233006AbjIDKrj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Sep 2023 04:48:34 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52160127
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Sep 2023 01:48:31 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-590685a3be5so11594247b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Sep 2023 01:48:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693817310; x=1694422110;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Khc3tS3wG7RxTjRQcnk5Mh95LpFe1+/yTsF/Eg/GTkc=;
-        b=KGguPyFDYtrXF35/JsKyhxd1ahgCyyxvMLraO2kk6KiKdJFalbOQfEb/8PAcy5wDt0
-         9jj0X+LVkpRRF8IUoNAIu+XBLUthccOuuciR7HQtCfI5h8bCs8EY4a3PWuII7XwZFalQ
-         DwGQHJnXYgrGIdNTd9xElkJpRu9qIyxWVvRh0oEqVPKet6GsmpwIukc590BPMyv50J04
-         Hb8e8cabXSA64zl9COpRoc2soTDzYzShUqjMlMYYawoyCSC8S51xj7VRpF1hOj8yTZrd
-         fCGvZMUPSWN8JzKCdvZFFkjfbKGNqfW518nlp+r0sS6xsYUTN6WA9CbI6GZosxb6bMVN
-         vxBQ==
-X-Gm-Message-State: AOJu0YwjAhORCu8GTeYlUT0ToMWwaezgscb9OvaHLQCBA4H9lbXGRPyz
-        8kfFJjX64BiJGp4UsyBSAmx6ODcdC9uj3A==
-X-Google-Smtp-Source: AGHT+IH+3qm/bGVe+QyQAVqjbIEJ0Q5E7BbAM6d3kRFxDvk1s9PxGeTR1kz4/dwLpuqPoJGxwAtscA==
-X-Received: by 2002:a0d:cc42:0:b0:58f:a369:fb4e with SMTP id o63-20020a0dcc42000000b0058fa369fb4emr9779304ywd.21.1693817310332;
-        Mon, 04 Sep 2023 01:48:30 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id s9-20020a817709000000b005927a79333esm2516517ywc.28.2023.09.04.01.48.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 01:48:30 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d7bbaa8efa7so1058825276.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Sep 2023 01:48:30 -0700 (PDT)
-X-Received: by 2002:a25:778b:0:b0:d77:8080:530c with SMTP id
- s133-20020a25778b000000b00d778080530cmr9467087ybc.61.1693817309866; Mon, 04
- Sep 2023 01:48:29 -0700 (PDT)
+        Mon, 4 Sep 2023 06:47:39 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E77ACA;
+        Mon,  4 Sep 2023 03:47:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 756DCCE0E27;
+        Mon,  4 Sep 2023 10:47:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C477C433C7;
+        Mon,  4 Sep 2023 10:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693824452;
+        bh=99ke3kNeYjTAZdMP/LVioYQzIJUaAhAvjKPEJvsnYY0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=O/obh9f7+KqDlFRDD20tK+jtjDGWKkpk8SIdPPe9ilucb9enhLkWUCkJeJfqAE/ER
+         wx4USLCM3pJ78k5WxiztrhYACOFcL2DI/jX4XpYuldU5GJPBYSRcWejNtyJguu/po7
+         BHq4upzGpYgSvw5QeHG3douofpfj35qQK2iNgejVXD1tRGMmzwGtbo8YcvA/mTC3CK
+         LOdi4eazbAyA40LXGRANmQ0hRCA26ZLQcn+K0PF87BvjzIN50clcy5+dAjY45FGxsc
+         bYVM7Z+Knj3A3brhWNO8qZafUMUc0UrcfBzVoDek//jTypnEo6lgOHpsg040lNzPzN
+         qspXiIitAnq0A==
+Date:   Mon, 4 Sep 2023 12:47:27 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] mmc: host: Kconfig: Make MMC_SDHI_INTERNAL_DMAC
+ config option dependant on ARCH_RENESAS
+Message-ID: <ZPW1v0yFscV+aKxF@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20230901122701.318082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-References: <20230901132730.2861451-1-yoshihiro.shimoda.uh@renesas.com> <20230901132730.2861451-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230901132730.2861451-2-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Sep 2023 10:48:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXsx3zN1UhF4twJGyaj+LDunV+c=FkCTQ7nhoqtLdeLGg@mail.gmail.com>
-Message-ID: <CAMuHMdXsx3zN1UhF4twJGyaj+LDunV+c=FkCTQ7nhoqtLdeLGg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] arm64: dts: renesas: r8a779f0: Add PCIe Host and
- Endpoint nodes
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     geert+renesas@glider.be, magnus.damm@gmail.com,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dj06BT165bXeKWNl"
+Content-Disposition: inline
+In-Reply-To: <20230901122701.318082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
 
-On Fri, Sep 1, 2023 at 3:27 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add PCIe Host and Endpoint nodes for R-Car S4-8 (R8A779F0).
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+--dj06BT165bXeKWNl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Fri, Sep 01, 2023 at 01:27:01PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> MMC_SDHI_INTERNAL_DMAC config option has dependency on ARM64 and
+> R7S9210/R8A77470 this dependency will keep growing for future SoCs for
+> varying architectures. So to simplify this configuration make
+> MMC_SDHI_INTERNAL_DMAC solely depend on ARCH_RENESAS, as all Renesas
+> SoCs inherently depend on the ARCH_RENESAS config option.
+>=20
+> This allows selecting MMC_SDHI_INTERNAL_DMAC config option for RZ/Five SoC
+> which is based on RISC-V architecture.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> @@ -711,6 +725,124 @@ hscif3: serial@e66a0000 {
->                         status = "disabled";
->                 };
->
-> +               pciec0: pcie@e65d0000 {
-> +                       compatible = "renesas,r8a779f0-pcie",
-> +                                    "renesas,rcar-gen4-pcie";
-> +                       reg = <0 0xe65d0000 0 0x1000>, <0 0xe65d2000 0 0x0800>,
-> +                             <0 0xe65d3000 0 0x2000>, <0 0xe65d5000 0 0x1200>,
-> +                             <0 0xe65d6200 0 0x1100>, <0 0xe65d7000 0 0x0400>,
+I like this a lot!
 
-s/0x1100/0x0e00/
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> +                             <0 0xfe000000 0 0x400000>;
-> +                       reg-names = "dbi", "dbi2", "atu", "dma", "app", "phy", "config";
-> +                       interrupts = <GIC_SPI 416 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 417 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 418 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>;
-> +                       interrupt-names = "msi", "dma", "sft_ce", "app";
-> +                       clocks = <&cpg CPG_MOD 624>, <&pcie0_clkref>;
-> +                       clock-names = "core", "ref";
-> +                       power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 624>;
-> +                       reset-names = "pwr";
-> +                       max-link-speed = <4>;
-> +                       num-lanes = <2>;
-> +                       #address-cells = <3>;
-> +                       #size-cells = <2>;
-> +                       bus-range = <0x00 0xff>;
-> +                       device_type = "pci";
-> +                       ranges = <0x82000000 0 0x30000000 0 0x30000000 0 0x10000000>;
 
-The binding example has one extra line, and uses 0x02000000 instead
-of 0x82000000.
+--dj06BT165bXeKWNl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Which one is correct/complete?
+-----BEGIN PGP SIGNATURE-----
 
-> +                       dma-ranges = <0x42000000 0 0x00000000 0 0x00000000 1 0x00000000>;
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmT1tbsACgkQFA3kzBSg
+KbboLBAAlxR3NduDSCV1FbQqRS6dLQx7qXohCCXArcpHtzJb2/7cf9oE1eAL3kpv
+dYPYfjMDTEBkVUqEJu1GR043TileiivKR4tURvCYLFCQ9DzFvHkHLmys33H01ZBx
+amgm9J5ymHipUWX3ZVxGx7RiUfj23+gkz0Zw1ocoiZOdPO5v9us1P4JIqdMoocNz
+yR4llziiL+wbbuRJn5rDajFwN/6Fijr9vjEzHrxMx8hbee2RsSCIswKfTUOGMGVI
+1kOtAGVbsvpSLobI6gz6cwk6dew9wDKk+aoaZjeK9UNXkvo9FtJqa1fwVI7yG1+Y
+/kmDIat42cPfyiiK624ffJxFyAR/BG9fihs3zz1caQrNiz8kqKM+V4lCnEVQ4cA5
+PtL3quJq/tNo0V1LQYWic5GT0a7yFI4DdoDWNd7/dY9ikZAT5igEbJuUuB2rnCuI
+ojf7tiDgei0Zmsy8LynpABUEr46XrTj7VcdT3lfoGl8NhDBJopUF+yCURL7KUmLc
+q65mJ3ffzS+lCY+3Ok9mq9ujeupr+eXBrmoRVunycqulYkt2I72D12fuxerSD3n7
+74FdJAmPm+bY0a+kQ83VN5Mv2hzEVGapAuWUXAzlSRsUBpduZKdw1uRrx8WCGjlE
+7cywP+1BpTcdNTsU2r3GMO9RZhks2AiYjSNmDVrpVlrjGF/HCuI=
+=1KUH
+-----END PGP SIGNATURE-----
 
-My comments above apply to the other channel, too.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--dj06BT165bXeKWNl--
