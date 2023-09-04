@@ -2,103 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89E1C790CC2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Sep 2023 17:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 518197911AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Sep 2023 08:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbjICPX4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Sep 2023 11:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
+        id S240421AbjIDG5E convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Sep 2023 02:57:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbjICPX4 (ORCPT
+        with ESMTP id S229579AbjIDG5E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Sep 2023 11:23:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD57F1;
-        Sun,  3 Sep 2023 08:23:52 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8C6B6B5;
-        Sun,  3 Sep 2023 17:22:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693754544;
-        bh=jqSdoyKWx526+FF9/nQYZnWif025tFD5VF+7BR3PYNE=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=SW5/2tVB7/Z4Beu38xqK1QnIUMEXuzp498iDu6OmIF7u+24BgHYk8ADYPV1nOg3yy
-         r6Dv11y1hLPmSKhUqFycrE/4KtrEGYzcYYbKxECqr87PWdUQbVTvV0M/7d2XzQN07D
-         UPqf4BAy2XRQUCFo5eD19OwjxlkfF9QUUqq/HYAc=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 4 Sep 2023 02:57:04 -0400
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCE311D;
+        Sun,  3 Sep 2023 23:57:00 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5922b96c5fcso10947337b3.0;
+        Sun, 03 Sep 2023 23:57:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693810620; x=1694415420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7Qt1h+KcRhcARBqVl0JQIPp9LYHPCSaiLn/hvDrNKng=;
+        b=f3qeChN39tE7Wqa5gwC84pVRVkP/7ryI1/9wkumU3pvNM+0Aczoimt/R8pmlbNXm6S
+         RiOv/+sGvCqFTIiU0NZILpb2K8KdKlvC0fK9hfigSIZefz0KzMv01Is4RXD98A8Ef8gu
+         RmwZAMTvBhX0psS0xUiJwBPlbBW8bS1xi5iAxjJnq/wGyo0rGGrODPqXI4lFoFM/XGmR
+         bjSZURxc13/RVtkMDysyX2EQMNnieAab4OQ32u+ZlYOVqZI6UkCCX3BZeujc0I6v5JZ4
+         aPOMQP1qWv8ZIrOZGxB0owT35H6GK4ypu7SJlJTYlVGGFUxkrDqEPwnmsziWAYwm3Klm
+         GWtA==
+X-Gm-Message-State: AOJu0Yy93ME/wx0eJTxLnPDnycFVSPqpJGhmbWieOluljLQoeEtNbw+7
+        Ph+f0w1IToJi/YXM0Gr4PwUk3qydK0Bhjw==
+X-Google-Smtp-Source: AGHT+IFHJK4AumhU/RHieCntR6RxOuUDXuR9vjHlFSw6z4T2tyOBsJKK4CHwgopLweDNXcwpw6JADg==
+X-Received: by 2002:a81:ab46:0:b0:579:efbb:cbe3 with SMTP id d6-20020a81ab46000000b00579efbbcbe3mr9474659ywk.43.1693810619995;
+        Sun, 03 Sep 2023 23:56:59 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id e188-20020a81a7c5000000b0059812d9719fsm1849067ywh.8.2023.09.03.23.56.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Sep 2023 23:56:59 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-58fb73e26a6so10967007b3.1;
+        Sun, 03 Sep 2023 23:56:59 -0700 (PDT)
+X-Received: by 2002:a25:ac3:0:b0:d7e:b89c:9919 with SMTP id
+ 186-20020a250ac3000000b00d7eb89c9919mr5162434ybk.1.1693810619371; Sun, 03 Sep
+ 2023 23:56:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230903133709.8049-1-adiupina@astralinux.ru>
 References: <20230903133709.8049-1-adiupina@astralinux.ru>
+In-Reply-To: <20230903133709.8049-1-adiupina@astralinux.ru>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Sep 2023 08:56:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXA0QgVuw4jEA3Q=cREhCjpoYq=+uMeDL+X187oTYDCBQ@mail.gmail.com>
+Message-ID: <CAMuHMdXA0QgVuw4jEA3Q=cREhCjpoYq=+uMeDL+X187oTYDCBQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/rcar-du: fix comment to rcar_du_group_get()
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Alexandra Diupina <adiupina@astralinux.ru>,
+To:     Alexandra Diupina <adiupina@astralinux.ru>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-To:     Alexandra Diupina <adiupina@astralinux.ru>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Sun, 03 Sep 2023 16:23:46 +0100
-Message-ID: <169375462648.1779741.7610374659365330420@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alexandra
+Hi Alexandra,
 
-Quoting Alexandra Diupina (2023-09-03 14:37:09)
+On Sun, Sep 3, 2023 at 7:10 PM Alexandra Diupina <adiupina@astralinux.ru> wrote:
 > rcar_du_group_get() never returns a negative
 > error code (always returns 0), so change
 > the comment about returned value
-
-If so, then perhaps this may as well become a void return and remove the
-return 0.
-
-That could then clean up some redundant error path handling in
-drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c too ?
-
-Still, this does correct the documentation to match the implementation
-as it stands so... for that ...
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-But removing an unused error path seems like a worthy clean up
-opportunity too.
-
->=20
+>
 > Fixes: cb2025d2509f ("drm/rcar-du: Introduce CRTCs groups")
-
-Hrm ... well the documented behaviour was the same even before this
-commit in rcar_du_get(), so perhaps it was documenting the intent... But
-it does seem that the return code has been redundant for quite some time
-so perhaps it's just not required.
-
-
---
-Kieran
-
-
 > Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gp=
-u/drm/renesas/rcar-du/rcar_du_group.c
-> index 2ccd2581f544..499d4e56c32d 100644
+
+Thanks for your patch!
+
 > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
 > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> @@ -200,7 +200,7 @@ static void rcar_du_group_setup(struct rcar_du_group =
-*rgrp)
+> @@ -200,7 +200,7 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
 >   *
 >   * This function must be called with the DRM mode_config lock held.
 >   *
@@ -107,6 +96,21 @@ u/drm/renesas/rcar-du/rcar_du_group.c
 >   */
 >  int rcar_du_group_get(struct rcar_du_group *rgrp)
 >  {
-> --=20
-> 2.30.2
->
+
+This is debatable: future changes may make it possible for the
+function to fail.  In addition, the (single) caller does check the
+return value.
+
+If we are sure the function can never fail, and everyone agrees, its
+return type should be changed to void, and the caller should be updated.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
