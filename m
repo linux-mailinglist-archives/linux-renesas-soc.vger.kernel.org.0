@@ -2,89 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 421F9792775
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F2F79273C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:35:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232924AbjIEQEH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Sep 2023 12:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S237441AbjIEQER (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Sep 2023 12:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353728AbjIEHjE (ORCPT
+        with ESMTP id S1354421AbjIELaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Sep 2023 03:39:04 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3B018D
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Sep 2023 00:39:01 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-58c92a2c52dso20438057b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Sep 2023 00:39:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693899540; x=1694504340;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g3ucGvAfFYBC5dLQu9Fol4toUGreKlHRzNUAh/tXzQY=;
-        b=GViLLZnqvZA0OE7NYO9yhsP97rfqavCL+5hcUhlBToD8s5l6goU8CtF/+g/d9//DGx
-         DnER9YKTeYAQsRIWbA+lRj5Fz6g3VHPoQk3aocotQqb2SKSZvV+EZGqls88lmcVtrDpy
-         mjhGj/X+30z1zIG6Uj8VoAySnJWRP+QUIWMeluGHnv/PP89ypGIj1Y8jelzSvk9PpuI9
-         9h2Sl/I+rbLolXokUcgtEMjg6HPZInK7t8Lg933fDwRJtX6ZkRRufGz7ZtPCGT1zNNu5
-         Z7dus+Xpl3JNhks7gnToQFt97ukUVG9gRCN9XG9wpdmjt7jCRA++3mcg8uuJmL6qTccl
-         vk4Q==
-X-Gm-Message-State: AOJu0YwsP8HKVKkyHay90o6wHq6gsLE3v0pp/VlVhqrmczDyKUavcf7W
-        0HMLhWlYvrBFv5FeIq6eKv7lOnC6/PLbsg==
-X-Google-Smtp-Source: AGHT+IFhWb4H/9cMoavZ+QARNzLJev3btz07HrPop4wRdHfMXEi9c7w/q357Wumg1CdaEjo2xxgJqg==
-X-Received: by 2002:a0d:e6d1:0:b0:589:b3c6:95ff with SMTP id p200-20020a0de6d1000000b00589b3c695ffmr13813349ywe.36.1693899540107;
-        Tue, 05 Sep 2023 00:39:00 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id z7-20020a816507000000b00592a065e2a3sm3062542ywb.87.2023.09.05.00.38.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Sep 2023 00:38:59 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d78328bc2abso1858253276.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Sep 2023 00:38:58 -0700 (PDT)
-X-Received: by 2002:a25:6984:0:b0:d7b:7249:6dbc with SMTP id
- e126-20020a256984000000b00d7b72496dbcmr13293206ybc.16.1693899538743; Tue, 05
- Sep 2023 00:38:58 -0700 (PDT)
+        Tue, 5 Sep 2023 07:30:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF6F197;
+        Tue,  5 Sep 2023 04:30:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 92B44B8108E;
+        Tue,  5 Sep 2023 11:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C827BC433C7;
+        Tue,  5 Sep 2023 11:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693913410;
+        bh=RdrgRebQVMYD5+vh/Q9aQGUsa7aLHdkgmZjegcvTHzQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SXHy/K+I2JZWBTxu0P+tvwpuCbAKpUjofqK3xdoRWVP05NrKyV7A+ij+qaJcU5wFH
+         UwEzBIuz3kefb0lDd+yj+BFMtKSedH7kh9oed6LWc4buYGya7httpaAWUtbpnVJ9L1
+         AB2ZwdpXG6dxPtv/CqV2CWA34Q87MQkWqMdAsKv3dVdtR3fhmyJGmRgMmXwsfN6RJO
+         CLOXueIoL1iGzTr+COyFM2qF5bFTfSI5LdxCo8g2/m4QhVpeDY6lhjRC9hiI59AuWb
+         SxrOyHji9OzoWrZxcxLu/dyMITn1botjbMjN0emlgb4wmiTqcZMFjoW7hznht2u9KQ
+         9lJo6aobhzOyQ==
+Date:   Tue, 5 Sep 2023 13:30:06 +0200
+From:   Andi Shyti <andi.shyti@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] i2c: rcar: avoid non-standard use of goto
+Message-ID: <20230905113006.tqfe6xqoyfhzk5ak@zenone.zhora.eu>
+References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
+ <20230904135852.12146-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20230905012404.2915246-1-yoshihiro.shimoda.uh@renesas.com> <20230905012404.2915246-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20230905012404.2915246-2-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Sep 2023 09:38:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXW=vg43NxoD5ZGxnEmzs+nXoq+BYD_J14Q6B+PzH-cuA@mail.gmail.com>
-Message-ID: <CAMuHMdXW=vg43NxoD5ZGxnEmzs+nXoq+BYD_J14Q6B+PzH-cuA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] arm64: dts: renesas: r8a779f0: Add PCIe Host and
- Endpoint nodes
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     geert+renesas@glider.be, magnus.damm@gmail.com,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230904135852.12146-2-wsa+renesas@sang-engineering.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 5, 2023 at 3:24 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add PCIe Host and Endpoint nodes for R-Car S4-8 (R8A779F0).
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Hi Wolfram,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.7, together with [PATCH v4 2/2/].
+On Mon, Sep 04, 2023 at 03:58:49PM +0200, Wolfram Sang wrote:
+> Kernel functions goto somewhere on error conditions. Using goto for the
+> default path is irritating. Let's bail out on error instead.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Gr{oetje,eeting}s,
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Andi
