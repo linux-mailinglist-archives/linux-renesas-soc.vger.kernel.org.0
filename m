@@ -2,112 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F20497926C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5ED7927FC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237497AbjIEQEX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Sep 2023 12:04:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44128 "EHLO
+        id S237388AbjIEQEO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Sep 2023 12:04:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354620AbjIEM4x (ORCPT
+        with ESMTP id S1354760AbjIEOIV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Sep 2023 08:56:53 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089CF1A8;
-        Tue,  5 Sep 2023 05:56:48 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9338e4695so37616951fa.2;
-        Tue, 05 Sep 2023 05:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693918606; x=1694523406; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6UhzA8XSGVCuKKYnfBOKwjgBkteIxN0UPAGvmE+dfX0=;
-        b=mu90wKFv7POwPfWoN7x8dXtQXcEOZGh2Hnd3eBvhpMu9fuiXO59atiaSv2lxc1uEU/
-         rvPjW1ATv7hcOIxa+lMSpZSL/SPi04yxICJ5dWdvOLBjlIKAyHiMJMSMzv4pLHjCKsNw
-         CbnqJYAt2cVcChFnK8c3kNwEaMIz/Ni9uPNtYQmAaa/O+xna22HCMbeL+Lx5mm6J4sKn
-         0o7q/lVmfBr5SHgA7M/x/izey3eQmgaDNJrg/ltzHh5otRS4SwQJwigwlfClLddUee9d
-         W9e0W46w0x0R+X0XektDOMJ/CPJMbnjUJIcmuRva1a81O1ptEN53+e3o89jZAEe7lZFz
-         sBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693918606; x=1694523406;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6UhzA8XSGVCuKKYnfBOKwjgBkteIxN0UPAGvmE+dfX0=;
-        b=Y/o2QH7m++nKugmXcKL8zDkgYuhIVjKxDZKOeqZz7j9feSU4DTEfNbH3a7xKjKQqk5
-         C2ZeZicTfMdKpJ5OyPqF02/HnBCnemgZmoLm4/K/g1ic62+qSij+mdmfAz5WKsX8bh5a
-         z9WOpLlivcpve/lhN7it+CBsuy9LGgoioNI5PyFjaGEDgKFVEzalOz+vd99uujnr9qNv
-         9IX2TfftUuh8JAjyJKMG9XbwFkWAAv10bg1FxzRB/U24QaHvA4LWHKHNln63aKzvkrAE
-         AiAeD2RPQYrSA6HtN/yk9LaaAFv7mUsv3mIMbBZGRxRpdFp5tEg4/Qk0xSNZPw0gnrEs
-         eIqg==
-X-Gm-Message-State: AOJu0Yxxl9UuEROLLchdVbeukOQpzkXmjSCRapXnnS77sH+Hdn48PVFV
-        4FUsjtVsgxoAXc0Zfbh6Kb8=
-X-Google-Smtp-Source: AGHT+IFN6dIuEYAFAeh9yLMH0Umds7V4Gz6vEzYtzLwlFLejVtQwSpZmueW/N3HZo5D5Mix6iYn1dw==
-X-Received: by 2002:a2e:8012:0:b0:2bd:1908:4432 with SMTP id j18-20020a2e8012000000b002bd19084432mr9333259ljg.3.1693918605899;
-        Tue, 05 Sep 2023 05:56:45 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:2837:58dc:b622:9e39])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1c7909000000b003fe1c332810sm20085767wme.33.2023.09.05.05.56.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 05:56:45 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] pinctrl: renesas: pinctrl-rzg2l: Add validation of GPIO pin in rzg2l_gpio_request()
-Date:   Tue,  5 Sep 2023 13:56:03 +0100
-Message-Id: <20230905125603.74528-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 5 Sep 2023 10:08:21 -0400
+X-Greylist: delayed 478 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 07:08:15 PDT
+Received: from frontal.iot.bzh (058728349.box.freepro.com [95.178.89.150])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DAE61A7;
+        Tue,  5 Sep 2023 07:08:15 -0700 (PDT)
+Received: from frontal.iot.bzh (localhost [127.0.0.1])
+        by frontal.iot.bzh (Proxmox) with ESMTP id 803BD23370;
+        Tue,  5 Sep 2023 16:00:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
+        :content-transfer-encoding:date:from:from:message-id
+        :mime-version:reply-to:subject:subject:to:to; s=iot.bzh; bh=WWkR
+        CdGj6MDt6iusMxgyQpCn16QEvU1U9Q6Tc+H/T8Y=; b=WfN49RzvNL6O64FC67z6
+        zZf5rDATitsNO5aXfJ7fbjwESRmuKsnREXHG1aKVynSU7AHeVn/UvwdRsyNuUZAr
+        86F7ytg54d+sxvuWixoEOeOdPpO+eILMAe60JJRmXf/DfCZU3Bc044KADf3Wq7KW
+        JfYTQsOABjNHOSLFlqztrh31Pz6rQQKSWQ9HlioPI9UE9iFR9bDky9Qsa2jbRVO+
+        Z1yz8ksmjdj1IgYBfPccON7zdBC79LS2oPoN3klcJeYyHzCL/+vN3sICD9ckdqr0
+        C0bdIK6BSsLadn2dfg+WOyAXm+1pbMi7I7CS1hu8gfjjDVlSyjyQ/NIyQe+uBPpV
+        hQ==
+From:   Aymeric Aillet <aymeric.aillet@iot.bzh>
+To:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Cc:     aymeric.aillet@iot.bzh, geert+renesas@glider.be,
+        mturquette@baylibre.com, sboyd@kernel.org
+Subject: [PATCH 1/1] clk: renesas: Mark concerned clocks as "ignore_unused"
+Date:   Tue,  5 Sep 2023 16:00:08 +0200
+Message-Id: <20230905140008.136263-1-aymeric.aillet@iot.bzh>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In order to avoid Linux from gating clocks that are used by
+another OS running at the same time (eg. RTOS), we are adding
+the "CLK_IGNORE_UNUSED" flag to the concerned clocks.
 
-Validate the GPIO pin request in rzg2l_gpio_request() callback using
-rzg2l_validate_gpio_pin() function. This stops any accidental usage
-of GPIO pins which are not supported by the SoCs.
+As for now, list of clocks to be flagged have been completed
+depending of features that are supported by Renesas SoCs/boards
+port in Zephyr RTOS.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Aymeric Aillet <aymeric.aillet@iot.bzh>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 16 ++++++++++++++++
+ drivers/clk/renesas/r8a779f0-cpg-mssr.c | 10 ++++++++++
+ drivers/clk/renesas/renesas-cpg-mssr.c  |  9 +++++++++
+ drivers/clk/renesas/renesas-cpg-mssr.h  |  4 ++++
+ 4 files changed, 39 insertions(+)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 37cdfe4b04f9..4ad08a4b786a 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -795,12 +795,18 @@ static const struct pinconf_ops rzg2l_pinctrl_confops = {
- static int rzg2l_gpio_request(struct gpio_chip *chip, unsigned int offset)
- {
- 	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
-+	const struct pinctrl_pin_desc *pin = &pctrl->desc.pins[offset];
-+	u64 *pin_data = pin->drv_data;
- 	u32 port = RZG2L_PIN_ID_TO_PORT(offset);
- 	u8 bit = RZG2L_PIN_ID_TO_PIN(offset);
- 	unsigned long flags;
- 	u8 reg8;
- 	int ret;
+diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+index ad20b3301ef6..82465354b100 100644
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -288,6 +288,18 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("scu-src0",		1031,	MOD_CLK_ID(1017)),
+ };
  
-+	ret = rzg2l_validate_gpio_pin(pctrl, *pin_data, port, bit);
-+	if (ret)
-+		return ret;
++static const unsigned int r8a7795_ignore_unused_mod_clks[] __initconst = {
++	MOD_CLK_ID(206),	/* SCIF1 */
++	MOD_CLK_ID(303),	/* CMT0 */
++	MOD_CLK_ID(310),	/* SCIF2 */
++	MOD_CLK_ID(523),	/* PWM */
++	MOD_CLK_ID(906),	/* GPIO6 */
++	MOD_CLK_ID(907),	/* GPIO5 */
++	MOD_CLK_ID(916),	/* CAN0 */
++	MOD_CLK_ID(929),	/* I2C2 */
++	MOD_CLK_ID(927),	/* I2C4 */
++};
 +
- 	ret = pinctrl_gpio_request(chip->base + offset);
- 	if (ret)
- 		return ret;
+ static const unsigned int r8a7795_crit_mod_clks[] __initconst = {
+ 	MOD_CLK_ID(402),	/* RWDT */
+ 	MOD_CLK_ID(408),	/* INTC-AP (GIC) */
+@@ -388,6 +400,10 @@ const struct cpg_mssr_info r8a7795_cpg_mssr_info __initconst = {
+ 	.num_mod_clks = ARRAY_SIZE(r8a7795_mod_clks),
+ 	.num_hw_mod_clks = 12 * 32,
+ 
++	/* Ignore Unused Module Clocks */
++	.ignore_unused_mod_clks = r8a7795_ignore_unused_mod_clks,
++	.num_ignore_unused_mod_clks = ARRAY_SIZE(r8a7795_ignore_unused_mod_clks),
++
+ 	/* Critical Module Clocks */
+ 	.crit_mod_clks = r8a7795_crit_mod_clks,
+ 	.num_crit_mod_clks = ARRAY_SIZE(r8a7795_crit_mod_clks),
+diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+index f721835c7e21..ceae94c1c7dc 100644
+--- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+@@ -168,6 +168,12 @@ static const struct mssr_mod_clk r8a779f0_mod_clks[] __initconst = {
+ 	DEF_MOD("ufs",		1514,	R8A779F0_CLK_S0D4_HSC),
+ };
+ 
++static const unsigned int r8a779f0_ignore_unused_mod_clks[] __initconst = {
++	MOD_CLK_ID(702),	/* SCIF0 */
++	MOD_CLK_ID(704),	/* SCIF3 */
++	MOD_CLK_ID(915),	/* PFC0 */
++};
++
+ static const unsigned int r8a779f0_crit_mod_clks[] __initconst = {
+ 	MOD_CLK_ID(907),	/* WDT */
+ };
+@@ -226,6 +232,10 @@ const struct cpg_mssr_info r8a779f0_cpg_mssr_info __initconst = {
+ 	.num_mod_clks = ARRAY_SIZE(r8a779f0_mod_clks),
+ 	.num_hw_mod_clks = 28 * 32,
+ 
++	/* Ignore Unused Module Clocks */
++	.ignore_unused_mod_clks = r8a779f0_ignore_unused_mod_clks,
++	.num_ignore_unused_mod_clks = ARRAY_SIZE(r8a779f0_ignore_unused_mod_clks),
++
+ 	/* Critical Module Clocks */
+ 	.crit_mod_clks = r8a779f0_crit_mod_clks,
+ 	.num_crit_mod_clks = ARRAY_SIZE(r8a779f0_crit_mod_clks),
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index cb80d1bf6c7c..8e08a13e6904 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -444,6 +444,15 @@ static void __init cpg_mssr_register_mod_clk(const struct mssr_mod_clk *mod,
+ 	clock->priv = priv;
+ 	clock->hw.init = &init;
+ 
++	for (i = 0; i < info->num_ignore_unused_mod_clks; i++) {
++		if (id == info->ignore_unused_mod_clks[i]) {
++			dev_dbg(dev, "MSTP %s setting CLK_IGNORE_UNUSED\n",
++				    mod->name);
++			init.flags |= CLK_IGNORE_UNUSED;
++			break;
++		}
++	}
++
+ 	for (i = 0; i < info->num_crit_mod_clks; i++)
+ 		if (id == info->crit_mod_clks[i] &&
+ 		    cpg_mstp_clock_is_enabled(&clock->hw)) {
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.h b/drivers/clk/renesas/renesas-cpg-mssr.h
+index 80c5b462924a..da5e999c23b0 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.h
++++ b/drivers/clk/renesas/renesas-cpg-mssr.h
+@@ -140,6 +140,10 @@ struct cpg_mssr_info {
+ 	unsigned int num_mod_clks;
+ 	unsigned int num_hw_mod_clks;
+ 
++	/* Module Clocks that should not be gated */
++	const unsigned int *ignore_unused_mod_clks;
++	unsigned int num_ignore_unused_mod_clks;
++
+ 	/* Critical Module Clocks that should not be disabled */
+ 	const unsigned int *crit_mod_clks;
+ 	unsigned int num_crit_mod_clks;
 -- 
-2.34.1
+2.25.1
+
 
