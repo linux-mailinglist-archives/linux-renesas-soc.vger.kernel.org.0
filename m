@@ -2,79 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC9979266F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F20497926C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237358AbjIEQEL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Sep 2023 12:04:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
+        id S237497AbjIEQEX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Sep 2023 12:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354433AbjIELgc (ORCPT
+        with ESMTP id S1354620AbjIEM4x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Sep 2023 07:36:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA061AB;
-        Tue,  5 Sep 2023 04:36:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CABA3602E0;
-        Tue,  5 Sep 2023 11:36:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA19C433C8;
-        Tue,  5 Sep 2023 11:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693913788;
-        bh=JJ1xgbKs1Vv5+UBKm7oDOUD1ckh8Fc4bT3kqxnA3/sg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DGQX5q5hkl16T4RhaWAG4GCnv6bCK0EwaWZ9Ztvnh8bfULdbZqoFFL+LN4ptVukir
-         Ib/NOa2YKgggCD2D7iBAegSc5e8caSpP0r48/8O7pR6E8s0CciR8cUuBuOhXeyLXbu
-         AMqEd1pSvTOZUZCR3d8ZDxGwNnXR9HGKZZaRUayB9b1aeHOZsDVDDwLns7sVZAPnEN
-         D31jV9zkSr6fYBtFEAXFCaH0224mkWO1s8Kadr3gcvECqhb8wamOG2UF3poCpaACZ/
-         yf/NRTrWYz/bn0PkiyTwP5o0KZ+IOkZdwwlACkEVZtf3k4lze7Mh6rbxsmicJQKEkb
-         /hXyAvTfIrp+g==
-Date:   Tue, 5 Sep 2023 13:36:24 +0200
-From:   Andi Shyti <andi.shyti@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] i2c: rcar: introduce Gen4 devices
-Message-ID: <20230905113624.5o2hfjojh3he7aex@zenone.zhora.eu>
-References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
- <20230904135852.12146-3-wsa+renesas@sang-engineering.com>
+        Tue, 5 Sep 2023 08:56:53 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089CF1A8;
+        Tue,  5 Sep 2023 05:56:48 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9338e4695so37616951fa.2;
+        Tue, 05 Sep 2023 05:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693918606; x=1694523406; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6UhzA8XSGVCuKKYnfBOKwjgBkteIxN0UPAGvmE+dfX0=;
+        b=mu90wKFv7POwPfWoN7x8dXtQXcEOZGh2Hnd3eBvhpMu9fuiXO59atiaSv2lxc1uEU/
+         rvPjW1ATv7hcOIxa+lMSpZSL/SPi04yxICJ5dWdvOLBjlIKAyHiMJMSMzv4pLHjCKsNw
+         CbnqJYAt2cVcChFnK8c3kNwEaMIz/Ni9uPNtYQmAaa/O+xna22HCMbeL+Lx5mm6J4sKn
+         0o7q/lVmfBr5SHgA7M/x/izey3eQmgaDNJrg/ltzHh5otRS4SwQJwigwlfClLddUee9d
+         W9e0W46w0x0R+X0XektDOMJ/CPJMbnjUJIcmuRva1a81O1ptEN53+e3o89jZAEe7lZFz
+         sBgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693918606; x=1694523406;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6UhzA8XSGVCuKKYnfBOKwjgBkteIxN0UPAGvmE+dfX0=;
+        b=Y/o2QH7m++nKugmXcKL8zDkgYuhIVjKxDZKOeqZz7j9feSU4DTEfNbH3a7xKjKQqk5
+         C2ZeZicTfMdKpJ5OyPqF02/HnBCnemgZmoLm4/K/g1ic62+qSij+mdmfAz5WKsX8bh5a
+         z9WOpLlivcpve/lhN7it+CBsuy9LGgoioNI5PyFjaGEDgKFVEzalOz+vd99uujnr9qNv
+         9IX2TfftUuh8JAjyJKMG9XbwFkWAAv10bg1FxzRB/U24QaHvA4LWHKHNln63aKzvkrAE
+         AiAeD2RPQYrSA6HtN/yk9LaaAFv7mUsv3mIMbBZGRxRpdFp5tEg4/Qk0xSNZPw0gnrEs
+         eIqg==
+X-Gm-Message-State: AOJu0Yxxl9UuEROLLchdVbeukOQpzkXmjSCRapXnnS77sH+Hdn48PVFV
+        4FUsjtVsgxoAXc0Zfbh6Kb8=
+X-Google-Smtp-Source: AGHT+IFN6dIuEYAFAeh9yLMH0Umds7V4Gz6vEzYtzLwlFLejVtQwSpZmueW/N3HZo5D5Mix6iYn1dw==
+X-Received: by 2002:a2e:8012:0:b0:2bd:1908:4432 with SMTP id j18-20020a2e8012000000b002bd19084432mr9333259ljg.3.1693918605899;
+        Tue, 05 Sep 2023 05:56:45 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:2837:58dc:b622:9e39])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1c7909000000b003fe1c332810sm20085767wme.33.2023.09.05.05.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Sep 2023 05:56:45 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] pinctrl: renesas: pinctrl-rzg2l: Add validation of GPIO pin in rzg2l_gpio_request()
+Date:   Tue,  5 Sep 2023 13:56:03 +0100
+Message-Id: <20230905125603.74528-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230904135852.12146-3-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> @@ -1031,10 +1021,12 @@ static const struct of_device_id rcar_i2c_dt_ids[] = {
->  	{ .compatible = "renesas,i2c-r8a7794", .data = (void *)I2C_RCAR_GEN2 },
->  	{ .compatible = "renesas,i2c-r8a7795", .data = (void *)I2C_RCAR_GEN3 },
->  	{ .compatible = "renesas,i2c-r8a7796", .data = (void *)I2C_RCAR_GEN3 },
-> +	/* S4 has no FM+ bit */
-> +	{ .compatible = "renesas,i2c-r8a779f0", .data = (void *)I2C_RCAR_GEN3 },
+Validate the GPIO pin request in rzg2l_gpio_request() callback using
+rzg2l_validate_gpio_pin() function. This stops any accidental usage
+of GPIO pins which are not supported by the SoCs.
 
-is this I2C_RCAR_GEN3 or I2C_RCAR_GEN4?
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Rest looks good.
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 37cdfe4b04f9..4ad08a4b786a 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -795,12 +795,18 @@ static const struct pinconf_ops rzg2l_pinctrl_confops = {
+ static int rzg2l_gpio_request(struct gpio_chip *chip, unsigned int offset)
+ {
+ 	struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
++	const struct pinctrl_pin_desc *pin = &pctrl->desc.pins[offset];
++	u64 *pin_data = pin->drv_data;
+ 	u32 port = RZG2L_PIN_ID_TO_PORT(offset);
+ 	u8 bit = RZG2L_PIN_ID_TO_PIN(offset);
+ 	unsigned long flags;
+ 	u8 reg8;
+ 	int ret;
+ 
++	ret = rzg2l_validate_gpio_pin(pctrl, *pin_data, port, bit);
++	if (ret)
++		return ret;
++
+ 	ret = pinctrl_gpio_request(chip->base + offset);
+ 	if (ret)
+ 		return ret;
+-- 
+2.34.1
 
-Andi
-
->  	{ .compatible = "renesas,rcar-gen1-i2c", .data = (void *)I2C_RCAR_GEN1 },
->  	{ .compatible = "renesas,rcar-gen2-i2c", .data = (void *)I2C_RCAR_GEN2 },
->  	{ .compatible = "renesas,rcar-gen3-i2c", .data = (void *)I2C_RCAR_GEN3 },
-> -	{ .compatible = "renesas,rcar-gen4-i2c", .data = (void *)I2C_RCAR_GEN3 },
-> +	{ .compatible = "renesas,rcar-gen4-i2c", .data = (void *)I2C_RCAR_GEN4 },
->  	{},
