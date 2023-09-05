@@ -2,117 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99584792746
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BE1379263C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Sep 2023 18:26:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbjIEQET (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Sep 2023 12:04:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36812 "EHLO
+        id S237510AbjIEQE2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Sep 2023 12:04:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354779AbjIEOTB (ORCPT
+        with ESMTP id S1354782AbjIEOUX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Sep 2023 10:19:01 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B4A1A7
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Sep 2023 07:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=d5oE
-        VPZounkZyPqSJjsmtIRWD+j5ouluxyYTqoZnQ+s=; b=SfL2lb7f6vxDpXS15/8P
-        4L1xAOIHOiTnlsNiamQ3rD1s0zUp+7ntho7wHhZqury92ytZS3Uap6WRrwr9jmW4
-        g+k7q1okcnHEmagshZIAu2WiBWd8qqNcXdNxZ9GAd7uYLWcZ6zDtCWxfdYLnxxjM
-        piJr8qLerL10kQhweg52r+9+ggZtk98QjEVzXpPSoGmC88bHARR0WGnUsNPlgFLl
-        vHQ0VgrbSkFH+qs/GUSLORsrCihVD6mvu3eD0U5ur1Z/LTsad4AkX/2nLZUQTKEd
-        bkf674LM7mZ22fc9kuKnjB78vDtljj8fWA+ph/B5TlTgelNSL6Mj/nhYkZKNK45r
-        2Q==
-Received: (qmail 2493423 invoked from network); 5 Sep 2023 16:18:53 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Sep 2023 16:18:53 +0200
-X-UD-Smtp-Session: l3s3148p1@g4JWTp0Ejt1ehhrI
-Date:   Tue, 5 Sep 2023 16:18:50 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andi Shyti <andi.shyti@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Tue, 5 Sep 2023 10:20:23 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB90127
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Sep 2023 07:20:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 225FCCE1184
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Sep 2023 14:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB61C433C8;
+        Tue,  5 Sep 2023 14:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693923615;
+        bh=rlMXztTsnFKQ5FdtU+qNDKYNfX/0zFqzn0aF2XsO+nI=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=Nj43H9G9C8xAEOMJhbXk/x6n3BJ/BO2aXDwzaai1he4vaWLaOmgi2sYPXZN/Ayz7/
+         Fph4qAH+HPCLeJCg6m0+4pFkR0fUwD7ix7uncJf+bWluFb12BkojfyaDQK15Xh4eSQ
+         Q3Gpak0ChwbMB2Xj2hyRP8Y+mGquU4tb7ZEn1QSNZP3TTIfGogfcFbf4IWcuT6TSGj
+         1k0f3c+qZiH1Gl4+fU4OqEJc4T/0hbhw9SaaqXE+luuR7CIt8a1YkjjopqoGstcsya
+         64CYsYuQ2VvTw82Uf+n/hnb+OZy4gfVisGU08ajgqP5V6e00opHuusSQO6JfjSCjV0
+         9+tagMxIMZ7UQ==
+From:   Robert Foss <rfoss@kernel.org>
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Phong LE <ple@baylibre.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] i2c: rcar: introduce Gen4 devices
-Message-ID: <ZPc4ylzR4MJEMlbx@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
         linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
- <20230904135852.12146-3-wsa+renesas@sang-engineering.com>
- <20230905113624.5o2hfjojh3he7aex@zenone.zhora.eu>
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+In-Reply-To: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
+References: <20230818191817.340360-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 0/2] Match data improvements for it66121 driver
+Message-Id: <169392361254.1000124.5770510493227185107.b4-ty@kernel.org>
+Date:   Tue, 05 Sep 2023 16:20:12 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="N/d25QGf6h+4Nz7R"
-Content-Disposition: inline
-In-Reply-To: <20230905113624.5o2hfjojh3he7aex@zenone.zhora.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, 18 Aug 2023 20:18:15 +0100, Biju Das wrote:
+> This patch series aims to add match data improvements for it66121 driver.
+> 
+> v2->v3:
+>  * Removed fixes tag from patch#1 as nothing broken.
+>  * Added Rb tag from Andy.
+> v1->v2:
+>  * Split the patch into two.
+>  * patch#1 extend match support for OF tables compared to legacy ID
+>    lookup and fixes tag.
+>  * patch#2 simplifies the probe() by using i2c_get_match_data.
+>  * Dropped sentence for dropping local variable as it is integral part of
+>    the patch.
+> 
+> [...]
 
---N/d25QGf6h+4Nz7R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Tue, Sep 05, 2023 at 01:36:24PM +0200, Andi Shyti wrote:
-> Hi Wolfram,
->=20
-> > @@ -1031,10 +1021,12 @@ static const struct of_device_id rcar_i2c_dt_id=
-s[] =3D {
-> >  	{ .compatible =3D "renesas,i2c-r8a7794", .data =3D (void *)I2C_RCAR_G=
-EN2 },
-> >  	{ .compatible =3D "renesas,i2c-r8a7795", .data =3D (void *)I2C_RCAR_G=
-EN3 },
-> >  	{ .compatible =3D "renesas,i2c-r8a7796", .data =3D (void *)I2C_RCAR_G=
-EN3 },
-> > +	/* S4 has no FM+ bit */
-> > +	{ .compatible =3D "renesas,i2c-r8a779f0", .data =3D (void *)I2C_RCAR_=
-GEN3 },
->=20
-> is this I2C_RCAR_GEN3 or I2C_RCAR_GEN4?
-
-Technically, it is Gen4. But its I2C controller behaves like Gen3. This
-is why it has a seperate entry to avoid the generic Gen4 fallback...
-
-> > -	{ .compatible =3D "renesas,rcar-gen4-i2c", .data =3D (void *)I2C_RCAR=
-_GEN3 },
-> > +	{ .compatible =3D "renesas,rcar-gen4-i2c", .data =3D (void *)I2C_RCAR=
-_GEN4 },
-
-=2E.. here.
+[1/2] drm: bridge: it66121: Extend match support for OF tables
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c11c1a50573e
+[2/2] drm: bridge: it66121: Simplify probe()
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=29ff3b7e23af
 
 
---N/d25QGf6h+4Nz7R
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Rob
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmT3OMYACgkQFA3kzBSg
-KbYaFg/9Fbrlwi3OToLBSRjgWHy76zRq9Q0XHUIwgaGhdHjUs+1rXuyWVaJhIsfb
-k3KFquWYNODEEJbTDTe6i2K+ZAXMPVuSDru1/ocZ1ksSuKiZvA510UjRRlNRHS0j
-W0jnvZJjt7FbLyERxZR51vu2LjqxW72MIb6LnAAjopk0606jhwkydMF5J68L1uZk
-7fiGrNjPVzf09uKF7uqUQRPevp7m8b7h2P5lo9ng4qX+5o0ra8wzAcPxjt6bzhF4
-MTL9YN41pMC86SwhNLSa5eVvvjh6nnYGgKgz3/lMRbfI1bfj10ZUoeKcdghmvdae
-Ca9+cXBZ7Db8xapXZWQ2sLF3NogORRgdMc1LLfJhUDrGGkvw4D2FIY2fqgIwKzV6
-LCiQqzYKaJyhB55NvskrjqYMA7azGHlpN122oPxFobseeRUljvdmpUFY6Uc9Th3a
-4aiy/Nzq2rLeLCbaBekxr5QDO2sec0PPZOA/FzowMzSJ8RoH2qGhyK1YUs6yv7EC
-YuN0Yg4b/NaGn05pu3tu2SWJwzH2mgKErQfmKUJWihJrFQNPreegVYxLK4bP3hOX
-0EzGhr0nB5EsSQSfBJiy6uZSWaz9ciG+QP+NjtkBnDX86C9XGSD6gDI0EOTx951E
-rQLa1OGkeKQ5bfqP6jJJpHnNOj9pMlmRBgZjWV8JUit6J+/nm8E=
-=5g/h
------END PGP SIGNATURE-----
-
---N/d25QGf6h+4Nz7R--
