@@ -2,71 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B258793BEC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 13:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25C7C793C5D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 14:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239256AbjIFL5P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Sep 2023 07:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
+        id S240582AbjIFMLL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Sep 2023 08:11:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238057AbjIFL5O (ORCPT
+        with ESMTP id S235813AbjIFMLL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Sep 2023 07:57:14 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BA6CE9;
-        Wed,  6 Sep 2023 04:57:11 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-79536bc669dso142390939f.3;
-        Wed, 06 Sep 2023 04:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694001431; x=1694606231; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ETStM79EhTs6Ycln+MpBOlSHhZ1EU5fe9eA0HiVtwus=;
-        b=oUF40hm6gigNCbo9Ofs32OLGi0Bkz+Lag4FWd4IVyl1GxgrVn+wfo9v7ZZxD0c3PEP
-         Vy5PZT69RQsO9Nag1clc+wVcI0oRBdYtQ9gGi+l1O8VTY9TN0vZMbhp8l+GY34cD/wG+
-         dAPHMIL4seBnPOnDDb1MlzjJtMUYDlh7lOz/3S3az30E7eGLYttC0CrULJxzH+uUSsVI
-         NcdaKR1hsMWaPCbqiULwV+pHrlHj3IReLIlQ2fl8P5e3NnWKwkzEIl3g5WBK6mwcv3p/
-         Vfczj/BD7vXa8bdPiEL3eaShe/eYXwJWKZvyGEgxDQKOoq/WfOAUmjI/y1AEiaQKDlOd
-         AzMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694001431; x=1694606231;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ETStM79EhTs6Ycln+MpBOlSHhZ1EU5fe9eA0HiVtwus=;
-        b=U/PqC89S48uFE2AU/V9UKPPotcZlYAcIv14vCulgnutszcb1lWEtcn5kyuTJJAZ/WS
-         HEYFD+KnpElcZ+1VhaXHT67Z1MYhkCzWviCXzDobRwUn63qGMmEgRoHsvabV22ZIzEmK
-         QZ64FnqhQad/hlzVzRUYYro+JLfS3Kma5D4XXye/AKZVfPKvoYuV3+gY+DR0OiUzdVTq
-         UOxAExe6lboQnbLdoya3FScHBgqSNI4RYL6TobawuvBslNKvqqk1R9b1K4M7T3RwUP8E
-         QXENq9A5r3m6+kfbdE17qchl3RVdofU6HXcHKOGcFfutSQ4CflGrOWT6L1UvhkdMZjdU
-         XX/A==
-X-Gm-Message-State: AOJu0Yx5iaJ7OC1418laiTPUIaO03AO3aszpdVmR0lS4Lm2ngQw5rkCI
-        Y7yyRYlT1svEaDtl4N9TgLfCJy4Sg8FIAntE9BQ=
-X-Google-Smtp-Source: AGHT+IEOhq6VDgO3a0YX3tdNF7tWgG7HbMlJSr7peyF1oA/kLtARoeuJcOKm/EM7g19JdHSakjYDsH7PEMyT+vf7fzc=
-X-Received: by 2002:a6b:4904:0:b0:787:953:514b with SMTP id
- u4-20020a6b4904000000b007870953514bmr18718722iob.3.1694001430751; Wed, 06 Sep
- 2023 04:57:10 -0700 (PDT)
+        Wed, 6 Sep 2023 08:11:11 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FE071723
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Sep 2023 05:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=YyKx
+        SEw64CuPDiuCgGzAN3A6ofWzKjxmBcED81gY0A4=; b=UhLN09bTV7ehGrr8oh43
+        6VjNiIRbx6EIwC9zNWj8NGxat5pG4ldrNJ/f7YxGhemcwJNC75/ofWoZhowrlQr1
+        hRS3lt9v+IJR6o6wuKlInAinV4PWfHQdWsDUgGfBrq1131jEQSbFJUaya05Ffyt/
+        WDdSSrvwbfFo55Kf2MMWTvnBStuU2dpiV6A/lZhvmNsSaLSwMwsQom8qWvefPR2w
+        Yxnp8pDdqMQ0DGJPOidtfbD0rAE4nKXG44qAtSex4erOXPI/JZ8RTwQl9y5nr5yI
+        mcPMdfN4SmqEcyTSL9hK5c42Wn/fudwNqQdjMHOOFpaQ1g2X/DQPGKX8Qkhe7n2+
+        Dg==
+Received: (qmail 2814613 invoked from network); 6 Sep 2023 14:11:01 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2023 14:11:01 +0200
+X-UD-Smtp-Session: l3s3148p1@hTsJo68EPRQucrGD
+Date:   Wed, 6 Sep 2023 14:11:00 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] i2c: rcar: add FastMode+ support
+Message-ID: <ZPhsVLiGck+XF5T7@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
+ <20230904135852.12146-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdW3nGaCHU2GeO3=MHDvZskmXd17GJwj=xBp_ZVawAtniA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230905125603.74528-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <71ed3e90-2c94-2692-7b13-9788acfb9af6@tuxon.dev>
-In-Reply-To: <71ed3e90-2c94-2692-7b13-9788acfb9af6@tuxon.dev>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 6 Sep 2023 12:56:10 +0100
-Message-ID: <CA+V-a8vkRmQBe=CAcrf2HaPpHDQS5fZADWLGDrJXSU9iP5dtPw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: pinctrl-rzg2l: Add validation of GPIO
- pin in rzg2l_gpio_request()
-To:     claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="T7IJSgVMdsFtcOK6"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW3nGaCHU2GeO3=MHDvZskmXd17GJwj=xBp_ZVawAtniA@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,51 +59,159 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
 
-Thank you for the review.
+--T7IJSgVMdsFtcOK6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 6, 2023 at 9:12=E2=80=AFAM claudiu beznea <claudiu.beznea@tuxon=
-.dev> wrote:
->
-> Hi, Prabhakar,
->
-> On 9/5/23 15:56, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Validate the GPIO pin request in rzg2l_gpio_request() callback using
-> > rzg2l_validate_gpio_pin() function. This stops any accidental usage
-> > of GPIO pins which are not supported by the SoCs.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/=
-renesas/pinctrl-rzg2l.c
-> > index 37cdfe4b04f9..4ad08a4b786a 100644
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > @@ -795,12 +795,18 @@ static const struct pinconf_ops rzg2l_pinctrl_con=
-fops =3D {
-> >  static int rzg2l_gpio_request(struct gpio_chip *chip, unsigned int off=
-set)
-> >  {
-> >       struct rzg2l_pinctrl *pctrl =3D gpiochip_get_data(chip);
-> > +     const struct pinctrl_pin_desc *pin =3D &pctrl->desc.pins[offset];
-> > +     u64 *pin_data =3D pin->drv_data;
->
-> Maybe move this down a bit to keep the reverse christmas tree order that
-> the driver is using as pattern.
->
-Sure, will do and send a v2.
+Hi Geert,
 
-> Other than this:
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-Thanks for testing.
+> > -       u32 icccr;
+> > +       u32 clock_val;
+>=20
+> Perhaps use a union to store either icccr or smd?
 
-Cheers,
-Prabhakar
+Yup, can do.
+
+>=20
+> >         u8 recovery_icmcr;      /* protected by adapter lock */
+> >         enum rcar_i2c_type devtype;
+> >         struct i2c_client *slave;
+> > @@ -217,7 +228,17 @@ static void rcar_i2c_init(struct rcar_i2c_priv *pr=
+iv)
+> >         rcar_i2c_write(priv, ICMCR, MDBS);
+> >         rcar_i2c_write(priv, ICMSR, 0);
+> >         /* start clock */
+> > -       rcar_i2c_write(priv, ICCCR, priv->icccr);
+> > +       if (priv->flags & ID_P_FMPLUS) {
+> > +               rcar_i2c_write(priv, ICCCR, 0);
+> > +               rcar_i2c_write(priv, ICMPR, priv->clock_val);
+> > +               rcar_i2c_write(priv, ICHPR, 3 * priv->clock_val);
+> > +               rcar_i2c_write(priv, ICLPR, 3 * priv->clock_val);
+> > +               rcar_i2c_write(priv, ICCCR2, FMPE | CDFD | HLSE | SME);
+>=20
+> ICCCR2 note 1: "ICCCR2 should be written to prior to writing ICCCR."
+
+Eeks, I remembered it the other way around :/
+
+> >         ick =3D rate / (cdf + 1);
+>=20
+> In case of FM+, cdf will be zero, and ick =3D=3D rate?
+
+Yes.
+
+>=20
+> > @@ -292,34 +324,55 @@ static int rcar_i2c_clock_calculate(struct rcar_i=
+2c_priv *priv)
+> >         round =3D (ick + 500000) / 1000000 * sum;
+>=20
+> ick =3D=3D rate if FM+
+
+Yes, does this induce a change here?
+
+> >         round =3D (round + 500) / 1000;
+>=20
+> DIV_ROUND_UP()
+
+DIV_ROUND_CLOSEST() I'd say, but I have a seperate patch for that.
+
+> > +       if (priv->flags & ID_P_FMPLUS) {
+>=20
+> IIUIC, on R-ar Gen3 and later you can use ICCCR2 without FM+, for
+> improved accuracy, too?
+
+Yeah, we could do that. It indeed improves accuracy:
+
+	old		new
+100kHz:	97680/100000	99950/100000
+400kHz: 373482/400000	399201/400000
+
+Caring about regressions here is a bit over the top, or?
+
+> > +               /*
+> > +                * SMD should be smaller than SCLD and SCHD, we arbitra=
+rily set
+> > +                * the ratio 1:3. SCHD:SCLD ratio is 1:1, thus:
+> > +                * SCL  =3D clkp / (8 + SMD * 2 + SCLD + SCHD + F[(ticf=
+ + tr + intd) * clkp])
+> > +                * SCL  =3D clkp / (8 + SMD * 2 + SMD * 3 + SMD * 3 + F=
+[...])
+> > +                * SCL  =3D clkp / (8 + SMD * 8 + F[...])
+> > +                */
+> > +               smd =3D DIV_ROUND_UP(ick / t.bus_freq_hz - 8 - round, 8=
+);
+>=20
+> Perhaps use rate instead of ick?
+
+That's probably cleaner.
+
+> DIV_ROUND_UP(ick, 8 * (t.bus_freq_hz - 8 - round));
+
+This looks like you assumed "ick / (t.bus_freq_hz - 8 - round)" but it
+is "(ick / t.bus_freq_hz) - 8 - round"?
+
+> > +               scl =3D ick / (8 + 8 * smd + round);
+>=20
+> DIV_ROUND_UP()?
+
+Okay.
+
+> > +               if (smd > 0xff) {
+> > +                       dev_err(dev, "it is impossible to calculate bes=
+t SCL\n");
+> > +                       return -EINVAL;
+>=20
+> Perhaps some "goto error", to share with the error handling for non-FM+?
+
+I will check with the refactored code.
+
+> > -       dev_dbg(dev, "clk %d/%d(%lu), round %u, CDF:0x%x, SCGD: 0x%x\n",
+> > -               scl, t.bus_freq_hz, rate, round, cdf, scgd);
+> > +               dev_dbg(dev, "clk %d/%d(%lu), round %u, SMD:0x%x, SCHD:=
+ 0x%x\n",
+>=20
+> %u/%u
+>=20
+> Perhaps it makes more sense to print SMD and SCHD in decimal?
+>=20
+> This also applies to the existing code (CDF/SCGD) you moved into
+> the else branch.
+
+Can do. I don't care it is debug output.
+
+> > +               if (scgd =3D=3D 0x40) {
+> > +                       dev_err(dev, "it is impossible to calculate bes=
+t SCL\n");
+> > +                       return -EINVAL;
+>=20
+> This was -EIO before.
+
+I'll squash this into a seperate cleanup patch I have.
+
+Thanks,
+
+   Wolfram
+
+
+--T7IJSgVMdsFtcOK6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmT4bFAACgkQFA3kzBSg
+KbZv3A//X40G/mXBVIsm9A1xDul1E9P+P8XuhKQwaefee1bYOvOQVv1r+a+LayVq
+nV2zSyH4l5Ec4oXubwPO2+hdgxYLpZRl4aejjtaUrTlRvEHLb/xCI7Hn3OQ1G/yc
+G5CFBP3Etnhk7y9uNo7Et/3Oy5X2AlwDRR9c01WPw/BY9GobnY3x09A6YTm5TtT2
+jBBx9TPFGmwhulGt1JXBFBEifPJfOvjR34yAubRAulwTGdbOVvufvULZIIJrXlku
+Y/hOQZbklOLu/M6/3Te6/pZYg2BzFcUM8S/g5uDYx2dC1RvOrlLnlcZb0L5WrhsM
+10lnU1qwYDQqNTdwChuXepMsg90UpFLCwzrcH8nayLzaaCHjYmv/oV9ft1rpxZxj
+14v8/BgO9zCWhe9hBAdcVPH+npHs6yAD/fyUmsppbsN6WVP+NCd8apKpUAhuPdVY
+5oVfW02a8jkw9WLo2tjzqhRNFHG2JiRXRdd4Ej+OH1DcdV9ytEURiw8ztmAothfG
+GoGH8CjZjn2xHNTvPEY4A+3kbAgVe9a/pB3vXpIRjf0DYr8OSI5mUvx/oZwTk4qw
+VBVeLFihA3TuOwMU0PtoLw9ioDmzfaETOLqrpJL0Pij82WtAz20i45D4lDZ/Jcgi
+vGeCWVbZeLwOzivXDFQYZ1GPpxSDUqdwPRHTCurQPv8GFm9AKFI=
+=iUx3
+-----END PGP SIGNATURE-----
+
+--T7IJSgVMdsFtcOK6--
