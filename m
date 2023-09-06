@@ -2,88 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2F07935C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 08:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 144EF7935EE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 09:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234311AbjIFG6C convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Sep 2023 02:58:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59984 "EHLO
+        id S230017AbjIFHKf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Sep 2023 03:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjIFG6C (ORCPT
+        with ESMTP id S229948AbjIFHKe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Sep 2023 02:58:02 -0400
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F020CFA;
-        Tue,  5 Sep 2023 23:57:57 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d7bae413275so887143276.0;
-        Tue, 05 Sep 2023 23:57:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693983476; x=1694588276;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lKAX/Cl8B+QFuR8jwwAccCXa8j+76FDvzTqnRpcle2U=;
-        b=bAbqO+85rn3O/x110BS1/mPen5C/3nwqIjB/auxHBRkBCwgETBrrKXQ15mo/K+GWEl
-         6glBUYKD65z20LaxS3AMS5K8VwT8PfYwwmvoDfJnaJtuOzzzwzOYG6YRBfyuQ1LqEIKI
-         /OEG4U8q+YbQecYnFeY2ABkJXhX4XBQ0NMTbRmkbODcou+3Y0BSsXV+CWjrOLdsxsAnN
-         o7GKixVsZdfouskZ8yGrZHwsRNZHAqORrLdedWUod1txR8RVJeKqGoXRJ/jWP1k3aGsx
-         d2Ngj/epwM0Vogi7JmY3zVjdcu/sck43T+thP3QCbMhCUQth5bEfsZzU/k/1XM1qr5u2
-         wB8g==
-X-Gm-Message-State: AOJu0Yxwwh4CSqeHN7JBAkHEFTZsZZsjgir9IMkrO9xgtUK4TAio9CtK
-        SmkOi1wsmZ1JXHLt9BfaieiQ2RPCuWmBzw==
-X-Google-Smtp-Source: AGHT+IFeNPSEJvuJXlJCtsheRWdv4vh18NHbyNAIltOcVrh4kIVoYz+dmJsQoXRfic2FpkIicrXzYw==
-X-Received: by 2002:a25:cb8e:0:b0:d7f:71cb:7280 with SMTP id b136-20020a25cb8e000000b00d7f71cb7280mr5546572ybg.24.1693983476427;
-        Tue, 05 Sep 2023 23:57:56 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id c198-20020a25c0cf000000b00d71855984b5sm3193661ybf.18.2023.09.05.23.57.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Sep 2023 23:57:56 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d74a012e613so874002276.1;
-        Tue, 05 Sep 2023 23:57:56 -0700 (PDT)
-X-Received: by 2002:a25:1184:0:b0:cb2:7e6:191c with SMTP id
- 126-20020a251184000000b00cb207e6191cmr16400897ybr.20.1693983475941; Tue, 05
- Sep 2023 23:57:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com> <20230904135852.12146-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230904135852.12146-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 6 Sep 2023 08:57:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWWTHaMK=-rWM7XAHisjFQykqCF_K_ji5C8XibB3eH2eA@mail.gmail.com>
-Message-ID: <CAMuHMdWWTHaMK=-rWM7XAHisjFQykqCF_K_ji5C8XibB3eH2eA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] i2c: rcar: avoid non-standard use of goto
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        Wed, 6 Sep 2023 03:10:34 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDDECFD
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Sep 2023 00:10:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=yHql
+        SmIWAIOx9D8wRvMGi5pEa9tjuw5WUujgb0WYc9w=; b=SuEmTjgsB+FCgm97qFkG
+        r7dUiEgQJrQeQIhx6ESn0NPMKFCYvA2SW2TIdDoMyayYEksjG/aYHihTcLPzo5PV
+        8IgSnC/0iZHMdNIcFeVbH+0O2bU+YubpGuEoEIFuEleIBdDu8JGdScZGFG9XP7+K
+        mcazVCy0OtHodPRYpvJPcRxC7SrM56hi6ZNlaUZnpe8VrW8aYYg2aflukJJbbPX4
+        545SufDN/bO0SITDKf7TOMlXYd/G92DzCMziZyOk/6RWkXpJqR1OFmZzzo5RValC
+        3SfTrBO8qXU25MHVnc0vJsrliaTtqgKyzlvsRctTZPotVTeqaV5lFpuOyqqDLAGf
+        Tw==
+Received: (qmail 2724785 invoked from network); 6 Sep 2023 09:10:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2023 09:10:25 +0200
+X-UD-Smtp-Session: l3s3148p1@Z4UGcKsEUKEgAwDPXx78AHsOvgc204Bb
+Date:   Wed, 6 Sep 2023 09:10:25 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andi Shyti <andi.shyti@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 3/3] i2c: rcar: add FastMode+ support
+Message-ID: <ZPgl4eLYTyDFXiyC@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
+ <20230904135852.12146-4-wsa+renesas@sang-engineering.com>
+ <20230905213710.3dv5h6zvwu4tpnby@zenone.zhora.eu>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7Ts7kpPtQHL+6LUF"
+Content-Disposition: inline
+In-Reply-To: <20230905213710.3dv5h6zvwu4tpnby@zenone.zhora.eu>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 5, 2023 at 6:22 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Kernel functions goto somewhere on error conditions. Using goto for the
-> default path is irritating. Let's bail out on error instead.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--7Ts7kpPtQHL+6LUF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+Hi Andi,
 
-                        Geert
+> > @@ -217,7 +228,17 @@ static void rcar_i2c_init(struct rcar_i2c_priv *pr=
+iv)
+> >  	rcar_i2c_write(priv, ICMCR, MDBS);
+> >  	rcar_i2c_write(priv, ICMSR, 0);
+> >  	/* start clock */
+> > -	rcar_i2c_write(priv, ICCCR, priv->icccr);
+> > +	if (priv->flags & ID_P_FMPLUS) {
+> > +		rcar_i2c_write(priv, ICCCR, 0);
+> > +		rcar_i2c_write(priv, ICMPR, priv->clock_val);
+> > +		rcar_i2c_write(priv, ICHPR, 3 * priv->clock_val);
+> > +		rcar_i2c_write(priv, ICLPR, 3 * priv->clock_val);
+> > +		rcar_i2c_write(priv, ICCCR2, FMPE | CDFD | HLSE | SME);
+> > +	} else {
+> > +		rcar_i2c_write(priv, ICCCR, priv->clock_val);
+> > +		if (priv->devtype >=3D I2C_RCAR_GEN3)
+> > +			rcar_i2c_write(priv, ICCCR2, 0);
+>=20
+> is this last bit part of the FM+ enabling or is it part of the
+> GEN4 support?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+It is "disabling FM+" for lower speeds. Since we never used ICCCR2
+before FM+, we need to make sure it is cleared properly.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > +		for (scgd =3D 0; scgd < 0x40; scgd++) {
+> > +			scl =3D ick / (20 + (scgd * 8) + round);
+> > +			if (scl <=3D t.bus_freq_hz)
+> > +				break;
+> > +		}
+> > +
+> > +		if (scgd =3D=3D 0x40) {
+>=20
+> would be nice to give a meaning to this 0x40 constant... either
+> having it in a define or a comment, at least.
+
+This code existed before and was just moved into an if-body. It will be
+updated in another series following this one.
+
+Thanks for the review,
+
+   Wolfram
+
+
+--7Ts7kpPtQHL+6LUF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmT4Jd0ACgkQFA3kzBSg
+KbbPFw//cLOkD7C5M5BdquUYTxjpHocQ6wE20W1KvIThySFmulLTXe4hsH8uctBG
+SB5t9GTEuHlTitT24OxIPwu5foG1sDa9V0rSilU3wEG3ckjDjCi6f9zOB44eEPTK
+gtpANt1uLmTppCQL8Mt8M1aUGqKAqxfEoBTFrc0Duk7axEeMhYeQjc7ZA6XFtxU8
+wA2wEkF1DjijEIiQqB5qTKVMYPu4w+5uUZQf/WQ9t/6+cestm4DurIawKlHg4IKc
+AHHqLgK4fNC+NGB1YR/fK48ezBfaVkQkdRacgyA4Q+Cc7pWQ5sW8BPPvGUdEYRFo
+s8RZYX2AZhZmF7aaLA9q8IN598l74AOm7lznoASvEu9UfIP2A+BfPWjIjHTlIZn5
+ygUVaZIYQL8ooXdwyD/eIkGLvko5UCMbg1DlRnDhIaZRxL8VHbpFkWBkTrK3Geqa
+OvDLU+yvVfR/rUsrL1/9B9lBYXtwBxA0ENutilfI+89CXLlS8iczvKFEXA6HAUoy
+Z5b11GlZ/uyVl0/IjsXFtcLZwy/6bGBSRB1h+vPdZXdfOsM65uPDbmLtn7509g8j
+nOrXXZ6ljhyp6ywx2Gf1ctS0uYGH1q1/lA/doSEjAu7+36HeuaFazJL3jUsMGNCV
+ZY6qWBEi7SyOEwCSDsSeA1fym3rTnKpYLtARXe9MOdxInw0iIv8=
+=wxPe
+-----END PGP SIGNATURE-----
+
+--7Ts7kpPtQHL+6LUF--
