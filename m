@@ -2,100 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9F6793D68
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 15:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A9F5793D92
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Sep 2023 15:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241071AbjIFNHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Sep 2023 09:07:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33836 "EHLO
+        id S230175AbjIFNZB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Sep 2023 09:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240622AbjIFNHr (ORCPT
+        with ESMTP id S229734AbjIFNZB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Sep 2023 09:07:47 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD0ECE2
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Sep 2023 06:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=5Rc5
-        1KKYM2VQU/ABIQd7vOULDm4mUTaH1o7bkoDnXBc=; b=l0zluQVNwKvgiSUva04y
-        ZUWEIAQi1H6F3iD6fEQ9rQNZYMd5AwChG+OTiSu/M9O94Qdas/SDlyGqtNJNjAjR
-        Jp1rpq/cZ6AKXe4x2UAX9SzbRMFXn61uu8twHd5tdNIXLSVdIMd9t4VsY6+HAbv6
-        xpIypQzGdv5NHiDVZxn5qtfdNlfbeMYRBnJf9x0rE8PGEUx+FT5WmMXoxj6ufOdL
-        jtr5MnYwYq0UygTdQpPqEd3ZOYaY3EWyl0xOzddPHj+Y2TeRfcGGVBx01j31z/BW
-        i666rxvw9zZVr8tyAWfwkU7+acM70U0D/oawnO3AmTHMdVtxu5AZ6IOZKF/Ropta
-        DA==
-Received: (qmail 2830462 invoked from network); 6 Sep 2023 15:07:40 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2023 15:07:40 +0200
-X-UD-Smtp-Session: l3s3148p1@suycbbAEiDUucrGD
-Date:   Wed, 6 Sep 2023 15:07:39 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] i2c: rcar: add FastMode+ support
-Message-ID: <ZPh5m2PUMlmhtOyQ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230904135852.12146-1-wsa+renesas@sang-engineering.com>
- <20230904135852.12146-4-wsa+renesas@sang-engineering.com>
- <CAMuHMdW3nGaCHU2GeO3=MHDvZskmXd17GJwj=xBp_ZVawAtniA@mail.gmail.com>
- <ZPhsVLiGck+XF5T7@shikoro>
- <CAMuHMdUE3BVZzsBGSZRPyZRK46zZJ_1jtNMV_Lv-Tp5YXPOY8A@mail.gmail.com>
+        Wed, 6 Sep 2023 09:25:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 410C194
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Sep 2023 06:24:57 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (ftip006315900.acc1.colindale.21cn-nte.bt.net [81.134.214.249])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53E07DA8;
+        Wed,  6 Sep 2023 15:23:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694006608;
+        bh=O8ASfos0e7KQ3kQYHZDzxCDpFTkKK0NFcWW1Yk5WQuU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ud9pUtCANON8aValeRZORHLXNaCfzhH4wwMWCwbvt2pOGXwhwuEE1FGADzd5L9+U8
+         2neCPsDAx9VEUd+9v6Pj4hwiKCc07IllgrJ2xr81OZgxduZC9lxFVO75MNoAA4QzkW
+         fsOue5jARyBegoIhWM9qSigyS/fTcLuZ/87dUC3Y=
+Date:   Wed, 6 Sep 2023 16:25:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.au@gmail.com>, Pavel Machek <pavel@denx.de>
+Subject: Re: [PATCH] drm: renesas: rcar-du: rzg2l_mipi_dsi: Update the
+ comment in rzg2l_mipi_dsi_start_video()
+Message-ID: <20230906132508.GM17308@pendragon.ideasonboard.com>
+References: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FVdGaMsPA8WdSF2P"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUE3BVZzsBGSZRPyZRK46zZJ_1jtNMV_Lv-Tp5YXPOY8A@mail.gmail.com>
+In-Reply-To: <20230906094346.38759-1-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---FVdGaMsPA8WdSF2P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch.
 
+On Wed, Sep 06, 2023 at 10:43:46AM +0100, Biju Das wrote:
+> Add missing space in the comment in rzg2l_mipi_dsi_start_video().
+> 
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Closes: https://lore.kernel.org/all/ZPg7STHDn4LbLy7f@duo.ucw.cz/
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> OK do you need rounding for the division of ick and t.bus_freq_hz,
-> or is the adjustment bij "- (round + 8)" already taking care of that?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Unless I overlooked something, it is the latter. The new formula
-produces the same values for 100 and 400kHz as the old one.
+> ---
+> This issue is noticed while backporting this driver to 6.1.y-cip [1].
+> 
+> [1] https://lore.kernel.org/all/20230905160737.167877-1-biju.das.jz@bp.renesas.com/
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> index 10febea473cd..9b5cfdd3e1c5 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+> @@ -479,7 +479,7 @@ static int rzg2l_mipi_dsi_start_video(struct rzg2l_mipi_dsi *dsi)
+>  	u32 status;
+>  	int ret;
+>  
+> -	/* Configuration for Blanking sequence and start video input*/
+> +	/* Configuration for Blanking sequence and start video input */
+>  	vich1set0r = VICH1SET0R_HFPNOLP | VICH1SET0R_HBPNOLP |
+>  		     VICH1SET0R_HSANOLP | VICH1SET0R_VSTART;
+>  	rzg2l_mipi_dsi_link_write(dsi, VICH1SET0R, vich1set0r);
 
-> I guess I just don't understand the intended formula here...
+-- 
+Regards,
 
-Ok, needs more documentation then.
-
-
---FVdGaMsPA8WdSF2P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmT4eZcACgkQFA3kzBSg
-KbbJag/+Ks6KCNO+/9qRQcsH51FT9+h/K3iXvDNNgLqKpoda6RaU0Roe9ffXUszQ
-fu84LLpI8AUImsGUP3NuicW58Vhv4RdiAfREIiJ8TRUIq05BXno30l/AE1fAs1C3
-W8UgtiIkHibSfz30ItE8yAa8MUCnaK4XoxHlvAphoTzkx3ufQyjFDP9LmdJno+Ly
-Tkb9yg8PteY+MVvUskMKf/wJ420OSBFXQL6y0V/4Z07Qb9o9WXXZynvMFeIlfmEK
-SvSUhfOjm96W2aviVgj2pTuPad3X4F2Ddz5PVvOkPgq2Cy7vSBhNODgY/gkB7+jL
-OjPJYPugVUsq0GKCx4TZSgZe0kWNpsatuBOznQ50WE3nZS2KHlNopuSrWntl2xt5
-MQQMPl6yKmmuE3yYciyEh/w/Q9lmv3uBuMdyFGKX9NVEmR7wVw4X6GcTsvjY2lmo
-qUA5fhJUkkXagLAD2drG3rKwYqlFSqEYqDQnEnIvRY4bEL/blTmCFibXW6kvnCps
-a3o0vytmhFq2JIqWPp2pLgtXX7acrzEK+Qf8ATqgya3tiSIbVeMhr4eC3f6KUwgn
-q103Mv7kpNEhquy90ah3dUC4yxnsQen2TZf+kp/Bmayhu0jcaURhjeARMMEiQY8H
-QsMo6hmPbjRlCwKFDdz2n/+Hr8rIQUrzNubd2SZn5BAjR54OxYs=
-=f0CV
------END PGP SIGNATURE-----
-
---FVdGaMsPA8WdSF2P--
+Laurent Pinchart
