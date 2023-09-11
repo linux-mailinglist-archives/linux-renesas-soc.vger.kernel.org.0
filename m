@@ -2,115 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9ED179C2C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 04:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B8C79C2C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 04:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236797AbjILC2Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Sep 2023 22:28:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S237998AbjILC2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Sep 2023 22:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237852AbjILC2J (ORCPT
+        with ESMTP id S238026AbjILC2C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Sep 2023 22:28:09 -0400
+        Mon, 11 Sep 2023 22:28:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C15774092;
-        Mon, 11 Sep 2023 18:52:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF727C4167D;
-        Mon, 11 Sep 2023 21:47:45 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A93512918C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 18:52:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48232C116CB;
+        Mon, 11 Sep 2023 23:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694468866;
-        bh=P+vOPf+wwuHvorbjJWXCniSp0x7QhyhIsdAc2cl5EMM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AGPd8y5jXohbk26C+fb1d2JLNarvGgMdoJbeo6FXx6LE9NxON2g6L34E60D3KVAe1
-         kKoOnS2ow3HOzXMbLbI9k4Kjgh+N8ZIjcHXClFP5F8fjB18DHtYLghYiWnABpmXF4C
-         is7y2mtbKO4S7OBvjuFnxtWiHgnibLYzpu7OtbAdHYbC9QlVzCnOacBt3CfB2AhMdO
-         PvKBC1u/ztWTC3ASaxU8QRMavYfdbE0uYHcT44SVbT8AE6kz1tuf67a9w9HbC0S0+1
-         bRdOU+47BcibMKfTNbkEXt4dLR8le9ZYA53qVGZrBWoiVrymcF7Ds6n11UY8zRP6ey
-         7E0wXO8Y8tXMA==
-Received: (nullmailer pid 2202875 invoked by uid 1000);
-        Mon, 11 Sep 2023 21:47:44 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: Apply overlays to base dtbs
-Date:   Mon, 11 Sep 2023 16:46:15 -0500
-Message-Id: <20230911214623.2201324-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        s=k20201202; t=1694476634;
+        bh=9snFwBbBoXitUM3dr7LW8n+9wzN0NmBcRWUrdshcpEg=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=LWv6YbI5tJ9QV/UPRJJ2tAq2HBTzDY9ZA4hwVpuwhTVcBOFy/c8TWp1TrHkgyZoPM
+         /scG2uInKBC/1a/nNu+1Ju0AiiySR4Bq2o13qQCGydygCtpE2tPhgKBQQ/DhEwL6Ul
+         kS+TkvPFMesybu4JUZFr84FWH28SgtUadrvzvj/bYOzro79lFvYR08wQh6Go0F422Q
+         rYodtKmhHz7WyhsSoiRIcq/AjQ25Ug8BpLNPHSGclJm9WI3xlztOblC1jb1zie/HeL
+         iPPpnJwz0CoHaXROGopWa6lhzh4pcwxIYkQTru7kFNUNr5qHqDzLNW6HffVXq/QLC9
+         knG9pkKNHYvVg==
+From:   Mark Brown <broonie@kernel.org>
+To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20230827102114.55863-1-biju.das.jz@bp.renesas.com>
+References: <20230827102114.55863-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: wm8580: Simplify probe()
+Message-Id: <169447663194.2387538.5757531864571268154.b4-ty@kernel.org>
+Date:   Tue, 12 Sep 2023 00:57:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-DT overlays in tree need to be applied to a base DTB to validate they
-apply, to run schema checks on them, and to catch any errors at compile
-time.
+On Sun, 27 Aug 2023 11:21:14 +0100, Biju Das wrote:
+> Simplify probe() by replacing of_match_device->i2c_get_match_data() and
+> extend matching support for ID table.
+> 
+> 
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-Looks like some of these apply to multiple base DTs. I've only added them
-to 1 base.
----
- arch/arm64/boot/dts/renesas/Makefile | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 7114cbbd8713..5b23bdb71804 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -56,7 +56,8 @@ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980a-condor-i.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu.dtb
- 
--dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
-+r8a77995-draak-panel-aa104xd12-dtbs := r8a77995-draak.dtb draak-ebisu-panel-aa104xd12.dtbo
-+dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb r8a77995-draak-panel-aa104xd12.dtb
- 
- dtb-$(CONFIG_ARCH_R8A779A0) += r8a779a0-falcon.dtb
- 
-@@ -64,6 +65,8 @@ dtb-$(CONFIG_ARCH_R8A779F0) += r8a779f0-spider.dtb
- 
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk.dtb
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtbo
-+r8a779g0-white-hawk-ard-audio-da7212-dtbs := r8a779g0-white-hawk.dtb r8a779g0-white-hawk-ard-audio-da7212.dtbo
-+dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs.dtb
- dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-ulcb.dtb
-@@ -73,18 +76,28 @@ dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-salvator-xs.dtb
- dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-ulcb-kf.dtb
- 
--dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb
-+r8a779m5-salvator-xs-panel-aa104xd12-dtbs := r8a779m5-salvator-xs.dtb salvator-panel-aa104xd12.dtbo
-+dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb r8a779m5-salvator-xs-panel-aa104xd12.dtb
- 
- dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc.dtb
- dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043-smarc-pmod.dtbo
-+r9a07g043u11-smarc-pmod-dtbs := r9a07g043u11-smarc.dtb r9a07g043-smarc-pmod.dtbo
-+dtb-$(CONFIG_ARCH_R9A07G043) += r9a07g043u11-smarc-pmod.dtb
- 
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc.dtb
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc-cru-csi-ov5645.dtbo
-+r9a07g044c2-smarc-cru-csi-ov5645-dtbs := r9a07g044c2-smarc.dtb r9a07g044c2-smarc-cru-csi-ov5645.dtbo
-+dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc-cru-csi-ov5645.dtb
-+
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc-cru-csi-ov5645.dtbo
-+r9a07g044l2-smarc-cru-csi-ov5645-dtbs := r9a07g044l2-smarc.dtb r9a07g044l2-smarc-cru-csi-ov5645.dtbo
-+dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc-cru-csi-ov5645.dtb
- 
- dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
- dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc-cru-csi-ov5645.dtbo
-+r9a07g054l2-smarc-cru-csi-ov5645-dtbs := r9a07g054l2-smarc.dtb r9a07g054l2-smarc-cru-csi-ov5645.dtbo
-+dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc-cru-csi-ov5645.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
--- 
-2.40.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: wm8580: Simplify probe()
+      commit: 26eacb98ca7dd3ba5a6845028a13d13a7f03123f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
