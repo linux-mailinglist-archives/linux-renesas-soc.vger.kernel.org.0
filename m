@@ -2,47 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5107079BF51
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1712179BC48
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242539AbjIKVSU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Sep 2023 17:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S238040AbjIKVRg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Sep 2023 17:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237289AbjIKM1S (ORCPT
+        with ESMTP id S237749AbjIKNNw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Sep 2023 08:27:18 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23CCF1B9;
-        Mon, 11 Sep 2023 05:27:13 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qfg0T-0000WD-Fw; Mon, 11 Sep 2023 14:27:09 +0200
-Message-ID: <7e9735bf-c42b-4f03-8645-8cdbf87a75f3@leemhuis.info>
-Date:   Mon, 11 Sep 2023 14:27:08 +0200
+        Mon, 11 Sep 2023 09:13:52 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0119E9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 06:13:48 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 46BFCC433C7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 13:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694438028;
+        bh=okFwk+T2nPdFWy3SPIDaf83sOvPWwEReMqLLVEx+PwU=;
+        h=Subject:From:Date:To:From;
+        b=Nvra6bQZkkyUtS4uSA0SBWkhtm27KZxn1e6htIVCLenj4AZO7nccKNpY4tWtVnsfX
+         9Np5ePC67iqwdVJIUd5N4iws7tVZ0OJGRNCPkhd14LC9P4AT5VxQuLXHRa0721Mo3H
+         8glSnFjhbP8Qi2mqXS0FhFifhTwcWt0mcH64/XKaTBZ/qMwkP9UMk9EjXtFHSnMszv
+         WwIESLBCWJvwfA0Si8NY0joEZGZv6s9vgrJtVkouJlMQ/0cedWaJEys0RDPNdgyt1q
+         /fd7S1OXSMDi/+ITy7SYV9IzFps3qPmY4n21K/Bkq5PEHp+4PmyFA6e9cPw9VSDm4Q
+         +3I05aRVba7Dg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2979DC64459
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 13:13:48 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
- readers are possible
-Content-Language: en-US, de-DE
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        maple-tree@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
- <20230819004356.1454718-2-Liam.Howlett@oracle.com>
- <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
-From:   "Linux regression tracking #adding (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1694435233;82f00e33;
-X-HE-SMSGID: 1qfg0T-0000WD-Fw
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <169443802809.23253.15510034534153334813.git-patchwork-summary@kernel.org>
+Date:   Mon, 11 Sep 2023 13:13:48 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -51,53 +48,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+Hello:
 
-On 29.08.23 18:42, Geert Uytterhoeven wrote:
-> 
-> On Fri, 18 Aug 2023, Liam R. Howlett wrote:
->> The current implementation of append may cause duplicate data and/or
->> incorrect ranges to be returned to a reader during an update.  Although
->> this has not been reported or seen, disable the append write operation
->> while the tree is in rcu mode out of an abundance of caution.
->>
->> During the analysis of the mas_next_slot() the following was
->> artificially created by separating the writer and reader code:
-> [...]
-> Thanks for your patch, which is now commit cfeb6ae8bcb96ccf
-> ("maple_tree: disable mas_wr_append() when other readers are
-> possible") in v6.5, and is being backported to stable.
-> 
-> On Renesas RZ/A1 and RZ/A2 (single-core Cortex-A9), this causes the
-> following warning:
-> > […]
-> Reverting this commit fixes the issue.
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel.git (next):
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+Patch: [GIT,PULL] clk: renesas: Updates for v6.6 (take two)
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Stephen Boyd <sboyd@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=776909
+  Lore link: https://lore.kernel.org/r/cover.1692262242.git.geert+renesas@glider.be
 
-#regzbot ^introduced cfeb6ae8bcb96ccf
-#regzbot title maple_tree: warning on Renesas RZ/A1 and RZ/A2
-(single-core Cortex-A9
-#regzbot ignore-activity
+Series: Renesas SoC updates for v6.6
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Arnd Bergmann <arnd@arndb.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=770548
+  Lore link: https://lore.kernel.org/r/cover.1690545139.git.geert+renesas@glider.be
+    Patches: [GIT,PULL,1/3] Renesas ARM defconfig updates for v6.6
+             [GIT,PULL,2/3] Renesas ARM SoC updates for v6.6
+             [GIT,PULL,3/3] Renesas DTS updates for v6.6
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
 
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
+Total patches: 4
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
