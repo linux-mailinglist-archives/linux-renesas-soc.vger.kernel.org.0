@@ -2,63 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A08079BA30
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5107079BF51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:18:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237885AbjIKVSQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Sep 2023 17:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
+        id S242539AbjIKVSU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Sep 2023 17:18:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235476AbjIKIl5 (ORCPT
+        with ESMTP id S237289AbjIKM1S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Sep 2023 04:41:57 -0400
-X-Greylist: delayed 1432 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Sep 2023 01:41:52 PDT
-Received: from mail.arnisdale.pl (mail.arnisdale.pl [151.80.133.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4214125
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 01:41:52 -0700 (PDT)
-Received: by mail.arnisdale.pl (Postfix, from userid 1002)
-        id 640FC25377; Mon, 11 Sep 2023 08:15:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=arnisdale.pl; s=mail;
-        t=1694420152; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
-        h=Date:From:To:Subject:From;
-        b=KE5iupDHO/bH4ljznZ7G+tl5tnES9JprIbHHhwijPBUTnumPLu6VhwLbDJZALnF4j
-         3sefODaqW24ZwZTjZyzMDvoThEcZXqcFHfGyQOKFlqBYS2H7+RuNcBWnERX1NmkVkQ
-         +wDTflgH42pzGRHd4xowyPE6bJx745+FIKfV1VW9utr/cKOAxS1t4e19uM18aYJFlv
-         P2AqFjWO3ub17jvQd9+84wFHMq9iBndzUeqzhyZI/ekzx/Csqk3U1abmhj934G0poa
-         KhYZA8KTun5l2a0hT+zocKFksIGTROXhTwBPLYhnEPbKXUmS47/HTOwmlxqkti7jMc
-         txgwiXyPHP/zA==
-Received: by mail.arnisdale.pl for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 08:15:18 GMT
-Message-ID: <20230911064501-0.1.6u.1y3zb.0.e3x4fuh4fb@arnisdale.pl>
-Date:   Mon, 11 Sep 2023 08:15:18 GMT
-From:   "Maciej Telka" <maciej.telka@arnisdale.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
-X-Mailer: mail.arnisdale.pl
+        Mon, 11 Sep 2023 08:27:18 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23CCF1B9;
+        Mon, 11 Sep 2023 05:27:13 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qfg0T-0000WD-Fw; Mon, 11 Sep 2023 14:27:09 +0200
+Message-ID: <7e9735bf-c42b-4f03-8645-8cdbf87a75f3@leemhuis.info>
+Date:   Mon, 11 Sep 2023 14:27:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
+ readers are possible
+Content-Language: en-US, de-DE
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
+ <20230819004356.1454718-2-Liam.Howlett@oracle.com>
+ <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
+From:   "Linux regression tracking #adding (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1694435233;82f00e33;
+X-HE-SMSGID: 1qfg0T-0000WD-Fw
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
 
-Czy jest mo=C5=BCliwo=C5=9B=C4=87 nawi=C4=85zania wsp=C3=B3=C5=82pracy z =
-Pa=C5=84stwem?
+On 29.08.23 18:42, Geert Uytterhoeven wrote:
+> 
+> On Fri, 18 Aug 2023, Liam R. Howlett wrote:
+>> The current implementation of append may cause duplicate data and/or
+>> incorrect ranges to be returned to a reader during an update.  Although
+>> this has not been reported or seen, disable the append write operation
+>> while the tree is in rcu mode out of an abundance of caution.
+>>
+>> During the analysis of the mas_next_slot() the following was
+>> artificially created by separating the writer and reader code:
+> [...]
+> Thanks for your patch, which is now commit cfeb6ae8bcb96ccf
+> ("maple_tree: disable mas_wr_append() when other readers are
+> possible") in v6.5, and is being backported to stable.
+> 
+> On Renesas RZ/A1 and RZ/A2 (single-core Cortex-A9), this causes the
+> following warning:
+> > […]
+> Reverting this commit fixes the issue.
 
-Z ch=C4=99ci=C4=85 porozmawiam z osob=C4=85 zajmuj=C4=85c=C4=85 si=C4=99 =
-dzia=C5=82aniami zwi=C4=85zanymi ze sprzeda=C5=BC=C4=85.
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
 
-Pomagamy skutecznie pozyskiwa=C4=87 nowych klient=C3=B3w.
+#regzbot ^introduced cfeb6ae8bcb96ccf
+#regzbot title maple_tree: warning on Renesas RZ/A1 and RZ/A2
+(single-core Cortex-A9
+#regzbot ignore-activity
 
-Zapraszam do kontaktu.
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
 
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (the parent of this mail). See page linked in footer for
+details.
 
-Pozdrawiam serdecznie
-Maciej Telka
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
