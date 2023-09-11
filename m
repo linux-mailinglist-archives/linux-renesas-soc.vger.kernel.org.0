@@ -2,64 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 696E679B62A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E003979BC6E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 02:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240030AbjIKVSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Sep 2023 17:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60826 "EHLO
+        id S240059AbjIKVRc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Sep 2023 17:17:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243811AbjIKRs0 (ORCPT
+        with ESMTP id S243824AbjIKRwo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Sep 2023 13:48:26 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516E7DB
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 10:48:21 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6bf2427b947so3101091a34.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 10:48:21 -0700 (PDT)
+        Mon, 11 Sep 2023 13:52:44 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F70DD
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 10:52:40 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-6515d44b562so31148776d6.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 10:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694454500; x=1695059300; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694454759; x=1695059559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hSkF4G7D+DMTQqfN/xQdy5YEnnHg545lD9jlBghqJY=;
-        b=SJ3IedrMGyAg5hY3TlHhr4lWl4IzrzRMKnGpyjz/Zkcbn2VJb9ImNxNt7/oX2FMFMx
-         I/o85qH1yl/ntCTOH2TzAlmeiRN8YFVTYkLbPyG3N8PpVt3Daoq03MD+ADs2yvngnR4u
-         R2eVRvO6skWmZxIUrUhpJsP/YjcwJxNBnV7777fD4x3NvDGqbCNuS5gYsmDGHhiQloX0
-         gRbmGBBmQ5ukeg1V7JHjFR7/RN2iyqx1L02rjhghKyScPT4mgAB+eTcwJe5Fgzk7cEPy
-         LQonJzvwpzm2HCN19Yyr86BG/q6q6/u5pjBUlgLPSUPIuTWtLMTnEhNMKKA2U/PhuGDa
-         HOqw==
+        bh=HSGb/bzAvx1o0jtUr8Ii5AAazodLa4hyLaXmw0np69Y=;
+        b=DhEAam3BbR9XCuHzV3Zk9FzTUJlqSqrwI/VgC26QJ1qEZ+ltAQFtmJZVhlsux6Amb+
+         3irAQup6LLL18AKJh/CoevutGZU/gFtiDZ6JDlusAuLEZvB5qZxQdpig9O4gDOJB7NSb
+         p6xiYUzkRdd0OLaaRNuSFoe2VZM5kwx7/U483MFtvVFhbDGwuf7zJA/OpbW01QlQpmYf
+         nZkvn9jSEhO5rjM6dU/KCd9driHN4I8/vLB1X2PZMy+LnIPEYtQgXWj2ozzg6qrWC1/H
+         /kBqE2nM7RGXg3k6jz6JnoeYU1YyA4VAxslMASAwJCRPVGCHLNICHfZCDENFxkPJISXH
+         TUuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694454500; x=1695059300;
+        d=1e100.net; s=20230601; t=1694454759; x=1695059559;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4hSkF4G7D+DMTQqfN/xQdy5YEnnHg545lD9jlBghqJY=;
-        b=X6JQCUVJIUeisZJBih/G1pIwNTKY+ghsYIh9QNCEND6rzbrkvhxWgHT+aZEEz5T7II
-         p0KGTRs1pcb5sBl/wfCVq5alJe5lJKoZBMtoF9fhoiHwIIYE/57xClRn2T283bhk2tpk
-         8V0kDSAvlAIJwrrsbRRno363MFFmspp/98dfWQgQjhXrnhJXVYXRdUsuBm8XNaZzM8DL
-         LPOarDq7byosduTKY+wVKuSRB2uZQg1sRZr9NBF0g41fSYamghmDrQO9II1nWnPaVOyC
-         8eqoGXPEzvHpGpSnfDYrODcGjvEjLGXDxc/dGkCzcFIMirLXW5xT8O/TOZdcKQsaHZm3
-         yV2g==
-X-Gm-Message-State: AOJu0YwI3rUGsq6it4FYNMGyNQ6g29fns4fLql58Fyh7VaaO/a2Yk3+R
-        i2riJT8c2ngQQLDLJdzNxwDl/Q==
-X-Google-Smtp-Source: AGHT+IHwt6mnDFsT/FZeN9vv3psdxiwo8JNMZ/EaAjjHvHw9cN9CgvQ7wJOofon3lvpxgkdR7aaJqg==
-X-Received: by 2002:a05:6358:4319:b0:13c:dd43:f741 with SMTP id r25-20020a056358431900b0013cdd43f741mr6184850rwc.24.1694454500466;
-        Mon, 11 Sep 2023 10:48:20 -0700 (PDT)
+        bh=HSGb/bzAvx1o0jtUr8Ii5AAazodLa4hyLaXmw0np69Y=;
+        b=lZIZDHFV2bzv0dJOyTX6aLm/qT3VYdwyj5JNGnv/Uo/qc7PXAWrvK8kQQrBY9yu+zy
+         bNquGI/n5Ut8NMVEEvLpseNsWFS9FvN9WcZDJIpfEN8icO1Ies/+/PYXfQ+gq4c5v4S/
+         8h9ywmxe+Lq8lYc1MjEkCM4ugzFA3/AgCOQyRAAIPQ0+tG4cQ5xKB9HdM9UU1AYMpBca
+         T+txZEAflcQk5WCOrKhcaAdz3sDwenRtjUlzbFX4/sNqhAj0fxSnzcAj3x7Kk1mM9kIl
+         hTfggKpi8JThO5lusWuk2/QJUEVLGmgjPrSyvexvWkyCOgmwNGxXNPqhPOKb9Zy571Y3
+         wrlQ==
+X-Gm-Message-State: AOJu0YxWJM16s7mmMt3nuhfdslMxf1MARZ9bJumD/09aZjqjvJRMSRJK
+        8AS0XDMlQbjv7RD+GqYcQ+qDpA==
+X-Google-Smtp-Source: AGHT+IG65tLFaGRoRMpgzKk0ogF2TeonEdlTNo/aDVlOmsA1gbxv+nd8ZS7QwN4rpf1idWUNGwTTbA==
+X-Received: by 2002:a0c:d610:0:b0:649:bf3:6dbe with SMTP id c16-20020a0cd610000000b006490bf36dbemr9680030qvj.62.1694454759379;
+        Mon, 11 Sep 2023 10:52:39 -0700 (PDT)
 Received: from maple.home ([142.114.20.193])
-        by smtp.gmail.com with ESMTPSA id h4-20020a0cf204000000b0065160a2c8f0sm3075658qvk.138.2023.09.11.10.48.19
+        by smtp.gmail.com with ESMTPSA id s17-20020a0ca611000000b006431027ac44sm3118898qva.83.2023.09.11.10.52.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 10:48:20 -0700 (PDT)
+        Mon, 11 Sep 2023 10:52:38 -0700 (PDT)
 From:   Ralph Siemsen <ralph.siemsen@linaro.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: 
-Date:   Mon, 11 Sep 2023 13:46:28 -0400
-Message-Id: <20230911174628.262950-1-ralph.siemsen@linaro.org>
+        linux-kernel@vger.kernel.org,
+        Ralph Siemsen <ralph.siemsen@linaro.org>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] clk: renesas: r9a06g032: fix kerneldoc warning
+Date:   Mon, 11 Sep 2023 13:52:15 -0400
+Message-Id: <20230911175215.263009-1-ralph.siemsen@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,11 +73,6 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From 122610b072fcb44c7491eb5b9a59a221967ac99b Mon Sep 17 00:00:00 2001
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Mon, 11 Sep 2023 13:30:47 -0400
-Subject: [PATCH] clk: renesas: r9a06g032: fix kerneldoc warning
-
 This fixes the following W=1 warning during build:
 > drivers/clk/renesas/r9a06g032-clocks.c:119: warning: Function parameter or member 'dual' not described in 'r9a06g032_clkdesc'
 
@@ -88,6 +84,8 @@ Reported-by: kernel test robot <lkp@intel.com>
 Closes: https://lore.kernel.org/oe-kbuild-all/202309101314.kTRoxND5-lkp@intel.com/
 Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 ---
+Second post, as the Subject: line accidentally got messed up previously.
+
  drivers/clk/renesas/r9a06g032-clocks.c | 64 ++++++++++++++------------
  1 file changed, 34 insertions(+), 30 deletions(-)
 
