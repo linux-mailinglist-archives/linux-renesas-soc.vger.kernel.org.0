@@ -2,188 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9794C79D452
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 17:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF5B279D45B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 17:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236178AbjILPGi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Sep 2023 11:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34328 "EHLO
+        id S236209AbjILPHM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Sep 2023 11:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236182AbjILPGf (ORCPT
+        with ESMTP id S236213AbjILPHL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Sep 2023 11:06:35 -0400
-Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-pr2fra01on2058.outbound.protection.outlook.com [40.107.12.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6055CD8;
-        Tue, 12 Sep 2023 08:06:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TPz9yix9T/A244PBVQ5EuMXPfI7B9ow/G4TrAKaTqtUX50ranQpjfVTB6h22ozU8eJWwiOiF4tepyks11Ww++VFUJGSdkYMOzuzIRojLjCX+t2SpPUPBFDCcCrC83VE7kL9eAwzhEKfdUoDOMazIOUTI3t34KMs90vJZnGQQelnbSDYCh42mmmf8rXv5M6oNU2gd3jjaCmIxns2FwPoHj2xkJHZbfQH3UEhQnzxd6GTucn5j52DqdhxeA+hxMouMScxHnEHFDWHbj6eKVE3t8xJixYZNMwFh3+ULOet8xnKKpeDiwVCeetlaWXqUYe9NZymIK4KpUy5ROpeLL93ZPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BmbBsth5mKOJLbAIP5QIcRR1rfRY9ySxR2J3fgM8z8g=;
- b=NIIUJJAdwb9BWl/6Cex327fqY+ejDoaZiXORvXtZWr/VSSs9T4hU5HkCF/TrGSzHcTzO7mBosSqSJF7ELcNaJm8ohxb0sIEWM/SexKfFAdNzi24o6omhj/09BdIXik3a6h1qf+WiBy3PAE+h4rwNrr9RghQFUkUbWFqxnpOY18KTBxVzEqOFNscFFyseJ/rcZdfXBycqDA5RxIDbeADRLSMYCBKFbyNHtuhuRBlE7xv/gwzl+G+aoY+o+kZwzIklvSP8FT9FvFRhkOKquszDTVHwhPPqnDFrgwgl/L7YwlvTI1bHnG34CU3t8EPY6XGQNVa+owx6ZnBxwdaf2btNgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
- dkim=pass header.d=csgroup.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BmbBsth5mKOJLbAIP5QIcRR1rfRY9ySxR2J3fgM8z8g=;
- b=N6n+uoLgYXWdp6F2hwAWj8POeXApvaZIOVZXLF3Gscnb4kwwCvg2RnKmk1yF0dpm0BrLmKf7BPL2tpiIJDZMl5zIBrW5abFACysoyKs46sI9p0F3y3JTiX5mx6CLCvZgb4aqsUD2jy7GVdeOSH+jUe2k51HlGhXZPC1bkmwUKLRfmfxY1pTMxetGyiZWshEpY6yTzVJ8DoP9L6uUSOf2gFP9uh8joBD52QGJxMsbmnDIrp5M9DIU7n0EZ3frqpNeHbKLkYowiXgoWEXch56jhIijeREY+JigAoTMEKjvvR+9xE53EXfxmN5O8/gs30AoQYdLCSb6zbbtZ55Hh5ZJcA==
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
- by PR1P264MB2231.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1b0::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.38; Tue, 12 Sep
- 2023 15:06:28 +0000
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::2820:d3a6:1cdf:c60e]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::2820:d3a6:1cdf:c60e%7]) with mapi id 15.20.6768.036; Tue, 12 Sep 2023
- 15:06:28 +0000
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     "paulmck@kernel.org" <paulmck@kernel.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Tue, 12 Sep 2023 11:07:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DFF7E79;
+        Tue, 12 Sep 2023 08:07:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E598C433CA;
+        Tue, 12 Sep 2023 15:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694531224;
+        bh=00jvBVJ7IICw3CmIKyfFR+Wl2uOtXu1lvaB5ZZUykFY=;
+        h=Date:From:To:Subject:Reply-To:References:In-Reply-To:From;
+        b=U5WNSAk9l93CJSL2FAXWwKj6ZhXmyDbhTZwK17FVu+jkcTjlirVurAxow/oTuiiZD
+         MepWvmpCQhvYMKVyOEJCK6Fjdnxn6Pfa7z17kyoZq2znxT7knPRC3Do6YcFFCeLjFO
+         tZCGAX/Jsqi01diFf+IFuGMl+lIfyhuykU2FkDT+oScMh7WHVYhSX2fA1zzgdfmWFg
+         Hnuh4224ob/fuHAIdxRAJQ7BdiKK99BtV6ZFx9NNpMsQx4aFW/1Ilt4Bq1A9uZI9tp
+         8LX1zwUhcXWT2XdC8FtNoq9YzCvkbqN5qV5cGgkmOmdzLdxXMMhB7w9L1NtULnHTSx
+         Lr2CXWPu0T7nw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 49ACFCE07C7; Tue, 12 Sep 2023 08:07:04 -0700 (PDT)
+Date:   Tue, 12 Sep 2023 08:07:04 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "maple-tree@lists.infradead.org" <maple-tree@lists.infradead.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Shanker Donthineni <sdonthineni@nvidia.com>
 Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
  readers are possible
-Thread-Topic: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
- readers are possible
-Thread-Index: AQHZ0jZLGonsLT7psk6V57DL3sI7p7ABi0MAgAx8eICAACGXAIAAAcAAgAAJOoCACD39AIAAi4MAgABrJYCAAAgIAA==
-Date:   Tue, 12 Sep 2023 15:06:27 +0000
-Message-ID: <2a0657bf-2585-4b98-bbdb-dd38502c8555@csgroup.eu>
-References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
- <20230819004356.1454718-2-Liam.Howlett@oracle.com>
- <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
- <20230906152325.dblzauybyoq5kd35@revolver>
- <ad298077-fca8-437e-b9e3-66e31424afb1@paulmck-laptop>
+Message-ID: <9e85adf9-2e1f-4bed-a58e-9ca629c03579@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ad298077-fca8-437e-b9e3-66e31424afb1@paulmck-laptop>
  <20230906172954.oq4vogeuco25zam7@revolver>
  <495849d6-1dc6-4f38-bce7-23c50df3a99f@paulmck-laptop>
  <20230911235452.xhtnt7ply7ayr53x@revolver>
  <33150b55-970c-4607-9015-af0e50e4112d@paulmck-laptop>
- <3e75add4-4d51-eab9-7029-25660e02b082@csgroup.eu>
-In-Reply-To: <3e75add4-4d51-eab9-7029-25660e02b082@csgroup.eu>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=csgroup.eu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MRZP264MB2988:EE_|PR1P264MB2231:EE_
-x-ms-office365-filtering-correlation-id: ced4c003-0267-4d0b-936c-08dbb3a1d6e9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SdFN9TDThxfHo9331GmAoZA8tAvYC5gGJ+WdgI686cEQWtlg108kdgIGn1ABzFdLjFnNmz217cySsLMLO1AgnMbCuOIOUwRvPB5IXKphVno7+BW6CWVZm61Zwn4Zre0vwn7Oof+vwBGBA+yQzMQwDRdaNnUsC8d3+acNQeSPeGovIipxfp/fAc1Bub1G2Q+saec9b4MCJ71ToE68IY3OeIIBCRlhU2f060oe7N2mLyVKqOZiqZyTc4INZts5D28SfKymbN4gu6QGv6B83g66+tIunSV5UrA2iNutSBIJ+VruxvdDccVAjy4kLyTVyIq1L+la7Vgpw+AzD2E5FZ520pHk4qa/bgpqb2znVUTfw1SOBnLW0DvDDLJcjovkjadF948D1zRO/vUUlK+1JEra+yYq+0wF6gAZbrymgm8hoCLmQ7nG6DUL8SrmbecGCROGVRcfMIynY2th91egjlviFx25HGJussRhAloFPvpfhbARXo8InWzCBKAyV/6C85GkK2XGSgdfEBKr9IhOUKOhzEqW9csOVG39p2i500TnhR8jScJM83RVCAHjaMCSoIq636Exaj97D0TQBwWiD5rFFz4YDaEVaeWCde123FkCuX7UsOz4Bm4zFd893o8aUvjLmSGlF1tslhqwUz4vR90t4o46Gv0gkGk9Z/VGzawO9yvF3FvG52TkjD2DMmiO0g3nPPTNn6qdAuSukXjPD1DTbw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(39860400002)(346002)(396003)(186009)(451199024)(1800799009)(66574015)(31686004)(5660300002)(44832011)(8676002)(8936002)(6486002)(83380400001)(71200400001)(6512007)(26005)(6506007)(2616005)(478600001)(122000001)(45080400002)(921005)(76116006)(316002)(66946007)(91956017)(110136005)(66556008)(66476007)(66446008)(64756008)(41300700001)(86362001)(36756003)(31696002)(2906002)(38070700005)(38100700002)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YjVJeW1XMldIN0JtWTZzdlVHV0lwOXB4aEovaGxRVlZHZDN6bjNrUC9KcEpG?=
- =?utf-8?B?MjArWWR6TlZ1b2Q4YkMybmppTm9ocVVjbEZTS3V2OVhlTERnQ0owRGd0Zlhh?=
- =?utf-8?B?dUgrSVVkbU5aQnVsVURXbUxHMDA2U3VoNnF6V0NpQnpzV1RiY2xXVXRTZ0xz?=
- =?utf-8?B?SEtoMHN5NmlhRjN3SXR6OTNXeFlRNFJWdWNkK2NJdDlWRStJOFphbjZWNG9q?=
- =?utf-8?B?RW5Kb05uSmJuTWE5LysxWEVzQytqYVprZHhNd0p2UUZiS3JaTkx6UDRRdWpo?=
- =?utf-8?B?ZktqN1BxSGNlRnVvK3ZpTUFvRXUzdWhlRmNaVEhwajE0YkRDYkt6MGJRWU1v?=
- =?utf-8?B?WEJUVWFJR28wSStQL2lWVVFFQmJqaks0cXN5TzNnck9Seng4cnlFaDBHSFk3?=
- =?utf-8?B?WXRqTVNrcGpuSDBPUmtJYTJZbjdkdjRpYk5oeWxmcjNCNGhaNXdJMzJkOWtW?=
- =?utf-8?B?OWpNdDhvdDhPT0c3UytaU0pQYmp3NkYyd2Y3RGFEVEpkazRHcGZYeFowV2FD?=
- =?utf-8?B?alNTb0JJaUpiWDkwSmpENG4ra0htR0x4YU5FMWRzN1ArbTJEcUQzYTRhRldj?=
- =?utf-8?B?V0w3K05sZ01tRnJ4dnNaeDRBQ0lpTXR5MFo0eHFZRDRaaXRMR21yOXhWOU9x?=
- =?utf-8?B?d2lEVncwNXNuS29kRFRRVEkydDdObnpyeUVORGd2b3pvclNIMEJpWTlYbmxL?=
- =?utf-8?B?aTJVbmhkWUgxbjZ4dUxOQlY5MVdHWmhybldSTk9pdzhWY2NPQVhyYS9WUVE0?=
- =?utf-8?B?aTNOSmtzckxQNllhaGJFKzVpcTBhcUp6Z0IyOUY5QzZiOVZUdDdERzRKSDNl?=
- =?utf-8?B?bjYzMlFMVlZLZ2o2V3VQR3dadXN3bEIrWGlLRmdmUGpNSFEzWmhramtRU2dS?=
- =?utf-8?B?eVNFbHV2V3czTWIwdi9NTzhKNnlab21MNnNJZ2VSYmQyTlFWbVJTcVQzS3hh?=
- =?utf-8?B?Z1FLd0F0aHpzaXlLRnV5TVBiR1QzN0N4SGRBL0NtWFNQMlZYMXJZd2FCdEdU?=
- =?utf-8?B?NmlxOVlDb1NkSWthTWVRVnhSb0JSa0ZVV0Z5dFNZVE1HUHJVb1pMYmpxdlpR?=
- =?utf-8?B?TU9FQ2N4TUVhN0pYenlJUStObTVVT0gxeTg4QzlhZ3ZMa1Fpc1lTMmZXWlJw?=
- =?utf-8?B?dlJZbmtxVTJTRkNlUTlzNXBUNWRnMkEzNjhaQVBVc01FOGtOcUs1SXljWlJP?=
- =?utf-8?B?RzhrLzJXTWFaazNrOXVpVzY5ZkRpNGZqb0V1VjRNWE5vV0dOWG1SSjExaDVP?=
- =?utf-8?B?VXNGR3drTk5Ma0dIcG13N1ROM0sva1lqQlB0TDRBVXd3bUZ4SXdVQkhXZGRJ?=
- =?utf-8?B?MXZxUHdKdlFmNTZLN2thZnJhRkp1dlcvWk5qYmtGbWtzNUMwV1ptVGt4ZHpR?=
- =?utf-8?B?VUY0SlE3QUQ2cUt6bWJlcWRwZ1FicXg0Sy9McUtYVnppc2crazIrTGFxWjRm?=
- =?utf-8?B?VEtkVXMzVkNRMzFPYWZkbytQQVlJTVVCME9qR0dqMDJQSkNWcVFPejAxTWZL?=
- =?utf-8?B?bmdPRFVyai9NOEhFajNNclowVXQ0VHgyMkg3dHVPMi8yRW9VRk9HS1N3Um0x?=
- =?utf-8?B?VjFiWFJqci9sblZDOUxxbmdDa0V3cDZ1bWRQaC9INndQb2k1QWhZNjhuWUI1?=
- =?utf-8?B?YWdBT1BZZ3N2VC9VbnlkYm9YLy9ydkI5eDRWN2puNTVjaGxNU21xK3FhSVBj?=
- =?utf-8?B?SDlRN2ZjdEdJT3czREczK1c0SU4zT29RMVFDMWUzbFVBb1N4dllyLzBzTkZV?=
- =?utf-8?B?TGMyTVY2MVc3U2ZNZkduWmpBK1NEM3Q4ZVRCU1ErcmhJMkk5Ym5BdnFEVzRN?=
- =?utf-8?B?Q052VVFUZ0hKakdBd1Npc2c0K21HNHp5WFBFMzlTcVV1Y0VHWVlHNCtrbS9u?=
- =?utf-8?B?c2hBQ3Y2cXQ4MEtiUmdRd1VXN29tdzJNYWpnbU5keEZZaXdYZnlpQU1TU1Z4?=
- =?utf-8?B?VFBCQkZtQThUblpTRld3M1h0dFNEMjM3K2NmQ2h5VkxIcVlBdXFFZ1NkQ1NQ?=
- =?utf-8?B?UHBmNWZyMkpCc21aZWFDSFlCaDNDWUsvRDcwZ3JJMTlPb1N4T3pKR2dRb0hn?=
- =?utf-8?B?cE9McUtQWkk1QXIvbGFERSs2VnM0Z0l4c3ZnMHZZRTB1UTRScnJZSS9VTjhi?=
- =?utf-8?B?YzkyWVhrMTJXalY4WDREZjBYeTIxUWk2Q3A4Q2s2RnNDMUtOR2J3Zis1dUxK?=
- =?utf-8?B?a1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <38A262238E6CEA428AC7AC0C4C0B1D37@FRAP264.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ <CAMuHMdWKwdxjRf031aD=Ko7vRdvFW-OR48QAc=ZFy=FP_LNAoA@mail.gmail.com>
+ <f9b0a88c-8a64-439f-a488-85d500c9f2aa@paulmck-laptop>
+ <CAMuHMdX89u6wL9W+8ZOn-OTT1FreYjEqYnvEip4Aq3k1gOP0EQ@mail.gmail.com>
+ <62936d98-6353-486e-8535-86c9f90bc7f4@paulmck-laptop>
+ <20230912135617.dnhyk4h5c555l2yg@revolver>
 MIME-Version: 1.0
-X-OriginatorOrg: csgroup.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ced4c003-0267-4d0b-936c-08dbb3a1d6e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2023 15:06:27.9705
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vnD41KCdyTNAmnDbWw55nANnO5AhYG+o8+vBbo1dCb2dL6MBzRbj/V6DdCONSyyWwFFN1eglRCJd8XW/PFCZAHF+IDQ3v/pQ39J5ontWgGM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB2231
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230912135617.dnhyk4h5c555l2yg@revolver>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-DQoNCkxlIDEyLzA5LzIwMjMgw6AgMTY6MzcsIENocmlzdG9waGUgTGVyb3kgYSDDqWNyaXTCoDoN
-Cj4gDQo+IA0KPj4NCj4+IE1heWJlIHNvbWV0aGluZyBsaWtlIHRoaXMgaW4gX19zZXR1cF9pcnEo
-KSwgcmlnaHQgYmVmb3JlIHRoZQ0KPj4gbXV0ZXhfbG9jaygpPw0KPj4NCj4+IAlXQVJOX09OX09O
-Q0UoaXJxc19kaXNhYmxlZCgpKTsNCj4+DQo+PiBUaGlzIHdpbGwgZHVtcCB0aGUgc3RhY2sgdHJh
-Y2Ugc2hvd2luZyBob3cgX19zZXR1cF9pcnEoKSBpcyBiZWluZyBpbnZva2VkDQo+PiBpbiBlYXJs
-eSBib290IG9uIHBwYzMyLg0KPj4NCj4+IEFnYWluLCBnaXZlbiB0aGF0IF9fc2V0dXBfaXJxKCkg
-aW52b2tlcyBtdXRleF9sb2NrKCksIGludm9raW5nIHRoaXMNCj4+IGZ1bmN0aW9uIGluIGl0cyBj
-dXJyZW50IGZvcm0gYmVmb3JlIGludGVycnVwdHMgaGF2ZSBiZWVuIGVuYWJsZWQgaXMgYQ0KPj4g
-YmFkIGlkZWEuDQo+Pg0KPiANCj4gTm8gdHJpZ2dlciBvZiB0aGF0IFdBUk5fT04oKSBJIGFkZGVk
-IGluIF9fc2V0dXBfaXJxKCkgYXMgaW5zdHJ1Y3RlZA0KPiBhYm92ZSwgc3RpbGwgZ2V0dGluZyAo
-cG1hYzMyX2RlZmNvbmZpZyBvbiBNQUM5OSBRRU1VKQ0KPiANCj4gLS0tLS0tLS0tLS0tWyBjdXQg
-aGVyZSBdLS0tLS0tLS0tLS0tDQo+IEludGVycnVwdHMgd2VyZSBlbmFibGVkIGVhcmx5DQo+IFdB
-Uk5JTkc6IENQVTogMCBQSUQ6IDAgYXQgaW5pdC9tYWluLmM6OTkyIHN0YXJ0X2tlcm5lbCsweDRk
-OC8weDVjMA0KPiBNb2R1bGVzIGxpbmtlZCBpbjoNCj4gQ1BVOiAwIFBJRDogMCBDb21tOiBzd2Fw
-cGVyIE5vdCB0YWludGVkIDYuNi4wLXJjMS1kaXJ0eSAjNDgxDQo+IEhhcmR3YXJlIG5hbWU6IFBv
-d2VyTWFjMywxIDc0MDAgMHhjMDIwOSBQb3dlck1hYw0KPiBOSVA6ICBjMGE2MDUyYyBMUjogYzBh
-NjA1MmMgQ1RSOiAwMDAwMDAwMA0KPiBSRUdTOiBjMGM0ZGVlMCBUUkFQOiAwNzAwICAgTm90IHRh
-aW50ZWQgICg2LjYuMC1yYzEtZGlydHkpDQo+IE1TUjogIDAwMDI5MDMyIDxFRSxNRSxJUixEUixS
-ST4gIENSOiAyNDAwMDI4MiAgWEVSOiAyMDAwMDAwMA0KPiANCj4gR1BSMDA6IGMwYTYwNTJjIGMw
-YzRkZmEwIGMwYjkyNTgwIDAwMDAwMDFkIGMwYjlkMTI4IDAwMDAwMDAxIGMwYjlkMTQ4DQo+IDNm
-ZmZmZGZmDQo+IEdQUjA4OiBjMGJhODBmMCAwMDAwMDAwMCAwMDAwMDAwMCAzZmZmZmUwMCA0NDAw
-MDI4MiAwMDAwMDAwMCAwMDAwMDAwMA0KPiAwMTk5YWJmYw0KPiBHUFIxNjogMDE5OWIwYTQgN2Zk
-ZTdmYTQgN2ZjNWFjMGMgMDAwMDAwYmIgNDEwMDAwMDAgMDFjNjkwYzggYzBiOTIwMTQNCj4gYzA5
-YjRiZGMNCj4gR1BSMjQ6IGMwYzU1MjIwIGMwYWMwMDAwIDAwMDAwMDAwIGVmZmY5MTA5IGVmZmY5
-MTAwIDAwMDAwMDBhIGMwYzZkMDAwDQo+IGMwYjkyMGEwDQo+IE5JUCBbYzBhNjA1MmNdIHN0YXJ0
-X2tlcm5lbCsweDRkOC8weDVjMA0KPiBMUiBbYzBhNjA1MmNdIHN0YXJ0X2tlcm5lbCsweDRkOC8w
-eDVjMA0KPiBDYWxsIFRyYWNlOg0KPiBbYzBjNGRmYTBdIFtjMGE2MDUyY10gc3RhcnRfa2VybmVs
-KzB4NGQ4LzB4NWMwICh1bnJlbGlhYmxlKQ0KPiBbYzBjNGRmZjBdIFswMDAwMzU0MF0gMHgzNTQw
-DQo+IENvZGU6IDQ4MDAzN2IxIDQ4MDIzYzA1IDRiYWI4OGVkIDkwNjIwMjYwIDQ4MDEzOWU5IDRi
-NjU3Y2VkIDdkMjAwMGE2DQo+IDcxMjk4MDAwIDQxYTIwMDE0IDNjNjBjMDlhIDM4NjNiNzhjIDRi
-NWU5Y2NkIDwwZmUwMDAwMD4gMzkyMDAwMDANCj4gOTkzODAwMDggN2QyMDAwYTYNCj4gLS0tWyBl
-bmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+IA0KDQpGb3Igd2hhdCBpdCdzIHdvcnRo
-LCB0aGUgaW50ZXJydXB0cyBzZWVtcyB0byBiZSBlbmFibGVkIGJ5IHRoZSBjYWxsIHRvIA0KaW5p
-dF9JUlEoKS4NCg0KRGlnaW5nIGludG8gaXQgdGhhdCdzIGVuYWJsZWQgYnkgdGhlIGNhbGwgdG8g
-X192bWFsbG9jX25vZGUoKSBpbiANCmFsbG9jX3ZtX3N0YWNrKCkNCg0Kc3RhdGljIHZvaWQgKl9f
-aW5pdCBhbGxvY192bV9zdGFjayh2b2lkKQ0Kew0KCXJldHVybiBfX3ZtYWxsb2Nfbm9kZShUSFJF
-QURfU0laRSwgVEhSRUFEX0FMSUdOLCBUSFJFQURJTkZPX0dGUCwNCgkJCSAgICAgIE5VTUFfTk9f
-Tk9ERSwgKHZvaWQgKilfUkVUX0lQXyk7DQp9DQoNCnN0YXRpYyB2b2lkIF9faW5pdCB2bWFwX2ly
-cXN0YWNrX2luaXQodm9pZCkNCnsNCglpbnQgaTsNCg0KCWZvcl9lYWNoX3Bvc3NpYmxlX2NwdShp
-KSB7DQoJCXNvZnRpcnFfY3R4W2ldID0gYWxsb2Nfdm1fc3RhY2soKTsNCgkJaGFyZGlycV9jdHhb
-aV0gPSBhbGxvY192bV9zdGFjaygpOw0KCX0NCn0NCg0KDQp2b2lkIF9faW5pdCBpbml0X0lSUSh2
-b2lkKQ0Kew0KCWlmIChJU19FTkFCTEVEKENPTkZJR19WTUFQX1NUQUNLKSkNCgkJdm1hcF9pcnFz
-dGFja19pbml0KCk7DQoNCglpZiAocHBjX21kLmluaXRfSVJRKQ0KCQlwcGNfbWQuaW5pdF9JUlEo
-KTsNCg0KCWlmICghV0FSTl9PTighcHBjX21kLmdldF9pcnEpKQ0KCQlzdGF0aWNfY2FsbF91cGRh
-dGUocHBjX2dldF9pcnEsIHBwY19tZC5nZXRfaXJxKTsNCn0NCg0KQ2hyaXN0b3BoZQ0K
+On Tue, Sep 12, 2023 at 09:56:17AM -0400, Liam R. Howlett wrote:
+> * Paul E. McKenney <paulmck@kernel.org> [230912 06:00]:
+> > On Tue, Sep 12, 2023 at 10:34:44AM +0200, Geert Uytterhoeven wrote:
+> > > Hi Paul,
+> > > 
+> > > On Tue, Sep 12, 2023 at 10:30 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > On Tue, Sep 12, 2023 at 10:23:37AM +0200, Geert Uytterhoeven wrote:
+> > > > > On Tue, Sep 12, 2023 at 10:14 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > > > On Mon, Sep 11, 2023 at 07:54:52PM -0400, Liam R. Howlett wrote:
+> > > > > > > * Paul E. McKenney <paulmck@kernel.org> [230906 14:03]:
+> > > > > > > > On Wed, Sep 06, 2023 at 01:29:54PM -0400, Liam R. Howlett wrote:
+> > > > > > > > > * Paul E. McKenney <paulmck@kernel.org> [230906 13:24]:
+> > > > > > > > > > On Wed, Sep 06, 2023 at 11:23:25AM -0400, Liam R. Howlett wrote:
+> > > > > > > > > > > (Adding Paul & Shanker to Cc list.. please see below for why)
+> > > > > > > > > > >
+> > > > > > > > > > > Apologies on the late response, I was away and have been struggling to
+> > > > > > > > > > > get a working PPC32 test environment.
+> > > > > > > > > > >
+> > > > > > > > > > > * Geert Uytterhoeven <geert@linux-m68k.org> [230829 12:42]:
+> > > > > > > > > > > >     Hi Liam,
+> > > > > > > > > > > >
+> > > > > > > > > > > > On Fri, 18 Aug 2023, Liam R. Howlett wrote:
+> > > > > > > > > > > > > The current implementation of append may cause duplicate data and/or
+> > > > > > > > > > > > > incorrect ranges to be returned to a reader during an update.  Although
+> > > > > > > > > > > > > this has not been reported or seen, disable the append write operation
+> > > > > > > > > > > > > while the tree is in rcu mode out of an abundance of caution.
+> > > > > > > > > > >
+> > > > > > > > > > > ...
+> > > > > > > > > > > > >
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > > > > > RCU-related configs:
+> > > > > > > > > > > >
+> > > > > > > > > > > >     $ grep RCU .config
+> > > > > > > > > > > >     # RCU Subsystem
+> > > > > > > > > > > >     CONFIG_TINY_RCU=y
+> > > > > >
+> > > > > > I must have been asleep last time I looked at this.  I was looking at
+> > > > > > Tree RCU.  Please accept my apologies for my lapse.  :-/
+> > > > > >
+> > > > > > However, Tiny RCU's call_rcu() also avoids enabling IRQs, so I would
+> > > > > > have said the same thing, albeit after looking at a lot less RCU code.
+> > > > > >
+> > > > > > TL;DR:
+> > > > > >
+> > > > > > 1.      Try making the __setup_irq() function's call to mutex_lock()
+> > > > > >         instead be as follows:
+> > > > > >
+> > > > > >         if (!mutex_trylock(&desc->request_mutex))
+> > > > > >                 mutex_lock(&desc->request_mutex);
+> > > > > >
+> > > > > >         This might fail if __setup_irq() has other dependencies on a
+> > > > > >         fully operational scheduler.
+> > > > > >
+> > > > > > 2.      Move that ppc32 call to __setup_irq() much later, most definitely
+> > > > > >         after interrupts have been enabled and the scheduler is fully
+> > > > > >         operational.  Invoking mutex_lock() before that time is not a
+> > > > > >         good idea.  ;-)
+> > > > >
+> > > > > There is no call to __setup_irq() from arch/powerpc/?
+> > > >
+> > > > Glad it is not just me, given that I didn't see a direct call, either.  So
+> > > > later in this email, I asked Liam to put a WARN_ON_ONCE(irqs_disabled())
+> > > > just before that mutex_lock() in __setup_irq().
+> 
+> I had already found that this is the mutex lock that is enabling them.
+> I surrounded the mutex lock to ensure it was not enabled before, but was
+> after.  Here is the findings:
+> 
+> kernel/irq/manage.c:1587 __setup_irq:
+> [    0.000000] [c0e65ec0] [c00e9b00] __setup_irq+0x6c4/0x840 (unreliable)
+> [    0.000000] [c0e65ef0] [c00e9d74] request_threaded_irq+0xf8/0x1f4
+> [    0.000000] [c0e65f20] [c0c27168] pmac_pic_init+0x204/0x5f8
+> [    0.000000] [c0e65f80] [c0c1f544] init_IRQ+0xac/0x12c
+> [    0.000000] [c0e65fa0] [c0c1cad0] start_kernel+0x544/0x6d4
+> 
+> Note your line number will be slightly different due to my debug.  This
+> is the WARN _after_ the mutex lock.
+> 
+> > > >
+> > > > Either way, invoking mutex_lock() early in boot before interrupts have
+> > > > been enabled is a bad idea.  ;-)
+> > > 
+> > > I'll add that WARN_ON_ONCE() too, and will report back later today...
+> > 
+> > Thank you, looking forward to hearing the outcome!
+> > 
+> > > > > Note that there are (possibly different) issues seen on ppc32 and on arm32
+> > > > > (Renesas RZ/A in particular, but not on other Renesas ARM systems).
+> > > > >
+> > > > > I saw an issue on arm32 with cfeb6ae8bcb96ccf, but not with cfeb6ae8bcb96ccf^.
+> > > > > Other people saw an issue on ppc32 with both cfeb6ae8bcb96ccf and
+> > > > > cfeb6ae8bcb96ccf^.
+> > > >
+> > > > I look forward to hearing what is the issue in both cases.
+> > > 
+> > > For RZ/A, my problem report is
+> > > https://lore.kernel.org/all/3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org/
+> > 
+> > Thank you, Geert!
+> > 
+> > Huh.  Is that patch you reverted causing Maple Tree or related code
+> > to attempt to acquire mutexes in early boot before interrupts have
+> > been enabled?
+> > 
+> > If that added WARN_ON_ONCE() doesn't trigger early, another approach
+> > would be to put it at the beginning of mutex_lock().  Or for that matter
+> > at the beginning of might_sleep().
+> 
+> Yeah, I put many WARN() calls through the code as well as tracking down
+> where TIF_NEED_RESCHED was set; the tiny.c call_rcu().
+> 
+> 
+> So my findings summarized:
+> 
+> 1. My change to the maple tree makes call_rcu() more likely on early boot.
+> 2. The initial thread setup is always set to idle state
+> 3. call_rcu() tiny sets TIF_NEED_RESCHED since is_idle_task(current)
+> 4. init_IRQ() takes a mutex lock which will enable the interrupts since
+> TIF_NEED_RESCHED is set.
+> 
+> I don't know which of these things is "wrong".
+
+Doing early-boot call_rcu() is OK.
+
+The initial thread eventually becomes the idle thread for the boot CPU.
+See rest_init() in init/main.c.
+
+I can certainly make Tiny call_rcu() refrain from invoking resched_cpu()
+during boot, as shown in the (untested) patch below.  This might result in
+boot-time hangs, though.
+
+The thought of doing mutex_lock() before interrupts are enabled on the
+boot CPU strikes me as very wrong.  Others might argue that the fact
+that __might_resched() explicitly avoids complaining when system_state
+is equal to SYSTEM_BOOTING constitutes evidence that such calls are OK.
+(Which might be why enabling debug suppressed the problem.)  Except that
+if you actually try sleeping at that time, nothing good can possibly
+happen.
+
+So my question is why is it useful to setup interrupts that early, given
+that interrupts cannot possibly happen until the boot CPU enables them?
+
+> I also looked into the mtmsr register but decided to consult you lot
+> about my findings in hopes that someone with more knowledge of the
+> platform or early boot would alleviate the pain so that I could context
+> switch or sleep :)  I mean, an mtmsr bug seems like a leap even for the
+> issues I create..
+
+Stranger things have happened, but I agree that this would indeed be
+quite strange!  ;-)
+
+						Thanx, Paul
+
+------------------------------------------------------------------------
+
+diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
+index fec804b79080..f00fb0855e4b 100644
+--- a/kernel/rcu/tiny.c
++++ b/kernel/rcu/tiny.c
+@@ -192,7 +192,7 @@ void call_rcu(struct rcu_head *head, rcu_callback_t func)
+ 	rcu_ctrlblk.curtail = &head->next;
+ 	local_irq_restore(flags);
+ 
+-	if (unlikely(is_idle_task(current))) {
++	if (unlikely(is_idle_task(current)) && system_state > SYSTEM_BOOTING) {
+ 		/* force scheduling for rcu_qs() */
+ 		resched_cpu(0);
+ 	}
