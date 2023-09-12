@@ -2,97 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0452379CB23
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 11:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72BEC79CCA9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 12:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjILJHH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Sep 2023 05:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55942 "EHLO
+        id S233500AbjILKAS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Sep 2023 06:00:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233197AbjILJGi (ORCPT
+        with ESMTP id S233590AbjILKAQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Sep 2023 05:06:38 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF2BD1985
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Sep 2023 02:06:01 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d7b79a4899bso4656575276.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Sep 2023 02:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694509561; x=1695114361; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y/RE43x8EDqZSOQNHhRIsDHTJXqVvnyoJP3udIAKpDM=;
-        b=ZnYoi0MmyioHP0+0VJZvzerrFl9t1+9ECdLK8+nzmm5AdjnTBNTR/mjZIUdNZegwiZ
-         csfOJXKF9GaGcbQfM1WL3I/OhlmLkqqlHPb4dJ140Rmf32Fp2Qyqhgc4zgot71SPDQcw
-         A3AObdxwHCIAI4/gkQvQBocYkIk73garAfp/F3TfM86EMc3otOHOUGWIoR95sEydQ7Aq
-         4f7bROqVZokQ2OMu5nfH9Y+6IxWqjSrpbcKK8+r51oYsXTO1kqlIhw//f6TQpH1RS4DS
-         qT1meFZTPuUx1N42aV4FVLRJCJNO5VRPz8phaTSsaor1xoqOPCbX+/KQ2eT8I1rL3hoA
-         VC4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694509561; x=1695114361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y/RE43x8EDqZSOQNHhRIsDHTJXqVvnyoJP3udIAKpDM=;
-        b=E/djQA1DDw+Tp5YLGW1kqX5oUJ+ipIPh2OosM+ouh5U8s6JW8kEwk+9jN6z1RI8tnH
-         HiA9UTZGeK+Gs91evum99voncPmxzAlx+7Jxw/iK3C2RYOx6Nm0GuK6HUyD5mAaIbcTX
-         D3SNkmqz2aZpxNTENTD6kDdt3x8RmgNu93EzKUF24IhtjL7apVZtlVGMcsn+J8OmhO82
-         Ce2CAobR3Id4XMpiO/ScwrOd5e3j/6faY/uksDQHNDfhX5G+Ia2XREy4wA8rrk2TpiVY
-         ll0Ql8rZIl5nPuJv1a89w8TgCe7cicSE2wixX57fTiNDc1bTHGBwAX6/pf5X0Th8f0XE
-         dz8w==
-X-Gm-Message-State: AOJu0YyveErTuYvS6loeXVaMTVBjB0yCxVHAy5KiwEmhnBb5ZMMc9pOg
-        C1hgkI7TvJYBx1Wr6/r4xX6PFOWSZMddGL0KhJBWIw==
-X-Google-Smtp-Source: AGHT+IGyj7jaQxIgh9sNw+w5/RpN1cpBHRGqXrkDxOGkZbGhxpB/d00UnSBnb3Z8rrosW8TN+PXvwFbRuvBLrcIWGs0=
-X-Received: by 2002:a25:d20d:0:b0:d78:441d:4d62 with SMTP id
- j13-20020a25d20d000000b00d78441d4d62mr11118777ybg.22.1694509561156; Tue, 12
- Sep 2023 02:06:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <CACRpkdYL46wY_4dm2w45kdPqOJ8zU9X=SSAXv_K=9wfBZFqyDQ@mail.gmail.com> <CAMuHMdXi6PPFqgjvr6tBXQnXqNb3YL=87JeSiGN0+QqkAvziAA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXi6PPFqgjvr6tBXQnXqNb3YL=87JeSiGN0+QqkAvziAA@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 12 Sep 2023 11:05:50 +0200
-Message-ID: <CACRpkdYFzJD+F4v0DTfppGv39guL6YbeA=5aByxuu3u8Jp7u6A@mail.gmail.com>
-Subject: Re: [PATCH 00/37] Add new Renesas RZ/G3S SoC and RZ/G3S SMARC EVK
+        Tue, 12 Sep 2023 06:00:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2468C10E0;
+        Tue, 12 Sep 2023 03:00:12 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF53C433D9;
+        Tue, 12 Sep 2023 10:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694512811;
+        bh=2QOrKx+Xb+EJ5/74k7kuwKb8czGo2OeeiPj5tdU/8Xk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Y5JnVKprj6bUwUEkD9rsCe2ACaJTIlMGY5JQ3MLcWfS6rdJMhVwwX49jpA5AdR+pT
+         DQuYBwtHeCumymdRH/g8yBYd1vOsQnYifdOZUPwN3qiNAJ8G5Ru2l+d2neRCdQuikt
+         R9V/f3VnBRhrD4qNgpLmBg49BNgjZu17qgs7PEKbD73O+p00MG0t6i8vNn8DiPVDI7
+         vBEGcchvI/eD7sOSD+C92xK5++EypyGdLr9twR5Ah8yjeFE6kQXHpnJkh8RsCnBvvc
+         5uVPHjAqWqKU+Ct6S8CeIiFRXFkCsNpe1fkTevf1YQtxsiqoIVg/rOWhAcgs6ENQ9h
+         j6k+U780tbKmg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 3F486CE093C; Tue, 12 Sep 2023 03:00:11 -0700 (PDT)
+Date:   Tue, 12 Sep 2023 03:00:11 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Claudiu <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
-        sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-        Ulrich Hecht <uli@fpond.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Shanker Donthineni <sdonthineni@nvidia.com>
+Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
+ readers are possible
+Message-ID: <62936d98-6353-486e-8535-86c9f90bc7f4@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
+ <20230906152325.dblzauybyoq5kd35@revolver>
+ <ad298077-fca8-437e-b9e3-66e31424afb1@paulmck-laptop>
+ <20230906172954.oq4vogeuco25zam7@revolver>
+ <495849d6-1dc6-4f38-bce7-23c50df3a99f@paulmck-laptop>
+ <20230911235452.xhtnt7ply7ayr53x@revolver>
+ <33150b55-970c-4607-9015-af0e50e4112d@paulmck-laptop>
+ <CAMuHMdWKwdxjRf031aD=Ko7vRdvFW-OR48QAc=ZFy=FP_LNAoA@mail.gmail.com>
+ <f9b0a88c-8a64-439f-a488-85d500c9f2aa@paulmck-laptop>
+ <CAMuHMdX89u6wL9W+8ZOn-OTT1FreYjEqYnvEip4Aq3k1gOP0EQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX89u6wL9W+8ZOn-OTT1FreYjEqYnvEip4Aq3k1gOP0EQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 11:03=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Sep 12, 2023 at 10:55=E2=80=AFAM Linus Walleij <linus.walleij@lin=
-aro.org> wrote:
+On Tue, Sep 12, 2023 at 10:34:44AM +0200, Geert Uytterhoeven wrote:
+> Hi Paul,
+> 
+> On Tue, Sep 12, 2023 at 10:30 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > On Tue, Sep 12, 2023 at 10:23:37AM +0200, Geert Uytterhoeven wrote:
+> > > On Tue, Sep 12, 2023 at 10:14 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > On Mon, Sep 11, 2023 at 07:54:52PM -0400, Liam R. Howlett wrote:
+> > > > > * Paul E. McKenney <paulmck@kernel.org> [230906 14:03]:
+> > > > > > On Wed, Sep 06, 2023 at 01:29:54PM -0400, Liam R. Howlett wrote:
+> > > > > > > * Paul E. McKenney <paulmck@kernel.org> [230906 13:24]:
+> > > > > > > > On Wed, Sep 06, 2023 at 11:23:25AM -0400, Liam R. Howlett wrote:
+> > > > > > > > > (Adding Paul & Shanker to Cc list.. please see below for why)
+> > > > > > > > >
+> > > > > > > > > Apologies on the late response, I was away and have been struggling to
+> > > > > > > > > get a working PPC32 test environment.
+> > > > > > > > >
+> > > > > > > > > * Geert Uytterhoeven <geert@linux-m68k.org> [230829 12:42]:
+> > > > > > > > > >     Hi Liam,
+> > > > > > > > > >
+> > > > > > > > > > On Fri, 18 Aug 2023, Liam R. Howlett wrote:
+> > > > > > > > > > > The current implementation of append may cause duplicate data and/or
+> > > > > > > > > > > incorrect ranges to be returned to a reader during an update.  Although
+> > > > > > > > > > > this has not been reported or seen, disable the append write operation
+> > > > > > > > > > > while the tree is in rcu mode out of an abundance of caution.
+> > > > > > > > >
+> > > > > > > > > ...
+> > > > > > > > > > >
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > > > > > RCU-related configs:
+> > > > > > > > > >
+> > > > > > > > > >     $ grep RCU .config
+> > > > > > > > > >     # RCU Subsystem
+> > > > > > > > > >     CONFIG_TINY_RCU=y
+> > > >
+> > > > I must have been asleep last time I looked at this.  I was looking at
+> > > > Tree RCU.  Please accept my apologies for my lapse.  :-/
+> > > >
+> > > > However, Tiny RCU's call_rcu() also avoids enabling IRQs, so I would
+> > > > have said the same thing, albeit after looking at a lot less RCU code.
+> > > >
+> > > > TL;DR:
+> > > >
+> > > > 1.      Try making the __setup_irq() function's call to mutex_lock()
+> > > >         instead be as follows:
+> > > >
+> > > >         if (!mutex_trylock(&desc->request_mutex))
+> > > >                 mutex_lock(&desc->request_mutex);
+> > > >
+> > > >         This might fail if __setup_irq() has other dependencies on a
+> > > >         fully operational scheduler.
+> > > >
+> > > > 2.      Move that ppc32 call to __setup_irq() much later, most definitely
+> > > >         after interrupts have been enabled and the scheduler is fully
+> > > >         operational.  Invoking mutex_lock() before that time is not a
+> > > >         good idea.  ;-)
+> > >
+> > > There is no call to __setup_irq() from arch/powerpc/?
+> >
+> > Glad it is not just me, given that I didn't see a direct call, either.  So
+> > later in this email, I asked Liam to put a WARN_ON_ONCE(irqs_disabled())
+> > just before that mutex_lock() in __setup_irq().
+> >
+> > Either way, invoking mutex_lock() early in boot before interrupts have
+> > been enabled is a bad idea.  ;-)
+> 
+> I'll add that WARN_ON_ONCE() too, and will report back later today...
 
-> > For new code try to use <linux/cleanup.h>.
-> > Or if you prefer take a sweep and introduce scoped guards
-> > everywhere (for spinlocks, mutexes..).
->
-> Hmmm, <linux/cleanup.h> is only available in v6.5 and later.
-> I don't know whether the CiP machinery is planning to backport
-> <linux/cleanup.h> to e.g. v6.1 LTS...
+Thank you, looking forward to hearing the outcome!
 
-Only for new code! (for-v6.7+)
+> > > Note that there are (possibly different) issues seen on ppc32 and on arm32
+> > > (Renesas RZ/A in particular, but not on other Renesas ARM systems).
+> > >
+> > > I saw an issue on arm32 with cfeb6ae8bcb96ccf, but not with cfeb6ae8bcb96ccf^.
+> > > Other people saw an issue on ppc32 with both cfeb6ae8bcb96ccf and
+> > > cfeb6ae8bcb96ccf^.
+> >
+> > I look forward to hearing what is the issue in both cases.
+> 
+> For RZ/A, my problem report is
+> https://lore.kernel.org/all/3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org/
 
-Yours,
-Linus Walleij
+Thank you, Geert!
+
+Huh.  Is that patch you reverted causing Maple Tree or related code
+to attempt to acquire mutexes in early boot before interrupts have
+been enabled?
+
+If that added WARN_ON_ONCE() doesn't trigger early, another approach
+would be to put it at the beginning of mutex_lock().  Or for that matter
+at the beginning of might_sleep().
+
+							Thanx, Paul
