@@ -2,151 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CA1079C3CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 05:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA51A79C4ED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 06:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241626AbjILDOc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Sep 2023 23:14:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
+        id S229550AbjILEwW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Sep 2023 00:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236427AbjILDOX (ORCPT
+        with ESMTP id S229460AbjILEwW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Sep 2023 23:14:23 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B7842F8C9;
-        Mon, 11 Sep 2023 18:49:45 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.02,244,1688396400"; 
-   d="scan'208";a="179473814"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 12 Sep 2023 10:49:44 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7560C41065C0;
-        Tue, 12 Sep 2023 10:49:44 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net 2/2] net: renesas: rswitch: Add spin lock protection for irq {un}mask
-Date:   Tue, 12 Sep 2023 10:49:36 +0900
-Message-Id: <20230912014936.3175430-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230912014936.3175430-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230912014936.3175430-1-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 12 Sep 2023 00:52:22 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2758BE5A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:18 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-522dd6b6438so6225859a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1694494336; x=1695099136; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZL8AUPRM1aegmrc4Jg4uOM+4oALiCtGLkJY+J8Syis0=;
+        b=A22sv3d3DNDHoX7QPOiJI2uQWPQ2CkA+q3mvysmXlMBDsp6Ny+bDNpRUP29JrFlqfE
+         yf2GJTuj5Aiz5MEjr4tzU+k2Omnamfom57uPsg+sDqTiVIQJ8prQuJAO96UOdH6QPHIR
+         rT0bLAfezPTJVTz7f+Lph9M+HpiMvhlcWiBIdKWXQrDF3frkqJjmOds7Sr5jTAhtDA+Q
+         cQs4rdtUBhQMUi2yAckKQbFusUDF3Y1usdyNj9Plr/iRzGi6a4JAtvRnK1HB18Owud1U
+         i1SxYMF9GgrBIEVhbgBalE6O6H2AEaGCxqh+68fEXj5nddk0Fi81oDx2tBnLNGvjmmap
+         +B5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694494336; x=1695099136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZL8AUPRM1aegmrc4Jg4uOM+4oALiCtGLkJY+J8Syis0=;
+        b=SHRNigvttgPAhOx319HDvD6R+2mTdUeGtKvPBs7OYrHYPlIdtNOgXoVonKVSN1Om2A
+         HgMvv4t+ByeC5d1J4ok8lHGYUpUqelUVp6cd09a7F3txYpPG4HLFN1rdR+x3nogv+iCx
+         J38ZDGzxDaI6Bo2aiDp9aand7q35NIYTFBJPGqYQk7iMKbo6wJ0ebdFfvzwantmfTxI5
+         iIa9H3pJznnwi6oiB5Cu0oMZ7R//Qd6ab0y1xuYrw+uO9nS01Z2IawM9Dr132mlZhOTG
+         LUnhVFVn0iehGf56Ul7teVRMZkS3cN1BrgS4izmQBoYJYJRI7eCYSugXlCjBu/+faBZ9
+         sqow==
+X-Gm-Message-State: AOJu0YzRBTEYrL6XSJrORfTiNwXmWHUGuDtcGg4YgqSYNjZ3UuPIO/MH
+        nliT/H8tb577qsaGVxPPM/Mj/A==
+X-Google-Smtp-Source: AGHT+IH/7FX3AG4GBKPNWl3bGJcnTxMw8eitbqLPSbHY6Kq8+B6wBqEBknJ7/dQ5zhBRhOc1jR5Sgg==
+X-Received: by 2002:a50:ec90:0:b0:522:6e3f:b65 with SMTP id e16-20020a50ec90000000b005226e3f0b65mr9982020edr.33.1694494336357;
+        Mon, 11 Sep 2023 21:52:16 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.145])
+        by smtp.gmail.com with ESMTPSA id f21-20020a05640214d500b0051e22660835sm5422415edx.46.2023.09.11.21.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 21:52:16 -0700 (PDT)
+From:   Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, ulf.hansson@linaro.org,
+        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, magnus.damm@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 00/37] Add new Renesas RZ/G3S SoC and RZ/G3S SMARC EVK
+Date:   Tue, 12 Sep 2023 07:51:20 +0300
+Message-Id: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add spin lock protection for irq {un}mask registers' control.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-After napi_complete_done() and this protection were applied,
-a lot of redundant interrupts no longer occur.
+Hi,
 
-For example: when "iperf3 -c <ipaddr> -R" on R-Car S4-8 Spider
- Before the patches are applied: about 800,000 times happened
- After the patches were applied: about 100,000 times happened
+This patch series adds initial support for The Renesas RZ/G3S (R9A08G045{S33})
+SoC. The RZ/G3S device is a general-purpose microprocessor with a
+single-core Arm® Cortex®-A55 (1.1GHz) and a dual-core Arm® Cortex®-M33 (250MHz),
+perfect for an IOT gateway controller.
 
-Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 12 ++++++++++++
- drivers/net/ethernet/renesas/rswitch.h |  2 ++
- 2 files changed, 14 insertions(+)
+This includes:
+- SoC identification;
+- clocks (core clocks, pin controller clock, serial interface, SD ch0
+  clock) and corresponding resets;
+- minimal device tree for SoM and carrier boards.
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 26c8807d7dea..ea9186178091 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -799,6 +799,7 @@ static int rswitch_poll(struct napi_struct *napi, int budget)
- 	struct net_device *ndev = napi->dev;
- 	struct rswitch_private *priv;
- 	struct rswitch_device *rdev;
-+	unsigned long flags;
- 	int quota = budget;
- 
- 	rdev = netdev_priv(ndev);
-@@ -817,8 +818,10 @@ static int rswitch_poll(struct napi_struct *napi, int budget)
- 	netif_wake_subqueue(ndev, 0);
- 
- 	if (napi_complete_done(napi, budget - quota)) {
-+		spin_lock_irqsave(&priv->lock, flags);
- 		rswitch_enadis_data_irq(priv, rdev->tx_queue->index, true);
- 		rswitch_enadis_data_irq(priv, rdev->rx_queue->index, true);
-+		spin_unlock_irqrestore(&priv->lock, flags);
- 	}
- 
- out:
-@@ -835,8 +838,10 @@ static void rswitch_queue_interrupt(struct net_device *ndev)
- 	struct rswitch_device *rdev = netdev_priv(ndev);
- 
- 	if (napi_schedule_prep(&rdev->napi)) {
-+		spin_lock(&rdev->priv->lock);
- 		rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, false);
- 		rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, false);
-+		spin_unlock(&rdev->priv->lock);
- 		__napi_schedule(&rdev->napi);
- 	}
- }
-@@ -1440,14 +1445,17 @@ static void rswitch_ether_port_deinit_all(struct rswitch_private *priv)
- static int rswitch_open(struct net_device *ndev)
- {
- 	struct rswitch_device *rdev = netdev_priv(ndev);
-+	unsigned long flags;
- 
- 	phy_start(ndev->phydev);
- 
- 	napi_enable(&rdev->napi);
- 	netif_start_queue(ndev);
- 
-+	spin_lock_irqsave(&rdev->priv->lock, flags);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, true);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, true);
-+	spin_unlock_irqrestore(&rdev->priv->lock, flags);
- 
- 	if (bitmap_empty(rdev->priv->opened_ports, RSWITCH_NUM_PORTS))
- 		iowrite32(GWCA_TS_IRQ_BIT, rdev->priv->addr + GWTSDIE);
-@@ -1461,6 +1469,7 @@ static int rswitch_stop(struct net_device *ndev)
- {
- 	struct rswitch_device *rdev = netdev_priv(ndev);
- 	struct rswitch_gwca_ts_info *ts_info, *ts_info2;
-+	unsigned long flags;
- 
- 	netif_tx_stop_all_queues(ndev);
- 	bitmap_clear(rdev->priv->opened_ports, rdev->port, 1);
-@@ -1476,8 +1485,10 @@ static int rswitch_stop(struct net_device *ndev)
- 		kfree(ts_info);
- 	}
- 
-+	spin_lock_irqsave(&rdev->priv->lock, flags);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->tx_queue->index, false);
- 	rswitch_enadis_data_irq(rdev->priv, rdev->rx_queue->index, false);
-+	spin_unlock_irqrestore(&rdev->priv->lock, flags);
- 
- 	phy_stop(ndev->phydev);
- 	napi_disable(&rdev->napi);
-@@ -1887,6 +1898,7 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
-+	spin_lock_init(&priv->lock);
- 
- 	attr = soc_device_match(rswitch_soc_no_speed_change);
- 	if (attr)
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 54f397effbc6..f0c16a37ea55 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -1011,6 +1011,8 @@ struct rswitch_private {
- 	struct rswitch_etha etha[RSWITCH_NUM_PORTS];
- 	struct rswitch_mfwd mfwd;
- 
-+	spinlock_t lock;	/* lock interrupt registers' control */
-+
- 	bool etha_no_runtime_change;
- 	bool gwca_halt;
- };
+With this series Linux can boot from eMMC or SD card. The eMMC and uSD
+interface are multiplexed on the SoM; selection is made using a hardware
+switch.
+
+Patches are gouped as follows:
+- 01-04 adds SoC identification support;
+- 05	is a simple cleanup on SoC identification support
+- 06-09	contain fixes on clock drivers identified while adding RZ/G3S
+	support
+- 10-14	clock cleanups identifies while adding support for RZ/G3S
+- 15-22	clock changes needed by RZ/G3S
+- 23-30	pinctrl changes needed by RZ/G3S
+- 31	document SDHI for RZ/G3S
+- 32-37 device tree support for RZ/G3S
+
+Thank you,
+Claudiu Beznea
+
+Claudiu Beznea (37):
+  dt-bindings: serial: renesas,scif: document r9a08g045 support
+  dt-bindings: soc: renesas: document Renesas RZ/G3S SoC variants
+  dt-bindings: soc: renesas: renesas,rzg2l-sysc: document RZ/G3S SoC
+  soc: renesas: identify RZ/G3S SoC
+  soc: renesas: remove blank lines
+  clk: renesas: rzg2l: wait for status bit of SD mux before continuing
+  clk: renesas: rzg2l: lock around writes to mux register
+  clk: renesas: rzg2l: trust value returned by hardware
+  clk: renesas: rzg2l: fix computation formula
+  clk: renesas: rzg2l: use core->name for clock name
+  clk: renesas: rzg2l: simplify a bit the logic in
+    rzg2l_mod_clock_endisable()
+  clk: renesas: rzg2l: reduce the critical area
+  clk: renesas: rzg2l: use FIELD_GET() for PLL register fields
+  clk: renesas: rzg2l: use u32 for flag and mux_flags
+  clk: renesas: rzg2l: add support for RZ/G3S PLL
+  clk: renesas: rzg2l: add struct clk_hw_data
+  clk: renesas: rzg2l: remove CPG_SDHI_DSEL from generic header
+  clk: renesas: rzg2l: refactor sd mux driver
+  clk: renesas: rzg2l: add a divider clock for RZ/G3S
+  dt-bindings: clock: renesas,rzg2l-cpg: document RZ/G3S SoC
+  dt-bindings: clock: add r9a08g045 CPG clocks and resets definitions
+  clk: renesas: add minimal boot support for RZ/G3S SoC
+  pinctrl: renesas: rzg2l: index all registers based on port offset
+  pinctrl: renesas: rzg2l: adapt for different SD/PWPR register offsets
+  pinctrl: renesas: rzg2l: adapt function number for RZ/G3S
+  pinctrl: renesas: rzg2l: move ds and oi to SoC specific configuration
+  pinctrl: renesas: rzg2l: add support for different ds values on
+    different groups
+  pinctrl: renesas: rzg2l: make struct
+    rzg2l_pinctrl_data::dedicated_pins constant
+  dt-bindings: pinctrl: renesas: document RZ/G3S SoC
+  pinctrl: renesas: rzg2l: add support for RZ/G3S SoC
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G3S support
+  arm64: dts: renesas: add initial DTSI for RZ/G3S SoC
+  arm64: dts: renesas: rzg3l-smarc-som: add initial support for RZ/G3S
+    SMARC Carrier-II SoM
+  arm64: dts: renesas: rzg3s-smarc: add initial device tree for RZ SMARC
+    Carrier-II Board
+  dt-bindings: arm: renesas: document SMARC Carrier-II EVK
+  arm64: dts: renesas: r9a08g045s33-smarc: add initial device tree for
+    RZ/G3S SMARC EVK board
+  arm64: defconfig: enable RZ/G3S (R9A08G045) SoC
+
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |   1 +
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml |   2 +
+ .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  26 +-
+ .../bindings/serial/renesas,scif.yaml         |   1 +
+ .../soc/renesas/renesas,rzg2l-sysc.yaml       |   1 +
+ .../bindings/soc/renesas/renesas.yaml         |   8 +
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 139 ++++
+ .../boot/dts/renesas/r9a08g045s33-smarc.dts   |  17 +
+ arch/arm64/boot/dts/renesas/r9a08g045s33.dtsi |  14 +
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     | 147 ++++
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  28 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   7 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a07g043-cpg.c           |  19 +-
+ drivers/clk/renesas/r9a07g044-cpg.c           |  19 +-
+ drivers/clk/renesas/r9a08g045-cpg.c           | 217 ++++++
+ drivers/clk/renesas/rzg2l-cpg.c               | 495 ++++++++++--
+ drivers/clk/renesas/rzg2l-cpg.h               |  39 +-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       | 728 ++++++++++++++----
+ drivers/soc/renesas/Kconfig                   |   6 +
+ drivers/soc/renesas/renesas-soc.c             |  15 +-
+ include/dt-bindings/clock/r9a08g045-cpg.h     | 243 ++++++
+ 24 files changed, 1924 insertions(+), 252 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g045s33.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+ create mode 100644 drivers/clk/renesas/r9a08g045-cpg.c
+ create mode 100644 include/dt-bindings/clock/r9a08g045-cpg.h
+
 -- 
-2.25.1
+2.39.2
 
