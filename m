@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B098579C502
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 06:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B02A779C518
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 06:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbjILEwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Sep 2023 00:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51468 "EHLO
+        id S229601AbjILExI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Sep 2023 00:53:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbjILEw3 (ORCPT
+        with ESMTP id S229714AbjILEwa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Sep 2023 00:52:29 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31CA5E6C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:25 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-500913779f5so8912575e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:25 -0700 (PDT)
+        Tue, 12 Sep 2023 00:52:30 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A774CDB
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:26 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-52bcd4db4c0so11174616a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 21:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1694494343; x=1695099143; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1694494345; x=1695099145; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zbtDbdKWy7sknPLbBivPbrazuM+8hh1NSsaSqosYDOg=;
-        b=qstQMKjfu3xj/Y1lVU6/GeD0Eu4SXyXOQl19lGGRHnDDdoTZO0hOeHsrdglroQ7lOG
-         +4Hs6YYt0FpmnU52Xe/YBRi+Nqs0vfefdyrlHBEz+PJKTdhZGVUiFUfTgb5W/euQG1ou
-         lz97TvRRhWTBYYv8ytIv/imO1PaNvP3QQZ6y7buFSKcxRIpv8gOXxe/nUUBR24aGkV3g
-         CoUN6Zo0yQZqI4v9i+abPQXlxCGblGVOxUN8sOTPdmzH8uALmx24mnoVx4HPT3qRkHOF
-         zT8M3/L+tE0Ut5W6qt7+9ezqQOCVaD4seHTxpojxGjDNma4BvINP23H+rjAE3JMG6cCk
-         nM7g==
+        bh=CWV9f2XGMGZ1osmL6Dmo7EcLISauRJpn6Qrd8fgNooo=;
+        b=IDY/MvQXmCwdQaxZowq326AODqP5jDcnKI50MylXYv2f6wVY5NyQTSNmuwblNtfmbV
+         62qM1t9v27sUyQp630EYuOcRkbMqCo+/4EIKZzig43rAecnBkDjwxkZba7KlmCrZLdQW
+         u1aHFpQN+KXxyASj1iZHsSMMtc4yhIDpEc05uwxMsqEC32R8gTBepFoxdxG880tooVjH
+         J64jwhkmXyk8zFUd9E5PwV0g62KPFiF/WdAhz1RZlBfqzbnVybxE/TGMAfylq1IqP/sY
+         h6sX4GIKW2jaCwuMQx9/eBeoenEx13FLAAucb5kyV4l8USOhPNTwdQnTnhjz+eW/LrQI
+         ySMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694494343; x=1695099143;
+        d=1e100.net; s=20230601; t=1694494345; x=1695099145;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zbtDbdKWy7sknPLbBivPbrazuM+8hh1NSsaSqosYDOg=;
-        b=iTr8LINby8fPp60NeDzi9ED7jxmBmmUBzJJPnJrrF4e43OSUrnxxSfWXWQkK0bc1Xm
-         Dg8QXXUbMG52BV1vyurwZYMEfTcMi9G6cqvjHM0KTiXhPPGJ0gKuia8KavZ/TpVeiFMp
-         u5r1hJLl8xUWZ1irXpGSlC6KAPRAry8A2DiUYpWuEpSpcogPB1OvHsRcOHk2hmZKbaiK
-         OUqZXuSDyiTQj7afb7urXN3Ih2b+0gl6k2NWx0oCcPlKMZflYOf9hw5biAuqSa4cXVOQ
-         IiK/5VlfmHE7VEeAh4UrHFGkeZg1Jj2xhWM3YkDQKYXY/gyBJo1nMwMNlbOd7J8YDSGl
-         eGRg==
-X-Gm-Message-State: AOJu0Yzpezb2aHGPG6+Cd2NZSRERo+XNZjca32At3Q8cBQIPZzwA8+cr
-        vXzHmdApVzP0FeMSfMeKzac7HA==
-X-Google-Smtp-Source: AGHT+IGXUW/JoTKle/AYEXdn1asCeC3YBoZs7TFHp20S2YoJe6qoMfnBsP4ELeziZ8//2c2LaNXEYg==
-X-Received: by 2002:a05:6512:3d21:b0:4fb:8616:7a03 with SMTP id d33-20020a0565123d2100b004fb86167a03mr12938183lfv.4.1694494343160;
-        Mon, 11 Sep 2023 21:52:23 -0700 (PDT)
+        bh=CWV9f2XGMGZ1osmL6Dmo7EcLISauRJpn6Qrd8fgNooo=;
+        b=mvG+2zKIBvlLK4t3s+nPfST+PSGSjYTJyuuDXZQgRpibLCc+U1Bh90kPPsmWWITCUF
+         PQytyjU88IjeF/v5Ep2rPpb24KmbEmUh6QT+lwsQHMephKNSi+Vi7lS1aN8Nsw0ov+KY
+         bDMwGjw+1m+Z1QpVJcT2Hm+yDxRSUEK2zmUDs4T1LT+vwmTVD5rmZ37qh4eVy3pqc28D
+         mBSc/YbNYKFW09ePD9uGGBgJVPh0njvEQaJxTG0xSUW2Ka53pxhChEswDrAq9V67lRy6
+         bbrRmRnIFeHM1Kzl0RpfLs9XkaTgdzA7n5nq0hRgIEi1zTX0dvsmI6F2AspDIjjDBJx4
+         HkMA==
+X-Gm-Message-State: AOJu0YwupowpL/ASoBNDou/0ZD9WUnzRaHWOvVWjlko82CQmTFzRuboD
+        77/Djl1picg/8WOMEINRoeiPSA==
+X-Google-Smtp-Source: AGHT+IEXMvJ54B9tDieb/iBxe6vR9tpU1fSuBhk/VIriKpr9bHjIDviE+4AXLRRYhM0H6Kg7n9NlkA==
+X-Received: by 2002:aa7:d28a:0:b0:522:d801:7d07 with SMTP id w10-20020aa7d28a000000b00522d8017d07mr1984738edq.10.1694494345199;
+        Mon, 11 Sep 2023 21:52:25 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.145])
-        by smtp.gmail.com with ESMTPSA id f21-20020a05640214d500b0051e22660835sm5422415edx.46.2023.09.11.21.52.21
+        by smtp.gmail.com with ESMTPSA id f21-20020a05640214d500b0051e22660835sm5422415edx.46.2023.09.11.21.52.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 21:52:22 -0700 (PDT)
+        Mon, 11 Sep 2023 21:52:24 -0700 (PDT)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
@@ -68,9 +68,9 @@ Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 03/37] dt-bindings: soc: renesas: renesas,rzg2l-sysc: document RZ/G3S SoC
-Date:   Tue, 12 Sep 2023 07:51:23 +0300
-Message-Id: <20230912045157.177966-4-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 04/37] soc: renesas: identify RZ/G3S SoC
+Date:   Tue, 12 Sep 2023 07:51:24 +0300
+Message-Id: <20230912045157.177966-5-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
@@ -82,26 +82,76 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Document RZ/G3S (R9A08G045) SYSC bindings. The SYSC block found on the
-RZ/G3S SoC is similar to one found on the RZ/G2UL.
+Add support to identify the RZ/G3S (R9A08G045) SoC.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- .../devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml      | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/soc/renesas/Kconfig       |  6 ++++++
+ drivers/soc/renesas/renesas-soc.c | 13 +++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-index e52e176d8cb3..4386b2c3fa4d 100644
---- a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-+++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-sysc.yaml
-@@ -23,6 +23,7 @@ properties:
-       - renesas,r9a07g043-sysc # RZ/G2UL and RZ/Five
-       - renesas,r9a07g044-sysc # RZ/G2{L,LC}
-       - renesas,r9a07g054-sysc # RZ/V2L
-+      - renesas,r9a08g045-sysc # RZ/G3S
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index 5a75ab64d1ed..631b17c627a8 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -319,6 +319,12 @@ config ARCH_R9A07G054
+ 	help
+ 	  This enables support for the Renesas RZ/V2L SoC variants.
  
-   reg:
-     maxItems: 1
++config ARCH_R9A08G045
++	bool "ARM64 Platform support for RZ/G3S"
++	select ARCH_RZG2L
++	help
++	  This enables support for the Renesas RZ/G3S SoC variants.
++
+ config ARCH_R9A09G011
+ 	bool "ARM64 Platform support for RZ/V2M"
+ 	select PM
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 42af7c09f743..1598b66ffb51 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -72,6 +72,10 @@ static const struct renesas_family fam_rzg2ul __initconst __maybe_unused = {
+ 	.name	= "RZ/G2UL",
+ };
+ 
++static const struct renesas_family fam_rzg3s __initconst __maybe_unused = {
++	.name	= "RZ/G3S",
++};
++
+ static const struct renesas_family fam_rzv2l __initconst __maybe_unused = {
+ 	.name	= "RZ/V2L",
+ };
+@@ -170,6 +174,11 @@ static const struct renesas_soc soc_rz_g2ul __initconst __maybe_unused = {
+ 	.id     = 0x8450447,
+ };
+ 
++static const struct renesas_soc soc_rz_g3s __initconst __maybe_unused = {
++	.family = &fam_rzg3s,
++	.id	= 0x85e0447,
++};
++
+ static const struct renesas_soc soc_rz_v2l __initconst __maybe_unused = {
+ 	.family = &fam_rzv2l,
+ 	.id     = 0x8447447,
+@@ -386,6 +395,9 @@ static const struct of_device_id renesas_socs[] __initconst __maybe_unused = {
+ #ifdef CONFIG_ARCH_R9A07G054
+ 	{ .compatible = "renesas,r9a07g054",	.data = &soc_rz_v2l },
+ #endif
++#ifdef CONFIG_ARCH_R9A08G045
++	{ .compatible = "renesas,r9a08g045",	.data = &soc_rz_g3s },
++#endif
+ #ifdef CONFIG_ARCH_R9A09G011
+ 	{ .compatible = "renesas,r9a09g011",	.data = &soc_rz_v2m },
+ #endif
+@@ -429,6 +441,7 @@ static const struct of_device_id renesas_ids[] __initconst = {
+ 	{ .compatible = "renesas,r9a07g043-sysc",	.data = &id_rzg2l },
+ 	{ .compatible = "renesas,r9a07g044-sysc",	.data = &id_rzg2l },
+ 	{ .compatible = "renesas,r9a07g054-sysc",	.data = &id_rzg2l },
++	{ .compatible = "renesas,r9a08g045-sysc",	.data = &id_rzg2l },
+ 	{ .compatible = "renesas,r9a09g011-sys",	.data = &id_rzv2m },
+ 	{ .compatible = "renesas,prr",			.data = &id_prr },
+ 	{ /* sentinel */ }
 -- 
 2.39.2
 
