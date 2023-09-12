@@ -2,253 +2,314 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 125AD79C6C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 08:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF28479C980
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Sep 2023 10:14:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjILGRw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Sep 2023 02:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46090 "EHLO
+        id S232474AbjILIOT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Sep 2023 04:14:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbjILGRw (ORCPT
+        with ESMTP id S232430AbjILIOR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Sep 2023 02:17:52 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32E2E79
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Sep 2023 23:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694499468; x=1726035468;
-  h=date:from:to:cc:subject:message-id;
-  bh=B79LGh7IlhCM8MxPgO6d+OMrNx40w4TRDIdudN+qYxg=;
-  b=jRSbLv4hr0rGIcPJ1R6VN18OKBvsBhiirbAeFqxuQ8HEoIlcxh6CvEUR
-   mPcFysHKinCCawvy0CKL4x3rHHDsCIsvZk7mE65h9U31vQ9Mnz19/GPng
-   9DzIr6KufdR+oFdvBcOEM6W6Li4wqPvrrpqMN/zeqXotdeqVVoLFxyZfX
-   RceGqy6K2I0llUvIOyPABgPV79X4GvHOB1gTSp/3npNFQSPWSmhoo2E93
-   jg+mMCR3dSzMC9a3YUbGmMuAYZGkQEJAkmOwuRH1LPuUxwI4vvolfj8Fe
-   u7sdhycofROD3UKYsboGpYb/ddjjn7IROejHR/FgdX+xw9/lie01eJwsr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="363319049"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="363319049"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 23:17:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="858661867"
-X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="858661867"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Sep 2023 23:17:28 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qfwiD-0007U9-12;
-        Tue, 12 Sep 2023 06:17:25 +0000
-Date:   Tue, 12 Sep 2023 14:17:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- f1f80f16cf65fdebcb57c299435019a932d50a6a
-Message-ID: <202309121404.bG69Z0ba-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+        Tue, 12 Sep 2023 04:14:17 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5236810C3;
+        Tue, 12 Sep 2023 01:14:13 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0C31C433CA;
+        Tue, 12 Sep 2023 08:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694506453;
+        bh=WcZtaGkqHKbm5o/8W3nvSSv5FuHAVyX3MpMpnPsL/0c=;
+        h=Date:From:To:Subject:Reply-To:References:In-Reply-To:From;
+        b=C8EVGg3sEa4s2hRrayFXZ1I+jDWksSLL3if5dCWrOcVBKUk8GZ8utCZWTL221cQ2D
+         e/mJtgRwXrZoRI3Hvnc0roaRWLB5sK141GFVpnH33evgyQCJC3+taCbMpM1dZmzIEN
+         tHUjnAc2zeEzyttPnqQ7HOaymRe2Zi6/OWLBq2ja0Nxnq6szibvfFqM7TzrU+Ho1Xy
+         aaq8MT4ZFdoCH5OucNS/eky/bze77CbV9LnasPZrr7RqFH03rpTt+z0Si4TeH4PSIH
+         /JeiztajGUfZQn4Y5bAWioiCLLCJVSwHb/aemHoO/lzctjG+1RoDDTcF2A0MJt2bOX
+         3eueL9guc3jKA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 80B62CE093C; Tue, 12 Sep 2023 01:14:12 -0700 (PDT)
+Date:   Tue, 12 Sep 2023 01:14:12 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        maple-tree@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Shanker Donthineni <sdonthineni@nvidia.com>
+Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
+ readers are possible
+Message-ID: <33150b55-970c-4607-9015-af0e50e4112d@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
+ <20230819004356.1454718-2-Liam.Howlett@oracle.com>
+ <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
+ <20230906152325.dblzauybyoq5kd35@revolver>
+ <ad298077-fca8-437e-b9e3-66e31424afb1@paulmck-laptop>
+ <20230906172954.oq4vogeuco25zam7@revolver>
+ <495849d6-1dc6-4f38-bce7-23c50df3a99f@paulmck-laptop>
+ <20230911235452.xhtnt7ply7ayr53x@revolver>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230911235452.xhtnt7ply7ayr53x@revolver>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: f1f80f16cf65fdebcb57c299435019a932d50a6a  Merge branches 'renesas-drivers-for-v6.7' and 'renesas-dts-for-v6.7' into renesas-next
+On Mon, Sep 11, 2023 at 07:54:52PM -0400, Liam R. Howlett wrote:
+> * Paul E. McKenney <paulmck@kernel.org> [230906 14:03]:
+> > On Wed, Sep 06, 2023 at 01:29:54PM -0400, Liam R. Howlett wrote:
+> > > * Paul E. McKenney <paulmck@kernel.org> [230906 13:24]:
+> > > > On Wed, Sep 06, 2023 at 11:23:25AM -0400, Liam R. Howlett wrote:
+> > > > > (Adding Paul & Shanker to Cc list.. please see below for why)
+> > > > > 
+> > > > > Apologies on the late response, I was away and have been struggling to
+> > > > > get a working PPC32 test environment.
+> > > > > 
+> > > > > * Geert Uytterhoeven <geert@linux-m68k.org> [230829 12:42]:
+> > > > > > 	Hi Liam,
+> > > > > > 
+> > > > > > On Fri, 18 Aug 2023, Liam R. Howlett wrote:
+> > > > > > > The current implementation of append may cause duplicate data and/or
+> > > > > > > incorrect ranges to be returned to a reader during an update.  Although
+> > > > > > > this has not been reported or seen, disable the append write operation
+> > > > > > > while the tree is in rcu mode out of an abundance of caution.
+> > > > > 
+> > > > > ...
+> > > > > > > 
+> 
+> ...
+> 
+> > > > > > RCU-related configs:
+> > > > > > 
+> > > > > >     $ grep RCU .config
+> > > > > >     # RCU Subsystem
+> > > > > >     CONFIG_TINY_RCU=y
 
-elapsed time: 1070m
+I must have been asleep last time I looked at this.  I was looking at
+Tree RCU.  Please accept my apologies for my lapse.  :-/
 
-configs tested: 181
-configs skipped: 2
+However, Tiny RCU's call_rcu() also avoids enabling IRQs, so I would
+have said the same thing, albeit after looking at a lot less RCU code.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+TL;DR:
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                            hsdk_defconfig   gcc  
-arc                  randconfig-r011-20230912   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   clang
-arm                       aspeed_g5_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                            mmp2_defconfig   clang
-arm                          pxa3xx_defconfig   gcc  
-arm                          pxa910_defconfig   gcc  
-arm                             pxa_defconfig   gcc  
-arm                   randconfig-001-20230912   clang
-arm                  randconfig-r026-20230912   clang
-arm                         s3c6400_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r002-20230912   clang
-arm64                randconfig-r006-20230912   clang
-arm64                randconfig-r016-20230912   gcc  
-arm64                randconfig-r036-20230912   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r023-20230912   gcc  
-hexagon               randconfig-001-20230912   clang
-hexagon               randconfig-002-20230912   clang
-hexagon              randconfig-r004-20230912   clang
-hexagon              randconfig-r032-20230912   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230912   clang
-i386         buildonly-randconfig-002-20230912   clang
-i386         buildonly-randconfig-003-20230912   clang
-i386         buildonly-randconfig-004-20230912   clang
-i386         buildonly-randconfig-005-20230912   clang
-i386         buildonly-randconfig-006-20230912   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230912   clang
-i386                  randconfig-002-20230912   clang
-i386                  randconfig-003-20230912   clang
-i386                  randconfig-004-20230912   clang
-i386                  randconfig-005-20230912   clang
-i386                  randconfig-006-20230912   clang
-i386                  randconfig-011-20230912   gcc  
-i386                  randconfig-012-20230912   gcc  
-i386                  randconfig-013-20230912   gcc  
-i386                  randconfig-014-20230912   gcc  
-i386                  randconfig-015-20230912   gcc  
-i386                  randconfig-016-20230912   gcc  
-i386                 randconfig-r026-20230912   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230912   gcc  
-loongarch            randconfig-r015-20230912   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                        m5307c3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-microblaze           randconfig-r013-20230912   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r021-20230912   gcc  
-nios2                randconfig-r024-20230912   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                    amigaone_defconfig   gcc  
-powerpc                 mpc8315_rdb_defconfig   clang
-powerpc                     ppa8548_defconfig   clang
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc              randconfig-r001-20230912   clang
-powerpc              randconfig-r005-20230912   clang
-powerpc                        warp_defconfig   gcc  
-powerpc64            randconfig-r014-20230912   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                 randconfig-001-20230912   clang
-riscv                randconfig-r005-20230912   clang
-riscv                randconfig-r035-20230912   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r031-20230912   clang
-s390                 randconfig-r032-20230912   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                   randconfig-r012-20230912   gcc  
-sh                   sh7724_generic_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230912   clang
-x86_64       buildonly-randconfig-002-20230912   clang
-x86_64       buildonly-randconfig-003-20230912   clang
-x86_64       buildonly-randconfig-004-20230912   clang
-x86_64       buildonly-randconfig-005-20230912   clang
-x86_64       buildonly-randconfig-006-20230912   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230912   gcc  
-x86_64                randconfig-002-20230912   gcc  
-x86_64                randconfig-003-20230912   gcc  
-x86_64                randconfig-004-20230912   gcc  
-x86_64                randconfig-005-20230912   gcc  
-x86_64                randconfig-006-20230912   gcc  
-x86_64                randconfig-011-20230912   clang
-x86_64                randconfig-012-20230912   clang
-x86_64                randconfig-013-20230912   clang
-x86_64                randconfig-014-20230912   clang
-x86_64                randconfig-015-20230912   clang
-x86_64                randconfig-016-20230912   clang
-x86_64                randconfig-071-20230912   clang
-x86_64                randconfig-072-20230912   clang
-x86_64                randconfig-073-20230912   clang
-x86_64                randconfig-074-20230912   clang
-x86_64                randconfig-075-20230912   clang
-x86_64                randconfig-076-20230912   clang
-x86_64               randconfig-r022-20230912   gcc  
-x86_64               randconfig-r025-20230912   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
+1.	Try making the __setup_irq() function's call to mutex_lock()
+	instead be as follows:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	if (!mutex_trylock(&desc->request_mutex))
+		mutex_lock(&desc->request_mutex);
+
+	This might fail if __setup_irq() has other dependencies on a
+	fully operational scheduler.
+
+2.	Move that ppc32 call to __setup_irq() much later, most definitely
+	after interrupts have been enabled and the scheduler is fully
+	operational.  Invoking mutex_lock() before that time is not a
+	good idea.  ;-)
+
+For more detail, please read on!
+
+> > > > > >     # CONFIG_RCU_EXPERT is not set
+> > > > > >     CONFIG_TINY_SRCU=y
+> > > > > >     # end of RCU Subsystem
+> > > > > >     # RCU Debugging
+> > > > > >     # CONFIG_RCU_SCALE_TEST is not set
+> > > > > >     # CONFIG_RCU_TORTURE_TEST is not set
+> > > > > >     # CONFIG_RCU_REF_SCALE_TEST is not set
+> > > > > >     # CONFIG_RCU_TRACE is not set
+> > > > > >     # CONFIG_RCU_EQS_DEBUG is not set
+> > > > > >     # end of RCU Debugging
+> > > > > 
+> > > > > I used the configuration from debian 8 and ran 'make oldconfig' to build
+> > > > > my kernel.  I have attached the configuration.
+> 
+> ...
+> 
+> > > > > It appears to be something to do with struct maple_tree sparse_irqs.  If
+> > > > > you drop the rcu flag from that maple tree, then my configuration boots
+> > > > > without the warning.
+> > > > > 
+> > > > > I *think* this is because we will reuse a lot more nodes.  And I *think*
+> > > > > the rcu flag is not needed, since there is a comment about reading the
+> > > > > tree being protected by the mutex sparse_irq_lock within the
+> > > > > kernel/irq/irqdesc.c file.  Shanker, can you comment on that?
+> > > > > 
+> > > > > I wonder if there is a limit to the number of RCU free events before
+> > > > > something is triggered to flush them out which could trigger IRQ
+> > > > > enabling? Paul, could this be the case?
+> > > > 
+> > > > Are you asking if call_rcu() will re-enable interrupts in the following
+> > > > use case?
+> > > > 
+> > > > 	local_irq_disable();
+> > > > 	call_rcu(&p->rh, my_cb_func);
+> > > > 	local_irq_enable();
+> 
+> I am not.
+> 
+> ...
+> 
+> > > > 
+> > > > Or am I missing your point?
+> > > 
+> > > This is very early in the boot sequence when interrupts have not been
+> > > enabled.  What we are seeing is a WARN_ON() that is triggered by
+> > > interrupts being enabled before they should be enabled.
+> > > 
+> > > I was wondering if, for example, I called call_rcu() a lot *before*
+> > > interrupts were enabled, that something could trigger that would either
+> > > enable interrupts or indicate the task needs rescheduling?
+> > 
+> > You aren't doing call_rcu() enough to hit OOM, are you?  The actual RCU
+> > callback invocations won't happen until some time after the scheduler
+> > starts up.
+> 
+> I am not, it's just a detection of IRQs being enabled early.
+> 
+> > 
+> > > Specifically the rescheduling part is suspect.  I tracked down the call
+> > > to a mutex_lock() which calls cond_resched(), so could rcu be
+> > > 'encouraging' the rcu window by a reschedule request?
+> > 
+> > During boot before interrupts are enabled, RCU has not yet spawned any of
+> > its kthreads.  Therefore, all of its attempts to do wakeups would notice
+> > a NULL task_struct pointer and refrain from actually doing the wakeup.
+> > If it did do the wakeup, you would see a NULL-pointer exception.  See
+> > for example, invoke_rcu_core_kthread(), though that won't happen unless
+> > you booted with rcutree.use_softirq=0.
+> > 
+> > Besides, since when did doing a wakeup enable interrupts?  That would
+> > make it hard to do wakeups from hardware interrupt handlers, not?
+> 
+> Taking the mutex lock in kernel/irq/manage.c __setup_irq() is calling a
+> cond_resched().
+> 
+> >From what Michael said [1] in this thread, since something has already
+> set TIF_NEED_RESCHED, it will eventually enable interrupts on us.
+> 
+> I've traced this to running call_rcu() in kernel/rcu/tiny.c and
+> is_idle_task(current) is true, which means rcu runs:
+> 		/* force scheduling for rcu_qs() */                                                                     
+>                 resched_cpu(0);
+> 
+> the task is set idle in sched_init() -> init_idle() and never changed,
+> afaict.
+
+Yes, because RCU eventually needs a context switch in order to make
+a grace period happen.  And Maple Tree isn't the only thing invoking
+call_rcu() early, so this has been in place for a very long time.
+
+> Removing the RCU option from the maple tree in kernel/irq/irqdesc.c
+> fixes the issue by avoiding the maple tree running call_rcu().  I am not
+> sure on the locking of the tree so I feel this change may cause other
+> issues...also it's before lockdep_init(), so any issue I introduce may
+> not be detected.
+> 
+> When CONFIG_DEBUG_ATOMIC_SLEEP is configured, it seems that rcu does the
+> same thing, but the IRQs are not enabled on return.  So, resched_cpu(0)
+> is called, but the IRQs warning of enabled isn't triggered.  I failed to
+> find a reason why.
+
+Here you mean IRQs being enabled upon return from __setup_irq(), correct?
+
+But yes, __setup_irq() does call mutex_lock().  Which will call
+preempt_schedule_common() via might_sleep() and __cond_resched(), even
+though that is clearly a very bad thing this early.  And let's face it,
+the whole purpose of mutex_lock() is to block when needed.  And a big
+purpose of that might_sleep() is to yell at people invoking this with
+interrupts disabled.
+
+And most of the wrappers around __setup_irq() look to be intended
+for much later, after interrupts have been enabled.  One exception is
+setup_percpu_irq(), which says that it is for "the early boot process",
+whenever that might be.  But this is only invoked from mips in v6.5.
+
+The __request_percpu_irq() function is wrappered by request_percpu_irq(),
+and its header comment suggests that it is to be called after there are
+multiple CPUs.  I am not seeing a call that is obviously from ppc32,
+but there are a number of drivers using this with which I am unfamiliar.
+
+The request_percpu_nmi() has to be followed up on each CPU using
+prepare_percpu_nmi() and enable_percpu_nmi(), so it is not clear that
+it is useful to invoke this before interrupts are enabled.  But this is
+used by ARM, not ppc32 from what I can see.
+
+So even though I am not seeing how ppc32 invokes __setup_irq() early,
+your testing clearly indicates that it is doing so.
+
+> I am not entirely sure what makes ppc32 different than other platforms
+> in that the initial task is configured to an idle task and the first
+> call to call_rcu (tiny!) would cause the observed behaviour.
+
+Maybe something like this in __setup_irq(), right before the
+mutex_lock()?
+
+	WARN_ON_ONCE(irqs_disabled());
+
+This will dump the stack trace showing how __setup_irq() is being invoked
+in early boot on ppc32.
+
+Again, given that __setup_irq() invokes mutex_lock(), invoking this
+function in its current form before interrupts have been enabled is a
+bad idea.
+
+> Non-tiny rcu calls (as I am sure you know, but others may not)
+> kernel/rcu/tree.c which in turn calls __call_rcu_common().  That
+> function is far more complex than the tiny version.  Maybe it's part of
+> why we see different behaviour based on platforms?  I don't see an idle
+> check in that version of call_rcu().
+
+Tree RCU can rely on the grace-period kthread starting up later in boot.
+This kthread will handle any need for a grace period from early boot
+invocation of call_rcu().  Tiny RCU does not have such a kthread, hence
+the resched_cpu().  Which is fine, as long as nothing (incorrectly!)
+invokes a blocking operation before the scheduler has been initialized.
+
+> Or maybe PPC32 has something set incorrectly to cause this failure in
+> early boot and I've just found something that needs to be set
+> differently?
+
+This might be a failure of imagination on my part, but I certainly don't
+see why ppc32 should expect to get away with invoking __setup_irq()
+anywhere near that early!  ;-)
+
+But if ppc32 cannot be adjusted so as to invoke __setup_irq() later,
+the following change to __setup_irq() might work:
+
+	if (!mutex_trylock(&desc->request_mutex))
+		mutex_lock(&desc->request_mutex);
+
+The reason for "might" rather than "will" is that __setup_irq() might
+well have other dependencies on the scheduler being up and running.
+
+It would be cleaner for that ppc32 call to __setup_irq() to be moved
+later, after the scheduler is up and running.
+
+> > But why not put some WARN_ON_ONCE(!irqs_disabled()) calls in the areas
+> > of greatest suspicion, starting from the stack trace generated by that
+> > mutex_lock()?  A stray interrupt-enable could be pretty much anywhere.
+> > 
+> > But where are those call_rcu() invocations?  Before rcu_init()?
+> 
+> During init_IRQ(), which is after rcu_init() but before rcu_init_nohz(),
+> srcu_init(), and softirq_init() in init/main.c start_kernel().
+
+That is a perfectly legal time and place for a call_rcu() invocation.
+It is also legal before rcu_init(), but it has to be late enough that
+things like per-CPU variables are accessible.  Which is still very early.
+
+> > Presumably before init is spawned and the early_init() calls.
+> > 
+> > And what is the RCU-related Kconfig and boot-parameter setup?
+> 
+> The .config was attached to the email I sent, and it matches what was
+> quoted above in the "RCU-related configs" section.
+> 
+> [1] https://lore.kernel.org/linux-mm/87v8cv22jh.fsf@mail.lhotse/
+
+Again, apologies for having misread that .config snippet!!!
+
+							Thanx, Paul
