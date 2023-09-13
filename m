@@ -2,179 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 744F979F2F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Sep 2023 22:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C8879F303
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Sep 2023 22:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232101AbjIMUeU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Sep 2023 16:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51880 "EHLO
+        id S232603AbjIMUir (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Sep 2023 16:38:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232548AbjIMUc4 (ORCPT
+        with ESMTP id S232525AbjIMUiq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Sep 2023 16:32:56 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7945B1BC8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Sep 2023 13:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=OjN5VJ4QM7OhyI3wmGDWXLIjFnf1/VnezDm+qLQZSgg=; b=DzLrod
-        dQ1Ib357owC5tehUe++9ulGPTDn02OnChHkAzXWpWvM5ldero61RZFgC3P83eJkQ
-        3t5oA2+qJ/U5EQMEQYdC9XPCKrEhJXt4eniKAZdwVwJR7DISJPPDJI0HVkuAvaWU
-        6BFAkU5uwJyP19cNALjGO5FzXvrSZ6PVJpoqnruVIpq8Q/hWBr5LmWzyhlXb16xr
-        ZTDlXkr599/ejcNstL6gZpAMngnFed6htZ+Ljg04wI7Gzg3GytSwEka84zJ+EzvI
-        4VRnX25v/4k+nnsSgFBBvzCHY2jpOr8G+DBvM7yA8/wc6oFn5bWjR8VSQtDNDiU9
-        GDz0RCS0/ktDjMzg==
-Received: (qmail 715875 invoked from network); 13 Sep 2023 22:32:49 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Sep 2023 22:32:49 +0200
-X-UD-Smtp-Session: l3s3148p1@P9h8dkMFPqIujnuS
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] i2c: rcar: add FastMode+ support for Gen4
-Date:   Wed, 13 Sep 2023 22:32:41 +0200
-Message-Id: <20230913203242.31505-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230913203242.31505-1-wsa+renesas@sang-engineering.com>
-References: <20230913203242.31505-1-wsa+renesas@sang-engineering.com>
+        Wed, 13 Sep 2023 16:38:46 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BABD1BC6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Sep 2023 13:38:42 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-41501ffb771so1191511cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Sep 2023 13:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694637521; x=1695242321; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zwVOfYwHpMwktmYsXHkpEkdKer4I1SfhoGgmDQcwfcA=;
+        b=DkUODoeoutX+fnNWGpq84ZK2tTioQ3MzRtj6VbRrtDrZ6nAUubNJDEIDlYCQ6CxABj
+         vhQuHi/1smrA9X238eSKybfeJIU/DDRZx/RgXY4r0HNyXwV1C8jZQZmYwnzixbFHh9qb
+         H61Ysf81rbKAMBMkr3Yasn1tQzpsnHjXrCQqtsUwP/28+BDtnfSbOzrOSW0JEjNQqaRQ
+         D53ZEE9lmKVh4ER4jM0ymn0VNkTy8KnejIcdDb07NyksWAbBhYIASxsjoaxdjanRpry0
+         1igu8lGpSM6g4xVkKmkODy2fm+OHnmpCMzK8uCFnAuwe3qCQoSXS3gzES1wKlGY1C6o/
+         bq6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694637521; x=1695242321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zwVOfYwHpMwktmYsXHkpEkdKer4I1SfhoGgmDQcwfcA=;
+        b=jBSzzEZ2oM/yc6hBGimd2BROyv7YzO+cI6ity2Jqaj9q9PDnFdGN1ph3r2OLzoDova
+         0MpUu6CQ/cJa0hJz6we1uTL9t0hvsg18jJEvrFmtno/EpazStYg4AtFIP+lgl6LmVAUN
+         ZwMWoR7GiXM6Ghyiw4hdYcEmtZ0CZdSu3dtgMP/qz5kX4PmH+M+Vct6U3pljCItsvoWY
+         39cJ0C48Xr4djoB32GijXkDyJEeMhO/JUt42dAgJFj0iPrh6il1FJk783FFurwXgDvRp
+         NTxl5gCuh5EEkj/xpO+PPpzhHvCRJCIDUYNu+P//q8fUSJIS45u39L7GdmuyGO6jxYg8
+         4J4Q==
+X-Gm-Message-State: AOJu0Yx3BqnP9QI4uGO/cYf3GgYk/CAJwyc9g9j456ddM5CWKsJG/p+V
+        0PctWFE2UQ+QQq+MPiNVnzYH3w==
+X-Google-Smtp-Source: AGHT+IH1ZDZfWwx8ZsEmLQw8AjRhhAy9QDYEdCvB0mO045R5lZFLCXc9qs+DfLxBtLvaL0Kn+ok1hA==
+X-Received: by 2002:ac8:75c8:0:b0:416:6663:3812 with SMTP id z8-20020ac875c8000000b0041666633812mr1808568qtq.35.1694637521530;
+        Wed, 13 Sep 2023 13:38:41 -0700 (PDT)
+Received: from maple.home ([174.94.49.189])
+        by smtp.gmail.com with ESMTPSA id j6-20020ac85506000000b0040f200feb4fsm24203qtq.80.2023.09.13.13.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 13:38:41 -0700 (PDT)
+From:   Ralph Siemsen <ralph.siemsen@linaro.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ralph Siemsen <ralph.siemsen@linaro.org>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v2 1/2] clk: renesas: r9a06g032: fix kerneldoc warning
+Date:   Wed, 13 Sep 2023 16:38:04 -0400
+Message-Id: <20230913203805.465780-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-To support FM+, we mainly need to turn the SMD constant into a parameter
-and set it accordingly. Then, activating the enable bit for FM+ is all
-we need to do. Tested with a Renesas Falcon board using R-Car V3U.
+Mention the 'dual' structure in the kdoc. This fixes the following
+W=1 warning during build:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> drivers/clk/renesas/r9a06g032-clocks.c:119: warning: Function parameter or member 'dual' not described in 'r9a06g032_clkdesc'
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202309101314.kTRoxND5-lkp@intel.com/
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 ---
- drivers/i2c/busses/i2c-rcar.c | 52 +++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 18 deletions(-)
+Changes in v2:
+- split the warning fix into separate commit
+---
+ drivers/clk/renesas/r9a06g032-clocks.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index 5aa6fd777276..9cc8d6ba0c78 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -89,6 +89,7 @@
- #define TMDMAE	BIT(0)	/* DMA Master Transmitted Enable */
- 
- /* ICCCR2 */
-+#define FMPE	BIT(7)	/* Fast Mode Plus Enable */
- #define CDFD	BIT(2)	/* CDF Disable */
- #define HLSE	BIT(1)	/* HIGH/LOW Separate Control Enable */
- #define SME	BIT(0)	/* SCL Mask Enable */
-@@ -122,11 +123,12 @@
- #define ID_NACK			BIT(4)
- #define ID_EPROTO		BIT(5)
- /* persistent flags */
-+#define ID_P_FMPLUS		BIT(27)
- #define ID_P_NOT_ATOMIC		BIT(28)
- #define ID_P_HOST_NOTIFY	BIT(29)
- #define ID_P_NO_RXDMA		BIT(30) /* HW forbids RXDMA sometimes */
- #define ID_P_PM_BLOCKED		BIT(31)
--#define ID_P_MASK		GENMASK(31, 28)
-+#define ID_P_MASK		GENMASK(31, 27)
- 
- enum rcar_i2c_type {
- 	I2C_RCAR_GEN1,
-@@ -148,6 +150,7 @@ struct rcar_i2c_priv {
- 	int pos;
- 	u32 icccr;
- 	u32 scl_gran;
-+	u8 smd;
- 	u8 recovery_icmcr;	/* protected by adapter lock */
- 	enum rcar_i2c_type devtype;
- 	struct i2c_client *slave;
-@@ -239,9 +242,14 @@ static void rcar_i2c_init(struct rcar_i2c_priv *priv)
- 	if (priv->devtype < I2C_RCAR_GEN3) {
- 		rcar_i2c_write(priv, ICCCR, priv->icccr);
- 	} else {
--		rcar_i2c_write(priv, ICCCR2, CDFD | HLSE | SME);
-+		u32 icccr2 = CDFD | HLSE | SME;
-+
-+		if (priv->flags & ID_P_FMPLUS)
-+			icccr2 |= FMPE;
-+
-+		rcar_i2c_write(priv, ICCCR2, icccr2);
- 		rcar_i2c_write(priv, ICCCR, priv->icccr);
--		rcar_i2c_write(priv, ICMPR, RCAR_DEFAULT_SMD);
-+		rcar_i2c_write(priv, ICMPR, priv->smd);
- 		rcar_i2c_write(priv, ICHPR, RCAR_SCHD_RATIO * priv->scl_gran);
- 		rcar_i2c_write(priv, ICLPR, RCAR_SCLD_RATIO * priv->scl_gran);
- 		rcar_i2c_write(priv, ICFBSCR, TCYC17);
-@@ -278,6 +286,8 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 
- 	/* Fall back to previously used values if not supplied */
- 	i2c_parse_fw_timings(dev, &t, false);
-+	priv->smd = RCAR_DEFAULT_SMD;
-+	rate = clk_get_rate(priv->clk);
- 
- 	/*
- 	 * calculate SCL clock
-@@ -297,11 +307,18 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 	 * clkp : peripheral_clk
- 	 * F[]  : integer up-valuation
- 	 */
--	rate = clk_get_rate(priv->clk);
--	cdf = rate / 20000000;
--	cdf_width = (priv->devtype == I2C_RCAR_GEN1) ? 2 : 3;
--	if (cdf >= 1U << cdf_width)
--		goto err_no_val;
-+	if (t.bus_freq_hz > I2C_MAX_FAST_MODE_FREQ && priv->devtype >= I2C_RCAR_GEN4) {
-+		priv->flags |= ID_P_FMPLUS;
-+		/* FM+ needs lower SMD and no filters */
-+		priv->smd /= 2;
-+		cdf = 0;
-+	} else {
-+		priv->flags &= ~ID_P_FMPLUS;
-+		cdf = rate / 20000000;
-+		cdf_width = (priv->devtype == I2C_RCAR_GEN1) ? 2 : 3;
-+		if (cdf >= 1U << cdf_width)
-+			goto err_no_val;
-+	}
- 
- 	/* On Gen3+, we use cdf only for the filters, not as a SCL divider */
- 	ick = rate / (priv->devtype < I2C_RCAR_GEN3 ? (cdf + 1) : 1);
-@@ -344,26 +361,25 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 		 * x as a base value for the SCLD/SCHD ratio:
- 		 *
- 		 * SCL = clkp / (8 + 2 * SMD + SCLD + SCHD + F[(ticf + tr + intd) * clkp])
--		 * SCL = clkp / (8 + 2 * RCAR_DEFAULT_SMD + RCAR_SCLD_RATIO * x
-+		 * SCL = clkp / (8 + 2 * SMD + RCAR_SCLD_RATIO * x
- 		 * 		 + RCAR_SCHD_RATIO * x + F[...])
- 		 *
- 		 * with: sum_ratio = RCAR_SCLD_RATIO + RCAR_SCHD_RATIO
--		 * and:  smd = 2 * RCAR_DEFAULT_SMD
- 		 *
--		 * SCL = clkp / (8 + smd + sum_ratio * x + F[...])
--		 * 8 + smd + sum_ratio * x + F[...] = SCL / clkp
--		 * x = ((SCL / clkp) - 8 - smd - F[...]) / sum_ratio
-+		 * SCL = clkp / (8 + 2 * smd + sum_ratio * x + F[...])
-+		 * 8 + 2 * smd + sum_ratio * x + F[...] = clkp / SCL
-+		 * x = ((clkp / SCL) - 8 - 2 * smd - F[...]) / sum_ratio
- 		 */
- 		x = DIV_ROUND_UP(rate, t.bus_freq_hz ?: 1);
--		x = DIV_ROUND_UP(x - 8 - 2 * RCAR_DEFAULT_SMD - round, sum_ratio);
--		scl = rate / (8 + 2 * RCAR_DEFAULT_SMD + sum_ratio * x + round);
-+		x = DIV_ROUND_UP(x - 8 - 2 * priv->smd - round, sum_ratio);
-+		scl = rate / (8 + 2 * priv->smd + sum_ratio * x + round);
- 
- 		/* Bail out if values don't fit into 16 bit or SMD became too large */
--		if (x * RCAR_SCLD_RATIO > 0xffff || RCAR_DEFAULT_SMD > x * RCAR_SCHD_RATIO)
-+		if (x * RCAR_SCLD_RATIO > 0xffff || priv->smd > x * RCAR_SCHD_RATIO)
- 			goto err_no_val;
- 
--		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SCL gran %u\n",
--			scl, t.bus_freq_hz, rate, round, cdf, x);
-+		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SMD %u SCL gran %u\n",
-+			scl, t.bus_freq_hz, rate, round, cdf, priv->smd, x);
- 
- 		priv->icccr = cdf;
- 		priv->scl_gran = x;
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index 55db63c7041a..aa00543fe865 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -109,6 +109,7 @@ enum gate_type {
+  *             must be in ascending order, zero for unused
+  * @div:       divisor for fixed-factor clock
+  * @mul:       multiplier for fixed-factor clock
++ * @dual:      substructure for dual clock gates
+  * @group:     UART group, 0=UART0/1/2, 1=UART3/4/5/6/7
+  * @sel:       select either g1/r1 or g2/r2 as clock source
+  * @g1:        1st source gate (clock enable/disable)
 -- 
-2.35.1
+2.25.1
 
