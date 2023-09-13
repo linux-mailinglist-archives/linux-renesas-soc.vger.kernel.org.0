@@ -2,98 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D5579E93B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Sep 2023 15:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2789479EC8D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Sep 2023 17:22:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240928AbjIMN1P convert rfc822-to-8bit (ORCPT
+        id S229804AbjIMPW3 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Sep 2023 09:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
+        Wed, 13 Sep 2023 11:22:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240902AbjIMN1O (ORCPT
+        with ESMTP id S230188AbjIMPW1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Sep 2023 09:27:14 -0400
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F6019B1;
-        Wed, 13 Sep 2023 06:27:10 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d7cbcfdf137so5985235276.2;
-        Wed, 13 Sep 2023 06:27:10 -0700 (PDT)
+        Wed, 13 Sep 2023 11:22:27 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDED7CE;
+        Wed, 13 Sep 2023 08:22:23 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-770ef353b8fso326351585a.0;
+        Wed, 13 Sep 2023 08:22:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694611630; x=1695216430;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1694618543; x=1695223343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hlTO8VUYsx7PmNq9m5A7uTHn55FRtbCGrjx/4WjOV/Q=;
-        b=MR17P+93qmk4MLg7NaW/t6q3MkT3lg2m26lLTDVLz1LKSxPhZYsavova+9U/b/yKQY
-         Xv88PcNMFP/SkX1krJ0cmYw0sKJu5OHMhXCoAMlQ/QNaSl8fRWTXwBZa55AaPP/ohizT
-         7U7XNFXSYPmfJrz5Mj7sfv8bXYt//EFKzaQukjCme/AOtm/GfkRcY90F63PO4ybaJNzG
-         Yxj21Xx2mKFi4gK5km6gFam3/2tyMRv8Di+fQ8f5gEu8ZL26zpTr0+RMnNTmWduSN1Uw
-         Ge6Dny8ukJyi4qPpN6XciBzUbD/akSdvbW9xF8fKXIk4E+0LWZgLBz5PozEGlqWKmGCk
-         w8cA==
-X-Gm-Message-State: AOJu0YyzewrtEcF8G4rOD36CwfiKOucHJ/e3PxB0DgT6xTRJV2fVTofK
-        4FRUj3OltoM1R0m1EKJtMidv4KOsxONy0Q==
-X-Google-Smtp-Source: AGHT+IHrscU5LeqiT5p/6SKLB0CGMJAS87Rhd9ivpNoNymY7CtFjuYUHvztA/hU2VbsUlB05q2fUPg==
-X-Received: by 2002:a25:d045:0:b0:d80:ce33:af5b with SMTP id h66-20020a25d045000000b00d80ce33af5bmr2632718ybg.59.1694611629987;
-        Wed, 13 Sep 2023 06:27:09 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id d11-20020a25888b000000b00d7823cc7d62sm2627504ybl.19.2023.09.13.06.27.08
+        bh=7YO1tPkDOEwQyc/Dv+HaOfcjogh4Es5EpVUGisTZOW4=;
+        b=sHTB26XNZ8teze6yZ9Ixw9kqdAyYVWnLlDSTGSBflM3o/T8d/XnR0ltTMjN15mwhMe
+         vAch7EnHtODeg9nb4fnZvSlCSxj0nMzfH0NA6iQn2K/AKhZHCUpd1uu4/cBDRMt4/Hx2
+         zw4Rp7dEaHm5T8mKrygsErZOCXUBcHeq0m/IHBMUuapBhjadQoptgQYqi3Se4dpyxn1D
+         ZkN7TiLaUjfZCH9dJUpSCuT0K33qCgrcPNjE1suEoU2X6PpWnp0VAUfraAy9RcfsQL/h
+         5eHFyugAlBv5blCIvJp9geqtNvPX5Usbjh8YdTWKlDqYvTqCfqS6Yc0aP3DE74SNi0u1
+         JIpQ==
+X-Gm-Message-State: AOJu0YwYWS6hYq5QxE0zM8N8KayeOi75z2kpba2NetgULvXQ8O36SDxe
+        QUiFn5RQiBCW5EYYAhW9sPfNcX2Pe5D5KQ==
+X-Google-Smtp-Source: AGHT+IEWLMHZWuUElViNkfPsqVJNkVnRs/obn/xLwb7A1rORq0QfqkXdEdSkStvIeU9CQexjOYe1kg==
+X-Received: by 2002:a0c:e147:0:b0:64a:131f:b214 with SMTP id c7-20020a0ce147000000b0064a131fb214mr2907571qvl.12.1694618542767;
+        Wed, 13 Sep 2023 08:22:22 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
+        by smtp.gmail.com with ESMTPSA id a17-20020a05620a125100b0076f039d87c6sm3966650qkl.82.2023.09.13.08.22.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 06:27:09 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-59b53488f7cso57444947b3.0;
-        Wed, 13 Sep 2023 06:27:08 -0700 (PDT)
-X-Received: by 2002:a25:ac4b:0:b0:d81:754a:7cb8 with SMTP id
- r11-20020a25ac4b000000b00d81754a7cb8mr568577ybd.65.1694611628683; Wed, 13 Sep
- 2023 06:27:08 -0700 (PDT)
+        Wed, 13 Sep 2023 08:22:22 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-76dc77fd01fso436119885a.3;
+        Wed, 13 Sep 2023 08:22:22 -0700 (PDT)
+X-Received: by 2002:a25:ad08:0:b0:d7f:8e1e:a95f with SMTP id
+ y8-20020a25ad08000000b00d7f8e1ea95fmr2686664ybi.6.1694618224901; Wed, 13 Sep
+ 2023 08:17:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <ad298077-fca8-437e-b9e3-66e31424afb1@paulmck-laptop>
- <20230906172954.oq4vogeuco25zam7@revolver> <495849d6-1dc6-4f38-bce7-23c50df3a99f@paulmck-laptop>
- <20230911235452.xhtnt7ply7ayr53x@revolver> <33150b55-970c-4607-9015-af0e50e4112d@paulmck-laptop>
- <CAMuHMdWKwdxjRf031aD=Ko7vRdvFW-OR48QAc=ZFy=FP_LNAoA@mail.gmail.com>
- <f9b0a88c-8a64-439f-a488-85d500c9f2aa@paulmck-laptop> <CAMuHMdX89u6wL9W+8ZOn-OTT1FreYjEqYnvEip4Aq3k1gOP0EQ@mail.gmail.com>
- <62936d98-6353-486e-8535-86c9f90bc7f4@paulmck-laptop> <CAMuHMdVp10=AQDcC31OEvy2LPWSdjvHnbCKVtRtt-Re=7wr=1w@mail.gmail.com>
- <20230913132404.wepr7l7o5qegy7hw@revolver>
-In-Reply-To: <20230913132404.wepr7l7o5qegy7hw@revolver>
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
+ <20230912045157.177966-36-claudiu.beznea.uj@bp.renesas.com>
+ <20230912161635.GA877089-robh@kernel.org> <56cf08f2-5d8e-6098-6218-081d8f620abe@tuxon.dev>
+In-Reply-To: <56cf08f2-5d8e-6098-6218-081d8f620abe@tuxon.dev>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Sep 2023 15:26:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXDqziMK_GUEd5wLR=Yk0=oP0jC-zAE7dGUYkOpGPZ7gg@mail.gmail.com>
-Message-ID: <CAMuHMdXDqziMK_GUEd5wLR=Yk0=oP0jC-zAE7dGUYkOpGPZ7gg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
- readers are possible
-To:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, paulmck@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        maple-tree@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Shanker Donthineni <sdonthineni@nvidia.com>
+Date:   Wed, 13 Sep 2023 17:16:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWntLTk9ZmAF1voE-tdB+4vVzE804h=qsfaoN-8_6RN_Q@mail.gmail.com>
+Message-ID: <CAMuHMdWntLTk9ZmAF1voE-tdB+4vVzE804h=qsfaoN-8_6RN_Q@mail.gmail.com>
+Subject: Re: [PATCH 35/37] dt-bindings: arm: renesas: document SMARC
+ Carrier-II EVK
+To:     claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc:     Rob Herring <robh@kernel.org>, mturquette@baylibre.com,
+        sboyd@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, ulf.hansson@linaro.org,
+        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, magnus.damm@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Liam,
+Hi Claudiu,
 
-On Wed, Sep 13, 2023 at 3:24 PM Liam R. Howlett <Liam.Howlett@oracle.com> wrote:
-> * Geert Uytterhoeven <geert@linux-m68k.org> [230913 09:15]:
-> > On the affected systems (RZ/A1 and RZ/A2), the WARN_ON_ONCE() did
-> > not trigger, until I applied Liam's patch ("init/main: Clear boot task
-> > idle flag"), which got rid of the "Interrupts were enabled early" warning,
-> > and now tells me, as expected:
+On Wed, Sep 13, 2023 at 7:32 AM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
+> On 12.09.2023 19:16, Rob Herring wrote:
+> > On Tue, Sep 12, 2023 at 07:51:55AM +0300, Claudiu wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> Document Renesas SMARC Carrier-II EVK board which is based on RZ/G3S
+> >> (R9A08G045) SoC. The SMARC Carrier-II EVK consists of RZ/G3S SoM module and
+> >> SMARC Carrier-II carrier board, the SoM module sits on top of carrier
+> >> board.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-[...]
+Thanks for your patch!
 
-> > However, Liam's patch causes lots of warnings on the other systems...
+> >> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> >> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> >> @@ -476,6 +476,8 @@ properties:
+> >>
+> >>        - description: RZ/G3S (R9A08G045)
+> >>          items:
+> >> +          - enum:
+> >> +              - renesas,smarc2-evk # SMARC Carrier-II EVK
 > >
+> > You just changed the existing binding...
+> >
+> >>            - enum:
+> >>                - renesas,r9a08g045s33 # PCIe support
+> >
+> > This is the SoM module?
 >
-> What patch?  The "init/main" patch?
+> No, this is a SoC variant which supports PCIe.
 
-Indeed.
+Ideally, we need a compatible value for the SoM as well, as the SoM
+can be used stand-alone, or plugged in a different carrier board.
 
-> What systems and what are they?
+For iWave Systems RZ/G1E SODIMM, we have that.
+For the existing RZ/G2L variants, we forgot, but it can still be added...
 
-Reported in the thread:
-https://lore.kernel.org/all/CAMuHMdWR68a49=vthdp03stpvaHLS5BRa+rhVdnr7gQDFkNotQ@mail.gmail.com
+>
+> > You either need to squash this change or add
+> > another case with 3 entries and maintain the 2 entry case. (there's no
+> > way to express any entry at the beginning or middle can be optional)
+> >
+> >>            - const: renesas,r9a08g045
 
 Gr{oetje,eeting}s,
 
