@@ -2,226 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2AB979F58C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 01:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3449079FC53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 08:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbjIMXbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Sep 2023 19:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S233411AbjINGx3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 02:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233228AbjIMXbX (ORCPT
+        with ESMTP id S232878AbjINGx0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Sep 2023 19:31:23 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7663D170B;
-        Wed, 13 Sep 2023 16:31:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8CC0C433C7;
-        Wed, 13 Sep 2023 23:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694647878;
-        bh=hxr26k1B7gBayRPGem0+EIMrG1KjojApXUJldbdhIms=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=tuQ0PIVv2S5ZditTMDcbxY/v+34J/uHH2IhIYQtdhBGZsvDeTTQS9L42B2rLFESIz
-         iOeUTRS4SdFqrqNMDzSM6xOT1gtU77aAaNfQ9488SHn/mllIfbishfhHNcp8Wfx3UX
-         3XqwlbSO2th8jhZQt7cOBe5dia+DtEvPiFBAJ1hL/1Na9Ds3gzgwzEFkAZGpH9DDA/
-         yyLtI+OYdaiVDdYE45AqRUOJqCFeGeF4gR8h7sj0OoXO23TTteQSxP3Vkg6WB3HN3r
-         XQnkbyEw2ooUw+wXAbrobzSLfuZfclexMEJEfLnyM/VGCS8BkfgM5YiXBakoOZdcqv
-         jiVGM7sYmf+fg==
-Date:   Wed, 13 Sep 2023 18:31:15 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
-        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, marek.vasut+renesas@gmail.com,
-        fancer.lancer@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v20 04/19] PCI: designware-ep: Add INTx IRQs support
-Message-ID: <20230913233115.GA11062@bhelgaas>
+        Thu, 14 Sep 2023 02:53:26 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D81CE5;
+        Wed, 13 Sep 2023 23:53:22 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59bcd927b45so7232017b3.1;
+        Wed, 13 Sep 2023 23:53:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694674401; x=1695279201;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MubaXS4LapmWRsdSNbB72rtVm488qlzx9GSVnCeypz4=;
+        b=crTTfMT/yzelgeN+eHU8SlsdQmSKN2K6OnWR9fWFLBs7l2F1s9tMRDCvTNeYpRWoKV
+         rvzkqPjAPjoagQmscZM2ehjoXimQGCvrDVL+C3+Bth6uw0FlZAv5NyVly7IS1798Zq5u
+         8YMhAtc4pwVdZBQUFzaIdP4nL8B992FI2RcoFBKlwK6/LRCkmb3y1Bx82xonSr6qsJBe
+         S1c0vwqdFyYSmD06Ova9F7mJVO0y+3nJFzxl6x9IMwk4dl9+z4IZKII3lmMCAenE6hd8
+         /RC4Urs5+XNjW5hmHOuOBlKsTlSrTb8bSonA8PIdsiFginwQDrTfHiVvyY/FEaEu2HBg
+         pb0w==
+X-Gm-Message-State: AOJu0Yz/LVqPujfFDwUST1BFFgZOKRW49rNYwCefBefHcjT63g5j86s/
+        GSCNF/ILZmzgY5laVhc5UFiDJunGz01lVA==
+X-Google-Smtp-Source: AGHT+IHOHpzLQZ6f18LYofB8tRO4sNSSlhTgdOKCw92hfJ355vQ+Qyvj+zqhuZLWUxkzoptf2c8c9g==
+X-Received: by 2002:a81:4705:0:b0:59a:b7b2:5f02 with SMTP id u5-20020a814705000000b0059ab7b25f02mr5171564ywa.18.1694674401715;
+        Wed, 13 Sep 2023 23:53:21 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id m131-20020a0dca89000000b005773afca47bsm192932ywd.27.2023.09.13.23.53.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 23:53:20 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d815a5eee40so610500276.2;
+        Wed, 13 Sep 2023 23:53:20 -0700 (PDT)
+X-Received: by 2002:a25:acd5:0:b0:d80:a9d:aea9 with SMTP id
+ x21-20020a25acd5000000b00d800a9daea9mr4631207ybd.34.1694674400192; Wed, 13
+ Sep 2023 23:53:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230825093219.2685912-5-yoshihiro.shimoda.uh@renesas.com>
+References: <20230731003956.572414-1-dlemoal@kernel.org> <8be9c370-2f1-5815-431-f68ab868669@linux-m68k.org>
+ <ffc1442b-698e-65ab-9aaf-e4ca076b697c@kernel.org> <CAMuHMdXK-pnzMNzbNw=zWaMbQtWtca850eYv98oUjQkypgBfwg@mail.gmail.com>
+ <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
+In-Reply-To: <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Sep 2023 08:53:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVHu3zeM0WA7TcTA2QT9X68cTttU-TzjsQw6ZuYCu4t=A@mail.gmail.com>
+Message-ID: <CAMuHMdVHu3zeM0WA7TcTA2QT9X68cTttU-TzjsQw6ZuYCu4t=A@mail.gmail.com>
+Subject: Re: [PATCH] ata,scsi: do not issue START STOP UNIT on resume
+To:     Damien Le Moal <dlemoal@kernel.org>
+Cc:     linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Paul Ausbeck <paula@soe.ucsc.edu>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        TW <dalzot@gmail.com>, regressions@lists.linux.dev,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 06:32:04PM +0900, Yoshihiro Shimoda wrote:
-> Add support for triggering INTx IRQs by using outbound iATU.
-> Outbound iATU is utilized to send assert and de-assert INTA TLPs
-> as simulated edge IRQ for INTA. (Other INT[BCD] are not asserted.)
-> This INTx support is optional (if there is no memory for INTx,
-> probe will not fail).
-> 
-> The message is generated based on the payloadless Msg TLP with type
-> 0x14, where 0x4 is the routing code implying the Terminate at
-> Receiver message. The message code is specified as b1000xx for
-> the INTx assertion and b1001xx for the INTx de-assertion.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> ---
->  .../pci/controller/dwc/pcie-designware-ep.c   | 70 +++++++++++++++++--
->  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
->  2 files changed, 68 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> index 747d5bc07222..91e3c4335031 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> @@ -6,9 +6,11 @@
->   * Author: Kishon Vijay Abraham I <kishon@ti.com>
->   */
->  
-> +#include <linux/delay.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  
-> +#include "../../pci.h"
->  #include "pcie-designware.h"
->  #include <linux/pci-epc.h>
->  #include <linux/pci-epf.h>
-> @@ -484,14 +486,61 @@ static const struct pci_epc_ops epc_ops = {
->  	.get_features		= dw_pcie_ep_get_features,
->  };
->  
-> +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 code,
-> +			       u8 routing)
-> +{
-> +	struct dw_pcie_ob_atu_cfg atu = { 0 };
-> +	struct pci_epc *epc = ep->epc;
-> +	int ret;
-> +
-> +	atu.func_no = func_no;
-> +	atu.code = code;
-> +	atu.routing = routing;
-> +	atu.type = PCIE_ATU_TYPE_MSG;
-> +	atu.cpu_addr = ep->intx_mem_phys;
-> +	atu.size = epc->mem->window.page_size;
-> +
-> +	ret = dw_pcie_ep_outbound_atu(ep, &atu);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* A dummy-write ep->intx_mem is converted to a Msg TLP */
-> +	writel(0, ep->intx_mem);
-> +
-> +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
-> +
-> +	return 0;
-> +}
-> +
->  int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
->  {
->  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->  	struct device *dev = pci->dev;
-> +	int ret;
->  
-> -	dev_err(dev, "EP cannot trigger legacy IRQs\n");
-> +	if (!ep->intx_mem) {
-> +		dev_err(dev, "legacy IRQs not supported\n");
-> +		return -EOPNOTSUPP;
-> +	}
->  
-> -	return -EINVAL;
-> +	/*
-> +	 * Even though the PCI bus specification implies the level-triggered
-> +	 * INTx interrupts the kernel PCIe endpoint framework has a single
-> +	 * PCI_EPC_IRQ_INTx flag defined for the legacy IRQs simulation. Thus
-> +	 * this function sends the Deassert_INTx PCIe TLP after the Assert_INTx
-> +	 * message with the 50 usec duration basically implementing the
-> +	 * rising-edge triggering IRQ. Hopefully the interrupt controller will
-> +	 * still be able to register the incoming IRQ event...
+Hi Damien,
 
-I'm not really convinced about this "assert INTA, wait 50us, deassert
-INTA" thing.  All the INTx language in the spec is like this:
+On Thu, Sep 14, 2023 at 12:03 AM Damien Le Moal <dlemoal@kernel.org> wrote:
+> On 9/13/23 19:21, Geert Uytterhoeven wrote:
+> >> Thanks for the report. The delay for the first data access from user space right
+> >> after resume is 100% expected, with or without this patch. The reason is that
+> >> waking up the drive (spinning it up) is done asynchronously from the PM resume
+> >> context, so when you get "PM suspend exit" message signaling that the system is
+> >> resumed, the drive may not yet be spinning. Any access will wait for that to
+> >> happen before proceeding. Depending on the drive that can take up to 10s or so.
+> >
+> > That does not match with what I am seeing: before this patch, there
+> > was no delay on first data access from user space, as the drive is fully
+> > spun up when system resume returns.
+>
+> Yes, that is a possibility, but not by design. Some users have complained about
+> the long resume times which causes laptop screens to be "black" until disks spin
+> up. That did not happen before 5.16, when the change to scsi using the PM async
+> ops to do suspend/resume created all the issues with suspend/resume on ata side.
+> I am going to run 5.15 again to check.
+>
+> The patch "do not issue START STOP UNIT on resume" was a botch attempt to remove
+> this delay. But it is a bad one because the ATA specs define that a drive can
+> get out of standby (spun down) power state only with a media access command (a
+> VERIFY command is used to spin up the disk). And furthermore, the specs also
+> says that even a reset shall not change the device power state. So issuing a
+> VERIFY command to spin up the drive is required per specs. Note that I do see
+> many of my drives (I have hundreds in the lab) spinning up on reset, which is
+> against the specs. But not all of them. So with the patch "do not issue START
+> STOP UNIT on resume", one risks not seeing the drive resuming correctly (timeout
+> errors on IDENTIFY command issued on resume will get the drive removed).
+>
+> > With this patch, system resume returns earlier, and the drive is only
+> > spun up when user space starts accessing data.
+>
+> Yes, but "when user space starts accessing data" -> "user space accesses are
+> processed only after the drive completes spinning up" would be more accurate.
 
-  ... the virtual INTx wire must be asserted whenever and *as long as*
-  the following conditions are satisfied:
+Sure, I wrote it down in terms of what the user is experiencing, which may
+not be identical to what's happening under the hood.
 
-    - The Interrupt Disable bit in the Command register is set to 0b.
+> That is by design and expected. This is the behavior one would see if the drive
+> is set to use standby timers (to go to standby on its own after some idle time)
+> or if runtime suspend is used. I do not see any issue with this behavior. Is
+> this causing any issue on your end ? Do you have concerns about this approach ?
+>
+> Having the resume process wait for the drive to fully spin-up is easy to do. But
+> as I mentioned, many users are really not happy about how slow resuming become
+> with that. If I do that, you will get back the previous behavior you mention,
+> but I will be again getting emails about "resume is broken".
+>
+> I made a decision: no waiting for spinup. That causes a delay for the user on
+> first access, but that makes resume overall far faster. I do not want to go back
+> on that, unless you can confirm that there is a real regression/error/data
+> corruption happening.
 
-    - The <feature> Interrupt Enable bit in the <feature> Control
-      Register is set to 1b.
+I agree that is fine.
 
-    - The <feature> Status bit in the <feature> Status register is
-      set.
+Gr{oetje,eeting}s,
 
-E.g., sec PCIe r6.0, sec 5.5.6 (Link Activation), 6.1.6 (Native PME),
-6.2.4.1.2 (AER Interrupt Generation), 6.2.11.1 (DPC Interrupts),
-6.7.3.4 (Software Notification of Hot-Plug Events).
+                        Geert
 
-So it seems to me like the endpoint needs an "interrupt status" bit,
-and the Deassert_INTx message would be sent when the host interrupt
-handler clears that bit.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> +	 */
-> +	ret = dw_pcie_ep_send_msg(ep, func_no, PCI_MSG_CODE_ASSERT_INTA,
-> +				  PCI_MSG_TYPE_R_LOCAL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(50, 100);
-> +
-> +	return dw_pcie_ep_send_msg(ep, func_no, PCI_MSG_CODE_DEASSERT_INTA,
-> +				   PCI_MSG_TYPE_R_LOCAL);
->  }
->  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_legacy_irq);
->  
-> @@ -622,6 +671,10 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
->  
->  	dw_pcie_edma_remove(pci);
->  
-> +	if (ep->intx_mem)
-> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> +				      epc->mem->window.page_size);
-> +
->  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
->  			      epc->mem->window.page_size);
->  
-> @@ -793,9 +846,14 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->  		goto err_exit_epc_mem;
->  	}
->  
-> +	ep->intx_mem = pci_epc_mem_alloc_addr(epc, &ep->intx_mem_phys,
-> +					      epc->mem->window.page_size);
-> +	if (!ep->intx_mem)
-> +		dev_warn(dev, "Failed to reserve memory for INTx\n");
-> +
->  	ret = dw_pcie_edma_detect(pci);
->  	if (ret)
-> -		goto err_free_epc_mem;
-> +		goto err_free_epc_mem_intx;
->  
->  	if (ep->ops->get_features) {
->  		epc_features = ep->ops->get_features(ep);
-> @@ -812,7 +870,11 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->  err_remove_edma:
->  	dw_pcie_edma_remove(pci);
->  
-> -err_free_epc_mem:
-> +err_free_epc_mem_intx:
-> +	if (ep->intx_mem)
-> +		pci_epc_mem_free_addr(epc, ep->intx_mem_phys, ep->intx_mem,
-> +				      epc->mem->window.page_size);
-> +
->  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
->  			      epc->mem->window.page_size);
->  
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> index 8f22a7bc0523..e02d4986bc2b 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.h
-> +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> @@ -376,6 +376,8 @@ struct dw_pcie_ep {
->  	unsigned long		*ob_window_map;
->  	void __iomem		*msi_mem;
->  	phys_addr_t		msi_mem_phys;
-> +	void __iomem		*intx_mem;
-> +	phys_addr_t		intx_mem_phys;
->  	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
->  };
->  
-> -- 
-> 2.25.1
-> 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
