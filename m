@@ -2,122 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED377A0592
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5DE87A059C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238868AbjINN37 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 09:29:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
+        id S230174AbjINNdB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 09:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235397AbjINN36 (ORCPT
+        with ESMTP id S230122AbjINNdA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 09:29:58 -0400
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7001FD8;
-        Thu, 14 Sep 2023 06:29:54 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5925e580f12so11411447b3.3;
-        Thu, 14 Sep 2023 06:29:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694698193; x=1695302993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MMgnSEID+xkECrUs/n98woQl+ojuPd0/IiG5nfXIn2c=;
-        b=XzOelWPkiVoyl5RggkTcRd3uA415Z162tBB3CDrInXacj6nPzpABWMzAnB4PpROIua
-         nR2OvbrozuiwByoF79OQHRDCan6qXryQHUomw5kleQQzv29QBpZtP3sYxbss6G4i3LxE
-         97Xg53EqVldYoAxzJM//+QVFXFWZevXujZSnY9zxdP3K/1DfM/4A9plmlOmrCB0+GBm3
-         XA5jHgzZxV0WAX1y8GFy/NYTrvbiYOfLTy50/dM7PZ31+aHSyVJvDMF/gkRAk9DKGQX9
-         6qxmEiymL97L0V71FfS1AZwdmxa+3sYzzO1KCXZXT4U4ChqHnnShTZnSMbjZMvIGn/Dp
-         +OWg==
-X-Gm-Message-State: AOJu0YxRn2nJ1IhFRaj4ClhPlBwSXh4h7ibZXqSkuyZMCKL2ThaE198N
-        QZMCbJOix1H0a/ZZQ7wH85OUT6gcwbaAjw==
-X-Google-Smtp-Source: AGHT+IEqkaYIojyrujrVO1BiGM9aV1qiSgkX3ciD/0/s2n379RnWi+PZW1+3eZyfAzTGGaaNUj5fuw==
-X-Received: by 2002:a81:7287:0:b0:59b:8da4:dc1 with SMTP id n129-20020a817287000000b0059b8da40dc1mr5820380ywc.38.1694698193125;
-        Thu, 14 Sep 2023 06:29:53 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id h125-20020a816c83000000b00582fae92aa7sm318186ywc.93.2023.09.14.06.29.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 06:29:52 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59bd2e19c95so11653557b3.0;
-        Thu, 14 Sep 2023 06:29:52 -0700 (PDT)
-X-Received: by 2002:a0d:fe43:0:b0:589:c065:b419 with SMTP id
- o64-20020a0dfe43000000b00589c065b419mr5624958ywf.34.1694698192345; Thu, 14
- Sep 2023 06:29:52 -0700 (PDT)
+        Thu, 14 Sep 2023 09:33:00 -0400
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BAE91BF8;
+        Thu, 14 Sep 2023 06:32:56 -0700 (PDT)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id E58C4F84;
+        Thu, 14 Sep 2023 15:32:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1694698375;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RF2qkedgoAlrSVTvXCvJ0qPTwTx2s0DX5GrzCTtx8WI=;
+        b=zgAxl6P2QDz7zGS3O3jkVwPwIzzSXp66sxgcS+3uylYavsl37ODExKGZzprRQt8cIctr6+
+        awTY8lp76lc0UZTeFsUhYySJFCmS3Ow7bM0xzEFX53OR86olfCFOXycgAp7J8NF8J+MxU8
+        1UqyJHq47hrjprk5nlruhRlMe2v8eSaXd6mzK/SSxd6flS8D/Y1fINJdHr1IIDrVPviaZ+
+        2kkULEYQszv6rWONcnZYHROwOsRj3+I0x0lOJPiVpi3M/WC77C9mLiz11L2yjmcO/aICVK
+        KpLzDsiRbEaA9HrC+fEsPC6DHPG+UWUSnZnX+KML7eu/t7nGkPse9+0BkY8Jsw==
 MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com> <20230912045157.177966-15-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20230912045157.177966-15-claudiu.beznea.uj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Sep 2023 15:29:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWRxaBsPAn0OR15WFua_5HZVPTmWabFnnex5gDLKjE9Cw@mail.gmail.com>
-Message-ID: <CAMuHMdWRxaBsPAn0OR15WFua_5HZVPTmWabFnnex5gDLKjE9Cw@mail.gmail.com>
-Subject: Re: [PATCH 14/37] clk: renesas: rzg2l: use u32 for flag and mux_flags
-To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Date:   Thu, 14 Sep 2023 15:32:54 +0200
+From:   Michael Walle <michael@walle.cc>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Fix IO state based on flash type
+In-Reply-To: <9bf6cf6f104145080d38c8658000c24b@walle.cc>
+References: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdV1qvypo1XmHBXV5Q1SHEhksMN3SxgweYxPu+=ZeDmg1A@mail.gmail.com>
+ <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
+ <CAMuHMdWO8EdbxXetmc9-2jhZWeX1b_J74O0exo1Q85X9Gbc_SA@mail.gmail.com>
+ <20230914105937.4af00bf2@xps-13>
+ <CAMuHMdX8Vg2M2K3U_sbAtVk+6VDvL+GNYtbs5FTTRZzRvVGPCQ@mail.gmail.com>
+ <20230914111200.6e6832ca@xps-13>
+ <CAMuHMdVryt5bTk8HeFMS3NU-4EpQdU3Tf6LiGmGQQ5bVD-Emsg@mail.gmail.com>
+ <OS0PR01MB5922B4BF11D1954DFBE2976F86F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUA23VxkK-8CebyqiF=Oe81QZgpEmWmMrMGVd_+BXfsLA@mail.gmail.com>
+ <737c6865703b8e294601d86a911691da@walle.cc>
+ <OS0PR01MB5922A4F16DE8923373AA5DD886F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <41a960b2a039ab88cb8a6ed6ed21e067@walle.cc>
+ <OS0PR01MB5922AED5B1490E251669F45186F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <9bf6cf6f104145080d38c8658000c24b@walle.cc>
+Message-ID: <030c666c5284bcbd20f6d09caa8f077f@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
 
-On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> flag and mux_flags are intended to keep bit masks. Use u32 type for it.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> For eg: here Adesto flash requires HI-Z for IO3 pin and Micron flash
+>> requires setting "1" for IO3 pin for 4-bit mode to work.
+> 
+> That is odd. You'd need to ask Micron, but I assume it is because
+> IO3 is shared with hold# and reset#. And there is a note "For pin
+> configurations that share the DQ3 pin with RESET#, the RESET#
+> functionality is disabled in QIO-SPI mode". So I guess the reason
+> why they asking for a '1' is because they don't want to reset the
+> flash. I'm pretty sure, we don't really support this in linux, so
+> you'd probably want to disable that feature, i.e. see Table 7,
+> bit 4. You could also come around this by enabling a pull-up on
+> that line (assuming the SPI controller 'drives' HiZ during command
+> phase).
 
-Thanks for your patch!
+Oh and I forgot. You probably can do some kind of fixup (where you
+set this bit) for this flash in drivers/mtd/spi-nor/micron.c.
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.h
-> +++ b/drivers/clk/renesas/rzg2l-cpg.h
-> @@ -92,8 +92,8 @@ struct cpg_core_clk {
->         unsigned int conf;
->         const struct clk_div_table *dtable;
->         const char * const *parent_names;
-> -       int flag;
-> -       int mux_flags;
-> +       u32 flag;
-
-"flag" is used for several purposes, which expected different types:
-    - clk_init_data.flags is unsigned long,
-    - The clk_divider_flags parameter of clk_hw_register_divider_table() is u8,
-    - The clk_divider_flags parameter of __clk_hw_register_divider() is u8,
-    - The flags parameter of __devm_clk_hw_register_mux() is unsigned long.
-
-> +       u32 mux_flags;
-
-Actually the clk_mux_flags parameter of __devm_clk_hw_register_mux() is u8.
-
->         int num_parents;
->  };
-
-I guess u32 is fine for all.
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-michael
