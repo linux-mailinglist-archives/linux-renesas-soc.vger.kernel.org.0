@@ -2,64 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 281F179FDDB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 10:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39A8779FE84
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 10:35:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjINIIr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 04:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
+        id S236428AbjINIfN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 04:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236214AbjINIIr (ORCPT
+        with ESMTP id S236334AbjINIfM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 04:08:47 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089DF9B
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Sep 2023 01:08:43 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso6652025e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Sep 2023 01:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694678921; x=1695283721; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aFIpHL9VYrVju1srIEb7KTEErlMH5PD4UTJ9ZjItCnE=;
-        b=xrDcu8JTa5hj2BxK6tzVe2c6kLAPBhQxDM10t0Nw6f+hXBtumezBiXZMlmuS97zZ2A
-         mSLME/5GUcl4QurzOOHAUT4CjJXoQ1H4R7RdMOGkdNv2jzZ+QPgViJmk0ga/jswakasM
-         xvP8wqaltnpTLUjujk/VZtQOLFgldcbRgbKTIBQWIHFazUwaBUy473C4TWqZWP8DACCC
-         iepjgyylECL2HAnOhKgNzXHzD6IaZ7IH2FJAlPYTIIZ9Q6uJfaMpzfPHc75vqSmQw2TX
-         gs12CEWQ/fpg1Y5l5R3bPHXo6brCE/DjypY2QDzw4PmoCsyxNU0G6StXtBLnio7HPDpV
-         NTHQ==
+        Thu, 14 Sep 2023 04:35:12 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0FE1BFC;
+        Thu, 14 Sep 2023 01:35:08 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-59be9a09c23so6781087b3.1;
+        Thu, 14 Sep 2023 01:35:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694678921; x=1695283721;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aFIpHL9VYrVju1srIEb7KTEErlMH5PD4UTJ9ZjItCnE=;
-        b=fFz+rnO+s/20JI2AqUXMfd7FC3jj5/XFO3DDUWsnL7pm44clVfWBFNAeZhJqUtGnz5
-         Da5k7d4K+lqBvQ1peucr+BTgcY4Vgs4TxTOh12aSH13dfPnJh05Kg+gizHhwb9o2fA/E
-         7n1hSFn8oGfYn/rKFALPRtv6PYUpm9GerUS9LiLlVrbRyuLv1Ur8lGs3qlibrUNEeaq5
-         1zlPdS92Y0japbHl+Tp+Y0FAeTidJb+AbMUNwaZ7dSgjlOIXQSrDtvIx9tcBgJBBUKdH
-         0To2E8u1Yc/Xar9eAku+ITmDt5ef50sKqstE8h9qFRY+Y8tLAn31Z0ODB4a8s8HODxE1
-         YIBQ==
-X-Gm-Message-State: AOJu0YyEUTQnwe4DbmJwJyBPDwizBQc6zfrDVGfwq1fMlKBJiLA8SEue
-        zVymdKfLUPz2YOol4jsaixSsVJfgLImkPJOrK/w=
-X-Google-Smtp-Source: AGHT+IHdSSW7cqigrJz17mNPzAMmgLW3bAzPGgKG7KPeyKWDC6CMaXrSzXIfxWpY/Jyu3wDtBpMs9g==
-X-Received: by 2002:a5d:4a09:0:b0:317:70da:abdd with SMTP id m9-20020a5d4a09000000b0031770daabddmr3889005wrq.59.1694678921435;
-        Thu, 14 Sep 2023 01:08:41 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id z8-20020a056000110800b0031f3ad17b2csm1045535wrw.52.2023.09.14.01.08.39
+        d=1e100.net; s=20230601; t=1694680504; x=1695285304;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sl16OfOFb3HtkUKJC91et4gKnDzDImEPUR7e/fEk9N0=;
+        b=cHo3SHzkVuoDadec0+6FxSz4erdzh6PKJzwC18XhB+0M8bjl9I/IsJjQkboHTCfmqh
+         jIIWtvPS3Ojx6j0TzD1R5bi0A0wsZ7TrQKudfXE3rRkVYCOsbBQA/G55KBGJ8UpSVbrC
+         gsLdLqANDFlZcOuukQXV6ZPAjCp4Cp1SVWb5gIVMj+It45GvfIaWgYQrV8PPriUnaRLJ
+         Om28GnDoGwuarrqPPUFRJjH2X2OjUBIaH0yp/m67JMNn63tluEXx0YjHobZ7hmg+LlBb
+         osxlBwfF/B2zyBqMnwjfuzlKalNLrZM30/Q/6Dd3odpZZSUyXv0sjWzgkt70d9uAui9H
+         pT9Q==
+X-Gm-Message-State: AOJu0YyZDhN1R4JGvJa2wXnNyML/mrFPYuUCRY160Za6sAEetfGYeueq
+        QhSgilWNTGpVzl37Ov6H7+JglsvPqKNreg==
+X-Google-Smtp-Source: AGHT+IGhsAZG8CmxPAdMfWtRiSAm1x6233SZ0ahARHeMO3FKhnJx81lrhX3C7q7j047tWkUGsu906w==
+X-Received: by 2002:a0d:cc06:0:b0:579:f5c2:b16e with SMTP id o6-20020a0dcc06000000b00579f5c2b16emr5151321ywd.31.1694680504449;
+        Thu, 14 Sep 2023 01:35:04 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id e184-20020a8169c1000000b0057042405e2csm219082ywc.71.2023.09.14.01.35.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 01:08:40 -0700 (PDT)
-Message-ID: <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
-Date:   Thu, 14 Sep 2023 10:08:38 +0200
+        Thu, 14 Sep 2023 01:35:03 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d7b79a4899bso704343276.2;
+        Thu, 14 Sep 2023 01:35:03 -0700 (PDT)
+X-Received: by 2002:a25:810c:0:b0:d7b:9a33:4c69 with SMTP id
+ o12-20020a25810c000000b00d7b9a334c69mr4086889ybk.58.1694680503603; Thu, 14
+ Sep 2023 01:35:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
+References: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdV1qvypo1XmHBXV5Q1SHEhksMN3SxgweYxPu+=ZeDmg1A@mail.gmail.com>
+ <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
+In-Reply-To: <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Sep 2023 10:34:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWO8EdbxXetmc9-2jhZWeX1b_J74O0exo1Q85X9Gbc_SA@mail.gmail.com>
+Message-ID: <CAMuHMdWO8EdbxXetmc9-2jhZWeX1b_J74O0exo1Q85X9Gbc_SA@mail.gmail.com>
 Subject: Re: [PATCH] memory: renesas-rpc-if: Fix IO state based on flash type
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
@@ -67,43 +64,78 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Tudor Ambarus <tudor.ambarus@linaro.org>,
         Mark Brown <broonie@kernel.org>,
         MTD Maling List <linux-mtd@lists.infradead.org>,
-        linux-spi <linux-spi@vger.kernel.org>
-References: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdV1qvypo1XmHBXV5Q1SHEhksMN3SxgweYxPu+=ZeDmg1A@mail.gmail.com>
- <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        linux-spi <linux-spi@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/08/2023 17:18, Biju Das wrote:
->>>                 regmap_update_bits(rpc->regmap, RPCIF_CMNCR, @@ -774,6
->>> +776,12 @@ static int rpcif_probe(struct platform_device *pdev)
->>>                 return ret;
->>>         }
->>>
->>> +       if (rpc->info->type == RPCIF_RZ_G2L &&
->>
->> Wouldn't this apply to non-RZ/G2L systems, too?
-> 
-> It applies, if the device uses the flash[1] or [2] and it needs
-> 4-bit tx support.
-> 
-> [1] Figure 20: QUAD INPUT/OUTPUT FAST READ – EBh/ECh
-> https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qlks_u_512_aba_0.pdf?rev=3e5b2a574f7b4790b6e58dacf4c889b2
-> 
-> [2] section 8.14
-> 
-> https://www.renesas.com/eu/en/document/dst/at25ql128a-datasheet?r=1608586
-> 
+Hi Krzysztof,
 
-Geert,
+CC Rob, Miquel
 
-Does it answer your comment or do you expect here some changes?
+On Thu, Sep 14, 2023 at 10:08 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 30/08/2023 17:18, Biju Das wrote:
+> >>>                 regmap_update_bits(rpc->regmap, RPCIF_CMNCR, @@ -774,6
+> >>> +776,12 @@ static int rpcif_probe(struct platform_device *pdev)
+> >>>                 return ret;
+> >>>         }
+> >>>
+> >>> +       if (rpc->info->type == RPCIF_RZ_G2L &&
+> >>
+> >> Wouldn't this apply to non-RZ/G2L systems, too?
+> >
+> > It applies, if the device uses the flash[1] or [2] and it needs
+> > 4-bit tx support.
+> >
+> > [1] Figure 20: QUAD INPUT/OUTPUT FAST READ – EBh/ECh
+> > https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qlks_u_512_aba_0.pdf?rev=3e5b2a574f7b4790b6e58dacf4c889b2
+> >
+> > [2] section 8.14
+> >
+> > https://www.renesas.com/eu/en/document/dst/at25ql128a-datasheet?r=1608586
+>
+> Geert,
+>
+> Does it answer your comment or do you expect here some changes?
 
-Best regards,
-Krzysztof
+Well, now it has been confirmed this applies to non-RZ/G2L systems, too,
+the check for RPCIF_RZ_G2L should probably be removed.  In upstream,
+only arch/arm64/boot/dts/renesas/rzg2l{,c}-smarc-som.dtsi have devices
+that are compatible with "micron,mt25qu512a", but obviously they can
+appear elsewhere, too.
 
+Now, the presence of that compatible value in rzg2l{,c}-smarc-som.dtsi
+currently causes a dtbs_check warning, as it is not documented.
+However, there has been some pushback against adding more compatible
+values, cfr. my patch to add mt25qu512a[1], and Miquel's commit [2].
+But the issue Biju is seeing proves there is a need to add these.
+
+In addition, I had hoped to gather some feedback or guidance from the
+hyperbus and/or spi people, as issues w.r.t. pin states will eventually
+pop up on other systems, too, and thus may need handling in the core,
+instead of in each individual device driver.  But of course that can
+be done later, when the need arises.
+
+Thanks!
+
+[1] "[PATCH] dt-bindings: mtd: jedec,spi-nor: Document support for
+more MT25QU parts"
+    https://lore.kernel.org/all/363186079b4269891073f620e3e2353cf7d2559a.1669988238.git.geert+renesas@glider.be
+[2] 4b0cb4e7ab2f777c ("dt-bindings: mtd: spi-nor: clarify the need for
+spi-nor compatibles").
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
