@@ -2,83 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA7579FE9D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 10:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 424BD79FEB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 10:44:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbjINImQ convert rfc822-to-8bit (ORCPT
+        id S236392AbjINIou convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 04:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
+        Thu, 14 Sep 2023 04:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbjINImQ (ORCPT
+        with ESMTP id S236556AbjINIot (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 04:42:16 -0400
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6291091;
-        Thu, 14 Sep 2023 01:42:12 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59bbdb435bfso7884857b3.3;
-        Thu, 14 Sep 2023 01:42:12 -0700 (PDT)
+        Thu, 14 Sep 2023 04:44:49 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 373371FC9;
+        Thu, 14 Sep 2023 01:44:45 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59b8f5b6c0aso7805657b3.0;
+        Thu, 14 Sep 2023 01:44:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694680931; x=1695285731;
+        d=1e100.net; s=20230601; t=1694681084; x=1695285884;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gt1d7x2jEDiyKRRaW6VzepfhDR5PRb6XJnF6WiN9Kfg=;
-        b=Y2EKMkwYRkbJVBSnL7eMtOebjKyx1nVensbYz4yzG08bUUvC9haDKGo9/9hSzH/TzX
-         FbPVyZzUGBqIZwfiWY8bZFOC8jLlYKXAhDu88bgdICTE8VgAhn+qaT4FrJCLGGyMC/lM
-         sSPorCvk1kSPzIU2/r4kU+7aprodAT350VxgfitjaLQYFrbna5n4lU6CyXxCDzpwaxuK
-         S8FGavfVXSRUmbOPKCXqrJklt2UdDn64m2SjcUPvpMVqB3KP4uAAMMyKpWroe6G3Ieyc
-         urm2S2lssVyEGNAOepw7b/AF7fO9GzdrFCUGRHEbATbSVqoOJXxWw/vUkJbMVoi8ahet
-         uKNg==
-X-Gm-Message-State: AOJu0YzEse9ynEBSgnn9+6E/KQ0teXe+/KyWG2+kp9bbthbFDE7gXsUC
-        etuuZsxPBssqauedHUAz+O0FcaqGr5GF+Q==
-X-Google-Smtp-Source: AGHT+IHy8EAG/YRAmgKeD3zoebtRhIrODs0H7KWcN//8lYUqY9YSl7tWPEO1edaRItsSeDda1vQzsA==
-X-Received: by 2002:a25:9885:0:b0:d80:a9d:aeae with SMTP id l5-20020a259885000000b00d800a9daeaemr4781019ybo.44.1694680931412;
-        Thu, 14 Sep 2023 01:42:11 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id m196-20020a25d4cd000000b00d814d8dfd69sm245845ybf.27.2023.09.14.01.42.10
+        bh=/TWBuYKi1PnXyDlaO9Zh+t3iJnn6mw95ujQMJVIW/pE=;
+        b=v7ipYdvacqT7QsdoD3wD/F2QK8KcSN4sKlIWfxDIfy1J0d6qMOVhKkfWx7DweAlFo6
+         Y0WevVOPua09sABTpgaJVF3jqdZ8PNDP/f+Heg62DmpauuKYsBogXbE0Ut04Zj0+1vjP
+         ERxMlykocFiSo/vbHoVj5IwzP8R7qhly9nXLBmXVoivXKedopoG8cjcikZdiVRnjKF+X
+         dBIpMwDlBtpIfDfCm/qssMMA83bYjKpvGPtTHko2IqJhJ8TmOan5t7OddYe13UGBkMIJ
+         MOuWpVnrMlHmNcNaNKaUl6lspHOu0Mmk/RnDiEgZiK5EsqJYT5Euo7iqkEm29A8zfWHH
+         D39w==
+X-Gm-Message-State: AOJu0Yy4nap/Szj+hPM5vn4IoXcpUqL8ejQMh3TBaQiVJH8aTv59aDw1
+        eYVmHsFwfy3F2+rMQxBiMxIgmRNO3yJvzA==
+X-Google-Smtp-Source: AGHT+IF+B6FHu4HgzJGKcwXNRaELWz9krCDg4TZoAfoqHT7AZHJVZbB4zf4SWMypzYIl3n/hpWqZUQ==
+X-Received: by 2002:a0d:ccd3:0:b0:59b:4ed2:a33 with SMTP id o202-20020a0dccd3000000b0059b4ed20a33mr5516716ywd.35.1694681084125;
+        Thu, 14 Sep 2023 01:44:44 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id f128-20020a0ddc86000000b005929fd6a6c7sm222757ywe.41.2023.09.14.01.44.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 01:42:10 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d81adf0d57fso18132276.1;
-        Thu, 14 Sep 2023 01:42:10 -0700 (PDT)
-X-Received: by 2002:a25:9707:0:b0:d80:4c9b:bf72 with SMTP id
- d7-20020a259707000000b00d804c9bbf72mr4457953ybo.21.1694680930741; Thu, 14 Sep
- 2023 01:42:10 -0700 (PDT)
+        Thu, 14 Sep 2023 01:44:43 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-58c92a2c52dso7549137b3.2;
+        Thu, 14 Sep 2023 01:44:42 -0700 (PDT)
+X-Received: by 2002:a81:a50d:0:b0:59b:14ca:4316 with SMTP id
+ u13-20020a81a50d000000b0059b14ca4316mr5373508ywg.43.1694681082479; Thu, 14
+ Sep 2023 01:44:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230913203805.465780-1-ralph.siemsen@linaro.org>
-In-Reply-To: <20230913203805.465780-1-ralph.siemsen@linaro.org>
+References: <20230913203805.465780-1-ralph.siemsen@linaro.org> <20230913203805.465780-2-ralph.siemsen@linaro.org>
+In-Reply-To: <20230913203805.465780-2-ralph.siemsen@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Sep 2023 10:41:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX1ccpveV+vxJrkmVCH-SJXhAHCiyp75CfXUQjz6bwcwQ@mail.gmail.com>
-Message-ID: <CAMuHMdX1ccpveV+vxJrkmVCH-SJXhAHCiyp75CfXUQjz6bwcwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] clk: renesas: r9a06g032: fix kerneldoc warning
+Date:   Thu, 14 Sep 2023 10:44:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVpGGHcP4tDunsZ_b5sSucezZn76PwLaCbWF-rFS4hZpg@mail.gmail.com>
+Message-ID: <CAMuHMdVpGGHcP4tDunsZ_b5sSucezZn76PwLaCbWF-rFS4hZpg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clk: renesas: r9a06g032: name anonymous structs
 To:     Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Ralph,
+
 On Wed, Sep 13, 2023 at 10:38 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
-> Mention the 'dual' structure in the kdoc. This fixes the following
-> W=1 warning during build:
+> Clarify the content of the r9a06g032_clkdesc structure by naming the
+> remaining anonymous structures defined inside. Renaming each field and
+> updating the doc then becomes necessary in order to avoid name
+> duplications and kdoc warnings.
 >
-> > drivers/clk/renesas/r9a06g032-clocks.c:119: warning: Function parameter or member 'dual' not described in 'r9a06g032_clkdesc'
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309101314.kTRoxND5-lkp@intel.com/
 > Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-> ---
+
+Thanks for your patch!
+
+> --
+
+Please use three hyphens next time, else the below will still end
+up in the final commit.
+
 > Changes in v2:
-> - split the warning fix into separate commit
+> - split this out as a separate commit
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.7.
+i.e. will queue in renesas-clk-for-v6.7, with the above fixed.
 
 Gr{oetje,eeting}s,
 
