@@ -2,32 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3EDD7A0A78
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 18:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F597A0AD7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 18:35:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238315AbjINQJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 12:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51094 "EHLO
+        id S230023AbjINQfD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 12:35:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233860AbjINQJs (ORCPT
+        with ESMTP id S229568AbjINQfC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 12:09:48 -0400
+        Thu, 14 Sep 2023 12:35:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A401BEF;
-        Thu, 14 Sep 2023 09:09:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0DFC433C8;
-        Thu, 14 Sep 2023 16:09:43 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557D91FE0;
+        Thu, 14 Sep 2023 09:34:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4175C433C8;
+        Thu, 14 Sep 2023 16:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694707784;
-        bh=iG88UtPlCrOIAvGQL1fL5TxzQKU6atcBWhCTHpJ9NdI=;
+        s=k20201202; t=1694709298;
+        bh=Pcop7TD273jLyapBckJiXW4f2KWnB3+N7DdSODlapD0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LAC9eY/p98qqoGW+p+QG0Vx4L3JGPYf/WEo9KjQxn2iY/s+U9sMSt5hLrDShTZo7w
-         bfZpgFP+jZGRXW12kBYVr3ntcBqNI/4qI/lfIA+eeRJAOe+qucZOQHe/uD6pTLkP0j
-         st7zYWVMc+Y2Gj0HqIBsFZkAkzeDB/zYKTV20QAd8EMBTG40407YQytq3nRlFVQzMX
-         +wDnwYv7rPDmTXIY0HXy+U3LUUss63NpSaibpO3UYdEvwaDP903cA0OK3d6js0GI2P
-         +NUntL2o+Sw/cgpkgP5DSqfzJpD8wF15vMiEVqJqU3BSb+73mjwStP+aClgZD0S8Ek
-         e6bUy4lXt03Ig==
-Date:   Thu, 14 Sep 2023 11:09:41 -0500
+        b=RGVe1VTVivh4LQVw+DUfoYI+YPhJofwoFhIYXW1Fummi7rRdylmsnJx0VEo8dCLcy
+         U8y1eFxz+QZ9nHj0Rw+Ar2BzPaGOaYn+ZJyijWJmVQZ0EuFeojLv9Hn/Zhdq7QG+y4
+         ebY4Vxhp5LIjXHNwgw1mu/SPFrKy6bwgdCier7EA0FQ5Ud6I2J1JrhjA56AfXhUgum
+         bT6MaZUSfEbEEZIuKx8aYEehz/3DzNogsde8XlvW8gWen9DEwCXFgwiTGOVVX+SpTd
+         G2nMRYSMg3r4pwtMKqoIvLo2epF1kwrTEgBB/GDmz0nXP2ZMMGtAuVjwNWPAyPTD1W
+         xxmPAXsaXGnRg==
+Date:   Thu, 14 Sep 2023 11:34:55 -0500
 From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
@@ -37,71 +37,178 @@ Cc:     jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
         conor+dt@kernel.org, marek.vasut+renesas@gmail.com,
         fancer.lancer@gmail.com, linux-pci@vger.kernel.org,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v20 09/19] PCI: dwc: Add EDMA_UNROLL capability flag
-Message-ID: <20230914160941.GA32484@bhelgaas>
+Subject: Re: [PATCH v20 16/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
+ support
+Message-ID: <20230914163455.GA33111@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825093219.2685912-10-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20230825093219.2685912-17-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 25, 2023 at 06:32:09PM +0900, Yoshihiro Shimoda wrote:
-> Renesas R-Car Gen4 PCIe controllers have an unexpected register value in
-> the eDMA CTRL register. So, add a new capability flag "EDMA_UNROLL"
-> which would force the unrolled eDMA mapping for the problematic device.
+On Fri, Aug 25, 2023 at 06:32:16PM +0900, Yoshihiro Shimoda wrote:
+> Add R-Car Gen4 PCIe Host support. This controller is based on
+> Synopsys DesignWare PCIe, but this controller has vendor-specific
+> registers so that requires initialization code like mode setting
+> and retraining and so on.
 > 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> To reduce code delta, adds some helper functions which are used by
+> both the host driver and the endpoint driver (which is added
+> immediately afterwards) into a separate file.
+> 
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > ---
->  drivers/pci/controller/dwc/pcie-designware.c | 8 +++++++-
->  drivers/pci/controller/dwc/pcie-designware.h | 5 +++--
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index c4998194fe74..4812ce040f1e 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -883,8 +883,14 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	 * Indirect eDMA CSRs access has been completely removed since v5.40a
->  	 * thus no space is now reserved for the eDMA channels viewport and
->  	 * former DMA CTRL register is no longer fixed to FFs.
-> +	 *
-> +	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
-> +	 * have zeros in the eDMA CTRL register even though the HW-manual
-> +	 * explicitly states there must FFs if the unrolled mapping is enabled.
-> +	 * For such cases the low-level drivers are supposed to manually
-> +	 * activate the unrolled mapping to bypass the auto-detection procedure.
->  	 */
-> -	if (dw_pcie_ver_is_ge(pci, 540A))
-> +	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
->  		val = 0xFFFFFFFF;
->  	else
->  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> index b731e38a71fc..c7759a508ca9 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.h
-> +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> @@ -51,8 +51,9 @@
->  
->  /* DWC PCIe controller capabilities */
->  #define DW_PCIE_CAP_REQ_RES		0
-> -#define DW_PCIE_CAP_IATU_UNROLL		1
-> -#define DW_PCIE_CAP_CDM_CHECK		2
-> +#define DW_PCIE_CAP_EDMA_UNROLL		1
-> +#define DW_PCIE_CAP_IATU_UNROLL		2
-> +#define DW_PCIE_CAP_CDM_CHECK		3
+>  drivers/pci/controller/dwc/Kconfig            |  10 +
+>  drivers/pci/controller/dwc/Makefile           |   2 +
+>  .../controller/dwc/pcie-rcar-gen4-host-drv.c  | 135 +++++++++++
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 227 ++++++++++++++++++
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  44 ++++
+>  5 files changed, 418 insertions(+)
+>  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.c
 
-Why did you make the new DW_PCIE_CAP_EDMA_UNROLL "1" and shift all the
-existing ones down?  If they don't need to be ordered like this,
-leaving the existing ones alone and making DW_PCIE_CAP_EDMA_UNROLL "3"
-would be a simpler one-line diff.
+Is "pcie-rcar-gen4-host-drv.c" following some pattern?  I don't see
+"-drv" in any nearby filenames.  Typical names are "-host.c" for host
+driver and "-ep.c" for endpoint driver.
 
->  #define dw_pcie_cap_is(_pci, _cap) \
->  	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
-> -- 
-> 2.25.1
-> 
+>  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
+
+> +config PCIE_RCAR_GEN4
+
+If you look through drivers/pci/controller/dwc/Kconfig, it's typical
+to use a "_HOST" suffix on the symbol to enable host controller
+drivers.  Similarly, "_EP" suffix for endpoint drivers.
+
+> +	tristate "Renesas R-Car Gen4 PCIe Host controller"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on PCI_MSI
+> +	select PCIE_DW_HOST
+
+> +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	int ret;
+> +	u32 val;
+> +
+> +	gpiod_set_value_cansleep(dw->pe_rst, 1);
+> +
+> +	ret = rcar_gen4_pcie_common_init(rcar);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
+> +	 * Rev.5.20a, we should disable two BARs to avoid unnecessary memory
+> +	 * assignment during device enumeration.
+> +	 */
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
+> +
+> +	/* Enable MSI interrupt signal */
+> +	val = readl(rcar->base + PCIEINTSTS0EN);
+> +	val |= MSI_CTRL_INT;
+> +	writel(val, rcar->base + PCIEINTSTS0EN);
+> +
+> +	msleep(100);	/* pe_rst requires 100msec delay */
+
+Can we include a spec reference for this delay?  Ideally this would be
+a #define and likely shared across drivers.
+
+> +	gpiod_set_value_cansleep(dw->pe_rst, 0);
+> +
+> +	return 0;
+> +}
+
+> + * Manually initiate the speed change. Return true if the change succeeded,
+> + * false if the change didn't finish within certain periods.
+> + */
+> +static bool rcar_gen4_pcie_speed_change(struct dw_pcie *dw)
+
+This looks like it should return int, e.g., 0 for success, negative
+for failure.  Boolean functions ideally would not have side effects
+and the name would be a condition that can be true or false.
+
+> +{
+> +	u32 val;
+> +	int i;
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +	val &= ~PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +	val |= PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	for (i = 0; i < RCAR_NUM_SPEED_CHANGE_RETRIES; i++) {
+> +		val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +		if (!(val & PORT_LOGIC_SPEED_CHANGE))
+> +			return true;
+> +		usleep_range(10000, 11000);
+
+Where did these values (num retries and sleep duration) come from?
+Can we include a spec citation for them?
+
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/*
+> + * Enable LTSSM of this controller and manually initiate the speed change.
+> + * Always return true.
+
+This doesn't return "true".  It returns *0*, which is a perfectly good
+"success" value, but it isn't "true", which would be a non-zero value.
+
+> + */
+> +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> +{
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	int i, changes;
+> +
+> +	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> +
+> +	/*
+> +	 * Require direct speed change with retrying here if the link_gen is
+> +	 * PCIe Gen2 or higher.
+> +	 */
+> +	changes = min_not_zero(dw->link_gen, RCAR_MAX_LINK_SPEED) - 1;
+> +
+> +	/*
+> +	 * Since dw_pcie_setup_rc() sets it once, PCIe Gen2 will be trained.
+> +	 * So, this needs remaining times for up to PCIe Gen4 if RC mode.
+> +	 */
+> +	if (changes && rcar->mode == DW_PCIE_RC_TYPE)
+> +		changes--;
+> +
+> +	for (i = 0; i < changes; i++) {
+> +		if (!rcar_gen4_pcie_speed_change(dw))
+> +			break;	/* No error because possible disconnected here if EP mode */
+
+Rest of the file fits in 80 columns, it'd be nice if the comment did
+too.
+
+> +	}
+> +
+> +	return 0;
+> +}
+
+> +#define PCIEMSR0		0x0000
+> +#define BIFUR_MOD_SET_ON	BIT(0)
+> +#define DEVICE_TYPE_EP		0
+> +#define DEVICE_TYPE_RC		BIT(4)
+> +
+> +#define PCIEINTSTS0		0x0084
+> +#define PCIEINTSTS0EN		0x0310
+> +#define MSI_CTRL_INT		BIT(26)
+> +#define SMLH_LINK_UP		BIT(7)
+> +#define RDLH_LINK_UP		BIT(6)
+> +#define PCIEDMAINTSTSEN		0x0314
+> +#define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+
+These register offsets are hard to decode whenthey'reallruntogether.
