@@ -2,119 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE8CB7A0522
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A517A0556
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238799AbjINNMb convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 09:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39628 "EHLO
+        id S238847AbjINNR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 09:17:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238719AbjINNM1 (ORCPT
+        with ESMTP id S238869AbjINNR1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 09:12:27 -0400
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB76E1FDA;
-        Thu, 14 Sep 2023 06:12:23 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-d8181087dc9so934550276.3;
-        Thu, 14 Sep 2023 06:12:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694697142; x=1695301942;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/oWvZHVsTkVbLPbiv0w553loiJf0Vtu9uXJvexs6wx4=;
-        b=g0wH90TBFIX8WDQTUF1hlrgf3a35CnvNzUKXT7YGZenVUDKrCJ9X9seJ1u51o0zwNG
-         DWhbaraIxB83Z89mFB/gFmcEdhkva8nL3uzQLHDAXgILyoeFAoIkH6gVN8YCH9P4RENT
-         M0WcrgbYswmaG3R+uoBGIqdJSB286IG42vQP4aF6IusbuBae8a2277vIbW7akgDDfjvO
-         1jEvsVoB/ZkOsjfCC7PmFg6IzJmuzSMESO1lsUi1cog6JlMayZ0YQJ/hb4BuEz2In4Ax
-         8gUmL/IxIyWh65MLEwmQ1bbvZ4de6Vfr1q3AaHXChl2kjeJi3BRyc7P95w7sN2C4xP7e
-         tLow==
-X-Gm-Message-State: AOJu0Yyw/XuO+MEkFbFxN3X8uPJ1ToaaM27RkCNQvr5YOT4rHaK2CDrw
-        whf1Iw7tbSweytxnv+WD+vvA7RRhB4baUQ==
-X-Google-Smtp-Source: AGHT+IHLpejWN1ToSC21mHfiFO/oSUF/st7hYB1AGOqNhV5Ziw4khqR3hyYJeL82u26RaBHn2d8gFg==
-X-Received: by 2002:a25:ac03:0:b0:d0f:6f1d:89ec with SMTP id w3-20020a25ac03000000b00d0f6f1d89ecmr5214472ybi.35.1694697142452;
-        Thu, 14 Sep 2023 06:12:22 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id j73-20020a25234c000000b00babcd913630sm328997ybj.3.2023.09.14.06.12.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 06:12:21 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d8181087dc9so934514276.3;
-        Thu, 14 Sep 2023 06:12:21 -0700 (PDT)
-X-Received: by 2002:a25:c7d1:0:b0:d5c:4a6a:f5a4 with SMTP id
- w200-20020a25c7d1000000b00d5c4a6af5a4mr5646812ybe.24.1694697141289; Thu, 14
- Sep 2023 06:12:21 -0700 (PDT)
+        Thu, 14 Sep 2023 09:17:27 -0400
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36321FD4;
+        Thu, 14 Sep 2023 06:17:22 -0700 (PDT)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id C014BF84;
+        Thu, 14 Sep 2023 15:17:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1694697440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ExZh8arWjoLAqWaYBfj+NhGvaG2asTtrVaWvVhRaGmQ=;
+        b=NPDfwE0jfBgGTpaoOvfxV8yahVzA2Raq3ydqZhb9uhfIatume++5WYCm737NL6O+46GBRl
+        NEmepH9oYoYbBji7/6wUiO6OIhj52jmqs+2yWcwmmlbLuwVOMooYrFaoLGxzzgZAidYpU6
+        Itofr5kE1yUf8lNJEQYB6kV98tTUq0CSVEjZs9zlATynvnnW2l3A2lKtUn0nMZQISsG7if
+        UOhl8kZlennpEfgylfyDWMQCr5ybDLgKCp6ekiyEk32YyIqrQKxHfeWNmOyM1DJEQMSe2z
+        XMKaNZA/Gqa1nlzU14FLuX6LEXcV6Naz/uZWKH1teZGI9qk8NuNkY4lwYCiDsA==
 MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com> <20230912045157.177966-13-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20230912045157.177966-13-claudiu.beznea.uj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Sep 2023 15:12:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVLx1d-6=5xx_GLAb7LxxRR9FwhAU56fxNc3b=9wj286g@mail.gmail.com>
-Message-ID: <CAMuHMdVLx1d-6=5xx_GLAb7LxxRR9FwhAU56fxNc3b=9wj286g@mail.gmail.com>
-Subject: Re: [PATCH 12/37] clk: renesas: rzg2l: reduce the critical area
-To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Date:   Thu, 14 Sep 2023 15:17:20 +0200
+From:   Michael Walle <michael@walle.cc>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Fix IO state based on flash type
+In-Reply-To: <OS0PR01MB5922AED5B1490E251669F45186F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdV1qvypo1XmHBXV5Q1SHEhksMN3SxgweYxPu+=ZeDmg1A@mail.gmail.com>
+ <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
+ <CAMuHMdWO8EdbxXetmc9-2jhZWeX1b_J74O0exo1Q85X9Gbc_SA@mail.gmail.com>
+ <20230914105937.4af00bf2@xps-13>
+ <CAMuHMdX8Vg2M2K3U_sbAtVk+6VDvL+GNYtbs5FTTRZzRvVGPCQ@mail.gmail.com>
+ <20230914111200.6e6832ca@xps-13>
+ <CAMuHMdVryt5bTk8HeFMS3NU-4EpQdU3Tf6LiGmGQQ5bVD-Emsg@mail.gmail.com>
+ <OS0PR01MB5922B4BF11D1954DFBE2976F86F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUA23VxkK-8CebyqiF=Oe81QZgpEmWmMrMGVd_+BXfsLA@mail.gmail.com>
+ <737c6865703b8e294601d86a911691da@walle.cc>
+ <OS0PR01MB5922A4F16DE8923373AA5DD886F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <41a960b2a039ab88cb8a6ed6ed21e067@walle.cc>
+ <OS0PR01MB5922AED5B1490E251669F45186F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Message-ID: <9bf6cf6f104145080d38c8658000c24b@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
+>> >> >> > I'm not sure we can do that, as this code is part of the
+>> >> >> > hardware initialization during probing.
+>> >> >> > Biju: is this needed that early, or can it be done later, after
+>> >> >> > the connected device has been identified?
+>> >> >>
+>> >> >> I need to check that.
+>> >> >>
+>> >> >> You mean patch drivers/spi/spi-rpc-if.c to identify the flash type
+>> >> >> from sfdp info and pass as a parameter to rpcif_hw_init??
+>> >> >
+>> >> > Something like that.
+>> >> >
+>> >> > That configuration should be saved somewhere, as rpcif_hw_init() is
+>> >> > also called from rpcif_resume(), and when recovering from an error
+>> >> > in rpcif_manual_xfer().
+>> >>
+>> >> I'm not sure I follow everything here, but apparently you want to set
+>> >> the mode of the I/O pins of the controller, right? Shouldn't that
+>> >> depend on the spi-mem mode, i.e. the buswidth? Certainly not on the
+>> >> type of flash which is connected to the spi controller.
+>> >
+>> >
+>> > How do you handle the IO states sections mentioned in the HW manual[1]
+>> > and [2]?
+>> 
+>> What do you mean by "IO states" you don't configure anything on the 
+>> SPI
+>> flash, do you?
+>> 
+>> I guess you should have to configure your SoC SPI pins in your
+>> .exec_op()
+>> callback according to the buswidth property.
+> 
+> Here, same 4-bit tx_mode IO pin (QSPIn_IO0 Fixed Value for 1-bit Size)
+> to be configured based on flash type and bus width right?
 
-On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> spinlock in rzg2l_mod_clock_endisable() is intended to protect the accesses
-> to hardware register. There is no need to protect the instructions that set
-> temporary variable which will be then written to register. Thus limit the
-> spinlock only to the hardware register access.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Just bus width. There should be no dependency on the flash type.
 
-Thanks for your patch!
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -912,13 +912,13 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
->
->         dev_dbg(dev, "CLK_ON %u/%pC %s\n", CLK_ON_R(reg), hw->clk,
->                 enable ? "ON" : "OFF");
-> -       spin_lock_irqsave(&priv->rmw_lock, flags);
->
->         value = bitmask << 16;
->         if (enable)
->                 value |= bitmask;
-> -       writel(value, priv->base + CLK_ON_R(reg));
->
-> +       spin_lock_irqsave(&priv->rmw_lock, flags);
-> +       writel(value, priv->base + CLK_ON_R(reg));
->         spin_unlock_irqrestore(&priv->rmw_lock, flags);
+> For eg: here Adesto flash requires HI-Z for IO3 pin and Micron flash
+> requires setting "1" for IO3 pin for 4-bit mode to work.
 
-After this, it becomes obvious there is nothing to protect at all,
-so the locking can just be removed from this function?
+That is odd. You'd need to ask Micron, but I assume it is because
+IO3 is shared with hold# and reset#. And there is a note "For pin
+configurations that share the DQ3 pin with RESET#, the RESET#
+functionality is disabled in QIO-SPI mode". So I guess the reason
+why they asking for a '1' is because they don't want to reset the
+flash. I'm pretty sure, we don't really support this in linux, so
+you'd probably want to disable that feature, i.e. see Table 7,
+bit 4. You could also come around this by enabling a pull-up on
+that line (assuming the SPI controller 'drives' HiZ during command
+phase).
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> Have a look at the other spi
+>> drivers. I'm not that familiar with the spi controller drivers.
+>> 
+>> > Without this setting flash detection/ read/write failing with tx in
+>> > 4-bit mode.
+>> >
+>> >  [1] Figure 20: QUAD INPUT/OUTPUT FAST READ - EBh/ECh
+>> >
+>> >  [2] section 8.14
+>> >
+>> > https://www.renesas.com/eu/en/document/dst/at25ql128a-datasheet?r=1608
+>> > 586
+>> 
+>> Section 8.14 shows a Read with Quad I/O and the flash will tri-state 
+>> the
+>> I/O lines during the command and dummy phase and drive them during 
+>> data
+>> phase (and expect an address from the SoC on all I/Os during address 
+>> and
+>> mode phase).
+> 
+> I agree, What about micron flash??
+> 
+> Cheers,
+> Biju
