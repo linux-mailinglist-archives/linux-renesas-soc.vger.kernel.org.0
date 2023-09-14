@@ -2,172 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B593C7A064F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:43:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB5C07A06A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239096AbjINNny convert rfc822-to-8bit (ORCPT
+        id S239486AbjINN60 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 09:43:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41220 "EHLO
+        Thu, 14 Sep 2023 09:58:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239118AbjINNnx (ORCPT
+        with ESMTP id S239472AbjINN6Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 09:43:53 -0400
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA13B1FC7;
-        Thu, 14 Sep 2023 06:43:49 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d7f1bc4ece3so1029233276.1;
-        Thu, 14 Sep 2023 06:43:49 -0700 (PDT)
+        Thu, 14 Sep 2023 09:58:24 -0400
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF411FD5;
+        Thu, 14 Sep 2023 06:58:20 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d8162698f0dso1054130276.0;
+        Thu, 14 Sep 2023 06:58:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694699029; x=1695303829;
+        d=1e100.net; s=20230601; t=1694699899; x=1695304699;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZiptDfWO3OwfTjyJFpjGsOnaFbidC8Yv0wyXW7E/kKg=;
-        b=rT4lYk22GQplPgvgkjZb7cDPnRTYfYrFuSz0bF7D9L+nKoejrUlqNBIrkohQ+WkW4b
-         qDWT+joSeeTJMigUXku0Ktx8DSX6AYGJnbcrA2yKu7hc+r59NQ3ohJTnmg8Vt+6BPpYI
-         bk4a9ZdGrDhbGSSTzI78uZjPcxh5z6lZyA1hsdHEIzrCctz32JkGYUAnDjeCl+l7jQq8
-         /a0DzT4EbzLCOihvS6ZBcgnwfZXuX1jPpYtTxvVOZT/1H1nnQuNAGnn1W8fQfOrWOQ1d
-         zbU8AQmvB3efjj+JAXCh2Jw0RvNiVHSTv1WcwSxvAzpJYzyr7U2DVMjHmY3XuPHcNa9Y
-         Ubkg==
-X-Gm-Message-State: AOJu0YzJIAKbrSug/SyHi4n5qAlC5gFc6s57RwULToOUNDoATlym2mcM
-        HbLcSBU3klIjtCdCRkHuk38yaKI7MFusXw==
-X-Google-Smtp-Source: AGHT+IGymgDYimFcXcqMDM093U3hqxeAi2iO9y6W80QmgJVZ3FK0v5kxq8n2rHUA5WlYsi81UlCBSg==
-X-Received: by 2002:a5b:308:0:b0:d12:25d:fd60 with SMTP id j8-20020a5b0308000000b00d12025dfd60mr5449804ybp.9.1694699028570;
-        Thu, 14 Sep 2023 06:43:48 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id l26-20020a25b31a000000b00d7745e2bb19sm335953ybj.29.2023.09.14.06.43.48
+        bh=89wnnpn5qWRvVKp5fLbV+KH4FRgXN/OCspIecwMYI/I=;
+        b=jbmpWgb3dtD3ty4tskGVo7/WjuwqKJqVri3v42osYvuew8OkBloDf3Qr/dMA1kNeHb
+         MKxrmL4wkzeeluRdc90m7Y/wt/6I7nnHJVY3L/TvlQPpcTqFg9Tsph+E86wEbCOctR3p
+         +6nthQyLSJPRbVb+CsOvdWwgHcbBrGvDx3oWpuKUWVeHivnOJcfmgwbOUAbcte+U5ML5
+         v4cDRl++O4XMN3IDycyC3dZJeozz7YjJ2NsqADrmHhshUFDO3jHpc533N9bTv76Vh2cj
+         JJvijX9gnyO/U3L0eT40+VPP0p/83UsQP34u0WC2WuXt+DyRGuPahX+Y7xkYsbs+Rqbw
+         rGEQ==
+X-Gm-Message-State: AOJu0YzbHxbC0B+bEVGfR/1klciZjJBTcmJyIFVY9PdD/DTI4lEbtpSR
+        cv/hVuE7wBc7l4iA3e4AzouBSVD8sIU2HA==
+X-Google-Smtp-Source: AGHT+IFu83r7/LnH/QO9nc6pxfEozxawaMj+9NYuVcUrCUwHggHW4VZOMjiUH7ef9a5iNkdv+krHGw==
+X-Received: by 2002:a25:603:0:b0:d62:b8f5:d745 with SMTP id 3-20020a250603000000b00d62b8f5d745mr4653761ybg.52.1694699899511;
+        Thu, 14 Sep 2023 06:58:19 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id v20-20020a25ab94000000b00d7360e0b240sm343654ybi.31.2023.09.14.06.58.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 06:43:48 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d7e904674aeso1010563276.3;
-        Thu, 14 Sep 2023 06:43:48 -0700 (PDT)
-X-Received: by 2002:a25:24d5:0:b0:ce8:4567:a382 with SMTP id
- k204-20020a2524d5000000b00ce84567a382mr5547542ybk.1.1694699027800; Thu, 14
- Sep 2023 06:43:47 -0700 (PDT)
+        Thu, 14 Sep 2023 06:58:18 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d7f0048b042so1036218276.2;
+        Thu, 14 Sep 2023 06:58:18 -0700 (PDT)
+X-Received: by 2002:a25:ff0a:0:b0:d36:58a6:3281 with SMTP id
+ c10-20020a25ff0a000000b00d3658a63281mr4967250ybe.39.1694699897744; Thu, 14
+ Sep 2023 06:58:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230912005655.368075-1-dlemoal@kernel.org> <20230912005655.368075-4-dlemoal@kernel.org>
- <1e25e64-a6bc-49e8-62c8-101f3f6de113@linux-m68k.org> <CAMuHMdUy2T60au+kB7g=K1uP2NaebC-aTNdmqY_tKYP6-m-3rQ@mail.gmail.com>
- <472eebb7-d1d7-e1cb-4688-5266cc6e2a60@kernel.org>
-In-Reply-To: <472eebb7-d1d7-e1cb-4688-5266cc6e2a60@kernel.org>
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com> <20230912045157.177966-16-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20230912045157.177966-16-claudiu.beznea.uj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Sep 2023 15:43:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUV5k3fj-wVzw6JJzcZNfdJBth5YNPCDW7h=RXEBJiB7A@mail.gmail.com>
-Message-ID: <CAMuHMdUV5k3fj-wVzw6JJzcZNfdJBth5YNPCDW7h=RXEBJiB7A@mail.gmail.com>
-Subject: Re: [PATCH v2 03/21] ata: libata-scsi: link ata port and scsi device
-To:     Damien Le Moal <dlemoal@kernel.org>
-Cc:     linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        John Garry <john.g.garry@oracle.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Paul Ausbeck <paula@soe.ucsc.edu>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Joe Breuer <linux-kernel@jmbreuer.net>,
-        linux-renesas-soc@vger.kernel.org
+Date:   Thu, 14 Sep 2023 15:58:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU5S6noFjkdYeyQjVSfa4oM780e0mMCAiScDoBjF=Rpqw@mail.gmail.com>
+Message-ID: <CAMuHMdU5S6noFjkdYeyQjVSfa4oM780e0mMCAiScDoBjF=Rpqw@mail.gmail.com>
+Subject: Re: [PATCH 15/37] clk: renesas: rzg2l: add support for RZ/G3S PLL
+To:     Claudiu <claudiu.beznea@tuxon.dev>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Damien,
+Hi Claudiu,
 
-On Thu, Sep 14, 2023 at 3:18 PM Damien Le Moal <dlemoal@kernel.org> wrote:
-> On 9/14/23 16:08, Geert Uytterhoeven wrote:
-> > On Wed, Sep 13, 2023 at 12:27 PM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> >> On Tue, 12 Sep 2023, Damien Le Moal wrote:
-> >>> There is no direct device ancestry defined between an ata_device and
-> >>> its scsi device which prevents the power management code from correctly
-> >>> ordering suspend and resume operations. Create such ancestry with the
-> >>> ata device as the parent to ensure that the scsi device (child) is
-> >>> suspended before the ata device and that resume handles the ata device
-> >>> before the scsi device.
-> >>>
-> >>> The parent-child (supplier-consumer) relationship is established between
-> >>> the ata_port (parent) and the scsi device (child) with the function
-> >>> device_add_link(). The parent used is not the ata_device as the PM
-> >>> operations are defined per port and the status of all devices connected
-> >>> through that port is controlled from the port operations.
-> >>>
-> >>> The device link is established with the new function
-> >>> ata_scsi_dev_alloc(). This function is used to define the ->slave_alloc
-> >>> callback of the scsi host template of most drivers.
-> >>>
-> >>> Fixes: a19a93e4c6a9 ("scsi: core: pm: Rely on the device driver core for async power management")
-> >>> Cc: stable@vger.kernel.org
-> >>> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-> >>> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> >>
-> >> Thanks for your patch, which is now commit 99626085d036ec32 ("ata:
-> >> libata-scsi: link ata port and scsi device") in libata/for-next.
-> >>
-> >> This patch causes /dev/sda to disappear on Renesas Salvator-XS with
-> >> R-Car H3 ES2.0.  Changes to dmesg before/after:
-> >>
-> >>       sata_rcar ee300000.sata: ignoring dependency for device, assuming no driver
-> >>       scsi host0: sata_rcar
-> >>      -ata1: SATA max UDMA/133 irq 184 lpm-pol 0
-> >>      +ata1: SATA max UDMA/133 irq 179 lpm-pol 0
-> >>       ata1: link resume succeeded after 1 retries
-> >>       ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-> >>       ata1.00: ATA-7: Maxtor 6L160M0, BANC1G10, max UDMA/133
-> >>       ata1.00: 320173056 sectors, multi 0: LBA48 NCQ (not used)
-> >>       ata1.00: configured for UDMA/133
-> >>       scsi 0:0:0:0: Direct-Access     ATA      Maxtor 6L160M0   1G10 PQ: 0 ANSI: 5
-> >>      -sd 0:0:0:0: [sda] 320173056 512-byte logical blocks: (164 GB/153 GiB)
-> >>      -sd 0:0:0:0: [sda] Write Protect is off
-> >>      -sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-> >>      -sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-> >>      -sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
-> >>      - sda: sda1
-> >>      -sd 0:0:0:0: [sda] Attached SCSI disk
-> >
-> > I see the same issue on SH/Landisk, which has CompactFLASH:
-> > and m68k/ARAnyM:
+On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Add support for reading the frequency of PLL1/4/6 available on RZ/G3S.
+> The computation formula for PLL frequency is as follows:
+> Fout = (nir + nfr / 4096) * Fin / (mr * pr)
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-> > Reverting 99626085d036ec32 fixes the issue.
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -718,11 +718,43 @@ static const struct clk_ops rzg2l_cpg_pll_ops = {
+>         .recalc_rate = rzg2l_cpg_pll_clk_recalc_rate,
+>  };
 >
-> Without reverting, can you try this incremental update ?
->
-> diff --git a/drivers/ata/ahci.h b/drivers/ata/ahci.h
-> index 4bae95b06ae3..72085756f4ba 100644
-> --- a/drivers/ata/ahci.h
-> +++ b/drivers/ata/ahci.h
-> @@ -398,6 +398,7 @@ extern const struct attribute_group *ahci_sdev_groups[];
->         .sdev_groups            = ahci_sdev_groups,                     \
->         .change_queue_depth     = ata_scsi_change_queue_depth,          \
->         .tag_alloc_policy       = BLK_TAG_ALLOC_RR,                     \
-> +       .slave_alloc            = ata_scsi_slave_alloc,                 \
->         .slave_configure        = ata_scsi_slave_config
->
->  extern struct ata_port_operations ahci_ops;
-> diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-> index 7aa70af1fc07..5a0513452150 100644
-> --- a/drivers/ata/libata-scsi.c
-> +++ b/drivers/ata/libata-scsi.c
-> @@ -1093,6 +1093,7 @@ int ata_scsi_dev_alloc(struct scsi_device *sdev, struct ata_port *ap)
->          * consumer (child) and the ata port the supplier (parent).
->          */
->         link = device_link_add(&sdev->sdev_gendev, &ap->tdev,
-> +                              DL_FLAG_STATELESS |
->                                DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
->         if (!link) {
->                 ata_port_err(ap, "Failed to create link to scsi device %s\n",
-> @@ -1164,6 +1165,8 @@ void ata_scsi_slave_destroy(struct scsi_device *sdev)
->         unsigned long flags;
->         struct ata_device *dev;
->
-> +       device_link_remove(&sdev->sdev_gendev, &ap->tdev);
+> +static unsigned long rzg3s_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
+> +                                                  unsigned long parent_rate)
+> +{
+> +       struct pll_clk *pll_clk = to_pll(hw);
+> +       struct rzg2l_cpg_priv *priv = pll_clk->priv;
+> +       u32 nir, nfr, mr, pr, val;
+> +       u64 rate;
 > +
->         spin_lock_irqsave(ap->lock, flags);
->         dev = __ata_scsi_find_dev(ap, sdev);
->         if (dev && dev->sdev) {
->
-> This solves the issue for me. If you confirm it works for you, I will squash
-> this into 99626085d036ec32.
+> +       if (pll_clk->type != CLK_TYPE_G3S_SAM_PLL)
+> +               return parent_rate;
+> +
+> +       val = readl(priv->base + GET_REG_SAMPLL_CLK1(pll_clk->conf));
+> +
+> +       pr = 1 << FIELD_GET(GENMASK(28, 26), val);
 
-Thank you, /dev/sda is back into business on R-Car SATA, Landisk, and
-ARAnyM.
+Please add defines for the various GENMASK(...) fields.
+
+> +       /* Hardware interprets values higher than 8 as p = 16. */
+> +       if (pr > 8)
+> +               pr = 16;
+> +
+> +       mr  = FIELD_GET(GENMASK(25, 22), val) + 1;
+> +       nir = FIELD_GET(GENMASK(21, 13), val) + 1;
+> +       nfr = FIELD_GET(GENMASK(12, 1), val);
+> +
+> +       rate = DIV_ROUND_CLOSEST_ULL((u64)parent_rate * nfr, 4096);
+> +       rate += (u64)parent_rate * nir;
+
+When rewriting the formula as:
+
+    Fout = (4096 * nir + nfr) * Fin / (4096 * mr * pr)
+
+you can simplify to:
+
+    rate = mul_u64_u32_shr(parent_rate, 4096 * nir + nfr, 12);
+
+> +       return DIV_ROUND_CLOSEST_ULL(rate, (mr + pr));
+
+mr * pr
+
+> +}
+
+> --- a/drivers/clk/renesas/rzg2l-cpg.h
+> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+> @@ -102,6 +102,7 @@ enum clk_types {
+>         CLK_TYPE_IN,            /* External Clock Input */
+>         CLK_TYPE_FF,            /* Fixed Factor Clock */
+>         CLK_TYPE_SAM_PLL,
+> +       CLK_TYPE_G3S_SAM_PLL,
+
+CLK_TYPE_G3S_PLL, as the documentation doesn't use SAM?
+
+>
+>         /* Clock with divider */
+>         CLK_TYPE_DIV,
+> @@ -129,6 +130,8 @@ enum clk_types {
+>         DEF_TYPE(_name, _id, _type, .parent = _parent)
+>  #define DEF_SAMPLL(_name, _id, _parent, _conf) \
+>         DEF_TYPE(_name, _id, CLK_TYPE_SAM_PLL, .parent = _parent, .conf = _conf)
+> +#define DEF_G3S_SAMPLL(_name, _id, _parent, _conf) \
+
+DEF_G3S_PLL
+
+> +       DEF_TYPE(_name, _id, CLK_TYPE_G3S_SAM_PLL, .parent = _parent, .conf = _conf)
+>  #define DEF_INPUT(_name, _id) \
+>         DEF_TYPE(_name, _id, CLK_TYPE_IN)
+>  #define DEF_FIXED(_name, _id, _parent, _mult, _div) \
 
 Gr{oetje,eeting}s,
 
