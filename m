@@ -2,110 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 792677A0919
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 17:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5187A0998
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 17:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240895AbjINP0f convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 11:26:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38304 "EHLO
+        id S241161AbjINPrL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 11:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240905AbjINP0e (ORCPT
+        with ESMTP id S241163AbjINPrK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 11:26:34 -0400
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD731FCC;
-        Thu, 14 Sep 2023 08:26:30 -0700 (PDT)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3ab7fb1172cso573878b6e.3;
-        Thu, 14 Sep 2023 08:26:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694705189; x=1695309989;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zjr+4JPeft5J8axsyk1Mf3l6qkBl6xOY0dnNNBTJUBQ=;
-        b=mpfBjIMZDv+5mG9ImwZC4DhwpSbriglD4DuYUB675F5cOSXO2Z0OZTu3zI5d2qgNDc
-         4zJ4ODUxaah1MUrT1tCKBRMKPPIIjMBkDW9mIqiTxK50mAEuvhONAsGYAz7LBkVmE7XJ
-         g0elAT19GLzVvGlgm0IdD3cjxo06yal4LPRzscxBPKelZQijvibuHVhU2JpjwOeB6K5h
-         nJTK84A4tvkmRJyGDlojSp3NaqMq/dLVCiNARbkKkV+hfz9bpylroJKyNg0EZSJwBjMN
-         PZnDOZIcR2S5mzTBHNa8CPhY8Cm0YDCTsSNEMrDMYUHy0N7sZQYNT+9eWRgVTzLnHM4N
-         yZpw==
-X-Gm-Message-State: AOJu0Yw6YHEzlEG/x9Fvocl3iO2Hf+Iw0BhBfgeUOglrYgb93uABvL/7
-        tLeAnndvhnIaC3xIA6MyLtw7N66V5Cq/qQ==
-X-Google-Smtp-Source: AGHT+IFwzNwD7eIsFKSCBxFquEW7uHOw3r/h6O4PRtNLelnAKLrh7d7UZU16T9bRuqB14GMvkJLyfg==
-X-Received: by 2002:a05:6808:200c:b0:3a8:a4bd:ceed with SMTP id q12-20020a056808200c00b003a8a4bdceedmr7260019oiw.9.1694705189003;
-        Thu, 14 Sep 2023 08:26:29 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id c17-20020a5b0bd1000000b00d3596aca5bcsm360223ybr.34.2023.09.14.08.26.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Sep 2023 08:26:27 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d81b42a3108so316446276.1;
-        Thu, 14 Sep 2023 08:26:26 -0700 (PDT)
-X-Received: by 2002:a25:d1d6:0:b0:d19:664:7425 with SMTP id
- i205-20020a25d1d6000000b00d1906647425mr5526179ybg.27.1694705186564; Thu, 14
- Sep 2023 08:26:26 -0700 (PDT)
+        Thu, 14 Sep 2023 11:47:10 -0400
+X-Greylist: delayed 330 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Sep 2023 08:47:06 PDT
+Received: from vps.thesusis.net (vps.thesusis.net [34.202.238.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68104E0;
+        Thu, 14 Sep 2023 08:47:06 -0700 (PDT)
+Received: by vps.thesusis.net (Postfix, from userid 1000)
+        id 122451394AC; Thu, 14 Sep 2023 11:41:35 -0400 (EDT)
+References: <20230731003956.572414-1-dlemoal@kernel.org>
+ <8be9c370-2f1-5815-431-f68ab868669@linux-m68k.org>
+ <ffc1442b-698e-65ab-9aaf-e4ca076b697c@kernel.org>
+ <CAMuHMdXK-pnzMNzbNw=zWaMbQtWtca850eYv98oUjQkypgBfwg@mail.gmail.com>
+ <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
+User-agent: mu4e 1.7.12; emacs 27.1
+From:   Phillip Susi <phill@thesusis.net>
+To:     Damien Le Moal <dlemoal@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Paul Ausbeck <paula@soe.ucsc.edu>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        TW <dalzot@gmail.com>, regressions@lists.linux.dev,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] ata,scsi: do not issue START STOP UNIT on resume
+Date:   Thu, 14 Sep 2023 11:29:59 -0400
+In-reply-to: <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
+Message-ID: <87edj0yd74.fsf@vps.thesusis.net>
 MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-22-claudiu.beznea.uj@bp.renesas.com> <20230912160330.GA864606-robh@kernel.org>
-In-Reply-To: <20230912160330.GA864606-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Sep 2023 17:26:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxKFrTi7c0Df0cHLrVFt3=a7UOy0jnKxsG8PEuD=15Pg@mail.gmail.com>
-Message-ID: <CAMuHMdWxKFrTi7c0Df0cHLrVFt3=a7UOy0jnKxsG8PEuD=15Pg@mail.gmail.com>
-Subject: Re: [PATCH 21/37] dt-bindings: clock: add r9a08g045 CPG clocks and
- resets definitions
-To:     Rob Herring <robh@kernel.org>
-Cc:     Claudiu <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
-        sboyd@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, ulf.hansson@linaro.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
 
-On Tue, Sep 12, 2023 at 6:03 PM Rob Herring <robh@kernel.org> wrote:
-> On Tue, Sep 12, 2023 at 07:51:41AM +0300, Claudiu wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Add RZ/G3S (R9A08G045) Clock Pulse Generator (CPG) core clocks, module
-> > clocks and resets.
->
-> This is part of the binding, so it can be squashed with the previous
-> patch. The ack there still stands.
+Damien Le Moal <dlemoal@kernel.org> writes:
 
-Usually we keep it as a separate patch, to be queued in an immutable
-branch, as it is included by both the clock driver and by DTS, but
-not by the yaml bindings file.
+> VERIFY command is used to spin up the disk). And furthermore, the specs also
+> says that even a reset shall not change the device power state. So issuing a
+> VERIFY command to spin up the drive is required per specs. Note that I do see
+> many of my drives (I have hundreds in the lab) spinning up on reset, which is
+> against the specs. But not all of them. So with the patch "do not issue START
+> STOP UNIT on resume", one risks not seeing the drive resuming correctly (timeout
+> errors on IDENTIFY command issued on resume will get the drive removed).
 
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---
-> >  include/dt-bindings/clock/r9a08g045-cpg.h | 243 ++++++++++++++++++++++
-> >  1 file changed, 243 insertions(+)
-> >  create mode 100644 include/dt-bindings/clock/r9a08g045-cpg.h
+I tried to get some patches merged a few years back along these lines to
+be able to keep some ATA disks in a mostly permanent state of being
+powered down.  I don't recall the specs saying that a reset would not
+change power states.  What I do recall is that as a general rule, ATA
+disks automatically spin up after power on, unless the Power Up in
+Standby feature is activated, which at least for Western Digital drives,
+requires a jumper to short some pins on the drive.
 
-Gr{oetje,eeting}s,
+IIRC, I had a patch to skip the START UNIT command on resume based on a
+sysfs setting.  I think it was rejected because SCSI disks can not be
+accessed without the START UNIT command, and even though the scsi eh
+path will notice when a drive needs this and issue it, there was
+something not good about the eh path.  I think it was something along
+the lines of all IO to all disks on the whole scsi host are suspended
+during eh.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I also tried to have the runtime pm notice whether the drive auto
+powered up or not and set the runtime pm state to correctly indicate
+whether the drive is running or not, as well as to use the deeper ATA
+SLEEP state to save more power over STANDBY and allow the ATA link to be
+runtime pm suspended.
