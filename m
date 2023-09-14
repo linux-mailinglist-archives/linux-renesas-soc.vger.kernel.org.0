@@ -2,77 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5187A0998
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 17:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C48647A0965
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 17:35:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241161AbjINPrL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 11:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S241148AbjINPfe convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 11:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241163AbjINPrK (ORCPT
+        with ESMTP id S241105AbjINPfd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 11:47:10 -0400
-X-Greylist: delayed 330 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Sep 2023 08:47:06 PDT
-Received: from vps.thesusis.net (vps.thesusis.net [34.202.238.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68104E0;
-        Thu, 14 Sep 2023 08:47:06 -0700 (PDT)
-Received: by vps.thesusis.net (Postfix, from userid 1000)
-        id 122451394AC; Thu, 14 Sep 2023 11:41:35 -0400 (EDT)
-References: <20230731003956.572414-1-dlemoal@kernel.org>
- <8be9c370-2f1-5815-431-f68ab868669@linux-m68k.org>
- <ffc1442b-698e-65ab-9aaf-e4ca076b697c@kernel.org>
- <CAMuHMdXK-pnzMNzbNw=zWaMbQtWtca850eYv98oUjQkypgBfwg@mail.gmail.com>
- <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
-User-agent: mu4e 1.7.12; emacs 27.1
-From:   Phillip Susi <phill@thesusis.net>
-To:     Damien Le Moal <dlemoal@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Paul Ausbeck <paula@soe.ucsc.edu>,
-        Thorsten Leemhuis <regressions@leemhuis.info>,
-        TW <dalzot@gmail.com>, regressions@lists.linux.dev,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] ata,scsi: do not issue START STOP UNIT on resume
-Date:   Thu, 14 Sep 2023 11:29:59 -0400
-In-reply-to: <2d90bd7c-5c34-a345-bc29-44dfa923fc19@kernel.org>
-Message-ID: <87edj0yd74.fsf@vps.thesusis.net>
+        Thu, 14 Sep 2023 11:35:33 -0400
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F481FD0;
+        Thu, 14 Sep 2023 08:35:29 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59b5484fbe6so13317807b3.1;
+        Thu, 14 Sep 2023 08:35:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694705728; x=1695310528;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IGn0RiHyZw2DSAr2CB814hl7hb457z9EUqLLi0M5sq4=;
+        b=D0i5QRQF4F5/JAruezsRJtPSF1Z8GxakPn0a9+MofSxgBrbe7aVduxE4u0FJB/k9F5
+         4rEIt2ICgYvxfcAA21SRuy67Jc3wdrCQFb0xWmE4dp/wMAmZg0WR1e+PvHrLea7MLFRc
+         2JsSmjmEwp6ZSh1E5LR35lf8SyGe5yrzuJYpUuT0Df/dQjYgLHkWaEidMsUPxDu2H9vn
+         qCcX1Dld9voDkR7L38/JX5XK6rBL+4pAeEyzh0qQEYhSNUd5dLzBJx3uvvDWYXv5vLMB
+         CNp2V8mGUHh3c1XZxYLjnhA9wh4kngJOeWhTJlw9rk6t3mCOYpXqHUkKJOT4UyJkaeUa
+         0eKA==
+X-Gm-Message-State: AOJu0YzSTGlc42QfBGjbozq960yKwcF8h/6hRCQlSeuOBueYTiLdBxJL
+        Xd4TeUHiJZrzokrTVnXE4g8QV2cfI5FyjQ==
+X-Google-Smtp-Source: AGHT+IH9URVAm+Kzolb63Se6nxQZFZvGSr3JDIiEG+FuOnIdxeJmgpGQh80V+nC8dF2Cz80HwINKWw==
+X-Received: by 2002:a0d:df07:0:b0:59b:fda7:9d7f with SMTP id i7-20020a0ddf07000000b0059bfda79d7fmr1146235ywe.49.1694705728220;
+        Thu, 14 Sep 2023 08:35:28 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id n124-20020a0dfd82000000b005925c896bc3sm377732ywf.53.2023.09.14.08.35.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 08:35:27 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d81b803b09aso237127276.2;
+        Thu, 14 Sep 2023 08:35:27 -0700 (PDT)
+X-Received: by 2002:a5b:ac2:0:b0:d0a:353b:b939 with SMTP id
+ a2-20020a5b0ac2000000b00d0a353bb939mr5402450ybr.52.1694705727063; Thu, 14 Sep
+ 2023 08:35:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com> <20230912045157.177966-32-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20230912045157.177966-32-claudiu.beznea.uj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Sep 2023 17:35:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXMXfqG9whhgTwS9Ut8ZBAoEYsGBx_WX-BPE02kGbiR_Q@mail.gmail.com>
+Message-ID: <CAMuHMdXMXfqG9whhgTwS9Ut8ZBAoEYsGBx_WX-BPE02kGbiR_Q@mail.gmail.com>
+Subject: Re: [PATCH 31/37] dt-bindings: mmc: renesas,sdhi: Document RZ/G3S support
+To:     Claudiu <claudiu.beznea@tuxon.dev>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Sep 12, 2023 at 6:53 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Document support for the SD Card/MMC interface on the Renesas
+> RZ/G3S (R9A08G045) SoC.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Damien Le Moal <dlemoal@kernel.org> writes:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> VERIFY command is used to spin up the disk). And furthermore, the specs also
-> says that even a reset shall not change the device power state. So issuing a
-> VERIFY command to spin up the drive is required per specs. Note that I do see
-> many of my drives (I have hundreds in the lab) spinning up on reset, which is
-> against the specs. But not all of them. So with the patch "do not issue START
-> STOP UNIT on resume", one risks not seeing the drive resuming correctly (timeout
-> errors on IDENTIFY command issued on resume will get the drive removed).
+Gr{oetje,eeting}s,
 
-I tried to get some patches merged a few years back along these lines to
-be able to keep some ATA disks in a mostly permanent state of being
-powered down.  I don't recall the specs saying that a reset would not
-change power states.  What I do recall is that as a general rule, ATA
-disks automatically spin up after power on, unless the Power Up in
-Standby feature is activated, which at least for Western Digital drives,
-requires a jumper to short some pins on the drive.
+                        Geert
 
-IIRC, I had a patch to skip the START UNIT command on resume based on a
-sysfs setting.  I think it was rejected because SCSI disks can not be
-accessed without the START UNIT command, and even though the scsi eh
-path will notice when a drive needs this and issue it, there was
-something not good about the eh path.  I think it was something along
-the lines of all IO to all disks on the whole scsi host are suspended
-during eh.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I also tried to have the runtime pm notice whether the drive auto
-powered up or not and set the runtime pm state to correctly indicate
-whether the drive is running or not, as well as to use the deeper ATA
-SLEEP state to save more power over STANDBY and allow the ATA link to be
-runtime pm suspended.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
