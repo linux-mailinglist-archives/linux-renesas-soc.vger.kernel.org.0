@@ -2,155 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A517A0556
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6507A055D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 15:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238847AbjINNR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 09:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58132 "EHLO
+        id S238992AbjINNTW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Sep 2023 09:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238869AbjINNR1 (ORCPT
+        with ESMTP id S239049AbjINNSS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 09:17:27 -0400
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36321FD4;
-        Thu, 14 Sep 2023 06:17:22 -0700 (PDT)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id C014BF84;
-        Thu, 14 Sep 2023 15:17:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1694697440;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ExZh8arWjoLAqWaYBfj+NhGvaG2asTtrVaWvVhRaGmQ=;
-        b=NPDfwE0jfBgGTpaoOvfxV8yahVzA2Raq3ydqZhb9uhfIatume++5WYCm737NL6O+46GBRl
-        NEmepH9oYoYbBji7/6wUiO6OIhj52jmqs+2yWcwmmlbLuwVOMooYrFaoLGxzzgZAidYpU6
-        Itofr5kE1yUf8lNJEQYB6kV98tTUq0CSVEjZs9zlATynvnnW2l3A2lKtUn0nMZQISsG7if
-        UOhl8kZlennpEfgylfyDWMQCr5ybDLgKCp6ekiyEk32YyIqrQKxHfeWNmOyM1DJEQMSe2z
-        XMKaNZA/Gqa1nlzU14FLuX6LEXcV6Naz/uZWKH1teZGI9qk8NuNkY4lwYCiDsA==
+        Thu, 14 Sep 2023 09:18:18 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F90210B;
+        Thu, 14 Sep 2023 06:18:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC11C433C7;
+        Thu, 14 Sep 2023 13:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694697494;
+        bh=3rrKxqJFMyAiow/Va4P0fnZ7exO1JWYi/ZplSTEpyc8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=TjtX24KHQfMx0stckbDiv1xg/YbxtdXQ7PpYnuYTcbEWbrlC5sMJV+gCtSzHFDcTc
+         1p/waCqT0E2gSdJiHACQrcT6aY/a8cOC1N9+xqtBfIhmCs+/LXMplFvkYY4R67bV4Z
+         w53PS/Cqwg7DWgp/HAktZ5qB8rAmJCJmOgRDcujqti4NNgQpyqDqRFQmq11f5shBn8
+         0U4uZ/NGpZiIb6T5HIc6qhQDrlU4bZcnCZan8VhmS8ZpFc3Sobv6e/pltoQ4fdZDvF
+         ajOah7I3EVDd6nZgMfExepfUr2RrVsXvMk5mUKAhUj2HpWbNIMWi1BmLjOKgDX+p6K
+         u5BmMpf1KyY1Q==
+Message-ID: <472eebb7-d1d7-e1cb-4688-5266cc6e2a60@kernel.org>
+Date:   Thu, 14 Sep 2023 22:18:11 +0900
 MIME-Version: 1.0
-Date:   Thu, 14 Sep 2023 15:17:20 +0200
-From:   Michael Walle <michael@walle.cc>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] memory: renesas-rpc-if: Fix IO state based on flash type
-In-Reply-To: <OS0PR01MB5922AED5B1490E251669F45186F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230830145835.296690-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdV1qvypo1XmHBXV5Q1SHEhksMN3SxgweYxPu+=ZeDmg1A@mail.gmail.com>
- <TYCPR01MB5933571F06789BFF27A8FCC786E6A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
- <502336e9-2455-f3f6-57d1-807bc4b71f7f@linaro.org>
- <CAMuHMdWO8EdbxXetmc9-2jhZWeX1b_J74O0exo1Q85X9Gbc_SA@mail.gmail.com>
- <20230914105937.4af00bf2@xps-13>
- <CAMuHMdX8Vg2M2K3U_sbAtVk+6VDvL+GNYtbs5FTTRZzRvVGPCQ@mail.gmail.com>
- <20230914111200.6e6832ca@xps-13>
- <CAMuHMdVryt5bTk8HeFMS3NU-4EpQdU3Tf6LiGmGQQ5bVD-Emsg@mail.gmail.com>
- <OS0PR01MB5922B4BF11D1954DFBE2976F86F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUA23VxkK-8CebyqiF=Oe81QZgpEmWmMrMGVd_+BXfsLA@mail.gmail.com>
- <737c6865703b8e294601d86a911691da@walle.cc>
- <OS0PR01MB5922A4F16DE8923373AA5DD886F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <41a960b2a039ab88cb8a6ed6ed21e067@walle.cc>
- <OS0PR01MB5922AED5B1490E251669F45186F7A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Message-ID: <9bf6cf6f104145080d38c8658000c24b@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 03/21] ata: libata-scsi: link ata port and scsi device
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Paul Ausbeck <paula@soe.ucsc.edu>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Joe Breuer <linux-kernel@jmbreuer.net>,
+        linux-renesas-soc@vger.kernel.org
+References: <20230912005655.368075-1-dlemoal@kernel.org>
+ <20230912005655.368075-4-dlemoal@kernel.org>
+ <1e25e64-a6bc-49e8-62c8-101f3f6de113@linux-m68k.org>
+ <CAMuHMdUy2T60au+kB7g=K1uP2NaebC-aTNdmqY_tKYP6-m-3rQ@mail.gmail.com>
+From:   Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <CAMuHMdUy2T60au+kB7g=K1uP2NaebC-aTNdmqY_tKYP6-m-3rQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
->> >> >> > I'm not sure we can do that, as this code is part of the
->> >> >> > hardware initialization during probing.
->> >> >> > Biju: is this needed that early, or can it be done later, after
->> >> >> > the connected device has been identified?
->> >> >>
->> >> >> I need to check that.
->> >> >>
->> >> >> You mean patch drivers/spi/spi-rpc-if.c to identify the flash type
->> >> >> from sfdp info and pass as a parameter to rpcif_hw_init??
->> >> >
->> >> > Something like that.
->> >> >
->> >> > That configuration should be saved somewhere, as rpcif_hw_init() is
->> >> > also called from rpcif_resume(), and when recovering from an error
->> >> > in rpcif_manual_xfer().
->> >>
->> >> I'm not sure I follow everything here, but apparently you want to set
->> >> the mode of the I/O pins of the controller, right? Shouldn't that
->> >> depend on the spi-mem mode, i.e. the buswidth? Certainly not on the
->> >> type of flash which is connected to the spi controller.
->> >
->> >
->> > How do you handle the IO states sections mentioned in the HW manual[1]
->> > and [2]?
->> 
->> What do you mean by "IO states" you don't configure anything on the 
->> SPI
->> flash, do you?
->> 
->> I guess you should have to configure your SoC SPI pins in your
->> .exec_op()
->> callback according to the buswidth property.
+On 9/14/23 16:08, Geert Uytterhoeven wrote:
+> Hi Damien,
 > 
-> Here, same 4-bit tx_mode IO pin (QSPIn_IO0 Fixed Value for 1-bit Size)
-> to be configured based on flash type and bus width right?
-
-Just bus width. There should be no dependency on the flash type.
-
-
-> For eg: here Adesto flash requires HI-Z for IO3 pin and Micron flash
-> requires setting "1" for IO3 pin for 4-bit mode to work.
-
-That is odd. You'd need to ask Micron, but I assume it is because
-IO3 is shared with hold# and reset#. And there is a note "For pin
-configurations that share the DQ3 pin with RESET#, the RESET#
-functionality is disabled in QIO-SPI mode". So I guess the reason
-why they asking for a '1' is because they don't want to reset the
-flash. I'm pretty sure, we don't really support this in linux, so
-you'd probably want to disable that feature, i.e. see Table 7,
-bit 4. You could also come around this by enabling a pull-up on
-that line (assuming the SPI controller 'drives' HiZ during command
-phase).
-
-
+> On Wed, Sep 13, 2023 at 12:27 PM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+>> On Tue, 12 Sep 2023, Damien Le Moal wrote:
+>>> There is no direct device ancestry defined between an ata_device and
+>>> its scsi device which prevents the power management code from correctly
+>>> ordering suspend and resume operations. Create such ancestry with the
+>>> ata device as the parent to ensure that the scsi device (child) is
+>>> suspended before the ata device and that resume handles the ata device
+>>> before the scsi device.
+>>>
+>>> The parent-child (supplier-consumer) relationship is established between
+>>> the ata_port (parent) and the scsi device (child) with the function
+>>> device_add_link(). The parent used is not the ata_device as the PM
+>>> operations are defined per port and the status of all devices connected
+>>> through that port is controlled from the port operations.
+>>>
+>>> The device link is established with the new function
+>>> ata_scsi_dev_alloc(). This function is used to define the ->slave_alloc
+>>> callback of the scsi host template of most drivers.
+>>>
+>>> Fixes: a19a93e4c6a9 ("scsi: core: pm: Rely on the device driver core for async power management")
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+>>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>>
+>> Thanks for your patch, which is now commit 99626085d036ec32 ("ata:
+>> libata-scsi: link ata port and scsi device") in libata/for-next.
+>>
+>> This patch causes /dev/sda to disappear on Renesas Salvator-XS with
+>> R-Car H3 ES2.0.  Changes to dmesg before/after:
+>>
+>>       sata_rcar ee300000.sata: ignoring dependency for device, assuming no driver
+>>       scsi host0: sata_rcar
+>>      -ata1: SATA max UDMA/133 irq 184 lpm-pol 0
+>>      +ata1: SATA max UDMA/133 irq 179 lpm-pol 0
+>>       ata1: link resume succeeded after 1 retries
+>>       ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
+>>       ata1.00: ATA-7: Maxtor 6L160M0, BANC1G10, max UDMA/133
+>>       ata1.00: 320173056 sectors, multi 0: LBA48 NCQ (not used)
+>>       ata1.00: configured for UDMA/133
+>>       scsi 0:0:0:0: Direct-Access     ATA      Maxtor 6L160M0   1G10 PQ: 0 ANSI: 5
+>>      -sd 0:0:0:0: [sda] 320173056 512-byte logical blocks: (164 GB/153 GiB)
+>>      -sd 0:0:0:0: [sda] Write Protect is off
+>>      -sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+>>      -sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+>>      -sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
+>>      - sda: sda1
+>>      -sd 0:0:0:0: [sda] Attached SCSI disk
 > 
-> Have a look at the other spi
->> drivers. I'm not that familiar with the spi controller drivers.
->> 
->> > Without this setting flash detection/ read/write failing with tx in
->> > 4-bit mode.
->> >
->> >  [1] Figure 20: QUAD INPUT/OUTPUT FAST READ - EBh/ECh
->> >
->> >  [2] section 8.14
->> >
->> > https://www.renesas.com/eu/en/document/dst/at25ql128a-datasheet?r=1608
->> > 586
->> 
->> Section 8.14 shows a Read with Quad I/O and the flash will tri-state 
->> the
->> I/O lines during the command and dummy phase and drive them during 
->> data
->> phase (and expect an address from the SoC on all I/Os during address 
->> and
->> mode phase).
+> I see the same issue on SH/Landisk, which has CompactFLASH:
 > 
-> I agree, What about micron flash??
+>     -ata1: PATA max PIO0 ioport cmd 0xc0023040 ctl 0xc002302c irq 26
+>     +ata1: PATA max PIO0 ioport cmd 0xc0023040 ctl 0xc002302c irq 26 lpm-pol 0
+>      ata1.00: CFA: TS8GCF133, 20171204, max UDMA/100
+>      ata1.00: 15662304 sectors, multi 0: LBA48
+>      ata1.00: configured for PIO
+>      scsi 0:0:0:0: Direct-Access     ATA      TS8GCF133        1204
+> PQ: 0 ANSI: 5
+>     -sd 0:0:0:0: [sda] 15662304 512-byte logical blocks: (8.02 GB/7.47 GiB)
+>     -sd 0:0:0:0: [sda] Write Protect is off
+>     -sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+>     -sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled,
+> doesn't support DPO or FUA
+>     -sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
+>     - sda: sda1 sda2 sda3
+>     -sd 0:0:0:0: [sda] Attached SCSI removable disk
 > 
-> Cheers,
-> Biju
+> and m68k/ARAnyM:
+> 
+>      atari-falcon-ide atari-falcon-ide: Atari Falcon and Q40/Q60 PATA controller
+>      scsi host0: pata_falcon
+>      ata1: PATA max PIO4 cmd fff00000 ctl fff00038 data fff00000 no
+> IRQ, using PIO polling
+>      ata1.00: ATA-2: Sarge m68k, , max PIO2
+>      ata1.00: 2118816 sectors, multi 0: LBA
+>      ata1.00: configured for PIO
+>      scsi 0:0:0:0: Direct-Access     ATA      Sarge m68k       n/a
+> PQ: 0 ANSI: 5
+>     -sd 0:0:0:0: [sda] 2118816 512-byte logical blocks: (1.08 GB/1.01 GiB)
+>     -sd 0:0:0:0: [sda] Write Protect is off
+>     -sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+>     -sd 0:0:0:0: [sda] Write cache: disabled, read cache: enabled,
+> doesn't support DPO or FUA
+>     -sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
+>     - sda: AHDI sda1 sda2
+>     -sd 0:0:0:0: [sda] Attached SCSI disk
+> 
+> Reverting 99626085d036ec32 fixes the issue.
+
+Without reverting, can you try this incremental update ?
+
+diff --git a/drivers/ata/ahci.h b/drivers/ata/ahci.h
+index 4bae95b06ae3..72085756f4ba 100644
+--- a/drivers/ata/ahci.h
++++ b/drivers/ata/ahci.h
+@@ -398,6 +398,7 @@ extern const struct attribute_group *ahci_sdev_groups[];
+        .sdev_groups            = ahci_sdev_groups,                     \
+        .change_queue_depth     = ata_scsi_change_queue_depth,          \
+        .tag_alloc_policy       = BLK_TAG_ALLOC_RR,                     \
++       .slave_alloc            = ata_scsi_slave_alloc,                 \
+        .slave_configure        = ata_scsi_slave_config
+ 
+ extern struct ata_port_operations ahci_ops;
+diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
+index 7aa70af1fc07..5a0513452150 100644
+--- a/drivers/ata/libata-scsi.c
++++ b/drivers/ata/libata-scsi.c
+@@ -1093,6 +1093,7 @@ int ata_scsi_dev_alloc(struct scsi_device *sdev, struct ata_port *ap)
+         * consumer (child) and the ata port the supplier (parent).
+         */
+        link = device_link_add(&sdev->sdev_gendev, &ap->tdev,
++                              DL_FLAG_STATELESS |
+                               DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+        if (!link) {
+                ata_port_err(ap, "Failed to create link to scsi device %s\n",
+@@ -1164,6 +1165,8 @@ void ata_scsi_slave_destroy(struct scsi_device *sdev)
+        unsigned long flags;
+        struct ata_device *dev;
+ 
++       device_link_remove(&sdev->sdev_gendev, &ap->tdev);
++
+        spin_lock_irqsave(ap->lock, flags);
+        dev = __ata_scsi_find_dev(ap, sdev);
+        if (dev && dev->sdev) {
+
+This solves the issue for me. If you confirm it works for you, I will squash
+this into 99626085d036ec32.
+
+Thanks !
+
+-- 
+Damien Le Moal
+Western Digital Research
+
