@@ -2,84 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E89E97A27D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 22:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2515A7A2844
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 22:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237067AbjIOUOG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 16:14:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47304 "EHLO
+        id S237312AbjIOUik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 16:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237277AbjIOUNp (ORCPT
+        with ESMTP id S237486AbjIOUih (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:13:45 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793B530D3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 13:12:56 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-68fb7fb537dso2410680b3a.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 13:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694808776; x=1695413576; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5BZJf9s84lU3CfTi9HxKXU6WVEhOLwpzo38ws2QVZ2w=;
-        b=d1zi4gb7iZeE22DJcrfkwDtgaqpetFjzj59ItBO1A3Se0Is8x2VsDnSC/hkMPrLPw3
-         OnyloemvgZOJ1PR6LBL2RQiAQBsvY2uOlh9W+jNTBGsejl46qYFqK+zkwDVIXfVsK/hF
-         pwKR5ySPBttayWOkqcdl+5xusvFtWDxOjarzc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694808776; x=1695413576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5BZJf9s84lU3CfTi9HxKXU6WVEhOLwpzo38ws2QVZ2w=;
-        b=t59VEsgvRYeC9VU8E8VF068SlHFIUHiRw542tbN3cw14S19Jj2dtdQoJOklh76CLoD
-         gwrPx7g1/fDj2JOE3PHFn8czy+G9DpPqqf1alw4jwzIRcAZGNXVb61aLCfxv4GF7QZ8h
-         XxYLrTsJvqaSFNhRAl6+4RGbtQgylXXmBoJRHqDnfhSueYw+PRVX2jsrml/AMOZznRnz
-         JTleFmQeKETtpZ3u0g4UD0IOyt6bJZys74YpdaCz/W9vXY+13A/XQFo/PtTf/cAvBAaQ
-         tPyPYzcnvHDemedvnWKRMIQlDLE7oX70qnVwd8TcrQOBJat/BDeAh9xWHo56al7WlN+r
-         4/7g==
-X-Gm-Message-State: AOJu0YxwjPAjaLagVGlp+mgo9QrDim/jq6Tq4waGQcHHBwCN2pl1twqx
-        BQPL+PZfQVOYAdFo/MGn3fHowQ==
-X-Google-Smtp-Source: AGHT+IHmQbOxLY0L8bXhn+zKOM/BnwaC8qXFTLFQ0kYWZVSH2PXuzlce8g/QsH9C+n/HCzeTj7zpsw==
-X-Received: by 2002:a05:6a20:320d:b0:14b:8023:33c8 with SMTP id hl13-20020a056a20320d00b0014b802333c8mr2750657pzc.2.1694808776017;
-        Fri, 15 Sep 2023 13:12:56 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id z16-20020a656650000000b00565dd935938sm2758499pgv.85.2023.09.15.13.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 13:12:55 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: [PATCH] mtd: rawnand: renesas: Annotate struct rnand_chip with __counted_by
-Date:   Fri, 15 Sep 2023 13:12:54 -0700
-Message-Id: <20230915201254.never.511-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Fri, 15 Sep 2023 16:38:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14F8F3;
+        Fri, 15 Sep 2023 13:38:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35890C433C7;
+        Fri, 15 Sep 2023 20:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694810312;
+        bh=6Q5uD+Zu8AqpFSr7DdUZmiNzQVx8ArnIRoKFeBRbrQQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=qQ2iyLjwa7dvCYxKHf2pb1xYmjUKk31qUJTGag1QN09CHOP4ctdyYN9gCl+v1QvYY
+         niCKla3y+gP0W69WjI3Q/wYqj2nZFcltdDlDYPh+9Nf0uvN10a5CABsdORmk4IlC8q
+         +wpFBM+txR2+IvVsJmH3R+AJZEu31glf4ve6NUCfJU8XjRdGegYxCSSseVCwyyFIH1
+         DKkOkH7POk0SwA3MmpEDjqK5jQ9DxnPZ726i0FIlhn4B+w4stGpSNNz7OQ77Pd7Ukc
+         OFIb2fbnQzLF42hmO+mSVQY4om9vb2b/ySY0eVIJ0/lkeR91SAHYSnZsjCA7Fizl7C
+         2NuyeF9VrsGXw==
+Date:   Fri, 15 Sep 2023 15:38:30 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v20 16/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
+ support
+Message-ID: <20230915203830.GA105215@bhelgaas>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1331; i=keescook@chromium.org;
- h=from:subject:message-id; bh=0FPGmCgvWt7RjvkdTmKw5gfdGmdouZ3tE6ulzomUB2U=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlBLrGeRmtf7v7PuHT27LUye5Sm4GLfRpWtonSx
- p2dIfmBTvuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQS6xgAKCRCJcvTf3G3A
- Jm5IEAC1QGXYJ9yOV0x64S8RCZrHbM5hI5qcR13CwhzHoqjMh2ZYHbyfI3r1NJdJai/+Lz6k2Qy
- mEzqHCjkI/Mub7jmWbQpzrff0loovqVfED8gwE3LDnt21UZALC2CHMhkeynTeqfx3blquFl/4/S
- 2xcPtvU8OQdr4PA1CDlZv4sIuMDjCztn2Z379LJlimR60iSZgkxcdJGE81pVkF5tD8CRvh5ckn/
- JnHJ6MpjFjETsFnCbayrzEsvZTQXAA065p7EpTafPz7trWTN7hjj9nKUDG6aT8lnlALZDWgWf4v
- BWN3h57Y4cSYBG8z29PniByDsPlVzYfW3J9Lxd1C8430W9VDbH3xu/q957gWp4Bl5U7aQK8QsIJ
- dAf3OzpoL/ONx8PDuObWUgww//y8mHbjqvRqowuTA+VlchilOGBE0+qz4C6cxLvbBjTSm/XOW4W
- Q1R+0c+bJtRPYdANjaXw2lFzNTlXg+iHDbwsQsN/6BeNu06htsCNR+N9BpRebycxfmHrIqO86hb
- oluyC6avf43e1QhfZDl7ViR+6olmcuXajW1hbv4PdUXKzeEqvPZwfbcZzp4kFfYDCyMAV9oifxd
- yG29Z874XY7Xo5PDqIiflaj4hU2414puFaXtfq8yfQFSglCTM0E+X5RDD2qWfvNo2QdF212WR4F
- x/g2isV w/p8A3kA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB534112A636FAFB61A4038337D8F6A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,39 +64,90 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Prepare for the coming implementation by GCC and Clang of the __counted_by
-attribute. Flexible array members annotated with __counted_by can have
-their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-functions).
+On Fri, Sep 15, 2023 at 09:37:15AM +0000, Yoshihiro Shimoda wrote:
+> > From: Bjorn Helgaas, Sent: Friday, September 15, 2023 1:35 AM
+> > On Fri, Aug 25, 2023 at 06:32:16PM +0900, Yoshihiro Shimoda wrote:
+> > > Add R-Car Gen4 PCIe Host support. This controller is based on
+> > > Synopsys DesignWare PCIe, but this controller has vendor-specific
+> > > registers so that requires initialization code like mode setting
+> > > and retraining and so on.
+> > >
+> > > To reduce code delta, adds some helper functions which are used by
+> > > both the host driver and the endpoint driver (which is added
+> > > immediately afterwards) into a separate file.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> > > ---
+> > >  drivers/pci/controller/dwc/Kconfig            |  10 +
+> > >  drivers/pci/controller/dwc/Makefile           |   2 +
+> > >  .../controller/dwc/pcie-rcar-gen4-host-drv.c  | 135 +++++++++++
+> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 227 ++++++++++++++++++
+> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  44 ++++
+> > >  5 files changed, 418 insertions(+)
+> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.c
+> > 
+> > Is "pcie-rcar-gen4-host-drv.c" following some pattern?  I don't see
+> > "-drv" in any nearby filenames.  Typical names are "-host.c" for host
+> > driver and "-ep.c" for endpoint driver.
+> 
+> This is not following some pattern on pcie subsystem. But, some
+> other subsystems have "*drv.c" filenames. Manivannan suggested the
+> filenames to rename the module filenames [1].
+>
+> < Now >
+> The source code filenames : pcie-rcar-gen4-{host,ep}-drv.c
+> The module filenames : pcie-rcar-gen4-{host,ep}.ko
+> 
+> < Previous >
+> The source code filenames : pcie-rcar-gen4-{host,ep}.c
+> The module filenames : pcie-rcar-gen4-{host,ep}-drv.ko
+> 
+> [1]
+> https://lore.kernel.org/linux-pci/20230724122820.GM6291@thinkpad/
+> 
+> I don't have a strong opinion on which filenames are good.
 
-As found with Coccinelle[1], add __counted_by for struct rnand_chip.
+I have an opinion :)  I think splitting this up into four files is way
+more complicated than it needs to be.  This is all for driving a
+single piece of hardware, and I don't think there's enough benefit to
+split it into separate files.
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+Most drivers, even those that support both host and endpoint mode, are
+in a single file, e.g., pcie-artpec6.c, pci-imx6.c, pcie-keembay.c,
+pcie-tegra194.c, pci-dra7xx.c, pci-keystone.c.
 
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/mtd/nand/raw/renesas-nand-controller.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That makes the Makefile very simple and there's only one module name
+to worry about.
 
-diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
-index 589021ea9eb2..c9a01feff8df 100644
---- a/drivers/mtd/nand/raw/renesas-nand-controller.c
-+++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
-@@ -210,7 +210,7 @@ struct rnand_chip {
- 	u32 tim_gen_seq1;
- 	u32 tim_gen_seq2;
- 	u32 tim_gen_seq3;
--	struct rnand_chip_sel sels[];
-+	struct rnand_chip_sel sels[] __counted_by(nsels);
- };
- 
- struct rnandc {
--- 
-2.34.1
+> > > +	msleep(100);	/* pe_rst requires 100msec delay */
+> > 
+> > Can we include a spec reference for this delay?  Ideally this would be
+> > a #define and likely shared across drivers.
+> 
+> I think so. Some other PCIe drivers also call "msleep(100)".
+> So, I'll add a #define into drivers/pci/pci.h.
 
+Yes.  I'm trying to move away from "msleep(100)" for everybody so we
+can make sure all the drivers include the appropriate delays and
+they're all based on the same reasoning.
+
+> > > +#define PCIEDMAINTSTSEN		0x0314
+> > > +#define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+> > 
+> > These register offsets are hard to decode whenthey'reallruntogether.
+> 
+> Unfortunately, these registers' offset names are from the datasheet.
+> Perhaps, adding full register names as comments like below are helpful:
+> -----
+> /* PCIe Interrupt Status 0 */
+> +#define PCIEINTSTS0		0x0084
+> 
+> /* PCIe DMA Interrupt Status Enable */
+> #define PCIEDMAINTSTSEN		0x0314
+> #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+
+It's good to use names from the datasheet.  The comments should be
+enough.
+
+Bjorn
