@@ -2,149 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 492BE7A17AA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 09:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D965D7A17ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 10:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232698AbjIOHmv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 03:42:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51718 "EHLO
+        id S232242AbjIOIEw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 04:04:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232541AbjIOHmv (ORCPT
+        with ESMTP id S230454AbjIOIEw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 03:42:51 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772531713
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:42:45 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-401d10e3e54so19668255e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694763764; x=1695368564; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NmwZbuVF5EkCNAfwdejjaV7Uf9rQFqifdAcpKHOer9U=;
-        b=OHu5TsiPNOP7SFFip9GVnSpGZWUBtFfLxUkiDujlxoVh23/OwcOL5Uq+9ZowN8Bs1g
-         kxglwl2nBwrTLOALLwlim1Y1zW9fQntLXUvnArk99DtTq0KYOZvLD3rUMGmAVQV7ph82
-         wei3qK79p1P1TtWqySeVqe/oIPIzRChI1c8PLUdH66vqctFTv5IZaOh8qDT/WGGqfNqm
-         8qjp/QvoSNCsBZipzAufhLMNa1cHj4ZLBZK78D9hIsLQ13V+KuAcRwXgi4tl5OvokazW
-         eWnxCLFcpQoZCDBD+cBHRjMcPcMpVHuWN02n6afr4RIUsz2ml0/jcV6RFvKyFbce7PHo
-         gsgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694763764; x=1695368564;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NmwZbuVF5EkCNAfwdejjaV7Uf9rQFqifdAcpKHOer9U=;
-        b=qdgxWTlASGB4Qz1ciL4YVgr5zvNvXUycd2GUINyZfDC1RAMtVaw8gFDJZUCUBEg/s8
-         ggb/bcOYE90EfvBciaBQm7ZiyPwxmz79gejDpjlrIW+wp4pE+G1PvwjodMYjxllNjy7D
-         6jqjPwVqHsfHkWVPJU5IVR7uQfamqi8q9WOSKU3EuGgRF71h/Yrpn6QCisgh9qFERNbi
-         nORH4WaB6QYw7RT+36A3W/yB/0fq9s8z09dKlygA0v4+AWwcXki3WwLHi51dt0l/UJyy
-         fwP//qDEQZzhATtDRd9FlIlMBMObGB24vRmqOTum7VZ+Gbe2S9qIebIZgwmGakzJUnv2
-         6q2Q==
-X-Gm-Message-State: AOJu0Yw9oUe+cJVWG4kmXdiind54D7vw4xMc2MFU8lNgAHb+rQCoqgUj
-        ngxdmvXF00r/1EJ+YayFDCW4QA==
-X-Google-Smtp-Source: AGHT+IFG4JeXkBIy1GSZbUKCdktOw8FSnTVZ0mrbg3uyuIOGwY3EKdvSFCt4TaM3ya+gui+z9YMC8A==
-X-Received: by 2002:a1c:ed19:0:b0:403:bb04:2908 with SMTP id l25-20020a1ced19000000b00403bb042908mr768081wmh.23.1694763763891;
-        Fri, 15 Sep 2023 00:42:43 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id x13-20020a1c7c0d000000b003fc0505be19sm3867191wmc.37.2023.09.15.00.42.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Sep 2023 00:42:43 -0700 (PDT)
-Message-ID: <9b72b8a7-be18-8014-f1b6-46cbef1e3d6f@linaro.org>
-Date:   Fri, 15 Sep 2023 09:42:40 +0200
+        Fri, 15 Sep 2023 04:04:52 -0400
+Received: from mail.arnisdale.pl (mail.arnisdale.pl [151.80.133.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5621FAC
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 01:04:47 -0700 (PDT)
+Received: by mail.arnisdale.pl (Postfix, from userid 1002)
+        id E821824F9F; Fri, 15 Sep 2023 08:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=arnisdale.pl; s=mail;
+        t=1694764856; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
+        h=Date:From:To:Subject:From;
+        b=Lr3ZVGla5oO/UNU3dOjM8cQh0x4xwDimc5twfIBSKf0JGk2KKktbiq86p2E9A//uW
+         bot4l37qrOyEJ7kMkpJff7LnLzW7dkaPy07R1qUgMVL4l+hXySxoKNP0Jlep5bHVs6
+         3TtFu064iTJf1tFqZo0SoVZJZ8VG0/Hw0FU6/8y8p2nbJ2me1hJX64d++1c7srx4tD
+         Ie//LIwP6caM5FKAjduygXfv3/LfQEbQ9rBf0meqdouAQZua3AVzOkPrnrr0IxMiXf
+         85WffKjI5h7A7wHCIQPQkjwV0j1Gja+4aVFn21xB/5aiYs5+XPwpUfqzIm9JSlXKrv
+         ATQyMS6ob72NA==
+Received: by mail.arnisdale.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 08:00:37 GMT
+Message-ID: <20230915064502-0.1.6y.1y3zb.0.cle3cjgasc@arnisdale.pl>
+Date:   Fri, 15 Sep 2023 08:00:37 GMT
+From:   "Maciej Telka" <maciej.telka@arnisdale.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
+X-Mailer: mail.arnisdale.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 21/37] dt-bindings: clock: add r9a08g045 CPG clocks and
- resets definitions
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>, Claudiu <claudiu.beznea@tuxon.dev>,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-22-claudiu.beznea.uj@bp.renesas.com>
- <20230912160330.GA864606-robh@kernel.org>
- <CAMuHMdWxKFrTi7c0Df0cHLrVFt3=a7UOy0jnKxsG8PEuD=15Pg@mail.gmail.com>
- <c199fb5e-927c-aa39-ff3a-3a7906fadec0@linaro.org>
- <CAMuHMdWwFnirDL7=06YofG5ON5U+eMUfe=JGAoU+X8rZWokS4g@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdWwFnirDL7=06YofG5ON5U+eMUfe=JGAoU+X8rZWokS4g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/09/2023 09:38, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Sep 15, 2023 at 9:24 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 14/09/2023 17:26, Geert Uytterhoeven wrote:
->>> On Tue, Sep 12, 2023 at 6:03 PM Rob Herring <robh@kernel.org> wrote:
->>>> On Tue, Sep 12, 2023 at 07:51:41AM +0300, Claudiu wrote:
->>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>
->>>>> Add RZ/G3S (R9A08G045) Clock Pulse Generator (CPG) core clocks, module
->>>>> clocks and resets.
->>>>
->>>> This is part of the binding, so it can be squashed with the previous
->>>> patch. The ack there still stands.
->>>
->>> Usually we keep it as a separate patch, to be queued in an immutable
->>> branch, as it is included by both the clock driver and by DTS, but
->>> not by the yaml bindings file.
->>
->> Binding also should be shared, so you get compatible documented in both
->> places (thus lack of checkpatch warnings). It still should be one patch.
-> 
-> Hmm, I see your point...
-> 
-> For core Renesas SoCs components where I am (sub)maintainer for both
-> the driver subsystem and the DTS, I can take care of that.
-> For the generic case, that will need a lot of cooperation with subsystem
-> maintainers, to create lots of small immutable branches with DT bindings
-> and DT binding definition updates.
+Dzie=C5=84 dobry,
 
-Wait, I think I was too vague.
-"Binding also should be shared..."
-s/should/can/
+Czy jest mo=C5=BCliwo=C5=9B=C4=87 nawi=C4=85zania wsp=C3=B3=C5=82pracy z =
+Pa=C5=84stwem?
 
-I did not want to say that every time bindings should be shared, but
-rather that if already sharing the headers, you can share the bindings
-and you will get benefits - happy checkpatch in both places.
+Z ch=C4=99ci=C4=85 porozmawiam z osob=C4=85 zajmuj=C4=85c=C4=85 si=C4=99 =
+dzia=C5=82aniami zwi=C4=85zanymi ze sprzeda=C5=BC=C4=85.
 
-> 
-> Alternatively, are you (the DT maintainers) prepared to handle all
-> DT bindings and DT binding definition updates, and create immutable
-> branches for all of them (in a timely manner, of course)?
-> Then we can start enforcing the rule that driver and DTS updates must
-> not cause checkpatch warnings for missing compatible values, and must
-> not be applied without merging the corresponding immutable branch first.
+Pomagamy skutecznie pozyskiwa=C4=87 nowych klient=C3=B3w.
 
-I don't think we are ready for any of this, but it is just my incorrect
-English or too fast typing before :)
+Zapraszam do kontaktu.
 
-Best regards,
-Krzysztof
 
+Pozdrawiam serdecznie
+Maciej Telka
