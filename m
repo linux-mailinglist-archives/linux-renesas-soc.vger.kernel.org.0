@@ -2,152 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2515A7A2844
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 22:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 089317A289D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 22:50:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237312AbjIOUik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 16:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
+        id S235181AbjIOUt4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 16:49:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237486AbjIOUih (ORCPT
+        with ESMTP id S237591AbjIOUtb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:38:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14F8F3;
-        Fri, 15 Sep 2023 13:38:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35890C433C7;
-        Fri, 15 Sep 2023 20:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694810312;
-        bh=6Q5uD+Zu8AqpFSr7DdUZmiNzQVx8ArnIRoKFeBRbrQQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=qQ2iyLjwa7dvCYxKHf2pb1xYmjUKk31qUJTGag1QN09CHOP4ctdyYN9gCl+v1QvYY
-         niCKla3y+gP0W69WjI3Q/wYqj2nZFcltdDlDYPh+9Nf0uvN10a5CABsdORmk4IlC8q
-         +wpFBM+txR2+IvVsJmH3R+AJZEu31glf4ve6NUCfJU8XjRdGegYxCSSseVCwyyFIH1
-         DKkOkH7POk0SwA3MmpEDjqK5jQ9DxnPZ726i0FIlhn4B+w4stGpSNNz7OQ77Pd7Ukc
-         OFIb2fbnQzLF42hmO+mSVQY4om9vb2b/ySY0eVIJ0/lkeR91SAHYSnZsjCA7Fizl7C
-         2NuyeF9VrsGXw==
-Date:   Fri, 15 Sep 2023 15:38:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v20 16/19] PCI: rcar-gen4: Add R-Car Gen4 PCIe Host
- support
-Message-ID: <20230915203830.GA105215@bhelgaas>
+        Fri, 15 Sep 2023 16:49:31 -0400
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27026E50
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 13:48:58 -0700 (PDT)
+Received: from eig-obgw-6007a.ext.cloudfilter.net ([10.0.30.247])
+        by cmsmtp with ESMTP
+        id hFDDqMExVEoVshFkHqHyLd; Fri, 15 Sep 2023 20:48:57 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with ESMTPS
+        id hFkHqfvUU7DhyhFkHqPFfl; Fri, 15 Sep 2023 20:48:57 +0000
+X-Authority-Analysis: v=2.4 cv=fpfP2X0f c=1 sm=1 tr=0 ts=6504c339
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=P-IC7800AAAA:8 a=sozttTNsAAAA:8 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8
+ a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9 a=QEXdDO2ut3YA:10
+ a=d3PnA9EDa4IxuAV0gXij:22 a=aeg5Gbbo78KNqacMgKqU:22 a=1CNFftbPRP8L7MoqJWF3:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=9+YfmCRdOxV4l5YZYRTDTDswIsRzP0r4oOgTtdce9YU=; b=W0cwd4inAUdTCh2pnWAfsMnJBX
+        SJwASOBFhvZt3FmzCmDC4a/WS6hgyWG/OCUM8gA3MULCN8JQMeO1+rA9ASZykzwOfhSbtpkNoPwzH
+        3e1N2VGr/PRoCCeimc32acB0fkuDiIlCLp25Lu1qiIWZKCsDXoJq2eRoo9+1ngxxvUWW3srnmMZbF
+        fHUaNP6rx86MXQ6V24YfBmVa2oBPP1ADC/ws1eJ79DeN+zqaLrQSk5nb31iur7qdmz2OlckOCh9ZF
+        eZihd5C/zFDoaqCwqMqsTwy5JAm3mY9KrchePVdKK0aos2YK6DfwmvqEtjznkvjMDItK4wrbIvLrE
+        u/pDC7cg==;
+Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:38640 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.96)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1qhFkG-002e6L-0D;
+        Fri, 15 Sep 2023 15:48:56 -0500
+Message-ID: <d1189ce2-16ed-6932-94c1-8c6ef3788df7@embeddedor.com>
+Date:   Fri, 15 Sep 2023 14:49:51 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYBPR01MB534112A636FAFB61A4038337D8F6A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] mtd: rawnand: renesas: Annotate struct rnand_chip with
+ __counted_by
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+References: <20230915201254.never.511-kees@kernel.org>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230915201254.never.511-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.21.192
+X-Source-L: No
+X-Exim-ID: 1qhFkG-002e6L-0D
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:38640
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 385
+X-Org:  HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfL896GoPzldHFd5udWpk/wCe+oniFRDvNn1pDPqc0mUGumzeNTz01zjYKDDVmuWvex+/1Y4qz8LwDrlf5iVcxV7baI+jb+M0LA8DNxUZ4hXiZjUePoFW
+ elGn8QlwwBKJ6ae786gdjaefNxRM2/1wctupfQkg8TT8fjLfu9poNL7Nve0IUYOrUgl/hU0KMVOdukVi/EdtQbFXlvPkj4W9Ac3BcP1MKFE0VSDUO48j4vr3
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 09:37:15AM +0000, Yoshihiro Shimoda wrote:
-> > From: Bjorn Helgaas, Sent: Friday, September 15, 2023 1:35 AM
-> > On Fri, Aug 25, 2023 at 06:32:16PM +0900, Yoshihiro Shimoda wrote:
-> > > Add R-Car Gen4 PCIe Host support. This controller is based on
-> > > Synopsys DesignWare PCIe, but this controller has vendor-specific
-> > > registers so that requires initialization code like mode setting
-> > > and retraining and so on.
-> > >
-> > > To reduce code delta, adds some helper functions which are used by
-> > > both the host driver and the endpoint driver (which is added
-> > > immediately afterwards) into a separate file.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> > > ---
-> > >  drivers/pci/controller/dwc/Kconfig            |  10 +
-> > >  drivers/pci/controller/dwc/Makefile           |   2 +
-> > >  .../controller/dwc/pcie-rcar-gen4-host-drv.c  | 135 +++++++++++
-> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 227 ++++++++++++++++++
-> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  44 ++++
-> > >  5 files changed, 418 insertions(+)
-> > >  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.c
-> > 
-> > Is "pcie-rcar-gen4-host-drv.c" following some pattern?  I don't see
-> > "-drv" in any nearby filenames.  Typical names are "-host.c" for host
-> > driver and "-ep.c" for endpoint driver.
+
+
+On 9/15/23 14:12, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
 > 
-> This is not following some pattern on pcie subsystem. But, some
-> other subsystems have "*drv.c" filenames. Manivannan suggested the
-> filenames to rename the module filenames [1].
->
-> < Now >
-> The source code filenames : pcie-rcar-gen4-{host,ep}-drv.c
-> The module filenames : pcie-rcar-gen4-{host,ep}.ko
+> As found with Coccinelle[1], add __counted_by for struct rnand_chip.
 > 
-> < Previous >
-> The source code filenames : pcie-rcar-gen4-{host,ep}.c
-> The module filenames : pcie-rcar-gen4-{host,ep}-drv.ko
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 > 
-> [1]
-> https://lore.kernel.org/linux-pci/20230724122820.GM6291@thinkpad/
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+-- 
+Gustavo
+
+> ---
+>   drivers/mtd/nand/raw/renesas-nand-controller.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I don't have a strong opinion on which filenames are good.
-
-I have an opinion :)  I think splitting this up into four files is way
-more complicated than it needs to be.  This is all for driving a
-single piece of hardware, and I don't think there's enough benefit to
-split it into separate files.
-
-Most drivers, even those that support both host and endpoint mode, are
-in a single file, e.g., pcie-artpec6.c, pci-imx6.c, pcie-keembay.c,
-pcie-tegra194.c, pci-dra7xx.c, pci-keystone.c.
-
-That makes the Makefile very simple and there's only one module name
-to worry about.
-
-> > > +	msleep(100);	/* pe_rst requires 100msec delay */
-> > 
-> > Can we include a spec reference for this delay?  Ideally this would be
-> > a #define and likely shared across drivers.
-> 
-> I think so. Some other PCIe drivers also call "msleep(100)".
-> So, I'll add a #define into drivers/pci/pci.h.
-
-Yes.  I'm trying to move away from "msleep(100)" for everybody so we
-can make sure all the drivers include the appropriate delays and
-they're all based on the same reasoning.
-
-> > > +#define PCIEDMAINTSTSEN		0x0314
-> > > +#define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
-> > 
-> > These register offsets are hard to decode whenthey'reallruntogether.
-> 
-> Unfortunately, these registers' offset names are from the datasheet.
-> Perhaps, adding full register names as comments like below are helpful:
-> -----
-> /* PCIe Interrupt Status 0 */
-> +#define PCIEINTSTS0		0x0084
-> 
-> /* PCIe DMA Interrupt Status Enable */
-> #define PCIEDMAINTSTSEN		0x0314
-> #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
-
-It's good to use names from the datasheet.  The comments should be
-enough.
-
-Bjorn
+> diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
+> index 589021ea9eb2..c9a01feff8df 100644
+> --- a/drivers/mtd/nand/raw/renesas-nand-controller.c
+> +++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
+> @@ -210,7 +210,7 @@ struct rnand_chip {
+>   	u32 tim_gen_seq1;
+>   	u32 tim_gen_seq2;
+>   	u32 tim_gen_seq3;
+> -	struct rnand_chip_sel sels[];
+> +	struct rnand_chip_sel sels[] __counted_by(nsels);
+>   };
+>   
+>   struct rnandc {
