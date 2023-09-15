@@ -2,143 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 089317A289D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 22:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ECE87A2954
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 23:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235181AbjIOUt4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 16:49:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53666 "EHLO
+        id S229795AbjIOVYX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 17:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237591AbjIOUtb (ORCPT
+        with ESMTP id S237753AbjIOVYF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:49:31 -0400
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27026E50
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 13:48:58 -0700 (PDT)
-Received: from eig-obgw-6007a.ext.cloudfilter.net ([10.0.30.247])
-        by cmsmtp with ESMTP
-        id hFDDqMExVEoVshFkHqHyLd; Fri, 15 Sep 2023 20:48:57 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id hFkHqfvUU7DhyhFkHqPFfl; Fri, 15 Sep 2023 20:48:57 +0000
-X-Authority-Analysis: v=2.4 cv=fpfP2X0f c=1 sm=1 tr=0 ts=6504c339
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=P-IC7800AAAA:8 a=sozttTNsAAAA:8 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8
- a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9 a=QEXdDO2ut3YA:10
- a=d3PnA9EDa4IxuAV0gXij:22 a=aeg5Gbbo78KNqacMgKqU:22 a=1CNFftbPRP8L7MoqJWF3:22
- a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9+YfmCRdOxV4l5YZYRTDTDswIsRzP0r4oOgTtdce9YU=; b=W0cwd4inAUdTCh2pnWAfsMnJBX
-        SJwASOBFhvZt3FmzCmDC4a/WS6hgyWG/OCUM8gA3MULCN8JQMeO1+rA9ASZykzwOfhSbtpkNoPwzH
-        3e1N2VGr/PRoCCeimc32acB0fkuDiIlCLp25Lu1qiIWZKCsDXoJq2eRoo9+1ngxxvUWW3srnmMZbF
-        fHUaNP6rx86MXQ6V24YfBmVa2oBPP1ADC/ws1eJ79DeN+zqaLrQSk5nb31iur7qdmz2OlckOCh9ZF
-        eZihd5C/zFDoaqCwqMqsTwy5JAm3mY9KrchePVdKK0aos2YK6DfwmvqEtjznkvjMDItK4wrbIvLrE
-        u/pDC7cg==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:38640 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qhFkG-002e6L-0D;
-        Fri, 15 Sep 2023 15:48:56 -0500
-Message-ID: <d1189ce2-16ed-6932-94c1-8c6ef3788df7@embeddedor.com>
-Date:   Fri, 15 Sep 2023 14:49:51 -0600
+        Fri, 15 Sep 2023 17:24:05 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8E7D3;
+        Fri, 15 Sep 2023 14:23:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B66C433C9;
+        Fri, 15 Sep 2023 21:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694813039;
+        bh=0hUoXMdFFKubXMNik79gAOoVSFyPFYFdGIzN8FUcSH0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=C6pqzFqctu3QE6MFhfAZ1GPIkeqy7V6PyjOVMtJwZHP6oHIWJLimqzse9h2pRg7vU
+         vJIQ2f2oZz1Ofct7tELX5yUWu1bcndypIm3A3EMkOTbUu5uD1Wd1FWBB/P36QIHfe9
+         XjrZELQ1o+OVUMJCY5+35BXyjYwitr3PZ8yMh0FHOthgBzPkbeiBMNEgcvQe0epcEx
+         TQJcG+UiXefRllHVPyCanNx+eSGaaZ/at7HGS3CjEsSUUI28IwyWJE8XUah3ZvqPde
+         6hSuBMG6iko75l/WdCYBcX6nircVQuvVXtszzIi/zuPvNXIcxr+4TlGbl+3fg1EK/U
+         ChOkDoyxMVpJQ==
+Date:   Fri, 15 Sep 2023 16:23:56 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kishon@kernel.org" <kishon@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v20 04/19] PCI: designware-ep: Add INTx IRQs support
+Message-ID: <20230915212356.GA122696@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] mtd: rawnand: renesas: Annotate struct rnand_chip with
- __counted_by
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20230915201254.never.511-kees@kernel.org>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230915201254.never.511-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qhFkG-002e6L-0D
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:38640
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 385
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfL896GoPzldHFd5udWpk/wCe+oniFRDvNn1pDPqc0mUGumzeNTz01zjYKDDVmuWvex+/1Y4qz8LwDrlf5iVcxV7baI+jb+M0LA8DNxUZ4hXiZjUePoFW
- elGn8QlwwBKJ6ae786gdjaefNxRM2/1wctupfQkg8TT8fjLfu9poNL7Nve0IUYOrUgl/hU0KMVOdukVi/EdtQbFXlvPkj4W9Ac3BcP1MKFE0VSDUO48j4vr3
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB534145152342F6E6808D98DCD8F7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-
-On 9/15/23 14:12, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
+On Thu, Sep 14, 2023 at 07:56:21AM +0000, Yoshihiro Shimoda wrote:
+> > From: Bjorn Helgaas, Sent: Thursday, September 14, 2023 8:31 AM
+> > On Fri, Aug 25, 2023 at 06:32:04PM +0900, Yoshihiro Shimoda wrote:
+> > > Add support for triggering INTx IRQs by using outbound iATU.
+> > > Outbound iATU is utilized to send assert and de-assert INTA TLPs
+> > > as simulated edge IRQ for INTA. (Other INT[BCD] are not asserted.)
+> > > This INTx support is optional (if there is no memory for INTx,
+> > > probe will not fail).
+> > >
+> > > The message is generated based on the payloadless Msg TLP with type
+> > > 0x14, where 0x4 is the routing code implying the Terminate at
+> > > Receiver message. The message code is specified as b1000xx for
+> > > the INTx assertion and b1001xx for the INTx de-assertion.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> > > ---
+> > >  .../pci/controller/dwc/pcie-designware-ep.c   | 70 +++++++++++++++++--
+> > >  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
+> > >  2 files changed, 68 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > index 747d5bc07222..91e3c4335031 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > @@ -6,9 +6,11 @@
+> > >   * Author: Kishon Vijay Abraham I <kishon@ti.com>
+> > >   */
+> > >
+> > > +#include <linux/delay.h>
+> > >  #include <linux/of.h>
+> > >  #include <linux/platform_device.h>
+> > >
+> > > +#include "../../pci.h"
+> > >  #include "pcie-designware.h"
+> > >  #include <linux/pci-epc.h>
+> > >  #include <linux/pci-epf.h>
+> > > @@ -484,14 +486,61 @@ static const struct pci_epc_ops epc_ops = {
+> > >  	.get_features		= dw_pcie_ep_get_features,
+> > >  };
+> > >
+> > > +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 code,
+> > > +			       u8 routing)
+> > > +{
+> > > +	struct dw_pcie_ob_atu_cfg atu = { 0 };
+> > > +	struct pci_epc *epc = ep->epc;
+> > > +	int ret;
+> > > +
+> > > +	atu.func_no = func_no;
+> > > +	atu.code = code;
+> > > +	atu.routing = routing;
+> > > +	atu.type = PCIE_ATU_TYPE_MSG;
+> > > +	atu.cpu_addr = ep->intx_mem_phys;
+> > > +	atu.size = epc->mem->window.page_size;
+> > > +
+> > > +	ret = dw_pcie_ep_outbound_atu(ep, &atu);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/* A dummy-write ep->intx_mem is converted to a Msg TLP */
+> > > +	writel(0, ep->intx_mem);
+> > > +
+> > > +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
+> > >  {
+> > >  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > >  	struct device *dev = pci->dev;
+> > > +	int ret;
+> > >
+> > > -	dev_err(dev, "EP cannot trigger legacy IRQs\n");
+> > > +	if (!ep->intx_mem) {
+> > > +		dev_err(dev, "legacy IRQs not supported\n");
+> > > +		return -EOPNOTSUPP;
+> > > +	}
+> > >
+> > > -	return -EINVAL;
+> > > +	/*
+> > > +	 * Even though the PCI bus specification implies the level-triggered
+> > > +	 * INTx interrupts the kernel PCIe endpoint framework has a single
+> > > +	 * PCI_EPC_IRQ_INTx flag defined for the legacy IRQs simulation. Thus
+> > > +	 * this function sends the Deassert_INTx PCIe TLP after the Assert_INTx
+> > > +	 * message with the 50 usec duration basically implementing the
+> > > +	 * rising-edge triggering IRQ. Hopefully the interrupt controller will
+> > > +	 * still be able to register the incoming IRQ event...
+> > 
+> > I'm not really convinced about this "assert INTA, wait 50us, deassert
+> > INTA" thing.  All the INTx language in the spec is like this:
+> > 
+> >   ... the virtual INTx wire must be asserted whenever and *as long as*
+> >   the following conditions are satisfied:
+> > 
+> >     - The Interrupt Disable bit in the Command register is set to 0b.
+> > 
+> >     - The <feature> Interrupt Enable bit in the <feature> Control
+> >       Register is set to 1b.
+> > 
+> >     - The <feature> Status bit in the <feature> Status register is
+> >       set.
+> > 
+> > E.g., sec PCIe r6.0, sec 5.5.6 (Link Activation), 6.1.6 (Native PME),
+> > 6.2.4.1.2 (AER Interrupt Generation), 6.2.11.1 (DPC Interrupts),
+> > 6.7.3.4 (Software Notification of Hot-Plug Events).
+> > 
+> > So it seems to me like the endpoint needs an "interrupt status" bit,
+> > and the Deassert_INTx message would be sent when the host interrupt
+> > handler clears that bit.
 > 
-> As found with Coccinelle[1], add __counted_by for struct rnand_chip.
+> Thank you very much for your comments! About this topic, 
+> Frank also has a similar opinion before [1]. So, I asked Kishon
+> about this, but I didn't get any comment from Kishon at that time.
+> Anyway, to handle INTx on PCIe endpoint framework properly,
+> we need to modify the PCIe Endpoint framework, IIUC.
 > 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> Should I modify the PCIe Endpoint framework at first?
+> Or, can this patch be applied as-is? 
+> I guess that such modification of the PCIe Endpoint framework
+> need much time. So, if I should modify the framework at first,
+> I would like to drop adding INTx support [2] from my patch series
+> because supporting INTx on my PCIe controller is not mandatory.
 > 
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Vignesh Raghavendra <vigneshr@ti.com>
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks
--- 
-Gustavo
-
-> ---
->   drivers/mtd/nand/raw/renesas-nand-controller.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> [1]
+> https://lore.kernel.org/linux-pci/TYBPR01MB5341EFAC471AEBB9100D6051D8719@TYBPR01MB5341.jpnprd01.prod.outlook.com/
 > 
-> diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
-> index 589021ea9eb2..c9a01feff8df 100644
-> --- a/drivers/mtd/nand/raw/renesas-nand-controller.c
-> +++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
-> @@ -210,7 +210,7 @@ struct rnand_chip {
->   	u32 tim_gen_seq1;
->   	u32 tim_gen_seq2;
->   	u32 tim_gen_seq3;
-> -	struct rnand_chip_sel sels[];
-> +	struct rnand_chip_sel sels[] __counted_by(nsels);
->   };
->   
->   struct rnandc {
+> [2]
+> The following patches are not needed if INTx support should be dropped:
+> 
+> eb185e1e628a PCI: designware-ep: Add INTx IRQs support
+> 5d0e51f85b23 PCI: dwc: Add outbound MSG TLPs support
+> 4758bef61cc2 PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+> 44938b13046b PCI: Add INTx Mechanism Messages macros
+
+Since INTx support isn't mandatory at this time, I think we should
+drop these patches for now.  If/when somebody definitely needs INTx
+support, we can resurrect them, and then we'll have more clarity on
+how it should work and we'll be better able to test it.
+
+Bjorn
