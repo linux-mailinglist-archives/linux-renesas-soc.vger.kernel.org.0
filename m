@@ -2,133 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6DB47A0FCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Sep 2023 23:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 730FB7A157F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 07:35:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjINV0H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Sep 2023 17:26:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58616 "EHLO
+        id S232057AbjIOFf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 01:35:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjINV0G (ORCPT
+        with ESMTP id S232082AbjIOFf1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Sep 2023 17:26:06 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07A61FD2;
-        Thu, 14 Sep 2023 14:26:01 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2bcde83ce9fso23029361fa.1;
-        Thu, 14 Sep 2023 14:26:01 -0700 (PDT)
+        Fri, 15 Sep 2023 01:35:27 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186562716
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Sep 2023 22:35:20 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-31f71b25a99so1626096f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Sep 2023 22:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694726760; x=1695331560; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oMF1sMMODWcbgwT3pjH1uzXCcj9xNGEpLdRLCBrFrJQ=;
-        b=cmu42MFN2adM3nuknTtkg/iPg74QXm77WyUphNziYcaXwM1AYxr3Ynng9DBFsBdtfC
-         dBK2LbCIvbu05zbRMehg8oFzeZT8A2xRskrhPVx+FEP4fIOZrmHY41UhyffCgn97Tf0D
-         a7JCbvgVMt1gOtOrMgtxfRsyBx8TCKf4nJXDF/z5sgbBONpGNOiyBdetlunB9Bufnc2e
-         uSZ95JHb6GuVVOVWwJAMXLSFuI3LEa6tQlBhLUROxiya5287dtx10c/V56/4TQw3RnfR
-         pbzOfIg/6Zs+5+EAB4vNGrTcyOtr5vMLBZHQv5HxgHQYiuHXagD/afBOBOvcJP2RFLE/
-         HXjg==
+        d=tuxon.dev; s=google; t=1694756118; x=1695360918; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jCFwLWQlvVlQiSU7UZdz9MimUN6oP0AbuVDIc/7fuZ0=;
+        b=aOBXzb4Y0TOR/laA9Eag4nyKqTZLC+hJ4q4xWnRB9kAEjnEH2NF5mvNhhyPDKz6/+B
+         NgaHZ5dHKmq5c1Jv/nokLyyZyUA+HZN6jpp83HqyfYgp6ZlJRpM85GBDjECmooCtT6SA
+         TrV0Bx52GGKET6qghcD+EXOv431IT/K3WATdrt0tTy/kSQ+DXd8hNWG4uybhKSMKBeZ3
+         MGOk0b1kFRD1HNSmq4abuWgYBsEB7j3Dsw+SYFIiJiEGyc7AIAhMUgHIW3HGcp+GYmZH
+         eZ83q4Q2AB/FW8OPNxR8Q3BYQVdm5Z3NlCassfOf0Y+wO8P2Q/Ns8uuvwUiv8xtGvQji
+         JggQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694726760; x=1695331560;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oMF1sMMODWcbgwT3pjH1uzXCcj9xNGEpLdRLCBrFrJQ=;
-        b=OB/Crm1yPU0O2XFn0egCyaYTIsvNhQ960UORmAGrCCHc/9TSliewmjK3vDcdMed+6x
-         Izm8eRCj+wj08E9GnblSN3PjOgY8yB1kIvqp8YriOTijjD0kLRz5yJjYim1ll5xL0wOg
-         //JGvbMu0o8husE4eJPA1wDOJiCrPG9rTpNYoyApP4AgmaHP9hHQVy3vqZRoISNoufa2
-         pCEPem5ZXw+KnNTsJoXAMDuLzjGosPrgVFV8nX5RTc/5E1bP6GIbYFyAENgSf8f5fFAW
-         hBNffaITEqAzqhfPfhXMzdK1cEzObuNJTrj9RIL4TcGthpGM0vwqnNqt/OiHHdXKA4A+
-         Hu4A==
-X-Gm-Message-State: AOJu0YwQX6UkCvKp01fQavLj3D+WXmKWGKBC24ud4k6Raipmdd0nK3xG
-        Y1Rcu1Hq2rivYRVDYR9QVp8=
-X-Google-Smtp-Source: AGHT+IGeoMqy4vLAoSY2X/w+GA/HPMA45WiFFOP5RvQWLM6JvhicB+XTUCofBtivl+Hy1N1PeJ/JQw==
-X-Received: by 2002:a2e:94c9:0:b0:2bc:cc1a:139c with SMTP id r9-20020a2e94c9000000b002bccc1a139cmr6834ljh.11.1694726759634;
-        Thu, 14 Sep 2023 14:25:59 -0700 (PDT)
-Received: from mobilestation ([95.79.219.206])
-        by smtp.gmail.com with ESMTPSA id q7-20020a2e8747000000b002b787442f03sm437834ljj.88.2023.09.14.14.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 14:25:59 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 00:25:57 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-        lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        manivannan.sadhasivam@linaro.org, bhelgaas@google.com,
-        kishon@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, marek.vasut+renesas@gmail.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v20 07/19] PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW
- handling
-Message-ID: <3fg7k3lr3yrghyek3eepxojpziso7w3j2jbyjcw4m7lh23ruce@clnpbrz7nuoc>
-References: <notuqnugfnmu7ep7rvnerix7hvgqt5b4wdrirjjgggjsxfc7lz@pismsfnlenu4>
- <20230914205906.GA79508@bhelgaas>
+        d=1e100.net; s=20230601; t=1694756118; x=1695360918;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCFwLWQlvVlQiSU7UZdz9MimUN6oP0AbuVDIc/7fuZ0=;
+        b=vFbfAVyof2UhdO4P+kE7OXE/256clmMjo9HHoeogCHXq5DYWw2xZ8kODRkrMW+AJ0L
+         pXZ+GIp1HpaExR+6Nf9LoMff0YoNHllX3SfYxI9FEeYb2X5F3wayVnSvHxI0sSh3JW2t
+         9XCf8u/Ga9ZtmHVwJPep/1DG/k1hUNzBwzFKwX+QHB9F/mdVJqhoNYht7JN9QCoJ17p9
+         0FZpD06hQaekHdu3dwJGOmBhSFbYbNAZ454HHiGmS2unO13smibO/RSo8GEHKS4lYaLy
+         E7KhN4HlERu6pK8O0vwDza/NCSiSHz5sgig8uSKd0S7ircy5++NC3+O2sLoMQV2gZqdw
+         LM+g==
+X-Gm-Message-State: AOJu0YwjZrY0G8CEDgv366t+67s+HcPmyA0rUP0PFNDRZVch1gpwKPBZ
+        3oREKYD0+C9vv7ba3rx68xuj+A==
+X-Google-Smtp-Source: AGHT+IGL9oG9qxI8b+K2vqWLJ/uBYUSG/EAvdwsyp1zBwA32EpDfEXEXIjOzgvRHhIU/3erKMLaNJA==
+X-Received: by 2002:adf:dcd1:0:b0:31f:98c2:b384 with SMTP id x17-20020adfdcd1000000b0031f98c2b384mr517214wrm.30.1694756118266;
+        Thu, 14 Sep 2023 22:35:18 -0700 (PDT)
+Received: from [192.168.32.2] ([82.78.167.145])
+        by smtp.gmail.com with ESMTPSA id k8-20020a5d4288000000b00317a29af4b2sm3439064wrq.68.2023.09.14.22.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 22:35:17 -0700 (PDT)
+Message-ID: <94ae925c-6bd3-7253-9ac5-1d87280a1972@tuxon.dev>
+Date:   Fri, 15 Sep 2023 08:35:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230914205906.GA79508@bhelgaas>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 06/37] clk: renesas: rzg2l: wait for status bit of SD mux
+ before continuing
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
+ <20230912045157.177966-7-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXoq96ptmm+oU_yHdkSfN4+WCfABn98tXV5xfyvM66Eig@mail.gmail.com>
+From:   claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdXoq96ptmm+oU_yHdkSfN4+WCfABn98tXV5xfyvM66Eig@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 03:59:06PM -0500, Bjorn Helgaas wrote:
-> On Thu, Sep 14, 2023 at 11:48:39PM +0300, Serge Semin wrote:
-> > On Thu, Sep 14, 2023 at 11:00:58AM -0500, Bjorn Helgaas wrote:
-> > > On Fri, Aug 25, 2023 at 06:32:07PM +0900, Yoshihiro Shimoda wrote:
-> > > > Update dw_pcie_link_set_max_link_width() to set PCI_EXP_LNKCAP_MLW.
-> > > > In accordance with the DW PCIe RC/EP HW manuals [1,2,3,...] aside with
-> > > > the PORT_LINK_CTRL_OFF.LINK_CAPABLE and GEN2_CTRL_OFF.NUM_OF_LANES[8:0]
-> > > > field there is another one which needs to be updated. It's
-> > > > LINK_CAPABILITIES_REG.PCIE_CAP_MAX_LINK_WIDTH. If it isn't done at
-> > > > the very least the maximum link-width capability CSR won't expose
-> > > > the actual maximum capability.
-> > > > 
-> > > > [1] DesignWare Cores PCI Express Controller Databook - DWC PCIe Root Port,
-> > > >     Version 4.60a, March 2015, p.1032
-> > > > [2] DesignWare Cores PCI Express Controller Databook - DWC PCIe Root Port,
-> > > >     Version 4.70a, March 2016, p.1065
-> > > > [3] DesignWare Cores PCI Express Controller Databook - DWC PCIe Root Port,
-> > > >     Version 4.90a, March 2016, p.1057
-> > > > ...
-> > > > [X] DesignWare Cores PCI Express Controller Databook - DWC PCIe Endpoint,
-> > > >       Version 5.40a, March 2019, p.1396
-> > > > [X+1] DesignWare Cores PCI Express Controller Databook - DWC PCIe Root Port,
-> > > >       Version 5.40a, March 2019, p.1266
-> > 
-> > > Is there value in keeping all four of these Root Port citations?  I
-> > > assume that if you have the most recent one (X+1), it completely
-> > > obsoletes the older ones, so you should never have to look at the
-> > > older ones?
-> > 
-> > In general the procedure may differ from one device version to
-> > another. Though it doesn't concern DW PCIe IP-cores. So by citing all
-> > these manuals I implied that all DW PCIe controllers expect the same
-> > link-width initialization procedure. Keeping that in mind I guess the
-> > text could be indeed simplified by keeping only two citations (note
-> > [X] and [X+1] refer to the Root Port and End-point HW databooks of the
-> > same IP-core version) and noting in the text that the procedure is
-> > common for the older DW PCIe controllers too.
-> > 
-> > In anyway I wouldn't say that new IP-core databooks obsolete the
-> > old one since the driver supports all old and new controllers. So
-> > before introducing a generic procedure we need to make sure that it
-> > will work for all the known to be supported devices. From that
-> > perspective citing all the available databooks gets to make sense.
+Hi, Geert,
+
+On 14.09.2023 14:42, Geert Uytterhoeven wrote:
+> Hi Claudiu,
 > 
+> On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Hardware user manual of RZ/G2L (r01uh0914ej0130-rzg2l-rzg2lc.pdf,
+>> chapter 7.4.7 Procedure for Switching Clocks by the Dynamic Switching
+>> Frequency Selectors) specifies that we need to check CPG_PL2SDHI_DSEL for
+>> SD clock switching status.
+>>
+>> Fixes: eaff33646f4cb ("clk: renesas: rzg2l: Add SDHI clk mux support")
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/clk/renesas/rzg2l-cpg.c
+>> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+>> @@ -188,7 +188,8 @@ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>>         u32 off = GET_REG_OFFSET(hwdata->conf);
+>>         u32 shift = GET_SHIFT(hwdata->conf);
+>>         const u32 clk_src_266 = 2;
+>> -       u32 bitmask;
+>> +       u32 msk, val, bitmask;
+>> +       int ret;
+>>
+>>         /*
+>>          * As per the HW manual, we should not directly switch from 533 MHz to
+>> @@ -203,9 +204,6 @@ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>>          */
+>>         bitmask = (GENMASK(GET_WIDTH(hwdata->conf) - 1, 0) << shift) << 16;
+>>         if (index != clk_src_266) {
+>> -               u32 msk, val;
+>> -               int ret;
+>> -
+>>                 writel(bitmask | ((clk_src_266 + 1) << shift), priv->base + off);
+>>
+>>                 msk = off ? CPG_CLKSTATUS_SELSDHI1_STS : CPG_CLKSTATUS_SELSDHI0_STS;
+>> @@ -221,7 +219,13 @@ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>>
+>>         writel(bitmask | ((index + 1) << shift), priv->base + off);
+>>
+>> -       return 0;
+>> +       ret = readl_poll_timeout(priv->base + CPG_CLKSTATUS, val,
+>> +                                !(val & msk), 100,
+> 
+> "msk" may be uninitialized.
 
-> You mean that instead of merely *adding* new details about new
-> devices, v5.40a might OMIT details specific to older devices covered
-> by v4.60a?  That sounds like ... kind of an unhelpful way to manage
-> the spec, but if so, I see your point.
-
-Right. I can't say for all the Synopsys IP-core documents but for
-instance DW PCIe, DW uMCTL2 DDRC, DW *MAC docs tend to omit a lot of
-changes history info. The most extensive list of changes is available
-in the release notes provided as a separate document.
-
--Serge(y)
+Indeed! I'll update it in next version.
 
 > 
-> Bjorn
+>> +                                CPG_SDHI_CLK_SWITCH_STATUS_TIMEOUT_US);
+>> +       if (ret)
+>> +               dev_err(priv->dev, "failed to switch clk source\n");
+>> +
+>> +       return ret;
+> 
+> This is now (supposed to be) doing the same thing twice, once using
+> clk_src_266, and then again with the wanted index, so why not introduce
+> a small helper? That would have avoided the uninitialized variable, too.
+
+Initially I thought about it but I found it too much for this stage as it
+is only about the readl_poll_timeout() and the debug message. I may keep
+the debug message in a local variable if you think worth it (but FMPOV it
+the code will look a bit... unusual). Moreover, as the code is rewritten in
+patch "[PATCH 18/37] clk: renesas:
+rzg2l: refactor sd mux driver" I thought it doesn't worth introducing a new
+helper in this patch.
+
+Thank you,
+Claudiu Beznea
+
+> 
+> I know you're rewriting this code in "[PATCH 18/37] clk: renesas:
+> rzg2l: refactor sd mux driver", but even after that, you always do
+> a register write before calling rzg2l_cpg_wait_clk_update_done(),
+> so it may still be a net win.
+> 
+>>  }
+>>
+>>  static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
