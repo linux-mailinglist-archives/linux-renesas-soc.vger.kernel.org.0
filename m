@@ -2,112 +2,335 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CE17A1A08
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 11:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50C857A1A55
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 11:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233310AbjIOJLa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 05:11:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
+        id S233571AbjIOJVy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 05:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233462AbjIOJLL (ORCPT
+        with ESMTP id S233621AbjIOJVl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 05:11:11 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA37A1FD0;
-        Fri, 15 Sep 2023 02:10:38 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-4935f87ca26so825794e0c.3;
-        Fri, 15 Sep 2023 02:10:38 -0700 (PDT)
+        Fri, 15 Sep 2023 05:21:41 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B8E1FF1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 02:21:25 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2bcb50e194dso30501111fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 02:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694769038; x=1695373838; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1694769684; x=1695374484; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gJnx3mkmeAUY7F7tJ/KOS3Ct0lvpI7xMMW+QXJ8wpEw=;
-        b=hM8Il7sM2KaSg4VfKDRnmvT4vob1EE8SFFHOgpBAm5tZIZyCYGX0JsmUmUVjjdRTgN
-         jLvyS8ztTDWlWwilCrb+r3orLi/pvrgU+TWzYGvVEFP3ILGerpSMa5qeZTvS1IVfDHcU
-         WBzBP4fJV+LESVndMrihBR4y6EIcvXi65x5SkG1lnFmLT14hxwVl++JmjC4SjJn4PSfz
-         mRjMNkypXXmTv8oTAXBzyE3I6cGV0IaCkKaDAe+4e8UlMkOojc7O80NqOQbAzSNsn7e6
-         EeaYxmxi1TIx2C+BLFlT/CTwSFFjrDZ58tsYgJJ2kveKXZqvSdvq7rowanRZ5BvP/xyH
-         5XrQ==
+        bh=RlllPeCqZBCeZ/HSi6m8sJuTceIVvHBkX9Te06oKtDw=;
+        b=wsIBXIGSWuwnQa3fFTkkwGYg2dbywjSU+DsmLut7effsEwCJKg2uVKBfaC910Rth+O
+         U1RPzFUcltyYbmEPlj89Qytv9cUOnP0EGnFT6f/wHixqhh/cWKXj2kuHKdpeLYVE82YS
+         DKs8IeamrDry0TUMIIVqlwf21Ex+HrOGEKo5z1S0KvG7hyOGZApDvZeE4U7OyY0Mn0hH
+         e26Ab8rSshKFq/kf286KtXylnT6GdkfYhbM6Zi3odgWUnEOA1DsoeixnNQPG18xvPZ6H
+         7uZ0E1S8M+bGZXXfN78YIhxc9v+vws3+C0wagv3n6yQ01Nk3C3hWBb8hXsSCzXTwFyCD
+         nx0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694769038; x=1695373838;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1694769684; x=1695374484;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gJnx3mkmeAUY7F7tJ/KOS3Ct0lvpI7xMMW+QXJ8wpEw=;
-        b=q5efweLK0snmrZArkFS6VKTb/NP4co5EQmIJAuH5jf6LoCsOHCDiwVVVo2RAtfCegT
-         yDc4BCCJ7kkFMPhdFLH6AAw98DJkFqzrGlD75AieqMsMp4HyOWfPhEkJ39XGyWFIgjFJ
-         mY9k+rLL6NvrgPb0ybeTANoH4J+dPlZjLL1ARN684f0oenTYHyuSF1GldovrLQTXp1DN
-         dOFAwZ0cEY3ruqITD3/0lZ57cTTEpwoskucVO9C0hIKvwC1u3vPrkbJE+QQ+yWhIW/DI
-         4aESFoGA2CyP2DxE9khf7Ce6tVP+wQT6qcbWMwe81X1WpZ6C0Womuxn5Li7xZRFsKoOf
-         t3Ow==
-X-Gm-Message-State: AOJu0YyKjUhugC46tW6XoeBr0iGFCHfVcZeeyIZPttAh2HTCDrIxm+pk
-        THZ2qegHt/p+uczTg8pkuDStEsxfiOgzv2WcvXw=
-X-Google-Smtp-Source: AGHT+IGgHtby0Q8edMJxzP9oy0I89jpIG8Wq55oA1wjN17+ida/bzOnHMygNtlXP79OQXCK4LJe0QwrZ2R1RXxMUZ0k=
-X-Received: by 2002:a1f:4b81:0:b0:495:bd33:d1f8 with SMTP id
- y123-20020a1f4b81000000b00495bd33d1f8mr1029076vka.13.1694769037794; Fri, 15
- Sep 2023 02:10:37 -0700 (PDT)
+        bh=RlllPeCqZBCeZ/HSi6m8sJuTceIVvHBkX9Te06oKtDw=;
+        b=wORGOjmLk5IPTwtin8g2lcLtg4a0Y7kQEg3+cU+BfKQtOD1yE0/ax6tdxGhLKp4NKj
+         wVMrqLXAzAZDBGETS50U7rdD/uFR7rAddE6d6ptx9pJSZdNFOWBgzFkw3bYCYEzCOAwt
+         PmqEmdgrTI8rp9NILlU62jRZsCV22UOdeVmJiGnd6EG5QF7pqJL7R2N6l0cQyljUTDV/
+         P0ePuE/d5ZjG93DeaJizJCewC2dp+m83HvmSXKOMqwEpXBxPtR8A426OGB5NPpzg+2BD
+         n075vvWzbZBUxTtlM9QbpE64IRqs8LbP7bb90QxF0BtNUiBw7YVu2OVImcpk0Am4Fe3J
+         /4+A==
+X-Gm-Message-State: AOJu0YzYJv/R+k8AdFlyrIdkrfdQizVV2YBlS+HbRRMV+GqiiDR+U4O8
+        wcEMbO/z+X9L57oTuG1ztonv1w==
+X-Google-Smtp-Source: AGHT+IFJOzBhngeSqkEhAWTE2XBVBalsWjDoXj+N6Sl+ZI+MtDDE8yKWXfVhjl23K2P9yiLEg9+MBQ==
+X-Received: by 2002:a2e:8784:0:b0:2bc:d993:bdaa with SMTP id n4-20020a2e8784000000b002bcd993bdaamr1084334lji.18.1694769684153;
+        Fri, 15 Sep 2023 02:21:24 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id p8-20020a2e7408000000b002b9ec22d9fasm639376ljc.29.2023.09.15.02.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 02:21:23 -0700 (PDT)
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 09/17] pmdomain: renesas: Move Kconfig options to the pmdomain subsystem
+Date:   Fri, 15 Sep 2023 11:19:55 +0200
+Message-Id: <20230915092003.658361-10-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230915092003.658361-1-ulf.hansson@linaro.org>
+References: <20230915092003.658361-1-ulf.hansson@linaro.org>
 MIME-Version: 1.0
-References: <2a3a9d595579b7cea416c12bf9abcfa2227243bb.1694768174.git.geert+renesas@glider.be>
-In-Reply-To: <2a3a9d595579b7cea416c12bf9abcfa2227243bb.1694768174.git.geert+renesas@glider.be>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 15 Sep 2023 10:09:26 +0100
-Message-ID: <CA+V-a8vxaspX+VsaJ=ps+R325bDqPvrJ_OwcT=CSe2Vtkf56vw@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: Kconfig: Remove blank line before
- ARCH_R9A07G043 help text
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+The Kconfig options belongs closer to the corresponding implementations,
+hence let's move them from the soc subsystem to the pmdomain subsystem.
 
-Thank you for fixing it.
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: <linux-renesas-soc@vger.kernel.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/pmdomain/Kconfig         |   1 +
+ drivers/pmdomain/renesas/Kconfig | 109 +++++++++++++++++++++++++++++++
+ drivers/soc/renesas/Kconfig      | 105 -----------------------------
+ 3 files changed, 110 insertions(+), 105 deletions(-)
+ create mode 100644 drivers/pmdomain/renesas/Kconfig
 
-On Fri, Sep 15, 2023 at 10:06=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> There should not be a blank line before the "help" keyword in the
-> ARCH_R9A07G043 configuration section.
->
-> Fixes: c6a906cce61a8015 ("soc: renesas: Kconfig: For ARCH_R9A07G043 selec=
-t the required configs if dependencies are met")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> To be queued in renesas-devel for v6.7.
->
->  drivers/soc/renesas/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
+index c91fdd40163a..0a75a17f2f3a 100644
+--- a/drivers/pmdomain/Kconfig
++++ b/drivers/pmdomain/Kconfig
+@@ -8,5 +8,6 @@ source "drivers/pmdomain/bcm/Kconfig"
+ source "drivers/pmdomain/imx/Kconfig"
+ source "drivers/pmdomain/mediatek/Kconfig"
+ source "drivers/pmdomain/qcom/Kconfig"
++source "drivers/pmdomain/renesas/Kconfig"
+ 
+ endmenu
+diff --git a/drivers/pmdomain/renesas/Kconfig b/drivers/pmdomain/renesas/Kconfig
+new file mode 100644
+index 000000000000..80bf2cf8b60e
+--- /dev/null
++++ b/drivers/pmdomain/renesas/Kconfig
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: GPL-2.0
++if SOC_RENESAS
++
++config SYSC_RCAR
++	bool "System Controller support for R-Car" if COMPILE_TEST
++
++config SYSC_RCAR_GEN4
++	bool "System Controller support for R-Car Gen4" if COMPILE_TEST
++
++config SYSC_R8A77995
++	bool "System Controller support for R-Car D3" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7794
++	bool "System Controller support for R-Car E2" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77990
++	bool "System Controller support for R-Car E3" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7779
++	bool "System Controller support for R-Car H1" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7790
++	bool "System Controller support for R-Car H2" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7795
++	bool "System Controller support for R-Car H3" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7791
++	bool "System Controller support for R-Car M2-W/N" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77965
++	bool "System Controller support for R-Car M3-N" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77960
++	bool "System Controller support for R-Car M3-W" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77961
++	bool "System Controller support for R-Car M3-W+" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A779F0
++	bool "System Controller support for R-Car S4-8" if COMPILE_TEST
++	select SYSC_RCAR_GEN4
++
++config SYSC_R8A7792
++	bool "System Controller support for R-Car V2H" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77980
++	bool "System Controller support for R-Car V3H" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77970
++	bool "System Controller support for R-Car V3M" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A779A0
++	bool "System Controller support for R-Car V3U" if COMPILE_TEST
++	select SYSC_RCAR_GEN4
++
++config SYSC_R8A779G0
++	bool "System Controller support for R-Car V4H" if COMPILE_TEST
++	select SYSC_RCAR_GEN4
++
++config SYSC_RMOBILE
++	bool "System Controller support for R-Mobile" if COMPILE_TEST
++
++config SYSC_R8A77470
++	bool "System Controller support for RZ/G1C" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7745
++	bool "System Controller support for RZ/G1E" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7742
++	bool "System Controller support for RZ/G1H" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7743
++	bool "System Controller support for RZ/G1M" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A774C0
++	bool "System Controller support for RZ/G2E" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A774E1
++	bool "System Controller support for RZ/G2H" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A774A1
++	bool "System Controller support for RZ/G2M" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A774B1
++	bool "System Controller support for RZ/G2N" if COMPILE_TEST
++	select SYSC_RCAR
++
++endif
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index 5a75ab64d1ed..650f4dd96dec 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -350,109 +350,4 @@ config PWC_RZV2M
+ config RST_RCAR
+ 	bool "Reset Controller support for R-Car" if COMPILE_TEST
+ 
+-config SYSC_RCAR
+-	bool "System Controller support for R-Car" if COMPILE_TEST
+-
+-config SYSC_RCAR_GEN4
+-	bool "System Controller support for R-Car Gen4" if COMPILE_TEST
+-
+-config SYSC_R8A77995
+-	bool "System Controller support for R-Car D3" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7794
+-	bool "System Controller support for R-Car E2" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77990
+-	bool "System Controller support for R-Car E3" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7779
+-	bool "System Controller support for R-Car H1" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7790
+-	bool "System Controller support for R-Car H2" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7795
+-	bool "System Controller support for R-Car H3" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7791
+-	bool "System Controller support for R-Car M2-W/N" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77965
+-	bool "System Controller support for R-Car M3-N" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77960
+-	bool "System Controller support for R-Car M3-W" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77961
+-	bool "System Controller support for R-Car M3-W+" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A779F0
+-	bool "System Controller support for R-Car S4-8" if COMPILE_TEST
+-	select SYSC_RCAR_GEN4
+-
+-config SYSC_R8A7792
+-	bool "System Controller support for R-Car V2H" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77980
+-	bool "System Controller support for R-Car V3H" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77970
+-	bool "System Controller support for R-Car V3M" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A779A0
+-	bool "System Controller support for R-Car V3U" if COMPILE_TEST
+-	select SYSC_RCAR_GEN4
+-
+-config SYSC_R8A779G0
+-	bool "System Controller support for R-Car V4H" if COMPILE_TEST
+-	select SYSC_RCAR_GEN4
+-
+-config SYSC_RMOBILE
+-	bool "System Controller support for R-Mobile" if COMPILE_TEST
+-
+-config SYSC_R8A77470
+-	bool "System Controller support for RZ/G1C" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7745
+-	bool "System Controller support for RZ/G1E" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7742
+-	bool "System Controller support for RZ/G1H" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7743
+-	bool "System Controller support for RZ/G1M" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A774C0
+-	bool "System Controller support for RZ/G2E" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A774E1
+-	bool "System Controller support for RZ/G2H" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A774A1
+-	bool "System Controller support for RZ/G2M" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A774B1
+-	bool "System Controller support for RZ/G2N" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+ endif # SOC_RENESAS
+-- 
+2.34.1
 
-Cheers,
-Prabhakar
-
-> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> index bb1bb004b6a44b01..dd3f074d7b09b9bb 100644
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -343,7 +343,6 @@ config ARCH_R9A07G043
->         select DMA_GLOBAL_POOL
->         select ERRATA_ANDES if RISCV_SBI
->         select ERRATA_ANDES_CMO if ERRATA_ANDES
-> -
->         help
->           This enables support for the Renesas RZ/Five SoC.
->
-> --
-> 2.34.1
->
