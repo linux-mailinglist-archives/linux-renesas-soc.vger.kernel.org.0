@@ -2,262 +2,456 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17FE77A17FA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 10:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E07C7A19B4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 10:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232823AbjIOIGr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 04:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49358 "EHLO
+        id S233585AbjIOIzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 04:55:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbjIOIGr (ORCPT
+        with ESMTP id S233587AbjIOIzN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 04:06:47 -0400
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD9B1BC9;
-        Fri, 15 Sep 2023 01:06:42 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59be6605e1dso21129647b3.3;
-        Fri, 15 Sep 2023 01:06:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694765201; x=1695370001;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IDdF9uQczjRdjh5DltQ3Kf3WBzjSgTe8Pnr+O7KM1YE=;
-        b=wQByhZ9yaQmqn90fcbDfgmU6H9PY1niAWJb4O7fZLw3dawmdBvV04ULbvSPkyrofrI
-         8zGdLBFTyEj7GMp7uygIV87S2/wdjfGFk5wlQNf85RSL7YXtMJGxJKTP/QmpMyAdu8ER
-         ma8AC0JoQS6iwqFAp44pLo19wdDkc7CMbuSUCQPGQvoxC9ywSM4QnxD/RMEft0R+oD1i
-         K+VRQ+Pgk5UOgTUbAlQgqqeik4kHqAtWX2YSfFxWutmPzDKrBcT4cb9k6aBew6WQN7ee
-         M8HTfS2BEJEm+uyDajR4bC7v6LDjWD0GAUg2J7E5QSQd13TDKErj/l/zipO+E4q4bYaL
-         wJAw==
-X-Gm-Message-State: AOJu0YxpBLTueQgNQnCIb/H28w5K7gRqw8bZ5vbKGDgptolLvmgzUsoK
-        K7lyTUzfPL9RLnlGf4ANf/89BMN3WHUTVQ==
-X-Google-Smtp-Source: AGHT+IHfyHf84k81DafigIWjZ9cGVm1JY4apXsJzccQ9orBMQ+oG5wy+32Au3wIOh231/9ddGKBwnA==
-X-Received: by 2002:a0d:ebc6:0:b0:58f:a190:f6b with SMTP id u189-20020a0debc6000000b0058fa1900f6bmr1100118ywe.26.1694765201151;
-        Fri, 15 Sep 2023 01:06:41 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id p125-20020a0de683000000b0059b50f126fbsm747987ywe.114.2023.09.15.01.06.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Sep 2023 01:06:40 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d81b803b09aso831568276.2;
-        Fri, 15 Sep 2023 01:06:40 -0700 (PDT)
-X-Received: by 2002:a25:e64d:0:b0:d80:1161:5ec1 with SMTP id
- d74-20020a25e64d000000b00d8011615ec1mr867800ybh.20.1694765200505; Fri, 15 Sep
- 2023 01:06:40 -0700 (PDT)
+        Fri, 15 Sep 2023 04:55:13 -0400
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257F630C3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 01:54:28 -0700 (PDT)
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Rn7KY0PfTz4x9fd
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 10:54:25 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7135:da8b:ba1d:1a7c])
+        by andre.telenet-ops.be with bizsmtp
+        id m8uE2A0073q21w7018uEem; Fri, 15 Sep 2023 10:54:24 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qh4aJ-003lFs-3L;
+        Fri, 15 Sep 2023 10:54:14 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qh4ac-00Gdag-2x;
+        Fri, 15 Sep 2023 10:54:14 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-sh@vger.kernel.org
+Subject: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion + DT support
+Date:   Fri, 15 Sep 2023 10:53:15 +0200
+Message-Id: <cover.1694767208.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-19-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdX9PYdESi6OAFSUS1NsFs9oPPV7Cd+uMHTtFRhkaq3Xzw@mail.gmail.com> <1ef2d7d4-93d4-969d-6618-3b81926418d5@tuxon.dev>
-In-Reply-To: <1ef2d7d4-93d4-969d-6618-3b81926418d5@tuxon.dev>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 15 Sep 2023 10:06:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWvuP1M2vu9+Kptj-5AkxbtPVeymm5r_02JQbyXdA7F=g@mail.gmail.com>
-Message-ID: <CAMuHMdWvuP1M2vu9+Kptj-5AkxbtPVeymm5r_02JQbyXdA7F=g@mail.gmail.com>
-Subject: Re: [PATCH 18/37] clk: renesas: rzg2l: refactor sd mux driver
-To:     claudiu beznea <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
-        sboyd@kernel.org
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, ulf.hansson@linaro.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
+	Hi all,
 
-On Fri, Sep 15, 2023 at 9:30 AM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 14.09.2023 18:18, Geert Uytterhoeven wrote:
-> > On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Refactor SD MUX driver to be able to reuse the same code on RZ/G3S.
-> >> RZ/G2{L, UL} has a limitation with regards to switching the clock source
-> >> for SD MUX (MUX clock source has to be switched to 266MHz before switching
-> >> b/w 533MHz and 400MHz). This limitation has been introduced as a clock
-> >> notifier that is registered on platform based initialization data thus the
-> >> SD MUX code could be reused on RZ/G3S.
-> >>
-> >> As both RZ/G2{L, UL} and RZ/G3S has specific bits in specific registers
-> >> to check if the clock switching has been done, this configuration (register
-> >> offset, register bits and bits width) is now passed though
-> >> struct cpg_core_clk::sconf (status configuration) from platform specific
-> >> initialization code.
-> >>
-> >> Along with struct cpg_core_clk::sconf the mux table indexes is also
-> >
-> > indices are
-> >
-> >> passed from platform specific initialization code.
-> >
-> > Please also mention the passing of the mux flags, which is added so
-> > you can pass CLK_SET_PARENT_GATE for G3S_SEL_PLL4 later.
->
-> Ok.
->
-> >
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> >> --- a/drivers/clk/renesas/r9a07g043-cpg.c
-> >> +++ b/drivers/clk/renesas/r9a07g043-cpg.c
-> >> @@ -21,6 +21,10 @@
-> >>  #define G2UL_SEL_SDHI0         SEL_PLL_PACK(G2UL_CPG_PL2SDHI_DSEL, 0, 2)
-> >>  #define G2UL_SEL_SDHI1         SEL_PLL_PACK(G2UL_CPG_PL2SDHI_DSEL, 4, 2)
-> >>
-> >> +/* Clock status configuration. */
-> >> +#define G2UL_SEL_SDHI0_STS     SEL_PLL_PACK(CPG_CLKSTATUS, 28, 1)
-> >> +#define G2UL_SEL_SDHI1_STS     SEL_PLL_PACK(CPG_CLKSTATUS, 29, 1)
-> >
-> > Just like in [PATCH 17/37], there is no real need for the "G2UL_"-prefix.
->
-> Ok, I ususlly tend to guard everything with a proper namespace.
+It has been 3 years since the last conversion of a DRM driver to atomic
+modesetting, so I guess it's time for another one? ;-)
 
-Sure, in many cases, that makes good sense.
-In this case, not having the prefix makes it easier to compare clock tables:
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
 
-    soc-dts-diff -b drivers/clk/renesas/r9a07g04[34]-cpg.c
+This patch series converts the SH-Mobile DRM driver to atomic
+modesetting, and adds DT support, complemented by the customary set of
+fixes and improvements.
 
-(soc-dts-diff ignores the SoC part number, and can be found at
- https://github.com/geertu/linux-scripts)
+Overview:
+  - Patch 1 adds a separate maintainer entry.
+  - Patch 2 adds DT bindings for the SH-Mobile LCD controller,
+  - Patch 3 adds definitions for RGB666 9:9 media bus formats,
+  - Patches 4-35 contains miscellaneous fixes, improvements, and
+    cleanups for the SH-Mobile DRM driver,
+  - Patches 36-40 convert the SH-Mobile DRM driver to atomic
+    modesetting,
+  - Patch 41 adds DT support to the SH-Mobile DRM driver.
 
-> >> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event,
-> >> +                                 void *data)
-> >> +{
-> >> +       struct clk_notifier_data *cnd = data;
-> >> +       struct clk_hw *hw = __clk_get_hw(cnd->clk);
-> >> +       struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
-> >> +       struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
-> >> +       u32 off = GET_REG_OFFSET(clk_hw_data->conf);
-> >> +       u32 shift = GET_SHIFT(clk_hw_data->conf);
-> >> +       const u32 clk_src_266 = 3;
-> >> +       unsigned long flags;
-> >> +       u32 bitmask;
-> >> +       int ret;
-> >> +
-> >> +       if (event != PRE_RATE_CHANGE || (cnd->new_rate / MEGA == 266))
-> >> +               return 0;
-> >> +
-> >> +       spin_lock_irqsave(&priv->rmw_lock, flags);
-> >> +
-> >> +       /*
-> >> +        * As per the HW manual, we should not directly switch from 533 MHz to
-> >> +        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
-> >> +        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
-> >> +        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
-> >> +        * (400 MHz)).
-> >> +        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
-> >> +        * switching register is prohibited.
-> >> +        * The clock mux has 3 input clocks(533 MHz, 400 MHz, and 266 MHz), and
-> >> +        * the index to value mapping is done by adding 1 to the index.
-> >> +        */
-> >> +       bitmask = (GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0) << shift) << 16;
-> >> +       writel(bitmask | (clk_src_266 << shift), priv->base + off);
-> >> +
-> >> +       /* Wait for the update done. */
-> >> +       ret = rzg2l_cpg_wait_clk_update_done(priv->base, clk_hw_data->sconf);
-> >> +
-> >> +       spin_unlock_irqrestore(&priv->rmw_lock, flags);
-> >> +
-> >> +       if (ret)
-> >> +               dev_err(priv->dev, "failed to switch to safe clk source\n");
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +
-> >> +static int rzg2l_register_notifier(struct clk_hw *hw, const struct cpg_core_clk *core,
-> >> +                                  struct rzg2l_cpg_priv *priv)
-> >> +{
-> >> +       struct notifier_block *nb;
-> >> +
-> >> +       if (!core->notifier)
-> >> +               return 0;
-> >> +
-> >> +       nb = devm_kzalloc(priv->dev, sizeof(*nb), GFP_KERNEL);
-> >> +       if (!nb)
-> >> +               return -ENOMEM;
-> >> +
-> >> +       nb->notifier_call = core->notifier;
-> >> +
-> >> +       return clk_notifier_register(hw->clk, nb);
-> >> +}
-> >
-> > I am not sure a notifier is the best solution.  Basically on RZ/G2L,
-> > when changing the parent clock, you need to switch to a fixed
-> > intermediate parent first.
-> > What about just replacing the fixed clk_src_266 in the old
-> > rzg2l_cpg_sd_mux_clk_set_parent() by a (signed) integer in
-> > sd_mux_hw_data (specified in DEF_SD_MUX()), representing the index
-> > of the intermediate clock?
-> > -1 would mean an intermediate parent is not needed.
->
-> That should work too but .set_rate() will be bulky for both mux and div.
->
-> The idea was to have the .set_rate() common to the mux and the platform
-> specificities implemented as notifiers and only the needed platforms to
-> instantiate the notifier. And the same approach to be used by the divider
-> (patch "[PATCH 19/37] clk: renesas: rzg2l: add a divider clock for RZ/G3S")
->
-> With this it looked to me that the final code is more compact .set_rate
-> being simple and platform specificities being implemented in notifier
-> (valid for both MUX and DIV). The infrastructure is already there for
-> notifier to be called before .set_rate().
+To reduce strain on the audience, I have CCed the DT and media people
+only on the cover letter and the DT resp. media patches.  If interested,
+the full series should be available through lore.kernel.org.
 
-TBH, I am not that familiar with clock notifiers, so I could use some
-guidance from the clock maintainers.
+Some comments and questions can be found in the individual patches.
 
-Mike/Stephen: Are clock notifiers the right approach, here and in
-              [PATCH 19.37]?
+Changes compared to v3[1]:
+  - Rebase on top of v6.6-rc1 and commit 775b0669e19f2e4a
+    ("drm/shmobile: Convert to platform remove callback returning void")
+    in drm-misc/for-linux-next.
 
-> >> --- a/drivers/clk/renesas/rzg2l-cpg.h
-> >> +++ b/drivers/clk/renesas/rzg2l-cpg.h
-> >> @@ -272,4 +278,9 @@ extern const struct rzg2l_cpg_info r9a07g044_cpg_info;
-> >>  extern const struct rzg2l_cpg_info r9a07g054_cpg_info;
-> >>  extern const struct rzg2l_cpg_info r9a09g011_cpg_info;
-> >>
-> >> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event, void *data);
-> >> +
-> >> +/* Macros to be used in platform specific initialization code. */
-> >> +#define SD_MUX_NOTIF           (&rzg2l_cpg_sd_mux_clk_notifier)
-> >
-> > Any specific reason you are adding this macro?
->
-> It looked to me like a better name to be used in platform specific drivers.
->
-> > What is wrong with using &rzg2l_cpg_sd_mux_clk_notifier directly?
->
-> Nothing, just that it is a longer than SD_MUX_NOTIF.
+Changes compared to v2[2]:
+  - Add Reviewed-by.
 
-It adds another level of indirection for the casual reviewer, and needs
-replacement when an SoC arrives that needs a different SD mux notifier.
+Changes compared to v1[3]:
+  - New patches:
+      - "[PATCH v2 01/41] MAINTAINER: Create entry for Renesas SH-Mobile
+	 DRM drivers",
+      - "[PATCH v2 18/41] drm: renesas: shmobile: Remove custom plane
+	 destroy callback",
+  - Add myself as co-maintainer,
+  - Make fck clock required,
+  - Drop ports description referring to obsolete graph.txt,
+  - Condition ports to compatible strings,
+  - Drop label and status from example,
+  - Add Reviewed-by,
+  - Drop unused MEDIA_BUS_FMT_RGB666_2X9_LE, as requested by Laurent,
+  - Move explicit clock handling to Runtime PM callbacks,
+  - Move devm_pm_runtime_enable() after shmob_drm_setup_clocks(),
+  - Depend on PM,
+  - Split off removal of call to drm_plane_force_disable(),
+  - Select VIDEOMODE_HELPERS,
+  - Keep table instead of replacing it by a switch() statement,
+  - Fix shmob_drm_interface_data.bus_fmt comment,
+  - Drop superfluous blank lines,
+  - Keep initialization of info fields together,
+  - Use shmob_drm_bus_fmts[],
+  - Keep bus format validation at probe time,
+  - Pass plane type to shmob_drm_plane_create() to avoid having to shift
+    all overlay plane indices by one,
+  - Rename primary_plane_funcs to shmob_drm_primary_plane_funcs,
+  - Rename shmob_drm_plane_funcs to shmob_drm_overlay_plane_funcs,
+  - Move shmob_drm_crtc_finish_page_flip() further up,
+  - Inline shmob_drm_crtc_st{art,op}(),
+  - Use devm_drm_of_get_bridge(),
+  - Don't print bridge->of_node on failure, as this field depends on
+    CONFIG_OF.
 
+This has been tested on the R-Mobile A1-based Atmark Techno
+Armadillo-800-EVA development board, using both legacy[4] and
+DT-based[5] instantiation, with the fbdev-emulated text console, fbset,
+and modetest, a.o.
+
+    modetest -M shmob-drm -s 43:800x480@RG16 -P 33@41:640x320+80+80@RG16
+    modetest -M shmob-drm -s 43:800x480@RG16
+
+The output of "modetest -M shmob-drm" can be found below[6].
+
+Not much activity has happened since v2, how can we move this forward?
 Thanks!
+
+[1] "[PATCH v3 00/41] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1692178020.git.geert+renesas@glider.be
+
+[2] "[PATCH v2 00/41] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1689698048.git.geert+renesas@glider.be
+
+[3] "[PATCH 00/39] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1687423204.git.geert+renesas@glider.be/
+
+[4] "[PATCH/RFC] staging: board: armadillo800eva: Add DRM support"
+    https://lore.kernel.org/r/f7874a9da4bcb20fbc9cd133147b67862ebcf0b9.1687418281.git.geert+renesas@glider.be
+
+[5] "[PATCH 0/2] ARM: dts: r8a7740/armadillo800eva: Add LCD support"
+    https://lore.kernel.org/r/cover.1687417585.git.geert+renesas@glider.be
+
+[6] Encoders:
+    id	crtc	type	possible crtcs	possible clones	
+    42	41	DPI	0x00000001	0x00000001
+
+    Connectors:
+    id	encoder	status		name		size (mm)	modes	encoders
+    43	42	connected	DPI-1          	111x67		1	42
+      modes:
+	    index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    1 EDID:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+	    2 DPMS:
+		    flags: enum
+		    enums: On=0 Standby=1 Suspend=2 Off=3
+		    value: 0
+	    5 link-status:
+		    flags: enum
+		    enums: Good=0 Bad=1
+		    value: 0
+	    6 non-desktop:
+		    flags: immutable range
+		    values: 0 1
+		    value: 0
+	    4 TILE:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+
+    CRTCs:
+    id	fb	pos	size
+    41	44	(0,0)	(800x480)
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    24 VRR_ENABLED:
+		    flags: range
+		    values: 0 1
+		    value: 0
+
+    Planes:
+    id	crtc	fb	CRTC x,y	x,y	gamma size	possible crtcs
+    31	41	44	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 1
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    33	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    35	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    37	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    39	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+
+    Frame buffers:
+    id	size	pitch
+
+Geert Uytterhoeven (36):
+  MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+  dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+  media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+  drm: renesas: shmobile: Fix overlay plane disable
+  drm: renesas: shmobile: Fix ARGB32 overlay format typo
+  drm: renesas: shmobile: Correct encoder/connector types
+  drm: renesas: shmobile: Add support for Runtime PM
+  drm: renesas: shmobile: Restore indentation of
+    shmob_drm_setup_clocks()
+  drm: renesas: shmobile: Use %p4cc to print fourcc code
+  drm: renesas: shmobile: Add missing YCbCr formats
+  drm: renesas: shmobile: Improve shmob_drm_format_info table
+  drm: renesas: shmobile: Improve error handling
+  drm: renesas: shmobile: Convert to use devm_request_irq()
+  drm: renesas: shmobile: Remove custom plane destroy callback
+  drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+  drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+  drm: renesas: shmobile: Convert container helpers to static inline
+    functions
+  drm: renesas: shmobile: Replace .dev_private with container_of()
+  drm: renesas: shmobile: Use media bus formats in platform data
+  drm: renesas: shmobile: Move interface handling to connector setup
+  drm: renesas: shmobile: Unify plane allocation
+  drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+  drm: renesas: shmobile: Rename shmob_drm_connector.connector
+  drm: renesas: shmobile: Rename shmob_drm_plane.plane
+  drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+  drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+  drm: renesas: shmobile: Wait for page flip when turning CRTC off
+  drm: renesas: shmobile: Turn vblank on/off when enabling/disabling
+    CRTC
+  drm: renesas: shmobile: Shutdown the display on remove
+  drm: renesas: shmobile: Cleanup encoder
+  drm: renesas: shmobile: Atomic conversion part 1
+  drm: renesas: shmobile: Atomic conversion part 2
+  drm: renesas: shmobile: Use suspend/resume helpers
+  drm: renesas: shmobile: Remove internal CRTC state tracking
+  drm: renesas: shmobile: Atomic conversion part 3
+  drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+  drm: renesas: shmobile: Remove backlight support
+  drm: renesas: shmobile: Don't set display info width and height twice
+  drm: renesas: shmobile: Rename input clocks
+  drm: renesas: shmobile: Remove support for SYS panels
+  drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../display/renesas,shmobile-lcdc.yaml        | 130 ++++
+ .../media/v4l/subdev-formats.rst              |  72 ++
+ MAINTAINERS                                   |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig      |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile     |   3 +-
+ .../renesas/shmobile/shmob_drm_backlight.c    |  82 ---
+ .../renesas/shmobile/shmob_drm_backlight.h    |  19 -
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 650 ++++++++----------
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  27 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 179 +++--
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |  18 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  |  77 ++-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.h  |   9 +-
+ .../drm/renesas/shmobile/shmob_drm_plane.c    | 326 +++++----
+ .../drm/renesas/shmobile/shmob_drm_plane.h    |   5 +-
+ include/linux/platform_data/shmob_drm.h       |  57 +-
+ include/uapi/linux/media-bus-format.h         |   3 +-
+ 17 files changed, 860 insertions(+), 813 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: devicetree@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+-- 
+2.34.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
