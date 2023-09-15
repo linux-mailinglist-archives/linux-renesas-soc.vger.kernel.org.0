@@ -2,70 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B2B7A1740
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 09:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B8CA7A1781
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 09:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232803AbjIOHZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 03:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
+        id S232597AbjIOHat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Sep 2023 03:30:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232774AbjIOHY4 (ORCPT
+        with ESMTP id S232618AbjIOHar (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 03:24:56 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D4C1BCF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:24:46 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2bfc2b26437so27759681fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:24:46 -0700 (PDT)
+        Fri, 15 Sep 2023 03:30:47 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A77E1BD1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:30:35 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9ad8bf9bfabso235212166b.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Sep 2023 00:30:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694762685; x=1695367485; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1694763033; x=1695367833; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BRVUxrzWSNf4X4G5XhrnO7+YTsERSGVJqcBKf82PDow=;
-        b=wuXq56X/7R0rorv4p7eJ18zrkwxBN4wVhb166mNFCxH5ra8veLmLUriAlJirjVMMTH
-         Kg67D6QY5YBdAzZTaOa7proveCJJKNCgl1XF0kD1EcY6gJP7gThwnFWVg3uUrLCTbdc3
-         RHnrCCHbiOdvoCZWJR1AlYREBWr330H8RaseikEaYZWvZL/OYmVAHkiFQQ4zWiP2zHBp
-         sq75EjgeL1NY9lljo8dbHnb/FHQWoMM36S8UzEkX3FTuYyBDqIr7bYWm78jrx2TDIycA
-         Anw4/OCOJL63f2R435dt3E3aRbBUb1GQq8zoySUCJ4ho8GsA4IeHhtoNVA430craQE4h
-         cFKQ==
+        bh=ee9af7igQa5HL8O6AExww0fv//8+9cpPLEMTss6zMNc=;
+        b=nCjZM+bm+DcK18kJS3K/6Gl61tR/Wag3OjdFqBIiGDRrUwlTjwY1GBJ/eZhkfGhQCh
+         8SJcnhFMlnuqJ/71EkhrJ+VBVomVyRCYgjCszjjunnuZbEhd9xcd7t9nTnrfkMg2mDtX
+         hJcbujn4ZRisNVZhTkAZhTPgHvOqv8BAuWBqXb39sfhazKMpqQiKVvGyXvAvRbsECjsw
+         29UtOmMKMLFT1/9s6Dndzlo9/Q2us56mtplcLraM5Pep6awEFe0AoClv4EZWTOAEGFr8
+         YVFp1q78x51FIRD6srqDX3sl3JlVgGPVfgdHQHQqXqXoKK94nRXoE1iw7dRC8rE3ju/j
+         7BeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694762685; x=1695367485;
+        d=1e100.net; s=20230601; t=1694763033; x=1695367833;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BRVUxrzWSNf4X4G5XhrnO7+YTsERSGVJqcBKf82PDow=;
-        b=vvv0VXTY92pNOagB04HOkdYTX3y8+bUBWMXcpPI1IQT0ILqiT9hEJctbrlrgVxWxu9
-         suklXD8i5nwb5wWwA5B58Fs7xQwQqLFMVsPM4ZtRCGlIQGZ2gVmd/LvCSRH+zVpwmW/F
-         t/RpefiQAJTJNzERIOdv1b7jLmFtHJvNERXBAcdbYdzvlKaPzjpqh6Njp4IcdWtgDlql
-         pxNSPRvxpVLo0qX4D7BQ4ZkbB0YDj3Dd0iCntp1i07XAH+B1RAuUAWglQ1+Zc6Np2NX7
-         agC2NJV2faG5KRyYOs0KXcV90gHXHC7iGow5yKl4Tq3FZRitWf7S/ALvlNd8yOgWS2b4
-         K2OQ==
-X-Gm-Message-State: AOJu0YzCco49q+7Brw4rXpTjr/vkMsDxr9o7r3pyCyvp1d5ksROnN+h8
-        wnhM033K01/L6Hmr+qoMc8EV9w==
-X-Google-Smtp-Source: AGHT+IGsyFGl3ShsoIVQDC6tL2uthtFYR1zLnmKmxUvMkJKuE45n7hu3NNEjQ1tFcwkD+8okp5gr2A==
-X-Received: by 2002:a2e:a285:0:b0:2bc:f4ee:ca57 with SMTP id k5-20020a2ea285000000b002bcf4eeca57mr704099lja.48.1694762685121;
-        Fri, 15 Sep 2023 00:24:45 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id fi26-20020a170906da1a00b0099bc8db97bcsm1995609ejb.131.2023.09.15.00.24.42
+        bh=ee9af7igQa5HL8O6AExww0fv//8+9cpPLEMTss6zMNc=;
+        b=YI7yTMmt4cnLJkJe48tINCL8l9AdiU0dlPHhyKFHtRStwpw81TSGP0jSqd7Fe4fwMu
+         n0dQLMc6GLWHvuLE/E9Tj0Cw7NMoURDNgDxA1qeT1OvAIkacvq5DScuqMOy3SKYM8uGF
+         5EFrXh6wekSPKyNME4phSZEX8Sf775iEIP/2GzhLxcpcU2TiJEw7vR5F0KrvmGGWDC8v
+         aBiHbC/2DwAZMSy9i+SuUNCD9rRmtWWLmxvG6ux2KEaaN61mbJM0Jq1HcuoYHbt9uO/h
+         dfpFzZjCbLbakoFXun/1TsVvxQU50Sro5HY384VLZsVOGEfXzFSZ/jAKJzIMXZGoPIC3
+         wCww==
+X-Gm-Message-State: AOJu0YyJ2zuGv56z3q2nukzwrCrRD4t76cOPP7h2LLjnQbmdi6E3rNKC
+        OB9KZ6ADO0xgCtyKmrfyZ6p8fQ==
+X-Google-Smtp-Source: AGHT+IGj4rVdjBzxSIQm/X1vlccA60OAhZ6GV3tGMV2MmaS4ONiCjIZhUwGSfIaEWjxK00Kuf9oe9Q==
+X-Received: by 2002:a17:906:1c9:b0:99b:dd1d:bc58 with SMTP id 9-20020a17090601c900b0099bdd1dbc58mr686673ejj.41.1694763033178;
+        Fri, 15 Sep 2023 00:30:33 -0700 (PDT)
+Received: from [192.168.32.2] ([82.78.167.145])
+        by smtp.gmail.com with ESMTPSA id s22-20020a1709066c9600b00993a9a951fasm2042519ejr.11.2023.09.15.00.30.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Sep 2023 00:24:44 -0700 (PDT)
-Message-ID: <c199fb5e-927c-aa39-ff3a-3a7906fadec0@linaro.org>
-Date:   Fri, 15 Sep 2023 09:24:41 +0200
+        Fri, 15 Sep 2023 00:30:32 -0700 (PDT)
+Message-ID: <1ef2d7d4-93d4-969d-6618-3b81926418d5@tuxon.dev>
+Date:   Fri, 15 Sep 2023 10:30:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH 21/37] dt-bindings: clock: add r9a08g045 CPG clocks and
- resets definitions
+Subject: Re: [PATCH 18/37] clk: renesas: rzg2l: refactor sd mux driver
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     Claudiu <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
-        sboyd@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, ulf.hansson@linaro.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
         prabhakar.mahadev-lad.rj@bp.renesas.com,
         biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
         arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
@@ -77,43 +74,347 @@ Cc:     Claudiu <claudiu.beznea@tuxon.dev>, mturquette@baylibre.com,
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-22-claudiu.beznea.uj@bp.renesas.com>
- <20230912160330.GA864606-robh@kernel.org>
- <CAMuHMdWxKFrTi7c0Df0cHLrVFt3=a7UOy0jnKxsG8PEuD=15Pg@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdWxKFrTi7c0Df0cHLrVFt3=a7UOy0jnKxsG8PEuD=15Pg@mail.gmail.com>
+ <20230912045157.177966-19-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdX9PYdESi6OAFSUS1NsFs9oPPV7Cd+uMHTtFRhkaq3Xzw@mail.gmail.com>
+From:   claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdX9PYdESi6OAFSUS1NsFs9oPPV7Cd+uMHTtFRhkaq3Xzw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 14/09/2023 17:26, Geert Uytterhoeven wrote:
-> Hi Rob,
+Hi, Geert,
+
+On 14.09.2023 18:18, Geert Uytterhoeven wrote:
+> Hi Claudiu,
 > 
-> On Tue, Sep 12, 2023 at 6:03 PM Rob Herring <robh@kernel.org> wrote:
->> On Tue, Sep 12, 2023 at 07:51:41AM +0300, Claudiu wrote:
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> Add RZ/G3S (R9A08G045) Clock Pulse Generator (CPG) core clocks, module
->>> clocks and resets.
+> Thanks for your patch!
+> 
+> On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> This is part of the binding, so it can be squashed with the previous
->> patch. The ack there still stands.
+>> Refactor SD MUX driver to be able to reuse the same code on RZ/G3S.
+>> RZ/G2{L, UL} has a limitation with regards to switching the clock source
+>> for SD MUX (MUX clock source has to be switched to 266MHz before switching
+>> b/w 533MHz and 400MHz). This limitation has been introduced as a clock
+>> notifier that is registered on platform based initialization data thus the
+>> SD MUX code could be reused on RZ/G3S.
+>>
+>> As both RZ/G2{L, UL} and RZ/G3S has specific bits in specific registers
+>> to check if the clock switching has been done, this configuration (register
+>> offset, register bits and bits width) is now passed though
+>> struct cpg_core_clk::sconf (status configuration) from platform specific
+>> initialization code.
+>>
+>> Along with struct cpg_core_clk::sconf the mux table indexes is also
 > 
-> Usually we keep it as a separate patch, to be queued in an immutable
-> branch, as it is included by both the clock driver and by DTS, but
-> not by the yaml bindings file.
+> indices are
+> 
+>> passed from platform specific initialization code.
+> 
+> Please also mention the passing of the mux flags, which is added so
+> you can pass CLK_SET_PARENT_GATE for G3S_SEL_PLL4 later.
 
-Binding also should be shared, so you get compatible documented in both
-places (thus lack of checkpatch warnings). It still should be one patch.
+Ok.
 
-Best regards,
-Krzysztof
+> 
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+>> --- a/drivers/clk/renesas/r9a07g043-cpg.c
+>> +++ b/drivers/clk/renesas/r9a07g043-cpg.c
+>> @@ -21,6 +21,10 @@
+>>  #define G2UL_SEL_SDHI0         SEL_PLL_PACK(G2UL_CPG_PL2SDHI_DSEL, 0, 2)
+>>  #define G2UL_SEL_SDHI1         SEL_PLL_PACK(G2UL_CPG_PL2SDHI_DSEL, 4, 2)
+>>
+>> +/* Clock status configuration. */
+>> +#define G2UL_SEL_SDHI0_STS     SEL_PLL_PACK(CPG_CLKSTATUS, 28, 1)
+>> +#define G2UL_SEL_SDHI1_STS     SEL_PLL_PACK(CPG_CLKSTATUS, 29, 1)
+> 
+> Just like in [PATCH 17/37], there is no real need for the "G2UL_"-prefix.
 
+Ok, I ususlly tend to guard everything with a proper namespace.
+
+> 
+>> +
+>>  enum clk_ids {
+>>         /* Core Clock Outputs exported to DT */
+>>         LAST_DT_CORE_CLK = R9A07G043_CLK_P0_DIV2,
+>> @@ -85,6 +89,8 @@ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
+>>  static const char * const sel_pll6_2[] = { ".pll6_250", ".pll5_250" };
+>>  static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
+>>
+>> +static const u32 mtable_sdhi[] = {1, 2, 3};
+> 
+> { 1, 2, 3 };
+> 
+> (everywhere)
+
+ok
+
+> 
+>> +
+>>  static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
+>>         /* External Clock Inputs */
+>>         DEF_INPUT("extal", CLK_EXTAL),
+> 
+>> @@ -137,6 +141,77 @@ static void rzg2l_cpg_del_clk_provider(void *data)
+>>         of_clk_del_provider(data);
+>>  }
+>>
+>> +/* Must be called in atomic context. */
+>> +static int rzg2l_cpg_wait_clk_update_done(void __iomem *base, u32 conf)
+>> +{
+>> +       u32 bitmask = GENMASK(GET_WIDTH(conf) - 1, 0) << GET_SHIFT(conf);
+>> +       u32 off = GET_REG_OFFSET(conf);
+>> +       u32 val;
+>> +
+>> +       return readl_poll_timeout_atomic(base + off, val, !(val & bitmask), 100, 20000);
+>> +}
+>> +
+>> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event,
+>> +                                 void *data)
+>> +{
+>> +       struct clk_notifier_data *cnd = data;
+>> +       struct clk_hw *hw = __clk_get_hw(cnd->clk);
+>> +       struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
+>> +       struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
+>> +       u32 off = GET_REG_OFFSET(clk_hw_data->conf);
+>> +       u32 shift = GET_SHIFT(clk_hw_data->conf);
+>> +       const u32 clk_src_266 = 3;
+>> +       unsigned long flags;
+>> +       u32 bitmask;
+>> +       int ret;
+>> +
+>> +       if (event != PRE_RATE_CHANGE || (cnd->new_rate / MEGA == 266))
+>> +               return 0;
+>> +
+>> +       spin_lock_irqsave(&priv->rmw_lock, flags);
+>> +
+>> +       /*
+>> +        * As per the HW manual, we should not directly switch from 533 MHz to
+>> +        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
+>> +        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
+>> +        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
+>> +        * (400 MHz)).
+>> +        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
+>> +        * switching register is prohibited.
+>> +        * The clock mux has 3 input clocks(533 MHz, 400 MHz, and 266 MHz), and
+>> +        * the index to value mapping is done by adding 1 to the index.
+>> +        */
+>> +       bitmask = (GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0) << shift) << 16;
+>> +       writel(bitmask | (clk_src_266 << shift), priv->base + off);
+>> +
+>> +       /* Wait for the update done. */
+>> +       ret = rzg2l_cpg_wait_clk_update_done(priv->base, clk_hw_data->sconf);
+>> +
+>> +       spin_unlock_irqrestore(&priv->rmw_lock, flags);
+>> +
+>> +       if (ret)
+>> +               dev_err(priv->dev, "failed to switch to safe clk source\n");
+>> +
+>> +       return ret;
+>> +}
+>> +
+>> +static int rzg2l_register_notifier(struct clk_hw *hw, const struct cpg_core_clk *core,
+>> +                                  struct rzg2l_cpg_priv *priv)
+>> +{
+>> +       struct notifier_block *nb;
+>> +
+>> +       if (!core->notifier)
+>> +               return 0;
+>> +
+>> +       nb = devm_kzalloc(priv->dev, sizeof(*nb), GFP_KERNEL);
+>> +       if (!nb)
+>> +               return -ENOMEM;
+>> +
+>> +       nb->notifier_call = core->notifier;
+>> +
+>> +       return clk_notifier_register(hw->clk, nb);
+>> +}
+> 
+> I am not sure a notifier is the best solution.  Basically on RZ/G2L,
+> when changing the parent clock, you need to switch to a fixed
+> intermediate parent first.
+> What about just replacing the fixed clk_src_266 in the old
+> rzg2l_cpg_sd_mux_clk_set_parent() by a (signed) integer in
+> sd_mux_hw_data (specified in DEF_SD_MUX()), representing the index
+> of the intermediate clock?
+> -1 would mean an intermediate parent is not needed.
+
+That should work too but .set_rate() will be bulky for both mux and div.
+
+The idea was to have the .set_rate() common to the mux and the platform
+specificities implemented as notifiers and only the needed platforms to
+instantiate the notifier. And the same approach to be used by the divider
+(patch "[PATCH 19/37] clk: renesas: rzg2l: add a divider clock for RZ/G3S")
+
+With this it looked to me that the final code is more compact .set_rate
+being simple and platform specificities being implemented in notifier
+(valid for both MUX and DIV). The infrastructure is already there for
+notifier to be called before .set_rate().
+
+> 
+>> +
+>>  static struct clk * __init
+>>  rzg2l_cpg_div_clk_register(const struct cpg_core_clk *core,
+>>                            struct clk **clks,
+>> @@ -197,72 +272,54 @@ rzg2l_cpg_mux_clk_register(const struct cpg_core_clk *core,
+>>         return clk_hw->clk;
+>>  }
+>>
+>> -static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>> +static u8 rzg2l_cpg_sd_mux_clk_get_parent(struct clk_hw *hw)
+>> +{
+>> +       struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
+>> +       struct sd_mux_hw_data *sd_mux_hw_data = to_sd_mux_hw_data(clk_hw_data);
+>> +       struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
+>> +       u32 val;
+>> +
+>> +       val = readl(priv->base + GET_REG_OFFSET(clk_hw_data->conf));
+>> +       val >>= GET_SHIFT(clk_hw_data->conf);
+>> +       val &= GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0);
+>> +
+>> +       return clk_mux_val_to_index(hw, sd_mux_hw_data->mtable, CLK_MUX_ROUND_CLOSEST, val);
+>> +}
+>> +
+>> +static int rzg2l_cpg_sd_mux_clk_set_parent(struct clk_hw *hw, u8 index)
+>>  {
+>>         struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
+>> +       struct sd_mux_hw_data *sd_mux_hw_data = to_sd_mux_hw_data(clk_hw_data);
+>>         struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
+>>         u32 off = GET_REG_OFFSET(clk_hw_data->conf);
+>>         u32 shift = GET_SHIFT(clk_hw_data->conf);
+>> -       const u32 clk_src_266 = 2;
+>> -       u32 msk, val, bitmask;
+>>         unsigned long flags;
+>> +       u32 bitmask, val;
+>>         int ret;
+>>
+>> -       /*
+>> -        * As per the HW manual, we should not directly switch from 533 MHz to
+>> -        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
+>> -        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
+>> -        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
+>> -        * (400 MHz)).
+>> -        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
+>> -        * switching register is prohibited.
+>> -        * The clock mux has 3 input clocks(533 MHz, 400 MHz, and 266 MHz), and
+>> -        * the index to value mapping is done by adding 1 to the index.
+>> -        */
+>> +       val = clk_mux_index_to_val(sd_mux_hw_data->mtable, CLK_MUX_ROUND_CLOSEST, index);
+>> +
+>>         bitmask = (GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0) << shift) << 16;
+>> +
+>>         spin_lock_irqsave(&priv->rmw_lock, flags);
+>> -       if (index != clk_src_266) {
+>> -               writel(bitmask | ((clk_src_266 + 1) << shift), priv->base + off);
+>>
+>> -               msk = off ? CPG_CLKSTATUS_SELSDHI1_STS : CPG_CLKSTATUS_SELSDHI0_STS;
+>> +       writel(bitmask | (val << shift), priv->base + off);
+>>
+>> -               ret = readl_poll_timeout_atomic(priv->base + CPG_CLKSTATUS, val,
+>> -                                               !(val & msk), 100,
+>> -                                               CPG_SDHI_CLK_SWITCH_STATUS_TIMEOUT_US);
+>> -               if (ret)
+>> -                       goto unlock;
+>> -       }
+>> +       /* Wait for the update done. */
+>> +       ret = rzg2l_cpg_wait_clk_update_done(priv->base, clk_hw_data->sconf);
+>>
+>> -       writel(bitmask | ((index + 1) << shift), priv->base + off);
+>> -
+>> -       ret = readl_poll_timeout_atomic(priv->base + CPG_CLKSTATUS, val,
+>> -                                       !(val & msk), 100,
+>> -                                       CPG_SDHI_CLK_SWITCH_STATUS_TIMEOUT_US);
+>> -unlock:
+>>         spin_unlock_irqrestore(&priv->rmw_lock, flags);
+>>
+>>         if (ret)
+>> -               dev_err(priv->dev, "failed to switch clk source\n");
+>> +               dev_err(priv->dev, "Failed to switch parent\n");
+>>
+>>         return ret;
+>>  }
+>>
+>> -static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
+>> -{
+>> -       struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
+>> -       struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
+>> -       u32 val = readl(priv->base + GET_REG_OFFSET(clk_hw_data->conf));
+>> -
+>> -       val >>= GET_SHIFT(clk_hw_data->conf);
+>> -       val &= GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0);
+>> -
+>> -       return val ? --val : val;
+>> -}
+> 
+> This would be easier to review if you kept the order and name of the
+> .[gs]et_parent() callbacks.
+
+Appologies about that, I'll try to adapt it in the next version.
+
+> 
+>> -
+>>  static const struct clk_ops rzg2l_cpg_sd_clk_mux_ops = {
+>>         .determine_rate = __clk_mux_determine_rate_closest,
+>> -       .set_parent     = rzg2l_cpg_sd_clk_mux_set_parent,
+>> -       .get_parent     = rzg2l_cpg_sd_clk_mux_get_parent,
+>> +       .set_parent     = rzg2l_cpg_sd_mux_clk_set_parent,
+>> +       .get_parent     = rzg2l_cpg_sd_mux_clk_get_parent,
+>>  };
+> 
+>> --- a/drivers/clk/renesas/rzg2l-cpg.h
+>> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+> 
+>> @@ -86,8 +88,11 @@ struct cpg_core_clk {
+>>         unsigned int mult;
+>>         unsigned int type;
+>>         unsigned int conf;
+>> +       unsigned int sconf;
+>>         const struct clk_div_table *dtable;
+>> +       const u32 *mtable;
+>>         const char * const *parent_names;
+>> +       notifier_fn_t notifier;
+> 
+> FTR, this is growing each core clock entry by 24 bytes (on arm64).
+> We really should start using unions, but that is a bigger overhaul...
+> 
+>>         u32 flag;
+>>         u32 mux_flags;
+>>         int num_parents;
+> 
+>> @@ -272,4 +278,9 @@ extern const struct rzg2l_cpg_info r9a07g044_cpg_info;
+>>  extern const struct rzg2l_cpg_info r9a07g054_cpg_info;
+>>  extern const struct rzg2l_cpg_info r9a09g011_cpg_info;
+>>
+>> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event, void *data);
+>> +
+>> +/* Macros to be used in platform specific initialization code. */
+>> +#define SD_MUX_NOTIF           (&rzg2l_cpg_sd_mux_clk_notifier)
+> 
+> Any specific reason you are adding this macro?
+
+It looked to me like a better name to be used in platform specific drivers.
+
+> What is wrong with using &rzg2l_cpg_sd_mux_clk_notifier directly?
+
+Nothing, just that it is a longer than SD_MUX_NOTIF.
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
