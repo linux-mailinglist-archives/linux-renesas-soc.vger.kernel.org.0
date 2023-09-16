@@ -2,205 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ECE87A2954
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Sep 2023 23:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 416957A2E5D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Sep 2023 09:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbjIOVYX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Sep 2023 17:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37680 "EHLO
+        id S238820AbjIPHQd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Sep 2023 03:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237753AbjIOVYF (ORCPT
+        with ESMTP id S239021AbjIPHQX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Sep 2023 17:24:05 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8E7D3;
-        Fri, 15 Sep 2023 14:23:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B66C433C9;
-        Fri, 15 Sep 2023 21:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694813039;
-        bh=0hUoXMdFFKubXMNik79gAOoVSFyPFYFdGIzN8FUcSH0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=C6pqzFqctu3QE6MFhfAZ1GPIkeqy7V6PyjOVMtJwZHP6oHIWJLimqzse9h2pRg7vU
-         vJIQ2f2oZz1Ofct7tELX5yUWu1bcndypIm3A3EMkOTbUu5uD1Wd1FWBB/P36QIHfe9
-         XjrZELQ1o+OVUMJCY5+35BXyjYwitr3PZ8yMh0FHOthgBzPkbeiBMNEgcvQe0epcEx
-         TQJcG+UiXefRllHVPyCanNx+eSGaaZ/at7HGS3CjEsSUUI28IwyWJE8XUah3ZvqPde
-         6hSuBMG6iko75l/WdCYBcX6nircVQuvVXtszzIi/zuPvNXIcxr+4TlGbl+3fg1EK/U
-         ChOkDoyxMVpJQ==
-Date:   Fri, 15 Sep 2023 16:23:56 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
+        Sat, 16 Sep 2023 03:16:23 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859322134
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Sep 2023 00:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=BmfF
+        l2SC+D+xgefkLw3XFWBhlaLj9X0bxXdeqbL18Hw=; b=h/rqGk0Sbvg232NA9MAc
+        2WQn93C9e9zhZs41iVsFTHXl3XTSVNB60BZGxUi1kBohmzvy4aZ/6i7PTciVlwa+
+        +K6BIpFP6JfTByM/HDgTLBp73wvggP9G1OSCtcO1WL7JEErWooApnwbUCNqljzCK
+        LaKwOHuL6RETPCLOT0C31by20sQmqxSyoZtFC2xbnpfUXEmVrulxIr0n0NzXhdVd
+        GfY/9ZQ4mIrLJe6IA1nN2wkJuFEx6+yn9lG5mvuFsLReg4FPIDdb8sb6WRBZBXFK
+        bj9muCd9PzYpVe9RRG/MO7a9yYXxYI73Ab9VQjRi2loLCTWzwlufDDk2XWeNnnaf
+        gA==
+Received: (qmail 1558226 invoked from network); 16 Sep 2023 09:15:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Sep 2023 09:15:58 +0200
+X-UD-Smtp-Session: l3s3148p1@urQ7rnQFFEsuciNa
+Date:   Sat, 16 Sep 2023 09:15:55 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "kw@linux.com" <kw@linux.com>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kishon@kernel.org" <kishon@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "fancer.lancer@gmail.com" <fancer.lancer@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+Cc:     "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v20 04/19] PCI: designware-ep: Add INTx IRQs support
-Message-ID: <20230915212356.GA122696@bhelgaas>
+Subject: Re: [PATCH 0/2] i2c: rcar: add support for Gen4 devices
+Message-ID: <ZQVWK9Q2YtbehvjW@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20230913203242.31505-1-wsa+renesas@sang-engineering.com>
+ <TYBPR01MB5341A56291AFCB54E4918167D8F7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xUMUwyrLf7FPccL/"
 Content-Disposition: inline
-In-Reply-To: <TYBPR01MB534145152342F6E6808D98DCD8F7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <TYBPR01MB5341A56291AFCB54E4918167D8F7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 07:56:21AM +0000, Yoshihiro Shimoda wrote:
-> > From: Bjorn Helgaas, Sent: Thursday, September 14, 2023 8:31 AM
-> > On Fri, Aug 25, 2023 at 06:32:04PM +0900, Yoshihiro Shimoda wrote:
-> > > Add support for triggering INTx IRQs by using outbound iATU.
-> > > Outbound iATU is utilized to send assert and de-assert INTA TLPs
-> > > as simulated edge IRQ for INTA. (Other INT[BCD] are not asserted.)
-> > > This INTx support is optional (if there is no memory for INTx,
-> > > probe will not fail).
-> > >
-> > > The message is generated based on the payloadless Msg TLP with type
-> > > 0x14, where 0x4 is the routing code implying the Terminate at
-> > > Receiver message. The message code is specified as b1000xx for
-> > > the INTx assertion and b1001xx for the INTx de-assertion.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
-> > > ---
-> > >  .../pci/controller/dwc/pcie-designware-ep.c   | 70 +++++++++++++++++--
-> > >  drivers/pci/controller/dwc/pcie-designware.h  |  2 +
-> > >  2 files changed, 68 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > index 747d5bc07222..91e3c4335031 100644
-> > > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > @@ -6,9 +6,11 @@
-> > >   * Author: Kishon Vijay Abraham I <kishon@ti.com>
-> > >   */
-> > >
-> > > +#include <linux/delay.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/platform_device.h>
-> > >
-> > > +#include "../../pci.h"
-> > >  #include "pcie-designware.h"
-> > >  #include <linux/pci-epc.h>
-> > >  #include <linux/pci-epf.h>
-> > > @@ -484,14 +486,61 @@ static const struct pci_epc_ops epc_ops = {
-> > >  	.get_features		= dw_pcie_ep_get_features,
-> > >  };
-> > >
-> > > +static int dw_pcie_ep_send_msg(struct dw_pcie_ep *ep, u8 func_no, u8 code,
-> > > +			       u8 routing)
-> > > +{
-> > > +	struct dw_pcie_ob_atu_cfg atu = { 0 };
-> > > +	struct pci_epc *epc = ep->epc;
-> > > +	int ret;
-> > > +
-> > > +	atu.func_no = func_no;
-> > > +	atu.code = code;
-> > > +	atu.routing = routing;
-> > > +	atu.type = PCIE_ATU_TYPE_MSG;
-> > > +	atu.cpu_addr = ep->intx_mem_phys;
-> > > +	atu.size = epc->mem->window.page_size;
-> > > +
-> > > +	ret = dw_pcie_ep_outbound_atu(ep, &atu);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	/* A dummy-write ep->intx_mem is converted to a Msg TLP */
-> > > +	writel(0, ep->intx_mem);
-> > > +
-> > > +	dw_pcie_ep_unmap_addr(epc, func_no, 0, ep->intx_mem_phys);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
-> > >  {
-> > >  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> > >  	struct device *dev = pci->dev;
-> > > +	int ret;
-> > >
-> > > -	dev_err(dev, "EP cannot trigger legacy IRQs\n");
-> > > +	if (!ep->intx_mem) {
-> > > +		dev_err(dev, "legacy IRQs not supported\n");
-> > > +		return -EOPNOTSUPP;
-> > > +	}
-> > >
-> > > -	return -EINVAL;
-> > > +	/*
-> > > +	 * Even though the PCI bus specification implies the level-triggered
-> > > +	 * INTx interrupts the kernel PCIe endpoint framework has a single
-> > > +	 * PCI_EPC_IRQ_INTx flag defined for the legacy IRQs simulation. Thus
-> > > +	 * this function sends the Deassert_INTx PCIe TLP after the Assert_INTx
-> > > +	 * message with the 50 usec duration basically implementing the
-> > > +	 * rising-edge triggering IRQ. Hopefully the interrupt controller will
-> > > +	 * still be able to register the incoming IRQ event...
-> > 
-> > I'm not really convinced about this "assert INTA, wait 50us, deassert
-> > INTA" thing.  All the INTx language in the spec is like this:
-> > 
-> >   ... the virtual INTx wire must be asserted whenever and *as long as*
-> >   the following conditions are satisfied:
-> > 
-> >     - The Interrupt Disable bit in the Command register is set to 0b.
-> > 
-> >     - The <feature> Interrupt Enable bit in the <feature> Control
-> >       Register is set to 1b.
-> > 
-> >     - The <feature> Status bit in the <feature> Status register is
-> >       set.
-> > 
-> > E.g., sec PCIe r6.0, sec 5.5.6 (Link Activation), 6.1.6 (Native PME),
-> > 6.2.4.1.2 (AER Interrupt Generation), 6.2.11.1 (DPC Interrupts),
-> > 6.7.3.4 (Software Notification of Hot-Plug Events).
-> > 
-> > So it seems to me like the endpoint needs an "interrupt status" bit,
-> > and the Deassert_INTx message would be sent when the host interrupt
-> > handler clears that bit.
-> 
-> Thank you very much for your comments! About this topic, 
-> Frank also has a similar opinion before [1]. So, I asked Kishon
-> about this, but I didn't get any comment from Kishon at that time.
-> Anyway, to handle INTx on PCIe endpoint framework properly,
-> we need to modify the PCIe Endpoint framework, IIUC.
-> 
-> Should I modify the PCIe Endpoint framework at first?
-> Or, can this patch be applied as-is? 
-> I guess that such modification of the PCIe Endpoint framework
-> need much time. So, if I should modify the framework at first,
-> I would like to drop adding INTx support [2] from my patch series
-> because supporting INTx on my PCIe controller is not mandatory.
-> 
-> [1]
-> https://lore.kernel.org/linux-pci/TYBPR01MB5341EFAC471AEBB9100D6051D8719@TYBPR01MB5341.jpnprd01.prod.outlook.com/
-> 
-> [2]
-> The following patches are not needed if INTx support should be dropped:
-> 
-> eb185e1e628a PCI: designware-ep: Add INTx IRQs support
-> 5d0e51f85b23 PCI: dwc: Add outbound MSG TLPs support
-> 4758bef61cc2 PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
-> 44938b13046b PCI: Add INTx Mechanism Messages macros
 
-Since INTx support isn't mandatory at this time, I think we should
-drop these patches for now.  If/when somebody definitely needs INTx
-support, we can resurrect them, and then we'll have more clarity on
-how it should work and we'll be better able to test it.
+--xUMUwyrLf7FPccL/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Bjorn
+Hi Shimoda-san,
+
+> I tested the branch on the Spider, and then the i2c cannot be probed with the following errors:
+> -----
+> # dmesg | grep i2c
+> [    1.528773] i2c_dev: i2c /dev entries driver
+> [    1.533572] i2c-rcar e6500000.i2c: clk 395647/400000(133333333), round 46, CDF: 6 SMD 20 SCL gran 27
+
+These values look good and match the values from Falcon.
+
+> [    1.554646] i2c-rcar e6500000.i2c: request_channel failed for tx (-517)
+> [    1.561487] i2c-rcar e6500000.i2c: request_channel failed for tx (-517)
+> [    1.568133] i2c-rcar e6500000.i2c: request_channel failed for rx (-517)
+
+-EPROBE_DEFER when requesting the DMA channel? This is weird, at first
+glimpse this seems unrelated to my series. But you say v6.6-rc1 works
+fine. Strange.
+
+> I checked that the v6.6-rc1 (commit 0bb80ecc33a8) could worked correctly.
+> JFYI, I pasted whole log at the end of this email. Should I do git bisect to find
+> a bad commit on the branch?
+
+Very kind of you but I think this is not needed. There is a Spider in
+Kieran's lab and I will try to reproduce the issue there myself. If that
+doesn't work, I'll come back to you.
+
+Thank you for the report!
+
+All the best,
+
+   Wolfram
+
+
+--xUMUwyrLf7FPccL/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUFVigACgkQFA3kzBSg
+KbYTZw/9EpX4Kk1xswDtEcyK0bowR+TyKJ18FVDF0sKeXIENFY/qkbdrguS0cX+U
+7iU6vAlaz+5HQ9w2Wa0cboMz6sM3QKsO4q68Ae6R96W+c7Uyg3d2ZaOVpCL8qf9j
+L8pcwAM7AGtGNbE40lD1eYr/iLj26FH0tfinB53nn9oWT10FiyECIuZ+UzmsgYmD
+WSgruHhTCNpJ/++WcWSRzxRyFVaMHASli/WjHiJbjkzfIp+cZHCUtcElw/hCVaZA
+abW2He9IXE7cqXgj9nwAjzXiTObsgduknTaEIbHJaRY1TvX+EaHywQntharQTPa9
+UkOkKKmWhH35hP8u6n/rYcBOOItxdVlpYlSP/xgjsgDZEO6M8leMaXj8DUCM0Pmn
+UL+PaeEnItc1kwaqa85qRRhnMSE0x7kg0Tg0iRB/W3NlL+ym0+xE37Tma+QL+sef
+06RjU1/4nDwv4/uMWWLXkjJ9laznrI06k14X//AnaU1fWF45dg7nfHTUT6b/n1mC
+G2J0MCXC7vp6EPQQ5fPk7bFU+awpp2v2baRPNtHOIoweurSxHvVmZyf9Gn1brL+/
+oHVIJaeBxDZdlfq4dXmextrpYew90FxeWP0/SsdRfoZs/uIuX92pxBYNzNfk5F6i
+4aK2hwLYmqLB5etCG/pRtDV3ma3ZgxdsUtMP1bw97SLgHp1ff9s=
+=s0l4
+-----END PGP SIGNATURE-----
+
+--xUMUwyrLf7FPccL/--
