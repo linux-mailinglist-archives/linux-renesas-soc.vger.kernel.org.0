@@ -2,128 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA88A7A3159
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Sep 2023 18:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E145B7A350B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Sep 2023 11:59:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbjIPQQd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Sep 2023 12:16:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55030 "EHLO
+        id S236161AbjIQJ7T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Sep 2023 05:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbjIPQQN (ORCPT
+        with ESMTP id S236104AbjIQJ6x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Sep 2023 12:16:13 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39C4CC0;
-        Sat, 16 Sep 2023 09:16:03 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A761F20004;
-        Sat, 16 Sep 2023 16:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1694880962;
+        Sun, 17 Sep 2023 05:58:53 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316B418B;
+        Sun, 17 Sep 2023 02:58:48 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RpNft2Fqqz9sTH;
+        Sun, 17 Sep 2023 11:58:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1694944726;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3gR3DLgOcVXEyCHmeRvHW5kTpbx/Ml5B4FTcTxP2j0o=;
-        b=dlTg8bzB+GMfQwAkNn10piDT3xlzayexaJtzerTcgHGpGMs/JAhpZPkaM8RoNcP//TSyqN
-        3qqwDwy34P2RQiy3Kz8V9s5uw9bjz86onvrpaijDpXuq/oH81lB+2Yme5oZAxFBj7pTtCX
-        oM2LDmFmQum3aFrwsNN4fZtg9PUMRqx6PwUFU7uvrKAlbbFMOzjF3Dqm9MQ+BO6pxYcOMh
-        ifohoX73vuoVQ12QX1Ql7G1QHgmUvNpWCS/+P+cwSVNJ19TSSVrCnNe1mXIr/9LntGG2p8
-        3yC5m9V4cZIzMAHQGVFJEoeGGAnb+x1HyLflkFe7W4wgbaNMfGzsecHWLd0tfg==
-Message-ID: <e0a925bb-d4f1-44a1-8fe3-e1a59c4a7476@arinc9.com>
-Date:   Sat, 16 Sep 2023 19:15:02 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 10/10] dt-bindings: net:
- marvell-armada-370-neta: convert to json-schema
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Sean Wang <sean.wang@mediatek.com>,
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=rRchFMkYjDHunyns7t89UibgDRtGEiZxqa3pX6WkczU=;
+        b=aHWf6Q6/SNJQ3cJyyOf9Cgql8Svdn8YO4ZLOIjD3zg4VUOvvml1PzjehqE9O5txsvmkjz1
+        MoKuCp1C36cyILgTVfuMGup35yQsF37We5BKWh2FB9vaCMf47rfuyPDlHK7n+0CTIHD39N
+        btSkfPoz9EfKhCFgPu18H7xbx8HX+8UeSySCVA7KCkg0zgKydm11STZ/D6dnLoocdX31LD
+        do8eZL4tHyx/xaYAtMqWI6FAI5nvYwVQy+IDHGoHFnPLJo0HqaJR5DEEEqtEvzMFMrNyTK
+        pEhsAJylLmO1OJkHrFwKvKPrgymkADDcV0T4WJHZobSKI07d/4kJAIIOgA2vcw==
+From:   Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1694944724;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=rRchFMkYjDHunyns7t89UibgDRtGEiZxqa3pX6WkczU=;
+        b=Fnpl+WRUl9vxqztebmNzEp0iixEd60vp5ImSNtQE9Tahrg6mYF1gaOF9S5cZUZPRitufkP
+        I+5uSUC2cdA0VU4oG9I4PwEW0vq52KfUmmRC/KrIXKXCz49iATodkH0tyzu/vy2EYwmgPH
+        9UlfNQHb3LA2dQZNtNIzoSrq1JpKmb1bJBe29BB3z10XqZIHiuA5rc4tZQB3WzWybLEDPe
+        em8bi86uDWAV7lO8SLl6kD7ArcHyjhIYzU42ihUz9m1mG4hS+5De5biQHaW1GmQ3KBicyO
+        Zb+Tt/Gcv7SypTyhuk8fofzSXKkkAG7cGdebBxv8PhqkUuJ6M+E7Tg+t549a9g==
+To:     linux-clk@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Woojung Huh <Woojung.Huh@microchip.com>,
-        John Crispin <john@phrozen.org>,
-        linux-mediatek@lists.infradead.org,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Felix Fietkau <nbd@nbd.name>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Steen Hegelund <steen.hegelund@microchip.com>,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>, UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Marek Vasut <marex@denx.de>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>, netdev@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>, mithat.guner@xeront.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-        George McCollister <george.mccollister@gmail.com>,
-        erkin.bozoglu@xeront.com, linux-renesas-soc@vger.kernel.org
-References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <20230916110902.234273-11-arinc.unal@arinc9.com>
- <169487631064.1637966.13545721653989465162.robh@kernel.org>
-From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <169487631064.1637966.13545721653989465162.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] clk: renesas: r8a7795: Constify r8a7795_*_clks
+Date:   Sun, 17 Sep 2023 11:58:32 +0200
+Message-Id: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: arinc.unal@arinc9.com
+X-MBO-RS-ID: 5050228945451b1f8c4
+X-MBO-RS-META: qm5sjf7soujp3mdr3974gaj74bnauad9
+X-Rspamd-Queue-Id: 4RpNft2Fqqz9sTH
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16.09.2023 17:58, Rob Herring wrote:
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell-armada-370-neta.yaml:
-> Unresolvable JSON pointer: '$defs/phylink'
+Make r8a7795_core_clks and r8a7795_mod_clks arrays const and align them
+with the other clock tables in other *cpg-mssr.c . No functional change.
 
-Not surprising as this is added with a previous patch in this series.
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/clk/renesas/r8a7795-cpg-mssr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> doc reference errors (make refcheckdocs):
-> Warning: Documentation/devicetree/bindings/net/marvell-neta-bm.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/marvell-armada-370-neta.txt
-> Documentation/devicetree/bindings/net/marvell-neta-bm.txt: Documentation/devicetree/bindings/net/marvell-armada-370-neta.txt
+diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+index ad20b3301ef6..e47d9b1fcc0a 100644
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -51,7 +51,7 @@ enum clk_ids {
+ 	MOD_CLK_BASE
+ };
+ 
+-static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
++static const struct cpg_core_clk r8a7795_core_clks[] __initconst = {
+ 	/* External Clock Inputs */
+ 	DEF_INPUT("extal",      CLK_EXTAL),
+ 	DEF_INPUT("extalr",     CLK_EXTALR),
+@@ -128,7 +128,7 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
+ 	DEF_BASE("r",           R8A7795_CLK_R,     CLK_TYPE_GEN3_R, CLK_RINT),
+ };
+ 
+-static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
++static const struct mssr_mod_clk r8a7795_mod_clks[] __initconst = {
+ 	DEF_MOD("3dge",			 112,	R8A7795_CLK_ZG),
+ 	DEF_MOD("fdp1-1",		 118,	R8A7795_CLK_S0D1),
+ 	DEF_MOD("fdp1-0",		 119,	R8A7795_CLK_S0D1),
+-- 
+2.40.1
 
-Will address.
-
-Arınç
