@@ -2,65 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E145B7A350B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Sep 2023 11:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A3707A40CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 08:03:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236161AbjIQJ7T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 17 Sep 2023 05:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54538 "EHLO
+        id S236335AbjIRGCv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Sep 2023 02:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236104AbjIQJ6x (ORCPT
+        with ESMTP id S239798AbjIRGCW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 17 Sep 2023 05:58:53 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316B418B;
-        Sun, 17 Sep 2023 02:58:48 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RpNft2Fqqz9sTH;
-        Sun, 17 Sep 2023 11:58:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1694944726;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=rRchFMkYjDHunyns7t89UibgDRtGEiZxqa3pX6WkczU=;
-        b=aHWf6Q6/SNJQ3cJyyOf9Cgql8Svdn8YO4ZLOIjD3zg4VUOvvml1PzjehqE9O5txsvmkjz1
-        MoKuCp1C36cyILgTVfuMGup35yQsF37We5BKWh2FB9vaCMf47rfuyPDlHK7n+0CTIHD39N
-        btSkfPoz9EfKhCFgPu18H7xbx8HX+8UeSySCVA7KCkg0zgKydm11STZ/D6dnLoocdX31LD
-        do8eZL4tHyx/xaYAtMqWI6FAI5nvYwVQy+IDHGoHFnPLJo0HqaJR5DEEEqtEvzMFMrNyTK
-        pEhsAJylLmO1OJkHrFwKvKPrgymkADDcV0T4WJHZobSKI07d/4kJAIIOgA2vcw==
-From:   Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1694944724;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=rRchFMkYjDHunyns7t89UibgDRtGEiZxqa3pX6WkczU=;
-        b=Fnpl+WRUl9vxqztebmNzEp0iixEd60vp5ImSNtQE9Tahrg6mYF1gaOF9S5cZUZPRitufkP
-        I+5uSUC2cdA0VU4oG9I4PwEW0vq52KfUmmRC/KrIXKXCz49iATodkH0tyzu/vy2EYwmgPH
-        9UlfNQHb3LA2dQZNtNIzoSrq1JpKmb1bJBe29BB3z10XqZIHiuA5rc4tZQB3WzWybLEDPe
-        em8bi86uDWAV7lO8SLl6kD7ArcHyjhIYzU42ihUz9m1mG4hS+5De5biQHaW1GmQ3KBicyO
-        Zb+Tt/Gcv7SypTyhuk8fofzSXKkkAG7cGdebBxv8PhqkUuJ6M+E7Tg+t549a9g==
-To:     linux-clk@vger.kernel.org
-Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] clk: renesas: r8a7795: Constify r8a7795_*_clks
-Date:   Sun, 17 Sep 2023 11:58:32 +0200
-Message-Id: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
+        Mon, 18 Sep 2023 02:02:22 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AF0123
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Sep 2023 23:02:11 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31f71b25a99so4023566f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Sep 2023 23:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1695016930; x=1695621730; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=utARk3pA80ZpdJiXILdi626DttxX2nbKMhwhhWazB0w=;
+        b=YMZtx6ZJI0DwEErCSi5w+S3KqPxHMuNG1qG1240fRe2pbUF0QXkKiQmWe2zTWmIQ9Z
+         9ASsS8kZ8134NcRR6unbuxYGTj3fl5JREar+a6wHNtdsWNPnXvoEjkm8T5M0uWKOu6gT
+         m21gZa+MzvdTa39dPBreE+h3E1GXhVtLSKm7cjPsjV5hn6YkrL1gsQuyg86oa7Av3/ml
+         /DNHF0RRdGkrYJniB3ljeCLVak1pGaF68AAmcl0ZEpIoYrzgOa4/Aw1XnpVGtiG4ZXXT
+         BcKuOby6JEJ6us2fDLgHXyEEPUuTO97Rok/xXvAeB379lP4nFItfYR/NJrLI6mZp6IiM
+         1MKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695016930; x=1695621730;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=utARk3pA80ZpdJiXILdi626DttxX2nbKMhwhhWazB0w=;
+        b=JPuPmyc7j5TzxRR8iK3mrVfMzWVh9Dk7yiMmIhapWf/0FCNcRiDT264S42YUURZG7b
+         mvzyxe1FtJpkUekVmlMnldYeXSBJCBUzmOayN2HN2WjaXjsou/iR+/m1OwkY7+uzMfY3
+         cz4l9WDIwDeJxtRUsRKxFweO3RLvCN7t3vaKlMxLVPcEdTn7Ip42wjQH3qJyveg6rM2Z
+         JNH/DjJGURjDBbme2hnvZ7HUv/0MWRC1dUW1t9gFCTqA9qFVsnMtGj9eRFY3qDwrRDOH
+         waUwPjT+c8Pe5Yk56AaRSNCts3fAPDGK1pXwCXFz2wPNGIz5zvFVOOAyWDqNlVDq0EL3
+         cF4A==
+X-Gm-Message-State: AOJu0Yy4MeP/kUNP5ZqKTXIg+MKjhUX3J8ChLGm5pT28YHqJvJSVncLZ
+        kXdOjxsch5HAWZ6lc84cToFN2A==
+X-Google-Smtp-Source: AGHT+IHp0qFS6xGsK25AktAjmIe39Vn37L/gbzfBpt+VNyZTYa3REIePYUyoEE2pqDRgvpG5ShpzkQ==
+X-Received: by 2002:a05:6000:1a44:b0:317:3d6c:5b27 with SMTP id t4-20020a0560001a4400b003173d6c5b27mr6781745wry.46.1695016930169;
+        Sun, 17 Sep 2023 23:02:10 -0700 (PDT)
+Received: from [192.168.32.2] ([82.78.167.145])
+        by smtp.gmail.com with ESMTPSA id j5-20020a5d6045000000b0032008f99216sm4743995wrt.96.2023.09.17.23.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Sep 2023 23:02:09 -0700 (PDT)
+Message-ID: <458ac1fb-575b-6ebd-7da0-a8d3abd3d5f8@tuxon.dev>
+Date:   Mon, 18 Sep 2023 09:02:07 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 33/37] arm64: dts: renesas: rzg3l-smarc-som: add initial
+ support for RZ/G3S SMARC Carrier-II SoM
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
+ <20230912045157.177966-34-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUfwtpe5qLonZ0CZcaRw1j5x7xLLXJpMqpWLX5AzK3xmw@mail.gmail.com>
+From:   claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdUfwtpe5qLonZ0CZcaRw1j5x7xLLXJpMqpWLX5AzK3xmw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 5050228945451b1f8c4
-X-MBO-RS-META: qm5sjf7soujp3mdr3974gaj74bnauad9
-X-Rspamd-Queue-Id: 4RpNft2Fqqz9sTH
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,42 +91,166 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Make r8a7795_core_clks and r8a7795_mod_clks arrays const and align them
-with the other clock tables in other *cpg-mssr.c . No functional change.
+Hi, Geert,
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/clk/renesas/r8a7795-cpg-mssr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 15.09.2023 17:28, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> Thanks for your patch!
+> 
+> On Tue, Sep 12, 2023 at 6:53 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Add initial support for RZ/G3S SMARC Carrier-II SoM. SoM contains the following
+>> devices:
+>> - RZ/G3S microcontroller: Renesas R9A08G045S33GBG
+>> - 9-channel PMIC: Renesas RAA215300
+>> - Clock Generator: Renesas 5L35023B
+>> - 128M QSPI Flash: Renesas AT25QL128A
+>> - 8G LPDDR4 SDRAM: Micron MT53D512M16D1DS-046
+> 
+> That's an 8 Gib part, so 1 GiB?
+> 
+>> - 64GB eMMC Flash: Micron MTFC64GBCAQTC
+>> - 2x Gigabit Ethernet Transceiver: Microchip KSZ9131RNX
+>> - 5x Current Monitors: Renesas ISL28025FR12Z
+>>
+>> The following interfaces are available on SoM board:
+>> - 2 uSD interfaces
+>> - 12-pin, 1.0mm pitch connector to the RZ/G3S ADC IO
+>> - 4-pin, 1.0mm pitch connector to the RZ/G3S I3C IO
+>> - JTAG connector
+> 
+> Please drop the description of parts you are not adding to the DTS yet.
+> 
+>> At the moment the 24MHz output of 5L35023B, memory SD ch0 (with all its
+>> bits) were described in device tree.
+>>
+>> SD channel 0 of RZ/G3S is connected to an uSD card interface
+>> and an eMMC. The selection b/w them is done though a hardware switch.
+>> The DT will select b/w uSD and eMMC though SW_SD0_DEV_SEL build flag.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>> @@ -0,0 +1,147 @@
+>> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +/*
+>> + * Device Tree Source for the R9A08G045S33 SMARC Carrier-II's SoM board.
+>> + *
+>> + * Copyright (C) 2023 Renesas Electronics Corp.
+>> + */
+>> +
+>> +#include <dt-bindings/gpio/gpio.h>
+>> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+>> +
+>> +/*
+>> + * Signals of SW_CONFIG switches:
+>> + * @SW_SD0_DEV_SEL:
+>> + *     0 - SD0 is connected to eMMC
+>> + *     1 - SD0 is connected to uSD0 card
+>> + */
+>> +#define SW_SD0_DEV_SEL 1
+>> +
+>> +/ {
+>> +       aliases {
+>> +               mmc0 = &sdhi0;
+>> +       };
+>> +
+>> +       chosen {
+>> +               bootargs = "ignore_loglevel";
+>> +               stdout-path = "serial0:115200n8";
+>> +       };
+>> +
+>> +       memory@48000000 {
+>> +               device-type = "memory";
+>> +               /* First 128MB is reserved for secure area. */
+>> +               reg = <0x0 0x48000000 0x0 0x38000000>;
+>> +       };
+>> +
+>> +       reg_3p3v: regulator0 {
+>> +               compatible = "regulator-fixed";
+>> +               regulator-name = "fixed-3.3V";
+>> +               regulator-min-microvolt = <3300000>;
+>> +               regulator-max-microvolt = <3300000>;
+>> +               regulator-boot-on;
+>> +               regulator-always-on;
+>> +       };
+>> +
+>> +#if SW_SD0_DEV_SEL
+>> +       vccq_sdhi0: regulator1 {
+>> +               compatible = "regulator-gpio";
+>> +               regulator-name = "SDHI0 VccQ";
+>> +               regulator-min-microvolt = <1800000>;
+>> +               regulator-max-microvolt = <3300000>;
+>> +               gpios = <&pinctrl RZG2L_GPIO(2, 2) GPIO_ACTIVE_HIGH>;
+>> +               gpios-states = <1>;
+>> +               states = <3300000 1>, <1800000 0>;
+>> +       };
+>> +#else
+>> +       reg_1p8v: regulator1 {
+>> +               compatible = "regulator-fixed";
+>> +               regulator-name = "fixed-1.8V";
+>> +               regulator-min-microvolt = <1800000>;
+>> +               regulator-max-microvolt = <1800000>;
+>> +               regulator-boot-on;
+>> +               regulator-always-on;
+>> +       };
+>> +#endif
+>> +};
+>> +
+>> +&extal_clk {
+>> +       clock-frequency = <24000000>;
+>> +};
+>> +
+>> +#if SW_SD0_DEV_SEL
+>> +/* SD0 slot */
+>> +&sdhi0 {
+>> +       pinctrl-0 = <&sdhi0_pins>;
+>> +       pinctrl-1 = <&sdhi0_uhs_pins>;
+>> +       pinctrl-names = "default", "state_uhs";
+>> +       vmmc-supply = <&reg_3p3v>;
+>> +       vqmmc-supply = <&vccq_sdhi0>;
+>> +       bus-width = <4>;
+>> +       sd-uhs-sdr50;
+>> +       sd-uhs-sdr104;
+>> +       max-frequency = <125000000>;
+>> +       status = "okay";
+>> +};
+>> +#else
+>> +/* eMMC */
+>> +&sdhi0 {
+>> +       pinctrl-0 = <&sdhi0_emmc_pins>;
+>> +       pinctrl-1 = <&sdhi0_emmc_pins>;
+>> +       pinctrl-names = "default", "state_uhs";
+>> +       vmmc-supply = <&reg_3p3v>;
+>> +       vqmmc-supply = <&reg_1p8v>;
+>> +       bus-width = <8>;
+>> +       mmc-hs200-1_8v;
+>> +       non-removable;
+>> +       fixed-emmc-driver-type = <1>;
+>> +       max-frequency = <125000000>;
+>> +       status = "okay";
+>> +};
+>> +#endif
+>> +
+>> +&pinctrl {
+>> +       sd0-pwr-en-hog {
+>> +               gpio-hog;
+>> +               gpios = <RZG2L_GPIO(2, 1) GPIO_ACTIVE_HIGH>;
+> 
+> According to the schematics, P2_1 controls power to the uSD slot.
+> Hence shouldn't reg_3p3v above be modelled using regulator-gpio,
+> with enable-gpios pointing to P2_1?
 
-diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-index ad20b3301ef6..e47d9b1fcc0a 100644
---- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-@@ -51,7 +51,7 @@ enum clk_ids {
- 	MOD_CLK_BASE
- };
- 
--static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
-+static const struct cpg_core_clk r8a7795_core_clks[] __initconst = {
- 	/* External Clock Inputs */
- 	DEF_INPUT("extal",      CLK_EXTAL),
- 	DEF_INPUT("extalr",     CLK_EXTALR),
-@@ -128,7 +128,7 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
- 	DEF_BASE("r",           R8A7795_CLK_R,     CLK_TYPE_GEN3_R, CLK_RINT),
- };
- 
--static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
-+static const struct mssr_mod_clk r8a7795_mod_clks[] __initconst = {
- 	DEF_MOD("3dge",			 112,	R8A7795_CLK_ZG),
- 	DEF_MOD("fdp1-1",		 118,	R8A7795_CLK_S0D1),
- 	DEF_MOD("fdp1-0",		 119,	R8A7795_CLK_S0D1),
--- 
-2.40.1
+That should work. I'll check it, thanks!
 
+> 
+>> +               output-high;
+>> +               line-name = "sd0_pwr_en";
+>> +       };
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
