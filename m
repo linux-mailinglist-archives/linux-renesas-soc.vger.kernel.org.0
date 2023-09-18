@@ -2,60 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 671B87A4CF7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 17:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1D6D7A4E83
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 18:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjIRPow convert rfc822-to-8bit (ORCPT
+        id S230179AbjIRQSu convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 11:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        Mon, 18 Sep 2023 12:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbjIRPot (ORCPT
+        with ESMTP id S230063AbjIRQSi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:44:49 -0400
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F061733;
-        Mon, 18 Sep 2023 08:42:25 -0700 (PDT)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3ab2436b57dso3235143b6e.0;
-        Mon, 18 Sep 2023 08:42:25 -0700 (PDT)
+        Mon, 18 Sep 2023 12:18:38 -0400
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2951F274AD;
+        Mon, 18 Sep 2023 09:15:49 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3adcec86a8cso903542b6e.3;
+        Mon, 18 Sep 2023 09:15:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695051516; x=1695656316;
+        d=1e100.net; s=20230601; t=1695053748; x=1695658548;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fLTj/dIeHakdlBkBIPpX5wVMNJ4sgn2AfLAe4iQ8kHo=;
-        b=qZZlhrtpjcBjH5jwYbK1PQDAYIGU7cEAe/pLW7GJ00EhV+4fvX+vgQ4uTFqTqtzZUl
-         fj7r85V+8Kv0cS3Cebh1rC4uTjzxhRGp4nHbMPQrOxUaBFOM5RoLbJphvROreZH15jwf
-         +AdzZ9/qzMjoCTfAj0PS/nWH5HCuYsB9OThp5EXK5+NE/ePMv9a+VKWSylPhi4DSMjmb
-         0DcKFwJ/mBdO6RLo4qyxqTPQxY+ASusiPR00bL0RVDNt1fozsX6/TtEy9QOygY9WjqFs
-         YwOzF2scQhRa6e63YjMAMdKzHSNo/fulb62+LrF0IxfC5islD2xmQxBMmXj144Fi4lkA
-         r51Q==
-X-Gm-Message-State: AOJu0YxWeoJEIErQavr+RhcAoKczmpqIscFXR9aoeoz67xXENvfV0yC3
-        B8Z+JV/J2LZbPhjusDJG1mHcC6x01709tA==
-X-Google-Smtp-Source: AGHT+IEAFeNI1m8e6h4D0yZPstL1zLrjBGuuZFG/9J87qWAAUBTR879BPoOQfkBTEKpzeMSmonht9Q==
-X-Received: by 2002:a81:8887:0:b0:594:ea4f:f5a7 with SMTP id y129-20020a818887000000b00594ea4ff5a7mr9831073ywf.31.1695048310277;
-        Mon, 18 Sep 2023 07:45:10 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id c127-20020a0df385000000b005463e45458bsm2617102ywf.123.2023.09.18.07.45.10
+        bh=i7dgcdQA0BxA6uxrPcgZG7zRAgTuR6bE+wss81BpvFI=;
+        b=pkSUPj3H7bPK9w75u9rieO9wC5kvpqN2x/X+9YYpr7ev3YrZkphBtBCOEoeYK3cEoY
+         0zqu3RsjEpVpQG1PLnRKpt9J3HIcNIy8+cze6BUiQq8fHWhNiMgBhuD6lJCqbg/yLc+J
+         RuNb+BWiWRQFzajIQFde+X7UnIAAWxdLr4/dwO7RsxBOQEZ1sV2cTObrUF36gdLEZlPH
+         DgdSUnoJ9p7N6Xmf7tIah48eU2GsWmsQPSbJjsYtPJsTw+3k4NLAiufOv7XeKEU289W1
+         TYJgd7Rx0LheqklpQn1wBtAUTbs0+sIWT2e/5oRtvMfel13t6JcXqm12usDhr+1aRgiS
+         bTww==
+X-Gm-Message-State: AOJu0Yzs1aLPntMQC2E2c3HM9BsChy7GOh8KNMXZJ7xzFjBZI9+EgAla
+        E02dNSd/hyN2E5o7hX1rn0Hmr2PEa1zNUA==
+X-Google-Smtp-Source: AGHT+IE2m9SI7J4ee/V2/V8uShuTeKtTeMxzv7/lqSJJ9l9e+1lBZTn/KNgd5/08OzU78hRM3KD36g==
+X-Received: by 2002:a81:9108:0:b0:583:f78c:994e with SMTP id i8-20020a819108000000b00583f78c994emr8725543ywg.42.1695043566967;
+        Mon, 18 Sep 2023 06:26:06 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id z20-20020a81c214000000b00585e2c112fdsm2537505ywc.111.2023.09.18.06.26.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 07:45:10 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59bd2e19c95so48609497b3.0;
-        Mon, 18 Sep 2023 07:45:10 -0700 (PDT)
-X-Received: by 2002:a81:7c42:0:b0:58f:bda3:8dd with SMTP id
- x63-20020a817c42000000b0058fbda308ddmr10666610ywc.32.1695048309901; Mon, 18
- Sep 2023 07:45:09 -0700 (PDT)
+        Mon, 18 Sep 2023 06:26:06 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d801c83325fso4134244276.0;
+        Mon, 18 Sep 2023 06:26:06 -0700 (PDT)
+X-Received: by 2002:a25:d105:0:b0:d78:3a4e:c19e with SMTP id
+ i5-20020a25d105000000b00d783a4ec19emr8161004ybg.24.1695043566396; Mon, 18 Sep
+ 2023 06:26:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230913062950.4968-1-wsa+renesas@sang-engineering.com> <20230913062950.4968-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230913062950.4968-3-wsa+renesas@sang-engineering.com>
+References: <20230918123355.262115-1-biju.das.jz@bp.renesas.com>
+ <20230918123355.262115-3-biju.das.jz@bp.renesas.com> <CAMuHMdVcy82eQNKtqufk8Nb6PKYTgmZw_b_mC+qgmGMHt1gyiw@mail.gmail.com>
+ <OS0PR01MB5922356278D492FC32F0583586FBA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922356278D492FC32F0583586FBA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Sep 2023 16:44:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvqhk0XvaJWuzqqnyDn8muk2GTaFZ5zi8W1eYKTg2_zQ@mail.gmail.com>
-Message-ID: <CAMuHMdUvqhk0XvaJWuzqqnyDn8muk2GTaFZ5zi8W1eYKTg2_zQ@mail.gmail.com>
-Subject: Re: [PATCH RFT 2/2] i2c: rcar: improve accuracy for R-Car Gen3+
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Date:   Mon, 18 Sep 2023 15:25:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWtHawgor2Hs3vZDcTv8WXWhUAzSRYBpM1cD=ozKT4G2w@mail.gmail.com>
+Message-ID: <CAMuHMdWtHawgor2Hs3vZDcTv8WXWhUAzSRYBpM1cD=ozKT4G2w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pinctrl: renesas: rzg2l: Enable noise filter for GPIO
+ interrupt input
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Biju Das <biju.das.au@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -68,108 +77,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Biju,
 
-On Wed, Sep 13, 2023 at 11:38 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> With some new registers, SCL can be calculated to be closer to the
-> desired rate. Apply the new formula for R-Car Gen3 device types.
+On Mon, Sep 18, 2023 at 3:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 2/2] pinctrl: renesas: rzg2l: Enable noise filter for
+> > GPIO interrupt input
+> >
+> > On Mon, Sep 18, 2023 at 2:34 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > As per RZ/G2L hardware manual Rev.1.30 section 8.7.3 GPIO Interrupt
+> > > (TINT) and 41.4.1 Operation for GPIO function, we need to set digital
+> > > noise filter for GPIO interrupt.
+> > >
+> > > This patch enables noise filter for GPIO interrupt in
+> > > rzg2l_gpio_irq_enable() and disable it in rzg2l_gpio_irq_disable().
+> > >
+> > > Fixes: db2e5f21a48e ("pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain
+> > > to handle GPIO interrupt")
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > @@ -96,6 +96,7 @@
+> > >  #define PIN(n)                 (0x0800 + 0x10 + (n))
+> > >  #define IOLH(n)                        (0x1000 + (n) * 8)
+> > >  #define IEN(n)                 (0x1800 + (n) * 8)
+> > > +#define FILONOFF(n)            (0x2080 + (n) * 8)
+> > >  #define ISEL(n)                        (0x2c80 + (n) * 8)
+> > >  #define PWPR                   (0x3014)
+> > >  #define SD_CH(n)               (0x3000 + (n) * 4)
+> >
+> > LGTM, but shouldn't you configure the Digital Noise Filter Number
+> > (FILNUM) and Clock Selection (FILCLKSEL) registers, too?
 >
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Thanks for your patch!
-
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-
-> @@ -84,11 +88,25 @@
->  #define RMDMAE BIT(1)  /* DMA Master Received Enable */
->  #define TMDMAE BIT(0)  /* DMA Master Transmitted Enable */
+> Currently it uses reset values.
 >
-> +/* ICCCR2 */
-> +#define CDFD   BIT(2)  /* CDF Disable */
-> +#define HLSE   BIT(1)  /* HIGH/LOW Separate Control Enable */
-> +#define SME    BIT(0)  /* SCL Mask Enable */
-> +
->  /* ICFBSCR */
->  #define TCYC17 0x0f            /* 17*Tcyc delay 1st bit between SDA and SCL */
+> 00b: 4-stage filter (41.666 ns x 4 = 166.666 ns) (initial value) for FILNUM and
 >
->  #define RCAR_MIN_DMA_LEN       8
+> 00b: Not divided (initial value) for FILCLKSEL
 >
-> +/* SCL low/high ratio 5:4 to meet all I2C timing specs (incl safety margin) */
-> +#define RCAR_SCLD_RATIO                5
-> +#define RCAR_SCHD_RATIO                4
-> +/*
-> + * SMD should be smaller than SCLD/SCHD and is always around 20 in the docs.
-> + * Thus, we simply use 20 which works for low and high speeds.
-> +*/
+> Do you mean we should provide these settings to DT, so that
+> it is customised based on the PCB design and the environment
+> the board is used in? I guess this will make it easier for
+> customers to make the required changes for their application.
 
-(checkpatch) WARNING: Block comments should align the * on each line
-
-> +#define RCAR_DEFAULT_SMD       20
-> +
->  #define RCAR_BUS_PHASE_START   (MDBS | MIE | ESG)
->  #define RCAR_BUS_PHASE_DATA    (MDBS | MIE)
->  #define RCAR_BUS_PHASE_STOP    (MDBS | MIE | FSB)
-
-> @@ -301,24 +316,57 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
->         round = DIV_ROUND_CLOSEST(ick, 1000000);
->         round = DIV_ROUND_CLOSEST(round * sum, 1000);
->
-> -       /*
-> -        * SCL  = ick / (20 + 8 * SCGD + F[(ticf + tr + intd) * ick])
-> -        * 20 + 8 * SCGD + F[...] = ick / SCL
-> -        * SCGD = ((ick / SCL) - 20 - F[...]) / 8
-> -        * Result (= SCL) should be less than bus_speed for hardware safety
-> -        */
-> -       scgd = DIV_ROUND_UP(ick, t.bus_freq_hz ?: 1);
-> -       scgd = DIV_ROUND_UP(scgd - 20 - round, 8);
-> -       scl = ick / (20 + 8 * scgd + round);
-> +       if (priv->devtype < I2C_RCAR_GEN3) {
-> +               u32 scgd;
-> +               /*
-> +                * SCL  = ick / (20 + 8 * SCGD + F[(ticf + tr + intd) * ick])
-> +                * 20 + 8 * SCGD + F[...] = ick / SCL
-> +                * SCGD = ((ick / SCL) - 20 - F[...]) / 8
-> +                * Result (= SCL) should be less than bus_speed for hardware safety
-> +                */
-> +               scgd = DIV_ROUND_UP(ick, t.bus_freq_hz ?: 1);
-> +               scgd = DIV_ROUND_UP(scgd - 20 - round, 8);
-> +               scl = ick / (20 + 8 * scgd + round);
->
-> -       if (scgd > 0x3f)
-> -               goto err_no_val;
-> +               if (scgd > 0x3f)
-> +                       goto err_no_val;
->
-> -       dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u, SCGD: %u\n",
-> -               scl, t.bus_freq_hz, rate, round, cdf, scgd);
-> +               dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u, SCGD: %u\n",
-> +                       scl, t.bus_freq_hz, rate, round, cdf, scgd);
->
-> -       /* keep icccr value */
-> -       priv->icccr = scgd << cdf_width | cdf;
-> +               priv->icccr = scgd << cdf_width | cdf;
-> +       } else {
-> +               u32 x, sum_ratio = RCAR_SCHD_RATIO + RCAR_SCLD_RATIO;
-> +               /*
-> +                * SCLD/SCHD ratio and SMD default value are explained above
-> +                * where they are defined. With these definitions, we can compute
-> +                * x as a base value for the SCLD/SCHD ratio:
-> +                *
-> +                * SCL = clkp / (8 + 2 * SMD + SCLD + SCHD + F[(ticf + tr + intd) * clkp])
-> +                * SCL = clkp / (8 + 2 * RCAR_DEFAULT_SMD + RCAR_SCLD_RATIO * x
-> +                *               + RCAR_SCHD_RATIO * x + F[...])
-
-(checkpatch) WARNING: please, no space before tabs
-
-I hope to give this a full test-run on my farm soon...
+If the optimal values are board-dependent, you should indeed add
+a way to configure this from DT.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
