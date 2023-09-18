@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24D2A7A51F2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 20:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA5D7A5229
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 20:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjIRSXO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 14:23:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38006 "EHLO
+        id S229654AbjIRSke (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Sep 2023 14:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjIRSXN (ORCPT
+        with ESMTP id S229485AbjIRSke (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 14:23:13 -0400
+        Mon, 18 Sep 2023 14:40:34 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55816126;
-        Mon, 18 Sep 2023 11:23:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6319EC433C9;
-        Mon, 18 Sep 2023 18:22:59 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7DFF7;
+        Mon, 18 Sep 2023 11:40:27 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F7AC433C9;
+        Mon, 18 Sep 2023 18:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695061385;
-        bh=K6Jke6f1gOGRYXeQmbl6ZNz2+SRAqJPVYZt+5kqTTuk=;
+        s=k20201202; t=1695062427;
+        bh=ohRJW2WpMAFgJxA1JBZsN3B28gEviJ+HU0xdzWwTN+o=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QCofasMjtggYwXhb+cdAOlpMq73wdnDBhaK2BjV1PXve7JJnbun1K7Yd8CfgBcJes
-         APO/WThH3dJEURfJTdhL4LhTR5qfzhDyl7qR4r4T+GhlpAbmF7gUcff4dBXVUtgxlC
-         WCtNvN/ryoRGoQ0hWllcRTEaUx0FKXieC9N+GN1L0YugaKAxPjINaSlcfImXyEsE/N
-         rmblrUxjhhgTbcIgnNxMtotA+z0ypE8D/mRh+O1H1yQbwiR02DVk461kA6n4I1H3AS
-         PygbfKTKnxJgBefLnHW0JhLLC2Nv63ULzQ4RRuUqu9JjZAagYdZjAFjic2ord/kIew
-         SfErX9sRBlzMQ==
-Received: (nullmailer pid 1473334 invoked by uid 1000);
-        Mon, 18 Sep 2023 18:22:58 -0000
-Date:   Mon, 18 Sep 2023 13:22:58 -0500
+        b=hwvYjQdtjC+c5KTGzQRn+2rim3mcWRXiI89lVvDYEQQfvxncUA3YIWgBcyKPJOKEM
+         yZDeCufA/vTDVJOPpGvulb3N0LdWMlDgDptvPL4Ou8eMp5b4LIxerpjfZHH4SZksjS
+         zv1qD3GmW0gNstrldOF5I4Zq0QpL7YFEuPIBNJQWdfZH2cL/lP9md1qzLneGr+GY/K
+         RCfI3VBnp5otoEjMfVKRugCvn9NyI0b6W7tpLLRCipeCvEuYkgd855V/X3DKgZOfWv
+         KMAedyFaVL73ZJ/DAGVkR+3U9InmBl5sz9mn/+Uj78kxI9sOjkfJKe/HxYlvIKaItw
+         WIhEzXiMKBpZQ==
+Received: (nullmailer pid 1492209 invoked by uid 1000);
+        Mon, 18 Sep 2023 18:40:16 -0000
+Date:   Mon, 18 Sep 2023 13:40:16 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
 Cc:     "David S. Miller" <davem@davemloft.net>,
@@ -87,16 +87,16 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 04/10] dt-bindings: net: dsa: nxp,sja1105:
- improve MDIO bus bindings
-Message-ID: <20230918182258.GA1464506-robh@kernel.org>
+Subject: Re: [PATCH net-next v2 08/10] dt-bindings: net: dsa: marvell:
+ convert to json-schema
+Message-ID: <20230918184016.GB1464506-robh@kernel.org>
 References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <20230916110902.234273-5-arinc.unal@arinc9.com>
+ <20230916110902.234273-9-arinc.unal@arinc9.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230916110902.234273-5-arinc.unal@arinc9.com>
+In-Reply-To: <20230916110902.234273-9-arinc.unal@arinc9.com>
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
         DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -106,19 +106,254 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Sep 16, 2023 at 02:08:56PM +0300, Arınç ÜNAL wrote:
-> The SJA1110 switch uses the mdios property for its two MDIO buses. Instead
-> of a pattern, define two mdio nodes. This ensures the same compatible
-> string won't be used twice. The address and size cell definitions can also
-> be removed now that the reg property has become unnecessary.
+On Sat, Sep 16, 2023 at 02:09:00PM +0300, Arınç ÜNAL wrote:
+> Convert the document for Marvell ethernet switches to json-schema.
 > 
-> Move the comment to the description of mdios, mdio0, and mdio1 properties.
-> Disallow the mdios property for SJA1105. Require at least one of the MDIO
-> buses to be defined to prevent empty mdios child node.
+> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+> ---
+>  .../devicetree/bindings/net/dsa/marvell.txt   | 109 ----------
+>  .../devicetree/bindings/net/dsa/marvell.yaml  | 204 ++++++++++++++++++
+>  2 files changed, 204 insertions(+), 109 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/net/dsa/marvell.txt
+>  create mode 100644 Documentation/devicetree/bindings/net/dsa/marvell.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/marvell.txt b/Documentation/devicetree/bindings/net/dsa/marvell.txt
+> deleted file mode 100644
+> index 6ec0c181b6db..000000000000
+> --- a/Documentation/devicetree/bindings/net/dsa/marvell.txt
+> +++ /dev/null
+> @@ -1,109 +0,0 @@
+> -Marvell DSA Switch Device Tree Bindings
+> ----------------------------------------
+> -
+> -WARNING: This binding is currently unstable. Do not program it into a
+> -FLASH never to be changed again. Once this binding is stable, this
+> -warning will be removed.
+> -
+> -If you need a stable binding, use the old dsa.txt binding.
+> -
+> -Marvell Switches are MDIO devices. The following properties should be
+> -placed as a child node of an mdio device.
+> -
+> -The properties described here are those specific to Marvell devices.
+> -Additional required and optional properties can be found in dsa.txt.
+> -
+> -The compatibility string is used only to find an identification register,
+> -which is at a different MDIO base address in different switch families.
+> -- "marvell,mv88e6085"	: Switch has base address 0x10. Use with models:
+> -			  6085, 6095, 6097, 6123, 6131, 6141, 6161, 6165,
+> -			  6171, 6172, 6175, 6176, 6185, 6240, 6320, 6321,
+> -			  6341, 6350, 6351, 6352
+> -- "marvell,mv88e6190"	: Switch has base address 0x00. Use with models:
+> -			  6190, 6190X, 6191, 6290, 6361, 6390, 6390X
+> -- "marvell,mv88e6250"	: Switch has base address 0x08 or 0x18. Use with model:
+> -			  6220, 6250
+> -
+> -Required properties:
+> -- compatible		: Should be one of "marvell,mv88e6085",
+> -			  "marvell,mv88e6190" or "marvell,mv88e6250" as
+> -			  indicated above
+> -- reg			: Address on the MII bus for the switch.
+> -
+> -Optional properties:
+> -
+> -- reset-gpios		: Should be a gpio specifier for a reset line
+> -- interrupts		: Interrupt from the switch
+> -- interrupt-controller	: Indicates the switch is itself an interrupt
+> -			  controller. This is used for the PHY interrupts.
+> -#interrupt-cells = <2>	: Controller uses two cells, number and flag
+> -- eeprom-length		: Set to the length of an EEPROM connected to the
+> -			  switch. Must be set if the switch can not detect
+> -			  the presence and/or size of a connected EEPROM,
+> -			  otherwise optional.
+> -- mdio			: Container of PHY and devices on the switches MDIO
+> -			  bus.
+> -- mdio?		: Container of PHYs and devices on the external MDIO
+> -			  bus. The node must contains a compatible string of
+> -			  "marvell,mv88e6xxx-mdio-external"
+> -
+> -Example:
+> -
+> -	mdio {
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -		interrupt-parent = <&gpio0>;
+> -		interrupts = <27 IRQ_TYPE_LEVEL_LOW>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <2>;
+> -
+> -		switch0: switch@0 {
+> -			compatible = "marvell,mv88e6085";
+> -			reg = <0>;
+> -			reset-gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
+> -
+> -			mdio {
+> -				#address-cells = <1>;
+> -				#size-cells = <0>;
+> -				switch1phy0: switch1phy0@0 {
+> -					reg = <0>;
+> -					interrupt-parent = <&switch0>;
+> -					interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> -				};
+> -			};
+> -		};
+> -	};
+> -
+> -	mdio {
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -		interrupt-parent = <&gpio0>;
+> -		interrupts = <27 IRQ_TYPE_LEVEL_LOW>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <2>;
+> -
+> -		switch0: switch@0 {
+> -			compatible = "marvell,mv88e6190";
+> -			reg = <0>;
+> -			reset-gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
+> -
+> -			mdio {
+> -				#address-cells = <1>;
+> -				#size-cells = <0>;
+> -				switch1phy0: switch1phy0@0 {
+> -					reg = <0>;
+> -					interrupt-parent = <&switch0>;
+> -					interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> -				};
+> -			};
+> -
+> -			mdio1 {
+> -				compatible = "marvell,mv88e6xxx-mdio-external";
+> -				#address-cells = <1>;
+> -				#size-cells = <0>;
+> -				switch1phy9: switch1phy0@9 {
+> -					reg = <9>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/net/dsa/marvell.yaml b/Documentation/devicetree/bindings/net/dsa/marvell.yaml
+> new file mode 100644
+> index 000000000000..45756b8d74d9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/dsa/marvell.yaml
+> @@ -0,0 +1,204 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/dsa/marvell.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell Ethernet Switches
+> +
+> +$ref: dsa.yaml#/$defs/ethernet-ports
+> +
+> +maintainers:
+> +  - Andrew Lunn <andrew@lunn.ch>
+> +  - Arınç ÜNAL <arinc.unal@arinc9.com>
+> +
+> +description:
+> +  Marvell ethernet switches are MDIO devices.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - description: |
+> +          Switch has base address 0x10. Use with models:
+> +          6085, 6095, 6097, 6123, 6131, 6141, 6161, 6165, 6171, 6172, 6175,
+> +          6176, 6185, 6240, 6320, 6321, 6341, 6350, 6351, 6352
+> +        const: marvell,mv88e6085
+> +
+> +      - description: |
+> +          Switch has base address 0x00. Use with models:
+> +          6190, 6190X, 6191, 6290, 6361, 6390, 6390X
+> +        const: marvell,mv88e6190
+> +
+> +      - description: |
+> +          Switch has base address 0x08 or 0x18. Use with models:
+> +          6220, 6250
+> +        const: marvell,mv88e6250
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: GPIO to be used to reset the whole device
+> +    maxItems: 1
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +  interrupt-controller: true
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  eeprom-length:
+> +    description:
+> +      Set to the length of an EEPROM connected to the switch. Must be set if the
+> +      switch can not detect the presence and/or size of a connected EEPROM,
+> +      otherwise optional.
+> +
+> +  mdio:
+> +    description:
+> +      The optional node for the MDIO bus of the switch. The bus will be
+> +      registered non-OF-based if this is not defined.
 
-It's an ABI. You can't just change this.
+That's a detail of the OS behavior.
 
-You can split the pattern into 'mdio@0' and 'mdio@1' with different 
-compatibles for each if you want.
+> +    $ref: /schemas/net/mdio.yaml#
+
+       unevaluatedProperties: false
+
+> +
+> +  mdio-external:
+> +    description: The externally reachable MDIO bus of the 6390 family switches
+> +    $ref: /schemas/net/mdio.yaml#
+
+       unevaluatedProperties: false
+
+> +
+> +    properties:
+> +      compatible:
+> +        const: marvell,mv88e6xxx-mdio-external
+> +
+> +    required:
+> +      - compatible
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - marvell,mv88e6085
+> +            - marvell,mv88e6250
+> +    then:
+> +      properties:
+> +        mdio-external: false
+> +
+> +  - if:
+> +      required: [ mdio ]
+> +    then:
+> +      patternProperties:
+> +        "^(ethernet-)?ports$":
+> +          patternProperties:
+> +            "^(ethernet-)?port@[0-9]+$":
+> +              $ref: /schemas/net/ethernet-controller.yaml#/$defs/phylink
+
+This probably doesn't work right. The problem is every node ultimately 
+needs a single schema with all possible properties in order to not allow 
+undefined properties. This is the reason for the complexity with a $ref 
+at each level in schemas for these nodes.
+
+I'm not sure it is worth the complexity to enforce what you want here. 
+It may be easier to just always allow phylink properties in 
+ethernet-port nodes.  
+
+As this is a switch, it should be referencing ethernet-switch.yaml. 
 
 Rob
