@@ -2,142 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DAA97A457E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 11:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22F257A45C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 11:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231575AbjIRJGn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 05:06:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
+        id S230141AbjIRJVU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Sep 2023 05:21:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239007AbjIRJGQ (ORCPT
+        with ESMTP id S233174AbjIRJUv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 05:06:16 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0064E4;
-        Mon, 18 Sep 2023 02:06:10 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5925e580f12so44811767b3.3;
-        Mon, 18 Sep 2023 02:06:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695027970; x=1695632770;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qs7t8EoP8pSAMvY7e5Wa3knWe5J4fpmFbkl13nOAw0w=;
-        b=ASangAAReqz49pGrqOLafaQ+idBC5ru4rG4pgZ4zrZUaLZxpw1HH9XWu9G+6GD8o2M
-         CGBjDlGh+HZE3+mjABpREpn3t5H9oUcsGOAXRtmm5bQpWU+ZofmPCXN+tVogt+1ssbR6
-         k5Y3pkmOFhi+P86Bt5D0KL2WNilUkG6DFxa7yx0sOIRgD9ekQ0fknjcmUSekXnKJ7e9h
-         UYZHEo3XgmQvRTzS82NBVa3gPkuqNrjgKiYBIfClGV4I53WxmofdC+EU3J6P+zN5aGPD
-         ouRvU2FfBfqfiOw9vENCa3zVfaW+zTZQcG50Gul5R/DqUfwrKdiigx5xDhkzOoeTMzwL
-         U+qg==
-X-Gm-Message-State: AOJu0YwIZWW+Ncov1ytfciomsbcN122aNQ8zOQKtMAQalJMZ6EHDNfVF
-        1rtXr/ffIFgfqESie4FO5zFzoR0ZE51jWg==
-X-Google-Smtp-Source: AGHT+IHxEsyCSZcp0FIYgpyJsnDdOPWWLqZL/uowIeYryzrawSO/p1JRaqP1PdmNwfX05tOnKgO/AA==
-X-Received: by 2002:a81:6256:0:b0:58c:6121:48e8 with SMTP id w83-20020a816256000000b0058c612148e8mr9483173ywb.33.1695027969928;
-        Mon, 18 Sep 2023 02:06:09 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id m131-20020a817189000000b00589dbcf16cbsm2430341ywc.35.2023.09.18.02.06.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 02:06:09 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59bcd927b45so44819007b3.1;
-        Mon, 18 Sep 2023 02:06:09 -0700 (PDT)
-X-Received: by 2002:a81:5e84:0:b0:589:c065:b419 with SMTP id
- s126-20020a815e84000000b00589c065b419mr10493285ywb.34.1695027969581; Mon, 18
- Sep 2023 02:06:09 -0700 (PDT)
+        Mon, 18 Sep 2023 05:20:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD6ABD3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 02:20:45 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50962C433C8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 09:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695028845;
+        bh=gD9TQEYooMNzQFnFBTDF94xKCesFKUtaH118gxeu6s4=;
+        h=Subject:From:Date:To:From;
+        b=WW3Zcqttk6kCv+QQZwTjITQCJhh6U/mDerPRsyRPDPjf6kFvTk3dX9bih7SV1jBBr
+         rCgjeMvfeOJhi/esYy9IMDeloAs9+6NwO4BOyoQ1UQ9SCqfpw6iO8+3UOfaRL1ifvF
+         +OX4vfDHFWxYR/AqZ6pC7nEJdRRK4itFSMolnoUkEgdfUQ581NbjTQvc/9NB6IwFjL
+         VcqT612Ti1ovYp75692GB0w6SSXfCAZSMw/QeOgKd1/oZffB7qUhE74psgLn7JknLN
+         oLDlblwvCfo9POKtcQ09lJYS3pXxqMRUyVLyhjF0nxJ+Tg4K7G3+M58kb9oyeFuZp+
+         j/a5AYzqGFcBA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 35DC3C595C4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 09:20:45 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-23-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUCpbPA3cDjNAq1irvr6z4Jux-5-tVDBuyr6nx_qOQGpg@mail.gmail.com> <701ee3bd-5d16-6b5f-2d34-4a4919c4c532@tuxon.dev>
-In-Reply-To: <701ee3bd-5d16-6b5f-2d34-4a4919c4c532@tuxon.dev>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Sep 2023 11:05:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW1ikV_AZXM24_a1YT_mUV_Qyvi+rpzGJxVSAwBMPyE+w@mail.gmail.com>
-Message-ID: <CAMuHMdW1ikV_AZXM24_a1YT_mUV_Qyvi+rpzGJxVSAwBMPyE+w@mail.gmail.com>
-Subject: Re: [PATCH 22/37] clk: renesas: add minimal boot support for RZ/G3S SoC
-To:     claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <169502884515.11304.1887504860033684524.git-patchwork-summary@kernel.org>
+Date:   Mon, 18 Sep 2023 09:20:45 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
+Hello:
 
-On Mon, Sep 18, 2023 at 9:50 AM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 15.09.2023 15:52, Geert Uytterhoeven wrote:
-> > On Tue, Sep 12, 2023 at 6:53 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Add minimal clock and reset support for RZ/G3S SoC to be able to boot
-> >> Linux from SD Card/eMMC. This includes necessary core clocks for booting
-> >> and GIC, SCIF, GPIO, SD0 mod clocks and resets.
-> >>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
->
-> [ ... ]
->
-> >> +       CLK_PLL3_DIV2_4,
-> >> +       CLK_PLL3_DIV2_8,
-> >> +       CLK_PLL3_DIV6,
-> >> +       CLK_PLL4,
-> >> +       CLK_PLL6,
-> >> +       CLK_PLL6_DIV2,
-> >> +       CLK_SEL_SDHI0,
-> >> +       CLK_SEL_PLL4,
-> >> +       CLK_P1_DIV2,
-> >> +       CLK_P3_DIV2,
-> >
-> > Do you need CLK_P1_DIV2 and CLK_P3_DIV2?
-> > I don't see them in Figure 7.3 ("Clock System Diagram (2)").
->
-> P1_DIV2 is clock source for MHU_PCLK or OTFDE_DDR_PCLK.
-> P3_DIV2 is clock source for DMAC_PCLK, OTFDE_SPI_PCLK.
-> These are expressed in clock list document
-> (RZG3S_clock_list_r1.00_20230602.xlsx).
->
-> It is true the functionality could be preserved even w/o these 2 clocks but
-> I kept them here as I saw them as core clocks even though they are not
-> present in the Clock System Diagram from HW manual.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-I don't think you can, as the module clock abstraction does not support
-specifying a divider.  Hence you do need an internal core clock between
-P1 and the module clock, to take care of the divider.
+Patch: [PATCH/LOCAL,v2] arm64: renesas: defconfig: Refresh for v6.6-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=784056
+  Lore link: https://lore.kernel.org/r/2a3b0ea40d21895bcfe5e9545d1de3309a1b4c11.1694678131.git.geert+renesas@glider.be
 
-> With these, would you prefer to keep these clocks or just remove them?
+Series: Add new Renesas RZ/G3S SoC and RZ/G3S SMARC EVK
+  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=783250
+  Lore link: https://lore.kernel.org/r/20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [01/37] dt-bindings: serial: renesas,scif: document r9a08g045 support
+             [02/37] dt-bindings: soc: renesas: document Renesas RZ/G3S SoC variants
+             [03/37] dt-bindings: soc: renesas: renesas,rzg2l-sysc: document RZ/G3S SoC
+             [04/37] soc: renesas: identify RZ/G3S SoC
+             [05/37] soc: renesas: remove blank lines
 
-Yes, as I expect that at least the DMAC_PCLK will be added, eventually.
+Patch: soc: renesas: Kconfig: Remove blank line before ARCH_R9A07G043 help text
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=784502
+  Lore link: https://lore.kernel.org/r/2a3a9d595579b7cea416c12bf9abcfa2227243bb.1694768174.git.geert+renesas@glider.be
 
-Gr{oetje,eeting}s,
+Series: net: renesas: rswitch: Fix a lot of redundant irq issue
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Paolo Abeni <pabeni@redhat.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=783218
+  Lore link: https://lore.kernel.org/r/20230912014936.3175430-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [net,1/2] net: renesas: rswitch: Fix unmasking irq condition
+             [net,2/2] net: renesas: rswitch: Add spin lock protection for irq {un}mask
 
-                        Geert
+Patch: ARM: shmobile: defconfig: Refresh for v6.6-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=783060
+  Lore link: https://lore.kernel.org/r/1b8aee0cfcb2fa8c6e73c67f1c85c4630d946159.1694438226.git.geert+renesas@glider.be
+
+
+Total patches: 10
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
