@@ -2,71 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E72157A52DF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 21:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 474997A52DC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 21:19:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbjIRTUA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 15:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
+        id S229477AbjIRTTm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Sep 2023 15:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjIRTT7 (ORCPT
+        with ESMTP id S229379AbjIRTTl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 15:19:59 -0400
+        Mon, 18 Sep 2023 15:19:41 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEB13116
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 12:19:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B9B10E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 12:19:34 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiJmK-0002ny-A9; Mon, 18 Sep 2023 21:19:28 +0200
+        id 1qiJmI-0002pJ-DK; Mon, 18 Sep 2023 21:19:26 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiJmG-007I2L-0p; Mon, 18 Sep 2023 21:19:24 +0200
+        id 1qiJmH-007I2j-R2; Mon, 18 Sep 2023 21:19:26 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qiJmF-002m1d-Is; Mon, 18 Sep 2023 21:19:23 +0200
+        id 1qiJmH-002m28-HM; Mon, 18 Sep 2023 21:19:25 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Florian Fainelli <florian.fainelli@broadcom.com>,
+To:     =?utf-8?b?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
         Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        =?utf-8?b?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?utf-8?q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?utf-8?b?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     netdev@vger.kernel.org, kernel@pengutronix.de,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next 0/9] net: dsa: Convert to platform remove callback returning void
-Date:   Mon, 18 Sep 2023 21:19:07 +0200
-Message-Id: <20230918191916.1299418-1-u.kleine-koenig@pengutronix.de>
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH net-next 8/9] net: dsa: rzn1_a5psw: Convert to platform remove callback returning void
+Date:   Mon, 18 Sep 2023 21:19:15 +0200
+Message-Id: <20230918191916.1299418-9-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230918191916.1299418-1-u.kleine-koenig@pengutronix.de>
+References: <20230918191916.1299418-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2189; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ZA7dOFQnSLtrugXK9Bl0+O8+Kz/XLhZGGCrzvWbf/y4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCKKmTnyEQKzVWdf6Nj8Xvf8bg7hDbrstIXHat tgDgTFphauJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQiipgAKCRCPgPtYfRL+ TiQYB/96svIfIe+AAw+Fih3TuSWGmjmLWKi8W8r7Loh8Pu2E6hhlYD0AKX/i5R+7mbQZf9bb8dr oJlDp45nupIK/x0putx4RZpjMqMDxP59wfujefc21r+oRQJsDpYOQKOIpKw/r73+X94GNFFuCHn avBjzZfD6hug7rQ5XOX9WXSc8IsvDvcbDVYZsAW5isS0esbjISA9VmaT0cnI1BjkbgWei0NYRtD bKo2/r2uiYHO7/RObCY8d7Fp6DyHYQNRb+X5JXM0nQ/9GJmzzyUIXs8nJvp6K1znnyOFoQsPTNe /ko6OH3sTs42Eb3UadUrWfTG+04YHysc/Beo6c32crUzEL19
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1853; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ezyudjUK4jIuPLH326xqFF9neMeYNSsuRfOsYBz5gvg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCKKvoBwuhrUuoRID8Z2Soqek7Ut9EwW+QL87D g3myEVETM+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQiirwAKCRCPgPtYfRL+ Tii3CACgF4qFBSPHUz8six+xtbBPHMhhYtqdE7EEvaOLAm+wSN9sKz6S5dMAxBJJw0/s9nQS1zV /D2a2jcwgrE25gSF7TbOvbk9o8OKUtaJ27fTY1q3WJ8rNOgAkFtyPWruMVn3pcK2Bg7Et9ZnmKC dQY4goGrLqBBPT5wIKfpFLcaHHiCOO4oJv4/hJ6wjnt0/9C3fyHDgZv33e61q1dh/DqXy+7lVKg rdTxGPVm2KavswseZe6eC3PC/K3XKYcYSkHJclD90TFV7YvMF5ZyikFmN7znQwpIPMGvxgt2VaC O2Q5pGmRpv9XTwUgUTjLJfApAugZzmuk1FNqmg7SEaHMamkD
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -82,54 +64,58 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() is renamed to .remove().
 
-this series converts all platform drivers below drivers/net/dsa to use
-remove_new. The motivation is to get rid of an integer return code
-that is (mostly) ignored by the platform driver core and error prone on
-the driver side.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/net/dsa/rzn1_a5psw.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-There are no interdependencies between the patches. As there are still
-quite a few drivers to convert, I'm happy about every patch that makes
-it in. So even if there is a merge conflict with one patch until you
-apply or a subject prefix is suboptimal, please apply the remainder of
-this series anyhow.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (9):
-  net: dsa: b53: Convert to platform remove callback returning void
-  net: dsa: bcm_sf2: Convert to platform remove callback returning void
-  net: dsa: hirschmann: Convert to platform remove callback returning
-    void
-  net: dsa: lantiq_gswip: Convert to platform remove callback returning
-    void
-  net: dsa: mt7530: Convert to platform remove callback returning void
-  net: dsa: ocelot: Convert to platform remove callback returning void
-  net: dsa: realtek: Convert to platform remove callback returning void
-  net: dsa: rzn1_a5psw: Convert to platform remove callback returning
-    void
-  net: dsa: vitesse-vsc73xx: Convert to platform remove callback
-    returning void
-
- drivers/net/dsa/b53/b53_mmap.c             | 6 ++----
- drivers/net/dsa/b53/b53_srab.c             | 8 +++-----
- drivers/net/dsa/bcm_sf2.c                  | 8 +++-----
- drivers/net/dsa/hirschmann/hellcreek.c     | 8 +++-----
- drivers/net/dsa/lantiq_gswip.c             | 8 +++-----
- drivers/net/dsa/mt7530-mmio.c              | 7 ++-----
- drivers/net/dsa/ocelot/ocelot_ext.c        | 8 +++-----
- drivers/net/dsa/ocelot/seville_vsc9953.c   | 8 +++-----
- drivers/net/dsa/realtek/realtek-smi.c      | 8 +++-----
- drivers/net/dsa/rzn1_a5psw.c               | 8 +++-----
- drivers/net/dsa/vitesse-vsc73xx-platform.c | 8 +++-----
- 11 files changed, 31 insertions(+), 54 deletions(-)
-
-base-commit: 7fc7222d9680366edeecc219c21ca96310bdbc10
+diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
+index 2eda10b33f2e..10092ea85e46 100644
+--- a/drivers/net/dsa/rzn1_a5psw.c
++++ b/drivers/net/dsa/rzn1_a5psw.c
+@@ -1272,19 +1272,17 @@ static int a5psw_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int a5psw_remove(struct platform_device *pdev)
++static void a5psw_remove(struct platform_device *pdev)
+ {
+ 	struct a5psw *a5psw = platform_get_drvdata(pdev);
+ 
+ 	if (!a5psw)
+-		return 0;
++		return;
+ 
+ 	dsa_unregister_switch(&a5psw->ds);
+ 	a5psw_pcs_free(a5psw);
+ 	clk_disable_unprepare(a5psw->hclk);
+ 	clk_disable_unprepare(a5psw->clk);
+-
+-	return 0;
+ }
+ 
+ static void a5psw_shutdown(struct platform_device *pdev)
+@@ -1311,7 +1309,7 @@ static struct platform_driver a5psw_driver = {
+ 		.of_match_table = a5psw_of_mtable,
+ 	},
+ 	.probe = a5psw_probe,
+-	.remove = a5psw_remove,
++	.remove_new = a5psw_remove,
+ 	.shutdown = a5psw_shutdown,
+ };
+ module_platform_driver(a5psw_driver);
 -- 
 2.40.1
 
