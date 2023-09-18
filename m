@@ -2,166 +2,284 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D0487A4C22
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 17:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDFE57A4D69
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 17:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235393AbjIRP0q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 11:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41038 "EHLO
+        id S229454AbjIRPtb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Sep 2023 11:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234279AbjIRP0p (ORCPT
+        with ESMTP id S229735AbjIRPta (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:26:45 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2070a.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::70a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D6810C1;
-        Mon, 18 Sep 2023 08:26:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X4taH8vUk761lhSj8mIEV/IAPMAuuoCvwEEQBwYvONLB1HLBlJnGAVSzqwZ0+2DIMlj8S8omIR7cwYES9lPHQhi/TlTtQoyHfV5WmPTfMhWdnXRVVlLvQOKzaly2XMNdVUQxCTpDMNh2K7gI0AK7U8zDGQLHGhQZ+kFg3fFlaI2PoEJww0K5OY5SZbFC1dLLpFjfY1iXKqDKsHAFnYvT3CDizpU0rclopviQUFMXhvFIln7gCtx/gv5yr2WE3QfvdaStWhWEBDqoZmbR0B8h4IWEmrMvZKLGZP1AyNc3cpSaBLszR4qUiLK1q+MQvMyNCGK+lrISbpmHk8ID4S0W6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0NX35uj/9vC4oeLK30vbwe0sRr4BkG70nceJUXFgGpY=;
- b=CiHQRJJsMd7XbjWGyM0r3dNQ1czDLoYwtnUUoh6v8LhTwm9yCeqwUtYbzZTD8ickFDSnu81Ce0r2lkSfGYFUh0T2jUFlx6c0IEgUIJuqkrP9Kh0nC1cNDEbRDwuKrpx87liqzcdBPbqry/BlJs20qX/B6eqZCPD9unfNWedZtci4lXPYKIiDHRsoWF3QZbNy7WpMzgHgZl3WclDYIN7mJgGn3XUIruFEB2xl4mE6ITwv3N8SG8QCf0HFultZycHs5H9eOVgAyIV2CAgPu7hJPqTsS6VPRatLykrmcaOMr5zHUe+G7BG0wcUyGqjlXEvtubnU9Jd8Ii8VkCnEveMlsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0NX35uj/9vC4oeLK30vbwe0sRr4BkG70nceJUXFgGpY=;
- b=WjMTak3iYvaWKSWovEvBX/NYzrJKiA8obfUVHE1mqhuddtChOAGRg3MWTI+DWZ10E6WFQv4lZp6GQaK979UhXihxK6egR3iM4YyXZi6QHMJvlWmI09xV/N04zKRuRh0txQg3gERpFQnclVzdmvWuXYoURLy+QQ+8PRD7FVBIpKQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB11465.jpnprd01.prod.outlook.com (2603:1096:400:402::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Mon, 18 Sep
- 2023 13:18:54 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::9d23:32f5:9325:3706%5]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
- 13:18:50 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Biju Das <biju.das.au@gmail.com>
-Subject: RE: [PATCH 2/2] pinctrl: renesas: rzg2l: Enable noise filter for GPIO
- interrupt input
-Thread-Topic: [PATCH 2/2] pinctrl: renesas: rzg2l: Enable noise filter for
- GPIO interrupt input
-Thread-Index: AQHZ6ixt37i5mirEkU2vvrutS3Og4rAgivWAgAAEY6A=
-Date:   Mon, 18 Sep 2023 13:18:50 +0000
-Message-ID: <OS0PR01MB5922356278D492FC32F0583586FBA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230918123355.262115-1-biju.das.jz@bp.renesas.com>
- <20230918123355.262115-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdVcy82eQNKtqufk8Nb6PKYTgmZw_b_mC+qgmGMHt1gyiw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVcy82eQNKtqufk8Nb6PKYTgmZw_b_mC+qgmGMHt1gyiw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB11465:EE_
-x-ms-office365-filtering-correlation-id: bfac4d12-d58a-451b-2e95-08dbb849cc66
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oVxea/ZhK2hv7ZyNgFpavkggXpDayDJUXkv31+9mv55asCgmYWAJttFfNPhPHl3K2W/CX0F2dQ+F/RBBu9nk6ER721hrx7KNe9IHneAljg2meJxS0EXmJHxg0kthaPo2T0hB+6+kPkN2hUSwLHzYeXrcFhYEfynnLyN9ZHPhulzJLjZUIeLAKxS96DRO1Ca/WabVLFkDZBDwvfeDe7OywFx1VTkzXB1Ukk+HEZmiZ6w9tBUUtEnKovrElLD4WADGTFdQH/BQpHI7Tb6/MxJhOL8BkMuxh8UQQOC1Mza9GyQGLyvxkg4Fac8lMJAw4vcUAJzdJxFi8OxlryXoRd6CHttQ19NqepVDQiiQlH+zpTMY2pMUDVrzYDP9u7Kb4PAXhjn+fppw0NwJLlfAi9WTv88TMuWIXqo+OgDHTuaTkOs0+IIYKO+cx5GlMgIFTdprA299QFnLLit+pHjD3/RQReYL6lVcFP1tdppj2L1/qf5+uTuPffcZN7XfaU74Y3wXIWgDfhP4M1BaXoGG3viK/FllNrTuaCI2sK+3DvIfmRs5Mnnm67YCgCrAjHISwi63Yrqa112a3ed0TyX6iL6sxOHZvHGHP4KUHPQjL8utsaqHTYbtzi9i6rra4SMrlIk0
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(396003)(366004)(39860400002)(186009)(1800799009)(451199024)(55016003)(2906002)(83380400001)(38100700002)(38070700005)(122000001)(53546011)(71200400001)(6506007)(7696005)(9686003)(478600001)(5660300002)(4326008)(76116006)(6916009)(52536014)(316002)(8936002)(8676002)(54906003)(66946007)(66446008)(66556008)(66476007)(64756008)(41300700001)(26005)(33656002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dlZKWFdXcTlzTlVzWFZ3dVE5QU40alhWWmNNZk9uQnVSc1owdnp6UTYrY1RF?=
- =?utf-8?B?S05PRFFDRDQxaEdvbTQzVVpOQVU5a0x1dTZwcWdVeC9zd3RtVGlLV09sS2hj?=
- =?utf-8?B?TVpEUlY0SE1XVmNoemVKOGJPQ1JFWTRPa1BJdFdxekg2d2J5UFJvaDA3QlNm?=
- =?utf-8?B?MEdvSmVwb1cydTZvOHdMcUtKNnNYZlFCM0hSY3VIQVlHaU8wajdIZ3h0amh1?=
- =?utf-8?B?NXhBNUxTdUJaVzdmaUZNcnBQK3M0ZThqMmZ5Vk1NS1A1bHpUUzc2QUtmaUh3?=
- =?utf-8?B?UFovZG8vbUdROGN0NTZuY1Jzdml3Tm9UUFdCVm00ZVRyWmpPUDQyY0dGVnA5?=
- =?utf-8?B?MU55S3hpanl4QWFjWHd4SUlxdGgyVTJWemcrMUMyVTY4VmpVdGV6UjNOMkd2?=
- =?utf-8?B?Ykc5ZTZTUnZVSTBHYStrdWc5T0NQVU5nS2JWNUxsV0lSbzVxV0NUMXh3OWR0?=
- =?utf-8?B?L29nRGY5L2wyNnRBektVMUZ6aVI4WGo3WFFXWGFJcWNnRzZxNUtkOWwyMTFh?=
- =?utf-8?B?WE9uL3ZPNzRxMWNDdktTQU84SUxDd3RZOWtEOGJ5UjVERk5UR0lEcmk0NlB3?=
- =?utf-8?B?TEtkZ1k1c21QdXF1U3ZNWVI3QVFJZVBmSkkyODFPdHhLVmFvbWluVVJPY0FS?=
- =?utf-8?B?UjF3U0ErZ2RuUlhQWjZ2S2NxVHdsUGtpcWRIcGhLWndNSThYNk9VcG83ZVda?=
- =?utf-8?B?SThtdmNvd1NYR25XUEIzY0JKUW5TQXREa3VZYlZaU2Y1aSt2b2d4MDd1d253?=
- =?utf-8?B?S0VKTlQ1UkY2ZmFCeGNMaXJSd2xDZzNtYit0Wk9EcDJXbCtMZ1JOamttTGFp?=
- =?utf-8?B?dkM2V3Bid3BPZUswNFp0b1RKL2Vub3ZIRDdBZDNxT2w2Y0o0TndnUTQ4aUFs?=
- =?utf-8?B?ZGI0SzJyWno2VVFOMTZYY0dOL1V4SzhCaVFUNytiSDRmQVVwNFRDZGJabk1o?=
- =?utf-8?B?Y3hCcEhGMW1pZW9oRm1xQ2g2T2dIRDRRelBUK2NpSDliOTc3SGlHUllUYUZB?=
- =?utf-8?B?VitBNjA3bWszZTdOSVZFU0JrV1lpZE5IOU9Oay84c0VFdndlTlBXb2tnalo1?=
- =?utf-8?B?TTRMVjljTTFGOTRHNkFRLzRQcDNQZ3NGMDJXbnpFb2FjdTdoUTZXb0NNcWN6?=
- =?utf-8?B?UlRUTWFiSlJmUDdNWFNjZktYT2kwYTg5ZlczWnVweFBIOHJ6enBOOThTZis3?=
- =?utf-8?B?dW5nVmZkRUlHNnBYeFhqc3ZRdllnQVUxRWxSR0FVamVzRDJPQ05sMHk5Qmxt?=
- =?utf-8?B?T21sU291RXdyQzJCalYzT2RrWTNpY21ybUF4WmtoSUQ5NllhSTNCUyswQ21r?=
- =?utf-8?B?RitOY2REbkE4M29abXNxbGdicGxXdnZXblVWWld0VEFWQkkxYm9rSFZzdmwx?=
- =?utf-8?B?cVJ2UDNRdERSbXVONXlvVjNwZWtSQ1NKQTVFZURmS3h3Tk5xVWZsOUR1SHI2?=
- =?utf-8?B?UWQ2ZVZPUHdoSVlXdFR6OGJoRVlWTFhvV0lDRnQwOWU1bmdTQTdFK1ZIdzlR?=
- =?utf-8?B?d25hUTlTZU1FdUtXMHpLOWtQZkVtOGU1dm0zeVNxeUFVa2RxZ2thZWdnRWds?=
- =?utf-8?B?alc3djErcXFGN3dYR0RIaEtHdnI1dTdIcmZOcm0weExWOFdpbmxjcm9Qekpi?=
- =?utf-8?B?T2twL1pJelBnR1RXK0xwa05uNjdjVTJ4WWk5enk5VWpIbDUrSSt5MHJpZEQv?=
- =?utf-8?B?Vmt1Qnk1RzBObk9GMUV4THFWL2VWVjFSRTczMU9QWEt0NldiU1lMdy8xYVAy?=
- =?utf-8?B?KzRSQU05V2ZPb2R4dUhuM3pPUWFBWUxZbHhxUDJDMWNKdFFtelNmbi9WRUFz?=
- =?utf-8?B?ZWZidzN6bHZrV202eFJoMVlqZXRWNWpvM2ROQkFmRHNoTEVXV0lqdlJ6Zlo5?=
- =?utf-8?B?VmxaVHQzMk9CeGhBS3BtTUx2MkdlMEQzeEdUOFdFdFA2ZTRLRnpJTEhxbGMx?=
- =?utf-8?B?WllzYzhsL1l1RlZ3ZXlqcnhOcmdZTmJLN21GM1laazRCV1d6aFNhY3BEU0d1?=
- =?utf-8?B?ZlJOMHJwYTFWYzFNdndIV2dpMHR0OExMNGMzd3lnbXhHYm1FaHdnbStjNkxr?=
- =?utf-8?B?WDZLRHFJZ0VYVkVXeEJBZSsrNytCWlc0YWVLU0lVaDJ1VzZRdzJQSzdQOStH?=
- =?utf-8?B?YjBKTmsrSWpqMUJ3dDVraFluYkpuSlNQM1l4RE1xMHlJdlpFWk5KQ1VUR0sv?=
- =?utf-8?B?bkE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 18 Sep 2023 11:49:30 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36852D46
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 08:46:17 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id 46e09a7af769-6befdb1f545so3270927a34.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 08:46:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695051719; x=1695656519;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iCuZw6mnjneAEm0yU5GAif4E0x/Kml2QU4/tcjP5Q4w=;
+        b=Yy3IpIYUm/Pinqjf2cQHIaLYxrMtqoejV+MYfQ69O0cUWqDs0w25d7iQeWSb8W/tHl
+         +71FxHuZJlyGUpPfUkY7goqXe4fHvFSpC7LirPJgRocVYKs7NLXBgxeoHvgHkSMu678K
+         LUlPOdVqKk2mg0S4BXTIGsb/P4gWbqylPoEiR6rRNvo+NfqFqSpdJFPJtZF6Hts5sst/
+         wCVuM1yIBQyKwN5ftMt5xOpkY6qZZNU4aiU2ZGpUmrulWiq6roI182IQdkzqYKrMNP7s
+         0UPaTjbNeyA41gpK0dvcWj1As+pjaBSAuQolBC36QNTZHga3ZeSKP7XPwIjFe91/fCJX
+         7CFw==
+X-Gm-Message-State: AOJu0YyNVHnwYwqTWJ0IcKGB71VLAlCRDsNWcLUtMEaimrvyVEeexT29
+        tnP8W8V+zzovYuGb3k1ZNNMesyuuHlpbFw==
+X-Google-Smtp-Source: AGHT+IEY9f/1oxfA4lz6+YlzvPUiyrf8L8acjQdvvCshjPSmDATOaNwNRgl3ojtZJUwImHPlu8PQHw==
+X-Received: by 2002:a81:5f43:0:b0:59b:c6a4:15c7 with SMTP id t64-20020a815f43000000b0059bc6a415c7mr9634044ywb.46.1695048133964;
+        Mon, 18 Sep 2023 07:42:13 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id h4-20020a815304000000b005928ba6806dsm2619996ywb.97.2023.09.18.07.42.13
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 07:42:13 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59bc956b029so44037697b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Sep 2023 07:42:13 -0700 (PDT)
+X-Received: by 2002:a81:7254:0:b0:583:a3ab:b950 with SMTP id
+ n81-20020a817254000000b00583a3abb950mr8345208ywc.50.1695048133532; Mon, 18
+ Sep 2023 07:42:13 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfac4d12-d58a-451b-2e95-08dbb849cc66
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2023 13:18:50.4168
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ye6utLa1fx8vHFq8lY74izz5WlsU+rdxpkh/sFnQCAMCAHxDp+R3qxxjTTGFlqV3ytBemwc2IafjzRxb2rHRxbym08gtIL2huYvObubUzxs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11465
+References: <87wmwxh4av.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87wmwxh4av.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 18 Sep 2023 16:42:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW_d_juuo01gbD81aHJ=bs8k3jXeiP7kkOzQDVxHcbzoQ@mail.gmail.com>
+Message-ID: <CAMuHMdW_d_juuo01gbD81aHJ=bs8k3jXeiP7kkOzQDVxHcbzoQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: use multi Component for ULCB/KF
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggMi8yXSBwaW5jdHJsOiByZW5lc2FzOiByemcybDogRW5hYmxlIG5vaXNlIGZpbHRlciBm
-b3INCj4gR1BJTyBpbnRlcnJ1cHQgaW5wdXQNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBNb24s
-IFNlcCAxOCwgMjAyMyBhdCAyOjM04oCvUE0gQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVz
-YXMuY29tPg0KPiB3cm90ZToNCj4gPiBBcyBwZXIgUlovRzJMIGhhcmR3YXJlIG1hbnVhbCBSZXYu
-MS4zMCBzZWN0aW9uIDguNy4zIEdQSU8gSW50ZXJydXB0DQo+ID4gKFRJTlQpIGFuZCA0MS40LjEg
-T3BlcmF0aW9uIGZvciBHUElPIGZ1bmN0aW9uLCB3ZSBuZWVkIHRvIHNldCBkaWdpdGFsDQo+ID4g
-bm9pc2UgZmlsdGVyIGZvciBHUElPIGludGVycnVwdC4NCj4gPg0KPiA+IFRoaXMgcGF0Y2ggZW5h
-YmxlcyBub2lzZSBmaWx0ZXIgZm9yIEdQSU8gaW50ZXJydXB0IGluDQo+ID4gcnpnMmxfZ3Bpb19p
-cnFfZW5hYmxlKCkgYW5kIGRpc2FibGUgaXQgaW4gcnpnMmxfZ3Bpb19pcnFfZGlzYWJsZSgpLg0K
-PiA+DQo+ID4gRml4ZXM6IGRiMmU1ZjIxYTQ4ZSAoInBpbmN0cmw6IHJlbmVzYXM6IHBpbmN0cmwt
-cnpnMmw6IEFkZCBJUlEgZG9tYWluDQo+ID4gdG8gaGFuZGxlIEdQSU8gaW50ZXJydXB0IikNCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+
-ID4gVGVzdGVkLWJ5OiBDbGF1ZGl1IEJlem5lYSA8Y2xhdWRpdS5iZXpuZWEudWpAYnAucmVuZXNh
-cy5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+IA0KPiA+IC0tLSBhL2RyaXZl
-cnMvcGluY3RybC9yZW5lc2FzL3BpbmN0cmwtcnpnMmwuYw0KPiA+ICsrKyBiL2RyaXZlcnMvcGlu
-Y3RybC9yZW5lc2FzL3BpbmN0cmwtcnpnMmwuYw0KPiA+IEBAIC05Niw2ICs5Niw3IEBADQo+ID4g
-ICNkZWZpbmUgUElOKG4pICAgICAgICAgICAgICAgICAoMHgwODAwICsgMHgxMCArIChuKSkNCj4g
-PiAgI2RlZmluZSBJT0xIKG4pICAgICAgICAgICAgICAgICAgICAgICAgKDB4MTAwMCArIChuKSAq
-IDgpDQo+ID4gICNkZWZpbmUgSUVOKG4pICAgICAgICAgICAgICAgICAoMHgxODAwICsgKG4pICog
-OCkNCj4gPiArI2RlZmluZSBGSUxPTk9GRihuKSAgICAgICAgICAgICgweDIwODAgKyAobikgKiA4
-KQ0KPiA+ICAjZGVmaW5lIElTRUwobikgICAgICAgICAgICAgICAgICAgICAgICAoMHgyYzgwICsg
-KG4pICogOCkNCj4gPiAgI2RlZmluZSBQV1BSICAgICAgICAgICAgICAgICAgICgweDMwMTQpDQo+
-ID4gICNkZWZpbmUgU0RfQ0gobikgICAgICAgICAgICAgICAoMHgzMDAwICsgKG4pICogNCkNCj4g
-DQo+IExHVE0sIGJ1dCBzaG91bGRuJ3QgeW91IGNvbmZpZ3VyZSB0aGUgRGlnaXRhbCBOb2lzZSBG
-aWx0ZXIgTnVtYmVyDQo+IChGSUxOVU0pIGFuZCBDbG9jayBTZWxlY3Rpb24gKEZJTENMS1NFTCkg
-cmVnaXN0ZXJzLCB0b28/DQoNCkN1cnJlbnRseSBpdCB1c2VzIHJlc2V0IHZhbHVlcy4NCg0KMDBi
-OiA0LXN0YWdlIGZpbHRlciAoNDEuNjY2IG5zIHggNCA9IDE2Ni42NjYgbnMpIChpbml0aWFsIHZh
-bHVlKSBmb3IgRklMTlVNIGFuZA0KDQowMGI6IE5vdCBkaXZpZGVkIChpbml0aWFsIHZhbHVlKSBm
-b3IgRklMQ0xLU0VMDQoNCkRvIHlvdSBtZWFuIHdlIHNob3VsZCBwcm92aWRlIHRoZXNlIHNldHRp
-bmdzIHRvIERULCBzbyB0aGF0DQppdCBpcyBjdXN0b21pc2VkIGJhc2VkIG9uIHRoZSBQQ0IgZGVz
-aWduIGFuZCB0aGUgZW52aXJvbm1lbnQNCnRoZSBib2FyZCBpcyB1c2VkIGluPyBJIGd1ZXNzIHRo
-aXMgd2lsbCBtYWtlIGl0IGVhc2llciBmb3INCmN1c3RvbWVycyB0byBtYWtlIHRoZSByZXF1aXJl
-ZCBjaGFuZ2VzIGZvciB0aGVpciBhcHBsaWNhdGlvbi4NCg0KQ2hlZXJzLA0KQmlqdQ0K
+Hi Morimoto-san,
+
+On Mon, Sep 11, 2023 at 3:44 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>         +-- ULCB -------------------+
+>         |+--------+       +--------+|
+>         ||    SSI0| <---> |ak4613  ||
+>         ||    SSI1| <---> |        ||
+>         ||        |       +--------+|
+>         ||        |       +--------+|
+>         ||    SSI2| <---> |HDMI    ||
+>         ||        |       +--------+|
+>         ||    SSI3| <--+            |
+>         ||    SSI4| <-+|            |
+>         |+--------+   ||            |
+>         +-------------||------------+
+>         +-- Kingfisher -------------+
+>         |             ||  +--------+|
+>         |             |+->|pcm3168a||
+>         |             +-->|        ||
+>         |                 +--------+|
+>         +---------------------------+
+>
+> On UCLB/KF, we intuitively think we want to handle these
+> as "2 Sound Cards".
+>
+>         card0,0: 1st sound of ULCB (SSI0 - ak4613)
+>         card0,1: 2nd sound of ULCB (SSI2 - HDMI)
+>         card1,0: 1st sound of KF   (SSI3 - pcm3168a)
+>             ^ ^
+>
+> But, we needed to handle it as "1 big Sound Card",
+> because of ASoC Component vs Card framwork limitation.
+>
+>         card0,0: 1st sound of ULCB/KF (SSI0 - ak4613)
+>         card0,1: 2nd sound of ULCB/KF (SSI2 - HDMI)
+>         card0,2: 3rd sound of ULCB/KF (SSI3 - pcm3168a)
+>             ^ ^
+>
+> Now ASoC support multi Component which allow us to handle "2 Sound Cards"
+> such as "ULCB Sound Card" and "Kingfisher Sound Card".
+>
+> This patch updates all ULCB/KF Audio dtsi.
+> One note is that Sound Card specification method from userland will be
+> changed, especially for Kingfisher Sound.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
+> @@ -19,32 +19,31 @@
+>   *
+>   *     (A) aplay   -D plughw:0,0 xxx.wav (MIX-0)
+>   *     (B) aplay   -D plughw:0,1 xxx.wav (MIX-1)
+> - *     (C) aplay   -D plughw:0,2 xxx.wav (TDM-0)
+> - *     (D) aplay   -D plughw:0,3 xxx.wav (TDM-1)
+> - *     (E) aplay   -D plughw:0,4 xxx.wav (TDM-2)
+> - *     (F) aplay   -D plughw:0,5 xxx.wav (TDM-3)
+> + *     (C) aplay   -D plughw:1,0 xxx.wav (TDM-0)
+> + *     (D) aplay   -D plughw:1,1 xxx.wav (TDM-1)
+> + *     (E) aplay   -D plughw:1,2 xxx.wav (TDM-2)
+> + *     (F) aplay   -D plughw:1,3 xxx.wav (TDM-3)
+>   *
+>   *     (A) arecord -D plughw:0,0 xxx.wav
+> - *     (G) arecord -D plughw:0,6 xxx.wav
+> + *     (G) arecord -D plughw:1,4 xxx.wav
+>   */
+> +/ {
+> +       sound_card_kf: expand_sound {
+
+Please no underscores in (new) node names (everywhere)
+
+expand-sound?
+
+> +               compatible = "audio-graph-scu-card";
+> +               label = "snd-kf-split";
+>
+> -&sound_card {
+> -       routing = "ak4613 Playback",   "DAI0 Playback",
+> -                 "ak4613 Playback",   "DAI1 Playback",
+> -                 "DAI0 Capture",      "ak4613 Capture",
+> -                 "pcm3168a Playback", "DAI2 Playback",
+> -                 "pcm3168a Playback", "DAI3 Playback",
+> -                 "pcm3168a Playback", "DAI4 Playback",
+> -                 "pcm3168a Playback", "DAI5 Playback";
+> +               routing = "pcm3168a Playback", "DAI2 Playback",
+> +                         "pcm3168a Playback", "DAI3 Playback",
+> +                         "pcm3168a Playback", "DAI4 Playback",
+> +                         "pcm3168a Playback", "DAI5 Playback";
+>
+> -       dais = <&rsnd_port0 /* (A) CPU0 */
+> -               &rsnd_port1 /* (B) CPU1 */
+> -               &rsnd_port2 /* (C) CPU2 */
+> -               &rsnd_port3 /* (D) CPU3 */
+> -               &rsnd_port4 /* (E) CPU4 */
+> -               &rsnd_port5 /* (F) CPU5 */
+> -               &rsnd_port6 /* (G) GPU6 */
+> -       >;
+> +               dais = <&snd_kf1 /* (C) CPU2 */
+> +                       &snd_kf2 /* (D) CPU3 */
+> +                       &snd_kf3 /* (E) CPU4 */
+> +                       &snd_kf4 /* (F) CPU5 */
+> +                       &snd_kf5 /* (G) GPU6 */
+> +               >;
+> +       };
+>  };
+>
+>  &pcm3168a {
+> @@ -103,13 +102,14 @@ pcm3168a_endpoint_c: endpoint {
+>  };
+>
+>  &rcar_sound {
+> -       ports {
+> -               /* rsnd_port0-1 are defined in ulcb.dtsi */
+
+Don't you need to add
+
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+like in the other files?
+
+> +       ports@1 {
+
+So now you end up with a "ports" node without a unit address, and a
+"ports@1" node with a unit address, which looks very strange to me...
+
+According to the example in the description for commit 547b02f74e4ac1e7
+("ASoC: rsnd: enable multi Component support for Audio Graph
+Card/Card2"), the first node should be named "ports@0":
+
+    Ex) Audio Graph Card/Card2
+
+            rcar_sound {
+                    /* Component0 */
+                    ports@0 {
+                            ...
+                    };
+
+                    /* Component1 */
+                    ports@1 {
+                            ...
+                    };
+            };
+
+This comment is valid for the other .dtsi files, too.
+
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+>
+>                 /*
+>                  * (C) CPU2
+>                  */
+> -               rsnd_port2: port@2 {
+> +               snd_kf1: port@2 {
+>                         reg = <2>;
+>                         rsnd_for_pcm3168a_play1: endpoint {
+>                                 remote-endpoint = <&pcm3168a_endpoint_p1>;
+
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
+
+> @@ -115,7 +118,11 @@ &pcm3168a {
+>  };
+>
+>  &rcar_sound {
+> -       rcar_sound,dai {
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +
+> +       rcar_sound,dai@1 {
+
+Same here: "rcar_sound,dai" node without a unit address, and
+"rcar_sound,dai@1" node with a unit address.
+
+According to the example in the description for commit 547b02f74e4ac1e7
+("ASoC: rsnd: enable multi Component support for Audio Graph
+Card/Card2"), the first node should be named "rcar_sound,dai@0":
+
+    Ex) Simple Card
+
+            rcar_sound {
+                    ...
+
+                    /* Component0 */
+                    rcar_sound,dai@0 {
+                            ...
+                    };
+
+                    /* Component1 */
+                    rcar_sound,dai@1 {
+                            ...
+                    };
+            };
+
+This comment is valid for the other .dtsi files, too.
+
+> +               reg = <1>;
+>
+>                 /* dai0-1 are defined in ulcb.dtsi */
+>
+
+The rest LGTM (for a sound-illiterate reviewer like me ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
