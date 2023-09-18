@@ -2,66 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C603F7A45C2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 11:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B927A48B2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 13:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbjIRJVU convert rfc822-to-8bit (ORCPT
+        id S241637AbjIRLoC convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 05:21:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44168 "EHLO
+        Mon, 18 Sep 2023 07:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238676AbjIRJVS (ORCPT
+        with ESMTP id S241879AbjIRLn6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 05:21:18 -0400
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210F8D3;
-        Mon, 18 Sep 2023 02:21:13 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-59bdad64411so42757207b3.3;
-        Mon, 18 Sep 2023 02:21:13 -0700 (PDT)
+        Mon, 18 Sep 2023 07:43:58 -0400
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65390101;
+        Mon, 18 Sep 2023 04:43:47 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59c215f2f4aso25062167b3.1;
+        Mon, 18 Sep 2023 04:43:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695028872; x=1695633672;
+        d=1e100.net; s=20230601; t=1695037426; x=1695642226;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=09gDVjymdIZkIvApNhwmLuiLyjh5wNd5lc0HirsSW3Y=;
-        b=DXrAnTyYwMme8nzz1QqfnzLa7fMkJJjcIiYAZijzoJf5qwbjiF9SC8gZCKIxS88TdM
-         br5CH6gVlssTeTwEhGf9itVVBVcElGGbeTxoNY6PhWNojcBiD5GxHHC3iIovW4STb9h6
-         B8PMAS9uyFB/9YT1Ku7jVE8orMdYBUZh/x7P7Wb2KDn0RhDlpsZMnKUvhAWzIN5NQQDN
-         YJgfVpwbv1lrIhegKrNIvdQA39TC73l1reqzfir8eZm6eD8mDD7BnKkWVu1hhk9P/Y2g
-         sRftWC0UQAsMxG0PpQWxOofAsodMpTQv/oJ5v3FJLK9ccEnR4rC7E+s368yXqknKxqLI
-         Ug7w==
-X-Gm-Message-State: AOJu0YysG0cLkyzTBwy9dpF5KUBCWBOmCgq9Zr0xPzvpfcNPm08hVXWT
-        hbAwaidIWs7SsoDCIfgzT9A9Wd9zalMl4w==
-X-Google-Smtp-Source: AGHT+IHsSU/M2sk9N4TIpMbXzZmO+S7pvwhKBqXGKxhkSDK6V0M5FucHo8mmc1wXnvvRT6VzuWFN7w==
-X-Received: by 2002:a0d:e84f:0:b0:58c:53ad:ee3f with SMTP id r76-20020a0de84f000000b0058c53adee3fmr8657999ywe.34.1695028871699;
-        Mon, 18 Sep 2023 02:21:11 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id s68-20020a0dd047000000b0059bdac3fd08sm2430888ywd.48.2023.09.18.02.21.11
+        bh=GJJOzR+YVeocDIgokR8jWUc83rIvpyDkrWoxfJG2Icw=;
+        b=pLzMWkviKebk+IzeFiUiLzbkYvtABQ2mJ0mNBiNHp246jt3rOOiQI04oHMWS2Bh5Yi
+         6v+1kCovK5ujgvJ/kAUOMBSvDklv4EJ7QpWER655OsvcFwOMnwr38Gv6DFDzfY0GePPb
+         +BhW5fAdfs8Om82VdhKIobmncmDRzGWVM5yABD0lixhfMV0k/jK3bkx/ec2PzP5gpHzH
+         F9D5N64W+Yw/s7ES5cEdviPCGykwodJk39CMk7EHmz8Im+Yd4DR6ZpCQW5TbhIEbMG5p
+         Ax+JYdtYrJeuiE+aCc/VsMhimapoy6uBrxhmj7LvUN5INJUJ+8B6Wzmm5O53CHpKJyrt
+         HTRw==
+X-Gm-Message-State: AOJu0YzLc6sLlHgzyaHTLfZ7/E2gpqaVJZ0tZzglU1+J3CUXOOOqIcRa
+        ISoIeyEdZlNVCbhGVm4M/UeSICP+mtvgaw==
+X-Google-Smtp-Source: AGHT+IFsVqTEIGgtnkFZBA9OGZqubR/hrR0RbiIrziH7xKVj43CemDNvYBC+pBZngVErosQXDg8SXA==
+X-Received: by 2002:a81:7209:0:b0:59b:5696:c33 with SMTP id n9-20020a817209000000b0059b56960c33mr8105951ywc.46.1695037426318;
+        Mon, 18 Sep 2023 04:43:46 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id p62-20020a819841000000b0059b50f126fbsm1621417ywg.114.2023.09.18.04.43.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 02:21:11 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59e8d963adbso11011187b3.0;
-        Mon, 18 Sep 2023 02:21:11 -0700 (PDT)
-X-Received: by 2002:a81:7189:0:b0:592:4f93:e831 with SMTP id
- m131-20020a817189000000b005924f93e831mr8836883ywc.48.1695028870953; Mon, 18
- Sep 2023 02:21:10 -0700 (PDT)
+        Mon, 18 Sep 2023 04:43:46 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59c215f2f4aso25061917b3.1;
+        Mon, 18 Sep 2023 04:43:45 -0700 (PDT)
+X-Received: by 2002:a0d:df10:0:b0:59b:f744:f158 with SMTP id
+ i16-20020a0ddf10000000b0059bf744f158mr8461214ywe.15.1695037425699; Mon, 18
+ Sep 2023 04:43:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230814-void-drivers-soc-renesas-rmobile-sysc-v1-1-6648dfd854de@google.com>
- <CAMuHMdWiC4v9fctp18bRrEH-m_-0VjMg9+XpON8vdRYwniTU3g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWiC4v9fctp18bRrEH-m_-0VjMg9+XpON8vdRYwniTU3g@mail.gmail.com>
+References: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Sep 2023 11:20:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWk_jcZ1V7J68bw11YZ+EjEqAWOKHzanVyxo2zktbMteg@mail.gmail.com>
-Message-ID: <CAMuHMdWk_jcZ1V7J68bw11YZ+EjEqAWOKHzanVyxo2zktbMteg@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rmobile-sysc: fix -Wvoid-pointer-to-enum-cast
- warning
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Justin Stitt <justinstitt@google.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Linux PM list <linux-pm@vger.kernel.org>
+Date:   Mon, 18 Sep 2023 13:43:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWuHN-+=Wjt3mwH9HScuk_EDwW_=bW=KNXhk21MYuOTvQ@mail.gmail.com>
+Message-ID: <CAMuHMdWuHN-+=Wjt3mwH9HScuk_EDwW_=bW=KNXhk21MYuOTvQ@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r8a7795: Constify r8a7795_*_clks
+To:     Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc:     linux-clk@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -74,54 +70,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ulf,
+Hi Marek,
 
-On Wed, Aug 30, 2023 at 10:24 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Aug 15, 2023 at 12:11 AM Justin Stitt <justinstitt@google.com> wrote:
-> > When building with clang 18 I see the following warning:
-> > |      drivers/soc/renesas/rmobile-sysc.c:193:22: warning: cast to smaller integer
-> > |               type 'enum pd_types' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-> > |        193 |                 add_special_pd(np, (enum pd_types)id->data);
-> >
-> > This is due to the fact that `id->data` is a void* and `enum pd_types`
-> > has the size of an integer. This cast from pointer-width to int-width
-> > causes truncation and possible data loss. Instead, cast to `uintptr_t`
-> > which has the same width as void*.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1910
-> > Reported-by: Nathan Chancellor <nathan@kernel.org>
->
-> scripts/checkpatch.pl:
->
->     WARNING: Reported-by: should be immediately followed by Closes:
-> with a URL to the report
->
-> Hence changing the Link: tag to a Closes: tag.
->
-> > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > ---
-> > Note: It should be noted that there is likely no data loss occurring in
-> > this case since the enum only has a few fields. The narrowing cast from
-> > pointer to int will not lose any data.
->
-> Indeed, the theoretical narrowing could only happen on a 64-bit
-> platform, while this driver is only used on arm32.
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.7.
+Thanks for your patch!
 
-As the Generic PM Domain providers were moved to drivers/pmdomain/
-in v6.6-rc2, and now have their own maintainer, I have moved this
-commit from renesas-drivers-for-v6.7 to renesas-pmdomain-for-v6.7[1],
-with s/soc/pmdomain/ in the oneline-summary.
+On Sun, Sep 17, 2023 at 11:58 AM Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Make r8a7795_core_clks and r8a7795_mod_clks arrays const and align them
+> with the other clock tables in other *cpg-mssr.c . No functional change.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Ulf: if you prefer, you can still take this patch directly.
-Else I will send a PR after rc3 and/or rc5, like I do with my other
-renesas-<foo>-for-<version> branches.
-Thanks!
+Indeed, these are no longer modified since commit b1dec4e78599a2ce
+("clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*").
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=renesas-pmdomain-for-v6.7
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.7.
+
+> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> @@ -51,7 +51,7 @@ enum clk_ids {
+>         MOD_CLK_BASE
+>  };
+>
+> -static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
+> +static const struct cpg_core_clk r8a7795_core_clks[] __initconst = {
+>         /* External Clock Inputs */
+>         DEF_INPUT("extal",      CLK_EXTAL),
+>         DEF_INPUT("extalr",     CLK_EXTALR),
+> @@ -128,7 +128,7 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
+>         DEF_BASE("r",           R8A7795_CLK_R,     CLK_TYPE_GEN3_R, CLK_RINT),
+>  };
+>
+> -static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+> +static const struct mssr_mod_clk r8a7795_mod_clks[] __initconst = {
+>         DEF_MOD("3dge",                  112,   R8A7795_CLK_ZG),
+>         DEF_MOD("fdp1-1",                118,   R8A7795_CLK_S0D1),
+>         DEF_MOD("fdp1-0",                119,   R8A7795_CLK_S0D1),
 
 Gr{oetje,eeting}s,
 
