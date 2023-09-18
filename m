@@ -2,62 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B927A48B2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 13:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B880A7A4941
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Sep 2023 14:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241637AbjIRLoC convert rfc822-to-8bit (ORCPT
+        id S241881AbjIRMIg convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Sep 2023 07:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
+        Mon, 18 Sep 2023 08:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241879AbjIRLn6 (ORCPT
+        with ESMTP id S241768AbjIRMIF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Sep 2023 07:43:58 -0400
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65390101;
-        Mon, 18 Sep 2023 04:43:47 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59c215f2f4aso25062167b3.1;
-        Mon, 18 Sep 2023 04:43:47 -0700 (PDT)
+        Mon, 18 Sep 2023 08:08:05 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5516A9;
+        Mon, 18 Sep 2023 05:07:59 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59c0b5f984aso31684307b3.2;
+        Mon, 18 Sep 2023 05:07:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695037426; x=1695642226;
+        d=1e100.net; s=20230601; t=1695038878; x=1695643678;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GJJOzR+YVeocDIgokR8jWUc83rIvpyDkrWoxfJG2Icw=;
-        b=pLzMWkviKebk+IzeFiUiLzbkYvtABQ2mJ0mNBiNHp246jt3rOOiQI04oHMWS2Bh5Yi
-         6v+1kCovK5ujgvJ/kAUOMBSvDklv4EJ7QpWER655OsvcFwOMnwr38Gv6DFDzfY0GePPb
-         +BhW5fAdfs8Om82VdhKIobmncmDRzGWVM5yABD0lixhfMV0k/jK3bkx/ec2PzP5gpHzH
-         F9D5N64W+Yw/s7ES5cEdviPCGykwodJk39CMk7EHmz8Im+Yd4DR6ZpCQW5TbhIEbMG5p
-         Ax+JYdtYrJeuiE+aCc/VsMhimapoy6uBrxhmj7LvUN5INJUJ+8B6Wzmm5O53CHpKJyrt
-         HTRw==
-X-Gm-Message-State: AOJu0YzLc6sLlHgzyaHTLfZ7/E2gpqaVJZ0tZzglU1+J3CUXOOOqIcRa
-        ISoIeyEdZlNVCbhGVm4M/UeSICP+mtvgaw==
-X-Google-Smtp-Source: AGHT+IFsVqTEIGgtnkFZBA9OGZqubR/hrR0RbiIrziH7xKVj43CemDNvYBC+pBZngVErosQXDg8SXA==
-X-Received: by 2002:a81:7209:0:b0:59b:5696:c33 with SMTP id n9-20020a817209000000b0059b56960c33mr8105951ywc.46.1695037426318;
-        Mon, 18 Sep 2023 04:43:46 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id p62-20020a819841000000b0059b50f126fbsm1621417ywg.114.2023.09.18.04.43.45
+        bh=qVLFaUZxjITE8rsgw+msJqGq4oa1CVCEEZAwZaJky7Y=;
+        b=Sd51PttW5gIDKNCE/2gQSnJa+93uju8mGp7tF8VNScoozQnI9Ro1VF0PzFprXM40c/
+         Xjja1uXQxdkpFJiUCNada+qRWnVh6208LT1oftwdp12mXJ+eLECLu0Yq1rPvTZVsjgsX
+         DOUzRppZtbfXJAulnCNCO9xHx/16h6/vOk4uZPMttGNiNpFZeBwZEgWB97f4qdZaSu4+
+         eyNbTzYyuS81dkOYem5dgOsXAW0WMBWhi492lLegGTdxES/oFAz/LyuEkcNA1bOry29r
+         SsG/Fd1lcnkBILrL0nw55w1FTu1YbQSNLDH/gR+/DswUeH/2e0zleHlz2Ap5KZEl+lP3
+         pgkw==
+X-Gm-Message-State: AOJu0YxXF2wsszg15NslO2SnBOwFmdxHEkLlBgruqkCFmydlmLQdmdvN
+        K0Drv7ifRhnclsIr5B05tBJS82M25JVX2w==
+X-Google-Smtp-Source: AGHT+IFek3kqpUOJnGFMwvatm/fLTMWJsD34hLXKaBKav8ilU/6R+d5yvUQStlnEpVmpXIjn9nE4Yw==
+X-Received: by 2002:a81:ee0e:0:b0:59b:4bb2:fc2c with SMTP id l14-20020a81ee0e000000b0059b4bb2fc2cmr160497ywm.48.1695038878327;
+        Mon, 18 Sep 2023 05:07:58 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id d194-20020a814fcb000000b0058fb9863fe7sm2485229ywb.103.2023.09.18.05.07.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 04:43:46 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59c215f2f4aso25061917b3.1;
-        Mon, 18 Sep 2023 04:43:45 -0700 (PDT)
-X-Received: by 2002:a0d:df10:0:b0:59b:f744:f158 with SMTP id
- i16-20020a0ddf10000000b0059bf744f158mr8461214ywe.15.1695037425699; Mon, 18
- Sep 2023 04:43:45 -0700 (PDT)
+        Mon, 18 Sep 2023 05:07:58 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59be6605e1dso47396927b3.3;
+        Mon, 18 Sep 2023 05:07:58 -0700 (PDT)
+X-Received: by 2002:a81:8287:0:b0:59c:7d0:ab06 with SMTP id
+ s129-20020a818287000000b0059c07d0ab06mr9944623ywf.45.1695038877926; Mon, 18
+ Sep 2023 05:07:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20230917095832.39007-1-marek.vasut+renesas@mailbox.org>
+References: <20230911214623.2201324-1-robh@kernel.org>
+In-Reply-To: <20230911214623.2201324-1-robh@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Sep 2023 13:43:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWuHN-+=Wjt3mwH9HScuk_EDwW_=bW=KNXhk21MYuOTvQ@mail.gmail.com>
-Message-ID: <CAMuHMdWuHN-+=Wjt3mwH9HScuk_EDwW_=bW=KNXhk21MYuOTvQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a7795: Constify r8a7795_*_clks
-To:     Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc:     linux-clk@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date:   Mon, 18 Sep 2023 14:07:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
+Message-ID: <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Apply overlays to base dtbs
+To:     Rob Herring <robh@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -70,43 +70,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+Hi Rob,
+
+On Mon, Sep 11, 2023 at 11:47 PM Rob Herring <robh@kernel.org> wrote:
+> DT overlays in tree need to be applied to a base DTB to validate they
+> apply, to run schema checks on them, and to catch any errors at compile
+> time.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
 Thanks for your patch!
 
-On Sun, Sep 17, 2023 at 11:58 AM Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Make r8a7795_core_clks and r8a7795_mod_clks arrays const and align them
-> with the other clock tables in other *cpg-mssr.c . No functional change.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Looks like some of these apply to multiple base DTs. I've only added them
+> to 1 base.
 
-Indeed, these are no longer modified since commit b1dec4e78599a2ce
-("clk: renesas: rcar-gen3: Disable R-Car H3 ES1.*").
+Indeed:
+  - draak-ebisu-panel-aa104xd12.dtbo applies to r8a77990-ebisu.dtb, too,
+  - salvator-panel-aa104xd12.dtbo applies to all salvator-x(s) variants.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.7.
+So should they be added to all bases they apply to?
 
-> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> @@ -51,7 +51,7 @@ enum clk_ids {
->         MOD_CLK_BASE
->  };
+Or, if you intend none of the composite DTBs to be consumed as-is, but
+only intend them to be created for validation, perhaps the additional
+rules should be grouped together at the bottom of the Makefile?
+
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -64,6 +65,8 @@ dtb-$(CONFIG_ARCH_R8A779F0) += r8a779f0-spider.dtb
 >
-> -static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
-> +static const struct cpg_core_clk r8a7795_core_clks[] __initconst = {
->         /* External Clock Inputs */
->         DEF_INPUT("extal",      CLK_EXTAL),
->         DEF_INPUT("extalr",     CLK_EXTALR),
-> @@ -128,7 +128,7 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
->         DEF_BASE("r",           R8A7795_CLK_R,     CLK_TYPE_GEN3_R, CLK_RINT),
->  };
->
-> -static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
-> +static const struct mssr_mod_clk r8a7795_mod_clks[] __initconst = {
->         DEF_MOD("3dge",                  112,   R8A7795_CLK_ZG),
->         DEF_MOD("fdp1-1",                118,   R8A7795_CLK_S0D1),
->         DEF_MOD("fdp1-0",                119,   R8A7795_CLK_S0D1),
+>  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk.dtb
+>  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtbo
+
+Do you still need the individual *.dtbo rules? Perhaps you are
+afraid that make will auto-delete them as they are only used as
+intermediaries?
+
+> +r8a779g0-white-hawk-ard-audio-da7212-dtbs := r8a779g0-white-hawk.dtb r8a779g0-white-hawk-ard-audio-da7212.dtbo
+> +dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtb
+
 
 Gr{oetje,eeting}s,
 
