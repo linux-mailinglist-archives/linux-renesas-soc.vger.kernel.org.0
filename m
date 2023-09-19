@@ -2,55 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B9ED7A6828
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 17:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E54947A68BB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 18:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbjISPdn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Sep 2023 11:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60046 "EHLO
+        id S229627AbjISQTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Sep 2023 12:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231226AbjISPdm (ORCPT
+        with ESMTP id S230272AbjISQTP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:33:42 -0400
+        Tue, 19 Sep 2023 12:19:15 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD0591;
-        Tue, 19 Sep 2023 08:33:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEB6C433C8;
-        Tue, 19 Sep 2023 15:33:37 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACB3A1;
+        Tue, 19 Sep 2023 09:19:09 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53599C433C8;
+        Tue, 19 Sep 2023 16:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695137617;
-        bh=yOR7LqcC6UnVhoCsLDoSMz+eMVTQCK/pdNaacI/x5Bo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZAIUBNC/0qwXAq6gm6nKiIr3sLLP03cF8m49gRipwAlqyc3n2vpJ8GuW969o3W9YH
-         /yGlMc0NF46oZejYW5fztUuvKUhX90Mod5vTRGIAcEYxpjQ+O04Aojzx2S2s7GLrga
-         +pfqh4jMLapazvEqviIzEXhCQFMNLJkmFt6DdXxJV2waXIXL171197UXR2VdTEmTgq
-         QE3l64QSGv/LvihIGFWEs7QYtzxXrInypDUgESDo9gH05jFUSY4FfPpgIgmMBhx7tt
-         eTKTScynJZ3in0zD/9ynzm3IBLknxAhSo83FOTySFP+VchPr3zGfmKyhXDZPb0lHJi
-         Eaj+0VfHzcYNQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50336768615so885797e87.0;
-        Tue, 19 Sep 2023 08:33:37 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzpHDa+0TU8wcvoMcW/M8DziGXQvuZdeXfY4zOJPygMOBeRFcAI
-        uqwZCDZuGfcIvuDG2hS/sD6AuFQuZ6877PwFbg==
-X-Google-Smtp-Source: AGHT+IG4NemizbroTHabZqJmVRYbfzQj/Z71eTpMw47wZmTM8LxdOwDVEuRVse/8BE4YHVprFzwItJWQTZKQPAmGY7o=
-X-Received: by 2002:a05:6512:10d1:b0:4ff:9a75:211e with SMTP id
- k17-20020a05651210d100b004ff9a75211emr29911lfg.42.1695137615334; Tue, 19 Sep
- 2023 08:33:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230911214623.2201324-1-robh@kernel.org> <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 19 Sep 2023 10:33:22 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+kj8Sui1eQJNdqm34ENQoPCk5Q1NDYg2gag9akBoLmDw@mail.gmail.com>
-Message-ID: <CAL_Jsq+kj8Sui1eQJNdqm34ENQoPCk5Q1NDYg2gag9akBoLmDw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Apply overlays to base dtbs
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        s=k20201202; t=1695140349;
+        bh=8JMiQ5M7/KIEk98IyOcUQVbopzZnILgjqlCPUZv+KTo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nd74LZGBcan2JhY4lwNiP+y/ZbV2GqaFOfVUh5npk8AQyl/PgmtPsCNqDWfpcEN1j
+         3oWaUMoMoTuH7keKvAr9e/KHPDBxEbM9sVgN+XE7XXK0MarIjUGTLDPJKPICpM9c25
+         HaCwKOXcxMmmWM9uK+Ho+hBAbXmJ+d4DrRqtU2STV90XzTEnqm44cJMafFYu/NkYTP
+         wpfwv9O17yYVnCQXqxcvcUkASooeeqwf/KS9pRBdXnmmYYxfuwY0RMr+E2wnfmSQz8
+         Mucm63CCnmE0tzVbGn6QJF+ZJsIzDSZ4NSgj7YHrMowMN4ifFqr480njZGiy9r6PwA
+         STvh5OaE26s7g==
+Received: from [104.132.45.96] (helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1qidRK-00EOAg-TX;
+        Tue, 19 Sep 2023 17:19:07 +0100
+Date:   Tue, 19 Sep 2023 17:19:05 +0100
+Message-ID: <87cyye3zly.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.au@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 3/3] irqchip: renesas-rzg2l: Fix irq storm with edge trigger detection for TINT
+In-Reply-To: <OS0PR01MB5922748F489467BE2539AA1886FAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230918122411.237635-1-biju.das.jz@bp.renesas.com>
+        <20230918122411.237635-4-biju.das.jz@bp.renesas.com>
+        <86y1h2cjpb.wl-maz@kernel.org>
+        <OS0PR01MB5922748F489467BE2539AA1886FAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 104.132.45.96
+X-SA-Exim-Rcpt-To: biju.das.jz@bp.renesas.com, tglx@linutronix.de, prabhakar.mahadev-lad.rj@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com, geert+renesas@glider.be, biju.das.au@gmail.com, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -61,55 +70,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 7:08=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Rob,
->
-> On Mon, Sep 11, 2023 at 11:47=E2=80=AFPM Rob Herring <robh@kernel.org> wr=
-ote:
-> > DT overlays in tree need to be applied to a base DTB to validate they
-> > apply, to run schema checks on them, and to catch any errors at compile
-> > time.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Thanks for your patch!
->
-> > Looks like some of these apply to multiple base DTs. I've only added th=
-em
-> > to 1 base.
->
-> Indeed:
->   - draak-ebisu-panel-aa104xd12.dtbo applies to r8a77990-ebisu.dtb, too,
->   - salvator-panel-aa104xd12.dtbo applies to all salvator-x(s) variants.
->
-> So should they be added to all bases they apply to?
+On Tue, 19 Sep 2023 16:24:53 +0100,
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> 
+> Hi Marc Zyngier,
+> 
+> Thanks for the feedback.
+> 
+> > Subject: Re: [PATCH 3/3] irqchip: renesas-rzg2l: Fix irq storm with edge
+> > trigger detection for TINT
+> > 
+> > On Mon, 18 Sep 2023 13:24:11 +0100,
+> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > >
+> > > In case of edge trigger detection, enabling the TINT source causes a
+> > > phantum interrupt that leads to irq storm. So clear the phantum
+> > > interrupt in rzg2l_irqc_irq_enable().
+> > >
+> > > This issue is observed when the irq handler disables the interrupts
+> > > using
+> > > disable_irq_nosync() and scheduling a work queue and in the work
+> > > queue, re-enabling the interrupt with enable_irq().
+> > >
+> > > Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller
+> > > driver")
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > > ---
+> > >  drivers/irqchip/irq-renesas-rzg2l.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/drivers/irqchip/irq-renesas-rzg2l.c
+> > > b/drivers/irqchip/irq-renesas-rzg2l.c
+> > > index 33a22bafedcd..78a9e90512a6 100644
+> > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> > > @@ -144,6 +144,12 @@ static void rzg2l_irqc_irq_enable(struct irq_data
+> > *d)
+> > >  		reg = readl_relaxed(priv->base + TSSR(tssr_index));
+> > >  		reg |= (TIEN | tint) << TSSEL_SHIFT(tssr_offset);
+> > >  		writel_relaxed(reg, priv->base + TSSR(tssr_index));
+> > > +		/*
+> > > +		 * In case of edge trigger detection, enabling the TINT source
+> > > +		 * cause a phantum interrupt that leads to irq storm. So clear
+> > > +		 * the phantum interrupt.
+> > > +		 */
+> > > +		rzg2l_tint_eoi(d);
+> > 
+> > This looks incredibly unsafe. disable_irq()+enable_irq() with an interrupt
+> > being made pending in the middle, and you've lost that interrupt.
+> 
+> In this driver that will never happen as it clears the TINT source
+> during disable(), so there won't be any TINT source for interrupt
+> detection after disable().
 
-I'll leave that to you. All depends what combinations you want to
-validate. I just don't want overlays in the kernel that don't have a
-base in the kernel.
+So you mean that you *already* lose interrupts across a disable
+followed by an enable? I'm slightly puzzled...
 
-> Or, if you intend none of the composite DTBs to be consumed as-is, but
-> only intend them to be created for validation, perhaps the additional
-> rules should be grouped together at the bottom of the Makefile?
+	M.
 
-Folks may want the composite DTBs if their bootloader can't apply them
-or they don't want to mess with it in the bootloader.
-
-> > --- a/arch/arm64/boot/dts/renesas/Makefile
-> > +++ b/arch/arm64/boot/dts/renesas/Makefile
-> > @@ -64,6 +65,8 @@ dtb-$(CONFIG_ARCH_R8A779F0) +=3D r8a779f0-spider.dtb
-> >
-> >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk.dtb
-> >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.=
-dtbo
->
-> Do you still need the individual *.dtbo rules? Perhaps you are
-> afraid that make will auto-delete them as they are only used as
-> intermediaries?
-
-Yes you need them if you want to install the .dtbo's. I'm not sure
-offhand if it matters for cleaning.
-
-Rob
+-- 
+Without deviation from the norm, progress is not possible.
