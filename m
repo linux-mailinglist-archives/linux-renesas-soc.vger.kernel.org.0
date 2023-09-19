@@ -2,62 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A877A5BE5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 10:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4719E7A5C98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 10:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbjISIE6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Sep 2023 04:04:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36264 "EHLO
+        id S230348AbjISIdS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Sep 2023 04:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbjISIE5 (ORCPT
+        with ESMTP id S231133AbjISIdR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Sep 2023 04:04:57 -0400
-Received: from mail.arnisdale.pl (mail.arnisdale.pl [151.80.133.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2087100
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Sep 2023 01:04:52 -0700 (PDT)
-Received: by mail.arnisdale.pl (Postfix, from userid 1002)
-        id 71814269EE; Tue, 19 Sep 2023 08:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=arnisdale.pl; s=mail;
-        t=1695110546; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
-        h=Date:From:To:Subject:From;
-        b=QhjgccHYBVKqaQsmjiCJseVxE79pfKA/PrsbNynCDjkUwkKkcI0iSf5XKuiwx4kgE
-         OsevHq06NytwXtKxgjH42P4ycaj0LZfOTGq1S8r62/eWPEIg8OPhzT52kMVTkUjXQG
-         TXdoKbSBs7wkEe85zi+Tic/G4zINXx+WiIt8KBfPeO0RggjC1McPkOjRaOnqfhDDbf
-         g5bGdemRp8+NRZztPrPFILdZwrWkm1AzwwohVqhnXPimeEK7UeN/Sa8YZS/wM1jpak
-         RWUKj27Hc+OSo6U+myH4ElrmkNccbFo5wMnLUQKF9pkRxKS2CMGo/U06GIVPwbhZvN
-         brz18fcMyo3IA==
-Received: by mail.arnisdale.pl for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Sep 2023 08:00:47 GMT
-Message-ID: <20230919064502-0.1.70.1y3zb.0.aev835y2qa@arnisdale.pl>
-Date:   Tue, 19 Sep 2023 08:00:47 GMT
-From:   "Maciej Telka" <maciej.telka@arnisdale.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
-X-Mailer: mail.arnisdale.pl
+        Tue, 19 Sep 2023 04:33:17 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE67E115
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Sep 2023 01:33:11 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:9622:9b2f:73fd:43ad])
+        by andre.telenet-ops.be with bizsmtp
+        id nkZ72A00P4u9dj801kZ89s; Tue, 19 Sep 2023 10:33:08 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qiWAN-003zBS-SU;
+        Tue, 19 Sep 2023 10:33:07 +0200
+Date:   Tue, 19 Sep 2023 10:33:07 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+cc:     linux-renesas-soc@vger.kernel.org,
+        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] i2c: rcar: calculate divider instead of brute-forcing
+ it
+In-Reply-To: <20230906200024.5305-4-wsa+renesas@sang-engineering.com>
+Message-ID: <8486e352-cbb1-e84a-f87-0adba97df4@linux-m68k.org>
+References: <20230906200024.5305-1-wsa+renesas@sang-engineering.com> <20230906200024.5305-4-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Wed, 6 Sep 2023, Wolfram Sang wrote:
+> Instead of trying all values, we can actually compute it as the comment
+> suggests. It is unclear what the comment means with "involved", it works
+> nicely.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Czy jest mo=C5=BCliwo=C5=9B=C4=87 nawi=C4=85zania wsp=C3=B3=C5=82pracy z =
-Pa=C5=84stwem?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Z ch=C4=99ci=C4=85 porozmawiam z osob=C4=85 zajmuj=C4=85c=C4=85 si=C4=99 =
-dzia=C5=82aniami zwi=C4=85zanymi ze sprzeda=C5=BC=C4=85.
+Gr{oetje,eeting}s,
 
-Pomagamy skutecznie pozyskiwa=C4=87 nowych klient=C3=B3w.
+ 						Geert
 
-Zapraszam do kontaktu.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-Pozdrawiam serdecznie
-Maciej Telka
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
