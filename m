@@ -2,48 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6AB37A67DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 17:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 589F97A67FC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 17:24:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbjISPUE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Sep 2023 11:20:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42442 "EHLO
+        id S233121AbjISPYZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Sep 2023 11:24:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233098AbjISPUB (ORCPT
+        with ESMTP id S232823AbjISPYZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:20:01 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAD73119
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Sep 2023 08:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=ry/WkIH0qmj/FxtDfhhZJ0it4F31Eu1u2a7JtjG7ygU=; b=RPJcT0
-        AGVL1Z0m143GyGUp/ROqbVSr4t1BGXQJSvJ5iB7mkb5FSQXd8eks1lebovPRK5Cs
-        phz03YJVCHOHaOoC23hRhyB3bXcG6fiLKDBlZu6PozxxCmHiTge3xgyfVFyBrul0
-        0i5CyjlXk8rIFxXa2iLeLgbKa5v5h/BmSIB8rNwY+YQQ755IwRrPMIBHEk5rC/p9
-        TtJXhAsiLQScE02xhpBSBXT6nWS7SLboHYMpbWUgS+d0jBHRRZfZoINJGzD0pacF
-        9EQ0onjRqmOSiT+4B3x2ZmVhtKwBMyYV0tzns2jLCQJSo5mPmUvGg9Th5dh4VHxf
-        9y3sgTo08S7FfQ4Q==
-Received: (qmail 255843 invoked from network); 19 Sep 2023 17:19:52 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Sep 2023 17:19:52 +0200
-X-UD-Smtp-Session: l3s3148p1@Y8FayrcFZzoucrQg
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] i2c: rcar: improve accuracy for R-Car Gen3+
-Date:   Tue, 19 Sep 2023 17:19:47 +0200
-Message-Id: <20230919151948.21564-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230919151948.21564-1-wsa+renesas@sang-engineering.com>
-References: <20230919151948.21564-1-wsa+renesas@sang-engineering.com>
+        Tue, 19 Sep 2023 11:24:25 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1AEE60;
+        Tue, 19 Sep 2023 08:24:17 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7479B53;
+        Tue, 19 Sep 2023 17:22:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1695136959;
+        bh=9vIyKWF61Oki0ViP0MM9OtlYNdPRel3PPjwYgBK9PgM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fxBxJ7GxeYlxsv1O+e8OcB0xbaq3uqYvHMy6CJ+TAxNH9W/dGWlrG+m/XoCY3m6z6
+         QH/kgnB92SDfVDlD79tXdPCTTTNCgerQ8jVda95uBOVKtQVkPsKmtQuPAwhTeAbQXP
+         BBt/QdZG/1mxqJrUUV1gCD1fW4Gj21NPLG2qfhvI=
+Date:   Tue, 19 Sep 2023 18:24:28 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT
+ support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+Message-ID: <20230919152428.GB18426@pendragon.ideasonboard.com>
+References: <cover.1694767208.git.geert+renesas@glider.be>
+ <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,228 +65,124 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With some new registers, SCL can be calculated to be closer to the
-desired rate. Apply the new formula for R-Car Gen3 device types.
+On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
+> Hi David, Daniel,
+> 
+> The following changes since commit 0663e1da5ba8e6459e3555ac12c62741668c0d30:
+> 
+>   drm/dp_mst: Tune down error message during payload addition
+> (2023-09-18 16:38:21 +0300)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> tags/shmob-drm-atomic-dt-tag1
+> 
+> for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87b7:
+> 
+>   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
+> 
+> ----------------------------------------------------------------
+> drm: renesas: shmobile: Atomic conversion + DT support
+> 
+> Currently, there are two drivers for the LCD controller on Renesas
+> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+>   1. sh_mobile_lcdcfb, using the fbdev framework,
+>   2. shmob_drm, using the DRM framework.
+> However, only the former driver is used, as all platform support
+> integrates the former.  None of these drivers support DT-based systems.
+> 
+> Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+> support, complemented by the customary set of fixes and improvements.
+> 
+> Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+> 
+> This PR is based on today's drm-misc/for-linux-next, to avoid a
+> conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
+> platform remove callback returning void") in drm-misc/for-linux-next
+> .
+> Thanks for pulling!
+> ----------------------------------------------------------------
+> Geert Uytterhoeven (36):
+>       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+I'm technically listed as the maintainer for this driver until Geert
+takes over, so for this pull request,
 
-Changes since v1:
-* fixed two whitespace issues
-* use dedicated variables for scld and schd
-* explicitly say "2 * smd" in the comment explaining the new formula
-* use correct division 'clkp/SCL' in the same comment
-* updated debug printout to use the new variables
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-For all of these, thanks Geert!
+And after that, shmobile won't need my ack to merge further changes :-)
 
- drivers/i2c/busses/i2c-rcar.c | 128 +++++++++++++++++++++++-----------
- 1 file changed, 89 insertions(+), 39 deletions(-)
+This is very nice work Geert. I'm looking forward to dropping the
+sh_mobile_lcdcfb driver.
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index bb4fc66309c2..b6b610011e84 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -41,6 +41,10 @@
- #define ICSAR	0x1C	/* slave address */
- #define ICMAR	0x20	/* master address */
- #define ICRXTX	0x24	/* data port */
-+#define ICCCR2	0x28	/* Clock control 2 */
-+#define ICMPR	0x2C	/* SCL mask control */
-+#define ICHPR	0x30	/* SCL HIGH control */
-+#define ICLPR	0x34	/* SCL LOW control */
- #define ICFBSCR	0x38	/* first bit setup cycle (Gen3) */
- #define ICDMAER	0x3c	/* DMA enable (Gen3) */
- 
-@@ -84,11 +88,25 @@
- #define RMDMAE	BIT(1)	/* DMA Master Received Enable */
- #define TMDMAE	BIT(0)	/* DMA Master Transmitted Enable */
- 
-+/* ICCCR2 */
-+#define CDFD	BIT(2)	/* CDF Disable */
-+#define HLSE	BIT(1)	/* HIGH/LOW Separate Control Enable */
-+#define SME	BIT(0)	/* SCL Mask Enable */
-+
- /* ICFBSCR */
- #define TCYC17	0x0f		/* 17*Tcyc delay 1st bit between SDA and SCL */
- 
- #define RCAR_MIN_DMA_LEN	8
- 
-+/* SCL low/high ratio 5:4 to meet all I2C timing specs (incl safety margin) */
-+#define RCAR_SCLD_RATIO		5
-+#define RCAR_SCHD_RATIO		4
-+/*
-+ * SMD should be smaller than SCLD/SCHD and is always around 20 in the docs.
-+ * Thus, we simply use 20 which works for low and high speeds.
-+ */
-+#define RCAR_DEFAULT_SMD	20
-+
- #define RCAR_BUS_PHASE_START	(MDBS | MIE | ESG)
- #define RCAR_BUS_PHASE_DATA	(MDBS | MIE)
- #define RCAR_BUS_PHASE_STOP	(MDBS | MIE | FSB)
-@@ -128,6 +146,8 @@ struct rcar_i2c_priv {
- 
- 	int pos;
- 	u32 icccr;
-+	u16 scld;
-+	u16 schd;
- 	u8 recovery_icmcr;	/* protected by adapter lock */
- 	enum rcar_i2c_type devtype;
- 	struct i2c_client *slave;
-@@ -216,11 +236,16 @@ static void rcar_i2c_init(struct rcar_i2c_priv *priv)
- 	rcar_i2c_write(priv, ICMCR, MDBS);
- 	rcar_i2c_write(priv, ICMSR, 0);
- 	/* start clock */
--	rcar_i2c_write(priv, ICCCR, priv->icccr);
--
--	if (priv->devtype == I2C_RCAR_GEN3)
-+	if (priv->devtype < I2C_RCAR_GEN3) {
-+		rcar_i2c_write(priv, ICCCR, priv->icccr);
-+	} else {
-+		rcar_i2c_write(priv, ICCCR2, CDFD | HLSE | SME);
-+		rcar_i2c_write(priv, ICCCR, priv->icccr);
-+		rcar_i2c_write(priv, ICMPR, RCAR_DEFAULT_SMD);
-+		rcar_i2c_write(priv, ICHPR, priv->schd);
-+		rcar_i2c_write(priv, ICLPR, priv->scld);
- 		rcar_i2c_write(priv, ICFBSCR, TCYC17);
--
-+	}
- }
- 
- static int rcar_i2c_bus_barrier(struct rcar_i2c_priv *priv)
-@@ -241,7 +266,7 @@ static int rcar_i2c_bus_barrier(struct rcar_i2c_priv *priv)
- 
- static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- {
--	u32 scgd, cdf, round, ick, sum, scl, cdf_width;
-+	u32 cdf, round, ick, sum, scl, cdf_width;
- 	unsigned long rate;
- 	struct device *dev = rcar_i2c_priv_to_dev(priv);
- 	struct i2c_timings t = {
-@@ -254,27 +279,17 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 	/* Fall back to previously used values if not supplied */
- 	i2c_parse_fw_timings(dev, &t, false);
- 
--	switch (priv->devtype) {
--	case I2C_RCAR_GEN1:
--		cdf_width = 2;
--		break;
--	case I2C_RCAR_GEN2:
--	case I2C_RCAR_GEN3:
--		cdf_width = 3;
--		break;
--	default:
--		dev_err(dev, "device type error\n");
--		return -EIO;
--	}
--
- 	/*
- 	 * calculate SCL clock
- 	 * see
--	 *	ICCCR
-+	 *	ICCCR (and ICCCR2 for Gen3+)
- 	 *
- 	 * ick	= clkp / (1 + CDF)
- 	 * SCL	= ick / (20 + SCGD * 8 + F[(ticf + tr + intd) * ick])
- 	 *
-+	 * for Gen3+:
-+	 * SCL	= clkp / (8 + SMD * 2 + SCLD + SCHD +F[(ticf + tr + intd) * clkp])
-+	 *
- 	 * ick  : I2C internal clock < 20 MHz
- 	 * ticf : I2C SCL falling time
- 	 * tr   : I2C SCL rising  time
-@@ -284,11 +299,12 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 	 */
- 	rate = clk_get_rate(priv->clk);
- 	cdf = rate / 20000000;
--	if (cdf >= 1U << cdf_width) {
--		dev_err(dev, "Input clock %lu too high\n", rate);
--		return -EIO;
--	}
--	ick = rate / (cdf + 1);
-+	cdf_width = (priv->devtype == I2C_RCAR_GEN1) ? 2 : 3;
-+	if (cdf >= 1U << cdf_width)
-+		goto err_no_val;
-+
-+	/* On Gen3+, we use cdf only for the filters, not as a SCL divider */
-+	ick = rate / (priv->devtype < I2C_RCAR_GEN3 ? (cdf + 1) : 1);
- 
- 	/*
- 	 * It is impossible to calculate a large scale number on u32. Separate it.
-@@ -301,24 +317,58 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
- 	round = DIV_ROUND_CLOSEST(ick, 1000000);
- 	round = DIV_ROUND_CLOSEST(round * sum, 1000);
- 
--	/*
--	 * SCL	= ick / (20 + 8 * SCGD + F[(ticf + tr + intd) * ick])
--	 * 20 + 8 * SCGD + F[...] = ick / SCL
--	 * SCGD = ((ick / SCL) - 20 - F[...]) / 8
--	 * Result (= SCL) should be less than bus_speed for hardware safety
--	 */
--	scgd = DIV_ROUND_UP(ick, t.bus_freq_hz ?: 1);
--	scgd = DIV_ROUND_UP(scgd - 20 - round, 8);
--	scl = ick / (20 + 8 * scgd + round);
-+	if (priv->devtype < I2C_RCAR_GEN3) {
-+		u32 scgd;
-+		/*
-+		 * SCL	= ick / (20 + 8 * SCGD + F[(ticf + tr + intd) * ick])
-+		 * 20 + 8 * SCGD + F[...] = ick / SCL
-+		 * SCGD = ((ick / SCL) - 20 - F[...]) / 8
-+		 * Result (= SCL) should be less than bus_speed for hardware safety
-+		 */
-+		scgd = DIV_ROUND_UP(ick, t.bus_freq_hz ?: 1);
-+		scgd = DIV_ROUND_UP(scgd - 20 - round, 8);
-+		scl = ick / (20 + 8 * scgd + round);
- 
--	if (scgd > 0x3f)
--		goto err_no_val;
-+		if (scgd > 0x3f)
-+			goto err_no_val;
- 
--	dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u, SCGD: %u\n",
--		scl, t.bus_freq_hz, rate, round, cdf, scgd);
-+		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u, SCGD: %u\n",
-+			scl, t.bus_freq_hz, rate, round, cdf, scgd);
- 
--	/* keep icccr value */
--	priv->icccr = scgd << cdf_width | cdf;
-+		priv->icccr = scgd << cdf_width | cdf;
-+	} else {
-+		u32 x, sum_ratio = RCAR_SCHD_RATIO + RCAR_SCLD_RATIO;
-+		/*
-+		 * SCLD/SCHD ratio and SMD default value are explained above
-+		 * where they are defined. With these definitions, we can compute
-+		 * x as a base value for the SCLD/SCHD ratio:
-+		 *
-+		 * SCL = clkp / (8 + 2 * SMD + SCLD + SCHD + F[(ticf + tr + intd) * clkp])
-+		 * SCL = clkp / (8 + 2 * RCAR_DEFAULT_SMD + RCAR_SCLD_RATIO * x
-+		 *		 + RCAR_SCHD_RATIO * x + F[...])
-+		 *
-+		 * with: sum_ratio = RCAR_SCLD_RATIO + RCAR_SCHD_RATIO
-+		 * and:  smd = RCAR_DEFAULT_SMD
-+		 *
-+		 * SCL = clkp / (8 + 2 * smd + sum_ratio * x + F[...])
-+		 * 8 + 2 * smd + sum_ratio * x + F[...] = clkp / SCL
-+		 * x = ((clkp / SCL) - 8 - 2 * smd - F[...]) / sum_ratio
-+		 */
-+		x = DIV_ROUND_UP(rate, t.bus_freq_hz ?: 1);
-+		x = DIV_ROUND_UP(x - 8 - 2 * RCAR_DEFAULT_SMD - round, sum_ratio);
-+		scl = rate / (8 + 2 * RCAR_DEFAULT_SMD + sum_ratio * x + round);
-+
-+		/* Bail out if values don't fit into 16 bit or SMD became too large */
-+		if (x * RCAR_SCLD_RATIO > 0xffff || RCAR_DEFAULT_SMD > x * RCAR_SCHD_RATIO)
-+			goto err_no_val;
-+
-+		priv->icccr = cdf;
-+		priv->scld = RCAR_SCLD_RATIO * x;
-+		priv->schd = RCAR_SCHD_RATIO * x;
-+
-+		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SCLD %u SCHD %u\n",
-+			scl, t.bus_freq_hz, rate, round, cdf, priv->scld, priv->schd);
-+	}
- 
- 	return 0;
- 
+>       dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+>       media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+>       drm: renesas: shmobile: Fix overlay plane disable
+>       drm: renesas: shmobile: Fix ARGB32 overlay format typo
+>       drm: renesas: shmobile: Correct encoder/connector types
+>       drm: renesas: shmobile: Add support for Runtime PM
+>       drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+>       drm: renesas: shmobile: Use %p4cc to print fourcc code
+>       drm: renesas: shmobile: Add missing YCbCr formats
+>       drm: renesas: shmobile: Improve shmob_drm_format_info table
+>       drm: renesas: shmobile: Improve error handling
+>       drm: renesas: shmobile: Convert to use devm_request_irq()
+>       drm: renesas: shmobile: Remove custom plane destroy callback
+>       drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+>       drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+>       drm: renesas: shmobile: Convert container helpers to static inline functions
+>       drm: renesas: shmobile: Replace .dev_private with container_of()
+>       drm: renesas: shmobile: Use media bus formats in platform data
+>       drm: renesas: shmobile: Move interface handling to connector setup
+>       drm: renesas: shmobile: Unify plane allocation
+>       drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+>       drm: renesas: shmobile: Rename shmob_drm_connector.connector
+>       drm: renesas: shmobile: Rename shmob_drm_plane.plane
+>       drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+>       drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+>       drm: renesas: shmobile: Wait for page flip when turning CRTC off
+>       drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+>       drm: renesas: shmobile: Shutdown the display on remove
+>       drm: renesas: shmobile: Cleanup encoder
+>       drm: renesas: shmobile: Atomic conversion part 1
+>       drm: renesas: shmobile: Atomic conversion part 2
+>       drm: renesas: shmobile: Use suspend/resume helpers
+>       drm: renesas: shmobile: Remove internal CRTC state tracking
+>       drm: renesas: shmobile: Atomic conversion part 3
+>       drm: renesas: shmobile: Add DT support
+> 
+> Laurent Pinchart (5):
+>       drm: renesas: shmobile: Remove backlight support
+>       drm: renesas: shmobile: Don't set display info width and height twice
+>       drm: renesas: shmobile: Rename input clocks
+>       drm: renesas: shmobile: Remove support for SYS panels
+>       drm: renesas: shmobile: Use struct videomode in platform data
+> 
+>  .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
+>  .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
+>  MAINTAINERS                                        |  13 +-
+>  drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
+>  drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
+>  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
+>  include/linux/platform_data/shmob_drm.h            |  57 +-
+>  include/uapi/linux/media-bus-format.h              |   3 +-
+>  17 files changed, 860 insertions(+), 813 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+>  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+>  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
