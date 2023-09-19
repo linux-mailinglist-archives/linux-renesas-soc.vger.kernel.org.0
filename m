@@ -2,150 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB7297A6821
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 17:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B9ED7A6828
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Sep 2023 17:33:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231697AbjISPbs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Sep 2023 11:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
+        id S232469AbjISPdn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Sep 2023 11:33:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231226AbjISPbr (ORCPT
+        with ESMTP id S231226AbjISPdm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:31:47 -0400
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB299C;
-        Tue, 19 Sep 2023 08:31:40 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59c0b9ad491so42293367b3.1;
-        Tue, 19 Sep 2023 08:31:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695137499; x=1695742299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rffCigIkI5AiVQLkPT4sQ4Al9mwiZE2bdJGvxnik3DE=;
-        b=uJQg19mmFgG8xIFA3eBZCyGxS+4xGv1taqclMIqmGfHlavhh2qbZmvdDiA1wxuXNQL
-         cOQRourMAI2dNPfS7oISnqs0X4kDokVjiWGwRGFBYtLwt0s3P6E10R1NDFOytuIaAWjo
-         XkUq3HGOC1A+gu8hnNu/1Q2qOSazD6c6ddoXFJTbbR3XpjzvWf7ewkGZfhlk2qU/gllR
-         tU7WX3uqG6CLx+HGgqeRLOWVv6Y99Ocxqk7pK10sWsM4DoBVG9ZJdbHnDBY4Jx2xp75j
-         Q+8EmGjwE+JR54qYjp8wmIKQ3UakVVm21X4oBr6cyMcpEMttEh963/Xwt8tBN0nHupqN
-         TV+g==
-X-Gm-Message-State: AOJu0YzSncL6WJxoT41eOF6XjY/27Ak7UaZoCwTpnEAxgPLt+QCM5H66
-        aPvMpSr0iLSgIGXgMUnQb/gTBXhSoTIqOw==
-X-Google-Smtp-Source: AGHT+IExazNjtvq72TFwZMN20Dfxs0j7rmTW+kjpJKfb8x6HLSDA79YqqCaofWvEqCNOHlRY0QQLPQ==
-X-Received: by 2002:a0d:ef84:0:b0:57a:75b8:b790 with SMTP id y126-20020a0def84000000b0057a75b8b790mr13355836ywe.29.1695137499590;
-        Tue, 19 Sep 2023 08:31:39 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id m131-20020a817189000000b00589dbcf16cbsm3261505ywc.35.2023.09.19.08.31.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Sep 2023 08:31:39 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-59bbdb435bfso57631357b3.3;
-        Tue, 19 Sep 2023 08:31:39 -0700 (PDT)
-X-Received: by 2002:a0d:dd13:0:b0:595:e1b:b978 with SMTP id
- g19-20020a0ddd13000000b005950e1bb978mr13349905ywe.21.1695137499219; Tue, 19
- Sep 2023 08:31:39 -0700 (PDT)
+        Tue, 19 Sep 2023 11:33:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD0591;
+        Tue, 19 Sep 2023 08:33:37 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEB6C433C8;
+        Tue, 19 Sep 2023 15:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695137617;
+        bh=yOR7LqcC6UnVhoCsLDoSMz+eMVTQCK/pdNaacI/x5Bo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZAIUBNC/0qwXAq6gm6nKiIr3sLLP03cF8m49gRipwAlqyc3n2vpJ8GuW969o3W9YH
+         /yGlMc0NF46oZejYW5fztUuvKUhX90Mod5vTRGIAcEYxpjQ+O04Aojzx2S2s7GLrga
+         +pfqh4jMLapazvEqviIzEXhCQFMNLJkmFt6DdXxJV2waXIXL171197UXR2VdTEmTgq
+         QE3l64QSGv/LvihIGFWEs7QYtzxXrInypDUgESDo9gH05jFUSY4FfPpgIgmMBhx7tt
+         eTKTScynJZ3in0zD/9ynzm3IBLknxAhSo83FOTySFP+VchPr3zGfmKyhXDZPb0lHJi
+         Eaj+0VfHzcYNQ==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50336768615so885797e87.0;
+        Tue, 19 Sep 2023 08:33:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzpHDa+0TU8wcvoMcW/M8DziGXQvuZdeXfY4zOJPygMOBeRFcAI
+        uqwZCDZuGfcIvuDG2hS/sD6AuFQuZ6877PwFbg==
+X-Google-Smtp-Source: AGHT+IG4NemizbroTHabZqJmVRYbfzQj/Z71eTpMw47wZmTM8LxdOwDVEuRVse/8BE4YHVprFzwItJWQTZKQPAmGY7o=
+X-Received: by 2002:a05:6512:10d1:b0:4ff:9a75:211e with SMTP id
+ k17-20020a05651210d100b004ff9a75211emr29911lfg.42.1695137615334; Tue, 19 Sep
+ 2023 08:33:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230919151948.21564-1-wsa+renesas@sang-engineering.com> <20230919151948.21564-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230919151948.21564-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Sep 2023 17:31:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVKfwGotCoxwiTku7GkjY=NajPtYdFhJNKqE2KW_7J-Xg@mail.gmail.com>
-Message-ID: <CAMuHMdVKfwGotCoxwiTku7GkjY=NajPtYdFhJNKqE2KW_7J-Xg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] i2c: rcar: reset controller is mandatory for Gen3+
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230911214623.2201324-1-robh@kernel.org> <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXAW6MNEdo+vuTPkpGPXa0ebfG3Ec_=i0UhEtt6YfSQeQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 19 Sep 2023 10:33:22 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+kj8Sui1eQJNdqm34ENQoPCk5Q1NDYg2gag9akBoLmDw@mail.gmail.com>
+Message-ID: <CAL_Jsq+kj8Sui1eQJNdqm34ENQoPCk5Q1NDYg2gag9akBoLmDw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Apply overlays to base dtbs
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Tue, Sep 19, 2023 at 5:23 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Initially, we only needed a reset controller to make sure RXDMA works at
-> least once per transfer. Meanwhile, documentation has been updated. It
-> now says that a reset has to be performed prior every transaction, even
-> if it is non-DMA. So, make the reset controller a requirement instead of
-> being optional. And bail out if resetting fails.
+On Mon, Sep 18, 2023 at 7:08=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+> Hi Rob,
 >
-> Change since v1:
-> * bail out when resetting fails (Thanks, Geert!)
-
-Thanks for the update!
-
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-> @@ -838,12 +838,10 @@ static int rcar_i2c_master_xfer(struct i2c_adapter *adap,
+> On Mon, Sep 11, 2023 at 11:47=E2=80=AFPM Rob Herring <robh@kernel.org> wr=
+ote:
+> > DT overlays in tree need to be applied to a base DTB to validate they
+> > apply, to run schema checks on them, and to catch any errors at compile
+> > time.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
 >
->         /* Gen3 needs a reset before allowing RXDMA once */
->         if (priv->devtype == I2C_RCAR_GEN3) {
-> -               priv->flags |= ID_P_NO_RXDMA;
-> -               if (!IS_ERR(priv->rstc)) {
-> -                       ret = rcar_i2c_do_reset(priv);
-> -                       if (ret == 0)
-> -                               priv->flags &= ~ID_P_NO_RXDMA;
-> -               }
-> +               priv->flags &= ~ID_P_NO_RXDMA;
-> +               ret = rcar_i2c_do_reset(priv);
-> +               if (ret)
-> +                       return ret;
-
-goto out
-
->         }
+> Thanks for your patch!
 >
->         rcar_i2c_init(priv);
-> @@ -1096,11 +1094,13 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+> > Looks like some of these apply to multiple base DTs. I've only added th=
+em
+> > to 1 base.
 >
->         if (priv->devtype == I2C_RCAR_GEN3) {
->                 priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> -               if (!IS_ERR(priv->rstc)) {
-> -                       ret = reset_control_status(priv->rstc);
-> -                       if (ret < 0)
-> -                               priv->rstc = ERR_PTR(-ENOTSUPP);
-> -               }
-> +               if (IS_ERR(priv->rstc))
-> +                       return dev_err_probe(&pdev->dev, PTR_ERR(priv->rstc),
-> +                                            "couldn't get reset");
-
-pm_runtime_put(dev);
-goto out_pm_disable;
-
-Sorry for not noticing before.
-(I'm sooo happy you didn't retain my Rb-tag ;-)
-
-> +
-> +               ret = reset_control_status(priv->rstc);
-> +               if (ret < 0)
-> +                       return ret;
-
-Likewise
-
->         }
+> Indeed:
+>   - draak-ebisu-panel-aa104xd12.dtbo applies to r8a77990-ebisu.dtb, too,
+>   - salvator-panel-aa104xd12.dtbo applies to all salvator-x(s) variants.
 >
->         /* Stay always active when multi-master to keep arbitration working */
+> So should they be added to all bases they apply to?
 
-Gr{oetje,eeting}s,
+I'll leave that to you. All depends what combinations you want to
+validate. I just don't want overlays in the kernel that don't have a
+base in the kernel.
 
-                        Geert
+> Or, if you intend none of the composite DTBs to be consumed as-is, but
+> only intend them to be created for validation, perhaps the additional
+> rules should be grouped together at the bottom of the Makefile?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Folks may want the composite DTBs if their bootloader can't apply them
+or they don't want to mess with it in the bootloader.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > --- a/arch/arm64/boot/dts/renesas/Makefile
+> > +++ b/arch/arm64/boot/dts/renesas/Makefile
+> > @@ -64,6 +65,8 @@ dtb-$(CONFIG_ARCH_R8A779F0) +=3D r8a779f0-spider.dtb
+> >
+> >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk.dtb
+> >  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.=
+dtbo
+>
+> Do you still need the individual *.dtbo rules? Perhaps you are
+> afraid that make will auto-delete them as they are only used as
+> intermediaries?
+
+Yes you need them if you want to install the .dtbo's. I'm not sure
+offhand if it matters for cleaning.
+
+Rob
