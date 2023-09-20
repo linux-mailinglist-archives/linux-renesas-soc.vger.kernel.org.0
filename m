@@ -2,211 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04EFD7A77EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 11:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1CAA7A789D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 12:09:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234122AbjITJu7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 05:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
+        id S233786AbjITKJT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 06:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231948AbjITJu7 (ORCPT
+        with ESMTP id S233925AbjITKJS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 05:50:59 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8D59E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 02:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695203453; x=1726739453;
-  h=date:from:to:cc:subject:message-id;
-  bh=sLTj+bkhIdgZGTfSJ3QLuQdHISEBI1EHYU50TPNO0Qg=;
-  b=a1Qwxjk41K/+lTCrK2G3gca78UE5V8gf7tAfCNeWBeSv/h5LsBCQ2bbs
-   i6PIPuxCeGyfv/+L8MSpRJKQoVZXz1EaczJb8N5of24HNsmABw0aAPjVa
-   RyXf3OreyadxMo+QbKKR/WCw0WKJuRfKPcP5AmI+mG+Cugpdyj8TUhLnd
-   yndm9qY2ayKBLYg4Zm2dp5Kb0kUBgWcjlO8VtaYSRR2HIV+aQIe3ZpeQE
-   6L1Ht99KyPND/6LLfWyz54LIGhyrXJ12uJ4Ca3GTTgVRb23Bj9Vczw7AQ
-   mh76ZyQ68zpkWCG0yKdSHaOKT9OE+9pgg0NzLYtb9QxpXFJro+InoC8Pz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="384024260"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="384024260"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 02:50:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836784663"
-X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="836784663"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Sep 2023 02:50:51 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qitr7-0008be-20;
-        Wed, 20 Sep 2023 09:50:49 +0000
-Date:   Wed, 20 Sep 2023 17:50:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:shmob-drm-atomic-dt] BUILD SUCCESS
- bfea0fa9052aa8d235b24957eb84d9ff20cb87b7
-Message-ID: <202309201723.2B1eamfF-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 20 Sep 2023 06:09:18 -0400
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC316AC
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 03:09:11 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d7ecdb99b7aso6410817276.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 03:09:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695204550; x=1695809350;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RPz3uuka8iyWqx82huzjxihUaV+iOvkBpf3ElW6rQEQ=;
+        b=nTIeAWEbo7HCvVF4OF0xZ7mjqOe5CXJ7jEByEidF4I7A8mPgGclXOS+9kkMSzl+q51
+         Xdpr+oVO/ZBSYO5bCQ+8CQjqNsyAlid0gibQdHhjmLTTY6REsFm0b5FaSaLATdCqgVdB
+         tPbAZPtKCRnPxIRNgo+8yqTv9XJB6ewiUAQkFJv+lLe9xeHsEMrfH2ySpSqRBV/vSVU2
+         4HzW6zGxXVqjr7FtaOAq5R60D+t7DZNiUC1N//hNzjln0gJhxt58Of+n6sa+yKeEd/HM
+         RKttMuiETVLsgzFghRS0pRQYQyFfTww0mzP4NaXPxbKylYf/C6X521/W/i1ATtKrxZe/
+         EUTQ==
+X-Gm-Message-State: AOJu0YzNm0KC3ETkMSH5mrXcxpaITTWBEu6MzwQSDdNzgVzIOuiQLcYI
+        7Wr5GbR05k5iiJNk6EhcHQPn8c1kEEgg9Q==
+X-Google-Smtp-Source: AGHT+IFCqQTcC9jm6bKuZsWnq6gK0sLVK7yEO8yd016bpXbFNZEefNp/3fUShWDqUcxSjZkv/pPKUQ==
+X-Received: by 2002:a25:800b:0:b0:d78:878d:e1e1 with SMTP id m11-20020a25800b000000b00d78878de1e1mr2021865ybk.50.1695204550582;
+        Wed, 20 Sep 2023 03:09:10 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id 126-20020a251184000000b00d7e96c6eaf5sm2004869ybr.46.2023.09.20.03.09.10
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 03:09:10 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d7ecdb99b7aso6410800276.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 03:09:10 -0700 (PDT)
+X-Received: by 2002:a5b:78f:0:b0:d74:62df:e802 with SMTP id
+ b15-20020a5b078f000000b00d7462dfe802mr2074068ybq.0.1695204550185; Wed, 20 Sep
+ 2023 03:09:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <87pm2dyarl.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87pm2dyarl.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Sep 2023 12:08:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWSf1v_qt+O+-AD2d3rB6g7AyjoE0iZwfRYwVvwyK_oTQ@mail.gmail.com>
+Message-ID: <CAMuHMdWSf1v_qt+O+-AD2d3rB6g7AyjoE0iZwfRYwVvwyK_oTQ@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: use multi Component for ULCB/KF
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git shmob-drm-atomic-dt
-branch HEAD: bfea0fa9052aa8d235b24957eb84d9ff20cb87b7  drm: renesas: shmobile: Add DT support
+Hi Morimoto-san,
 
-elapsed time: 1027m
+On Wed, Sep 20, 2023 at 2:00 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
+>         +-- ULCB -------------------+
+>         |+--------+       +--------+|
+>         ||    SSI0| <---> |ak4613  ||
+>         ||    SSI1| <---> |        ||
+>         ||        |       +--------+|
+>         ||        |       +--------+|
+>         ||    SSI2| <---> |HDMI    ||
+>         ||        |       +--------+|
+>         ||    SSI3| <--+            |
+>         ||    SSI4| <-+|            |
+>         |+--------+   ||            |
+>         +-------------||------------+
+>         +-- Kingfisher -------------+
+>         |             ||  +--------+|
+>         |             |+->|pcm3168a||
+>         |             +-->|        ||
+>         |                 +--------+|
+>         +---------------------------+
+>
+> On UCLB/KF, we intuitively think we want to handle these
+> as "2 Sound Cards".
+>
+>         card0,0: 1st sound of ULCB (SSI0 - ak4613)
+>         card0,1: 2nd sound of ULCB (SSI2 - HDMI)
+>         card1,0: 1st sound of KF   (SSI3 - pcm3168a)
+>             ^ ^
+>
+> But, we needed to handle it as "1 big Sound Card",
+> because of ASoC Component vs Card framwork limitation.
+>
+>         card0,0: 1st sound of ULCB/KF (SSI0 - ak4613)
+>         card0,1: 2nd sound of ULCB/KF (SSI2 - HDMI)
+>         card0,2: 3rd sound of ULCB/KF (SSI3 - pcm3168a)
+>             ^ ^
+>
+> Now ASoC support multi Component which allow us to handle "2 Sound Cards"
+> such as "ULCB Sound Card" and "Kingfisher Sound Card".
+>
+> This patch updates all ULCB/KF Audio dtsi.
+> One note is that Sound Card specification method from userland will be
+> changed, especially for Kingfisher Sound.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+> v1 -> v2
+>
+>         - "ulcb" uses "port@0"
+>         - "ulcb" has #address-cells / #size-cells
 
-configs tested: 135
-configs skipped: 2
+Thanks for the update!
+It looks much better now (I hope it still works?)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230920   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                         mv78xx0_defconfig   clang
-arm                   randconfig-001-20230920   gcc  
-arm                         socfpga_defconfig   clang
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230920   gcc  
-i386         buildonly-randconfig-002-20230920   gcc  
-i386         buildonly-randconfig-003-20230920   gcc  
-i386         buildonly-randconfig-004-20230920   gcc  
-i386         buildonly-randconfig-005-20230920   gcc  
-i386         buildonly-randconfig-006-20230920   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-011-20230920   gcc  
-i386                  randconfig-012-20230920   gcc  
-i386                  randconfig-013-20230920   gcc  
-i386                  randconfig-014-20230920   gcc  
-i386                  randconfig-015-20230920   gcc  
-i386                  randconfig-016-20230920   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230920   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          ath79_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                    or1ksim_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                  mpc866_ads_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230920   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230920   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230920   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230920   gcc  
-x86_64       buildonly-randconfig-002-20230920   gcc  
-x86_64       buildonly-randconfig-003-20230920   gcc  
-x86_64       buildonly-randconfig-004-20230920   gcc  
-x86_64       buildonly-randconfig-005-20230920   gcc  
-x86_64       buildonly-randconfig-006-20230920   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230920   gcc  
-x86_64                randconfig-002-20230920   gcc  
-x86_64                randconfig-003-20230920   gcc  
-x86_64                randconfig-004-20230920   gcc  
-x86_64                randconfig-005-20230920   gcc  
-x86_64                randconfig-006-20230920   gcc  
-x86_64                randconfig-011-20230920   gcc  
-x86_64                randconfig-012-20230920   gcc  
-x86_64                randconfig-013-20230920   gcc  
-x86_64                randconfig-014-20230920   gcc  
-x86_64                randconfig-015-20230920   gcc  
-x86_64                randconfig-016-20230920   gcc  
-x86_64                randconfig-071-20230920   gcc  
-x86_64                randconfig-072-20230920   gcc  
-x86_64                randconfig-073-20230920   gcc  
-x86_64                randconfig-074-20230920   gcc  
-x86_64                randconfig-075-20230920   gcc  
-x86_64                randconfig-076-20230920   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
+> +                       ports@1 {
+> +                               reg = <1>;
+> +                               /*
+> +                               * BE
+> +                               *
+> +                               * (Y) PCM3168A-p
+> +                               */
+
+checkpath: WARNING: Block comments should align the * on each line
+
+> +                       be_y:   port { be_y_ep: endpoint { remote-endpoint = <&pcm3168a_y_ep>; }; };
+> +                       };
+>                 };
+>         };
+>  };
+
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
+> @@ -115,7 +118,11 @@ &pcm3168a {
+>  };
+>
+>  &rcar_sound {
+> -       rcar_sound,dai {
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +
+> +       rcar_sound,dai@1 {
+> +               reg = <1>;
+
+Can you please make a similar change for "rcar_sound,dai", i.e. use
+"rcar_sound,dai@0" and add #{address,size}-cells in the ULCB DTS files?
+
+>
+>                 /* dai0-1 are defined in ulcb.dtsi */
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
