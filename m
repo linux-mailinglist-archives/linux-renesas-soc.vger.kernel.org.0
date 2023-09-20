@@ -2,109 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5902A7A7EC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 14:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D2887A7F2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 14:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235693AbjITMUo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 08:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
+        id S235733AbjITMZV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 08:25:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235687AbjITMUo (ORCPT
+        with ESMTP id S235814AbjITMYr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:20:44 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB44C6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 05:20:38 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-59c268676a9so45673997b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 05:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695212437; x=1695817237; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=icfLG5H8eTi62n974zbQOBumyTDPxZ0tIkv/dGGuSnE=;
-        b=NWJetOD6hieXDwyYe4VUv7gKfrLQIL4WXFB+NXT8qAlQZ1WPYI2R2jryP5+jL2XXc9
-         NXubIwF6zGnBxXhtBrM+YDU2/zp2DwhVNH0nn+s3R9yXEAZ9XdNCucvQBklnxTsvvtWi
-         hTiJU4DyaVyXEuBwfDoQsLlcOaC+ZoyZsyPMUSJNMMF+gp7ekwl2zAHvPPKmxSp+LbkB
-         SNI53UWNNMmY9aXg0BLYA+JwEzB9XGqQNIpmtyQyhQI66j59F1J8bRdSU5yqev+BZ2qX
-         B8C3WuDEhyWIzrfmJrMQyyNg3YT7h8ITo4GbetK07nKfSeUgGiKt+aKHouzBqWE9sihx
-         nIJA==
+        Wed, 20 Sep 2023 08:24:47 -0400
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51F4C6;
+        Wed, 20 Sep 2023 05:24:38 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59c2ca01f27so44751237b3.2;
+        Wed, 20 Sep 2023 05:24:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695212437; x=1695817237;
+        d=1e100.net; s=20230601; t=1695212677; x=1695817477;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=icfLG5H8eTi62n974zbQOBumyTDPxZ0tIkv/dGGuSnE=;
-        b=AK5/Tw6ahHmxYGWycLUiBdcWqLtzIFBHK9N/RfH07rUTL+TISyC1tRwFvQ8+0B5Ju2
-         83WW6AZnoQ5OWa1SxmdVVAijrKchXJSEyJ/TxzH3+Ogh1MTQdwHaQlJf1M1RrpWDT202
-         Ufgb9odD382+31h56D42SHEqPoNzsOUy67Hn+f/XwUPt/bHKu/2xDWHQbwv5taBGTMN5
-         ceDX6oFXcWl/izerSEZj+5JHK6zPOoAZOEiBQeNElxX44LDYQxJT8+CjXpNfIJudsNy3
-         ncjDs+nN5q3T4ufDh36LOfpxfuoop8JDQRiQAn3Ppw9lYJNM5HvO9u99TIgbo6BuZMx5
-         ainw==
-X-Gm-Message-State: AOJu0YxnUrUySvc+wY6QTNCtTQ1ZVoUZusC8CZwpJFhguLxkz5O7308X
-        gDhfVVvDnyLIH3kyXTI4nOcnQUQEDLL8NiFEK7KA0A==
-X-Google-Smtp-Source: AGHT+IFyUZxYn0JQYUy1iX3y9vfw4pnRnYeviVC7XxZvc1tNsed4UZQiiuXsKZpeKzd6+jIUMAlPZFXzZTLP7sT1k/A=
-X-Received: by 2002:a81:6dc7:0:b0:577:3eaa:8d97 with SMTP id
- i190-20020a816dc7000000b005773eaa8d97mr2486266ywc.17.1695212437107; Wed, 20
- Sep 2023 05:20:37 -0700 (PDT)
+        bh=+g3YdGtuhgcfLEh9McQsjWveyUWcOT+5Tsw14XdfEpE=;
+        b=PpaKVRy/uyfz+onT4zo00YDd4ffnyYdieb/sx/aC4++Zmxiw6OlgawLG4om6LvrpRp
+         oi5paj48fuUU+57UHc8n2DbB/gJ0qQibYrc2Uknt/t7uIOZRa55o5Oh9OeZ0LnBBFVby
+         4PWrqNrdLk+OZ0s3bzqud//mI0wLGeyaGG8oJFqP7nQvUf441uddFjhNv0q/6U1ezrGV
+         Ez8j76fgtRcGstq4+VvjN3tpzAN47jJfkOu1AcDtIbyXoQSYqoCaPQNiYKkpo3bD6qj2
+         gLj+QLpKxNZUdUsaIlL1N4p2bunrQb0lNw7lQpFNcyx0InYVIHXxKLmx8CTypmobOfYC
+         +stg==
+X-Gm-Message-State: AOJu0YxZLeSj+NTp4Xgq4KrNNxy38kbWH2Cv2eXB1lh+ZSwtivAMGG0t
+        9b7WLtoX3w8d82kXsSlVz1BsPYVwvjUnqA==
+X-Google-Smtp-Source: AGHT+IGERrq+/6AJpzMWcZfkETaQEjmYp7ga4SZjsuytrm3qmpWPZmRO7MBUSPogENQlPl16tHHSYA==
+X-Received: by 2002:a81:6d11:0:b0:59b:ec11:7734 with SMTP id i17-20020a816d11000000b0059bec117734mr2254875ywc.39.1695212677516;
+        Wed, 20 Sep 2023 05:24:37 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id z20-20020a81c214000000b00585e2c112fdsm3715867ywc.111.2023.09.20.05.24.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 05:24:36 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59c0b9ad491so52709937b3.1;
+        Wed, 20 Sep 2023 05:24:36 -0700 (PDT)
+X-Received: by 2002:a81:4f4a:0:b0:576:7dfc:e73e with SMTP id
+ d71-20020a814f4a000000b005767dfce73emr2403444ywb.32.1695212676491; Wed, 20
+ Sep 2023 05:24:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230918123355.262115-1-biju.das.jz@bp.renesas.com> <20230918123355.262115-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230918123355.262115-3-biju.das.jz@bp.renesas.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 20 Sep 2023 14:20:26 +0200
-Message-ID: <CACRpkdYYKAFLvpKH0ih5qZVbv7L3auny5WWx+qKa_HD1o-vsog@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: renesas: rzg2l: Enable noise filter for GPIO
- interrupt input
+References: <20230920115935.144391-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230920115935.144391-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Sep 2023 14:24:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWp_U_k5nSgmNV6whdK=pNr14h2dS=NetJXRgVEDSSK_g@mail.gmail.com>
+Message-ID: <CAMuHMdWp_U_k5nSgmNV6whdK=pNr14h2dS=NetJXRgVEDSSK_g@mail.gmail.com>
+Subject: Re: [PATCH] alarmtimer: Fix rebind failure
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Biju Das <biju.das.au@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        John Stultz <jstultz@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.au@gmail.com>, linux-rtc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 2:34=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
+Hi Biju,
 
-> As per RZ/G2L hardware manual Rev.1.30 section 8.7.3 GPIO Interrupt (TINT=
-)
-> and 41.4.1 Operation for GPIO function, we need to set digital noise
-> filter for GPIO interrupt.
+On Wed, Sep 20, 2023 at 1:59 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The resources allocated in alarmtimer_rtc_add_device() are not freed
+> leading to re-bind failure for the endpoint driver. Fix this issue
+> by adding alarmtimer_rtc_remove_device().
 >
-> This patch enables noise filter for GPIO interrupt in
-> rzg2l_gpio_irq_enable() and disable it in rzg2l_gpio_irq_disable().
->
-> Fixes: db2e5f21a48e ("pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to =
-handle GPIO interrupt")
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Why is this called "digital noise filter" when the rest of the world calls
-it "debounce"? It is a bit confusing to have differing terminology in the
-kernel.
+Thanks for your patch!
 
-(There might be a good reason, such that the noise in question is very
-different from mechanical button bounce noise.)
+Does this need a Fixes tag?
 
-Is this only applicable to interrupt lines or also to GPIO lines in
-general? Because I just want to ascertain that in that case
-the existing binding for @PIN_CONFIG_INPUT_DEBOUNCE
-and the corresponding backend call from gpio_chip() maps
-to the same feature as well.
+> --- a/kernel/time/alarmtimer.c
+> +++ b/kernel/time/alarmtimer.c
+> @@ -61,6 +61,7 @@ static DEFINE_SPINLOCK(freezer_delta_lock);
+>  /* rtc timer and device for setting alarm wakeups at suspend */
+>  static struct rtc_timer                rtctimer;
+>  static struct rtc_device       *rtcdev;
+> +static struct platform_device  *rtc_pdev;
+>  static DEFINE_SPINLOCK(rtcdev_lock);
+>
+>  /**
+> @@ -109,6 +110,7 @@ static int alarmtimer_rtc_add_device(struct device *dev)
+>                 }
+>
+>                 rtcdev = rtc;
+> +               rtc_pdev = pdev;
+>                 /* hold a reference so it doesn't go away */
+>                 get_device(dev);
+>                 pdev = NULL;
+> @@ -123,6 +125,23 @@ static int alarmtimer_rtc_add_device(struct device *dev)
+>         return ret;
+>  }
+>
+> +static void alarmtimer_rtc_remove_device(struct device *dev)
+> +{
+> +       struct rtc_device *rtc = to_rtc_device(dev);
+> +
+> +       if (rtc_pdev) {
 
-It seems hard-coded for some pins in the Renesas driver right
-now but the day you make this configurable from DT please
-call it debounce, if the usecase is similar.
+As the return value of class_interface.add_dev() is never checked
+(alarmtimer_rtc_add_device() returns -EBUSY on adding a second
+alarmtimer), multiple timers may have been added, but only one of them
+will be the real alarmtimer.
+Hence this function should check if rtcdev == rtc before unregistering
+the real alarmtimer.  Of course all of this should be protected by
+rtcdev_lock.
 
-Yours,
-Linus Walleij
+> +               module_put(rtc->owner);
+> +               if (device_may_wakeup(rtc->dev.parent))
+> +                       device_init_wakeup(&rtc_pdev->dev, false);
+> +
+> +               platform_device_unregister(rtc_pdev);
+> +               put_device(dev);
+
+Perhaps use the reverse order of operations as in
+alarmtimer_rtc_add_device()?
+
+> +       }
+> +
+> +       rtcdev = NULL;
+> +       rtc_pdev = NULL;
+> +}
+> +
+>  static inline void alarmtimer_rtc_timer_init(void)
+>  {
+>         rtc_timer_init(&rtctimer, NULL, NULL);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
