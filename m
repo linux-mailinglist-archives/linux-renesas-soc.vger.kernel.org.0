@@ -2,242 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5BA07A709E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 04:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D7F77A7226
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 07:36:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232106AbjITCh6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Sep 2023 22:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59528 "EHLO
+        id S230021AbjITFgm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 01:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbjITCh6 (ORCPT
+        with ESMTP id S229648AbjITFgm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Sep 2023 22:37:58 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2097.outbound.protection.outlook.com [40.107.113.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F474C6;
-        Tue, 19 Sep 2023 19:37:51 -0700 (PDT)
+        Wed, 20 Sep 2023 01:36:42 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2106.outbound.protection.outlook.com [40.107.113.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80EFF90
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Sep 2023 22:36:35 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y+eHDfXgR86DemesGDklE+qlzSWbyNkHNpzM2eH2/rwN7ofSW1QfVe+UKwZWTPOcuWtIe69ky0XPRQt0Jja1Qtmci14BvefWN9hbTjx3ptfG06fMHE/31dd4WW6kEW72i3CNbLu2rq1l9wpv7ayMftt5t4wV/C7wGydkrAMDekbvHRhE15+3nc0sdK0q9PqeGVTn/+LXId/cD7T7jS9/tQnoDBjOK5hAsBIVgmIEnjeC59QL3fp+w/abH4EjTMdzOcGriEyWtrcPMJbWdnQZ/lqB9KFbGqwOnw/PeQNPhUXmuRhscDyk7ZG/e01fAQVnUU3FnkUuzmgr4vHxXmN9rw==
+ b=FaHzZwSiuE52pmuggrRJXPkkC/IE0IPudgVjSwNeYwwaiKZhpJYabil716we7I+dAry3whKy2Fd8Gfl1uXU+ip0hWgErsa5yiAOdhJ43eXagBKemqUxyoALtatEeVcmJ+aUa8th3kikkdlOEW/+d6ac9ODv4ocMF/uUCbkuLzK7wzXvJ0x+fyCZJLFi27j+vXadp+EOlc0sROeWp1/vRKUz2XhwM1+mk56VfKMiyOGFk13/XJICtf0UyX+f0eMMiAZP2tWEeF5kpT1p6V5J7SSbV1/zw/jfPBYhgcowAFhrw672JMYfHwdXHfE/HU07H6JIfHIcPsHUkbuf8O4sDeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WiJq/9UjnJMq6AzPTDbbKtAHKBhWjahCvVqkuWN44ws=;
- b=DxiPsCJ1vL/Q0EeOh5mpdkYMu4i0O3nafxR3Dh2OOUzwid5C3mA4OT7/y7H3U+o5HXzRGfOsvIptfxiXn9ZmBqszb7+uNc5LZLEYMbyYqbva54USEZE2hxdv2q5ouDQcpaSeetVYNdHNuZlgNJhnXo3mrubaf6+WZh5rMpTC4FLiB1Pt2udXZfVvJFQPRMAJA4BwnjpjFylDHaNrNU+/vgW8rok8eHB9Xcwq8FZcv9bp1RdFm8SndBX1JYbL1JChR8NwCf8nC1vI7pX3COhIInOjyFOZOsGBXpz+oXNQToXoZwNbL9hZxYzSZ90p8ZuAuJEhnqIZ6BK0zeovZ5BHXQ==
+ bh=iTNDbNP2GZioHUeXzLIRjP0Sfav5iL1Wed3N27AHygs=;
+ b=Sgib3ezVcCOxNDlW5tlDTzqIVKO/t0cWF6rzYRLNk+UbQaU4NdlZLj8p1xfc8Xo2c5kEA0Ndoyx7GxcRsuxL6hYcb+2hdF4fdcNymKu3MHi++QZ9yqRtktHlfA4ERTb0xEaX1xPaXH9RpNG8Madl41vtzIsooFhEMQXkOgtfRC/VbHAsWOAtdyRpCThvnd4jyMssjFgYj9F7UpAH++BM5JKordsRbdii3A5UPNLrET6ZywjV7kEejpQyXqARbHPDSD6JAtx2m1CRo28ScurCOLYTjXG+crg4VOms2r2KVsT6Lv2/FDiPZ9IYWcLlAuIYx6+TweiMBb987Vwn2vRjVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WiJq/9UjnJMq6AzPTDbbKtAHKBhWjahCvVqkuWN44ws=;
- b=CrICzsrcF7rFJom/Uwhh9SGbFw3T5bstcHZHy6wAwurlglmXp9moR6yukFmrzp4362ASKnOB9Y8J/z0u9kD4GeJKe0XKimp8BaIlgf9MAuN+kYi6feQVOYOWDlC+RtVG3td5/DoH5xCjymfx6BbCmClGFVrOrO7zEK9qqPy+K84=
-Received: from OSYPR01MB5334.jpnprd01.prod.outlook.com (2603:1096:604:8a::15)
- by TYCPR01MB6318.jpnprd01.prod.outlook.com (2603:1096:400:7a::9) with
+ bh=iTNDbNP2GZioHUeXzLIRjP0Sfav5iL1Wed3N27AHygs=;
+ b=THcdIW+kBZbqfN+D+KqORP+s5jB2Zy4KKZpfGhncur+s+T4L6cD/bubWLcnuirHPXEGncTxbpbyweZiQWXwTcuQuerFS3Q5ImzQQwwEZtz6AZ7ogn/OPnJBr5IRZfIPL7ShM+BLva9RsVSdab3waACNWyjqIJMYP+llRGQG1wo8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by OS3PR01MB10340.jpnprd01.prod.outlook.com (2603:1096:604:1f9::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Wed, 20 Sep
- 2023 02:37:47 +0000
-Received: from OSYPR01MB5334.jpnprd01.prod.outlook.com
- ([fe80::fe8:f613:9823:4075]) by OSYPR01MB5334.jpnprd01.prod.outlook.com
- ([fe80::fe8:f613:9823:4075%7]) with mapi id 15.20.6813.018; Wed, 20 Sep 2023
- 02:37:47 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Zheng Wang <zyytlz.wz@163.com>
-CC:     "lee@kernel.org" <lee@kernel.org>,
-        "linyunsheng@huawei.com" <linyunsheng@huawei.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "hackerzheng666@gmail.com" <hackerzheng666@gmail.com>,
-        "1395428693sheep@gmail.com" <1395428693sheep@gmail.com>,
-        "alex000young@gmail.com" <alex000young@gmail.com>
-Subject: RE: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-Thread-Topic: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-Thread-Index: AQHZvqRVuDoCAQ7YqEiPPoP/ALhCca/LYswAgAHmgICAAK9XgIBVS6xQ
-Date:   Wed, 20 Sep 2023 02:37:47 +0000
-Message-ID: <OSYPR01MB53341CFDBB49A3BA41A6752CD8F9A@OSYPR01MB5334.jpnprd01.prod.outlook.com>
-References: <20230725030026.1664873-1-zyytlz.wz@163.com>
- <20230725201952.2f23bb3b@kernel.org>
- <9cfa70cca3cb1dd20bb2cab70a213e5a4dd28f89.camel@redhat.com>
- <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
-In-Reply-To: <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSYPR01MB5334:EE_|TYCPR01MB6318:EE_
-x-ms-office365-filtering-correlation-id: ed1fecbf-129b-4e2a-0e36-08dbb9829377
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hQ/XurwRsyAJ3lxFqEpQqwQPN3kFhvGqLEqXjboJKSpJPBTkHSb+HXo5IEUV5r9o4rcCCji6eoRIRcFiRzB30rx0rcO+OOIq9JEsy6LXp72k6UzqVaifxcFfnb1ayLxhhe4JMTV82yoPRSneUSAp+R2ZHdmSagLHjToXH7P74PxWU31SUb0OsV2L3G+j0li6rJ7yYiCPdS+GbouXrU5WOAD7xBzEKVwt9cIkprvIhp/n0ylq2b8Fb0cFkbHejsJ/0nt9EcxCubhWJZG3eBGeINe0Ykhyc5Fo+1gQUPPbtggDaVLxWgFFDH2M03U95LRcN7na1QNB+QADTyg5GLBOxgrg309Kjskgh/0hIKaWzHI9UTW4NA016wo8jTCg633m531J8ehLhWmVJVnzMPIPoPs9JYkiVR72cMlUpvvyWPCoL9FA9nUYchcWy3XyAX8Mr3K42YvqCLQgecOKxRqu6drMzt9bciLkEZm29WT1/KLM4jE7Sfxg994RqrQysA54ru5Ohj2vd1f9mTsrbKXk+z7EVBIbFYWjylkfsvgQwenyJWhtKdykDrWBK3fv67A0bE75GJ9lXxRxZ9z8+chC+D8DSPt2IkWOwiq79mFHUBY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSYPR01MB5334.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(366004)(39860400002)(396003)(1800799009)(186009)(451199024)(7696005)(53546011)(9686003)(71200400001)(6506007)(478600001)(966005)(4326008)(83380400001)(7416002)(2906002)(8676002)(76116006)(8936002)(66946007)(66556008)(54906003)(64756008)(66446008)(110136005)(5660300002)(316002)(66476007)(41300700001)(52536014)(33656002)(86362001)(55016003)(122000001)(38070700005)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HVJToZybbjqUk3ugTt1QMsW1pNQQx28BQx5xMPmu60ZgjV0n7T1FfYXX7waQ?=
- =?us-ascii?Q?MeQFfb9bckxxl7kOjHgP1EAO5DmJBXYuNfR3TLTxy1Je02czcP2Yzt0LdwAt?=
- =?us-ascii?Q?UcHR5KPoyOLBvmYcnsKy+Zzkxh1Bt/IW36AwJSepvRwdtCOzOtyazYoMnGZ3?=
- =?us-ascii?Q?3yKXatx5pfMbCNaJd0rzTvjcVUAStx0D7dEmItr6+VxNUEOGc5r+0oSe7Dpl?=
- =?us-ascii?Q?40ZVE9MBtaGpba33WbzSNwDxnQXYDclktuDYLs26uyd3JzqmTlpfPBr7FAVG?=
- =?us-ascii?Q?gLnQe2xeEQhULSwnAgCictr28mA9lRh6j/6aRxoDk/0sfu/QldAGk0QoJzbB?=
- =?us-ascii?Q?PcJnz/pflxzgNRIntFgZJ22BDkETP1oRKLo4eoa0XTLBuIQZ/bgERY9tHFnK?=
- =?us-ascii?Q?f2UdytkOHYKDY1d7HRxpVXrCbYA9PBpBRr9IE5zDt1tBXwGjgLm8vU68u33C?=
- =?us-ascii?Q?TS8z8FK4k7ha1Kt3MlwOgj4O1p7aTtf747Md64/dOCJp33QU5Wq1+U944Y32?=
- =?us-ascii?Q?yRN7Y+JDkhhePeruH9qfC67oh/qvfpOoX6v9LanVm7k12tPO3ve67UtPtXqW?=
- =?us-ascii?Q?QRS0xuuPBjolZji7vLIIxc0vKlLXxO3WaXQy9VI+tUs/gssBaD+AWIqXgrV4?=
- =?us-ascii?Q?7xdXU2JjgQchQJZxq2q6MhfA/WatHc0s8hQmy/j7GwyCS/nbdBzptXkjFV5i?=
- =?us-ascii?Q?4sVPY2jROXLgxUQVmJjoesPpauh3L8ob6NtzPdmP+ZitiJ4X4mC2sFM2E6v4?=
- =?us-ascii?Q?98dLvRFPTN/B8yj3XfEZ3aIvlMxYfuURYgGPobnHV5VngtmlpaaaroDPiBZm?=
- =?us-ascii?Q?Vv+doEQq8Kmi4aIt7SYRgxeSPVj5JLfcHybn120lLygG3vY62YEcWHr/xP6z?=
- =?us-ascii?Q?vIIG1SEGAjw+iHGSy/DRBjOdMuBUxSlq2cCrlxjh0YuvBIWhxBD0iYLnRQ02?=
- =?us-ascii?Q?82j2nkOgqvAAGefaUHiAd+ddkTZxW/IK+A65TSa5WoYYNav2ujpUJTbOmkkM?=
- =?us-ascii?Q?8HyuCWlCiRcTuV913OPRg977u7pp4dcqHOTyIfrW1WfFxzHUOo4iUeBp0gjC?=
- =?us-ascii?Q?6y5dDGk/qr7l8FXupqGL1p7TAe4OvbSiuGnal/kiE2uY7Zwk5zhWmEGiBFZH?=
- =?us-ascii?Q?zmVGmfBwhBnRMN0lb+e6LOWYFf4QpIJrxXM/yf3qsadmojLFTTM1n/hPQCpA?=
- =?us-ascii?Q?Lw26wBKPLzjs9JHz5JMr3DzXRRONbOPaqaEzjWR6Zx2YH9QXHOVsiZhx+y6A?=
- =?us-ascii?Q?W6mNQYbKT9wiiZaKt2JVx1NnJHSCBHfsFWxEzH/LsUgzWNC0c27DDjD5+Lyt?=
- =?us-ascii?Q?7uW02pbXAilKsA105UTwR4ygNw2NYTZrdTFYEjYjBMoyPTuE/j4X4yrv+acm?=
- =?us-ascii?Q?AJafz7TsSb5c+J41Tln2YBnEH8NlfeVoG7c3N3z4r2WiaXKaAPHQeknl3Xho?=
- =?us-ascii?Q?UIBbk5Op1N4YYN9tT8l7N3CNmqQTP2RBNqumWrzDLruCLL23usd+XVfWXYl0?=
- =?us-ascii?Q?dhQLEjY/gxfm6uBvo0f1RR5kFv9ZtPn4sX7SmhuXtXY09rR6NRit4WfajM4O?=
- =?us-ascii?Q?xZG9pZVsFVrCidhmrjfXErbMq4DDZiLt/qLHd8cwql227DGEJFpv77Z2L5sG?=
- =?us-ascii?Q?5E/mFU1/C2iiBAWbgjuR1X0P1EUFBNkp7UEmFbn9zSj3nbc2OcvRxECWkO4M?=
- =?us-ascii?Q?kSKJ5Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2023 05:36:33 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d%6]) with mapi id 15.20.6813.018; Wed, 20 Sep 2023
+ 05:36:31 +0000
+Message-ID: <87o7hxxv6o.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r8a779f0: spider: fixup memory address
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Date:   Wed, 20 Sep 2023 05:36:31 +0000
+X-ClientProxiedBy: TYCPR01CA0025.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::13) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|OS3PR01MB10340:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd61b038-3fe9-42a0-6796-08dbb99b8ba2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mVbyPPT0T8RbjUK6WK5THueEmxGDYjOlrKudDVIo2ON68KxZ7CA6HfNR6gPN3CbqBwsnX3PdoP2ErIW/e7L6cUWVEiqSRtnWbA+B7Z6e5bHIq8g7oOS2wAIK0DSZ2E6p3iJ83Oq/U5eDRMeBByKm+Akd8r5j3bQYskl6acGMgoVxM2TspvYarBzz7wVPariygHnD4vEoNkXSPPUjrZwqQHWlWWM88qz9Q3PR9F6FiSVNl3620/CoeFDvVrgVPkFtwLWYEBx34M9Ty9jFFt+IsM8n16mj4NOcRA8QDCrhElNJr70wpZffMOjJusdx2EhGCHWJs4ejwLeQo96nLZmbFa/m2y92RfvXzLzmKJFcxS1ZXyEZt2KBsh8u3mOz4g9GAYgxb7AxMghLfys0PRznBU63KjD7tb8QGJPcDEoYIu69xxAR3/GA8hZzBN4K6sDguqYNeGMM6uIeZaoS5bkfbdh3GYTbAiefHyit5a+nxQLPuU1AFacNw1vP95THFR4EhAcPfYoVB5RfDSkGibS/GjrnMwx4/CfYVJrl0Imppn84jOdwNunihS0iuPETYBRwM670r5oRUUaRWf6KAjoXhrHDrawnJ42GQjLmS1DwIvoKuqGY8Kow60fzD1lLLg51
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39860400002)(366004)(346002)(376002)(1800799009)(186009)(451199024)(478600001)(6486002)(6512007)(6506007)(52116002)(8936002)(8676002)(83380400001)(66946007)(66556008)(66476007)(316002)(5660300002)(2616005)(36756003)(38100700002)(38350700002)(86362001)(4326008)(26005)(4744005)(2906002)(41300700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ndpzMSVUAprNxyNzeJvd35DTxLG6f3U7VRA+09FsT62nJ5YO/nrfVWavTOdf?=
+ =?us-ascii?Q?HlgbualNZUL3tND5ivL50wpc8AxV8rpnKKW+DzxAovU94ha3ZKC/50ARVs3R?=
+ =?us-ascii?Q?o5f0P5dRVFp0+MEGL2eujF39yge2Nunnsrp9qTaZK/6LcZC98JkWX/rblMyr?=
+ =?us-ascii?Q?TVoPBXz9cUZ1JxFyw+3CvDt/zkhy3RVfC94aE4kapmxpCjI9kbzY68RsLC2w?=
+ =?us-ascii?Q?6LB5q/ZIInEezUAJEv9yi63QQNiF0hIFasfZ8tYjZMI18f6mz4xRTTV1kjDs?=
+ =?us-ascii?Q?qUwwG3hEyZIaFMlf8mki8pnfVpDT/72Z0k3eeMc5MWbkKuNCRE2HO1lGN2bF?=
+ =?us-ascii?Q?dxZA58WcZqR4WAZ1qm8j4dBwTcdcAijDjBgcf8eAWKOY/ZSAJ7t2H4C9ABe+?=
+ =?us-ascii?Q?xlBRCinjaledwN48y+Ac+UKECueah8W85xtUYfaCuRhtEQJMfGV/qSE/ii1k?=
+ =?us-ascii?Q?yCmTjOr2gvMPj+FKQAwjb9BArLkOA06tZkpSdPZnAdVvEmOfzrkotsD+Uf6d?=
+ =?us-ascii?Q?MaTsBbJBP7USETWgEwctyDHhWQuBYqi3E61VKGgmTzflJKD1hFCqTsQ/vjOm?=
+ =?us-ascii?Q?3b7FN6VrC2QCmgBXA6p2sSuu9YYQWU7JKQcvZ2kBfhtQsYR9NKz1VRofpMVs?=
+ =?us-ascii?Q?6nJ5koOAKwBxBFuMn2SZFyKrxCHir4zirzZzF3TEfKuo50/gaoqBCVI8kPCr?=
+ =?us-ascii?Q?fHSAOhRwyJr5O5bbGPWDnswHg8rkbSMS1tCXLrmnqDLmJQJoj83vd9V9mXac?=
+ =?us-ascii?Q?LJCzzFJYEF1uR0aieuv5T4OrUglr6vHknxpopaJyY9KLxiH72S6HRZ3VZz/d?=
+ =?us-ascii?Q?8rE2FrHLCuWo7phg0XqaNN81AjitkG7eeTcs1ODsqgANR8EmQaWMYqfPMuDf?=
+ =?us-ascii?Q?Qm880szxp0QYKcaGNGg6KrHV+mhltYVjJ94X17GPPZFhMIbV/J3xkV57cft3?=
+ =?us-ascii?Q?uJylwqd+uVXpVlFcmOxguE1f/jt18crY1Qw0nyffqfVHOEQxi9QF6UyWpCy1?=
+ =?us-ascii?Q?0/f45v2YOZWOEYb5/luljtM7DUq2UD0E4jwgTA9dcEdqdz0lBVeqAju8Of1R?=
+ =?us-ascii?Q?WIJjeptpVeDmdYtOmrKMFv8sL5fCB8g6Zf5BZsux3dXNAJ22+mQHfOkrW/hI?=
+ =?us-ascii?Q?+sPd0aMItBlmyUuAJg9hJKB7T2zgJVmVXz+kNXiCYSr8fvCQFdsdhL8NktqJ?=
+ =?us-ascii?Q?Q9/mrzvq4afSrswWmz1K2ROigalI8k19gOZ3J92CmANkKEJ8bxHmGeCCkdL+?=
+ =?us-ascii?Q?MfMMPoCOhcBV63uTWlX9ZAlofQT9lOUx8gEU5q9+i83kQ39vqGGpSQcse+wA?=
+ =?us-ascii?Q?nskF8P2/kMAwxtoOvqpfPiYL2IbWZGD4tLMJZDsXrySddMdlFERB416/udrV?=
+ =?us-ascii?Q?VIthqnLhoPFS5xJ+yGiCUVf2niyt9V8oQs2/1F8W6jR+f6CSuqux47ag70VO?=
+ =?us-ascii?Q?cxvLavmmqHrSe6cKnSXGx9XDsk400fvPvXpwbMg1HMXEM+wSXy9imzOflsiG?=
+ =?us-ascii?Q?AottIGqqyB+dGI0Hj8+ub/oftjUBBJoRwij9nCdRlLgSOGP5wc/fChoHMgRR?=
+ =?us-ascii?Q?YVw9R2gcktNq3QCg8G/XYYivOsXJQfKaIyURlyij7mkbRFra2rFwT3zCUFAr?=
+ =?us-ascii?Q?qmlrsu2LanZ4nBEAR6v7g6Q=3D?=
 X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd61b038-3fe9-42a0-6796-08dbb99b8ba2
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSYPR01MB5334.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed1fecbf-129b-4e2a-0e36-08dbb9829377
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2023 02:37:47.3920
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 05:36:31.8177
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6JdrYat0TPPfbHcW5jMgs+OBgzMKYjH6vuvOoKLoH7uUYwMoIUoAIY3hq5temnGewdclNC1GikbaObi6+37A3pgg6wv/C1rAhsV9t58aJ3i8b8IAP/imy9sg16lcrO61
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6318
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rhv2ERO+sDW4rqdW+HoNCRoG5ylcLCP1hw55Npi91l0q4YUZhxuEKhbxlSVAPsY5CW9Oz983EiEZI1lAq2lg1JGFv0zz/PAucTgNkbD7bChnU3Q4PeZlRrpnCYonHavZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10340
+X-Spam-Status: No, score=-2.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Sergey!
+It is using 0x80000000 instead of 0x480000000
 
-> From: Sergey Shtylyov, Sent: Friday, July 28, 2023 3:49 AM
->=20
-> Hello!
->=20
-> On 7/27/23 11:21 AM, Paolo Abeni wrote:
-> [...]
-> >>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/e=
-thernet/renesas/ravb_main.c
-> >>> index 4d6b3b7d6abb..ce2da5101e51 100644
-> >>> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> >>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> >>> @@ -2885,6 +2885,9 @@ static int ravb_remove(struct platform_device *=
-pdev)
-> >>>  	struct ravb_private *priv =3D netdev_priv(ndev);
-> >>>  	const struct ravb_hw_info *info =3D priv->info;
-> >>>
-> >>> +	netif_carrier_off(ndev);
-> >>> +	netif_tx_disable(ndev);
-> >>> +	cancel_work_sync(&priv->work);
-> >>
-> >> Still racy, the carrier can come back up after canceling the work.
-> >
-> > I must admit I don't see how/when this driver sets the carrier on ?!?
->=20
->    The phylib code does it for this MAC driver, see the call tree of
-> phy_link_change(), on e.g.
-> https://elixir.bootlin.com/linux/v6.5-rc3/source
->=20
-> >> But whatever, this is a non-issue in the first place.
-> >
-> > Do you mean the UaF can't happen? I think that is real.
->=20
->    Looks possible to me, at least now... and anyway, shouldn't we clean u=
-p
-> after ourselves if we call schedule_work()?However my current impression =
-is
-> that cancel_work_sync() should be called from ravb_close(), after calling
-> phy_{stop|disconnect}()...
-
-I also think so.
-
-ravb_remove() calls unregister_netdev().
- -> unregister_netdev() calls rtnl_lock() and unregister_netdevice().
- --> unregiter_netdevice_queue()
- ---> unregiter_netdevice_many()
- ----> unregiter_netdevice_many_notify().
- -----> dev_close_many()
- ------> __dev_close_many()
- -------> ops->ndo_stop()
-
-ravb_close() calls phy_stop()
- -> phy_state_machine() with PHY_HALTED
- --> phy_link_down()
- ---> phy_link_change()
- ----> netif_carrier_off()
-
-The patch will be the following:
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/net/ethernet/renesas/ravb_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/etherne=
-t/renesas/ravb_main.c
-index 7df9f9f8e134..e452d90de7c2 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2167,6 +2167,8 @@ static int ravb_close(struct net_device *ndev)
- 			of_phy_deregister_fixed_link(np);
- 	}
-=20
-+	cancel_work_sync(&priv->work);
-+
- 	if (info->multi_irqs) {
- 		free_irq(priv->tx_irqs[RAVB_NC], ndev);
- 		free_irq(priv->rx_irqs[RAVB_NC], ndev);
----
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+index 12f2a1db4fb7..5dab4030daac 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+@@ -28,7 +28,7 @@ memory@48000000 {
+ 		reg = <0x0 0x48000000 0x0 0x78000000>;
+ 	};
+ 
+-	memory@480000000 {
++	memory@80000000 {
+ 		device_type = "memory";
+ 		reg = <0x4 0x80000000 0x0 0x80000000>;
+ 	};
+-- 
+2.25.1
 
-If this patch is acceptable, I'll submit it. But, what do you think?
-
-Best regards,
-Yoshihiro Shimoda
-
-> >> The fact that ravb_tx_timeout_work doesn't take any locks seems much
-> >> more suspicious.
-> >
-> > Indeed! But that should be a different patch, right?
->=20
->    Yes.
->=20
-> > Waiting a little more for feedback from renesas.
->=20
->    Renesas historically hasn't shown much interest to reviewing the sh_et=
-h/ravb
-> driver patches, so I took that task upon myself. I also happen to be a no=
-minal
-> author of this driver... :-)
->=20
-> > /P
->=20
-> MBR, Sergey
