@@ -2,106 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3D77A7788
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 11:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7376A7A77E5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 11:47:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234152AbjITJad (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 05:30:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49630 "EHLO
+        id S234144AbjITJrf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 05:47:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234131AbjITJac (ORCPT
+        with ESMTP id S234129AbjITJre (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 05:30:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6658AF
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 02:30:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1AC41C433C7;
-        Wed, 20 Sep 2023 09:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695202224;
-        bh=vC4eUrsH2Ay5ObH877X6wC9knycta7WDqSvROcgL6fI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=RFg/orxs2Kk0ttJSiyrFNgDcPf6uXKdR9qYWcJZhrsFgLFMD2t5hkzlLer0pEUHRG
-         38oaWA1Ew/74EQZDulmnFruZ0siVlC9QJDI0yX4P3yb/hyR6Nw4tUhQyiJ7OlTeNLF
-         s/H7JqPZ4G65Ys8NrfNDxyegdZlqTkLHXMWEPs7zbQQD8o3Jj6vlPMDIBrVNC/hrWv
-         iAnPlVvVy77iPtjgjnyv8dA6tKel0eKzdSUsR1tvUxZZgrWmZXgK5HEILlrf2rm02m
-         QRzXJWZWCFNmDs9xfIYPB1g3MsurPFUQORgYl0QLHau1fwZV6rbaSyooEesmBh9z29
-         quvxmeYUTmbGg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EE09FC561EE;
-        Wed, 20 Sep 2023 09:30:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 20 Sep 2023 05:47:34 -0400
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD23AB;
+        Wed, 20 Sep 2023 02:47:27 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59c268676a9so43973047b3.0;
+        Wed, 20 Sep 2023 02:47:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695203246; x=1695808046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fEXcFTx8NBhUQLoak79jfYmt6kaIk047FnPy9WrHfn8=;
+        b=m4ljMYcgx74MDf0swHR7CVFbC9hp8Ms1jmsnlFd90C1Ok/pmt+YyKrn86LmvGFxLpg
+         DVJNogc0waSrAem55XVbqu/rIX3YiRfSVkTp+HMj0+dJ/wwA8i7Kld7poDKqGcLDVNPH
+         4gjQeLL7msbRmPgn1j+3YSuvJGY3BJtvdWJ7Fr22AVQE9ea3rk5GH9RWgB9pzOthsUC7
+         rkUz4Ozy9yyhO2wzqxW4pp5FwczHtm7UAqEG0JShf3xOkTkqjJqa4IAQwBvvNzwOexVS
+         vrImcSyw7LfbuuclaFXuYuoFUYKxPqdKfVFJLxKdt3pW69GfTDlIcby2FDzCoeMT/I2L
+         GeIA==
+X-Gm-Message-State: AOJu0YyDHy+TpM4qAU8zU1H5tFYFdVz06WINIut7Tzo+FKgAjgZKDLvK
+        dKzHn6GUmi5fWhRwzzVuSs09UQWdW9eDKg==
+X-Google-Smtp-Source: AGHT+IH4uFa4mW7y+CcQ0SfdscXUoyE+vyyNTYmsgkqVedyKoArnSFkskGE1v25T6Im/qL1VmhrQHw==
+X-Received: by 2002:a0d:df4e:0:b0:592:85ec:df15 with SMTP id i75-20020a0ddf4e000000b0059285ecdf15mr1828658ywe.11.1695203246252;
+        Wed, 20 Sep 2023 02:47:26 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id e184-20020a8169c1000000b0057042405e2csm3710221ywc.71.2023.09.20.02.47.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 02:47:26 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59bc956b029so64237477b3.2;
+        Wed, 20 Sep 2023 02:47:25 -0700 (PDT)
+X-Received: by 2002:a81:4e95:0:b0:59b:c847:bce0 with SMTP id
+ c143-20020a814e95000000b0059bc847bce0mr1982086ywb.42.1695203245405; Wed, 20
+ Sep 2023 02:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/9] net: dsa: Convert to platform remove callback
- returning void
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169520222397.8158.5375930289513597156.git-patchwork-notify@kernel.org>
-Date:   Wed, 20 Sep 2023 09:30:23 +0000
-References: <20230918191916.1299418-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230918191916.1299418-1-u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc:     florian.fainelli@broadcom.com, andrew@lunn.ch, olteanv@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, kurt@linutronix.de, f.fainelli@gmail.com,
-        hauke@hauke-m.de, arinc.unal@arinc9.com, daniel@makrotopia.org,
-        Landen.Chao@mediatek.com, dqfext@gmail.com, sean.wang@mediatek.com,
-        matthias.bgg@gmail.com, colin.foster@in-advantage.com,
-        vladimir.oltean@nxp.com, claudiu.manoil@nxp.com,
-        alexandre.belloni@bootlin.com, UNGLinuxDriver@microchip.com,
-        linus.walleij@linaro.org, alsi@bang-olufsen.dk,
-        clement.leger@bootlin.com, netdev@vger.kernel.org,
-        kernel@pengutronix.de, angelogioacchino.delregno@collabora.com,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230919151948.21564-1-wsa+renesas@sang-engineering.com> <20230919151948.21564-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230919151948.21564-3-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Sep 2023 11:47:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX=95RZFwWBPMEtNTn2FFUr5VzDmDotEnmcip_0j+A-RQ@mail.gmail.com>
+Message-ID: <CAMuHMdX=95RZFwWBPMEtNTn2FFUr5VzDmDotEnmcip_0j+A-RQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] i2c: rcar: improve accuracy for R-Car Gen3+
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Wolfram,
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+On Tue, Sep 19, 2023 at 8:45 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> With some new registers, SCL can be calculated to be closer to the
+> desired rate. Apply the new formula for R-Car Gen3 device types.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Changes since v1:
+> * fixed two whitespace issues
+> * use dedicated variables for scld and schd
+> * explicitly say "2 * smd" in the comment explaining the new formula
+> * use correct division 'clkp/SCL' in the same comment
+> * updated debug printout to use the new variables
 
-On Mon, 18 Sep 2023 21:19:07 +0200 you wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/net/dsa to use
-> remove_new. The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
-> 
-> [...]
+Thanks for the update!
 
-Here is the summary with links:
-  - [net-next,1/9] net: dsa: b53: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/c306171d6914
-  - [net-next,2/9] net: dsa: bcm_sf2: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/75f5205f1dd8
-  - [net-next,3/9] net: dsa: hirschmann: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/beb8592d0416
-  - [net-next,4/9] net: dsa: lantiq_gswip: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/a59f960c4d10
-  - [net-next,5/9] net: dsa: mt7530: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/9764bbad3d33
-  - [net-next,6/9] net: dsa: ocelot: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/68ace16ce330
-  - [net-next,7/9] net: dsa: realtek: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d48a5472b8f2
-  - [net-next,8/9] net: dsa: rzn1_a5psw: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/76be075d7f99
-  - [net-next,9/9] net: dsa: vitesse-vsc73xx: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/ce322d45683f
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-You are awesome, thank you!
+But given you have to respin 1/2 anyway, what about...
+
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+
+> @@ -128,6 +146,8 @@ struct rcar_i2c_priv {
+>
+>         int pos;
+>         u32 icccr;
+> +       u16 scld;
+> +       u16 schd;
+
+... changing the order, to match alphabetical and register offset order.
+
+> +
+> +               priv->icccr = cdf;
+> +               priv->scld = RCAR_SCLD_RATIO * x;
+> +               priv->schd = RCAR_SCHD_RATIO * x;
+
+Likewise.
+
+> +
+> +               dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SCLD %u SCHD %u\n",
+> +                       scl, t.bus_freq_hz, rate, round, cdf, priv->scld, priv->schd);
+> +       }
+>
+>         return 0;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
