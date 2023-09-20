@@ -2,128 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7376A7A77E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 11:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04EFD7A77EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 11:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234144AbjITJrf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 05:47:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34456 "EHLO
+        id S234122AbjITJu7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 05:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234129AbjITJre (ORCPT
+        with ESMTP id S231948AbjITJu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 05:47:34 -0400
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD23AB;
-        Wed, 20 Sep 2023 02:47:27 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59c268676a9so43973047b3.0;
-        Wed, 20 Sep 2023 02:47:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695203246; x=1695808046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fEXcFTx8NBhUQLoak79jfYmt6kaIk047FnPy9WrHfn8=;
-        b=m4ljMYcgx74MDf0swHR7CVFbC9hp8Ms1jmsnlFd90C1Ok/pmt+YyKrn86LmvGFxLpg
-         DVJNogc0waSrAem55XVbqu/rIX3YiRfSVkTp+HMj0+dJ/wwA8i7Kld7poDKqGcLDVNPH
-         4gjQeLL7msbRmPgn1j+3YSuvJGY3BJtvdWJ7Fr22AVQE9ea3rk5GH9RWgB9pzOthsUC7
-         rkUz4Ozy9yyhO2wzqxW4pp5FwczHtm7UAqEG0JShf3xOkTkqjJqa4IAQwBvvNzwOexVS
-         vrImcSyw7LfbuuclaFXuYuoFUYKxPqdKfVFJLxKdt3pW69GfTDlIcby2FDzCoeMT/I2L
-         GeIA==
-X-Gm-Message-State: AOJu0YyDHy+TpM4qAU8zU1H5tFYFdVz06WINIut7Tzo+FKgAjgZKDLvK
-        dKzHn6GUmi5fWhRwzzVuSs09UQWdW9eDKg==
-X-Google-Smtp-Source: AGHT+IH4uFa4mW7y+CcQ0SfdscXUoyE+vyyNTYmsgkqVedyKoArnSFkskGE1v25T6Im/qL1VmhrQHw==
-X-Received: by 2002:a0d:df4e:0:b0:592:85ec:df15 with SMTP id i75-20020a0ddf4e000000b0059285ecdf15mr1828658ywe.11.1695203246252;
-        Wed, 20 Sep 2023 02:47:26 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id e184-20020a8169c1000000b0057042405e2csm3710221ywc.71.2023.09.20.02.47.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 02:47:26 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59bc956b029so64237477b3.2;
-        Wed, 20 Sep 2023 02:47:25 -0700 (PDT)
-X-Received: by 2002:a81:4e95:0:b0:59b:c847:bce0 with SMTP id
- c143-20020a814e95000000b0059bc847bce0mr1982086ywb.42.1695203245405; Wed, 20
- Sep 2023 02:47:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230919151948.21564-1-wsa+renesas@sang-engineering.com> <20230919151948.21564-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230919151948.21564-3-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Sep 2023 11:47:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX=95RZFwWBPMEtNTn2FFUr5VzDmDotEnmcip_0j+A-RQ@mail.gmail.com>
-Message-ID: <CAMuHMdX=95RZFwWBPMEtNTn2FFUr5VzDmDotEnmcip_0j+A-RQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] i2c: rcar: improve accuracy for R-Car Gen3+
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Wed, 20 Sep 2023 05:50:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8D59E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 02:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695203453; x=1726739453;
+  h=date:from:to:cc:subject:message-id;
+  bh=sLTj+bkhIdgZGTfSJ3QLuQdHISEBI1EHYU50TPNO0Qg=;
+  b=a1Qwxjk41K/+lTCrK2G3gca78UE5V8gf7tAfCNeWBeSv/h5LsBCQ2bbs
+   i6PIPuxCeGyfv/+L8MSpRJKQoVZXz1EaczJb8N5of24HNsmABw0aAPjVa
+   RyXf3OreyadxMo+QbKKR/WCw0WKJuRfKPcP5AmI+mG+Cugpdyj8TUhLnd
+   yndm9qY2ayKBLYg4Zm2dp5Kb0kUBgWcjlO8VtaYSRR2HIV+aQIe3ZpeQE
+   6L1Ht99KyPND/6LLfWyz54LIGhyrXJ12uJ4Ca3GTTgVRb23Bj9Vczw7AQ
+   mh76ZyQ68zpkWCG0yKdSHaOKT9OE+9pgg0NzLYtb9QxpXFJro+InoC8Pz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="384024260"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="384024260"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 02:50:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836784663"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="836784663"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Sep 2023 02:50:51 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qitr7-0008be-20;
+        Wed, 20 Sep 2023 09:50:49 +0000
+Date:   Wed, 20 Sep 2023 17:50:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:shmob-drm-atomic-dt] BUILD SUCCESS
+ bfea0fa9052aa8d235b24957eb84d9ff20cb87b7
+Message-ID: <202309201723.2B1eamfF-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git shmob-drm-atomic-dt
+branch HEAD: bfea0fa9052aa8d235b24957eb84d9ff20cb87b7  drm: renesas: shmobile: Add DT support
 
-On Tue, Sep 19, 2023 at 8:45 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> With some new registers, SCL can be calculated to be closer to the
-> desired rate. Apply the new formula for R-Car Gen3 device types.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Changes since v1:
-> * fixed two whitespace issues
-> * use dedicated variables for scld and schd
-> * explicitly say "2 * smd" in the comment explaining the new formula
-> * use correct division 'clkp/SCL' in the same comment
-> * updated debug printout to use the new variables
+elapsed time: 1027m
 
-Thanks for the update!
+configs tested: 135
+configs skipped: 2
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-But given you have to respin 1/2 anyway, what about...
-
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-
-> @@ -128,6 +146,8 @@ struct rcar_i2c_priv {
->
->         int pos;
->         u32 icccr;
-> +       u16 scld;
-> +       u16 schd;
-
-... changing the order, to match alphabetical and register offset order.
-
-> +
-> +               priv->icccr = cdf;
-> +               priv->scld = RCAR_SCLD_RATIO * x;
-> +               priv->schd = RCAR_SCHD_RATIO * x;
-
-Likewise.
-
-> +
-> +               dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SCLD %u SCHD %u\n",
-> +                       scl, t.bus_freq_hz, rate, round, cdf, priv->scld, priv->schd);
-> +       }
->
->         return 0;
-
-Gr{oetje,eeting}s,
-
-                        Geert
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230920   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                         mv78xx0_defconfig   clang
+arm                   randconfig-001-20230920   gcc  
+arm                         socfpga_defconfig   clang
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230920   gcc  
+i386         buildonly-randconfig-002-20230920   gcc  
+i386         buildonly-randconfig-003-20230920   gcc  
+i386         buildonly-randconfig-004-20230920   gcc  
+i386         buildonly-randconfig-005-20230920   gcc  
+i386         buildonly-randconfig-006-20230920   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-011-20230920   gcc  
+i386                  randconfig-012-20230920   gcc  
+i386                  randconfig-013-20230920   gcc  
+i386                  randconfig-014-20230920   gcc  
+i386                  randconfig-015-20230920   gcc  
+i386                  randconfig-016-20230920   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230920   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                          ath79_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                    or1ksim_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                  mpc866_ads_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230920   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230920   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230920   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230920   gcc  
+x86_64       buildonly-randconfig-002-20230920   gcc  
+x86_64       buildonly-randconfig-003-20230920   gcc  
+x86_64       buildonly-randconfig-004-20230920   gcc  
+x86_64       buildonly-randconfig-005-20230920   gcc  
+x86_64       buildonly-randconfig-006-20230920   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230920   gcc  
+x86_64                randconfig-002-20230920   gcc  
+x86_64                randconfig-003-20230920   gcc  
+x86_64                randconfig-004-20230920   gcc  
+x86_64                randconfig-005-20230920   gcc  
+x86_64                randconfig-006-20230920   gcc  
+x86_64                randconfig-011-20230920   gcc  
+x86_64                randconfig-012-20230920   gcc  
+x86_64                randconfig-013-20230920   gcc  
+x86_64                randconfig-014-20230920   gcc  
+x86_64                randconfig-015-20230920   gcc  
+x86_64                randconfig-016-20230920   gcc  
+x86_64                randconfig-071-20230920   gcc  
+x86_64                randconfig-072-20230920   gcc  
+x86_64                randconfig-073-20230920   gcc  
+x86_64                randconfig-074-20230920   gcc  
+x86_64                randconfig-075-20230920   gcc  
+x86_64                randconfig-076-20230920   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
