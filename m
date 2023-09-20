@@ -2,240 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F09C7A756E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 10:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44AE67A757F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Sep 2023 10:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbjITIKm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 04:10:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59336 "EHLO
+        id S231929AbjITIMV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Sep 2023 04:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbjITIKk (ORCPT
+        with ESMTP id S230447AbjITIMU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 04:10:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74477A1;
-        Wed, 20 Sep 2023 01:10:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 17F2EC433CB;
-        Wed, 20 Sep 2023 08:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695197434;
-        bh=5QGF9jO+picAJCyh1LF0QAqayO5CNA9tItx4EwVp9AY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=I4QlK9RfxOewAnXIxhXN7ZZHSZ0ppyEkYpFPATCfuLcFbGBLrqm607DpaptjkvIpR
-         xzCRKtSm835A3JX86ufWg4Gz0z8DCCYmxMzVryXJHDuw7qMYiyBCeXSljN7YPB8oJl
-         qr6712Hy568JhFmGq2f1j3JWZXI523oEL2W3Tum6dvIgfFFNuG42zX5d3RILVFyEKH
-         iWTIXiJ+UV1WX3Ocgk01l+fIl65vKF5FwzgAUG5FWnJRsEIoWYNMwzCqrzzUD+7rLV
-         PAFU/WaNetScbMikq8K1GewRJomxnbCToX5roKcgJZdPe8BCRpAznbDf2DUlllDWNI
-         zWRrgfc7Bzivw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D8679C561EE;
-        Wed, 20 Sep 2023 08:10:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 20 Sep 2023 04:12:20 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2103.outbound.protection.outlook.com [40.107.113.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF4F39E;
+        Wed, 20 Sep 2023 01:12:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lcJz0jANSzFSrf2QJDp4kgjWSKbPWTcn0NVV4g5fEdVwvnDPBAct77/KDX7Di8QM5wLh4iOkoa3Pkabmukx99XqD8A8XNX9rb6RVpjtsxuZx6t9mxU+9LpwjZHjU9esGxDAgmmcCpskY4MVP/cw2pUT5O4W7UfG8Vpz5lP/1te6VFO8ZAW+KPj3abmiT1mJNeGWuojQH9RFmxfM33Y0Q6dFk2TFQ+0EY5D54VsMbZ0cWyennF8EMMlQxUQcVB/If6dyZ6cSy0YofycYvAh1mTUOUPVWloApU4GAGWC74OvqN/Xiu89ZvtDcwmZp9M1dIqjDK5ZDtVlTCM/s592GMkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hkPnjaBBAxXaEklcO/ETek/zT5+h6gxKwuAsUJ5YLb8=;
+ b=ee/oi1DbcGM7BNuvImp1gPIAfFRBtcImGAgnR0N40dG4NMS0lJ/AS8miqtIvT7MlQy1q5dEo9mZEz9Izj2vDV54/U6/OJQaUxrPH42ATJ1+WTLMtjr+uJBgvdAyixP5Dvx3UHw+z4DGq1PvkCDK0R/G6mCCnyBOZ9DkFYu0imkf7srjDRQBHc6ZMqbqxdP2+THc6X3epI+OMln3SPdV9WduzT2cVOLW1cXpsgexYpzyfxMKXaGDynOAygu140CXzb7WJ8k6PSVLlEnaQ31gbOT0xbp9Z7XP3zfnG7nlBCw+DzZOap7dy11cshSiw5yC6n4vpl5sXqTDsd06RNaPhRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hkPnjaBBAxXaEklcO/ETek/zT5+h6gxKwuAsUJ5YLb8=;
+ b=E8iCEj/nlnxPbOK5KA0XVs0NxPWRcj5wjOxEeyoEh6Wh44xvRAHpXn54LByV+CbpUFhoH8IF/PHfd+tG3hsnlMOInv/XAAcbKb4jxXFOws36QIaLtNJPWozV0f3rnRYUJQElEppSKhQi2np0/+WClOkIRB3Ud7DwOYPNlBa69Ng=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB5999.jpnprd01.prod.outlook.com (2603:1096:400:4a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Wed, 20 Sep
+ 2023 08:12:10 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9d23:32f5:9325:3706%5]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
+ 08:12:10 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        John Stultz <jstultz@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.au@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Trent Piepho <tpiepho@gmail.com>
+Subject: [Query]: Resource cleanup for Alarmtimer
+Thread-Topic: [Query]: Resource cleanup for Alarmtimer
+Thread-Index: AdnrmFAjUih7l1QlSdSObu7MvB/BAQ==
+Date:   Wed, 20 Sep 2023 08:12:10 +0000
+Message-ID: <OS0PR01MB5922DD412F43E1C836E32AF486F9A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB5999:EE_
+x-ms-office365-filtering-correlation-id: c1465bd9-5f54-4226-7126-08dbb9b149e4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TdBmv+eSZI26auFVwNL6yCLBjfUpFZfMBdAI7ZYafZjjW9fLSvHzZtnf5/JFuQ5qWZgeJkET40Wb+l4OJ2aNJrDcIxZUVg6fvZXUKLypJJYmbdWNEs4zIGvparfJWSdYF8Cqgj5QUvce1J8FWntMx6bDxzIQnvZmtt9NHz9Y9tfxqngvQyxTmnLQA3UZt2tPL3VvlAybA7Z4igapB2bPeRzs6axR5d9PAc3hMSnD+DI14mPgpRNYkZbhxLSZ7+tFDWt50025FEo3MSAxDCmMsQ0OTNWszB3qz6vpq4wjyiCemlRk21Z/26YBAEadWz7oACFefF0wHZeG9HjZrmENLlDxVG+IWIX4uMMi+ONacbNv21h+5ND7ERi9D1YOWdNdoAEYjVyWTar8L3SISnUFkIdu8wbjsvNdENAKPmcEXPcigXHmQFGBfkzBTA+c2G9vlpp/gVSeBWJPa8safl3IUFl4Dz2mWXSJFh0o8NsQjBQB6rrdFrKrc2WVn+4qo/5InBDCur1Y4nAULTSb9xbq3Fd4NxyhH44Ny9rMmAiJUJPAvnQgjVx7HffEdVBwKpyXSbQtYPoqa/cmKTS3Ql4d+x72U+4cdERWE1tc/Cqnp6oghLGEOohSCOYsFlN2kF/x
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(376002)(346002)(39860400002)(366004)(451199024)(186009)(1800799009)(2906002)(5660300002)(52536014)(26005)(55016003)(66446008)(64756008)(54906003)(7416002)(41300700001)(316002)(66476007)(66556008)(66946007)(110136005)(4744005)(76116006)(8936002)(8676002)(4326008)(478600001)(71200400001)(6506007)(7696005)(9686003)(122000001)(38070700005)(38100700002)(86362001)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0qAuBHCGHAvbWguVYRFQVGk+glbOQU7ht41FxLOTsyEbut7BxbWnhCPKUKXT?=
+ =?us-ascii?Q?ub8tp0U77ErzZuWMJhpwde/D2gb2P6ubfbbC2jeQqAmM748NzgXSDyJEu22r?=
+ =?us-ascii?Q?sbZ3cZTJrLCe4ew1Vh086dovHX1SE9PNjEUUG2PIKOVanyHA586zisYZUBxC?=
+ =?us-ascii?Q?6n2XpKZqB2F/6/Tn5sIuM93pEGLqRSAgQFlooUDoFe69rZVRGBvg3C+Jbho+?=
+ =?us-ascii?Q?HwQcCY1tNKL9Vhf3FfoOPyC9U9kAH0eO0STjDqe8beD50+5Rwi3jclOAKb3N?=
+ =?us-ascii?Q?jhInv2An+KhPJcRZf5CuSVBpSg1utw7sb0YzqizId7R8A/H9DtlMW9aBa7gI?=
+ =?us-ascii?Q?k0rZo0BBAkAuC8FdxAUuhWszP2bpY+TrZ3E+xWlaFa73Sk+tmMD/f8UAVNhc?=
+ =?us-ascii?Q?Jmoc3cMmAJmHbca9P9nJP1pGgkEWqkq9JuXQ+1l0o2xoF6OvdgeQ8AcB4Dti?=
+ =?us-ascii?Q?JP9hScq32ZGZZXuPMTsVVYzP2lw9VmAeyXuM7c6Ctl/Rbdh3NXpl/yGYDUVa?=
+ =?us-ascii?Q?FDK4I89qH+CYUZsBg1HmnYL8dTcQL/4ez5c7METnCy04pl4jCVhPZfIC08E5?=
+ =?us-ascii?Q?mM7YSD10z84l5C1MPu3TTEukDkb810ewYQ0D6BlgaVMOlpiWqenHn0eckqhR?=
+ =?us-ascii?Q?I1GwAQLy+yM/rq+oBkWT3nw+pigtRuc/Nq9GIF+ML8vMkRhV6XjYhvYcBALc?=
+ =?us-ascii?Q?uG0OIcPlXXSwMs54TgzELWqlYHQr9ZPOljz2Kjv22wCp739nlvd7oAyGIicA?=
+ =?us-ascii?Q?lE1MMKjV12JI9u2zgC8WbIQ6PA50p3TXmwr5uT6rF0wtHq8R4WdDAiC/z+oM?=
+ =?us-ascii?Q?IvI/76mOhG+Ap4od+fC5BNYjnU+eyVb9u9JGtfsT3ZDby5tXF0AI9FSG40uB?=
+ =?us-ascii?Q?QdRWUsnWlTtDWjC8KEOmp+rI6pnmCFLjurw0bH9MiSy/VVYCHGU0zFH/mf+H?=
+ =?us-ascii?Q?67cSQhTBqSS2Thwy8BCdqdfu9qgNr0YoTXe1I05fanemLeoyoBtvNO2cHBN9?=
+ =?us-ascii?Q?SFGodol2ClwcP5nGAtP0g8u+CQKFyCDQ5sFuV5JR0188jAarDwa0OgJF2SV/?=
+ =?us-ascii?Q?5mp5XtNvq9fKiXaa/e4Bh0OfBaY5bgSSE4mhK3AYidLrQkFJS3PJfDk9Udid?=
+ =?us-ascii?Q?b0+j7mN2mngz6kxSJYxCFfdib99JDTu9Dy7NVuihPvApQIxKWctny193Rpug?=
+ =?us-ascii?Q?mJ7W3yFEE4W4k6rD1YluiIjJSJ134P9SjtRB/ibtoa2NqJnIBE6Df1/j9lYr?=
+ =?us-ascii?Q?WnL/+1/oJ9hEy/wm7A45mkHUOH626Urw94jN/WOjqKbb6iSj0qLTJlOMMms5?=
+ =?us-ascii?Q?G3ezKJonRlMiRmOqbNpr8vdpKIk11Skgs3hV1VP84fgTe5sC3WjlIVAeXMtU?=
+ =?us-ascii?Q?JYfjZTD1gtcMDT4HCyxZOod6f6scjA5gzS9V+6JLKU3RllzNJo1r0hut+P9i?=
+ =?us-ascii?Q?5NmN1w/I07VdLeVJLv3nlVskekGZNE1+AV5PBVyXC/GeMwNmflTujmUsa/Ut?=
+ =?us-ascii?Q?+Ey8crNoLDzDLbKipv4FWHqMffpEiLz4AxgFteLq9qBHn7RB1aahjTFiSP/4?=
+ =?us-ascii?Q?f/HB2f/wSSwF3rnxSlcetdIvwBpU9PIO0n6drntyWWFnmfSZGNqqhr11XGa8?=
+ =?us-ascii?Q?3Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 00/54] net: ethernet: Convert to platform remove
- callback returning void
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169519743387.8735.12103555736777221473.git-patchwork-notify@kernel.org>
-Date:   Wed, 20 Sep 2023 08:10:33 +0000
-References: <20230918204227.1316886-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230918204227.1316886-1-u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, grygorii.strashko@ti.com,
-        linux-omap@vger.kernel.org, bagasdotme@gmail.com,
-        yangyingliang@huawei.com, gerg@linux-m68k.org, arnd@arndb.de,
-        netdev@vger.kernel.org, kernel@pengutronix.de, afaerber@suse.de,
-        mani@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-actions@lists.infradead.org, andreas@gaisler.com,
-        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-        linux-sunxi@lists.linux.dev, joyce.ooi@intel.com,
-        Shyam-sundar.S-k@amd.com, bhupesh.sharma@linaro.org,
-        elder@linaro.org, wei.fang@nxp.com, robh@kernel.org,
-        iyappan@os.amperecomputing.com, keyur@os.amperecomputing.com,
-        quan@os.amperecomputing.com, rauji.raut@gmail.com, heiko@sntech.de,
-        horms@kernel.org, linux-rockchip@lists.infradead.org,
-        chris.snook@gmail.com, justin.chen@broadcom.com,
-        florian.fainelli@broadcom.com, rafal@milecki.pl,
-        bcm-kernel-feedback-list@broadcom.com, opendmb@gmail.com,
-        lizetao1@huawei.com, Steen.Hegelund@microchip.com,
-        lukas.bulwahn@gmail.com, nicolas.ferre@microchip.com,
-        claudiu.beznea@tuxon.dev, linux@armlinux.org.uk,
-        mkl@pengutronix.de, hsweeten@visionengravers.com,
-        ruanjinjie@huawei.com, ulli.kroll@googlemail.com,
-        linus.walleij@linaro.org, kvalo@kernel.org, nhuck@google.com,
-        gerhard@engleder-embedded.com, maciej.fijalkowski@intel.com,
-        alexanderduyck@fb.com, fercerpav@gmail.com, saproj@gmail.com,
-        vladimir.oltean@nxp.com, yisen.zhuang@huawei.com,
-        salil.mehta@huawei.com, tsbogend@alpha.franken.de,
-        michal.kubiak@intel.com, dougmill@linux.ibm.com, nathan@kernel.org,
-        ruc_gongyuanjun@163.com, zhangchangzhong@huawei.com,
-        hauke@hauke-m.de, kgugala@antmicro.com, mholenko@antmicro.com,
-        gsomlo@gmail.com, joel@jms.id.au, sebastian.hesselbarth@gmail.com,
-        thomas.petazzoni@bootlin.com, mw@semihalf.com, michael@walle.cc,
-        andrew@lunn.ch, rmk+kernel@armlinux.org.uk,
-        krzysztof.kozlowski@linaro.org, nbd@nbd.name, john@phrozen.org,
-        sean.wang@mediatek.com, Mark-MC.Lee@mediatek.com,
-        lorenzo@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-mediatek@lists.infradead.org, asmaa@nvidia.com,
-        davthompson@nvidia.com, horatiu.vultur@microchip.com,
-        UNGLinuxDriver@microchip.com, lars.povlsen@microchip.com,
-        daniel.machon@microchip.com, shangxiaojing@huawei.com,
-        linqiheng@huawei.com, claudiu.manoil@nxp.com,
-        alexandre.belloni@bootlin.com, YKarpov@ispras.ru, vz@mleia.com,
-        timur@kernel.org, s.shtylyov@omp.ru, geert+renesas@glider.be,
-        yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
-        biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
-        bh74.an@samsung.com, ralf@linux-mips.org,
-        linux-mips@vger.kernel.org, nico@fluxnic.net,
-        steve.glendinning@shawell.net, andriy.shevchenko@linux.intel.com,
-        jaswinder.singh@linaro.org, ilias.apalodimas@linaro.org,
-        hayashi.kunihiko@socionext.com, harshit.m.mogalapalli@oracle.com,
-        wellslutw@gmail.com, f.fainelli@gmail.com, tglx@linutronix.de,
-        bigeasy@linutronix.de, shaozhengchao@huawei.com,
-        kevinbrace@bracecomputerlab.com, romieu@fr.zoreil.com,
-        michal.simek@amd.com, radhey.shyam.pandey@amd.com,
-        harini.katakam@amd.com, xuhaoyue1@hisilicon.com,
-        huangjunxian6@hisilicon.com, dan.carpenter@linaro.org,
-        khalasa@piap.pl
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1465bd9-5f54-4226-7126-08dbb9b149e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2023 08:12:10.3068
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m6TYDM0RhEUOXa2Fpf3J+GNg+WSCgXECUlWesBW57h7JtJZ7OKtp6zpH9jj4zqnsS4SLxBsVsyqRFxM90KtVgRzB7tdb1GEsGi2GaszHjrg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5999
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi All,
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Currently unbind/bind is not working as expected on rtc-isl1208 driver. The=
+ reason is put_device() is not calling rtc_device_release()
+as some of the kobjects are not freed during unbind.
 
-On Mon, 18 Sep 2023 22:41:32 +0200 you wrote:
-> Hello,
-> 
-> this series convert nearly all platform drivers below
-> drivers/net/ethernet to use remove_new. The motivation is to get rid of
-> an integer return code that is (mostly) ignored by the platform driver
-> core and error prone on the driver side.
-> 
-> [...]
+The commit 	c79108bd19a8 "alarmtimer: Make alarmtimer platform device child=
+ of RTC device" adds kobjects for alarmtimer device/sysfs, when we call dev=
+ice_init_wakeup() followed by devm_rtc_register_device()from the end point =
+driver during probe().
+But these kobjects are never freed when we do unbind on the endpoint driver=
+.
 
-Here is the summary with links:
-  - [net-next,01/54] net: ethernet: 8390: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/3c000faaaa65
-  - [net-next,02/54] net: ethernet: actions: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d8c6b3fc918d
-  - [net-next,03/54] net: ethernet: aeroflex: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/a0fbde8f647b
-  - [net-next,04/54] net: ethernet: allwinner: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/9f07797c332e
-  - [net-next,05/54] net: ethernet: altera: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d0b0245b84c9
-  - [net-next,06/54] net: ethernet: amd: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/9ecae52f7db4
-  - [net-next,07/54] net: ethernet: apm: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/61471264c018
-  - [net-next,08/54] net: ethernet: apple: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e5d0a380b2b4
-  - [net-next,09/54] net: ethernet: arc: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/de0afa130ed6
-  - [net-next,10/54] net: ethernet: atheros: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/c6e817838902
-  - [net-next,11/54] net: ethernet: broadcom: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d4295df3e043
-  - [net-next,12/54] net: ethernet: cadence: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/6b5940402f9c
-  - [net-next,13/54] net: ethernet: calxeda: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/ca76b17922e6
-  - [net-next,14/54] net: ethernet: cavium: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/de413f46a56e
-  - [net-next,15/54] net: ethernet: cirrus: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/8ca0ae6a2ec7
-  - [net-next,16/54] net: ethernet: cortina: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/1f69574b5cba
-  - [net-next,17/54] net: ethernet: davicom: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/ffb928290ba5
-  - [net-next,18/54] net: ethernet: dnet: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/5db6c1fed1f9
-  - [net-next,19/54] net: ethernet: engleder: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d2e6c2ea996e
-  - [net-next,20/54] net: ethernet: ethoc: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/4cc08098d197
-  - [net-next,21/54] net: ethernet: faraday: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/dc715af33b42
-  - [net-next,22/54] net: ethernet: hisilicon: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e5835a0a5119
-  - [net-next,23/54] net: ethernet: i825xx: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e5a6d397ca2e
-  - [net-next,24/54] net: ethernet: ibm: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/ac35a3c4c8da
-  - [net-next,25/54] net: ethernet: korina: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/551598a120d1
-  - [net-next,26/54] net: ethernet: lantiq_etop: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e791aa06a2dd
-  - [net-next,27/54] net: ethernet: lantiq_xrx200: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/adbb270655a1
-  - [net-next,28/54] net: ethernet: litex: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/36b80b8353af
-  - [net-next,29/54] net: ethernet: marvell: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/fee02f498c9a
-  - [net-next,30/54] net: ethernet: mediatek: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/5b6ce1734d9d
-  - [net-next,31/54] net: ethernet: mellanox: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e184700959ec
-  - [net-next,32/54] net: ethernet: micrel: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/bae04ae2be07
-  - [net-next,33/54] net: ethernet: microchip: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/5253ae3a6223
-  - [net-next,34/54] net: ethernet: moxa:: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/253f9c47273d
-  - [net-next,35/54] net: ethernet: mscc: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/0eaca7a9e9d6
-  - [net-next,36/54] net: ethernet: natsemi: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/9f0243d9bcc4
-  - [net-next,37/54] net: ethernet: natsemi: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/b83fb509c758
-  - [net-next,38/54] net: ethernet: ni: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/0f09f4e7d401
-  - [net-next,39/54] net: ethernet: nxp: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/241882d79f99
-  - [net-next,40/54] net: ethernet: qualcomm: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/5180236592b9
-  - [net-next,41/54] net: ethernet: renesas: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/0b4f04e2f60b
-  - [net-next,42/54] net: ethernet: samsung: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/6e8b0ef7b389
-  - [net-next,43/54] net: ethernet: seeq: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/02c74030beff
-  - [net-next,44/54] net: ethernet: sgi: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/506a327ceaaa
-  - [net-next,45/54] net: ethernet: smsc: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e8e2c863f941
-  - [net-next,46/54] net: ethernet: socionext: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d3cd32451c7e
-  - [net-next,47/54] net: ethernet: sun: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/8f4e45a0135e
-  - [net-next,48/54] net: ethernet: sunplus: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/ede778ed3ea9
-  - [net-next,49/54] net: ethernet: ti: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/231ea972ccaf
-  - [net-next,50/54] net: ethernet: tundra: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/2f961952e19e
-  - [net-next,51/54] net: ethernet: via: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/70680f178280
-  - [net-next,52/54] net: ethernet: wiznet: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/46b5668494d0
-  - [net-next,53/54] net: ethernet: xilinx: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/2e0ec0afa902
-  - [net-next,54/54] net: ethernet: xscale: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/d74a5c154b6f
+The alarm timer device has alarmtimer_rtc_add_device() but it does not have=
+ remove_device() callbacks to free kbjects.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Q1) Has anyone tested unbind/rebind on RTC subsystem with device_init_wakeu=
+p() followed by devm_rtc_register_device() in
+the probe?
+
+Cheers,
+Biju
 
 
