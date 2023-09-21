@@ -2,82 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1B07AA320
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Sep 2023 23:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8B37AA56E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 01:01:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbjIUVsW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Sep 2023 17:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48114 "EHLO
+        id S229877AbjIUXBm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Sep 2023 19:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232664AbjIUVsE (ORCPT
+        with ESMTP id S230502AbjIUXBb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Sep 2023 17:48:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41744E5ED;
-        Thu, 21 Sep 2023 14:35:13 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7798DC433C8;
-        Thu, 21 Sep 2023 21:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695332113;
-        bh=5Q9lwGR3nLKBoAjsox+oX7kPsbdEMYb7iKizTcyIEOE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uxztyUIjTWdwT+T1RURT7taDdPu4y4tAUJ+xv6/zZZsitNKABQhT2GZiX20iIWaL0
-         zfSGS+251U61Rj8sStvXGs+j7SKdKBhxTzCaH8jgQ9MIA7nMwyQPugWgSlhDhCkSzz
-         P9S5gowLsHTIHgUK42c687Dl/6ngzJq/IWMZonmgYppUoh3R3pnWlAJXiacMygyWcJ
-         PEfytyy16Y0k+gC2ewR7UwtESEkc2r3Pgb8p32fd6e3UVCKOfOAOYvv9/1qxJQSaw6
-         sLRLGeBWF5KvCsewHYO2AvNF1kEn0lyF25xsP5VOzWT+m4jwea15Lqnyak186DEPGm
-         IHsbhYacPqmMQ==
-Date:   Thu, 21 Sep 2023 23:35:07 +0200
-From:   Andi Shyti <andi.shyti@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, Minjie Du <duminjie@vivo.com>,
+        Thu, 21 Sep 2023 19:01:31 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5FCBCF4DA
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Sep 2023 11:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=k1; bh=/hGi7nKY0ZCz5n
+        gHoRP4Dnsm6cwPVYQ6ullUHHK9G/U=; b=FSgnuyf9iJJY3eix3OUaTTB7WoR3RL
+        Qw8D9JBqrJTfaObsLpr9iGr1zfjqIhAZlD2EJTcRtKzxQ/oL9qlFvwQySdR6OCxV
+        xvJNPdXpBpQux5aaw76J+BP+q3y+rr2zxCCVSMMavi5M97ivNoxC3vbHB0B/slzk
+        rJhwE1jCsPiYD+edKd8vjVSXFlUTop0ilWvMRKF8aFkp6qG6gk2PrgTyKx1Cp2mO
+        oHKwBIy3gkrIWNMx7xWJuTBw8R2eJmk/liFow5/UqoBLzhBzt8gVo1/NEQ0bAq7e
+        5jAFI/qyL8IhuHynvzEs/FcotWalL7w9Cc4fxPU18Mib2Ed46PTjAC1g==
+Received: (qmail 953722 invoked from network); 21 Sep 2023 14:54:02 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Sep 2023 14:54:02 +0200
+X-UD-Smtp-Session: l3s3148p1@yGh7/N0FzUQuciJ+
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: gpio: remove error checks with debugfs
-Message-ID: <20230921213507.pfs3gp5uwgemsqoe@zenone.zhora.eu>
-References: <20230921084016.3434-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH v3 0/2] i2c: rcar: improve Gen3 support
+Date:   Thu, 21 Sep 2023 14:53:48 +0200
+Message-Id: <20230921125351.3954-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230921084016.3434-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Here is a series paving the way for Gen4 support. This time we properly
+apply the Gen3 specific features. See the patch comments for further
+information and changelogs. This has been tested on a Renesas Falcon
+board with a R-Car V3U SoC at various bus speeds. Because the
+calculation formulas are crucial, testing on board farms would be much
+appreciated!
 
-[...]
+Thanks and happy hacking!
 
-> diff --git a/drivers/i2c/busses/i2c-gpio.c b/drivers/i2c/busses/i2c-gpio.c
-> index e5a5b9e8bf2c..fb35a75fe0e3 100644
-> --- a/drivers/i2c/busses/i2c-gpio.c
-> +++ b/drivers/i2c/busses/i2c-gpio.c
-> @@ -263,15 +263,10 @@ static void i2c_gpio_fault_injector_init(struct platform_device *pdev)
->  	 * 'fault-injector' dir there. Until then, we have a global dir with
->  	 * all adapters as subdirs.
->  	 */
-> -	if (!i2c_gpio_debug_dir) {
-> +	if (!i2c_gpio_debug_dir)
->  		i2c_gpio_debug_dir = debugfs_create_dir("i2c-fault-injector", NULL);
-> -		if (!i2c_gpio_debug_dir)
-> -			return;
-> -	}
->  
->  	priv->debug_dir = debugfs_create_dir(pdev->name, i2c_gpio_debug_dir);
-> -	if (!priv->debug_dir)
-> -		return;
+Wolfram Sang (2):
+  i2c: rcar: reset controller is mandatory for Gen3+
+  i2c: rcar: improve accuracy for R-Car Gen3+
 
-nice... this reminds me of some more cleanups that needs to be
-done elsewhere.
+ drivers/i2c/busses/i2c-rcar.c | 157 ++++++++++++++++++++++------------
+ 1 file changed, 103 insertions(+), 54 deletions(-)
 
-Another good thing that comes out from this patch is that if a
-debgufs entry is not created it's not a big deal and we shouldn't
-return but move ahead with the function execution.
+-- 
+2.35.1
 
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
-
-Andi
