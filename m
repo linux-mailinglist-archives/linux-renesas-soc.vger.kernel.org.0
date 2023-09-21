@@ -2,263 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A63217AA284
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Sep 2023 23:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1AE87AA116
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Sep 2023 22:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbjIUVUv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Sep 2023 17:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37576 "EHLO
+        id S229824AbjIUU6B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Sep 2023 16:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232700AbjIUVOo (ORCPT
+        with ESMTP id S232273AbjIUU5h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Sep 2023 17:14:44 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B18A12453;
-        Thu, 21 Sep 2023 10:06:54 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 4CF1A338A4;
-        Thu, 21 Sep 2023 11:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1695294669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=ahSDka+ud/ArrkTUsJLPgqW+LRcwqhCWgbQCB+rwDsI=;
-        b=KI+WiC/Jkz8t6aYBX30t3uf2bg2qpPW9bvtpwE7nBDHP21bpqpUSClRyFN0inVFn3ON1ZD
-        ZMDfZGX7HSnUL9pPw11xVml2HJ+d8Q+aNkwvc0takFHOIWzIW2Mx8NnFjXfdbuLwS8+O+H
-        mhtUp4Up2uCcyFUShwNrms+djOAHuzA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1695294669;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=ahSDka+ud/ArrkTUsJLPgqW+LRcwqhCWgbQCB+rwDsI=;
-        b=bvuq9gZEONaEtkfHUBLEz9zRL0BlI7KNzEMEkX9fv0WVf2+EMyt5X86nT8G6GNkXIFb2ib
-        0gs+QT04NU8eHMBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E451134B0;
-        Thu, 21 Sep 2023 11:11:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id PQ6gIcwkDGXHbgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 21 Sep 2023 11:11:08 +0000
-Message-ID: <f6413268-5fa5-440e-b35b-98195df150b3@suse.de>
-Date:   Thu, 21 Sep 2023 13:11:07 +0200
+        Thu, 21 Sep 2023 16:57:37 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490A8880B5;
+        Thu, 21 Sep 2023 10:38:50 -0700 (PDT)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id EAB5BC0A2F;
+        Thu, 21 Sep 2023 11:38:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 18E4AFF809;
+        Thu, 21 Sep 2023 11:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
+        t=1695296310;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Jg1KwFh5lSvkfLStS1akS234BD88W219/y2jE+qO6JQ=;
+        b=FB+WZwNSKjLpXhOD9eu3aYO9S6xv7RKPVKfQqt6Yyak4R0XVc2bs16R2Ke/+V/3txgPjPr
+        wNyBzW42Tn7VAFs2jhEpLj1G9U6dnj08SGVZCzFzU+kN0/r6dBMoRCU2I1O3Q8xtwIolig
+        xJ1YEEOth0NiXYYwOeMIAC90CHeyPQYQTN1YQTfV6AKvrznfMYMqllejuEeIHK1xAQoq7D
+        B2wVQWekSUN/HVPKuTr+U8nV6amDRMGb5hUj07YiP5dfthswJzspcJcvSs0Fc397s1bG45
+        3KvHozxpJJGdRulhdH2AcaicpASeaoEDTfZJ6ynuWsTayDIRxLyeQVsxkaRHLg==
+Message-ID: <16710cf9-8911-4fed-8e2d-b19b581446c1@arinc9.com>
+Date:   Thu, 21 Sep 2023 14:38:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] MAINTAINERS: Update drm-misc entry to match all
- drivers
+Subject: Re: [PATCH net-next v2 07/10] dt-bindings: net: enforce phylink
+ bindings on certain ethernet controllers
+To:     Rob Herring <robh@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        George McCollister <george.mccollister@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Marek Vasut <marex@denx.de>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        John Crispin <john@phrozen.org>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Felix Fietkau <nbd@nbd.name>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20230916110902.234273-1-arinc.unal@arinc9.com>
+ <20230916110902.234273-8-arinc.unal@arinc9.com>
+ <20230918181319.GA1445647-robh@kernel.org>
 Content-Language: en-US
-To:     Maxime Ripard <mripard@kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc:     Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        dri-devel@lists.freedesktop.org,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Russell King <linux@armlinux.org.uk>,
-        amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        etnaviv@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        linux-tegra@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sean Paul <sean@poorly.run>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20230921105743.2611263-1-mripard@kernel.org>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230921105743.2611263-1-mripard@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------dSxprB7Srgjr0Bp5MLVnm0oc"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <20230918181319.GA1445647-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: arinc.unal@arinc9.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------dSxprB7Srgjr0Bp5MLVnm0oc
-Content-Type: multipart/mixed; boundary="------------tN9WGv9Sm3bW15FJqXQwj9oC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Edmund Dea <edmund.j.dea@intel.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Russell King <linux@armlinux.org.uk>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jani Nikula
- <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Message-ID: <f6413268-5fa5-440e-b35b-98195df150b3@suse.de>
-Subject: Re: [PATCH v2] MAINTAINERS: Update drm-misc entry to match all
- drivers
-References: <20230921105743.2611263-1-mripard@kernel.org>
-In-Reply-To: <20230921105743.2611263-1-mripard@kernel.org>
+On 18.09.2023 21:13, Rob Herring wrote:
+> On Sat, Sep 16, 2023 at 02:08:59PM +0300, Arınç ÜNAL wrote:
+>> Phylink bindings are required for ethernet controllers that utilise
+>> phylink_fwnode_phy_connect() directly or through phylink_of_phy_connect(),
+>> and register OF-based only MDIO buses, if they register any.
+> 
+> What is phylink?
+> 
+> Don't describe/justify binding changes based on some Linux functions.
 
---------------tN9WGv9Sm3bW15FJqXQwj9oC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I'd like to discuss the influence of the Linux drivers on the devicetree
+bindings. Before that let me clarify these "phylink" bindings. They are
+certain rules to properly describe the link of the ethernet controller. Any
+of the phy-handle, pcs-handle, sfp, and fixed-link properties describe the
+link. They are already defined on ethernet-controller.yaml, just not
+enforced.
 
-DQoNCkFtIDIxLjA5LjIzIHVtIDEyOjU3IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gV2Un
-dmUgaGFkIGEgbnVtYmVyIG9mIHRpbWVzIHdoZW4gYSBwYXRjaCBzbGlwcGVkIHRocm91Z2gg
-YW5kIHdlIGNvdWxkbid0DQo+IHBpY2sgdGhlbSB1cCBlaXRoZXIgYmVjYXVzZSBvdXIgTUFJ
-TlRBSU5FUlMgZW50cnkgb25seSBjb3ZlcnMgdGhlDQo+IGZyYW1ld29yayBhbmQgdGh1cyB3
-ZSB3ZXJlbid0IENjJ2QuDQo+IA0KPiBMZXQncyB0YWtlIGFub3RoZXIgYXBwcm9hY2ggd2hl
-cmUgd2UgbWF0Y2ggZXZlcnl0aGluZywgYW5kIHJlbW92ZSBhbGwNCj4gdGhlIGRyaXZlcnMg
-dGhhdCBhcmUgbm90IG1haW50YWluZWQgdGhyb3VnaCBkcm0tbWlzYy4NCj4gDQo+IEFja2Vk
-LWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPg0KPiBTaWduZWQtb2Zm
-LWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+DQoNCkFja2VkLWJ5OiBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiANCj4gLS0tDQo+
-IA0KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPg0KPiBD
-YzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBDYzog
-IlBhbiwgWGluaHVpIiA8WGluaHVpLlBhbkBhbWQuY29tPg0KPiBDYzogUnVzc2VsbCBLaW5n
-IDxsaW51eEBhcm1saW51eC5vcmcudWs+DQo+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBw
-ZW5ndXRyb25peC5kZT4NCj4gQ2M6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21l
-aW5lckBnbWFpbC5jb20+DQo+IENjOiBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+
-DQo+IENjOiBTZXVuZy1Xb28gS2ltIDxzdzAzMTIua2ltQHNhbXN1bmcuY29tPg0KPiBDYzog
-S3l1bmdtaW4gUGFyayA8a3l1bmdtaW4ucGFya0BzYW1zdW5nLmNvbT4NCj4gQ2M6IEphbmkg
-TmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBKb29uYXMgTGFo
-dGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBSb2RyaWdv
-IFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+DQo+IENjOiBUdnJ0a28gVXJzdWxpbiA8
-dHZydGtvLnVyc3VsaW5AbGludXguaW50ZWwuY29tPg0KPiBDYzogUGhpbGlwcCBaYWJlbCA8
-cC56YWJlbEBwZW5ndXRyb25peC5kZT4NCj4gQ2M6IExhdXJlbnRpdSBQYWxjdSA8bGF1cmVu
-dGl1LnBhbGN1QG9zcy5ueHAuY29tPg0KPiBDYzogQW5pdGhhIENocmlzYW50aHVzIDxhbml0
-aGEuY2hyaXNhbnRodXNAaW50ZWwuY29tPg0KPiBDYzogRWRtdW5kIERlYSA8ZWRtdW5kLmou
-ZGVhQGludGVsLmNvbT4NCj4gQ2M6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJu
-ZWwub3JnPg0KPiBDYzogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPg0KPiBDYzog
-QWJoaW5hdiBLdW1hciA8cXVpY19hYmhpbmF2a0BxdWljaW5jLmNvbT4NCj4gQ2M6IERtaXRy
-eSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4NCj4gQ2M6IFNlYW4g
-UGF1bCA8c2VhbkBwb29ybHkucnVuPg0KPiBDYzogTWFyaWpuIFN1aWp0ZW4gPG1hcmlqbi5z
-dWlqdGVuQHNvbWFpbmxpbmUub3JnPg0KPiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRo
-YXQuY29tPg0KPiBDYzogS2Fyb2wgSGVyYnN0IDxraGVyYnN0QHJlZGhhdC5jb20+DQo+IENj
-OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPg0KPiBDYzogTGF1cmVudCBQaW5jaGFy
-dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiBDYzogS2llcmFuIEJp
-bmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4NCj4gQ2M6
-IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+DQo+IENjOiBNaWtr
-byBQZXJ0dHVuZW4gPG1wZXJ0dHVuZW5AbnZpZGlhLmNvbT4NCj4gQ2M6IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnDQo+IENjOiBldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogaW50ZWwt
-Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcNCj4gQ2M6IGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZw0KPiBD
-YzogbGludXgtdGVncmFAdmdlci5rZXJuZWwub3JnDQo+IA0KPiBDaGFuZ2VzIGZyb20gdjE6
-DQo+IC0gUmVtb3ZlIGluZ2VuaWMgYW5kIGdtYTUwMCBmcm9tIHRoZSBleGNsdWRlZCBsaXN0
-DQo+IC0tLQ0KPiAgIE1BSU5UQUlORVJTIHwgMjEgKysrKysrKysrKysrKysrKysrLS0tDQo+
-ICAgMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+
-IA0KPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUw0KPiBpbmRleCA5
-MGYxMzI4MWQyOTcuLjEwMTI0MDJkYWRhNSAxMDA2NDQNCj4gLS0tIGEvTUFJTlRBSU5FUlMN
-Cj4gKysrIGIvTUFJTlRBSU5FUlMNCj4gQEAgLTY4NjAsMTIgKzY4NjAsMjcgQEAgTToJVGhv
-bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+ICAgUzoJTWFpbnRhaW5l
-ZA0KPiAgIFc6CWh0dHBzOi8vMDEub3JnL2xpbnV4Z3JhcGhpY3MvZ2Z4LWRvY3MvbWFpbnRh
-aW5lci10b29scy9kcm0tbWlzYy5odG1sDQo+ICAgVDoJZ2l0IGdpdDovL2Fub25naXQuZnJl
-ZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYw0KPiArRjoJRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvDQo+ICtGOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZ3B1Lw0KPiAgIEY6CURvY3VtZW50YXRpb24vZ3B1Lw0KPiAtRjoJZHJpdmVy
-cy9ncHUvZHJtLyoNCj4gK0Y6CWRyaXZlcnMvZ3B1L2RybS8NCj4gICBGOglkcml2ZXJzL2dw
-dS92Z2EvDQo+IC1GOglpbmNsdWRlL2RybS9kcm0qDQo+ICtGOglpbmNsdWRlL2RybS9kcm0N
-Cj4gICBGOglpbmNsdWRlL2xpbnV4L3ZnYSoNCj4gLUY6CWluY2x1ZGUvdWFwaS9kcm0vZHJt
-Kg0KPiArRjoJaW5jbHVkZS91YXBpL2RybS8NCj4gK1g6CWRyaXZlcnMvZ3B1L2RybS9hbWQv
-DQo+ICtYOglkcml2ZXJzL2dwdS9kcm0vYXJtYWRhLw0KPiArWDoJZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvDQo+ICtYOglkcml2ZXJzL2dwdS9kcm0vZXh5bm9zLw0KPiArWDoJZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvDQo+ICtYOglkcml2ZXJzL2dwdS9kcm0vaW14Lw0KPiArWDoJZHJp
-dmVycy9ncHUvZHJtL2ttYi8NCj4gK1g6CWRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay8NCj4g
-K1g6CWRyaXZlcnMvZ3B1L2RybS9tc20vDQo+ICtYOglkcml2ZXJzL2dwdS9kcm0vbm91dmVh
-dS8NCj4gK1g6CWRyaXZlcnMvZ3B1L2RybS9yYWRlb24vDQo+ICtYOglkcml2ZXJzL2dwdS9k
-cm0vcmVuZXNhcy8NCj4gK1g6CWRyaXZlcnMvZ3B1L2RybS90ZWdyYS8NCj4gICANCj4gICBE
-Uk0gRFJJVkVSUyBGT1IgQUxMV0lOTkVSIEExMA0KPiAgIE06CU1heGltZSBSaXBhcmQgPG1y
-aXBhcmRAa2VybmVsLm9yZz4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
-byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
-bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+Why I called them phylink bindings, is because when phylink is used on the
+ethernet controller driver, only then we can be sure that the link
+descriptions on the ethernet controller are needed. Because, some drivers
+don't need the link descriptions on the ethernet controller as they can
+search a certain MDIO bus to find and connect a MAC to a PHY or set up a
+fixed link without looking at the devicetree.
 
---------------tN9WGv9Sm3bW15FJqXQwj9oC--
+I don't like this approach because, as you said, devicetree bindings should
+describe the hardware, not driver policies. So I propose that we don't let
+Linux drivers interfere with dt-bindings. To that extent:
 
---------------dSxprB7Srgjr0Bp5MLVnm0oc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+- Link descriptions must be required on ethernet controllers. We don't care
+   whether some Linux driver can or cannot find the PHY or set up a fixed
+   link without looking at the devicetree.
 
------BEGIN PGP SIGNATURE-----
+- The MDIO bus description on an ethernet controller describes that the
+   hardware comes with an MDIO bus. The MDIO property is optional not
+   because some Linux driver can find and map the PHYs to MACs without DT
+   descriptions but because the hardware doesn't have to use that or any
+   MDIO bus.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUMJMwFAwAAAAAACgkQlh/E3EQov+BH
-2BAA0LTZSFZq+OJZiKl/+R8oepbkvZ/YaNFEU74lc3D+RIvllgrlIP9+j8eyt4SXHLeoX19RTPU8
-KB5HM0rSezTANhqPiNO5rb96Bzk/yFmrKXhrLJfRUcFBYrprGlmTcXrDrjtTNEGTB9CE50bcLjeR
-XcOuz7VRyuUbq2gtLv9SI7gWQIuMpfDaTaO10Xt034fad7wI+aFbvB7vWuC2cST8f2zDDpzR799l
-R5k6CHGFSad12dlO0DaXJ2f6jGmj2b5icRKLzYFYt+A3cuTJKKbATQ5Fkl6/3T3Oij2R/q1Y2qZc
-Ojgd5+b7nlC05oartvMGihHyGwHVLnJqbjXCzkJgah8eLZXaW10TnNsLt7EY+4FGI9DfRfQSmBvu
-Fap/MWzMqVdbhSEePpkA5nuPMN0KkzjrLg5yExrYCboj6/YJoVeaWn0qXjVlwJeb4CVahVnxQs0I
-1+rAZ8vpWqhM0GR/6s1kjpzB6SEv8J+NDArsvOC/0nwxxiT9T9KaLAfGRSWU0UFRmZ/ezO9CdHHA
-oD0zFJG4Mhs/yKLo9976evNdoi8EEmmMkyMdsqsyCzP98c+gOuTYrKGvz0lCNzujzk9aeHP8H5SZ
-8W2V7MFPOhaaJJgFdCDv9U+uwxKMOm1K9o2qDqQ1kjXcJhKkBoATfptOou431V2fazE1RMGssLcq
-A/s=
-=AdlW
------END PGP SIGNATURE-----
+Let's also talk about the elephant in the room: DSA bindings. Distributed
+Switch Architecture is a Linux subsystem, not a hardware property.
+Devicetree bindings are supposed to describe the hardware, yet we have
+bindings specifically for DSA so that the DSA driver can properly control
+the hardware.
 
---------------dSxprB7Srgjr0Bp5MLVnm0oc--
+Although I see dsa.yaml and dsa-port.yaml mostly consist of describing an
+ethernet switch with CPU port(s), there're properties that are specific to
+DSA, such as dsa,member on dsa.yaml and dsa-tag-protocol and label on
+dsa-port.yaml.
+
+Depending on how I get responses, I will address my patches. Then I can
+further discuss the DSA bindings.
+
+Arınç
