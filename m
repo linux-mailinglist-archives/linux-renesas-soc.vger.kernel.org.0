@@ -2,108 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BDF7A8FFB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Sep 2023 01:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2037A97E5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Sep 2023 19:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjITXx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Sep 2023 19:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55624 "EHLO
+        id S229913AbjIUR2V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Sep 2023 13:28:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbjITXxY (ORCPT
+        with ESMTP id S229819AbjIUR1y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Sep 2023 19:53:24 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2134.outbound.protection.outlook.com [40.107.114.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98148CF
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Sep 2023 16:53:16 -0700 (PDT)
+        Thu, 21 Sep 2023 13:27:54 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on20619.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1b::619])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E38B2689
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Sep 2023 10:02:16 -0700 (PDT)
+Received: from PAWPR10MB8284.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:38e::6)
+ by PAVPR10MB7281.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:31c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Thu, 21 Sep
+ 2023 16:33:10 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KLo6hClt5UdYoGbm9ckftunp4ZQr25sIhUfkzZoTlSpX2B9k+eF4guKkD8zCO3F1VX9+1eDe4F9EccqXchp65O78WbbofzL7HbprKiExTX/TiBSZXigJs+3DxSfrWp+VlihF8K8fFkD9Z58fVRNpXB54Hrub67Ps4X79zO9YVDUapCxLGQfiRAY/qhgsnenO2zlpiEaX2/rnAGHtuDBiaYzbcuAUH3OivSmV/EsmM6gOGJHS7qmkTFFSfuRdxIYTY1fGmOJUnYJ15MtNQAmH2aMNHvy2WanJ9dnxEfuXNlngSgP57cmf8bV7l0HHcZ7P7r+TOgETDdRgrV60BMl5zw==
+ b=GsYjUstqfN2fsL+f2ee4pSxrAnMrLtTOnVHcdu6tieQZ/wPqGPauZlxT3PV16E9hym3WqGtE1FVkTz+baWxdWpGkL1Ruv45aR6XDQudsnjfuy5+3C/nJ+ubB+uJAc8TKpOS+XVqEIM6JC4Ysh6E9w1CP349Lz+8sWheQuDv+xxP5H164YJgzWIl8bD6ZXvtys+sA/dmt1ljEqoZ4vGiMuMrATx3u3k+i1XgsSs3e3yQvc7UTxImBBi7mDxW7+ruiLNtbQaMyP/pONTufaucB8kB4ZHw/oyNoU2v0d5PonJqVNSk+R+N8Dat0fMQW+KkmKPGvQWSlVG208xojCvaUhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D8YwWrllrkidIWX0jjQA3Ly9EuVrhA5Bdu3YT/OU6qg=;
- b=F78Bfyt/zrChpuuZqdlDL5FJtzg5YIme36G23JqlsvGS8dKkO2AXW04kwvu6KyzTNzq9x4V77CrIgMQOodbzKInL0gqAL5354ywA3E1LoUCj66EfbbmI8ns/EUDG1wHl2RMb00X6KnymMBG/gRgo0u9Dg0KdNueO/FNrkMHaaYQLytVhenIGqSdjwf5Oi0T4Ko2v1UIkbXSMOicZw62G2qlCn68CWX8QuqQEkGw00Vo80iiFzeSrvsaQ8LAJcvCCbKxMZ3pGuT4+MLNASC6EQfTfgplHqJUE8Hj1QeIk19xfFO2EChliuuK33MeRnAalpjrH9jt+YT1IqvFpCso+xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ bh=nSYKn6E2bJt1vp7pDt7pKwolSFOPQP07IQvRSvv3Cm0=;
+ b=dLfOqsOB/9ZrHEUpjvLzoy0xUvIih65/p3hPj0GGl4lw4dDOneCtSVtIJYmi8rGKon6mhavb0P0EqG2gOwtGO9R39yqW96jX5ucHEa4bQrXUj34RihOaoYfXGp7u8s0/qr1nZ2Tt18GICPdx3/Av7oXGjZVggS5KWx3/DyHpK7m8nZXRO7agj4TLJLzgnWNGGiauX+X4t/RzG5cJaDgjrnLFzvgAe4ruCNZzaX4tSM2lQaTdTVys/7l25PSDwVPDAr7VSu1gMtFqvWbZEA9NuBNF2keIwXkR3idpS3yuyjCiVR9GQ5vNnPeNVbEuWb8ZFw0l8gs8wK0+DtHhHcF+GA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.200) smtp.rcpttodomain=sang-engineering.com
+ smtp.mailfrom=de.bosch.com; dmarc=pass (p=reject sp=none pct=100) action=none
+ header.from=de.bosch.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D8YwWrllrkidIWX0jjQA3Ly9EuVrhA5Bdu3YT/OU6qg=;
- b=m8eX0dE2QLfLEqfukz0beJMGlTKw+av4jlxMh87LWYurxKGWRq8BBbHzHZLCFFf+BQNyxB0rHxzGuV86fyZbtM+1RXdItqkzSXs9AtN9dLoEForu1pAdqbn/oe2U91HpozSj0JyczOPMiBL5cKlf75RBtWiIMKRnzxY7UI/YnlY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by OS3PR01MB9914.jpnprd01.prod.outlook.com (2603:1096:604:1ea::13) with
+ bh=nSYKn6E2bJt1vp7pDt7pKwolSFOPQP07IQvRSvv3Cm0=;
+ b=oQHf7gaO1rIovZZ6GsNrBJMSZoOMDyfAbFvxl41rDzN9G/15ARj86OC9/WF45d0ZbzK+TxFinIr5QXcB6lnbD/95AGgkphuiaAAttGQpa5TkLMSrlh7zzasVOdI99T6wk7Jn+PeudZI6mIrUfiBN3ou2jTPDs/jtZpwIobsq3U1/XVumxHL2izcfZW8om4VUvVO5FbE/TfsbSyK/RJGM+fpvpnhLvxFiwci3B7l+OgDWGvoC1TuPNMXetZQmjfqxNP4RRLbeWlKz89ue1b39gP32VwMbG7z5vk9KjyMvZ+qLh2jUT8VGTuKvGBz4OtISNW04A1/ULfziTvHAy64HpA==
+Received: from DB9PR02CA0018.eurprd02.prod.outlook.com (2603:10a6:10:1d9::23)
+ by PAWPR10MB8284.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:38e::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.29; Wed, 20 Sep
- 2023 23:53:12 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::8c08:d94c:8e54:9b5d]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::8c08:d94c:8e54:9b5d%6]) with mapi id 15.20.6813.017; Wed, 20 Sep 2023
- 23:53:12 +0000
-Message-ID: <87fs382yhk.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3] arm64: dts: renesas: use multi Component for ULCB/KF
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset=US-ASCII
-Date:   Wed, 20 Sep 2023 23:53:12 +0000
-X-ClientProxiedBy: TYCP301CA0001.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:386::19) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Thu, 21 Sep
+ 2023 04:28:08 +0000
+Received: from DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1d9:cafe::a5) by DB9PR02CA0018.outlook.office365.com
+ (2603:10a6:10:1d9::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.30 via Frontend
+ Transport; Thu, 21 Sep 2023 04:28:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.200)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.200 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.200; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.200) by
+ DBAEUR03FT049.mail.protection.outlook.com (100.127.142.192) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6813.20 via Frontend Transport; Thu, 21 Sep 2023 04:28:08 +0000
+Received: from FE-EXCAS2000.de.bosch.com (10.139.217.199) by eop.bosch-org.com
+ (139.15.153.200) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 21 Sep
+ 2023 06:28:08 +0200
+Received: from FE-HUB2000.de.bosch.com (10.4.103.109) by
+ FE-EXCAS2000.de.bosch.com (10.139.217.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 21 Sep 2023 06:28:08 +0200
+Received: from [10.34.222.178] (10.34.222.178) by FE-HUB2000.de.bosch.com
+ (10.4.103.109) with Microsoft SMTP Server id 15.1.2507.32; Thu, 21 Sep 2023
+ 06:28:07 +0200
+Message-ID: <7b93fb3b-378a-2c82-e5b8-428dd0b984e4@de.bosch.com>
+Date:   Thu, 21 Sep 2023 06:28:01 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] clk: renesas: rcar-gen3: Extend SDn divider table
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20230919123722.2338932-1-dirk.behme@de.bosch.com>
+ <ZQtY+NHFzFBWhrZj@shikoro>
+Content-Language: en-US
+From:   "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+In-Reply-To: <ZQtY+NHFzFBWhrZj@shikoro>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.34.222.178]
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|OS3PR01MB9914:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30758286-8305-484d-b734-08dbba34bfd5
+X-MS-TrafficTypeDiagnostic: DBAEUR03FT049:EE_|PAWPR10MB8284:EE_|PAVPR10MB7281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28879482-104e-4ea5-c7f0-08dbba5b2873
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mxTYVCDxriHRzMjLXarsocqny3K6M71NzgpklbBe1tLRV9Aj60TfJvAbO3vbKWBpkqjnh1KxfK8FaL8exclf9TVo6OmecQLRv94imuP7VoC0WJEchz25tUKv4U5vrLxb5AhwtXqYUwEQgXE45QywBMYJIApi+Shr0uvFkfpqDOOmWnJUbVQr+6cfsG4S5eoHYa00IJxK1Arh19QOiQC+uT1mO5JZg1DWXO16QIiUyisXK6bmmZgJrtEOQh1dMQgrbP9HY0hkxCmuoTkBRyNOfh42ayIiVNfegILT0Wk3RQCi3wHz8/Q35NcY6C9sNP9Lzz1UC7lqTtKQkR2UmnNIpnznCrFJRTQlYjYbVhZsvUObx91yr5njAbFXwWYn3J3sJJ0Amjrm6RtdohdoTnJ5pcHp3njuaCyKJqDS/t18TlJeOyL9ztsP2kQT4Kvbekas/QjJv4/44tAXcCiMl4aGc1nUx5v+GgT/0PoMiBFphmZLZRrxwQF6dPLi7Y6tzbgJEr4doDsAMufhR7kbIvwQSe70+0wNEN0K1Us1f8pIffNRI6WoawyL6CzrqmB/Nfke4Zxibsbft5Wa7iyhzykrT0WgB6zfFwMsNE/Qamuw1C9fkVsKzLsq1fVBIVSHfbUva9j9m0aqWEITuyND9+CQ7uZaNVjY82rff+Y1VkAkZ/Iza2imOp0nDSGUIq9bHrPS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(366004)(396003)(136003)(186009)(451199024)(1800799009)(6486002)(6506007)(52116002)(6512007)(83380400001)(8676002)(8936002)(5660300002)(478600001)(2906002)(30864003)(66946007)(316002)(66476007)(26005)(41300700001)(66556008)(4326008)(2616005)(86362001)(36756003)(38100700002)(38350700002)(21314003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wQCIMrp27kaiJMgUnZcIdP9MYaeqR6vCe6NIEAPVXP91xsQ6pwU/2FF+agIh?=
- =?us-ascii?Q?HdGWEkEwnqW2QF+WtQxZIU0K3gLSodf2VePSl4waA+01Ib1i5d2ThvuvXoBE?=
- =?us-ascii?Q?AHSaGDWFOoar2kRGtXxuI1OkqHeSTmd1jqT/7c+XBOn3YX6y6aL9Hv0lX9MN?=
- =?us-ascii?Q?HYJ1bJfF6/zzIglsbKmbG7ideyo9xfqqxEyGWLruWNNc8PSwXf7/BvribEna?=
- =?us-ascii?Q?2+RUXW+KJZh7UizSpjA1zZ/ZxXl99Yqsxr3whhGAa3WDz847Wi/8Pr3nNUsX?=
- =?us-ascii?Q?j0zPvAWSQj505Wgy2SApvRqGKPoO962PnnhvkQiW5X/9YOI+bSZ2+e+8j5nr?=
- =?us-ascii?Q?HR9L0SHymYX5M57SjHCNDJVKcN6MVXuiCG7sYxIDlAXiAdcrexy6rrLTWNsg?=
- =?us-ascii?Q?Sr6bSImAo62OazOGIaDEzRgkLhKM987rGuQF4tkAylvqQywCgbpTW9JuDKmY?=
- =?us-ascii?Q?xg9rjE82XGUeo9yTq/ytDfj6hN6Jw4uJN686YEtNNgErrcpMq1HjX5cxUZsZ?=
- =?us-ascii?Q?Wr78fLqaPvgzLG7AK71/XW895ce8D4YVBy/ZpK4PlISkenvgAUvD/nDrvmVa?=
- =?us-ascii?Q?aG3Ob5SBbsJd2cdtHEWihNbTKfP45iCdASAwb1UiV/t8C0UOUb8uZRf9Ei/E?=
- =?us-ascii?Q?0OmHyf93ImUAR0pI1i1Cy71fLcwcZRFfyLdSFENWw6HTyTr6IfJI9fPGzSYp?=
- =?us-ascii?Q?QTYZZ+8lwm8L1rN6ncH2ydRqFcKGIpzciuBYH9ZDdeSI2wCc0KIbnjlgMZ6n?=
- =?us-ascii?Q?uCMi5lj8hG5UtTrwjB+ZsfNrhZJKfSzWEYTxBS9Cf3cBrDSzBT2MtKvlvxM/?=
- =?us-ascii?Q?Wn/KoQ8+LvrB/kNX4oOnwfnBOiwxutmjBytd5iGxtUJOXiDlAwJUa/laCwpL?=
- =?us-ascii?Q?BDUtGnZ/rusMELjV4w6zNB8G5PKMt9U1aGWnatg/BskzIvrR39Ar33ZOyVmb?=
- =?us-ascii?Q?DkHaMK2NuZRndThymFEsq7KBprhbkPP8i08e7vKrs4BmHtC6sXzmIkqD4Ois?=
- =?us-ascii?Q?jhiNsoIkBgJzk2VOggC3uJ3g/kyUINWKCYVTOGevRnGRA2NmI+5Kha8tGjMe?=
- =?us-ascii?Q?b6yw/dH+40Z4dTvrpm/4S3eIq3xUd82EjURY5CW9bwCppnfxK6SsuBDNnSdn?=
- =?us-ascii?Q?Xcfh8VCFEwbTNtgs53r+gBUGdyNfpDcClvOUGlda9ez9ezcXmd1uauZPruvf?=
- =?us-ascii?Q?IwDchYvep/YLbD/cG13X68bXWu9fsgh6ssRuoD+pm2muTafw52FpC/uq5Pvz?=
- =?us-ascii?Q?yn7MSWtX4xaUA5n3oP8MOJ7hG8nw87mXh+Sw0NLTMMa4+3qxFWb2kBmPMKnJ?=
- =?us-ascii?Q?XX51BPjhcum4c+vEo6wMsrhl3QKkeRnskMO+tvfoZYdstsvmwU/2ciDda1F8?=
- =?us-ascii?Q?UJf96CcezUOFHFRWmVjNvL3A7kRc4Hcv5TwfdPTFMB8Uiop81F5FI0roPpLd?=
- =?us-ascii?Q?iDQjUeIXXw+MP2miHwa0vLYJ5SMIkfmxdCRaQEWXQGRk4nBxqT7KOFFTzh8c?=
- =?us-ascii?Q?4db/M4PMYH4qLBynUHrydIrppEKr9no8I5hY930Z3zVNXSjlv9qkZeszF5C7?=
- =?us-ascii?Q?h14qAOaKGvl9vhILiUdn78oSVhLSy9WvuKSPViRmUN2mTtDFnRFq6XINyrWi?=
- =?us-ascii?Q?gv7EpRwGCB3zEWx6uO3EBIY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30758286-8305-484d-b734-08dbba34bfd5
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 23:53:12.3784
+X-Microsoft-Antispam-Message-Info: jpYeuBOEfxDs8ZcguHonbrg+CdWaVtUQ6D7NjtCDmLDH2dAGrfwF6kiW33tqjrf9C6JXqfXElzNtPEwpqMj7xwJfL2ZaDEePADgiKerOkbyoBXJ56jdDZKt6LKmh7FccNkEuxgv7g5IdI9IL+unVUV8skgRnc5r1xW+op2w9nrrFSRDiKnCKWnyJ42wVeh09g+MwkZScx/qr+po1EOPIm24oyAxe4p4KU+ql7/BWYExH7YTxrjq0YBFZEKl2vMH4IYkKCbW6EgRS8HNwRtL2tFTG5wE2KsaHFb5yhkD6GO9VGn7S9836YmC4nmaTJ9+dUg1NoottRE2a/Qgne0R8kU3WBd9HPAndUC8Nm/uE4LZN3rsscADkZBQ7bREx5/A1x6HaBIph0MR6PgejSaz6Hl2YRm3E3Y1vEZhzfI2Z0i75w82QegC9XCY2wq7nWukRKjLCsxiTA1rvk/bstQTdFf0Ip1Jl6NUeirO9GRQNrcTk8/E/0U+hP+3VRIhuKzWmncZySF9g6UeuXIIfZ1KY9twPCGWcjSghA6Pkite2M6Fp+Rs7nRkUqnkHXIACGU3MzykbvmyPjqwkpGaeVpXFHqFAo4vtxA7wC7I9Ewk0Y5bH3zm9M0GyCb/9VxPlUgT1w28VsHxuAxE6znrtT+xU9MYTnneIPdqeF6dw1DQhdJGl3sRhAvtfZMRYZcERDqVlSUeGJyFv5FO1aMW6USuiLFODlB5tBVoD4bynz9nodUMZttwAlmP8O561e4eeLXn4yWFKHnP6aUfbGTYONkWXw1JWNtYPFZm1DLcM1WX9kz2G7AKIW66tgo5CpqNnmHX9/sn1ZCbDuFAbMc1A8FF1oBrN/M/C7fL5pfwObE/NM2NQj6UiU4Z8uDEqe0gNTU1l
+X-Forefront-Antispam-Report: CIP:139.15.153.200;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(39860400002)(396003)(82310400011)(1800799009)(186009)(451199024)(36840700001)(46966006)(40470700004)(26005)(82960400001)(81166007)(16526019)(8936002)(8676002)(40460700003)(82740400003)(2906002)(86362001)(2616005)(31696002)(356005)(47076005)(5660300002)(36860700001)(336012)(426003)(83380400001)(40480700001)(53546011)(70206006)(70586007)(110136005)(31686004)(6666004)(478600001)(316002)(41300700001)(16576012)(3940600001)(36900700001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2023 04:28:08.5273
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nRUyVclCo30b2AMNjHJSy8mBXH8muWiBkBkKqY61eoEp9riZdY+CiwK8sRfyuJv58zQ3g/5P0NHvGCK8vhiM/x5x6zVz1bAwScuwN0VyAyFn4jt5qkMsNbY45cuLCACy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9914
-X-Spam-Status: No, score=-2.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28879482-104e-4ea5-c7f0-08dbba5b2873
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.200];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT049.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB8284
+X-OriginatorOrg: de.bosch.com
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -111,907 +113,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	+-- ULCB -------------------+
-	|+--------+       +--------+|
-	||    SSI0| <---> |ak4613  ||
-	||    SSI1| <---> |        ||
-	||        |       +--------+|
-	||        |       +--------+|
-	||    SSI2| <---> |HDMI    ||
-	||        |       +--------+|
-	||    SSI3| <--+            |
-	||    SSI4| <-+|            |
-	|+--------+   ||            |
-	+-------------||------------+
-	+-- Kingfisher -------------+
-	|             ||  +--------+|
-	|             |+->|pcm3168a||
-	|             +-->|        ||
-	|                 +--------+|
-	+---------------------------+
+Hi Wolfram,
 
-On UCLB/KF, we intuitively think we want to handle these
-as "2 Sound Cards".
+On 20.09.2023 22:41, Wolfram Sang wrote:
+> Hi Dirk,
+> 
+> long time no see!
 
-	card0,0: 1st sound of ULCB (SSI0 - ak4613)
-	card0,1: 2nd sound of ULCB (SSI2 - HDMI)
-	card1,0: 1st sound of KF   (SSI3 - pcm3168a)
-	    ^ ^
+Got a chance to look at kernel 6.1 :)
 
-But, we needed to handle it as "1 big Sound Card",
-because of ASoC Component vs Card framework limitation.
+>> There are Renesas ARM Trusted Firmware version out there which e.g.
+>> configure 0x201 (shifted logical right by 2: 0x80) and with this match
+>> the added { STPnHCK | 0, 1 }:
+> 
+> IIRC, that means that the ATF uses 200MHz for the data channel but
+> disables the 800MHz for the SCC. Because of that, I assume ATF doesn't
+> do tuning then? Isn't that risky to operate at 200MHz without tuning?
+> 
+>>   static const struct clk_div_table cpg_sdh_div_table[] = {
+>> -	{ 0, 1 }, { 1, 2 }, { STPnHCK | 2, 4 }, { STPnHCK | 3, 8 },
+>> -	{ STPnHCK | 4, 16 }, { 0, 0 },
+>> +	{ 0, 1 }, { 1, 2 }, { STPnHCK | 0, 1 }, { STPnHCK | 1, 2 },
+>> +	{ STPnHCK | 2, 4 }, { STPnHCK | 3, 8 }, { STPnHCK | 4, 16 }, { 0, 0 },
+> 
+> Anyhow, since such ATF seems to be in the wild then, I assume we should
+> at least support reading such configuration values. I'd reorder it like
+> this, though:
+> 
+>   +	{ 0, 1 }, { STPnHCK | 0, 1 }, { 1, 2 }, { STPnHCK | 1, 2 },
+>   +	{ STPnHCK | 2, 4 }, { STPnHCK | 3, 8 }, { STPnHCK | 4, 16 }, { 0, 0 },
+> 
+> And probably add a comment that the duplicate entries are only for
+> reading and are not recommended for use with Linux (which will still use
+> the first matching pair i.e. without STPnHCK).
 
-	card0,0: 1st sound of ULCB/KF (SSI0 - ak4613)
-	card0,1: 2nd sound of ULCB/KF (SSI2 - HDMI)
-	card0,2: 3rd sound of ULCB/KF (SSI3 - pcm3168a)
-	    ^ ^
+Yes, I can do that :)
 
-Now ASoC support multi Component which allow us to handle "2 Sound Cards"
-such as "ULCB Sound Card" and "Kingfisher Sound Card".
+> Geert, does this all make sense to you?
 
-This patch updates all ULCB/KF Audio dtsi.
-One note is that Sound Card specification method from userland will be
-changed, especially for Kingfisher Sound.
+I was just wondering why this table includes STPnHCK? I mean, this is 
+'just' a translation table between the value read from the register to 
+the divider (1, 2, 4, 8, 16)? Couldn't we mask 7 instead of 8 bits and 
+with this drop STPnHCK from the comparison? The resulting divider would 
+stay the same. Or even better just mask SDnSRCFC[2:0] (i.e. 3 bits)?
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-v2 -> v3
-	- fix type on git-log "framwork" -> framework"
-	- fix comment-out style
-	- "rcar_sound,dai" -> "rcar_sound,dai@0" on ulcb
+Best regards
 
-v1 -> v2
-
-	- "ulcb" uses "port@0"
-	- "ulcb" has #address-cells / #size-cells
-
-
- .../ulcb-audio-graph-card-mix+split.dtsi      |  16 +-
- .../dts/renesas/ulcb-audio-graph-card.dtsi    |  17 +-
- .../ulcb-audio-graph-card2-mix+split.dtsi     |  13 +-
- .../dts/renesas/ulcb-audio-graph-card2.dtsi   |   4 +-
- .../ulcb-kf-audio-graph-card-mix+split.dtsi   |  57 +++----
- .../dts/renesas/ulcb-kf-audio-graph-card.dtsi |  27 ++--
- .../ulcb-kf-audio-graph-card2-mix+split.dtsi  | 108 +++++++------
- .../renesas/ulcb-kf-audio-graph-card2.dtsi    |  14 +-
- .../ulcb-kf-simple-audio-card-mix+split.dtsi  | 152 +++++++++---------
- .../renesas/ulcb-kf-simple-audio-card.dtsi    |  77 ++++-----
- .../ulcb-simple-audio-card-mix+split.dtsi     |   8 +-
- .../dts/renesas/ulcb-simple-audio-card.dtsi   |   8 +-
- 12 files changed, 270 insertions(+), 231 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card-mix+split.dtsi
-index 672b0a224ef9..be6d7a035739 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card-mix+split.dtsi
-@@ -21,14 +21,14 @@
- / {
- 	sound_card: sound {
- 		compatible = "audio-graph-scu-card";
--		label = "rcar-sound";
-+		label = "snd-ulcb-mix";
- 
- 		routing = "ak4613 Playback", "DAI0 Playback",
- 			  "ak4613 Playback", "DAI1 Playback",
- 			  "DAI0 Capture",    "ak4613 Capture";
- 
--		dais = <&rsnd_port0 /* (A) CPU0 */
--			&rsnd_port1 /* (B) CPU1 */
-+		dais = <&snd_ulcb1 /* (A) CPU0 */
-+			&snd_ulcb2 /* (B) CPU1 */
- 		>;
- 	};
- };
-@@ -58,14 +58,18 @@ ak4613_ep2: endpoint@1 {
- };
- 
- &rcar_sound {
--	ports {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ports@0 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-+		reg = <0>;
- 
- 		/*
- 		 * (A) CPU0
- 		 */
--		rsnd_port0: port@0 {
-+		snd_ulcb1: port@0 {
- 			reg = <0>;
- 			rsnd_for_ak4613_1: endpoint {
- 				remote-endpoint = <&ak4613_ep1>;
-@@ -78,7 +82,7 @@ rsnd_for_ak4613_1: endpoint {
- 		/*
- 		 * (B) CPU1
- 		 */
--		rsnd_port1: port@1 {
-+		snd_ulcb2: port@1 {
- 			reg = <1>;
- 			rsnd_for_ak4613_2: endpoint {
- 				remote-endpoint = <&ak4613_ep2>;
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-index 3be54df645e6..3f1df6ee17ea 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-@@ -18,10 +18,10 @@
- / {
- 	sound_card: sound {
- 		compatible = "audio-graph-card";
--		label = "rcar-sound";
-+		label = "snd-ulcb";
- 
--		dais = <&rsnd_port0 /* (A) CPU0 <-> ak4613 */
--			&rsnd_port1 /* (B) CPU1  -> HDMI   */
-+		dais = <&snd_ulcb1 /* (A) CPU0 <-> ak4613 */
-+			&snd_ulcb2 /* (B) CPU1  -> HDMI   */
- 		>;
- 	};
- };
-@@ -53,10 +53,15 @@ dw_hdmi0_snd_in: endpoint {
- };
- 
- &rcar_sound {
--	ports {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ports@0 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		rsnd_port0: port@0 {
-+		reg = <0>;
-+
-+		snd_ulcb1: port@0 {
- 			/*
- 			 * (A) CPU0 <-> ak4613
- 			 */
-@@ -69,7 +74,7 @@ rsnd_for_ak4613: endpoint {
- 				capture  = <&ssi1>, <&src1>, <&dvc1>;
- 			};
- 		};
--		rsnd_port1: port@1 {
-+		snd_ulcb2: port@1 {
- 			/*
- 			 * (B) CPU1 -> HDMI
- 			 */
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2-mix+split.dtsi
-index 75b024e3fef1..8966e6a7d28b 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2-mix+split.dtsi
-@@ -20,13 +20,12 @@
- / {
- 	sound_card: sound {
- 		compatible = "audio-graph-card2";
--		label = "rcar-sound";
-+		label = "snd-ulcb-mix";
- 
- 		routing = "ak4613 Playback", "DAI0 Playback",
- 			  "ak4613 Playback", "DAI1 Playback",
- 			  "DAI0 Capture",    "ak4613 Capture";
- 
--		/delete-property/ dais;
- 		links = <&fe_a		/* (A) CPU0   */
- 			 &fe_b		/* (B) CPU1   */
- 			 &be_x		/* (X) ak4613 */
-@@ -50,14 +49,12 @@ ports@0 {
- 			};
- 
- 			ports@1 {
--				#address-cells = <1>;
--				#size-cells = <0>;
- 				reg = <1>;
- 				/*
- 				 * BE
- 				 * (X) ak4613
- 				 */
--				be_x: port@0 { reg = <0>; be_x_ep: endpoint { remote-endpoint = <&ak4613_x_ep>; }; };
-+				be_x: port { be_x_ep: endpoint { remote-endpoint = <&ak4613_x_ep>; }; };
- 			};
- 		};
- 	};
-@@ -78,9 +75,13 @@ ak4613_x_ep: endpoint {
- };
- 
- &rcar_sound {
--	ports {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ports@0 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-+		reg = <0>;
- 
- 		/*
- 		 * (A) CPU0
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi
-index 5ebec1235843..19fa6e102995 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-audio-graph-card2.dtsi
-@@ -20,7 +20,7 @@ &sound_card {
- 	compatible = "audio-graph-card2";
- 
- 	/delete-property/ dais;
--	links = <&rsnd_port0	/* (A) CPU0 <-> ak4613 */
--		 &rsnd_port1	/* (B) CPU1  -> HDMI   */
-+	links = <&snd_ulcb1	/* (A) CPU0 <-> ak4613 */
-+		 &snd_ulcb2	/* (B) CPU1  -> HDMI   */
- 		>;
- };
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
-index 9b01354940fd..8ae6af1af094 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card-mix+split.dtsi
-@@ -19,32 +19,31 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav (MIX-0)
-  *	(B) aplay   -D plughw:0,1 xxx.wav (MIX-1)
-- *	(C) aplay   -D plughw:0,2 xxx.wav (TDM-0)
-- *	(D) aplay   -D plughw:0,3 xxx.wav (TDM-1)
-- *	(E) aplay   -D plughw:0,4 xxx.wav (TDM-2)
-- *	(F) aplay   -D plughw:0,5 xxx.wav (TDM-3)
-+ *	(C) aplay   -D plughw:1,0 xxx.wav (TDM-0)
-+ *	(D) aplay   -D plughw:1,1 xxx.wav (TDM-1)
-+ *	(E) aplay   -D plughw:1,2 xxx.wav (TDM-2)
-+ *	(F) aplay   -D plughw:1,3 xxx.wav (TDM-3)
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(G) arecord -D plughw:0,6 xxx.wav
-+ *	(G) arecord -D plughw:1,4 xxx.wav
-  */
-+/ {
-+	sound_card_kf: expand-sound {
-+		compatible = "audio-graph-scu-card";
-+		label = "snd-kf-split";
- 
--&sound_card {
--	routing = "ak4613 Playback",   "DAI0 Playback",
--		  "ak4613 Playback",   "DAI1 Playback",
--		  "DAI0 Capture",      "ak4613 Capture",
--		  "pcm3168a Playback", "DAI2 Playback",
--		  "pcm3168a Playback", "DAI3 Playback",
--		  "pcm3168a Playback", "DAI4 Playback",
--		  "pcm3168a Playback", "DAI5 Playback";
-+		routing = "pcm3168a Playback", "DAI2 Playback",
-+			  "pcm3168a Playback", "DAI3 Playback",
-+			  "pcm3168a Playback", "DAI4 Playback",
-+			  "pcm3168a Playback", "DAI5 Playback";
- 
--	dais = <&rsnd_port0 /* (A) CPU0 */
--		&rsnd_port1 /* (B) CPU1 */
--		&rsnd_port2 /* (C) CPU2 */
--		&rsnd_port3 /* (D) CPU3 */
--		&rsnd_port4 /* (E) CPU4 */
--		&rsnd_port5 /* (F) CPU5 */
--		&rsnd_port6 /* (G) GPU6 */
--	>;
-+		dais = <&snd_kf1 /* (C) CPU2 */
-+			&snd_kf2 /* (D) CPU3 */
-+			&snd_kf3 /* (E) CPU4 */
-+			&snd_kf4 /* (F) CPU5 */
-+			&snd_kf5 /* (G) GPU6 */
-+		>;
-+	};
- };
- 
- &pcm3168a {
-@@ -103,13 +102,15 @@ pcm3168a_endpoint_c: endpoint {
- };
- 
- &rcar_sound {
--	ports {
--		/* rsnd_port0-1 are defined in ulcb.dtsi */
-+	ports@1 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <1>;
- 
- 		/*
- 		 * (C) CPU2
- 		 */
--		rsnd_port2: port@2 {
-+		snd_kf1: port@2 {
- 			reg = <2>;
- 			rsnd_for_pcm3168a_play1: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p1>;
-@@ -121,7 +122,7 @@ rsnd_for_pcm3168a_play1: endpoint {
- 		/*
- 		 * (D) CPU3
- 		 */
--		rsnd_port3: port@3 {
-+		snd_kf2: port@3 {
- 			reg = <3>;
- 			rsnd_for_pcm3168a_play2: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p2>;
-@@ -133,7 +134,7 @@ rsnd_for_pcm3168a_play2: endpoint {
- 		/*
- 		 * (E) CPU4
- 		 */
--		rsnd_port4: port@4 {
-+		snd_kf3: port@4 {
- 			reg = <4>;
- 			rsnd_for_pcm3168a_play3: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p3>;
-@@ -145,7 +146,7 @@ rsnd_for_pcm3168a_play3: endpoint {
- 		/*
- 		 * (F) CPU5
- 		 */
--		rsnd_port5: port@5 {
-+		snd_kf4: port@5 {
- 			reg = <5>;
- 			rsnd_for_pcm3168a_play4: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p4>;
-@@ -157,7 +158,7 @@ rsnd_for_pcm3168a_play4: endpoint {
- 		/*
- 		 * (G) CPU6
- 		 */
--		rsnd_port6: port@6 {
-+		snd_kf5: port@6 {
- 			reg = <6>;
- 			rsnd_for_pcm3168a_capture: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_c>;
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
-index 1db99b7608f0..5fbd4ca83e20 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
-@@ -13,18 +13,20 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav
-  *	(B) aplay   -D plughw:0,1 xxx.wav
-- *	(C) aplay   -D plughw:0,2 xxx.wav
-+ *	(C) aplay   -D plughw:1,0 xxx.wav
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(D) arecord -D plughw:0,3 xxx.wav
-+ *	(D) arecord -D plughw:1,1 xxx.wav
-  */
-+/ {
-+	sound_card_kf: expand-sound {
-+		compatible = "audio-graph-card";
-+		label = "snd-kf";
- 
--&sound_card {
--	dais = <&rsnd_port0 /* (A) CPU0 <-> ak4613 */
--		&rsnd_port1 /* (B) CPU1  -> HDMI   */
--		&rsnd_port2 /* (C) CPU2  -> PCM3168A-p */
--		&rsnd_port3 /* (D) CPU3 <-  PCM3168A-c */
-+		dais = <&snd_kf1 /* (C) CPU2  -> PCM3168A-p */
-+			&snd_kf2 /* (D) CPU3 <-  PCM3168A-c */
- 		>;
-+	};
- };
- 
- &pcm3168a {
-@@ -56,12 +58,15 @@ pcm3168a_endpoint_c: endpoint {
- };
- 
- &rcar_sound {
--	ports {
--		/* rsnd_port0/1 are defined in ulcb.dtsi */
-+	ports@1 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <1>;
-+
- 		/*
- 		 * (C) CPU2 -> PCM3168A-p
- 		 */
--		rsnd_port2: port@2 {
-+		snd_kf1: port@2 {
- 			reg = <2>;
- 			rsnd_for_pcm3168a_play: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p>;
-@@ -74,7 +79,7 @@ rsnd_for_pcm3168a_play: endpoint {
- 		/*
- 		 * (D) CPU3 <- PCM3168A-c
- 		 */
--		rsnd_port3: port@3 {
-+		snd_kf2: port@3 {
- 			reg = <3>;
- 			rsnd_for_pcm3168a_capture: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_c>;
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
-index da644128a9ae..4cf632bc4621 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2-mix+split.dtsi
-@@ -19,61 +19,65 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav (MIX-0)
-  *	(B) aplay   -D plughw:0,1 xxx.wav (MIX-1)
-- *	(C) aplay   -D plughw:0,2 xxx.wav (TDM-0)
-- *	(D) aplay   -D plughw:0,3 xxx.wav (TDM-1)
-- *	(E) aplay   -D plughw:0,4 xxx.wav (TDM-2)
-- *	(F) aplay   -D plughw:0,5 xxx.wav (TDM-3)
-+ *	(C) aplay   -D plughw:1,0 xxx.wav (TDM-0)
-+ *	(D) aplay   -D plughw:1,1 xxx.wav (TDM-1)
-+ *	(E) aplay   -D plughw:1,2 xxx.wav (TDM-2)
-+ *	(F) aplay   -D plughw:1,3 xxx.wav (TDM-3)
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(G) arecord -D plughw:0,6 xxx.wav
-+ *	(G) arecord -D plughw:1,4 xxx.wav
-  */
--&sound_card {
--	routing = "ak4613 Playback",   "DAI0 Playback",
--		  "ak4613 Playback",   "DAI1 Playback",
--		  "DAI0 Capture",      "ak4613 Capture",
--		  "pcm3168a Playback", "DAI2 Playback",
--		  "pcm3168a Playback", "DAI3 Playback",
--		  "pcm3168a Playback", "DAI4 Playback",
--		  "pcm3168a Playback", "DAI5 Playback",
--		  "DAI6 Capture",      "pcm3168a Capture";
-+/ {
-+	sound_card_kf: expand-sound {
-+		compatible = "audio-graph-card2";
-+		label = "snd-kf-split";
- 
--	/delete-property/ dais;
--	links = <&fe_a		/* (A) CPU0	  */
--		 &fe_b		/* (B) CPU1	  */
--		 &fe_c		/* (C) CPU2	  */
--		 &fe_d		/* (D) CPU3	  */
--		 &fe_e		/* (E) CPU4	  */
--		 &fe_f		/* (F) CPU5	  */
--		 &rsnd_g	/* (G) CPU6	  */
--		 &be_x		/* (X) ak4613	  */
--		 &be_y		/* (Y) PCM3168A-p */
--	>;
-+		routing = "pcm3168a Playback", "DAI2 Playback",
-+			  "pcm3168a Playback", "DAI3 Playback",
-+			  "pcm3168a Playback", "DAI4 Playback",
-+			  "pcm3168a Playback", "DAI5 Playback",
-+			  "DAI6 Capture",      "pcm3168a Capture";
- 
--	dpcm {
--		ports@0 {
--		/*
--		 * FE
--		 *
--		 * (A)/(B) are defined on ulcb
--		 * (C) CPU2
--		 * (D) CPU3
--		 * (E) CPU4
--		 * (F) CPU5
--		 */
--		fe_c:	port@2 { reg = <2>; fe_c_ep: endpoint { remote-endpoint = <&rsnd_c_ep>; }; };
--		fe_d:	port@3 { reg = <3>; fe_d_ep: endpoint { remote-endpoint = <&rsnd_d_ep>; }; };
--		fe_e:	port@4 { reg = <4>; fe_e_ep: endpoint { remote-endpoint = <&rsnd_e_ep>; }; };
--		fe_f:	port@5 { reg = <5>; fe_f_ep: endpoint { remote-endpoint = <&rsnd_f_ep>; }; };
--		};
-+		links = <&fe_c		/* (C) CPU2	  */
-+			 &fe_d		/* (D) CPU3	  */
-+			 &fe_e		/* (E) CPU4	  */
-+			 &fe_f		/* (F) CPU5	  */
-+			 &rsnd_g	/* (G) CPU6	  */
-+			 &be_y		/* (Y) PCM3168A-p */
-+		>;
- 
--		ports@1 {
--		/*
--		 * BE
--		 *
--		 * (X) is defined on ulcb
--		 * (Y) PCM3168A-p
--		 */
--		be_y:	port@1 { reg = <1>; be_y_ep: endpoint { remote-endpoint = <&pcm3168a_y_ep>; }; };
-+		dpcm {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			ports@0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <0>;
-+
-+				/*
-+				 * FE
-+				 *
-+				 * (C) CPU2
-+				 * (D) CPU3
-+				 * (E) CPU4
-+				 * (F) CPU5
-+				 */
-+			fe_c:	port@2 { reg = <2>; fe_c_ep: endpoint { remote-endpoint = <&rsnd_c_ep>; }; };
-+			fe_d:	port@3 { reg = <3>; fe_d_ep: endpoint { remote-endpoint = <&rsnd_d_ep>; }; };
-+			fe_e:	port@4 { reg = <4>; fe_e_ep: endpoint { remote-endpoint = <&rsnd_e_ep>; }; };
-+			fe_f:	port@5 { reg = <5>; fe_f_ep: endpoint { remote-endpoint = <&rsnd_f_ep>; }; };
-+			};
-+
-+			ports@1 {
-+				reg = <1>;
-+				/*
-+				 * BE
-+				 *
-+				 * (Y) PCM3168A-p
-+				 */
-+			be_y:	port { be_y_ep: endpoint { remote-endpoint = <&pcm3168a_y_ep>; }; };
-+			};
- 		};
- 	};
- };
-@@ -111,8 +115,10 @@ pcm3168a_z_ep: endpoint {
- };
- 
- &rcar_sound {
--	ports {
--		/* (A)/(B) are defined in ulcb.dtsi */
-+	ports@1 {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <1>;
- 
- 		/*
- 		 * (C) CPU2
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2.dtsi
-index c30e056538e4..4fc229418dd7 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card2.dtsi
-@@ -13,18 +13,18 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav
-  *	(B) aplay   -D plughw:0,1 xxx.wav
-- *	(C) aplay   -D plughw:0,2 xxx.wav
-+ *	(C) aplay   -D plughw:1,0 xxx.wav
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(D) arecord -D plughw:0,3 xxx.wav
-+ *	(D) arecord -D plughw:1,1 xxx.wav
-  */
- #include "ulcb-kf-audio-graph-card.dtsi"
- 
--&sound_card {
-+&sound_card_kf {
-+	compatible = "audio-graph-card2";
-+
- 	/delete-property/ dais;
--	links = <&rsnd_port0	/* (A) CPU0 <-> ak4613 */
--		 &rsnd_port1	/* (B) CPU1  -> HDMI   */
--		 &rsnd_port2	/* (C) CPU2  -> PCM3168A-p */
--		 &rsnd_port3	/* (D) CPU3 <-  PCM3168A-c */
-+	links = <&snd_kf1 /* (C) CPU2  -> PCM3168A-p */
-+		 &snd_kf2 /* (D) CPU3 <-  PCM3168A-c */
- 		>;
- };
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
-index bc221f994473..f01d91aaadf3 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card-mix+split.dtsi
-@@ -19,89 +19,92 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav (MIX-0)
-  *	(B) aplay   -D plughw:0,1 xxx.wav (MIX-1)
-- *	(C) aplay   -D plughw:0,2 xxx.wav (TDM-0)
-- *	(D) aplay   -D plughw:0,3 xxx.wav (TDM-1)
-- *	(E) aplay   -D plughw:0,4 xxx.wav (TDM-2)
-- *	(F) aplay   -D plughw:0,5 xxx.wav (TDM-3)
-+ *	(C) aplay   -D plughw:1,0 xxx.wav (TDM-0)
-+ *	(D) aplay   -D plughw:1,1 xxx.wav (TDM-1)
-+ *	(E) aplay   -D plughw:1,2 xxx.wav (TDM-2)
-+ *	(F) aplay   -D plughw:1,3 xxx.wav (TDM-3)
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(G) arecord -D plughw:0,6 xxx.wav
-+ *	(G) arecord -D plughw:1,4 xxx.wav
-  */
- 
--&sound_card {
--
--	simple-audio-card,routing = "ak4613 Playback",   "DAI0 Playback",
--				    "ak4613 Playback",   "DAI1 Playback",
--				    "DAI0 Capture",      "ak4613 Capture",
--				    "pcm3168a Playback", "DAI2 Playback",
--				    "pcm3168a Playback", "DAI3 Playback",
--				    "pcm3168a Playback", "DAI4 Playback",
--				    "pcm3168a Playback", "DAI5 Playback";
--
--	/* dai-link@0 is defined in ulcb.dtsi */
--
--	simple-audio-card,dai-link@1 {
-+/ {
-+	sound_card_kf: expand-sound {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		reg = <1>;
--		convert-channels = <8>; /* to 8ch TDM */
- 
--		/*
--		 * (C) CPU2
--		 */
--		cpu@0 {
-+		compatible = "simple-scu-audio-card";
-+		label = "snd-kf-split";
-+
-+		simple-audio-card,routing = "pcm3168a Playback", "DAI2 Playback",
-+					    "pcm3168a Playback", "DAI3 Playback",
-+					    "pcm3168a Playback", "DAI4 Playback",
-+					    "pcm3168a Playback", "DAI5 Playback";
-+
-+		simple-audio-card,dai-link@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 			reg = <0>;
--			bitclock-master;
--			frame-master;
--			sound-dai = <&rcar_sound 2>;
-+			convert-channels = <8>; /* to 8ch TDM */
-+
-+			/*
-+			 * (C) CPU2
-+			 */
-+			cpu@0 {
-+				reg = <0>;
-+				bitclock-master;
-+				frame-master;
-+				sound-dai = <&rcar_sound 2>;
-+			};
-+			/*
-+			 * (D) CPU3
-+			 */
-+			cpu@1 {
-+				reg = <1>;
-+				sound-dai = <&rcar_sound 3>;
-+			};
-+			/*
-+			 * (E) CPU4
-+			 */
-+			cpu@2 {
-+				reg = <2>;
-+				sound-dai = <&rcar_sound 4>;
-+			};
-+			/*
-+			 * (F) CPU5
-+			 */
-+			cpu@3 {
-+				reg = <3>;
-+				sound-dai = <&rcar_sound 5>;
-+			};
-+			/*
-+			 * (Y) PCM3168A-p
-+			 */
-+			codec {
-+				prefix = "pcm3168a";
-+				mclk-fs = <512>;
-+				sound-dai = <&pcm3168a 0>;
-+			};
- 		};
--		/*
--		 * (D) CPU3
--		 */
--		cpu@1 {
-+
-+		simple-audio-card,dai-link@1 {
- 			reg = <1>;
--			sound-dai = <&rcar_sound 3>;
--		};
--		/*
--		 * (E) CPU4
--		 */
--		cpu@2 {
--			reg = <2>;
--			sound-dai = <&rcar_sound 4>;
--		};
--		/*
--		 * (F) CPU5
--		 */
--		cpu@3 {
--			reg = <3>;
--			sound-dai = <&rcar_sound 5>;
--		};
--		/*
--		 * (Y) PCM3168A-p
--		 */
--		codec {
--			prefix = "pcm3168a";
--			mclk-fs = <512>;
--			sound-dai = <&pcm3168a 0>;
--		};
--	};
--	simple-audio-card,dai-link@2 {
--		reg = <2>;
--		/*
--		 * (G) CPU6
--		 */
--		cpu {
--			bitclock-master;
--			frame-master;
--			sound-dai = <&rcar_sound 6>;
--		};
--		/*
--		 * (Z) PCM3168A-c
--		 */
--		codec {
--			prefix = "pcm3168a";
--			mclk-fs = <512>;
--			sound-dai = <&pcm3168a 1>;
-+			/*
-+			 * (G) CPU6
-+			 */
-+			cpu {
-+				bitclock-master;
-+				frame-master;
-+				sound-dai = <&rcar_sound 6>;
-+			};
-+			/*
-+			 * (Z) PCM3168A-c
-+			 */
-+			codec {
-+				prefix = "pcm3168a";
-+				mclk-fs = <512>;
-+				sound-dai = <&pcm3168a 1>;
-+			};
- 		};
- 	};
- };
-@@ -115,7 +118,8 @@ &pcm3168a {
- };
- 
- &rcar_sound {
--	rcar_sound,dai {
-+	rcar_sound,dai@1 {
-+		reg = <1>;
- 
- 		/* dai0-1 are defined in ulcb.dtsi */
- 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card.dtsi
-index 2010e8ac7fdc..28d29ecfb395 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf-simple-audio-card.dtsi
-@@ -13,45 +13,51 @@
-  *
-  *	(A) aplay   -D plughw:0,0 xxx.wav
-  *	(B) aplay   -D plughw:0,1 xxx.wav
-- *	(C) aplay   -D plughw:0,2 xxx.wav
-+ *	(C) aplay   -D plughw:1,0 xxx.wav
-  *
-  *	(A) arecord -D plughw:0,0 xxx.wav
-- *	(D) arecord -D plughw:0,3 xxx.wav
-+ *	(D) arecord -D plughw:1,1 xxx.wav
-  */
- 
--&sound_card {
--	/* dai-link@0/1 are defined in ulcb.dtsi */
-+/ {
-+	sound_card_kf: expand-sound {
-+		compatible = "simple-audio-card";
-+		label = "snd-kf";
- 
--	/*
--	 * (C) CPU2 -> PCM3168A-p
--	 */
--	simple-audio-card,dai-link@2 {
--		reg = <2>;
--		cpu {
--			bitclock-master;
--			frame-master;
--			dai-tdm-slot-num = <8>;
--			sound-dai = <&rcar_sound 2>;
--		};
--		codec {
--			mclk-fs = <512>;
--			sound-dai = <&pcm3168a 0>;
--		};
--	};
--	/*
--	 * (D) CPU3 <- PCM3168A-c
--	 */
--	simple-audio-card,dai-link@3 {
--		reg = <3>;
--		cpu {
--			bitclock-master;
--			frame-master;
--			dai-tdm-slot-num = <6>;
--			sound-dai = <&rcar_sound 3>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/*
-+		 * (C) CPU2 -> PCM3168A-p
-+		 */
-+		simple-audio-card,dai-link@0 {
-+			reg = <0>;
-+			cpu {
-+				bitclock-master;
-+				frame-master;
-+				dai-tdm-slot-num = <8>;
-+				sound-dai = <&rcar_sound 2>;
-+			};
-+			codec {
-+				mclk-fs = <512>;
-+				sound-dai = <&pcm3168a 0>;
-+			};
- 		};
--		codec {
--			mclk-fs = <512>;
--			sound-dai = <&pcm3168a 1>;
-+		/*
-+		 * (D) CPU3 <- PCM3168A-c
-+		 */
-+		simple-audio-card,dai-link@1 {
-+			reg = <1>;
-+			cpu {
-+				bitclock-master;
-+				frame-master;
-+				dai-tdm-slot-num = <6>;
-+				sound-dai = <&rcar_sound 3>;
-+			};
-+			codec {
-+				mclk-fs = <512>;
-+				sound-dai = <&pcm3168a 1>;
-+			};
- 		};
- 	};
- };
-@@ -65,9 +71,8 @@ &pcm3168a {
- };
- 
- &rcar_sound {
--
--	rcar_sound,dai {
--		/* dai0-1 are defined in ulcb.dtsi */
-+	rcar_sound,dai@1 {
-+		reg = <1>;
- 
- 		/*
- 		 * (C) CPU2 -> PCM3168A-p
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card-mix+split.dtsi b/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card-mix+split.dtsi
-index 217d89019845..9b955510e38e 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card-mix+split.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card-mix+split.dtsi
-@@ -24,7 +24,7 @@ sound_card: sound {
- 		#size-cells = <0>;
- 
- 		compatible = "simple-scu-audio-card";
--		label = "rcar-sound";
-+		label = "snd-ulcb-mix";
- 
- 		simple-audio-card,prefix  = "ak4613";
- 		simple-audio-card,routing = "ak4613 Playback", "DAI0 Playback",
-@@ -72,9 +72,13 @@ &ak4613 {
- };
- 
- &rcar_sound {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
- 	#sound-dai-cells = <1>;
- 
--	rcar_sound,dai {
-+	rcar_sound,dai@0 {
-+		reg = <0>;
-+
- 		/*
- 		 * (A) CPU0
- 		 */
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card.dtsi b/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card.dtsi
-index 751cfd8c5257..ba0e188e7b21 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-simple-audio-card.dtsi
-@@ -18,7 +18,7 @@
- / {
- 	sound_card: sound {
- 		compatible = "simple-audio-card";
--		label = "rcar-sound";
-+		label = "snd-ulcb";
- 
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -69,9 +69,13 @@ &hdmi0 {
- };
- 
- &rcar_sound {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
- 	#sound-dai-cells = <1>;
- 
--	rcar_sound,dai {
-+	rcar_sound,dai@0 {
-+		reg = <0>;
-+
- 		/*
- 		 * (A) CPU0 <-> ak4613
- 		 */
--- 
-2.25.1
+dirk
 
