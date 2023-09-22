@@ -2,44 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B6E77AA925
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 08:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3717AA93F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 08:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbjIVGhB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Sep 2023 02:37:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
+        id S229685AbjIVGqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Sep 2023 02:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbjIVGg6 (ORCPT
+        with ESMTP id S229623AbjIVGqF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Sep 2023 02:36:58 -0400
+        Fri, 22 Sep 2023 02:46:05 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5511195
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Sep 2023 23:36:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D540F102
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Sep 2023 23:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=FklUloVeC/IRscF5Gxi0GaW0kes3xUCC/OyKePZjK7g=; b=QMDzuS
-        5SRIR3kgcPOVLsMOQOQjRV03h+7w8tVMA1L53xCEhlo/eiF8uRtU8qs+Y9YupN5w
-        1jCfYXB3jXVnkbCW09p1V8BrdC3FWI+xvH5d0edFEwNkHzrdLfsvmQFs1AO8uXk3
-        5k7nldWfgpT6k7AHB1WL4O6BXQIaI6AksP8QymfGSJiMF3SBD/TNE6bCaZs3cjCH
-        /UeLchJO1bCk6QO8QsEki16nnSheCssxUejZesJCns0CibWjYj+i8SIpHeumw/LH
-        DsexD1/9NGXYw+RpKt4J0XE6Gf/fweltgpzau92yUc+I11Qs7KHDrVlxMU6uSFwt
-        3cPxw4mQUnE9NJtA==
-Received: (qmail 1276431 invoked from network); 22 Sep 2023 08:36:51 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2023 08:36:51 +0200
-X-UD-Smtp-Session: l3s3148p1@bHdj1ewFeroujntX
+        :mime-version:content-transfer-encoding; s=k1; bh=P209lUPPFk5mfM
+        w91tLgw5JIrd9mLWDy2MCMSCAaG5Y=; b=BSsuYEadNC6G2ywAF+TpzNZTR4NhXo
+        lJFC501Xtq9dk+8EpD/tYtCTAtF46zwk4TkZPxyIfhqSE4y4oLOZggtpGhZ6HVWG
+        8Eo6mAPCFPiSbMXsVihqRX8DljaA3tpk1FOVFpkEeljJrl/GbSILzAsajmTI4cRV
+        TbnkWEMTvad7ElGZNert7jvMOghekFUl65rCWi4lKfmOFzAgnvcOHee2rOoCPiHX
+        FzbjFCBmX+dpSxbGeaHNpi/Nex0ovG5wFM57cYupZTdw6vw2FvwReBBOZWSVgmRJ
+        GhVddCD4PFDK9+aEjHtSMU63m2bwo0d4mLtr7tG+P9CzaAp0o0/OWx/Q==
+Received: (qmail 1279089 invoked from network); 22 Sep 2023 08:45:57 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2023 08:45:57 +0200
+X-UD-Smtp-Session: l3s3148p1@4mHx9ewFCuUujntX
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: [PATCH 2/2] serial: core: add comment about definitely used port types
-Date:   Fri, 22 Sep 2023 08:36:42 +0200
-Message-Id: <20230922063642.4120-3-wsa+renesas@sang-engineering.com>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: renesas_usbhs: remove boilerplate from header file
+Date:   Fri, 22 Sep 2023 08:45:51 +0200
+Message-Id: <20230922064551.4663-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230922063642.4120-1-wsa+renesas@sang-engineering.com>
-References: <20230922063642.4120-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -52,28 +49,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When port type 18 was removed, it was deduced that the code could go but
-its define has to stay because it is used in userspace. Share that
-knowledge by adding a comment about it.
+There is a SPDX entry, so we can remove the boilerplate.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- include/uapi/linux/serial_core.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/usb/renesas_usbhs.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
-index 92e3dd56f631..46e06c483899 100644
---- a/include/uapi/linux/serial_core.h
-+++ b/include/uapi/linux/serial_core.h
-@@ -11,6 +11,8 @@
-  * The type definitions.  These are from Ted Ts'o's serial.h
-  * By historical reasons the values from 0 to 13 are defined
-  * in the include/uapi/linux/serial.h, do not define them here.
-+ * Values 0 to 19 are used by setserial from busybox and must never
-+ * be modified.
+diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
+index d418c55523a7..372898d9eeb0 100644
+--- a/include/linux/usb/renesas_usbhs.h
++++ b/include/linux/usb/renesas_usbhs.h
+@@ -5,16 +5,6 @@
+  * Copyright (C) 2011 Renesas Solutions Corp.
+  * Copyright (C) 2019 Renesas Electronics Corporation
+  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- *
   */
- #define PORT_NS16550A	14
- #define PORT_XSCALE	15
+ #ifndef RENESAS_USB_H
+ #define RENESAS_USB_H
 -- 
 2.35.1
 
