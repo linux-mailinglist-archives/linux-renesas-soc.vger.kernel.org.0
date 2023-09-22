@@ -2,84 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E357AA98B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 08:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4CFC7AA9A3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 09:03:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjIVGx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Sep 2023 02:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        id S230036AbjIVHDE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Sep 2023 03:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230180AbjIVGxv (ORCPT
+        with ESMTP id S229556AbjIVHDE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Sep 2023 02:53:51 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B407118F;
-        Thu, 21 Sep 2023 23:53:44 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,167,1694703600"; 
-   d="scan'208";a="176885456"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Sep 2023 15:53:40 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AE0D1400F799;
-        Fri, 22 Sep 2023 15:53:40 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, mani@kernel.org
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v21 16/16] misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-Date:   Fri, 22 Sep 2023 15:53:31 +0900
-Message-Id: <20230922065331.3806925-17-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230922065331.3806925-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20230922065331.3806925-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 22 Sep 2023 03:03:04 -0400
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C56C18F;
+        Fri, 22 Sep 2023 00:02:58 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d8181087dc9so2017988276.3;
+        Fri, 22 Sep 2023 00:02:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695366177; x=1695970977;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IhjVAE7WlPuKD4pmT6JIj2Ntx2AmY+YJOfXX6OuQXmU=;
+        b=xS4Tf5TaEdSSHfrqv/8KVu2xv7TRkUl9x6nMXoih5lNN4RzVb+JGMcPWckQZ188lu5
+         k/BLmTCyHKX71yeiBZr9w5ruOWo7ePpGDp8GGPKkbfir6O6DYwCZFGR740MFkuQreXea
+         NHZBSoNupYTIoPNmh0yd5L23hlQJsBB1P0JyaCsjVX5/iW3hKq0k3k1MX30D7a8a3Avn
+         sXikHIUt+P840r5iq3BrTEIhvYITMBviG1DAqvFAMIH0Nd9vnCXa9BJkjebHK0FMs91c
+         L0NtBg9y/DF6A9pllY2h5PFXU/7lcCbL8qFua3L5LMk3U/8txl2Y6J7xbGwA94dI7qLD
+         PlOA==
+X-Gm-Message-State: AOJu0YziDqPt+flh0TkQ1lJbRwV8Bl1P9z0G0rWYlyTEzPsJ6cqmBzxD
+        K+BvY5XRfOnFoGdhz8R/ysCse2An7gaZHlBK
+X-Google-Smtp-Source: AGHT+IHU3R9BixLEiGapSAOaK4OqP289PS0J0IqlCcqabEwUnRI6MfLhpFMIR6x0C7eS6hxbBRQ3hQ==
+X-Received: by 2002:a25:2741:0:b0:d81:afb1:bf77 with SMTP id n62-20020a252741000000b00d81afb1bf77mr6903254ybn.28.1695366177212;
+        Fri, 22 Sep 2023 00:02:57 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id d23-20020a25e617000000b00d800eb5ac2asm731031ybh.65.2023.09.22.00.02.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Sep 2023 00:02:56 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d815a5eee40so2024287276.2;
+        Fri, 22 Sep 2023 00:02:56 -0700 (PDT)
+X-Received: by 2002:a25:311:0:b0:d7b:9d44:7574 with SMTP id
+ 17-20020a250311000000b00d7b9d447574mr7198081ybd.64.1695366176664; Fri, 22 Sep
+ 2023 00:02:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230921125351.3954-1-wsa+renesas@sang-engineering.com> <20230921125351.3954-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230921125351.3954-3-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 22 Sep 2023 09:02:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU0OYDKhrveQWmQ1PUFZ46FzuhpeBv62sFq=j2EbppO2A@mail.gmail.com>
+Message-ID: <CAMuHMdU0OYDKhrveQWmQ1PUFZ46FzuhpeBv62sFq=j2EbppO2A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] i2c: rcar: improve accuracy for R-Car Gen3+
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A779F0 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on R-Car S4-8.
+On Fri, Sep 22, 2023 at 2:05 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> With some new registers, SCL can be calculated to be closer to the
+> desired rate. Apply the new formula for R-Car Gen3 device types.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Change since v2:
+> * swapped SCHD/SCLD to match ordering of datasheets
 
-Link: https://lore.kernel.org/linux-pci/20230825093219.2685912-20-yoshihiro.shimoda.uh@renesas.com
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/misc/pci_endpoint_test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ed4d0ef5e5c3..150083dab71a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -81,6 +81,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
- #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-+#define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -990,6 +991,9 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-+	  .driver_data = (kernel_ulong_t)&default_data,
-+	},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
