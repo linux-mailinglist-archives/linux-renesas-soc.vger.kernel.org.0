@@ -2,80 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AC47AACA8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 10:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5BD27AAC45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 10:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232330AbjIVIaQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Sep 2023 04:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
+        id S232469AbjIVINL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Sep 2023 04:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232672AbjIVIaN (ORCPT
+        with ESMTP id S232548AbjIVIMv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Sep 2023 04:30:13 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC59BE6B
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Sep 2023 01:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=pHJcS4UElq8U7kAaQXym1rTExhuP+pYyemAHmyY2Czw=; b=icSGGA
-        Gfx3nv8ST6SL5e7NRDXsWtKNN50lhY7mgiTjey35koSVNpgWQ00ZyDw6P1wD2S3X
-        Wijo4LbPdMVGmv47f30bvqsvhF96yYBk/RoRaI9V1Xp2UDUCgdt02CMIrxbd2ugm
-        MpK22LQenJwGNdH9wzL89eBaGiqZXFicglg/UwNjlYdiaON8tpE8m8kt7NPLkTyQ
-        lgQqsUVbJSWIK7dN822qesVkAujBLCOb36Q0bXRtBeNVY4Ti2fA7Nhv11H7LTokK
-        rxKchCoFolOSNWHNbpWxwAlRHoJN1efSK7IE+ogk7ZEbMrEtkrmkNr5afuTTOFSY
-        4l4XAGc7lEazAReA==
-Received: (qmail 1310986 invoked from network); 22 Sep 2023 10:04:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2023 10:04:29 +0200
-X-UD-Smtp-Session: l3s3148p1@DQrODu4FesIujntX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] media: dvb-frontends: drop check because i2c_unregister_device() is NULL safe
-Date:   Fri, 22 Sep 2023 10:04:20 +0200
-Message-Id: <20230922080421.35145-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230922080421.35145-1-wsa+renesas@sang-engineering.com>
-References: <20230922080421.35145-1-wsa+renesas@sang-engineering.com>
+        Fri, 22 Sep 2023 04:12:51 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3995A1F04;
+        Fri, 22 Sep 2023 01:12:16 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,167,1694703600"; 
+   d="scan'208";a="176896542"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Sep 2023 17:12:15 +0900
+Received: from localhost.localdomain (unknown [10.226.92.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E56BC400F937;
+        Fri, 22 Sep 2023 17:12:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        John Stultz <jstultz@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.au@gmail.com>, linux-rtc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] alarmtimer: Fix rebind failure
+Date:   Fri, 22 Sep 2023 09:12:08 +0100
+Message-Id: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-No need to check the argument of i2c_unregister_device() because the
-function itself does it.
+The resources allocated in alarmtimer_rtc_add_device() are not freed
+leading to re-bind failure for the endpoint driver. Fix this issue
+by adding alarmtimer_rtc_remove_device().
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: c79108bd19a8 ("alarmtimer: Make alarmtimer platform device child of RTC device")
+Fixes: 7c94caca877b ("alarmtimer: Use wakeup source from alarmtimer platform device")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-Build tested only. Please apply to your tree.
+v1->v2:
+ * Add fixes tag.
+ * Replaced the variable rtc_pdev->alarmtimer_pdev
+ * Added the check rtcdev == rtc before unregistering the real alarmtimer.
+Note:
+ This issue is found while adding irq support for built in RTC
+ found on Renesas PMIC RAA215300 device. This issue should present
+ on all RTC drivers which calls device_init_wakeup() in probe().
+---
+ kernel/time/alarmtimer.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
- drivers/media/dvb-frontends/m88ds3103.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
-index cf037b61b226..26c67ef05d13 100644
---- a/drivers/media/dvb-frontends/m88ds3103.c
-+++ b/drivers/media/dvb-frontends/m88ds3103.c
-@@ -1920,8 +1920,7 @@ static void m88ds3103_remove(struct i2c_client *client)
+diff --git a/kernel/time/alarmtimer.c b/kernel/time/alarmtimer.c
+index 8d9f13d847f0..04d67de8b1fe 100644
+--- a/kernel/time/alarmtimer.c
++++ b/kernel/time/alarmtimer.c
+@@ -61,6 +61,7 @@ static DEFINE_SPINLOCK(freezer_delta_lock);
+ /* rtc timer and device for setting alarm wakeups at suspend */
+ static struct rtc_timer		rtctimer;
+ static struct rtc_device	*rtcdev;
++static struct platform_device	*alarmtimer_pdev;
+ static DEFINE_SPINLOCK(rtcdev_lock);
  
- 	dev_dbg(&client->dev, "\n");
+ /**
+@@ -109,6 +110,7 @@ static int alarmtimer_rtc_add_device(struct device *dev)
+ 		}
  
--	if (dev->dt_client)
--		i2c_unregister_device(dev->dt_client);
-+	i2c_unregister_device(dev->dt_client);
+ 		rtcdev = rtc;
++		alarmtimer_pdev = pdev;
+ 		/* hold a reference so it doesn't go away */
+ 		get_device(dev);
+ 		pdev = NULL;
+@@ -123,6 +125,22 @@ static int alarmtimer_rtc_add_device(struct device *dev)
+ 	return ret;
+ }
  
- 	i2c_mux_del_adapters(dev->muxc);
++static void alarmtimer_rtc_remove_device(struct device *dev)
++{
++	struct rtc_device *rtc = to_rtc_device(dev);
++
++	if (rtcdev == rtc) {
++		module_put(rtc->owner);
++		if (device_may_wakeup(rtc->dev.parent))
++			device_init_wakeup(&alarmtimer_pdev->dev, false);
++
++		platform_device_unregister(alarmtimer_pdev);
++		put_device(dev);
++		alarmtimer_pdev = NULL;
++		rtcdev = NULL;
++	}
++}
++
+ static inline void alarmtimer_rtc_timer_init(void)
+ {
+ 	rtc_timer_init(&rtctimer, NULL, NULL);
+@@ -130,6 +148,7 @@ static inline void alarmtimer_rtc_timer_init(void)
  
+ static struct class_interface alarmtimer_rtc_interface = {
+ 	.add_dev = &alarmtimer_rtc_add_device,
++	.remove_dev = &alarmtimer_rtc_remove_device,
+ };
+ 
+ static int alarmtimer_rtc_interface_setup(void)
 -- 
-2.30.2
+2.25.1
 
