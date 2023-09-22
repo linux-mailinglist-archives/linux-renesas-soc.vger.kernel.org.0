@@ -2,81 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3717AA93F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 08:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 962EF7AA95A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 08:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjIVGqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Sep 2023 02:46:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46886 "EHLO
+        id S229973AbjIVGxq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Sep 2023 02:53:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbjIVGqF (ORCPT
+        with ESMTP id S229556AbjIVGxq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Sep 2023 02:46:05 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D540F102
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Sep 2023 23:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=P209lUPPFk5mfM
-        w91tLgw5JIrd9mLWDy2MCMSCAaG5Y=; b=BSsuYEadNC6G2ywAF+TpzNZTR4NhXo
-        lJFC501Xtq9dk+8EpD/tYtCTAtF46zwk4TkZPxyIfhqSE4y4oLOZggtpGhZ6HVWG
-        8Eo6mAPCFPiSbMXsVihqRX8DljaA3tpk1FOVFpkEeljJrl/GbSILzAsajmTI4cRV
-        TbnkWEMTvad7ElGZNert7jvMOghekFUl65rCWi4lKfmOFzAgnvcOHee2rOoCPiHX
-        FzbjFCBmX+dpSxbGeaHNpi/Nex0ovG5wFM57cYupZTdw6vw2FvwReBBOZWSVgmRJ
-        GhVddCD4PFDK9+aEjHtSMU63m2bwo0d4mLtr7tG+P9CzaAp0o0/OWx/Q==
-Received: (qmail 1279089 invoked from network); 22 Sep 2023 08:45:57 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2023 08:45:57 +0200
-X-UD-Smtp-Session: l3s3148p1@4mHx9ewFCuUujntX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: renesas_usbhs: remove boilerplate from header file
-Date:   Fri, 22 Sep 2023 08:45:51 +0200
-Message-Id: <20230922064551.4663-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Fri, 22 Sep 2023 02:53:46 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 35DBF100;
+        Thu, 21 Sep 2023 23:53:39 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,167,1694703600"; 
+   d="scan'208";a="176885430"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Sep 2023 15:53:38 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 24F9D400F79C;
+        Fri, 22 Sep 2023 15:53:38 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, mani@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v21 00/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Fri, 22 Sep 2023 15:53:15 +0900
+Message-Id: <20230922065331.3806925-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a SPDX entry, so we can remove the boilerplate.
+Add R-Car S4-8 (R-Car Gen4) PCIe controller for both host and endpoint modes.
+To support them, modify PCIe DesignWare common codes.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- include/linux/usb/renesas_usbhs.h | 10 ----------
- 1 file changed, 10 deletions(-)
+Changes from v20 + squash patches:
+https://lore.kernel.org/linux-pci/20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com/
+https://lore.kernel.org/linux-pci/20230901131711.2861283-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Cherry-picked almost all patches from the pci.git / controller/rcar branch
+   for squashing.
+  - But, drop the following patches which are related to INTx.
+     eb185e1e628a PCI: designware-ep: Add INTx IRQs support
+     5d0e51f85b23 PCI: dwc: Add outbound MSG TLPs support
+     4758bef61cc2 PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+     44938b13046b PCI: Add INTx Mechanism Messages macros
+ - Add a new macro T_PVPERL in the patch 12/16.
+ - Merge pcie-rcar-gen4-{ep,host}-drv.c and pcie-rcar-gen4.h files into
+   pcie-rcar-gen4.c.
+ - Add CONFIG_PCIE_RCAR_GEN4_HOST config.
+ - Fix some comments.
+ - Change return type of rcar_gen4_pcie_speed_change().
+ - Add registers' full names as comments.
+ - Rename function names of rcar_gen4_{add,remove}_pcie_ep() to
+   rcar_gen4_{add,remove}_dw_pcie_ep() for consistency.
 
-diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
-index d418c55523a7..372898d9eeb0 100644
---- a/include/linux/usb/renesas_usbhs.h
-+++ b/include/linux/usb/renesas_usbhs.h
-@@ -5,16 +5,6 @@
-  * Copyright (C) 2011 Renesas Solutions Corp.
-  * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-- * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-- *
-  */
- #ifndef RENESAS_USB_H
- #define RENESAS_USB_H
+Yoshihiro Shimoda (16):
+  PCI: dwc: endpoint: Add multiple PFs support for dbi2
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW handling
+  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Expose dw_pcie_write_dbi2() to module
+  PCI: dwc: endpoint: Introduce .pre_init() and .deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: add T_PVPERL macro
+  PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe controller support
+  PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
+
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        | 115 ++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 127 +++++
+ .../bindings/pci/snps,dw-pcie-common.yaml     |   4 +-
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ drivers/pci/controller/dwc/Kconfig            |  25 +
+ drivers/pci/controller/dwc/Makefile           |   1 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  45 +-
+ drivers/pci/controller/dwc/pcie-designware.c  | 102 ++--
+ drivers/pci/controller/dwc/pcie-designware.h  |   8 +-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 510 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   6 -
+ drivers/pci/pci.h                             |   3 +
+ 15 files changed, 890 insertions(+), 69 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+
 -- 
-2.35.1
+2.25.1
 
