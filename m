@@ -2,102 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDAFA7AAA6B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 09:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B90F7AAACD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Sep 2023 09:51:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbjIVHik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Sep 2023 03:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55210 "EHLO
+        id S231819AbjIVHv5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Sep 2023 03:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231200AbjIVHij (ORCPT
+        with ESMTP id S229647AbjIVHvy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Sep 2023 03:38:39 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C6AF7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Sep 2023 00:38:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7347FC433C8;
-        Fri, 22 Sep 2023 07:38:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695368313;
-        bh=xqJRYJ65z8ZCEW/tkOSG2viZcuPAtzTx2CRy/CMNdRE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XxYSXbjWUAASSBuRVGA0KOx0PbBxsXC/m9qqmFggy3rqTVKjShXOOpOjJJF1D9tl9
-         iyQ28LsxGOgidhKDcfITcBx9QXD7LDAu7tvOf1cJL0VbD5svULHfZVV4RvCwVkLAWp
-         oTwrFvU6w9DgzpgTNcqhLnLmUx4IPJu/0hsBcgKMxj9f1t9ykk8vVpaLKS9cMtwH6S
-         SgeskXBAh9ZmWkEFuOhD6XhNNpyMnF/o86jZ56thB5ut692NtK77QHIcZS/LS9jmI9
-         kwMS7NV20DTNrB2UWAMVoKz7mIkdpKylp8L7t7hh+ipBJdHOLDiKRoyjxXU7dTMmQ2
-         bW0ZVveJyLRPw==
-Date:   Fri, 22 Sep 2023 08:38:27 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Chen Wang <unicorn_wang@outlook.com>
-Cc:     linux-riscv@lists.infradead.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
-        devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC v1 1/6] riscv: dts: microchip: convert isa detection to new
- properties
-Message-ID: <20230922-ruined-deplored-a4c5b5866ad2@spud>
-References: <20230921095723.26456-1-conor@kernel.org>
- <20230921095723.26456-2-conor@kernel.org>
- <MA0P287MB033245E15897C496789A0979FEFFA@MA0P287MB0332.INDP287.PROD.OUTLOOK.COM>
+        Fri, 22 Sep 2023 03:51:54 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D0C180
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Sep 2023 00:51:46 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:ea4b:e108:10b2:c4a2])
+        by baptiste.telenet-ops.be with bizsmtp
+        id ovrk2A0093uG6wG01vrk6T; Fri, 22 Sep 2023 09:51:45 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qjawa-004Aa8-SM;
+        Fri, 22 Sep 2023 09:51:44 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qjawy-007VdN-Dl;
+        Fri, 22 Sep 2023 09:51:44 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] irqchip: renesas-rzg2l: Convert to irq_data_get_irq_chip_data()
+Date:   Fri, 22 Sep 2023 09:51:43 +0200
+Message-Id: <3241c1386e1ba0bc288496a36365bd764e17fdae.1695368979.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="whMU1h3Bx3QRMe1H"
-Content-Disposition: inline
-In-Reply-To: <MA0P287MB033245E15897C496789A0979FEFFA@MA0P287MB0332.INDP287.PROD.OUTLOOK.COM>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Use the existing irq_data_get_irq_chip_data() helper instead of
+open-coding the same operation.
 
---whMU1h3Bx3QRMe1H
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/irqchip/irq-renesas-rzg2l.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Sep 22, 2023 at 03:33:13PM +0800, Chen Wang wrote:
-> =E5=9C=A8 2023/9/21 17:57, Conor Dooley =E5=86=99=E9=81=93:
+diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+index 4bbfa2b0a4df9b83..c0f3c09affa64511 100644
+--- a/drivers/irqchip/irq-renesas-rzg2l.c
++++ b/drivers/irqchip/irq-renesas-rzg2l.c
+@@ -131,7 +131,7 @@ static void rzg2l_irqc_irq_enable(struct irq_data *d)
+ 
+ 	if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
+ 		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+-		unsigned long tint = (uintptr_t)d->chip_data;
++		unsigned long tint = (uintptr_t)irq_data_get_irq_chip_data(d);
+ 		u32 offset = hw_irq - IRQC_TINT_START;
+ 		u32 tssr_offset = TSSR_OFFSET(offset);
+ 		u8 tssr_index = TSSR_INDEX(offset);
+-- 
+2.34.1
 
-> > +			riscv,base-isa =3D "rv64i";
-
-> should be "isa-base". This applies everywhere.
-
-Yeah, I was expecting exactly something like this to go wrong given the
-limited environment! Thanks for pointing that out, I'll fix it up when I
-am back up and running.
-
-Cheers,
-Conor.
-
---whMU1h3Bx3QRMe1H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQ1EcwAKCRB4tDGHoIJi
-0knQAQDmHSJ0t81Lx1txBho+/P6JM6zJKeSXcYFtPiTtZSZYXQD/cU3exXwYZvy5
-K17M7n0PpNtl8Gs9h8jhmv8p3ieyngU=
-=PPuZ
------END PGP SIGNATURE-----
-
---whMU1h3Bx3QRMe1H--
