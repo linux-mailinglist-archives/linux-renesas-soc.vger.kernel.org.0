@@ -2,145 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C94D67ABE18
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 08:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0DF7ABE92
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 09:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjIWG3R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Sep 2023 02:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
+        id S229808AbjIWHvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Sep 2023 03:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjIWG3Q (ORCPT
+        with ESMTP id S230114AbjIWHu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Sep 2023 02:29:16 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E11199;
-        Fri, 22 Sep 2023 23:29:09 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D48A8240004;
-        Sat, 23 Sep 2023 06:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1695450547;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sYKxMWs4IYSp4v8IwL8Rv6AvQEg0lLABlatXJHEpLUE=;
-        b=aFfH3nQq2NP8++kx2BHAMmWTJVGRmwOLd8eQEVFh4bo3x6zMqkJBR+rvQb9auvHG2hx7LH
-        C9GKmy1wTvjXAkNJJXwqZdV+lPSPGozVw9GmSrjIurMYsZy0jt3gzr7HpQ/b3zSJK7jIaA
-        CzpQ9ZpB5Uotg+gPpJsJ1j+rgfcfoj44j1kljvN9C+WB86VkWXAZojL3wZX8HSDkB/qxCH
-        l+Jg332ArRtYyN6UsOitSEqNFpqFLQUIpFl5TJtqk1c0meGqSgHfYYwR+rAK5M0qVu/iT2
-        wcMm32fRhzGEeeCXQ+7QgNfKSeAk/u3VTs/0eTm5TGyTrMFIktjfIzVLTeFvrw==
-Message-ID: <5650a2a3-a36f-441e-b4c2-aa7c751b5af5@arinc9.com>
-Date:   Sat, 23 Sep 2023 09:28:41 +0300
+        Sat, 23 Sep 2023 03:50:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3014711D
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Sep 2023 00:50:52 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E628C433CB;
+        Sat, 23 Sep 2023 07:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695455451;
+        bh=ubMZKfnyWKEVj8IonDZ1KMHOScdcFtBBm3nDE8Z1AWc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QiIERg4N7rrYpj3SdR416sb92nDUGV9zxcTCRd3QekW4b15Ph48zl1w0nIrDDR7NP
+         toaj5B4xUccHC8mDBCvMRdT+LcYwdqtL421Kh3j3YLMR2S2//D4Jm7x3mwKLE/jxqo
+         WfwGAG76J65srxjJ4nuVPpfeiAzftq9pUUamLUQ5uRhXyhTxz/s7qeQfgNpZJMyAsb
+         n7R3QhjAnr1FOlX1hiZ6k8eBQILTi1xNPpAFg5w0fF91/GHCNE/AD8SL6v+SCfRr7g
+         5J71CiSYG3bWNuSt2A+4nF2YIbHfeW8BBkteF8jJZFDrGHLxqsWP65I/j3tDp0Gm34
+         KrQV7vUY/hp5Q==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50307acd445so5364142e87.0;
+        Sat, 23 Sep 2023 00:50:51 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxP6Tb9x3I9pARnE+HTnR1kOuDINps2pffz2PoSq+o1vsgkDZ2S
+        fF7cW4+HjNDhrhsqhgPvjTdrtJT/0+JosbebN0A=
+X-Google-Smtp-Source: AGHT+IFea1wRy5eJudPxUVu3RtK9dVhqNh4TIRC1jtYqezMS8B5X7TK38IQtLbtJiEI0LfX+mY8MEQQsI3NSizqlOp8=
+X-Received: by 2002:ac2:4a69:0:b0:502:d302:e025 with SMTP id
+ q9-20020ac24a69000000b00502d302e025mr1061315lfp.2.1695455449792; Sat, 23 Sep
+ 2023 00:50:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
-Content-Language: en-US
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+References: <20230922081351.30239-2-conor@kernel.org> <20230922081351.30239-8-conor@kernel.org>
+In-Reply-To: <20230922081351.30239-8-conor@kernel.org>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Sat, 23 Sep 2023 15:50:36 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTR2JmsMhzjzWp85hEwoJwRBN4T4iHz_Z-1cG-XgB=EFeA@mail.gmail.com>
+Message-ID: <CAJF2gTR2JmsMhzjzWp85hEwoJwRBN4T4iHz_Z-1cG-XgB=EFeA@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new properties
+To:     Conor Dooley <conor@kernel.org>
+Cc:     linux-riscv@lists.infradead.org,
+        Conor Dooley <conor.dooley@microchip.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
         Conor Dooley <conor+dt@kernel.org>,
-        George McCollister <george.mccollister@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        John Crispin <john@phrozen.org>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Felix Fietkau <nbd@nbd.name>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>, Fu Wei <wefu@redhat.com>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
         linux-renesas-soc@vger.kernel.org
-References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
- <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
- <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
-From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: arinc.unal@arinc9.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23.09.2023 01:36, Andrew Lunn wrote:
->> I agree. My patch description here failed to explain the actual issue,
->> which is missing hardware descriptions. Here's what I understand. An
->> ethernet-controller is a MAC. For the MAC to work properly with its link
->> partner, at least one of these must be described:
->> - pointer to a PHY to retrieve link information from the PHY
->> - pointer to a PCS to retrieve link information from the PCS
->> - pointer to an SFP to retrieve link information from the SFP
->> - static link information
-> 
-> You are missing:
-> 
-> - The MAC has firmware driving the PHY, nothing for linux to do.
-> 
-> There are properties in ethernet-controller.yaml the MAC driver would
-> however like to use such as local-mac-address, max-frame-size,
-> nvmem-cell-names etc.
+On Fri, Sep 22, 2023 at 4:16=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> From: Conor Dooley <conor.dooley@microchip.com>
+>
+> Convert the th1520 devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
+>
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/=
+thead/th1520.dtsi
+> index ce708183b6f6..723f65487246 100644
+> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+> @@ -20,6 +20,9 @@ c910_0: cpu@0 {
+>                         compatible =3D "thead,c910", "riscv";
+>                         device_type =3D "cpu";
+>                         riscv,isa =3D "rv64imafdc";
+> +                       riscv,isa-base =3D "rv64i";
+Why not riscv,isa-base =3D "rv64"? I saw "i" in the riscv,isa-extensions.
 
-This is interesting. This is clearly a hardware difference of the ethernet
-controller.
+Maybe this question should be in this mailing thread and a little late:
+https://lore.kernel.org/linux-riscv/20230713-tablet-jimmy-987fea0eb2e1@wend=
+y/
 
-I believe this fits case 1. There's still an MDIO bus the ethernet
-controller uses, there's still a PHY on the MDIO bus which the ethernet
-controller uses. The only difference is the firmware of the ethernet
-controller controls... What exactly does the firmware control that a Linux
-driver would have controlled instead? Just configuring the link settings of
-the MAC?
+> +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> +                                              "zifencei", "zihpm";
+>                         reg =3D <0>;
+>                         i-cache-block-size =3D <64>;
+>                         i-cache-size =3D <65536>;
+> @@ -41,6 +44,9 @@ c910_1: cpu@1 {
+>                         compatible =3D "thead,c910", "riscv";
+>                         device_type =3D "cpu";
+>                         riscv,isa =3D "rv64imafdc";
+> +                       riscv,isa-base =3D "rv64i";
+> +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> +                                              "zifencei", "zihpm";
+>                         reg =3D <1>;
+>                         i-cache-block-size =3D <64>;
+>                         i-cache-size =3D <65536>;
+> @@ -62,6 +68,9 @@ c910_2: cpu@2 {
+>                         compatible =3D "thead,c910", "riscv";
+>                         device_type =3D "cpu";
+>                         riscv,isa =3D "rv64imafdc";
+> +                       riscv,isa-base =3D "rv64i";
+> +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> +                                              "zifencei", "zihpm";
+>                         reg =3D <2>;
+>                         i-cache-block-size =3D <64>;
+>                         i-cache-size =3D <65536>;
+> @@ -83,6 +92,9 @@ c910_3: cpu@3 {
+>                         compatible =3D "thead,c910", "riscv";
+>                         device_type =3D "cpu";
+>                         riscv,isa =3D "rv64imafdc";
+> +                       riscv,isa-base =3D "rv64i";
+> +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> +                                              "zifencei", "zihpm";
+>                         reg =3D <3>;
+>                         i-cache-block-size =3D <64>;
+>                         i-cache-size =3D <65536>;
+> --
+> 2.41.0
+>
 
-If it's just MAC link settings, I believe it would make sense to add a
-property on the ethernet controller dt-bindings to state that the hardware
-controls the MAC link settings on its own. This way, we would still
-describe the MDIO bus and PHY of the ethernet controller while also
-pointing out that the MAC link settings are not up to a driver to control.
 
-Arınç
+--
+Best Regards
+ Guo Ren
