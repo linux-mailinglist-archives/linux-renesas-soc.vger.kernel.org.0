@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C03527ABE0B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 08:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C94D67ABE18
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 08:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjIWGHF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Sep 2023 02:07:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
+        id S229647AbjIWG3R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Sep 2023 02:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjIWGHE (ORCPT
+        with ESMTP id S229541AbjIWG3Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Sep 2023 02:07:04 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27909B9;
-        Fri, 22 Sep 2023 23:06:55 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B489FF803;
-        Sat, 23 Sep 2023 06:06:33 +0000 (UTC)
+        Sat, 23 Sep 2023 02:29:16 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E11199;
+        Fri, 22 Sep 2023 23:29:09 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D48A8240004;
+        Sat, 23 Sep 2023 06:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1695449214;
+        t=1695450547;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4oWvaYHBJFJ7O18JZNgwdBYWtURWzzwNBvvz0evj8O0=;
-        b=bmNdp5wiJX4kR9210Tg5h8vw/C+LDUgASJM+L38kQ5zwtSJ0ZsD5WjI9bmd3v1xtSTo34j
-        Mnf1r6k/vB5tk/3r3l4oq9duEyJvLJ7rny5M6wl9Iam9s5L0nf8QruRA5UIvZupcUB25Rw
-        NYW7dYS66SXbVxI6DOaCHewAiyMQH5CfkwBOBbG8/PF/gv/BgNlf3WGVEcOmnF3NXyr9mO
-        R5ea45R4MivUVkJQhmKS7+ezlXx+dqp4PffhAsPxoTYAtYTPg9s9G0opA9kC9qeJt0Mbws
-        tMFAq/inmnLXiz6AxYPTloye8TBYOFHrBu2N77AMkdxnGsYOFRw5tF3nwIDU3g==
-Message-ID: <a1cdbed7-8d71-44df-a6fc-7b1d2066cc29@arinc9.com>
-Date:   Sat, 23 Sep 2023 09:06:28 +0300
+        bh=sYKxMWs4IYSp4v8IwL8Rv6AvQEg0lLABlatXJHEpLUE=;
+        b=aFfH3nQq2NP8++kx2BHAMmWTJVGRmwOLd8eQEVFh4bo3x6zMqkJBR+rvQb9auvHG2hx7LH
+        C9GKmy1wTvjXAkNJJXwqZdV+lPSPGozVw9GmSrjIurMYsZy0jt3gzr7HpQ/b3zSJK7jIaA
+        CzpQ9ZpB5Uotg+gPpJsJ1j+rgfcfoj44j1kljvN9C+WB86VkWXAZojL3wZX8HSDkB/qxCH
+        l+Jg332ArRtYyN6UsOitSEqNFpqFLQUIpFl5TJtqk1c0meGqSgHfYYwR+rAK5M0qVu/iT2
+        wcMm32fRhzGEeeCXQ+7QgNfKSeAk/u3VTs/0eTm5TGyTrMFIktjfIzVLTeFvrw==
+Message-ID: <5650a2a3-a36f-441e-b4c2-aa7c751b5af5@arinc9.com>
+Date:   Sat, 23 Sep 2023 09:28:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
-To:     Andrew Lunn <andrew@lunn.ch>,
-        "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+Content-Language: en-US
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -93,11 +94,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 References: <20230916110902.234273-1-arinc.unal@arinc9.com>
  <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
  <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
- <ZQ4VPEuXB3+e48Qs@shell.armlinux.org.uk>
- <f610de0b-a804-463d-b7ae-0433dbb809a9@lunn.ch>
-Content-Language: en-US
+ <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
 From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <f610de0b-a804-463d-b7ae-0433dbb809a9@lunn.ch>
+In-Reply-To: <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: arinc.unal@arinc9.com
@@ -110,18 +109,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23.09.2023 01:44, Andrew Lunn wrote:
->> However, to dress this up as "phylink requires xyz, so lets create
->> a phylink binding description" is just wrong.
+On 23.09.2023 01:36, Andrew Lunn wrote:
+>> I agree. My patch description here failed to explain the actual issue,
+>> which is missing hardware descriptions. Here's what I understand. An
+>> ethernet-controller is a MAC. For the MAC to work properly with its link
+>> partner, at least one of these must be described:
+>> - pointer to a PHY to retrieve link information from the PHY
+>> - pointer to a PCS to retrieve link information from the PCS
+>> - pointer to an SFP to retrieve link information from the SFP
+>> - static link information
 > 
-> +1
+> You are missing:
 > 
-> Also, phylink is a Linux implementation detail. Other OSes using the
-> binding don't need to have phylink. Yet they can still use the DT
-> blobs because they should describe the hardware, independent of how
-> the OS drives that hardware.
+> - The MAC has firmware driving the PHY, nothing for linux to do.
+> 
+> There are properties in ethernet-controller.yaml the MAC driver would
+> however like to use such as local-mac-address, max-frame-size,
+> nvmem-cell-names etc.
 
-I haven't stated it directly but I've been agreeing to this fact since the
-start of the discussion on patch 7.
+This is interesting. This is clearly a hardware difference of the ethernet
+controller.
+
+I believe this fits case 1. There's still an MDIO bus the ethernet
+controller uses, there's still a PHY on the MDIO bus which the ethernet
+controller uses. The only difference is the firmware of the ethernet
+controller controls... What exactly does the firmware control that a Linux
+driver would have controlled instead? Just configuring the link settings of
+the MAC?
+
+If it's just MAC link settings, I believe it would make sense to add a
+property on the ethernet controller dt-bindings to state that the hardware
+controls the MAC link settings on its own. This way, we would still
+describe the MDIO bus and PHY of the ethernet controller while also
+pointing out that the MAC link settings are not up to a driver to control.
 
 Arınç
