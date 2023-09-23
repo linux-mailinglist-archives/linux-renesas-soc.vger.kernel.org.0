@@ -2,203 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A80BD7ABEA6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 09:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2442F7AC06F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Sep 2023 12:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbjIWHwO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Sep 2023 03:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        id S230465AbjIWKZ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Sep 2023 06:25:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbjIWHwN (ORCPT
+        with ESMTP id S231336AbjIWKZy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Sep 2023 03:52:13 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDED11D;
-        Sat, 23 Sep 2023 00:52:03 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8AAA7E0006;
-        Sat, 23 Sep 2023 07:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1695455521;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qzR1Tm71WW1g2sGVPubeL8o1clYwaCbl99rSURcNlMg=;
-        b=dYHJFSuZO9hNBOYgJEl3TTcTTG+FObNVnjlqb+2tW/JG0oz12VSmtx9+bnnM1FzrME7MTn
-        4FTiNevh8bhild2bQnXJaleFnQJ46R7S8YmC25MvgjlZ56ODzuSPwMCnHXaRFYP1arRpIT
-        jcGKbf6RWm1xnxzNYPfPKNGUFIWu7wD+JoOpr9YeYd9ITG1W6xCYkiGCaER1AA3p25xW+3
-        1tCTFzOgV8doTsumiW8Geh23guBnl97RC5+ZVzo3BS/hm9A2D7q/DntjBvV4J6F3i0ifFR
-        GpaX8gEY4QAbepe0nE2iAq5YEWNiuTSMWjAFfeBTGeT0VrZ5y+oh6lUogOTqzg==
-Message-ID: <63649fb5-6dc7-4e63-906d-c3e04aafcc4e@arinc9.com>
-Date:   Sat, 23 Sep 2023 10:51:35 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Sat, 23 Sep 2023 06:25:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2951B2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Sep 2023 03:25:48 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57453C433C7;
+        Sat, 23 Sep 2023 10:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695464748;
+        bh=Q3Y7t0Lpv4O8LxXpOYTrQfyQd9RMu7ml1ykCJ09i0So=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D3XJIweX871CqMOIaHHipt11EREXzfg2FoIRdC2GlabW2UWDr77bvfpiQnW6VqpX2
+         IrInx2zSMQrWTcK7PCWKcTu2boVcKo3rkcerPNfLFYz5WsFb7SBQW8rqHhWDm+7pTx
+         +aLLjjXNDZWqEWv/1goXqkfRefyvbp8fqjgWggWcYpY4BwCJg8LcJTId4C9UsA6tAz
+         GU0NNqVIDt3OZduOV4HoPZlJEEDNeQqlzaupvqSU9AsQtghk6gncjir72tcevg7vJq
+         DIIyY29iZNaTX/yjd8fVC/u+KcoZfEBB/eXoK87Ip2Qr2ft1JmbdOcatZIsgniKzNS
+         qhQwxOrN/+DKA==
+Date:   Sat, 23 Sep 2023 11:25:42 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Guo Ren <guoren@kernel.org>
+Cc:     linux-riscv@lists.infradead.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
         Conor Dooley <conor+dt@kernel.org>,
-        George McCollister <george.mccollister@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        John Crispin <john@phrozen.org>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Felix Fietkau <nbd@nbd.name>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>, Fu Wei <wefu@redhat.com>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
         linux-renesas-soc@vger.kernel.org
-References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
- <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
- <ZQ4VPEuXB3+e48Qs@shell.armlinux.org.uk>
-From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <ZQ4VPEuXB3+e48Qs@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: arinc.unal@arinc9.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new
+ properties
+Message-ID: <20230923-snowsuit-angled-f49237d27c83@spud>
+References: <20230922081351.30239-2-conor@kernel.org>
+ <20230922081351.30239-8-conor@kernel.org>
+ <CAJF2gTR2JmsMhzjzWp85hEwoJwRBN4T4iHz_Z-1cG-XgB=EFeA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="47AsyQWf2LP0qoEw"
+Content-Disposition: inline
+In-Reply-To: <CAJF2gTR2JmsMhzjzWp85hEwoJwRBN4T4iHz_Z-1cG-XgB=EFeA@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23.09.2023 01:29, Russell King (Oracle) wrote:
-> On Sat, Sep 23, 2023 at 12:57:52AM +0300, Arınç ÜNAL wrote:
->> I agree. My patch description here failed to explain the actual issue,
->> which is missing hardware descriptions. Here's what I understand. An
->> ethernet-controller is a MAC. For the MAC to work properly with its link
->> partner, at least one of these must be described:
->> - pointer to a PHY to retrieve link information from the PHY
->> - pointer to a PCS to retrieve link information from the PCS
->> - pointer to an SFP to retrieve link information from the SFP
->> - static link information
-> 
-> What about something like macb? The macb driver:
-> - attempts to connect a phy using phylink_of_phy_connect()
-> - if that fails, and there is no phy-handle property, then the driver
->    will attempt to find the first PHY to exist on its MII bus, and will
->    connect that using phylink_connect_phy().
-> 
-> So, in this case, if we define a phylink binding to require one of a
-> phy-handle node, pcs node, sfp node or static link information, then
-> although macb uses phylink, it then doesn't conform to this phylink
-> binding. (This is the only driver that uses phy_find_first() which
-> also uses phylink according to my greps, but I haven't checked for
-> any other games drivers be using.)
-> 
-> The same thing more or less happens with non-phylink drivers. Take a
-> look at drivers/net/ethernet/microchip/lan743x_main.c, and notice
-> that it first attempts to get a PHY from DT. If that fails, it
-> uses phy_find_first(). If that fails, and we have a LAN7431, then
-> a gigabit full-duplex fixed-link PHY is used instead. So, what macb
-> is doing with phylink is no different from what other drivers are
-> doing with phylib - and it's the driver's choice.
-> 
-> The same way that there are multiple drivers that don't do this,
-> which want a PHY device to be specified in DT if the driver was
-> bound to a device that was described in DT - there are phylink
-> and non-phylink drivers that do this.
-> 
-> This is exactly my point - there is *no* *such* *thing* as a phylink
-> binding. There is the ethernet-controller binding, which phylink
-> provides the ability for network drivers to optionally use, but
-> phylink doesn't require anything from any firmware description, except
-> to attach a SFP interface, or to describe a fixed-link. Everything else
-> is really up to the ethernet-controller aka MAC driver to decide how it
-> wants to deal with things.
-> 
-> We currently work around this by the ethernet-controller YAML having
-> all these properties as optional. Maybe some drivers extend that YAML
-> and require certain properties - that is their perogative, but that is
-> the driver's choice, and is a completely separate issue to whether
-> the driver is using phylink or not.
-> 
-> The real question is how do we want to describe an ethernet controller
-> and what properties should we be requiring for it (if any). Maybe if we
-> want to require one of a PHY, PCS, SFP, or fixed-link, maybe we should
-> have that as a strictly-checked ethernet controller which drivers can
-> opt into using if that's what they require.
 
-I'd like to make this clear. We're only talking about deviating from proper
-devicetree bindings so that it won't cause too much work or not at all to
-fix the incorrect Linux driver policies.
+--47AsyQWf2LP0qoEw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As long as we don't collectively agree on fixing the drivers to work with
-proper devicetree bindings, I'd keep the missing ethernet controller
-bindings (requiring at least one of PHY, PCS, SFP, fixed-link) as they
-currently are on ethernet-controller.yaml, optional. Or rather, I wouldn't
-touch anything regarding this as it's nonsensical to change devicetree
-bindings because of driver policies.
+On Sat, Sep 23, 2023 at 03:50:36PM +0800, Guo Ren wrote:
+> On Fri, Sep 22, 2023 at 4:16=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > From: Conor Dooley <conor.dooley@microchip.com>
+> >
+> > Convert the th1520 devicetrees to use the new properties
+> > "riscv,isa-base" & "riscv,isa-extensions".
+> > For compatibility with other projects, "riscv,isa" remains.
+> >
+> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> > ---
+> >  arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dt=
+s/thead/th1520.dtsi
+> > index ce708183b6f6..723f65487246 100644
+> > --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+> > +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+> > @@ -20,6 +20,9 @@ c910_0: cpu@0 {
+> >                         compatible =3D "thead,c910", "riscv";
+> >                         device_type =3D "cpu";
+> >                         riscv,isa =3D "rv64imafdc";
+> > +                       riscv,isa-base =3D "rv64i";
 
-As you have pointed out with certain examples, once the driver starts
-operating out of what the devicetree says, in other words, once the driver
-starts guessing the hardware, there's no guarantee it will always guess it
-correctly. As seen with the macb driver, the driver assumes that if there's
-no phy-handle property, the PHY on its MDIO bus must be used regardless.
-But the MAC may be connected to another MAC, PCS or SFP, meaning it doesn't
-use the PHY on that bus.
+> Why not riscv,isa-base =3D "rv64"? I saw "i" in the riscv,isa-extensions.
 
-There is also a case for DSA. If there's an implication that the DSA
-controlled switch has an MDIO bus (phy_read() and phy_write()), the DSA
-driver will connect the switch MACs to the PHYs on the MDIO bus of the
-switch, even if there's no description of that MDIO bus on the devicetree.
-As unlikely as it is on a real life scenario, there may be a device that
-has its switch MACs wired to the PHYs on another MDIO bus.
+I did it that way as a hedge against things changing in the future. I
+have little trust in that part of the ISA specifications.
 
-This is why I've proposed to make the drivers strictly follow what the
-devicetree says.
+--47AsyQWf2LP0qoEw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> However, to dress this up as "phylink requires xyz, so lets create
-> a phylink binding description" is just wrong.
+-----BEGIN PGP SIGNATURE-----
 
-Agreed.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQ69JQAKCRB4tDGHoIJi
+0vX6AQDE7jhpSu4VP4wtSRPrVTHRRS7VcBWe2XyVZJTOd9TWXAD7BBHlwAPzKSGb
+vt2Z0iGrgkRVFsQ1U/vLuYvhM1ucsgE=
+=fcfM
+-----END PGP SIGNATURE-----
 
-Arınç
+--47AsyQWf2LP0qoEw--
