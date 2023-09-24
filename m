@@ -2,143 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 053EF7AC706
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 09:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C19D27AC74A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 11:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbjIXHub (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Sep 2023 03:50:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
+        id S229489AbjIXJ12 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 24 Sep 2023 05:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbjIXHub (ORCPT
+        with ESMTP id S229437AbjIXJ12 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Sep 2023 03:50:31 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E87D106;
-        Sun, 24 Sep 2023 00:50:23 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 66D9CFF804;
-        Sun, 24 Sep 2023 07:49:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1695541821;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=W5IpBspYKC9GLqm5jxyIjisuYRFWL1ICp1Y7jz+OR7M=;
-        b=QLIpJcqUJNNSv8OEUEOc9TZAu+SgbjfTrGUaSNT5+TJdC14MhI1H+RflsE4yp+HOiqh3nG
-        tbR1kfLeKdtyeP9hF7C6m1GBZuZ9uaOU0Iqx1Wd2RvBsfbFNGvGV9UwKyevSsrf+C7jxMe
-        qk2iScqmkai8sFmXzUZyxme5XZK+62t/hnWvvxoCwcdnAQbwlmpOWaNmvalUMEpAvDSDWW
-        gAU4T3UJW5uSqiu9q1sGOJxP1fsAUdf9fPfvM02YRWyz6QJSBlw92J/7/19/1I5PBDk32R
-        URM4P5hXC8NnQ55uWZwheD44ynYrGhZUmtWfi3H/Xn0LHGNFwf0YNlO5srJmqg==
-Message-ID: <78e70cc9-a6ca-439b-bfca-3119299249de@arinc9.com>
-Date:   Sun, 24 Sep 2023 10:49:49 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        George McCollister <george.mccollister@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        Sun, 24 Sep 2023 05:27:28 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE442107;
+        Sun, 24 Sep 2023 02:27:21 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561A3C433C8;
+        Sun, 24 Sep 2023 09:27:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695547641;
+        bh=OtKqRE8d8XyKijo02N0v5qsYYrxnvoYjWA5m+RhuMbA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Fw28rO4+0BcWKTqRtJ11UQd3yu8tYz0YafTOJiUhCVPahmTdtfqBG0kv5yk7K2uLP
+         vhfOiVZjwUntx0nkT00PKJMca5e69fEqwi4Nf0Fck4gKhkgm8zNQIqtaHipH+KWZN/
+         CHOImXvIcyMVwFFDQ/f5o5bi0TpEh50nMSX1NGsdkhFtvRiipqldcl1immYEOXLEyu
+         TMnNfHUTZ34JCc8mOpI9Q8huT/4lnzJ3n+kYO6vFjzUGVaiT+3ADARUBPmh9o1KbNh
+         0ckacHPExsD2VBXYMijC3w325KbqHLD8kAmSG7UdKyFP5u4b3a1x1dqqqx7esezVmM
+         bgZVFmUgpBKLQ==
+Received: from [85.255.234.76] (helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1qkLOY-00FfQs-Sb;
+        Sun, 24 Sep 2023 10:27:19 +0100
+Date:   Sun, 24 Sep 2023 10:27:13 +0100
+Message-ID: <87wmwf53bi.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        John Crispin <john@phrozen.org>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Felix Fietkau <nbd@nbd.name>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
+        Biju Das <biju.das.au@gmail.com>, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
- <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
- <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
- <5650a2a3-a36f-441e-b4c2-aa7c751b5af5@arinc9.com>
- <410dfe3c-6f99-4054-88f8-0acbd134cfce@lunn.ch>
- <228f24db-0a26-4d38-8f73-a9691262cc5f@arinc9.com>
- <2be01f7e-8bd0-42c5-bc82-b1da29b83e24@lunn.ch>
-Content-Language: en-US
-From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <2be01f7e-8bd0-42c5-bc82-b1da29b83e24@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: arinc.unal@arinc9.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 2/3] irqchip: renesas-rzg2l: Mask interrupts for changing interrupt settings
+In-Reply-To: <20230918122411.237635-3-biju.das.jz@bp.renesas.com>
+References: <20230918122411.237635-1-biju.das.jz@bp.renesas.com>
+        <20230918122411.237635-3-biju.das.jz@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 85.255.234.76
+X-SA-Exim-Rcpt-To: biju.das.jz@bp.renesas.com, tglx@linutronix.de, prabhakar.mahadev-lad.rj@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com, geert+renesas@glider.be, biju.das.au@gmail.com, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24/09/2023 06:15, Andrew Lunn wrote:
->>> There is a MAC driver currently under review which does not have a PHY
->>> at all. The MAC is directly connected to a switch, all within one
->>> IC. The link is always running at 5Gbps, the link is always up. It is
->>> physically impossible to connect a PHY, so get_link_settings just
->>> returns hard coded values.
->>
->> The fixed-link property would be used to describe the link of the MAC here.
+On Mon, 18 Sep 2023 13:24:10 +0100,
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 > 
-> Fixed-link make sense for a general purpose MAC which could be
-> connected to a PHY, or could also be used without a PHY. fixed-link
-> simplifies the code in that the MAC driver does not see a difference,
-> it all looks like a PHY.
+> As per RZ/G2L hardware manual Rev.1.30 section 8.8.3 Precaution when
+> changing interrupt settings,  we need to mask the interrupts for
+> any changes in below settings:
 > 
-> However for a MAC which cannot be connected to a PHY, there is no need
-> to emulate a PHY. The MAC driver will be simpler. So i would not
-> recommend a fixed-link in this situation.
+>  * When changing the noise filter settings.
+>  * When switching the GPIO pins to IRQ or GPIOINT.
+>  * When changing the source of TINT.
+>  * When changing the interrupt detection method.
+> 
+> This patch masks the interrupts when there is a change in the interrupt
+> detection method and changing the source of TINT.
+> 
+> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driver")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/irqchip/irq-renesas-rzg2l.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> index 2cee5477be6b..33a22bafedcd 100644
+> --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -116,11 +116,13 @@ static void rzg2l_irqc_irq_disable(struct irq_data *d)
+>  		u8 tssr_index = TSSR_INDEX(offset);
+>  		u32 reg;
+>  
+> +		irq_chip_mask_parent(d);
+>  		raw_spin_lock(&priv->lock);
+>  		reg = readl_relaxed(priv->base + TSSR(tssr_index));
+>  		reg &= ~(TSSEL_MASK << TSSEL_SHIFT(tssr_offset));
+>  		writel_relaxed(reg, priv->base + TSSR(tssr_index));
+>  		raw_spin_unlock(&priv->lock);
+> +		irq_chip_unmask_parent(d);
 
-There's a link, it must be described. The MAC driver can configure the link
-without reading the fixed-link property as there's no room for guessing.
+What guarantees that the parent irqchip state has been correctly restored?
+Nothing refcounts the nesting of mask/unmask.
 
-The phy-handle, pcs-handle, and sfp properties point out there's a PHY. The
-fixed-link property can be used standalone to describe MAC to MAC links.
+>  	}
+>  	irq_chip_disable_parent(d);
 
-For this specific ethernet controller, the phy-handle, pcs-handle, and sfp
-properties can be disallowed on its schema to point out the ethernet
-controller cannot be connected to a PHY.
+I'd rather you start by *disabling* the parent, and then none of that
+matters at all.
 
-Arınç
+>  }
+> @@ -137,11 +139,13 @@ static void rzg2l_irqc_irq_enable(struct irq_data *d)
+>  		u8 tssr_index = TSSR_INDEX(offset);
+>  		u32 reg;
+>  
+> +		irq_chip_mask_parent(d);
+>  		raw_spin_lock(&priv->lock);
+>  		reg = readl_relaxed(priv->base + TSSR(tssr_index));
+>  		reg |= (TIEN | tint) << TSSEL_SHIFT(tssr_offset);
+>  		writel_relaxed(reg, priv->base + TSSR(tssr_index));
+>  		raw_spin_unlock(&priv->lock);
+> +		irq_chip_unmask_parent(d);
+>  	}
+>  	irq_chip_enable_parent(d);
+
+Same thing: if the parent was disabled, why do we need to do anything?
+
+
+>  }
+> @@ -226,10 +230,12 @@ static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
+>  	unsigned int hw_irq = irqd_to_hwirq(d);
+>  	int ret = -EINVAL;
+>  
+> +	irq_chip_mask_parent(d);
+>  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+>  		ret = rzg2l_irq_set_type(d, type);
+>  	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
+>  		ret = rzg2l_tint_set_edge(d, type);
+> +	irq_chip_unmask_parent(d);
+
+This one is the only interesting one: why don't you mask the interrupt
+at the local level rather than on the parent? And this should be
+conditioned on the interrupt state itself (enabled or disabled), not
+done unconditionally.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
