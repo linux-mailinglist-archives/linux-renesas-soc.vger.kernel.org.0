@@ -2,138 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 734237ACA23
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 16:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3902F7ACBAB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 21:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbjIXO4T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Sep 2023 10:56:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48918 "EHLO
+        id S231362AbjIXTmX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 24 Sep 2023 15:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbjIXO4S (ORCPT
+        with ESMTP id S231364AbjIXTmW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Sep 2023 10:56:18 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D58FC;
-        Sun, 24 Sep 2023 07:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=a0RI2EF5VAOb9mrpmA1xh0jjtBBMo7NRn7kCBceeFDo=; b=Ka
-        9jVVC1YfiOMJeEi2JVxXYgoz/MBKnf47MIA4j9oz6BgcZc1ubOozNQQa7JsVGsuyNP+qGwOQjsqoG
-        hp2txzye8csh7V0bmUfppxLl5sekmzl1L4zuxExa8q4AP3XYTB6MXI3lB75y4fLbd1C/tjlrqVn1T
-        GZq266029NbgEew=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1qkQVl-007M3k-16; Sun, 24 Sep 2023 16:55:05 +0200
-Date:   Sun, 24 Sep 2023 16:55:05 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Sun, 24 Sep 2023 15:42:22 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7CEFC;
+        Sun, 24 Sep 2023 12:42:15 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9a6190af24aso625859666b.0;
+        Sun, 24 Sep 2023 12:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695584534; x=1696189334; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B1OAJIe+rOLUJzcNXVPzHOsb+JGDg6uIpunRCjru7BA=;
+        b=mJp8Ah+MXmbEK7uvQ7uQiTWdPTlNE/ZtAAgTEnzOfuFIilT7f1P/vypblHIvsM0KYI
+         VWG60e2pTl62KCxFay6q1/qpVrzkGNfCMd1ugqvzlhyTrfnH+L/Wdz2ih8ZwuIZ/RASx
+         +xEcMJ5ybkSpr1Hoe5t/GkJhfa+I09WjW+YbEK5nPgW+pqNxdxlXmf5epjeCAqa4pa5B
+         DurJXn5iHIt1G4R20L3rxACrMwYKO9Md1X8Hn1qm9cu/dthMDkcQwA9nKNB96H68Q+Ga
+         BIuPD/NY7LdZVCOFgMMl+bTv8XDNFJYCy+PAKrDAc4sAhPf7TloxfB/HUa7ElG0s2OT3
+         OV6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695584534; x=1696189334;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B1OAJIe+rOLUJzcNXVPzHOsb+JGDg6uIpunRCjru7BA=;
+        b=tde+8uSAQjvD4Tu1xUXATh4ZTWr4mKkhlKOoiuO1q21UpeXZo+zCez2AG57Jd6xbpZ
+         SS7PfljRh8NNUUsxtexvWQhMbRnEcApwCBOCR5ajJEae3q6+bAB9MZuadjNVqnYsGolx
+         cbt9XXqF2SteAezTIC/K701UFTzoQyIk8HiSnpvOYJ5vbv4A8sDZXU5Ge6cjJP8WjbIq
+         lCQKO6Xa71pXVtBwvPyQiB6HW4olfZE6uKSFSPRDn1cWyi2M9Ajl94C9JAjDyE0g2Spz
+         srelGxT/sXfD8vBBmDppAirZBO6ARITcqBMysXBrsMsJPz3Uew/bWIqjUWjhPqE66dYY
+         jPzQ==
+X-Gm-Message-State: AOJu0Yy6nqcag6qOmNbUCoK/uT69sLCB7WP1mu0124H6zsWxL4czwP1Y
+        KK81yMOlsoOWL2ocXQYKkSI=
+X-Google-Smtp-Source: AGHT+IElTLWdxYzDdmFsBbLbnhFSAtGhPSM0V5vdb/GQFUHvl00TjFJ8CTOxEMzXqAItwMFv4I1k2w==
+X-Received: by 2002:a17:907:2e01:b0:9ae:406c:3425 with SMTP id ig1-20020a1709072e0100b009ae406c3425mr4634928ejc.0.1695584534105;
+        Sun, 24 Sep 2023 12:42:14 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id d18-20020a17090694d200b0099cb1a2cab0sm5322258ejy.28.2023.09.24.12.42.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Sep 2023 12:42:13 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-riscv@lists.infradead.org, Conor Dooley <conor@kernel.org>
+Cc:     conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
         Conor Dooley <conor+dt@kernel.org>,
-        George McCollister <george.mccollister@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Steen Hegelund <Steen.Hegelund@microchip.com>,
-        Daniel Machon <daniel.machon@microchip.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        John Crispin <john@phrozen.org>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Felix Fietkau <nbd@nbd.name>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
-Message-ID: <29cd6190-a565-4f95-9de0-41ed7c7772e6@lunn.ch>
-References: <20230916110902.234273-1-arinc.unal@arinc9.com>
- <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
- <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
- <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
- <5650a2a3-a36f-441e-b4c2-aa7c751b5af5@arinc9.com>
- <410dfe3c-6f99-4054-88f8-0acbd134cfce@lunn.ch>
- <228f24db-0a26-4d38-8f73-a9691262cc5f@arinc9.com>
- <2be01f7e-8bd0-42c5-bc82-b1da29b83e24@lunn.ch>
- <78e70cc9-a6ca-439b-bfca-3119299249de@arinc9.com>
+Subject: Re: [RFC v2 5/6] riscv: dts: allwinner: convert isa detection to new
+ properties
+Date:   Sun, 24 Sep 2023 21:42:12 +0200
+Message-ID: <4833002.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20230922081351.30239-7-conor@kernel.org>
+References: <20230922081351.30239-2-conor@kernel.org>
+ <20230922081351.30239-7-conor@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <78e70cc9-a6ca-439b-bfca-3119299249de@arinc9.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Sep 24, 2023 at 10:49:49AM +0300, Arınç ÜNAL wrote:
-> On 24/09/2023 06:15, Andrew Lunn wrote:
-> > > > There is a MAC driver currently under review which does not have a PHY
-> > > > at all. The MAC is directly connected to a switch, all within one
-> > > > IC. The link is always running at 5Gbps, the link is always up. It is
-> > > > physically impossible to connect a PHY, so get_link_settings just
-> > > > returns hard coded values.
-> > > 
-> > > The fixed-link property would be used to describe the link of the MAC here.
-> > 
-> > Fixed-link make sense for a general purpose MAC which could be
-> > connected to a PHY, or could also be used without a PHY. fixed-link
-> > simplifies the code in that the MAC driver does not see a difference,
-> > it all looks like a PHY.
-> > 
-> > However for a MAC which cannot be connected to a PHY, there is no need
-> > to emulate a PHY. The MAC driver will be simpler. So i would not
-> > recommend a fixed-link in this situation.
+Dne petek, 22. september 2023 ob 10:13:50 CEST je Conor Dooley napisal(a):
+> From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> There's a link, it must be described.
+> Convert the D1 devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 
-Why must it be described?
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Lets take this to the extreme to make a point. The chip has a ground
-pin. Must i describe that?
+Best regards,
+Jernej
 
-     Andrew
+> ---
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> index 8275630af977..947e975d2476 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> @@ -25,6 +25,9 @@ cpu0: cpu@0 {
+>  			mmu-type = "riscv,sv39";
+>  			operating-points-v2 = <&opp_table_cpu>;
+>  			riscv,isa = "rv64imafdc";
+> +			riscv,isa-base = "rv64i";
+> +			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+> +					       "zifencei", "zihpm";
+>  			#cooling-cells = <2>;
+>  
+>  			cpu0_intc: interrupt-controller {
+> 
+
+
+
+
