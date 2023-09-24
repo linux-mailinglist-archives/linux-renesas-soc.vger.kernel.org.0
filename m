@@ -2,60 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C19D27AC74A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 11:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A60EE7AC821
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Sep 2023 14:47:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjIXJ12 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Sep 2023 05:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
+        id S229598AbjIXMrL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 24 Sep 2023 08:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjIXJ12 (ORCPT
+        with ESMTP id S229632AbjIXMrK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Sep 2023 05:27:28 -0400
+        Sun, 24 Sep 2023 08:47:10 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE442107;
-        Sun, 24 Sep 2023 02:27:21 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561A3C433C8;
-        Sun, 24 Sep 2023 09:27:21 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6005106;
+        Sun, 24 Sep 2023 05:47:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD85C433C8;
+        Sun, 24 Sep 2023 12:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695547641;
-        bh=OtKqRE8d8XyKijo02N0v5qsYYrxnvoYjWA5m+RhuMbA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Fw28rO4+0BcWKTqRtJ11UQd3yu8tYz0YafTOJiUhCVPahmTdtfqBG0kv5yk7K2uLP
-         vhfOiVZjwUntx0nkT00PKJMca5e69fEqwi4Nf0Fck4gKhkgm8zNQIqtaHipH+KWZN/
-         CHOImXvIcyMVwFFDQ/f5o5bi0TpEh50nMSX1NGsdkhFtvRiipqldcl1immYEOXLEyu
-         TMnNfHUTZ34JCc8mOpI9Q8huT/4lnzJ3n+kYO6vFjzUGVaiT+3ADARUBPmh9o1KbNh
-         0ckacHPExsD2VBXYMijC3w325KbqHLD8kAmSG7UdKyFP5u4b3a1x1dqqqx7esezVmM
-         bgZVFmUgpBKLQ==
-Received: from [85.255.234.76] (helo=wait-a-minute.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1qkLOY-00FfQs-Sb;
-        Sun, 24 Sep 2023 10:27:19 +0100
-Date:   Sun, 24 Sep 2023 10:27:13 +0100
-Message-ID: <87wmwf53bi.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+        s=k20201202; t=1695559624;
+        bh=uYDw7caeln0FE8YZ0R4Znc7FgE+rD8pGLZ2Fc9rKI3U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EHqwBAXiXCUH9ykTbb0MTUF/PMGUmFZBUnid9zNYIU6+jUiHLI4TsroGwPKQPAFJx
+         Fc4kdKrYSW3174uAaC4eA/tPaMd2NnwjVGY2jjyEIDNqB3uAyaoqRDV4PS5wyG/3e4
+         f2SlyocrDXLZo4ZHAL4gvfQd+9lfvzNtKrcKTPgoRXd63x5JD8GUSCCUY2q6OtiySI
+         bGxJhUuTtslZ22g9IFWf0FimwjUp3hSIo7AEGE05Aa7jbuMK0RmG83110SmUFTRwPZ
+         efy1asMpQQVDS0llyYEQrgkqLysqHVe6LawO8MvjUpDioEBf6MwBj4jiE/+u6pMeun
+         hH+46nlkAQ7NQ==
+Date:   Sun, 24 Sep 2023 20:46:50 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-arm-kernel@lists.infradead.org, aford@beaconembedded.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.au@gmail.com>, linux-kernel@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] irqchip: renesas-rzg2l: Mask interrupts for changing interrupt settings
-In-Reply-To: <20230918122411.237635-3-biju.das.jz@bp.renesas.com>
-References: <20230918122411.237635-1-biju.das.jz@bp.renesas.com>
-        <20230918122411.237635-3-biju.das.jz@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 85.255.234.76
-X-SA-Exim-Rcpt-To: biju.das.jz@bp.renesas.com, tglx@linutronix.de, prabhakar.mahadev-lad.rj@bp.renesas.com, claudiu.beznea.uj@bp.renesas.com, geert+renesas@glider.be, biju.das.au@gmail.com, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Subject: Re: [PATCH V2] arm64: dts: imx8mp-beacon: Configure 100MHz PCIe Ref
+ Clk
+Message-ID: <20230924124650.GD7231@dragon>
+References: <20230813164003.23665-1-aford173@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230813164003.23665-1-aford173@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -66,91 +60,78 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 18 Sep 2023 13:24:10 +0100,
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Sun, Aug 13, 2023 at 11:40:03AM -0500, Adam Ford wrote:
+> There is a I2C controlled 100MHz Reference clock used by the PCIe
+> controller. Configure this clock's DIF1 output to be used by
+> the PCIe.
 > 
-> As per RZ/G2L hardware manual Rev.1.30 section 8.8.3 Precaution when
-> changing interrupt settings,  we need to mask the interrupts for
-> any changes in below settings:
-> 
->  * When changing the noise filter settings.
->  * When switching the GPIO pins to IRQ or GPIOINT.
->  * When changing the source of TINT.
->  * When changing the interrupt detection method.
-> 
-> This patch masks the interrupts when there is a change in the interrupt
-> detection method and changing the source of TINT.
-> 
-> Fixes: 3fed09559cd8 ("irqchip: Add RZ/G2L IA55 Interrupt Controller driver")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 > ---
->  drivers/irqchip/irq-renesas-rzg2l.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> V2:  Remove the pcie0_refclk clock that the new one replaces.
 > 
-> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-> index 2cee5477be6b..33a22bafedcd 100644
-> --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> @@ -116,11 +116,13 @@ static void rzg2l_irqc_irq_disable(struct irq_data *d)
->  		u8 tssr_index = TSSR_INDEX(offset);
->  		u32 reg;
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> index acd265d8b58e..a8ccde678c33 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+> @@ -23,6 +23,12 @@ chosen {
+>  		stdout-path = &uart2;
+>  	};
 >  
-> +		irq_chip_mask_parent(d);
->  		raw_spin_lock(&priv->lock);
->  		reg = readl_relaxed(priv->base + TSSR(tssr_index));
->  		reg &= ~(TSSEL_MASK << TSSEL_SHIFT(tssr_offset));
->  		writel_relaxed(reg, priv->base + TSSR(tssr_index));
->  		raw_spin_unlock(&priv->lock);
-> +		irq_chip_unmask_parent(d);
+> +	clk_xtal25: clk-xtal25 {
 
-What guarantees that the parent irqchip state has been correctly restored?
-Nothing refcounts the nesting of mask/unmask.
+clock-xtal25 for the node name?
 
->  	}
->  	irq_chip_disable_parent(d);
-
-I'd rather you start by *disabling* the parent, and then none of that
-matters at all.
-
->  }
-> @@ -137,11 +139,13 @@ static void rzg2l_irqc_irq_enable(struct irq_data *d)
->  		u8 tssr_index = TSSR_INDEX(offset);
->  		u32 reg;
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <25000000>;
+> +	};
+> +
+>  	connector {
+>  		compatible = "usb-c-connector";
+>  		label = "USB-C";
+> @@ -112,12 +118,6 @@ led-3 {
+>  		};
+>  	};
 >  
-> +		irq_chip_mask_parent(d);
->  		raw_spin_lock(&priv->lock);
->  		reg = readl_relaxed(priv->base + TSSR(tssr_index));
->  		reg |= (TIEN | tint) << TSSEL_SHIFT(tssr_offset);
->  		writel_relaxed(reg, priv->base + TSSR(tssr_index));
->  		raw_spin_unlock(&priv->lock);
-> +		irq_chip_unmask_parent(d);
->  	}
->  	irq_chip_enable_parent(d);
+> -	pcie0_refclk: clock-pcie {
+> -		compatible = "fixed-clock";
+> -		#clock-cells = <0>;
+> -		clock-frequency = <100000000>;
+> -	};
+> -
+>  	reg_audio: regulator-wm8962 {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "3v3_aud";
+> @@ -246,6 +246,13 @@ pca6416_3: gpio@20 {
+>  		interrupt-controller;
+>  		#interrupt-cells = <2>;
+>  	};
+> +
+> +	pcieclk: clk@68 {
 
-Same thing: if the parent was disabled, why do we need to do anything?
+clock-generator in the bindings example seems a better node name to me.
 
+Shawn
 
->  }
-> @@ -226,10 +230,12 @@ static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
->  	unsigned int hw_irq = irqd_to_hwirq(d);
->  	int ret = -EINVAL;
+> +		compatible = "renesas,9fgv0241";
+> +		reg = <0x68>;
+> +		clocks = <&clk_xtal25>;
+> +		#clock-cells = <1>;
+> +	};
+>  };
 >  
-> +	irq_chip_mask_parent(d);
->  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
->  		ret = rzg2l_irq_set_type(d, type);
->  	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
->  		ret = rzg2l_tint_set_edge(d, type);
-> +	irq_chip_unmask_parent(d);
-
-This one is the only interesting one: why don't you mask the interrupt
-at the local level rather than on the parent? And this should be
-conditioned on the interrupt state itself (enabled or disabled), not
-done unconditionally.
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+>  &i2c3 {
+> @@ -372,8 +379,9 @@ &pcie {
+>  };
+>  
+>  &pcie_phy {
+> +	fsl,clkreq-unsupported;
+>  	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
+> -	clocks = <&pcie0_refclk>;
+> +	clocks = <&pcieclk 1>;
+>  	clock-names = "ref";
+>  	status = "okay";
+>  };
+> -- 
+> 2.39.2
+> 
