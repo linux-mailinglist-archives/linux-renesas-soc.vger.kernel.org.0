@@ -2,47 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA7667AE0B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 23:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFCDA7AE0BE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 23:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbjIYV0l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Sep 2023 17:26:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
+        id S233421AbjIYV1d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Sep 2023 17:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjIYV0k (ORCPT
+        with ESMTP id S233403AbjIYV1c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Sep 2023 17:26:40 -0400
+        Mon, 25 Sep 2023 17:27:32 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D917111B;
-        Mon, 25 Sep 2023 14:26:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3975FC433C7;
-        Mon, 25 Sep 2023 21:26:32 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADEA11F;
+        Mon, 25 Sep 2023 14:27:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28BDC433C8;
+        Mon, 25 Sep 2023 21:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695677193;
-        bh=9Nh14aFUGUsaxHvq/E7g7v9+31uftoSiCiNR23fyrLI=;
+        s=k20201202; t=1695677245;
+        bh=ttt9MxqlXu8nD2JgUN9u6TOQN+41IkV1ecAtDT3N474=;
         h=From:To:Cc:Subject:Date:From;
-        b=rEFVSaMxl4PTBk3T8GgUZ6WMUDwFU3LdVPn4KA0JATvSAGLQNXzpUZkVFqabj8EWq
-         ZEgmaHOCMXABi54Z1izv8dctSripSzBkwKDwpFBHR0rLEedNoWt21qeKMND6X+XOfN
-         Sm1sR4sPG1Qcz1opK8WdWMDUfTc9OmuxgtsekqF6LHV50Gp1Ta7JrPpM6uPMFSvF61
-         OMqeNJe+aF9M+3iPhf3x7CNzeGsWwiHwO3oP5MN3982EjlMK1YkeXHb8349ch2wMFS
-         DyXL8dwCRHNt4uP2+aEcAT4jQS7AxjX1nUOqBRrjWAnf/jmC9FsAE5Qhz/8dXrb/wP
-         hwRdAAguGqKeg==
-Received: (nullmailer pid 1974921 invoked by uid 1000);
-        Mon, 25 Sep 2023 21:26:30 -0000
+        b=kYnloxV/57uAVpHewX8XeuFQPLiTF2QIJwR0cP+ubSh+Jx6ve4QYl+vRxwIp1BshC
+         nvlL3Jqc63g61QjTGgGm/6AfydVlM+FMEagcyDPX04Km1rjPfNX9f11AfahfOAyJCu
+         Sf4EtAb5DSS0GSkbtBII0jf3EfkACJf2tv7vhTRZU2XbVdbTclfy8HDeSGCdGhAJr7
+         j4JJP1n2KZtDHbuH5oBJWz+wrl6Y7tN/U0HuyXP5S001xOEvMYkaw/fFPUTcLHaPDd
+         nvM/48XZgpcbSmqU6KpQPj5JkTS1JSpjAKN2XpeHTQSP9RU8RA7ZNfKmD+S8Utl/76
+         K+u3kLdH8dn1A==
+Received: (nullmailer pid 1976042 invoked by uid 1000);
+        Mon, 25 Sep 2023 21:27:19 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+To:     Bjorn Andersson <andersson@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Heiko Stuebner <heiko@sntech.de>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Roger Quadros <rogerq@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: memory-controllers: Make "additionalProperties: true" explicit
-Date:   Mon, 25 Sep 2023 16:26:21 -0500
-Message-Id: <20230925212626.1974676-1-robh@kernel.org>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Konrad Dybcio <konrad.dybcio@somainline.org>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org
+Subject: [PATCH] dt-bindings: pinctrl: Add missing additionalProperties on child node schemas
+Date:   Mon, 25 Sep 2023 16:27:10 -0500
+Message-Id: <20230925212713.1975800-1-robh@kernel.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,55 +62,70 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Make it explicit that child nodes have additional properties and the
-child node schema is not complete. The complete schemas are applied
-separately based the compatible strings.
+Just as unevaluatedProperties or additionalProperties are required at
+the top level of schemas, they should (and will) also be required for
+child node schemas. That ensures only documented properties are
+present for any node.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/memory-controllers/ingenic,nemc.yaml    | 1 +
- .../devicetree/bindings/memory-controllers/renesas,rpc-if.yaml  | 2 ++
- .../devicetree/bindings/memory-controllers/ti,gpmc.yaml         | 2 +-
- 3 files changed, 4 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/pinctrl/qcom,mdm9607-tlmm.yaml         | 3 ++-
+ .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml     | 1 +
+ .../devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml     | 1 +
+ .../devicetree/bindings/pinctrl/rockchip,pinctrl.yaml          | 2 ++
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml b/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-index b40cec0eb651..ee74a362f4ca 100644
---- a/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-@@ -40,6 +40,7 @@ patternProperties:
-   ".*@[0-9]+$":
-     type: object
-     $ref: mc-peripheral-props.yaml#
-+    additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/pinctrl/qcom,mdm9607-tlmm.yaml b/Documentation/devicetree/bindings/pinctrl/qcom,mdm9607-tlmm.yaml
+index 2aedb7e7bc8b..5ece3b9d676b 100644
+--- a/Documentation/devicetree/bindings/pinctrl/qcom,mdm9607-tlmm.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/qcom,mdm9607-tlmm.yaml
+@@ -43,7 +43,8 @@ patternProperties:
+   "-state$":
+     oneOf:
+       - $ref: "#/$defs/qcom-mdm9607-tlmm-state"
+-      - patternProperties:
++      - additionalProperties: false
++        patternProperties:
+           ".*":
+             $ref: "#/$defs/qcom-mdm9607-tlmm-state"
  
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-index 56e62cd0b36a..25f3bb9890ae 100644
---- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-@@ -80,6 +80,8 @@ properties:
- patternProperties:
-   "flash@[0-9a-f]+$":
+diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+index 145c5442f268..4782f96feb7e 100644
+--- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+@@ -73,6 +73,7 @@ properties:
+ additionalProperties:
+   anyOf:
+     - type: object
++      additionalProperties: false
+       allOf:
+         - $ref: pincfg-node.yaml#
+         - $ref: pinmux-node.yaml#
+diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+index cb81a17bd0b1..5fa5d31f8866 100644
+--- a/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+@@ -53,6 +53,7 @@ properties:
+ additionalProperties:
+   anyOf:
+     - type: object
++      additionalProperties: false
+       allOf:
+         - $ref: pincfg-node.yaml#
+         - $ref: pinmux-node.yaml#
+diff --git a/Documentation/devicetree/bindings/pinctrl/rockchip,pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/rockchip,pinctrl.yaml
+index 10c335efe619..20e806dce1ec 100644
+--- a/Documentation/devicetree/bindings/pinctrl/rockchip,pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/rockchip,pinctrl.yaml
+@@ -115,6 +115,8 @@ additionalProperties:
+   type: object
+   additionalProperties:
      type: object
-+    additionalProperties: true
++    additionalProperties: false
 +
      properties:
-       compatible:
-         contains:
-diff --git a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
-index b049837ee669..c7a8a041da50 100644
---- a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc.yaml
-@@ -130,7 +130,7 @@ patternProperties:
-       bus. The device can be a NAND chip, SRAM device, NOR device
-       or an ASIC.
-     $ref: ti,gpmc-child.yaml
--
-+    additionalProperties: true
- 
- required:
-   - compatible
+       rockchip,pins:
+         $ref: /schemas/types.yaml#/definitions/uint32-matrix
 -- 
 2.40.1
 
