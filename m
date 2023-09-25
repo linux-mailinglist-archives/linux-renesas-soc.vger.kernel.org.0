@@ -2,39 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40F517ADC91
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 18:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943657ADDE6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 19:39:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbjIYQAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Sep 2023 12:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S229735AbjIYRjI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Sep 2023 13:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232503AbjIYQAH (ORCPT
+        with ESMTP id S230230AbjIYRjI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Sep 2023 12:00:07 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF1EC0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 09:00:00 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52843C433C8;
-        Mon, 25 Sep 2023 15:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695657600;
-        bh=a8rjNCYGi+ryMmuRSonoTJhU/Re5Es/qrYootNBn2KQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uw6x/w2ITyByP8yJa+h5heRKZvU4seYe51MRuekHi5Uuitrhn9WsvEE4052B5fJvk
-         wyC6o/X5rtmlHd8HjeVlWV0FGt7UWSYRIYZzGplscH72BYXLRBQt93zm4rmR8kTirr
-         m5IAT+ZYtc8BNZQTrMrpKuu8bBhqP4lcY3xy6isGMfM/mVrAlgvTRHE5LlMsIyvDzE
-         abi6edmHnwxG3UDWIFIOfnWGo2hH5o5Hj3ydAteqwV5cISEaKpRouKzg/QRKdL/mi3
-         Ofu9PJefDbC2t/cMvyy3Q0PBDdf6Mk7w0HXG+jNRMd3Fbr0yicDvkNGV8JVtonq+H1
-         EmlbAOwFRGZyA==
-Date:   Mon, 25 Sep 2023 16:59:54 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Icenowy Zheng <uwu@icenowy.me>
-Cc:     linux-riscv@lists.infradead.org,
-        Conor Dooley <conor.dooley@microchip.com>,
+        Mon, 25 Sep 2023 13:39:08 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47D810D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 10:39:01 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-65b179b9baeso8736366d6.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 10:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1695663541; x=1696268341; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hTbKVRUtifK600GcTuB6H5T7Hq7nQwjgpsYUbwhLkRs=;
+        b=I4Y8z1B8TwdY5poWjHnCoXf7zaKCfgKCV4w5ZoUi6fs1t2eZjaEwX+sqQN1ez1XWWo
+         elUuSLZmz7EcOoFe6CAMbmoaSw/KNIqghLTrqfyNqCfpJQJengNgb7F4vMubg3McHb7G
+         rKtsoA9c38K6V2iAXWm6yfRX/fQTqkDD+V8OGwQbpUexI+nGVzTlV6xXZjiFKbB5Vvgk
+         UNzTC6+VrPJo0/jCAslOrcEPpeOA+SfRU6U9Ty97HcghVEjLMTWooqFdXnjstRNgywrl
+         L7IKYmgmQs55sIXMbYDc2XdC2Nc+Yf+JU4PoSzPcj3oiGJv9OzMYlASYBYamNoEjVCn3
+         hsCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695663541; x=1696268341;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTbKVRUtifK600GcTuB6H5T7Hq7nQwjgpsYUbwhLkRs=;
+        b=xGtmtKOjG38UgqsW2ucbfdF22QjDxr3+k8S6xOEicNRXNc8KSQvUs/AvQMno+Wf9sg
+         u3O84Mtbe5wNRi3X5qTFihmkkPoNxc4I/lVGf657a5qJO/V1oqZgo4pp6n9zNqYAqC+c
+         J+HcOTsicMt+TG7pULfyl/OL7nP+OpgAUCyejNgS3ukuwIGo4t0WWujQZaNDG6XZQSRS
+         4a05zvKBpX3UL3oq7Dq9pxyi/kfnE69/U9rLFUTh3naM7oKSWgu5JXWWqEcfTc2M+7pt
+         LKgGD6RGyNfFOsvHqawA7Ng2P0Imwcj8ER+TaPTJcBUm2k8QmJSbTEOzH2+cjGoZUPdd
+         rDsg==
+X-Gm-Message-State: AOJu0YzX/AtcekmEeeFV6SoHmEO//Qfov5UIOqDHIwZxjweDQbaGAXmb
+        cTlDm8lEY89gNdLPmsggND106A==
+X-Google-Smtp-Source: AGHT+IG+tSQcs5F1udgePekSyNFg4nS/3ON6TuwwuW4o4BqlQE4HXLo3X3tpbTYJLPBv/LJ1Cwr8Wg==
+X-Received: by 2002:a05:6214:4307:b0:647:22cc:1784 with SMTP id oe7-20020a056214430700b0064722cc1784mr8149193qvb.15.1695663540981;
+        Mon, 25 Sep 2023 10:39:00 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2000:b002:75e1:d26a:c179:14a3? ([2600:1700:2000:b002:75e1:d26a:c179:14a3])
+        by smtp.gmail.com with ESMTPSA id ph7-20020a0562144a4700b00655ebd053dcsm3167034qvb.82.2023.09.25.10.38.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 10:39:00 -0700 (PDT)
+Message-ID: <a43ef21e-ce26-45ee-be28-526238e3e88f@sifive.com>
+Date:   Mon, 25 Sep 2023 12:38:58 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 2/6] riscv: dts: sifive: convert isa detection to new
+ properties
+Content-Language: en-US
+To:     Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -50,19 +76,14 @@ Cc:     linux-riscv@lists.infradead.org,
         Chen Wang <unicorn_wang@outlook.com>,
         devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC v2 6/6] riscv: dts: thead: convert isa detection to new
- properties
-Message-ID: <20230925-semantic-euphemism-f0c7e85ac317@spud>
 References: <20230922081351.30239-2-conor@kernel.org>
- <20230922081351.30239-8-conor@kernel.org>
- <f3b8d0823150797bde975a09b1faf6d3826d1ea8.camel@icenowy.me>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wRuYzBByuunf9c21"
-Content-Disposition: inline
-In-Reply-To: <f3b8d0823150797bde975a09b1faf6d3826d1ea8.camel@icenowy.me>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+ <20230922081351.30239-4-conor@kernel.org>
+From:   Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <20230922081351.30239-4-conor@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,79 +91,18 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 2023-09-22 3:13 AM, Conor Dooley wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Convert the fu540 and fu740 devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  arch/riscv/boot/dts/sifive/fu540-c000.dtsi | 15 +++++++++++++++
+>  arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 15 +++++++++++++++
+>  2 files changed, 30 insertions(+)
 
---wRuYzBByuunf9c21
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
 
-On Sun, Sep 24, 2023 at 07:22:30AM +0800, Icenowy Zheng wrote:
-> =E5=9C=A8 2023-09-22=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 09:13 +0100=EF=
-=BC=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> >=20
-> > Convert the th1520 devicetrees to use the new properties
-> > "riscv,isa-base" & "riscv,isa-extensions".
-> > For compatibility with other projects, "riscv,isa" remains.
-> >=20
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> > =C2=A0arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
-> > =C2=A01 file changed, 12 insertions(+)
-> >=20
-> > diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi
-> > b/arch/riscv/boot/dts/thead/th1520.dtsi
-> > index ce708183b6f6..723f65487246 100644
-> > --- a/arch/riscv/boot/dts/thead/th1520.dtsi
-> > +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-> > @@ -20,6 +20,9 @@ c910_0: cpu@0 {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-compatible =3D "thead,c910", "riscv";
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-device_type =3D "cpu";
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-riscv,isa =3D "rv64imafdc";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0riscv,=
-isa-base =3D "rv64i";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0riscv,=
-isa-extensions =3D "i", "m", "a", "f",
-> > "d", "c", "zicntr", "zicsr",
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "zifencei", "zihpm";
->=20
-> Zfh is supported by T-Head C9xx with float too.
-
-You say xx, so just to be sure: Is it always supported, or only with
-some config for the IP (I wanna know if I need to look out for it while
-reviewing other SoCs etc)?
-Also, do you have a link to the documentation for it? English is the
-only relevant language I speak, so if the doc is in Chinese, I'll need
-some help!
-
-> In addition, should X extensions get listed here?
-
-Yes, but someone who cares about documenting these extensions should do
-it ;)
-
-Thanks,
-Conor.
-
---wRuYzBByuunf9c21
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRGueQAKCRB4tDGHoIJi
-0ieKAQC95Fhwv5mEqrEE8m9KwlXBDy2G7MWOZ/2Kb1wUhqbYxgEA3VMp+d4uCHtg
-ZWL3dh1sB96XktcBGAqBSGoznsp8HQE=
-=O8FG
------END PGP SIGNATURE-----
-
---wRuYzBByuunf9c21--
