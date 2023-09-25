@@ -2,91 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A773A7AD21A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 09:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89937AD247
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 09:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232434AbjIYHos convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Sep 2023 03:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
+        id S232462AbjIYHro (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Sep 2023 03:47:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232445AbjIYHor (ORCPT
+        with ESMTP id S232003AbjIYHrm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:44:47 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BCDCB3;
-        Mon, 25 Sep 2023 00:44:41 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59be6bcf408so67896217b3.2;
-        Mon, 25 Sep 2023 00:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695627880; x=1696232680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iGlxeF3mvqh10+aDJP6sgcuQtFs8Uq5hua0HbhUOEJc=;
-        b=iPKswbU4uA050Norm3TL6bsmzZ8Iknp5Mdx5O0QEZiZ7Cax9UNKfUzH99vPbF8sf+4
-         LF/7hQkR8NlThgLchileT+CY6B0AIB7gd8kpFcHO25+YpMo97j5LTMrU9HBJVT7TcH3i
-         IQnmf5K4rQBZ5diQAOrhA4nxps246KKdJrhKaLDVOiWOI8gYGiTLEY4i8HDJuccIsH+q
-         5UbB5bMa4jgaUZzgL61WzaWPVZyP7PWMhqf03+5oeDJvQz84Au6RN/g9N8g2X04Z850G
-         XyJdBe2TvqpmP9e6OMxX2RAQwFXF3SHN6cXtwLI8+nbcl/ZLIN1fGLVEVOtfI4DamRtM
-         Zf1w==
-X-Gm-Message-State: AOJu0Yx+fbhmPPshE1RZ4Y6oJSA0tDJ7qJm2JiWGIFMMuNKDh7vFkooG
-        XN1BNP3C18oyHlArcC9lnwPSxkb8s4uA1w==
-X-Google-Smtp-Source: AGHT+IGKgu31hM/9VX6A1nkYglZVi8xyxmuWBdM7nzk91mDbwxYk6dbH/QycBxvgtpWqw6qu7HQjQA==
-X-Received: by 2002:a81:b206:0:b0:59f:4c55:efa3 with SMTP id q6-20020a81b206000000b0059f4c55efa3mr5193737ywh.12.1695627880230;
-        Mon, 25 Sep 2023 00:44:40 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id gq10-20020a05690c444a00b0059f5828346csm1061744ywb.3.2023.09.25.00.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Sep 2023 00:44:39 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59c0a7d54bdso68063247b3.1;
-        Mon, 25 Sep 2023 00:44:39 -0700 (PDT)
-X-Received: by 2002:a81:b60f:0:b0:59f:5614:ebe8 with SMTP id
- u15-20020a81b60f000000b0059f5614ebe8mr4799116ywh.9.1695627879642; Mon, 25 Sep
- 2023 00:44:39 -0700 (PDT)
+        Mon, 25 Sep 2023 03:47:42 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3CC7FF;
+        Mon, 25 Sep 2023 00:47:33 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3C471C000A;
+        Mon, 25 Sep 2023 07:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
+        t=1695628052;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ThyHS05ydQoxH/bSwHr8OdaIUfcQUC2ILgoMwJVFYr4=;
+        b=gneWysS1thG64xcYgV9B5Q8Gn5+yngBBlc5x824QyPp2c7PzQI7wLQDx04UP1ox10czcO6
+        B2c1PlnGWnAq7hp5tmUCvpUUXZrTcvvI1Qp/TYWvPG9MIDpLhQ7nv2dUAk67yJqPbQJxFV
+        ISUdCq/usdTpgvyqsJiWPg2l0u8cEvfMQV17avNLh3cO2VAt2SjA44YE3waUGuBbq8UQrt
+        VZwm+IgPE3H5YqKCe3UAtJkky0hG0xYsqx9Y4oBoyE6Do2qXh8VNygP+FC/O7PlBovtW0N
+        QMimc5MAbDLr8/Zoh8KVirbAl2OOmdLCKAVACzxT93B//Vem2ZAmgtUzo4AZeg==
+Message-ID: <e0191a5e-dadf-4f55-b421-1d1ffee8e53a@arinc9.com>
+Date:   Mon, 25 Sep 2023 10:47:02 +0300
 MIME-Version: 1.0
-References: <20230922080421.35145-1-wsa+renesas@sang-engineering.com> <20230922080421.35145-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20230922080421.35145-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Sep 2023 09:44:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW=y9i=36r-WHgpB9RhCF1rsfQ=qsosTbjwPCTHo9PrYQ@mail.gmail.com>
-Message-ID: <CAMuHMdW=y9i=36r-WHgpB9RhCF1rsfQ=qsosTbjwPCTHo9PrYQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] usb: typec: drop check because i2c_unregister_device()
- is NULL safe
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 00/10] define and enforce phylink bindings
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        George McCollister <george.mccollister@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Lars Povlsen <lars.povlsen@microchip.com>,
+        Steen Hegelund <Steen.Hegelund@microchip.com>,
+        Daniel Machon <daniel.machon@microchip.com>,
+        Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Marek Vasut <marex@denx.de>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        John Crispin <john@phrozen.org>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Felix Fietkau <nbd@nbd.name>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+        mithat.guner@xeront.com, erkin.bozoglu@xeront.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20230916110902.234273-1-arinc.unal@arinc9.com>
+ <ZQ2LMe9aa1ViBcSH@shell.armlinux.org.uk>
+ <6c1bb7df-34cd-4db9-95b6-959c87b68588@arinc9.com>
+ <4856b212-5bc5-4783-a184-b34a4a915878@lunn.ch>
+ <5650a2a3-a36f-441e-b4c2-aa7c751b5af5@arinc9.com>
+ <410dfe3c-6f99-4054-88f8-0acbd134cfce@lunn.ch>
+ <228f24db-0a26-4d38-8f73-a9691262cc5f@arinc9.com>
+ <2be01f7e-8bd0-42c5-bc82-b1da29b83e24@lunn.ch>
+ <78e70cc9-a6ca-439b-bfca-3119299249de@arinc9.com>
+ <29cd6190-a565-4f95-9de0-41ed7c7772e6@lunn.ch>
+Content-Language: en-US
+From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <29cd6190-a565-4f95-9de0-41ed7c7772e6@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: arinc.unal@arinc9.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 12:44 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> No need to check the argument of i2c_unregister_device() because the
-> function itself does it.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 24.09.2023 17:55, Andrew Lunn wrote:
+> On Sun, Sep 24, 2023 at 10:49:49AM +0300, Arınç ÜNAL wrote:
+>> On 24/09/2023 06:15, Andrew Lunn wrote:
+>>>>> There is a MAC driver currently under review which does not have a PHY
+>>>>> at all. The MAC is directly connected to a switch, all within one
+>>>>> IC. The link is always running at 5Gbps, the link is always up. It is
+>>>>> physically impossible to connect a PHY, so get_link_settings just
+>>>>> returns hard coded values.
+>>>>
+>>>> The fixed-link property would be used to describe the link of the MAC here.
+>>>
+>>> Fixed-link make sense for a general purpose MAC which could be
+>>> connected to a PHY, or could also be used without a PHY. fixed-link
+>>> simplifies the code in that the MAC driver does not see a difference,
+>>> it all looks like a PHY.
+>>>
+>>> However for a MAC which cannot be connected to a PHY, there is no need
+>>> to emulate a PHY. The MAC driver will be simpler. So i would not
+>>> recommend a fixed-link in this situation.
+>>
+>> There's a link, it must be described.
+> 
+> Why must it be described?
+> 
+> Lets take this to the extreme to make a point. The chip has a ground
+> pin. Must i describe that?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I think it depends on how important the information is, to be put on the
+devicetree. I don't think a ground pin of an SoC is important enough to be
+described on the devicetree. It could be described as a text on the
+relevant devicetree document though. I've recently submitted a patch that
+does a similar thing. I've described which pin groups represent which pins.
 
-Gr{oetje,eeting}s,
+https://lore.kernel.org/lkml/20230917162837.277405-2-arinc.unal@arinc9.com/
 
-                        Geert
+For an ethernet controller, its link is the core part of the hardware.
+Therefore describing the link was deemed important. Hence certain
+properties were made to describe the link on the devicetree.
 
+All I proposed was to make sure these properties are always defined on the
+devicetree since, for an ethernet controller to exist, it must have a link.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Arınç
