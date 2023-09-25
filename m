@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B063D7AE103
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 23:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94EBD7AE10A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Sep 2023 23:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjIYVxD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Sep 2023 17:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34068 "EHLO
+        id S229509AbjIYVyE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Sep 2023 17:54:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjIYVxC (ORCPT
+        with ESMTP id S229550AbjIYVyE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Sep 2023 17:53:02 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B8FAF
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 14:52:56 -0700 (PDT)
+        Mon, 25 Sep 2023 17:54:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2260B127
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 14:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695678776; x=1727214776;
+  t=1695678837; x=1727214837;
   h=date:from:to:cc:subject:message-id;
-  bh=RQ4JvYnMQK37cPInHukuK/LSdA5B0AoA/lN8ahkLYBI=;
-  b=lCW7Wt+wS6XKDNvDzUKQsP8PNZcS/K2i1Fu4maFRMr+mTSy+XxnGhtcQ
-   xh7NvclHE5TD1QJlLKN/KueVl7woMRd+ccqVMv6g7S4aHFXraQXztbsAK
-   LNva0dEyXjW07HJ2yaoAyn0UzXXruKtHSZYFJrMEifAbUGDyY1PbShVeu
-   HNEjZ1G4xl4ONrfwunnv69jQwkopfl6svIBmnzGw+0Ht58On6DgCDpG4n
-   wNloTtyVJL+SlLnGLmHojO1aHA7wQDtoNMCUXHUvdfE32mzoRR5bUFoZV
-   1p4NA4uVvQ50JoKhCUW0hJMlypVu7bm4JNkPkAlOjqveg9tpRMFVLqDBi
+  bh=6CeidhAubdGHCXmVDKxnr3EIgD3OIQI6Gd13YRqTVkE=;
+  b=m2XzY9MMrg4i/YEp6enpuVHYMWfqQufBtanEnfvtMpumkvXN81GQm0O0
+   h4GDRAxMakQZSo43Y+UoGhhqO8UA3L6PVmV4UXsleHmxuwdvhmEr/+MBJ
+   IU/XfLdWBceZjDTWd+bXSFJLMoei7R5eyGlBYqm1qtJ6IqTCRFalEVu82
+   XlpUjuWRuNRKKBjngX08ZH7+C+7o0MpADmVgbWeRIQSgNn5r+5vDCwfLG
+   9jzUTVRLy3Jr1ddMrB1W59u9WPfdqVLADC/GLNBCIr5Rt5qcZWVwXojzq
+   F3uTqTPxr8o3VQIBPnYxg4juglRrV+S+ePpKsmMzKQDRyln7V0Dfiy/u2
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="385251409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447900132"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="385251409"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:51:56 -0700
+   d="scan'208";a="447900132"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:53:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="783687053"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="698219803"
 X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
-   d="scan'208";a="783687053"
+   d="scan'208";a="698219803"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Sep 2023 14:51:54 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Sep 2023 14:53:54 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qktUd-00023T-2O;
-        Mon, 25 Sep 2023 21:51:51 +0000
-Date:   Tue, 26 Sep 2023 05:51:44 +0800
+        id 1qktWZ-00023f-2n;
+        Mon, 25 Sep 2023 21:53:51 +0000
+Date:   Tue, 26 Sep 2023 05:53:47 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-soc-for-v6.7] BUILD SUCCESS
- 719efe2c63b1240ceefc232b57ebc6e69ab647d5
-Message-ID: <202309260541.ANFSicHK-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v6.7] BUILD SUCCESS
+ d70be079c3cf34bd91e1c8f7b4bc760356c9150c
+Message-ID: <202309260545.R8B1sghe-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -60,13 +60,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-soc-for-v6.7
-branch HEAD: 719efe2c63b1240ceefc232b57ebc6e69ab647d5  ARM: shmobile: sh73a0: Reserve boot area when SMP is enabled
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.7
+branch HEAD: d70be079c3cf34bd91e1c8f7b4bc760356c9150c  arm64: dts: renesas: ulcb/kf: Use multi Component sound
 
-elapsed time: 724m
+elapsed time: 726m
 
-configs tested: 106
-configs skipped: 153
+configs tested: 110
+configs skipped: 149
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -87,6 +87,10 @@ arm                              allyesconfig   gcc
 arm                        clps711x_defconfig   gcc  
 arm                                 defconfig   gcc  
 arm                   randconfig-001-20230925   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
 csky                             allmodconfig   gcc  
 csky                              allnoconfig   gcc  
 csky                             allyesconfig   gcc  
