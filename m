@@ -2,61 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E427AE9AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 11:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74AF67AEAF5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 12:59:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233553AbjIZJ4S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 05:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
+        id S234500AbjIZK67 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 06:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234333AbjIZJ4K (ORCPT
+        with ESMTP id S234494AbjIZK66 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 05:56:10 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73105CCE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 02:55:58 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9ad8bf9bfabso1053417766b.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 02:55:58 -0700 (PDT)
+        Tue, 26 Sep 2023 06:58:58 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABC5194
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 03:58:50 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c16757987fso54058511fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 03:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1695722156; x=1696326956; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=tuxon.dev; s=google; t=1695725928; x=1696330728; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oCGAB9bjd2rRkobql917EBDyBbo8Xf1tmOkuieid9Qw=;
-        b=HFmsZ4RrW76dmgghgjnLmy/if7RGsBsH4gCiOAm04mIl6nM43bU4nQtLpo9Mipeio4
-         JUhdNIn4w3HgA3gLB+81owUI+uiPg/4oyDitaKB+k6BzOwxh8C6RoMsHT6RFdWJ/t5fa
-         kZkn3eT+bQKDuIZbyX+KdFGTZlx/r1PFcgLzEr1Wa9Gxr4hkCtQiDoaruQAnT9TdaoLw
-         Lk8iZytyVRi3Hc982kBcXwdfyLV5KKQ7qefdk6LDk/U0aXwxhIAfzfZc7PFdV29YdBRj
-         k6fRmlWHQ+eJ/xaWFtECSUf0Xd7QCXN5TOpRM4YTq/E0wPiTnPiEcvndPYLYKtNKLhqs
-         A6tg==
+        bh=uw1cUsiT57O3RUVdq5mZiqTz08pOHH5WJzsYWq/LW4w=;
+        b=LDs36G73REglQOX9D/Nya1bWJXhVrk7ORjYwC6a3KKQdd8ycOnerhIDZ8PA8098Tb5
+         yj01CRMSd8x57BhfdqYEurmSNlDe85jiwc3wy1IBJre9ue4kUG1kvgDB+Phvi25kl6f7
+         OKP/mimaxCloGoKbLoMm80RW4QEdcwDWyze26yyz9PUeNFSZ8KwDK4g5OgwUOOC6c5MW
+         CilxLhNnKGoUWgtl2PKeGNSXYXXX/8zYxMj+MNNaNOWk9EpaHy5TNZKecKCbX46JBerS
+         5T0OXAx9gMR8AxKLTYxOZyRPhw6GfS6ghLN3taeqSxVKzem4O4iSlkuxG4YRLYw90A1q
+         XUoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695722156; x=1696326956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1695725928; x=1696330728;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oCGAB9bjd2rRkobql917EBDyBbo8Xf1tmOkuieid9Qw=;
-        b=Awzp7Hdz1PSNC+RdAaHShS136Uve45J99q1THnWPHilBoS7VfOQlqfY2ZwiOTCXH+M
-         pdWsuGDoZwI6dX5nhrgXx6v51Zd64q8Jrd0I4pmA9y+3cf0xITYdt2ps4lXV8jx/zPkC
-         36bKV/EgwvKVwZBRj6bW2jypqvXm9mjAvOE64jLoHVs3K9qd8agpo9OteQcKmjiaSVFF
-         5PC3SitKLpW8Tv6lwzSHEo5dkeuleZ5eOXnakBfNAjLhP490Ri3UTM/niwgHtelLFv9W
-         FgaFWbS92K3/1khevrJ8SR/dG/5uVv5JKj9R6sve/9WU7UyRv3KpLd9aA8dw1reRYGEc
-         IWZQ==
-X-Gm-Message-State: AOJu0YwP5hEf6P2lqPIaXKOCnDnhgt/dEMHLtVREy9LeaPnyEGHBV91l
-        4D99K8YXLNiRfo73UOhvKSJpIA==
-X-Google-Smtp-Source: AGHT+IEiQ8iJO3tEsrKT6DurQH2FvKo0uS+xJFcGLGiCr6SvtCfNXfJUyT6nkOwQSaE5M72oHauuhA==
-X-Received: by 2002:a17:906:3188:b0:9ae:5fdc:aee8 with SMTP id 8-20020a170906318800b009ae5fdcaee8mr8441103ejy.53.1695722156458;
-        Tue, 26 Sep 2023 02:55:56 -0700 (PDT)
+        bh=uw1cUsiT57O3RUVdq5mZiqTz08pOHH5WJzsYWq/LW4w=;
+        b=FjCBE/a4pWjKEkzehJesC067C7iP3EsKKwP9PpQ1FWhW2FNAM0URlsZYtiD7qzcp3X
+         ceI8zvvwORtTl0wJePcuciERMZSHghTVHiXJqIwm8LfiTgLlUB1dPg/zrQcyq6GbqDkq
+         xskA7nzC4UJlO1O56bVxih/5HpM7PknUVZgBK/76mQPWTKlE4bIwSgxYbZWOgh+W2HWe
+         1sP0vvUiIczpuVMI0UcMbNTnmUOGW0Wsw4VZ+OGgRVaqqeuQagF7YQFmvsaC/L92jecp
+         eixpKBy+hMzEIaJJ42iHwudIS58VQZP/tj9TVrvE9Wo8EqAB/mEAQSdFpAUCYzpFb356
+         pZSA==
+X-Gm-Message-State: AOJu0YwyuXu8gJX4MNuun3F4N2iX+ZZQTiwusuCRO4WD+vPtCC9i4lyY
+        FR98ydgNdSVNlgKpuIe1Favb5g==
+X-Google-Smtp-Source: AGHT+IG6q6rzMJI50tbGhCpzLWa59Dfr/8oOlsuBHFVc+7zzzxAnHqZNID2Eo94dRB44wFNMHKElWw==
+X-Received: by 2002:a2e:2e0f:0:b0:2b6:a3a0:5f7 with SMTP id u15-20020a2e2e0f000000b002b6a3a005f7mr7763488lju.9.1695725928289;
+        Tue, 26 Sep 2023 03:58:48 -0700 (PDT)
 Received: from [192.168.32.2] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id j26-20020a170906831a00b00997d7aa59fasm7698269ejx.14.2023.09.26.02.55.54
+        by smtp.gmail.com with ESMTPSA id k22-20020a170906129600b009aa292a2df2sm7548486ejb.217.2023.09.26.03.58.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 02:55:55 -0700 (PDT)
-Message-ID: <1f1b5174-cfd4-4393-3a86-9adfc8c2cce1@tuxon.dev>
-Date:   Tue, 26 Sep 2023 12:55:53 +0300
+        Tue, 26 Sep 2023 03:58:47 -0700 (PDT)
+Message-ID: <64e91f8d-a94e-c835-75ef-ce9ab557dc54@tuxon.dev>
+Date:   Tue, 26 Sep 2023 13:58:44 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 25/37] pinctrl: renesas: rzg2l: adapt function number for
- RZ/G3S
+Subject: Re: [PATCH 30/37] pinctrl: renesas: rzg2l: add support for RZ/G3S SoC
+Content-Language: en-US
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -74,11 +74,10 @@ Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-26-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVkttQpA-s0MrKbTVxJ6K+xXmhV3sNNLTAPSbDa0f8XYA@mail.gmail.com>
-Content-Language: en-US
+ <20230912045157.177966-31-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdV2GEKF0QjKudz529_tmUksTNMJtZu9NwC18KX-AXwaeg@mail.gmail.com>
 From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVkttQpA-s0MrKbTVxJ6K+xXmhV3sNNLTAPSbDa0f8XYA@mail.gmail.com>
+In-Reply-To: <CAMuHMdV2GEKF0QjKudz529_tmUksTNMJtZu9NwC18KX-AXwaeg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -93,93 +92,209 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi, Geert,
 
-On 21.09.2023 15:51, Geert Uytterhoeven wrote:
+On 21.09.2023 17:58, Geert Uytterhoeven wrote:
 > Hi Claudiu,
-> 
-> Thanks for your patch!
 > 
 > On Tue, Sep 12, 2023 at 6:53 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> On RZ/G3S PFC register allow setting 8 functions for individual ports
->> (function1 to function8). For function1 register need to be configured
->> with 0, for function8 register need to be configured with 7.
->> We cannot use zero based addressing when requesting functions from
->> different code places as documentation (RZG3S_pinfunction_List_r1.0.xlsx)
->> states explicitly that function0 has different meaning.
-> 
-> According to that table, function0 is GPIO.
-
-Yes, I'll mention it like this in the next version.
-
-> 
->> For this add a new member to struct rzg2l_hwcfg that will keep the
->> offset that need to be substracted before applying a value to PFC register.
+>> Add basic support for RZ/G3S to be able to boot from SD card, have a
+>> running console port and use GPIOs. RZ/G3S has 82 general-purpose IO
+>> ports. Support for the remaining pin functions (e.g. Ethernet, XSPI)
+>> will be added along with controller specific support.
 >>
 >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> But one question below...
+> Thanks for your patch!
 > 
 >> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
 >> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> @@ -136,9 +136,11 @@ struct rzg2l_register_offsets {
->>  /**
->>   * struct rzg2l_hwcfg - hardware configuration data structure
->>   * @regs: hardware specific register offsets
->> + * @func_base: base number for port function (see register PFC)
->>   */
->>  struct rzg2l_hwcfg {
->>         const struct rzg2l_register_offsets regs;
->> +       u8 func_base;
+>> @@ -1330,6 +1336,36 @@ static const u32 r9a07g043_gpio_configs[] = {
+>>         RZG2L_GPIO_PORT_PACK(6, 0x22, RZG2L_MPXED_PIN_FUNCS),
 >>  };
 >>
->>  struct rzg2l_dedicated_configs {
->> @@ -221,6 +223,7 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
->>                                  unsigned int group_selector)
->>  {
->>         struct rzg2l_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
->> +       const struct rzg2l_hwcfg *hwcfg = pctrl->data->hwcfg;
->>         const struct pinctrl_pin_desc *pin_desc;
->>         unsigned int i, *psel_val, *pin_data;
->>         struct function_desc *func;
->> @@ -247,9 +250,9 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
->>                 off = RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
->>
->>                 dev_dbg(pctrl->dev, "port:%u pin: %u off:%x PSEL:%u\n", port,
->> -                       pin, off, psel_val[i]);
->> +                       pin, off, psel_val[i] - hwcfg->func_base);
->>
->> -               rzg2l_pinctrl_set_pfc_mode(pctrl, pin, off, psel_val[i]);
->> +               rzg2l_pinctrl_set_pfc_mode(pctrl, pin, off, psel_val[i] - hwcfg->func_base);
->>         }
->>
->>         return 0;
+>> +static const u32 r9a08g045_gpio_configs[] = {
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x20, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P0  */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x30, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH0)),  /* P1 */
 > 
-> Perhaps the adjustment should be done in rzg2l_dt_subnode_to_map()
-> instead, when obtaining MUX_FUNC() from DT? That would allow you to do
-> some basic validation on it too, which is currently completely missing
-> (reject out-of-range values overflowing into adjacent PFC fields,
-> reject zero on RZ/G3S).
+> P1_0 and P7_0 have IEN functionality.
+> I don't know how to represent that...
 
-I'll have a look on this. I see .set_mux() can also be called from sysfs
-though pinmux-select exported file thus, I don't know at the moment if
-validating it on rzg2l_dt_subnode_to_map() will be enough.
+I think Prabhakar's series at [1] may help (or make a step forward) in
+supporting this. I have in mind to wait for it and adapt RZ/G3S afterwards.
 
-Would it be OK to have this outside of this series or you would prefer it now?
+[1]
+https://lore.kernel.org/all/20230630120433.49529-2-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Thank you,
-Claudiu Beznea
+> 
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x31, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH0)),  /* P2 */
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x32, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH0)),  /* P3 */
+>> +       RZG2L_GPIO_PORT_PACK(6, 0x33, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH0)),  /* P4 */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x21, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P5  */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x22, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P6  */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x34, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH1)),  /* P7 */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x35, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH1)),  /* P8 */
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x36, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH1)),  /* P9 */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x37, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_C |
+>> +                                                               PIN_CFG_IO_VMC_ETH1)),  /* P10 */
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x23, RZG3S_MPXED_PIN_FUNCS(B) | PIN_CFG_IEN),          /* P11  */
+> 
+> P11_0 does not have IEN functionality.
+> I don't know how to represent that...
 
+Same here.
+
+> 
+>> +       RZG2L_GPIO_PORT_PACK(2, 0x24, RZG3S_MPXED_PIN_FUNCS(B) | PIN_CFG_IEN),          /* P12  */
+>> +       RZG2L_GPIO_PORT_PACK(5, 0x25, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P13  */
+>> +       RZG2L_GPIO_PORT_PACK(3, 0x26, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P14  */
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x27, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P15  */
+>> +       RZG2L_GPIO_PORT_PACK(2, 0x28, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P16  */
+>> +       RZG2L_GPIO_PORT_PACK(4, 0x29, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P17  */
+>> +       RZG2L_GPIO_PORT_PACK(6, 0x2a, RZG3S_MPXED_PIN_FUNCS(A)),                        /* P18 */
+>> +};
+>> +
+>>  static const struct {
+>>         struct rzg2l_dedicated_configs common[35];
+>>         struct rzg2l_dedicated_configs rzg2l_pins[7];
+>> @@ -1416,6 +1452,46 @@ static const struct {
+>>         }
+>>  };
+>>
+>> +static const struct rzg2l_dedicated_configs rzg3s_dedicated_pins[] = {
+>> +       { "NMI", RZG2L_SINGLE_PIN_PACK(0x0, 0, (PIN_CFG_FILONOFF | PIN_CFG_FILNUM |
+>> +                                               PIN_CFG_FILCLKSEL)) },
+>> +       { "TMS/SWDIO", RZG2L_SINGLE_PIN_PACK(0x1, 0, (PIN_CFG_IOLH_A | PIN_CFG_IEN |
+>> +                                                     PIN_CFG_SOFT_PS)) },
+>> +       { "TDO", RZG2L_SINGLE_PIN_PACK(0x1, 1, (PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS)) },
+>> +       { "WDTOVF_PERROUT#", RZG2L_SINGLE_PIN_PACK(0x6, 0, PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS) },
+>> +       { "SD0_CLK", RZG2L_SINGLE_PIN_PACK(0x10, 0, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_CMD", RZG2L_SINGLE_PIN_PACK(0x10, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                    PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_RST#", RZG2L_SINGLE_PIN_PACK(0x10, 2, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA0", RZG2L_SINGLE_PIN_PACK(0x11, 0, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA1", RZG2L_SINGLE_PIN_PACK(0x11, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA2", RZG2L_SINGLE_PIN_PACK(0x11, 2, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA3", RZG2L_SINGLE_PIN_PACK(0x11, 3, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA4", RZG2L_SINGLE_PIN_PACK(0x11, 4, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA5", RZG2L_SINGLE_PIN_PACK(0x11, 5, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA6", RZG2L_SINGLE_PIN_PACK(0x11, 6, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD0_DATA7", RZG2L_SINGLE_PIN_PACK(0x11, 7, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD0)) },
+>> +       { "SD1_CLK", RZG2L_SINGLE_PIN_PACK(0x12, 0, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD1)) },
+>> +       { "SD1_CMD", RZG2L_SINGLE_PIN_PACK(0x12, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                    PIN_CFG_IO_VMC_SD1)) },
+>> +       { "SD1_DATA0", RZG2L_SINGLE_PIN_PACK(0x13, 0, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD1)) },
+>> +       { "SD1_DATA1", RZG2L_SINGLE_PIN_PACK(0x13, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD1)) },
+>> +       { "SD1_DATA2", RZG2L_SINGLE_PIN_PACK(0x13, 2, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD1)) },
+>> +       { "SD1_DATA3", RZG2L_SINGLE_PIN_PACK(0x13, 3, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+>> +                                                      PIN_CFG_IO_VMC_SD1)) },
+> 
+> Is there any specific reason you left out the XSPI, Audio clock, and I3C pins?
+
+I kept only the necessary support for booting and having SDs, GPIO
+functional as a way of proving that all that has been added has been tested
+(similar to clock support). Thus, with e.g. XSPI support I will add at the
+same time clocks and pinctrl.
+
+> 
+>> +};
+>> +
+>>  static int rzg2l_gpio_get_gpioint(unsigned int virq, const struct rzg2l_pinctrl_data *data)
+>>  {
+>>         unsigned int gpioint;
+>> @@ -1823,6 +1899,40 @@ static const struct rzg2l_hwcfg rzg2l_hwcfg = {
+>>         .iolh_groupb_oi = { 100, 66, 50, 33, },
+>>  };
+>>
+>> +static const struct rzg2l_hwcfg rzg3s_hwcfg = {
+>> +       .regs = {
+>> +               .pwpr = 0x3000,
+>> +               .sd_ch = 0x3004,
+>> +       },
+>> +       .iolh_groupa_ua = {
+>> +               /* 1v8 power source */
+>> +               [RZG2L_IOLH_IDX_1V8] = 2200, 4400, 9000, 10000,
+>> +               /* 2v5 power source */
+>> +               [RZG2L_IOLH_IDX_2V5 ... RZG2L_IOLH_IDX_3V3 - 1] = RZG2L_INVALID_IOLH_VAL,
+> 
+> Can be dropped once zero means invalid.
+> 
+>> +               /* 3v3 power source */
+>> +               [RZG2L_IOLH_IDX_3V3] = 1900, 4000, 8000, 9000,
+>> +       },
+>> +       .iolh_groupb_ua = {
+>> +               /* 1v8 power source */
+>> +               [RZG2L_IOLH_IDX_1V8] = 7000, 8000, 9000, 10000,
+>> +               /* 2v5 power source */
+>> +               [RZG2L_IOLH_IDX_2V5 ... RZG2L_IOLH_IDX_3V3 - 1] = RZG2L_INVALID_IOLH_VAL,
+> 
+> Can be dropped once zero means invalid.
+> 
+>> +               /* 3v3 power source */
+>> +               [RZG2L_IOLH_IDX_3V3] = 4000, 6000, 8000, 9000,
+>> +       },
+>> +       .iolh_groupc_ua = {
+>> +               /* 1v8 power source */
+>> +               [RZG2L_IOLH_IDX_1V8] = 5200, 6000, 6550, 6800,
+>> +               /* 2v5 source */
+>> +               [RZG2L_IOLH_IDX_2V5] = 4700, 5300, 5800, 6100,
+>> +               /* 3v3 power source */
+>> +               [RZG2L_IOLH_IDX_3V3] = 4500, 5200, 5700, 6050,
+>> +       },
+>> +       .drive_strength_ua = true,
+>> +       .iolh_groupb_oi = { [0 ... 3] = RZG2L_INVALID_IOLH_VAL, },
+>> +       .func_base = 1,
+>> +};
+>> +
+>>  static struct rzg2l_pinctrl_data r9a07g043_data = {
+>>         .port_pins = rzg2l_gpio_names,
+>>         .port_pin_configs = r9a07g043_gpio_configs,
+>> @@ -1844,6 +1954,16 @@ static struct rzg2l_pinctrl_data r9a07g044_data = {
+>>         .hwcfg = &rzg2l_hwcfg,
+>>  };
+>>
+>> +static struct rzg2l_pinctrl_data r9a08g045_data = {
+>> +       .port_pins = rzg2l_gpio_names,
+>> +       .port_pin_configs = r9a08g045_gpio_configs,
+>> +       .n_ports = ARRAY_SIZE(r9a08g045_gpio_configs),
+>> +       .dedicated_pins = rzg3s_dedicated_pins,
+>> +       .n_port_pins = ARRAY_SIZE(r9a08g045_gpio_configs) * RZG2L_PINS_PER_PORT,
+>> +       .n_dedicated_pins = ARRAY_SIZE(rzg3s_dedicated_pins),
+>> +       .hwcfg = &rzg3s_hwcfg,
+>> +};
+>> +
+>>  static const struct of_device_id rzg2l_pinctrl_of_table[] = {
+>>         {
+>>                 .compatible = "renesas,r9a07g043-pinctrl",
+> 
+> Please add a BUILD_BUG_ON() check for RZ/G3S to the
+> rzg2l_pinctrl_probe() function, as is done for the other SoCs in
+> the family.
+
+Ok.
+
+> 
+> The rest LGTM.
 > 
 > Gr{oetje,eeting}s,
 > 
 >                         Geert
 > 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
