@@ -2,99 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 717577AE648
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 08:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 696287AE66A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 09:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbjIZGzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 02:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44830 "EHLO
+        id S229598AbjIZHIv convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 03:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjIZGze (ORCPT
+        with ESMTP id S229585AbjIZHIu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 02:55:34 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD09CF3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 23:55:27 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-59f4bc88f9fso69308797b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Sep 2023 23:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695711327; x=1696316127; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eHSkNGK03t5d9rG+f10qQXua3Wp3jtHQqzKshE119FY=;
-        b=mypcl9B6J1Cs0PkTManL/as8PTIqMef9XvLWO6qrachl1UJwrEOOmiDcTEgdmWBsPm
-         GU/y2uYvgxYhT8uIzrrKDCYp/I7vDpdh+8IxJP3e7nTVYv9thPH/xqvBCHY0kS57VUzA
-         nkzu/kCi1EwnWBUY1pZ8BxEb9RhFzJt91g7QdfsTlrj4quIPIEIcC0jYnGNXjO3fbeB7
-         HzbK94muvO7LOREahc6LuH7E8RSKvtufn1zxPi2uqJdFhL/ulRWkcC2BbQKBxdykxu47
-         evSIAm/pcAdas0xnhIgsoK/M0WmekrUTMfh0N+zYNTuTNMSM8GyuWlYwf1d2ju7Iswie
-         9tJA==
+        Tue, 26 Sep 2023 03:08:50 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125B6DE
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 00:08:43 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59c215f2f4aso103017357b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 00:08:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695711327; x=1696316127;
+        d=1e100.net; s=20230601; t=1695712122; x=1696316922;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eHSkNGK03t5d9rG+f10qQXua3Wp3jtHQqzKshE119FY=;
-        b=aJNVtQgl9sJ1SUJnljwOB9nROKT7Mx82V5PWqy9klSVFLjEhMPn8NJgF2VdyPieStj
-         lPQq/49N+ll3jB8Xh6jVb9e1f9a+5Euk9PKRMtz1Jk7WbUbx2hZxE/tJtWwh8evfNnM5
-         BTRJAz1/stAFk94mfKzYdJOhDOhLZcqHVtB6T1O79wW9zmrCDrORy7sB9xmjnN+c2uMS
-         Gwqf8xiGH5jrtATXlVKRJefu1OjIrB4W8FSv726iboEV9qo4XITdi1nws63cr3MvkF2r
-         ASkm9zHYntjRSCBAbwE0MKAs04znqcJRpeUxFsMX6ztOaX4CPeUlyvP0m57ybWe70WYK
-         KDog==
-X-Gm-Message-State: AOJu0YxAnRV6MBiV4k5R0kkRuSvl0qJr4H9ULFm+YMNtNNrz8twE0XaD
-        HfV22MeKwut4vKnQojDUo3foFDLw/DwU0L+jQL2PdQ==
-X-Google-Smtp-Source: AGHT+IHoO7TBziPA5htbsuH2VXUX9yGcO/aIOtLwPZZVCJAErZgDwgIkJ3nSHIbU3VSV/WI7WX5/gfB00KELiu+FW9A=
-X-Received: by 2002:a81:4f92:0:b0:592:60e9:97cf with SMTP id
- d140-20020a814f92000000b0059260e997cfmr8225904ywb.12.1695711326765; Mon, 25
- Sep 2023 23:55:26 -0700 (PDT)
+        bh=e9dJcLI1w4uLRXqQWkfXUwuKUEGdE8RSjh6k8AWdTlY=;
+        b=T23QAlUngDVvko5+j0gm5WhENUMz223kBm5vA1WohPNOYVF1GP87gSESiHQVWyI1mA
+         Q/M/pFl39Kw8KqK86Ld9rG7BHx37lfoHEKn6xlFw0QLELE2GB2lfuDvlBZB5TtANsOKm
+         6GTmvIkC4TTMt3DrFsEXyJ/pAn2IHREK3wdnHqq3cMpNN7fMmkV5YhOBdq6URKbzMO2N
+         DiPLmrt2WmJZ3vEHT2rWXVJgjoZVyDvjKy1bk3KVs87Nzs5rtT18K9nh2EdGAz4oIiRc
+         7YlgcJJsjdXq7S4MvZCG/EzRWQ4WNRS9Z1tJC37DSi0IeU7Je7GqGRgWSVzsN+f61nO7
+         DwAA==
+X-Gm-Message-State: AOJu0Ywh7x2kZNfy6VSawL+1UPjUajfIyHLDKat4JKjGaFlOlh0EBlB+
+        tywd55F38dcAxP+Fs/hBTUd+bi9tMTFr5w==
+X-Google-Smtp-Source: AGHT+IHAlpdct07WBCAZHkVjTFusNbv/WVEyAG/cdPBoMce1QJsqg+sapmpReU6V23PN9blNT5iJJg==
+X-Received: by 2002:a81:b301:0:b0:59f:761a:fe70 with SMTP id r1-20020a81b301000000b0059f761afe70mr5954572ywh.19.1695712121975;
+        Tue, 26 Sep 2023 00:08:41 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id j128-20020a0dc786000000b005928ba6806dsm2852130ywd.97.2023.09.26.00.08.41
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Sep 2023 00:08:41 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59c215f2f4aso103017087b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 00:08:41 -0700 (PDT)
+X-Received: by 2002:a0d:ce85:0:b0:59b:9f06:1706 with SMTP id
+ q127-20020a0dce85000000b0059b9f061706mr9051958ywd.26.1695712121227; Tue, 26
+ Sep 2023 00:08:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230925212713.1975800-1-robh@kernel.org>
-In-Reply-To: <20230925212713.1975800-1-robh@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 26 Sep 2023 08:55:09 +0200
-Message-ID: <CACRpkdYSvgUsuMS+-=LXmCtH0bLF=EMguuvWwZ7VjUfnx+uyaQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Add missing additionalProperties on
- child node schemas
-To:     Rob Herring <robh@kernel.org>
-Cc:     Bjorn Andersson <andersson@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org
+References: <87pm25im9q.wl-kuninori.morimoto.gx@renesas.com> <87o7hpim8k.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87o7hpim8k.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 26 Sep 2023 09:08:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWhPUyOXfMJ4dj8ZTBESVKSsMQeEV3F0GUgS=E=Xpi=AA@mail.gmail.com>
+Message-ID: <CAMuHMdWhPUyOXfMJ4dj8ZTBESVKSsMQeEV3F0GUgS=E=Xpi=AA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Marc Zyngier <maz@kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Dege <michael.dege@renesas.com>,
+        Yusuke Goda <yusuke.goda.sx@renesas.com>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Hai Pham <hai.pham.ud@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 25, 2023 at 11:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
-e:
+Hi Morimoto-san,
 
-> Just as unevaluatedProperties or additionalProperties are required at
-> the top level of schemas, they should (and will) also be required for
-> child node schemas. That ensures only documented properties are
-> present for any node.
+On Tue, Sep 26, 2023 at 6:37 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Document support for the Interrupt Controller for External Devices
+> (INT-EX) in the Renesas R-Car S4 (R8A779F0) SoC.
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Patch applied!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Yours,
-Linus Walleij
+I posted a similar patch before: "[PATCH v2] dt-bindings: irqchip:
+renesas,irqc: Add r8a779f0 support"
+https://lore.kernel.org/r/9467a1c67d5d240211f88336973fa968d39cc860.1690446928.git.geert+renesas@glider.be
+
+Marc: please take one or the other ;-)
+Thanks!
+
+> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+> @@ -37,6 +37,7 @@ properties:
+>            - renesas,intc-ex-r8a77990    # R-Car E3
+>            - renesas,intc-ex-r8a77995    # R-Car D3
+>            - renesas,intc-ex-r8a779a0    # R-Car V3U
+> +          - renesas,intc-ex-r8a779f0    # R-Car S4
+>            - renesas,intc-ex-r8a779g0    # R-Car V4H
+>        - const: renesas,irqc
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
