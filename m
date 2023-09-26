@@ -2,110 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E365C7AE747
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 10:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 243997AE793
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 10:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231899AbjIZIDX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 04:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54316 "EHLO
+        id S231649AbjIZIMQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 04:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjIZIDV (ORCPT
+        with ESMTP id S229776AbjIZIMP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 04:03:21 -0400
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 737D9C0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 01:03:15 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f4f80d084so67727297b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 01:03:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695715394; x=1696320194;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hsnEFQbEcxq0kwC+9UPXlQfSWHGzQm4HA4sai3chasA=;
-        b=ZH2ke7uzH3FfXbJ+k3xWGiLLDYePHIq263TkLsZ/lWcrFQF2OheKBZP1D9KGL8xMf4
-         iYtWly///L20F9fBm58a3X5W81lXedeHYBbY4XFCAKziN0Ou4EEkRYcYwcUkeQf1Pcjj
-         +6o0G6Kbc6pbhou4MWBzYEK2kOA77Ung1Zpz3mgxXSSVO0NKemUX+X0Aul14/MH+uizf
-         ak+cgZL5Y7B3p7/0NWXQeg7v5KZd1LRSjIvoCtFeur9/jxt/oXBWbezArcnRxANTuR03
-         LnrMGZRxhaCkfP/jKeRNSpzIHARJ5oZblQ7eBXxpiv9Semy/tHEzYIS9tZ1buPlBurOJ
-         HBVQ==
-X-Gm-Message-State: AOJu0Yx5Q8K7xNqReMbpetPU/bypctTfUo7xcVbfzrtLRj6aiulxPG7G
-        z/yo2rRSqrEsWoaHyTnkrd7B+nKqUCt2/g==
-X-Google-Smtp-Source: AGHT+IFdNrUjxGrlbgajC6dCNK/at0TiBzhLSOC9T4RPMVgJTeRP9cvjcXS+lUJZhK1d1FYLt7BhrQ==
-X-Received: by 2002:a81:4f92:0:b0:592:60e9:97cf with SMTP id d140-20020a814f92000000b0059260e997cfmr8349472ywb.12.1695715394535;
-        Tue, 26 Sep 2023 01:03:14 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id x202-20020a81a0d3000000b0057399b3bd26sm2867200ywg.33.2023.09.26.01.03.13
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 01:03:14 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f6e6b7600so47580067b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 01:03:13 -0700 (PDT)
-X-Received: by 2002:a05:690c:4442:b0:59f:6440:957d with SMTP id
- gq2-20020a05690c444200b0059f6440957dmr6598641ywb.19.1695715393400; Tue, 26
- Sep 2023 01:03:13 -0700 (PDT)
+        Tue, 26 Sep 2023 04:12:15 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82966FC;
+        Tue, 26 Sep 2023 01:12:08 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,177,1694703600"; 
+   d="scan'208";a="181007609"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 26 Sep 2023 17:12:07 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C0331400BC0C;
+        Tue, 26 Sep 2023 17:12:07 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH net v2] net: ethernet: renesas: rswitch Fix PHY station management clock setting
+Date:   Tue, 26 Sep 2023 17:11:56 +0900
+Message-Id: <20230926081156.3930074-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230919123722.2338932-1-dirk.behme@de.bosch.com>
- <ZQtY+NHFzFBWhrZj@shikoro> <CAMuHMdU_S7+rgykqtvTVaSSO53zXGHNpiPJ=yzcF1GMf2QXvgg@mail.gmail.com>
- <ZQv4SY8VUXMZ600S@ninjato> <ZRKMww5Lq9L+PDic@shikoro> <CAMuHMdVqvmKMu9adZ37Qgs2w2mqJ6RWND79TemK-+xbEJyEcGQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVqvmKMu9adZ37Qgs2w2mqJ6RWND79TemK-+xbEJyEcGQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 26 Sep 2023 10:03:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXf2Zn9WVYCXuKTwQ9neQ=bE4oDFT8hSZ5Vy7qAVNrbCQ@mail.gmail.com>
-Message-ID: <CAMuHMdXf2Zn9WVYCXuKTwQ9neQ=bE4oDFT8hSZ5Vy7qAVNrbCQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rcar-gen3: Extend SDn divider table
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Fix the MPIC.PSMCS value following the programming example in the
+section 6.4.2 Management Data Clock (MDC) Setting, Ethernet MAC IP,
+S4 Hardware User Manual Rev.1.00.
 
-On Tue, Sep 26, 2023 at 9:59 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Tue, Sep 26, 2023 at 9:48 AM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > > > An alternative would be to let cpg_sdh_clk_register() sanitize the
-> > > > pre-existing contents of the SD-IFn Clock Frequency Control Register,
-> > > > so there would be no need to extend cpg_sdh_div_table[].  An advantage
-> > > > of that approach would be that it can handle all invalid combinations,
-> > > > not just the few that have been seen in the wild.
-> > > > (following the old networking mantra: "be strict when sinding, be
-> > > > liberal when receiving').
-> > >
-> > > That sounds very reasonable to me.
-> >
-> > Thinking further: Sanitizing a pre-existing value of SDH means also
-> > sanitizing the value of SD because only specific combinations of these
-> > are recommended (or even "allowed" as I read it). This is getting a bit
-> > complicated. What about just applying a default value to SDH and SD
-> > which is from the recommended set of parameters? That will also help
-> > when probing the clocks. Once SDHI probes, it will modify clocks anyhow.
->
-> Sounds fine to me, thanks!
+The value is calculated by
+    MPIC.PSMCS = clk[MHz] / (MDC frequency[MHz] * 2) - 1
+with the input clock frequency from clk_get_rate() and MDC frequency
+of 2.5MHz. Otherwise, this driver cannot communicate PHYs on the R-Car
+S4 Starter Kit board.
 
-On second thought, on a system where SDHI is assigned to the RT core,
-this would interfere with the software running on the RT core.  So I
-think it would only be safe to overwrite with a default value when
-the current register values are invalid.
+Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
+Reported-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+Changes from v1:
+https://lore.kernel.org/all/20230925003416.3863560-1-yoshihiro.shimoda.uh@renesas.com/
+ - Revise the formula on the commit description.
+ - Calculate the PSMCS value by using clk_get_raate().
+ -- So, change author and Add Reported-by.
 
-Gr{oetje,eeting}s,
+ drivers/net/ethernet/renesas/rswitch.c | 13 ++++++++++++-
+ drivers/net/ethernet/renesas/rswitch.h |  2 ++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-                        Geert
-
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index ea9186178091..fc01ad3f340d 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -4,6 +4,7 @@
+  * Copyright (C) 2022 Renesas Electronics Corporation
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+ #include <linux/etherdevice.h>
+@@ -1049,7 +1050,7 @@ static void rswitch_rmac_setting(struct rswitch_etha *etha, const u8 *mac)
+ static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
+ {
+ 	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
+-		       MPIC_PSMCS(0x05) | MPIC_PSMHT(0x06));
++		       MPIC_PSMCS(etha->psmcs) | MPIC_PSMHT(0x06));
+ 	rswitch_modify(etha->addr, MPSM, 0, MPSM_MFF_C45);
+ }
+ 
+@@ -1693,6 +1694,12 @@ static void rswitch_etha_init(struct rswitch_private *priv, int index)
+ 	etha->index = index;
+ 	etha->addr = priv->addr + RSWITCH_ETHA_OFFSET + index * RSWITCH_ETHA_SIZE;
+ 	etha->coma_addr = priv->addr;
++
++	/* MPIC.PSMCS = (clk [MHz] / (MDC frequency [MHz] * 2) - 1.
++	 * Calculating PSMCS value as MDC frequency = 2.5MHz. So, multiply
++	 * both the numerator and the denominator by 10.
++	 */
++	etha->psmcs = clk_get_rate(priv->clk) / 100000 / (25 * 2) - 1;
+ }
+ 
+ static int rswitch_device_alloc(struct rswitch_private *priv, int index)
+@@ -1900,6 +1907,10 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	spin_lock_init(&priv->lock);
+ 
++	priv->clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk))
++		return PTR_ERR(priv->clk);
++
+ 	attr = soc_device_match(rswitch_soc_no_speed_change);
+ 	if (attr)
+ 		priv->etha_no_runtime_change = true;
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index f0c16a37ea55..04f49a7a5843 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -915,6 +915,7 @@ struct rswitch_etha {
+ 	bool external_phy;
+ 	struct mii_bus *mii;
+ 	phy_interface_t phy_interface;
++	u32 psmcs;
+ 	u8 mac_addr[MAX_ADDR_LEN];
+ 	int link;
+ 	int speed;
+@@ -1012,6 +1013,7 @@ struct rswitch_private {
+ 	struct rswitch_mfwd mfwd;
+ 
+ 	spinlock_t lock;	/* lock interrupt registers' control */
++	struct clk *clk;
+ 
+ 	bool etha_no_runtime_change;
+ 	bool gwca_halt;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
