@@ -2,166 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFFF27AEBB6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 13:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74A0E7AEC8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 14:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233785AbjIZLrV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 07:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50096 "EHLO
+        id S233754AbjIZMYq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 08:24:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232070AbjIZLrU (ORCPT
+        with ESMTP id S229827AbjIZMYp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 07:47:20 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC53CEB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 04:47:11 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50437f39c9dso11482421e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Sep 2023 04:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1695728830; x=1696333630; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LCp3DXpfVKfH2Y0o0M8mCid7ujeQPXx6UqfFbszv1i8=;
-        b=GFkmqM9lLJYapN4xBN0c7JH0ecC/aSpNEUDIAgH0wVZE/sOz9fL5dSc8mVtIEcOmUd
-         KF/3fQt921CGdVlWaw8FyZhfGdQzBNYlNjG/uvesG4Ewzg9I1AMKGE5u/XBrdjw8dlOw
-         NU9mK/8GxX5GZfK6E+K3Lk/odhHG9ZhG64kZCC3D4q7tqtaPxmJrxlRtwdEem6N0Nxfd
-         AWtevtsOlJlmU43ZXEy6KwYK86a9iYIGSF3/+/bd+9oTr8RLDOjoyJvxnJL1Zx1ufehH
-         xwcnQx5JGm0qOUBidz6Lg/yKqdwDMkolGZy0sd/DUfIVuhS14R+FVyL+bt+WFjIN7Q5C
-         IvAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695728830; x=1696333630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LCp3DXpfVKfH2Y0o0M8mCid7ujeQPXx6UqfFbszv1i8=;
-        b=cXqMqqefuSZoATngzeuJYkPY/XYUMJ9zo2qRRMlzGedzBDLkdqrwJjDr7U6UorQhu1
-         4NAGnd4d3dSLsME9d0RaYp24b26U47QM3rr6U9okfZ7KnkVuMkdErMD7SM+EdN/bm/vN
-         Kin5eVgtIkcf5XP6DvXvt9DnA7iXpOUz4AS3HHfPJv0/cV23PMfm4UZgPBu0pxSWDC7Z
-         1hX6t1x2CyIZMvEivmU45FiPZ0F75Z9VzGBrJgZqueMLKNGhI8g/3WcZIsVtoiFTnn5F
-         gSrhzmj9cYSQUcoBRwxoUWJlSjtCe3sMqJ8Rlm4mOF6Aoki2p3ijxguhtDoNjBxoGF3l
-         Dmnw==
-X-Gm-Message-State: AOJu0YwscbfEDVTKrmNzGchKwuACzs3unyKn713A44npC4Nq4PpzGGWi
-        1V+1Nj8efzYIKiYlw2lX0R9SVQ==
-X-Google-Smtp-Source: AGHT+IF+jbH7FWr6+cFqAnCyk/CUAIFVAZ8LgGPN4rOxnI4j0tUbuQS0WA4s9y3m/r3g5552xfmfnQ==
-X-Received: by 2002:a05:6512:110e:b0:4fd:d64f:c0a6 with SMTP id l14-20020a056512110e00b004fdd64fc0a6mr9175819lfg.48.1695728829802;
-        Tue, 26 Sep 2023 04:47:09 -0700 (PDT)
-Received: from [192.168.32.2] ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id lo18-20020a170906fa1200b0099bd1a78ef5sm7641095ejb.74.2023.09.26.04.47.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 04:47:09 -0700 (PDT)
-Message-ID: <dfe64c7c-2f90-65a2-05fc-e96ec5113a60@tuxon.dev>
-Date:   Tue, 26 Sep 2023 14:47:06 +0300
+        Tue, 26 Sep 2023 08:24:45 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 161CEEB;
+        Tue, 26 Sep 2023 05:24:37 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,177,1694703600"; 
+   d="scan'208";a="177299696"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 26 Sep 2023 21:24:36 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B1FBC41FAD07;
+        Tue, 26 Sep 2023 21:24:36 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, mani@kernel.org
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v23 00/16] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe support
+Date:   Tue, 26 Sep 2023 21:24:15 +0900
+Message-Id: <20230926122431.3974714-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 09/37] clk: renesas: rzg2l: fix computation formula
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-10-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVNzgHqURohOgpFEaGn+6+rQTqsDomoS1u_-jn=GgmHXw@mail.gmail.com>
-From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVNzgHqURohOgpFEaGn+6+rQTqsDomoS1u_-jn=GgmHXw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi, Geert,
+Add R-Car S4-8 (R-Car Gen4) PCIe controller for both host and endpoint modes.
+To support them, modify PCIe DesignWare common codes.
 
-On 14.09.2023 15:55, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> According to hardware manual of RZ/G2L (r01uh0914ej0130-rzg2l-rzg2lc.pdf)
->> the computation formula for PLL rate is as follows:
->>
->> Fout = ((m + k/65536) * Fin) / (p * 2^s)
->>
->> and k has values in range [-32768, 32767]. Dividing k by 65536 with
->> integer variables leads all the time to zero. Thus we may have slight
->> differences b/w what has been set vs. what is displayed. Thus,
->> get rid of this and decompose the formula before dividing k by 65536.
->>
->> Fixes: ef3c613ccd68a ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/drivers/clk/renesas/rzg2l-cpg.c
->> +++ b/drivers/clk/renesas/rzg2l-cpg.c
->> @@ -696,18 +696,22 @@ static unsigned long rzg2l_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
->>         struct pll_clk *pll_clk = to_pll(hw);
->>         struct rzg2l_cpg_priv *priv = pll_clk->priv;
->>         unsigned int val1, val2;
->> -       unsigned int mult = 1;
->> -       unsigned int div = 1;
->> +       unsigned int div;
->> +       u64 rate;
->> +       s16 kdiv;
->>
->>         if (pll_clk->type != CLK_TYPE_SAM_PLL)
->>                 return parent_rate;
->>
->>         val1 = readl(priv->base + GET_REG_SAMPLL_CLK1(pll_clk->conf));
->>         val2 = readl(priv->base + GET_REG_SAMPLL_CLK2(pll_clk->conf));
->> -       mult = MDIV(val1) + KDIV(val1) / 65536;
->> +       kdiv = KDIV(val1);
->>         div = PDIV(val1) << SDIV(val2);
->>
->> -       return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult, div);
->> +       rate = (u64)MDIV(val1) * parent_rate;
->> +       rate += ((long long)parent_rate * kdiv) / 65536;
-> 
-> As the division is a binary shift, you can use the mul_u64_u32_shr() helper,
-> and incorporate the sdiv shift at the same time:
-> 
->     rate += mul_u64_u32_shr(parent_rate, KDIV(val1), 16 + SDIV(val2));
-> 
-> You can save a multiplication by premultiplying mdiv by 65536:
-> 
->     rate = mul_u64_u32_shr(parent_rate, (MDIV(val1) << 16)) + KDIV(val1),
->                            16 + SDIV(val2));
+Changes from v22:
+https://lore.kernel.org/linux-pci/20230925072130.3901087-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Add Reviewed-by in the patch 12/16.
+ - Move a few endpoint related code from the patch 13/16 to 14/16.
+ - Change subjects in the patch 1[34]/16.
+ - Modify the code for readability in the patch 14/16.
 
-Looking again at this: KDIV (aka DIV_K) could have negative values thus
-mul_u64_u32_shr() cannot be used here.
+Changes from v21:
+https://lore.kernel.org/linux-pci/20230922065331.3806925-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Fix -Wmissing-prototypes warnings that was reported by kernel test robot:
+   https://lore.kernel.org/linux-pci/202309222125.KiN4nFhD-lkp@intel.com/
 
-> 
->> +
->> +       return DIV_ROUND_CLOSEST_ULL(rate, div);
-> 
-> return DIV_ROUND_CLOSEST_ULL(rate, PDIV(val1));
-> 
->>  }
->>
->>  static const struct clk_ops rzg2l_cpg_pll_ops = {
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Changes from v20 + squash patches:
+https://lore.kernel.org/linux-pci/20230825093219.2685912-1-yoshihiro.shimoda.uh@renesas.com/
+https://lore.kernel.org/linux-pci/20230901131711.2861283-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Cherry-picked almost all patches from the pci.git / controller/rcar branch
+   for squashing.
+  - But, drop the following patches which are related to INTx.
+     eb185e1e628a PCI: designware-ep: Add INTx IRQs support
+     5d0e51f85b23 PCI: dwc: Add outbound MSG TLPs support
+     4758bef61cc2 PCI: dwc: Change arguments of dw_pcie_prog_outbound_atu()
+     44938b13046b PCI: Add INTx Mechanism Messages macros
+ - Add a new macro T_PVPERL in the patch 12/16.
+ - Merge pcie-rcar-gen4-{ep,host}-drv.c and pcie-rcar-gen4.h files into
+   pcie-rcar-gen4.c.
+ - Add CONFIG_PCIE_RCAR_GEN4_HOST config.
+ - Fix some comments.
+ - Change return type of rcar_gen4_pcie_speed_change().
+ - Add registers' full names as comments.
+ - Rename function names of rcar_gen4_{add,remove}_pcie_ep() to
+   rcar_gen4_{add,remove}_dw_pcie_ep() for consistency.
+
+Yoshihiro Shimoda (16):
+  PCI: dwc: endpoint: Add multiple PFs support for dbi2
+  PCI: dwc: Add dw_pcie_link_set_max_link_width()
+  PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW handling
+  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting
+  PCI: dwc: Add EDMA_UNROLL capability flag
+  PCI: dwc: Expose dw_pcie_ep_exit() to module
+  PCI: dwc: Expose dw_pcie_write_dbi2() to module
+  PCI: dwc: endpoint: Introduce .pre_init() and .deinit()
+  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: add T_PVPERL macro
+  PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe controller support for host
+    mode
+  PCI: dwc: rcar-gen4: Add endpoint mode support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
+
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        | 115 ++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 127 +++++
+ .../bindings/pci/snps,dw-pcie-common.yaml     |   4 +-
+ .../bindings/pci/snps,dw-pcie-ep.yaml         |   4 +-
+ .../devicetree/bindings/pci/snps,dw-pcie.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/misc/pci_endpoint_test.c              |   4 +
+ drivers/pci/controller/dwc/Kconfig            |  25 +
+ drivers/pci/controller/dwc/Makefile           |   1 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  45 +-
+ drivers/pci/controller/dwc/pcie-designware.c  | 102 ++--
+ drivers/pci/controller/dwc/pcie-designware.h  |   8 +-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 526 ++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   6 -
+ drivers/pci/pci.h                             |   3 +
+ 15 files changed, 906 insertions(+), 69 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+
+-- 
+2.25.1
+
