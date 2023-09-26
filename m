@@ -2,142 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 126D97AECE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 14:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8897AED2E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 14:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234560AbjIZMbM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 08:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
+        id S234709AbjIZMr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 08:47:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234605AbjIZMbM (ORCPT
+        with ESMTP id S234703AbjIZMr5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 08:31:12 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C3A7910A;
-        Tue, 26 Sep 2023 05:31:02 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,177,1694703600"; 
-   d="scan'208";a="181033875"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Sep 2023 21:31:02 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2A1224004CFB;
-        Tue, 26 Sep 2023 21:31:02 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Tue, 26 Sep 2023 08:47:57 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588BEFC;
+        Tue, 26 Sep 2023 05:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=0P+TyX4oNvsiAlMR/YZ9R9enQXrEzDFfV4i0tuqPyMs=; b=I0GxKZskc/gB995p0OUTBOe13j
+        P/QpVIPpTDyZCMMYNzFis+Zkk12AZNBqueaI24npcUAbCutPZUsTzxQkdViSSnag2/+r9hVjsV+r5
+        JO1nevz9o0Nuoyg7QnhURPPIX3gYY7xMzMapg2QLgMxwKis7oXRX5ckzIl2+j8k7pCgo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1ql7TV-007YDq-4w; Tue, 26 Sep 2023 14:47:37 +0200
+Date:   Tue, 26 Sep 2023 14:47:37 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Tam Nguyen <tam.nguyen.xa@renesas.com>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH net v3] rswitch: Fix PHY station management clock setting
-Date:   Tue, 26 Sep 2023 21:30:54 +0900
-Message-Id: <20230926123054.3976752-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH net] net: ethernet: renesas: rswitch Fix PHY station
+ management clock setting
+Message-ID: <496825ea-8d78-47b7-b4c7-f74874ca278c@lunn.ch>
+References: <20230925003416.3863560-1-yoshihiro.shimoda.uh@renesas.com>
+ <7156d89e-ef72-487f-b7ce-b08be461ec1c@lunn.ch>
+ <TYBPR01MB534186322164085E74430B4BD8C3A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB534186322164085E74430B4BD8C3A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix the MPIC.PSMCS value following the programming example in the
-section 6.4.2 Management Data Clock (MDC) Setting, Ethernet MAC IP,
-S4 Hardware User Manual Rev.1.00.
+On Tue, Sep 26, 2023 at 07:21:59AM +0000, Yoshihiro Shimoda wrote:
+> Hello Andrew,
+> 
+> > From: Andrew Lunn, Sent: Monday, September 25, 2023 11:18 PM
+> > 
+> > On Mon, Sep 25, 2023 at 09:34:16AM +0900, Yoshihiro Shimoda wrote:
+> > > From: Tam Nguyen <tam.nguyen.xa@renesas.com>
+> > >
+> > > Fix the MPIC.PSMCS value following the programming example in the
+> > > section 6.4.2 Management Data Clock (MDC) Setting, Ethernet MAC IP,
+> > > S4 Hardware User Manual Rev.1.00.
+> > >
+> > > The value is calculated by
+> > >     MPIC.PSMCS = clk[MHz] / ((MDC frequency[MHz] + 1) * 2)
+> > > with the input clock frequency of 320MHz and MDC frequency of 2.5MHz.
+> > > Otherwise, this driver cannot communicate PHYs on the R-Car S4 Starter
+> > > Kit board.
+> > 
+> > If you run this calculation backwards, what frequency does
+> > MPIC_PSMCS(0x3f) map to?
+> 
+> Thank you for your review! I completely misunderstood the formula. In
+> other words, the formula cannot calculate backwards. The correct
+> formula is:
+> 
+> MPIC.PSMCS = clk[MHz] / (MDC frequency[MHz] * 2) - 1
+> 
+> > Is 320MHz really fixed? For all silicon variants? Is it possible to do
+> > a clk_get_rate() on a clock to get the actual clock rate?
+> 
+> 320MHz is really fixed on the current existing all silicon variants.
+> Yes, it is possible to do a clk_get_rate() on a clock to get the actual
+> clock rate. So, I'll use clk_get_rate() on v2.
 
-The value is calculated by
-    MPIC.PSMCS = clk[MHz] / (MDC frequency[MHz] * 2) - 1
-with the input clock frequency from clk_get_rate() and MDC frequency
-of 2.5MHz. Otherwise, this driver cannot communicate PHYs on the R-Car
-S4 Starter Kit board.
+Was the original version tested?
 
-Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet Switch"")
-Reported-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-Changes from v2:
-https://lore.kernel.org/all/20230926081156.3930074-1-yoshihiro.shimoda.uh@renesas.com/
- - Change subject.
+I've run Marvell PHYs are 5Mhz, sometimes 6MHz. This is within spec as
+given by the datasheet, even if IEEE 802.3 says 2.5Mhz is the max.
 
-Changes from v1:
-https://lore.kernel.org/all/20230925003416.3863560-1-yoshihiro.shimoda.uh@renesas.com/
- - Revise the formula on the commit description.
- - Calculate the PSMCS value by using clk_get_raate().
- -- So, change author and Add Reported-by.
+Now if MPIC_PSMCS(0x3f) maps to 20MHz or more, it could never of
+worked, which makes me think the clock has changed. If it maps to
+6Mhz, yes it could of worked with some PHY but not others, and the
+clock might not of changed.
 
- drivers/net/ethernet/renesas/rswitch.c | 13 ++++++++++++-
- drivers/net/ethernet/renesas/rswitch.h |  2 ++
- 2 files changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index ea9186178091..fc01ad3f340d 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -4,6 +4,7 @@
-  * Copyright (C) 2022 Renesas Electronics Corporation
-  */
- 
-+#include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
- #include <linux/etherdevice.h>
-@@ -1049,7 +1050,7 @@ static void rswitch_rmac_setting(struct rswitch_etha *etha, const u8 *mac)
- static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
- {
- 	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
--		       MPIC_PSMCS(0x05) | MPIC_PSMHT(0x06));
-+		       MPIC_PSMCS(etha->psmcs) | MPIC_PSMHT(0x06));
- 	rswitch_modify(etha->addr, MPSM, 0, MPSM_MFF_C45);
- }
- 
-@@ -1693,6 +1694,12 @@ static void rswitch_etha_init(struct rswitch_private *priv, int index)
- 	etha->index = index;
- 	etha->addr = priv->addr + RSWITCH_ETHA_OFFSET + index * RSWITCH_ETHA_SIZE;
- 	etha->coma_addr = priv->addr;
-+
-+	/* MPIC.PSMCS = (clk [MHz] / (MDC frequency [MHz] * 2) - 1.
-+	 * Calculating PSMCS value as MDC frequency = 2.5MHz. So, multiply
-+	 * both the numerator and the denominator by 10.
-+	 */
-+	etha->psmcs = clk_get_rate(priv->clk) / 100000 / (25 * 2) - 1;
- }
- 
- static int rswitch_device_alloc(struct rswitch_private *priv, int index)
-@@ -1900,6 +1907,10 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	spin_lock_init(&priv->lock);
- 
-+	priv->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(priv->clk))
-+		return PTR_ERR(priv->clk);
-+
- 	attr = soc_device_match(rswitch_soc_no_speed_change);
- 	if (attr)
- 		priv->etha_no_runtime_change = true;
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index f0c16a37ea55..04f49a7a5843 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -915,6 +915,7 @@ struct rswitch_etha {
- 	bool external_phy;
- 	struct mii_bus *mii;
- 	phy_interface_t phy_interface;
-+	u32 psmcs;
- 	u8 mac_addr[MAX_ADDR_LEN];
- 	int link;
- 	int speed;
-@@ -1012,6 +1013,7 @@ struct rswitch_private {
- 	struct rswitch_mfwd mfwd;
- 
- 	spinlock_t lock;	/* lock interrupt registers' control */
-+	struct clk *clk;
- 
- 	bool etha_no_runtime_change;
- 	bool gwca_halt;
--- 
-2.25.1
+      Andrew
 
