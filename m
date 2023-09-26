@@ -2,76 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F68D7AF30A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Sep 2023 20:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066AA7AF6D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 01:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235451AbjIZSgl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 14:36:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37242 "EHLO
+        id S232739AbjIZXn4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 19:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235420AbjIZSgk (ORCPT
+        with ESMTP id S229476AbjIZXlz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 14:36:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE99C10A;
-        Tue, 26 Sep 2023 11:36:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039DDC433C8;
-        Tue, 26 Sep 2023 18:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695753393;
-        bh=nB/bYvjQ2YqbWoDt/ygO0b3k0aUmsxkxaDBANtllUf0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=J9n4VCgFEXCzXV3XHV2G304PB6SdxK9ZIn5W/NJY5vAerglOuQQvsFjZvFr9b9Uaw
-         cJgJwLl84c9dRrkoGtaPx97/hGotwOKtDNVzOEaBUWLzbsGPwpOyKtngIHg9WNdUJB
-         1fo5aATu4GmFra5DPTpTloSvbQvV9PVUImiZFeOoeQu8io1+R6RQRFEJvLz9w/zRpX
-         icl0XqSdOUuUdD9Q2r2PRIQp0EpiumO/7RDP2bNwM4HKCkISEg8cENqYigfjtFtefQ
-         GfxdwrFC15UWTrSOyTNxCyIkdfQApRHnZ+s6VkDAkJFJ3ngQJtaaEt7OsZvIbV+I8O
-         ng6LAvBGaFrbg==
-Message-ID: <77fa12a6-a81f-4fdd-a29c-145e9ca02a83@kernel.org>
-Date:   Tue, 26 Sep 2023 21:36:27 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: memory-controllers: Make
- "additionalProperties: true" explicit
-To:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Tue, 26 Sep 2023 19:41:55 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6468972BD;
+        Tue, 26 Sep 2023 15:57:08 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,178,1694703600"; 
+   d="scan'208";a="181059336"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Sep 2023 06:08:26 +0900
+Received: from mulinux.home (unknown [10.226.92.200])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 14CDC40B91B6;
+        Wed, 27 Sep 2023 06:08:21 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Tony Lindgren <tony@atomide.com>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20230925212626.1974676-1-robh@kernel.org>
-Content-Language: en-US
-From:   Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <20230925212626.1974676-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-spi@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add RZ/V2M CSI slave support
+Date:   Tue, 26 Sep 2023 22:08:16 +0100
+Message-Id: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Dear All,
 
+the CSI IP found inside the Renesas RZ/V2M SoC supports
+both SPI master and slave.
+This series extends the CSI dt-bindings and driver to
+add SPI slave support.
 
-On 26/09/2023 00:26, Rob Herring wrote:
-> Make it explicit that child nodes have additional properties and the
-> child node schema is not complete. The complete schemas are applied
-> separately based the compatible strings.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/memory-controllers/ingenic,nemc.yaml    | 1 +
->  .../devicetree/bindings/memory-controllers/renesas,rpc-if.yaml  | 2 ++
->  .../devicetree/bindings/memory-controllers/ti,gpmc.yaml         | 2 +-
+Cheers,
+Fab
 
-For ti,gpmc.yaml
+Fabrizio Castro (2):
+  spi: renesas,rzv2m-csi: Add SPI Slave related properties
+  spi: rzv2m-csi: Add Slave mode support
 
-Reviewed-by: Roger Quadros <rogerq@kernel.org>
+ .../bindings/spi/renesas,rzv2m-csi.yaml       |  15 ++
+ drivers/spi/Kconfig                           |   4 +-
+ drivers/spi/spi-rzv2m-csi.c                   | 137 ++++++++++++------
+ 3 files changed, 112 insertions(+), 44 deletions(-)
+
+-- 
+2.34.1
+
