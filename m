@@ -2,89 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1597B0367
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 13:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 781D07B0387
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 14:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230268AbjI0L6Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 07:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36746 "EHLO
+        id S231425AbjI0MLW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 08:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230496AbjI0L6Y (ORCPT
+        with ESMTP id S231169AbjI0MLV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 07:58:24 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D37BC180
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:58:22 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:cafc:ec85:941b:7b06])
-        by michel.telenet-ops.be with bizsmtp
-        id qzyL2A00D56e2kz06zyLYr; Wed, 27 Sep 2023 13:58:20 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qlTAx-004iu8-Re;
-        Wed, 27 Sep 2023 13:58:20 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qlTBM-000sW0-93;
-        Wed, 27 Sep 2023 13:58:20 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.6-rc3
-Date:   Wed, 27 Sep 2023 13:58:19 +0200
-Message-Id: <deff2f201f0c47e35aa324a1a973427b80d0839b.1695815858.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Wed, 27 Sep 2023 08:11:21 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C13BE;
+        Wed, 27 Sep 2023 05:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=ZzMxUuept6VBAEnV/FrnHTnHdE0lCJajdN2vvTzAbp0=; b=l6sKsoreh4AGZrewPQUug1d+JK
+        UfsMW3znZ11ViR4bEbf5bfUScQJYUol4x1vdVOcO3EI56rcqGAiQDwT7FlAHM1/6MYG/lqBfEL+fX
+        0TQan8dawwfnMI+qxzMxEl0DM93i0WX4lbeOEFwXHWubBTBjdTjof9vvEEFCnNSSagYE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qlTNd-007deq-Tc; Wed, 27 Sep 2023 14:11:01 +0200
+Date:   Wed, 27 Sep 2023 14:11:01 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH net] net: ethernet: renesas: rswitch Fix PHY station
+ management clock setting
+Message-ID: <0bae6059-37b8-427f-b108-86e2834bf334@lunn.ch>
+References: <20230925003416.3863560-1-yoshihiro.shimoda.uh@renesas.com>
+ <7156d89e-ef72-487f-b7ce-b08be461ec1c@lunn.ch>
+ <TYBPR01MB534186322164085E74430B4BD8C3A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <496825ea-8d78-47b7-b4c7-f74874ca278c@lunn.ch>
+ <TYBPR01MB53419F7AFFF80FAB49C4F92BD8C2A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB53419F7AFFF80FAB49C4F92BD8C2A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Refresh the defconfig for Renesas ARM64 systems:
+> Yes, the original version was tested on Spider board.
+> The original version's MDC frequency was 25MHz.
+> And the PHY (Marvell 88E2110) on Spider board can use such frequency,
+> IIUC because the MDC period is 35 ns (so 28.57143MHz).
 
-  - Enable CONFIG_DRM_FBDEV_EMULATION and CONFIG_FB_DEVICE (no longer
-    auto-enabled since commit bb6c4507fe825f1b ("drm: fix up fbdev
-    Kconfig defaults")),
-  - Drop CONFIG_FRAMEBUFFER_CONSOLE=y (auto-enabled since commit
-    bb6c4507fe825f1b ("drm: fix up fbdev Kconfig defaults")).
+25MHz is way above anything i've tested.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Not intended for upstream merge.
-To be applied to the topic/renesas-defconfig branch.
----
- arch/arm64/configs/renesas_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> However, I don't know why this setting cannot work on the Starter Kit board
+> because the board also has the same PHY. I guess that this is related to
+> board design, especially voltage of I/O (Spider = 1.8V, Starter Kit = 3.3V).
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 78d5d35ae9a12d6e..46af31ce514c404a 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -262,6 +262,7 @@ CONFIG_VIDEO_ADV7604_CEC=y
- # CONFIG_MEDIA_TUNER_XC4000 is not set
- # CONFIG_MEDIA_TUNER_XC5000 is not set
- CONFIG_DRM=y
-+CONFIG_DRM_FBDEV_EMULATION=y
- CONFIG_DRM_I2C_NXP_TDA998X=y
- CONFIG_DRM_RCAR_DU=y
- CONFIG_DRM_RCAR_DW_HDMI=y
-@@ -276,9 +277,9 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
- CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
- CONFIG_DRM_DW_HDMI_CEC=y
-+CONFIG_FB_DEVICE=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_PWM=y
--CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_LOGO=y
- # CONFIG_LOGO_LINUX_MONO is not set
- # CONFIG_LOGO_LINUX_VGA16 is not set
--- 
-2.34.1
+I've had boards which will not work at 2.5Mhz until the pull up
+resistor was changed to make the waveform compliant. So it probably is
+related to the board.
 
+> Anyway, changing the MDC frequency from 25MHz to 2.5MHz works correctly on
+> both Spider and Starter Kit. So, I would like to apply the v3 patch [1] for safe.
+
+O.K. That makes sense. If you want to support the higher speed, you
+could implement the device tree property:
+
+
+  clock-frequency:
+    description:
+      Desired MDIO bus clock frequency in Hz. Values greater than IEEE 802.3
+      defined 2.5MHz should only be used when all devices on the bus support
+      the given clock speed.
+
+	Andrew
