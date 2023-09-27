@@ -2,153 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C5BE7B0288
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 13:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0617B0363
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 13:57:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbjI0LPA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 07:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50068 "EHLO
+        id S231478AbjI0L5l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 07:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231387AbjI0LO7 (ORCPT
+        with ESMTP id S230496AbjI0L5k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 07:14:59 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73AC1A5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:14:55 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-d84d883c1b6so16892133276.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695813295; x=1696418095; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CPJwzNvZylvTQiOIT8nQFH9SZPRi6/HairHaCmuEtNs=;
-        b=AMBmhhrE18QeWrtS2JIX7VBdZjVHc5+Sridf2a98pFccWi/5V1BaXrEsmssrwf/XT0
-         K/Qi0jWDh6+iNssAfG8NJBA4sXlzhr2zspvx/6NGRCXoLEFcxEKKWkdy9ZHy2YvnRWHL
-         wP7HihOF1Oc5Da3az9TAb3sH8EyEskZXtdb+SJT8jNySbilpHpurm4CjZEEr1kLdGp3e
-         SKXtrr8q5YLwDwsEfN5YXJ9I0AalBg7CYV/hemPhKrvkZq6vtizoYMPhCD6zI7jKLiVm
-         Ndbp/zM9tcKxzUcY78bebx/MMVBDaTK5lHb84y4OA0khTSxrsFs0HXbXbgeA1UmMCjnj
-         Mb2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695813295; x=1696418095;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CPJwzNvZylvTQiOIT8nQFH9SZPRi6/HairHaCmuEtNs=;
-        b=vnBjX16EWtEMTFq/b1olMeSilUt+C3tdknrqOyhqtJMP28NNCDVNvkDi/BrCsWzU8a
-         kL/WPWwguL947TflPbHr/GDuDvwlPku7xrD3GsV8xEfjlJKP/V7OOhJzJ87TMgXOaRTE
-         xFIIk2J/THvct5tCLEDhTLEH2sSYiiz9Zkn95t92ZYpe0KT2R5qDFkxdt4fHKRrYwIrq
-         3g/F24CnRESVfBY3liwDqFKQsmzNQwSMDGgzIRERhyQfRSZaE19B82CMWD5OTNCty4I2
-         zYqB4QMVW1zh+l5wYtjcqmFHh2RckUFZwC+wUuxvR8H8sT9XOddUo7UQJKtSyQ52Ucxg
-         fcPg==
-X-Gm-Message-State: AOJu0Yx5jGnBRWSGFT3ZOwY0SfF5Mx+MOWxnjcCQNza42eCNnUzqCJcc
-        dHnm1r3QDJ6D97rLNZvvVvTDozIEjq4sh007RK7rzyoUDJf9c/waITQ=
-X-Google-Smtp-Source: AGHT+IEn2A7RS/m3JUkpvx+tmDV6V0R2eCw+Of0nQLfgxCdKPWwgPYxVdAeR/zX+HB0XruKv1fpwYUQ6tD6Zm5e1DDc=
-X-Received: by 2002:a25:f810:0:b0:d7b:aaae:2037 with SMTP id
- u16-20020a25f810000000b00d7baaae2037mr4192438ybd.22.1695813294798; Wed, 27
- Sep 2023 04:14:54 -0700 (PDT)
+        Wed, 27 Sep 2023 07:57:40 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B3612A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:57:37 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:cafc:ec85:941b:7b06])
+        by baptiste.telenet-ops.be with bizsmtp
+        id qzxX2A00C56e2kz01zxXl8; Wed, 27 Sep 2023 13:57:33 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qlTAB-004iu2-8k;
+        Wed, 27 Sep 2023 13:57:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qlTAZ-000sTe-My;
+        Wed, 27 Sep 2023 13:57:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v6.6-rc3
+Date:   Wed, 27 Sep 2023 13:57:25 +0200
+Message-Id: <401e68aa456557c9e1f4d2841ae7601686699974.1695815769.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230814-void-drivers-soc-renesas-rmobile-sysc-v1-1-6648dfd854de@google.com>
- <CAMuHMdWiC4v9fctp18bRrEH-m_-0VjMg9+XpON8vdRYwniTU3g@mail.gmail.com>
- <CAMuHMdWk_jcZ1V7J68bw11YZ+EjEqAWOKHzanVyxo2zktbMteg@mail.gmail.com>
- <CAPDyKFqgsHYz1hfOQ=KniNJj+u7ZSMoxS03Rixj1n2AOUdSVaQ@mail.gmail.com> <CAMuHMdW+ovx_Vbp1FQbvHESYrv3kHx5FvkjSb0V8dq857x5e9w@mail.gmail.com>
-In-Reply-To: <CAMuHMdW+ovx_Vbp1FQbvHESYrv3kHx5FvkjSb0V8dq857x5e9w@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 27 Sep 2023 13:14:19 +0200
-Message-ID: <CAPDyKFp_PfP4mVWucbMHwrRBvOAkktJDjqaYrMtEKat7raQ68A@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rmobile-sysc: fix -Wvoid-pointer-to-enum-cast
- warning
-To:     Justin Stitt <justinstitt@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 27 Sept 2023 at 11:28, Geert Uytterhoeven <geert@linux-m68k.org> wr=
-ote:
->
-> Hi Ulf,
->
-> On Tue, Sep 26, 2023 at 1:22=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> > On Mon, 18 Sept 2023 at 11:21, Geert Uytterhoeven <geert@linux-m68k.org=
-> wrote:
-> > > On Wed, Aug 30, 2023 at 10:24=E2=80=AFAM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > On Tue, Aug 15, 2023 at 12:11=E2=80=AFAM Justin Stitt <justinstitt@=
-google.com> wrote:
-> > > > > When building with clang 18 I see the following warning:
-> > > > > |      drivers/soc/renesas/rmobile-sysc.c:193:22: warning: cast t=
-o smaller integer
-> > > > > |               type 'enum pd_types' from 'const void *' [-Wvoid-=
-pointer-to-enum-cast]
-> > > > > |        193 |                 add_special_pd(np, (enum pd_types)=
-id->data);
-> > > > >
-> > > > > This is due to the fact that `id->data` is a void* and `enum pd_t=
-ypes`
-> > > > > has the size of an integer. This cast from pointer-width to int-w=
-idth
-> > > > > causes truncation and possible data loss. Instead, cast to `uintp=
-tr_t`
-> > > > > which has the same width as void*.
-> > > > >
-> > > > > Link: https://github.com/ClangBuiltLinux/linux/issues/1910
-> > > > > Reported-by: Nathan Chancellor <nathan@kernel.org>
-> > > >
-> > > > scripts/checkpatch.pl:
-> > > >
-> > > >     WARNING: Reported-by: should be immediately followed by Closes:
-> > > > with a URL to the report
-> > > >
-> > > > Hence changing the Link: tag to a Closes: tag.
-> > > >
-> > > > > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > > > > ---
-> > > > > Note: It should be noted that there is likely no data loss occurr=
-ing in
-> > > > > this case since the enum only has a few fields. The narrowing cas=
-t from
-> > > > > pointer to int will not lose any data.
-> > > >
-> > > > Indeed, the theoretical narrowing could only happen on a 64-bit
-> > > > platform, while this driver is only used on arm32.
-> > > >
-> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > i.e. will queue in renesas-devel for v6.7.
-> > >
-> > > As the Generic PM Domain providers were moved to drivers/pmdomain/
-> > > in v6.6-rc2, and now have their own maintainer, I have moved this
-> > > commit from renesas-drivers-for-v6.7 to renesas-pmdomain-for-v6.7[1],
-> > > with s/soc/pmdomain/ in the oneline-summary.
-> > >
-> > > Ulf: if you prefer, you can still take this patch directly.
-> > > Else I will send a PR after rc3 and/or rc5, like I do with my other
-> > > renesas-<foo>-for-<version> branches.
-> > > Thanks!
-> >
-> > Apologize for the delay, been traveling lately. Anyway, I can
-> > certainly pick up the patch and carry it for v6.7. Just let me know,
-> > if/when you have dropped the patch from your tree.
->
-> Thanks, dropped.
+  - Drop CONFIG_FRAMEBUFFER_CONSOLE=y (auto-enabled since commit
+    bb6c4507fe825f1b ("drm: fix up fbdev Kconfig defaults")).
 
-Applied for next, thanks!
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be combined with commit ccae076b74e58b98 ("ARM: shmobile: defconfig:
+Refresh for v6.6-rc1") in renesas-devel/renesas-arm-defconfig-for-v6.7.
+---
+ arch/arm/configs/shmobile_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-[...]
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index bd975d105687be39..dfdea295c4affcfe 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -148,7 +148,6 @@ CONFIG_FB=y
+ CONFIG_FB_SH_MOBILE_LCDC=y
+ CONFIG_BACKLIGHT_PWM=y
+ CONFIG_BACKLIGHT_AS3711=y
+-CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_SOUND=y
+ CONFIG_SND=y
+ CONFIG_SND_SOC=y
+-- 
+2.34.1
 
-Kind regards
-Uffe
