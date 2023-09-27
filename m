@@ -2,67 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BE737B01C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 12:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F55A7B0223
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 12:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbjI0KZA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 06:25:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
+        id S230138AbjI0KpO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 06:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231332AbjI0KYd (ORCPT
+        with ESMTP id S229543AbjI0KpL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 06:24:33 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBFFCF4;
-        Wed, 27 Sep 2023 03:23:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAD11C433C7;
-        Wed, 27 Sep 2023 10:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695810213;
-        bh=mJtkcoqAxjc3capOnsYp/Ti3db2yjrAid5Uj7rgquYY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aQ9ZoLYPAOcGdFlIzX7JdymQVx3fL2BNysG9Ry+JkQAVBnVz/pwO2aFE2WYKOAwrr
-         k8mlfs9Ga7f6h1BC/igfCBLh9QrrIXnyjg83ujenCmhNour0TIbsK7viHMYNp0oO53
-         b1CLzyZA2F1obO6tv5UDXUaohmt8ucVsgUVrcfB2CdZe7e0q5kPXCe8WxvS1pIgoeU
-         CyhUDp4lxRMELKWNEOrUjiA753FvvRyYRJUPk6waiVtewxvFXwysd7D+U25AkY2Yly
-         aDDx365GMO0SVNhlthr6fiEaAG7KBdz6FQEBujmrHTZ23ywUQ6FwPypbohm0RktKEL
-         l6kiAZQAJnVLQ==
-Date:   Wed, 27 Sep 2023 12:22:59 +0200
-From:   Mark Brown <broonie@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related
- properties
-Message-ID: <ZRQCg6Xf/wYfC2PD@finisterre.sirena.org.uk>
-References: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
- <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
- <CAMuHMdUibHxPBCLbeWdNrEk_szm+o4cOcskEMZAqUufNTzQKMQ@mail.gmail.com>
- <ZRPvHJXbuZ9Db2Go@finisterre.sirena.org.uk>
- <CAMuHMdUv8FFwkde8K3Ta8FEWrkkJ=9ZqbTi1EO8sRxVOhGtvzQ@mail.gmail.com>
- <ZRP0MpIHf67tfQJY@finisterre.sirena.org.uk>
- <CAMuHMdWPxn=RTU6uytOp31BoXbW0m8Oxk_LM2Rp4Dtop7okWgQ@mail.gmail.com>
- <ZRP+ZNXe975hcEJJ@finisterre.sirena.org.uk>
- <TYWPR01MB8775B9F9F70CA75410788F83C2C2A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+        Wed, 27 Sep 2023 06:45:11 -0400
+Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB16013A;
+        Wed, 27 Sep 2023 03:45:07 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 6DD891867E3A;
+        Wed, 27 Sep 2023 13:45:03 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id nNZF-6neTcXu; Wed, 27 Sep 2023 13:45:03 +0300 (MSK)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id DB4EF1867DA8;
+        Wed, 27 Sep 2023 13:45:02 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id K11eK_b7uODQ; Wed, 27 Sep 2023 13:45:02 +0300 (MSK)
+Received: from rbta-msk-lt-302690.astralinux.ru (unknown [10.177.236.148])
+        by mail.astralinux.ru (Postfix) with ESMTPSA id 3AC741867E3A;
+        Wed, 27 Sep 2023 13:45:01 +0300 (MSK)
+From:   Alexandra Diupina <adiupina@astralinux.ru>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexandra Diupina <adiupina@astralinux.ru>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and remove its return value check
+Date:   Wed, 27 Sep 2023 13:44:38 +0300
+Message-Id: <20230927104438.30628-1-adiupina@astralinux.ru>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <169383224922.277971.15400887308406098634@ping.linuxembedded.co.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wJt9p1k0SYjlzPnn"
-Content-Disposition: inline
-In-Reply-To: <TYWPR01MB8775B9F9F70CA75410788F83C2C2A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-X-Cookie: Save energy:  Drive a smaller shell.
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,46 +60,76 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+rcar_du_group_get() never returns a negative
+error code (always returns 0), so change the comment
+about returned value, turn function into void (return
+code of rcar_du_group_get has been redundant for a
+long time, so perhaps it's just not required) and
+remove redundant error path handling in rcar_du_crtc_get()
 
---wJt9p1k0SYjlzPnn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-On Wed, Sep 27, 2023 at 10:18:57AM +0000, Fabrizio Castro wrote:
-> > From: Mark Brown <broonie@kernel.org>
+Fixes: 0bb63534fdf3 ("drm: rcar-du: Perform the initial CRTC setup from r=
+car_du_crtc_get()")
+Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
+---
+v2: rcar_du_group_get() is turned into void and its return=20
+value check is removed in rcar_du_crtc_get()
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c  | 6 +-----
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 5 +----
+ 2 files changed, 2 insertions(+), 9 deletions(-)
 
-> > OK, it sounds like we do need a property then.  Like I say I'd rather
-> > not have one that just works for _NO_CS in order to avoid confusion
-> > for
-> > people writing SPI device drivers, either something in the generic
-> > target binding or a device specific one.
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu=
+/drm/renesas/rcar-du/rcar_du_crtc.c
+index 7e175dbfd892..2be7c6e64d72 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+@@ -565,17 +565,13 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rc=
+rtc)
+ 	if (ret < 0)
+ 		goto error_clock;
+=20
+-	ret =3D rcar_du_group_get(rcrtc->group);
+-	if (ret < 0)
+-		goto error_group;
++	rcar_du_group_get(rcrtc->group);
+=20
+ 	rcar_du_crtc_setup(rcrtc);
+ 	rcrtc->initialized =3D true;
+=20
+ 	return 0;
+=20
+-error_group:
+-	clk_disable_unprepare(rcrtc->extclock);
+ error_clock:
+ 	clk_disable_unprepare(rcrtc->clock);
+ 	return ret;
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gp=
+u/drm/renesas/rcar-du/rcar_du_group.c
+index 2ccd2581f544..7113025dabff 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+@@ -199,10 +199,8 @@ static void rcar_du_group_setup(struct rcar_du_group=
+ *rgrp)
+  * before accessing any hardware registers.
+  *
+  * This function must be called with the DRM mode_config lock held.
+- *
+- * Return 0 in case of success or a negative error code otherwise.
+  */
+-int rcar_du_group_get(struct rcar_du_group *rgrp)
++void rcar_du_group_get(struct rcar_du_group *rgrp)
+ {
+ 	if (rgrp->use_count)
+ 		goto done;
+@@ -211,7 +209,6 @@ int rcar_du_group_get(struct rcar_du_group *rgrp)
+=20
+ done:
+ 	rgrp->use_count++;
+-	return 0;
+ }
+=20
+ /*
+--=20
+2.30.2
 
-> Shall I invert the logic then? What I mean is I could drop property
-> "renesas,csi-ss" and add property "renesas,csi-no-ss" instead, therefore
-> without "renesas,csi-no-ss" pin SS will be used, with "renesas,csi-no-ss"
-> pin SS won't be used.
-> What do you think?
-
-That sounds fine for me, I guess we could add a further property if some
-new IP allows multiple options for the chip select in target mode.
-
-> Also, I could drop "renesas,csi-ss-high" and use "spi-cs-high" instead?
-
-I think that's OK but I looked less at that bit.
-
---wJt9p1k0SYjlzPnn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUUAoIACgkQJNaLcl1U
-h9BenQf/T5TRoV+paJzdI1UKZ9rbSIu9tmoNiCO+wN1CocdXkQTHXMnL2+7uo8Ww
-olbvVZYkep2xoEplvaH+cvqqlo+tXkyikqcYVph9nAJhvYx3T8gu0AFlKi2JBGrm
-FCziMUNMVRCdvTseCf1oLzbidaWHDoJJOOYcIiCwd+HINYQ1jx5ZdbWDaprGaRaT
-SfkqMEMbOfBxeeXri1O/PQq8piU8il35ms9fi0j1Gfsu3qLuYMNPc9otNzS++e9G
-jytCxVYn8C1Hyy6Cdk2GVZIIpjj32fFKkVb/KUeQRxHbR9O0aFhTCpF8K8BS4Ckv
-BR0pk5tdVoAE8xKxHL5PIegeIZe9hQ==
-=+JaN
------END PGP SIGNATURE-----
-
---wJt9p1k0SYjlzPnn--
