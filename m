@@ -2,129 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 838FF7B00B5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 11:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C907B00BE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 11:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbjI0JkI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 05:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44502 "EHLO
+        id S229550AbjI0Jlu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 05:41:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjI0JkF (ORCPT
+        with ESMTP id S230152AbjI0JlZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 05:40:05 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2120.outbound.protection.outlook.com [40.107.113.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB9FEB;
-        Wed, 27 Sep 2023 02:40:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MQYmBvQpQR+VZp/b5uIBXPbiC8YwkKFlDI0eFEANWe82wZRyx8AJnzhLqc5gcuv2ny5b35K2Ft9Z6IyLdRdS6yUFX7rVuXMivCnm1fALRCvHVbgTq55zDotdqDyUqvnBqTqZziO4744JD0BGaq1B1Wd+4INvE9bKzYy82eYElJosiIgcw5ExyeiIn3JYzcRgeBfPcHsUmAp3IDY9yd+A0MN89o8MdHvnQ6zvyfH/3QTwLBqjO2aumxVIPLdVYN6tOpJneYyE0Jir/JS7ai9XiyUlNLKZYHGzc4oMOc0aeloiXdXGSX9FMIZtBWCKXJujrjIz/rdQz3C6tWo4wPIAOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qtKUZ6qZehfvvogFWl3TjTqi7p5DrqGpVfxXzDw2LOU=;
- b=WSI/AKfa63ry7xNJme5hnqcmq/2eb4RFwA2CxkDdETV0296vcqDsL7h2qlqlNOezaA1SDdqRj74VQdUVtoo/KGj7NS09ppNnq+XYXCwyr4G5wOJl1dTWHsQS2jqVBFFXmMjbCfyQrGArC/ssC9VG/x2aybWz6sQsgpIXh5Vgcd35u+4UWJa2cwV9OC0UlHVaQF8EHVyuQ3rDvlqnIjuzhGpwV5N4rkvtIXaUc7W6YMDbm0fPSzaPnZnlYNFhEbhvLD3bysulgOQqP/sW5Nrc2VSeF/cbYCk5nTuv6lntuMOjTbQLNRCa7sycvYaw4krD9GYTuBO56oRKly4WDjmyPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qtKUZ6qZehfvvogFWl3TjTqi7p5DrqGpVfxXzDw2LOU=;
- b=YbHajPfDzEfS9CwccWeHcEYsxzxDOFHcI6WRA/JCdQB5xR0MVq+xZ2tHAiQH0b3+ke7SpDKJKH2G7kvZZBtyLS/B9E2gT3uyqqtfPtnj0srIwD/zJEoKLrfMa9iXArE9GhxSGPzF17VIYR4KZR6VjDrtSfGCAJpgzLWl8O/+B3I=
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com (2603:1096:400:169::11)
- by TYWPR01MB10981.jpnprd01.prod.outlook.com (2603:1096:400:391::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.30; Wed, 27 Sep
- 2023 09:40:00 +0000
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::600a:9708:18f:2528]) by TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::600a:9708:18f:2528%3]) with mapi id 15.20.6838.016; Wed, 27 Sep 2023
- 09:40:00 +0000
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related
- properties
-Thread-Topic: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related
- properties
-Thread-Index: AQHZ8L2blakiXIKx8k6DD60xX0IJ3LAuX5YAgAALJcA=
-Date:   Wed, 27 Sep 2023 09:40:00 +0000
-Message-ID: <TYWPR01MB877515D00099BE7FB167605FC2C2A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-References: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
- <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
- <ZRPuSidGd5zO6pXf@finisterre.sirena.org.uk>
-In-Reply-To: <ZRPuSidGd5zO6pXf@finisterre.sirena.org.uk>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYWPR01MB8775:EE_|TYWPR01MB10981:EE_
-x-ms-office365-filtering-correlation-id: b1d46e4c-2138-4fbc-7d45-08dbbf3db7d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8ncdOtJI+Csx5AaLu62D6LTcGKGYS+8aOI90aglL4kw+ZNv4Iaiu1ZVhnr39EZL9jpi6PE47JiamVL/yiTVmdrs66iWycHP3bB7bpv+jUAHqZGj/OWP9qWAxJ43wsYDhXp8m2m0hhgm4Y6zFzgktn7HNGUfQ7iVqDrTfv0txYBI2bwAAsetSYBrYOm1HeT4eB7skclhuvlNt/iR+MEEGyelPWEw10sOec9CNbJ+NaDVQEwk3p99IjOh2On9ukXa6KZdxgxGnjXpPAJbq+7zJfKi29vNMT2TCkXIO64tzTle5UsYYxA2q9wwaiqVc6BpkMQ/7/BgvPqnQEZLAQY0UUHCpT5GfFu1k1n+aW9Q8pG6ojnkuUQSQ06hv/81lSyoxEPPi8RtXxq7Aqcq1iaTWTwQDSgo6f1J4GLEr6uVmpxCssgD+Kdv0M/XYN4L5WPpeUnCX8ybjxyB6lY8Axu8zo6L/LI8VuH5t1gptRcdNTHxN0RrpaDsaGYfGGoFb3thXUjTihnnVhRewjp9kYELqJpWinojKKft9pgQMP6j6t0zkk74xREPcPhaCTGWMTM0Kyjxgy0vDiP6CK1O7CuqxpI7D2lG1PdqS6B/I74lvAfXm70Hy4PediQ08bmmEB3x5
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB8775.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(136003)(376002)(39860400002)(230922051799003)(186009)(451199024)(1800799009)(86362001)(8936002)(8676002)(4326008)(52536014)(5660300002)(41300700001)(33656002)(2906002)(7416002)(38100700002)(38070700005)(122000001)(71200400001)(478600001)(83380400001)(54906003)(64756008)(26005)(76116006)(316002)(6506007)(66446008)(6916009)(66946007)(66476007)(7696005)(66556008)(107886003)(55016003)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LefwKnJ+EGKneedzR1hgn4RIiAdEjlbUH/EaUTlXK56YXOCoxkMjBe629dj1?=
- =?us-ascii?Q?B7ydS0OkeH9FJ73Co+MI8Ljg0zo+9fZzran8uDllixbrt2qtFmoilBYBLD7i?=
- =?us-ascii?Q?U0Nq6DNVS445NSUdbHKgzeHdOH3RSx61gEh5nstznXhnUrkIfV0ra6WKxzG3?=
- =?us-ascii?Q?T17956I5T7Nblel1YTKE38dWS8qxHGgPyK86ujLkVqZ9ELIvSxfHwR45DtAS?=
- =?us-ascii?Q?YkWBBzZH79ejjGIuOG3eBy6fAKcRJxk7/GUB05hDwPq7aMQUt91hm7xKF3n3?=
- =?us-ascii?Q?qY++frVcuEVIXQ7fuVvqSa9SGNDT9/DxZfPx88BuvrJ5zGFC8CM3Rvl4UanA?=
- =?us-ascii?Q?H6i6QhX1C8F/a7yY1uwL4UT17uesl4m1ndloEZc5/HumcNZaawkwN9efW/ck?=
- =?us-ascii?Q?dH1hUOPdQD92bkpPa1+mhI8jHbShaKhhL3tAMIkKJjKmNoK4For93wFG9NtD?=
- =?us-ascii?Q?LzslWR8jAlEuAjSsHudTw38PNGfbZwZu1ZVhD5uTFn+GIklqSIvqhUNHcK/v?=
- =?us-ascii?Q?Vuwqpc++xhp5bxqAWs+lmbymzTUIc1tSXl3py8X4qrsI0q9EpVcZAcK+m3Cw?=
- =?us-ascii?Q?B7IdUtmktFCEnYmCqf8j2Pl2+VfIKGfv1LoneenX9UMQkRiXS9jL7xLpDZIo?=
- =?us-ascii?Q?Z9O/MTdrycAtMMqbuBBPCGMNcENEcDkCwExd57h4ZCoMLtRA8DP4uPoLr8Xd?=
- =?us-ascii?Q?IoamxCVIRsARd1rp45NEKItICw5DUSwur4paO7NmdKQ87p3cFCbvqzfhbqAn?=
- =?us-ascii?Q?01ns+RnHvVB+upUQxu/3sSzbznIWvuaVl7J+V7EDL9oo8u9bnbOxG8bVAJH4?=
- =?us-ascii?Q?KTIGONoi+lS39g7diyarNCFr6YG/iclrQ1wdb2BeZOHn8NNXGIU/kC4RhdhZ?=
- =?us-ascii?Q?5ufBqfsbtDh0A4dBvX61e8nUjoYZ+sVrIShtfLMYLofUEPWOVTK/rcF3SLw2?=
- =?us-ascii?Q?OnqqnCiBitpZOHegSm9S6h2s1FmAm59LBsnKzfyEO+0Ppd0SElEp62JDxPCA?=
- =?us-ascii?Q?hY/nD+KpqOFzQeTyTuS0ZGJ92D/nVDPbCNpCZkZCrvD4JsyIz1ZmbxwrCnrK?=
- =?us-ascii?Q?4eH/AE6LGne6ZgskpBj8PR+8NxyozkGqE6ylsTMnXggfpWT+dYnBME635Llp?=
- =?us-ascii?Q?Pf6D6SiTFd8zrCt9H5W8fMEX00KY4zHr9vZF7QpiQKbQVqjdC+vGlIxS81or?=
- =?us-ascii?Q?JJbkCF0p1n2qCXEI+NfPHpFYzZ87XgPrcCBL+pGEjym+qqLiMzbowjExXxJ6?=
- =?us-ascii?Q?oRSfEqeZUCsL28kJeq+Y+dxaPEgabrR81Y2VvSPl1mk8kug4Hu+EycVm04ZB?=
- =?us-ascii?Q?4M64IvjDKLbowEC8qYwSj7esu0i3GVtz7lGy7gdnRZJ2gIUDK8rBYjGDUUqw?=
- =?us-ascii?Q?sMsuQMXxtXu4PwJkdbq9GMXGf8yaCDPG2axpxtV/cwvNFvWG1r+bqVA9CK+/?=
- =?us-ascii?Q?mbcNr5BSaMS2SYg9bLjRkLKnC5wtwQkV3P6LvxrOmi1O73KVcggstCCGUnQP?=
- =?us-ascii?Q?JBWYQCYlOh4eyFk7Xy3bQHDrc+yalotqOEaziMZNhzbSSvm5iPa6OYCMF2OY?=
- =?us-ascii?Q?pURmxu+0ZzeFzmKyAii8nMlF44aOvQIyptRdfoR60oKasziOckOXtHjhijwM?=
- =?us-ascii?Q?4w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB8775.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1d46e4c-2138-4fbc-7d45-08dbbf3db7d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2023 09:40:00.1203
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: auBuol/c5PMMub7kRkLMA402m90xnz6yZD+CzUgJ1bPpkCT8zhAUdCTlFFg7jwB7hCApcdZioGYjnGlrko7/L4y9HjPDkXL6D+YawA42lkY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10981
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        Wed, 27 Sep 2023 05:41:25 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94CC1EB
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 02:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695807684; x=1727343684;
+  h=date:from:to:cc:subject:message-id;
+  bh=kfnZ5Kb+xb9nQCJVWjbXTNsqf85YLjJYf56bjydJm+M=;
+  b=fKlYCtxVvmhIPD5g3ULqcmVD2EfGAe3RsjOrOchV5SglrRtud9LwcEqR
+   U2I85R8EGhtirEQH7fLijvywhEiPrEYju3nX5tWoDA+WLNuZeFBMtQ14m
+   oKATOAxyxYUIFIyzTqwlQKkmIujYQ/BJo9EgVZF/NeqCBaNMfoolgJl2I
+   2pTBsM4P/REJ6yQQ+xH9K3lrk1jL57jmYreWarjPU33n3J6SI/G8N7Vek
+   ArUhQwYTvsRHWd5Y5xU8bnSXcp3ClXzs4ChfKsp+EZH/TlKxENwMUkQAI
+   CAscwcvYLDXLSi7FW9GxMqRszXGzg2jw1buPe6kGRwgC3tcwz48G1ugBe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="362031813"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
+   d="scan'208";a="362031813"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 02:41:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="742647607"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
+   d="scan'208";a="742647607"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 27 Sep 2023 02:41:18 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qlR2i-00003T-1m;
+        Wed, 27 Sep 2023 09:41:16 +0000
+Date:   Wed, 27 Sep 2023 17:40:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ a6087c46b7060f22872f4df42b3c0f2227ad3e50
+Message-ID: <202309271730.omp0zJiz-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -132,44 +60,154 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: a6087c46b7060f22872f4df42b3c0f2227ad3e50  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Thanks for your reply!
+elapsed time: 1157m
 
-> From: Mark Brown <broonie@kernel.org>
-> Subject: Re: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related
-> properties
->=20
-> On Tue, Sep 26, 2023 at 10:08:17PM +0100, Fabrizio Castro wrote:
-> > The CSI IP found inside the Renesas RZ/V2M SoC can also work
-> > in SPI slave mode.
-> > When working in slave mode, the IP can make use of the SS
-> > (Slave Select) pin, with "low" as default active level.
-> > The active level of SS can be changed to "high" upon configuration.
-> > This patch adds two new properties, one to make use of the
-> > SS pin when in slave mode, and one to make the SS pin active high.
->=20
-> Please avoid the use of outdated terminology like this, prefer "device
-> mode" or similar.
+configs tested: 135
+configs skipped: 2
 
-Okay, I'll resend with a more modern terminology ("host" and "target").
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230926   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20230927   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230927   gcc  
+i386         buildonly-randconfig-002-20230927   gcc  
+i386         buildonly-randconfig-003-20230927   gcc  
+i386         buildonly-randconfig-004-20230927   gcc  
+i386         buildonly-randconfig-005-20230927   gcc  
+i386         buildonly-randconfig-006-20230927   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230927   gcc  
+i386                  randconfig-002-20230927   gcc  
+i386                  randconfig-003-20230927   gcc  
+i386                  randconfig-004-20230927   gcc  
+i386                  randconfig-005-20230927   gcc  
+i386                  randconfig-006-20230927   gcc  
+i386                  randconfig-011-20230927   gcc  
+i386                  randconfig-012-20230927   gcc  
+i386                  randconfig-013-20230927   gcc  
+i386                  randconfig-014-20230927   gcc  
+i386                  randconfig-015-20230927   gcc  
+i386                  randconfig-016-20230927   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230926   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230926   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230926   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230927   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230927   gcc  
+x86_64       buildonly-randconfig-002-20230927   gcc  
+x86_64       buildonly-randconfig-003-20230927   gcc  
+x86_64       buildonly-randconfig-004-20230927   gcc  
+x86_64       buildonly-randconfig-005-20230927   gcc  
+x86_64       buildonly-randconfig-006-20230927   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230927   gcc  
+x86_64                randconfig-002-20230927   gcc  
+x86_64                randconfig-003-20230927   gcc  
+x86_64                randconfig-004-20230927   gcc  
+x86_64                randconfig-005-20230927   gcc  
+x86_64                randconfig-006-20230927   gcc  
+x86_64                randconfig-011-20230927   gcc  
+x86_64                randconfig-012-20230927   gcc  
+x86_64                randconfig-013-20230927   gcc  
+x86_64                randconfig-014-20230927   gcc  
+x86_64                randconfig-015-20230927   gcc  
+x86_64                randconfig-016-20230927   gcc  
+x86_64                randconfig-071-20230927   gcc  
+x86_64                randconfig-072-20230927   gcc  
+x86_64                randconfig-073-20230927   gcc  
+x86_64                randconfig-074-20230927   gcc  
+x86_64                randconfig-075-20230927   gcc  
+x86_64                randconfig-076-20230927   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
 
->=20
-> > +  renesas,csi-ss:
-> > +    type: boolean
-> > +    description:
-> > +      Use CSI Slave Selection (SS) pin to enable transmission and
-> reception when
-> > +      in slave mode.
->=20
-> When would this ever not be true when in device mode?
-
-
-This IP can do without the SS pin to start operations. In fact, the
-SS pin is disabled by default (I know...), it needs to be explicitly
-enabled, and when enabled the pin is active low by default.
-
-Cheers,
-Fab
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
