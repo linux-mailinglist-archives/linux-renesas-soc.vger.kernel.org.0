@@ -2,170 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E93E67AFD78
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 10:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7E627AFF1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 10:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjI0IA4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 04:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34254 "EHLO
+        id S229666AbjI0I4r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 04:56:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjI0IAx (ORCPT
+        with ESMTP id S229507AbjI0I4q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 04:00:53 -0400
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98C113A;
-        Wed, 27 Sep 2023 01:00:52 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-59c0d002081so129260657b3.2;
-        Wed, 27 Sep 2023 01:00:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695801652; x=1696406452;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L9uKxj9k47rA9e6YAAq+HYqUB9sFpSTljgGom/9Mr1o=;
-        b=GHpITqGOIODV9SRyT6mVf/Ri1XCvuwXCY3NMbrDz+1sRJa5EeblHNFqzzhv1KEQOPI
-         e0tlrsWI61x4gvRTXCCM9uqBlMQaaVg8ulxP+LYVsnd7XdP+Okg/U9IJHkyLCOsNhgy/
-         n9B468WsKiq6m8oHv1lEwNdYfBqPZaAM9DdnbXBkCaaF3pmK3ZkVmBMbmMWp2c47A0Hg
-         yTjoD9NQdhtr+lwks6kV3WOHF2vVADP1IvqBh3+INuc5ePtrY/I1LX/xbJgNC5TJ/2Zd
-         7lNaAwDVZ/VUxgFQbJnaNE/zSJEf3C9Nq02XXktAREFnzj6IvoI3DIRGsvJp9PMIRyb0
-         BtsA==
-X-Gm-Message-State: AOJu0YzTQ+sl4PzId5R6le4T0IdZRU+EJeCS8tHouj1S49j69QkPBXId
-        1+DxgF0DxJnRdEZZ9kZO9GtAnrSdZ2dxJw==
-X-Google-Smtp-Source: AGHT+IFMY3dYYayoGlZslZsnY5g9lel8MjPuyCVDJ5VKmMA+AoI+O0i51jjBOs1ULav+VX2MmqVPkA==
-X-Received: by 2002:a0d:e20e:0:b0:5a1:d4f7:8b65 with SMTP id l14-20020a0de20e000000b005a1d4f78b65mr1553106ywe.27.1695801651665;
-        Wed, 27 Sep 2023 01:00:51 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id u5-20020a81b605000000b0059f8120ee4dsm1613786ywh.30.2023.09.27.01.00.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 01:00:50 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59c00b5c8b2so129387177b3.1;
-        Wed, 27 Sep 2023 01:00:49 -0700 (PDT)
-X-Received: by 2002:a0d:d511:0:b0:595:9770:6914 with SMTP id
- x17-20020a0dd511000000b0059597706914mr1510576ywd.35.1695801648914; Wed, 27
- Sep 2023 01:00:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
- <20230912045157.177966-10-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVNzgHqURohOgpFEaGn+6+rQTqsDomoS1u_-jn=GgmHXw@mail.gmail.com>
- <dfe64c7c-2f90-65a2-05fc-e96ec5113a60@tuxon.dev> <CAMuHMdXJ_gp5cdGpcK-kGk16YGDX8d9MEjQQkSobOGLphbJ5dQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXJ_gp5cdGpcK-kGk16YGDX8d9MEjQQkSobOGLphbJ5dQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Sep 2023 10:00:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV=r9704bNemDHWvjMJKbsBQJKqTxkKCeGUNp4iBNBoew@mail.gmail.com>
-Message-ID: <CAMuHMdV=r9704bNemDHWvjMJKbsBQJKqTxkKCeGUNp4iBNBoew@mail.gmail.com>
-Subject: Re: [PATCH 09/37] clk: renesas: rzg2l: fix computation formula
-To:     claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
-        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
-        nfraprado@collabora.com, rafal@milecki.pl,
-        wsa+renesas@sang-engineering.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Wed, 27 Sep 2023 04:56:46 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1881CA3;
+        Wed, 27 Sep 2023 01:56:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52132C433C7;
+        Wed, 27 Sep 2023 08:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695805005;
+        bh=Cao/bocpgqpFeJIKvW5opyJ4/rHkM9Gq7550IJgQQDg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qe6KTU7Sn8Hs0MapzvaEx7O/dKZhmloYikn5MDNsYhg/AbGi8CTbhVwZZZ/yV63TW
+         NrJlCYAghT2nraItdlDQmhX/ERO/CfbOZE/aV1/fLY6QSvjprJ/7u9gKHHYRXAgliH
+         inT6TzQzp1Gn1lFvUWMhqgM5FDzs3tsSOmLzXMHH0EsztxOsW36EGbeajGwKKU6vXQ
+         rEP/i7/ACILKb0kmxJoWRyQt85wfUgXgaoT9OebJqq/h+sCXUzqyRNKbHB6HQ5/34i
+         T6b9CEhgpMOZUlNJMC9+zyKjsTej6d0XbEcoS36VI12Lbk+H/wKPCK37tDXdzU5AEt
+         hkDIHF7mctJ0Q==
+Date:   Wed, 27 Sep 2023 10:56:42 +0200
+From:   Mark Brown <broonie@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-spi@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related
+ properties
+Message-ID: <ZRPuSidGd5zO6pXf@finisterre.sirena.org.uk>
+References: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
+ <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NweErwwnK6vf4dVT"
+Content-Disposition: inline
+In-Reply-To: <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
+X-Cookie: Save energy:  Drive a smaller shell.
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
 
-On Tue, Sep 26, 2023 at 4:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Tue, Sep 26, 2023 at 1:47 PM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
-> > On 14.09.2023 15:55, Geert Uytterhoeven wrote:
-> > > On Tue, Sep 12, 2023 at 6:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> > >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >>
-> > >> According to hardware manual of RZ/G2L (r01uh0914ej0130-rzg2l-rzg2lc.pdf)
-> > >> the computation formula for PLL rate is as follows:
-> > >>
-> > >> Fout = ((m + k/65536) * Fin) / (p * 2^s)
-> > >>
-> > >> and k has values in range [-32768, 32767]. Dividing k by 65536 with
-> > >> integer variables leads all the time to zero. Thus we may have slight
-> > >> differences b/w what has been set vs. what is displayed. Thus,
-> > >> get rid of this and decompose the formula before dividing k by 65536.
-> > >>
-> > >> Fixes: ef3c613ccd68a ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
-> > >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >
-> > > Thanks for your patch!
-> > >
-> > >> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> > >> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> > >> @@ -696,18 +696,22 @@ static unsigned long rzg2l_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
-> > >>         struct pll_clk *pll_clk = to_pll(hw);
-> > >>         struct rzg2l_cpg_priv *priv = pll_clk->priv;
-> > >>         unsigned int val1, val2;
-> > >> -       unsigned int mult = 1;
-> > >> -       unsigned int div = 1;
-> > >> +       unsigned int div;
-> > >> +       u64 rate;
-> > >> +       s16 kdiv;
-> > >>
-> > >>         if (pll_clk->type != CLK_TYPE_SAM_PLL)
-> > >>                 return parent_rate;
-> > >>
-> > >>         val1 = readl(priv->base + GET_REG_SAMPLL_CLK1(pll_clk->conf));
-> > >>         val2 = readl(priv->base + GET_REG_SAMPLL_CLK2(pll_clk->conf));
-> > >> -       mult = MDIV(val1) + KDIV(val1) / 65536;
-> > >> +       kdiv = KDIV(val1);
-> > >>         div = PDIV(val1) << SDIV(val2);
-> > >>
-> > >> -       return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult, div);
-> > >> +       rate = (u64)MDIV(val1) * parent_rate;
-> > >> +       rate += ((long long)parent_rate * kdiv) / 65536;
-> > >
-> > > As the division is a binary shift, you can use the mul_u64_u32_shr() helper,
-> > > and incorporate the sdiv shift at the same time:
-> > >
-> > >     rate += mul_u64_u32_shr(parent_rate, KDIV(val1), 16 + SDIV(val2));
->
->  [1]^
->
-> > >
-> > > You can save a multiplication by premultiplying mdiv by 65536:
-> > >
-> > >     rate = mul_u64_u32_shr(parent_rate, (MDIV(val1) << 16)) + KDIV(val1),
-> > >                            16 + SDIV(val2));
->
-> [2]^
->
-> >
-> > Looking again at this: KDIV (aka DIV_K) could have negative values thus
-> > mul_u64_u32_shr() cannot be used here.
->
-> That means you can indeed not use [1].
->
-> But you can still use [2], as MDIV() must be in the range 64..533[3],
-> so "(MDIV(val1) << 16)) + (s16)KDIV(val1)" is always positive.
-> Note that you do need the cast to s16 (which I had missed before), or
-> the intermediate variable kdiv of type s16 (like in your patch).
+--NweErwwnK6vf4dVT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Or include the cast to a signed type in the definition of KDIV().
+On Tue, Sep 26, 2023 at 10:08:17PM +0100, Fabrizio Castro wrote:
+> The CSI IP found inside the Renesas RZ/V2M SoC can also work
+> in SPI slave mode.
+> When working in slave mode, the IP can make use of the SS
+> (Slave Select) pin, with "low" as default active level.
+> The active level of SS can be changed to "high" upon configuration.
+> This patch adds two new properties, one to make use of the
+> SS pin when in slave mode, and one to make the SS pin active high.
 
-Gr{oetje,eeting}s,
+Please avoid the use of outdated terminology like this, prefer "device
+mode" or similar.
 
-                        Geert
+> +  renesas,csi-ss:
+> +    type: boolean
+> +    description:
+> +      Use CSI Slave Selection (SS) pin to enable transmission and reception when
+> +      in slave mode.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+When would this ever not be true when in device mode?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--NweErwwnK6vf4dVT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUT7kkACgkQJNaLcl1U
+h9AMqgf/ZuFxoWKxQxzkjvFfE0DOLwBfbcS17S+hLEbttlrCE5+4EBd224qBeKYQ
+iRQpyNVbPXfCJesuwKzplzK1EMJ3bmgtf2JksGIEwxchjCPEcAB3MakWimJyRfeN
+CunfmZ6US/62Xg+X8ZTO2F9IYpwfxK2xcT2bwuF1iDNMaYuuH0ohYN8TyRJ1P/d6
+2mrkBs367ZBYilYKWICHV3HxBy8HlkAqGG8v5HdoUd5CrJVCyUpuW9NVTbNerSru
+XQhvx3DVdPzpBKDv+d7XPsAGD4UhbBBsUKyUsV8l15wgqBy/bzscRM5Qx6nhW4qA
+2Ni1w+aITJRQnwtge9UPpruggz0cQA==
+=aQdy
+-----END PGP SIGNATURE-----
+
+--NweErwwnK6vf4dVT--
