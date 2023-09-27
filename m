@@ -2,139 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46EFF7B0396
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 14:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D58C7B0456
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 14:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbjI0MMT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 08:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
+        id S231534AbjI0Min (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 08:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231601AbjI0MMT (ORCPT
+        with ESMTP id S229531AbjI0Min (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 08:12:19 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DAEFC
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 05:12:18 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5789de5c677so7316297a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 05:12:18 -0700 (PDT)
+        Wed, 27 Sep 2023 08:38:43 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4ED139
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 05:38:41 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-405361bba99so106327705e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 05:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1695816737; x=1696421537; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=hyDOgL80NYI4w4UYrbW4loosDSnP0c+H/uNErWE6izA=;
-        b=tsq6vYnWg2O320T/Duy+g1hVdPlIF5FPyOpcCBIq7huBa2mwGtD2blRQIBnaES9Dqr
-         Di8LmTX7sW04PUbpEXRtLR7YIRWhGWRW1pbkG+M+QOjYLhDJRtMo1F/P8EB23ZgiuCau
-         ZaTPs/e9lKijoXktWm4VaYejc2XMc5TPx8Wrj3fSOs9nXTYa6plVotoylyN4YHnMeB52
-         siubfzRtjEdgFHak21Si2SHAsxr5NKd9IfW44u1Rp91mwmPDTstLFdRAD96QEhbk0Z0C
-         u/YaGK/WfllEN6savs6ZRDtitkHu7XXqiAWfcYqU2YJWf3w003eCqoc0PBSAJoqLsVZz
-         4fEQ==
+        d=linaro.org; s=google; t=1695818320; x=1696423120; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Iv3thYPyIQ8GygicfHZHZp04/tIitP9GfIoOieD69Cs=;
+        b=PAVvej6nT02WuWdyz3iOG0pIB59mAZ6AwvDrdGeZygRd9tWVf8Tczz8JzLcu9QD7IV
+         61tzWha6DXsHM45EB/hefAC5qMTDw/89VvwWGogGv0/uz7pQaS9KMkX73o59jtWodIRV
+         9Z/5S5WGPPoZ7i/RvbsoElgDARG3SOVBKixYLCP3r2kdCjI81WP9so6pr264frivB+zL
+         1OMubEIDBxUhTrgrWQesc6DXs/LkYikjMn3mQO0ZP0CSqZ2I+B18/QxzK34VajRhY4MK
+         S+X1lfeBm8erdqhtsPL8tDiqFRWu02bSt1UvbpfXbxkl3mINr5yRtS1Qo1Pzbl2SBPlN
+         w1AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695816737; x=1696421537;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hyDOgL80NYI4w4UYrbW4loosDSnP0c+H/uNErWE6izA=;
-        b=Rw+H0Bl9KfSj1vULCqM3Cz7QdtNbjxyJ9ZOuQPpccPbwpMFLc9wf4nCZfp7RTkfFVk
-         hkd6pskgTD6UnWF4Lh0WzXKm5dOYBTVsGSIIaf+PoIcbCi6KLrCz5QCV5mX+F9I6KJMi
-         /16wfMLpgTbu61hM9+2H6m0fNvUyDYV3j26P+om6ilUExP31gsy41cAJKUbQc6DEXQEt
-         7s78oyB1gBJhlX52Ce5li/MHr1KTL7QcFPUdyQkf0r2z0hsMKvIDcYwdbgvdYz4oMGrh
-         iDKpJ5BOJD41DktXhVfVAM2DJGJI59QSp9pnAaVX8wIauwIuhbdyBERssSqos0uPRXRZ
-         iwJg==
-X-Gm-Message-State: AOJu0Yx5HDqhHYtD/wxmKqKnL3oDTwtePJzjDfXWq45s3KIR21Y8KQT4
-        32B6qxNzPyqG1G/RG19iy6SZPK550vLrIivibQUG7g==
-X-Google-Smtp-Source: AGHT+IFG3K2Xn5U5XvmFl5IQ+FwRSgDwW3ZtUL6DYJz84whRRfgthzBhUUzZ2rjKeeZ+SVOhEhKH7w==
-X-Received: by 2002:a05:6a20:948f:b0:161:3120:e865 with SMTP id hs15-20020a056a20948f00b001613120e865mr1456323pzb.52.1695816737202;
-        Wed, 27 Sep 2023 05:12:17 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id g11-20020a63b14b000000b00577cda166ffsm11286623pgp.35.2023.09.27.05.12.15
+        d=1e100.net; s=20230601; t=1695818320; x=1696423120;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Iv3thYPyIQ8GygicfHZHZp04/tIitP9GfIoOieD69Cs=;
+        b=DSP0LD91nsPzarakX+jOTVRNP2IdShXBlMLN/TvOhEpNZy5GzW7mWUv/Uxk+i/iSJP
+         OAOlkyG9s4veFc79liDV5et04bWKDR3/SOEEG7RkWa3j6H5VD7qSc35KE1Px0VTx2STh
+         VXZWRGOpbw2jCbnc1trM22Cu6CdjcbxuJPOroJGvCAUqXJ95RvokqwFXpnosz7rV0TIa
+         AREMIyVJ87zIq6+B0YoG4+hZ6TAeAF5WLd7cu6PQmQa5S2nsxFMRlVM1nGlh84VM61HF
+         ULkgR1d4AmiI9do2VCR9YyGpXQESvkEyJypbKe76JlkfjsI6BpyDzbwXhSTSRfVdiNB3
+         YxCg==
+X-Gm-Message-State: AOJu0YxXMEtcP258+QCa25tE+orn2sW4IA5HcTlnAd2VXhb1uCBN0exv
+        dLiKgBkPHrtrdKbJViLZvgJfug==
+X-Google-Smtp-Source: AGHT+IG+giG0uB2f0slqRXUC2s/Xr805TX2Mc8YoPELbwGNV0aJ3OYBXte08KuYU4ss+e25T8ZVO6g==
+X-Received: by 2002:adf:f044:0:b0:321:521f:836f with SMTP id t4-20020adff044000000b00321521f836fmr1709032wro.26.1695818319926;
+        Wed, 27 Sep 2023 05:38:39 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c12-20020adfed8c000000b0032179c4a46dsm16988190wro.100.2023.09.27.05.38.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 05:12:16 -0700 (PDT)
-Message-ID: <65141c20.630a0220.3d5f4.d187@mx.google.com>
-Date:   Wed, 27 Sep 2023 05:12:16 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 27 Sep 2023 05:38:39 -0700 (PDT)
+Date:   Wed, 27 Sep 2023 15:38:36 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Andi Shyti <andi.shyti@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] i2c: rcar: fix error code in probe()
+Message-ID: <06d4de31-dfe5-432d-acab-600b01422155@moroto.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2023-09-27-v6.6-rc3
-X-Kernelci-Report-Type: test
-Subject: renesas/master ltp-ipc: 6 runs,
- 1 regressions (renesas-devel-2023-09-27-v6.6-rc3)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 6 runs, 1 regressions (renesas-devel-2023-09-27-v6.=
-6-rc3)
+Return an error code if devm_reset_control_get_exclusive() fails.
+The current code returns success.
 
-Regressions Summary
--------------------
+Fixes: 0e864b552b23 ("i2c: rcar: reset controller is mandatory for Gen3+")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/i2c/busses/i2c-rcar.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-platform                 | arch  | lab     | compiler | defconfig | regress=
-ions
--------------------------+-------+---------+----------+-----------+--------=
-----
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
-    =
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 8417d5bc662b..829ac053bbb7 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -1153,8 +1153,10 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 
+ 	if (priv->devtype == I2C_RCAR_GEN3) {
+ 		priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+-		if (IS_ERR(priv->rstc))
++		if (IS_ERR(priv->rstc)) {
++			ret = PTR_ERR(priv->rstc);
+ 			goto out_pm_put;
++		}
+ 
+ 		ret = reset_control_status(priv->rstc);
+ 		if (ret < 0)
+-- 
+2.39.2
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2023-09-27-v6.6-rc3/plan/ltp-ipc/
-
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2023-09-27-v6.6-rc3
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      8ef2954909a55f94e5eb8777c18c1d8b0678e3e7
-
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  3f0b2176930cf15a26597e28abf4356050136bbe =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch  | lab     | compiler | defconfig | regress=
-ions
--------------------------+-------+---------+----------+-----------+--------=
-----
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
-    =
-
-
-  Details:     https://kernelci.org/test/plan/id/65140ffd4573a71f3c8a0a44
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-09-27-v6.6-rc3/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
-zg2m-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-09-27-v6.6-rc3/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
-zg2m-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
-p/20230623.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/65140ffd4573a71f3c8a0a=
-45
-        new failure (last pass: renesas-devel-2023-06-05-v6.4-rc5) =
-
- =20
