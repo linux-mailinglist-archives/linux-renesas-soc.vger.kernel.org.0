@@ -2,97 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 266537AF8D0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 05:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FE0C7AFD68
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 09:59:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjI0DsG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 23:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46350 "EHLO
+        id S230024AbjI0H7X convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 03:59:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjI0DqF (ORCPT
+        with ESMTP id S229981AbjI0H7W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 23:46:05 -0400
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1020E1BC3;
-        Tue, 26 Sep 2023 18:02:11 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0Vsy7KZH_1695776528;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0Vsy7KZH_1695776528)
-          by smtp.aliyun-inc.com;
-          Wed, 27 Sep 2023 09:02:09 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] ARM: shmobile: Remove unneeded semicolon
-Date:   Wed, 27 Sep 2023 09:02:07 +0800
-Message-Id: <20230927010207.78326-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Wed, 27 Sep 2023 03:59:22 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF7A13A;
+        Wed, 27 Sep 2023 00:59:20 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59f6763767dso85555607b3.2;
+        Wed, 27 Sep 2023 00:59:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695801560; x=1696406360;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rMT1j26t8dOkRFRh4332nTiRpDFbKB81QWUMtGHO2gA=;
+        b=kqUp42mMNpNq8bM9HthNz5TP9S551B3NIbNkJvCo4G1pKXVBldPyjZQlOx6cAcNDw0
+         dOAqaM7pbKREnq5Sjt+77m2ad2sdStiWtWHzg3s+xf86vvtDoz1V4FKBWHtwX9GBQK9Z
+         w8Ctra3+qjHUTQIHe1xRmOfqYwJt1MvLSKsL8zPJfNtWyiqAg75WrWkitkqT/cEhybiu
+         7y96XQTIpoFBkSeHFfIpxKfhiLcZMG7BP2NxsAsurYceT5wdiNLgkOjXpszcEry1fhBI
+         i3JNpYcDRzJQmZAzw7VxxUR6SBpZogZcu1RZCUDp/UD/EpiHdxcrSehpP+gBZaYULYI3
+         B+iQ==
+X-Gm-Message-State: AOJu0Yzid9Ayiwo3idVJD8ovp1qeePQ+UCbQGefZGtsqApEGwsrcGrXH
+        OJd3wc/IyR2HITSk0OArEgyZk2RaMGyI3Q==
+X-Google-Smtp-Source: AGHT+IF0eGSNtWdD+DoeXCyKYUNMFhixXcqM/++g+vkb5sF4JOI5Towv7P7wAzB4A+9BwpohjVMHCA==
+X-Received: by 2002:a05:690c:2a81:b0:5a1:fb1d:740a with SMTP id ek1-20020a05690c2a8100b005a1fb1d740amr804324ywb.51.1695801559785;
+        Wed, 27 Sep 2023 00:59:19 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id fu6-20020a05690c368600b0059590440338sm2510336ywb.43.2023.09.27.00.59.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Sep 2023 00:59:18 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59bf1dde73fso135389437b3.3;
+        Wed, 27 Sep 2023 00:59:18 -0700 (PDT)
+X-Received: by 2002:a0d:d784:0:b0:595:80be:fc6b with SMTP id
+ z126-20020a0dd784000000b0059580befc6bmr1630689ywd.18.1695801558289; Wed, 27
+ Sep 2023 00:59:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com> <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20230926210818.197356-2-fabrizio.castro.jz@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 Sep 2023 09:59:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUibHxPBCLbeWdNrEk_szm+o4cOcskEMZAqUufNTzQKMQ@mail.gmail.com>
+Message-ID: <CAMuHMdUibHxPBCLbeWdNrEk_szm+o4cOcskEMZAqUufNTzQKMQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] spi: renesas,rzv2m-csi: Add SPI Slave related properties
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-spi@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-./arch/arm/mach-shmobile/smp-sh73a0.c:52:2-3: Unneeded semicolon
-./arch/arm/mach-shmobile/smp-r8a7779.c:46:2-3: Unneeded semicolon
-./arch/arm/mach-shmobile/pm-rcar-gen2.c:58:2-3: Unneeded semicolon
+Hi Fabrizio,
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6704
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- arch/arm/mach-shmobile/pm-rcar-gen2.c | 2 +-
- arch/arm/mach-shmobile/smp-r8a7779.c  | 2 +-
- arch/arm/mach-shmobile/smp-sh73a0.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On Tue, Sep 26, 2023 at 11:08 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The CSI IP found inside the Renesas RZ/V2M SoC can also work
+> in SPI slave mode.
+> When working in slave mode, the IP can make use of the SS
+> (Slave Select) pin, with "low" as default active level.
+> The active level of SS can be changed to "high" upon configuration.
+> This patch adds two new properties, one to make use of the
+> SS pin when in slave mode, and one to make the SS pin active high.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-diff --git a/arch/arm/mach-shmobile/pm-rcar-gen2.c b/arch/arm/mach-shmobile/pm-rcar-gen2.c
-index 3453d5733224..907a4f8c5aed 100644
---- a/arch/arm/mach-shmobile/pm-rcar-gen2.c
-+++ b/arch/arm/mach-shmobile/pm-rcar-gen2.c
-@@ -55,7 +55,7 @@ void __init rcar_gen2_pm_init(void)
- 	if (!request_mem_region(0, SZ_256K, "Boot Area")) {
- 		pr_err("Failed to request boot area\n");
- 		return;
--	};
-+	}
- 
- 	for_each_of_cpu_node(np) {
- 		if (of_device_is_compatible(np, "arm,cortex-a15"))
-diff --git a/arch/arm/mach-shmobile/smp-r8a7779.c b/arch/arm/mach-shmobile/smp-r8a7779.c
-index 2b1b8248450c..474c325323a3 100644
---- a/arch/arm/mach-shmobile/smp-r8a7779.c
-+++ b/arch/arm/mach-shmobile/smp-r8a7779.c
-@@ -43,7 +43,7 @@ static void __init r8a7779_smp_prepare_cpus(unsigned int max_cpus)
- 	if (!request_mem_region(0, SZ_4K, "Boot Area")) {
- 		pr_err("Failed to request boot area\n");
- 		return;
--	};
-+	}
- 
- 	base = ioremap(HPBREG_BASE, 0x1000);
- 
-diff --git a/arch/arm/mach-shmobile/smp-sh73a0.c b/arch/arm/mach-shmobile/smp-sh73a0.c
-index 3757aed64c42..9196b37ea292 100644
---- a/arch/arm/mach-shmobile/smp-sh73a0.c
-+++ b/arch/arm/mach-shmobile/smp-sh73a0.c
-@@ -49,7 +49,7 @@ static void __init sh73a0_smp_prepare_cpus(unsigned int max_cpus)
- 	if (!request_mem_region(0, SZ_4K, "Boot Area")) {
- 		pr_err("Failed to request boot area\n");
- 		return;
--	};
-+	}
- 
- 	/* Map the reset vector (in headsmp.S) */
- 	ap = ioremap(AP_BASE, PAGE_SIZE);
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/spi/renesas,rzv2m-csi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/renesas,rzv2m-csi.yaml
+> @@ -39,6 +39,17 @@ properties:
+>    power-domains:
+>      maxItems: 1
+>
+> +  renesas,csi-ss:
+> +    type: boolean
+> +    description:
+> +      Use CSI Slave Selection (SS) pin to enable transmission and reception when
+> +      in slave mode.
+
+Can't this be done in a more generic way? I had expected that the
+existing SPI_NO_CS flag can be set using a property in the "slave" subnode,
+but apparently there is no "spi-no-cs" property defined yet.
+
+> +
+> +  renesas,csi-ss-high:
+> +    type: boolean
+> +    description:
+> +      The SS pin is active high (by default the SS pin is active low).
+
+Can't you use the "spi-cs-high" property in the "slave" subnode instead?
+
+> +
+>  required:
+>    - compatible
+>    - reg
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.20.1.7.g153144c
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
