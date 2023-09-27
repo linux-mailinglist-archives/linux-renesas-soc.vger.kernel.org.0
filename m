@@ -2,61 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55E7A7B0C2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 20:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C9C7B0CD3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 21:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjI0SwV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 14:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60572 "EHLO
+        id S229497AbjI0Tih (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 15:38:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjI0SwT (ORCPT
+        with ESMTP id S229723AbjI0Tih (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 14:52:19 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740B4F4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 11:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695840737; x=1727376737;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bmS4Xa9XAGTCoRhLdbsc0By6bpPy/vQ0LcDcAwDTVw0=;
-  b=Kv9gTc+iANc5PgdPzje+7HLJhQP0IoeO1oLLf/SLWYb0aLJQj3J0gwQ9
-   9+G1rX4ZsRAhoHRs1gmrIMLys2TbDbJ+IaN+a5AS6vP1Wj93KM+3ki1b7
-   X4bX7QWPqIsBbQ1Kl8P83slAolItwBCpmiFulkLLS2nXMrMqLikTqmXZV
-   q/TYiwNz1mFyK9M0V91PUt6weZbacJalSggl0nLO/JdHk1vfmBJk5vE0P
-   h1YGWvEAEYcfAZgfBMihVov3vbfeJlELzSN9VM/eMBljrIvTGN8ZZH/Jq
-   4a755Spa4Jg1wEH4lQkWP6D3eWHRTd4IYjjbWeJIXtjHx/vPv4nM5vFH1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3441282"
-X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="3441282"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 11:52:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="996279425"
-X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="996279425"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2023 11:52:15 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qlZds-0000Y8-1B;
-        Wed, 27 Sep 2023 18:52:12 +0000
-Date:   Thu, 28 Sep 2023 02:52:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.6-rc1 6/137]
- drivers/of/overlay.c:76: warning: Function parameter or member 'ovcs' not
- described in 'fragment'
-Message-ID: <202309280221.McwYanU6-lkp@intel.com>
+        Wed, 27 Sep 2023 15:38:37 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D38114
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 12:38:35 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qlaLy-00026g-2W; Wed, 27 Sep 2023 21:37:46 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qlaLs-009PZ9-LJ; Wed, 27 Sep 2023 21:37:40 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qlaLs-005RfL-9X; Wed, 27 Sep 2023 21:37:40 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Guillaume La Roque <glaroque@baylibre.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, kernel@pengutronix.de,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        =?utf-8?q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Balsam CHIHI <bchihi@baylibre.com>,
+        Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        =?utf-8?b?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>,
+        Alexandre Mergnat <amergnat@baylibre.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Chen Jiahao <chenjiahao16@huawei.com>,
+        linux-mediatek@lists.infradead.org,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org,
+        =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>, linux-omap@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Subject: [PATCH 00/31] thermal: Convert to platform remove callback returning void
+Date:   Wed, 27 Sep 2023 21:37:05 +0200
+Message-Id: <20230927193736.2236447-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5170; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=2L69+4GE6Q2OL+RVVKSxPv+do5u2Ko5kq68QSNMRgfA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlFIRZWCqRy7l7yarbl47C5yOf60xNKfQ07iYJW A/EEIHW5MqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRSEWQAKCRCPgPtYfRL+ Tu/sB/9Fn3Qg/Pk83TcfVVbu0SeXU/QOP+wQUG8fohOU85pUfxYkY2y+BVYOyX888wGbpmejtdt gW91oAV/dzkhd4Wr86G902HZjFECPbFhgFmENf63i4l4QNzQ8C6SLHeMWu7lKqGRrZF7ZGaGfWR IfLabFwqVCWBSyzWkwWFHFNYfMPAK60prZP+DNUDxK4NrGyRl7ExVV8C0C9zZorPoQ9B/Zn/ljw gidyl7KiLovd01L3cZgFeEQp8wKCgh5hqnCBvL+ze8e51hLIpYH8VnRjGOdMOPeeBbWlYUzK0Mo xhWkvBmAo5OvZftn9CDCw3HOp2YACajk8dVDXk/5/gIaMV0F
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,82 +119,92 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.6-rc1
-head:   5b25c3b1c2d80478ded680c33b1067e3faed4c0d
-commit: ccc4bf85f5a94ae31785151f50a3637e4cfe8808 [6/137] of: overlay: Add per overlay sysfs attributes
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230928/202309280221.McwYanU6-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230928/202309280221.McwYanU6-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309280221.McwYanU6-lkp@intel.com/
+this series converts all platform drivers below drivers/thermal to use
+.remove_new(). The motivation is to get rid of an integer return code
+that is (mostly) ignored by the platform driver core and error prone on
+the driver side.
 
-All warnings (new ones prefixed by >>):
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for an extended explanation and the eventual goal.
 
->> drivers/of/overlay.c:76: warning: Function parameter or member 'ovcs' not described in 'fragment'
->> drivers/of/overlay.c:76: warning: Function parameter or member 'attr_group' not described in 'fragment'
->> drivers/of/overlay.c:76: warning: Function parameter or member 'attrs' not described in 'fragment'
->> drivers/of/overlay.c:76: warning: Function parameter or member 'target_attr' not described in 'fragment'
->> drivers/of/overlay.c:104: warning: Function parameter or member 'attr_groups' not described in 'overlay_changeset'
-   drivers/of/overlay.c:104: warning: Function parameter or member 'kobj' not described in 'overlay_changeset'
+There are no interdependencies between the patches. As there are still
+quite a few drivers to convert, I'm happy about every patch that makes
+it in. So even if there is a merge conflict with one patch until you
+apply or a subject prefix is suboptimal, please apply the remainder of
+this series anyhow.
 
+Best regards
+Uwe
 
-vim +76 drivers/of/overlay.c
+Uwe Kleine-König (31):
+  thermal: amlogic: Convert to platform remove callback returning void
+  thermal: armada: Convert to platform remove callback returning void
+  thermal: bcm2835: Convert to platform remove callback returning void
+  thermal: ns: Convert to platform remove callback returning void
+  thermal: da9062: Convert to platform remove callback returning void
+  thermal: dove: Convert to platform remove callback returning void
+  thermal: hisi: Convert to platform remove callback returning void
+  thermal: imx8mm: Convert to platform remove callback returning void
+  thermal: imx: Convert to platform remove callback returning void
+  thermal: int3400: Convert to platform remove callback returning void
+  thermal: int3401: Convert to platform remove callback returning void
+  thermal: int3402: Convert to platform remove callback returning void
+  thermal: int3403: Convert to platform remove callback returning void
+  thermal: int3406: Convert to platform remove callback returning void
+  thermal: k3_bandgap: Convert to platform remove callback returning void
+  thermal: k3_j72xx_bandgap: Convert to platform remove callback returning void
+  thermal: kirkwood: Convert to platform remove callback returning void
+  thermal: lvts: Convert to platform remove callback returning void
+  thermal: tsens: Convert to platform remove callback returning void
+  thermal: rcar_gen3: Convert to platform remove callback returning void
+  thermal: rcar: Convert to platform remove callback returning void
+  thermal: rockchip: Convert to platform remove callback returning void
+  thermal: rzg2l: Convert to platform remove callback returning void
+  thermal: exynos_tmu: Convert to platform remove callback returning void
+  thermal: spear: Convert to platform remove callback returning void
+  thermal: sprd: Convert to platform remove callback returning void
+  thermal: stm: Convert to platform remove callback returning void
+  thermal: soctherm: Convert to platform remove callback returning void
+  thermal: tegra-bpmp: Convert to platform remove callback returning void
+  thermal: ti-bandgap: Convert to platform remove callback returning void
+  thermal: uniphier: Convert to platform remove callback returning void
 
-6b4955ba7bc05e Frank Rowand      2018-10-04   61  
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   62  /**
-0290c4ca2536a3 Frank Rowand      2017-10-17   63   * struct fragment - info about fragment nodes in overlay expanded device tree
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   64   * @info:	info node that contains the target and overlay
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   65   * @target:	target of the overlay operation
-0290c4ca2536a3 Frank Rowand      2017-10-17   66   * @overlay:	pointer to the __overlay__ node
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   67   */
-0290c4ca2536a3 Frank Rowand      2017-10-17   68  struct fragment {
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   69  	struct device_node *overlay;
-81225ea682f456 Frank Rowand      2018-10-04   70  	struct device_node *target;
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   71  	struct overlay_changeset *ovcs;
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   72  	struct device_node *info;
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   73  	struct attribute_group attr_group;
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   74  	struct attribute *attrs[2];
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23   75  	struct fragment_attribute target_attr;
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28  @76  };
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   77  
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   78  /**
-0290c4ca2536a3 Frank Rowand      2017-10-17   79   * struct overlay_changeset
-39a751a4cb7e47 Frank Rowand      2018-02-12   80   * @id:			changeset identifier
-0290c4ca2536a3 Frank Rowand      2017-10-17   81   * @ovcs_list:		list on which we are located
-1e4089667c7c73 Frank Rowand      2022-04-20   82   * @new_fdt:		Memory allocated to hold unflattened aligned FDT
-067c098766c6af Frank Rowand      2022-04-20   83   * @overlay_mem:	the memory chunk that contains @overlay_root
-1e4089667c7c73 Frank Rowand      2022-04-20   84   * @overlay_root:	expanded device tree that contains the fragment nodes
-067c098766c6af Frank Rowand      2022-04-20   85   * @notify_state:	most recent notify action used on overlay
-3912b7917ab78d Frank Rowand      2017-10-17   86   * @count:		count of fragment structures
-3912b7917ab78d Frank Rowand      2017-10-17   87   * @fragments:		fragment nodes in the overlay expanded device tree
-3912b7917ab78d Frank Rowand      2017-10-17   88   * @symbols_fragment:	last element of @fragments[] is the  __symbols__ node
-0290c4ca2536a3 Frank Rowand      2017-10-17   89   * @cset:		changeset to apply fragments to live device tree
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   90   */
-0290c4ca2536a3 Frank Rowand      2017-10-17   91  struct overlay_changeset {
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   92  	int id;
-0290c4ca2536a3 Frank Rowand      2017-10-17   93  	struct list_head ovcs_list;
-1e4089667c7c73 Frank Rowand      2022-04-20   94  	const void *new_fdt;
-067c098766c6af Frank Rowand      2022-04-20   95  	const void *overlay_mem;
-1e4089667c7c73 Frank Rowand      2022-04-20   96  	struct device_node *overlay_root;
-067c098766c6af Frank Rowand      2022-04-20   97  	enum of_overlay_notify_action notify_state;
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28   98  	int count;
-0290c4ca2536a3 Frank Rowand      2017-10-17   99  	struct fragment *fragments;
-ccc4bf85f5a94a Pantelis Antoniou 2015-04-23  100  	const struct attribute_group **attr_groups;
-3912b7917ab78d Frank Rowand      2017-10-17  101  	bool symbols_fragment;
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28  102  	struct of_changeset cset;
-785f4b55d5d734 Pantelis Antoniou 2015-03-15  103  	struct kobject kobj;
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28 @104  };
-7518b5890d8ac3 Pantelis Antoniou 2014-10-28  105  
+ drivers/thermal/amlogic_thermal.c                    | 12 +++++-------
+ drivers/thermal/armada_thermal.c                     |  6 ++----
+ drivers/thermal/broadcom/bcm2835_thermal.c           |  6 ++----
+ drivers/thermal/broadcom/ns-thermal.c                |  6 ++----
+ drivers/thermal/da9062-thermal.c                     |  5 ++---
+ drivers/thermal/dove_thermal.c                       |  6 ++----
+ drivers/thermal/hisi_thermal.c                       |  6 ++----
+ drivers/thermal/imx8mm_thermal.c                     |  6 ++----
+ drivers/thermal/imx_thermal.c                        |  6 ++----
+ .../thermal/intel/int340x_thermal/int3400_thermal.c  |  5 ++---
+ .../thermal/intel/int340x_thermal/int3401_thermal.c  |  6 ++----
+ .../thermal/intel/int340x_thermal/int3402_thermal.c  |  6 ++----
+ .../thermal/intel/int340x_thermal/int3403_thermal.c  |  6 ++----
+ .../thermal/intel/int340x_thermal/int3406_thermal.c  |  5 ++---
+ drivers/thermal/k3_bandgap.c                         |  6 ++----
+ drivers/thermal/k3_j72xx_bandgap.c                   |  6 ++----
+ drivers/thermal/kirkwood_thermal.c                   |  6 ++----
+ drivers/thermal/mediatek/lvts_thermal.c              |  6 ++----
+ drivers/thermal/qcom/tsens.c                         |  6 ++----
+ drivers/thermal/rcar_gen3_thermal.c                  |  6 ++----
+ drivers/thermal/rcar_thermal.c                       |  6 ++----
+ drivers/thermal/rockchip_thermal.c                   |  6 ++----
+ drivers/thermal/rzg2l_thermal.c                      |  6 ++----
+ drivers/thermal/samsung/exynos_tmu.c                 |  6 ++----
+ drivers/thermal/spear_thermal.c                      |  6 ++----
+ drivers/thermal/sprd_thermal.c                       |  5 ++---
+ drivers/thermal/st/stm_thermal.c                     |  6 ++----
+ drivers/thermal/tegra/soctherm.c                     |  6 ++----
+ drivers/thermal/tegra/tegra-bpmp-thermal.c           |  6 ++----
+ drivers/thermal/ti-soc-thermal/ti-bandgap.c          |  6 ++----
+ drivers/thermal/uniphier_thermal.c                   |  6 ++----
+ 31 files changed, 65 insertions(+), 123 deletions(-)
 
-:::::: The code at line 76 was first introduced by commit
-:::::: 7518b5890d8ac366faa2326ce2356ef6392ce63d of/overlay: Introduce DT overlay support
-
-:::::: TO: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-:::::: CC: Grant Likely <grant.likely@linaro.org>
-
+base-commit: 18030226a48de1fbfabf4ae16aaa2695a484254f
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.40.1
+
