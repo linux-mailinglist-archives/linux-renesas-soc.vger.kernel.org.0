@@ -2,54 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7712D7B06E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 16:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B587B06E3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 16:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbjI0OcX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 10:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
+        id S232073AbjI0OcY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 10:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232149AbjI0OcW (ORCPT
+        with ESMTP id S232119AbjI0OcY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 10:32:22 -0400
-X-Greylist: delayed 61 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Sep 2023 07:32:21 PDT
+        Wed, 27 Sep 2023 10:32:24 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F4DBF4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 07:32:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91304139
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 07:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695825142; x=1727361142;
+  t=1695825143; x=1727361143;
   h=date:from:to:cc:subject:message-id;
-  bh=oFqFT4qz+qPTTrxXKWQ/Ze+1qnDSsFQLftNOdzlOHI0=;
-  b=RpRSMjVwMe5pS5e+3gNov/5b+UPn72sFc25W7PCOgO9dSnwFuGTqzFgD
-   dAWN4ueDjOE+93u6jMS2g1M4B+Njit4mAoAR63DVGFKR8RI0C5x0fzyM0
-   CTv/i3mb32ccf1EZvaCYm0n5akIqwcVEjJoYUnGsJPqLuILLs/djEKgtt
-   OXDsW+LCvX4RLxAtCFMApmzPsFdzRPjd6sfOhwdvRuodvwfvHUHzB5jgO
-   rVzkJ5hO0q3cJNxuSnH8lJ9/+ikmjuR4elcXV1VcGKyYhP3/PdlBqhZWD
-   VuoG7uOv6N1KoNpHidOoo5PPYzNspuJ/wIibJPH4lxjiJspEEMBD9LP++
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3370960"
+  bh=2ZIfUbKO1ujTk+glsvczslJAtCxDu2aeDcsaXhLSZOg=;
+  b=KqDhZYjmygDq0EThqB+Jqeub6n/b6UmLkO9iXNWz+nrD9M9RfM9+OkDx
+   +ufwigLywqcS6/7GBVCL1zEhjgDeb/MPnkTT+NeOxkVYH4e+UfXEnFLKw
+   lStaI4zRlnmcIB1KIFsMZFt+6RThJW0p1FGBYqIY9/z5D1yIVxDd+xdue
+   aZvbLzA/0MPOr3AJcJniYqqAVtpVgMH/sH2SYDBcWtR207h2c1O66G0TC
+   nurxHp5X/aZTde9n0S7Ce57K73kCDivAAwQffTLJ3EUGspOLYAOnjxQqY
+   RQdr7webB7b3OdzP3AYG9PpdFWC+XHL4GHnilQbY+Nx6wYjx9PgDBHuFd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3370957"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="3370960"
+   d="scan'208";a="3370957"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 07:31:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="814887725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="814887726"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="814887725"
+   d="scan'208";a="814887726"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
   by fmsmga008.fm.intel.com with ESMTP; 27 Sep 2023 07:31:18 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qlVZM-0000Je-1b;
+        id 1qlVZM-0000JY-1O;
         Wed, 27 Sep 2023 14:31:16 +0000
-Date:   Wed, 27 Sep 2023 22:30:27 +0800
+Date:   Wed, 27 Sep 2023 22:30:43 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pmdomain] BUILD SUCCESS
- 667a92919b12420cd2d4257ee208244ad665c192
-Message-ID: <202309272225.h0eLpbZP-lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ c385256611b1af79d180e35c07992b43e1be5067
+Message-ID: <202309272240.f6KBbTMG-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -61,12 +60,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pmdomain
-branch HEAD: 667a92919b12420cd2d4257ee208244ad665c192  pmdomain: renesas: rmobile-sysc: Fix -Wvoid-pointer-to-enum-cast warning
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: c385256611b1af79d180e35c07992b43e1be5067  pinctrl: renesas: rzg2l: Rename rzg2l_gpio_configs[]
 
 elapsed time: 1447m
 
-configs tested: 160
+configs tested: 158
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -169,14 +168,12 @@ riscv                            allmodconfig   gcc
 riscv                             allnoconfig   gcc  
 riscv                            allyesconfig   gcc  
 riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230926   gcc  
 riscv                 randconfig-001-20230927   gcc  
 riscv                          rv32_defconfig   gcc  
 s390                             allmodconfig   gcc  
 s390                              allnoconfig   gcc  
 s390                             allyesconfig   gcc  
 s390                                defconfig   gcc  
-s390                  randconfig-001-20230926   gcc  
 s390                  randconfig-001-20230927   gcc  
 sh                               allmodconfig   gcc  
 sh                                allnoconfig   gcc  
