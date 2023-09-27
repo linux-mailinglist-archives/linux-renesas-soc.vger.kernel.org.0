@@ -2,39 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0617B0363
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 13:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D1597B0367
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 13:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231478AbjI0L5l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Sep 2023 07:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        id S230268AbjI0L6Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Sep 2023 07:58:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230496AbjI0L5k (ORCPT
+        with ESMTP id S230496AbjI0L6Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Sep 2023 07:57:40 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B3612A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:57:37 -0700 (PDT)
+        Wed, 27 Sep 2023 07:58:24 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D37BC180
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Sep 2023 04:58:22 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:cafc:ec85:941b:7b06])
-        by baptiste.telenet-ops.be with bizsmtp
-        id qzxX2A00C56e2kz01zxXl8; Wed, 27 Sep 2023 13:57:33 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id qzyL2A00D56e2kz06zyLYr; Wed, 27 Sep 2023 13:58:20 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qlTAB-004iu2-8k;
-        Wed, 27 Sep 2023 13:57:31 +0200
+        id 1qlTAx-004iu8-Re;
+        Wed, 27 Sep 2023 13:58:20 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qlTAZ-000sTe-My;
-        Wed, 27 Sep 2023 13:57:31 +0200
+        id 1qlTBM-000sW0-93;
+        Wed, 27 Sep 2023 13:58:20 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v6.6-rc3
-Date:   Wed, 27 Sep 2023 13:57:25 +0200
-Message-Id: <401e68aa456557c9e1f4d2841ae7601686699974.1695815769.git.geert+renesas@glider.be>
+Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.6-rc3
+Date:   Wed, 27 Sep 2023 13:58:19 +0200
+Message-Id: <deff2f201f0c47e35aa324a1a973427b80d0839b.1695815858.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,29 +46,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Refresh the defconfig for Renesas ARM64 systems:
+
+  - Enable CONFIG_DRM_FBDEV_EMULATION and CONFIG_FB_DEVICE (no longer
+    auto-enabled since commit bb6c4507fe825f1b ("drm: fix up fbdev
+    Kconfig defaults")),
   - Drop CONFIG_FRAMEBUFFER_CONSOLE=y (auto-enabled since commit
     bb6c4507fe825f1b ("drm: fix up fbdev Kconfig defaults")).
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be combined with commit ccae076b74e58b98 ("ARM: shmobile: defconfig:
-Refresh for v6.6-rc1") in renesas-devel/renesas-arm-defconfig-for-v6.7.
+Not intended for upstream merge.
+To be applied to the topic/renesas-defconfig branch.
 ---
- arch/arm/configs/shmobile_defconfig | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm64/configs/renesas_defconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index bd975d105687be39..dfdea295c4affcfe 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -148,7 +148,6 @@ CONFIG_FB=y
- CONFIG_FB_SH_MOBILE_LCDC=y
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index 78d5d35ae9a12d6e..46af31ce514c404a 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -262,6 +262,7 @@ CONFIG_VIDEO_ADV7604_CEC=y
+ # CONFIG_MEDIA_TUNER_XC4000 is not set
+ # CONFIG_MEDIA_TUNER_XC5000 is not set
+ CONFIG_DRM=y
++CONFIG_DRM_FBDEV_EMULATION=y
+ CONFIG_DRM_I2C_NXP_TDA998X=y
+ CONFIG_DRM_RCAR_DU=y
+ CONFIG_DRM_RCAR_DW_HDMI=y
+@@ -276,9 +277,9 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
+ CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
+ CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
+ CONFIG_DRM_DW_HDMI_CEC=y
++CONFIG_FB_DEVICE=y
+ CONFIG_BACKLIGHT_CLASS_DEVICE=y
  CONFIG_BACKLIGHT_PWM=y
- CONFIG_BACKLIGHT_AS3711=y
 -CONFIG_FRAMEBUFFER_CONSOLE=y
- CONFIG_SOUND=y
- CONFIG_SND=y
- CONFIG_SND_SOC=y
+ CONFIG_LOGO=y
+ # CONFIG_LOGO_LINUX_MONO is not set
+ # CONFIG_LOGO_LINUX_VGA16 is not set
 -- 
 2.34.1
 
