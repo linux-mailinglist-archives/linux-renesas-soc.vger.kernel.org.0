@@ -2,392 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C1BF7AF6D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 01:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81BB87AF7B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Sep 2023 03:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232675AbjIZXnz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Sep 2023 19:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
+        id S232278AbjI0B3I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Sep 2023 21:29:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbjIZXlz (ORCPT
+        with ESMTP id S231183AbjI0B1I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Sep 2023 19:41:55 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A26876B3;
-        Tue, 26 Sep 2023 15:57:09 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,178,1694703600"; 
-   d="scan'208";a="181059348"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Sep 2023 06:08:35 +0900
-Received: from mulinux.home (unknown [10.226.92.200])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B3D8C40B91B6;
-        Wed, 27 Sep 2023 06:08:31 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-spi@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] spi: rzv2m-csi: Add Slave mode support
-Date:   Tue, 26 Sep 2023 22:08:18 +0100
-Message-Id: <20230926210818.197356-3-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
-References: <20230926210818.197356-1-fabrizio.castro.jz@renesas.com>
+        Tue, 26 Sep 2023 21:27:08 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5CE6A63;
+        Tue, 26 Sep 2023 17:35:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I/OgVtZFGQtUmssSVmUcmxkfBuI5CQbWh+6iL+N4G7B46SaXHJMwQL1gEsPi1Qcb55aF3MI9v7hQnuk2k/+nIg4722SXjNe8gbvBHner4ApEWl3tPuWAeWrwcIiJMZZnwdfRH8Ao5jcNBe4xKeSt7giEzXT0OE2RGAm3Q29foPQWxlmRNAqfPpBl7FNVpBV5GASX8513+0k/h1HCwUQqb7R6l5GUMGc5KeXwsFngN5F3JxqSALjXyQaN536dXXwk8uLtlCaouOtiVS3h/fuywdyiB00JtypFdcpPcSooQIFFgjBtvamv/hCKZl0bHLiBWAQ0Jn//nIjtFlcAQwaxYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1etfFcOTBWIzg9+FNqbT4Z7UuaAJWLuS/w4peVHoDbk=;
+ b=dCvAmywyPn+5CEFj7UfKSPBQ0YcDW02vdN5Tgjk/yfPeKI155472Yu8u8q17vxsR2SiEHEq7OiQb+6Xp0NtFhjMSK3lauAUJvqLein4zllPktvMeD5KnO+wLYLpRVlyhJebl1uTKs/38gT2wezWelmBW+xxEeO3CALk6gQ+mXFwzmEFAVQDqHMkUNkJ0p6iE7pmGpknV/IahzLCleGj1uPBaPd4md+sd6gVNrp7nrlxWHMRyrfIrgmYYQa1SzOpaFGLH3som4ZRyC1Uf7l2z1QowNFy2bbDiIjKluSUji+qkPz+ijFm4Tj+3vrA/pANyspIA61fVRp2BQjFVI6gQ2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1etfFcOTBWIzg9+FNqbT4Z7UuaAJWLuS/w4peVHoDbk=;
+ b=g+xK/zF2KeZqn9YzFSfwKg9FZXPY9MR8NpHAsVwRLt35gvhWsL9LBSSdPDtHYyJI+twTIiYNvJVNADxEBgckS0C2mWwtH/tueelQbT+usHWw2HpFLcC9fYQrVc2fM/rYKN505zOcicrzPpuN50EbjQBWLkK90ZYQCVKcyOt7flQ=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by OS7PR01MB11388.jpnprd01.prod.outlook.com
+ (2603:1096:604:246::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Wed, 27 Sep
+ 2023 00:35:23 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::1dc4:e923:9916:c0f7]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::1dc4:e923:9916:c0f7%6]) with mapi id 15.20.6813.027; Wed, 27 Sep 2023
+ 00:35:23 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: RE: [PATCH net] net: ethernet: renesas: rswitch Fix PHY station
+ management clock setting
+Thread-Topic: [PATCH net] net: ethernet: renesas: rswitch Fix PHY station
+ management clock setting
+Thread-Index: AQHZ70gLPZK+4KBkgE+5y4WMpBuX/7Arl4+AgAEbrPCAAF12gIAAv34Q
+Date:   Wed, 27 Sep 2023 00:35:23 +0000
+Message-ID: <TYBPR01MB53419F7AFFF80FAB49C4F92BD8C2A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20230925003416.3863560-1-yoshihiro.shimoda.uh@renesas.com>
+ <7156d89e-ef72-487f-b7ce-b08be461ec1c@lunn.ch>
+ <TYBPR01MB534186322164085E74430B4BD8C3A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <496825ea-8d78-47b7-b4c7-f74874ca278c@lunn.ch>
+In-Reply-To: <496825ea-8d78-47b7-b4c7-f74874ca278c@lunn.ch>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OS7PR01MB11388:EE_
+x-ms-office365-filtering-correlation-id: e3fc1a27-a298-4654-a9fb-08dbbef1a305
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cSvo+Ehh4OrJwqfHStgAJRMTu1LRWyJT8Cd8HYJrfM8f2jAHGKmHORJIDtR/bBCzuyUVLCxF3FoIAdWhqJDToFP8P2r0OV5BLvR/MSitq/s+r2nid1eyeo5coOr693qH6qPT8+48222GO7mjs/MyB+EOTmMHBfIFv6FZZjlZSonTxgUgo0NSmOKDBttin40nKSWEJiexX85f01O/sfVkzqixqv4+gXAlm9WiHP1QyCpMXo0TpaaTYmNUH0Zcef2DExmg+gNxMDHpIiUf9j4SHwkFGU9KfDuWrV2Rb3QvY13S4LCJgQ3JKrdlNf8lOdLanu/ZwWj3xn8oDSN24Jb+rnNdn1JYyM6JQHnQ72Toq31q1vndYcZ2TMimZ9d6KdvxcxhwLTRrJPhPA1e1HUn3WUEvstPH3/NV4VhynxQ7dwrvPB0UWJ0VS97J4eQgQXb/P1h3G/GmFpPDLC93TzhtOPRgKriLvklyeSpy6OIPrzAQv3kmOlLdGlwb/pOiMSDM8HfVJcqyFpY2rYDi6SC2FMXSuUDFjlO5fGnCScabqykodoc2AViIxCWMLaYR3x60zLg24pg+Q6CRTCQOL1KJysehL2/GrRUzqFsQF3pkhf0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(366004)(376002)(396003)(230922051799003)(186009)(1800799009)(451199024)(38070700005)(122000001)(33656002)(86362001)(38100700002)(55016003)(52536014)(5660300002)(2906002)(478600001)(316002)(41300700001)(66476007)(76116006)(9686003)(66446008)(6916009)(66946007)(64756008)(54906003)(7696005)(66556008)(71200400001)(6506007)(107886003)(966005)(4326008)(8676002)(8936002)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?R5l8Sj8CmBVhbAQ1PaJy8uf7sBjnccNsoMgyFHEhBnjkAO3fMM+/Jy3BUJrg?=
+ =?us-ascii?Q?KXtsQgOH3mwnfZL9I1ER6CeldAKQIh8DPCgFpHucEVyZ99lrAJdIdd/BEONP?=
+ =?us-ascii?Q?8WKdxwJ6S8233fbx5EpcZUZgDNr3uA3k1VzaGM2Pt8IsfbBECVEkV6226/xk?=
+ =?us-ascii?Q?Go6x7tdXT3YDMaoP4o5AV+beBxxl+82vXOSWUrgLIIHm1uOS6NcOteceiMGk?=
+ =?us-ascii?Q?WTLCjyYWrGLHLorpy0bWJWlLKKj5Y1LYoKkpI/+No5AhVH//+z1JizffGHya?=
+ =?us-ascii?Q?WBiOGitJi2OcsFT+L4iFAIKiKrECw0x4A/cLZOhYfMwbZSk4eQgrIm8fVkOv?=
+ =?us-ascii?Q?H+XSf9jTItJeNMyuLz4MmB8vRwnZJIE35AAU+xeTbDff/vydgYIgt9+9HpkC?=
+ =?us-ascii?Q?Olz8rnNNA58yqD2QIzWpF1LCNUaRSn6Av97/TiVNkg58voITF6TK9bkl957a?=
+ =?us-ascii?Q?fIQ5HmMUHdJgxH1WIKN/mWSZn0fPbS/7szCnhJrdCOfrCh7dun57qjMt4SZL?=
+ =?us-ascii?Q?kIUAqFz+vilXVEKC9XA3fMF5DF0gSPWJwFewDFaIRTXgnPDBjTBSeFN3DCTI?=
+ =?us-ascii?Q?6r8/51rzoeTc4Te4h+6jgQ1Cc0lup2vgOEgUbLU8bnwGYBpDS0FUdys6cgqh?=
+ =?us-ascii?Q?qpgNOEKF4gnUIlyITWZ5G8+fqIj47qmgWN+SoQNqPzOusPghcAAe//wfsI6w?=
+ =?us-ascii?Q?Xz1I7Uf+0HzgdPciOfo6meDFBuc5nmW/O6/RCGZQ0EEujdzCwX5tAiQhtM1I?=
+ =?us-ascii?Q?Hji+dKeOGnz3dFS7ZqsHlxwS5W60psqeHpoYoIegeYiTBZODuCyshp/soSUH?=
+ =?us-ascii?Q?beOLJW7Xm7AE9Q7/ZNPKnDdWovSSEiMAWjiJpQXDGEqudk/OFxBY7C94ra3v?=
+ =?us-ascii?Q?U+pu/QsMD38s9/cOEAHzJ0CvcjuGunHUgyVqY0M+VaB6ktS87kWS4N+/5vYL?=
+ =?us-ascii?Q?UrnOopWGTM1VH84sN0Vrgmcg/dhXYPk9cdTWgug8uEhrkSBYGUohyeLjCgsT?=
+ =?us-ascii?Q?4FiA+FcAwFP74kpMneDnUJowc1io8YTSRLD3Goyxh5LHyP5EERBwjYj2pX+V?=
+ =?us-ascii?Q?aI0pKLHrRin9egXfvEclPgfkbrcdMWJEpNmxKcyT8TE2q3NDNC904G1Azznw?=
+ =?us-ascii?Q?mGamVz0cZ47ueTQmamep7uaZOS60uiA8SKbV86auSboFpAng5/W3daJtQm71?=
+ =?us-ascii?Q?H6QckvChGhWII8RpggGMzdF+Oy28uUVKaNqczArRaosNRuKuIIo/PHbgoaaQ?=
+ =?us-ascii?Q?RSSQrCmA/z+pDxIT1px33IMMSydx797pfqBoKLlC1rh6DwV7jnMjoRg1QSLE?=
+ =?us-ascii?Q?2kyhGXmqprrYUGBeCVj3podMkYeGSWC9hT4IJB+G9h62PoUQv4mBm/EAZECl?=
+ =?us-ascii?Q?tDnglMN++igx5w1H0EdhTrPNLZg0s5hjqSA3w2hhMj+AEehyKUDbrWwLq0uS?=
+ =?us-ascii?Q?e9EntQISpIlXU+mIceaQnyOK/JI+KrR7wCNRu8IfTZJhn3VuvfyLUd2QIKSI?=
+ =?us-ascii?Q?KU5n+ln/PUvW76IbU/HBOM7VM/tdhaDedq8yi2Pb/CI6hTp9qPQHzXmPRs+x?=
+ =?us-ascii?Q?ghSl0QOfVXCPHxWSE+7bqK5UfbtvsOG+S1cKMpx6iU3xos5zIdAImTY/gGc5?=
+ =?us-ascii?Q?F6k4vDRBYLLoO+chcY2ingm35oQxANfjKEyBboePHZ9fNz6n8u3nobpWE6Gu?=
+ =?us-ascii?Q?QWHqpA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3fc1a27-a298-4654-a9fb-08dbbef1a305
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2023 00:35:23.3930
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CnXq6qq+Zu/dH/lS8nNl/peETNRH6f2DxHF3Z1uka/hHbFCu3Q3GYRAaascBejwT9+lDx9a6f0gSDqvnSGvXftMRDO10McccpPRNUNkE2Mfy4DGw5twG+ITrTbiccgvg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11388
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The CSI IP found inside the Renesas RZ/V2M SoC supports
-both SPI Master and SPI Slave roles.
+Hello Andrew,
 
-When working in slave mode, the CSI IP has the option
-of using its Slave Select (SS) pin to enable TX and RX
-operations. Since the SPI slave cannot control the clock,
-when working as slave it's best not to stop operations
-during a transfer, as by doing so the IP will not send or
-receive data, regardless of clock and active level on pin SS.
-A side effect from not stopping operations is that the RX
-FIFO needs to be flushed, word by word, when RX data needs
-to be discarded.
+> From: Andrew Lunn, Sent: Tuesday, September 26, 2023 9:48 PM
+>=20
+> On Tue, Sep 26, 2023 at 07:21:59AM +0000, Yoshihiro Shimoda wrote:
+> > Hello Andrew,
+> >
+> > > From: Andrew Lunn, Sent: Monday, September 25, 2023 11:18 PM
+> > >
+> > > On Mon, Sep 25, 2023 at 09:34:16AM +0900, Yoshihiro Shimoda wrote:
+> > > > From: Tam Nguyen <tam.nguyen.xa@renesas.com>
+> > > >
+> > > > Fix the MPIC.PSMCS value following the programming example in the
+> > > > section 6.4.2 Management Data Clock (MDC) Setting, Ethernet MAC IP,
+> > > > S4 Hardware User Manual Rev.1.00.
+> > > >
+> > > > The value is calculated by
+> > > >     MPIC.PSMCS =3D clk[MHz] / ((MDC frequency[MHz] + 1) * 2)
+> > > > with the input clock frequency of 320MHz and MDC frequency of 2.5MH=
+z.
+> > > > Otherwise, this driver cannot communicate PHYs on the R-Car S4 Star=
+ter
+> > > > Kit board.
+> > >
+> > > If you run this calculation backwards, what frequency does
+> > > MPIC_PSMCS(0x3f) map to?
+> >
+> > Thank you for your review! I completely misunderstood the formula. In
+> > other words, the formula cannot calculate backwards. The correct
+> > formula is:
+> >
+> > MPIC.PSMCS =3D clk[MHz] / (MDC frequency[MHz] * 2) - 1
+> >
+> > > Is 320MHz really fixed? For all silicon variants? Is it possible to d=
+o
+> > > a clk_get_rate() on a clock to get the actual clock rate?
+> >
+> > 320MHz is really fixed on the current existing all silicon variants.
+> > Yes, it is possible to do a clk_get_rate() on a clock to get the actual
+> > clock rate. So, I'll use clk_get_rate() on v2.
+>=20
+> Was the original version tested?
 
-Finally, when in slave mode timings are tighter, as missing a
-deadline translates to errors being thrown, resulting in
-aborting the transfer. In order to speed things up, we can
-avoid waiting for the TX FIFO to be empty, we can just wait
-for the RX FIFO to contain at least the number of words that
-we expect.
+Yes, the original version was tested on Spider board.
+The original version's MDC frequency was 25MHz.
+And the PHY (Marvell 88E2110) on Spider board can use such frequency,
+IIUC because the MDC period is 35 ns (so 28.57143MHz).
 
-Add slave support to the currently existing CSI driver.
+However, I don't know why this setting cannot work on the Starter Kit board
+because the board also has the same PHY. I guess that this is related to
+board design, especially voltage of I/O (Spider =3D 1.8V, Starter Kit =3D 3=
+.3V).
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
- drivers/spi/Kconfig         |   4 +-
- drivers/spi/spi-rzv2m-csi.c | 137 +++++++++++++++++++++++++-----------
- 2 files changed, 97 insertions(+), 44 deletions(-)
+Anyway, changing the MDC frequency from 25MHz to 2.5MHz works correctly on
+both Spider and Starter Kit. So, I would like to apply the v3 patch [1] for=
+ safe.
 
-diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
-index 2c21d5b96fdc..2c657df3e304 100644
---- a/drivers/spi/Kconfig
-+++ b/drivers/spi/Kconfig
-@@ -861,8 +861,10 @@ config SPI_RSPI
- config SPI_RZV2M_CSI
- 	tristate "Renesas RZ/V2M CSI controller"
- 	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on SPI_SLAVE
- 	help
--	  SPI driver for Renesas RZ/V2M Clocked Serial Interface (CSI)
-+	  SPI driver for Renesas RZ/V2M Clocked Serial Interface (CSI).
-+	  CSI supports master and slave roles.
- 
- config SPI_QCOM_QSPI
- 	tristate "QTI QSPI controller"
-diff --git a/drivers/spi/spi-rzv2m-csi.c b/drivers/spi/spi-rzv2m-csi.c
-index d0f51b17aa7c..c700a9922402 100644
---- a/drivers/spi/spi-rzv2m-csi.c
-+++ b/drivers/spi/spi-rzv2m-csi.c
-@@ -11,6 +11,7 @@
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
- #include <linux/log2.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
- #include <linux/reset.h>
-@@ -38,6 +39,9 @@
- #define CSI_MODE_SETUP		0x00000040
- 
- /* CSI_CLKSEL */
-+#define CSI_CLKSEL_SS_ENA	BIT(19)
-+#define CSI_CLKSEL_SS_POL	BIT(18)
-+#define CSI_CLKSEL_SS		(CSI_CLKSEL_SS_ENA | CSI_CLKSEL_SS_POL)
- #define CSI_CLKSEL_CKP		BIT(17)
- #define CSI_CLKSEL_DAP		BIT(16)
- #define CSI_CLKSEL_MODE		(CSI_CLKSEL_CKP|CSI_CLKSEL_DAP)
-@@ -82,6 +86,15 @@
- 
- #define CSI_MAX_SPI_SCKO	(8 * HZ_PER_MHZ)
- 
-+#define CSI_CLKSEL_SS_DISABLED			0
-+#define CSI_CLKSEL_SS_ENABLED_ACTIVE_LOW	BIT(1)
-+#define CSI_CLKSEL_SS_ENABLED_ACTIVE_HIGH	GENMASK(1, 0)
-+
-+enum {
-+	RZV2M_CSI_SPI_MASTER,
-+	RZV2M_CSI_SPI_SLAVE,
-+};
-+
- struct rzv2m_csi_priv {
- 	void __iomem *base;
- 	struct clk *csiclk;
-@@ -99,6 +112,9 @@ struct rzv2m_csi_priv {
- 	wait_queue_head_t wait;
- 	u32 errors;
- 	u32 status;
-+	int mode;
-+	int slave_select;
-+	bool slave_aborted;
- };
- 
- static void rzv2m_csi_reg_write_bit(const struct rzv2m_csi_priv *csi,
-@@ -193,6 +209,14 @@ static int rzv2m_csi_read_rxfifo(struct rzv2m_csi_priv *csi)
- 	return 0;
- }
- 
-+static inline void rzv2m_csi_empty_rxfifo(struct rzv2m_csi_priv *csi)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < csi->words_to_transfer; i++)
-+		readl(csi->base + CSI_IFIFO);
-+}
-+
- static inline void rzv2m_csi_calc_current_transfer(struct rzv2m_csi_priv *csi)
- {
- 	unsigned int bytes_transferred = max(csi->bytes_received, csi->bytes_sent);
-@@ -279,32 +303,23 @@ static int rzv2m_csi_wait_for_interrupt(struct rzv2m_csi_priv *csi,
- 
- 	rzv2m_csi_enable_irqs(csi, enable_bits);
- 
--	ret = wait_event_timeout(csi->wait,
--				 ((csi->status & wait_mask) == wait_mask) ||
--				 csi->errors, HZ);
-+	if (csi->mode == RZV2M_CSI_SPI_SLAVE) {
-+		ret = wait_event_interruptible(csi->wait,
-+				((csi->status & wait_mask) == wait_mask) ||
-+				csi->errors || csi->slave_aborted);
-+		if (ret || csi->slave_aborted)
-+			ret = -EINTR;
-+	} else {
-+		ret = wait_event_timeout(csi->wait,
-+				((csi->status & wait_mask) == wait_mask) ||
-+				csi->errors, HZ) == 0 ? -ETIMEDOUT : 0;
-+	}
- 
- 	rzv2m_csi_disable_irqs(csi, enable_bits);
- 
- 	if (csi->errors)
- 		return -EIO;
- 
--	if (!ret)
--		return -ETIMEDOUT;
--
--	return 0;
--}
--
--static int rzv2m_csi_wait_for_tx_empty(struct rzv2m_csi_priv *csi)
--{
--	int ret;
--
--	if (readl(csi->base + CSI_OFIFOL) == 0)
--		return 0;
--
--	ret = rzv2m_csi_wait_for_interrupt(csi, CSI_INT_TREND, CSI_CNT_TREND_E);
--	if (ret == -ETIMEDOUT)
--		csi->errors |= TX_TIMEOUT_ERROR;
--
- 	return ret;
- }
- 
-@@ -312,7 +327,7 @@ static inline int rzv2m_csi_wait_for_rx_ready(struct rzv2m_csi_priv *csi)
- {
- 	int ret;
- 
--	if (readl(csi->base + CSI_IFIFOL) == csi->bytes_to_transfer)
-+	if (readl(csi->base + CSI_IFIFOL) >= csi->bytes_to_transfer)
- 		return 0;
- 
- 	ret = rzv2m_csi_wait_for_interrupt(csi, CSI_INT_R_TRGR,
-@@ -402,8 +417,14 @@ static int rzv2m_csi_setup(struct spi_device *spi)
- 	rzv2m_csi_reg_write_bit(csi, CSI_MODE, CSI_MODE_DIR,
- 				!!(spi->mode & SPI_LSB_FIRST));
- 
--	/* Set the operation mode as master */
--	rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_SLAVE, 0);
-+	/* Set the role, 1 for slave and 0 for master */
-+	rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_SLAVE,
-+				csi->mode == RZV2M_CSI_SPI_SLAVE);
-+
-+	if (csi->mode == RZV2M_CSI_SPI_SLAVE)
-+		/* Configure the slave select pin */
-+		rzv2m_csi_reg_write_bit(csi, CSI_CLKSEL, CSI_CLKSEL_SS,
-+					csi->slave_select);
- 
- 	/* Give the IP a SW reset */
- 	ret = rzv2m_csi_sw_reset(csi, 1);
-@@ -431,9 +452,13 @@ static int rzv2m_csi_pio_transfer(struct rzv2m_csi_priv *csi)
- 	/* Make sure the TX FIFO is empty */
- 	writel(0, csi->base + CSI_OFIFOL);
- 
-+	/* Make sure the RX FIFO is empty */
-+	writel(0, csi->base + CSI_IFIFOL);
-+
- 	csi->bytes_sent = 0;
- 	csi->bytes_received = 0;
- 	csi->errors = 0;
-+	csi->slave_aborted = false;
- 
- 	rzv2m_csi_disable_all_irqs(csi);
- 	rzv2m_csi_clear_all_irqs(csi);
-@@ -452,28 +477,21 @@ static int rzv2m_csi_pio_transfer(struct rzv2m_csi_priv *csi)
- 
- 		rzv2m_csi_enable_irqs(csi, CSI_INT_OVERF | CSI_INT_UNDER);
- 
--		/* Make sure the RX FIFO is empty */
--		writel(0, csi->base + CSI_IFIFOL);
--
- 		writel(readl(csi->base + CSI_INT), csi->base + CSI_INT);
- 		csi->status = 0;
- 
--		rzv2m_csi_start_stop_operation(csi, 1, false);
--
- 		/* TX */
- 		if (csi->txbuf) {
- 			ret = rzv2m_csi_fill_txfifo(csi);
- 			if (ret)
- 				break;
- 
--			ret = rzv2m_csi_wait_for_tx_empty(csi);
--			if (ret)
--				break;
--
- 			if (csi->bytes_sent == csi->buffer_len)
- 				tx_completed = true;
- 		}
- 
-+		rzv2m_csi_start_stop_operation(csi, 1, false);
-+
- 		/*
- 		 * Make sure the RX FIFO contains the desired number of words.
- 		 * We then either flush its content, or we copy it onto
-@@ -483,31 +501,28 @@ static int rzv2m_csi_pio_transfer(struct rzv2m_csi_priv *csi)
- 		if (ret)
- 			break;
- 
--		/* RX */
--		if (csi->rxbuf) {
-+		if (csi->mode == RZV2M_CSI_SPI_MASTER)
- 			rzv2m_csi_start_stop_operation(csi, 0, false);
- 
-+		/* RX */
-+		if (csi->rxbuf) {
- 			ret = rzv2m_csi_read_rxfifo(csi);
- 			if (ret)
- 				break;
- 
- 			if (csi->bytes_received == csi->buffer_len)
- 				rx_completed = true;
-+		} else {
-+			rzv2m_csi_empty_rxfifo(csi);
- 		}
- 
--		ret = rzv2m_csi_start_stop_operation(csi, 0, true);
--		if (ret)
--			goto pio_quit;
--
- 		if (csi->errors) {
- 			ret = -EIO;
--			goto pio_quit;
-+			break;
- 		}
- 	}
- 
- 	rzv2m_csi_start_stop_operation(csi, 0, true);
--
--pio_quit:
- 	rzv2m_csi_disable_all_irqs(csi);
- 	rzv2m_csi_enable_rx_trigger(csi, false);
- 	rzv2m_csi_clear_all_irqs(csi);
-@@ -529,7 +544,8 @@ static int rzv2m_csi_transfer_one(struct spi_controller *controller,
- 
- 	rzv2m_csi_setup_operating_mode(csi, transfer);
- 
--	rzv2m_csi_setup_clock(csi, transfer->speed_hz);
-+	if (csi->mode == RZV2M_CSI_SPI_MASTER)
-+		rzv2m_csi_setup_clock(csi, transfer->speed_hz);
- 
- 	ret = rzv2m_csi_pio_transfer(csi);
- 	if (ret) {
-@@ -546,24 +562,58 @@ static int rzv2m_csi_transfer_one(struct spi_controller *controller,
- 	return ret;
- }
- 
-+static int rzv2m_csi_slave_abort(struct spi_controller *ctlr)
-+{
-+	struct rzv2m_csi_priv *csi = spi_controller_get_devdata(ctlr);
-+
-+	csi->slave_aborted = true;
-+	wake_up(&csi->wait);
-+
-+	return 0;
-+}
-+
- static int rzv2m_csi_probe(struct platform_device *pdev)
- {
-+	struct device_node *np = pdev->dev.of_node;
- 	struct spi_controller *controller;
- 	struct device *dev = &pdev->dev;
- 	struct rzv2m_csi_priv *csi;
- 	struct reset_control *rstc;
-+	int mode;
- 	int irq;
- 	int ret;
- 
--	controller = devm_spi_alloc_host(dev, sizeof(*csi));
-+	mode = of_property_read_bool(np, "spi-slave") ? RZV2M_CSI_SPI_SLAVE :
-+							RZV2M_CSI_SPI_MASTER;
-+
-+	if (mode == RZV2M_CSI_SPI_MASTER)
-+		controller = devm_spi_alloc_host(dev, sizeof(*csi));
-+	else
-+		controller = devm_spi_alloc_target(dev, sizeof(*csi));
-+
- 	if (!controller)
- 		return -ENOMEM;
- 
- 	csi = spi_controller_get_devdata(controller);
- 	platform_set_drvdata(pdev, csi);
- 
-+	if (mode == RZV2M_CSI_SPI_SLAVE) {
-+		if (of_property_read_bool(np, "renesas,csi-ss")) {
-+			if (of_property_read_bool(np, "renesas,csi-ss-high"))
-+				csi->slave_select =
-+					CSI_CLKSEL_SS_ENABLED_ACTIVE_HIGH;
-+			else
-+				csi->slave_select =
-+					CSI_CLKSEL_SS_ENABLED_ACTIVE_LOW;
-+		} else {
-+			csi->slave_select = CSI_CLKSEL_SS_DISABLED;
-+		}
-+	}
-+
- 	csi->dev = dev;
- 	csi->controller = controller;
-+	csi->mode = mode;
-+	csi->slave_aborted = false;
- 
- 	csi->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(csi->base))
-@@ -594,6 +644,7 @@ static int rzv2m_csi_probe(struct platform_device *pdev)
- 	controller->setup = rzv2m_csi_setup;
- 	controller->transfer_one = rzv2m_csi_transfer_one;
- 	controller->use_gpio_descriptors = true;
-+	controller->slave_abort = rzv2m_csi_slave_abort;
- 
- 	device_set_node(&controller->dev, dev_fwnode(dev));
- 
--- 
-2.34.1
+[1] https://lore.kernel.org/all/20230926123054.3976752-1-yoshihiro.shimoda.=
+uh@renesas.com/
+
+> I've run Marvell PHYs are 5Mhz, sometimes 6MHz. This is within spec as
+> given by the datasheet, even if IEEE 802.3 says 2.5Mhz is the max.
+>=20
+> Now if MPIC_PSMCS(0x3f) maps to 20MHz or more, it could never of
+> worked, which makes me think the clock has changed. If it maps to
+> 6Mhz, yes it could of worked with some PHY but not others, and the
+> clock might not of changed.
+
+I'm sorry for lacking information. MPIC_PSMCS(0x3f) maps to 2.5MHz.
+
+Best regards,
+Yoshihiro Shimoda
+
+>       Andrew
 
