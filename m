@@ -2,179 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1D17B1383
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Sep 2023 09:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6BB7B14C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Sep 2023 09:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbjI1HFa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Sep 2023 03:05:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41716 "EHLO
+        id S230450AbjI1HZs convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Sep 2023 03:25:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbjI1HF3 (ORCPT
+        with ESMTP id S229835AbjI1HZr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Sep 2023 03:05:29 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F27C1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 00:05:25 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-3231df68584so8521061f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 00:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695884723; x=1696489523; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JK5FKcmSKFk/poFkH6WaIiPHJq3+6nK77MGlhBlv5xc=;
-        b=eMabU90bnM4dFTt5f8JHuzgfBY/en3tQqKF4Kyc1cADJDDJyL/JlrMz6oDwWn4w0n1
-         KvmDxZSpD3c8I2zwFi4kb1IgaLIkYod90qxoriKKlmIAFeVFRmu0ZLR4L4goNGCH0uwg
-         FNkT6/RjOx6tua2r4wJzKDXFn8avoK8jQhkRxQGAAfP2YqQ96G9CT0vA9FOvAD5fwrcL
-         DJn1rJWcRSkY5w+YLdmqtZRTM1qbpU3klvi9UwZBY87CW+AJMt/3ABHiKC6jt9a+0L9P
-         5d5LbrEyTRGp2IQ7jmWZ/QYJjSCCZOkQ8AmqiFHPnzxrAu6Li0E3pc/nU4313SerGrfH
-         un8g==
+        Thu, 28 Sep 2023 03:25:47 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2976191;
+        Thu, 28 Sep 2023 00:25:46 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a1d0fee86aso85654267b3.2;
+        Thu, 28 Sep 2023 00:25:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695884723; x=1696489523;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JK5FKcmSKFk/poFkH6WaIiPHJq3+6nK77MGlhBlv5xc=;
-        b=LPyqGiORjWdr9TZiny1PQbe+SohDfyCm/fPxTEROIdUGKW7w6khI9qmrPvPEJ4cRcK
-         fAyuSRuRasxjYZ0O8R5zF5PMrLvHlAwwdjb248iqaHqoffmyhMxE4A9h+jK3OOemxHYB
-         vN8Qddccw2dsgiPS1gWmDy/iUiMgMW6jmEYL1FGAk/jG2ssN6ARlCBRLQ98Sh5UUup3o
-         sZdnGeovI5bzJ9cnrNPVS1qpNwJttFCuWf40UNLPEHYXYTdvy8j+RSRLQ5ywO1rDkcqb
-         pJ7QZgiImxyNnZ2O+oyoszRs5hhLY0xZ/f/iqLqJsiSaH1tXwuTXHq2gmOBQWMo+lmJ1
-         bLKg==
-X-Gm-Message-State: AOJu0YwXKVwPayXpaHzXwG6jQfNDzg6rv6gpW6lFfU6UzrAVuVCP+TNu
-        eJg6hPHNfghz/ehnBE293MOA8Q==
-X-Google-Smtp-Source: AGHT+IHtRxKk7CXcPNdMQTTEBVfCDemBFx4pebeQoAgF8nP7IxdEu3s1ozmEdmztrqIM2F97b6iYUw==
-X-Received: by 2002:a5d:5b17:0:b0:31f:a4fa:130a with SMTP id bx23-20020a5d5b17000000b0031fa4fa130amr465227wrb.14.1695884723076;
-        Thu, 28 Sep 2023 00:05:23 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:c49e:e1a5:3210:b8c0? ([2a05:6e02:1041:c10:c49e:e1a5:3210:b8c0])
-        by smtp.googlemail.com with ESMTPSA id bv19-20020a0560001f1300b0032327b70ef6sm10037825wrb.70.2023.09.28.00.05.20
+        d=1e100.net; s=20230601; t=1695885945; x=1696490745;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KNbZ0GOeHkYYiVV5+YvtOG1e74ZHGZHYw1MLYvYebes=;
+        b=gNpKxKBda7Qg5s0g1UTxpJA50ha26PQkLEj3MPqfYXzmGa8DRgRTrryBO20Qo3OSzv
+         MAhKp/mmbZXGhmtsN1FfIpBLdeNq/XIA4fOd6E0CGTtptdQTCYhA3P6YF/9VjM3Sh8ep
+         ZxV9m8pmDv3MmhBOJbN1sDt67x03J1OfhoCQTBSdEeZuENvoFHPqnTlMAJPuSOLZKAJt
+         qhcgMi3Pec4k7dXP33g1E/6pODFKu1Q8a2+y246RvrBngJhm6LxgslrSysvXtkwlpft1
+         mIjkWa3jJ/6Bin2JK2BSSJt4/n6SVePYUdsyoM3my8c4vAt+A8UOoqy5Np7PunfZimP+
+         47AA==
+X-Gm-Message-State: AOJu0YwCOvPHWtcs3eUmejUEO/1kUWyiDf9aP7L4yMrxeSV9iTF1mdJQ
+        1RkdXcJCG5BzVI+abOz1Uxu8BYcXFS0lDQ==
+X-Google-Smtp-Source: AGHT+IGrmBU+7AoECLKdMIYd73ANdOaOLfv9+EjNr3nmhqkwKhIk/37u7sruVa6WtrIK2K7CG2savw==
+X-Received: by 2002:a0d:e841:0:b0:59e:afab:d5a5 with SMTP id r62-20020a0de841000000b0059eafabd5a5mr468421ywe.23.1695885945241;
+        Thu, 28 Sep 2023 00:25:45 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id n66-20020a817245000000b005704c4d3579sm4375612ywc.40.2023.09.28.00.25.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Sep 2023 00:05:22 -0700 (PDT)
-Message-ID: <d8515a00-4d41-2d23-09ca-30f474fcbabd@linaro.org>
-Date:   Thu, 28 Sep 2023 09:05:20 +0200
+        Thu, 28 Sep 2023 00:25:43 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59f7f2b1036so100479637b3.3;
+        Thu, 28 Sep 2023 00:25:42 -0700 (PDT)
+X-Received: by 2002:a0d:d041:0:b0:595:80e4:907d with SMTP id
+ s62-20020a0dd041000000b0059580e4907dmr367488ywd.32.1695885942137; Thu, 28 Sep
+ 2023 00:25:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 00/31] thermal: Convert to platform remove callback
- returning void
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Guillaume La Roque <glaroque@baylibre.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, kernel@pengutronix.de,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Balsam CHIHI <bchihi@baylibre.com>,
-        Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        Alexandre Mergnat <amergnat@baylibre.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Chen Jiahao <chenjiahao16@huawei.com>,
-        linux-mediatek@lists.infradead.org,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>, linux-omap@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>
-References: <20230927193736.2236447-1-u.kleine-koenig@pengutronix.de>
- <CAJZ5v0guyQ-SpNHXYBG2F_WyCSvgjXocGBy61Ep1Cy5-H-MOsQ@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <CAJZ5v0guyQ-SpNHXYBG2F_WyCSvgjXocGBy61Ep1Cy5-H-MOsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230912045157.177966-1-claudiu.beznea.uj@bp.renesas.com>
+ <20230912045157.177966-22-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWc6yy=oJDo4zMdvB-t8pjCuE1oJ_Y6Ck0aX_hPkfhPug@mail.gmail.com> <154b823e-d532-ede7-5ada-08436ec86804@tuxon.dev>
+In-Reply-To: <154b823e-d532-ede7-5ada-08436ec86804@tuxon.dev>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 28 Sep 2023 09:25:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVGWNHxjh6o9bWiuLfbCTd41n232Q5p+onHrM5Urm-d2w@mail.gmail.com>
+Message-ID: <CAMuHMdVGWNHxjh6o9bWiuLfbCTd41n232Q5p+onHrM5Urm-d2w@mail.gmail.com>
+Subject: Re: [PATCH 21/37] dt-bindings: clock: add r9a08g045 CPG clocks and
+ resets definitions
+To:     claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, quic_bjorande@quicinc.com,
+        arnd@arndb.de, konrad.dybcio@linaro.org, neil.armstrong@linaro.org,
+        nfraprado@collabora.com, rafal@milecki.pl,
+        wsa+renesas@sang-engineering.com,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 27/09/2023 21:45, Rafael J. Wysocki wrote:
-> Hi,
-> 
-> On Wed, Sep 27, 2023 at 9:38 PM Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> wrote:
->>
->> Hello,
->>
->> this series converts all platform drivers below drivers/thermal to use
->> .remove_new(). The motivation is to get rid of an integer return code
->> that is (mostly) ignored by the platform driver core and error prone on
->> the driver side.
->>
->> See commit 5c5a7680e67b ("platform: Provide a remove callback that
->> returns no value") for an extended explanation and the eventual goal.
->>
->> There are no interdependencies between the patches. As there are still
->> quite a few drivers to convert, I'm happy about every patch that makes
->> it in. So even if there is a merge conflict with one patch until you
->> apply or a subject prefix is suboptimal, please apply the remainder of
->> this series anyhow.
-> 
-> I think I'll go ahead and apply all of this in one go (for 6.7).
-> 
-> Daniel, any objections?
+Hi Claudiu,
 
-No objection, for the series:
+On Thu, Sep 28, 2023 at 6:54 AM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
+> On 15.09.2023 14:59, Geert Uytterhoeven wrote:
+> > On Tue, Sep 12, 2023 at 6:53 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> Add RZ/G3S (R9A08G045) Clock Pulse Generator (CPG) core clocks, module
+> >> clocks and resets.
+> >>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- /dev/null
+> >> +++ b/include/dt-bindings/clock/r9a08g045-cpg.h
+> >
+> >> +/* R9A08G045 Module Clocks */
+> >
+> >> +#define R9A08G045_USB_U2H0_HCLK                65
+> >> +#define R9A08G045_USB_U2H1_HCLK                66
+> >> +#define R9A08G045_USB_U2P_EXR_CPUCLK   67
+> >> +#define R9A08G045_USB_PCLK             68
+> >> +#define R9A08G045_USB_SCLK             69
+> >
+> > There is no USB_SCLK bit in CPG_CLKON_USB, so please drop
+> > R9A08G045_USB_SCLK.
+> >
+> >> +/* R9A08G045 Resets */
+> >
+> >> +#define R9A08G045_SRAM_ACPU_ARESETN0   11
+> >> +#define R9A08G045_SRAM_ACPU_ARESETN1   12
+> >> +#define R9A08G045_SRAM_ACPU_ARESETN2   13
+> >
+> > There is no SRAM_ACPU_ARESETN2 bit in CPG_RST_SRAM_MCPU,
+> > so please drop R9A08G045_SRAM_ACPU_ARESETN2.
+>
+> I see there is SRAM_ACPU_ARESETN2 in CPG_RST_SRAM_*A*CPU register. You are
+> actually saying that the documentation might be wrong?
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+My mistake, I looked at the wrong register.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
