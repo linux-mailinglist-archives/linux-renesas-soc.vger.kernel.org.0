@@ -2,75 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B1647B2135
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Sep 2023 17:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 910417B2138
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Sep 2023 17:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232012AbjI1P0l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Sep 2023 11:26:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
+        id S231722AbjI1P0n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Sep 2023 11:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232081AbjI1P0d (ORCPT
+        with ESMTP id S232236AbjI1P0j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Sep 2023 11:26:33 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F23C8C0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 08:26:31 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c123eed8b2so216333931fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 08:26:31 -0700 (PDT)
+        Thu, 28 Sep 2023 11:26:39 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BA7AC
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 08:26:37 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c5db4925f9so97444745ad.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 08:26:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1695914790; x=1696519590; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wjnmamWQno/bcoFgz+0JU8vY7BMIaTQGJGqwToyUNas=;
-        b=1uQ6oK8Fddlv0xbhfX7OP3l/U84VaoQSdlnioFAzQuTpv1Uki65+W6Sjx6rdF/Q2N/
-         cI1OZ8Cl8UgAM9oaStUtfdGtibaGBa2yjHv7LG/2b+KBEYJgWPu4GvmSK47cPaDQmnUX
-         EGGzAPaNI+F6ZKroOFeEYoOLh51+f7y9t6hIrapNeEVJ+y/dN5A8LSZ0nCW/5H2k8eKB
-         qfgCYEJhL0d7n9AW7sghWYWAlWvm3Rm1R0Sb+8ZpsL+YCLWpQk7UHIubKuJnOLwtpJ7A
-         BhUzAAuGpl+/Ao6RxQ10zTh8Q+DI8kPiQ8wL+Oxwq+Q37P4sNbvd9ptBaQ9WpL8GMREB
-         VSAA==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1695914797; x=1696519597; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=CyBACHD6DOaduPKJzxmkrZdupHGM0T09ubdIL/d1zLE=;
+        b=yKHkffVTgn7YcLa3pmpAhz/8kCZdP1cJMDGZ3uhwK5oW/kecVvF3DV3vZU0q9zk8+D
+         bJs4PVbXrqBhztYZUZgsAReRMn7KJnQUeJbF2SvGo4fG5evAdyQkzaBwRyYCV5NHbfK4
+         uIOhYKmb3GCFhSReBZd1phKQdrjoRyhz6bmpxslSChX0JwcRE9KAWEeN90Y49FM/nI7b
+         GunA7fFsLkFUivfqb6e/+fUKBei9aFqUXTP0r5qdQoTbMbQw/hhOuJrJRRR6i6kHNycu
+         oiAAkuuQGTq7IYS+ctU0KTmg4taiQnDD9q00N/GqikLjqypBaACxCtsarSgzA5w8i5gL
+         n1Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695914790; x=1696519590;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wjnmamWQno/bcoFgz+0JU8vY7BMIaTQGJGqwToyUNas=;
-        b=kklxCmLtdB/FGRFvTFlarj0PPjlqtPt1vv7QiCfurP7+eZF6v4KOHyn7l8fxV12C2M
-         Dvztd2IJF54PHvOSWnXxidBSJb6ripFjQqs6oqTIY5V7zoLq6nTPMWa+rUeiGiHie1wP
-         A7ql55MURDDaW/lH6Y4dB8RSqwav8jRb7oenXMIR2qUuGH1Oy/ZhY+bbBUJF0S+cq9do
-         Nm5rfRlswd3S/k98jMa9HeRdZutj1iq8QCOnUkxsdysiFx/jwuqOuhMBHcQNfUMiw5IG
-         l4G6tnXJAGQySSrvbb5tlS55I4cBtLSkemHa2j6kX/eTBQwRZGXBQ+wgh9+HVfrBy8T7
-         g9Kw==
-X-Gm-Message-State: AOJu0YwpQD6B32Sl8brXzjDBDujvD/kV7cP/Zr3K3g4nZ1KS6QP0m2tJ
-        R2KYXVKfynndfO2gyfJoG1/oTvFXlygXN3zSOzc=
-X-Google-Smtp-Source: AGHT+IHQa66ZKYAVhDg4WjfhBcnMaUXpsryjq/Bj5E8ZVyP7LYotJTLEEkI0YVAo0iyV+2fy4VtLyQ==
-X-Received: by 2002:a2e:301a:0:b0:2bc:e470:1412 with SMTP id w26-20020a2e301a000000b002bce4701412mr1627591ljw.43.1695914790242;
-        Thu, 28 Sep 2023 08:26:30 -0700 (PDT)
-Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
-        by smtp.gmail.com with ESMTPSA id o21-20020a2e90d5000000b002b6c92fa161sm3561291ljg.61.2023.09.28.08.26.29
+        d=1e100.net; s=20230601; t=1695914797; x=1696519597;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CyBACHD6DOaduPKJzxmkrZdupHGM0T09ubdIL/d1zLE=;
+        b=cMnQeaufpng09LdPFW2pD4RgLS2zySzjxOSQKfYDO/j+sYOfJX13VhGMRsjyVBiwfO
+         1B6sFwbRvTKuyrutuq1rAheeG/qObtOVnDC0MZWmoObTloeG1Qcg00vjEI8BobIXjQFI
+         jnDFlvzVVoKrpjsmRkf65GUOGclGjDg67lCdbpIAsfETx3urgzPPxDWcpzWjVNe2LGlV
+         cHvxf9seVOMO5N1zBuSO2nFKPVvlbyOQruY6xv3ywlbzUGVEcqnTaIsDZFG7KK/tmzhA
+         ZFRTxvYjHwOIbtmXaasg5Rl+jHkGizePANSVDmtq5ZAsxE3AXEUovARGQNQAR/SPDd7P
+         j4dA==
+X-Gm-Message-State: AOJu0YwzRbZYg0UHtyARhfo5VsMRwdbc7FdIDXZDdqRG6v5yubD/0Bgk
+        OqqnznBM7Al5hlWzF3VrC+vyPps1BzYcFKaCq/Ry/Q==
+X-Google-Smtp-Source: AGHT+IHxqLPhdvOGUtMBbzcdLBBkd8CPfIFXpMyjIizHPkrkEH79cLW9u8gCPW0LdgJXTvqDvHgY9A==
+X-Received: by 2002:a17:902:e851:b0:1c6:e1d:8be0 with SMTP id t17-20020a170902e85100b001c60e1d8be0mr2789052plg.2.1695914796910;
+        Thu, 28 Sep 2023 08:26:36 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id iw15-20020a170903044f00b001c5d09e9437sm15217965plb.25.2023.09.28.08.26.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 08:26:29 -0700 (PDT)
-Date:   Thu, 28 Sep 2023 17:26:28 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 21/31] thermal: rcar: Convert to platform remove callback
- returning void
-Message-ID: <ZRWbJAGofGHDoVKR@oden.dyn.berto.se>
-References: <20230927193736.2236447-1-u.kleine-koenig@pengutronix.de>
- <20230927193736.2236447-22-u.kleine-koenig@pengutronix.de>
+        Thu, 28 Sep 2023 08:26:36 -0700 (PDT)
+Message-ID: <65159b2c.170a0220.713aa.da55@mx.google.com>
+Date:   Thu, 28 Sep 2023 08:26:36 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230927193736.2236447-22-u.kleine-koenig@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-next-2023-09-28-v6.6-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline: 48 runs,
+ 5 regressions (renesas-next-2023-09-28-v6.6-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,63 +71,317 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2023-09-27 21:37:26 +0200, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
-> 
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+renesas/next baseline: 48 runs, 5 regressions (renesas-next-2023-09-28-v6.6=
+-rc1)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Regressions Summary
+-------------------
 
-> ---
->  drivers/thermal/rcar_thermal.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-> index 293f8dd9fe0a..feb848d595fa 100644
-> --- a/drivers/thermal/rcar_thermal.c
-> +++ b/drivers/thermal/rcar_thermal.c
-> @@ -371,7 +371,7 @@ static irqreturn_t rcar_thermal_irq(int irq, void *data)
->  /*
->   *		platform functions
->   */
-> -static int rcar_thermal_remove(struct platform_device *pdev)
-> +static void rcar_thermal_remove(struct platform_device *pdev)
->  {
->  	struct rcar_thermal_common *common = platform_get_drvdata(pdev);
->  	struct device *dev = &pdev->dev;
-> @@ -388,8 +388,6 @@ static int rcar_thermal_remove(struct platform_device *pdev)
->  
->  	pm_runtime_put(dev);
->  	pm_runtime_disable(dev);
-> -
-> -	return 0;
->  }
->  
->  static int rcar_thermal_probe(struct platform_device *pdev)
-> @@ -581,7 +579,7 @@ static struct platform_driver rcar_thermal_driver = {
->  		.of_match_table = rcar_thermal_dt_ids,
->  	},
->  	.probe		= rcar_thermal_probe,
-> -	.remove		= rcar_thermal_remove,
-> +	.remove_new	= rcar_thermal_remove,
->  };
->  module_platform_driver(rcar_thermal_driver);
->  
-> -- 
-> 2.40.1
-> 
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+bcm2711-rpi-4-b    | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
 
--- 
-Kind Regards,
-Niklas Söderlund
+imx8mp-evk         | arm64 | lab-broonie   | gcc-10   | defconfig | 1      =
+    =
+
+r8a77960-ulcb      | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+r8a779m1-ulcb      | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+sun50i-h6-pine-h64 | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2023-09-28-v6.6-rc1/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2023-09-28-v6.6-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      152c71433da27547ba0c00f19487f71d76fde6b5 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+bcm2711-rpi-4-b    | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65156ad739d223ac528a0ab8
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-bcm2711-rpi-4=
+-b.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-bcm2711-rpi-4=
+-b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/65156ad739d223ac528a0=
+ab9
+        new failure (last pass: renesas-next-2023-09-27-v6.6-rc1) =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+imx8mp-evk         | arm64 | lab-broonie   | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65156b6a82226f790a8a0a8b
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-imx8mp-evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65156b6a82226f790a8a0a94
+        failing since 16 days (last pass: renesas-next-2023-07-27-v6.5-rc1,=
+ first fail: renesas-next-2023-09-11-v6.6-rc1)
+
+    2023-09-28T12:02:29.411405  + set<8>[   28.822233] <LAVA_SIGNAL_ENDRUN =
+0_dmesg 138262_1.5.2.4.1>
+    2023-09-28T12:02:29.412015   +x
+    2023-09-28T12:02:29.529448  / # #
+    2023-09-28T12:02:30.695097  export SHELL=3D/bin/sh
+    2023-09-28T12:02:30.701168  #
+    2023-09-28T12:02:32.200334  / # export SHELL=3D/bin/sh. /lava-138262/en=
+vironment
+    2023-09-28T12:02:32.206369  =
+
+    2023-09-28T12:02:34.929293  / # . /lava-138262/environment/lava-138262/=
+bin/lava-test-runner /lava-138262/1
+    2023-09-28T12:02:34.936030  =
+
+    2023-09-28T12:02:34.943086  / # /lava-138262/bin/lava-test-runner /lava=
+-138262/1 =
+
+    ... (12 line(s) more)  =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+r8a77960-ulcb      | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65156a49dbbeeba5878a0b1f
+
+  Results:     4 PASS, 2 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a77960-ulcb=
+.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a77960-ulcb=
+.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65156a49dbbeeba5878a0b28
+        failing since 62 days (last pass: renesas-next-2023-07-11-v6.5-rc1,=
+ first fail: renesas-next-2023-07-27-v6.5-rc1)
+
+    2023-09-28T12:02:13.301078  / # #
+
+    2023-09-28T12:02:13.403229  export SHELL=3D/bin/sh
+
+    2023-09-28T12:02:13.403982  #
+
+    2023-09-28T12:02:13.505391  / # export SHELL=3D/bin/sh. /lava-11635203/=
+environment
+
+    2023-09-28T12:02:13.506358  =
+
+
+    2023-09-28T12:02:13.607917  / # . /lava-11635203/environment/lava-11635=
+203/bin/lava-test-runner /lava-11635203/1
+
+    2023-09-28T12:02:13.609050  =
+
+
+    2023-09-28T12:02:13.625257  / # /lava-11635203/bin/lava-test-runner /la=
+va-11635203/1
+
+    2023-09-28T12:02:13.674605  + export 'TESTRUN_ID=3D1_bootrr'
+
+    2023-09-28T12:02:13.675068  + cd /lava-116352<8>[   20.374993] <LAVA_SI=
+GNAL_STARTRUN 1_bootrr 11635203_1.5.2.4.5>
+ =
+
+    ... (28 line(s) more)  =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+r8a779m1-ulcb      | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65156a6e246aaf76098a0aae
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a779m1-ulcb=
+.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-r8a779m1-ulcb=
+.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65156a6e246aaf76098a0ab7
+        failing since 62 days (last pass: renesas-next-2023-07-11-v6.5-rc1,=
+ first fail: renesas-next-2023-07-27-v6.5-rc1)
+
+    2023-09-28T11:58:27.092551  / # #
+
+    2023-09-28T11:58:28.167566  export SHELL=3D/bin/sh
+
+    2023-09-28T11:58:28.169299  #
+
+    2023-09-28T11:58:29.656079  / # export SHELL=3D/bin/sh. /lava-11635199/=
+environment
+
+    2023-09-28T11:58:29.657630  =
+
+
+    2023-09-28T11:58:32.375431  / # . /lava-11635199/environment/lava-11635=
+199/bin/lava-test-runner /lava-11635199/1
+
+    2023-09-28T11:58:32.376746  =
+
+
+    2023-09-28T11:58:32.385031  / # /lava-11635199/bin/lava-test-runner /la=
+va-11635199/1
+
+    2023-09-28T11:58:32.446091  + export 'TESTRUN_ID=3D1_bootrr'
+
+    2023-09-28T11:58:32.446506  + cd /lava-116351<8>[   29.528340] <LAVA_SI=
+GNAL_STARTRUN 1_bootrr 11635199_1.5.2.4.5>
+ =
+
+    ... (38 line(s) more)  =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig | regress=
+ions
+-------------------+-------+---------------+----------+-----------+--------=
+----
+sun50i-h6-pine-h64 | arm64 | lab-collabora | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65156a5c0d91cdf24f8a0a8a
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-sun50i-h6-pin=
+e-h64.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-09-28-v6.6-rc1/arm64/defconfig/gcc-10/lab-collabora/baseline-sun50i-h6-pin=
+e-h64.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
+/65156a5c0d91cdf24f8a0a93
+        failing since 62 days (last pass: renesas-next-2023-07-11-v6.5-rc1,=
+ first fail: renesas-next-2023-07-27-v6.5-rc1)
+
+    2023-09-28T12:02:32.900389  / # #
+
+    2023-09-28T12:02:33.002350  export SHELL=3D/bin/sh
+
+    2023-09-28T12:02:33.003055  #
+
+    2023-09-28T12:02:33.104528  / # export SHELL=3D/bin/sh. /lava-11635210/=
+environment
+
+    2023-09-28T12:02:33.105234  =
+
+
+    2023-09-28T12:02:33.206691  / # . /lava-11635210/environment/lava-11635=
+210/bin/lava-test-runner /lava-11635210/1
+
+    2023-09-28T12:02:33.207814  =
+
+
+    2023-09-28T12:02:33.209077  / # /lava-11635210/bin/lava-test-runner /la=
+va-11635210/1
+
+    2023-09-28T12:02:33.290152  + export 'TESTRUN_ID=3D1_bootrr'
+
+    2023-09-28T12:02:33.290649  + cd /lava-1163521<8>[   19.292813] <LAVA_S=
+IGNAL_STARTRUN 1_bootrr 11635210_1.5.2.4.5>
+ =
+
+    ... (11 line(s) more)  =
+
+ =20
