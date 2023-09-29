@@ -2,131 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91FEB7B2DE1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 10:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B8517B2F0F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 11:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232518AbjI2IgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 04:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
+        id S232814AbjI2JUD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Sep 2023 05:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbjI2IgW (ORCPT
+        with ESMTP id S232732AbjI2JUD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 04:36:22 -0400
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8631A8;
-        Fri, 29 Sep 2023 01:36:20 -0700 (PDT)
-Received: by mail-vk1-xa2f.google.com with SMTP id 71dfb90a1353d-4935f87ca26so5485950e0c.3;
-        Fri, 29 Sep 2023 01:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695976579; x=1696581379; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m5Kz8VFA+B2AxBslxteitG48MqhtGdsjVZBje8m+de0=;
-        b=Od6nn+3QhCs2ocebXVjETwj6N7oQAf6B2j/AHTz1V0XekZIduYVPVm+9hkVdtr3H+2
-         BzV/nURf2ANYqTzTTy2ENl/CHgqmC10TmWlmdvyduNHjqy7q3li05iVVB7B0uXWY39Hx
-         9N2LykCMVz8KhJ06Q7/KgT2KyYkJqH2CzxmSynstRUi5+nYrUrqg+r4ULo67QuWRM74R
-         oID+A8uFvsNn+buyGAufLQgX4lK/Oo0d/kbmQJQx2MK/JI3mEzroh4oaW3302FW/2HY7
-         dSLmL/e9Y1WlGB3SswkWbt5iB9u100fAIZU1I8CD5WiwxuW/TTKNtfdgXX/CUMRuI2Vi
-         /y+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695976579; x=1696581379;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m5Kz8VFA+B2AxBslxteitG48MqhtGdsjVZBje8m+de0=;
-        b=rRc5nvw2NYeUfeFe5VU5ToX9oaRiWtWwXIvWYcWqKbczMnnoRherFw1jmm2N+e8rAK
-         T46fpjeRyrvldEWdBNp2+L+HXf3dSOnjiYA5eooZUAdIeDUwV+SLugiZiQcZtiAct159
-         OivtReJ5VvGWkcfGEA9Gcoy1c/upMQmD5setnVaJ5k5a2l1SFqSM5TorpZriVEQ3ewLZ
-         NNKFbLgIShsLsWND5xstTRtBrTpjY11pZvKdyz83qa5/Ftmbz2hTsLLeiYbFFyjo1K56
-         CmmfTybbbrQeV7Oi8tq+nuYSvhU725KBoQXxCPIJcYexiV/JULnRvSNTqvUvpKL8ABXO
-         BcwA==
-X-Gm-Message-State: AOJu0YzeRr1GG1PzBkxRwmx1IcvC7MsxHpt7zqcQkyYESPbK/CtAP8kj
-        zfI78BRIM+gTKLPSOZwBduDx3N/6cwf9IXtjqsw=
-X-Google-Smtp-Source: AGHT+IHclMXMPLNIE54QUwl5QiPwm1i2DMnOHWq32pITFa8iicU/ER3VPH4Fz0mWUm2pdxJCcgkESqSRAqq9PTE2Xj0=
-X-Received: by 2002:a1f:d686:0:b0:49a:5b11:1996 with SMTP id
- n128-20020a1fd686000000b0049a5b111996mr3076694vkg.6.1695976579560; Fri, 29
- Sep 2023 01:36:19 -0700 (PDT)
+        Fri, 29 Sep 2023 05:20:03 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771DB1AA
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 02:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=from:to:cc:subject:date:message-id
+        :mime-version:content-transfer-encoding; s=k1; bh=CPCOX8Pk808b+b
+        p768FKhaTdrGjFDu5eVaZMfKQbRpU=; b=TNnoYa3iv05zXfEWTwp4/pi40Du+IF
+        8heVnVxeXg0mIFyQeyzUJiBXjACBBOtgORflQmm6zwzViPMpb/bF5He6jTefXSpn
+        gA3AqiR9pqbMoTBL6iqtBWkdxuAD/CSjjjz24cIXu1vwme9aYB2S8dWmG4cQyRIv
+        oz45OCfOuYaGdQAHAcCo2PbDdDeE/scvWvao3bY6Hdv87S9gFIqPHooOuPgP6VRl
+        uZNoAl80ATsBZEnRc3cjsyN9NY0dGmLUMxMFqRbn4E452pfc5O9vloqOcaUF10SU
+        j8jyTjd465dXaZ0mDSfZ53dMzt2LAi1BhhGKcgaWLxDKFevh75MdFpDA==
+Received: (qmail 3780117 invoked from network); 29 Sep 2023 11:19:56 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2023 11:19:56 +0200
+X-UD-Smtp-Session: l3s3148p1@sfOD7XsGGL0ujntX
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] i2c: fix memleak in i2c_new_client_device()
+Date:   Fri, 29 Sep 2023 11:19:52 +0200
+Message-Id: <20230929091952.19957-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230929000704.53217-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <3d9eb660-e255-4477-a04b-6db8d249a20d@sifive.com>
-In-Reply-To: <3d9eb660-e255-4477-a04b-6db8d249a20d@sifive.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 29 Sep 2023 09:35:53 +0100
-Message-ID: <CA+V-a8v+eYk3Hmi7G74Na-=O5AF5hhovKmJ6VDj4DX9b7sXvzw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] riscv: dts: renesas: rzfive-smarc: Drop dma
- properties from SSI1 node
-To:     Samuel Holland <samuel.holland@sifive.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Samuel,
+Yang Yingliang reported a memleak:
+===
 
-On Fri, Sep 29, 2023 at 1:30=E2=80=AFAM Samuel Holland
-<samuel.holland@sifive.com> wrote:
->
-> Hi Prabhakar,
->
-> On 2023-09-28 7:07 PM, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > With DMA enabled audio capture/playback has some echo noise. So for
-> > now switch to PIO mode until fixed.
->
-> Is it really appropriate to work around a Linux software bug with a DT ch=
-ange
-> like this? Remember, the devicetrees are used by software other than Linu=
-x.
->
-Agreed not a good idea, this worked with previous kernel version and I
-wanted to make sure people using upstream kernel be aware of this
-issue. As you mentioned this is not a correct approach Im happy for
-this patch to be dropped from the series.
+I got memory leak as follows when doing fault injection test:
 
-Cheers,
-Prabhakar
+unreferenced object 0xffff888014aec078 (size 8):
+  comm "xrun", pid 356, jiffies 4294910619 (age 16.332s)
+  hex dump (first 8 bytes):
+    31 2d 30 30 31 63 00 00                          1-001c..
+  backtrace:
+    [<00000000eb56c0a9>] __kmalloc_track_caller+0x1a6/0x300
+    [<000000000b220ea3>] kvasprintf+0xad/0x140
+    [<00000000b83203e5>] kvasprintf_const+0x62/0x190
+    [<000000002a5eab37>] kobject_set_name_vargs+0x56/0x140
+    [<00000000300ac279>] dev_set_name+0xb0/0xe0
+    [<00000000b66ebd6f>] i2c_new_client_device+0x7e4/0x9a0
 
-> Regards,
-> Samuel
->
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi b/arch/riscv=
-/boot/dts/renesas/rzfive-smarc.dtsi
-> > index a8573fdfd8b1..85f96e24a96e 100644
-> > --- a/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
-> > +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
-> > @@ -6,3 +6,8 @@
-> >   */
-> >
-> >  #include <arm64/renesas/rzg2ul-smarc.dtsi>
-> > +
-> > +&ssi1 {
-> > +     /delete-property/ dmas;
-> > +     /delete-property/ dma-names;
-> > +};
->
+If device_register() returns error in i2c_new_client_device(),
+the name allocated by i2c_dev_set_name() need be freed. As
+comment of device_register() says, it should use put_device()
+to give up the reference in the error path.
+
+===
+I think this solution is less intrusive and more robust than he
+originally proposed solutions, though.
+
+Reported-by: Yang Yingliang <yangyingliang@huawei.com>
+Closes: http://patchwork.ozlabs.org/project/linux-i2c/patch/20221124085448.3620240-1-yangyingliang@huawei.com/
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+
+Build tested only.
+
+@Yang Yingliang: I'd be happy if you could test it/comment on it.
+
+ drivers/i2c/i2c-core-base.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index cc4a20465456..0d6172d6b808 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -931,8 +931,9 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
+ struct i2c_client *
+ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
+ {
+-	struct i2c_client	*client;
+-	int			status;
++	struct i2c_client *client;
++	bool need_put = false;
++	int status;
+ 
+ 	client = kzalloc(sizeof *client, GFP_KERNEL);
+ 	if (!client)
+@@ -970,7 +971,6 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 	client->dev.fwnode = info->fwnode;
+ 
+ 	device_enable_async_suspend(&client->dev);
+-	i2c_dev_set_name(adap, client, info);
+ 
+ 	if (info->swnode) {
+ 		status = device_add_software_node(&client->dev, info->swnode);
+@@ -982,6 +982,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 		}
+ 	}
+ 
++	i2c_dev_set_name(adap, client, info);
+ 	status = device_register(&client->dev);
+ 	if (status)
+ 		goto out_remove_swnode;
+@@ -993,6 +994,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 
+ out_remove_swnode:
+ 	device_remove_software_node(&client->dev);
++	need_put = true;
+ out_err_put_of_node:
+ 	of_node_put(info->of_node);
+ out_err:
+@@ -1000,7 +1002,10 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 		"Failed to register i2c client %s at 0x%02x (%d)\n",
+ 		client->name, client->addr, status);
+ out_err_silent:
+-	kfree(client);
++	if (need_put)
++		put_device(&client->dev);
++	else
++		kfree(client);
+ 	return ERR_PTR(status);
+ }
+ EXPORT_SYMBOL_GPL(i2c_new_client_device);
+-- 
+2.30.2
+
