@@ -2,121 +2,290 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B37127B35F8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 16:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F37597B386B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 19:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229545AbjI2Oqo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 10:46:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43962 "EHLO
+        id S233215AbjI2RPf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Sep 2023 13:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjI2Oqn (ORCPT
+        with ESMTP id S232748AbjI2RPe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 10:46:43 -0400
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27C4ED6;
-        Fri, 29 Sep 2023 07:46:42 -0700 (PDT)
-Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-48feedb90d2so5189787e0c.1;
-        Fri, 29 Sep 2023 07:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695998801; x=1696603601; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=icHrBBDQRTeyt50Y1yLJwIMCK4gLih/YGVhUvYswbzQ=;
-        b=cpLXa4ZV8GHaZMHX4XaM3iSOzfZGvWK84GyuVZN7mc4qMKZiJ+pD1t78NJaS/gjRcE
-         PqKc3QaQ5qq2QpZGDO5VWcRK0RwTG42PIf2IaWEi6CSpz8ecR5Mgj7pxqS4YIZbL2+Y0
-         jZKMPQrnuQC6Xo8uaR+uVRv4TZbZrlwTykufKR+U9eB5LZM4BkFqVPWpJKYA1zjL5BCg
-         aaHnaBmxDiLBS7oSaTbLZRfd+KHXCGX7yj1ecMQjOleARrQuO/B/31oFqoqBqAA009gH
-         GfLPa5D1MW/awoXyGtrliZ/zFi8ClSrfObLtbylJ98p94jsTg1AnpoiBcY/zu+ewRYud
-         f1pw==
+        Fri, 29 Sep 2023 13:15:34 -0400
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71F07B4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 10:15:30 -0700 (PDT)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-57b64731334so7127734eaf.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 10:15:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695998801; x=1696603601;
+        d=1e100.net; s=20230601; t=1696007729; x=1696612529;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=icHrBBDQRTeyt50Y1yLJwIMCK4gLih/YGVhUvYswbzQ=;
-        b=aQr5FuxDTYCQdM7SmMeNwk/x5aXQxwVBF1terWhcjGkdWyxCwsSlpb0zcPyJwpI0WJ
-         PRz+b6FTwrMoRrXFUyssYnLI/4eh+2VvXgeg7vqRZoMuSTPpQ11a5PrfFHMF6F1JbqZ7
-         RTl+bKcxXaJlfXyUlA9ZUo2PwyVrjrz28klMYThtO4nH5JErWnId3PlNUCPCHLAsxwAg
-         cI9iA4zvVNolgR7XtrJVhoSJRW6iX7ARbBXc1v+7t8FZyRja16xtqasRsrL9tUXHAOAX
-         OAyn4DcbzNto/31DZoaIFLV46WW9e9eMdptSHItVYlOcZ8g2V4N/swwPeiajij2GZ1Gv
-         9pdQ==
-X-Gm-Message-State: AOJu0Yzntm7yDDKnyWbfuFWSIhyB/XR2oN+kgGCnHdMIyEGdOV+SejY9
-        ueXBD0z+VryUQRG+wQAj67EBv4Jgs2zrTiv4HSM=
-X-Google-Smtp-Source: AGHT+IGl4VBrxQ+OTUhg9OTarf1b8pDfiWJf2T72xV+dm5qW9La2mo3E4I94FnnRzmaI3CV+sty2yxhSjGASAlAxU3U=
-X-Received: by 2002:a1f:d605:0:b0:49a:3537:881c with SMTP id
- n5-20020a1fd605000000b0049a3537881cmr4276555vkg.14.1695998800851; Fri, 29 Sep
- 2023 07:46:40 -0700 (PDT)
+        bh=T3GrWsKT62t8ZHp8gNjNZD66yghxPUTl2jqVpJFUm3g=;
+        b=SIRrZ4DfsXgTSs9tmjaSBXdQN5VlBEd9/7le4sYxg5Fk5GpZIh6otKue3vGpuQuhc1
+         q+pkPgnYDA98IGSgRljoRFrtav5QLBoV73XUS+y2QdINWT6yzxnkOvFJeuUxqwJtUqKG
+         /2c+7o2cunodjr5PaTSoCjEWDP/pH1Ar5GrpLyYHBD9JEk0RkaG6DY93LCJ1Mzf5YMoT
+         49dg0/GrfFvDPY34FMg388VUQHYbzWznLSgpyP2Cchp8cjbNfjLdqTJtc9jtTLs8o/qO
+         eGV27mHmkXZGCTFTvIsJjuLZyCWU0VIvSCABdu/5KTqJBVuHHHJCXIOVmtO2Wg5UtqgB
+         +5Eg==
+X-Gm-Message-State: AOJu0YzagDwfXVTDtfJb2C5+/nIeAIYyZS9kJJzNk4QE+eU4y7/gE7tB
+        72FZ+5lJibMOKt7SanHdggvlb8faIibhBU3r
+X-Google-Smtp-Source: AGHT+IH6j9T3/QrO4jXpeyVFtSWD9p/Gt0DEh2WROL+l7VWQm0EsSTVq6IylNQkQFNBZiUfIkrDcrA==
+X-Received: by 2002:a05:6358:7250:b0:13a:a85b:d024 with SMTP id i16-20020a056358725000b0013aa85bd024mr5311843rwa.30.1696007728559;
+        Fri, 29 Sep 2023 10:15:28 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id v16-20020a056902029000b00d746487d6f7sm4971800ybh.35.2023.09.29.10.15.27
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Sep 2023 10:15:27 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59c0b9ad491so176228077b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 10:15:27 -0700 (PDT)
+X-Received: by 2002:a81:6588:0:b0:59f:4ef0:b4b6 with SMTP id
+ z130-20020a816588000000b0059f4ef0b4b6mr5270640ywb.26.1696007727509; Fri, 29
+ Sep 2023 10:15:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20230929000704.53217-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230929-professed-imperfect-4b2ed9073e04@spud>
-In-Reply-To: <20230929-professed-imperfect-4b2ed9073e04@spud>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 29 Sep 2023 15:45:53 +0100
-Message-ID: <CA+V-a8sXxzUPmV5LqGtYm2SYLHS+-VNo_jRsLNP4mUSAKxuoFw@mail.gmail.com>
-Subject: Re: [PATCH 5/5] riscv: configs: defconfig: Enable configs required
- for RZ/Five SoC
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <87pm25im9q.wl-kuninori.morimoto.gx@renesas.com> <87jzsdim7m.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87jzsdim7m.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 29 Sep 2023 19:15:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUY94ypdTy7osywQESayxP_wP5M7B2QEceuy8HZPskEzw@mail.gmail.com>
+Message-ID: <CAMuHMdUY94ypdTy7osywQESayxP_wP5M7B2QEceuy8HZPskEzw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: renesas: Add R-Car S4 Starter Kit support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Dege <michael.dege@renesas.com>,
+        Yusuke Goda <yusuke.goda.sx@renesas.com>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Hai Pham <hai.pham.ud@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hi Morimoto-san,
 
-Thank  you for review.
+On Tue, Sep 26, 2023 at 6:37 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Add initial support for the R-Car S4 Starter Kit support
+> with R8A779F4 SoC. Based on a patch in the BSP.
 
-On Fri, Sep 29, 2023 at 3:14=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Fri, Sep 29, 2023 at 01:07:04AM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Enable the configs required by the below IP blocks which are
-> > present on RZ/Five SoC:
-> > * ADC
-> > * CANFD
-> > * DMAC
-> > * eMMC/SDHI
-> > * OSTM
-> > * RAVB (+ Micrel PHY)
-> > * RIIC
-> > * RSPI
-> > * SSI (Sound+WM8978 codec)
-> > * Thermal
-> > * USB (PHY/RESET/OTG)
-> >
-> > Along with the above some core configs are enabled too,
-> > -> CPU frequency scaling as RZ/Five does support this.
-> > -> MTD is enabled as RSPI can be connected to flash chips
-> > -> Enabled I2C chardev so that it enables userspace to read/write
-> >    i2c devices (similar to arm64)
-> > -> Thermal configs as RZ/Five SoC does have thermal unit
-> > -> GPIO regulator as we might have IP blocks for which voltage
-> >    levels are controlled by GPIOs
->
-> You might or you do?
->
-Yes we do use the gpio regulator for SDHI.
+Thanks for your patch!
 
-Cheers,
-Prabhakar
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
+> Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
+> Signed-off-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
+> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Just as with "[PATCH v2 2/4]", please consider the transfer chain,
+and add Co-developed-by when needed.
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+> @@ -0,0 +1,243 @@
+> +// SPDX-License-Identifier: (GPL-2.0 or MIT)
+
+"OR", as per commit 05c618f39089d977 ("arm64: dts: use capital "OR"
+for multiple licenses in SPDX") in v6.6-rc2.
+
+> +/*
+> + * Device Tree Source for the R-Car S4 Starter Kit board
+> + *
+> + * Copyright (C) 2023 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include "r8a779f4.dtsi"
+> +
+> +/ {
+> +       model = "R-Car S4 Starter Kit board";
+
+Renesas R-Car ...
+
+> +       compatible = "renesas,s4sk", "renesas,r8a779f4";
+
+Missing "renesas,r8a779f0" fallback.
+
+> +       vcc_sdhi: regulator-vcc-sdhi {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "SDHI Vcc";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+
+It looks like this can switch between 1.8V and 3.3V using SDHI_PWR_SEL.
+But that is controlled through the FPGA, and according to the docs,
+only used for initialization.  So I guess hardcoding 3.3V is OK.
+
+> +               gpio = <&gpio1 24 GPIO_ACTIVE_HIGH>;
+> +               enable-active-high;
+> +       };
+> +};
+
+> +&extalr_clk {
+> +       clock-frequency = <32768>;
+> +};
+
+This clock (and scif_clk and ufs30_clk below) is generated by a
+programmable clock generator.  Modelling it as a fixed-clock is fine
+for now.  It can be replaced by an output of the clock generator later,
+when Linux has gained support for it.
+
+> +&i2c5 {
+> +       pinctrl-0 = <&i2c5_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +       clock-frequency = <400000>;
+> +
+> +       eeprom@50 {
+> +               compatible = "atmel,24c16";
+
+As the schematics say this is a genuine ST part:
+
+    "st,24c16", "atmel,24c16";
+
+> +               reg = <0x50>;
+> +               pagesize = <16>;
+> +       };
+> +};
+> +
+> +&mmc0 {
+> +       pinctrl-0 = <&sd_pins>;
+> +       pinctrl-1 = <&sd_pins>;
+> +       pinctrl-names = "default", "state_uhs";
+
+Do you need two states if there is a single voltage?
+AFAIK, UHS needs 1.8V.
+
+> +
+> +       vmmc-supply = <&vcc_sdhi>;
+> +       vqmmc-supply = <&vcc_sdhi>;
+
+Do you need vqmmc-supply if there is a single voltage?
+I'm not sure about this one...
+
+> +       cd-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
+> +       bus-width = <4>;
+> +       status = "okay";
+> +};
+> +
+> +&pfc {
+> +       pinctrl-0 = <&scif_clk_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       i2c2_pins: i2c2 {
+> +               groups = "i2c2";
+> +               function = "i2c2";
+> +       };
+> +
+> +       i2c4_pins: i2c4 {
+> +               groups = "i2c4";
+> +               function = "i2c4";
+> +       };
+> +
+> +       i2c5_pins: i2c5 {
+> +               groups = "i2c5";
+> +               function = "i2c5";
+> +       };
+> +
+> +       sd_pins: sd {
+
+Please sort alphabetically (everywhere).
+
+> +               groups = "mmc_data4", "mmc_ctrl";
+> +               function = "mmc";
+> +               power-source = <3300>;
+> +       };
+> +
+> +       qspi0_pins: qspi0 {
+> +               groups = "qspi0_ctrl", "qspi0_data4";
+> +               function = "qspi0";
+> +       };
+
+There is no reference to qspi0_pins.
+
+> +&rswitch {
+> +       pinctrl-0 = <&tsn0_pins>, <&tsn1_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +
+> +       ethernet-ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               port@0 {
+> +                       reg = <0>;
+> +                       phy-handle = <&u101>;
+> +                       phy-mode = "sgmii";
+> +                       phys = <&eth_serdes 0>;
+> +
+> +                       mdio {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               u101: ethernet-phy@1 {
+
+This label seems to be copied from Spider?
+On S4SK, the PHY is IC99, so perhaps "ic99"?
+Although I'm open for a different name like "gbe_phy0"
+or "sgmii_phy0"?
+
+> +                                       reg = <1>;
+> +                                       compatible = "ethernet-phy-ieee802.3-c45";
+
+Missing interrupt (GP3_10).
+
+> +                               };
+> +                       };
+> +               };
+> +
+> +               port@1 {
+> +                       reg = <1>;
+> +                       phy-handle = <&u201>;
+> +                       phy-mode = "sgmii";
+> +                       phys = <&eth_serdes 1>;
+> +
+> +                       mdio {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               u201: ethernet-phy@2 {
+
+"ic102", or a better name...
+
+> +                                       reg = <2>;
+> +                                       compatible = "ethernet-phy-ieee802.3-c45";
+
+Missing interrupt (GP3_11).
+
+> +                               };
+> +                       };
+> +               };
+> +
+> +               port@2 {
+> +                       status = "disabled";
+> +               };
+> +       };
+> +};
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
