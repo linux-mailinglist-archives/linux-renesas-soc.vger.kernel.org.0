@@ -2,98 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC167B322C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 14:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D61327B32BB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 14:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbjI2MO7 convert rfc822-to-8bit (ORCPT
+        id S232990AbjI2MnT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 08:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47412 "EHLO
+        Fri, 29 Sep 2023 08:43:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233207AbjI2MO5 (ORCPT
+        with ESMTP id S232977AbjI2MnS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 08:14:57 -0400
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2550519F;
-        Fri, 29 Sep 2023 05:14:55 -0700 (PDT)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-57b68556d6dso6524895eaf.1;
-        Fri, 29 Sep 2023 05:14:55 -0700 (PDT)
+        Fri, 29 Sep 2023 08:43:18 -0400
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F15B7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 05:43:17 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a1f00b75aaso61562737b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 05:43:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695989694; x=1696594494;
+        d=1e100.net; s=20230601; t=1695991396; x=1696596196;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RuoH4Um95jPah+EhYg0BBr891Wv4izigjaMEWeAZDlE=;
-        b=wQRcmkjHrUfYn4EIqibb9B+ADh0HqBABsRdMGCsX+2tAhiq0cwrmOUEQULMYIa2yU/
-         vKkdSwnI+vPXeBewXlq1Y3J+bcHLf9ivPmzh5a5/Vmg0qJEgYjiS98ZTjroy12emptrE
-         4Da+7mXOepkvBwO4DueT7ifBlw7qA19fnCb9p4ARcQR/Pyg9NvzNzVUZCScvlUWzK/mI
-         zty88Gxnv98HIQC6UQ4Sn8O9SmYelpyVIVV9c4XfPAEgh4X5dMbs/XWvSEaWFVg3hD1c
-         2GywS7582+aB4rul6F7pph3F0ib9TKgALRIISHe9jLMmcR3rw8TrIwhhaoeyOwSnQW2S
-         sOXg==
-X-Gm-Message-State: AOJu0YxSIXwgD10YXZ6UIZFDbIK4uIgGcwcWPpAZj/yEqr9jHp7wqhgk
-        hYRgkPUs/+x+rc7SXJblabguwik4jGWLPFAr
-X-Google-Smtp-Source: AGHT+IFRj61fbWgq7CLJNKA93/V+zVCyq3LNqFBOZOAYeOf0HZJG+N7nBmPWn78HcLfzQFArbEO9Rg==
-X-Received: by 2002:a05:6358:7252:b0:135:a10e:1ed0 with SMTP id i18-20020a056358725200b00135a10e1ed0mr4127927rwa.23.1695989693864;
-        Fri, 29 Sep 2023 05:14:53 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id o79-20020a254152000000b00d749a394c87sm4997381yba.16.2023.09.29.05.14.53
+        bh=cNxELcT+iHYHYP6th/LGVVioeIHpA7FqP73DsKUjJlo=;
+        b=eIBoboNIGoTBS7AuP55t/o6E8BKwqdUxaXM8XseXGM+zerXuX2j2bYlaoe0ry8e0Rx
+         gVp8yiudE9h5yLow3NdUuJy+I0Qg+xc3+O5kXlVoH6HpIVVAmL3HUkE6tqnssr86Z2bw
+         jCw4EzgdbXnE9eLjK3V+tyxlfD8rVohenQ0+2jqHgJYfrKkBptd/OmLlouFYPkR0hA6C
+         NzymXl3isEiTGYchZ/F36i47kVxRUPMVMGAamJP/1Ap7Sb9J86+fojBLSZagLDhp7oem
+         sj25QyXigTfKIsrfOQTHlIQbrtIpItWxMbwuqbmvMxwAdnEqyEkbJIw5ai4P5UzrdoT0
+         1MdA==
+X-Gm-Message-State: AOJu0YwUIAEFjlgbJJKPJ8KhTD7Zj104sJ84DdCnWmb5IZtZTwwf3b0H
+        aOtMcCaiXUDgnwXN52/ytkIHXF6G3LQS4Q==
+X-Google-Smtp-Source: AGHT+IHk6h6P+jg48HYGZAWZ/C4DJszAg3Je18mJOrIO97/2HH0DSxg0qqMq8E2BBkJOHa/39ya79Q==
+X-Received: by 2002:a0d:c983:0:b0:59b:f736:4948 with SMTP id l125-20020a0dc983000000b0059bf7364948mr4187172ywd.33.1695991396235;
+        Fri, 29 Sep 2023 05:43:16 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id g203-20020a0dddd4000000b00592548b2c47sm5432634ywe.80.2023.09.29.05.43.15
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 05:14:53 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d8afe543712so1356386276.0;
-        Fri, 29 Sep 2023 05:14:53 -0700 (PDT)
-X-Received: by 2002:a25:d4c5:0:b0:d4e:4103:7807 with SMTP id
- m188-20020a25d4c5000000b00d4e41037807mr4110545ybf.60.1695989693529; Fri, 29
- Sep 2023 05:14:53 -0700 (PDT)
+        Fri, 29 Sep 2023 05:43:15 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5a22f9e2f40so16297467b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 05:43:15 -0700 (PDT)
+X-Received: by 2002:a0d:e294:0:b0:573:bb84:737c with SMTP id
+ l142-20020a0de294000000b00573bb84737cmr4412590ywe.26.1695991395684; Fri, 29
+ Sep 2023 05:43:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230925154548.27048-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230925154548.27048-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <87pm25im9q.wl-kuninori.morimoto.gx@renesas.com> <87msx9im83.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87msx9im83.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Sep 2023 14:14:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU690+e1SNVFsjMJHHdqQymwKMjGwuCe02Q2wYzMSNGEA@mail.gmail.com>
-Message-ID: <CAMuHMdU690+e1SNVFsjMJHHdqQymwKMjGwuCe02Q2wYzMSNGEA@mail.gmail.com>
-Subject: Re: [PATCH v3] pinctrl: renesas: pinctrl-rzg2l: Add validation of
- GPIO pin in rzg2l_gpio_request()
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Fri, 29 Sep 2023 14:43:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW7wzyXUf-zZ5q5_iv9n2=ShW1hYXSvk767gvKP3DM11w@mail.gmail.com>
+Message-ID: <CAMuHMdW7wzyXUf-zZ5q5_iv9n2=ShW1hYXSvk767gvKP3DM11w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: soc: renesas: renesas.yaml: Add
+ renesas,s4sk compatible
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Dege <michael.dege@renesas.com>,
+        Yusuke Goda <yusuke.goda.sx@renesas.com>,
+        Tam Nguyen <tam.nguyen.xa@renesas.com>,
+        Hai Pham <hai.pham.ud@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 25, 2023 at 5:46 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Validate the GPIO pin request in rzg2l_gpio_request() callback using
-> rzg2l_validate_gpio_pin() function. This stops any accidental usage
-> of GPIO pins which are not supported by the SoCs.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
-> v2->v3
-> * Updated pin_data variable to be u32 instead of u64.
+Hi Morimoto-san,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v6.7.
+On Tue, Sep 26, 2023 at 6:37 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> This patch adds "renesas,s4sk" which target the R-Car S4 Starter Kit
+> board.
+
+Thanks for your patch!
+
+> Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+If this patch was developed by Goda-san, and you took it, and submitted
+it, there should be a "From: Yusuke Goda ..." line at the top.
+On the other hand, if you co-developed the patch with Goda-san, you
+can keep your From: line, being the first author, and there should be
+Co-developed-by tags, too:
+https://elixir.bootlin.com/linux/v6.6-rc1/source/Documentation/process/submitting-patches.rst#L489
+
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> @@ -327,6 +327,7 @@ properties:
+>          items:
+>            - enum:
+>                - renesas,spider-cpu # Spider CPU board (RTP8A779F0ASKB0SC2S)
+> +              - renesas,s4sk       # R-Car S4 Starter Kit board (Y-ASK-RCAR-S4-1000BASE-T#WS12)
+>            - const: renesas,r8a779f0
+
+The above would be fine if the S4SK board would have had an R8A779F0
+SoC. Instead, it has an R8A779F4 SoC.  So please add a section for
+R8A779F4, and document the new "renesas,s4sk" and "renesas,r8a779f4"
+compatible values, and the fallback to "renesas,r8a779f0".
+You can have a look at the R-Car V3H2 section for an example.
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
