@@ -2,91 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F03467B254D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Sep 2023 20:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63F797B2952
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 02:07:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231965AbjI1ScR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Sep 2023 14:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
+        id S229972AbjI2AHl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Sep 2023 20:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231952AbjI1ScQ (ORCPT
+        with ESMTP id S229653AbjI2AHk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Sep 2023 14:32:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6E419D;
-        Thu, 28 Sep 2023 11:32:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 522B0C433C7;
-        Thu, 28 Sep 2023 18:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695925934;
-        bh=JCe7blWVCnsLe70OwN/f81hGjMC1UJQ2rXeecgnmwzs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YhJS0frvyLcMcO5ihEp2dgsrmmkIfNmL/P36g3iMjXQowr0ubha3wu2dHXdDPA2rE
-         ZA1qZFZNSJEAgaASGYSqtAClTsnzS/fyCF2tUDMwNtnF6iWJt7RlA6mJH0xpj5JkKR
-         NVedECdLU98YaFvx8vM2uyNVvWWbWL+cbHtFp48YA1bfcVFLZ+pLu3TMMnzS2r+35d
-         mn8SRbolpQC6fVFLO06KMrfGtzTaYpLbwKAah/JXTPY0iYlePaK4RxDYpJHmPUPkNG
-         CiSLJFchpQ7TuVTbZkM/4Gd9+vg1w88ztbZR1DYp3nogOwM7dk8VVL/eWiQTvA5e4s
-         9zif/GWp/lqfw==
-Received: (nullmailer pid 1030969 invoked by uid 1000);
-        Thu, 28 Sep 2023 18:32:12 -0000
-Date:   Thu, 28 Sep 2023 13:32:12 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        devicetree@vger.kernel.org,
+        Thu, 28 Sep 2023 20:07:40 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6097BF3;
+        Thu, 28 Sep 2023 17:07:39 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-406589e5765so4603445e9.0;
+        Thu, 28 Sep 2023 17:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695946058; x=1696550858; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b8MO+V9BSn3lqUf4u1am2/WES2bAF3+wTi6NHVIZgf4=;
+        b=IHaGG/F/TzsWt3U9o22qSqcCamxtxsWBfkbNDw4BMKmUpC5afFmdBg70e2T6gmg+C1
+         vP6G50zTG3BusEjKPwt/7C5jfJXICQbjDVfT3xSJRhslIgDsxGkH2JRv/KRmvH5iVoek
+         YgHLY+51wU8Z0LOV16NNq1FAJd7hTC3lzALZAceP65hxjw/JSmKIebWf/lccwk3U7FDz
+         0S9Nsvr4hEL/fH6rTPTjwl/hMFUOTvshl6hUXlHdtwREd2lCTJOESZXcCLMezvtH1B42
+         6qCPInK/eHHW1gXtNdqdMv5YkUubkTs9i3Zh+r+YyXYzOu7p1tboZLUKAkbi8U+5eo+X
+         iHwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695946058; x=1696550858;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b8MO+V9BSn3lqUf4u1am2/WES2bAF3+wTi6NHVIZgf4=;
+        b=kxKNs3FXeCg0B2+aodq6wzFkjuVafmNI5pNqsXRe+EOoY3TR4OUGxhCGrU16fddxku
+         zREizLRZQTlKy3WQsAVqT9JLDAVbzpebkMtkrXSIDN0eMNmATmrRPGti4W6HfHZMQfjM
+         C7WShh7UQ0EFbZK5+vXyVKonfXR+GTP2MlWu2SBqD4PgS15nD4gAqH/NuydsC4Vt8NRN
+         J6cAdG7G4rUWiIS7xBYwTI7FyPalvS0y+aoXLryhu58DWcUTZcYE2OzYr7+Y205+uf42
+         9vRBXNo4Opc8/vpSUWWQXZ78ZeOzfrBnbv8kCX5ST3C1xWR+g/EKSFfLZJ23CrF9VtSZ
+         Ld3g==
+X-Gm-Message-State: AOJu0Yw2VRM00IgjoZuIq5aaozDUiTonmgtzqF9KcYgX9H4BFn9Y5TMc
+        M91s677Ntm5VJgiJzahJKWY=
+X-Google-Smtp-Source: AGHT+IEtRcSt9NVo1uDsW5hbfoZYLFuod5ANYVN39ChaMR/+GUeRCvkoEW0Pz+Q+0bhKT3iivXQNsA==
+X-Received: by 2002:a05:600c:207:b0:3fe:f74c:b4f6 with SMTP id 7-20020a05600c020700b003fef74cb4f6mr2440929wmi.17.1695946057510;
+        Thu, 28 Sep 2023 17:07:37 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:fe98:5e2c:1821:4cb6])
+        by smtp.gmail.com with ESMTPSA id y20-20020a7bcd94000000b004030e8ff964sm245667wmj.34.2023.09.28.17.07.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Sep 2023 17:07:37 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH v2 1/2] spi: renesas,rzv2m-csi: Add CSI (SPI) target
- related property
-Message-ID: <169592593187.1030914.2646161997489930237.robh@kernel.org>
-References: <20230927162508.328736-1-fabrizio.castro.jz@renesas.com>
- <20230927162508.328736-2-fabrizio.castro.jz@renesas.com>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/5] Enable peripherals on RZ/Five SMARC EVK
+Date:   Fri, 29 Sep 2023 01:06:59 +0100
+Message-Id: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230927162508.328736-2-fabrizio.castro.jz@renesas.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 27 Sep 2023 17:25:07 +0100, Fabrizio Castro wrote:
-> The CSI IP found inside the Renesas RZ/V2M SoC can also work
-> in SPI target mode.
-> When working in target mode, the IP will make use of the SS
-> (Slave Selection) pin, with "low" as default active level.
-> The active level of SS can be changed to "high" upon setting
-> property "spi-cs-high" to true.
-> By default, the SS will be used in target mode, unless property
-> "renesas,csi-no-ss" is set to true, in which case data will be
-> shifted in and out purely based on clock activity, and the
-> logic level of the SS pin will be completely ignored.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
-> v1->v2: I have dropped properties renesas,csi-ss and
->         renesas,csi-ss-high. I have added property
-> 	renesas,csi-no-ss, and to configure SS as active
-> 	high one now needs to use property spi-cs-high.
-> 	I have also reworded the changelog to use a more
-> 	modern terminology (host and target as opposed to
-> 	master and slave).
-> 
->  .../devicetree/bindings/spi/renesas,rzv2m-csi.yaml       | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+Hi All,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This patch series does the following:
+* Adds L2 cache node and marks the SoC as noncoherent
+* Enables IP blocks which were explicitly disabled and for
+  which support is present
+* Enables the configs required for RZ/Five SoC
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (5):
+  riscv: dts: renesas: r9a07g043f: Add L2 cache node
+  riscv: dts: renesas: r9a07g043f: Add dma-noncoherent property
+  riscv: dts: renesas: rzfive-smarc: Enable the blocks which were
+    explicitly disabled
+  riscv: dts: renesas: rzfive-smarc: Drop dma properties from SSI1 node
+  riscv: configs: defconfig: Enable configs required for RZ/Five SoC
+
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   | 13 +++++
+ .../boot/dts/renesas/rzfive-smarc-som.dtsi    | 23 --------
+ arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 55 +------------------
+ arch/riscv/configs/defconfig                  | 52 ++++++++++++++++++
+ 4 files changed, 67 insertions(+), 76 deletions(-)
+
+-- 
+2.34.1
 
