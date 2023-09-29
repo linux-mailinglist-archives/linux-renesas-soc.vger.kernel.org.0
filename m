@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E615F7B2B6C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 07:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A607B2B88
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 07:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232730AbjI2FkI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 01:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45876 "EHLO
+        id S232708AbjI2Fkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Sep 2023 01:40:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232762AbjI2FkA (ORCPT
+        with ESMTP id S232798AbjI2FkH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 01:40:00 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C123CE8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 22:39:37 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99bf3f59905so1797733966b.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 22:39:37 -0700 (PDT)
+        Fri, 29 Sep 2023 01:40:07 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C570E10E2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 22:39:41 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99de884ad25so1823086666b.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 22:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1695965975; x=1696570775; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1695965977; x=1696570777; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j3c1H/PZJ1MisjjuSeuZVQvTBJXyOl1OkEQKaODnh2w=;
-        b=dyQEOvLYR4nwOmk4oaDlMhHsUBDGz9PaXSQGvdDC6D5DgolAcIaDVDwZPxi/xiqjC4
-         wNPwXox43bGsOLPbeNqLJZBL4MKnmB6ZMDlygfgtAczph1EI2Di7CHONQ58n5CL5NBM0
-         piKxoU5Wq2ht5BdAFwxMADevL/H+Ra4NTZ5ptTdyvtiAhqMV6DyCpjtIEKe0hVZY+jWq
-         v5YIoxq1htYNqtbLMGXVidpQJ2VOPlADKSt8XmzLYNdpAzsbujAZJBTV0Io+YiyZt60Q
-         JnFJKA6Pr+fa8fDZ8LOD7Ufp2jyJn5+eaBfJ1OIApGkvTSFLCQipHanCczmTZdduL7C0
-         47fQ==
+        bh=MpN0QLxBB51x1Nk+kh/Ys3Cvl3llEXojNocKvCSavYw=;
+        b=MsaS874nryqnmTUd5w/o86WzXy3elPnzFRhWOJqEvB20amD6MY3aLUNvRq6OALIO3i
+         OyRVberul3uP9LzPb8XXZG/BSlbslwXsiDi8LL4VBo5MbxmILhNGr7evnnY8pwKvGpih
+         YI2+/q3vJffLNZyawuvUXJoKrL/dQCpx3cmRGXaEtUBbJtLvyBht3ysbIAJn9lqyDy8q
+         SpFzdW6dj+/iNhbPeUn57+KCAjoMWO2ENSShWp3jlmSxqzVINEIQThwoRUMD+8i0Sj3D
+         +YU7F4/nINW2tQJUkheD1gJny1AJmjOcuBC/d58A47HEv9eHlbAPUyGR5RUMheJwvdag
+         BpVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695965975; x=1696570775;
+        d=1e100.net; s=20230601; t=1695965978; x=1696570778;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j3c1H/PZJ1MisjjuSeuZVQvTBJXyOl1OkEQKaODnh2w=;
-        b=c1exSgfZwHzfohFH2L9gXPKvUUpLpXvqMO/n1V/yfQia0G/A/aEtFkkDgZTTDzLqb0
-         dNm9Z74Vmb0KmvhYqXVk288l/TfrK/6nF7KF7sENqfONi7gRl1fDo1odPYaFh1CRBH7D
-         bpyk+ibE83B1cMr3A9rp2+y7gjS5HPWyXDgQLSLQ0sIYyhpUNTT1Lgu8U1C+czXw1WBQ
-         uBt9shjw3VnPaOBo9gAW/iU4tIoAcwpxw14Wt3kEPkjbaplJBflSj97RtFWYt8XA9Huy
-         OAFTc/NWZBTwJVYcAhexJEU8bqOTznul6Opw+aHxTvc7cxVOTbuNL0RujZBEvIHBZVzu
-         J2Pg==
-X-Gm-Message-State: AOJu0YyZ19JotFg4bGPKhurXJfcUkjHMMQvZJ1et5eOhecGRW+NOeKxO
-        tT5qM2MHRFFVHMSkWezS5DdgA+tJI4o2ijh7GwM=
-X-Google-Smtp-Source: AGHT+IEYe5Bbl6K6Kb9sVO7dQpfEDwuRdRHpGZ0ScCXxBph7H03FCWpCmVn+mlyXuJKGJQ1kdesCpg==
-X-Received: by 2002:a17:906:bcf0:b0:9b2:b786:5e9c with SMTP id op16-20020a170906bcf000b009b2b7865e9cmr3079018ejb.28.1695965975671;
-        Thu, 28 Sep 2023 22:39:35 -0700 (PDT)
+        bh=MpN0QLxBB51x1Nk+kh/Ys3Cvl3llEXojNocKvCSavYw=;
+        b=Q5kIUz0PD3DVC2Rx2UOgrxPzSETza8R+lN6eOjfXBOkhux4kx1myfVHZkQd3KwQu/q
+         Z+hnBBxu/hsHlbhQgkuMEOm7z3wdit9MuweC0OoLDd9w+FLZG6X/dOYCtWfNdNRa+Afk
+         Flifh+n57wMj1uAP4vdZ/9yl8/cOYK8Uf686bIV64KBrXmi2VV6/2r8C/TH+Tpap/gVB
+         Pb4FuAX9BHHWplDYrdI3jd1Tqhyy8nzMhjZ5uTSLZ3PwLiGvuJywxayZVB4BaWn0UL8n
+         FDRSN4FmQHYD+zBpHnoz88+y4GGK1F/Ru9IdX76OC5nnlAC5RlUrmHAC8fok/cheG+Hw
+         mtQQ==
+X-Gm-Message-State: AOJu0YyOunDwj782T1sEjUY0ydQ0x3JqGLpvskGkqzTMBMucXWRZyLBh
+        W24+TJyXjIlILLBCSfPuLtlVww==
+X-Google-Smtp-Source: AGHT+IGwzC0gHVEPo+lwNiNdBQAkmIWWWi/mh3osxoDQwJ0KtBoTp0oWZ4DjfMzw7374tcbTvodRGw==
+X-Received: by 2002:a17:906:7693:b0:9ae:6a9b:274e with SMTP id o19-20020a170906769300b009ae6a9b274emr2936288ejm.8.1695965977753;
+        Thu, 28 Sep 2023 22:39:37 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.177])
-        by smtp.gmail.com with ESMTPSA id z19-20020a1709063ad300b009a1a653770bsm11971992ejd.87.2023.09.28.22.39.33
+        by smtp.gmail.com with ESMTPSA id z19-20020a1709063ad300b009a1a653770bsm11971992ejd.87.2023.09.28.22.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 22:39:35 -0700 (PDT)
+        Thu, 28 Sep 2023 22:39:37 -0700 (PDT)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea@bp.renesas.com>
 To:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
@@ -64,16 +64,16 @@ Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 08/28] clk: renesas: rzg2l: add struct clk_hw_data
-Date:   Fri, 29 Sep 2023 08:38:55 +0300
-Message-Id: <20230929053915.1530607-9-claudiu.beznea@bp.renesas.com>
+Subject: [PATCH v2 09/28] clk: renesas: rzg2l: remove CPG_SDHI_DSEL from generic header
+Date:   Fri, 29 Sep 2023 08:38:56 +0300
+Message-Id: <20230929053915.1530607-10-claudiu.beznea@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
 References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -84,131 +84,81 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add clk_hw_data struct that keeps the core part of a clock data. The
-sd_hw_data embeds a member of type struct clk_hw_data along with other
-members (in the next commits). This commit prepares the field for
-refactoring the SD MUX clock driver.
+Remove CPG_SDHI_DSEL and its bits from generic header as RZ/G3S has
+different offset register and bits for this, thus avoid mixing them.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 
 Changes in v2:
+- s/form/from in commit description
+- removed "G2UL_" prefix from macros' names
 - collected tags
 
- drivers/clk/renesas/rzg2l-cpg.c | 52 +++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 18 deletions(-)
+ drivers/clk/renesas/r9a07g043-cpg.c | 7 +++++++
+ drivers/clk/renesas/r9a07g044-cpg.c | 7 +++++++
+ drivers/clk/renesas/rzg2l-cpg.h     | 4 ----
+ 3 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 02058a2d39ca..ac05463d1d98 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -63,13 +63,29 @@
+diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
+index 1a7a6d60aca4..e0ae25644e1a 100644
+--- a/drivers/clk/renesas/r9a07g043-cpg.c
++++ b/drivers/clk/renesas/r9a07g043-cpg.c
+@@ -14,6 +14,13 @@
  
- #define MAX_VCLK_FREQ		(148500000)
+ #include "rzg2l-cpg.h"
  
--struct sd_hw_data {
-+/**
-+ * struct clk_hw_data - clock hardware data
-+ * @hw: clock hw
-+ * @conf: clock configuration (register offset, shift, width)
-+ * @priv: CPG private data structure
-+ */
-+struct clk_hw_data {
- 	struct clk_hw hw;
- 	u32 conf;
- 	struct rzg2l_cpg_priv *priv;
- };
- 
--#define to_sd_hw_data(_hw)	container_of(_hw, struct sd_hw_data, hw)
-+#define to_clk_hw_data(_hw)	container_of(_hw, struct clk_hw_data, hw)
++/* Specific registers. */
++#define CPG_PL2SDHI_DSEL	(0x218)
 +
-+/**
-+ * struct sd_hw_data - SD clock hardware data
-+ * @hw_data: clock hw data
-+ */
-+struct sd_hw_data {
-+	struct clk_hw_data hw_data;
-+};
++/* Clock select configuration. */
++#define SEL_SDHI0		SEL_PLL_PACK(CPG_PL2SDHI_DSEL, 0, 2)
++#define SEL_SDHI1		SEL_PLL_PACK(CPG_PL2SDHI_DSEL, 4, 2)
 +
-+#define to_sd_hw_data(_hw)	container_of(_hw, struct sd_hw_data, hw_data)
+ enum clk_ids {
+ 	/* Core Clock Outputs exported to DT */
+ 	LAST_DT_CORE_CLK = R9A07G043_CLK_P0_DIV2,
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index c597414a94d8..d4dcf5d896d4 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -15,6 +15,13 @@
  
- struct rzg2l_pll5_param {
- 	u32 pl5_fracin;
-@@ -188,10 +204,10 @@ rzg2l_cpg_mux_clk_register(const struct cpg_core_clk *core,
+ #include "rzg2l-cpg.h"
  
- static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
- {
--	struct sd_hw_data *hwdata = to_sd_hw_data(hw);
--	struct rzg2l_cpg_priv *priv = hwdata->priv;
--	u32 off = GET_REG_OFFSET(hwdata->conf);
--	u32 shift = GET_SHIFT(hwdata->conf);
-+	struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
-+	struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
-+	u32 off = GET_REG_OFFSET(clk_hw_data->conf);
-+	u32 shift = GET_SHIFT(clk_hw_data->conf);
- 	const u32 clk_src_266 = 2;
- 	u32 msk, val, bitmask;
- 	unsigned long flags;
-@@ -208,7 +224,7 @@ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
- 	 * The clock mux has 3 input clocks(533 MHz, 400 MHz, and 266 MHz), and
- 	 * the index to value mapping is done by adding 1 to the index.
- 	 */
--	bitmask = (GENMASK(GET_WIDTH(hwdata->conf) - 1, 0) << shift) << 16;
-+	bitmask = (GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0) << shift) << 16;
- 	msk = off ? CPG_CLKSTATUS_SELSDHI1_STS : CPG_CLKSTATUS_SELSDHI0_STS;
- 	spin_lock_irqsave(&priv->rmw_lock, flags);
- 	if (index != clk_src_266) {
-@@ -237,12 +253,12 @@ static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
++/* Specific registers. */
++#define CPG_PL2SDHI_DSEL	(0x218)
++
++/* Clock select configuration. */
++#define SEL_SDHI0		SEL_PLL_PACK(CPG_PL2SDHI_DSEL, 0, 2)
++#define SEL_SDHI1		SEL_PLL_PACK(CPG_PL2SDHI_DSEL, 4, 2)
++
+ enum clk_ids {
+ 	/* Core Clock Outputs exported to DT */
+ 	LAST_DT_CORE_CLK = R9A07G054_CLK_DRP_A,
+diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
+index 20da0c620b90..f5382333d327 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.h
++++ b/drivers/clk/renesas/rzg2l-cpg.h
+@@ -19,7 +19,6 @@
+ #define CPG_PL2_DDIV		(0x204)
+ #define CPG_PL3A_DDIV		(0x208)
+ #define CPG_PL6_DDIV		(0x210)
+-#define CPG_PL2SDHI_DSEL	(0x218)
+ #define CPG_CLKSTATUS		(0x280)
+ #define CPG_PL3_SSEL		(0x408)
+ #define CPG_PL6_SSEL		(0x414)
+@@ -69,9 +68,6 @@
+ #define SEL_PLL6_2	SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
+ #define SEL_GPU2	SEL_PLL_PACK(CPG_PL6_SSEL, 12, 1)
  
- static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
- {
--	struct sd_hw_data *hwdata = to_sd_hw_data(hw);
--	struct rzg2l_cpg_priv *priv = hwdata->priv;
--	u32 val = readl(priv->base + GET_REG_OFFSET(hwdata->conf));
-+	struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
-+	struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
-+	u32 val = readl(priv->base + GET_REG_OFFSET(clk_hw_data->conf));
+-#define SEL_SDHI0	DDIV_PACK(CPG_PL2SDHI_DSEL, 0, 2)
+-#define SEL_SDHI1	DDIV_PACK(CPG_PL2SDHI_DSEL, 4, 2)
+-
+ #define EXTAL_FREQ_IN_MEGA_HZ	(24)
  
--	val >>= GET_SHIFT(hwdata->conf);
--	val &= GENMASK(GET_WIDTH(hwdata->conf) - 1, 0);
-+	val >>= GET_SHIFT(clk_hw_data->conf);
-+	val &= GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0);
- 
- 	return val ? val - 1 : 0;
- }
-@@ -258,17 +274,17 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
- 			      void __iomem *base,
- 			      struct rzg2l_cpg_priv *priv)
- {
--	struct sd_hw_data *clk_hw_data;
-+	struct sd_hw_data *sd_hw_data;
- 	struct clk_init_data init;
- 	struct clk_hw *clk_hw;
- 	int ret;
- 
--	clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
--	if (!clk_hw_data)
-+	sd_hw_data = devm_kzalloc(priv->dev, sizeof(*sd_hw_data), GFP_KERNEL);
-+	if (!sd_hw_data)
- 		return ERR_PTR(-ENOMEM);
- 
--	clk_hw_data->priv = priv;
--	clk_hw_data->conf = core->conf;
-+	sd_hw_data->hw_data.priv = priv;
-+	sd_hw_data->hw_data.conf = core->conf;
- 
- 	init.name = core->name;
- 	init.ops = &rzg2l_cpg_sd_clk_mux_ops;
-@@ -276,7 +292,7 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
- 	init.num_parents = core->num_parents;
- 	init.parent_names = core->parent_names;
- 
--	clk_hw = &clk_hw_data->hw;
-+	clk_hw = &sd_hw_data->hw_data.hw;
- 	clk_hw->init = &init;
- 
- 	ret = devm_clk_hw_register(priv->dev, clk_hw);
+ /**
 -- 
 2.39.2
 
