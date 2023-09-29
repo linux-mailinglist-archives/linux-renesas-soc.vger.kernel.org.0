@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B587B3120
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 13:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A13FF7B3124
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 13:18:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232748AbjI2LSJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 07:18:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40250 "EHLO
+        id S232779AbjI2LSx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Sep 2023 07:18:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbjI2LSI (ORCPT
+        with ESMTP id S232748AbjI2LSx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 07:18:08 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6193BB7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 04:18:06 -0700 (PDT)
+        Fri, 29 Sep 2023 07:18:53 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7049EB7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 04:18:51 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c2e7:1eb0:4c87:ebc6])
-        by xavier.telenet-ops.be with bizsmtp
-        id rnJ42A00Z1EgHdD01nJ497; Fri, 29 Sep 2023 13:18:04 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id rnJp2A00H1EgHdD06nJp3G; Fri, 29 Sep 2023 13:18:49 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qmBV5-004qOO-L6;
-        Fri, 29 Sep 2023 13:18:04 +0200
+        id 1qmBVo-004qOT-LU;
+        Fri, 29 Sep 2023 13:18:49 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qmBVU-001fx3-KF;
-        Fri, 29 Sep 2023 13:18:04 +0200
+        id 1qmBWD-001fy0-KN;
+        Fri, 29 Sep 2023 13:18:49 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Fixes for v6.7
-Date:   Fri, 29 Sep 2023 13:18:03 +0200
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.7
+Date:   Fri, 29 Sep 2023 13:18:48 +0200
 Message-Id: <cover.1695986064.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
