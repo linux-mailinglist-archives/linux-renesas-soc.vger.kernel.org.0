@@ -2,57 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE717B2961
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 02:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F85C7B298D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 02:30:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231485AbjI2AHw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Sep 2023 20:07:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43314 "EHLO
+        id S231446AbjI2Aav (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Sep 2023 20:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232481AbjI2AHv (ORCPT
+        with ESMTP id S230246AbjI2Aau (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Sep 2023 20:07:51 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E8F61A3;
-        Thu, 28 Sep 2023 17:07:45 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4064014bca5so53355195e9.3;
-        Thu, 28 Sep 2023 17:07:45 -0700 (PDT)
+        Thu, 28 Sep 2023 20:30:50 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C7A1A4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 17:30:48 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-65b08bbd8b1so56840396d6.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Sep 2023 17:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695946064; x=1696550864; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z5OD6QfO8UFj6rBKfs0pqCOiEIzLk/acverJtq6us9U=;
-        b=ByeliCh8+azC4Va3VVAnn+o0WTP7l5jEirsZ6A15hZofoOm+5YWXtHD0E4YA7ec9Bj
-         PjCCVLxiqvIzaXL/Me25sUMOK2mqddIbsVSDqYbmkYsXP4wsb+ypxOGvCnN7oWDvZhxo
-         hUaGd19t5JmR7XS/3GWsRY3V5S5OyASAEQ/lWsuvxWvz3obWPBpvfkhFeWz64FuK5fr5
-         fP/LmNj+KqrX4nbQWgwY9P4qbcbLDZ1JN6Fy5v2VzSyXhYpoE9LT4mK96FRUSKVM1BAW
-         c8kLk6xA9CuPR0ASjHtyZY8id+xeeM71Wwzr+/ZPbG83lm5t1PSNg7uxOXOdBvEth8GI
-         VPnQ==
+        d=sifive.com; s=google; t=1695947447; x=1696552247; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=atEB7wjnfyIdR+cI94PXlHFbCfo6brMiQMFpy3s241U=;
+        b=cijoMD3UATZPstSif7qtw9XrrWff8Ty/4+1i1c3pfR6GeTs2gUOaj5mnaB00ar9TvQ
+         URTXi7rF4JzJ8qWhqSLlgv2mgYJhfEZLZ4QZyjZItSyJLW7EndY16g8IbR7unadVTZWH
+         LNNg8GoXQY2vo/KiiokMnWANnE2yBv5p8nSkcL6yvylsN8768qe/0JrSoqOe8vvn52+p
+         aFir0WFmg9kIe4dboae7okpeSnGyxPdb0wF037m5e3MvSobK+r/mrX2EZ5ZsWPr5Oab9
+         1ym9f4E8A0PFSTabe94Fw2+d3zME1hIJj3k7bHNhj2RHwKmIbWzINuCyglXK5sQ0jv5I
+         pzlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695946064; x=1696550864;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z5OD6QfO8UFj6rBKfs0pqCOiEIzLk/acverJtq6us9U=;
-        b=AJRhT6gU7I1KuGaTzLRAMubj9COY21tk80ErW+efxXEaf7CLRHJMiuoOiXZ71U4AYu
-         ZpSRbrkpsG+W/INQjHS3rijksjtvNvwiG578ArMk6Fy8v/FAZnt9Tg2UtKZ0yIWFcDca
-         idBQLm/xxoaHM0XqpfD3JVFbwmM+qyn3pFx07o5Kyqg8ivBmjPhs9ZY3td1siqrckVCc
-         TFU62VWbPHm5PCwWgB1ozjLjglGt8Rj6oc5chILeXlm3IRGQF4P446aCvDe6TgK7GLmK
-         3ZBqD45xOGM9Oqc/bbn3mvwW/vVppYT2pUXK3KkroBgKSUgzvANBMfwTom/2UV39o1EA
-         q38A==
-X-Gm-Message-State: AOJu0Yy7A3Cf8s+QaYv1FtgTfnBstFSqG4g+JEXIvl2I5Mpq1Ei6pFrv
-        yA9Edzt1blssci9K//2TAxY=
-X-Google-Smtp-Source: AGHT+IEZsec19x4Dyp5Qyd9/dFnOI7gl2COruqQpH5xdgflyCZasqF1DinDundjYp1jJ68yPiLXLMQ==
-X-Received: by 2002:a7b:cb8d:0:b0:406:177e:5df7 with SMTP id m13-20020a7bcb8d000000b00406177e5df7mr2657926wmi.29.1695946063658;
-        Thu, 28 Sep 2023 17:07:43 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:fe98:5e2c:1821:4cb6])
-        by smtp.gmail.com with ESMTPSA id y20-20020a7bcd94000000b004030e8ff964sm245667wmj.34.2023.09.28.17.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 17:07:43 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        d=1e100.net; s=20230601; t=1695947447; x=1696552247;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=atEB7wjnfyIdR+cI94PXlHFbCfo6brMiQMFpy3s241U=;
+        b=ABJ/Tulpoe+HYxT3PJdQm6+yUPpCngkePBdwtjRmtGINjuRRanzo0QH6dsE3kq61or
+         rXBIzXKNzw3mGZ/ywNnE+NfFzkb/qdsX0xE3JTcUwS+pp4Ljv0/WZpAHWMT8vMRGIKmR
+         Q3TRcvxON/0Ybn35hpMY/k3JlqPwtkD5rfQdlFgbVjNjujvjDQUS7bjV8ZOs4gkBHvsG
+         r1OtZ7EoMxSBPKBgoD8QLHKL6dRqeaca5LGQnHV5EJHtOqvpLHptgQ4lxvz51E10L1lJ
+         yHIS8Qw4WvfQD5+gnHiU1K3xp0Uw8vyOrrhQ99p62d3XWBD35SQwbYXTQsHk7SX2Bno6
+         MeaA==
+X-Gm-Message-State: AOJu0YzjQkTLX6dsfBBh0Errxt8dq0hVYHmDJidJyEC7oT2uqTiHVv1B
+        ovgciF8mRjhIWhdjrwUf353QVg==
+X-Google-Smtp-Source: AGHT+IEYm7+id3//cfxcIDRfW/DYDioXQBn/ZqKu09zqWg0PZQxdEAy8zuztSY5h7LmqGu3r0JstLg==
+X-Received: by 2002:a0c:cb88:0:b0:65b:1468:8210 with SMTP id p8-20020a0ccb88000000b0065b14688210mr2774211qvk.23.1695947447439;
+        Thu, 28 Sep 2023 17:30:47 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2000:b002:5086:8bae:a4b0:bdad? ([2600:1700:2000:b002:5086:8bae:a4b0:bdad])
+        by smtp.gmail.com with ESMTPSA id q5-20020a0cf5c5000000b0065d105f6931sm759933qvm.59.2023.09.28.17.30.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Sep 2023 17:30:47 -0700 (PDT)
+Message-ID: <3d9eb660-e255-4477-a04b-6db8d249a20d@sifive.com>
+Date:   Thu, 28 Sep 2023 19:30:46 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] riscv: dts: renesas: rzfive-smarc: Drop dma
+ properties from SSI1 node
+Content-Language: en-US
+To:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -63,202 +69,53 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 5/5] riscv: configs: defconfig: Enable configs required for RZ/Five SoC
-Date:   Fri, 29 Sep 2023 01:07:04 +0100
-Message-Id: <20230929000704.53217-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20230929000704.53217-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <20230929000704.53217-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=no
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Prabhakar,
 
-Enable the configs required by the below IP blocks which are
-present on RZ/Five SoC:
-* ADC
-* CANFD
-* DMAC
-* eMMC/SDHI
-* OSTM
-* RAVB (+ Micrel PHY)
-* RIIC
-* RSPI
-* SSI (Sound+WM8978 codec)
-* Thermal
-* USB (PHY/RESET/OTG)
+On 2023-09-28 7:07 PM, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> With DMA enabled audio capture/playback has some echo noise. So for
+> now switch to PIO mode until fixed.
 
-Along with the above some core configs are enabled too,
--> CPU frequency scaling as RZ/Five does support this.
--> MTD is enabled as RSPI can be connected to flash chips
--> Enabled I2C chardev so that it enables userspace to read/write
-   i2c devices (similar to arm64)
--> Thermal configs as RZ/Five SoC does have thermal unit
--> GPIO regulator as we might have IP blocks for which voltage
-   levels are controlled by GPIOs
--> OTG configs as RZ/Five USB can support host/function
--> Gadget configs so that we can test USB function (as done in arm64
-   all the gadget configs are enabled)
+Is it really appropriate to work around a Linux software bug with a DT change
+like this? Remember, the devicetrees are used by software other than Linux.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/riscv/configs/defconfig | 52 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Regards,
+Samuel
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index ab86ec3b9eab..1e81c865a271 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -36,6 +36,13 @@ CONFIG_SMP=y
- CONFIG_HOTPLUG_CPU=y
- CONFIG_PM=y
- CONFIG_CPU_IDLE=y
-+CONFIG_CPU_FREQ=y
-+CONFIG_CPU_FREQ_STAT=y
-+CONFIG_CPU_FREQ_GOV_POWERSAVE=m
-+CONFIG_CPU_FREQ_GOV_USERSPACE=y
-+CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-+CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
-+CONFIG_CPUFREQ_DT=y
- CONFIG_VIRTUALIZATION=y
- CONFIG_KVM=m
- CONFIG_ACPI=y
-@@ -94,6 +101,7 @@ CONFIG_NETLINK_DIAG=y
- CONFIG_CGROUP_NET_PRIO=y
- CONFIG_NET_9P=y
- CONFIG_NET_9P_VIRTIO=y
-+CONFIG_CAN=m
- CONFIG_PCI=y
- CONFIG_PCIEPORTBUS=y
- CONFIG_PCI_HOST_GENERIC=y
-@@ -101,6 +109,11 @@ CONFIG_PCIE_XILINX=y
- CONFIG_PCIE_FU740=y
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
-+CONFIG_MTD=y
-+CONFIG_MTD_BLOCK=y
-+CONFIG_MTD_CFI=y
-+CONFIG_MTD_CFI_ADV_OPTIONS=y
-+CONFIG_MTD_SPI_NOR=y
- CONFIG_BLK_DEV_LOOP=y
- CONFIG_VIRTIO_BLK=y
- CONFIG_BLK_DEV_NVME=m
-@@ -123,8 +136,11 @@ CONFIG_VIRTIO_NET=y
- CONFIG_MACB=y
- CONFIG_E1000E=y
- CONFIG_R8169=y
-+CONFIG_RAVB=y
- CONFIG_STMMAC_ETH=m
-+CONFIG_MICREL_PHY=y
- CONFIG_MICROSEMI_PHY=y
-+CONFIG_CAN_RCAR_CANFD=m
- CONFIG_INPUT_MOUSEDEV=y
- CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_SERIAL_8250=y
-@@ -135,16 +151,24 @@ CONFIG_SERIAL_SH_SCI=y
- CONFIG_VIRTIO_CONSOLE=y
- CONFIG_HW_RANDOM=y
- CONFIG_HW_RANDOM_VIRTIO=y
-+CONFIG_I2C_CHARDEV=m
- CONFIG_I2C_MV64XXX=m
-+CONFIG_I2C_RIIC=y
- CONFIG_SPI=y
-+CONFIG_SPI_RSPI=m
- CONFIG_SPI_SIFIVE=y
- CONFIG_SPI_SUN6I=y
- # CONFIG_PTP_1588_CLOCK is not set
- CONFIG_GPIO_SIFIVE=y
-+CONFIG_CPU_THERMAL=y
-+CONFIG_DEVFREQ_THERMAL=y
-+CONFIG_RZG2L_THERMAL=y
- CONFIG_WATCHDOG=y
- CONFIG_SUNXI_WATCHDOG=y
-+CONFIG_RENESAS_RZG2LWDT=y
- CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
-+CONFIG_REGULATOR_GPIO=y
- CONFIG_DRM=m
- CONFIG_DRM_RADEON=m
- CONFIG_DRM_NOUVEAU=m
-@@ -152,39 +176,67 @@ CONFIG_DRM_SUN4I=m
- CONFIG_DRM_VIRTIO_GPU=m
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
-+CONFIG_SOUND=y
-+CONFIG_SND=y
-+CONFIG_SND_SOC=y
-+CONFIG_SND_SOC_RZ=m
-+CONFIG_SND_SOC_WM8978=m
-+CONFIG_SND_SIMPLE_CARD=m
- CONFIG_USB=y
-+CONFIG_USB_OTG=y
- CONFIG_USB_XHCI_HCD=y
- CONFIG_USB_XHCI_PLATFORM=y
- CONFIG_USB_EHCI_HCD=y
- CONFIG_USB_EHCI_HCD_PLATFORM=y
- CONFIG_USB_OHCI_HCD=y
- CONFIG_USB_OHCI_HCD_PLATFORM=y
-+CONFIG_USB_RENESAS_USBHS=m
- CONFIG_USB_STORAGE=y
- CONFIG_USB_UAS=y
- CONFIG_USB_MUSB_HDRC=m
- CONFIG_USB_MUSB_SUNXI=m
- CONFIG_NOP_USB_XCEIV=m
-+CONFIG_USB_GADGET=y
-+CONFIG_USB_RENESAS_USBHS_UDC=m
-+CONFIG_USB_CONFIGFS=m
-+CONFIG_USB_CONFIGFS_SERIAL=y
-+CONFIG_USB_CONFIGFS_ACM=y
-+CONFIG_USB_CONFIGFS_OBEX=y
-+CONFIG_USB_CONFIGFS_NCM=y
-+CONFIG_USB_CONFIGFS_ECM=y
-+CONFIG_USB_CONFIGFS_ECM_SUBSET=y
-+CONFIG_USB_CONFIGFS_RNDIS=y
-+CONFIG_USB_CONFIGFS_EEM=y
-+CONFIG_USB_CONFIGFS_MASS_STORAGE=y
-+CONFIG_USB_CONFIGFS_F_FS=y
- CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_SDHCI_CADENCE=y
- CONFIG_MMC_SPI=y
-+CONFIG_MMC_SDHI=y
- CONFIG_MMC_SUNXI=y
- CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_SUN6I=y
- CONFIG_DMADEVICES=y
- CONFIG_DMA_SUN6I=m
-+CONFIG_RZ_DMAC=y
- CONFIG_VIRTIO_PCI=y
- CONFIG_VIRTIO_BALLOON=y
- CONFIG_VIRTIO_INPUT=y
- CONFIG_VIRTIO_MMIO=y
-+CONFIG_RENESAS_OSTM=y
- CONFIG_SUN8I_DE2_CCU=m
- CONFIG_SUN50I_IOMMU=y
- CONFIG_RPMSG_CHAR=y
- CONFIG_RPMSG_CTRL=y
- CONFIG_RPMSG_VIRTIO=y
- CONFIG_ARCH_R9A07G043=y
-+CONFIG_IIO=y
-+CONFIG_RZG2L_ADC=m
-+CONFIG_RESET_RZG2L_USBPHY_CTRL=y
- CONFIG_PHY_SUN4I_USB=m
-+CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_LIBNVDIMM=y
- CONFIG_NVMEM_SUNXI_SID=y
- CONFIG_EXT4_FS=y
--- 
-2.34.1
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
+> index a8573fdfd8b1..85f96e24a96e 100644
+> --- a/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/rzfive-smarc.dtsi
+> @@ -6,3 +6,8 @@
+>   */
+>  
+>  #include <arm64/renesas/rzg2ul-smarc.dtsi>
+> +
+> +&ssi1 {
+> +	/delete-property/ dmas;
+> +	/delete-property/ dma-names;
+> +};
 
