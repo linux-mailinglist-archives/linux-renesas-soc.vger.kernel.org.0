@@ -2,142 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8517B2F0F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 11:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4AA7B2F1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 11:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232814AbjI2JUD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 05:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57042 "EHLO
+        id S232663AbjI2JY6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Sep 2023 05:24:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232732AbjI2JUD (ORCPT
+        with ESMTP id S231774AbjI2JY4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 05:20:03 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771DB1AA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Sep 2023 02:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=CPCOX8Pk808b+b
-        p768FKhaTdrGjFDu5eVaZMfKQbRpU=; b=TNnoYa3iv05zXfEWTwp4/pi40Du+IF
-        8heVnVxeXg0mIFyQeyzUJiBXjACBBOtgORflQmm6zwzViPMpb/bF5He6jTefXSpn
-        gA3AqiR9pqbMoTBL6iqtBWkdxuAD/CSjjjz24cIXu1vwme9aYB2S8dWmG4cQyRIv
-        oz45OCfOuYaGdQAHAcCo2PbDdDeE/scvWvao3bY6Hdv87S9gFIqPHooOuPgP6VRl
-        uZNoAl80ATsBZEnRc3cjsyN9NY0dGmLUMxMFqRbn4E452pfc5O9vloqOcaUF10SU
-        j8jyTjd465dXaZ0mDSfZ53dMzt2LAi1BhhGKcgaWLxDKFevh75MdFpDA==
-Received: (qmail 3780117 invoked from network); 29 Sep 2023 11:19:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2023 11:19:56 +0200
-X-UD-Smtp-Session: l3s3148p1@sfOD7XsGGL0ujntX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3] i2c: fix memleak in i2c_new_client_device()
-Date:   Fri, 29 Sep 2023 11:19:52 +0200
-Message-Id: <20230929091952.19957-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 29 Sep 2023 05:24:56 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 268CB193;
+        Fri, 29 Sep 2023 02:24:54 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,186,1694703600"; 
+   d="asc'?scan'208";a="177672704"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 29 Sep 2023 18:24:53 +0900
+Received: from [10.226.92.167] (unknown [10.226.92.167])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 830F94002627;
+        Fri, 29 Sep 2023 18:24:45 +0900 (JST)
+Message-ID: <718a2683-d7a3-ce91-2686-c077d0c48685@bp.renesas.com>
+Date:   Fri, 29 Sep 2023 10:24:44 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 18/28] pinctrl: renesas: rzg2l: add support for
+ different ds values on different groups
+To:     Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
+        mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, magnus.damm@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
+        neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
+ <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
+From:   Paul Barker <paul.barker.ct@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------O6zwnXp9OinQvEkI9DGuOLGa"
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Yang Yingliang reported a memleak:
-===
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------O6zwnXp9OinQvEkI9DGuOLGa
+Content-Type: multipart/mixed; boundary="------------UcQ0D7F82ZDjBYx4thPEnCUx";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
+ mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linus.walleij@linaro.org, gregkh@linuxfoundation.org, jirislaby@kernel.org,
+ magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+ quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
+ neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ biju.das.jz@bp.renesas.com
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <718a2683-d7a3-ce91-2686-c077d0c48685@bp.renesas.com>
+Subject: Re: [PATCH v2 18/28] pinctrl: renesas: rzg2l: add support for
+ different ds values on different groups
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
+ <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
 
-I got memory leak as follows when doing fault injection test:
+--------------UcQ0D7F82ZDjBYx4thPEnCUx
+Content-Type: multipart/mixed; boundary="------------CKPeGwEVGUuHLHO0kaoGvMTJ"
 
-unreferenced object 0xffff888014aec078 (size 8):
-  comm "xrun", pid 356, jiffies 4294910619 (age 16.332s)
-  hex dump (first 8 bytes):
-    31 2d 30 30 31 63 00 00                          1-001c..
-  backtrace:
-    [<00000000eb56c0a9>] __kmalloc_track_caller+0x1a6/0x300
-    [<000000000b220ea3>] kvasprintf+0xad/0x140
-    [<00000000b83203e5>] kvasprintf_const+0x62/0x190
-    [<000000002a5eab37>] kobject_set_name_vargs+0x56/0x140
-    [<00000000300ac279>] dev_set_name+0xb0/0xe0
-    [<00000000b66ebd6f>] i2c_new_client_device+0x7e4/0x9a0
+--------------CKPeGwEVGUuHLHO0kaoGvMTJ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If device_register() returns error in i2c_new_client_device(),
-the name allocated by i2c_dev_set_name() need be freed. As
-comment of device_register() says, it should use put_device()
-to give up the reference in the error path.
+On 29/09/2023 06:39, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> RZ/G3S supports different drive strength values for different power sou=
+rces
+> and pin groups (A, B, C). On each group there could be up to 4 drive
+> strength values per power source. Available power sources are 1v8, 2v5,=
 
-===
-I think this solution is less intrusive and more robust than he
-originally proposed solutions, though.
+> 3v3. Drive strength values are fine tuned than what was previously
 
-Reported-by: Yang Yingliang <yangyingliang@huawei.com>
-Closes: http://patchwork.ozlabs.org/project/linux-i2c/patch/20221124085448.3620240-1-yangyingliang@huawei.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Should this be "are more fine tuned" or "are less fine tuned"?
 
-Build tested only.
+> available on the driver thus the necessity of having micro-amp support.=
 
-@Yang Yingliang: I'd be happy if you could test it/comment on it.
+> As drive strength and power source values are linked together the
+> hardware setup for these was moved at the end of
+> rzg2l_pinctrl_pinconf_set() to ensure proper validation of the new
+> values.
+>=20
+> The drive strength values are expected to be initialized though SoC
+> specific hardware configuration data structure.
+>=20
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
- drivers/i2c/i2c-core-base.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Thanks,
+Paul
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index cc4a20465456..0d6172d6b808 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -931,8 +931,9 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
- struct i2c_client *
- i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
- {
--	struct i2c_client	*client;
--	int			status;
-+	struct i2c_client *client;
-+	bool need_put = false;
-+	int status;
- 
- 	client = kzalloc(sizeof *client, GFP_KERNEL);
- 	if (!client)
-@@ -970,7 +971,6 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 	client->dev.fwnode = info->fwnode;
- 
- 	device_enable_async_suspend(&client->dev);
--	i2c_dev_set_name(adap, client, info);
- 
- 	if (info->swnode) {
- 		status = device_add_software_node(&client->dev, info->swnode);
-@@ -982,6 +982,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 		}
- 	}
- 
-+	i2c_dev_set_name(adap, client, info);
- 	status = device_register(&client->dev);
- 	if (status)
- 		goto out_remove_swnode;
-@@ -993,6 +994,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 
- out_remove_swnode:
- 	device_remove_software_node(&client->dev);
-+	need_put = true;
- out_err_put_of_node:
- 	of_node_put(info->of_node);
- out_err:
-@@ -1000,7 +1002,10 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 		"Failed to register i2c client %s at 0x%02x (%d)\n",
- 		client->name, client->addr, status);
- out_err_silent:
--	kfree(client);
-+	if (need_put)
-+		put_device(&client->dev);
-+	else
-+		kfree(client);
- 	return ERR_PTR(status);
- }
- EXPORT_SYMBOL_GPL(i2c_new_client_device);
--- 
-2.30.2
+--------------CKPeGwEVGUuHLHO0kaoGvMTJ
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------CKPeGwEVGUuHLHO0kaoGvMTJ--
+
+--------------UcQ0D7F82ZDjBYx4thPEnCUx--
+
+--------------O6zwnXp9OinQvEkI9DGuOLGa
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZRaX3AUDAAAAAAAKCRDbaV4Vf/JGvYSv
+AQDbYGITbR97jsapOUv2wMwpwoQOOqb0TkSdqMkD1NE5egD/cTolbVXIhOczfmm+jux7+KfUaTg7
+B3iypkOqofYcUQI=
+=dWXy
+-----END PGP SIGNATURE-----
+
+--------------O6zwnXp9OinQvEkI9DGuOLGa--
