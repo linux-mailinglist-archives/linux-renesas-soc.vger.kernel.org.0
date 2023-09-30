@@ -2,100 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3384D7B3B34
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Sep 2023 22:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A25A37B3EB1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 30 Sep 2023 08:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232748AbjI2UXP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Sep 2023 16:23:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38172 "EHLO
+        id S234053AbjI3GzL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 30 Sep 2023 02:55:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbjI2UXP (ORCPT
+        with ESMTP id S232125AbjI3GzK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Sep 2023 16:23:15 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6FE5B4;
-        Fri, 29 Sep 2023 13:23:12 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.72.58) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 29 Sep
- 2023 23:23:07 +0300
-Subject: Re: [PATCH v4] net: ravb: Fix possible UAF bug in ravb_remove
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Zheng Wang <zyytlz.wz@163.com>
-CC:     "lee@kernel.org" <lee@kernel.org>,
-        "linyunsheng@huawei.com" <linyunsheng@huawei.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        Sat, 30 Sep 2023 02:55:10 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA3131AB;
+        Fri, 29 Sep 2023 23:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696056908; x=1727592908;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Er6kX/bTXC9VVyFrZm9L0oiXqmRdHvt1nCQhC2rSbxU=;
+  b=EVfuCe7DARqS9flWJqNVBGfVz6JtOgh+K07mYZa4RH+kP/ppjak2kjM3
+   1hEwRPsWMuhJ+mE4y0r8MibsBVFmkvtk7lHa6avq7j2Gmy3ST0NAt6KTJ
+   PBd5QcNl364JGrB+rXv2QY8TUZGdOVKELrDW0Pd6vHwfbVrXeis6X+5tf
+   nn3huNSL0ssGlCjxq/qhxNZ93PBmGdySMfUjzHV47QT+lNSWXu9yJOkOi
+   doER0Uc1x0QxNfmF/v09Y6V6kX2kgu8jmoY7bJcPnCstsiJYiA8GZsg61
+   /kBwG3yisujU6JL01D1yjX4bNm1ZcjE/ovBlA8L9DdpIdXTFc6AcJG7LZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="4000752"
+X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
+   d="scan'208";a="4000752"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 23:55:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
+   d="scan'208";a="1043767"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 29 Sep 2023 23:54:28 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qmTsU-0003oJ-0W;
+        Sat, 30 Sep 2023 06:55:02 +0000
+Date:   Sat, 30 Sep 2023 14:54:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alexandra Diupina <adiupina@astralinux.ru>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Alexandra Diupina <adiupina@astralinux.ru>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Wolfram Sang <wsa-dev@sang-engineering.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "hackerzheng666@gmail.com" <hackerzheng666@gmail.com>,
-        "1395428693sheep@gmail.com" <1395428693sheep@gmail.com>,
-        "alex000young@gmail.com" <alex000young@gmail.com>
-References: <20230725030026.1664873-1-zyytlz.wz@163.com>
- <20230725201952.2f23bb3b@kernel.org>
- <9cfa70cca3cb1dd20bb2cab70a213e5a4dd28f89.camel@redhat.com>
- <607f4fe4-5a59-39dd-71c2-0cf769b48187@omp.ru>
- <OSYPR01MB53341CFDBB49A3BA41A6752CD8F9A@OSYPR01MB5334.jpnprd01.prod.outlook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <e9eb099d-35df-6a9a-8eeb-5ef3e4f26c0b@omp.ru>
-Date:   Fri, 29 Sep 2023 23:23:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and
+ remove its return value check
+Message-ID: <202309301402.uR7IRQVj-lkp@intel.com>
+References: <20230927104438.30628-1-adiupina@astralinux.ru>
 MIME-Version: 1.0
-In-Reply-To: <OSYPR01MB53341CFDBB49A3BA41A6752CD8F9A@OSYPR01MB5334.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.72.58]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 09/29/2023 19:57:32
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 180253 [Sep 29 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 535 535 da804c0ea8918f802fc60e7a20ba49783d957ba2
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: 178.176.72.58:7.4.1,7.7.3;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {cloud_iprep_silent}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: {rdns complete}
-X-KSE-AntiSpam-Info: {fromrtbl complete}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.72.58
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 09/29/2023 20:03:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 9/29/2023 6:33:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230927104438.30628-1-adiupina@astralinux.ru>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -103,13 +75,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Alexandra,
 
-On 9/20/23 5:37 AM, Yoshihiro Shimoda wrote:
+kernel test robot noticed the following build errors:
 
-   Sorry, I got ill that same day and still have subfebrile temperature,
-and I forgot about your mail. I'll try replying to it on this weekend...
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[...]
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandra-Diupina/drm-rcar-du-turn-rcar_du_group_get-into-void-and-remove-its-return-value-check/20230927-184651
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230927104438.30628-1-adiupina%40astralinux.ru
+patch subject: [PATCH v2] drm: rcar-du: turn rcar_du_group_get() into void and remove its return value check
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230930/202309301402.uR7IRQVj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301402.uR7IRQVj-lkp@intel.com/reproduce)
 
-MBR, Sergey
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309301402.uR7IRQVj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c:203:6: error: conflicting types for 'rcar_du_group_get'; have 'void(struct rcar_du_group *)'
+     203 | void rcar_du_group_get(struct rcar_du_group *rgrp)
+         |      ^~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h:20,
+                    from drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c:29:
+   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h:57:5: note: previous declaration of 'rcar_du_group_get' with type 'int(struct rcar_du_group *)'
+      57 | int rcar_du_group_get(struct rcar_du_group *rgrp);
+         |     ^~~~~~~~~~~~~~~~~
+
+
+vim +203 drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+
+   194	
+   195	/*
+   196	 * rcar_du_group_get - Acquire a reference to the DU channels group
+   197	 *
+   198	 * Acquiring the first reference setups core registers. A reference must be held
+   199	 * before accessing any hardware registers.
+   200	 *
+   201	 * This function must be called with the DRM mode_config lock held.
+   202	 */
+ > 203	void rcar_du_group_get(struct rcar_du_group *rgrp)
+   204	{
+   205		if (rgrp->use_count)
+   206			goto done;
+   207	
+   208		rcar_du_group_setup(rgrp);
+   209	
+   210	done:
+   211		rgrp->use_count++;
+   212	}
+   213	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
