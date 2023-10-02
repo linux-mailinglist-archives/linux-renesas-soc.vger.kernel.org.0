@@ -2,129 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55E187B5176
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 13:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8011A7B5307
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 14:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236626AbjJBLfF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 07:35:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
+        id S237040AbjJBM17 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Oct 2023 08:27:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231338AbjJBLfE (ORCPT
+        with ESMTP id S237027AbjJBM1z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 07:35:04 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7783893
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 04:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=PVFYZy0ARB0Ir/
-        opkUijq37R80R5ihV2iohA49i/p94=; b=dhgplXggEMUmtHf8YWo1fxG2khbfD1
-        vANkwwzl+P9Mjv4aE0BhpYuCSI2sID79CaNcUcl1khaOVQfbWvI0niwedvS4V9qf
-        rXfZ6ahhCgPAYrrAmvlgiAh6UkrSPPEj6KpHF6b33bFZTojyQiP0FNopZI9vtxYz
-        SqN7Joa+czso0IIJEgwDnr2ezeRPUoTz7I82XUoaqC6aRA9nT9KzCcG6BHOCmGqw
-        OLC4YjbbuwoCnmbgbhTNHiI+fbl+W1iSWfeWh8hN54g/6Rtum2j/zlAP+frtMBzG
-        a+NL8d8ASaNbaL/n6MfFIOWL115gM1R8j4Ewmta7HW4KRiwdm6hyKI3A==
-Received: (qmail 509107 invoked from network); 2 Oct 2023 13:34:57 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2023 13:34:57 +0200
-X-UD-Smtp-Session: l3s3148p1@6aK5KboGfJcujntX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Mon, 2 Oct 2023 08:27:55 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 283941B4
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 05:27:47 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,194,1694703600"; 
+   d="scan'208";a="181664205"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Oct 2023 21:27:47 +0900
+Received: from localhost.localdomain (unknown [10.226.92.126])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 81924420F22E;
+        Mon,  2 Oct 2023 21:27:43 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] arm64: dts: renesas: r8a77990: Add Ebisu-4D board support
-Date:   Mon,  2 Oct 2023 13:34:41 +0200
-Message-Id: <20231002113441.19571-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v11 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
+Date:   Mon,  2 Oct 2023 13:27:36 +0100
+Message-Id: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+This path series aims to add support for RZ/G2L DU DRM driver.
 
-Add initial support for the Renesas Ebisu-4D development board.
-
-The Ebisu-4D board is very similar to the Ebisu board, but the memory
-configuration is different.
-
-  - The memory map of Ebisu-4D board is as follows:
-      Bank0: 2 GiB RAM : 0x000048000000 -> 0x000bfffffff
-
-  - The memory map of Ebisu board is as follows:
-      Bank0: 1 GiB RAM : 0x000048000000 -> 0x0007fffffff
-
-Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-[wsa: rebased]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-
-Resending this patch because I want to utilize all 2GB of memory on my
-Ebisu. Since nobody updated U-Boot to handle different RAM sizes on
-Ebisu in the last 4.5 years, let's add the Ebisu-4D as a seperate board.
-
-
- arch/arm64/boot/dts/renesas/Makefile          |  1 +
- .../boot/dts/renesas/r8a77990-ebisu-4d.dts    | 25 +++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77990-ebisu-4d.dts
-
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 7114cbbd8713..ad8f13f9907a 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -55,6 +55,7 @@ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-v3hsk.dtb
- dtb-$(CONFIG_ARCH_R8A77980) += r8a77980a-condor-i.dtb
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD), Video
+signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
  
- dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu.dtb
-+dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu-4d.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu-4d.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu-4d.dts
-new file mode 100644
-index 000000000000..9f5bc7a7734f
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu-4d.dts
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Ebisu-4D board
-+ *
-+ * Copyright (C) 2018 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r8a77990-ebisu.dts"
-+
-+/ {
-+	model = "Renesas Ebisu-4D board based on r8a77990";
-+	compatible = "renesas,ebisu", "renesas,r8a77990";
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x0 0x78000000>;
-+	};
-+};
-+
-+&pciec0 {
-+	/* Map all possible DDR as inbound ranges */
-+	dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
-+};
+The output from DSI is connected to ADV7535.
+
+Ref:
+ https://lore.kernel.org/linux-renesas-soc/OS0PR01MB5922717E4CCFE07F3C25FBC986989@OS0PR01MB5922.jpnprd01.prod.outlook.com/#t
+
+This patch series is tested with [2]
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=742810
+
+v10->v11:
+* Replaced CONFIG_DRM_RCAR_VSP->CONFIG_VIDEO_RENESAS_VSP1 for building
+  rzg2l_du_vsp driver.
+* Dropped "rzg2l_du_regs.h" instead the relevant definitions defined in
+  .c file.
+* Dropped setting ditr5 based on latest HW manual 1.3.0/1.4.0
+* Updated the comment for auto clear.
+* Replaced writel()->rzg2l_du_write() in rzg2l_du_start_stop().
+* Dropped CRC related functions as it does not have DISCOM.
+* Replaced the variable possible_crtcs->possible_outputs in
+  struct rzg2l_du_output_routing.
+* Updated DMA_BIT_MASK from 40->32.
+* Dropped unneeded struct drm_bridge from rzg2l_du_drv.h.
+* Dropped colour keying support as it doesn't have planes.
+* Added only RGB formats in rzg2l_du_format_infos.
+* Dropped chroma planes from rzg2l_du_fb_create().
+* Updated the comment for max_pitch in rzg2l_du_fb_create().
+* Dropped possible_crtcs check in rzg2l_du_encoders_init().
+* Dropped additional empty line from struct rzg2l_du_device.
+v9->v10:
+ * patch#1 is mainlined, so dropped from this series.
+ * Added Rb tag from Laurent for the binding patch.
+ * Updated the commit description.
+ * Updated description of the port by dropping the text "specified in
+   Documentation/devicetree/bindings/graph.txt."
+ * Dropped empty endpoint from example.
+ * Dropped ARM64 dependency from Kconfig.
+ * Sorted the configs alphabetically in Kconfig.
+ * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
+   VIDEO_RENESAS_VSP1.
+ * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
+   clk rate with dclk rate.
+ * Added rzg2l_du_write() wrapper function.
+ * Updated the comment atomic_begin->atomic_flush.
+ * Dropped .atomic_check and .atomic_begin callback
+ * Renamed __rzg2l_du_crtc_plane_atomic_check->__rzg2l_du_vsp_plane_atomic
+   _check and moved it to rzg2l_du_vsp.c
+ * Added struct clk in rzg2l_du_crtc.h
+ * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
+   vblank_count from struct rzg2l_du_crtc.
+ * Replaced the macro to_rzg2l_crtc with static inline functions.
+ * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
+   wait.h and drm_managed.h from rzg2l_du_drv.c.
+ * Replaced DRM_INFO->drm_info
+ * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
+   gem_prime_mmap.
+ * Replaced the callback remove->remove_new.
+ * Dropped header file wait.h and added forward declarations struct clk and
+   rzg2l_du_device from rzg2l_du_drv.h.
+ * Dropped the dsi and dpad0_source variables from struct rzg2l_du_device.
+ * Replaced the macro to_rzg2l_encoder with static inline functions.
+ * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
+ * Dropped struct sg_table and added the scatterlist.h header file in
+   rzg2l_du_vsp.h
+ * Added container_of.h header file, forward declarations struct device and
+   struct rzg2l_du_device in rzg2l_du_vsp.h.
+v8->v9:
+ * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+ * Added Rb tag from Laurent and Geert for patch#3.
+ * Dropped reset_control_assert() from error patch for rzg2l_du_crtc_get() as
+   suggested by Philipp Zabel.
+ * Added Rb tag from Laurent oatch#5.
+ * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+v7->v8:
+ * Moved rcar-du and shmobile DRM drivers to renesas specific vendor directory.
+ * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+ * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+ * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating rz_du folder.
+ * Updated MAINTAINERS entries.
+v6->v7:
+ * Split DU lib and  RZ/G2L du driver as separate patch series as
+   DU support added to more platforms based on RZ/G2L alike SoCs.
+ * Rebased to latest drm-tip.
+ * Added patch #2 for binding support for RZ/V2L DU
+ * Added patch #4 for driver support for RZ/V2L DU
+ * Added patch #5 for SoC DTSI support for RZ/G2L DU
+ * Added patch #6 for SoC DTSI support for RZ/V2L DU
+ * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L} SoCs.
+ * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+v5->v6:
+ * Merged DU lib and RZ/G2L du driver in same patch series
+ * Rebased to latest drm-misc.
+ * Merged patch#1 to RZ/G2L Driver patch.
+ * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+ * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220312084205.31462-2-biju.das.jz@bp.renesas.com/
+
+Biju Das (4):
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+  drm: renesas: Add RZ/G2L DU Support
+  MAINTAINERS: Add maintainer for RZ DU drivers
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 126 +++++
+ MAINTAINERS                                   |  15 +-
+ drivers/gpu/drm/renesas/Kconfig               |   1 +
+ drivers/gpu/drm/renesas/Makefile              |   1 +
+ drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
+ drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 438 ++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  89 ++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 176 +++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  78 +++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  72 +++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 441 ++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 469 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  97 ++++
+ 16 files changed, 2096 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+
 -- 
-2.30.2
+2.25.1
 
