@@ -2,150 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47BB57B4C88
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 09:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0DA7B4CD7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 09:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235730AbjJBHaD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 03:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37404 "EHLO
+        id S235708AbjJBHuf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Oct 2023 03:50:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235641AbjJBHaC (ORCPT
+        with ESMTP id S235758AbjJBHud (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 03:30:02 -0400
-Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C246B7;
-        Mon,  2 Oct 2023 00:29:59 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id 6181F18651E1;
-        Mon,  2 Oct 2023 10:29:57 +0300 (MSK)
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id MhpPlMfsexIS; Mon,  2 Oct 2023 10:29:56 +0300 (MSK)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id CEFB51862F42;
-        Mon,  2 Oct 2023 10:29:56 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at astralinux.ru
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id AGFD1h-Y19PO; Mon,  2 Oct 2023 10:29:56 +0300 (MSK)
-Received: from rbta-msk-lt-302690.astralinux.ru (unknown [10.177.232.254])
-        by mail.astralinux.ru (Postfix) with ESMTPSA id CF8D41863156;
-        Mon,  2 Oct 2023 10:29:54 +0300 (MSK)
-From:   Alexandra Diupina <adiupina@astralinux.ru>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexandra Diupina <adiupina@astralinux.ru>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: [PATCH v3] drm: rcar-du: turn rcar_du_group_get() into void and remove its return value check
-Date:   Mon,  2 Oct 2023 10:29:17 +0300
-Message-Id: <20231002072917.22194-1-adiupina@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230930145032.GD31829@pendragon.ideasonboard.com>
-References: 
+        Mon, 2 Oct 2023 03:50:33 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C506CD3
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 00:50:30 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5a2478862dbso26827237b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Oct 2023 00:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696233030; x=1696837830; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X37H5OoCG29VUOKJ+hYlXDwpqdLVJ1D+wE1MHUaOHHk=;
+        b=E0tqZtH/uQGAFsYCTu0cNjJPRgEDrCskdz3KwukaZxCgapa/WOwHvPEmOdbmuFlNNi
+         b9e0Vefs3YsCRShC1wXatmhlTiv8kyQhKONNTMhKlKS9/ne5KTqREj7sd2Xv0rLvmQeI
+         wuNbjtw8lUZA42z+s1lOY8Q3PjMPW1Ws6Tr98qDVmSCtkL7q5vD5qfegqD8XhmynUa5n
+         71idL9rY4OVh4owzmBtz3hYoqgSD+yVwfrqC+idt6arBEOGXuAvbAZSW+pX04BcpDNrE
+         HbZTfbPljN7hcZtnOgoJ0m95/B31CuJKvwOtqRTS5RO9YprovY3lj8HfzDBbWab7xX/U
+         CcRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696233030; x=1696837830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X37H5OoCG29VUOKJ+hYlXDwpqdLVJ1D+wE1MHUaOHHk=;
+        b=qNEKtwnMmJOMQJMPRb84wJnn+Dq0ek0lfJ76kvEn5U7gRlMVIr1qdPdi6gBtboMJUq
+         0fodIfSZddITJvfDvXlWbKCd7Kx3NqVFFYzdLjd68yWI+opXY/73X8eoEKZW13NQB7hf
+         v29AwseqUxcJnnMmVPZBbVW4J3LmC1nKaEJPn+doig9plYem4pPFMqa5bIJwuPDiHO35
+         +VCs4ZuOM0E1Pu4QRXw5vFohoGLCBq5TE2xEYs901R+mzCmUjQIqrdv6tKXGxm3UxkHS
+         KgBAkT8FiN2savT96w8SiZ7GwTEG5+Bq2SOAbiGlL7yWIVAvhNB0Qj/vCT0DTUxwJzu1
+         voZA==
+X-Gm-Message-State: AOJu0YzeyJ/b/ueDYTdNGnhfFNVDHY8GRSxt/rNKPldVQuW/ZeLKgFcH
+        ZOdpejOK1KUy2xGPATFGxdcqEC4dBwPVOwI+4L/bKQ==
+X-Google-Smtp-Source: AGHT+IF+6ZTZ1Izmtrao9zrQg53q9ExpBqK8h6wM5hQrAkazT6pBv1Pr8SVtItolD9Z+i/b0h1Atm+2m2dYtWSavx74=
+X-Received: by 2002:a81:5b82:0:b0:58c:b5d2:bbd8 with SMTP id
+ p124-20020a815b82000000b0058cb5d2bbd8mr11584242ywb.28.1696233030011; Mon, 02
+ Oct 2023 00:50:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1695986064.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1695986064.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 2 Oct 2023 09:50:18 +0200
+Message-ID: <CACRpkdYiqeKCrsehL3uOLrnwg0E4eJ705C8nmnJbL9JAxDMc+A@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v6.7
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-rcar_du_group_get() never returns a negative
-error code (always returns 0), so change the comment
-about returned value, turn function into void (return
-code of rcar_du_group_get has been redundant for a
-long time, so perhaps it's just not required) and
-remove redundant error path handling in rcar_du_crtc_get()
+On Fri, Sep 29, 2023 at 1:18=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d=
+1d:
+>
+>   Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-pinctrl-for-v6.7-tag1
+>
+> for you to fetch changes up to c385256611b1af79d180e35c07992b43e1be5067:
+>
 
-Fixes: 0bb63534fdf3 ("drm: rcar-du: Perform the initial CRTC setup from r=
-car_du_crtc_get()")
-Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
----
-v3: fix build errors
-v2: rcar_du_group_get() is turned into void and its return=20
-value check is removed in rcar_du_crtc_get()
- drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c  | 6 +-----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 5 +----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h | 2 +-
- 3 files changed, 3 insertions(+), 10 deletions(-)
+Pulled into my "devel" branch, thanks!
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu=
-/drm/renesas/rcar-du/rcar_du_crtc.c
-index 7e175dbfd892..2be7c6e64d72 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-@@ -565,17 +565,13 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rc=
-rtc)
- 	if (ret < 0)
- 		goto error_clock;
-=20
--	ret =3D rcar_du_group_get(rcrtc->group);
--	if (ret < 0)
--		goto error_group;
-+	rcar_du_group_get(rcrtc->group);
-=20
- 	rcar_du_crtc_setup(rcrtc);
- 	rcrtc->initialized =3D true;
-=20
- 	return 0;
-=20
--error_group:
--	clk_disable_unprepare(rcrtc->extclock);
- error_clock:
- 	clk_disable_unprepare(rcrtc->clock);
- 	return ret;
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gp=
-u/drm/renesas/rcar-du/rcar_du_group.c
-index 2ccd2581f544..7113025dabff 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-@@ -199,10 +199,8 @@ static void rcar_du_group_setup(struct rcar_du_group=
- *rgrp)
-  * before accessing any hardware registers.
-  *
-  * This function must be called with the DRM mode_config lock held.
-- *
-- * Return 0 in case of success or a negative error code otherwise.
-  */
--int rcar_du_group_get(struct rcar_du_group *rgrp)
-+void rcar_du_group_get(struct rcar_du_group *rgrp)
- {
- 	if (rgrp->use_count)
- 		goto done;
-@@ -211,7 +209,6 @@ int rcar_du_group_get(struct rcar_du_group *rgrp)
-=20
- done:
- 	rgrp->use_count++;
--	return 0;
- }
-=20
- /*
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h b/drivers/gp=
-u/drm/renesas/rcar-du/rcar_du_group.h
-index 55649ad86a10..5330dc4ce64a 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.h
-@@ -54,7 +54,7 @@ struct rcar_du_group {
- u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg);
- void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
-=20
--int rcar_du_group_get(struct rcar_du_group *rgrp);
-+void rcar_du_group_get(struct rcar_du_group *rgrp);
- void rcar_du_group_put(struct rcar_du_group *rgrp);
- void rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start);
- void rcar_du_group_restart(struct rcar_du_group *rgrp);
---=20
-2.30.2
-
+Yours,
+Linus Walleij
