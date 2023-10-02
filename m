@@ -2,60 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 321247B5403
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 15:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B517B54AF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 16:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236736AbjJBNbJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 09:31:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
+        id S237474AbjJBOFK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Oct 2023 10:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236717AbjJBNbI (ORCPT
+        with ESMTP id S237469AbjJBOFK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 09:31:08 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB1A91
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 06:31:03 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40690C433C7;
-        Mon,  2 Oct 2023 13:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696253463;
-        bh=kKBI77zp4+YZMVjG9R3aO6yIO3fcESRe+LYfl/ViOAE=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=KNXHjyCyehVxgxnfP/EJneEpx7BsYFX0ja0vLX5bH6vaOay+QK0lUozoK4taADcZf
-         ujjUx3S9/OGtXkS2684jUY0Dksova7zzlpyJDMbcO9/NOV/2h4m7RPp/G7QNdJwiHe
-         TkBEl2yBwHANTzFhpYe0eVhyQcgTHR1T5n9psuaqF61HwQ2Eybr9Rpc3LGv5DCUK2O
-         E2M4mJKn0sn6vHw3GXkUTHwnjOLm5xSurYbcdyRWVJtvWHoWNtwhcwBGHERylzKnZ2
-         Yu0+M3FyDqm7HxPSvLsQfyO0igmUWh88zqO9tP+Y5wbprc0EXjYeH1QfEPKhbeaPzv
-         W8XoCyslm2/Gw==
-Received: (nullmailer pid 1584324 invoked by uid 1000);
-        Mon, 02 Oct 2023 13:31:01 -0000
+        Mon, 2 Oct 2023 10:05:10 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0CC3D7
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 07:05:06 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3af64a4c97eso2466613b6e.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Oct 2023 07:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1696255505; x=1696860305; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4a7IJsLBq2Yf23strgqWm6X9C9GhQHuLYOdMBOqt/g=;
+        b=xB+ENd4MGVnM9o42Jqi6RqOfymiOXR32GU+Qf5K81jzShvCkoeyrZ09Zi8RuyNfSz6
+         ub6/Ld9MwSubf/T68IvKDhls8R9tXSRS4eCEuILKG7tZS84ShmGdFi6njZ3Fu9JQmBbU
+         2V3Vdbwm7OF9QsSr/OdQn0nnvnBnPSDOoKrbSKNTzCz/4NouwfJO6u9H/09MWvdhMlfC
+         KtCC91rbZ/qnJaW/vXOr6WLxLkZYgp2EgE70+oX6g2nG7lnD/r+HUbIBB3wDOvXfkrwm
+         PxdRLQCdPmfv/FNktVIjWSZOSD6NJXoimkPUgsClRaw0RWuVoVuhJkuPNXX9+PXnEMrl
+         OGaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696255505; x=1696860305;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s4a7IJsLBq2Yf23strgqWm6X9C9GhQHuLYOdMBOqt/g=;
+        b=kusoYJWeujJ6LvF+kRGa18ld0eQftNz710V44R4XHsUeKo+yXioXPdvrs1+RBZpmOX
+         bsc8z14lwDKFgXcg08/N9LcViW8lcJ/7bniOR63LBzAFwXOSSAe5IzQwIiNEoe6JAIKq
+         ZoL9/ZwEirYZYNWIAi9KRGmMuEVilkVbxrt7Yh6/xmI5gmX6zMO2YjNVPXf3OdwXu00I
+         KgUSSuyCObDkt6mJzRbuwTzWiJm0OELf2TnLNmqKo42IhWhQBbOkm9FLmoZpj7yle+Qa
+         bwAdpQUT3CPHTBOxj1nj8bJoJQoBx94ftuSknysj+VjHHZLT1AsRHcaxXunELaI10XMc
+         5QmA==
+X-Gm-Message-State: AOJu0YyBhLNmluTYQs1Ia/6DQLM1RneVEHIXeoDzkINMjoBhV5N2f+Vl
+        OzGtid7fkk+WOG0QDQzAxuVxY355czEp1JefMXQqPw==
+X-Google-Smtp-Source: AGHT+IFuLVi1GA+Nu3/9Yt4hPudrRW1g+icuBY9f6je853SzVGaIxcyqBABdBZhqcHgJ0PijL/V0mw==
+X-Received: by 2002:a05:6808:1582:b0:3ad:f8a7:1485 with SMTP id t2-20020a056808158200b003adf8a71485mr12902543oiw.18.1696255505050;
+        Mon, 02 Oct 2023 07:05:05 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id bt20-20020a632914000000b0058901200bbbsm2477442pgb.40.2023.10.02.07.05.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 07:05:03 -0700 (PDT)
+Message-ID: <651ace0f.630a0220.657f1.45fe@mx.google.com>
+Date:   Mon, 02 Oct 2023 07:05:03 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        David Airlie <airlied@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        dri-devel@lists.freedesktop.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org
-In-Reply-To: <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
-References: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
- <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
-Message-Id: <169625346119.1584308.6712024438150463330.robh@kernel.org>
-Subject: Re: [PATCH v11 1/4] dt-bindings: display: Document Renesas RZ/G2L
- DU bindings
-Date:   Mon, 02 Oct 2023 08:31:01 -0500
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-10-02-v6.6-rc4
+X-Kernelci-Report-Type: test
+Subject: renesas/master ltp-ipc: 6 runs,
+ 1 regressions (renesas-devel-2023-10-02-v6.6-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,78 +71,71 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+renesas/master ltp-ipc: 6 runs, 1 regressions (renesas-devel-2023-10-02-v6.=
+6-rc4)
 
-On Mon, 02 Oct 2023 13:27:37 +0100, Biju Das wrote:
-> The RZ/G2L LCD controller is composed of Frame Compression Processor
-> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
-> 
-> The DU module supports the following hardware features
-> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
-> − Display timing master
-> − Generates video timings
-> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
-> − Supports Progressive
-> − Input data format (from VSPD): RGB888, RGB666
-> − Output data format: same as Input data format
-> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
-> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
-> 
-> This patch documents the DU module found on RZ/G2L LCDC.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> v10->v1:
->  * No change
-> v9->v10:
->  * Added Rb tag from Laurent
->  * Updated the commit description.
->  * Updated description of the port by dropping the text "specified in
->    Documentation/devicetree/bindings/graph.txt."
->  * Dropped empty endpoint from example.
-> v8->v9:
->  * No change
-> v7->v8:
->  * No change
-> v6->v7:
->  * No change
-> v5->v6:
->  * No change.
-> v4->v5:
->  * Added Rb tag from Rob.
-> v3->v4:
->  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
->  * started using same compatible for RZ/G2{L,LC}
-> v3: New patch
-> ---
->  .../bindings/display/renesas,rzg2l-du.yaml    | 121 ++++++++++++++++++
->  1 file changed, 121 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> 
+Regressions Summary
+-------------------
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+platform                 | arch  | lab     | compiler | defconfig | regress=
+ions
+-------------------------+-------+---------+----------+-----------+--------=
+----
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
+    =
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml:64:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-dtschema/dtc warnings/errors:
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-10-02-v6.6-rc4/plan/ltp-ipc/
 
-doc reference errors (make refcheckdocs):
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-10-02-v6.6-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      e7f4ce54899fc69930f8d28194311678b5e3d64b
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231002122740.220177-2-biju.das.jz@bp.renesas.com
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  3f0b2176930cf15a26597e28abf4356050136bbe =
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
 
-pip3 install dtschema --upgrade
+Test Regressions
+---------------- =
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
+
+platform                 | arch  | lab     | compiler | defconfig | regress=
+ions
+-------------------------+-------+---------+----------+-----------+--------=
+----
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/651ac45aa95fb7b62f8a0a5c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-10-02-v6.6-rc4/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
+zg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-10-02-v6.6-rc4/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
+zg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
+p/20230623.0/arm64/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/651ac45aa95fb7b62f8a0a=
+5d
+        failing since 5 days (last pass: renesas-devel-2023-06-05-v6.4-rc5,=
+ first fail: renesas-devel-2023-09-27-v6.6-rc3) =
+
+ =20
