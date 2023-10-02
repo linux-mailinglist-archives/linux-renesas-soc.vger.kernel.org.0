@@ -2,37 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D5E7B5484
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 16:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD4F7B5528
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 16:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236201AbjJBOJ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 10:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
+        id S237474AbjJBOLw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Oct 2023 10:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237654AbjJBOJ6 (ORCPT
+        with ESMTP id S236736AbjJBOLv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 10:09:58 -0400
+        Mon, 2 Oct 2023 10:11:51 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10D8B0
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 07:09:55 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45FC3C433C7;
-        Mon,  2 Oct 2023 14:09:53 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 622799B
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 07:11:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2954FC433C8;
+        Mon,  2 Oct 2023 14:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696255795;
-        bh=1knmTllFvXfoj1V2MR4jMdtRmV16+b/5ZyARrPuEoDA=;
+        s=k20201202; t=1696255909;
+        bh=Y7RtMnz6qsdMpfPD2o+oeKuKeEuQCuptyrki74cduMU=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=pm0ckbLhaN2WcarGFnX6s6DdP3Q2iyoOBRWxVP2TiuQ40jRFYv0g0Tgk4SwGKBbz0
-         BEShvAf//Jm81aSgGUE37tavkzLaLKwo2XW0NXTm1ds1OXvK9AGSYq9CTq2yHedvad
-         KL0b1apKvDqDypoNF58IWN1WyNCm6ou/sIHKWehd5D+eMQT7rnH32CwQzbOK/lM6aP
-         lrKAIKXKdqiP7cjvjB41FqZuwiiv+jhQpg0ZsKpx5ja/m9iss+l5Ah/dzZDTGS1BgK
-         ehJwfyiHi0n0RcUCrTFZHpo7eN0VlyRPb+2i0idZs4Fy9h3JaEJ0/qXIP6tiEf+3Nx
-         u97+H/ygSekJw==
-Message-ID: <3c9f15e8-be41-4c9a-ad72-27875220ad66@kernel.org>
-Date:   Mon, 2 Oct 2023 16:09:49 +0200
+        b=tdct9r7tvfeNtb3hqg/itI6/9XWQBTbzNCO5SL8a4KoUC54e/nujOAm87NjBo37Jh
+         1d0QHj0uGvFiVohJBNUMHJ17xIpqH31kCDAnRz86RKQSyLkHo40wUuQ5W3Il5V371z
+         3vrCtY9tPqB0jJ2DePmjQrLVssfBTN/AZPwnxn+YTZ9E8R51JnIUSVaXeisymuNY4t
+         /kTIQTkhDoWlUi1WQodj8CK9ew5pGvn711CzaU0HLOzRei72pwy2z+G1l6H1RDgxaj
+         qlBzVAIqiuJs3giwa+85us0o7ISpAPdZYkyPyCG4PFzzTMR0M4ULMAhThcIWXeHFWn
+         ORKeHgWxDao5w==
+Message-ID: <c47926f1-8a79-42b9-a497-95ec43e0d2ec@kernel.org>
+Date:   Mon, 2 Oct 2023 16:11:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: soc: renesas: renesas.yaml: Add
- renesas,s4sk compatible
+Subject: Re: [PATCH v3 4/4] arm64: dts: renesas: Add R-Car S4 Starter Kit
+ support
+Content-Language: en-US
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -41,8 +42,7 @@ Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Tam Nguyen <tam.nguyen.xa@renesas.com>,
         Hai Pham <hai.pham.ud@renesas.com>
 References: <87fs2tefhj.wl-kuninori.morimoto.gx@renesas.com>
- <87cyxxeff8.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
+ <87a5t1efek.wl-kuninori.morimoto.gx@renesas.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -87,7 +87,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <87cyxxeff8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87a5t1efek.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -100,25 +100,74 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02/10/2023 07:55, Kuninori Morimoto wrote:
-> This patch adds "renesas,s4sk" which target the R-Car S4 Starter Kit
-> board.
+On 02/10/2023 07:56, Kuninori Morimoto wrote:
+> Add initial support for the R-Car S4 Starter Kit with R8A779F4
+> SoC support. Based on a patch in the BSP.
 > 
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
 > Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
+> Signed-off-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
+> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+> Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
+>  arch/arm64/boot/dts/renesas/Makefile          |   1 +
+>  arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts | 240 ++++++++++++++++++
+>  2 files changed, 241 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+> index 7114cbbd8713..751cb0c65dcd 100644
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -61,6 +61,7 @@ dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
+>  dtb-$(CONFIG_ARCH_R8A779A0) += r8a779a0-falcon.dtb
+>  
+>  dtb-$(CONFIG_ARCH_R8A779F0) += r8a779f0-spider.dtb
+> +dtb-$(CONFIG_ARCH_R8A779F0) += r8a779f4-s4sk.dtb
+>  
+>  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk.dtb
+>  dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtbo
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+> new file mode 100644
+> index 000000000000..abfda5c6ca16
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a779f4-s4sk.dts
+> @@ -0,0 +1,240 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/*
+> + * Device Tree Source for the R-Car S4 Starter Kit board
+> + *
+> + * Copyright (C) 2023 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include "r8a779f4.dtsi"
+> +
+> +/ {
+> +	model = "R-Car S4 Starter Kit board";
+> +	compatible = "renesas,s4sk", "renesas,r8a779f4", "renesas,r8a779f0";
+> +
+> +	aliases {
+> +		serial0	= &hscif0;
+> +		serial1	= &hscif1;
+> +		eth0	= &rswitch;
+> +	};
+> +
+> +	chosen {
+> +		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+This does not look really hardware-independent and suitable for entire
+community, but rather like your personal setup. Please drop entire
+bootargs or share why this is needed for every user in the world of
+mainline kernel.
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
+> +		stdout-path = "serial0:921600n8";
+> +	};
+> +
 
-Please kindly resend and include all necessary To/Cc entries.
 
 Best regards,
 Krzysztof
