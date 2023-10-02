@@ -2,154 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B0A7B5353
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 14:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 321247B5403
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Oct 2023 15:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236982AbjJBMg4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 08:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37742 "EHLO
+        id S236736AbjJBNbJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Oct 2023 09:31:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236662AbjJBMgz (ORCPT
+        with ESMTP id S236717AbjJBNbI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 08:36:55 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95A55AC;
-        Mon,  2 Oct 2023 05:36:52 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a1f00b75aaso84068577b3.2;
-        Mon, 02 Oct 2023 05:36:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696250211; x=1696855011;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j9j0PpNIdrPUDtiR3cxgxShKWUlwOhB2yoLPPXuZS+o=;
-        b=qo612oQLkfCv8FAxj7uOfw5mzS3yuOPNZ7FQsggpL2/xha/U2ngpIL4XbX0SZq9su3
-         iCIw1TzRKMQxI57f3LTHOoZkVLLQ9xsE3s5vQhVqEQnSpwBxzRuk8ZES8oOg6caSaTAK
-         9COjLNjMXZxm9AME8zIstqD72OGxVrbvgj3E+zGSlWqLSZVO+d2+jDvX52WZQXYwl4Ah
-         wqy5nJ4DzcMW8akgxPFuG6wuJPHALPv1o6+t/gTo8KsZVCyWlHRgpg82feKu/3bgt9ij
-         3TPu3lnsSa+yXE8t+hpoGoX5TdAS7fMY3AnlK9k32n00sLjv7TvgJWbPpYCNJrOpoSG0
-         8xsg==
-X-Gm-Message-State: AOJu0YxRvbhticg71WU6bUT4rtVH7eqsVD/sRfjOVnyPa0w3erNz2Wfn
-        zSec9Wcco4rXx1p4wtUtFQP4gUrO1NRkDQ==
-X-Google-Smtp-Source: AGHT+IGIQEyVkOFi0f9ckQusV9TVcCdn4dnHOQcVN3IVkvJrsy/p3A5iU6i576jsl/jzsFEUYQ6Psg==
-X-Received: by 2002:a81:df11:0:b0:59b:dbb7:5c74 with SMTP id c17-20020a81df11000000b0059bdbb75c74mr9932795ywn.32.1696250211439;
-        Mon, 02 Oct 2023 05:36:51 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id d64-20020a0df443000000b0059511008958sm7700588ywf.76.2023.10.02.05.36.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 05:36:51 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a1f00b75aaso84068407b3.2;
-        Mon, 02 Oct 2023 05:36:51 -0700 (PDT)
-X-Received: by 2002:a81:df11:0:b0:59b:dbb7:5c74 with SMTP id
- c17-20020a81df11000000b0059bdbb75c74mr9932772ywn.32.1696250210751; Mon, 02
- Oct 2023 05:36:50 -0700 (PDT)
+        Mon, 2 Oct 2023 09:31:08 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB1A91
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 06:31:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40690C433C7;
+        Mon,  2 Oct 2023 13:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696253463;
+        bh=kKBI77zp4+YZMVjG9R3aO6yIO3fcESRe+LYfl/ViOAE=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=KNXHjyCyehVxgxnfP/EJneEpx7BsYFX0ja0vLX5bH6vaOay+QK0lUozoK4taADcZf
+         ujjUx3S9/OGtXkS2684jUY0Dksova7zzlpyJDMbcO9/NOV/2h4m7RPp/G7QNdJwiHe
+         TkBEl2yBwHANTzFhpYe0eVhyQcgTHR1T5n9psuaqF61HwQ2Eybr9Rpc3LGv5DCUK2O
+         E2M4mJKn0sn6vHw3GXkUTHwnjOLm5xSurYbcdyRWVJtvWHoWNtwhcwBGHERylzKnZ2
+         Yu0+M3FyDqm7HxPSvLsQfyO0igmUWh88zqO9tP+Y5wbprc0EXjYeH1QfEPKhbeaPzv
+         W8XoCyslm2/Gw==
+Received: (nullmailer pid 1584324 invoked by uid 1000);
+        Mon, 02 Oct 2023 13:31:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <20231002113441.19571-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20231002113441.19571-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Oct 2023 14:36:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXa7BBKzhLAcruCk7YKumNcCuRLk8bRfXAL+fKWOPkkOA@mail.gmail.com>
-Message-ID: <CAMuHMdXa7BBKzhLAcruCk7YKumNcCuRLk8bRfXAL+fKWOPkkOA@mail.gmail.com>
-Subject: Re: [PATCH RESEND] arm64: dts: renesas: r8a77990: Add Ebisu-4D board support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Conor Dooley <conor+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        David Airlie <airlied@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        dri-devel@lists.freedesktop.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org
+In-Reply-To: <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
+References: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
+ <20231002122740.220177-2-biju.das.jz@bp.renesas.com>
+Message-Id: <169625346119.1584308.6712024438150463330.robh@kernel.org>
+Subject: Re: [PATCH v11 1/4] dt-bindings: display: Document Renesas RZ/G2L
+ DU bindings
+Date:   Mon, 02 Oct 2023 08:31:01 -0500
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-On Mon, Oct 2, 2023 at 1:35 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
->
-> Add initial support for the Renesas Ebisu-4D development board.
->
-> The Ebisu-4D board is very similar to the Ebisu board, but the memory
-> configuration is different.
->
->   - The memory map of Ebisu-4D board is as follows:
->       Bank0: 2 GiB RAM : 0x000048000000 -> 0x000bfffffff
->
->   - The memory map of Ebisu board is as follows:
->       Bank0: 1 GiB RAM : 0x000048000000 -> 0x0007fffffff
->
-> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> [wsa: rebased]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Mon, 02 Oct 2023 13:27:37 +0100, Biju Das wrote:
+> The RZ/G2L LCD controller is composed of Frame Compression Processor
+> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
+> 
+> The DU module supports the following hardware features
+> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
+> − Display timing master
+> − Generates video timings
+> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> − Supports Progressive
+> − Input data format (from VSPD): RGB888, RGB666
+> − Output data format: same as Input data format
+> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
+> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
+> 
+> This patch documents the DU module found on RZ/G2L LCDC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> v10->v1:
+>  * No change
+> v9->v10:
+>  * Added Rb tag from Laurent
+>  * Updated the commit description.
+>  * Updated description of the port by dropping the text "specified in
+>    Documentation/devicetree/bindings/graph.txt."
+>  * Dropped empty endpoint from example.
+> v8->v9:
+>  * No change
+> v7->v8:
+>  * No change
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * Added Rb tag from Rob.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+> v3: New patch
+> ---
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 121 ++++++++++++++++++
+>  1 file changed, 121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> 
 
-Thanks for your patch!
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> Resending this patch because I want to utilize all 2GB of memory on my
-> Ebisu. Since nobody updated U-Boot to handle different RAM sizes on
-> Ebisu in the last 4.5 years, let's add the Ebisu-4D as a seperate board.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml:64:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
 
-This patch is not needed: TF-A passes the memory size to U-Boot,
-which updates the /memory node in the DTB passed to Linux:
+dtschema/dtc warnings/errors:
 
-$ dtc -O ebisu/r8a77990-ebisu.dtb | grep -A2 -w memory
-    memory@48000000 {
-            device_type = "memory";
-            reg = <0x00 0x48000000 0x00 0x38000000>;
-    };
+doc reference errors (make refcheckdocs):
 
-When booting:
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231002122740.220177-2-biju.das.jz@bp.renesas.com
 
-    NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA53) Rev.3.0.3
-    NOTICE:  BL2: PRR is R-Car E3 Ver.1.0
-    NOTICE:  BL2: PLL1 nonSSCG Clock select
-    NOTICE:  BL2: Board is Ebisu-4D Rev.1.0
-    ...
-    NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
-    ..
-    U-Boot 2022.04-rc4-00082-g54082b91f22f7a49 (Mar 25 2022 - 11:25:09 +0100)
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-    CPU:   Renesas Electronics R8A77990 rev 1.0
-    Model: Renesas Ebisu-4D board rev 1.0
-    DRAM:  1.9 GiB
-    ...
-    Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-    Linux version 6.6.0-rc3-ebisu-03722-g180199a69b82 (geert@rox)
-(aarch64-linux-gnu-gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld
-(GNU Binutils for Ubuntu) 2.38) #546 SMP Tue Sep 26 13:26:12 CEST 2023
-    Machine model: Renesas Ebisu board based on r8a77990
-    printk: debug: ignoring loglevel setting.
-    efi: UEFI not found.
-    Zone ranges:
-       DMA      [mem 0x0000000048000000-0x00000000bfffffff]
-    ...
-    Memory: 1755932K/1966080K available (9088K kernel code, 2496K
-rwdata, 4188K rodata, 3072K init, 17571K bss, 144612K reserved, 65536K
-cma-reserved)
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-root@ebisu:~# hd /sys/firmware/devicetree/base/memory@48000000/reg
-00000000  00 00 00 00 48 00 00 00  00 00 00 00 78 00 00 00  |....H.......x...|
-00000010
+pip3 install dtschema --upgrade
 
-Gr{oetje,eeting}s,
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
