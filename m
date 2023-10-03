@@ -2,70 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A34727B6532
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 11:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E0BD7B6534
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 11:15:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231503AbjJCJPA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 05:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49796 "EHLO
+        id S231487AbjJCJPJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 05:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239501AbjJCJO7 (ORCPT
+        with ESMTP id S231424AbjJCJPI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 05:14:59 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3094B3
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Oct 2023 02:14:55 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-991c786369cso104785166b.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Oct 2023 02:14:55 -0700 (PDT)
+        Tue, 3 Oct 2023 05:15:08 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BC4AD
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Oct 2023 02:15:05 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b2a3fd5764so111084966b.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Oct 2023 02:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696324494; x=1696929294; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1696324504; x=1696929304; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AyobImEvdTLu90yan+WVY02iiJojHXGbnkLBnomeV/Q=;
-        b=S42SLH2IKairUK9IqeqHNRo3Y597NIPb67HQEwsWmJiBOqVKaSdueh8oHKJQZzLRS6
-         TNGGJzKNmh4lV+FR0PpPIhlM9vMbPcl2O2KnDbaGaSLKJptph0ace51tzh5t8EKNHuLq
-         SmGmiim1tEpklRQwvqTjpp7XI/mdLyBa8a5BMZhKzatNdIp8v+9ow+bD9+eNPi/stNUI
-         NspNifQRWrs79SqEHEQj4jARgSZG0VwieUB3VLiFD4/7a4J6MP64LCHbv7V0kgf5TEUE
-         4Fjxgagn69U4yAODiSQzGO3rE/315JQtnQpLwvdGfAxdDfeyueTI+p6DJ+g7bqOfTOZd
-         F0iA==
+        bh=RqKYT7YTk2nupecliTwLnQKcA0A+H6xtpO9UHdiHVfg=;
+        b=FglQihZrlPpp3ROPGa6YxVry0pr7qnLS9SFsNpTM3/U6PrbJTj/r8QxX4V9MoIrj3i
+         QL3KawlLMUTid/p13G0+jJeLXiiA6xncwHcRZ7cgDyiDcovmzfZ3qtzsZaJTqPxuF7WC
+         NWUVHkvzB/fuLwPRdJ9zViVDs0lu4acdgN69+gUGyOubXBGhGDs32W+lPvKhxVytCGEg
+         /YhE1kTnzVDr7wDSS9q1ibXm//2II5ACORv0G+9FpFBM/z2HFY6ZFyHtb3xYlVOFPLCF
+         5Eeo5J878PU4JQ34CPFR/8LawPeR249Xrnee/Y2cCrlo00XR8O+WIOKaMODsJaAbsxaf
+         QNFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696324494; x=1696929294;
+        d=1e100.net; s=20230601; t=1696324504; x=1696929304;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AyobImEvdTLu90yan+WVY02iiJojHXGbnkLBnomeV/Q=;
-        b=o3mU4CQlukE6vqGGscZ/0pyFXcfnfTctRsmL/NGkwpXde21PxJ/iCKIxmKCD7qTJ1b
-         IqRgfzQLfTE1L1wCOW6Ng2zSu5rczu9YDEcjAGmsvSYR5QiEmv5NrpV51cKJd46wYAaw
-         WQzVWPxMLSGx/3usw+uAtiIuLRUWnLSibAXGxeneyAYlzSqw/3Wt6kUiRCzjalRo5Xrg
-         J4F6/71iK4+UqCrgBpR2N4/4kfmOISuodHP/jbN7Kst+rrBfgl2MbwoMZUX+aO5CiYys
-         FUxL5GYZ10qL0cYRb+jYkWLLbiQpq49pD25uUHUuJEGm3a2Oe1ixtqpzfBaN2lpXtKDT
-         QekQ==
-X-Gm-Message-State: AOJu0YxOtYOiVlpvTO6Vrfs74eovW88mMDnVpjVKF5l4mkkHc3ktKlob
-        YYpMuOXwh6MTYtQDi5y3bEo82w==
-X-Google-Smtp-Source: AGHT+IHE9Zur1g2KUvTS8G1jh5MWQQnswFDapOBTXQISuASnJ/43mG7AxchZmkVTwkIoS/TrsbLsMQ==
-X-Received: by 2002:a17:906:217:b0:99c:c50f:7fb4 with SMTP id 23-20020a170906021700b0099cc50f7fb4mr12383852ejd.1.1696324494170;
-        Tue, 03 Oct 2023 02:14:54 -0700 (PDT)
+        bh=RqKYT7YTk2nupecliTwLnQKcA0A+H6xtpO9UHdiHVfg=;
+        b=qjSRNewM2b456TIyxcppkeSWpdGyaT7Ux1nYZmE+9Cxf5f+F4DkM1HaYmBKWpPZ3T0
+         E9tcp3rBUYpAx8Wp1ra6E/3c9YwI1RtSQqE/CfdkfgOWqwTm0Y2GuwnqZkk3a30I3l0n
+         KTDwqH4p5Y79nJc87YCVhvSQtxCEWnFT42+C1kUBufUq60/w+VFbS4vSuPGv5rvh09xO
+         HSSLrJIPkgYPUiKA3AvILD5oLiukbgCoULWlKDWKhokpW/MLL0skzzyXpo6c7fclmUZC
+         Za+03uggoefrf3HrsXsTEPWQB+4HddFIkeBbtBs75s7lB3JQRCUsD9kKCmHrzBrLfWUg
+         wqKg==
+X-Gm-Message-State: AOJu0Ywn+AYZUt62Xp+uZxZ9J0qppUTuahzIMnOUHP0LipAAdOFdpsy6
+        49Fi/K4dkcjbq8P49ygYnhra/A==
+X-Google-Smtp-Source: AGHT+IHQ30jJJ17YAn40Ig4J8d7Pg8uPciC9l1R9/n/VzfwU1gLmsgnikfYVIng99C7unjxz256tHA==
+X-Received: by 2002:a17:906:519d:b0:9a1:e293:9882 with SMTP id y29-20020a170906519d00b009a1e2939882mr14409820ejk.63.1696324504283;
+        Tue, 03 Oct 2023 02:15:04 -0700 (PDT)
 Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
-        by smtp.gmail.com with ESMTPSA id pj7-20020a170906d78700b00977eec7b7e8sm731939ejb.68.2023.10.03.02.14.53
+        by smtp.gmail.com with ESMTPSA id pj7-20020a170906d78700b00977eec7b7e8sm731939ejb.68.2023.10.03.02.15.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 02:14:53 -0700 (PDT)
-Message-ID: <650a75ce-1f99-44e7-90ac-e14279fbd8e3@linaro.org>
-Date:   Tue, 3 Oct 2023 11:14:52 +0200
+        Tue, 03 Oct 2023 02:15:03 -0700 (PDT)
+Message-ID: <b232c647-91eb-41bd-8e83-97871a71bf4f@linaro.org>
+Date:   Tue, 3 Oct 2023 11:15:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: soc: renesas: renesas.yaml: Add
- renesas,s4sk compatible
+Subject: Re: [PATCH v4 1/4] dt-bindings: irqchip: renesas,irqc: Add r8a779f0
+ support
 Content-Language: en-US
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
 Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <87v8bofna8.wl-kuninori.morimoto.gx@renesas.com>
- <87sf6sfn9i.wl-kuninori.morimoto.gx@renesas.com>
+ <87ttr8fn9o.wl-kuninori.morimoto.gx@renesas.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,12 +113,13 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <87sf6sfn9i.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ttr8fn9o.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -124,10 +127,9 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 03/10/2023 04:33, Kuninori Morimoto wrote:
-> This patch adds "renesas,s4sk" which target the R-Car S4 Starter Kit
-> board.
+> Document support for the Interrupt Controller for External Devices
+> (INTC-EX) in the Renesas R-Car S4 (R8A779F0) SoC.
 > 
-> Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
