@@ -2,134 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8F27B5FA4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 05:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64FAC7B61F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 09:03:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230093AbjJCD5v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Oct 2023 23:57:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
+        id S239184AbjJCHDA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 03:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbjJCD5u (ORCPT
+        with ESMTP id S239298AbjJCHC5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Oct 2023 23:57:50 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9578BB
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Oct 2023 20:57:46 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53639fb0ba4so681403a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Oct 2023 20:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1696305465; x=1696910265; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vcj38yNtA7k/3hr4qGHtjbsEU4GTIRzNMyspAkCjhCA=;
-        b=p3zo2HGEr+2OvrXEoU/Zye/b9aSgFuQ/6Cn7dI+WhkfiRd4RZIr6GEHOBeC2BSX8tJ
-         uqp1SHn/SvcqCMew2MjGS+ooNVKU9t0g2/tR/kjh2uTBXWKX5c9kuhjNxkCoM5fiH/dm
-         +i9aD/Yc3nv9V05xzEh+j3rMzWC8sHi52iIoWvEC0+kFo2H+PHr8znb9Z2q1CPzrXFvu
-         KF4yBL/6uBN3w5zJM4YKXyeLB+qyDxbIs6nDjrXMqT9WJzT7d7/J/hDtdrWmftrVpq3z
-         UIKnj5ci5Dfk0R0ch9bS7xcZDJLMEjvfLGYlxLJZKh59FgBr0qW/sm0j96/LBJOSTnmn
-         /RAA==
+        Tue, 3 Oct 2023 03:02:57 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E860D10F;
+        Tue,  3 Oct 2023 00:02:37 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d8afe543712so630671276.0;
+        Tue, 03 Oct 2023 00:02:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696305465; x=1696910265;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vcj38yNtA7k/3hr4qGHtjbsEU4GTIRzNMyspAkCjhCA=;
-        b=wLR2dJiofkL/YEXY4XusH9AvvPAPpyNldcoJ3Qan40OBlYpLQcjYCSKjW9hfX0tbuF
-         3iLTxJdrDG0dd7S+ab+rLXY2l+1LMhT884BmXXJtJ/z5feaeGSTBl/k2F98oWYTbYfzy
-         36Yn4vf7eFJr6TaCJjeqfRqM/6Fp6+WxrkW99sPu3ojuexra0CTPvxP/UyLDb7I9+Dwr
-         iGtyZ9ryFwYr74wL7hL6RXLfkTFRNwnwPfvEp1KETeoBlpJWaj2Y1GXRTO1wnJbMBZ6b
-         Me74jVsmdnTUrO34/0b3Gnf8Y+fEfeDLjYFrOWU6vmbepqJV5bvueFwPCK1Cb040/m/z
-         qqUw==
-X-Gm-Message-State: AOJu0YwjXhaZle8HxPaKU4mtmRoy4m4k838vxmE9nnnvxo1m66xUfdPy
-        X0fibh5xAqg1iYV1FjjNiZEywA==
-X-Google-Smtp-Source: AGHT+IEifMyPHsZPopKOT2VslyFdEw8uEukP8H3uRKxwv6r121ZBGIoVbrBHyNp4qTycGECLs+Yl3A==
-X-Received: by 2002:a50:fa85:0:b0:534:63e:d0b7 with SMTP id w5-20020a50fa85000000b00534063ed0b7mr11688359edr.23.1696305465098;
-        Mon, 02 Oct 2023 20:57:45 -0700 (PDT)
-Received: from [192.168.32.2] ([82.78.167.190])
-        by smtp.gmail.com with ESMTPSA id q17-20020aa7da91000000b00537f44827a8sm160947eds.64.2023.10.02.20.57.43
+        d=1e100.net; s=20230601; t=1696316556; x=1696921356;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wE7uI3n73ZWQqhSbUOjbyEp0pv/Z2+ka6PpKonBV6s0=;
+        b=EwrFIzj1mepbNxBTmw+TevrFFTE6vH98I+iZg3etDdL2UdhlLMQujdkgyflhu3hqPa
+         G590GXTt5vEa4Hgd2m2HeWNP+gPGWG+sPO/UmriAl93bO7drhO7Ghwfw57aEeVcRQb8F
+         GuHENfzzd7c64am2Jy/de98dLlWgvs5ssI0R7K/NVpESIkqEJHJa7bWDusyfW8PNCybw
+         xD8N8YB5W9FtNMGex4pi+hdVyVNvc3nAcC9aIQuiGcQq/S/unkd/0HN3QroOITXP1hjw
+         MNB3qwHOyFXr+ZVcJj2XnH+T4WvPpSrsHuAyUjH1MuZNnRjQbZcr0O2bncmL/jFVXcL+
+         T5Mw==
+X-Gm-Message-State: AOJu0YyF75vVmT1KVOkDeldhyX0P6hP/uwcESekkQrFA64j0Z2qr7ZyY
+        PXP619qdwM1SLFY5NUGpfV7P9zhNPhw3rg==
+X-Google-Smtp-Source: AGHT+IHUXabFztm3ngOU3GcO1VZ89OVi1ZDi9F6iva5AO0CcR43zfbYskxgXJaiq+F4yhuV8pUFKvg==
+X-Received: by 2002:a5b:a8a:0:b0:d78:179a:eb33 with SMTP id h10-20020a5b0a8a000000b00d78179aeb33mr11529117ybq.17.1696316556313;
+        Tue, 03 Oct 2023 00:02:36 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id e198-20020a2537cf000000b00d728a2738f1sm225493yba.61.2023.10.03.00.02.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 20:57:44 -0700 (PDT)
-Message-ID: <ae156c07-955a-1257-2b1a-19ee938c1bcd@tuxon.dev>
-Date:   Tue, 3 Oct 2023 06:57:41 +0300
+        Tue, 03 Oct 2023 00:02:36 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59c215f2f4aso7462457b3.1;
+        Tue, 03 Oct 2023 00:02:35 -0700 (PDT)
+X-Received: by 2002:a81:834f:0:b0:59b:9f06:1706 with SMTP id
+ t76-20020a81834f000000b0059b9f061706mr13076648ywf.26.1696316555248; Tue, 03
+ Oct 2023 00:02:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 19/28] dt-bindings: pinctrl: renesas: set
- additionalProperties: false
-To:     Rob Herring <robh@kernel.org>
-Cc:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
-        neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
- <20230929053915.1530607-20-claudiu.beznea@bp.renesas.com>
- <20231002145052.GA1690001-robh@kernel.org>
-Content-Language: en-US
-From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20231002145052.GA1690001-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <87v8bofna8.wl-kuninori.morimoto.gx@renesas.com> <87ttr8fn9o.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ttr8fn9o.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 Oct 2023 09:02:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW8Q5pjTR8U0Cz1C3Sssc7whHnL-P2-GbQgFNkhyh5biw@mail.gmail.com>
+Message-ID: <CAMuHMdW8Q5pjTR8U0Cz1C3Sssc7whHnL-P2-GbQgFNkhyh5biw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Oct 3, 2023 at 4:33 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Document support for the Interrupt Controller for External Devices
+> (INTC-EX) in the Renesas R-Car S4 (R8A779F0) SoC.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 02.10.2023 17:50, Rob Herring wrote:
-> On Fri, Sep 29, 2023 at 08:39:06AM +0300, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Set additionalProperties: false.
->>
->> Suggested-by: Rob Herring <robh@kernel.org>
-> 
-> I did?
+I posted a similar patch before: "[PATCH v2] dt-bindings: irqchip:
+renesas,irqc: Add r8a779f0 support"
+https://lore.kernel.org/r/9467a1c67d5d240211f88336973fa968d39cc860.1690446928.git.geert+renesas@glider.be
 
-It is what I've understood from this:
-
-https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230912045157.177966-30-claudiu.beznea.uj@bp.renesas.com/
-
-> 
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v2:
->> - this patch is new in v2 and added as suggested by Rob
->>
->>  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml     | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
->> index 4782f96feb7e..eb726770f571 100644
->> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
->> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
->> @@ -106,8 +106,7 @@ additionalProperties:
->>          line-name: true
->>  
->>      - type: object
->> -      additionalProperties:
->> -        $ref: "#/additionalProperties/anyOf/0"
->> +      additionalProperties: false
-> 
-> With no properties defined, this only allows an empty node which is 
-> probably not what you want. It's the other anyOf entry that needed it, 
-> but I already sent a fix which Linus applied.
-
+Marc: please take one or the other ;-)
 Thanks!
 
-> 
-> Rob
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
