@@ -2,58 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0C3C7B6912
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 14:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F98E7B692C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 14:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbjJCMeb convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 08:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S231207AbjJCMi1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 08:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbjJCMea (ORCPT
+        with ESMTP id S231127AbjJCMi0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 08:34:30 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF1C83;
-        Tue,  3 Oct 2023 05:34:27 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59f6041395dso10603887b3.1;
-        Tue, 03 Oct 2023 05:34:27 -0700 (PDT)
+        Tue, 3 Oct 2023 08:38:26 -0400
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D91783;
+        Tue,  3 Oct 2023 05:38:23 -0700 (PDT)
+Received: by mail-vk1-xa2f.google.com with SMTP id 71dfb90a1353d-49aa8518df8so535252e0c.1;
+        Tue, 03 Oct 2023 05:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696336702; x=1696941502; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CKzlt+BVfLvIxh6PYh+kinEoKPnd+lX03sFhitHZpJ4=;
+        b=Am4c8QJUO79mi0keBdz+ELcBqf7H8ICOzk1V2ckz4ZmC/11VcC/q9+346Z/C7FitT4
+         mPFfKA0cYm6wB3HXyFSepg5BrRqze9g+QTWWXl5sFee3gl3R8L+H+jJ7zfAvCyUjKoGI
+         1YHgsb9ntLikSGJId0EyRmkzNcfRGrfIIL5TsHgJ3Kn6O8x+BIRSMyfBbYbT0BsXzxwD
+         AroYDTODsRGPevP0hPX/8Hsx9OJ8JNeR9BgJzjEC/kleiftCVxAwxMRyyhHNNffdFk4t
+         r2mnLO4Ld2EEAfRusibPUTRAGjA9IVEM4NF54A5YeYcb8QAx5FXjQRw4uyviYs3mvhau
+         fpcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696336466; x=1696941266;
+        d=1e100.net; s=20230601; t=1696336702; x=1696941502;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3DyBs7OjE8jGf/jQcbBbdy03j+SsN0IPwt3J55hhRj0=;
-        b=e0fFxxstmbGaGuXzrIAY6XEizdk4rGey1o1qDeufielZbrSSF2ZE3/KqBPctjIM8Ao
-         H+slMRDLl4Zb4iOTiODrujqCvWvieGyv2cAA6Ke09wEDYkewXT0mlQ5L1zLKr1XwtwnI
-         aMX7TbTsRmYuxUfIailLgK2WsZRYAWGfqr/HD+dX3i9aurMk+k8acdTVrkChvmOL4T6I
-         i49sp7YmtkBx9HnQuJK0ECGelJbuAq6zPTezLEJn00xQPX47GuFDjDfQn7cdLdQUaKmM
-         O7tmncPNH3RKsqlj0zV1+T/Od7R1F4sz27gGndC0o6fUHT+tGr6afkMLcsmR2Uoby1K8
-         irwg==
-X-Gm-Message-State: AOJu0YyCIMnm5DCq+nl+C3tQ9h/SxWGjtUsw5FHUtrYF2gDQZ3QapcJ0
-        ORYXblU77ZBPax6E+1G3A9mNYvqAx2rOBQ==
-X-Google-Smtp-Source: AGHT+IHQxI4Lae36EIbOfXgiDWX/lVBpqDp2zC1dMSZbiYcpijEowWNlU4EEo5ZBG2FgvApaU7ttHQ==
-X-Received: by 2002:a25:8204:0:b0:d86:55a1:3e5f with SMTP id q4-20020a258204000000b00d8655a13e5fmr13761013ybk.48.1696336466400;
-        Tue, 03 Oct 2023 05:34:26 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id v93-20020a25abe6000000b00d81425266c1sm373700ybi.42.2023.10.03.05.34.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 05:34:26 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f6e6b206fso10486567b3.3;
-        Tue, 03 Oct 2023 05:34:26 -0700 (PDT)
-X-Received: by 2002:a25:c791:0:b0:d81:6e88:7cb3 with SMTP id
- w139-20020a25c791000000b00d816e887cb3mr13683713ybe.47.1696336465884; Tue, 03
- Oct 2023 05:34:25 -0700 (PDT)
+        bh=CKzlt+BVfLvIxh6PYh+kinEoKPnd+lX03sFhitHZpJ4=;
+        b=ohe9i0GHhG5W7ytrHS2Wfmy4IjjCzgUBrT+KBc6yzX1jtBKxOeaAi9NhiyeYYGNU52
+         n9jlqvj7tDPsHudY1n/p3OIVvslTYZdIKBYzHFFnS32qHc1BVCbr1QzG8NAW27gLp2H0
+         hxK9IhL3o17qskCGPHIPZsOX6mE05Yo1vcQTkMatLGWQwT1RVBUEB66Cz3wJByAcOPvJ
+         SWWQ8ylywkCHBGg0MOGwhdTcs7no/37KalEWjOYXIDLr51Z4YB3YPVOaW6tjhPfjYItt
+         5K7qbvbsYV+NLSiBQvvvYhzoXX3wwMRcjF19Q9ps5Jhi0e1eN1ZObiqkm7kjbqpyHaCJ
+         tLCg==
+X-Gm-Message-State: AOJu0YyaqxZ463YXF+aw4gDW3SGu1z0GDkqINhvJMYj5bS7/q8PaV2zj
+        9XNHw9lqX9azxAx6dqGrg0KTTKBEqXxjqRCMIWY=
+X-Google-Smtp-Source: AGHT+IHedkT3obXGyb9nsJv3EFRBFDAeX3iUNPTid2i0eAkHBAV7M3TivHtMpjze3qSf2rSGD9Yh21SNWfYtAWWzG7I=
+X-Received: by 2002:a1f:4804:0:b0:49a:9f99:bb03 with SMTP id
+ v4-20020a1f4804000000b0049a9f99bb03mr1206148vka.1.1696336702438; Tue, 03 Oct
+ 2023 05:38:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20230929000704.53217-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20230929000704.53217-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Oct 2023 14:34:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVdWzK_MRz+NeZ_mx=NcH9_EF-B0At=YsOfOABLV3B9tg@mail.gmail.com>
-Message-ID: <CAMuHMdVdWzK_MRz+NeZ_mx=NcH9_EF-B0At=YsOfOABLV3B9tg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] riscv: configs: defconfig: Enable configs required
- for RZ/Five SoC
-To:     Prabhakar <prabhakar.csengg@gmail.com>
+References: <20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20230929000704.53217-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWq8R0QtDxNRkask3kipnSXmOzR_TjV3Hy0bkF0378CyQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWq8R0QtDxNRkask3kipnSXmOzR_TjV3Hy0bkF0378CyQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 3 Oct 2023 13:37:29 +0100
+Message-ID: <CA+V-a8vcpMuwwSakBD_8HRueFatkPew40_LThv1yjxi2=5f3+w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] riscv: dts: renesas: rzfive-smarc: Enable the blocks
+ which were explicitly disabled
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -66,63 +69,65 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Fri, Sep 29, 2023 at 2:07 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the review.
+
+On Tue, Oct 3, 2023 at 1:28=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
 >
-> Enable the configs required by the below IP blocks which are
-> present on RZ/Five SoC:
-> * ADC
-> * CANFD
-> * DMAC
-> * eMMC/SDHI
-> * OSTM
-> * RAVB (+ Micrel PHY)
-> * RIIC
-> * RSPI
-> * SSI (Sound+WM8978 codec)
-> * Thermal
-> * USB (PHY/RESET/OTG)
+> Hi Prabhakar,
 >
-> Along with the above some core configs are enabled too,
-> -> CPU frequency scaling as RZ/Five does support this.
-> -> MTD is enabled as RSPI can be connected to flash chips
-> -> Enabled I2C chardev so that it enables userspace to read/write
->    i2c devices (similar to arm64)
-> -> Thermal configs as RZ/Five SoC does have thermal unit
-> -> GPIO regulator as we might have IP blocks for which voltage
->    levels are controlled by GPIOs
-> -> OTG configs as RZ/Five USB can support host/function
-> -> Gadget configs so that we can test USB function (as done in arm64
->    all the gadget configs are enabled)
+> Thanks for your patch!
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Fri, Sep 29, 2023 at 2:07=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Now that noncoherent dma support is added for RZ/Five SoC enable
+> > the IP blocks which were disabled on RZ/Five SMARC. Now with this
+> > patch we get support for the below peripherals:
+> > * DMAC
+> > * SDHI
+> > * USB
+> > * RSPI
+> > * SSI
+>
+> and Ethernet? ;-)
+>
+Oops, I missed that!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.7, with "Ethernet" added.
+>
+Thanks for taking care of it.
 
-As I expect this to go in through the RISC-V tree, I will let the
-RISC-V people handle any discussion about more options that should be
-made modular instead of builtin.
+Cheers,
+Prabhakar
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
