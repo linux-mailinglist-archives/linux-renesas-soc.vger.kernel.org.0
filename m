@@ -2,63 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E79D7B69C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 15:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D8627B69D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 15:07:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232555AbjJCNES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 09:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45700 "EHLO
+        id S232480AbjJCNHb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 09:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232556AbjJCNER (ORCPT
+        with ESMTP id S231266AbjJCNHa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 09:04:17 -0400
+        Tue, 3 Oct 2023 09:07:30 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8E9CE;
-        Tue,  3 Oct 2023 06:04:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F7BC433C8;
-        Tue,  3 Oct 2023 13:04:13 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00DA993;
+        Tue,  3 Oct 2023 06:07:27 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1115CC433C8;
+        Tue,  3 Oct 2023 13:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696338254;
-        bh=bA0Ut3nVDiQXKnStgAyERYPBt7Oi/q19lCr71SL/2BA=;
+        s=k20201202; t=1696338447;
+        bh=ArFpsG+rmsCSYEIB4kkM8QPGFJQJDJOHz7UBLDI+9zE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tZpjUgAT4HqQx2KhKcPsJVNJAAbAgmJMXuv59sK2WNZeShHFTA75j4a7zF50smxgL
-         Mi65VFGalmBlJz/2EMC2iW1/9VZFds3PD8rrKKmzTTHS0bqrFCk2ry3uqaqULsRk2O
-         s0S94gWTFzSOVbEWQ+GmX9Z8xA67Ax3KrFy7mp2ShKQKfG69h//+IXrnAbvyRaK2my
-         1UqD+WLEi78Uhk4r4gESWxh+vDjk3ps46XtGPYJpbqMmffCGk5S9etOo7sscv3/WKQ
-         yZ3UvkIs2koQPDzaHWo2EbT8jCIvzgWTogkX25zebN1b8D9Kp/nMGsZOWEDT9si/2h
-         Nox7Kwt/zH8jA==
-Date:   Tue, 3 Oct 2023 15:04:11 +0200
+        b=gVPVFPEs1/OCC8qjCciwFIU3setxljjE5Q0Nh12gpiXrCBm9YrwGGTLL2Sll2nnhE
+         xAMKRJ6B6fsIaABPHnnbZfVRbUrFGePnVkrdlppa8RyN1Z4gEMfLbKOjI5oywxUJBk
+         Cq5NltCK3+O6rDxH0Qpy0Uq9bln0sPMiJiPZnhxZS6po30gpPOzFnzsrxDa4O90TQL
+         zNm9yd8tHbjBhEOdayrG3eI3/Hz2QNqwcmgHbutDi8Yy2c9d7PDirN6x0uRw4BMT4b
+         b6hXS+0+aMwKD3xgJeEk33u1xRYcX7JUtwSp31Xa/b8I1bY9AYdRqUr/QcyxEIRmL5
+         +0NjjPeTuc8/g==
+Date:   Tue, 3 Oct 2023 15:07:24 +0200
 From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Fix field-even-active
- spelling
-Message-ID: <ZRwRS4lP+ixDxcaa@ninjato>
+To:     Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        bcm-kernel-feedback-list@broadcom.com, jonathan.derrick@linux.dev,
+        kw@linux.com, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+        lpieralisi@kernel.org, marek.vasut+renesas@gmail.com,
+        minghuan.Lian@nxp.com, mingkai.hu@nxp.com,
+        m.karthikeyan@mobiveil.co.in, nirmal.patel@linux.intel.com,
+        rjui@broadcom.com, robh@kernel.org, roy.zang@nxp.com,
+        sbranden@broadcom.com, yoshihiro.shimoda.uh@renesas.com,
+        Zhiqiang.Hou@nxp.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] PCI: Use PCI_HEADER_TYPE_* instead of literals
+Message-ID: <ZRwSDNOlZwUu+vqE@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+        Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+        linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        bcm-kernel-feedback-list@broadcom.com, jonathan.derrick@linux.dev,
+        kw@linux.com, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+        lpieralisi@kernel.org, marek.vasut+renesas@gmail.com,
+        minghuan.Lian@nxp.com, mingkai.hu@nxp.com,
+        m.karthikeyan@mobiveil.co.in, nirmal.patel@linux.intel.com,
+        rjui@broadcom.com, robh@kernel.org, roy.zang@nxp.com,
+        sbranden@broadcom.com, yoshihiro.shimoda.uh@renesas.com,
+        Zhiqiang.Hou@nxp.com, linux-kernel@vger.kernel.org
+References: <20231003125300.5541-1-ilpo.jarvinen@linux.intel.com>
+ <20231003125300.5541-4-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ldUZkgBUcVKbMqLP"
+        protocol="application/pgp-signature"; boundary="8/zJ+jH2FaDITq/3"
 Content-Disposition: inline
-In-Reply-To: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+In-Reply-To: <20231003125300.5541-4-ilpo.jarvinen@linux.intel.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -69,43 +71,41 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---ldUZkgBUcVKbMqLP
-Content-Type: text/plain; charset=us-ascii
+--8/zJ+jH2FaDITq/3
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 03, 2023 at 12:22:57PM +0200, Geert Uytterhoeven wrote:
-> make dt_binding_check:
+On Tue, Oct 03, 2023 at 03:53:00PM +0300, Ilpo J=C3=A4rvinen wrote:
+> Replace literals under drivers/pci/ with PCI_HEADER_TYPE_MASK,
+> PCI_HEADER_TYPE_NORMAL, and PCI_HEADER_TYPE_MFD.
 >=20
->     field-active-even: missing type definition
+> While at it, replace !! boolean conversion with FIELD_GET().
 >=20
-> The property is named "field-even-active", not "field-active-even".
->=20
-> Fixes: 3ab7801dfab998a2 ("media: dt-bindings: media: rcar-vin: Describe o=
-ptional ep properties")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # for Renesas =
+R-Car
 
 
---ldUZkgBUcVKbMqLP
+--8/zJ+jH2FaDITq/3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUcEUcACgkQFA3kzBSg
-Kbb71RAAhm5KptvNhLpYsx7o9i9Zrks+1giKtS9RcFU+YeFpDPjIO4P4aKDaeeFn
-VkpnnNxxyRTy1DZMTChdzhBl/n7cX6jxRBMj3nz2HR8ZAVJ+vh4nhB5s/Yxt3uXz
-q57QAmKVRvWsMojE84BQW3/z38vShL4wFmOknwQFEzdx9X8P2H4wGGm6DkiIZewn
-y+vgrOSVR52ElmHsBC+pkqlih+sRYT6WhuX39D2CJJtd8msI7oNH9wl2Rig0j6Iv
-n0jGaRUx6/mXknlkUMx/zw3j1MPx5m8gFF6mlASwD3/zuZtPxcH+yHS+BAUzqIY4
-vKp+TXU8Z86NLuganfixaSDaKzBs7sNTtFWl7SJIcp0qSvCcUyZClPQJmfSACDh2
-tPRtKV+dBAWGwdvCMaxv0YLLRv7/2J1Xg0lyR5NROU9s6iY9fFVsSvuI7Ic1ZmJS
-K3lObW7ubrlMkithR3yuFwGcRLbaeu0OnCTYE9OoH02RcRezFQQ3pO0PWb/GrdQJ
-AnRXP4O0XOjkmeLAXb3bk/mPh5jKBr8YyxqrA197q/vJdhn/79bx64WUni2UyOvu
-dcJIHOAQkDbkjXO58atqB9zJUp7yHXs5Zn3PTG31k8pumWONpmeCAzvUXvmcv+HA
-CN8PxSQMGf4bceyU6acBPz/r+H8PQkGD/TW2U7Tn19suMMudX/4=
-=9VtW
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUcEgwACgkQFA3kzBSg
+KbbwZQ/+OWN+pr0W3mgNuEkqIJy1gENxgZSQwTuDfc50jkQ+QvaDabXZyduk5uDf
+QDqFHQCwuodVcB2FkK+WUddSmLHChpSSX4imzxhhd21YAAd2mZMwKxvW1T0theCe
+ZdRnxE1S0H/B4OsULDMppn+3DZVW2aGre32u7lq7hIpmj2dRbpH4TBbTLchXoMQY
+RCOUJ0baTYSXiDjgbmq+urT98IqO4gMxuEmzuoICqZCsb1gFUOz+aM3Jfxc/9BJw
+su9LoOCg/Ud447vnOkzs6BlkBgocWXFJPb/dIPPiaMkDIPyxrljWU9S8MVpcC2/7
+Fhd0phffcjTn1W0cSRwTJPpS9fagWYduMrLjFimhR1a9ERmTzzI8QAOH5/Dk9zoO
+b4AQ4dysH08lHur+o+tMnlhtGS3xbcvymorR4uqA35gzCTVDSdNbnmIi+K/WutuR
+8N1DsSwyvMpwAMLvoFeQZGY2zNAP83/CGbITi6Gj3RUmEMP9jCkEl1r+YKOC5bjQ
+rkv1pRvPgG/am6hzVx3RyIdOUddcKCsgQt+3nBfby6HG+PbuxxKtrthxXUHmunDX
+p/zlkUzjNKryvwL09lzLs3Ys13EBazLZAbPWN0lZYuekcbKrL//m0N7qvNmLo8oy
+ZcMD9javfLimKe1u3MffJ7RMnEjwcPViS/7Ym54dm5YjNmLMTrI=
+=KypN
 -----END PGP SIGNATURE-----
 
---ldUZkgBUcVKbMqLP--
+--8/zJ+jH2FaDITq/3--
