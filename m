@@ -2,45 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9317F7B666F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 12:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38E2C7B66B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 12:48:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbjJCKbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 06:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
+        id S231378AbjJCKsI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 06:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231613AbjJCKbP (ORCPT
+        with ESMTP id S231173AbjJCKsI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 06:31:15 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40A3BB
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Oct 2023 03:31:11 -0700 (PDT)
+        Tue, 3 Oct 2023 06:48:08 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A2DAD
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Oct 2023 03:48:03 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5b9d:c703:a536:8d7b])
-        by baptiste.telenet-ops.be with bizsmtp
-        id tNX32A00N0Gl2EY01NX3wN; Tue, 03 Oct 2023 12:31:08 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id tNo02A00M0Gl2EY06No0kY; Tue, 03 Oct 2023 12:48:01 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qncfm-0057Jk-7h;
-        Tue, 03 Oct 2023 12:31:03 +0200
+        id 1qncwB-00587Y-Ax;
+        Tue, 03 Oct 2023 12:48:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qncYR-00FiqG-Fa;
-        Tue, 03 Oct 2023 12:23:03 +0200
+        id 1qncwa-00FjVc-7T;
+        Tue, 03 Oct 2023 12:48:00 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: media: renesas,vin: Fix field-even-active spelling
-Date:   Tue,  3 Oct 2023 12:22:57 +0200
-Message-Id: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: cache: andestech,ax45mp-cache: Fix unit address in example
+Date:   Tue,  3 Oct 2023 12:47:59 +0200
+Message-Id: <7b93655219a6ad696dd3faa9f36fde6b094694a9.1696330005.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,40 +51,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-make dt_binding_check:
+The unit address in the example does not match the reg property.
+Correct the unit address to match reality.
 
-    field-active-even: missing type definition
-
-The property is named "field-even-active", not "field-active-even".
-
-Fixes: 3ab7801dfab998a2 ("media: dt-bindings: media: rcar-vin: Describe optional ep properties")
+Fixes: 3e7bf4685e42786d ("dt-bindings: cache: andestech,ax45mp-cache: Add DT binding documentation for L2 cache controller")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/devicetree/bindings/media/renesas,vin.yaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/cache/andestech,ax45mp-cache.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-index 324703bfb1bded3a..5539d0f8e74d2e82 100644
---- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-@@ -95,7 +95,7 @@ properties:
-               synchronization is selected.
-             default: 1
+diff --git a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+index 9ab5f0c435d4df16..d2cbe49f4e15fdc4 100644
+--- a/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
++++ b/Documentation/devicetree/bindings/cache/andestech,ax45mp-cache.yaml
+@@ -69,7 +69,7 @@ examples:
+   - |
+     #include <dt-bindings/interrupt-controller/irq.h>
  
--          field-active-even: true
-+          field-even-active: true
- 
-           bus-width: true
- 
-@@ -144,7 +144,7 @@ properties:
-                   synchronization is selected.
-                 default: 1
- 
--              field-active-even: true
-+              field-even-active: true
- 
-               bus-width: true
- 
+-    cache-controller@2010000 {
++    cache-controller@13400000 {
+         compatible = "andestech,ax45mp-cache", "cache";
+         reg = <0x13400000 0x100000>;
+         interrupts = <508 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.34.1
 
