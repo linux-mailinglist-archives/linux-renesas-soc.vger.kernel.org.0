@@ -2,94 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5724A7B6205
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 09:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C17067B64B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 10:54:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230289AbjJCHDw convert rfc822-to-8bit (ORCPT
+        id S239412AbjJCIyD convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 03:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56808 "EHLO
+        Tue, 3 Oct 2023 04:54:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230323AbjJCHDv (ORCPT
+        with ESMTP id S229894AbjJCIyC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 03:03:51 -0400
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8631DAD
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Oct 2023 00:03:48 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59f7f46b326so6972357b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Oct 2023 00:03:48 -0700 (PDT)
+        Tue, 3 Oct 2023 04:54:02 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6C6B0;
+        Tue,  3 Oct 2023 01:53:59 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-59c268676a9so8399287b3.0;
+        Tue, 03 Oct 2023 01:53:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696316627; x=1696921427;
+        d=1e100.net; s=20230601; t=1696323239; x=1696928039;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T+tS/Rd3MbOVUSs5gHEgiViE4FDD3e/IguNl9axOzAI=;
-        b=Uj5s30tzKc/NNknP46Z4cruyWfpM88UVsFHZGe2mdbm+QbO0imEeS4J6n1b1hJ/3P8
-         3Retx4Gs8SLMWJo7c6jaahDKH/1ORud+PRK/zO8I5Hg1AKgVYmWzeyuxNPDEX/ykbccd
-         TuZm7beV1VXRhAkgmwxbLwX+XBMwQFuiw8cge9uzMAVKDC4Fb5kVrkxNkmAy72RqhuD5
-         0WVttouk7IwXosKhxGLqXW061v0SmButcy+1GZU/OAsqwegFv61YUJa6Uca0Tii7yRMT
-         otsg3dUlXvW4TkEkCmEeExSXYpkLaTTRO30YpsDt1u4ZjIu/bNqK4g4UhbBKHdpi9kIt
-         ZGdw==
-X-Gm-Message-State: AOJu0YwIbodXauWt4HwavT2YAxV/F0iiW6oepdEfkvrCrTOjPgfgLthW
-        25HWfXte9+Q3miaxVuY05XGvxrifcPEX7w==
-X-Google-Smtp-Source: AGHT+IHc7oATac5CJ5NYC2zYKGvFVsRpzVYsSNie4lOViP8bC+n3lL6Ow0yVpiO05xrHy5DFDFwmQw==
-X-Received: by 2002:a0d:d90b:0:b0:59b:5231:50d7 with SMTP id b11-20020a0dd90b000000b0059b523150d7mr13005532ywe.10.1696316627404;
-        Tue, 03 Oct 2023 00:03:47 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id z196-20020a0dd7cd000000b0059812d9719fsm192105ywd.8.2023.10.03.00.03.47
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=l8o8DzwgdrA6omFlP0VYtaRwmSfSN6WL3r2SDxof840=;
+        b=uyGUqCTFG5kCCJuwpQ4gUuzDTsJxhYwVsVIwPH8jn4IG4GM9y5p7FiN3vHOH0Nvs5c
+         +U9edPC4zeK2T+YzSgSr0vEgtCAcF7wYp2jkb65Hm3URzYlpoog4lL7YueevqD67n7vL
+         13bNBj7tw8WmYgHdtjWBesLEaNlaFCnjoPxC+TmtecCOfNSECVq64DmDuZTQ8nPlX9kk
+         eAtQ9Y65+Q5cOEWkurZxjGxAq+TpgO1I2vbCJtTvaKABHT15q+7dxOIW/QmkOp5SdgAe
+         ju7z7bTQc2u/F43QyyPPQ0ZQY/z7O5xTSURKe8BibRjk3grByUC40Y6CclnMO9y2LBg9
+         eCnQ==
+X-Gm-Message-State: AOJu0Yx/xcX/ySicq8O0QXuF8103fsrVENlPU78u5npnm1gExlV2a1A8
+        jnGi3wVq9lNwOTRQMqpS/twWiNTb3Jd5NA==
+X-Google-Smtp-Source: AGHT+IFLbxl4NL8dNcRWMnnTIt2fInDOrEMKsCrnZ5EHVPsR+BFuFyYPYoOuAAXuOb3rInyzDQj0cA==
+X-Received: by 2002:a0d:d086:0:b0:598:bad6:8e67 with SMTP id s128-20020a0dd086000000b00598bad68e67mr12722727ywd.30.1696323238713;
+        Tue, 03 Oct 2023 01:53:58 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id t184-20020a8183c1000000b00589e68edac6sm240392ywf.39.2023.10.03.01.53.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 00:03:47 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59f4f80d084so6845387b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Oct 2023 00:03:47 -0700 (PDT)
-X-Received: by 2002:a81:6d17:0:b0:59b:69cf:72c0 with SMTP id
- i23-20020a816d17000000b0059b69cf72c0mr13515740ywc.6.1696316626918; Tue, 03
- Oct 2023 00:03:46 -0700 (PDT)
+        Tue, 03 Oct 2023 01:53:58 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59c268676a9so8399187b3.0;
+        Tue, 03 Oct 2023 01:53:58 -0700 (PDT)
+X-Received: by 2002:a81:4e85:0:b0:569:479f:6d7f with SMTP id
+ c127-20020a814e85000000b00569479f6d7fmr13469888ywb.43.1696323238163; Tue, 03
+ Oct 2023 01:53:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <TYBPR01MB534193210976F3274EC31622D8C5A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <87wmw4fo8b.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wmw4fo8b.wl-kuninori.morimoto.gx@renesas.com>
+References: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Oct 2023 09:03:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUkUKZuAjFq4OuzNoNJKXdBBRLgSw90KOsAU5m6MSQOpA@mail.gmail.com>
-Message-ID: <CAMuHMdUkUKZuAjFq4OuzNoNJKXdBBRLgSw90KOsAU5m6MSQOpA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Michael Dege <michael.dege@renesas.com>,
-        Yusuke Goda <yusuke.goda.sx@renesas.com>,
-        Tam Nguyen <tam.nguyen.xa@renesas.com>,
-        Hai Pham <hai.pham.ud@renesas.com>
+Date:   Tue, 3 Oct 2023 10:53:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU+1ox_6e65YQ0bCQMbqtWkYzsE2S88-En7OnYvomfJ2Q@mail.gmail.com>
+Message-ID: <CAMuHMdU+1ox_6e65YQ0bCQMbqtWkYzsE2S88-En7OnYvomfJ2Q@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: document Ebisu-4D support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Wolfram,
 
-On Tue, Oct 3, 2023 at 4:12 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > Document support for the Interrupt Controller for External Devices
-> > > (INT-EX) in the Renesas R-Car S4 (R8A779F0) SoC.
-> >
-> > nit:
-> > s/INT-EX/INTC-EX/
+On Mon, Oct 2, 2023 at 7:00 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Document properly that Ebisu-support includes the Ebisu-4D variant, so
+> there won't be confusion what happened with support for this board.
 >
-> Thank you for the review.
-> I have copy-and-pasted the log message.
-> It seems original log hadwas nit :)
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-/me is hiding behind a rock labeled with two different misspellings
-of INTC-EX...
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> @@ -302,7 +302,7 @@ properties:
+>        - description: R-Car E3 (R8A77990)
+>          items:
+>            - enum:
+> -              - renesas,ebisu # Ebisu (RTP0RC77990SEB0010S)
+> +              - renesas,ebisu # Ebisu/Ebisu-4D (RTP0RC77990SEB0010S)
+
+Ebisu-4D has a different part number: RTP0RC77990SEB0020S.
+
+According to the schematics, the only difference is the presence of
+four DRAM chips ("4D") instead of two.
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
