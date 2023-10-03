@@ -2,103 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3C007B698A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 14:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E79D7B69C7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 15:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbjJCMyw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 08:54:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
+        id S232555AbjJCNES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 09:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbjJCMyv (ORCPT
+        with ESMTP id S232556AbjJCNER (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 08:54:51 -0400
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCE09B;
-        Tue,  3 Oct 2023 05:54:49 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59e88a28b98so7677187b3.1;
-        Tue, 03 Oct 2023 05:54:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696337688; x=1696942488;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AouaEjNbrWT+IIWDo5Nh2aKtA+C2KgC1xP/O35IsO54=;
-        b=AUQHdBazy42HWGFGrL9sEX9tS+YL7n8xEgbt4Fh4yvw292u+K+KqUvM2cMqTN8AbFw
-         8HZt8V+gNfGxRqAW5OdFw3bp4RyWsaPewxQa3JHNOO4ZkwsgZtGs+Bt5hR0/qgB+ZmYJ
-         ogRXPUbrY+bEotQYwHL14GBmo9GQLJFaRGFdOkYu7RfAIrZ5PNbQqPStoXiMUj8hzVcB
-         DJW99ST8OfsWpV/DOogdp6W9VSo3iFAd8FKii0J2hQa0iqp1Bl+WBvadkNmXshMA9WO9
-         RrM1wdK8vYyHZWBG3GQQdhbZsUrRIPXrsG3PJr5TReocxLRiUcEdHWQZNfXfFBBc08U+
-         irMQ==
-X-Gm-Message-State: AOJu0YweRgjpN4Uc7Ri6Yi/03CGje281/z8JDnIy0/8jDEU5ZjLKTAke
-        9YXq5Zxyl0YPry5e9quoxXGjdg9czvUGag==
-X-Google-Smtp-Source: AGHT+IFRB3LfMfcOxgx5sMvrhj2qWIutrilIRsUHzh9D9dkodcak0bOovV7ISo3V5kSG4fpL1F8rnw==
-X-Received: by 2002:a0d:d994:0:b0:59b:e9d5:a41c with SMTP id b142-20020a0dd994000000b0059be9d5a41cmr1993245ywe.22.1696337688128;
-        Tue, 03 Oct 2023 05:54:48 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id d63-20020a0ddb42000000b00579e5c4982fsm362314ywe.36.2023.10.03.05.54.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 05:54:47 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59e88a28b98so7676957b3.1;
-        Tue, 03 Oct 2023 05:54:47 -0700 (PDT)
-X-Received: by 2002:a0d:cb8e:0:b0:594:fc45:b4c4 with SMTP id
- n136-20020a0dcb8e000000b00594fc45b4c4mr1930761ywd.19.1696337687616; Tue, 03
- Oct 2023 05:54:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <87v8bofna8.wl-kuninori.morimoto.gx@renesas.com> <87pm1wfn8z.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87pm1wfn8z.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Oct 2023 14:54:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWHNo-yFOzv8qjGQxkQxjW5-2j-gKgk0LR8rUReTehFzg@mail.gmail.com>
-Message-ID: <CAMuHMdWHNo-yFOzv8qjGQxkQxjW5-2j-gKgk0LR8rUReTehFzg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] arm64: dts: renesas: Add R-Car S4 Starter Kit support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Conor Dooley <conor+dt@kernel.org>,
-        Hai Pham <hai.pham.ud@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 3 Oct 2023 09:04:17 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8E9CE;
+        Tue,  3 Oct 2023 06:04:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F7BC433C8;
+        Tue,  3 Oct 2023 13:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696338254;
+        bh=bA0Ut3nVDiQXKnStgAyERYPBt7Oi/q19lCr71SL/2BA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tZpjUgAT4HqQx2KhKcPsJVNJAAbAgmJMXuv59sK2WNZeShHFTA75j4a7zF50smxgL
+         Mi65VFGalmBlJz/2EMC2iW1/9VZFds3PD8rrKKmzTTHS0bqrFCk2ry3uqaqULsRk2O
+         s0S94gWTFzSOVbEWQ+GmX9Z8xA67Ax3KrFy7mp2ShKQKfG69h//+IXrnAbvyRaK2my
+         1UqD+WLEi78Uhk4r4gESWxh+vDjk3ps46XtGPYJpbqMmffCGk5S9etOo7sscv3/WKQ
+         yZ3UvkIs2koQPDzaHWo2EbT8jCIvzgWTogkX25zebN1b8D9Kp/nMGsZOWEDT9si/2h
+         Nox7Kwt/zH8jA==
+Date:   Tue, 3 Oct 2023 15:04:11 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Tam Nguyen <tam.nguyen.xa@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Yusuke Goda <yusuke.goda.sx@renesas.com>,
-        Michael Dege <michael.dege@renesas.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Fix field-even-active
+ spelling
+Message-ID: <ZRwRS4lP+ixDxcaa@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ldUZkgBUcVKbMqLP"
+Content-Disposition: inline
+In-Reply-To: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 3, 2023 at 4:33 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Add initial support for the R-Car S4 Starter Kit with R8A779F4
-> SoC support. Based on a patch in the BSP.
->
-> Signed-off-by: Michael Dege <michael.dege@renesas.com>
-> Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
-> Signed-off-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.7.
+--ldUZkgBUcVKbMqLP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+On Tue, Oct 03, 2023 at 12:22:57PM +0200, Geert Uytterhoeven wrote:
+> make dt_binding_check:
+>=20
+>     field-active-even: missing type definition
+>=20
+> The property is named "field-even-active", not "field-active-even".
+>=20
+> Fixes: 3ab7801dfab998a2 ("media: dt-bindings: media: rcar-vin: Describe o=
+ptional ep properties")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-                        Geert
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--ldUZkgBUcVKbMqLP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUcEUcACgkQFA3kzBSg
+Kbb71RAAhm5KptvNhLpYsx7o9i9Zrks+1giKtS9RcFU+YeFpDPjIO4P4aKDaeeFn
+VkpnnNxxyRTy1DZMTChdzhBl/n7cX6jxRBMj3nz2HR8ZAVJ+vh4nhB5s/Yxt3uXz
+q57QAmKVRvWsMojE84BQW3/z38vShL4wFmOknwQFEzdx9X8P2H4wGGm6DkiIZewn
+y+vgrOSVR52ElmHsBC+pkqlih+sRYT6WhuX39D2CJJtd8msI7oNH9wl2Rig0j6Iv
+n0jGaRUx6/mXknlkUMx/zw3j1MPx5m8gFF6mlASwD3/zuZtPxcH+yHS+BAUzqIY4
+vKp+TXU8Z86NLuganfixaSDaKzBs7sNTtFWl7SJIcp0qSvCcUyZClPQJmfSACDh2
+tPRtKV+dBAWGwdvCMaxv0YLLRv7/2J1Xg0lyR5NROU9s6iY9fFVsSvuI7Ic1ZmJS
+K3lObW7ubrlMkithR3yuFwGcRLbaeu0OnCTYE9OoH02RcRezFQQ3pO0PWb/GrdQJ
+AnRXP4O0XOjkmeLAXb3bk/mPh5jKBr8YyxqrA197q/vJdhn/79bx64WUni2UyOvu
+dcJIHOAQkDbkjXO58atqB9zJUp7yHXs5Zn3PTG31k8pumWONpmeCAzvUXvmcv+HA
+CN8PxSQMGf4bceyU6acBPz/r+H8PQkGD/TW2U7Tn19suMMudX/4=
+=9VtW
+-----END PGP SIGNATURE-----
+
+--ldUZkgBUcVKbMqLP--
