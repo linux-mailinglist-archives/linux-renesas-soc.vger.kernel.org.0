@@ -2,377 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4767B6983
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 14:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B687B697D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Oct 2023 14:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231478AbjJCMyE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Oct 2023 08:54:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42768 "EHLO
+        id S232139AbjJCMxf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Oct 2023 08:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjJCMyE (ORCPT
+        with ESMTP id S230461AbjJCMxd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Oct 2023 08:54:04 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF1DFB8;
-        Tue,  3 Oct 2023 05:53:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696337640; x=1727873640;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ryxdjm0ZCM7o3zV6z+GS2CN8GCrxx+hkrapCtQTAFYE=;
-  b=mhmyJt0WS3bY67h0A/twi0TDWi0zAX0TXEfHqR7+mD18328A7AE0ed9j
-   voBwGDrv8R/t4uENDoe8NVq4vVpQOdPYbQ/1OlWP4s+MU3rVjh0IRrdcd
-   NATYJ7N9ylRHZ+/INgS0xdDQb1tmRpafyyHxQOTdqWUZKiiY/zBocS9rm
-   +XPYhWFJas2wUVltJkd0pMaIy/7LrbvsKs/7HviR5FeE/AR6C0oaWaPwR
-   lq8QDoo0SVfyOaq06rYt2uqOSz8x3l/JiwcnL6j8W2iwcyL/uaBvAlNOz
-   pIzluCts8DZNdEBFQA9GDG1qE3AuorW6Pro7MrRwLTOn36OmRrLfdS9Ij
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="4432452"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="4432452"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:53:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="816665815"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="816665815"
-Received: from bmihaile-mobl1.ger.corp.intel.com (HELO localhost) ([10.251.222.64])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:53:51 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        bcm-kernel-feedback-list@broadcom.com, jonathan.derrick@linux.dev,
-        kw@linux.com, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-        lpieralisi@kernel.org, marek.vasut+renesas@gmail.com,
-        minghuan.Lian@nxp.com, mingkai.hu@nxp.com,
-        m.karthikeyan@mobiveil.co.in, nirmal.patel@linux.intel.com,
-        rjui@broadcom.com, robh@kernel.org, roy.zang@nxp.com,
-        sbranden@broadcom.com, yoshihiro.shimoda.uh@renesas.com,
-        Zhiqiang.Hou@nxp.com, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 3/3] PCI: Use PCI_HEADER_TYPE_* instead of literals
-Date:   Tue,  3 Oct 2023 15:53:00 +0300
-Message-Id: <20231003125300.5541-4-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231003125300.5541-1-ilpo.jarvinen@linux.intel.com>
-References: <20231003125300.5541-1-ilpo.jarvinen@linux.intel.com>
+        Tue, 3 Oct 2023 08:53:33 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BE29B;
+        Tue,  3 Oct 2023 05:53:29 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-59f4f80d084so10048377b3.1;
+        Tue, 03 Oct 2023 05:53:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696337608; x=1696942408;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7GreI765eB2sOrc8ogLZc2cWlkqE2bJ3aCny1Jc1iTs=;
+        b=n5ZxYxTcjVp3sPWy80rt5v2J7XSRpTZKBNSuCugqMtAYR1b2obhEpo9TRlmTZRa9Os
+         A4ZoblET5ezFtXNIWe5oW1aX6A5gaMWOQJL2MRkt7yh8PdLdYUYOfSXcK3L7HRb1nxOO
+         oIF0JpBy5BXzBRU0L6pSNswTkj2WsYYvZmgnGOAXhxl3NSskK8BZHSJllUK2tEk5dUn1
+         SBWwtYLXk4YoonmXrBBemY3LS1eC89ndUh0bnv10DYnn4PW6qPYrC9B79k6WFISUrWvP
+         fFLzkY4Q4r+s+HO6Pc53hyzVolA3An6quvqHN9kjPxDYqZvmLXy+BPqBIKrYSwVJIGIC
+         oMBw==
+X-Gm-Message-State: AOJu0YzABjGFGk4Ydl2aWbqUN9GZUrdGFUoEfULAAeiPtcp1enHSUJMd
+        iKp7c3y8GKO3nWrzyWmSWi6w4GFrL3Ze6A==
+X-Google-Smtp-Source: AGHT+IE1/LBcxALKG2s1sTKo14eGtlcotUUSOpyhu9nhBsesNF4TwdUB1hQMcpyTKGFZoxIFlPvFsg==
+X-Received: by 2002:a0d:c347:0:b0:56d:43cb:da98 with SMTP id f68-20020a0dc347000000b0056d43cbda98mr14712824ywd.29.1696337608580;
+        Tue, 03 Oct 2023 05:53:28 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id x203-20020a0dd5d4000000b00585f60e970esm354502ywd.134.2023.10.03.05.53.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Oct 2023 05:53:28 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-59f4f80d084so10047727b3.1;
+        Tue, 03 Oct 2023 05:53:28 -0700 (PDT)
+X-Received: by 2002:a81:8246:0:b0:58d:f1fe:5954 with SMTP id
+ s67-20020a818246000000b0058df1fe5954mr15245418ywf.32.1696337607945; Tue, 03
+ Oct 2023 05:53:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <87v8bofna8.wl-kuninori.morimoto.gx@renesas.com> <87r0mcfn95.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87r0mcfn95.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 Oct 2023 14:53:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU05AVYKzYYWieHHG_PfTBXzp+95Lh_5nf33Ndo0BrhDw@mail.gmail.com>
+Message-ID: <CAMuHMdU05AVYKzYYWieHHG_PfTBXzp+95Lh_5nf33Ndo0BrhDw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] arm64: dts: renesas: Add Renesas R8A779F4 SoC support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace literals under drivers/pci/ with PCI_HEADER_TYPE_MASK,
-PCI_HEADER_TYPE_NORMAL, and PCI_HEADER_TYPE_MFD.
+On Tue, Oct 3, 2023 at 4:33 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> R8A779F4 is update version of R8A779F0.
+> This patch adds its support, but is using r8a779f0 dtsi internally.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-While at it, replace !! boolean conversion with FIELD_GET().
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.7.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/pci/controller/dwc/pci-layerscape.c   |  2 +-
- .../controller/mobiveil/pcie-mobiveil-host.c  |  2 +-
- drivers/pci/controller/pcie-iproc.c           |  2 +-
- drivers/pci/controller/pcie-rcar-ep.c         |  2 +-
- drivers/pci/controller/pcie-rcar-host.c       |  2 +-
- drivers/pci/controller/vmd.c                  |  2 +-
- drivers/pci/hotplug/cpqphp_ctrl.c             |  6 ++---
- drivers/pci/hotplug/cpqphp_pci.c              | 22 +++++++++----------
- drivers/pci/hotplug/ibmphp.h                  |  5 +++--
- drivers/pci/hotplug/ibmphp_pci.c              |  2 +-
- drivers/pci/pci.c                             |  2 +-
- drivers/pci/quirks.c                          |  6 ++---
- 12 files changed, 28 insertions(+), 27 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/pci/controller/dwc/pci-layerscape.c b/drivers/pci/controller/dwc/pci-layerscape.c
-index ed5fb492fe08..69a4aa5cfc20 100644
---- a/drivers/pci/controller/dwc/pci-layerscape.c
-+++ b/drivers/pci/controller/dwc/pci-layerscape.c
-@@ -41,7 +41,7 @@ static bool ls_pcie_is_bridge(struct ls_pcie *pcie)
- 	u32 header_type;
- 
- 	header_type = ioread8(pci->dbi_base + PCI_HEADER_TYPE);
--	header_type &= 0x7f;
-+	header_type &= PCI_HEADER_TYPE_MASK;
- 
- 	return header_type == PCI_HEADER_TYPE_BRIDGE;
- }
-diff --git a/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c b/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c
-index 45b97a4b14db..32951f7d6d6d 100644
---- a/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c
-+++ b/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c
-@@ -539,7 +539,7 @@ static bool mobiveil_pcie_is_bridge(struct mobiveil_pcie *pcie)
- 	u32 header_type;
- 
- 	header_type = mobiveil_csr_readb(pcie, PCI_HEADER_TYPE);
--	header_type &= 0x7f;
-+	header_type &= PCI_HEADER_TYPE_MASK;
- 
- 	return header_type == PCI_HEADER_TYPE_BRIDGE;
- }
-diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
-index bd1c98b68851..97f739a2c9f8 100644
---- a/drivers/pci/controller/pcie-iproc.c
-+++ b/drivers/pci/controller/pcie-iproc.c
-@@ -783,7 +783,7 @@ static int iproc_pcie_check_link(struct iproc_pcie *pcie)
- 
- 	/* make sure we are not in EP mode */
- 	iproc_pci_raw_config_read32(pcie, 0, PCI_HEADER_TYPE, 1, &hdr_type);
--	if ((hdr_type & 0x7f) != PCI_HEADER_TYPE_BRIDGE) {
-+	if ((hdr_type & PCI_HEADER_TYPE_MASK) != PCI_HEADER_TYPE_BRIDGE) {
- 		dev_err(dev, "in EP mode, hdr=%#02x\n", hdr_type);
- 		return -EFAULT;
- 	}
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index f9682df1da61..7034c0ff23d0 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -43,7 +43,7 @@ static void rcar_pcie_ep_hw_init(struct rcar_pcie *pcie)
- 	rcar_rmw32(pcie, REXPCAP(0), 0xff, PCI_CAP_ID_EXP);
- 	rcar_rmw32(pcie, REXPCAP(PCI_EXP_FLAGS),
- 		   PCI_EXP_FLAGS_TYPE, PCI_EXP_TYPE_ENDPOINT << 4);
--	rcar_rmw32(pcie, RCONF(PCI_HEADER_TYPE), 0x7f,
-+	rcar_rmw32(pcie, RCONF(PCI_HEADER_TYPE), PCI_HEADER_TYPE_MASK,
- 		   PCI_HEADER_TYPE_NORMAL);
- 
- 	/* Write out the physical slot number = 0 */
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 88975e40ee2f..bf7cc0b6a695 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -460,7 +460,7 @@ static int rcar_pcie_hw_init(struct rcar_pcie *pcie)
- 	rcar_rmw32(pcie, REXPCAP(0), 0xff, PCI_CAP_ID_EXP);
- 	rcar_rmw32(pcie, REXPCAP(PCI_EXP_FLAGS),
- 		PCI_EXP_FLAGS_TYPE, PCI_EXP_TYPE_ROOT_PORT << 4);
--	rcar_rmw32(pcie, RCONF(PCI_HEADER_TYPE), 0x7f,
-+	rcar_rmw32(pcie, RCONF(PCI_HEADER_TYPE), PCI_HEADER_TYPE_MASK,
- 		PCI_HEADER_TYPE_BRIDGE);
- 
- 	/* Enable data link layer active state reporting */
-diff --git a/drivers/pci/controller/vmd.c b/drivers/pci/controller/vmd.c
-index d5b97a6aae56..cc2422963a34 100644
---- a/drivers/pci/controller/vmd.c
-+++ b/drivers/pci/controller/vmd.c
-@@ -527,7 +527,7 @@ static void vmd_domain_reset(struct vmd_dev *vmd)
- 
- 			hdr_type = readb(base + PCI_HEADER_TYPE);
- 
--			functions = (hdr_type & 0x80) ? 8 : 1;
-+			functions = (hdr_type & PCI_HEADER_TYPE_MFD) ? 8 : 1;
- 			for (fn = 0; fn < functions; fn++) {
- 				base = vmd->cfgbar + PCIE_ECAM_OFFSET(bus,
- 						PCI_DEVFN(dev, fn), 0);
-diff --git a/drivers/pci/hotplug/cpqphp_ctrl.c b/drivers/pci/hotplug/cpqphp_ctrl.c
-index e429ecddc8fe..c01968ef0bd7 100644
---- a/drivers/pci/hotplug/cpqphp_ctrl.c
-+++ b/drivers/pci/hotplug/cpqphp_ctrl.c
-@@ -2059,7 +2059,7 @@ int cpqhp_process_SS(struct controller *ctrl, struct pci_func *func)
- 				return rc;
- 
- 			/* If it's a bridge, check the VGA Enable bit */
--			if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+			if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 				rc = pci_bus_read_config_byte(pci_bus, devfn, PCI_BRIDGE_CONTROL, &BCR);
- 				if (rc)
- 					return rc;
-@@ -2342,7 +2342,7 @@ static int configure_new_function(struct controller *ctrl, struct pci_func *func
- 	if (rc)
- 		return rc;
- 
--	if ((temp_byte & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+	if ((temp_byte & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 		/* set Primary bus */
- 		dbg("set Primary bus = %d\n", func->bus);
- 		rc = pci_bus_write_config_byte(pci_bus, devfn, PCI_PRIMARY_BUS, func->bus);
-@@ -2739,7 +2739,7 @@ static int configure_new_function(struct controller *ctrl, struct pci_func *func
- 					 *   PCI_BRIDGE_CTL_SERR |
- 					 *   PCI_BRIDGE_CTL_NO_ISA */
- 		rc = pci_bus_write_config_word(pci_bus, devfn, PCI_BRIDGE_CONTROL, command);
--	} else if ((temp_byte & 0x7F) == PCI_HEADER_TYPE_NORMAL) {
-+	} else if ((temp_byte & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_NORMAL) {
- 		/* Standard device */
- 		rc = pci_bus_read_config_byte(pci_bus, devfn, 0x0B, &class_code);
- 
-diff --git a/drivers/pci/hotplug/cpqphp_pci.c b/drivers/pci/hotplug/cpqphp_pci.c
-index 3b248426a9f4..e9f1fb333a71 100644
---- a/drivers/pci/hotplug/cpqphp_pci.c
-+++ b/drivers/pci/hotplug/cpqphp_pci.c
-@@ -363,7 +363,7 @@ int cpqhp_save_config(struct controller *ctrl, int busnumber, int is_hot_plug)
- 			return rc;
- 
- 		/* If multi-function device, set max_functions to 8 */
--		if (header_type & 0x80)
-+		if (header_type & PCI_HEADER_TYPE_MFD)
- 			max_functions = 8;
- 		else
- 			max_functions = 1;
-@@ -372,7 +372,7 @@ int cpqhp_save_config(struct controller *ctrl, int busnumber, int is_hot_plug)
- 
- 		do {
- 			DevError = 0;
--			if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+			if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 				/* Recurse the subordinate bus
- 				 * get the subordinate bus number
- 				 */
-@@ -487,13 +487,13 @@ int cpqhp_save_slot_config(struct controller *ctrl, struct pci_func *new_slot)
- 	pci_bus_read_config_byte(ctrl->pci_bus, PCI_DEVFN(new_slot->device, 0), 0x0B, &class_code);
- 	pci_bus_read_config_byte(ctrl->pci_bus, PCI_DEVFN(new_slot->device, 0), PCI_HEADER_TYPE, &header_type);
- 
--	if (header_type & 0x80)	/* Multi-function device */
-+	if (header_type & PCI_HEADER_TYPE_MFD)
- 		max_functions = 8;
- 	else
- 		max_functions = 1;
- 
- 	while (function < max_functions) {
--		if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+		if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 			/*  Recurse the subordinate bus */
- 			pci_bus_read_config_byte(ctrl->pci_bus, PCI_DEVFN(new_slot->device, function), PCI_SECONDARY_BUS, &secondary_bus);
- 
-@@ -571,7 +571,7 @@ int cpqhp_save_base_addr_length(struct controller *ctrl, struct pci_func *func)
- 		/* Check for Bridge */
- 		pci_bus_read_config_byte(pci_bus, devfn, PCI_HEADER_TYPE, &header_type);
- 
--		if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+		if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 			pci_bus_read_config_byte(pci_bus, devfn, PCI_SECONDARY_BUS, &secondary_bus);
- 
- 			sub_bus = (int) secondary_bus;
-@@ -625,7 +625,7 @@ int cpqhp_save_base_addr_length(struct controller *ctrl, struct pci_func *func)
- 
- 			}	/* End of base register loop */
- 
--		} else if ((header_type & 0x7F) == 0x00) {
-+		} else if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_NORMAL) {
- 			/* Figure out IO and memory base lengths */
- 			for (cloop = 0x10; cloop <= 0x24; cloop += 4) {
- 				temp_register = 0xFFFFFFFF;
-@@ -723,7 +723,7 @@ int cpqhp_save_used_resources(struct controller *ctrl, struct pci_func *func)
- 		/* Check for Bridge */
- 		pci_bus_read_config_byte(pci_bus, devfn, PCI_HEADER_TYPE, &header_type);
- 
--		if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+		if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 			/* Clear Bridge Control Register */
- 			command = 0x00;
- 			pci_bus_write_config_word(pci_bus, devfn, PCI_BRIDGE_CONTROL, command);
-@@ -858,7 +858,7 @@ int cpqhp_save_used_resources(struct controller *ctrl, struct pci_func *func)
- 				}
- 			}	/* End of base register loop */
- 		/* Standard header */
--		} else if ((header_type & 0x7F) == 0x00) {
-+		} else if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_NORMAL) {
- 			/* Figure out IO and memory base lengths */
- 			for (cloop = 0x10; cloop <= 0x24; cloop += 4) {
- 				pci_bus_read_config_dword(pci_bus, devfn, cloop, &save_base);
-@@ -975,7 +975,7 @@ int cpqhp_configure_board(struct controller *ctrl, struct pci_func *func)
- 		pci_bus_read_config_byte(pci_bus, devfn, PCI_HEADER_TYPE, &header_type);
- 
- 		/* If this is a bridge device, restore subordinate devices */
--		if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+		if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 			pci_bus_read_config_byte(pci_bus, devfn, PCI_SECONDARY_BUS, &secondary_bus);
- 
- 			sub_bus = (int) secondary_bus;
-@@ -1067,7 +1067,7 @@ int cpqhp_valid_replace(struct controller *ctrl, struct pci_func *func)
- 		/* Check for Bridge */
- 		pci_bus_read_config_byte(pci_bus, devfn, PCI_HEADER_TYPE, &header_type);
- 
--		if ((header_type & 0x7F) == PCI_HEADER_TYPE_BRIDGE) {
-+		if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 			/* In order to continue checking, we must program the
- 			 * bus registers in the bridge to respond to accesses
- 			 * for its subordinate bus(es)
-@@ -1090,7 +1090,7 @@ int cpqhp_valid_replace(struct controller *ctrl, struct pci_func *func)
- 
- 		}
- 		/* Check to see if it is a standard config header */
--		else if ((header_type & 0x7F) == PCI_HEADER_TYPE_NORMAL) {
-+		else if ((header_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_NORMAL) {
- 			/* Check subsystem vendor and ID */
- 			pci_bus_read_config_dword(pci_bus, devfn, PCI_SUBSYSTEM_VENDOR_ID, &temp_register);
- 
-diff --git a/drivers/pci/hotplug/ibmphp.h b/drivers/pci/hotplug/ibmphp.h
-index 0399c60d2ec1..5c43edd8831e 100644
---- a/drivers/pci/hotplug/ibmphp.h
-+++ b/drivers/pci/hotplug/ibmphp.h
-@@ -17,6 +17,7 @@
-  */
- 
- #include <linux/pci_hotplug.h>
-+#include <linux/pci_regs.h>
- 
- extern int ibmphp_debug;
- 
-@@ -288,8 +289,8 @@ int ibmphp_register_pci(void);
- 
- /* pci specific defines */
- #define PCI_VENDOR_ID_NOTVALID		0xFFFF
--#define PCI_HEADER_TYPE_MULTIDEVICE	0x80
--#define PCI_HEADER_TYPE_MULTIBRIDGE	0x81
-+#define PCI_HEADER_TYPE_MULTIDEVICE	(PCI_HEADER_TYPE_MFD|PCI_HEADER_TYPE_NORMAL)
-+#define PCI_HEADER_TYPE_MULTIBRIDGE	(PCI_HEADER_TYPE_MFD|PCI_HEADER_TYPE_BRIDGE)
- 
- #define LATENCY		0x64
- #define CACHE		64
-diff --git a/drivers/pci/hotplug/ibmphp_pci.c b/drivers/pci/hotplug/ibmphp_pci.c
-index 50038e5f9ca4..eeb412cbd9fe 100644
---- a/drivers/pci/hotplug/ibmphp_pci.c
-+++ b/drivers/pci/hotplug/ibmphp_pci.c
-@@ -1087,7 +1087,7 @@ static struct res_needed *scan_behind_bridge(struct pci_func *func, u8 busno)
- 				pci_bus_read_config_dword(ibmphp_pci_bus, devfn, PCI_CLASS_REVISION, &class);
- 
- 				debug("hdr_type behind the bridge is %x\n", hdr_type);
--				if ((hdr_type & 0x7f) == PCI_HEADER_TYPE_BRIDGE) {
-+				if ((hdr_type & PCI_HEADER_TYPE_MASK) == PCI_HEADER_TYPE_BRIDGE) {
- 					err("embedded bridges not supported for hot-plugging.\n");
- 					amount->not_correct = 1;
- 					return amount;
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 60230da957e0..7f6fd5e62aab 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -534,7 +534,7 @@ u8 pci_bus_find_capability(struct pci_bus *bus, unsigned int devfn, int cap)
- 
- 	pci_bus_read_config_byte(bus, devfn, PCI_HEADER_TYPE, &hdr_type);
- 
--	pos = __pci_bus_find_cap_start(bus, devfn, hdr_type & 0x7f);
-+	pos = __pci_bus_find_cap_start(bus, devfn, hdr_type & PCI_HEADER_TYPE_MASK);
- 	if (pos)
- 		pos = __pci_find_next_cap(bus, devfn, pos, cap);
- 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index ef193661c3d1..3a0adfb90c34 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -1844,8 +1844,8 @@ static void quirk_jmicron_ata(struct pci_dev *pdev)
- 
- 	/* Update pdev accordingly */
- 	pci_read_config_byte(pdev, PCI_HEADER_TYPE, &hdr);
--	pdev->hdr_type = hdr & 0x7f;
--	pdev->multifunction = !!(hdr & 0x80);
-+	pdev->hdr_type = hdr & PCI_HEADER_TYPE_MASK;
-+	pdev->multifunction = FIELD_GET(PCI_HEADER_TYPE_MFD, hdr);
- 
- 	pci_read_config_dword(pdev, PCI_CLASS_REVISION, &class);
- 	pdev->class = class >> 8;
-@@ -5666,7 +5666,7 @@ static void quirk_nvidia_hda(struct pci_dev *gpu)
- 
- 	/* The GPU becomes a multi-function device when the HDA is enabled */
- 	pci_read_config_byte(gpu, PCI_HEADER_TYPE, &hdr_type);
--	gpu->multifunction = !!(hdr_type & 0x80);
-+	gpu->multifunction = FIELD_GET(PCI_HEADER_TYPE_MFD, hdr_type);
- }
- DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_VENDOR_ID_NVIDIA, PCI_ANY_ID,
- 			       PCI_BASE_CLASS_DISPLAY, 16, quirk_nvidia_hda);
+                        Geert
+
 -- 
-2.30.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
