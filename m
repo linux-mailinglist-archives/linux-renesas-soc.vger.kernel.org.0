@@ -2,89 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B367B8C8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 21:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D2057B8DC4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 22:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244943AbjJDTIE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 15:08:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34868 "EHLO
+        id S243758AbjJDUAb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 16:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244990AbjJDTHc (ORCPT
+        with ESMTP id S243903AbjJDUAa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 15:07:32 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58471BFB;
-        Wed,  4 Oct 2023 12:04:08 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.82.102) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 4 Oct 2023
- 22:04:04 +0300
-Subject: Re: [PATCH net 1/2] ravb: Fix dma_free_coherent() of desc_bat timing
- in ravb_remove()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20231004091253.4194205-1-yoshihiro.shimoda.uh@renesas.com>
- <20231004091253.4194205-2-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <061d1b91-370b-1427-b591-5ca7d87fd3d1@omp.ru>
-Date:   Wed, 4 Oct 2023 22:04:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 4 Oct 2023 16:00:30 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC73E5
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 13:00:27 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-65b0c9fb673so859686d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Oct 2023 13:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696449626; x=1697054426; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=glw2eflXaWyZcVCXjzXx5plNNuZGimWl7Idf1GSBlgM=;
+        b=SFrQJfcvMz0t3C94c9cwbZHkV8FelVNOTCNhkQgGkwZkw8Q/hbaZXlokolCpAlEVEN
+         xMLZRDH/Ik8UEG7N9pYuu17myPQJBoNf3BeNX23SbLXrOtL6Yf/eT2E1suPjhQ7k5M10
+         EbwPqyqQYiV4SDQvVoNM0V5H5tVXGozMyX9WXXXXfFwYM1nqaSIz/us2IuXLvTAKiSwv
+         2jW4IFugox0rc6tliXOaItTKHSSKFeO733tzH3+V42QOOAGDT2yXALI61WcbduBniP2i
+         XOo1yleSp1XxjIUgMwNAOTlWhtDfWQkePtULxrEwFUg0cOOnHkVX4rZ/hfFcrXB+QsG+
+         Om8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696449626; x=1697054426;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=glw2eflXaWyZcVCXjzXx5plNNuZGimWl7Idf1GSBlgM=;
+        b=Wc6KzqQvmR5WTY7/fusIS7nHzxGU/msL4RU8SMnanMSZDslTqSSwq12eGLbcDuCnKr
+         MwUolB5YSqTPfgETX8KNr4ut9M9muafft5Gx5JqJY8ytkiqanPQWV6CTztsebtm7l0rJ
+         ISxTgsjV9epsMMl1wVB8oxbVp4R+IpE2XbUEcE9h/WuJ08FJdMFOdT0pqGyoh9151/At
+         RnI4fMttoj9NFQ2GacJbXmbPylC1UfJlvXh8cqb3UhhR9RtqOFj87FfLw+ztmvUTOUo3
+         183yI7N2KjBHT5YwpAXvyIrcjl2RAJo/1ENLQfQw4jQhUtB4teX0t1MA+StTe+/aHWRC
+         PX3Q==
+X-Gm-Message-State: AOJu0Ywb8lqI3rlh8UC/oeFUkqy4uz24MD9BSmRNXM9+hgv4S8E0fJrG
+        c4+nWo8jzIq+kzLX+yMZ0bkfjg==
+X-Google-Smtp-Source: AGHT+IF0w9RIq7iWk6yVTsSNe4IEuVRRJFeWTzPEC9v/OSfZEAP33bpqfgtug+p8jjGC81hwrVmgRA==
+X-Received: by 2002:a0c:f24a:0:b0:656:1af7:e9f9 with SMTP id z10-20020a0cf24a000000b006561af7e9f9mr3192156qvl.0.1696449626077;
+        Wed, 04 Oct 2023 13:00:26 -0700 (PDT)
+Received: from maple.home ([174.94.49.189])
+        by smtp.gmail.com with ESMTPSA id v4-20020a0c8e04000000b006648514e276sm1579095qvb.78.2023.10.04.13.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 13:00:25 -0700 (PDT)
+From:   Ralph Siemsen <ralph.siemsen@linaro.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [PATCH] pinctrl: renesas: rzn1: enable PINMUX
+Date:   Wed,  4 Oct 2023 16:00:08 -0400
+Message-Id: <20231004200008.1306798-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20231004091253.4194205-2-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.82.102]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 10/04/2023 18:50:28
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 180363 [Oct 04 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 535 535 da804c0ea8918f802fc60e7a20ba49783d957ba2
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.102 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;31.173.82.102:7.4.1,7.7.3;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: {cloud_iprep_silent}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: {rdns complete}
-X-KSE-AntiSpam-Info: {fromrtbl complete}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.102
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/04/2023 18:56:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/4/2023 5:06:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Concerning the summary: how about the below?
+Enable pin muxing (eg. programmable function), so that the RZN1 GPIO
+pins will be configured as specified by the pinmux in the DTS.
 
-ravb: fix up dma_free_coherent() call in ravb_remove()
+This used to be enabled implicitly via CONFIG_GENERIC_PINMUX_FUNCTIONS,
+however that was removed in 308fb4e4eae14e6189dece3b7cf5b5f453c5d02
+since the rzn1 driver does not call any of the generic pinmux functions.
+
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ drivers/pinctrl/renesas/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kconfig
+index 77730dc548ed..0ad8e14ccc52 100644
+--- a/drivers/pinctrl/renesas/Kconfig
++++ b/drivers/pinctrl/renesas/Kconfig
+@@ -234,6 +234,7 @@ config PINCTRL_RZN1
+ 	bool "pin control support for RZ/N1"
+ 	depends on OF
+ 	depends on ARCH_RZN1 || COMPILE_TEST
++	select PINMUX
+ 	select GENERIC_PINCONF
+ 	help
+ 	  This selects pinctrl driver for Renesas RZ/N1 devices.
+-- 
+2.25.1
+
