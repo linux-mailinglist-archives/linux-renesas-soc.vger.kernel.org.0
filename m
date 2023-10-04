@@ -2,98 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B327B83BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 17:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B640B7B86D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 19:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233550AbjJDPhq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 11:37:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36992 "EHLO
+        id S233386AbjJDRnB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 13:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233256AbjJDPhq (ORCPT
+        with ESMTP id S233271AbjJDRnB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 11:37:46 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58C5BD;
-        Wed,  4 Oct 2023 08:37:42 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-59e77e4f707so27953757b3.0;
-        Wed, 04 Oct 2023 08:37:42 -0700 (PDT)
+        Wed, 4 Oct 2023 13:43:01 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B16A6
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 10:42:57 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c62d61dc96so164375ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Oct 2023 10:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696441377; x=1697046177; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PAz1DFCYnOrFN4tIroBsTa6sPFO/dCrdBUsEUFQEyNU=;
+        b=DN3V9vCzLrYoivi49vMp4dDuJ/ofMrXGrlbhyXoXwCeD+Adg1TCyq4HCZxSbgTAR1r
+         3NHlWwY6cQVzoOkOtv/oGFyPj4kxiXVNjD26BPlHfgdz1AXI0NLIsIwyYpmegOOIToso
+         es+6ep0WGLR+VO0FkfxdgPk/Z7NMALJ6bF5WKECVdI8KnEBfnViMzI+EzCMOWOBZx4PF
+         Pc7XQ9odW7OVHCA2unJ5KhqRpHSbsOv3nX/lvTIm/a/5daPaU5TdwNEkZ+6n+NP+evBr
+         DTM5fiSkgobswignL7sFLTok/BAXp9x36n0lJFjYfok+yCcNnz+74HSh/1TNZjs8s61k
+         Tsuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696433862; x=1697038662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vYlbLmaEB096eu5KOHkpc83S+3akyKuaBcHKlJ33Mfw=;
-        b=lYYfVgXxMptnt6Ir/CWfpOXatc0gahTLlnuyzX/SPVvaOhzSwyDyovoy18uq4kWhjJ
-         mu+jgj67YPtdVDJ7XOuTfECmcsWjqS8NMQAYm5Q/EsTQj1Z89YEP26y8QbC2G/UcXI/T
-         EsAxG0XQnCQtG6dRQFQU8KdqLksyKIMWdKS90NTRaulNRKu30IwNBcSvm9KtUnnOVCE/
-         xDdnl2H2HuBHM4m4RN5y8QuaOx5Qf+dBDode6Bj0jaLl7edg05LCs02qUCNKuhCDCaSQ
-         rYblNgY76nDTagGuTvumIBLyEK/gHHGEtqNYViJnZkYpThuadPev/HaqT/1Gx/j95A6N
-         iKYQ==
-X-Gm-Message-State: AOJu0YzJ0Aq+sn04tBhxRYiZniD0MTHfuAtLsSv4OJdJZYO7jPO1WHKW
-        iE+fKwf2MQKejGrZXPnIb3Ih0hQU330fIg==
-X-Google-Smtp-Source: AGHT+IFWrFUprdLQ8/KGUNk7xYLQl7Ne5co20rHcciP0oADoUZJFOQm6uwu+k5/Kotg4m9qadgaMrg==
-X-Received: by 2002:a81:53c2:0:b0:594:e2e6:25e8 with SMTP id h185-20020a8153c2000000b00594e2e625e8mr2619383ywb.48.1696433861803;
-        Wed, 04 Oct 2023 08:37:41 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id u66-20020a818445000000b005928ba6806dsm1216455ywf.97.2023.10.04.08.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 08:37:41 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-59e77e4f707so27953607b3.0;
-        Wed, 04 Oct 2023 08:37:41 -0700 (PDT)
-X-Received: by 2002:a81:7245:0:b0:59a:e672:5a03 with SMTP id
- n66-20020a817245000000b0059ae6725a03mr2962158ywc.44.1696433861169; Wed, 04
- Oct 2023 08:37:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231004152751.3917-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20231004152751.3917-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Oct 2023 17:37:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXizSWkMnHJ6FKkyRQa5zpRZ-bpLJ1HDkothq2ont0Dpg@mail.gmail.com>
-Message-ID: <CAMuHMdXizSWkMnHJ6FKkyRQa5zpRZ-bpLJ1HDkothq2ont0Dpg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a77990: document Ebisu-4D support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        d=1e100.net; s=20230601; t=1696441377; x=1697046177;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PAz1DFCYnOrFN4tIroBsTa6sPFO/dCrdBUsEUFQEyNU=;
+        b=YiRooP7/X65bXiylswGbh8yaWiTxTR5bVnT5AXeCsS9dxY2+Jdo1WxzHpOihUGDm4n
+         laV5mgK2Cfq+NVnyngvdjrGnDWuYhGRaFQBEhaiYRGABIYOefEbqavDG36j0VXcIBoTd
+         xKnwD7su5A40SpiBB35DWDk0cQYSchuqyTc96dRzXa9kRKJBgU4O/XPNS3KdJ9W00x+4
+         92f8nlw5OF1g3ie4hlyVxtK2qRRxiSLWY6QiVuRmZjJAWSFs9se5LLopWR4FRWeeN35t
+         xOXYmboCtV2KpadN0MblY4010NjTpd8u/jom+x4BhxNuNmpgbvTz4Mzw8uuod9TJAxNj
+         6mCw==
+X-Gm-Message-State: AOJu0YwUwLzytgiTZ3n3rb9StucgC26GD4x9M3svidLdjXSV0gRs4858
+        HSTpdRC1VNGa9DezSbFFI7ybSQ==
+X-Google-Smtp-Source: AGHT+IGCU8SV8LgeVtV8MEhdZCojuC38BkViH9No+0IHftNGmQ/M48mEVbfFLmkXJV2TQfY+9EjP+w==
+X-Received: by 2002:a17:903:25c3:b0:1c5:76b6:d4f7 with SMTP id jc3-20020a17090325c300b001c576b6d4f7mr2813402plb.36.1696441376967;
+        Wed, 04 Oct 2023 10:42:56 -0700 (PDT)
+Received: from x1 ([2601:1c2:1800:f680:95a1:7b5c:a766:5db1])
+        by smtp.gmail.com with ESMTPSA id c1-20020a170903234100b001b9c960ffeasm3993160plh.47.2023.10.04.10.42.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 10:42:56 -0700 (PDT)
+Date:   Wed, 4 Oct 2023 10:42:53 -0700
+From:   Drew Fustini <dfustini@baylibre.com>
+To:     Jisheng Zhang <jszhang@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
+ on NONPORTABLE
+Message-ID: <ZR2kHfUXmQ9jwQC9@x1>
+References: <20231004150856.2540-1-jszhang@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 5:27 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Document properly that Ebisu-support includes the Ebisu-4D variant, so
-> there won't be confusion what happened with support for this board.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Acked-by: Rob Herring <robh@kernel.org>
+On Wed, Oct 04, 2023 at 11:08:56PM +0800, Jisheng Zhang wrote:
+> Drew found "CONFIG_DMA_GLOBAL_POOL=y causes ADMA buffer alloc to fail"
+> the log looks like:
+> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to standard DMA
+> 
+> The logic is: generic riscv defconfig selects ARCH_RENESAS then
+> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
+> non-dma-coherent riscv platforms have a dma global pool, this assumption
+> seems not correct. And I believe DMA_GLOBAL_POOL should not be
+> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
+> conditions can select it globaly, for example NOMMU ARM and so on,
+> because it's designed for special cases such as "nommu cases where
+> non-cacheable memory lives in a fixed place in the physical address
+> map" as pointed out by Robin.
+> 
+> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
+> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
+> default. And even for random config case, there will be less debug
+> effort once we see NONPORTABLE is enabled.
+> 
+> Reported-by: Drew Fustini <dfustini@baylibre.com>
+> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
+> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs for RZ/Five SoC")
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 > ---
->
-> Changes since v1:
-> * fixed RTP numbers for both boards
-> * added Rob's ack (thanks!)
+>  drivers/soc/renesas/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index 5a75ab64d1ed..12040ce116a5 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -333,6 +333,7 @@ if RISCV
+>  
+>  config ARCH_R9A07G043
+>  	bool "RISC-V Platform support for RZ/Five"
+> +	depends on NONPORTABLE
+>  	select ARCH_RZG2L
+>  	select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
+>  	select DMA_GLOBAL_POOL
+> -- 
+> 2.40.1
+> 
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.7.
+Tested-by: Drew Fustini <dfustini@baylibre.com>
 
-Gr{oetje,eeting}s,
+With this patch, I can use the defconfig and sdhci-of-dwcmshc driver is
+able to use ADMA mode without needing to add shared-dma-pool to dts:
 
-                        Geert
+# zcat /proc/config.gz |grep DMA_GLOBAL_POOL
+# dtc -I fs /sys/firmware/devicetree/base/ 2>/dev/null |grep pool
+# dmesg |grep ADMA
+[    3.910269] mmc0: SDHCI controller on ffe7080000.mmc [ffe7080000.mmc] using ADMA 64-bit
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Drew
