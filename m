@@ -2,57 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74D2B7B80A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 15:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B217B80B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 15:22:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbjJDNSV convert rfc822-to-8bit (ORCPT
+        id S242625AbjJDNWC convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 09:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48594 "EHLO
+        Wed, 4 Oct 2023 09:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233134AbjJDNSU (ORCPT
+        with ESMTP id S233319AbjJDNWB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 09:18:20 -0400
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F369E;
-        Wed,  4 Oct 2023 06:18:17 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59c268676a9so25262317b3.0;
-        Wed, 04 Oct 2023 06:18:17 -0700 (PDT)
+        Wed, 4 Oct 2023 09:22:01 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03664A1;
+        Wed,  4 Oct 2023 06:21:58 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a505762c9dso579917b3.2;
+        Wed, 04 Oct 2023 06:21:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696425496; x=1697030296;
+        d=1e100.net; s=20230601; t=1696425717; x=1697030517;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/wMp+Vg307cSobQ6lm2WKyfxk9n+yqBtBGToupSFTGM=;
-        b=misch/BJVoWoaIq2vp15aDmvzrFy0U7a5fO8B/2Wl0/a/GxKCAQFyxcOQVfsfBB3tW
-         pWNTab4AH9kvqKqir+8OoAgxI3GKE5V32f81itWfNs2Ju6/91L6NKwHTF0sDsjyYYcSe
-         ywN41ADhMthIm13PmqexFHNCfdXeKDVHSJDuNYYVenIvNdkptIu8kFDcO5Qsju+jsLOo
-         oUtjeD7xtB/20F98l3pAKkPvzCKnLZgqJPL/XERAp2YO3qqjnT4mFAaMPVeQWfyS4c26
-         SIDushCEhA5F61jsJV8gCW5Rszw02fmOprGehWFy9klC6rMckK+Ic2dIifB97WNH/OPp
-         Ms5A==
-X-Gm-Message-State: AOJu0YxTRNHjcNaVvpMfNaKwRlVw2IfLqn9sQ1RnbIopCXVpqHpNNo3F
-        BWIK/2gaIH+braaXjUsRZgGMZckZUJEOvA==
-X-Google-Smtp-Source: AGHT+IFjpDJ/TWx4mYP1vTavRlFj+pulva715y9H09RW7jK91X92kkZz4JebvV1USCCHTPWyZrqxgA==
-X-Received: by 2002:a81:5c57:0:b0:561:a123:1041 with SMTP id q84-20020a815c57000000b00561a1231041mr2480757ywb.29.1696425496426;
-        Wed, 04 Oct 2023 06:18:16 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id n16-20020a819e50000000b005837633d9cbsm1114124ywj.64.2023.10.04.06.18.15
+        bh=KVzjW9Eo52+SfKHVjtESmESLgB/bR8EgYwxS/kFJXaU=;
+        b=XoFG6HF7r2ykjVvHvQy0z2sSJETwAvMUrOXt0bOSlfepHUBRBVIULvUCm9QdW6Njpm
+         vDFRS4bXb3L+7JEvuoSeiEpUdZLqPPkS0zgY+aNKyYQtdbfKnE0xXJOcPuC3Y+iMQHo9
+         FSM6CZhce2WzeUIn2PsXtmoIBirybFpkmcPq7UL/6GFdy2oIhi27keOKYZUvC+s+wmzV
+         nfnWQlMChK1oFlWX8Uxuxq+60N4acdNpkFeeH1Ao7MwyMSw22SYb+cT+EqTINtUIbeyE
+         iSJHV409oYdkrOR6DEcvGrPFdaySu7YY7bL6I83GDsOjupxI8r7aS4iKC8pqofuEgdUj
+         Jnsw==
+X-Gm-Message-State: AOJu0YzkUD656JC5qcOgY+4RXBCgBJdgSe41/SVJITWv8RZdo7mNUDGo
+        J58jmGaUZSwG1oydCtlgk6XO8OrfhipucA==
+X-Google-Smtp-Source: AGHT+IHyqcV23pigUpA0knuyVjlhROOr5hdHcHUKFwCYzjIRDBFGw+vzYl6kX/U1EJOjvFmJDs+/EA==
+X-Received: by 2002:a0d:fb83:0:b0:586:e50:fb50 with SMTP id l125-20020a0dfb83000000b005860e50fb50mr2561771ywf.28.1696425716915;
+        Wed, 04 Oct 2023 06:21:56 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id u76-20020a0deb4f000000b00583e52232f1sm1133550ywe.112.2023.10.04.06.21.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 06:18:16 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a229ac185aso25149567b3.1;
-        Wed, 04 Oct 2023 06:18:15 -0700 (PDT)
-X-Received: by 2002:a81:4811:0:b0:5a1:eec1:b42e with SMTP id
- v17-20020a814811000000b005a1eec1b42emr2615702ywa.0.1696425495727; Wed, 04 Oct
- 2023 06:18:15 -0700 (PDT)
+        Wed, 04 Oct 2023 06:21:56 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59c268676a9so25310877b3.0;
+        Wed, 04 Oct 2023 06:21:56 -0700 (PDT)
+X-Received: by 2002:a0d:ee01:0:b0:59b:c6a4:15c7 with SMTP id
+ x1-20020a0dee01000000b0059bc6a415c7mr2252067ywe.46.1696425716334; Wed, 04 Oct
+ 2023 06:21:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-18-claudiu.beznea@bp.renesas.com>
-In-Reply-To: <20230929053915.1530607-18-claudiu.beznea@bp.renesas.com>
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-21-claudiu.beznea@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-21-claudiu.beznea@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Oct 2023 15:18:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX+3PinKKrWbtnaGGJZcARSyMewQR6QvYVGnM7NT0ObXQ@mail.gmail.com>
-Message-ID: <CAMuHMdX+3PinKKrWbtnaGGJZcARSyMewQR6QvYVGnM7NT0ObXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 17/28] pinctrl: renesas: rzg2l: move ds and oi to SoC
- specific configuration
+Date:   Wed, 4 Oct 2023 15:21:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVx1rNzp417=11Bi+RQUbuauuh_QASJyWevag-htVeY0Q@mail.gmail.com>
+Message-ID: <CAMuHMdVx1rNzp417=11Bi+RQUbuauuh_QASJyWevag-htVeY0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 20/28] dt-bindings: pinctrl: renesas: document RZ/G3S SoC
 To:     Claudiu <claudiu.beznea@tuxon.dev>
 Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -77,30 +76,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+On Fri, Sep 29, 2023 at 7:40 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Move drive strength and output impedance values to SoC specific
-> configuration data structure (struct rzg2l_hwcfg). This allows extending
-> the drive strength support for RZ/G3S. Along with this the DS values
-> were converted to uA for simple integration with RZ/G3S support.
+> Add documentation for pin controller found on RZ/G3S (R9A08G045) SoC.
+> Compared with RZ/G2{L,UL} RZ/G3S has 82 general-purpose IOs, no slew
+> rate and output impedance support and more values for drive strength
+> which needs to be expressed in microamp.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 >
 > Changes in v2:
-> - s/indexes/indices in code documentation
-> - s/micro amps/uA in code documentation
-> - added RZG2L_IOLH_MAX_DS_ENTRIES for "+ 4" statements in code
-> - changed struct rzg2l_hwcfg::iolh_groupb_oi[] size to 4 to avoid
->   oversize it in next commits when RZG2L_IOLH_IDX_MAX will be increased
->   and thus avoiding issues when executing
->   "if (index == ARRAY_SIZE(hwcfg->iolh_groupb_oi))" in
->   rzg2l_pinctrl_pinconf_set()
-> - collected tags
+> - defined drive-strength-microamp as general and make if/then schema to
+>   not allow specific properties depending on compatible
 
-Thanks, will queue in renesas-pinctrl-for-v6.7.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v6.7.
 
 Gr{oetje,eeting}s,
 
