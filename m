@@ -2,50 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4787B838B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 17:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D631B7B83B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 17:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233117AbjJDP2C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 11:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
+        id S233514AbjJDPgW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 11:36:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233256AbjJDP2B (ORCPT
+        with ESMTP id S233473AbjJDPgV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 11:28:01 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F56DBD
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 08:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=AcnBMrFV/5ppKI
-        SBLD04NC46x9q9bnjgHXSKraviqGo=; b=KvLtNPr5F/JBRBeo7cHBepSvPVylVr
-        9pAahRco6WlblAktPCAvFqop5L5JO9xYFziGEjl4SwrHJGAAxaBCRpI5GZMm/Nhw
-        Ov0a1/4Mk4jHTH3+xCwu2b+jlTKb+wTQ8GWqYuLEgsjTS0UYQdG8OTCyiW+Swtk3
-        lgLesncmO9SdrR5Ovspt1Kv5kV+Ho303nTzz+K5y1g9ebQBpSJsVO9hIeNq/GKgo
-        p7+wuB+GRDwN+JY/U0+7dwYe0XfkW0aB2prsD537MsvlCT58gXTgXHP+8F9BcOyq
-        iecrY8IQP5OGwZlsHEN0iu6Gsl62KgH9olL9pjb3UD+rRnAgpgV/EFcw==
-Received: (qmail 1221016 invoked from network); 4 Oct 2023 17:27:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Oct 2023 17:27:56 +0200
-X-UD-Smtp-Session: l3s3148p1@UjjPpuUGDrQgAwDPXyiQAAMTeDf2RifG
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wed, 4 Oct 2023 11:36:21 -0400
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D842198;
+        Wed,  4 Oct 2023 08:36:18 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59c215f2f4aso27690447b3.1;
+        Wed, 04 Oct 2023 08:36:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696433778; x=1697038578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E1DdlhuqR3JN6uSIXuCO9eqHb8GCx2/yO+mSSn2zYgQ=;
+        b=srLs/8yCgUxhMAURFDVfU0+2pRt+lSkNUJ1n7XOhc/YVwU7RX0jq8cU9dz91cLEjZk
+         KcVo7mI9JqWmqbv9cB1nWz+blOMBRxc8ayu/qu0EItR44ekBq6bspHT2kXX+2EIxFiaP
+         BGZNebQuAUYvtY9fDRxxlUuAyU4KHjWmDhPc5t2+OL1OT0ZJOgYW9fdTWzIbzWfHqYyc
+         2C2KLrar8cTtTNfGEEBZQv6aXhVxjmDXEXbzzi1dDK59xWjtkUdjFCmjkXwYpVTNB0/q
+         PQHIjjvLOXtRCq2s5MO2TG/Dk/+87AULBP8QLvZC80t6XfGDgNInpOBnA0ElOqWGLz5q
+         Jt5g==
+X-Gm-Message-State: AOJu0YznlqqFF5sfCuBYbJ69tB7X3IpWcIguqMqHLyMRlgw9K7AR2sJd
+        Zy/Nn3nkNOx7we2ZyObT21fzI6bB/zEUuw==
+X-Google-Smtp-Source: AGHT+IFJN/pUOe7Ed9W2W6RxupIa7W9uDqUAVG6lZqDx/bM0qOOjQXQX8RRhZoMDk0ZAOWpBMVS1dw==
+X-Received: by 2002:a0d:f645:0:b0:59f:761a:fe70 with SMTP id g66-20020a0df645000000b0059f761afe70mr3041092ywf.19.1696433777861;
+        Wed, 04 Oct 2023 08:36:17 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id t130-20020a818388000000b0058ddb62f99bsm1235589ywf.38.2023.10.04.08.36.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Oct 2023 08:36:17 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5a24b03e22eso27837227b3.0;
+        Wed, 04 Oct 2023 08:36:17 -0700 (PDT)
+X-Received: by 2002:a0d:cad2:0:b0:59b:f744:f158 with SMTP id
+ m201-20020a0dcad2000000b0059bf744f158mr3013260ywd.15.1696433777258; Wed, 04
+ Oct 2023 08:36:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdU+1ox_6e65YQ0bCQMbqtWkYzsE2S88-En7OnYvomfJ2Q@mail.gmail.com> <ZR2DQYvwTbADM0zX@ninjato>
+In-Reply-To: <ZR2DQYvwTbADM0zX@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 4 Oct 2023 17:36:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW7xYh7EFczC3OBFDCRCa5OhW50iLhC2f3p00goetoTHQ@mail.gmail.com>
+Message-ID: <CAMuHMdW7xYh7EFczC3OBFDCRCa5OhW50iLhC2f3p00goetoTHQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: document Ebisu-4D support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] arm64: dts: renesas: r8a77990: document Ebisu-4D support
-Date:   Wed,  4 Oct 2023 17:27:51 +0200
-Message-Id: <20231004152751.3917-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,59 +72,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document properly that Ebisu-support includes the Ebisu-4D variant, so
-there won't be confusion what happened with support for this board.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: Rob Herring <robh@kernel.org>
----
+On Wed, Oct 4, 2023 at 5:22 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > Ebisu-4D has a different part number: RTP0RC77990SEB0020S.
+>
+> Oh, then the elinux wiki entry is at least vague [1]. I checked against
+> it and it says "This is the Wiki for the Renesas Ebisu (Ebisu-4D,
+> RTP0RC77990SEB0010S) board," which I read that the the 4D is 10S.
 
-Changes since v1:
-* fixed RTP numbers for both boards
-* added Rob's ack (thanks!)
+Yesterday, I checked the schematics.
+I guess I created the wiki page based on the DT bindings doc.
 
- Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 +-
- arch/arm64/boot/dts/renesas/ebisu.dtsi                     | 2 +-
- arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts             | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> But I'll fix according to your information.
 
-diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-index 53b95f348f8e..6239c38d6405 100644
---- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-+++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-@@ -302,7 +302,7 @@ properties:
-       - description: R-Car E3 (R8A77990)
-         items:
-           - enum:
--              - renesas,ebisu # Ebisu (RTP0RC77990SEB0010S)
-+              - renesas,ebisu # Ebisu (RTP0RC77990SEB0010S), Ebisu-4D (RTP0RC77990SEB0020S)
-           - const: renesas,r8a77990
- 
-       - description: R-Car D3 (R8A77995)
-diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-index bbc29452d1be..f1a5778ef115 100644
---- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Device Tree Source for the Ebisu board
-+ * Device Tree Source for the Ebisu/Ebisu-4D board
-  *
-  * Copyright (C) 2018 Renesas Electronics Corp.
-  */
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-index 9da0fd08f8c4..d5ac34a966f6 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Device Tree Source for the Ebisu board with R-Car E3
-+ * Device Tree Source for the Ebisu/Ebisu-4D board with R-Car E3
-  *
-  * Copyright (C) 2018 Renesas Electronics Corp.
-  */
+Thanks!
+
+> [1] https://elinux.org/R-Car/Boards/Ebisu
+
+I updated the wiki page.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.30.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
