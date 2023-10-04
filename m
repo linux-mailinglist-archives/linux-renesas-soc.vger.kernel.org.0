@@ -2,52 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3B57B814E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 15:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C29A47B81F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 16:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242662AbjJDNsX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 09:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58858 "EHLO
+        id S242862AbjJDOPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 10:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242657AbjJDNsW (ORCPT
+        with ESMTP id S242860AbjJDOPe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 09:48:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64351E5;
-        Wed,  4 Oct 2023 06:48:19 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D795C433C9;
-        Wed,  4 Oct 2023 13:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696427299;
-        bh=RUJjmiMMWjZtXTFzdT9tp6cJ3CJdB+HdueoIl8WZhxE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mUuzD63iuA5lAHtweqik8IcWR5KMJN/01sZ2ngWDFRwR0RLFrxP+HypZ38LtWcmho
-         SwHQ6mEcQ4yIMphU2O8ZNTB4t2f7LWB0ffXVzYqopP+59V/CAAGG9RKjIKWSlXhQGx
-         P8NmZC3tLKlzxcdYzFay1/va/PzvL4NFhVoLbH8a5SbIdI9azBTdVQdmVCEcImTuBe
-         oIWAiuDLrjPmYpXNwrXwO0mBbitHd6m/2oIS7EClTi1/3p0T/yM0OYUWjQOuGu6RNa
-         M3XjHstu0HLZMXEnPbUWsGIfOBoQSgkVtfKkHgGW85Z4vG8Eo6DcdoQXLjpN1HUWtu
-         s+XH5flGlGuNw==
-Received: (nullmailer pid 2777363 invoked by uid 1000);
-        Wed, 04 Oct 2023 13:48:17 -0000
-Date:   Wed, 4 Oct 2023 08:48:17 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 4 Oct 2023 10:15:34 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C348CA1
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 07:15:30 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qo2ep-0001OW-FX; Wed, 04 Oct 2023 16:15:23 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qo2en-00B3Kc-Nb; Wed, 04 Oct 2023 16:15:21 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qo2en-0091KZ-EJ; Wed, 04 Oct 2023 16:15:21 +0200
+Date:   Wed, 4 Oct 2023 16:15:21 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: document Ebisu-4D support
-Message-ID: <169642729623.2777302.15535104828742110554.robh@kernel.org>
-References: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v5 2/4] pwm: Add support for RZ/V2M PWM driver
+Message-ID: <20231004141521.rgm74pepirnvzrwm@pengutronix.de>
+References: <20230630114003.320641-1-biju.das.jz@bp.renesas.com>
+ <20230630114003.320641-3-biju.das.jz@bp.renesas.com>
+ <20230916153248.27k7erg7i7ruf76w@pengutronix.de>
+ <TYWPR01MB8775150932FD1F0A346029B7C2C4A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jujoux4pgvgy3jaq"
 Content-Disposition: inline
-In-Reply-To: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <TYWPR01MB8775150932FD1F0A346029B7C2C4A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,17 +64,92 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-On Mon, 02 Oct 2023 18:59:57 +0200, Wolfram Sang wrote:
-> Document properly that Ebisu-support includes the Ebisu-4D variant, so
-> there won't be confusion what happened with support for this board.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 2 +-
->  arch/arm64/boot/dts/renesas/ebisu.dtsi                     | 2 +-
->  arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts             | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
+--jujoux4pgvgy3jaq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Rob Herring <robh@kernel.org>
+Hello Fabrizio,
 
+On Tue, Oct 03, 2023 at 09:19:41PM +0000, Fabrizio Castro wrote:
+> > > +	if (period)
+> > > +		period +=3D 1;
+> >=20
+> > This looks bogus, why don't you add 1 if RZV2M_PWMCYC is 0?
+>=20
+> Agreed. We should always add 1.
+>=20
+> > Also it suggests that the hardware cannot do a 100% relative duty
+> > cycle?
+>=20
+> It does support 100% duty cycle.
+> PWMCYC =3D 0 actually means 1 clock cycle, that's why the faff with
+> increment and decrement operations, and that's why the confusion.
+
+So it doesn't support a 0% relative duty cycle?
+
+> > If I didn't miss anything here, please add that to the list of
+> > Limitations above.
+>=20
+> Thankfully not a limitation.
+>=20
+> >=20
+> > > +	state->period =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC * (u64)period << (4
+> > * prescale),
+> > > +					 rzv2m_pwm->rate);
+> >=20
+> > The multiplication can overflow. I see no easy way to prevent this
+> > without introducing a mul_u64_u64_div_roundup helper. Maybe I miss
+> > something?
+>=20
+> It does overflow, good catch!
+> I think we could split this in three operations for now, and maybe
+> improve it later on:
+> period =3D NSEC_PER_SEC * (cyc + 1);
+> period =3D DIV64_U64_ROUND_UP(period, rzv2m_pwm->rate);
+> period <<=3D rzv2m_pwm_prescale_to_shift(prescale);
+
+You're loosing precision here though. With /^ =3D div_round_up:
+
+	1000000000 * 5 /^ 3 << 2 =3D=3D 6666666668
+	1000000000 * 5 << 2 /^ 3 =3D=3D 6666666667
+
+So I correct my statement to: I see no easy and exact way to prevent an
+overflow without introducing a mul_u64_u64_div_roundup helper. :-)
+
+> with rzv2m_pwm_prescale_to_shift as below:
+> static inline int rzv2m_pwm_prescale_to_shift(u8 prescale)
+> {
+>     return prescale =3D=3D 3 ? 11 : prescale * 4;
+> }
+>=20
+> As it turns out "<< (4 * prescale)" and ">> (4 * prescale)" are not
+> correct for prescale =3D=3D 3.
+> As per manual: PWMPS =3D 3 means a frequency division by 2048, and not
+> 4096.
+
+funny hardware.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jujoux4pgvgy3jaq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUdc3gACgkQj4D7WH0S
+/k6rZAf+JMX4TC3zDeH0JWBCNDpdoUHeCmlqAXd9pJW276oxPTa5bZW1lw/0Eyk5
+HE0Lss9N9NNXO/ug+VKkhfM13uaYKZ+DmREfBptoM1IL4lKH6+cMmIUJiNwBccJT
+Dd6+HZiT2MAANuZH+w8qgu3ZGpK7YOHfeHrIGmAzPJETlNTXOt9RgUFMLSXtmS+S
+5uzgl+gH+bIPYHtAhg5NFJtq6hWzWmCVETQITxRci8rnTTGHoUmJyVDfaLb05rJt
+v6xqM++eGtOkz7KPn0f0zPMZjExgmQKdlZ8I1cPV7nUX70p5lJyHY3eFMsTi+IMG
+i2Sr/f5YpJQAJyj3/rBJb3RowbQimw==
+=dqCX
+-----END PGP SIGNATURE-----
+
+--jujoux4pgvgy3jaq--
