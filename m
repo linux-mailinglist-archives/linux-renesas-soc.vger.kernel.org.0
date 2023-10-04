@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C11547B79C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 10:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA787B7A73
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 10:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241634AbjJDILb convert rfc822-to-8bit (ORCPT
+        id S241715AbjJDIp1 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 04:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        Wed, 4 Oct 2023 04:45:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241613AbjJDILa (ORCPT
+        with ESMTP id S241711AbjJDIp1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 04:11:30 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E01A4A6;
-        Wed,  4 Oct 2023 01:11:27 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59e77e4f707so22540467b3.0;
-        Wed, 04 Oct 2023 01:11:27 -0700 (PDT)
+        Wed, 4 Oct 2023 04:45:27 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BF498;
+        Wed,  4 Oct 2023 01:45:23 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5a1f00b75aaso21367537b3.2;
+        Wed, 04 Oct 2023 01:45:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696407087; x=1697011887;
+        d=1e100.net; s=20230601; t=1696409122; x=1697013922;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VNgqb3ogEHljK/s/zCJeiDzbGvte6UXqv8/D2qJ2ym4=;
-        b=ZYK5m64MOnGA8YTAeV2tiORL9AdLx+4BXWrpEWgCPvGU1iFdKoTSHRV8jLvzlLSWLq
-         LLfTGWFxXqh5vjm8fw69MPC0XJkLEI3Ig5V21BIdk3BA1T9CIs4VxwE9+UdyZCNpfi+A
-         zs09hajQpWTwDVY+vdKZFqlDQJI3oYwR+yXBd9KtgOatUkapR1bMWi8P9p0eRNIlBrm8
-         Ea3pWSDExvuXZjnJub+dXDCS4NZzYNXrUtx/KUkoZebs3S9qAhnBeGIAk6l3zoVqMNzC
-         LLOYWGj3Nh6QzABN3WXGquzF2o+sILLslqrptA5AwVFOvV7R2pg3zN/v76agdAm6Ae+F
-         1LYw==
-X-Gm-Message-State: AOJu0YwY5mCRbNBSyEGQpnYEUuoUK2nLzETetO/ssUue5KuB04T6GIQP
-        BKgt0oiSkVXQwuJA2ak0/42A/2e7wIWPDA==
-X-Google-Smtp-Source: AGHT+IFeroNisVnSgtZNX1YFfffHyQZ0Z4NTkeg2rgkAf7MQgLzryT6LktpCzDxf7u83desFvnesWQ==
-X-Received: by 2002:a81:a008:0:b0:59f:5041:bedb with SMTP id x8-20020a81a008000000b0059f5041bedbmr1838913ywg.8.1696407086812;
-        Wed, 04 Oct 2023 01:11:26 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id a74-20020a0dd84d000000b005a20ab8a184sm995752ywe.31.2023.10.04.01.11.26
+        bh=0QS1tAk6LjG5Jt/45jTq2YMqP8RLS9Ds70OkCJABKH4=;
+        b=g7pAN6F3R5XD3TG3mKL7OLhTaUlw46IC8HB771O/OfrO3rI33pfiyVfVQ/GbcmcwYX
+         ygGwETZtjSw3iRTaRsYSJytvJ8xlrm/J0L10Q9MKEpPmNVbNuyeotbsHDA8P17SN4QSY
+         Ii8eo+9zJ660FTVs1dP47TwQAgJzhR+x92tdtCOWCzbgabDo/f0LhmCafoHIPMJdcl4B
+         gqwbXe7MXOjWE2rtZMyFvS0uoYz3frdAFIm76ZUyvSs/JjpwdKJ+/dPxGWkgn1ddlxtc
+         I8mCEbd2gbtmRRVmnG2R2TJkYsjyd9qU1WNNxcWUJZdE2vwbwsw8JDScgCXEkv/uSFfo
+         mayw==
+X-Gm-Message-State: AOJu0YzKOKY4hwg2taAJZZUdnCwRiOcFDzWRmING+UgtMOrI+S68JA+U
+        U40L3DLkaSSOU1ipISNa6ruonNvzKSZuyQ==
+X-Google-Smtp-Source: AGHT+IHsBOX4ymOiykmRsvZfOEbM7vxfLOpztb9oWDxXTxofqY5o1/EfP1cH451pwv/8pamsgn8eGg==
+X-Received: by 2002:a81:a24a:0:b0:59f:7f8e:dc4a with SMTP id z10-20020a81a24a000000b0059f7f8edc4amr2314373ywg.22.1696409122403;
+        Wed, 04 Oct 2023 01:45:22 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id d15-20020a81ab4f000000b0057a8de72338sm985000ywk.68.2023.10.04.01.45.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 01:11:26 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59e77e4f707so22540287b3.0;
-        Wed, 04 Oct 2023 01:11:26 -0700 (PDT)
-X-Received: by 2002:a0d:d7cc:0:b0:584:4bbb:963b with SMTP id
- z195-20020a0dd7cc000000b005844bbb963bmr1795264ywd.15.1696407085921; Wed, 04
- Oct 2023 01:11:25 -0700 (PDT)
+        Wed, 04 Oct 2023 01:45:22 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59f57ad6126so21249167b3.3;
+        Wed, 04 Oct 2023 01:45:22 -0700 (PDT)
+X-Received: by 2002:a0d:fa07:0:b0:591:15a6:c11f with SMTP id
+ k7-20020a0dfa07000000b0059115a6c11fmr1619406ywf.50.1696409121846; Wed, 04 Oct
+ 2023 01:45:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-7-claudiu.beznea@bp.renesas.com>
-In-Reply-To: <20230929053915.1530607-7-claudiu.beznea@bp.renesas.com>
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-8-claudiu.beznea@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-8-claudiu.beznea@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Oct 2023 10:11:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUgVfxWrVP51b3nbeDThedjzWGJb95-oU5bdPeTTjWu8Q@mail.gmail.com>
-Message-ID: <CAMuHMdUgVfxWrVP51b3nbeDThedjzWGJb95-oU5bdPeTTjWu8Q@mail.gmail.com>
-Subject: Re: [PATCH v2 06/28] clk: renesas: rzg2l: remove critical area
+Date:   Wed, 4 Oct 2023 10:45:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWLoPUZw-HBsk3bELmfyTC-wF9q3CN-ouexR-Nvfqjkzw@mail.gmail.com>
+Message-ID: <CAMuHMdWLoPUZw-HBsk3bELmfyTC-wF9q3CN-ouexR-Nvfqjkzw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/28] clk: renesas: rzg2l: add support for RZ/G3S PLL
 To:     Claudiu <claudiu.beznea@tuxon.dev>
 Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -79,18 +79,17 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> spinlock in rzg2l_mod_clock_endisable() is intended to protect the accesses
-> to hardware register. There is no need to protect the instructions that set
-> temporary variable which will be then written to register. With this only
-> one write to one clock register is executed thus locking/unlocking rmw_lock
-> is removed.
+> Add support for reading the frequency of PLL1/4/6 available on RZ/G3S.
+> The computation formula for PLL frequency is as follows:
+> Fout = (nir + nfr / 4096) * Fin / (mr * pr)
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
 >
 > Changes in v2:
-> - removed also the spinlock
-> - s/reduce/remove in patch title
+> - added GENMASK() defines for DIV_P, DIV_M, DIV_NI, DIV_NF
+> - used mul_u64_u32_shr() as suggested by Geert on v1
+> - s/CLK_TYPE_G3S_SAM_PLL/CLK_TYPE_G3S_PLL/g
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk-for-v6.7.
