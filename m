@@ -2,45 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B77797B7DFA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 13:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 859087B7E30
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 13:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242216AbjJDLPT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 07:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36038 "EHLO
+        id S242260AbjJDLbN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 07:31:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233041AbjJDLPS (ORCPT
+        with ESMTP id S242218AbjJDLbM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 07:15:18 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 18398B8;
-        Wed,  4 Oct 2023 04:15:14 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,199,1694703600"; 
-   d="scan'208";a="181902569"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 04 Oct 2023 20:15:14 +0900
-Received: from localhost.localdomain (unknown [10.226.92.187])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 088E94005B31;
-        Wed,  4 Oct 2023 20:15:11 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v16 4/4] pwm: rzg2l-gpt: Add support for gpt linking with poeg
-Date:   Wed,  4 Oct 2023 12:14:51 +0100
-Message-Id: <20231004111451.126195-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231004111451.126195-1-biju.das.jz@bp.renesas.com>
-References: <20231004111451.126195-1-biju.das.jz@bp.renesas.com>
+        Wed, 4 Oct 2023 07:31:12 -0400
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59809A7;
+        Wed,  4 Oct 2023 04:31:08 -0700 (PDT)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1dd1db54d42so1319762fac.3;
+        Wed, 04 Oct 2023 04:31:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696419067; x=1697023867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Rm6sz8FblgWT0YVLOcQ3cK2z8WT9exIQjwp4AMuRqJQ=;
+        b=FIvDkeol9jRBgalEZ6+OnqMqfJ+PNpgzlPg/zN7Fyk7JBZviSEsrhOMy7gq4u9+e+K
+         4ytDSPBTfFkiOVPt5cJegsd4jMiY4tFAzHNQReyAoA4X+zssNz+nS0OjdcP3MZPSX8n+
+         MVSlOrFlzCb0XiHF2zMwBhj02GY0T8fFHiyvO3gZrJwl/h6Psug1TlG2ggQAcJyjWqNy
+         SiOqB2Nh03q46mC7JQZzE8wXf8MPxs7EJ1+evuQZDZPGgoDNGJNaNN1gFlXVeVThgW6L
+         kBikTCbFO9I7z30++o0Y+n4QK1dLqw/Tc3i0LDioTB5EkoFj7qAX9KetVn1gujbjSQ44
+         ZJ1g==
+X-Gm-Message-State: AOJu0YzZJj/FhN6/eGsfWcyww+Ahw/h/+aoLS+sdxzge/Z0xHuU9t88R
+        tSOfFnBZyw83DQBmZLZsc+cJFs3uqyvqhw==
+X-Google-Smtp-Source: AGHT+IES6mTASs6ofGmEqPVGSEReAyYSPsGg1luXSNH6ohNwi2o6Wgu50apUx7iRhw74tV/1Ya3I9w==
+X-Received: by 2002:a05:6870:c6a4:b0:1b0:3637:2bbe with SMTP id cv36-20020a056870c6a400b001b036372bbemr2302083oab.54.1696419067022;
+        Wed, 04 Oct 2023 04:31:07 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id s185-20020a8182c2000000b00582b239674esm1076693ywf.129.2023.10.04.04.31.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Oct 2023 04:31:06 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59f1dff5298so24256647b3.3;
+        Wed, 04 Oct 2023 04:31:06 -0700 (PDT)
+X-Received: by 2002:a81:918f:0:b0:59b:51d9:1d6e with SMTP id
+ i137-20020a81918f000000b0059b51d91d6emr2122018ywg.6.1696419065791; Wed, 04
+ Oct 2023 04:31:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-11-claudiu.beznea@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-11-claudiu.beznea@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 4 Oct 2023 13:30:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUJj+h5LfhQXTNkN3Cp2wP62SX6fY3frzytJQBcKXDJJQ@mail.gmail.com>
+Message-ID: <CAMuHMdUJj+h5LfhQXTNkN3Cp2wP62SX6fY3frzytJQBcKXDJJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/28] clk: renesas: rzg2l: refactor sd mux driver
+To:     Claudiu <claudiu.beznea@tuxon.dev>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, magnus.damm@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
+        neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,178 +76,156 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The General PWM Timer (GPT) is capable of detecting "dead time error
-and short-circuits between output pins" and send Output disable
-request to poeg(Port Output Enable for GPT).
+Hi Claudiu,
 
-Add support for linking poeg group with gpt, so that
-gpt can control the output disable function.
+On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Refactor SD MUX driver to be able to reuse the same code on RZ/G3S.
+> RZ/G2{L, UL} has a limitation with regards to switching the clock source
+> for SD MUX (MUX clock source has to be switched to 266MHz before switching
+> b/w 533MHz and 400MHz). This limitation has been introduced as a clock
+> notifier that is registered on platform based initialization data thus the
+> SD MUX code could be reused on RZ/G3S.
+>
+> As both RZ/G2{L, UL} and RZ/G3S has specific bits in specific registers
+> to check if the clock switching has been done, this configuration (register
+> offset, register bits and bits width) is now passed though
+> struct cpg_core_clk::sconf (status configuration) from platform specific
+> initialization code.
+>
+> Along with struct cpg_core_clk::sconf the mux table indices are also
+> passed from platform specific initialization code.
+>
+> Also, mux flags are now passed to DEF_SD_MUX() as they will be later
+> used by RZ/G3S.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v2:
+> - s/indexes/indices in commit description
+> - mentioned in commit description that mux flags can now be passed to
+>   driver though DEF_SD_MUX() macro
+> - removed SoC specific names from macros' names
+> - added spaces after { and before } when initializing arrays
+> - preserved the order of .[gs]set_parent() API definitions for simpler
+>   diff b/w versions
+> - removed SD_MUX_NOTIF macro
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v15->v16:
- * No change.
-v14->v15:
- * Updated commit description by replacing "This patch add"-> "Add".
-v3->v14:
- * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
- * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it not only parse
-   the properties but also implements the needed register writes.
- * Added acomment here about the purpose of the function rzg2l_gpt_poeg_init()
- * Removed magic numbers from rzg2l_gpt_poeg_init()
- * Fixed resource leak in rzg2l_gpt_poeg_init().
- * Moved the patch from series[1] to here
- [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/T/#t
-v2->v3:
- * Updated commit header and description
- * Added check for poeg group in rzg2l_gpt_parse_properties().
-v1->v2:
- * Replaced id->poeg-id as per poeg bindings.
-This patch depend upon [1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221214132232.2835828-3-biju.das.jz@bp.renesas.com/
----
- drivers/pwm/pwm-rzg2l-gpt.c | 83 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+Thanks for the update!
 
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 1289b7f72e09..7ddb1c359018 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -31,6 +31,7 @@
- #define RZG2L_GTCR		0x2c
- #define RZG2L_GTUDDTYC		0x30
- #define RZG2L_GTIOR		0x34
-+#define RZG2L_GTINTAD		0x38
- #define RZG2L_GTBER		0x40
- #define RZG2L_GTCNT		0x48
- #define RZG2L_GTCCRA		0x4c
-@@ -48,9 +49,15 @@
- #define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
- 
- #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-+#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
- #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
-+#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
- #define RZG2L_GTIOR_OAE		BIT(8)
- #define RZG2L_GTIOR_OBE		BIT(24)
-+#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-+#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-+#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-+	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
- 
- #define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
- #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
-@@ -64,6 +71,8 @@
- #define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
- 	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | RZG2L_GTIOR_OBE)
- 
-+#define RZG2L_GTINTAD_GRP_MASK			GENMASK(25, 24)
-+
- #define RZG2L_GTCCR(i) (0x4c + 4 * (i))
- 
- #define RZG2L_MAX_HW_CHANNELS	8
-@@ -75,6 +84,9 @@
- 
- #define RZG2L_GET_CH_OFFS(i) (0x100 * (i))
- 
-+#define RZG2L_MAX_POEG_GROUPS	4
-+#define RZG2L_LAST_POEG_GROUP	3
-+
- struct rzg2l_gpt_chip {
- 	struct pwm_chip chip;
- 	void __iomem *mmio;
-@@ -86,6 +98,7 @@ struct rzg2l_gpt_chip {
- 	u32 user_count[RZG2L_MAX_HW_CHANNELS];
- 	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
- 	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
-+	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHANNELS);
- };
- 
- static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-@@ -428,6 +441,75 @@ static void rzg2l_gpt_reset_assert_pm_disable(void *data)
- 	reset_control_assert(rzg2l_gpt->rstc);
- }
- 
-+/*
-+ * This function links a poeg group{A,B,C,D} with a gpt channel{0..7} and
-+ * configure the pin for output disable.
-+ */
-+static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-+				struct rzg2l_gpt_chip *rzg2l_gpt)
-+{
-+	struct of_phandle_args of_args;
-+	unsigned int i;
-+	u32 poeg_grp;
-+	u32 bitpos;
-+	int cells;
-+	u32 offs;
-+	int ret;
-+
-+	cells = of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs");
-+	if (cells == -EINVAL)
-+		return;
-+
-+	cells >>= 1;
-+	for (i = 0; i < cells; i++) {
-+		ret = of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-+						       "renesas,poegs", 1, i,
-+						       &of_args);
-+		if (ret) {
-+			dev_err(&pdev->dev,
-+				"Failed to parse 'renesas,poegs' property\n");
-+			return;
-+		}
-+
-+		if (of_args.args[0] >= RZG2L_MAX_HW_CHANNELS) {
-+			dev_err(&pdev->dev, "Invalid channel %d >= %d\n",
-+				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-+			of_node_put(of_args.np);
-+			return;
-+		}
-+
-+		bitpos = of_args.args[0];
-+		if (!of_device_is_available(of_args.np)) {
-+			/* It's fine to have a phandle to a non-enabled poeg. */
-+			of_node_put(of_args.np);
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
-+			offs = RZG2L_GET_CH_OFFS(of_args.args[0]);
-+			if (poeg_grp > RZG2L_LAST_POEG_GROUP) {
-+				dev_err(&pdev->dev, "Invalid poeg group %d > %d\n",
-+					poeg_grp, RZG2L_LAST_POEG_GROUP);
-+				of_node_put(of_args.np);
-+				return;
-+			}
-+
-+			bitpos += poeg_grp * RZG2L_MAX_HW_CHANNELS;
-+			set_bit(bitpos, rzg2l_gpt->poeg_gpt_link);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTINTAD,
-+					 RZG2L_GTINTAD_GRP_MASK,
-+					 poeg_grp << 24);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
-+					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
-+					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
-+		}
-+
-+		of_node_put(of_args.np);
-+	}
-+}
-+
- static int rzg2l_gpt_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_gpt_chip *rzg2l_gpt;
-@@ -491,6 +573,7 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	rzg2l_gpt_poeg_init(pdev, rzg2l_gpt);
- 	mutex_init(&rzg2l_gpt->lock);
- 	platform_set_drvdata(pdev, rzg2l_gpt);
- 	rzg2l_gpt->chip.dev = &pdev->dev;
--- 
-2.25.1
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
 
+> @@ -142,6 +146,77 @@ static void rzg2l_cpg_del_clk_provider(void *data)
+>         of_clk_del_provider(data);
+>  }
+>
+> +/* Must be called in atomic context. */
+> +static int rzg2l_cpg_wait_clk_update_done(void __iomem *base, u32 conf)
+> +{
+> +       u32 bitmask = GENMASK(GET_WIDTH(conf) - 1, 0) << GET_SHIFT(conf);
+> +       u32 off = GET_REG_OFFSET(conf);
+> +       u32 val;
+> +
+> +       return readl_poll_timeout_atomic(base + off, val, !(val & bitmask), 10, 200);
+> +}
+> +
+> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event,
+> +                                 void *data)
+> +{
+> +       struct clk_notifier_data *cnd = data;
+> +       struct clk_hw *hw = __clk_get_hw(cnd->clk);
+> +       struct clk_hw_data *clk_hw_data = to_clk_hw_data(hw);
+> +       struct rzg2l_cpg_priv *priv = clk_hw_data->priv;
+> +       u32 off = GET_REG_OFFSET(clk_hw_data->conf);
+> +       u32 shift = GET_SHIFT(clk_hw_data->conf);
+> +       const u32 clk_src_266 = 3;
+> +       unsigned long flags;
+> +       u32 bitmask;
+> +       int ret;
+> +
+> +       if (event != PRE_RATE_CHANGE || (cnd->new_rate / MEGA == 266))
+> +               return 0;
+
+include/linux/clk.h:
+
+ * PRE_RATE_CHANGE - called immediately before the clk rate is changed,
+ *     to indicate that the rate change will proceed.  Drivers must
+ *     immediately terminate any operations that will be affected by the
+ *     rate change.  Callbacks may either return NOTIFY_DONE, NOTIFY_OK,
+ *     NOTIFY_STOP or NOTIFY_BAD.
+
+> +
+> +       spin_lock_irqsave(&priv->rmw_lock, flags);
+> +
+> +       /*
+> +        * As per the HW manual, we should not directly switch from 533 MHz to
+> +        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
+> +        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
+> +        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
+> +        * (400 MHz)).
+> +        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
+> +        * switching register is prohibited.
+> +        * The clock mux has 3 input clocks(533 MHz, 400 MHz, and 266 MHz), and
+> +        * the index to value mapping is done by adding 1 to the index.
+> +        */
+> +       bitmask = (GENMASK(GET_WIDTH(clk_hw_data->conf) - 1, 0) << shift) << 16;
+> +       writel(bitmask | (clk_src_266 << shift), priv->base + off);
+> +
+> +       /* Wait for the update done. */
+> +       ret = rzg2l_cpg_wait_clk_update_done(priv->base, clk_hw_data->sconf);
+> +
+> +       spin_unlock_irqrestore(&priv->rmw_lock, flags);
+> +
+> +       if (ret)
+> +               dev_err(priv->dev, "failed to switch to safe clk source\n");
+> +
+> +       return ret;
+
+Likewise.
+
+> +}
+
+>
+>  static const struct clk_ops rzg2l_cpg_sd_clk_mux_ops = {
+>         .determine_rate = __clk_mux_determine_rate_closest,
+> -       .set_parent     = rzg2l_cpg_sd_clk_mux_set_parent,
+> -       .get_parent     = rzg2l_cpg_sd_clk_mux_get_parent,
+> +       .set_parent     = rzg2l_cpg_sd_mux_clk_set_parent,
+> +       .get_parent     = rzg2l_cpg_sd_mux_clk_get_parent,
+
+Please keep the old names, for consistency with
+__clk_mux_determine_rate_closest() and drivers/clk/clk-mux.c, and to
+reduce the diff.
+
+Any existing inconsistent use of "clk_mux" vs. "mux_clk" can be resolved
+later with a separate patch, if anyone cares.
+
+> --- a/drivers/clk/renesas/rzg2l-cpg.h
+> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+
+> @@ -272,4 +276,6 @@ extern const struct rzg2l_cpg_info r9a07g044_cpg_info;
+>  extern const struct rzg2l_cpg_info r9a07g054_cpg_info;
+>  extern const struct rzg2l_cpg_info r9a09g011_cpg_info;
+>
+> +int rzg2l_cpg_sd_mux_clk_notifier(struct notifier_block *nb, unsigned long event, void *data);
+
+rzg2l_cpg_sd_clk_mux_notifier()?
+
+> +
+>  #endif
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
