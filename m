@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4A717B8004
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 14:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 475107B809A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 15:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242354AbjJDM7Q convert rfc822-to-8bit (ORCPT
+        id S242579AbjJDNRZ convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 08:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35628 "EHLO
+        Wed, 4 Oct 2023 09:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242362AbjJDM7Q (ORCPT
+        with ESMTP id S233183AbjJDNRY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 08:59:16 -0400
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514A9A6;
-        Wed,  4 Oct 2023 05:59:13 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d89491dab33so2182655276.0;
-        Wed, 04 Oct 2023 05:59:13 -0700 (PDT)
+        Wed, 4 Oct 2023 09:17:24 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4F6A1;
+        Wed,  4 Oct 2023 06:17:16 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59f6e6b7600so23836977b3.3;
+        Wed, 04 Oct 2023 06:17:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696424352; x=1697029152;
+        d=1e100.net; s=20230601; t=1696425436; x=1697030236;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NbgEznJD4TxRTKE9Bc/b9u/1IzvkC4JvJP2YJ9vkopw=;
-        b=lfQDhnsxLgTrB6jRezT4dlsiS8wJcq7AoYIJYW3laTnz/YpghgpVJ03noGdXDdvzrb
-         uu0af5RaEqQxiei0bS55IcGuJi7i/bOA0HPYDyB8witJlU5M/okkbtiRn0A5+zXzePO4
-         OCxf+fkmTYSCXW+Vfq0tbyKVUcIdHngBaBIzvG1rZHNNdCpaMzA3i0Mu4i3jsm9ADp5F
-         bKonSOOkXdaJXpqP0KHGeJ7Ft0vKHWC+CQdNLKN2IvPwIxEtxtMqzNWd8w3H2dO+fkQj
-         KJRu6j2dX9se1fLB2G8AOxdCyS4sBLko4aPqJJZ+G7AiFI9hjE1vH29tL+Thd7xBWpZ8
-         b64Q==
-X-Gm-Message-State: AOJu0YynTpl8aYZzbK1iymrf2tDZODRF7gs83eHUahDA4KmDF1LhM0EJ
-        3vibofHfTKOjQ/4JIFtqeHUwlDsYBacsmg==
-X-Google-Smtp-Source: AGHT+IGsis2eiRNkfZaBiG2hxgU5EHbRXHs/4ge/BaczYf4peAUMgu7vCUyhU9CY1OPC5qOqHo2WOg==
-X-Received: by 2002:a25:d8cb:0:b0:d85:aa2f:5718 with SMTP id p194-20020a25d8cb000000b00d85aa2f5718mr1954416ybg.51.1696424351950;
-        Wed, 04 Oct 2023 05:59:11 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id x7-20020a5b0287000000b00d7b9fab78bfsm1011959ybl.7.2023.10.04.05.59.11
+        bh=uGCiimfEoMn7BwF0dkBNPoxRRWXYUsk5xphqS0fx1Zs=;
+        b=pmftTRs9yg13wYfqEi3xHf6r+HxRpGy4O5YVagFhg1i96J5qhh/6JcRtvn2LbxbIwN
+         F+0P0hM0MTLXfIdhh+dLODJTc5FE0TO0NfhN9j+7ol1PsnoMOi++vK7DzkwnfGp8mXIJ
+         RpJ4NKufDpKyncZnyBpRtyuEzoh3pxpD0gF46iFPRT5GeAtqbyscx9oXr5DcElRAanmI
+         TiqXVohf/mYwKbzJc8TQOJhNjS1j3hPuD1xZhI3eX/GP+1MvKrZPQw/2hEai5QEiLyDg
+         h+swYN2rYHjV+C2aC4wz9fZMzSSe8FR4JylJKsdP7jwe+EYI7XzqkoLVpfPNlENWb924
+         tr7Q==
+X-Gm-Message-State: AOJu0YwrVtryNR8U85OhsGlJvBW4kSghXUZL5xeOmrXb/eu/+0eNe+mJ
+        yoXSQS+vhTqn4AfOaGP4BO+t3dI88w3y9Q==
+X-Google-Smtp-Source: AGHT+IF1p/Zbf6Wq9uQaPabygz0Yf0ZM6sayx2JMhwEmXMGeuNjvphiSnLO+qJMk924f1uFnZcJpWA==
+X-Received: by 2002:a0d:d482:0:b0:59b:5231:50d7 with SMTP id w124-20020a0dd482000000b0059b523150d7mr2442405ywd.10.1696425435724;
+        Wed, 04 Oct 2023 06:17:15 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id y128-20020a0dd686000000b0057087e7691bsm1150942ywd.56.2023.10.04.06.17.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 05:59:11 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59f6041395dso25233857b3.1;
-        Wed, 04 Oct 2023 05:59:11 -0700 (PDT)
-X-Received: by 2002:a81:c24d:0:b0:58f:bda3:8dd with SMTP id
- t13-20020a81c24d000000b0058fbda308ddmr2392331ywg.32.1696424351066; Wed, 04
- Oct 2023 05:59:11 -0700 (PDT)
+        Wed, 04 Oct 2023 06:17:15 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59f7f46b326so24075247b3.0;
+        Wed, 04 Oct 2023 06:17:15 -0700 (PDT)
+X-Received: by 2002:a0d:e8c5:0:b0:56d:3b91:7e78 with SMTP id
+ r188-20020a0de8c5000000b0056d3b917e78mr2377307ywe.20.1696425435071; Wed, 04
+ Oct 2023 06:17:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-17-claudiu.beznea@bp.renesas.com>
-In-Reply-To: <20230929053915.1530607-17-claudiu.beznea@bp.renesas.com>
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com> <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
+In-Reply-To: <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Oct 2023 14:58:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXv6-u6zktHe_cUOKpWnzyLRRowdjQRWv42GMnx1pkKjQ@mail.gmail.com>
-Message-ID: <CAMuHMdXv6-u6zktHe_cUOKpWnzyLRRowdjQRWv42GMnx1pkKjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 16/28] pinctrl: renesas: rzg2l: adapt function number
- for RZ/G3S
+Date:   Wed, 4 Oct 2023 15:17:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
+Message-ID: <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 18/28] pinctrl: renesas: rzg2l: add support for
+ different ds values on different groups
 To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
+Cc:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linus.walleij@linaro.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        magnus.damm@gmail.com, catalin.marinas@arm.com, will@kernel.org,
         quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
         neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
         biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
@@ -67,10 +67,10 @@ Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -80,25 +80,40 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> On RZ/G3S PFC register allow setting 8 functions for individual ports
-> (function1 to function8). For function1 register need to be configured
-> with 0, for function8 register need to be configured with 7.
-> We cannot use zero based addressing when requesting functions from
-> different code places as documentation (RZG3S_pinfunction_List_r1.0.xlsx)
-> states explicitly that function0 is GPIO.
+> RZ/G3S supports different drive strength values for different power sources
+> and pin groups (A, B, C). On each group there could be up to 4 drive
+> strength values per power source. Available power sources are 1v8, 2v5,
+> 3v3. Drive strength values are fine tuned than what was previously
+> available on the driver thus the necessity of having micro-amp support.
+> As drive strength and power source values are linked together the
+> hardware setup for these was moved at the end of
+> rzg2l_pinctrl_pinconf_set() to ensure proper validation of the new
+> values.
 >
-> For this add a new member to struct rzg2l_hwcfg that will keep the
-> offset that need to be substracted before applying a value to PFC register.
+> The drive strength values are expected to be initialized though SoC
+> specific hardware configuration data structure.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 >
 > Changes in v2:
-> - in commit description mentioned that function0 is GPIO
-> - collected tags
+> - s/strenght/strength, s/togheter/together in commit description
+> - got rid of RZG2L_INVALID_IOLH_VAL macro and consider zero as invalid
+>   value for entries in struct rzg2l_hwcfg::iolh_group[abc]_ua[] arrays
+> - removed spinlock in rzg2l_[sg]et_power_source()
+> - introduced caps_to_pwr_reg() and simplified the code in
+>   rzg2l_[sg]et_power_source()
+> - changed return type of rzg2l_iolh_ua_to_val() to int and return
+>   -EINVAL on failure cases
+> - s/rzg2l_ds_supported/rzg2l_ds_is_supported
+> - inverted the logic in rzg2l_pinctrl_pinconf_set() when applying drive
+>   strength and power source to hardware registers and thus simplified the
+>   code
+> - used devm_kcalloc() instead of devm_kzalloc()
+> - adderessed the rest of the review comments
 
-Thanks, will queue in renesas-pinctrl-for-v6.7.
+Thanks, will queue in renesas-pinctrl-for-v6.7, with Paul's comment
+addresses.
 
 Gr{oetje,eeting}s,
 
