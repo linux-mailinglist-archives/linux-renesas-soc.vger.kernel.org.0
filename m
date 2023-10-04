@@ -2,108 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75AE57B8372
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 17:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C38FD7B8389
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Oct 2023 17:27:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243163AbjJDPWu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 11:22:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54700 "EHLO
+        id S233163AbjJDP15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Oct 2023 11:27:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233553AbjJDPWu (ORCPT
+        with ESMTP id S233117AbjJDP15 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 11:22:50 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0258D93
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 08:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=XFLz
-        WXR0pVL/9dAk59B8Npa6QplhByjB3k/1luQS1MU=; b=fBUO4wPH5pr7p7R2CoX3
-        2aoSKD/B8oRrTKngDejjILlGCB6JPCRLzoYjcoNY9f6uVRnQGvdLG6Mh3UwGIMyy
-        t4mw28garH1DbkxgMzFZmcPehShYzmhKefwqlgh6Qz5TZkSZC7P9rbB3Ak+WYl6x
-        ELAHcqPxIjT2fNJH+sNp8xQn1YpsA8fWoddFKxAmhwUtdWmnZDWINaiG5muR7+Bw
-        ++46F7VZeR3mv5JQ/W3yymGhT1uePkEu2STyiA8+2Neml+habZGI5/hJCed9zBS+
-        KT4KBHR0udhYxyrbKpBXUcHVpfxXcG1Kz1JfUp/1oAb/NeE1ejtiTSTTAq1ZEFA+
-        wg==
-Received: (qmail 1219859 invoked from network); 4 Oct 2023 17:22:42 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Oct 2023 17:22:42 +0200
-X-UD-Smtp-Session: l3s3148p1@39sWlOUGzKQgAwDPXyiQAAMTeDf2RifG
-Date:   Wed, 4 Oct 2023 17:22:41 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: document Ebisu-4D support
-Message-ID: <ZR2DQYvwTbADM0zX@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231002165957.11388-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdU+1ox_6e65YQ0bCQMbqtWkYzsE2S88-En7OnYvomfJ2Q@mail.gmail.com>
+        Wed, 4 Oct 2023 11:27:57 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C3E2293;
+        Wed,  4 Oct 2023 08:27:53 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 146EDC15;
+        Wed,  4 Oct 2023 08:28:32 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 134A63F762;
+        Wed,  4 Oct 2023 08:27:51 -0700 (PDT)
+Message-ID: <c4438f24-fe87-bf22-183b-f53376e950db@arm.com>
+Date:   Wed, 4 Oct 2023 16:27:46 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Qdqhh/ku/ePaYN9f"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU+1ox_6e65YQ0bCQMbqtWkYzsE2S88-En7OnYvomfJ2Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
+ on NONPORTABLE
+Content-Language: en-GB
+To:     Jisheng Zhang <jszhang@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+        Drew Fustini <dfustini@baylibre.com>
+References: <20231004150856.2540-1-jszhang@kernel.org>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 04/10/2023 4:08 pm, Jisheng Zhang wrote:
+> Drew found "CONFIG_DMA_GLOBAL_POOL=y causes ADMA buffer alloc to fail"
+> the log looks like:
+> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to standard DMA
+> 
+> The logic is: generic riscv defconfig selects ARCH_RENESAS then
+> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
+> non-dma-coherent riscv platforms have a dma global pool, this assumption
+> seems not correct. And I believe DMA_GLOBAL_POOL should not be
+> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
+> conditions can select it globaly, for example NOMMU ARM and so on,
+> because it's designed for special cases such as "nommu cases where
+> non-cacheable memory lives in a fixed place in the physical address
+> map" as pointed out by Robin.
+> 
+> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
+> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
+> default. And even for random config case, there will be less debug
+> effort once we see NONPORTABLE is enabled.
 
---Qdqhh/ku/ePaYN9f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+FWIW,
 
-Hi Geert,
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-> Ebisu-4D has a different part number: RTP0RC77990SEB0020S.
-
-Oh, then the elinux wiki entry is at least vague [1]. I checked against
-it and it says "This is the Wiki for the Renesas Ebisu (Ebisu-4D,
-RTP0RC77990SEB0010S) board," which I read that the the 4D is 10S.
-
-But I'll fix according to your information.
-
-Thanks!
-
-   Wolfram
-
-[1] https://elinux.org/R-Car/Boards/Ebisu
-
-
---Qdqhh/ku/ePaYN9f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUdgz4ACgkQFA3kzBSg
-KbYjGA/+LPAnNDlxTZ2r6qLTlFCtTs0M98cvWYySHYMPTNZ/HTMJvvZv1jOWbvKe
-UQ8huOexKieMeSSoLxPmeztg2fYlY1Vg/HxMAGSoGWWxrO5mfqm0zhfFGBP/lmWG
-rPf8LpA4/DTyqiMfwDloybSMiTNJYVmlTDbTk5CZ+RGOmrrJ7Oh4zbKrgBiGWhbF
-xBmGr0/aZDzA852a5YwSCgAUiw6vPnA4U6uPgeeBiB72On9YAL/sZkr7j/235GOO
-FhFsvXzFM45sX+uZod62h69Dh6Wch7+ZN0FzBKPoDPkK+L4kqO0tQa7/Q59rwebS
-ydozbFtJOuvcxbEKCvHu+NHzmZjtDUSZ9Xpt0EWrwooa5ikiID4aenNqzrxW40Mg
-wbNUqEV2N7MF0+jz8nBN0waZc95mSYljyYqfA0Dhj8bXlozau2ClFuJFRc76UfXi
-29MbFcP0V8s0UqkNVb1jEL1I/T6bRJyGjbEi5KGeL7/cWFKejzn3V4aQ+HWpJdVu
-ifiUgWb/69E1zAuuwYdR0KG9m0SMJnyroQbb1ZOfpoY5g0XdAgKYQuQqhihqxaIr
-vY0brJ7gL0XwKmK6NsW/ferZ/qkIiUpSYdTawx+Ha6l7veJ8Gm2HG+86rYDeC6cW
-ufa4NtPIqkiXYFX737sdK35Y+2oNapRNgcXgjwpq7ZgSLqcuHyc=
-=+VnB
------END PGP SIGNATURE-----
-
---Qdqhh/ku/ePaYN9f--
+> Reported-by: Drew Fustini <dfustini@baylibre.com>
+> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
+> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs for RZ/Five SoC")
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>   drivers/soc/renesas/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index 5a75ab64d1ed..12040ce116a5 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -333,6 +333,7 @@ if RISCV
+>   
+>   config ARCH_R9A07G043
+>   	bool "RISC-V Platform support for RZ/Five"
+> +	depends on NONPORTABLE
+>   	select ARCH_RZG2L
+>   	select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
+>   	select DMA_GLOBAL_POOL
