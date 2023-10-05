@@ -2,215 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 688117BA501
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 18:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 383127BA643
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 18:33:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240730AbjJEQNb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 12:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54122 "EHLO
+        id S234853AbjJEQdE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 12:33:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240948AbjJEQMT (ORCPT
+        with ESMTP id S236515AbjJEQc3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 12:12:19 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on20722.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::722])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C9797D81;
-        Thu,  5 Oct 2023 00:31:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h5OLW0KVcEFt4B6hVYNWPEeFJjJrffGpOBW4YW9zl7Z7B3ZEOwsnpCCbnsuchfFXt2b6qMCvBDKX6aEYtXn/vRT2269612b7h2RgpfrhzqpssYqfEIXaBYHJkgm4u2D6munZQKPEYR5nHkjXtovWz7iIQTurrukjwBKEzLwJCu1ga1HcFm53BHyjyYxa18QdRnRP4SGw2CWSHCw3siYIN4ZareEXwxU+AFKdMRqKIYv6EeTvWxM66JuVoBbeQxZO0yv6VvEcIEwn4xcLDgdxKJhtq4dIS+YZSflcH44zOM+EX9mMf1f08dE7CRiUPQt/d4z9hB4egHS9lScrReyMVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Jtnmj8kasg9IINjh/dFil/blqi/cQ3XjpVf+uY+g1Y=;
- b=oPDdfuzmFaBZ7uA2KHARPQQ0GHB7ljQ6SCYVC7hQgfBDqtzYFHom5z3uASY6qPHXNU6csu3GiTgdJJj5mWK8qFZKgcNgQHGIlJ2HlFYyCe2MOWhtMu0Ty9afBOIL9Ygsg1g2DWWjAOMFiC54iKO5Vfr75wa2Oh8ltAxIjIyXTOU8Lm+vncEXdJEHzqD+WbywMp2yn0PSk8rHtmN4Jg2Z3okshuNtPfF7dZgqJd+R5JgB2WIFE/ZQgaswiVKrmbpOuFKMy/TX1/VS/c4cwmoNMqEn+p7AXilISQFBnuozQcLaBqegZFsjEFnWJxHyZn6OLogiDlFFWeQD6+QMyeQO5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Jtnmj8kasg9IINjh/dFil/blqi/cQ3XjpVf+uY+g1Y=;
- b=DV2YUxPgYITchut9pVi0s/g2rNKxrAmhVEmTV8ZvppsAjC6abVcOSWzXIy1ZBVgU8cCeR1wTLc8DvHA3reF7PcTTKDSP3xMTkthHf2MEj01ngNEUFV6GDQ5f7NGz0hZVj4kkCyUMnaDky3907cAkjuV5znogzIlTMuYfQq37nV8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSRPR01MB11663.jpnprd01.prod.outlook.com (2603:1096:604:234::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.37; Thu, 5 Oct
- 2023 07:31:38 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fb78:2e8c:f7f9:5629]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fb78:2e8c:f7f9:5629%7]) with mapi id 15.20.6838.033; Thu, 5 Oct 2023
- 07:31:34 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "bsegall@google.com" <bsegall@google.com>,
-        "peterz@infradead.org" <peterz@infradead.org>
-CC:     "bristot@redhat.com" <bristot@redhat.com>,
-        "bsegall@google.com" <bsegall@google.com>,
-        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-        "efault@gmx.de" <efault@gmx.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "joshdon@google.com" <joshdon@google.com>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        "kprateek.nayak@amd.com" <kprateek.nayak@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "patrick.bellasi@matbug.net" <patrick.bellasi@matbug.net>,
-        Pavel Machek <pavel@ucw.cz>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "pjt@google.com" <pjt@google.com>,
-        "qperret@google.com" <qperret@google.com>,
-        "qyousef@layalina.io" <qyousef@layalina.io>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "tim.c.chen@linux.intel.com" <tim.c.chen@linux.intel.com>,
-        "timj@gnu.org" <timj@gnu.org>,
-        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-        "youssefesmat@chromium.org" <youssefesmat@chromium.org>,
-        "yu.c.chen@intel.com" <yu.c.chen@intel.com>,
-        "mgorman@suse.de" <mgorman@suse.de>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
-Thread-Topic: Re: [PATCH] sched/fair: fix pick_eevdf to always find the
- correct se
-Thread-Index: Adn3XJMEXg5HmmANSMuF9qI6/HDBQg==
-Date:   Thu, 5 Oct 2023 07:31:34 +0000
-Message-ID: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSRPR01MB11663:EE_
-x-ms-office365-filtering-correlation-id: fb35a1c0-1ee1-4ccb-4ca4-08dbc5751a73
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4xxICLNjGi8pcB9LbjMZg+VYt3St0+DZsiF/1jyq4kZDzvGAEglIvG4DuLKCZ41VTtwFhsGrhd3oUMQzaga9M2UKfXCIpd2z1SyMi6VUVJO6Tfa5THECatJ19xD2jY0pFBy+GYgLrsq1U7BVk7xOwujo9rzqs+sFeY3RLa8THRCEBU9MuQqnQZOQ6JJwriFxn4ABnHKfQYsDgBH18lc9w8yuPS8cp7kPt/ZqBFc75s7fYvlC3vaKidrGFDqpBC6eiZowG2WTkBL8HF+xqJEghfVN550bMvPApEvbFMuGNxoIoQXyIPRq+u3KM5KRCwBo4VVPlw0Oi0gBoEXGJJMFF9GZAE5oLcRrfQQqMKS9e97xRNfYCBeFASql2VsfwWAy0rkA3XRystGegDQ4sYe1xG1hPhgApghLlD5+pXplNhxZNv01ArFZkIOveDQoGDzF1cKR2VK7oaLD3dFD4fTOwMp9JhT/U/UE7reCXIB8oE/Us/sxmlWgJZgD52KH9lWHL1/hcXC2GpYMxR+syLcRJBLeZmRU+hCLcNGEz1IkXdUj5I10f+mnWR5IifxhA2S0NnEzEAYMkA8o8agF+aZCrvy2xnL85yzY12pkUMEyzfsmvH/SgHIes+s1DMFgJT1T
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(39860400002)(396003)(366004)(346002)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(2906002)(8936002)(8676002)(5660300002)(52536014)(4326008)(7416002)(41300700001)(66946007)(316002)(66556008)(66476007)(66446008)(64756008)(54906003)(76116006)(110136005)(55016003)(26005)(71200400001)(6506007)(7696005)(53546011)(33656002)(9686003)(122000001)(83380400001)(86362001)(478600001)(38100700002)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?woITzKrPEG+HEhe+dUE5t/NgeFEzeYgnc/PE2CTm0BwWIJ5oQQ/U/o5RJcWQ?=
- =?us-ascii?Q?uCHre8HD2/Ry/Y+iAT/st5VOQ7W40vTyDTdk/Exar9KqWgT4lZ0KzliroE56?=
- =?us-ascii?Q?qSEdk1Iv8uL7p+QC7aV7HrMgouAT1IGjaMtYXKjsx7oKW5V4ffy4S7I97FAB?=
- =?us-ascii?Q?yxIsZIpwbv8uYs23vR+cefhUkf2I6mBFWXMfeKnnvg8ENfEgbFY4l5BS4OGI?=
- =?us-ascii?Q?ukgsuSHtM2wBt+EKLAJv6mvrYaILMiz7avgt8zz79PUH93DUS1G0hIEg33d9?=
- =?us-ascii?Q?HHNgTQOV2XEnBnNaAq7RZH9yZ0nNqqhbgWztBPhihO86YpLx5S0jicIEmq3F?=
- =?us-ascii?Q?nYdMQq+G1clz3LuwE1dRulQRbq/TdDMzr+JxFcJhBWz6+cBh3WwYybGQZxdd?=
- =?us-ascii?Q?ZXS4inWqEn4Rq5kUxv8RuglAINrPPkXQ9NMWgXaKb6IXckPmSWpEZbPbgHUz?=
- =?us-ascii?Q?Z3xiOrYygu34+gu+sJmC7jdD0RZYSd0MZS77+lCmw1w0v38loDNvh/nMq+Wy?=
- =?us-ascii?Q?JPagJ0J24HJGzabWLThGgsYzDVP2ggxyz2AMZNWj0/GYMws12CUz0Si717TL?=
- =?us-ascii?Q?Fmm6QCmWDXxmVlm+Tbkcd0yRolYl0ZWXlZ0laqSzuk+OSFLuW153CjjVI3FT?=
- =?us-ascii?Q?mKo3X5WHL3vEvzewYSUoMB7+JOrwOcPkggMEblYvHPOnDZ383FQeQzs4Eptz?=
- =?us-ascii?Q?Uofjg13Xm9Z7peendfFHvVIsUaf1QNjfMtd76eRiHqkCcJjDFGKv9BSbYu7B?=
- =?us-ascii?Q?79e7lSH9Xz78i3hSUG8G3F+QGQxOLthxCqMEDuvq2R4JpAIARogvJZwnea+f?=
- =?us-ascii?Q?t4YGYKgUaoNzq2nD/4UxmpVZYYqBA3SBipMnK6MQjnN6svg0ySGHY4O8InaA?=
- =?us-ascii?Q?QSv33QRLlB4EHOj3Sa6Rvt/ZWrKvMKZipu4slScRcQszgQpmxCxZ+kdEnGXn?=
- =?us-ascii?Q?iwz+qQopxagyB8IZMCLEIDHPMQhFetDwkeJlMxvg8Z36j3iVNREGbzvktAaX?=
- =?us-ascii?Q?m5/gsykMgln9WfcgByoRE8xc6w1mHmVHsfExUY+QusmBTEtN1dbjtpT/Pzpw?=
- =?us-ascii?Q?1wKj0MU041lJ/jX4GmqfpN5NWubGKtqPx9ToDKbHgIRlemEEburEBgDcKDko?=
- =?us-ascii?Q?ujVdO2DUllv9R75cpnMyZSlByhDwWwA6yQ4DcADlP2J6NkAy1NMcBcjdiI3r?=
- =?us-ascii?Q?3OUs2xktJRydVcxnE9MzxP+2wYNKsvjRxWZLFXunJHiY0HepwxXzzYOsjQDE?=
- =?us-ascii?Q?lnM8d8rIWJisT39WnYdrXITmuu1os9YnZOkdKih/sGpNZsOkPyI6d71L2Qyd?=
- =?us-ascii?Q?aIk1DtSPID1XvAovG5WanY5La58VnlZqWE+m8fSMFK6JRdIe6SPMKXlJkxde?=
- =?us-ascii?Q?oa20RDbi/ZSxydt13BXJ3jrJ0v1D6vCFQ+dxrrfzdwi/t31L6+SRBTh91tPo?=
- =?us-ascii?Q?h3GRm8jcUD0sn2mM4v9DpdYReubcbx+Jvz/+1PY6oqKe9jdbB05dNnonRPuJ?=
- =?us-ascii?Q?DkOojxyCpb8r1A97gVNSeNnnnHj/Cp9vwZLfJFHZASJm760c0NcYE87oWgeG?=
- =?us-ascii?Q?B9gqYS7znQaMys0fpZ6Sz7XxxBK1HfYX/KnJNNleuSmqtGoQEioMP8IZ5vTj?=
- =?us-ascii?Q?yg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 5 Oct 2023 12:32:29 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DD37DA8
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 00:44:07 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5a4e29928c3so7104547b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Oct 2023 00:44:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696491843; x=1697096643;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ePQTyaDh1cBEb/a7Xsrhhw/hSqDcvwM+c9qsxwUewoE=;
+        b=AkTQnRY8tNwPm2yWgyVqzJb/2lKZ0vu/hvfIr6b+WxvT+9qq8Y+Xhqu98aks8FMDr/
+         kuPXYIT6e1Aj9lxLuDJNT8NV950bPnYzvIoKwz+vS0PjaiGJ+qTJcWKVUHX91J7iyGw9
+         VYETtPgt1NDHRZclsXV+W3kTw/gALwmKn2uQCOF1JRyy8RhpgjGa4Ai8BSIqsEWwA0yJ
+         OPyOnO4KhIV0a0nug34YK1fx66AyLV2KYOkwAWUVbZJbugO4ppsaaCJptAvhtRwMwUkh
+         ij2iuRVGXykjHDsDS1LB4EXDlg9SBl+Ask/qohUMM6ltupKB1wXn/XJkOQn1T2onh2tU
+         fg1w==
+X-Gm-Message-State: AOJu0YxIyXDpe26j2L3eTMdQuxffI0vQtPdTqQj9ay8DY5bvi83bv5kp
+        xvNnwcLv3qVhVtyF+azxplv+4JQbqChqPw==
+X-Google-Smtp-Source: AGHT+IHmh7USqnffpk9Kl/mdnXjtT+cSkBdrJgeeQNB7AiR0CmweqbtLmcuvpPwgCND8U1XiTHffDA==
+X-Received: by 2002:a81:6587:0:b0:5a1:d352:9fe1 with SMTP id z129-20020a816587000000b005a1d3529fe1mr4874696ywb.42.1696491843388;
+        Thu, 05 Oct 2023 00:44:03 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id s125-20020a0de983000000b00592a065e2a3sm330352ywe.87.2023.10.05.00.44.02
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 00:44:02 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a4e29928c3so7104397b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Oct 2023 00:44:02 -0700 (PDT)
+X-Received: by 2002:a81:4989:0:b0:59f:61b7:fb71 with SMTP id
+ w131-20020a814989000000b0059f61b7fb71mr4654343ywa.13.1696491842480; Thu, 05
+ Oct 2023 00:44:02 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb35a1c0-1ee1-4ccb-4ca4-08dbc5751a73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2023 07:31:34.8461
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fh1vzcYUv0kbJn8p2M4UgJGlgYlALbLaAJmGDX49DuDyrQpLFuoNmUzioyWS63UudFiyUZCmvMGj4+v0tlv4GJuaTuYMxTmE/9vC3CdpLWw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11663
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230928080317.28224-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230928080317.28224-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 5 Oct 2023 09:43:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWg7QD9xJtqMyAS0oUqYSu6SNKNJPSh113JGFLP1LDSaA@mail.gmail.com>
+Message-ID: <CAMuHMdWg7QD9xJtqMyAS0oUqYSu6SNKNJPSh113JGFLP1LDSaA@mail.gmail.com>
+Subject: Re: [PATCH v2 RFT] clk: renesas: rcar-gen3: Extend SDnH divider table
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Dirk Behme <dirk.behme@de.bosch.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct =
-se
-Date: Wed, 4 Oct 2023 22:39:39 +0200	[thread overview]
-Message-ID: <c92bc8a6-225d-4fd2-88b5-8994090fb2de@samsung.com> (raw)
-In-Reply-To: <xm261qego72d.fsf_-_@google.com>
+Hi Wolfram,
 
-Hi,
-
-On 30.09.2023 02:09, Benjamin Segall wrote:
-> The old pick_eevdf could fail to find the actual earliest eligible
-> deadline when it descended to the right looking for min_deadline, but it
-> turned out that that min_deadline wasn't actually eligible. In that case
-> we need to go back and search through any left branches we skipped
-> looking for the actual best _eligible_ min_deadline.
+On Fri, Sep 29, 2023 at 8:14 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> From: Dirk Behme <dirk.behme@de.bosch.com>
 >
-> This is more expensive, but still O(log n), and at worst should only
-> involve descending two branches of the rbtree.
+> The clock dividers might be used with clock stop bit enabled or not.
+> Current tables only support recommended values from the datasheet. This
+> might result in warnings like below because no valid clock divider is
+> found. Resulting in a 0 divider.
 >
-> I've run this through a userspace stress test (thank you
-> tools/lib/rbtree.c), so hopefully this implementation doesn't miss any
-> corner cases.
+> There are Renesas ARM Trusted Firmware version out there which e.g.
+> configure 0x201 (shifted logical right by 2: 0x80) and with this match
+> the added { STPnHCK | 0, 1 }:
 >
-> Fixes: 147f3efaa241 ("sched/fair: Implement an EEVDF-like scheduling poli=
-cy")
-> Signed-off-by: Ben Segall <bsegall@google.com>
+> https://github.com/renesas-rcar/arm-trusted-firmware/blob/rcar_gen3_v2.3/drivers/renesas/rcar/emmc/emmc_init.c#L108
+>
+> ------------[ cut here ]------------
+> sd1h: Zero divisor and CLK_DIVIDER_ALLOW_ZERO not set
+> WARNING: CPU: 1 PID: 1 at drivers/clk/clk-divider.c:141 divider_recalc_rate+0x48/0x70
+> Modules linked in:
+> CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.1.52 #1
+> Hardware name: Custom board based on r8a7796 (DT)
+> pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : divider_recalc_rate+0x48/0x70
+> ...
+> ------------[ cut here ]------------
+>
+> Fixes: bb6d3fa98a41 ("clk: renesas: rcar-gen3: Switch to new SD clock handling")
+> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+> [wsa: extended the table to 5 entries, added comments, reword commit message a little]
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-This patch causing issues [1] in Renesas RZ/G2L SMARC EVK platform. Reverti=
-ng the patch fixes the warning messages
+Thanks for your patch!
 
-[1]
-[   25.550898] EEVDF scheduling fail, picking leftmost
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.7.
 
-[   15.109634] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[   15.109636] WARNING: possible circular locking dependency detected
-[   15.109641] 6.6.0-rc4-next-20231005-arm64-renesas-ga03f9ebbbb4c #1165 No=
-t tainted
-[   15.109648] ------------------------------------------------------
-[   15.109649] migration/0/16 is trying to acquire lock:
-[   15.109654] ffff800081713460 (console_owner){..-.}-{0:0}, at: console_fl=
-ush_all.constprop.0+0x1a0/0x438
-[   15.109694]
-[   15.109694] but task is already holding lock:
-[   15.109697] ffff00007fbd2298 (&rq->__lock){-.-.}-{2:2}, at: __schedule+0=
-xd0/0xbe0
-[   15.109718]
-[   15.109718] which lock already depends on the new lock.
-[   15.109718]
-[   15.109720]
-[   15.109720] the existing dependency chain (in reverse order) is:
+> --- a/drivers/clk/renesas/rcar-cpg-lib.c
+> +++ b/drivers/clk/renesas/rcar-cpg-lib.c
+> @@ -70,8 +70,20 @@ void cpg_simple_notifier_register(struct raw_notifier_head *notifiers,
+>  #define STPnHCK        BIT(9 - SDnSRCFC_SHIFT)
+>
+>  static const struct clk_div_table cpg_sdh_div_table[] = {
+> -       { 0, 1 }, { 1, 2 }, { STPnHCK | 2, 4 }, { STPnHCK | 3, 8 },
+> -       { STPnHCK | 4, 16 }, { 0, 0 },
+> +       /*
+> +        * These values are recommended by the datasheet. Because they come
+> +        * first, Linux will only use these.
+> +        */
+> +       { 0, 1 }, { 1, 2 }, { STPnHCK | 2, 4 }, { STPnHCK | 3, 8 }, { STPnHCK | 4, 16 },
 
-   25.551560]  __down_trylock_console_sem+0x34/0xb8
-[   25.551567]  console_trylock+0x24/0x74
-[   25.551574]  vprintk_emit+0x114/0x388
-[   25.551581]  vprintk_default+0x34/0x3c
-[   25.551588]  vprintk+0x9c/0xb4
-[   25.551594]  _printk+0x58/0x7c
-[   25.551600]  pick_next_task_fair+0x274/0x480
-[   25.551608]  __schedule+0x154/0xbe0
-[   25.551616]  schedule+0x48/0x110
-[   25.551623]  worker_thread+0x1b8/0x3f8
-[   25.551630]  kthread+0x114/0x118
-[   25.551635]  ret_from_fork+0x10/0x20
-[  OK  ] Started System Logging Service.
-[   26.099203] EEVDF scheduling fail, picking leftmost
+Would you mind if I would wrap this to 80 columns (like the original)
+while applying?
 
-Cheers,
-Biju
+> +       /*
+> +        * These values are not recommended because STPnHCK is wrong. But they
+> +        * have been seen because of broken firmware. So, we support reading
+> +        * them but Linux will sanitize them when initializing through
+> +        * recalc_rate.
+> +        */
+> +       { STPnHCK | 0, 1 }, { STPnHCK | 1, 2 },  { 2, 4 }, { 3, 8 }, { 4, 16 },
+> +       /* Sentinel */
+> +       { 0, 0 }
+>  };
+>
+>  struct clk * __init cpg_sdh_clk_register(const char *name,
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
