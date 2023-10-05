@@ -2,116 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1ED87B9E94
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8137BA33D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 17:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232749AbjJEOJh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 10:09:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42786 "EHLO
+        id S235702AbjJEPwz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 11:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230226AbjJEOHd (ORCPT
+        with ESMTP id S235576AbjJEPvL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 10:07:33 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9320126A70;
-        Thu,  5 Oct 2023 05:57:53 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-59f57ad6126so10027747b3.3;
-        Thu, 05 Oct 2023 05:57:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696510669; x=1697115469;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HADAOv2Ff88FzB1D4GtvfGj4LE7j/q0n3R8h677Tcd0=;
-        b=NpQ5xhDDIFfJgs+bDweLL9EefUgAeX/G0dx4D4gXj2gAzG2dnHDBhbcAqi0hC1S3Cw
-         +RWZIkl/64sE4zu5GAhbhWOWydnHkyu8lph46xfGDbIz4rO+TkUCwVh0vkqnI3mUtmPX
-         5K4CvyWp9FnD/ryx5XwpiCMmTA3yOa3t8fxHRoB4qn5ZuBtlRM/wcYV8xA1EQz4Prfjn
-         2rrIfSEbr/Gy3KwJuVss1gQZo8HR1WJXti5844fwmoCRERre9AWhUrO0mbNZWsYOLFId
-         RjUihRvZnlFO+Nsmhjs4Vmi+FQ08gmr33r+ckwHBjXg/j/lU5WtKe64/86mVXMiApd4Y
-         FGjQ==
-X-Gm-Message-State: AOJu0Yx13snWrZlFnKBkqBcYD7lj6yTStdbPBhEy5Vfftiwtf4VEzjLW
-        3yrOUhBXd7LZdeYxuxTmzCGRiO+eVD8N4Q==
-X-Google-Smtp-Source: AGHT+IEvMNKC9nbOPdNH0MpwacZ1W5yim9tzJ3jmaWBCgy8j2Ymj3G4B/81eTM2oS9aGwSKd1XhK1g==
-X-Received: by 2002:a0d:ca02:0:b0:589:a4c6:a4ed with SMTP id m2-20020a0dca02000000b00589a4c6a4edmr5299641ywd.3.1696510669479;
-        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id g68-20020a0df647000000b0059b2be24f88sm480277ywf.143.2023.10.05.05.57.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f4db9e11eso10293417b3.0;
-        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
-X-Received: by 2002:a81:d513:0:b0:59a:d42c:5d50 with SMTP id
- i19-20020a81d513000000b0059ad42c5d50mr5391255ywj.52.1696510668676; Thu, 05
- Oct 2023 05:57:48 -0700 (PDT)
+        Thu, 5 Oct 2023 11:51:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE21A5DFCD
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 07:07:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0EDD7C4AF5C
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 13:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696512632;
+        bh=5WRYu6DvdRv4eius04Qr34dh4j5n5SCEGE+8cxHg8Gw=;
+        h=Subject:From:Date:To:From;
+        b=tVq5ErGjrqLRsJhbfxd2jssd4ietxzbwyFY3usz9/ZQTyn7YrhITkZAEFYBBPehf1
+         3GjV1Tcmbzw6zd60szi/YxGh0uk5Au2R80sYMKXyWkBlRmQSlEljhxvD9qs+kIJp7L
+         4oqUBTBZGnIX/b9PrG2SROeSO8apn7AmaFsdFdmDs6PKn6NUmeecHg7Ccm5ByNtgF/
+         dmu7xvnvOZI3tFTENEYjTrX+4IE5KRgMOXsHUqCg6ar2woLqWQs7+ehdbRl8ZmGWTY
+         RoczRqx9IqbGIS5nTuKOlZFtyZB1yZ7Q/GmdF9epIh+bZop3gttbBuYG2EFNys84Ku
+         L1cp7d2ipYyDQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E8B7CE632D1
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 13:30:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20231004150856.2540-1-jszhang@kernel.org>
-In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 Oct 2023 14:57:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVfnn2YiorGQeVqa7cQmXVDQhiqoY6dSktA6myuE6LRsw@mail.gmail.com>
-Message-ID: <CAMuHMdVfnn2YiorGQeVqa7cQmXVDQhiqoY6dSktA6myuE6LRsw@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
- on NONPORTABLE
-To:     Jisheng Zhang <jszhang@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Drew Fustini <dfustini@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <169651263188.29610.715752346644851033.git-patchwork-summary@kernel.org>
+Date:   Thu, 05 Oct 2023 13:30:31 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 5:21 PM Jisheng Zhang <jszhang@kernel.org> wrote:
-> Drew found "CONFIG_DMA_GLOBAL_POOL=y causes ADMA buffer alloc to fail"
-> the log looks like:
-> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to standard DMA
->
-> The logic is: generic riscv defconfig selects ARCH_RENESAS then
-> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
-> non-dma-coherent riscv platforms have a dma global pool, this assumption
-> seems not correct. And I believe DMA_GLOBAL_POOL should not be
-> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
-> conditions can select it globaly, for example NOMMU ARM and so on,
-> because it's designed for special cases such as "nommu cases where
-> non-cacheable memory lives in a fixed place in the physical address
-> map" as pointed out by Robin.
->
-> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
-> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
-> default. And even for random config case, there will be less debug
-> effort once we see NONPORTABLE is enabled.
->
-> Reported-by: Drew Fustini <dfustini@baylibre.com>
-> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
-> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs for RZ/Five SoC")
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-I guess this is the right thing to do until a better solution is found.
-I.e. will queue in renesas-fixes for v6.6.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Series: arm64: dts: renesas: Add R-Car S4 Starter Kit support
+  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=789448
+  Lore link: https://lore.kernel.org/r/87v8bofna8.wl-kuninori.morimoto.gx@renesas.com
+    Patches: [v4,1/4] dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
+             [v4,2/4] dt-bindings: soc: renesas: renesas.yaml: Add renesas,s4sk compatible
+             [v4,3/4] arm64: dts: renesas: Add Renesas R8A779F4 SoC support
+             [v4,4/4] arm64: dts: renesas: Add R-Car S4 Starter Kit support
 
-                        Geert
+Series: Enable peripherals on RZ/Five SMARC EVK
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=788672
+  Lore link: https://lore.kernel.org/r/20230929000704.53217-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/5] riscv: dts: renesas: r9a07g043f: Add L2 cache node
+             [2/5] riscv: dts: renesas: r9a07g043f: Add dma-noncoherent property
+             [3/5] riscv: dts: renesas: rzfive-smarc: Enable the blocks which were explicitly disabled
+
+Patch: soc: renesas: make ARCH_R9A07G043 (riscv version) depend on NONPORTABLE
+  Submitter: Jisheng Zhang <jszhang@kernel.org>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=789973
+  Lore link: https://lore.kernel.org/r/20231004150856.2540-1-jszhang@kernel.org
+
+Series: Add new Renesas RZ/G3S SoC and RZ/G3S SMARC EVK
+  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=788691
+  Lore link: https://lore.kernel.org/r/20230929053915.1530607-1-claudiu.beznea@bp.renesas.com
+    Patches: [v2,01/28] dt-bindings: serial: renesas,scif: document r9a08g045 support
+             [v2,12/28] dt-bindings: clock: renesas,rzg2l-cpg: document RZ/G3S SoC
+             [v2,22/28] arm64: dts: renesas: add initial DTSI for RZ/G3S SoC
+             [v2,23/28] dt-bindings: arm: renesas: document RZ/G3S SMARC SoM
+             [v2,24/28] arm64: dts: renesas: rzg3l-smarc-som: add initial support for RZ/G3S SMARC SoM
+             [v2,25/28] arm64: dts: renesas: rzg3s-smarc: add initial device tree for RZ SMARC Carrier-II Board
+             [v2,26/28] dt-bindings: arm: renesas: document SMARC Carrier-II EVK
+             [v2,27/28] arm64: dts: renesas: r9a08g045s33-smarc: add initial device tree for RZ/G3S SMARC EVK board
+             [v2,28/28] arm64: defconfig: enable RZ/G3S (R9A08G045) SoC
+
+Series: renesas: r8a7778/bockw: Add LBSC pin control and FLASH support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=784503
+  Lore link: https://lore.kernel.org/r/cover.1694768311.git.geert+renesas@glider.be
+    Patches: [PATCH/RFT,1/2] pinctrl: renesas: r8a7778: Add LBSC pins, groups, and functions
+             [PATCH/RFT,2/2] ARM: dts: renesas: bockw: Add FLASH node
+
+Patch: [v4] arm64: dts: renesas: rz-smarc-common: Use versa3 clk for audio mclk
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=779299
+  Lore link: https://lore.kernel.org/r/20230825090518.87394-1-biju.das.jz@bp.renesas.com
+
+Patch: [v2] arm64: dts: renesas: r8a77990: document Ebisu-4D support
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=789976
+  Lore link: https://lore.kernel.org/r/20231004152751.3917-1-wsa+renesas@sang-engineering.com
+
+
+Total patches: 21
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
