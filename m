@@ -2,94 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E5FC7BA68F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 18:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10FEB7BA45C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 18:06:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbjJEQip convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 12:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
+        id S236864AbjJEQFP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 12:05:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231589AbjJEQiT (ORCPT
+        with ESMTP id S237476AbjJEQEE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 12:38:19 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409BC83E7;
-        Thu,  5 Oct 2023 01:00:25 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-579de633419so7334677b3.3;
-        Thu, 05 Oct 2023 01:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696492822; x=1697097622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j8XXiyUa8rUMXqZKwJl8l2OpKGUUmRnI7buBMM68MR0=;
-        b=WWg0jx+ERfYCMUcNwr/aJoqyXHc9RI4K1s+gUwXE0pUMW6jpHihKa1865QB6sutlKA
-         5s2MRoXbbU13maUzaJa1KPV1Eep4lvi5Y6syrUmkx/NvzqfbXup+k1T7wSfppzI+hQPF
-         pqcrgCMvMApcYtKHeNfgAMCVI4XbFuD4upijcRN6bgkXPKB2Yh5go76R9igjICPXhr7b
-         S5eIlhRWDbZ7l4eMqkynIKC39dvUn8E9W5uS2mWTMA/C4lcCDnUCZsZPx0AIPYzg3Ns6
-         SRd4grKBI61DTdO2saZ/cnzxwd/NJ3SI3x4qHB5COg6wT/s+xN3hwMYP/dmKeZCNkRBl
-         wp6w==
-X-Gm-Message-State: AOJu0YxdbnrJYj3rLR09OKkP5xQCMDaijCeJ6c69yyhmXzTSn8pws9LW
-        wrMR6HGi6jesA/J+ci7xncDk96e5UiUxKg==
-X-Google-Smtp-Source: AGHT+IHIMheIGiuO6/PzaNBuUOio/MU8sKPI4Rlf9vGVL7iMO32Z9ygTQNdlGsUl8JwaaR0kbCz/sw==
-X-Received: by 2002:a81:9182:0:b0:59c:6ef:cd55 with SMTP id i124-20020a819182000000b0059c06efcd55mr4967700ywg.8.1696492822472;
-        Thu, 05 Oct 2023 01:00:22 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id o203-20020a8173d4000000b005a237c85821sm338960ywc.110.2023.10.05.01.00.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 01:00:21 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-579de633419so7334457b3.3;
-        Thu, 05 Oct 2023 01:00:21 -0700 (PDT)
-X-Received: by 2002:a0d:d402:0:b0:59b:c847:bce0 with SMTP id
- w2-20020a0dd402000000b0059bc847bce0mr4930670ywd.42.1696492821478; Thu, 05 Oct
- 2023 01:00:21 -0700 (PDT)
+        Thu, 5 Oct 2023 12:04:04 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 000DC836F9;
+        Thu,  5 Oct 2023 07:17:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45B47C116C9;
+        Thu,  5 Oct 2023 09:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696498130;
+        bh=QV34h1/go9yp/2hhCwRwY1N8gdaDCAxZ5p8V2tkQlow=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=e9f0Hw3sV9C5mpEaM+TsNhqCvKmpRkgf9+y1c0eKaSM9ma+7jGXWDRNdk5LgMgyIT
+         0Ioxl+C7OFFP6oq2zuCHWvGZxYvUokx2705x9K4FDVxeKtNPJ/OiD35wK6do9/NxX0
+         /vatA9roh9nlDiV6W/7gBFgbPxQ98GtMMlrlt1ECePJpfftJKGiMi7f3Ohn9CdfhGZ
+         VU7zdPi3tnso51jwnHvctayoMq0CvIXdTVFZOxw8wjpse5geHNtx+1gNkxqLA91Y/k
+         AbA6lOYRWuxQr9LKGio75CbaR7FBSNrtN1jcTKK0pB14xkqetDTHAA1F87W/CSo8bY
+         YCKj7JR668rLA==
+Message-ID: <0f6723d8-ff2d-4b7f-b007-6ee515315184@kernel.org>
+Date:   Thu, 5 Oct 2023 11:28:44 +0200
 MIME-Version: 1.0
-References: <87v8bofna8.wl-kuninori.morimoto.gx@renesas.com> <87sf6sfn9i.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87sf6sfn9i.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 Oct 2023 10:00:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvRYzz4VciUYnznJ1pY=uaaRc4V29uxLkgyH2ReWPKGw@mail.gmail.com>
-Message-ID: <CAMuHMdUvRYzz4VciUYnznJ1pY=uaaRc4V29uxLkgyH2ReWPKGw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] dt-bindings: soc: renesas: renesas.yaml: Add
- renesas,s4sk compatible
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 3/4] pwm: Add support for RZ/G2L GPT
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20231004111451.126195-1-biju.das.jz@bp.renesas.com>
+ <20231004111451.126195-4-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20231004111451.126195-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 3, 2023 at 4:33 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> This patch adds "renesas,s4sk" which target the R-Car S4 Starter Kit
-> board.
->
-> Signed-off-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+On 04/10/2023 13:14, Biju Das wrote:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.7.
+...
+> +	ret = clk_rate_exclusive_get(rzg2l_gpt->clk);
+> +	if (ret)
+> +		goto err_clk_disable;
+> +
+> +	rzg2l_gpt->rate = clk_get_rate(rzg2l_gpt->clk);
+> +	if (!rzg2l_gpt->rate) {
+> +		dev_err_probe(&pdev->dev, -EINVAL, "gpt clk rate is 0");
 
-Gr{oetje,eeting}s,
+ret = dev_err_probe
 
-                        Geert
+Otherwise you return success.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +		goto err_clk_rate_put;
+> +	}
+> +
+> +	/*
+> +	 * Refuse clk rates > 1 GHz to prevent overflow later for computing
+> +	 * period and duty cycle.
+> +	 */
+> +	if (rzg2l_gpt->rate > NSEC_PER_SEC) {
+> +		ret = -EINVAL;
+> +		goto err_clk_rate_put;
+> +	}
+> +
+....
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +	rzg2l_gpt->chip.ops = &rzg2l_gpt_ops;
+> +	rzg2l_gpt->chip.npwm = RZG2L_MAX_PWM_CHANNELS;
+> +	ret = devm_pwmchip_add(&pdev->dev, &rzg2l_gpt->chip);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
+> +
+> +	pm_runtime_idle(&pdev->dev);
+> +
+> +	return 0;
+> +
+> +err_clk_rate_put:
+> +	clk_rate_exclusive_put(rzg2l_gpt->clk);
+> +err_clk_disable:
+> +	clk_disable_unprepare(rzg2l_gpt->clk);
+> +err_reset:
+> +	reset_control_assert(rzg2l_gpt->rstc);
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id rzg2l_gpt_of_table[] = {
+> +	{ .compatible = "renesas,rzg2l-gpt", },
+> +	{ /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rzg2l_gpt_of_table);
+> +
+> +static struct platform_driver rzg2l_gpt_driver = {
+> +	.driver = {
+> +		.name = "pwm-rzg2l-gpt",
+> +		.pm = pm_ptr(&rzg2l_gpt_pm_ops),
+> +		.of_match_table = rzg2l_gpt_of_table,
+> +	},
+> +	.probe = rzg2l_gpt_probe,
+> +};
+> +module_platform_driver(rzg2l_gpt_driver);
+> +
+> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
+> +MODULE_ALIAS("platform:pwm-rzg2l-gpt");
+
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong.
+
+
+Best regards,
+Krzysztof
+
