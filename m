@@ -2,59 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC3F27B9DBC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 15:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36EAF7B9F4C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:21:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbjJEN4D convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 09:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53566 "EHLO
+        id S233288AbjJEOTJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 10:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244186AbjJENvv (ORCPT
+        with ESMTP id S229581AbjJEOQr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 09:51:51 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CDD1FEFD;
-        Thu,  5 Oct 2023 03:12:25 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-27740ce6c76so518566a91.0;
-        Thu, 05 Oct 2023 03:12:24 -0700 (PDT)
+        Thu, 5 Oct 2023 10:16:47 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C751949C3
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Oct 2023 22:05:46 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-53627feca49so821246a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Oct 2023 22:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1696482345; x=1697087145; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tumpG4fZu91mYpt2qQbWwuFfddli9/TW76sKXIYzTOk=;
+        b=deQ7A4mY5ePOw4jHVnPJCqadPHGXWot17MfTlsuzPmL1tAKWWcgtfIzYCl6Y26RH/2
+         Tg5vtPBAu0gJKO7CFEu7p2di+9Zo7ZnGiByuPZRH4rVpEmvI6Ad5Z1u3CH752De5xk+b
+         6k6CTfr0mgVEyVtkEVStiiy6ER34FpSe0ONd2J1hDIrOt+KFaJzkK7e2ZCnkgu2oFmTx
+         hJYJmKEe1oqQ26KbG9i+ATT9szB+0wzhWfDLnsox8IPOw7cn1kAP95Htmm4YSPIftgTn
+         WIV57dECWvJJjG2shxvBLoZgUjtRC3J09TgpgpGGMiZclNTXmV2XoELeTgvgyRXZqaUB
+         pGSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696500743; x=1697105543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fv9CC0NKV/kDN0XcdNF3KHHTr6xmrbhe/ImONu1Cags=;
-        b=Giw1I3Ju1d6hfOmKdKuo6YszAyThE9paLeypz1rTzFMw+0yjYZJYrQcVSeO64vqx5V
-         yVyH9GA3VCnRxseyPAjSwprImt3vlWHOE6w4GMntjxHjUP9q10Jl3q/suxBs9x5NagX9
-         nUHK3H9HxrhUr/54hRVqc4u7mBiTUsJiIimOAWJ8bYrNTH7uSqL2wVVkReDVeTUqmsNH
-         SZXSTUa5WQ/ODVC+3Q28VlvtCRgWrSJr3MvLvABQ+tXjsRaoSndM3FMWqttZH31WulAn
-         qdLcbIEahdwCxqJDBs9u+tLKA3FyTdX9G2FTzLCWwi2wI1Su/DVeSb6v8XKTBLVEw58C
-         luiA==
-X-Gm-Message-State: AOJu0YyJ1PUSfOvSV9FW4efGARc72ububnFdvIEKW1RqMnQsrHvSuR/9
-        xGZwoclbkycn/qsestKQzOsHZNEiNS2hHQ==
-X-Google-Smtp-Source: AGHT+IF0FJerdb2vdfKFEdkJKe+kuKwgXZU30X1yZibd2zAGh2N/1/yTzojGTleMwimkCtz8klao0g==
-X-Received: by 2002:a17:90a:43c7:b0:268:2543:723 with SMTP id r65-20020a17090a43c700b0026825430723mr4741800pjg.5.1696500743345;
-        Thu, 05 Oct 2023 03:12:23 -0700 (PDT)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com. [209.85.214.178])
-        by smtp.gmail.com with ESMTPSA id b10-20020a170903228a00b001b03a1a3151sm1256766plh.70.2023.10.05.03.12.22
+        d=1e100.net; s=20230601; t=1696482345; x=1697087145;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tumpG4fZu91mYpt2qQbWwuFfddli9/TW76sKXIYzTOk=;
+        b=TI1vub81wZ6K/czJVAxdJmz/EwDWaZkgOV6IlBhXtRG24k3A1nduke6hve7iD93t/K
+         nmX+IhLz8+PAhOZlorhtPPoTh/ZwvmzcMMHbb654bpMkGTGYG0QC68JnOdvehcPTCt9h
+         bkcsy89ZCDauJDVmdybISHs+eMF78nqbbTy4vCdz45ISRU8Jau4mS4vaYrEkQDM2Qwza
+         t14VaJ2ri8PvEjN/cRZswxC2wf4WGsK5uD+47tnMTnHFcz2j0EWZSH/MMNQC4RXePiV2
+         esPbKuPPubndYF/mlMbUR65aQBPblt1GRntXmqBanCwh6pRSOX0G5RZWLPoRRjUZCvwO
+         gBMQ==
+X-Gm-Message-State: AOJu0Ywyt68vlLsnAI4UX3SXshkdGg3tnfUUjbQ/tfBaJ3SczarSB+nf
+        6gmBlSF/5Le+AXF6T26aaMBQUw==
+X-Google-Smtp-Source: AGHT+IE54MO+fhgdky4xkVipD6Wj3FDv6iN+CshxB2o1CFdPuoVHF2KKTNg0ZjphMiuqlQstCFMd7w==
+X-Received: by 2002:aa7:da8c:0:b0:530:9b94:96e with SMTP id q12-20020aa7da8c000000b005309b94096emr3525467eds.41.1696482345190;
+        Wed, 04 Oct 2023 22:05:45 -0700 (PDT)
+Received: from [192.168.32.2] ([147.161.130.252])
+        by smtp.gmail.com with ESMTPSA id u15-20020aa7d98f000000b00533bab9d9f1sm434409eds.1.2023.10.04.22.05.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 03:12:23 -0700 (PDT)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c3d8fb23d9so5368785ad.0;
-        Thu, 05 Oct 2023 03:12:22 -0700 (PDT)
-X-Received: by 2002:a81:a089:0:b0:5a2:47bf:88ec with SMTP id
- x131-20020a81a089000000b005a247bf88ecmr5134243ywg.19.1696500261276; Thu, 05
- Oct 2023 03:04:21 -0700 (PDT)
+        Wed, 04 Oct 2023 22:05:44 -0700 (PDT)
+Message-ID: <08ed16ff-14ca-a7e2-59c2-da949ceaa608@tuxon.dev>
+Date:   Thu, 5 Oct 2023 08:05:42 +0300
 MIME-Version: 1.0
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
- <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com> <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 Oct 2023 12:04:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXsvs886VaKsVgG-h-0iBAhueunUBBcYW0L48GTHApUbA@mail.gmail.com>
-Message-ID: <CAMuHMdXsvs886VaKsVgG-h-0iBAhueunUBBcYW0L48GTHApUbA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
 Subject: Re: [PATCH v2 18/28] pinctrl: renesas: rzg2l: add support for
  different ds values on different groups
-To:     Claudiu <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, linus.walleij@linaro.org,
@@ -66,66 +70,68 @@ Cc:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
         linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
+ <20230929053915.1530607-19-claudiu.beznea@bp.renesas.com>
+ <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
+From:   claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdWQVtroKntVamANrWiheDYa6+=L8K53__1WUZg3bF8EFQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 3:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+
+On 04.10.2023 16:17, Geert Uytterhoeven wrote:
 > On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > RZ/G3S supports different drive strength values for different power sources
-> > and pin groups (A, B, C). On each group there could be up to 4 drive
-> > strength values per power source. Available power sources are 1v8, 2v5,
-> > 3v3. Drive strength values are fine tuned than what was previously
-> > available on the driver thus the necessity of having micro-amp support.
-> > As drive strength and power source values are linked together the
-> > hardware setup for these was moved at the end of
-> > rzg2l_pinctrl_pinconf_set() to ensure proper validation of the new
-> > values.
-> >
-> > The drive strength values are expected to be initialized though SoC
-> > specific hardware configuration data structure.
-> >
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---
-> >
-> > Changes in v2:
-> > - s/strenght/strength, s/togheter/together in commit description
-> > - got rid of RZG2L_INVALID_IOLH_VAL macro and consider zero as invalid
-> >   value for entries in struct rzg2l_hwcfg::iolh_group[abc]_ua[] arrays
-> > - removed spinlock in rzg2l_[sg]et_power_source()
-> > - introduced caps_to_pwr_reg() and simplified the code in
-> >   rzg2l_[sg]et_power_source()
-> > - changed return type of rzg2l_iolh_ua_to_val() to int and return
-> >   -EINVAL on failure cases
-> > - s/rzg2l_ds_supported/rzg2l_ds_is_supported
-> > - inverted the logic in rzg2l_pinctrl_pinconf_set() when applying drive
-> >   strength and power source to hardware registers and thus simplified the
-> >   code
-> > - used devm_kcalloc() instead of devm_kzalloc()
-> > - adderessed the rest of the review comments
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> RZ/G3S supports different drive strength values for different power sources
+>> and pin groups (A, B, C). On each group there could be up to 4 drive
+>> strength values per power source. Available power sources are 1v8, 2v5,
+>> 3v3. Drive strength values are fine tuned than what was previously
+>> available on the driver thus the necessity of having micro-amp support.
+>> As drive strength and power source values are linked together the
+>> hardware setup for these was moved at the end of
+>> rzg2l_pinctrl_pinconf_set() to ensure proper validation of the new
+>> values.
+>>
+>> The drive strength values are expected to be initialized though SoC
+>> specific hardware configuration data structure.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>
+>> Changes in v2:
+>> - s/strenght/strength, s/togheter/together in commit description
+>> - got rid of RZG2L_INVALID_IOLH_VAL macro and consider zero as invalid
+>>   value for entries in struct rzg2l_hwcfg::iolh_group[abc]_ua[] arrays
+>> - removed spinlock in rzg2l_[sg]et_power_source()
+>> - introduced caps_to_pwr_reg() and simplified the code in
+>>   rzg2l_[sg]et_power_source()
+>> - changed return type of rzg2l_iolh_ua_to_val() to int and return
+>>   -EINVAL on failure cases
+>> - s/rzg2l_ds_supported/rzg2l_ds_is_supported
+>> - inverted the logic in rzg2l_pinctrl_pinconf_set() when applying drive
+>>   strength and power source to hardware registers and thus simplified the
+>>   code
+>> - used devm_kcalloc() instead of devm_kzalloc()
+>> - adderessed the rest of the review comments
+> 
 > Thanks, will queue in renesas-pinctrl-for-v6.7, with Paul's comment
 > addresses.
 
-Gr{oetje,eeting}s,
+Thank you Geert and Paul!
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
