@@ -2,88 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F447B9972
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 03:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46AF27B9E07
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243808AbjJEBMM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Oct 2023 21:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40280 "EHLO
+        id S232504AbjJEN7L convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 09:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241050AbjJEBMM (ORCPT
+        with ESMTP id S232005AbjJEN5K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Oct 2023 21:12:12 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E6B2C1;
-        Wed,  4 Oct 2023 18:12:08 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,201,1694703600"; 
-   d="scan'208";a="181959972"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Oct 2023 10:12:06 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0462541241A4;
-        Thu,  5 Oct 2023 10:12:06 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Zheng Wang <zyytlz.wz@163.com>
-Subject: [PATCH net v2 2/2] ravb: Fix use-after-free issue in ravb_tx_timeout_work()
-Date:   Thu,  5 Oct 2023 10:12:01 +0900
-Message-Id: <20231005011201.14368-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231005011201.14368-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20231005011201.14368-1-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 5 Oct 2023 09:57:10 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2934672BC;
+        Thu,  5 Oct 2023 00:10:56 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-5a21ea6baccso7249477b3.1;
+        Thu, 05 Oct 2023 00:10:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696489853; x=1697094653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kyrdbpuLHB24ipYr+nJjPhE8QlUpRf2FnFEE0De7zV4=;
+        b=YRIXubiyCCYR+2uM9V/2Sia6j+a1A4F2bIEJeGmq5XHkbFFhHA5C5b2e9xQ7R20vPO
+         zPxzp+++293nE5O2QVXLmt2t6ffFPlBEAliMau8tmgEE9rENuJ84nSIzeceUO3bYqlfl
+         zK0T31Pem5qAkVNVVnj0BDcp0/MhndIfCZSqWVpkAx9793+5Uow1ftNBexLNZm0qmKKP
+         sQ3R/5Np7PJYQjsdR/MdpFUxPQQ6HqOEngaInbcc2/HQ/mkVorj01fFMf+3zxhBNmLDZ
+         Dh62QTwnsRRROs+XkU3X1lLmBCWYXXEygq8slnCG5W1YQQmYzZ3LxYKNHVc+TPlKqPOq
+         67LA==
+X-Gm-Message-State: AOJu0YwFQskM8Fbhy5dOqeGln67r0we60BBM1W7YXYOaNCGmJLiNgSe5
+        aEv7YlYbNyb99OM/S6KxnInJJe8jPuytmA==
+X-Google-Smtp-Source: AGHT+IFdTKrKPAls6e1+0i2Og0vYKYUs57GQzTcJHaJMr4Onqg9GWE95nwBg2jAzKiXQbzzLSFB4Dg==
+X-Received: by 2002:a0d:cbd3:0:b0:578:5e60:dcc9 with SMTP id n202-20020a0dcbd3000000b005785e60dcc9mr4462229ywd.10.1696489853207;
+        Thu, 05 Oct 2023 00:10:53 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id n184-20020a0de4c1000000b005a4d922cf77sm315914ywe.119.2023.10.05.00.10.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 00:10:52 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a21ea6baccso7249337b3.1;
+        Thu, 05 Oct 2023 00:10:52 -0700 (PDT)
+X-Received: by 2002:a81:a187:0:b0:59b:f152:8998 with SMTP id
+ y129-20020a81a187000000b0059bf1528998mr4833243ywg.19.1696489852617; Thu, 05
+ Oct 2023 00:10:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20231004200008.1306798-1-ralph.siemsen@linaro.org>
+In-Reply-To: <20231004200008.1306798-1-ralph.siemsen@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 5 Oct 2023 09:10:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVEhVX8bcCVNYRuzdOpiW64dBELJp0ncdYsZUg4LLFLeA@mail.gmail.com>
+Message-ID: <CAMuHMdVEhVX8bcCVNYRuzdOpiW64dBELJp0ncdYsZUg4LLFLeA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzn1: enable PINMUX
+To:     Ralph Siemsen <ralph.siemsen@linaro.org>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The ravb_stop() should call cancel_work_sync(). Otherwise,
-ravb_tx_timeout_work() is possible to use the freed priv after
-ravb_remove() was called like below:
+Hi Ralph,
 
-CPU0			CPU1
-			ravb_tx_timeout()
-ravb_remove()
-unregister_netdev()
-free_netdev(ndev)
-// free priv
-			ravb_tx_timeout_work()
-			// use priv
+On Wed, Oct 4, 2023 at 10:00 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
+> Enable pin muxing (eg. programmable function), so that the RZN1 GPIO
+> pins will be configured as specified by the pinmux in the DTS.
+>
+> This used to be enabled implicitly via CONFIG_GENERIC_PINMUX_FUNCTIONS,
+> however that was removed in 308fb4e4eae14e6189dece3b7cf5b5f453c5d02
 
-unregister_netdev() will call .ndo_stop() so that ravb_stop() is
-called. And, after phy_stop() is called, netif_carrier_off()
-is also called. So that .ndo_tx_timeout() will not be called
-after phy_stop().
+You missed the first character of the commit ID.
 
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-Reported-by: Zheng Wang <zyytlz.wz@163.com>
-Closes: https://lore.kernel.org/netdev/20230725030026.1664873-1-zyytlz.wz@163.com/
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
- drivers/net/ethernet/renesas/ravb_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+> since the rzn1 driver does not call any of the generic pinmux functions.
+>
+> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 9e2e801049cc..0ef0b88b7145 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2167,6 +2167,8 @@ static int ravb_close(struct net_device *ndev)
- 			of_phy_deregister_fixed_link(np);
- 	}
- 
-+	cancel_work_sync(&priv->work);
-+
- 	if (info->multi_irqs) {
- 		free_irq(priv->tx_irqs[RAVB_NC], ndev);
- 		free_irq(priv->rx_irqs[RAVB_NC], ndev);
+Fixes: 1308fb4e4eae14e6 ("pinctrl: rzn1: Do not select
+GENERIC_PIN{CTRL_GROUPS,MUX_FUNCTIONS}")
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-fixes-for-v6.6...
+
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -234,6 +234,7 @@ config PINCTRL_RZN1
+>         bool "pin control support for RZ/N1"
+>         depends on OF
+>         depends on ARCH_RZN1 || COMPILE_TEST
+> +       select PINMUX
+>         select GENERIC_PINCONF
+
+... with alphabetical sort order restored.
+No need to resend.
+
+>         help
+>           This selects pinctrl driver for Renesas RZ/N1 devices.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
