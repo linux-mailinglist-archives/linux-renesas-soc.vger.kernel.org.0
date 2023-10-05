@@ -2,134 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F098B7BA180
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094CD7B9F24
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239441AbjJEOn1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 10:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46446 "EHLO
+        id S233683AbjJEOS2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 10:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237184AbjJEOio (ORCPT
+        with ESMTP id S244369AbjJENxN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 10:38:44 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404C95278;
-        Thu,  5 Oct 2023 07:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696514620; x=1728050620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7kjCMS9xjATRZqnRQH9aAmYqWQ2qY58Qj/F3YYDj1UI=;
-  b=ewN4PWTZx6BDoufa2TikkvBJVz7IhkFRjwzWsW35wIhyq7wvrCnaCl/D
-   G1POItkUBirWu0HcS6sOijljMMD5fMdjAEFy+O9OV8em1R/O0PikVKktk
-   Gym6JatF0MU0bpk64yh1iMKaN7/K/yFRnyM4uYydNbRr0S24l1FvJEy8m
-   rPIxRXspUZKIYh1ceSe2ImuXy5tWXpi74su4EVpGl9f4/845nAomFYgaI
-   lKF1xgMPIRgbXKxcAc0eQG7oxTMhtEg1S4R/Wp2IIja9SKmT4RCiTukZQ
-   ziFkxSS/82ecKBOvp0WDDEbaYwSeG51u8komMHl8R5AyNlwi2aTzuH9Lr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="380728703"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="380728703"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:07:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="895374737"
-X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="895374737"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 02:05:39 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qoKK0-00000002yzq-2Mbg;
-        Thu, 05 Oct 2023 12:07:04 +0300
-Date:   Thu, 5 Oct 2023 12:07:04 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Laight <David.Laight@aculab.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.au@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] clk: vc3: Use clamp() instead of min_t()
-Message-ID: <ZR58uDLC99WUwkr2@smile.fi.intel.com>
-References: <20231004064220.31452-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdXageyQyqaGXJbmmpcKyjoO-VHWGzGk_WJ1YsAne+iiSw@mail.gmail.com>
+        Thu, 5 Oct 2023 09:53:13 -0400
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD0DA262;
+        Thu,  5 Oct 2023 02:20:02 -0700 (PDT)
+Received: by mail-vk1-xa31.google.com with SMTP id 71dfb90a1353d-495c10cec8aso301717e0c.1;
+        Thu, 05 Oct 2023 02:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696497601; x=1697102401; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mmCqW9/RdSqKhGNA9TKQ87Kw41v1aHc9awKHSSwaUow=;
+        b=XKZHqhOQtCJjJGu2yjhzCzYiwhgWHYOR9ifK/PkPGWipcTd6dcfdWYbgllr1BpoaTp
+         3nioJnsIxBzu+V0qmUyz8ya+dlHy5Tbx/xu4W0fLmKY7TtdSFhlMDoo37g7A7ifW9EVd
+         gYS5QNL2iLZ1J45ufkr8MHI0YkhYuSNOg+RxYbcn3gfEUCqMUNw2tKQs9A1ClUl6jfH1
+         KaJIzmu384GcQYFqYgpONuoJoHMstU+j05AgCsMAbdfKXxnixV247De27Bo3moMypsHn
+         huQnhCI5SwGveM+GgaaDkorTV2J/kAehyEafUeymOPYUYH5bQ3jj6Vb2n6BE8rahe5RL
+         JOCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696497601; x=1697102401;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mmCqW9/RdSqKhGNA9TKQ87Kw41v1aHc9awKHSSwaUow=;
+        b=EoNWI4zHlhZzLjWxC/hktuqYB5rSeLkdjaf7vjE8cD3m5M7EID4lzWm453wPNWNG+/
+         4tiL7nCUaPMGNEEf1ogK9DMrlhJwRTsQq23VrQ8sxuv6BxiuSKMCdh7QjOqHqL3n0Tvs
+         0zoaUq3OZsTHL9EmKBiG4P3mbASOjSfGGdraPXKatURwpOewHlyS4ulBOPiIG1ohNUKx
+         /I+hW9vQ4iATPKItM78sPw7+Gf233wiZK7Cr1uQK9HiIILfX2K0aJ1324a1fg1u0pDrb
+         Zv0Gh+h6kcaRAyCEi4O4jAZ5oHT502uEtKtjKkjiJ+bnrtT9wXTKjqEI9oYo83OaZ5Xb
+         CyJg==
+X-Gm-Message-State: AOJu0Yym1gYZ+p+Fh/8w/7zkiNgblTl1SMOT1GkLzxXvLKDUcr9qBjXD
+        7EwT884z2cQlUnRfNA6TWgdXn5xkHSOYdftcMGo=
+X-Google-Smtp-Source: AGHT+IGUrv6tiziv5lNUOurSFPVAQQfdUe8LaLIUvdzpuLVD38jauJwHQ9ABh5kenASpIGpWyVACc47Bj2BBcblpoc8=
+X-Received: by 2002:a1f:6d84:0:b0:496:1bc2:ddf with SMTP id
+ i126-20020a1f6d84000000b004961bc20ddfmr4465596vkc.8.1696497601021; Thu, 05
+ Oct 2023 02:20:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXageyQyqaGXJbmmpcKyjoO-VHWGzGk_WJ1YsAne+iiSw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20231004150856.2540-1-jszhang@kernel.org>
+In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 5 Oct 2023 10:19:06 +0100
+Message-ID: <CA+V-a8uTr9vMNTKJDudjCERjnW9M_wms3LtHcOcpRc2RuhbBBw@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
+ on NONPORTABLE
+To:     Jisheng Zhang <jszhang@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Drew Fustini <dfustini@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+David
+On Wed, Oct 4, 2023 at 4:21=E2=80=AFPM Jisheng Zhang <jszhang@kernel.org> w=
+rote:
+>
+> Drew found "CONFIG_DMA_GLOBAL_POOL=3Dy causes ADMA buffer alloc to fail"
+> the log looks like:
+> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to st=
+andard DMA
+>
+> The logic is: generic riscv defconfig selects ARCH_RENESAS then
+> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
+> non-dma-coherent riscv platforms have a dma global pool, this assumption
+> seems not correct. And I believe DMA_GLOBAL_POOL should not be
+> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
+> conditions can select it globaly, for example NOMMU ARM and so on,
+> because it's designed for special cases such as "nommu cases where
+> non-cacheable memory lives in a fixed place in the physical address
+> map" as pointed out by Robin.
+>
+> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
+> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
+> default. And even for random config case, there will be less debug
+> effort once we see NONPORTABLE is enabled.
+>
+> Reported-by: Drew Fustini <dfustini@baylibre.com>
+> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
+> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs =
+for RZ/Five SoC")
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>  drivers/soc/renesas/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, Oct 04, 2023 at 09:50:09AM +0200, Geert Uytterhoeven wrote:
-> On Wed, Oct 4, 2023 at 8:42 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > The min_t() is often used as a shortcut for clamp(). Secondly, the
-> > BIT(16) - 1 is specifically used as the value related to the bits in the
-> > hardware and u16 is a software type that coincidentally has the same
-> > maximum as the above mentioned bitfield.
-> 
-> Technically it is two byte-sized registers forming a 16-bit field ;-)
-> 
-> > Replace min_t()->clamp() in vc3_pll_round_rate().
-> >
-> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/clk/clk-versaclock3.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-> > index 3d7de355f8f6..50772f61096f 100644
-> > --- a/drivers/clk/clk-versaclock3.c
-> > +++ b/drivers/clk/clk-versaclock3.c
-> > @@ -402,7 +402,7 @@ static long vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-> >                 div_frc = rate % *parent_rate;
-> >                 div_frc *= BIT(16) - 1;
-> >
-> > -               vc3->div_frc = min_t(u64, div64_ul(div_frc, *parent_rate), U16_MAX);
-> > +               vc3->div_frc = clamp(div64_ul(div_frc, *parent_rate), 0, BIT(16) - 1);
-> 
-> I'm not sure this is actually an improvement...
-
-That's what Linus actually suggested to do.
-
-> While I agree "BIT(16) - 1" matches the expression two lines above,
-> I find it harder to read.
-> Perhaps introducing a VC3_PLL2_FB_FRC_DIV_MAX definition may help.
-
-Either way, but U16_MAX is really semantically wrong here.
-
-> BTW, if the hardware wouldn't use two byte-sized registers, but a real
-> bitifield, one could use FIELD_GET(mask, mask) instead.
-
-> Second, clamping an unsigned value to zero is futile, and opens us to
-> warnings like:
-> 
->     warning: comparison of unsigned expression in ‘>= 0’ is always
-> true [-Wtype-limits]
-
-David, is your series fix this as well?
-
-> >                 rate = (*parent_rate *
-> >                         (vc3->div_int * VC3_2_POW_16 + vc3->div_frc) / VC3_2_POW_16);
-> >         } else {
-
--- 
-With Best Regards,
-Andy Shevchenko
+Cheers,
+Prabhakar
 
 
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index 5a75ab64d1ed..12040ce116a5 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -333,6 +333,7 @@ if RISCV
+>
+>  config ARCH_R9A07G043
+>         bool "RISC-V Platform support for RZ/Five"
+> +       depends on NONPORTABLE
+>         select ARCH_RZG2L
+>         select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
+>         select DMA_GLOBAL_POOL
+> --
+> 2.40.1
+>
