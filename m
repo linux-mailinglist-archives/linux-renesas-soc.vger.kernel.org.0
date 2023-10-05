@@ -2,133 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 094CD7B9F24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A95837BA1F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 17:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233683AbjJEOS2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 10:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
+        id S229732AbjJEPIU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 11:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244369AbjJENxN (ORCPT
+        with ESMTP id S233792AbjJEPHP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 09:53:13 -0400
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD0DA262;
-        Thu,  5 Oct 2023 02:20:02 -0700 (PDT)
-Received: by mail-vk1-xa31.google.com with SMTP id 71dfb90a1353d-495c10cec8aso301717e0c.1;
-        Thu, 05 Oct 2023 02:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696497601; x=1697102401; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mmCqW9/RdSqKhGNA9TKQ87Kw41v1aHc9awKHSSwaUow=;
-        b=XKZHqhOQtCJjJGu2yjhzCzYiwhgWHYOR9ifK/PkPGWipcTd6dcfdWYbgllr1BpoaTp
-         3nioJnsIxBzu+V0qmUyz8ya+dlHy5Tbx/xu4W0fLmKY7TtdSFhlMDoo37g7A7ifW9EVd
-         gYS5QNL2iLZ1J45ufkr8MHI0YkhYuSNOg+RxYbcn3gfEUCqMUNw2tKQs9A1ClUl6jfH1
-         KaJIzmu384GcQYFqYgpONuoJoHMstU+j05AgCsMAbdfKXxnixV247De27Bo3moMypsHn
-         huQnhCI5SwGveM+GgaaDkorTV2J/kAehyEafUeymOPYUYH5bQ3jj6Vb2n6BE8rahe5RL
-         JOCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696497601; x=1697102401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mmCqW9/RdSqKhGNA9TKQ87Kw41v1aHc9awKHSSwaUow=;
-        b=EoNWI4zHlhZzLjWxC/hktuqYB5rSeLkdjaf7vjE8cD3m5M7EID4lzWm453wPNWNG+/
-         4tiL7nCUaPMGNEEf1ogK9DMrlhJwRTsQq23VrQ8sxuv6BxiuSKMCdh7QjOqHqL3n0Tvs
-         0zoaUq3OZsTHL9EmKBiG4P3mbASOjSfGGdraPXKatURwpOewHlyS4ulBOPiIG1ohNUKx
-         /I+hW9vQ4iATPKItM78sPw7+Gf233wiZK7Cr1uQK9HiIILfX2K0aJ1324a1fg1u0pDrb
-         Zv0Gh+h6kcaRAyCEi4O4jAZ5oHT502uEtKtjKkjiJ+bnrtT9wXTKjqEI9oYo83OaZ5Xb
-         CyJg==
-X-Gm-Message-State: AOJu0Yym1gYZ+p+Fh/8w/7zkiNgblTl1SMOT1GkLzxXvLKDUcr9qBjXD
-        7EwT884z2cQlUnRfNA6TWgdXn5xkHSOYdftcMGo=
-X-Google-Smtp-Source: AGHT+IGUrv6tiziv5lNUOurSFPVAQQfdUe8LaLIUvdzpuLVD38jauJwHQ9ABh5kenASpIGpWyVACc47Bj2BBcblpoc8=
-X-Received: by 2002:a1f:6d84:0:b0:496:1bc2:ddf with SMTP id
- i126-20020a1f6d84000000b004961bc20ddfmr4465596vkc.8.1696497601021; Thu, 05
- Oct 2023 02:20:01 -0700 (PDT)
+        Thu, 5 Oct 2023 11:07:15 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F49022C89
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 07:41:32 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-59-we0tadfBPmiF8azyarhGZw-1; Thu, 05 Oct 2023 10:40:11 +0100
+X-MC-Unique: we0tadfBPmiF8azyarhGZw-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 5 Oct
+ 2023 10:40:10 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Thu, 5 Oct 2023 10:40:09 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.au@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] clk: vc3: Use clamp() instead of min_t()
+Thread-Topic: [PATCH] clk: vc3: Use clamp() instead of min_t()
+Thread-Index: AQHZ92tiRFkl3d0ZyU+GXpw6cHGohrA66bOQ
+Date:   Thu, 5 Oct 2023 09:40:09 +0000
+Message-ID: <2fd4fce6142b43a19cd39e94e316f059@AcuMS.aculab.com>
+References: <20231004064220.31452-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdXageyQyqaGXJbmmpcKyjoO-VHWGzGk_WJ1YsAne+iiSw@mail.gmail.com>
+ <ZR58uDLC99WUwkr2@smile.fi.intel.com>
+In-Reply-To: <ZR58uDLC99WUwkr2@smile.fi.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <20231004150856.2540-1-jszhang@kernel.org>
-In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 5 Oct 2023 10:19:06 +0100
-Message-ID: <CA+V-a8uTr9vMNTKJDudjCERjnW9M_wms3LtHcOcpRc2RuhbBBw@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
- on NONPORTABLE
-To:     Jisheng Zhang <jszhang@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Drew Fustini <dfustini@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 4:21=E2=80=AFPM Jisheng Zhang <jszhang@kernel.org> w=
-rote:
->
-> Drew found "CONFIG_DMA_GLOBAL_POOL=3Dy causes ADMA buffer alloc to fail"
-> the log looks like:
-> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to st=
-andard DMA
->
-> The logic is: generic riscv defconfig selects ARCH_RENESAS then
-> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
-> non-dma-coherent riscv platforms have a dma global pool, this assumption
-> seems not correct. And I believe DMA_GLOBAL_POOL should not be
-> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
-> conditions can select it globaly, for example NOMMU ARM and so on,
-> because it's designed for special cases such as "nommu cases where
-> non-cacheable memory lives in a fixed place in the physical address
-> map" as pointed out by Robin.
->
-> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
-> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
-> default. And even for random config case, there will be less debug
-> effort once we see NONPORTABLE is enabled.
->
-> Reported-by: Drew Fustini <dfustini@baylibre.com>
-> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
-> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs =
-for RZ/Five SoC")
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> ---
->  drivers/soc/renesas/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+RnJvbTogQW5keSBTaGV2Y2hlbmtvDQo+IFNlbnQ6IDA1IE9jdG9iZXIgMjAyMyAxMDowNw0KPiAN
+Cj4gK0RhdmlkDQo+IA0KPiBPbiBXZWQsIE9jdCAwNCwgMjAyMyBhdCAwOTo1MDowOUFNICswMjAw
+LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3JvdGU6DQo+ID4gT24gV2VkLCBPY3QgNCwgMjAyMyBhdCA4
+OjQy4oCvQU0gQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4g
+PiA+IFRoZSBtaW5fdCgpIGlzIG9mdGVuIHVzZWQgYXMgYSBzaG9ydGN1dCBmb3IgY2xhbXAoKS4g
+U2Vjb25kbHksIHRoZQ0KPiA+ID4gQklUKDE2KSAtIDEgaXMgc3BlY2lmaWNhbGx5IHVzZWQgYXMg
+dGhlIHZhbHVlIHJlbGF0ZWQgdG8gdGhlIGJpdHMgaW4gdGhlDQo+ID4gPiBoYXJkd2FyZSBhbmQg
+dTE2IGlzIGEgc29mdHdhcmUgdHlwZSB0aGF0IGNvaW5jaWRlbnRhbGx5IGhhcyB0aGUgc2FtZQ0K
+PiA+ID4gbWF4aW11bSBhcyB0aGUgYWJvdmUgbWVudGlvbmVkIGJpdGZpZWxkLg0KPiA+DQo+ID4g
+VGVjaG5pY2FsbHkgaXQgaXMgdHdvIGJ5dGUtc2l6ZWQgcmVnaXN0ZXJzIGZvcm1pbmcgYSAxNi1i
+aXQgZmllbGQgOy0pDQo+ID4NCj4gPiA+IFJlcGxhY2UgbWluX3QoKS0+Y2xhbXAoKSBpbiB2YzNf
+cGxsX3JvdW5kX3JhdGUoKS4NCj4gPiA+DQo+ID4gPiBTdWdnZXN0ZWQtYnk6IEFuZHkgU2hldmNo
+ZW5rbyA8YW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tPg0KPiA+ID4gU2lnbmVkLW9m
+Zi1ieTogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gLS0tDQo+
+ID4gPiAgZHJpdmVycy9jbGsvY2xrLXZlcnNhY2xvY2szLmMgfCAyICstDQo+ID4gPiAgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPg0KPiA+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvY2xrL2Nsay12ZXJzYWNsb2NrMy5jIGIvZHJpdmVycy9jbGsvY2xr
+LXZlcnNhY2xvY2szLmMNCj4gPiA+IGluZGV4IDNkN2RlMzU1ZjhmNi4uNTA3NzJmNjEwOTZmIDEw
+MDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9jbGsvY2xrLXZlcnNhY2xvY2szLmMNCj4gPiA+ICsr
+KyBiL2RyaXZlcnMvY2xrL2Nsay12ZXJzYWNsb2NrMy5jDQo+ID4gPiBAQCAtNDAyLDcgKzQwMiw3
+IEBAIHN0YXRpYyBsb25nIHZjM19wbGxfcm91bmRfcmF0ZShzdHJ1Y3QgY2xrX2h3ICpodywgdW5z
+aWduZWQgbG9uZyByYXRlLA0KPiA+ID4gICAgICAgICAgICAgICAgIGRpdl9mcmMgPSByYXRlICUg
+KnBhcmVudF9yYXRlOw0KPiA+ID4gICAgICAgICAgICAgICAgIGRpdl9mcmMgKj0gQklUKDE2KSAt
+IDE7DQo+ID4gPg0KPiA+ID4gLSAgICAgICAgICAgICAgIHZjMy0+ZGl2X2ZyYyA9IG1pbl90KHU2
+NCwgZGl2NjRfdWwoZGl2X2ZyYywgKnBhcmVudF9yYXRlKSwgVTE2X01BWCk7DQo+ID4gPiArICAg
+ICAgICAgICAgICAgdmMzLT5kaXZfZnJjID0gY2xhbXAoZGl2NjRfdWwoZGl2X2ZyYywgKnBhcmVu
+dF9yYXRlKSwgMCwgQklUKDE2KSAtIDEpOw0KPiA+DQo+ID4gSSdtIG5vdCBzdXJlIHRoaXMgaXMg
+YWN0dWFsbHkgYW4gaW1wcm92ZW1lbnQuLi4NCj4gDQo+IFRoYXQncyB3aGF0IExpbnVzIGFjdHVh
+bGx5IHN1Z2dlc3RlZCB0byBkby4NCj4gDQo+ID4gV2hpbGUgSSBhZ3JlZSAiQklUKDE2KSAtIDEi
+IG1hdGNoZXMgdGhlIGV4cHJlc3Npb24gdHdvIGxpbmVzIGFib3ZlLA0KPiA+IEkgZmluZCBpdCBo
+YXJkZXIgdG8gcmVhZC4NCj4gPiBQZXJoYXBzIGludHJvZHVjaW5nIGEgVkMzX1BMTDJfRkJfRlJD
+X0RJVl9NQVggZGVmaW5pdGlvbiBtYXkgaGVscC4NCj4gDQo+IEVpdGhlciB3YXksIGJ1dCBVMTZf
+TUFYIGlzIHJlYWxseSBzZW1hbnRpY2FsbHkgd3JvbmcgaGVyZS4NCg0KVGhhdCBjb2RlIGFsbCBs
+b29rcyBjb21wbGV0ZWx5IGhvcnJpZCBhbmQgc3RyYW5nZS4NCkknZCBoYXZlIHRob3VnaHQgdGhl
+IDE2LWJpdCBmcmFjdGlvbmFsIHBhcnQgKDAuLjB4ZmZmZikgd291bGQNCmJhc2ljYWxseSBiZSAo
+KHJhdGUgKiAweDEwMDAwKS9wYXJlbnRfcmF0ZSkgJiAweGZmZmY7DQpCdXQgdGhhdCBpc24ndCB3
+aGF0IGlzIGJlaW5nIGNhbGN1bGF0ZWQuDQooSXQgbWF5IG5lZWQgdHdlYWtpbmcgdG8gYXZvaWQg
+dGhlIG11bHRpcGx5IG92ZXJmbG93aW5nLikNClRoZW4gdGhlcmUgaXMgdGhlIG11bHRpcGx5IGFu
+ZCBkaXZpZGUgYnkgMHgxMDAwMSB3aGljaCBpcw0KZXF1YWxseSBzdHJhbmdlLg0KDQpCdXQgSSdk
+IGp1c3Qgd3JpdGUgMHgxMDAwMHUgYW5kL29yIDB4ZmZmZnUuDQoNCj4gDQo+ID4gQlRXLCBpZiB0
+aGUgaGFyZHdhcmUgd291bGRuJ3QgdXNlIHR3byBieXRlLXNpemVkIHJlZ2lzdGVycywgYnV0IGEg
+cmVhbA0KPiA+IGJpdGlmaWVsZCwgb25lIGNvdWxkIHVzZSBGSUVMRF9HRVQobWFzaywgbWFzaykg
+aW5zdGVhZC4NCj4gDQo+ID4gU2Vjb25kLCBjbGFtcGluZyBhbiB1bnNpZ25lZCB2YWx1ZSB0byB6
+ZXJvIGlzIGZ1dGlsZSwgYW5kIG9wZW5zIHVzIHRvDQo+ID4gd2FybmluZ3MgbGlrZToNCj4gPg0K
+PiA+ICAgICB3YXJuaW5nOiBjb21wYXJpc29uIG9mIHVuc2lnbmVkIGV4cHJlc3Npb24gaW4g4oCY
+Pj0gMOKAmSBpcyBhbHdheXMNCj4gPiB0cnVlIFstV3R5cGUtbGltaXRzXQ0KPiANCj4gRGF2aWQs
+IGlzIHlvdXIgc2VyaWVzIGZpeCB0aGlzIGFzIHdlbGw/DQoNCkl0IHdvdWxkIGxldCBtaW4oKSBi
+ZSB1c2VkLg0KVGhlIGNvbXBpbGVycyBzaG91bGQgcmVhbGx5IGJlIGxlc3MgcGVkYW50aWMgYWJv
+dXQgdGVzdHMgZm9yDQp1bnNpZ25lZCBiZWluZyA+PSAwIC0gZXNwZWNpYWxseSB3aGVuIHRoZXJl
+IGlzIGFuIHVwcGVyIGxpbWl0IGNoZWNrLg0KDQpJIGNvdWxkIG1ha2UgY2xhbXAoKSBhY3QgYXMg
+bWluKCkgZm9yIHVuc2lnbmVkIHdpdGggdGhlIGxvdyBsaW1pdA0KaXMgemVybyAtIGJ1dCBpdCB3
+b3VsZCBiZSByYXRoZXIgb3Zlci1jb21wbGljYXRlZC4NCg0KCURhdmlkDQoNCj4gDQo+ID4gPiAg
+ICAgICAgICAgICAgICAgcmF0ZSA9ICgqcGFyZW50X3JhdGUgKg0KPiA+ID4gICAgICAgICAgICAg
+ICAgICAgICAgICAgKHZjMy0+ZGl2X2ludCAqIFZDM18yX1BPV18xNiArIHZjMy0+ZGl2X2ZyYykg
+LyBWQzNfMl9QT1dfMTYpOw0KPiA+ID4gICAgICAgICB9IGVsc2Ugew0KPiANCj4gLS0NCj4gV2l0
+aCBCZXN0IFJlZ2FyZHMsDQo+IEFuZHkgU2hldmNoZW5rbw0KPiANCg0KLQ0KUmVnaXN0ZXJlZCBB
+ZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMs
+IE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-Cheers,
-Prabhakar
-
-
-> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> index 5a75ab64d1ed..12040ce116a5 100644
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -333,6 +333,7 @@ if RISCV
->
->  config ARCH_R9A07G043
->         bool "RISC-V Platform support for RZ/Five"
-> +       depends on NONPORTABLE
->         select ARCH_RZG2L
->         select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
->         select DMA_GLOBAL_POOL
-> --
-> 2.40.1
->
