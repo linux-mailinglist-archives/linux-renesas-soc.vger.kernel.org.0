@@ -2,85 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E4E07BA283
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 17:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7187BA2CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 17:47:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbjJEPkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 11:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S234136AbjJEPrc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 11:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbjJEPjn (ORCPT
+        with ESMTP id S234164AbjJEPqy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 11:39:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66257E239;
-        Thu,  5 Oct 2023 07:52:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5188DC433CA;
-        Thu,  5 Oct 2023 14:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696517385;
-        bh=3sV+Kpk/aoS9Ewxx5MLDNTFd0TDttPAvuUnzXSdo9/w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=aeBU9A4wkKpVleSQBS0RU912dt7oDQeQVY99NMmTq6YmxKN3dh2VGyPwCPcHPTLHf
-         eOvTC6eLiHg+xAQ3zUdWo0pPbzW8pLq9AtV2oPcyDyuzAriFblF0jfhNonTYZMtv6m
-         161bbkmQQ2I/bWip2oFAG6+Fh6u/memb20bKtw2aBVRyUWyPm4F8b4C/2hZSBAeeDf
-         Ex3h2Of1QH6FLKh61m8Wjm2Og6BroPPDbJLtPun0Mr43p1DVuYJRNsXBSxkse71jT+
-         P0bcnDsNGU35fdXySL3Bj62LbHvU6iS0ioO3opbdBIYqDJjSlbALLxJ4qdcsZ/B5wK
-         9jZegSmhTS7qA==
-Date:   Thu, 5 Oct 2023 09:49:43 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, mani@kernel.org,
-        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Serge Semin <fancer.lancer@gmail.com>
-Subject: Re: [PATCH v23 12/16] PCI: add T_PVPERL macro
-Message-ID: <20231005144943.GA746077@bhelgaas>
+        Thu, 5 Oct 2023 11:46:54 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C436C171B;
+        Thu,  5 Oct 2023 08:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=iHAf7jWn4AFLuX97gU5Z8DbUhjosgkowpL/+kl6b9d8=; b=L7UDMuAq0V25DfiTfhqwzTuRsT
+        vks+pp9DpR2rykwgFNcaF81HM0np9Z7QSEsuxf2530nG6aJH11nvuO5/wCNCcKDjJAxSEOX4GUlds
+        U10U4HSNcdVtzuc0OFWRYS/EwLyomLn/3yUvx+xkimub3MUwBnLtmWPKEmd1i04KKn0i4zQC5dPr4
+        T7h3oIUEJKjMul4p62hPOS3m3SqxivwYNvwnfkzlZ/GUVEHh4HiAS4iMJlDtUIAvqq9SB9LwK7gWr
+        ogspK9+FUfwEC17r+cR1eGQZ/erc93N8WzxWq8et9ZcI29qAApLYG3+RVgdTlOPN9xkwj9XpuYm4W
+        pYZ/NzHA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qoPsP-00BmXu-0H;
+        Thu, 05 Oct 2023 15:02:58 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 34EB6300451; Thu,  5 Oct 2023 17:02:58 +0200 (CEST)
+Date:   Thu, 5 Oct 2023 17:02:58 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bsegall@google.com" <bsegall@google.com>,
+        "bristot@redhat.com" <bristot@redhat.com>,
+        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+        "efault@gmx.de" <efault@gmx.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@joelfernandes.org" <joel@joelfernandes.org>,
+        "joshdon@google.com" <joshdon@google.com>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        "kprateek.nayak@amd.com" <kprateek.nayak@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "patrick.bellasi@matbug.net" <patrick.bellasi@matbug.net>,
+        Pavel Machek <pavel@ucw.cz>, "pjt@google.com" <pjt@google.com>,
+        "qperret@google.com" <qperret@google.com>,
+        "qyousef@layalina.io" <qyousef@layalina.io>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "tim.c.chen@linux.intel.com" <tim.c.chen@linux.intel.com>,
+        "timj@gnu.org" <timj@gnu.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "youssefesmat@chromium.org" <youssefesmat@chromium.org>,
+        "yu.c.chen@intel.com" <yu.c.chen@intel.com>,
+        "mgorman@suse.de" <mgorman@suse.de>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
+Message-ID: <20231005150258.GA36277@noisy.programming.kicks-ass.net>
+References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230926122431.3974714-13-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 09:24:27PM +0900, Yoshihiro Shimoda wrote:
-> According to the PCI Express Card Electromechanical Specification,
-> Power stable to PERST# inactive interval is 100 ms as minimum.
-> So, add the macro to use PCIe controller drivers.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+On Thu, Oct 05, 2023 at 07:31:34AM +0000, Biju Das wrote:
 
-Beautiful, thank you!
+> [   26.099203] EEVDF scheduling fail, picking leftmost
 
-No need to repost; whoever applies this, please:
+This, that the problem.. the rest is just noise because printk stinks.
 
-  - s/add/Add/ in subject
-  - Add sec 2.9.2 to spec citation in commit log and comment (can use
-    "PCIe CEM r5.0, sec 2.9.2" for brevity)
-
-> ---
->  drivers/pci/pci.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 39a8932dc340..5ecbcf041179 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -13,6 +13,9 @@
->  
->  #define PCIE_LINK_RETRAIN_TIMEOUT_MS	1000
->  
-> +/* Power stable to PERST# inactive from PCIe card Electromechanical Spec */
-> +#define PCIE_T_PVPERL_MS		100
-> +
->  /*
->   * PCIe r6.0, sec 5.3.3.2.1 <PME Synchronization>
->   * Recommends 1ms to 10ms timeout to check L2 ready.
-> -- 
-> 2.25.1
-> 
+Weirdly have not seen that trigger, and I've been running with this
+patch on for a few days now :/
