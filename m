@@ -2,72 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 900757B9E69
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1ED87B9E94
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Oct 2023 16:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231599AbjJEOFw convert rfc822-to-8bit (ORCPT
+        id S232749AbjJEOJh convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 10:05:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
+        Thu, 5 Oct 2023 10:09:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231840AbjJEOEK (ORCPT
+        with ESMTP id S230226AbjJEOHd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 10:04:10 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829262572F;
-        Thu,  5 Oct 2023 04:55:43 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5a1d0fee86aso9792567b3.2;
-        Thu, 05 Oct 2023 04:55:43 -0700 (PDT)
+        Thu, 5 Oct 2023 10:07:33 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9320126A70;
+        Thu,  5 Oct 2023 05:57:53 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-59f57ad6126so10027747b3.3;
+        Thu, 05 Oct 2023 05:57:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696506940; x=1697111740;
+        d=1e100.net; s=20230601; t=1696510669; x=1697115469;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wfh44W/W9192NRXUjtg9r/H6uVn53dQXRsrSz8XlQCQ=;
-        b=ec/QTW0ftKxQMoypqlbN5hJQzUbrxr6JMqAztg5YN4ARZUaRDOUFaaG5OboFCaA5+v
-         lVQfsa5vQzeL3XNbLhs2i+D6VukUKplsEeJIcvh1YMBXZGg8X8L20JHUTi83GRV94mCq
-         I0rOQJb8VZPRabT/liVPFvp3dsuf5UFzV3bFtpr3xD47PglFj0k4Ii/ladmbqTbC73++
-         Bio24XQwuemw2B/oIyISSRIEhxs23h2/y40LtBTc6y/nHzaAtQsILTorXwcavFWkysAc
-         5Aao1eJUxF+u6XViokw5Mhq2S9aYlllkwuwoxEeGA+OAEn/GKTz9vkvNMyCSnM8UDkIW
-         FG+A==
-X-Gm-Message-State: AOJu0YzvoWpoM+jedWnRpxIP8mDsibNYay1xAlTBAW33KrwQKMeZaVFh
-        RCvhvK7QXep/hbV8Z8P3rprMLAcTrr5dJg==
-X-Google-Smtp-Source: AGHT+IEGm4x31KdTdpLX23XLA/l+elkcLcUPInSV3IW/nYogW0bhqLyG3r0od3qkBH9xkyODwsZL3Q==
-X-Received: by 2002:a81:778b:0:b0:59b:ca2f:6eff with SMTP id s133-20020a81778b000000b0059bca2f6effmr5165133ywc.40.1696506940351;
-        Thu, 05 Oct 2023 04:55:40 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id v12-20020a81a54c000000b0059a34cfa2a8sm448652ywg.62.2023.10.05.04.55.40
+        bh=HADAOv2Ff88FzB1D4GtvfGj4LE7j/q0n3R8h677Tcd0=;
+        b=NpQ5xhDDIFfJgs+bDweLL9EefUgAeX/G0dx4D4gXj2gAzG2dnHDBhbcAqi0hC1S3Cw
+         +RWZIkl/64sE4zu5GAhbhWOWydnHkyu8lph46xfGDbIz4rO+TkUCwVh0vkqnI3mUtmPX
+         5K4CvyWp9FnD/ryx5XwpiCMmTA3yOa3t8fxHRoB4qn5ZuBtlRM/wcYV8xA1EQz4Prfjn
+         2rrIfSEbr/Gy3KwJuVss1gQZo8HR1WJXti5844fwmoCRERre9AWhUrO0mbNZWsYOLFId
+         RjUihRvZnlFO+Nsmhjs4Vmi+FQ08gmr33r+ckwHBjXg/j/lU5WtKe64/86mVXMiApd4Y
+         FGjQ==
+X-Gm-Message-State: AOJu0Yx13snWrZlFnKBkqBcYD7lj6yTStdbPBhEy5Vfftiwtf4VEzjLW
+        3yrOUhBXd7LZdeYxuxTmzCGRiO+eVD8N4Q==
+X-Google-Smtp-Source: AGHT+IEvMNKC9nbOPdNH0MpwacZ1W5yim9tzJ3jmaWBCgy8j2Ymj3G4B/81eTM2oS9aGwSKd1XhK1g==
+X-Received: by 2002:a0d:ca02:0:b0:589:a4c6:a4ed with SMTP id m2-20020a0dca02000000b00589a4c6a4edmr5299641ywd.3.1696510669479;
+        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id g68-20020a0df647000000b0059b2be24f88sm480277ywf.143.2023.10.05.05.57.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 04:55:40 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-59bebd5bdadso9966737b3.0;
-        Thu, 05 Oct 2023 04:55:40 -0700 (PDT)
-X-Received: by 2002:a0d:e3c6:0:b0:5a1:635e:e68 with SMTP id
- m189-20020a0de3c6000000b005a1635e0e68mr5446457ywe.46.1696506939824; Thu, 05
- Oct 2023 04:55:39 -0700 (PDT)
+        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f4db9e11eso10293417b3.0;
+        Thu, 05 Oct 2023 05:57:49 -0700 (PDT)
+X-Received: by 2002:a81:d513:0:b0:59a:d42c:5d50 with SMTP id
+ i19-20020a81d513000000b0059ad42c5d50mr5391255ywj.52.1696510668676; Thu, 05
+ Oct 2023 05:57:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230825090518.87394-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdVEBREj_Y-wQ=fRQu9mnYyCF6Ut7ZhvRkM0N6eWFXp0Qw@mail.gmail.com> <OS0PR01MB592246E77539C513C1A7FCD686E5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592246E77539C513C1A7FCD686E5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20231004150856.2540-1-jszhang@kernel.org>
+In-Reply-To: <20231004150856.2540-1-jszhang@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 Oct 2023 13:55:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXEEshPhaJCsmkTCagTcwv813CdaY1h0ORdoYe5RCTUNw@mail.gmail.com>
-Message-ID: <CAMuHMdXEEshPhaJCsmkTCagTcwv813CdaY1h0ORdoYe5RCTUNw@mail.gmail.com>
-Subject: Re: [PATCH v4] arm64: dts: renesas: rz-smarc-common: Use versa3 clk
- for audio mclk
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Thu, 5 Oct 2023 14:57:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVfnn2YiorGQeVqa7cQmXVDQhiqoY6dSktA6myuE6LRsw@mail.gmail.com>
+Message-ID: <CAMuHMdVfnn2YiorGQeVqa7cQmXVDQhiqoY6dSktA6myuE6LRsw@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: make ARCH_R9A07G043 (riscv version) depend
+ on NONPORTABLE
+To:     Jisheng Zhang <jszhang@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Drew Fustini <dfustini@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,68 +76,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 31, 2023 at 7:05 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v4] arm64: dts: renesas: rz-smarc-common: Use versa3
-> > clk for audio mclk
-> > On Fri, Aug 25, 2023 at 11:05 AM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > Currently audio mclk uses a fixed clk of 11.2896MHz (multiple of
-> > 44.1kHz).
-> > > Replace this fixed clk with the programmable versa3 clk that can
-> > > provide the clocking to support both 44.1kHz (with a clock of
-> > > 11.2896MHz) and 48kHz (with a clock of 12.2880MHz), based on audio
-> > > sampling rate for playback and record.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v3->v4:
-> > >  * Dropped clock-output-names from dtsi files.
-> > >  * Updated example with dropping clock-output-names.
-> >
-> > Thanks for the update!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > > @@ -105,6 +105,26 @@ &i2c3 {
-> > >
-> > >         status = "okay";
-> > >
-> > > +       versa3: versa3@68 {
-> >
-> > clock-generator@ (everywhere)
-> OK.
+On Wed, Oct 4, 2023 at 5:21 PM Jisheng Zhang <jszhang@kernel.org> wrote:
+> Drew found "CONFIG_DMA_GLOBAL_POOL=y causes ADMA buffer alloc to fail"
+> the log looks like:
+> [    3.741083] mmc0: Unable to allocate ADMA buffers - falling back to standard DMA
 >
-> >
-> > > +               compatible = "renesas,5p35023";
-> > > +               reg = <0x68>;
-> > > +               #clock-cells = <1>;
-> > > +               clocks = <&x1>;
-> > > +
-> > > +               renesas,settings = [
-> > > +                       80 00 11 19 4c 02 23 7f 83 19 08 a9 5f 25 24 bf
-> > > +                       00 14 7a e1 00 00 00 00 01 55 59 bb 3f 30 90 b6
-> > > +                       80 b0 45 c4 95
-> > > +               ];
-> > > +
-> > > +               assigned-clocks = <&versa3 0>, <&versa3 1>,
-> > > +                                 <&versa3 2>, <&versa3 3>,
-> > > +                                 <&versa3 4>, <&versa3 5>;
-> > > +               assigned-clock-rates = <24000000>, <11289600>,
-> > > +                                      <11289600>, <12000000>,
-> > > +                                      <25000000>, <12288000>;
-> > > +       };
-> >
-> > Please move this node down, to preserve sort order (by unit-address).
-> >
-> > Same comments arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-> >
-> > Unless we're gonna need a new iteration for some other reason (the
-> > corresponding fixes for the clock index order are not yet in linux-next), I
-> > can fix the above while applying...
+> The logic is: generic riscv defconfig selects ARCH_RENESAS then
+> ARCH_R9A07G043 which selects DMA_GLOBAL_POOL, which assumes all
+> non-dma-coherent riscv platforms have a dma global pool, this assumption
+> seems not correct. And I believe DMA_GLOBAL_POOL should not be
+> selected by ARCH_SOCFAMILIY, instead, only ARCH under some specific
+> conditions can select it globaly, for example NOMMU ARM and so on,
+> because it's designed for special cases such as "nommu cases where
+> non-cacheable memory lives in a fixed place in the physical address
+> map" as pointed out by Robin.
+>
+> Fix the issue by making ARCH_R9A07G043 (riscv version) depend on
+> NONPORTABLE, thus generic defconfig won't select ARCH_R9A07G043 by
+> default. And even for random config case, there will be less debug
+> effort once we see NONPORTABLE is enabled.
+>
+> Reported-by: Drew Fustini <dfustini@baylibre.com>
+> Closes: https://lore.kernel.org/linux-riscv/ZRuamJuShOnvP1pr@x1/
+> Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs for RZ/Five SoC")
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.7, now the driver dependency
-is in v6.6-rc4.
+I guess this is the right thing to do until a better solution is found.
+I.e. will queue in renesas-fixes for v6.6.
 
 Gr{oetje,eeting}s,
 
