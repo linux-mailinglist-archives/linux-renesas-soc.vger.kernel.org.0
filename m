@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A1A7BB060
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 04:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45D9C7BB05F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 04:55:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjJFCzm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Oct 2023 22:55:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S229819AbjJFCzl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Oct 2023 22:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbjJFCzm (ORCPT
+        with ESMTP id S229615AbjJFCzk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Oct 2023 22:55:42 -0400
+        Thu, 5 Oct 2023 22:55:40 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1349CDE
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 19:55:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D98D6D6
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Oct 2023 19:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696560941; x=1728096941;
+  t=1696560939; x=1728096939;
   h=date:from:to:cc:subject:message-id;
-  bh=L2Y0c6/3k5Ua3AWTWFnkq8QU1pLAMYeKgXy/yTuA1Lg=;
-  b=Vb/D0hTdTPLhoSbkGmxrc7SoW+Txge8z7gpBSKduIJ4IreiZ6j7ZlF2w
-   7sUX/tvpUy9su3IiXhkWHrFglPkqH10m8SnZGViOK3xuSYSwH8yFUJR/t
-   12BDdk38L+mCN3X1vS02Wi/sMzmUDOAlhekgthxV/Sk723qGja6QDMa8Q
-   1eXvRFMlCKK+2GzvJVtfgzhkeAwQhnHVbPexNtpOUE56Bwe/lP0pczFmA
-   7bqwXCnmWHbp4RpVWFnnvMmijalpAlLAeWjCc86V9PgB3MnIvFUJ8CnjT
-   8nAW7GLIlBXJ8h5rJyFFGIhr8j8sXmT9xRFEQwuNLNbk2WIgUQJAEceX6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="450161089"
+  bh=1T2qW0Xs8nXktfhfunHqpRL/ud0+bY7BUfMW2yiOgsY=;
+  b=KH9YZz30ssEsMVtmO5jqZbUs3mkVQujgYF8YRO2X53AD39YF7uetP8po
+   akHa+9scxWt1VZHbNMgtvCaV0C3lNprIm8WncNsvbSbwDx5i+NiThXxGI
+   0ZI0bFm3QKL2ZVNgvMSZGz/+h5vG1g3QCtrMJnE9uDsVFUmPieBJbC4LE
+   zKJhyXVhJ4GUj50pH1sLgKULEcNwAFgc9paBdqwV/vS1wGuejWVNPq8hc
+   /4lzXRCI8QlgkLm7DxxoJrqnPdM4NUggHbLUWbautL6/F9qW8FV7/ibZV
+   NUPxKpuHBkDUDECI0+TffTXHEgwSAw7qutDr3JBYDpMtdsprqGvbBP2JC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="450161091"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="450161089"
+   d="scan'208";a="450161091"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 19:55:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="752040356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="752040358"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="752040356"
+   d="scan'208";a="752040358"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 05 Oct 2023 19:55:38 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qob03-000MB4-2H;
+        id 1qob03-000MB7-2O;
         Fri, 06 Oct 2023 02:55:35 +0000
-Date:   Fri, 06 Oct 2023 10:55:09 +0800
+Date:   Fri, 06 Oct 2023 10:55:21 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
- 4f6019485a4a2dfae99a02d93f0742dd8e74a3e5
-Message-ID: <202310061006.p8aPnFC9-lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl-fixes-for-v6.6] BUILD
+ SUCCESS 73394a1b2194694b66f7a0839a219ce0d16b64a3
+Message-ID: <202310061019.YtWLXXtB-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -60,12 +60,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-branch HEAD: 4f6019485a4a2dfae99a02d93f0742dd8e74a3e5  pinctrl: renesas: rzg2l: Add RZ/G3S support
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-fixes-for-v6.6
+branch HEAD: 73394a1b2194694b66f7a0839a219ce0d16b64a3  pinctrl: renesas: rzn1: Enable missing PINMUX
 
 elapsed time: 730m
 
-configs tested: 115
+configs tested: 107
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -79,7 +79,6 @@ arc                              allmodconfig   gcc
 arc                               allnoconfig   gcc  
 arc                              allyesconfig   gcc  
 arc                                 defconfig   gcc  
-arc                   randconfig-001-20231005   gcc  
 arc                   randconfig-001-20231006   gcc  
 arm                              allmodconfig   gcc  
 arm                               allnoconfig   gcc  
@@ -115,7 +114,6 @@ loongarch                        allmodconfig   gcc
 loongarch                         allnoconfig   gcc  
 loongarch                        allyesconfig   gcc  
 loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231005   gcc  
 loongarch             randconfig-001-20231006   gcc  
 m68k                             allmodconfig   gcc  
 m68k                              allnoconfig   gcc  
@@ -173,17 +171,11 @@ um                           x86_64_defconfig   gcc
 x86_64                            allnoconfig   gcc  
 x86_64                           allyesconfig   gcc  
 x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231005   gcc  
 x86_64                randconfig-001-20231006   gcc  
-x86_64                randconfig-002-20231005   gcc  
 x86_64                randconfig-002-20231006   gcc  
-x86_64                randconfig-003-20231005   gcc  
 x86_64                randconfig-003-20231006   gcc  
-x86_64                randconfig-004-20231005   gcc  
 x86_64                randconfig-004-20231006   gcc  
-x86_64                randconfig-005-20231005   gcc  
 x86_64                randconfig-005-20231006   gcc  
-x86_64                randconfig-006-20231005   gcc  
 x86_64                randconfig-006-20231006   gcc  
 x86_64                          rhel-8.3-rust   clang
 x86_64                               rhel-8.3   gcc  
