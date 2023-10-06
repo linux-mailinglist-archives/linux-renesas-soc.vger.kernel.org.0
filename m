@@ -2,63 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6437BB34E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 10:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9D5B7BB458
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 11:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbjJFIgf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Oct 2023 04:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
+        id S230498AbjJFJiP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Oct 2023 05:38:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbjJFIge (ORCPT
+        with ESMTP id S229506AbjJFJiN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Oct 2023 04:36:34 -0400
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EFE9E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Oct 2023 01:36:32 -0700 (PDT)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20231006083631euoutp01ce51245771a903209347f49141ea459c~Ld8lYHOR82893928939euoutp01H
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Oct 2023 08:36:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20231006083631euoutp01ce51245771a903209347f49141ea459c~Ld8lYHOR82893928939euoutp01H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1696581391;
-        bh=dcfG4wemciT6t0iYHNHA19d9/iViwI8os+brYmKlqrw=;
-        h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
-        b=ZlzoA3Samh5OxhZaUjV8wF8vODgtk6wxiR3xPdhqNvVx37eGBPtJ1QuqJ59MPZtqh
-         2w9+JNMC5cS+hYOYRLokMCvas8XSsnz2kdtBJy00VrHGZjoagEiU/IxcgnjHftMvRM
-         qSq/NJ4FRDermDLIsySq84IA8aZ81HeFnK+clgao=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20231006083630eucas1p108dbbf9e4a6f7677898f90b78046d5f8~Ld8koOQW40583405834eucas1p1Z;
-        Fri,  6 Oct 2023 08:36:30 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id 61.8F.42423.E07CF156; Fri,  6
-        Oct 2023 09:36:30 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20231006083630eucas1p2c7042b256cf08ff4434f0fafa2def2e9~Ld8kM5t0P1183811838eucas1p2u;
-        Fri,  6 Oct 2023 08:36:30 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20231006083629eusmtrp2befcb011a282e84e3d0313164338ab10~Ld8kKBYZV1558415584eusmtrp2b;
-        Fri,  6 Oct 2023 08:36:29 +0000 (GMT)
-X-AuditID: cbfec7f2-a3bff7000002a5b7-ba-651fc70eb44d
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id B1.6F.10549.D07CF156; Fri,  6
-        Oct 2023 09:36:29 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20231006083628eusmtip23f97733562f5360bac503bc786c3099f~Ld8ijxwaI2789127891eusmtip2F;
-        Fri,  6 Oct 2023 08:36:28 +0000 (GMT)
-Message-ID: <62ca6115-cf0d-427d-92c5-3539a361b476@samsung.com>
-Date:   Fri, 6 Oct 2023 10:36:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct
- se
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Fri, 6 Oct 2023 05:38:13 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2135.outbound.protection.outlook.com [40.107.114.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B61BE;
+        Fri,  6 Oct 2023 02:38:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ed9e40Z+QD/bmZWCaZXZjJ1lfPkhuM9/cH0M86wEsH0Mf90w6YeU5iNIrBiH1MDgsVa8BsdVmsqhNRAiSLCztABv1W3xZKjs/tG0K+symdnn6lG9my0FK6SYeJY42Ugusxw5w61w/kENB2B4pxCtIjWd26bUmq1HkDNXO7+KRKQw3HAVwDxNUrba++XqKhC2z093tcNkHen8L4VFpnnoAlXukaoHH7V4OXKFwRXD68vDweYiii2av3EsumDXnGoYkLT2SZfDzk/OxcHQfe6D+OlSA/BsBkyj1/bWx60GQpp/aoGqrk7rXmCzVw7CQewMoG4XYaKwDiaxerXa/GATaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uZ1/JS1kBd3rPW8lfP0L5gdGKMOOHr5wMjrL8I9aBVo=;
+ b=cBgEhOHFcGfyDdbcpvxUNb9jb5C7PIWhQVD9Ew1n/mhIuskKSWn1gybXgQAaEip4A9Oe3LzUlbU2oKsbmGvhvoyAH/hRp0dHeHTH8YCw3y6cC/jjwG3wEt/GAQ/ncv1j7An0e5Mk8n7Uopi43hjGHLSeZAUnRUnyWEWVKa6N59eFoG/jumSiZVuElui1btvvTsv/vnChoOJJ75o/Pu/LMSF06AVQpaMI+ip3CRfaQRD1Cejp4wePwYD1uazO0K1HU9+0ETZoEDkynpLEP2Njv/Y0LQVqevxrWZXizSB7EmjrGdgFv3CVYqpy4FFp1CzO3B7GjrSxtx88pZRU5TaskQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uZ1/JS1kBd3rPW8lfP0L5gdGKMOOHr5wMjrL8I9aBVo=;
+ b=Dx0emZMhBTR/99xGVyrYY4rKLyzbhlN/UGBRvpHjedXxLyTH9wHt5pR7yemoYTP5jilv+fLcbbszqJJg0cgDvSlPiirieKqM/qvgyVXpigb/qiib7aowDr2hr/0/EYWuy3UB6VDz5fr6n4WC8u5n2fEVjVLiJOxZ7mtQB59Hy1o=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYWPR01MB10347.jpnprd01.prod.outlook.com (2603:1096:400:24b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Fri, 6 Oct
+ 2023 09:38:07 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::fb78:2e8c:f7f9:5629]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::fb78:2e8c:f7f9:5629%7]) with mapi id 15.20.6838.033; Fri, 6 Oct 2023
+ 09:38:04 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Peter Zijlstra <peterz@infradead.org>
-Cc:     "bsegall@google.com" <bsegall@google.com>,
+CC:     "bsegall@google.com" <bsegall@google.com>,
         "bristot@redhat.com" <bristot@redhat.com>,
         "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
@@ -85,60 +69,76 @@ Cc:     "bsegall@google.com" <bsegall@google.com>,
         "mgorman@suse.de" <mgorman@suse.de>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Content-Language: en-US
-In-Reply-To: <OS0PR01MB592295E06AD01CAEFBA83BF386CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTVxj23Ht7KcWSS9H0RCF1dTSDbTCyZZ6NpU6c8/4Cx5zbEMc6uEEm
-        FGnpNonJ2qlAC0wsIliUjxERCqIWKB9Dg6BWPoeQqWv42gCxjFbLBpkKZZTWjX/P87zv877v
-        c3LYOO8auYmdKE1jZFJJkpDkEMbbT3953dskYN7QK/mopHkBQ4MTv5Ko0KIi0MIlLYkm2zMB
-        msprxFHtrJlAxyouk6hSGYDss1w0crKAQEvqHWio9RyJGi02DOXbHgJU4+gG6GL3FRKNdN8i
-        kSm3HUMt1VUs1GswEsiqXmSh61njGKo3FODonraURAOOqwTKurmAo6Hjp3Bk+SHofX/6xOAS
-        SdeW1AK6+lGxB12svEvQT+xf0Bln3qaPXzd70GUGBV1fFURXtFkwunxunkUb9GqSntSVY/Tw
-        vTaStvX3e9AlXR/tgdGc9+KZpMRvGFmI+EvOwb5jE/jhBe/v7HU/spSgcr0GeLIh9RYcediH
-        awCHzaOqALz2eNFN/gawNvt3wkX+ArDo7rDHC4ul0shyFS4CmKcvdhM7gKPFS6Szi0uJ4dmJ
-        ZeDEBPUyXCz8Gbh0H9h1dpJw4o2UAI6Zi1anklQo1Fg1q15fKhK2ZdzBnXgDFQVnDJ2rZ+BU
-        BQeqlHrMWcApPjRPlq5iT+oAnG9YZrl0AWyynlsNAalbHNiU34657v4AVubPAhf2hTOmBnce
-        P7jc4hzkNGQCWPZ8zE3yAFROm92OMDjc/2zlPvbKikB4uTXEJe+ATbbzuFOGlDd8YPVxHeEN
-        tcZCt8yFWRk8V7cI6kx1/629MTCI5wGhbs276NZE062Jo/t/bxkg9IDPKOTJCYw8VMp8GyyX
-        JMsV0oTguJRkA1j54T0O01wzOD9jD+4AGBt0AMjGhRu4CUo/hseNlxxJZ2QpsTJFEiPvAJvZ
-        hJDPDYgXMDwqQZLGHGKYw4zsRRVje25SYtq4+c6hf1obDuUYPw/3ux/zZr41Yrpmd0nHOr8C
-        ddeu7UNHNb81VvO3K57yb+954IWuhPH8z8S9Ft2rfrd+38C4yNOvZ79o386opY9f/XCLXKS+
-        kDn/uCjNkdSb4et1Oiww4p3RS/HPprUZIGCv8HTuXJtxKQZjYqMEUsHQyakUzaPUjbtUdVtu
-        xCt+0telppR/VuUT8mesXD7wtbgy+6u9pq0392tUxhyr5oC5Jz082icmW7ntk7ELIotVG3F1
-        8+71jvGWxb4x61iEf8jR5nCzzevJzuQpcU1kpOh+Yv2pUhMUj85tO6L1VA0H2idz1vmmjpx4
-        6VOG/X368z867uR2Rr0iJOQHJaFBuEwu+Rc7bhBpUAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLKsWRmVeSWpSXmKPExsVy+t/xe7q8x+VTDQ7+NbWYt+Mbk8Wlx1fZ
-        LKa/bGSx+LZ2EpvFkwPtjBZPJ2xltljz5haLRfPi9WwWyxpULT6+4bW42z+VxeJvp6PF5V1z
-        2Cy2vnzHZDH53TNGi9X/TjFaLD+1gc3i7qmjbBbHew8wWexcuYLV4symbSwWbzv/sFrs63jA
-        ZLF501Rmi2uT5rNZXPi3kcWi48g3ZovLLROZLV42aTnIerRe+svmsWbeGkaPlS9ms3vMbrjI
-        4vHhY5xH2zQzj5Z9t9g9Fmwq9di8Qstj8Z6XTB4LP31l9di0qpPN48mshUwed67tYfN4d+4c
-        u8e8k4EBElF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6
-        dgl6GWebHzMXfOOr+Liuj7WBcRlPFyMnh4SAicTLZdtYQWwhgaWMEpNnlUHEZSROTmtghbCF
-        Jf5c62LrYuQCqnnPKPH9Yw8bSIJXwE5i5uP/jCA2i4CKxJ/puxkh4oISJ2c+YQGxRQXkJe7f
-        msEOYrMJGEp0ve0C6xUW8JVY3zqFGcQWEQiSONSxCqyeWWA9l8T9X0kQy/YxSTz5+4wVIiEu
-        cevJfCYQm1MgVuLrlv9QcTOJrq1djBC2vMT2t3OYJzAKzUJyxywk7bOQtMxC0rKAkWUVo0hq
-        aXFuem6xoV5xYm5xaV66XnJ+7iZGYLraduzn5h2M81591DvEyMTBeIhRgoNZSYQ3vUEmVYg3
-        JbGyKrUoP76oNCe1+BCjKTAwJjJLiSbnAxNmXkm8oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpi
-        SWp2ampBahFMHxMHp1QDk4PBlgncVjFLPYv3MOa4Fyk420z84LXd6G/8k9QOXp7gazdezcyx
-        K4n9qbBSuOebUsK+V9uumQjYpmlzr1396BnP18AjK5Zyd0/bHev6Z7PwxaIWjq7q1W8+fuO6
-        pGPV/CP3wRMuLt8Nf0M+3+G78ffSY+fOVMe9vX6+oaJLtl9Z/aBtgv/GZOn4BScumjmLbJqv
-        cLz/RMF9JYFPYT9ZNn31TomZtOxn6H0tu9o9P5lfH0md9/7mKtcn15UtN9kEH92z0EbwN/sV
-        32c13022Nwmvfu2nvOairUY7R8IK71sKoWqTWxT5+SzbjgvfbnaeoVuacvntxOtvmTYXXb68
-        T3jpuk+L5Lcuk+pctbB+YaMSS3FGoqEWc1FxIgB4a+EE4AMAAA==
-X-CMS-MailID: 20231006083630eucas1p2c7042b256cf08ff4434f0fafa2def2e9
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733
+Subject: RE: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
+Thread-Topic: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
+Thread-Index: AQHZ950NDu+uQ14YiUiCYnTsYxjU8LA7SzkQgAEl8YCAAA4+oA==
+Date:   Fri, 6 Oct 2023 09:38:03 +0000
+Message-ID: <OS0PR01MB5922C4CF327492EE2A0B2BA586C9A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
         <20231005150258.GA36277@noisy.programming.kicks-ass.net>
         <CGME20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733@eucas1p1.samsung.com>
         <OS0PR01MB592295E06AD01CAEFBA83BF386CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+ <62ca6115-cf0d-427d-92c5-3539a361b476@samsung.com>
+In-Reply-To: <62ca6115-cf0d-427d-92c5-3539a361b476@samsung.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB10347:EE_
+x-ms-office365-filtering-correlation-id: e6783751-9f03-46d6-4f59-08dbc64ff05a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rNPc9VJHv7gqog4we/G9EWnL9/bBNJ87UuFZWUQQDiqEXLp9nLEN8SXzBQCC/Sossy+y6q7awAXbgd60e+sg0R5HtgF/5LoQt+0nxV09gxwUFSHQE+Bxe/5oj0tqzLttSLuytiyaVO6JFTbyuq49OZX1hKEzuz9emOGI1XUkuvg2TfGObxU+45dxX+RZEeDZoHPbqYruwAowtuqf0EohjiyIi/2mTypexP6PHhvpW9ZV8xSzaoJyDapz19tfT9BQd1Lx+Sqk/4JA0YFXimEC+S1DQO+jbZbsy7n17l54h+UIEG1NRT5Zy+bF0hcnHHemh7NYVTuzJA4youTgIwiC2JJoB7VK14jMrSj3r8daZZgALlLOxvwWlSxkfhOkWkJ5BGq8Hnq9H1358EfPb7EclHyFkEQqcqOwgMIFQ+INkKpt7ZksVWZBL++R7DaquH7uq0sZax1t0dWCXgJg3X/4sx8LzQUdQbtkJJTBobq5dQhD5W06rx+wt4gyeO9taQ0XHRk/JiQZu0ghdGX7gRGPI2x1btvmCrPv9sQd5Xth6v6DdkE0V0Gg2AgfUW5MAomLPqzoQnSfcUGtiv6aZD71GJQmKbTrDQmktbqnpYw6HczCK/Dr4l2upQIK7TIiYpSv
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(376002)(136003)(39860400002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(7416002)(2906002)(76116006)(66946007)(66556008)(66476007)(83380400001)(110136005)(33656002)(86362001)(55016003)(122000001)(41300700001)(54906003)(52536014)(5660300002)(316002)(8936002)(9686003)(478600001)(66446008)(53546011)(7696005)(64756008)(6506007)(26005)(8676002)(38070700005)(4326008)(38100700002)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Oyxn9jgQER3KstYLxQYiNetUilRNF0w+nm89iUy4Sfo14a51o8j9cAMiiA7t?=
+ =?us-ascii?Q?1P8aiHI2Sg6XuRlFLQG8h0KPR783MC/B8ae/RClrvCHOA/YU/obxsg7bS2+B?=
+ =?us-ascii?Q?mlqa0rhokcS+Lj1WRQBW8Stydyd6uE3BOyWBb3sbHyJe6xOuLUIRCBL7Qhgh?=
+ =?us-ascii?Q?DaXXISJOikfRuecqJ2KYAJz1ZjMUHWLd7fTumyAHaWmoPFCEDrbxK4lYaqlp?=
+ =?us-ascii?Q?v9rWPM0dgcG9WuE34QYpKPdioKw8Q+b3Ymw2zhJUgskJVLuIGHljk8FS6WGd?=
+ =?us-ascii?Q?XumHerxUdudAYJaonJWcXGwzkKPQV4fn7uLAqIWQw+KM8FuxuvsBNzCOSUki?=
+ =?us-ascii?Q?WPNaj1hZfe9m0MflaDEKorOv3im9UDURj8ByWkMVNPF0RTZd6aJut7i2l3la?=
+ =?us-ascii?Q?89x3YkPj7pVF39ufHngWOm8HtvAfo6/6kJYSYvL8nKK/yHQblyIGPilbLncY?=
+ =?us-ascii?Q?0TXSFbVGHhBKdCCL7jlB4izV1pMKAUS5h+VIZtvM54VGmSLQa7xIUVhmt6xu?=
+ =?us-ascii?Q?lvKOe8k2sPMnbvQglDo41NYDoQ5KjPy8uHKk0QxYPW/QngQ8f4W5tewa/1Ls?=
+ =?us-ascii?Q?Ba8/HTVuhBaGsLGIKq4H62IU3FpJZl65oyq1WN2nsrfw709aPS0w4ol4Omua?=
+ =?us-ascii?Q?l2xF6KgA/2vKONvxYH5/OhhpnLZ0qkS6D6IxfaUpTjuzaTC7xorczhyP+0A0?=
+ =?us-ascii?Q?2IiUrseo3gfIzPJyaHXPumoowjU8yprzg/aIfMOpGKLpDDiiqBWsuZSXJtVp?=
+ =?us-ascii?Q?iuwFWP3IsraJA0movHCJYuGbplZd2kAh8Db6MNL/DJmLMVh9vlK/4A7rCsS2?=
+ =?us-ascii?Q?LQvfkEuXfPp7r8hbWyyHBBYB5GALpfMx3Ylmg2WBLaI54Sb8aOzhu8/xwapV?=
+ =?us-ascii?Q?xgg/5zqFnijxRtTE1an5JKfUpjaLhUF+Uphs3hSofUcIihTMXCtloZ7Yp19K?=
+ =?us-ascii?Q?N3gGRCydrsPbibmQ7PG2Bn0DDxQWxM0/QeEyUpaGp3kBgX3Gm2ngWhEQT1xh?=
+ =?us-ascii?Q?TM4WqvgmqSm/mc4Xk8wFz517uCQOMAtsMF2u7/1YMVgJpSlBzBTJdMRLeyqP?=
+ =?us-ascii?Q?87XGgPNZr3YkSQD9q0y8XmY5EjrJ6oL37yM7br4xfHqI/+FP7Gzf6zBX0R6S?=
+ =?us-ascii?Q?VJuDsVYJD94sGfr/QfAYqlwV7jcHmE9JjT6u1sPG5stpXyL+yVuu2uF8hHOb?=
+ =?us-ascii?Q?lIROZi+dUxVflwCsMNmSbAjf8y3xOOSo8IM0G9/ea++IiE2CrD0ZplfPQkum?=
+ =?us-ascii?Q?JMBqw3tz23wTc8BPPe0zFE23pliYe3FhBEnU/6JzDt2MjqhkDUgbVruPnZLM?=
+ =?us-ascii?Q?1a99fPb/uak+1BRWbWY5R+jGT8zjj7jVcWEv3OQXu6gNamjlvTPqUfKv0Yw7?=
+ =?us-ascii?Q?NgYkS7jgalB1AdIoXRWTPVS49uayf4QbyeUadBIbzGkKKKmZCCVzlw4ihGvg?=
+ =?us-ascii?Q?pWRM334RhJdHO780JjQcF3apanXzknA6nE9vKoxEFfZ7l9QPbnSd1GDf2E3l?=
+ =?us-ascii?Q?LlAlORIlZ+eYpEcjSafFBxS/Lt4q4CDogSPxrYMQTuYi1ydfK73GGMAVhMaO?=
+ =?us-ascii?Q?Lj1wqCQUcK7lU1aXy9bv4D0aPxQobHJ+3J4jWGvGSH1w7nTQH00C3MaRvGAC?=
+ =?us-ascii?Q?xw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6783751-9f03-46d6-4f59-08dbc64ff05a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2023 09:38:03.9835
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: A0+TWKqHk5XPNEVflADlgLq2p+L9wxJVol9OdclP7F+r15hWavHgGjTFrYJf/hPLzgNHD8xc8DlfoQCSOQPv2KFMa5UNJNjH8IRZ4Ca3ukc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10347
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -146,60 +146,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 05.10.2023 17:08, Biju Das wrote:
-> Hi Peter Zijlstra,
->
->> Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct
->> se
->>
->> On Thu, Oct 05, 2023 at 07:31:34AM +0000, Biju Das wrote:
->>
->>> [   26.099203] EEVDF scheduling fail, picking leftmost
->> This, that the problem.. the rest is just noise because printk stinks.
->>
->> Weirdly have not seen that trigger, and I've been running with this patch
->> on for a few days now :/
-> I agree Original issue is "EEVDF scheduling fail, picking leftmost"
-> Which is triggering noisy lock warning messages during boot.
->
-> 2 platforms are affected both ARM platforms(Renesas and Samsung)
-> Maybe other platforms affected too.
+> Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correc=
+t
+> se
+>=20
+> On 05.10.2023 17:08, Biju Das wrote:
+> > Hi Peter Zijlstra,
+> >
+> >> Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the
+> >> correct se
+> >>
+> >> On Thu, Oct 05, 2023 at 07:31:34AM +0000, Biju Das wrote:
+> >>
+> >>> [   26.099203] EEVDF scheduling fail, picking leftmost
+> >> This, that the problem.. the rest is just noise because printk stinks.
+> >>
+> >> Weirdly have not seen that trigger, and I've been running with this
+> >> patch on for a few days now :/
+> > I agree Original issue is "EEVDF scheduling fail, picking leftmost"
+> > Which is triggering noisy lock warning messages during boot.
+> >
+> > 2 platforms are affected both ARM platforms(Renesas and Samsung) Maybe
+> > other platforms affected too.
+>=20
+>=20
+> Just to note, I've run into this issue on the QEmu's 'arm64/virt'
+> platform, not on the Samsung specific hardware.
 
+OK, if needed I am happy to test on the real hardware, if a fix found for t=
+his issue. It is 100% reproducible Renesas RZ/g2L SMARC EVK platform.
 
-Just to note, I've run into this issue on the QEmu's 'arm64/virt' 
-platform, not on the Samsung specific hardware.
-
-
-You can easily reproduce it with the following steps:
-
-# make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
-
-# ./scripts/config -e PROVE_LOCKING -e DEBUG_ATOMIC_SLEEP -e PM_DEBUG -e 
-PM_ADVANCED_DEBUG
-
-# make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig Image.gz
-
-# wget 
-https://cloud.debian.org/images/cloud/buster/20230802-1460/debian-10-nocloud-arm64-20230802-1460.tar.xz
-
-# tar xJfv debian-10-nocloud-arm64-20230802-1460.tar.xz
-
-
-Then run QEmu a few times until you see the lockdep splat:
-
-# qemu-system-aarch64 -serial stdio -kernel arch/arm64/boot/Image 
--append "console=ttyAMA0 root=/dev/vda1 rootwait" -M virt -cpu 
-cortex-a57 -smp 2 -m 1024 -netdev user,id=user -device 
-virtio-net-device,netdev=user -display none -device 
-virtio-blk-device,drive=virtio-blk0 -drive 
-file=disk.raw,id=virtio-blk0,if=none,format=raw
-
-
-I have no idea if this is ARM64-specific anyhow, but this is how I 
-reproduced it. I hope this guide helps fixing the bug!
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Cheers,
+Biju
