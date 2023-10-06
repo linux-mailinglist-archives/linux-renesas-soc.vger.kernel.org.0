@@ -2,113 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0F067BB54D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 12:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F017BB56C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 12:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbjJFKcx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Oct 2023 06:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32988 "EHLO
+        id S231816AbjJFKkZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Oct 2023 06:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231817AbjJFKcu (ORCPT
+        with ESMTP id S231718AbjJFKkY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Oct 2023 06:32:50 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB91E9;
-        Fri,  6 Oct 2023 03:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1696588293; x=1697193093; i=efault@gmx.de;
- bh=nYM4Iq0HIoT8WeZfH9/xZH+fB9khT9UEIePySgCSyeg=;
- h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
- b=ILmcD1LFgQkhppCIOIFVBLShJ72MfqWbZn7z9nIv01t4QB2EP8NDAT9XrYscSr0MNHRsT3ybuw8
- Fydmoo77GdF3b4/fQvCJEDWEITWtDQXho/SdoS+raTlfUQsmSpP0+RTYzCdpwGaPTdyiR/1srVxwg
- Oiz651dZq/HBZVWcweL1CNUr2NyIwDaTd6DVdYGTDiX7TGSBhkTXJUgKzztDEPQAbUSK68NzaGFpj
- XRG2dpSBypKFyHp4G2aw8seTk/zU/IA8tTz7BWvu4kwM5As/lqQEKhZwkJCgrTDbEVpNhup6WZDt4
- QuTPMI0MkSYed9UkDRhuL0/sdxRne6DJ+I0Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from homer.fritz.box ([185.191.217.82]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mf0BG-1rGe5P16AU-00gUAq; Fri, 06
- Oct 2023 12:31:33 +0200
-Message-ID: <867f5121d7d010cacf938c293f862b0cea560ec2.camel@gmx.de>
-Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
-From:   Mike Galbraith <efault@gmx.de>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     "bsegall@google.com" <bsegall@google.com>,
-        "bristot@redhat.com" <bristot@redhat.com>,
-        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "joshdon@google.com" <joshdon@google.com>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        "kprateek.nayak@amd.com" <kprateek.nayak@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "patrick.bellasi@matbug.net" <patrick.bellasi@matbug.net>,
-        Pavel Machek <pavel@ucw.cz>, "pjt@google.com" <pjt@google.com>,
-        "qperret@google.com" <qperret@google.com>,
-        "qyousef@layalina.io" <qyousef@layalina.io>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "tim.c.chen@linux.intel.com" <tim.c.chen@linux.intel.com>,
-        "timj@gnu.org" <timj@gnu.org>,
-        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-        "youssefesmat@chromium.org" <youssefesmat@chromium.org>,
-        "yu.c.chen@intel.com" <yu.c.chen@intel.com>,
-        "mgorman@suse.de" <mgorman@suse.de>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Date:   Fri, 06 Oct 2023 12:31:28 +0200
-In-Reply-To: <553e2ee4-ab3a-4635-a74f-0ba4cc03f3f9@samsung.com>
-References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-         <20231005150258.GA36277@noisy.programming.kicks-ass.net>
-         <CGME20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733@eucas1p1.samsung.com>
-         <OS0PR01MB592295E06AD01CAEFBA83BF386CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-         <553e2ee4-ab3a-4635-a74f-0ba4cc03f3f9@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+        Fri, 6 Oct 2023 06:40:24 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61001AD
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Oct 2023 03:40:22 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99c1c66876aso372507566b.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Oct 2023 03:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1696588821; x=1697193621; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KeQqgG9kHc72c2g0exnbDlVNb4xPw3G7iuO/4geTEVQ=;
+        b=eVaKKxPVNCaiezl69xNhZrzLn9Li3v0m4TrLKxnFAqJbdyZXvr72PJICTyXDKw10g3
+         m9X/L8xui4uhSqYiNv58mmBqqyUgvkN9dEuRy3xUJs1lNRLXBUDA1VR0t69/twUgwfX4
+         fLe7w2kKDSAMQoc5P8GpvX13feseMsiuxXEazYOU5sEIElUCASUQhufuMibB4IKZkZOs
+         4yk3GxVABsKvyVTA1ivQNT//ezcjeefA0W6lKMomDs4DYEAJLLnxFK4fARnKiDM21vy/
+         IPRXXstR8Ax+cxddcuqz+b2imLUg1kegX7JuZHL+mQD8KSg7tV2iGCECgM2NgdNDvzt6
+         oxyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696588821; x=1697193621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KeQqgG9kHc72c2g0exnbDlVNb4xPw3G7iuO/4geTEVQ=;
+        b=uIrjOAvLOAbl8fK0pfHu3Sj57zvt5rkm3nQe7rqUXnRBvT64FcaCzN7XUoI75eWC4B
+         3l4fpH0oXeI0F/mTKoYC4aS0Jdrt90kd1sUeSa6OsJK2WJMRcLyn+YAffAcHqd9XD7EJ
+         IeExiP2OMhQ7FzV2zGttjNGQo6WBxIDh/v5VSzrOq5gGZPal6//T7IY33HroW5lbxpx7
+         mjBTrEA+UfcTG6k/WlWpWBWrHAtN3yNfOQ3doUw5HGe6HazlPEbxMKjvgKs4zfM+hE3R
+         danqkFqDCWmOd9Xt98pMQU3AucJXcOH7H2XEw0bpE66XMOjr10MATZ7R5IfEjoEapnfj
+         gBBQ==
+X-Gm-Message-State: AOJu0YyQmlW9iGbSLTMVd44uArcLfrGb81SayG54PHWw3+WYsKqkb40o
+        Oww/HUbM6JR1TP7aoDH46HX49A==
+X-Google-Smtp-Source: AGHT+IHMKEAZG+zX5i9Cl32pZ+P5QmVcPSYDJ5qyvhw04Q1MitxDEPTj2audMVvwor1W/QPxocLXVQ==
+X-Received: by 2002:a17:907:78d7:b0:9ae:3a68:93e8 with SMTP id kv23-20020a17090778d700b009ae3a6893e8mr7117382ejc.14.1696588820745;
+        Fri, 06 Oct 2023 03:40:20 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.24])
+        by smtp.gmail.com with ESMTPSA id br13-20020a170906d14d00b0099cb349d570sm2642490ejb.185.2023.10.06.03.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 03:40:20 -0700 (PDT)
+From:   Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, magnus.damm@gmail.com
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 0/4] Add new Renesas RZ/G3S SoC and RZ/G3S SMARC EVK
+Date:   Fri,  6 Oct 2023 13:39:55 +0300
+Message-Id: <20231006103959.197485-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bAKhKEv2apxCxL7VofVH1W85qmxPwHmVAjxAfi906U+61WKQVqJ
- PO89+CAEbaeZU451qCBTDESVyNJoT9meXu8r6PbvCRFjc8lbFBOWlx6fY/NiDdMFdCGzn/H
- HSzA93FmnZyURNoK6aJvHqlJqwaJt6/j/9Mi75FRsWVwM3yOhQBFL6t/yea16H5RFUjvaiQ
- Qsa5ZXyMfKImyxVv3FLEQ==
-UI-OutboundReport: notjunk:1;M01:P0:xlk3qR3B/Fw=;G734mNj1mFoTEHrlGF/JHUDUn4O
- spN2qdq9ANsASsjAbbFiAZfztxfz2xpqdxqhWTZ3vIEwQw0aZGQpIhqPs6yxgsa5r1axPredO
- t3aCKWDb/NLayDEbjTeEvdE21gUCggSMz+Hr1Ab/NVkwc1gi0R8uPOolSKr8B5mHKLSuWzvn8
- Ckq0+XfIlLa9QB8TuJKL05wbWMdbaYCc6AO+6dN44/a1hP3TBpyyXeWGSehvr8hHmRSuBdz4J
- 5ZtS+m/zBg43svNX+QjMT1yrKXV+ITe+Ni/DMFzq0Puwmfb2S2tDqC0b0U2eDYwcYSj9GKuv7
- N5CT+ENK10xhQhO//wts2h1Zp6sjlTuOtk4DgB5zCPa42kuOO6F8NMEux7FxP7AM+0Ty9pnRx
- Osoe7jEpFPvOcYf3KlGN73bcV9i44TS+Yw0BAbU1KnyJU+BkFnH+/byR8w8ALa75UzZQva94w
- FU3biWFM37+0hNlTfOJBb1ZOUS6R99ydvDIZYglQbFwi1d9pJwueL9W7WxXFIXAbnifW4tiwH
- VybGWoS6z3+lagDHLy1Swe+2qoCdcbDvpWgUNs9Mv8VRdeR4aXzHLIlYXdWHDKb8FuP2VLApX
- CYjDgeCwwUlOIz63OjOysyzrPiHHttGKX5X4zhu6ws9zm03p5Qwod7DVVvZa+FBJeLU3Tu4a+
- BtcnVq+OC8F+NR+2RZ49Cz5o9tSUhhvElt8VVHNiyCuuvqZX46ruv8305UH+uFxzHilYPSWoJ
- AzC0kHWFPxdHwJ6wv38EXYA8iOEqWLNpACpe/VRfBviZgiGtOQtAFcCmX6xztHJUNULlZidbP
- L2O34Y4lURvBzrixr+gfaNkih1OavmZ9zFat7haDbVyphbt/emNhmcIUGvU85iNYRvtHpVZqD
- hgy9fsjfT3H6FMjJok2IanYBH1+tPTAdcbfkM+hN+9F3/jYl+hwy6Y8VBI1q1ArV5/73iaTQW
- z6Ih4A==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 2023-10-06 at 10:35 +0200, Marek Szyprowski wrote:
->
->
-> Just to note, I've run into this issue on the QEmu's 'arm64/virt'
-> platform, not on the Samsung specific hardware.=C2=A0
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-It doesn't appear to be arch specific, all I have to do is enable
-autogroup, raspberry or x86_64 desktop box, the occasional failure
-tripping over task groups, leaving both best and best_left with
-identical but not what we're looking for ->min_deadline.
+Hi,
 
-	-Mike
+This patch series adds initial support for The Renesas RZ/G3S (R9A08G045{S33})
+SoC. The RZ/G3S device is a general-purpose microprocessor with a
+single-core Arm® Cortex®-A55 (1.1GHz) and a dual-core Arm® Cortex®-M33 (250MHz),
+perfect for an IOT gateway controller.
+
+This includes:
+- SoC identification;
+- clocks (core clocks, pin controller clock, serial interface, SD ch0
+  clock) and corresponding resets;
+- minimal device tree for SoM and carrier boards.
+
+With this series Linux can boot from eMMC or SD card. The eMMC and uSD
+interface are multiplexed on the SoM; selection is made using a hardware
+switch.
+
+Patches are gouped as follows:
+- 01    documents scif support;
+- 02-04	clock changes needed by RZ/G3S
+
+Changes in v3:
+- remove from series patches that were already integrated
+- addressed review comments
+- please see individual patches for detailed changes
+
+Changes in v2:
+- addressed review comments
+- collected tags
+- removed from series patches that were already integrated
+- added patches:
+	- [PATCH v2 19/28] dt-bindings: pinctrl: renesas: set additionalProperties: false
+	- [PATCH v2 23/28] dt-bindings: arm: renesas: document RZ/G3S SMARC SoM
+	- [PATCH v2 26/28] dt-bindings: arm: renesas: document SMARC Carrier-II EVK
+- please see individual patches for detailed changes
+
+Claudiu Beznea (4):
+  dt-bindings: serial: renesas,scif: document r9a08g045 support
+  clk: renesas: rzg2l: refactor sd mux driver
+  clk: renesas: rzg2l: add a divider clock for RZ/G3S
+  clk: renesas: add minimal boot support for RZ/G3S SoC
+
+ .../bindings/serial/renesas,scif.yaml         |   1 +
+ drivers/clk/renesas/Kconfig                   |   7 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a07g043-cpg.c           |  12 +-
+ drivers/clk/renesas/r9a07g044-cpg.c           |  12 +-
+ drivers/clk/renesas/r9a08g045-cpg.c           | 214 +++++++++++
+ drivers/clk/renesas/rzg2l-cpg.c               | 342 +++++++++++++++---
+ drivers/clk/renesas/rzg2l-cpg.h               |  28 +-
+ 8 files changed, 565 insertions(+), 52 deletions(-)
+ create mode 100644 drivers/clk/renesas/r9a08g045-cpg.c
+
+-- 
+2.39.2
+
