@@ -2,134 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAFC67BBB01
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 16:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 111007BBC31
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Oct 2023 17:56:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232684AbjJFO6v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Oct 2023 10:58:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59472 "EHLO
+        id S232502AbjJFPz7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Oct 2023 11:55:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbjJFO6u (ORCPT
+        with ESMTP id S231495AbjJFPz6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Oct 2023 10:58:50 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28215A6;
-        Fri,  6 Oct 2023 07:58:49 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECF7C116A3;
-        Fri,  6 Oct 2023 14:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696604328;
-        bh=AXCXHLWdA2qo6nB4YyX+uUf1c5v5SfVHTy0epxZzqcI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FPjyBcawx/D50X7FUVmVkh5x91DEYjZ8XyRo+bRJ01O1CK/hyb65bkXs2SyntcK12
-         +7fb7tJqpo/SM8ixUNzr7JjLhcO7cW90QZkkiBLqOuVRH9vW8sc2WBVVgUsDrxhm9y
-         q+Ew1wTrXghdLAU3sKfVihaSx5Ih+ZWve8Vany0T+HgE0JDgG0LTC16s2XjYgTM2Dn
-         9czZXoefWHJgESQTRkQqSuurNcxsNIb/czhsdeVd6usBUuTZxuNJSJ1B/K79ZmKfor
-         enocjOJjpuF4k5rIrdLe9vRkpbAUC8KlofTCsSSJyjxmW2BX1L4ufuI274znVZPCkW
-         X5Gx6ocZ9Ay8w==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5042bfb4fe9so2817476e87.1;
-        Fri, 06 Oct 2023 07:58:48 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyEi81WkSEpbNEzHwOYcFeHhyjHRn3XUxVTz3tONSMAQI8Wo/JW
-        YJXopm6VcOq3VNeCjyfvgyDZEUKo/7C4rYXjyg==
-X-Google-Smtp-Source: AGHT+IF9c4JksyddIA4XMnsHQLGMxKeD4RWiwFhSUZVPaOaFwkElhfNHrBreSbHfWZCSQs2x8pg5PBOf5Yj5IPxhp0g=
-X-Received: by 2002:a05:6512:545:b0:503:58e:becb with SMTP id
- h5-20020a056512054500b00503058ebecbmr7860725lfl.9.1696604326925; Fri, 06 Oct
- 2023 07:58:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
- <20230818075600.24277-5-biju.das.jz@bp.renesas.com> <ZN9WCKQ/hv4zKfsK@smile.fi.intel.com>
- <OS0PR01MB5922F93ABF408AA9037A8EAC861BA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZN+IDGfc0MJfqOV9@smile.fi.intel.com> <CAMuHMdWwo1hYnbztoRUtHD7iw53f7Np-vPsfMMBdwbMP7-Q98A@mail.gmail.com>
- <20230828152137.2db2668d@jic23-huawei>
-In-Reply-To: <20230828152137.2db2668d@jic23-huawei>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 6 Oct 2023 09:58:34 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+dcabJ14w793TBneipwZUFnXuA2vvPzEq9Kr98edakBA@mail.gmail.com>
-Message-ID: <CAL_Jsq+dcabJ14w793TBneipwZUFnXuA2vvPzEq9Kr98edakBA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] iio: magnetometer: ak8975: Drop deprecated enums
- from OF table
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fri, 6 Oct 2023 11:55:58 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 500409E;
+        Fri,  6 Oct 2023 08:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=WaEf6FrRWvtJnI5YP9M3tuune/f/xvQ8jUCMeM104oA=; b=p7lYaZ7x0sCFwueHdtmZIZAewN
+        qoKhx2eoWOrz5CzIPGPFqw19jMPfXXuCJgXuX0Ny7EYS/U5iZu7cRL6d7zTN7SheI9dz9Q12lsghM
+        gXZj3aqzWotuB0ALp5XykK0ROpHk/mGxqaD4GRScfPqZqc+t+i4AgmkPlz6br2Hkp7buhSkR3uZxt
+        7KMyPyTmK0TFuBCOmq0cf9bnXeXalcS0DT+ZMBuqp12s/Uk2Q6FyGI/ZGlGs1tyvE6iIo2A5SYFeW
+        KxxlcNJuA/BgGn5+bpJ8zcJIDFe5bF1DeeFGWmhFvhz7+JtMNcRjJDzDxMIdH9tb6mSsPz2p5JNEo
+        U2pZt83w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qonAL-00G9FU-Sv; Fri, 06 Oct 2023 15:55:01 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8B3A3300392; Fri,  6 Oct 2023 17:55:01 +0200 (CEST)
+Date:   Fri, 6 Oct 2023 17:55:01 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mike Galbraith <efault@gmx.de>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "bsegall@google.com" <bsegall@google.com>,
+        "bristot@redhat.com" <bristot@redhat.com>,
+        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@joelfernandes.org" <joel@joelfernandes.org>,
+        "joshdon@google.com" <joshdon@google.com>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        "kprateek.nayak@amd.com" <kprateek.nayak@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "patrick.bellasi@matbug.net" <patrick.bellasi@matbug.net>,
+        Pavel Machek <pavel@ucw.cz>, "pjt@google.com" <pjt@google.com>,
+        "qperret@google.com" <qperret@google.com>,
+        "qyousef@layalina.io" <qyousef@layalina.io>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "tim.c.chen@linux.intel.com" <tim.c.chen@linux.intel.com>,
+        "timj@gnu.org" <timj@gnu.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "youssefesmat@chromium.org" <youssefesmat@chromium.org>,
+        "yu.c.chen@intel.com" <yu.c.chen@intel.com>,
+        "mgorman@suse.de" <mgorman@suse.de>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
+Message-ID: <20231006155501.GH36277@noisy.programming.kicks-ass.net>
+References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20231005150258.GA36277@noisy.programming.kicks-ass.net>
+ <CGME20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733@eucas1p1.samsung.com>
+ <OS0PR01MB592295E06AD01CAEFBA83BF386CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <553e2ee4-ab3a-4635-a74f-0ba4cc03f3f9@samsung.com>
+ <867f5121d7d010cacf938c293f862b0cea560ec2.camel@gmx.de>
+ <20231006140042.GG36277@noisy.programming.kicks-ass.net>
+ <e2645a659b6fc1c592e2f2dc45273c361a2d2f47.camel@gmx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e2645a659b6fc1c592e2f2dc45273c361a2d2f47.camel@gmx.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 28, 2023 at 9:22=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-> On Fri, 18 Aug 2023 17:17:44 +0200
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> > Hi Andy,
-> >
-> > CC devicetree
-> >
-> > On Fri, Aug 18, 2023 at 5:03=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Fri, Aug 18, 2023 at 11:40:37AM +0000, Biju Das wrote:
-> > > > > Subject: Re: [PATCH v2 4/5] iio: magnetometer: ak8975: Drop depre=
-cated
-> > > > > enums from OF table
-> > > > >
-> > > > > On Fri, Aug 18, 2023 at 08:55:59AM +0100, Biju Das wrote:
-> > > > > > Drop deprecated enums from OF table as corresponding entries ar=
-e
-> > > > > > removed from bindings and it also saves memory.
-> > > > >
-> > > > > You can't do this.
-> > > > >
-> > > > > Only sorting by "prefixed first" criteria is possible.
+On Fri, Oct 06, 2023 at 04:39:09PM +0200, Mike Galbraith wrote:
+> On Fri, 2023-10-06 at 16:00 +0200, Peter Zijlstra wrote:
+> > On Fri, Oct 06, 2023 at 12:31:28PM +0200, Mike Galbraith wrote:
+> > > On Fri, 2023-10-06 at 10:35 +0200, Marek Szyprowski wrote:
 > > > >
-> > > > The rule applies only for fallback compatible. I checked bindings a=
-nd I don't
-> > > > find any fallback compatibles. All compatibles are just enums. Am I=
- missing
-> > > > anything here??
+> > > >
+> > > > Just to note, I've run into this issue on the QEmu's 'arm64/virt'
+> > > > platform, not on the Samsung specific hardware. 
 > > >
-> > > Yes. As per above patch. The _whole_ world is not under your / our co=
-ntrol.
-> > > NAK to this change, sorry.
+> > > It doesn't appear to be arch specific, all I have to do is enable
+> > > autogroup, raspberry or x86_64 desktop box, the occasional failure
+> > > tripping over task groups, leaving both best and best_left with
+> > > identical but not what we're looking for ->min_deadline.
 > >
-> > The single user ever in the upstream kernel was fixed in commit
-> > 9846210b1ec9bbaa ("ARM: tegra: seaboard: add missing DT vendor
-> > prefixes") in v3.8 back in 2012.
-> > And it had to be fixed again 9 years later in commit fa0fdb78cb5d4cde
-> > ("ARM: dts: am335x: Use correct vendor prefix for Asahi Kasei Corp.").
+> > OK, autogroups enabled and booted, /debug/sched/debug shows autogroups
+> > are indeed in existence.
 > >
-> > There may be other out-of-tree users, which would be broken by this
-> > change.  Typically we wait a few years between deprecating a compatible
-> > value and removing support from the driver.
+> > I've ran hackbench and a kernel build, but no whoopsie yet :-(
 > >
-> > As Biju is only deprecating these compatible values in PATCH 3/5 of
-> > his series, this may be a bit premature.
-> Absolutely.  I'd go a bit further.
-> Unless there is a maintenance reason to remove these (after a few years f=
-rom
-> removal in the binding doc) then we never remove them as it can only hurt=
- users.
+> > I suppose I'll kick some benchmarks and go make a cup 'o tea or
+> > something.
+> 
+> Hm, just booting gets me a handful, and generic desktop activity
+> produces a fairly regular supply.  This is virgin 6.6.0.ga9e6eb3-tip.
 
-I'm tracking undocumented compatibles (with 'make
-dt_compatible_check') in the kernel tree. Dropping the binding makes
-these undocumented (and now showing up in my diff between Linus and
-next). So please apply both or none.
+You're running that systemd thing, eh?
 
-Rob
+If I create two groups (or two users with autogroup on) and have them
+both build a kernel I do indeed get splat.
+
+And yeah, min_deadline is hosed somehow.
+
+migration/28-185     [028] d..2.    70.264274: validate_cfs_rq: --- /
+migration/28-185     [028] d..2.    70.264277: __print_se: ffff88845cf48080 w: 1024 ve: -58857638 lag: 870381 vd: -55861854 vmd: -66302085 E (11372/tr)
+migration/28-185     [028] d..2.    70.264280: __print_se:   ffff88810d165800 w: 25 ve: -80323686 lag: 22336429 vd: -41496434 vmd: -66302085 E (-1//autogroup-31)
+migration/28-185     [028] d..2.    70.264282: __print_se:   ffff888108379000 w: 25 ve: 0 lag: -57987257 vd: 114632828 vmd: 114632828 N (-1//autogroup-33)
+migration/28-185     [028] d..2.    70.264283: validate_cfs_rq: min_deadline: -55861854 avg_vruntime: -62278313462 / 1074 = -57987256
+
+I need to go make dinner (kids hungry), but I'll see if I can figure out
+how this happens...
