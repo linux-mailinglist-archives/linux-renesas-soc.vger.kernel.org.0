@@ -2,47 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AD027BC4FF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Oct 2023 08:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C5A87BC51B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Oct 2023 08:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343578AbjJGG0L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Oct 2023 02:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51240 "EHLO
+        id S1343568AbjJGGmh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Oct 2023 02:42:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343532AbjJGG0K (ORCPT
+        with ESMTP id S1343561AbjJGGmg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Oct 2023 02:26:10 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2092.outbound.protection.outlook.com [40.107.113.92])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEC70BB;
-        Fri,  6 Oct 2023 23:26:08 -0700 (PDT)
+        Sat, 7 Oct 2023 02:42:36 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06483B9;
+        Fri,  6 Oct 2023 23:42:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696660955; x=1728196955;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Cb6TWff5geexpr2e7pUjo7hH8wOQf88RbaWw1F0dNpE=;
+  b=ESwkNGf+zOuiE8/lUqEekmBgR1qzchyBHeu13zfxvCdUpmILv/W6JApe
+   6b8FvLxa80SXW2hbzBU84N5b5AMGJV9wwb2G7/CqQ94w1dN/xEs+xQg5F
+   6qgXwBlbb9iD798o6OcwicAWEtXxyWW9ekicmbdyjkrRXwkQWzwURUiQS
+   NR2gsqhF2PtfjmgmwkjH8MmPG9+3tNSaIoccBh9r1L1LZw9sn+Cb/LY3w
+   EHqXb2N59FlUhVz3yJOXdrixfYGbkspsKLULOpEHzFoBzpxk08+1SI8cT
+   M48RD8bgftP6KKfE14fKTkZ6hlzDLbcm3BOGwQTJezbKQBr+t6DpH77c5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="374236560"
+X-IronPort-AV: E=Sophos;i="6.03,205,1694761200"; 
+   d="scan'208";a="374236560"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 23:42:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="926204262"
+X-IronPort-AV: E=Sophos;i="6.03,205,1694761200"; 
+   d="scan'208";a="926204262"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Oct 2023 23:42:34 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 6 Oct 2023 23:42:33 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 6 Oct 2023 23:42:33 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Fri, 6 Oct 2023 23:42:33 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Fri, 6 Oct 2023 23:42:33 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KgJklcuH69k9BkJJR13ewcc6TtqXzRAhnMxhHHyOPwXP8JlVJ3RUX7ceyRAewKlgON4Nw/M9eF1+34lPfZkvUvo0zbK2tnCa42MrglsXR2vMwftAZaqSBuvnVYx2AKAOlYKjxe+krqRLV29eq59MButJc1+ooQAIsUdiHf87U8ovHFUo3HYawC8WGPhnfv01SIMXAA92163OCErbRCBHhiXKk2em10ZImgxYWokym+NSvl/mTYVrKMu9A0/6iAPcqK9ueGEKXxxz8Nj+DoakZIz63os6KEYwRmUvLl5WZ6HmRZrUhcBw9i6boDg8zIXumqiEu2IH3jHTu5n2PkZ1qQ==
+ b=eGpSgt5C2sWQe1Pv3HYctn/yjfk7W5qxqKBqS/6Nzw67mAVnPoifIIl4/lpEWxBk9U7hxh4yTAAjOY6aRDSWoc289rp28lkyxelaei5vqVOiCTBmHatuOUhtxS8IFtq9/SY8g/rNPdH/0rOi0GnIjNZ85jQ/YB4zz75gVOpfSlks9oCnNU2dUuvCEyn2sXIMJnt2T559ei3jEZF/lMenPMxHPmrA4R6hLYO/MD+fYsods1WZ+yTLPiSTHQNyYN++SPUjIDOPVe8oAY5a+rSMNMWZ44LXKcbSItFp/M+IiSm7ptB40NtoQ2MqMaAt38NCshqkWqLUdlWY2YFsJH47cQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EfLvPxHrOB2fAY7JMfTnG9JPBYN8NpzVUaRGnNm5Njk=;
- b=ZOI3dmgV8/BSJfdbSaqomcbU9fPrK4LbHnICTVoBfVlcVqbf7yJQ+EkyMeKu2Qmlct3bzUA8cU4aDnHWG8FsSrJd9rT92xr/3nGAgrE4ULpJSmS6VcLgZ9yBBkZ0JZU6d1lRLielKDfNW004nyn+PU+Hzgh9Rr/0gP142ekopKjWvcYcgDAw33j+RKxF/JGeYcAHJVJBAKLqx3Ob6wOUuDBAZ+DNll8NMjY80N0O6FpJGwCSdDkyWOvDxSEZ6CAazpVQ3Yf2pQuFHNFRgCcLpnHJSLVDyF0fui9YRnwmR3Ux88NjQXPaA0veMgm4ZqvIrxJxmOG4qFObBgOWYBhVRA==
+ bh=r0iYE8MqUyV+sz7RKxlas4xU+vFvpJsCgTDLAPekhS4=;
+ b=eAmaJmxz4dQgWR+zVgLdqSzlyCdzEDn0gt/YzOqQbWl3KfE6y/iDnQ4I4zLhw8Fg3WSGqgHgFtc76iUyRy+KldxnlCwnXndzaoM7CiijtxbUVoyKBGmmYN6plrROnoLPfgwmE9kRhD5Iy9859LLl/+wyHxW31w2+dai5Rdr5HT75KpYbFew6M4YPCAtyxRs5s3/qiRc3VY1ATwqTf25Llq/D4XVNdjzsF5XY4BABnTirHT4ycvOmTMhFk2imhbKndrc0AGDcXFen9KJ3P5iqIvGf1eAUC/LvYHPzmvevOHMYozIr2lUuDGVct7FEA/MWKYetuk3D82hIr7o50Aerqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EfLvPxHrOB2fAY7JMfTnG9JPBYN8NpzVUaRGnNm5Njk=;
- b=bFVdhaF08idezGPbcOJuhI+DZVYDe2vhGQw24V2zqAl3JEDHeOuPwMdPvVf+EuMndMmfXu4x8DDvbsgIMfJkBK9qqr9m0jpzsJ80+rCfX6+Qys/uwUtTWIKm3f+Wh1Sp4zDW8Z9Q6Yd/YK6sY5c+//OoLMB+jXNQoV1oPw0+6Lg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB5613.jpnprd01.prod.outlook.com (2603:1096:400:47::10) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6206.namprd11.prod.outlook.com (2603:10b6:208:3c6::8)
+ by SN7PR11MB7114.namprd11.prod.outlook.com (2603:10b6:806:299::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.41; Sat, 7 Oct
- 2023 06:26:05 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fb78:2e8c:f7f9:5629]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fb78:2e8c:f7f9:5629%7]) with mapi id 15.20.6838.040; Sat, 7 Oct 2023
- 06:26:05 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Chen Yu <yu.c.chen@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>
-CC:     Mike Galbraith <efault@gmx.de>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.38; Sat, 7 Oct
+ 2023 06:42:31 +0000
+Received: from MN0PR11MB6206.namprd11.prod.outlook.com
+ ([fe80::9474:7e9c:c157:4ee9]) by MN0PR11MB6206.namprd11.prod.outlook.com
+ ([fe80::9474:7e9c:c157:4ee9%5]) with mapi id 15.20.6838.033; Sat, 7 Oct 2023
+ 06:42:31 +0000
+Date:   Sat, 7 Oct 2023 14:42:10 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        Mike Galbraith <efault@gmx.de>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         "bsegall@google.com" <bsegall@google.com>,
         "bristot@redhat.com" <bristot@redhat.com>,
@@ -69,14 +107,9 @@ CC:     Mike Galbraith <efault@gmx.de>,
         "mgorman@suse.de" <mgorman@suse.de>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
-Thread-Topic: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
-Thread-Index: AQHZ950NDu+uQ14YiUiCYnTsYxjU8LA7SzkQgAEloICAACB0AIAAOnUAgAAKvoCAABUzgIAAOpmAgABXQACAAF7RQA==
-Date:   Sat, 7 Oct 2023 06:26:05 +0000
-Message-ID: <OS0PR01MB59222333D50ADBAD1786DA9A86C8A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20231005150258.GA36277@noisy.programming.kicks-ass.net>
- <CGME20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733@eucas1p1.samsung.com>
+Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct se
+Message-ID: <ZSD9wsBPUfhTULf7@chenyu5-mobl2.ccr.corp.intel.com>
+References: <CGME20231005150845eucas1p1ed3aae6b90c411b5c26a5dfadf7e0733@eucas1p1.samsung.com>
  <OS0PR01MB592295E06AD01CAEFBA83BF386CAA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
  <553e2ee4-ab3a-4635-a74f-0ba4cc03f3f9@samsung.com>
  <867f5121d7d010cacf938c293f862b0cea560ec2.camel@gmx.de>
@@ -85,133 +118,131 @@ References: <OS0PR01MB59220AF3959BDC5FEFC0340F86CAA@OS0PR01MB5922.jpnprd01.prod.
  <20231006155501.GH36277@noisy.programming.kicks-ass.net>
  <20231006192445.GE743@noisy.programming.kicks-ass.net>
  <ZSCoLllO/cYnnIMi@chenyu5-mobl2.ccr.corp.intel.com>
-In-Reply-To: <ZSCoLllO/cYnnIMi@chenyu5-mobl2.ccr.corp.intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB5613:EE_
-x-ms-office365-filtering-correlation-id: 4070fa00-eb58-43d5-2e8f-08dbc6fe491b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: R0jdatI76alUMKb6bAnmAqPNIFrh3KdGUqhR3cY4DTV6/t+/TXYrZd1vtgOScsyw0rPr55i+mi4iG9A83kNbCX8LUGOAMa+Sl0QYuQ4BWBH3cSyLqv38cPv5u7rLJgdq4aiG6pl1RhrfLv+JSPb6RTn7XYXt7eXnB03GBNcML0p4w7vvO4yDcJiJcuCBHWDsaLX/Fc66vteyrek0eC2RL7S/hNTWS5gFPn3wCw+rv2O+YZw9tMAMrMJEOaO5njnwI0JWEHWlOj4ZbH4mhuuVKnHFXGdfJrUcWBa3MaIRC3t8bx8JvQoBBRGJFZtJZWd+XeRniZa6lHtyewRyEKImC7D4VM7mo5vH6O5bUqKo3ZKUJX9ywnW21aabLHAeicGOd7j1BEks+C+TJjcXqvMd6s9LjFUnzfoegMLcZVt8huR9uvORISLs5ePlpSpy/pfrQeVzOx73dnZkTyP0XwDOrlxwPPZLRsLMArGSHefZnVvVDeEJXXbVDJUyMqtHt2pmgM/xbYieoBV/MIN0dNyanckglEdCyVIun02FjD5Tl0fP8170/ZC9nCt9Yh5p6ibZqBBaBtku8jgp/L/PZIye8FgmuATD8nSmUPGUuGLLkqTh5G0J554YJgmbz1GMxJKy
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(136003)(376002)(39860400002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(55016003)(316002)(110136005)(66946007)(66556008)(66476007)(41300700001)(64756008)(54906003)(76116006)(66446008)(83380400001)(5660300002)(4326008)(52536014)(9686003)(122000001)(26005)(8936002)(53546011)(478600001)(38100700002)(6506007)(38070700005)(71200400001)(33656002)(8676002)(2906002)(7696005)(7416002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?B/L5MdVPGlHx1yGjKsB0Sik7DvV770iBkNAi1kzYPoWKFucv513HkfKzDQL3?=
- =?us-ascii?Q?K6t8tuRDNvDSwMvwtAwwKAIsq8AWKUorcLlwvxliQAYisYezCPjymP0fjTt4?=
- =?us-ascii?Q?UVgBYTfu1/jS/6xidzCbr3RB/vaaDkHm0o299wV63OUlMwnMAHe99hh0azao?=
- =?us-ascii?Q?IyrPqoZ/6wyxrmGl8vkRqGn24lcodwVNoPOoj5RSdyqnh52kT4Z2NA/Xb7Po?=
- =?us-ascii?Q?5rzm6CMyfmEoQPAzXsmm89V5zOGxcY24QuF3IzWyWRthR/C17Bfq6P7oYCzb?=
- =?us-ascii?Q?AkwT57zCdCRRZjFefmE4UIkW9zTufed0qMowbKQyU+PFNg99dK2JUMxZWOPg?=
- =?us-ascii?Q?GNBEHwOKw8USr+xAffzal3523CVINhyy+swOFyHhcxMcXccdkTLXNf/D4u3J?=
- =?us-ascii?Q?pXojJ2ZXgRAckyWMa8goJirq29W3lG5KVxZ8V6ql5GK77KpIdfC+C0mzli9o?=
- =?us-ascii?Q?8RfZUiwixrArE6TB/l5X4oFaAu081vtlppkjbK8Sm3HR6/qizeqbGwLw/55l?=
- =?us-ascii?Q?7I4qbVNAs4JEa/Bj5+J+/mGqhjRzxOd37pj0r0L3bf1Q3gBbLUP5rA7CE7zi?=
- =?us-ascii?Q?94tdf6k/I9v5Uco1VqjORWYTUe4t+PBBDgh81CyxOSP6wRO/GtyWQbmNkN8j?=
- =?us-ascii?Q?5DKvZXA06XJnwyxJA0ItCxmhFo/vRxtPLvyZ67mbdWtS0JxleAuzv+0UKE00?=
- =?us-ascii?Q?f4QLiX6wSZ1B/noMeDQCKL0gigWhcXVFfJJpUDR9/KhlZ0G5a5j3+CMK/iwv?=
- =?us-ascii?Q?8bS8ifrGFDcaLqAVn21rMDBSL0gLQNUjUyoEKHV5zYYcJoywS2Zitm6LY3ip?=
- =?us-ascii?Q?WXUX7m6y1CNzS+ZwaoC8RyLgyr2bqMoJXKMoAi2KEDHwE3Kg+IgOCjGbEAYB?=
- =?us-ascii?Q?SpXV6b1lWrtRJWFNaxitHnqLUggQY4F4n0qU8Gc8eRXSao0uO5WR5AhCM2W5?=
- =?us-ascii?Q?zjy8eoAIrtTuplvHbsgd2t0vM5yzTKuE7v5MxhKoU6wAlGOmAG8opG+6z/42?=
- =?us-ascii?Q?Ky075n0u+o6aNmU0/xnVDFFGjhspsKuAFnnfRehpDI0gvOIxiRGcyQkc/4E/?=
- =?us-ascii?Q?JZ3Mo90LidM086AomIywaLAWuqhwMluthC84/TKZUaOVWGAzazxTRWU3IHTL?=
- =?us-ascii?Q?ajJFO7AwtQCeaTmua63tfsC0z6CjgKB1FJFyJxQ8ZHzLtBCxwbgUehkWEGvp?=
- =?us-ascii?Q?9Ud+aZSBT3n1ifouuKPlk1yONU8rOlnqEJXzimSZTh+bj1j63DTLrLJZ7IZQ?=
- =?us-ascii?Q?7kNzYnVUAMssf970lAYuLz59IxfsKqv7uUuflw8QhL0PU9Pj2m19zR+Crm/m?=
- =?us-ascii?Q?mdiMSYGEfXoS8rvGkZeWGePWnPOm7IkCjYgbfiQMv7UkYw5qB72nxob6MVD9?=
- =?us-ascii?Q?3o1A8qHPy0oSnI4ADsmNfUnU4RmaD6aKTL3WOA46I7pnXrcYmWlNhcXQQeAX?=
- =?us-ascii?Q?4olMQWcS1MdfT4eMcnJacoG7ql6wBHUK7dvihzR5waYz8N/UWaqDq5vEfkT+?=
- =?us-ascii?Q?uS7e6z8I8aaDg01xxQRz7sg+D83fbXIcJOof5XKJRvl0FkEF+c49LEAzexzg?=
- =?us-ascii?Q?WM+L0fqtXB36RPy5nyZETB1BsawASLGMy2TQNvFn?=
+ <OS0PR01MB59222333D50ADBAD1786DA9A86C8A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59222333D50ADBAD1786DA9A86C8A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-ClientProxiedBy: KL1PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:820:c::17) To MN0PR11MB6206.namprd11.prod.outlook.com
+ (2603:10b6:208:3c6::8)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6206:EE_|SN7PR11MB7114:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1273b2e5-80d6-4085-b633-08dbc7009429
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PqF/X8XBB9DgNt27IVks2wivJSW/uXteVakVUjZI8IU9D4CB9akOnOSfhjlodEFhAamgsm6WpUeDdcSG+ML7+IPRl5+ZGfEAIH8BWc89/nmy2IcaTxbvBijnMbk9W+kDU6lOX/5BmacfkfVtaN7+YtLUBo5f/GedDchsPHudF2dd4hji6LRz7XChEIEgMoCW8dJP4Vh/upCKBSuXMmbIYhlU8mh/vJr8aC+RamG/vYRA3VnlFaD3sHV+u0FxaSxioH1Rj0y+a/ENywArMzZNiQJDoi7b8xzMulgTbI6IOMj/SDT6jrgVTjQ/NgmfQFXHdMkaFLinYYd4mH8FOHHZmNAux9D3AMAU0N/FOp+QAaV1d95fzDh46ihoX+ZvUzS8kq9xu4VVZJPONyV4pDcJPNtDJty0TRfFFlImN29k2q3/jpH0H/PvDKgSzbvUbHbKZoEOnTJygn9CVcm8nNnpavqk+j1TgwV++v714efym5co5Et/6aHiHS54xzVl3IUHuIeEBaW2sJ2akowBhVEpCDjyte815KHUDs/jzl/iB7c5qU4E7xAbCFSHA8UtKoSt
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6206.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(376002)(396003)(136003)(39860400002)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(4326008)(8676002)(83380400001)(5660300002)(66556008)(66946007)(316002)(6916009)(66476007)(54906003)(478600001)(6486002)(8936002)(6666004)(26005)(6512007)(6506007)(41300700001)(82960400001)(86362001)(2906002)(53546011)(38100700002)(7416002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GCLf4WhDj4IpcOSbtqSmn3BcFusULTvrmMqzVKmL72q0jCSCMfOk1y10yREs?=
+ =?us-ascii?Q?jDv7IYW+VscRkfnpXCfi54/GK+mjFLxNWVJJn34JxkompuWLxQ8YikTPvtNq?=
+ =?us-ascii?Q?H1pS2lCblDJdSUmb9b8B9XxxlixItAojLCElT7DeV19Aak5PShs59Wb7auaC?=
+ =?us-ascii?Q?yfeyx9SPoZ4aSBd+vvr82yF4t6Pdus6bkZ17owBKDyz39ctt3eGBAlGgrKGk?=
+ =?us-ascii?Q?0L4F5Zwhh5/u1mIWKiAZlRrZS/m37v23wbkAkulsy/tngysptMqrQ8bAQK9h?=
+ =?us-ascii?Q?F3F41C4dS0rJgBtFgfJTUBvJdELaaN2iDR8NkFw0/s9oCUf8Y3MhsmaRhSbc?=
+ =?us-ascii?Q?XajkSfZDvdIMKZSlXBju2ZhJ537RRmh1iZHigGzQRCaxjZp4P/L1vB0EtlHz?=
+ =?us-ascii?Q?wuDpLZuw5wT7sxoGO+YdaYQk/1+49jSRv81IKsbScJnLXM1AvuV0uEHbCC69?=
+ =?us-ascii?Q?vLMqESD8y1UV0V5ISsJSXzmS9GxjATGV/VqfKT9Cqj9RilF8UlyE9ArUSMY2?=
+ =?us-ascii?Q?M0RwtKn3mjpjuLbFqNmr8+aRl8zgYDgk9q8U/qnx/bxPUUs0bi0Zlx8YJQ+d?=
+ =?us-ascii?Q?C8b/fVxUkHxLDwe/6YUFwwfXposu1XeZ29yKrBWJy78ADRke0gtkTUkuwqxJ?=
+ =?us-ascii?Q?E7aKLZKXNyfe5gen/GbSbNuhaGwWMPWMm8tSnQxhOBIWaGlRA17GFbnG9DDY?=
+ =?us-ascii?Q?u9O9HGMH4BaBa0TXWdSxZI+fXASoMfe5hGUMxg8PBg3KMKn2+h5cLFoyro64?=
+ =?us-ascii?Q?//EtK+Ox45tLDiPUuUGb+cNRSIk9rWF3j8T554alg0llqiw+acLp6/khkTbI?=
+ =?us-ascii?Q?K2gTb9XzvVLG8XNfLM/hxc7fTY0L9sqJLiJQeZDGKVV0k9b5Mp6Tj3YjkhUs?=
+ =?us-ascii?Q?esLhbrUZx1Fv0gk0CDN4M6scigeNY6DPcX+KWMH/QAD8iTtuPbaGlmgS7vSt?=
+ =?us-ascii?Q?tumlFtKggfScMuvq/k1ARdcgSqrWPNPb/onr5qTTHP3l1wAGtuRQ/QAS0WJe?=
+ =?us-ascii?Q?2Pk0BRXvV9aqu4g2EUcZ7NVal7AtU8O99GvDEat/Dc245ki+fwvz3NoPuTZm?=
+ =?us-ascii?Q?KdKieYSm3vOJboSuYzSbRWb8Qe6IcKl3rOHMtvCkSQVDepJuASzPFqoiBW4Q?=
+ =?us-ascii?Q?2WG/mD7KMk3ezoBx/+Pkv0pwjHkDPNktdstHN+ro2UWKU6WzG0vPYvuVmJWe?=
+ =?us-ascii?Q?y1/SlSRsuLYmuomvHA/ptrx3NRy8jeGbHkJTkB919OzwZiNjmsU2OGeBepRh?=
+ =?us-ascii?Q?kkEODOI2aGFvs7iXKa1QEQyVK2oDPINw+u3b1dIDQflTCz01ej4rgouTcROQ?=
+ =?us-ascii?Q?3XJHKpCmEWqYV+GznsaN8lUAjrDFoXITZecP/uu1NGYf7NRRYhSKHp9OB6eC?=
+ =?us-ascii?Q?BAUGDyvOLTcsSLoZepsHyRISiBuql+tF9jIzMFFEAtYeVeQVIEtNZd2DMZzZ?=
+ =?us-ascii?Q?mtcZdgkkCZJpKDd7R7u/CumN7CcUAdcpqwnWKI3KWk3Q8UZVbU4Xzd1Y4bsS?=
+ =?us-ascii?Q?xoACz+PaVMF8khHo0vaanMHjfk0tHfjWCTiuCMXUbTOJ0E3TpnPv/eVBPqvV?=
+ =?us-ascii?Q?FUPG4gzTWmaf1oVU7g0d9jY+b7BP+0baL/GPtGHp?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1273b2e5-80d6-4085-b633-08dbc7009429
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6206.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4070fa00-eb58-43d5-2e8f-08dbc6fe491b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2023 06:26:05.3147
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2023 06:42:30.8071
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n70kkbPBlQkSV5FiJpYRZIp3q8dTsNgqBBIhAD4UxSmMNSwfitKjwYed+WhSeajGbAchS69bt7X41ax6zTQn4B737tZonl0+/u66KNWh7hs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5613
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kl4U3Dd374y+F73gFAdGC/vW8HJy7UY+IRKb2oQ0+FWzLQct3uDTj2scNaln9utHPH5PnbFNkf920tpfxK3DMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7114
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chen Yu,
+Hi Biju,
 
-> Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correc=
-t
-> se
->=20
-> On 2023-10-06 at 21:24:45 +0200, Peter Zijlstra wrote:
-> > On Fri, Oct 06, 2023 at 05:55:01PM +0200, Peter Zijlstra wrote:
-> >
-> > > And yeah, min_deadline is hosed somehow.
+On 2023-10-07 at 06:26:05 +0000, Biju Das wrote:
+> Hi Chen Yu,
+> 
+> > Subject: Re: [PATCH] sched/fair: fix pick_eevdf to always find the correct
+> > se
+> > 
+> > On 2023-10-06 at 21:24:45 +0200, Peter Zijlstra wrote:
+> > > On Fri, Oct 06, 2023 at 05:55:01PM +0200, Peter Zijlstra wrote:
 > > >
-> > > migration/28-185     [028] d..2.    70.264274: validate_cfs_rq: --- /
-> > > migration/28-185     [028] d..2.    70.264277: __print_se:
-> ffff88845cf48080 w: 1024 ve: -58857638 lag: 870381 vd: -55861854 vmd: -
-> 66302085 E (11372/tr)
-> > > migration/28-185     [028] d..2.    70.264280: __print_se:
-> ffff88810d165800 w: 25 ve: -80323686 lag: 22336429 vd: -41496434 vmd: -
-> 66302085 E (-1//autogroup-31)
-> > > migration/28-185     [028] d..2.    70.264282: __print_se:
-> ffff888108379000 w: 25 ve: 0 lag: -57987257 vd: 114632828 vmd: 114632828 =
-N
-> (-1//autogroup-33)
-> > > migration/28-185     [028] d..2.    70.264283: validate_cfs_rq:
-> min_deadline: -55861854 avg_vruntime: -62278313462 / 1074 =3D -57987256
+> > > > And yeah, min_deadline is hosed somehow.
+> > > >
+> > > > migration/28-185     [028] d..2.    70.264274: validate_cfs_rq: --- /
+> > > > migration/28-185     [028] d..2.    70.264277: __print_se:
+> > ffff88845cf48080 w: 1024 ve: -58857638 lag: 870381 vd: -55861854 vmd: -
+> > 66302085 E (11372/tr)
+> > > > migration/28-185     [028] d..2.    70.264280: __print_se:
+> > ffff88810d165800 w: 25 ve: -80323686 lag: 22336429 vd: -41496434 vmd: -
+> > 66302085 E (-1//autogroup-31)
+> > > > migration/28-185     [028] d..2.    70.264282: __print_se:
+> > ffff888108379000 w: 25 ve: 0 lag: -57987257 vd: 114632828 vmd: 114632828 N
+> > (-1//autogroup-33)
+> > > > migration/28-185     [028] d..2.    70.264283: validate_cfs_rq:
+> > min_deadline: -55861854 avg_vruntime: -62278313462 / 1074 = -57987256
+> > > >
+> > > > I need to go make dinner (kids hungry), but I'll see if I can figure
+> > > > out how this happens...
 > > >
-> > > I need to go make dinner (kids hungry), but I'll see if I can figure
-> > > out how this happens...
-> >
-> > *sigh*, does the below help?
-> >
-> > ---
-> > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c index
-> > 04fbcbda97d5..6a670f119efa 100644
-> > --- a/kernel/sched/fair.c
-> > +++ b/kernel/sched/fair.c
-> > @@ -3632,6 +3747,7 @@ static void reweight_entity(struct cfs_rq *cfs_rq=
-,
-> struct sched_entity *se,
-> >  		 */
-> >  		deadline =3D div_s64(deadline * old_weight, weight);
-> >  		se->deadline =3D se->vruntime + deadline;
-> > +		min_deadline_cb_propagate(&se->run_node, NULL);
-> >  	}
-> >
-> >  #ifdef CONFIG_SMP
->=20
-> Is it because without this patch, the se->deadline is not always synced
-> with se->min_deadline, then in pick_eevdf() the following condition could
-> not be met, thus we get a NULL candidate and has to pick the leftmost one=
-?
-> 	if (se->deadline =3D=3D se->min_deadline)
->=20
-> Regarding the circular locking warning triggered by printk, does it mean =
-we
-> should not get a NULL candidate from __pick_eevdf() in theory? And beside=
-s,
-> we should not use printk with rq lock hold?
+> > > *sigh*, does the below help?
+> > >
+> > > ---
+> > > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c index
+> > > 04fbcbda97d5..6a670f119efa 100644
+> > > --- a/kernel/sched/fair.c
+> > > +++ b/kernel/sched/fair.c
+> > > @@ -3632,6 +3747,7 @@ static void reweight_entity(struct cfs_rq *cfs_rq,
+> > struct sched_entity *se,
+> > >  		 */
+> > >  		deadline = div_s64(deadline * old_weight, weight);
+> > >  		se->deadline = se->vruntime + deadline;
+> > > +		min_deadline_cb_propagate(&se->run_node, NULL);
+> > >  	}
+> > >
+> > >  #ifdef CONFIG_SMP
+> > 
+> > Is it because without this patch, the se->deadline is not always synced
+> > with se->min_deadline, then in pick_eevdf() the following condition could
+> > not be met, thus we get a NULL candidate and has to pick the leftmost one?
+> > 	if (se->deadline == se->min_deadline)
+> > 
+> > Regarding the circular locking warning triggered by printk, does it mean we
+> > should not get a NULL candidate from __pick_eevdf() in theory? And besides,
+> > we should not use printk with rq lock hold?
+> 
+> Is it not a useful error log? At least from the initial report Marek Szyprowski doesn't see "EEVDF scheduling fail, picking leftmost" but seen only warning triggered by this in the logs.
+> 
 
-Is it not a useful error log? At least from the initial report Marek Szypro=
-wski doesn't see "EEVDF scheduling fail, picking leftmost" but seen only wa=
-rning triggered by this in the logs.
+Yes, it is a useful log. I was trying to figure out the safe scenario to use
+printk.
 
-Cheers,
-Biju
+thanks,
+Chenyu
