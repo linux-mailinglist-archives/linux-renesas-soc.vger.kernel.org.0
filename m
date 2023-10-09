@@ -2,132 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D8B7BD547
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 10:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4096F7BD6E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 11:24:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234389AbjJIIew convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 04:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
+        id S1345801AbjJIJYm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Oct 2023 05:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234378AbjJIIev (ORCPT
+        with ESMTP id S1346068AbjJIJY3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 04:34:51 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 396D49F;
-        Mon,  9 Oct 2023 01:34:48 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-59f6e6b206fso53460597b3.3;
-        Mon, 09 Oct 2023 01:34:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696840487; x=1697445287;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+3OahYfdCxv80l6RdHzhMjxT84AMNbMTgSYeJWK9cGg=;
-        b=FhaQ0bmWr4pGjG2fPNyJCsGhPuyMXXPxC8mQIQcLscNxOPT/stRjwu9vS7kiy7RZH4
-         bOix44miWmmxfn4AvEbj+H00rTMXEkFp58rc2USHm3pllmD+3S1bVL5rgHuEGv/L/QGO
-         YVPBJKJDkb957p9PrXiurUrmBlQfd4vEVMDvvmUu6g7KZ85JvS14t2K4nC98iCA4jyEV
-         dz58wbZHB0px4tyCD+Rd4WwQUUvKXwHstbYQB51FYYBl+8eJersc83JQsb6/iQm15MHW
-         EkNwlppEiC14EKSppf9con6hCftwgLYKofRq4vabp+Sf3D1zLI7gg1BCGRbBPAZEADQE
-         3bug==
-X-Gm-Message-State: AOJu0YxCt4+kgb0pZYNSRwmRtnRbfwfs/7fNqM5GFuQ69Xdxd6Se9mOa
-        NYp+G8MMu+SA13gpZRxuCifqDHW4blOIcA==
-X-Google-Smtp-Source: AGHT+IGLIT5L2LUhbRl/eEFCDJDZAyVnsDIz9LVzsCkhPnmfExrcAwF7iiJKW0tB6UUA/552jnxY8g==
-X-Received: by 2002:a81:4f94:0:b0:59f:5dc3:9fac with SMTP id d142-20020a814f94000000b0059f5dc39facmr15773219ywb.6.1696840487262;
-        Mon, 09 Oct 2023 01:34:47 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id m188-20020a0dcac5000000b0059beb468cb4sm3520024ywd.1.2023.10.09.01.34.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 01:34:46 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-59f6e6b206fso53460437b3.3;
-        Mon, 09 Oct 2023 01:34:46 -0700 (PDT)
-X-Received: by 2002:a81:d24f:0:b0:5a1:d398:2e with SMTP id m15-20020a81d24f000000b005a1d398002emr18003738ywl.37.1696840486754;
- Mon, 09 Oct 2023 01:34:46 -0700 (PDT)
+        Mon, 9 Oct 2023 05:24:29 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C551A8
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Oct 2023 02:23:27 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpmTE-0006sS-FJ; Mon, 09 Oct 2023 11:22:36 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpmTB-000NWK-WD; Mon, 09 Oct 2023 11:22:34 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpmTB-00C4om-Lw; Mon, 09 Oct 2023 11:22:33 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yangtao Li <frank.li@vivo.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Lars Persson <lars.persson@axis.com>,
+        linux-arm-kernel@axis.com, Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/20] pinctrl: Convert to platform remove callback returning void
+Date:   Mon,  9 Oct 2023 10:38:36 +0200
+Message-Id: <20231009083856.222030-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20231009-sandbar-botch-0f398fd2e289@wendy>
-In-Reply-To: <20231009-sandbar-botch-0f398fd2e289@wendy>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Oct 2023 10:34:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVojwgOP8bqHobgbsgUA+7yxUA7v5M6Z800zxrCeuxZjg@mail.gmail.com>
-Message-ID: <CAMuHMdVojwgOP8bqHobgbsgUA+7yxUA7v5M6Z800zxrCeuxZjg@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: select ERRATA_ANDES for R9A07G043 only when
- alternatives are present
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     linux-renesas-soc@vger.kernel.org, conor@kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3496; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=pt9OZIbEVRO7CYphejzNzNKVBdTQOuLMQfjMm/xdSsg=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlTl3b98hd42/517xHB/gviiPU/9MqwUZ0mXf7uieqT57 e1Tr4s5OxmNWRgYuRhkxRRZ7BvXZFpVyUV2rv13GWYQKxPIFAYuTgGYiNF79n9mT5b+PJ2R+ikl wLMnduL/rK7Z79ojXnBnnL3QVfV6IeOf7r+yDxdeUQ/VNbcoUj9/TSL8bE71Y7sDqxerpXI6VEs /1P97Z0YuT218uWOkw/O0NY6abDVGc6fHL8n96l+lGaq7OrdAK4Ax5VjhrnRrd5OA6peWBvlTb3 AyXvpSMPXrLx65FXyMmsnHnqZ+uvjL8HBZBXOtsu7S3Jpkh9r2xaYef+NnftHqsljaMnF9yufEf 1E6pW1rZr69u0fZs2RLfUdYQdgLp/hzIZpzmerWsjlmfmDdx9Wlc7RYWop3kxrz7+18KXNuV655 FaFwVYNlX9ml35+UxAPLrx9fo8B+cpJOMQ9zsGQi0zFOAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hello,
 
-On Mon, Oct 9, 2023 at 10:12 AM Conor Dooley <conor.dooley@microchip.com> wrote:
-> Randy reported a randconfig build issue against linux-next:
-> WARNING: unmet direct dependencies detected for ERRATA_ANDES
->   Depends on [n]: RISCV_ALTERNATIVE [=n] && RISCV_SBI [=y]
->   Selected by [y]:
->   - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y] && NONPORTABLE [=y] && RISCV_SBI [=y]
->
-> ../arch/riscv/errata/andes/errata.c:59:54: warning: 'struct alt_entry' declared inside parameter list will not be visible outside of this definition or declaration
->    59 | void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
->
-> On RISC-V, alternatives are not usable in XIP kernels, which this
-> randconfig happened to select. Add a check for whether alternatives are
-> available before selecting the ERRATA_ANDES config option.
->
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/all/09a6b0f0-76a1-45e3-ab52-329c47393d1d@infradead.org/
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+after three minor improvements/simplifications this series converts all
+platform_drivers below drivers/pinctrl to .remove_new().
 
-Thanks for your patch!
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for an extended explanation and the eventual goal.
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -343,7 +343,7 @@ config ARCH_R9A07G043
->         select ARCH_RZG2L
->         select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
->         select DMA_GLOBAL_POOL
-> -       select ERRATA_ANDES if RISCV_SBI
-> +       select ERRATA_ANDES if (RISCV_SBI && RISCV_ALTERNATIVE)
+The only interdependencies in this series are the patches that touch a
+single driver (that is (1, 13), (2, 12), (3, 20)). As there are still
+quite a few drivers to convert, I'm happy about every patch that makes
+it in. So even if there is a merge conflict with one patch until you
+apply (or a different concern that doesn't apply to all patches), please
+apply the remainder of this series anyhow. I'll come back to the part
+that you (maybe) skipped at a later point.
 
-Perhaps ARCH_R9A07G043 should depend on RISCV_ALTERNATIVE (and
-RISCV_SBI) instead?  It's not like RZ/Five is gonna work without the
-Andes errata handling present (unless all of them are related to cache
-handling, and we can run uncached; also see below)).
+Best regards
+Uwe
 
->         select ERRATA_ANDES_CMO if ERRATA_ANDES
+Uwe Kleine-König (20):
+  pinctrl: stmfx: Improve error message in .remove()'s error path
+  pinctrl: single: Drop if block with always false condition
+  pinctrl: ti: ti-iodelay: Drop if block with always false condition
+  pinctrl: cirrus: madera-core: Convert to platform remove callback
+    returning void
+  pinctrl: intel: cherryview: Convert to platform remove callback
+    returning void
+  pinctrl: intel: lynxpoint: Convert to platform remove callback
+    returning void
+  pinctrl: nomadik: abx500: Convert to platform remove callback
+    returning void
+  pinctrl: amd: Convert to platform remove callback returning void
+  pinctrl: artpec6: Convert to platform remove callback returning void
+  pinctrl: as3722: Convert to platform remove callback returning void
+  pinctrl: rockchip: Convert to platform remove callback returning void
+  pinctrl: single: Convert to platform remove callback returning void
+  pinctrl: stmfx: Convert to platform remove callback returning void
+  pinctrl: tb10x: Convert to platform remove callback returning void
+  pinctrl: qcom: spmi-gpio: Convert to platform remove callback
+    returning void
+  pinctrl: qcom: spmi-mpp: Convert to platform remove callback returning
+    void
+  pinctrl: qcom: ssbi-gpio: Convert to platform remove callback
+    returning void
+  pinctrl: qcom: ssbi-mpp: Convert to platform remove callback returning
+    void
+  pinctrl: renesas: rzn1: Convert to platform remove callback returning
+    void
+  pinctrl: ti: ti-iodelay: Convert to platform remove callback returning
+    void
 
-And then this "if" can go as well.
+ drivers/pinctrl/cirrus/pinctrl-madera-core.c |  6 ++----
+ drivers/pinctrl/intel/pinctrl-cherryview.c   |  6 ++----
+ drivers/pinctrl/intel/pinctrl-lynxpoint.c    |  5 ++---
+ drivers/pinctrl/nomadik/pinctrl-abx500.c     |  5 ++---
+ drivers/pinctrl/pinctrl-amd.c                |  6 ++----
+ drivers/pinctrl/pinctrl-artpec6.c            |  6 ++----
+ drivers/pinctrl/pinctrl-as3722.c             |  5 ++---
+ drivers/pinctrl/pinctrl-rockchip.c           |  6 ++----
+ drivers/pinctrl/pinctrl-single.c             |  9 ++-------
+ drivers/pinctrl/pinctrl-stmfx.c              | 16 ++++++++++------
+ drivers/pinctrl/pinctrl-tb10x.c              |  6 ++----
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c     |  5 ++---
+ drivers/pinctrl/qcom/pinctrl-spmi-mpp.c      |  5 ++---
+ drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c     |  6 ++----
+ drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c      |  6 ++----
+ drivers/pinctrl/renesas/pinctrl-rzn1.c       |  6 ++----
+ drivers/pinctrl/ti/pinctrl-ti-iodelay.c      | 11 ++---------
+ 17 files changed, 42 insertions(+), 73 deletions(-)
 
-Any other hard dependencies?
-E.g. can RZ/Five work without RISCV_DMA_NONCOHERENT?
 
->         help
->           This enables support for the Renesas RZ/Five SoC.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.40.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
