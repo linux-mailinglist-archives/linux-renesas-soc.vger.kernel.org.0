@@ -2,70 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 717F17BDA59
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 13:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0E587BDA7C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 13:57:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346350AbjJILyn convert rfc822-to-8bit (ORCPT
+        id S1346386AbjJIL5z convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 07:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36626 "EHLO
+        Mon, 9 Oct 2023 07:57:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346341AbjJILym (ORCPT
+        with ESMTP id S1346354AbjJIL5y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 07:54:42 -0400
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A486A6;
-        Mon,  9 Oct 2023 04:54:40 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5a2379a8b69so53619037b3.2;
-        Mon, 09 Oct 2023 04:54:40 -0700 (PDT)
+        Mon, 9 Oct 2023 07:57:54 -0400
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D6C99;
+        Mon,  9 Oct 2023 04:57:52 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5a7af20c488so766257b3.1;
+        Mon, 09 Oct 2023 04:57:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696852479; x=1697457279;
+        d=1e100.net; s=20230601; t=1696852671; x=1697457471;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mKftZbIuUuwHrrNDRHp67wk5T+SshNeupCiJ+fTYlnU=;
-        b=Y92UVjIjkthEVVNt7GAvfT/kHstbOjMvYMcjvSajFgqqkWWAJffcqYlddgudDU527D
-         QjakuLFbtpDDzUVOL2uAjyIKP26S+wOHmRJ03WtwjxubK2sbP0ssz2MhuQqxR0TmLWcQ
-         FNAnlSZ5Rs9Jg6frbO8u4lNikNAJr79IViMZ6hfLMNMx00ISHoWNTHl40VFImUj6Rgvy
-         x2d2XeSJu17l0LJzxp9K0KM5FykeMOZE+zVHSRbc1eekmYBM6Ll4XPqhfNgqSvy7YjcE
-         IJVCb2PLXv094qtz+eeW/VFa3nefuzX9Mv6vwnoGG7O6yywlTSAJBiThN3X1r8RpoJpd
-         qwNA==
-X-Gm-Message-State: AOJu0YxD93Pa9CXQc2OM03DDA0QtsUsfDiItDx+7JtnW6PPCniI06cvL
-        xIIVpczHv/zIztdxR7mn9P5cAm/C4FEH1A==
-X-Google-Smtp-Source: AGHT+IHdhxdkJjTEtKZ3Vn3xtAJXCe9uaQUwvTiyG4MzG44zukomqtZWeY5s748HwgQfE32FgI+qKw==
-X-Received: by 2002:a81:62d7:0:b0:576:fc3a:3ef5 with SMTP id w206-20020a8162d7000000b00576fc3a3ef5mr16417248ywb.47.1696852479286;
-        Mon, 09 Oct 2023 04:54:39 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id x184-20020a814ac1000000b005869ca8da8esm3615750ywa.146.2023.10.09.04.54.38
+        bh=9f0PTv84uwB8e7Frsy1nJ0Q69ieHgE7cDk3dtnj/+BE=;
+        b=rWO97CYX/yvxXutuSPIEOSpJUP7+A8mPmqV2fhJsqbISajtO1X44kbUGgdhRwMI9Cw
+         5TaUjO35xq8EI8nF+Zt7EHI39YK+OMb4x4wMHUTSjwJKNy80blc9C7fhokD7ZEvo7zbA
+         LCJ/492kc6EIDOrvA5mMnwm/SMr3dgI7v5N7lWHMHzo8T/L4fUnQqA1uO5uxtXeIWcuQ
+         9w0iGfpN8ghTn0OqrnaTNzgVcwG4qlQjOrrKLfLvHzcu3xZ35TpaXyKuJ7EMv5PqPzRf
+         RPrz0LuMXiQJJqvrEIOcnMyt7tIomAEec0cqBGktxLWN94ghrmdQmvr24xpL9xhsKOp7
+         98CQ==
+X-Gm-Message-State: AOJu0YyxgwUHv5tUPHVuKUVT0NS0jBS7ISjKretPGSRi9+ageTNg7IOu
+        NOb2N2KYFR/Pivww0DlUKSM1/HvxRMWxAw==
+X-Google-Smtp-Source: AGHT+IHhc33szlhZCOgodX5aT1yqL7F0k04W0I4Y5OfqHlKE0gqx1D4i4dS8q2o7cfiCtAu8OARmDg==
+X-Received: by 2002:a81:5387:0:b0:591:8d06:e4e8 with SMTP id h129-20020a815387000000b005918d06e4e8mr15952268ywb.38.1696852671468;
+        Mon, 09 Oct 2023 04:57:51 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id u17-20020a81a511000000b0059af9f2ee68sm3563640ywg.66.2023.10.09.04.57.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 04:54:38 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d8195078f69so4643845276.3;
-        Mon, 09 Oct 2023 04:54:38 -0700 (PDT)
-X-Received: by 2002:a25:add4:0:b0:d9a:3bbb:8602 with SMTP id
- d20-20020a25add4000000b00d9a3bbb8602mr297864ybe.64.1696852478659; Mon, 09 Oct
- 2023 04:54:38 -0700 (PDT)
+        Mon, 09 Oct 2023 04:57:51 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a505762c9dso54520607b3.2;
+        Mon, 09 Oct 2023 04:57:50 -0700 (PDT)
+X-Received: by 2002:a0d:ea95:0:b0:5a1:ed8d:111f with SMTP id
+ t143-20020a0dea95000000b005a1ed8d111fmr15870851ywe.1.1696852670754; Mon, 09
+ Oct 2023 04:57:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231006103959.197485-1-claudiu.beznea.uj@bp.renesas.com> <20231006103959.197485-5-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231006103959.197485-5-claudiu.beznea.uj@bp.renesas.com>
+References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
+ <20230929053915.1530607-12-claudiu.beznea@bp.renesas.com> <CAMuHMdX8wPNr4LsPJR7zk3Ktb8NnqcSMUEjsAURc2NJ_dpiDHw@mail.gmail.com>
+In-Reply-To: <CAMuHMdX8wPNr4LsPJR7zk3Ktb8NnqcSMUEjsAURc2NJ_dpiDHw@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Oct 2023 13:54:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW9YaL3OBnWYqTCH63DBw1-Q_pVp0ZhEnYL6iuQpQeLCQ@mail.gmail.com>
-Message-ID: <CAMuHMdW9YaL3OBnWYqTCH63DBw1-Q_pVp0ZhEnYL6iuQpQeLCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] clk: renesas: add minimal boot support for RZ/G3S SoC
+Date:   Mon, 9 Oct 2023 13:57:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX5W60nG_iPgDzcQiD2zByu734gM3d8J5Bn3V2RTTG=jg@mail.gmail.com>
+Message-ID: <CAMuHMdX5W60nG_iPgDzcQiD2zByu734gM3d8J5Bn3V2RTTG=jg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/28] clk: renesas: rzg2l: add a divider clock for RZ/G3S
 To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, magnus.damm@gmail.com,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, magnus.damm@gmail.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
+        neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,23 +77,80 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 6, 2023 at 12:40 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add minimal clock and reset support for RZ/G3S SoC to be able to boot
-> Linux from SD Card/eMMC. This includes necessary core clocks for booting
-> and GIC, SCIF, GPIO, SD0 mod clocks and resets.
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes in v3:
-> - collected Rb tag
-> - passed max rate to DEF_G3S_DIV()
+Hi Claudiu,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v6.7.
+On Wed, Oct 4, 2023 at 2:30 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > Add a divider clock driver for RZ/G3S. This will be used in RZ/G3S
+> > by SDHI, SPI, OCTA, I, I2, I3, P0, P1, P2, P3 core clocks.
+> > The divider has some limitation for SDHI and OCTA clocks:
+> > - SD div cannot be 1 if parent rate is 800MHz
+> > - OCTA div cannot be 1 if parent rate is 400MHz
+> > For these clocks a notifier could be registered from platform specific
+> > clock driver and proper actions are taken before clock rate is changed,
+> > if needed.
+> >
+> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > ---
+> >
+> > Changes in v2:
+> > - removed DIV_NOTIF macro
+
+> > --- a/drivers/clk/renesas/rzg2l-cpg.c
+> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
+
+> > +static struct clk * __init
+> > +rzg3s_cpg_div_clk_register(const struct cpg_core_clk *core, struct clk **clks,
+> > +                          void __iomem *base, struct rzg2l_cpg_priv *priv)
+> > +{
+> > +       struct div_hw_data *div_hw_data;
+> > +       struct clk_init_data init = {};
+> > +       const struct clk_div_table *clkt;
+> > +       struct clk_hw *clk_hw;
+> > +       const struct clk *parent;
+> > +       const char *parent_name;
+> > +       u32 max;
+> > +       int ret;
+> > +
+> > +       parent = clks[core->parent & 0xffff];
+> > +       if (IS_ERR(parent))
+> > +               return ERR_CAST(parent);
+> > +
+> > +       parent_name = __clk_get_name(parent);
+> > +
+> > +       div_hw_data = devm_kzalloc(priv->dev, sizeof(*div_hw_data), GFP_KERNEL);
+> > +       if (!div_hw_data)
+> > +               return ERR_PTR(-ENOMEM);
+> > +
+> > +       init.name = core->name;
+> > +       init.flags = core->flag;
+> > +       init.ops = &rzg3s_div_clk_ops;
+> > +       init.parent_names = &parent_name;
+> > +       init.num_parents = 1;
+> > +
+> > +       /* Get the maximum divider to retrieve div width. */
+> > +       for (clkt = core->dtable; clkt->div; clkt++) {
+> > +               if (max < clkt->div)
+>
+> "max" is used uninitialized
+>
+> > +                       max = clkt->div;
+> > +       }
+> > +
+> > +       div_hw_data->hw_data.priv = priv;
+> > +       div_hw_data->hw_data.conf = core->conf;
+> > +       div_hw_data->hw_data.sconf = core->sconf;
+> > +       div_hw_data->dtable = core->dtable;
+> > +       div_hw_data->invalid_rate = core->invalid_rate;
+> > +       div_hw_data->width = fls(max) - 1;
+>
+> Isn't that
+
+My apologies for not finishing my sentence; I wanted to write "Isn't
+that identical to __fls(max)?".  But as the latter generates slightly
+worse code, it's not worth making that change.
 
 Gr{oetje,eeting}s,
 
