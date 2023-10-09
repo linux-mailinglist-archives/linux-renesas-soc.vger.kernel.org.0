@@ -2,67 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EED7BD3D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 08:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1719C7BD3F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 09:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345319AbjJIGyW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 02:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
+        id S1345265AbjJIHAo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Oct 2023 03:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345307AbjJIGyW (ORCPT
+        with ESMTP id S1345027AbjJIHAn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 02:54:22 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2097.outbound.protection.outlook.com [40.107.113.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE10DA4;
-        Sun,  8 Oct 2023 23:54:19 -0700 (PDT)
+        Mon, 9 Oct 2023 03:00:43 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2135.outbound.protection.outlook.com [40.107.113.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1BFA4;
+        Mon,  9 Oct 2023 00:00:38 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BfkzCIXxEdv5+P06kzJzEec9HwiM3LO0GN5aceaQ9Q1K7FKLDtPZhkuxqDi9Rn7Eex4Vh8rGAh+T/5zZXp9drt9sqOk2n5DM+LpueqOwUoYz7bA7VmEoE5+4D2X1V/8O65TsQG2fI55bJHjBzCoxpizVVp9LN6zDYHFJrc553b4tWIPasdqRPdS1YhRwi8PMrGCxoeDqEz3/J6y48uOluVuoWr5Ytgvk5vakyvi0veTmhhYEOeV2G3Gb5ke2w5gOT2/hXPxKRMPF/odTKvwyJFqLuSP6AdAGVAHj0Hmr8xER7eZ7HzY8EFKr2vxXMHdaWdvSLRktDMpLBkttzLQzKw==
+ b=EUUhaYPY/tEC5N46iMK2wa3HlKe0UIFjqG+gVhuRaSfMRp2oUO6VPGWgSfqoAmfvn4Mex+6WNc9gtDtv6yKI6Z//4EVCAVPlaCh/Y+wNvZxJzhgpv4BAazMtrwEY38ASRiQv8VZtBeJRzcrat2bchyRrohkEQ+Lci/FGLbODGVvRM69p2zpR2KuAYnLHCGVRnp9ab3U0fDFqo4LfjxYgKdsGhj9wWTNbQCBmH2H6xWMwxlQhjCgH5WgGz5yixb9o95h7+bIDIQmRz31yS8qJlzXsrBI5m0KAysOlUJpguzn92Z0nwBpHDUGk1pjmti0MIkW0BFsKr16bHPSlveua1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RVblxFsy2u2qc8GiTrkrEwyLK59HxPoB8fIIUE0n1yg=;
- b=Tf9GA8ic+DD8dZ6PTshGJQl8nejuUrCDWsA61z3VQRCvuj3iEpMqZgyOYuHw52H70zDMRdGyzocDc9UPakYdoxeiZZ+LqnDwldcznwz1RBC8it3b43o/L2PZVjg3T0R+WWPfo4jKmPr4VYJ2FzXiqyFhaivWDHEtjtG0KEsJMzBkd4z/4Eq/fZi32Nv334R0pVrRRKvFdmF2qXPRvpPv5QZpI7ZmpNdk4Xq22/C8omYIblDmbGm108LpIXLiQYvUKHqT2LyhWq00GzoL2lJE5EMZ5LPxHk3JiF+NGHUnpYexiCqEN2RTMW7LhSkXvkZyJvC3ggcQhcrbukMZtAG4hQ==
+ bh=7S5LOR9OxRtjb89f2usEE7baIVFPKqERdYAjAapKr2I=;
+ b=NoXC3U+kcTxOU1jK5GrVPfMRzEqwnpUK7ZV0F39GACudMlhE+0QWFF9YE25FH4xgIFl1xRwsCwfUUHPwMenFyr9GHU/mmY0jvMM2zFzHANIpotIc+GT5/06FmQmuQhv+eskmIKUjYt4Gz/N5D0MQuTJUwmtk8TZeRyVZ+3sjG5cVppovqG17OEIaL2osF5a5oOXvA/YuC2nqH690xnzMSpJFoffocpDXjTVdh376gtzeGjWxzTrM/Q6+CV6PjpJFzLBFRBJD5m2G4PS6w0VFAcnGUxUrFp2huvRqLF2n/LMHpHp0WWWXjTuM6/3qo/FHnH3kV6g/CtqLrJouqNlr/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVblxFsy2u2qc8GiTrkrEwyLK59HxPoB8fIIUE0n1yg=;
- b=ktTZSXo8DAb2M48xWrqcvPXZLQe/DEmoJMkCAv/2H/UbOkyOSjM3koLH6wRhGithcaOadN2SoSSYXueXfaJz+I4NlzhjGIjke1AhI3WlFWJye3wSB13KPTIfytAERFDg4Eq8zviG3INaeujhTFPrYl4nyh6zc8kQ5y51VX4BZgc=
+ bh=7S5LOR9OxRtjb89f2usEE7baIVFPKqERdYAjAapKr2I=;
+ b=n0IalML5QgUVL4bbXDtO/FtQo9DjA9WABFV77pa6XDynCzN87CM72wibajcQpjOtq4blcs1prG1vObHsQVgw25WALchVEVtJ2NIwSEluFGOI73nyiPCxyGY3H0jmlIDdwWB0C8uTfGQWCdrRuA7KdN/cwMfprvWZEVTkh651k2E=
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TY1PR01MB10819.jpnprd01.prod.outlook.com
- (2603:1096:400:327::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Mon, 9 Oct
- 2023 06:54:15 +0000
+ (2603:1096:400:3c0::10) by TYBPR01MB5502.jpnprd01.prod.outlook.com
+ (2603:1096:404:801e::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Mon, 9 Oct
+ 2023 07:00:34 +0000
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::db75:e192:bbfa:78a2]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::db75:e192:bbfa:78a2%3]) with mapi id 15.20.6838.040; Mon, 9 Oct 2023
- 06:54:15 +0000
+ 07:00:34 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC:     John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Biju Das <biju.das.au@gmail.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Conor Dooley <conor@kernel.org>
-Subject: RE: [PATCH v3 0/5] Add RZ/G2UL MTU3a support
-Thread-Topic: [PATCH v3 0/5] Add RZ/G2UL MTU3a support
-Thread-Index: AQHZwGL9ceemCZ2jGkW1QY8DTieJS7AEyheAgBvCJQCAIOwA8A==
-Date:   Mon, 9 Oct 2023 06:54:15 +0000
-Message-ID: <TYCPR01MB112697D67514D2E6FC690B9F886CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20230727081848.100834-1-biju.das.jz@bp.renesas.com>
- <20230831-iphone-muscular-7442cda2c39e@spud>
- <TYCPR01MB5933370B7660B8504B2D8D7386FBA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB5933370B7660B8504B2D8D7386FBA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] alarmtimer: Fix rebind failure
+Thread-Topic: [PATCH v2] alarmtimer: Fix rebind failure
+Thread-Index: AQHZ7SyA4lmrPv0tQ0OIkUBZ8XwsyrBBIUcQ
+Date:   Mon, 9 Oct 2023 07:00:34 +0000
+Message-ID: <TYCPR01MB1126955B887E78829C40224A886CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -70,56 +65,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY1PR01MB10819:EE_
-x-ms-office365-filtering-correlation-id: de7a98a0-84c3-4697-f5ad-08dbc8948d50
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYBPR01MB5502:EE_
+x-ms-office365-filtering-correlation-id: ce7685c9-1c46-42f6-0653-08dbc8956f2a
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gbfiatMLwzJrQT8EYdeTVXlTqIGuGw1+2jx1/mKvIh2tjPzbMhS/OlxQnqNxtvlWI5YpTOz5Bd6FfaAqfDsccZ8Gt1syjQjbjXADZOuXpgO2TnI3ExquDZ87ITcvRy6RQtKlGTXZWcCVhaIFlvQIN5FI3w60WjragfIl3KwX7/K7YjE82icPATq3RUvkNUs9fRzyxpmm2gTXw+BsPzy28sp8kClbvJtTFMU2b4RdHkLQYnxdL6pC8bK6zdn+abb98tfHIxpMfA2+XlXCrcklTvxHmqrmgkviETqDsYP3rERCwqm2eaIy6E/poYsmwYYZuHInuvfePIxn/6CUS+9bOui3dR5bqQmvFoyY4IkuAD5k3ohtCHxXvovByBqabau3HFXyO4QdwETpT/cUvTeLzUBy361v0fnlwu7kcIA7ONolitB60BjY9uORHNkXNyjDdIi8PUWEEKc94uat1FoEYH3Zq9fpxqWW+GAinW+AyYxRZOJKm8CNNV/aeSRJhKT1/YHqhCmQLpP+CttPfO1l33rTMM6fwG+zYdaRr9SMfcWUv9bO7Fy62t8G1lbE5X9prA7sArvgFHn1UfQLcQ6ZkRJXzaE0oPx7SSzBip8JLrPI5lx4qlLF13vEJifqk6PReK3AjQznns2s3dxBuBm/6A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(376002)(366004)(396003)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(76116006)(110136005)(8676002)(8936002)(5660300002)(4326008)(66556008)(66946007)(54906003)(66476007)(66446008)(64756008)(316002)(52536014)(41300700001)(7416002)(2906002)(38100700002)(38070700005)(122000001)(83380400001)(55016003)(9686003)(86362001)(26005)(33656002)(478600001)(7696005)(71200400001)(6506007)(32563001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: LB6k1BzHPxv3ndkIL3z/FI9mSg3vuKUx/atwfW3I/DN0X6nkzhvSRloTiy+Ojth7qgEBO/CLQOPThVQdP8q7XuYd2ZVFpy/u05fgyZJYMHtZ1+S3Uotso/kQ6GxdGOc7O0XltADBJiCCVay9IZno8YdS+jWUfXqJB148Cs88ecJNC+AGfwXOqMM0XDPPiXt0FuEypEI0I5hylTRc0kIb4tBNJc+iycU7h5ZpHZkzeToucnlQ12gUDU+zuiwc0PIBOQOncrpbKagf0i7YTqaxblCrUVEihOKkv1QWRtcAyn/fnWz0DvVE58FgsfB1I4r+W6uRn8RslFxurxwzKjzt0hxyOkTbUJzwMwFBnd2LkgNLqeKiPAkedJWYaNaUNxu6IXLqwRllPqmUMScXqMMm5t/IO5mggId4Ld9cdxRbugIq+bwFd/RLX99dKzZqXdUom8U6ogB2tPiZxg6KnLalmYIbPvVI3Ymc+o7zRsaGpHFNmYfaceyymmNvrR9LSymq3UXUhZYOSlq2kMzdWggGbDZek3+E5KBSq8kbw+SrdEvTLlhhb0MglxTuGTvMOQlVDagbpixzUTC2X8YOQbC2Zo0ZBmSBFl3hJpZ0fUj9frq1VAdIrtEpVDCUZVEuCCzx
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(39860400002)(346002)(376002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(55016003)(83380400001)(26005)(64756008)(66476007)(66556008)(110136005)(66446008)(54906003)(76116006)(316002)(66946007)(7416002)(8936002)(8676002)(4326008)(5660300002)(41300700001)(7696005)(52536014)(53546011)(6506007)(71200400001)(2906002)(9686003)(478600001)(33656002)(38070700005)(38100700002)(122000001)(86362001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OrRCJ4/2RYDWpwW+ZCaLs5dzydccwYRWcbeNHuA5JwKdDN2B8U0NlPOZrG3T?=
- =?us-ascii?Q?mhPlKL55tjYGAISMkmLfK/1SYIOOFX6No12K3Fy2Ng3Wp4cbIwHYU8/boR2w?=
- =?us-ascii?Q?lzAKcaMGFzWl+wsnXgucJDaDw0cyH/AHDkWaAgfaJlaq8E4TnVLmwJYB5R1u?=
- =?us-ascii?Q?4bknFR6pqXGZ2/9ZmEed7DyxNz/wuOvG7k0QxQ8fdo0MDcTe7rDOkaYr7tn/?=
- =?us-ascii?Q?QMB+lBxC1ncN/ARvcrHbsRQCQZU6lUN/ggBbWUJ2k/gUy47cFj/+eU7ecBkh?=
- =?us-ascii?Q?MIj47UQWhlecPoAtNSan6SnLPZNYldjTKgMKiNcudLIju9zI2W8KMm+Z8NGo?=
- =?us-ascii?Q?8AyfTGkpRreX3c0obPQEeoR/yO5bDG7xM8EJ91426S20aNhEJa/uEx+jqX/w?=
- =?us-ascii?Q?vSy5bfflEae0Ttfdc6WckFHktIplmXar+FAytUug3o2JJiuvlPsSxmLW8CT8?=
- =?us-ascii?Q?hpcPhA1QdJUSdJ6KK686Pzm0mmjW3amkipNp9F2aqKUTtmb7Oti4JRHCR6tQ?=
- =?us-ascii?Q?aQUCgko1szVZD7wj8rbc4bvdWvXm8LmrCjlhVjCtckqmo/8V4K622xE05+y2?=
- =?us-ascii?Q?0L560k7xbLPR5C/Tj1sttJg3KRRp9fJX1vrjjpkdbQrKvMiriNk+Kx52RqYy?=
- =?us-ascii?Q?5nhVzrwF97VmQfmkBVtPN/GaZbpLP3MGboAgU3UBJyF7DHb5J1tneyI0+rJ5?=
- =?us-ascii?Q?a1tqCpupcOCaEfpCLTbFSQJjcZtwtAX9ewWb7aPMsZjbMQFm5TujcAxLpSvW?=
- =?us-ascii?Q?UBakgV7YSWx0ESMCv/DmsyMTl032AYfrJyRsfOvDBQ4aiU8uBLgSajpyv7K/?=
- =?us-ascii?Q?V3iC3I0Ih2cW2TbCT/8JM85Vopp2mW5bBgvPG1ruL4vvAXpQk5IKFIvV310R?=
- =?us-ascii?Q?jrjjRGAbP4AVgSdKN2MzIn+R3ChsFshbEIU2sURszCgZwJNLuqjGwpFI6AxP?=
- =?us-ascii?Q?pNvS1CuYHDEIeQjj7OXPhlL3DErSsGR1q7hczLI6lCoi5V3mF0dyugYhka1j?=
- =?us-ascii?Q?lGZTJdCEGD6PNGKl3h6EtoW4+I+o6RMDHU6C5ej8ZRtMAEPPZPI1RupZdFkf?=
- =?us-ascii?Q?Y45JTfuneG7iV3TwrQ1pIetzjAqESRy//b3Q6hkd1WQW6UTYTK3shYod3Wke?=
- =?us-ascii?Q?N/lPXAPNgTivREMEHxpbFHa+K7ymuXmfWKaW+BzQ4faq9MkKR/E/+VMpGxvE?=
- =?us-ascii?Q?ILV4vgY8rJ+FcnygLGagzU0/rTdi1pEbHVWMiy3wOC9wdUsnG9gl/93pSJhf?=
- =?us-ascii?Q?uX0Bkuqs40wSy5Q8q+J+CtwfuhnHsxvRUSP0HyraAbzubBsB6Uk5emvAj9dV?=
- =?us-ascii?Q?uFuwz8XqmwY0oH7LpjU0hV7PaQxBeobFc3M0OqI+8+i3ziyBzEZ9Ull3RhUC?=
- =?us-ascii?Q?UuVaZY0vyWLBl443MRAwOP/ICBpsTsjx/i8weEx+VYF55BUw5NeZ2+XyQNBp?=
- =?us-ascii?Q?DDQijLhrgderfQDD+leXe0p6cnLwe55T2XQR7mf659f4bKyajlY3LpnAgM0p?=
- =?us-ascii?Q?1VE/gHz11y5a5nU4OPABUzSSQr2TlWwWSNDzyEx4pD3XqNOcr71Ee95pcno8?=
- =?us-ascii?Q?SEd9RcHzttQImIxLH0KVFsRoOZuob0qNpDaZTXibW6a5r38DXBVt2GmvCnls?=
- =?us-ascii?Q?LQ=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Fi8stiYHLSET4sUcvCn3xCeyNjEpMHK3I3SWFesblX9zv/gJ4Fj1KQ7DW7Se?=
+ =?us-ascii?Q?IgOQkAT72wa70Vuq5tGmJCSd8eB8ZIpqD/kzs7gScQgiC+OCxn7RzcIaI4WX?=
+ =?us-ascii?Q?tnL+lcCYAiz0Sj8VLTS50JCwjqps0GhR4wmvqTvdOgF1+Y9Jt2vssKmtGUrx?=
+ =?us-ascii?Q?WOPONPDQ88+w1z6S5pfZT4VdK77nGdwNBwFZ2YvtLcyjZBimN53SdMfPWPjS?=
+ =?us-ascii?Q?FP4cl18hJBUfU0c/9ivaJWT4boiLWpG0R36H5y8XOtondLi8wJlG+n7J15iX?=
+ =?us-ascii?Q?sOJp1485I8GkFK/W17gLgp0peLcM0PaiC1ov8mEB8NOrnbZeSvznlbiH6WND?=
+ =?us-ascii?Q?dzCLRL05npl02DjO+s5o25LYxipE0fG3KMwlX9WW9lMzn8GWJ/6ePk61UV5o?=
+ =?us-ascii?Q?woLjE16CLacyit1KYbgZBW1tiy80YtX60VZIuyYE0P1Yvkfn6rpkH2fCfuJV?=
+ =?us-ascii?Q?luoK4Fu+12tHTc6s1v73q32GLF4ywdpCdog8Gw08isLsQqzUhzY2jzVh5ZLS?=
+ =?us-ascii?Q?iR2ajSgBn0grvX5ugSYxiE58tWD4UqMN9f5KgwM62HGCB2jj4m24iIQ7l2KK?=
+ =?us-ascii?Q?dvi4r0mV/cFG7qOb+Y+d19hSlJXjONoQuDjJRDw8danTTkA6jlsbrGsR273g?=
+ =?us-ascii?Q?muC70QCGq8Bg4GWWVqssDBEllwIzHZogSWIshuIzmflUwpYmERRHY3UHId6f?=
+ =?us-ascii?Q?wYpbuA41uskpfmWKPt+VVfUf9rZ5lvYFJQTWXo3cSszWOgGZsPr7FNQ7wABJ?=
+ =?us-ascii?Q?HbOqXK/Dyc1CEEad6t+HBvlgUit3KnXZ6Oyi64ZYfkfmjpXi1KqFL/ubz3z5?=
+ =?us-ascii?Q?Io3lAYniXOmCZ7RoL8WF5F6EHl+SUz98FAfmRCQYYAs4TnrQENpZXQUjVR9Q?=
+ =?us-ascii?Q?s3t4gMhanTcef8L2hI1UHBwT86gVo5G6LEZ65Yai+wSg+hovJcs9wVYenF+/?=
+ =?us-ascii?Q?B+yY9sv8B0ApjK9vVUYkbt/sS7SNnlm/vV4VWeB3f8QQzf9QKI3FaSmE/nKI?=
+ =?us-ascii?Q?PH5wG1EmpFP/ivIGSPNsxVl2/6/7JAXNQ5p8qDVW82bb01NMZHzk7SnmpNJm?=
+ =?us-ascii?Q?pR45vDCQt10Hh1uoHeP1bZwl9ntYXIge3Et7WpzDuu0YEhndJ5SBINAnugEb?=
+ =?us-ascii?Q?M/5sdNzgdebYOrXs47LzJY1lAvM3yO4ujHq1vww9bypQvJ0lY4dbe4qVoh8s?=
+ =?us-ascii?Q?X3rahiNjrRkBjApe++z09+53/Yer6ZaCfNtU7UbB4cXshtNDt/6gL/vYSEqy?=
+ =?us-ascii?Q?DyZvUeCt1P80TgMzEi8Su4ErA1LXoVhRLAsxtSvFPMxEJm2I0ioDe0cxgWWc?=
+ =?us-ascii?Q?XYqEmFTFSaM2FLAFI7gPt+kBbxBlseE1jeTnvU62a/Riui9zOrOWraqKOuPY?=
+ =?us-ascii?Q?dkHvaGHE3kkRD9Im3nc27cr8HlltXLpLuRxFXfG7p3XGDtJH5qzsCPNFBryL?=
+ =?us-ascii?Q?DFPirHeSL8td/7D5qt1/G50YE3pOfX2fmyzGywptSopQL5We6w+FruAGd5xC?=
+ =?us-ascii?Q?QXWzGTGtR3FoX1T+DatMx9L7/wAKIduktRcbo1DqlhuJbSCwatfoA2HX7h3o?=
+ =?us-ascii?Q?opX7PfR60S8zU39cx4V5RC2fyL/Xl1eBiVd9ViGSVA8qfTO+KRechVaRrDEl?=
+ =?us-ascii?Q?PA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de7a98a0-84c3-4697-f5ad-08dbc8948d50
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 06:54:15.4600
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce7685c9-1c46-42f6-0653-08dbc8956f2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 07:00:34.3174
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QNVVwdEc7iOUUI3F63R57fUrJE7fXiW0kYtDxunqvCWOwVu1aSuwcA4PcNskW6kaComMmYZ2tPEM8NQJusS10/V5e04f9fw0R4ptHKRV6Jk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10819
+X-MS-Exchange-CrossTenant-userprincipalname: JL77YYJI7JSW96MzAX1wBMC61It1oAywuLfokFn1eo0j1qpv7lKEC/XeoBkfbDcayr8R6/aulpdHmzqbkoUiJfUnS62pz38+mLbZAiXnnl0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5502
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -131,38 +126,91 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi all,
 
-Gentle ping. This patch is in the patch work for a while.
-It is acked/reviewed by Conor Dooley and Geert Uytterhoeven.
-
-Can we apply to mainline if you are happy? Or do you want me
-to RESEND the patches? Please let me know.
+Gentle ping. Are we happy with this patch as it fixes re-bind failure on RT=
+C subsystem?
 
 Cheers,
 Biju
+
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Friday, September 22, 2023 9:12 AM
+> Subject: [PATCH v2] alarmtimer: Fix rebind failure
 >=20
-> > On Thu, Jul 27, 2023 at 09:18:43AM +0100, Biju Das wrote:
-> > > This patch series aims to add MTU3a support for RZ/G2UL SMARC EVK.
-> > > Also it fixes overflow/underflow interrupt names.
-> > >
-> > > v2->v3:
-> > >  * Dropped patch#4, as it accepted for 6.5 fixes.
-> > >  * Moved patch#2 to patch#1 as it is fixes patch.
-> > >  * Added Rb tag from Geert for patch#1 and patch#3.
-> > >  * Updated the link to lore for Closes tag for patch#2.
-> > >  * Documented RZ/Five SoC as the same IP used in RZ/G2UL SoC.
-> > >
-> > > v1->v2:
-> > >  * Added Ack tags from Conor Dooley for binding patches
-> > >  * Updated commit description RZ/G2UL->RZ/{G2UL,Five} for patch#5.
-> > >  * Fixed build error reported by kernel test robot by replacing
-> > >    GIC_SPI x ->SOC_PERIPHERAL_IRQ(x) for patch#5.
-> > >
-> > > Biju Das (5):
-> > >   dt-bindings: timer: renesas,rz-mtu3: Fix overflow/underflow interru=
-pt
-> > >     names
-> > >   dt-bindings: timer: renesas,rz-mtu3: Improve documentation
-> > >   dt-bindings: timer: renesas,rz-mtu3: Document RZ/{G2UL,Five} SoCs
-> > >   arm64: dts: renesas: r9a07g043: Add MTU3a node
-> > >   arm64: dts: renesas: rzg2ul-smarc: Add support for enabling MTU3
+> The resources allocated in alarmtimer_rtc_add_device() are not freed
+> leading to re-bind failure for the endpoint driver. Fix this issue by
+> adding alarmtimer_rtc_remove_device().
+>=20
+> Fixes: c79108bd19a8 ("alarmtimer: Make alarmtimer platform device child o=
+f
+> RTC device")
+> Fixes: 7c94caca877b ("alarmtimer: Use wakeup source from alarmtimer
+> platform device")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Add fixes tag.
+>  * Replaced the variable rtc_pdev->alarmtimer_pdev
+>  * Added the check rtcdev =3D=3D rtc before unregistering the real alarmt=
+imer.
+> Note:
+>  This issue is found while adding irq support for built in RTC  found on
+> Renesas PMIC RAA215300 device. This issue should present  on all RTC
+> drivers which calls device_init_wakeup() in probe().
+> ---
+>  kernel/time/alarmtimer.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>=20
+> diff --git a/kernel/time/alarmtimer.c b/kernel/time/alarmtimer.c index
+> 8d9f13d847f0..04d67de8b1fe 100644
+> --- a/kernel/time/alarmtimer.c
+> +++ b/kernel/time/alarmtimer.c
+> @@ -61,6 +61,7 @@ static DEFINE_SPINLOCK(freezer_delta_lock);
+>  /* rtc timer and device for setting alarm wakeups at suspend */
+>  static struct rtc_timer		rtctimer;
+>  static struct rtc_device	*rtcdev;
+> +static struct platform_device	*alarmtimer_pdev;
+>  static DEFINE_SPINLOCK(rtcdev_lock);
+>=20
+>  /**
+> @@ -109,6 +110,7 @@ static int alarmtimer_rtc_add_device(struct device
+> *dev)
+>  		}
+>=20
+>  		rtcdev =3D rtc;
+> +		alarmtimer_pdev =3D pdev;
+>  		/* hold a reference so it doesn't go away */
+>  		get_device(dev);
+>  		pdev =3D NULL;
+> @@ -123,6 +125,22 @@ static int alarmtimer_rtc_add_device(struct device
+> *dev)
+>  	return ret;
+>  }
+>=20
+> +static void alarmtimer_rtc_remove_device(struct device *dev) {
+> +	struct rtc_device *rtc =3D to_rtc_device(dev);
+> +
+> +	if (rtcdev =3D=3D rtc) {
+> +		module_put(rtc->owner);
+> +		if (device_may_wakeup(rtc->dev.parent))
+> +			device_init_wakeup(&alarmtimer_pdev->dev, false);
+> +
+> +		platform_device_unregister(alarmtimer_pdev);
+> +		put_device(dev);
+> +		alarmtimer_pdev =3D NULL;
+> +		rtcdev =3D NULL;
+> +	}
+> +}
+> +
+>  static inline void alarmtimer_rtc_timer_init(void)  {
+>  	rtc_timer_init(&rtctimer, NULL, NULL); @@ -130,6 +148,7 @@ static
+> inline void alarmtimer_rtc_timer_init(void)
+>=20
+>  static struct class_interface alarmtimer_rtc_interface =3D {
+>  	.add_dev =3D &alarmtimer_rtc_add_device,
+> +	.remove_dev =3D &alarmtimer_rtc_remove_device,
+>  };
+>=20
+>  static int alarmtimer_rtc_interface_setup(void)
+> --
+> 2.25.1
 
