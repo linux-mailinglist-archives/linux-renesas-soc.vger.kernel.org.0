@@ -2,74 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E587BDA7C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 13:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E61C7BDB6B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 14:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346386AbjJIL5z convert rfc822-to-8bit (ORCPT
+        id S1346381AbjJIMTT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 07:57:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43956 "EHLO
+        Mon, 9 Oct 2023 08:19:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346354AbjJIL5y (ORCPT
+        with ESMTP id S1346715AbjJIMSv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 07:57:54 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D6C99;
-        Mon,  9 Oct 2023 04:57:52 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5a7af20c488so766257b3.1;
-        Mon, 09 Oct 2023 04:57:52 -0700 (PDT)
+        Mon, 9 Oct 2023 08:18:51 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EA13869;
+        Mon,  9 Oct 2023 05:16:00 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-579de633419so54732387b3.3;
+        Mon, 09 Oct 2023 05:16:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696852671; x=1697457471;
+        d=1e100.net; s=20230601; t=1696853759; x=1697458559;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9f0PTv84uwB8e7Frsy1nJ0Q69ieHgE7cDk3dtnj/+BE=;
-        b=rWO97CYX/yvxXutuSPIEOSpJUP7+A8mPmqV2fhJsqbISajtO1X44kbUGgdhRwMI9Cw
-         5TaUjO35xq8EI8nF+Zt7EHI39YK+OMb4x4wMHUTSjwJKNy80blc9C7fhokD7ZEvo7zbA
-         LCJ/492kc6EIDOrvA5mMnwm/SMr3dgI7v5N7lWHMHzo8T/L4fUnQqA1uO5uxtXeIWcuQ
-         9w0iGfpN8ghTn0OqrnaTNzgVcwG4qlQjOrrKLfLvHzcu3xZ35TpaXyKuJ7EMv5PqPzRf
-         RPrz0LuMXiQJJqvrEIOcnMyt7tIomAEec0cqBGktxLWN94ghrmdQmvr24xpL9xhsKOp7
-         98CQ==
-X-Gm-Message-State: AOJu0YyxgwUHv5tUPHVuKUVT0NS0jBS7ISjKretPGSRi9+ageTNg7IOu
-        NOb2N2KYFR/Pivww0DlUKSM1/HvxRMWxAw==
-X-Google-Smtp-Source: AGHT+IHhc33szlhZCOgodX5aT1yqL7F0k04W0I4Y5OfqHlKE0gqx1D4i4dS8q2o7cfiCtAu8OARmDg==
-X-Received: by 2002:a81:5387:0:b0:591:8d06:e4e8 with SMTP id h129-20020a815387000000b005918d06e4e8mr15952268ywb.38.1696852671468;
-        Mon, 09 Oct 2023 04:57:51 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id u17-20020a81a511000000b0059af9f2ee68sm3563640ywg.66.2023.10.09.04.57.50
+        bh=dl00x9F8gW/xdOyelK9eYXeUORxvhqizJLBB30N7AGk=;
+        b=cI/Nqx/k179AtYaOEvaNz1ZhgKN3sFuJuBkj50Zr8VfTpEjqi1Ve0zz+Ap42QgfsOJ
+         N2j7dRmmSRXJB/Bf7Aq1e7lsHiTc1sMX8IT0diGJjGmEjhGNn6tHr+pwXtgjGPdAxP2l
+         0/LPW+9h7dy16EPEcchFfUMhIk1O12ij7wabTCeuxwVTZQmzYiqlkguZ5SczHG/ONq3N
+         N/0zo+MOcBHdlLLrGG0bMLVyIKxTs7so4vM9Lpyj3JH1u6Qbq3FcCv7Rcb2TMUA/TskA
+         IuIZKteKw32AiWBPTk3NtttRAdOP4sVRpENtkDSs59gez9dXNbI4CBl0EUM5Jbof1tmc
+         EESA==
+X-Gm-Message-State: AOJu0Yw7LhlbDS1zn0yRCw81UZFT4dfCzWbIqRgLGucRigzLsbzUNUk2
+        PRlJPIzjZa/0JwuSqJzwR+YSBXv/1ErVoQ==
+X-Google-Smtp-Source: AGHT+IELe+3I8FWuWnnUxoIPY8fcz5mi8r2NEs5/lm7mVTLb8wseID8RAmWbGRU9e0uQJnyWrp0urA==
+X-Received: by 2002:a0d:f204:0:b0:569:479f:6d7f with SMTP id b4-20020a0df204000000b00569479f6d7fmr14459936ywf.43.1696853759588;
+        Mon, 09 Oct 2023 05:15:59 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id m131-20020a817189000000b005950e1bbf11sm3619210ywc.60.2023.10.09.05.15.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 04:57:51 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a505762c9dso54520607b3.2;
-        Mon, 09 Oct 2023 04:57:50 -0700 (PDT)
-X-Received: by 2002:a0d:ea95:0:b0:5a1:ed8d:111f with SMTP id
- t143-20020a0dea95000000b005a1ed8d111fmr15870851ywe.1.1696852670754; Mon, 09
- Oct 2023 04:57:50 -0700 (PDT)
+        Mon, 09 Oct 2023 05:15:59 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5a7af20c488so1026447b3.1;
+        Mon, 09 Oct 2023 05:15:59 -0700 (PDT)
+X-Received: by 2002:a0d:d402:0:b0:59b:c847:bce0 with SMTP id
+ w2-20020a0dd402000000b0059bc847bce0mr16554853ywd.42.1696853759136; Mon, 09
+ Oct 2023 05:15:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929053915.1530607-1-claudiu.beznea@bp.renesas.com>
- <20230929053915.1530607-12-claudiu.beznea@bp.renesas.com> <CAMuHMdX8wPNr4LsPJR7zk3Ktb8NnqcSMUEjsAURc2NJ_dpiDHw@mail.gmail.com>
-In-Reply-To: <CAMuHMdX8wPNr4LsPJR7zk3Ktb8NnqcSMUEjsAURc2NJ_dpiDHw@mail.gmail.com>
+References: <20231009-approve-verbalize-ce9324858e76@wendy> <20231009-smog-gag-3ba67e68126b@wendy>
+In-Reply-To: <20231009-smog-gag-3ba67e68126b@wendy>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Oct 2023 13:57:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX5W60nG_iPgDzcQiD2zByu734gM3d8J5Bn3V2RTTG=jg@mail.gmail.com>
-Message-ID: <CAMuHMdX5W60nG_iPgDzcQiD2zByu734gM3d8J5Bn3V2RTTG=jg@mail.gmail.com>
-Subject: Re: [PATCH v2 11/28] clk: renesas: rzg2l: add a divider clock for RZ/G3S
-To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, magnus.damm@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        quic_bjorande@quicinc.com, konrad.dybcio@linaro.org, arnd@arndb.de,
-        neil.armstrong@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date:   Mon, 9 Oct 2023 14:15:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+Message-ID: <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new properties
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     linux-riscv@lists.indradead.org, conor@kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,80 +84,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Claudiu,
+Hi Conor,
 
-On Wed, Oct 4, 2023 at 2:30 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Sep 29, 2023 at 7:39 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > Add a divider clock driver for RZ/G3S. This will be used in RZ/G3S
-> > by SDHI, SPI, OCTA, I, I2, I3, P0, P1, P2, P3 core clocks.
-> > The divider has some limitation for SDHI and OCTA clocks:
-> > - SD div cannot be 1 if parent rate is 800MHz
-> > - OCTA div cannot be 1 if parent rate is 400MHz
-> > For these clocks a notifier could be registered from platform specific
-> > clock driver and proper actions are taken before clock rate is changed,
-> > if needed.
-> >
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > ---
-> >
-> > Changes in v2:
-> > - removed DIV_NOTIF macro
-
-> > --- a/drivers/clk/renesas/rzg2l-cpg.c
-> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
-
-> > +static struct clk * __init
-> > +rzg3s_cpg_div_clk_register(const struct cpg_core_clk *core, struct clk **clks,
-> > +                          void __iomem *base, struct rzg2l_cpg_priv *priv)
-> > +{
-> > +       struct div_hw_data *div_hw_data;
-> > +       struct clk_init_data init = {};
-> > +       const struct clk_div_table *clkt;
-> > +       struct clk_hw *clk_hw;
-> > +       const struct clk *parent;
-> > +       const char *parent_name;
-> > +       u32 max;
-> > +       int ret;
-> > +
-> > +       parent = clks[core->parent & 0xffff];
-> > +       if (IS_ERR(parent))
-> > +               return ERR_CAST(parent);
-> > +
-> > +       parent_name = __clk_get_name(parent);
-> > +
-> > +       div_hw_data = devm_kzalloc(priv->dev, sizeof(*div_hw_data), GFP_KERNEL);
-> > +       if (!div_hw_data)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       init.name = core->name;
-> > +       init.flags = core->flag;
-> > +       init.ops = &rzg3s_div_clk_ops;
-> > +       init.parent_names = &parent_name;
-> > +       init.num_parents = 1;
-> > +
-> > +       /* Get the maximum divider to retrieve div width. */
-> > +       for (clkt = core->dtable; clkt->div; clkt++) {
-> > +               if (max < clkt->div)
+On Mon, Oct 9, 2023 at 11:44 AM Conor Dooley <conor.dooley@microchip.com> wrote:
+> Convert the RZ/Five devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
 >
-> "max" is used uninitialized
->
-> > +                       max = clkt->div;
-> > +       }
-> > +
-> > +       div_hw_data->hw_data.priv = priv;
-> > +       div_hw_data->hw_data.conf = core->conf;
-> > +       div_hw_data->hw_data.sconf = core->sconf;
-> > +       div_hw_data->dtable = core->dtable;
-> > +       div_hw_data->invalid_rate = core->invalid_rate;
-> > +       div_hw_data->width = fls(max) - 1;
->
-> Isn't that
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 
-My apologies for not finishing my sentence; I wanted to write "Isn't
-that identical to __fls(max)?".  But as the latter generates slightly
-worse code, it's not worth making that change.
+Thanks for your patch!
+
+> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> @@ -24,6 +24,9 @@ cpu0: cpu@0 {
+>                         reg = <0x0>;
+>                         status = "okay";
+>                         riscv,isa = "rv64imafdc";
+> +                       riscv,isa-base = "rv64i";
+> +                       riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+> +                                              "zifencei", "zihpm";
+
+LGMT, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+I could not review the "zi*" parts, as the documentation that I have
+does not mention these.
+
+>                         mmu-type = "riscv,sv39";
+>                         i-cache-size = <0x8000>;
+>                         i-cache-line-size = <0x40>;
 
 Gr{oetje,eeting}s,
 
