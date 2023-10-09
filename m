@@ -2,62 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1719C7BD3F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 09:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6877BD401
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 09:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345265AbjJIHAo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 03:00:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
+        id S234202AbjJIHEu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Oct 2023 03:04:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345027AbjJIHAn (ORCPT
+        with ESMTP id S232775AbjJIHEt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 03:00:43 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2135.outbound.protection.outlook.com [40.107.113.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1BFA4;
-        Mon,  9 Oct 2023 00:00:38 -0700 (PDT)
+        Mon, 9 Oct 2023 03:04:49 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2123.outbound.protection.outlook.com [40.107.114.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF809AB
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Oct 2023 00:04:47 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EUUhaYPY/tEC5N46iMK2wa3HlKe0UIFjqG+gVhuRaSfMRp2oUO6VPGWgSfqoAmfvn4Mex+6WNc9gtDtv6yKI6Z//4EVCAVPlaCh/Y+wNvZxJzhgpv4BAazMtrwEY38ASRiQv8VZtBeJRzcrat2bchyRrohkEQ+Lci/FGLbODGVvRM69p2zpR2KuAYnLHCGVRnp9ab3U0fDFqo4LfjxYgKdsGhj9wWTNbQCBmH2H6xWMwxlQhjCgH5WgGz5yixb9o95h7+bIDIQmRz31yS8qJlzXsrBI5m0KAysOlUJpguzn92Z0nwBpHDUGk1pjmti0MIkW0BFsKr16bHPSlveua1A==
+ b=WiycmAKxWvDToeR0DHzEwqSXlAkc22QWLSKzrgydqHgNqLOcfMwy3bsT0oBlx6QhAfU59H0yFJnZgMAA+DThEyJChZ+Sg2w2lBx0X0kSECDZClYX37gzvotnFiXv7w5TSLVPdBzaprb7dJN5Q7fM8ajRz3OxOewOFF8b7ENHMecm0frj/48JVHwZezNAjdvp8DDOt9KTStQyGIFRvfbtma/FiTbIIz5Q7QAGn18lynis2jxddb/4sVHL4OhhDjUhRIJN+apaJ7j/EiwreIh/a7E4iItFiO7pXHRxXd1Ihfr57/yG4OzlFF2Uyirx/Ajj/g6NgrmBpbPUZ0ylbkHymw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7S5LOR9OxRtjb89f2usEE7baIVFPKqERdYAjAapKr2I=;
- b=NoXC3U+kcTxOU1jK5GrVPfMRzEqwnpUK7ZV0F39GACudMlhE+0QWFF9YE25FH4xgIFl1xRwsCwfUUHPwMenFyr9GHU/mmY0jvMM2zFzHANIpotIc+GT5/06FmQmuQhv+eskmIKUjYt4Gz/N5D0MQuTJUwmtk8TZeRyVZ+3sjG5cVppovqG17OEIaL2osF5a5oOXvA/YuC2nqH690xnzMSpJFoffocpDXjTVdh376gtzeGjWxzTrM/Q6+CV6PjpJFzLBFRBJD5m2G4PS6w0VFAcnGUxUrFp2huvRqLF2n/LMHpHp0WWWXjTuM6/3qo/FHnH3kV6g/CtqLrJouqNlr/w==
+ bh=ve5AQTkzAtDzNWmxsbi4i+zdENieW5/U1G9PmMxnMcs=;
+ b=gS6isv8SGcHbzO7rzof/NVesSrvXc5zKZ7fj0bzf1nklbqIUFxMtupkP1DHMgyMH6Mip+iJSiopfbAwntDaKW/LH+vuuj3LPJDGHWzdTMYa4FJwJXP1vEQldIsYeTbw6x13mG0L8W8vCIDHFnKi4ybbzdDddMxqJwfiBnWKdnqAzM9cCaZ+rFEVzUAnYYYCEwvcClf+fi1LTtYS4gKc3imNoRBw0+uMITRPZ2kuFCUcCoMfq2IhsjP07fFg8eLKwJEDHV82KhgrfZV4UN7NeAgvrKetbTotZmvFA/VJEzRlGzbNWKPsapzQOOEp2H8phlqWI3eKN4brk4xOgbEuIuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7S5LOR9OxRtjb89f2usEE7baIVFPKqERdYAjAapKr2I=;
- b=n0IalML5QgUVL4bbXDtO/FtQo9DjA9WABFV77pa6XDynCzN87CM72wibajcQpjOtq4blcs1prG1vObHsQVgw25WALchVEVtJ2NIwSEluFGOI73nyiPCxyGY3H0jmlIDdwWB0C8uTfGQWCdrRuA7KdN/cwMfprvWZEVTkh651k2E=
+ bh=ve5AQTkzAtDzNWmxsbi4i+zdENieW5/U1G9PmMxnMcs=;
+ b=TOp1D0rREa+5qCCoqQmbSdwQDfIGJUavnAhMckbieb9f7cYKcK01ijCAvSHw4Tm48l6IjyLNS/h8eBiFZ6BmXF3TQsODZD3SGMR3ecRPvG4D54umNKOZU9O8EH63Ewf7HB8TTbr6u6eih0ZNykjMBv3dA+MLJET6F+mODrzN4nM=
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
  (2603:1096:400:3c0::10) by TYBPR01MB5502.jpnprd01.prod.outlook.com
  (2603:1096:404:801e::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Mon, 9 Oct
- 2023 07:00:34 +0000
+ 2023 07:04:44 +0000
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::db75:e192:bbfa:78a2]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::db75:e192:bbfa:78a2%3]) with mapi id 15.20.6838.040; Mon, 9 Oct 2023
- 07:00:34 +0000
+ 07:04:44 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC:     John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
+To:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+CC:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        Adam Ford <aford173@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.au@gmail.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2] alarmtimer: Fix rebind failure
-Thread-Topic: [PATCH v2] alarmtimer: Fix rebind failure
-Thread-Index: AQHZ7SyA4lmrPv0tQ0OIkUBZ8XwsyrBBIUcQ
-Date:   Mon, 9 Oct 2023 07:00:34 +0000
-Message-ID: <TYCPR01MB1126955B887E78829C40224A886CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
+Subject: RE: [PATCH v2 0/8] ADV7511 driver enhancements
+Thread-Topic: [PATCH v2 0/8] ADV7511 driver enhancements
+Thread-Index: AQHZ202jCBNL1aKlyEaWSc1tCd8m3rA2SVNggAr9Z7A=
+Date:   Mon, 9 Oct 2023 07:04:44 +0000
+Message-ID: <TYCPR01MB112694B0087AA48173F0E5F9386CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB5922B6B282401FDB42135F1086C5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922B6B282401FDB42135F1086C5A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -66,54 +77,55 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYBPR01MB5502:EE_
-x-ms-office365-filtering-correlation-id: ce7685c9-1c46-42f6-0653-08dbc8956f2a
+x-ms-office365-filtering-correlation-id: 04e664ac-20bf-44f3-41f5-08dbc8960454
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LB6k1BzHPxv3ndkIL3z/FI9mSg3vuKUx/atwfW3I/DN0X6nkzhvSRloTiy+Ojth7qgEBO/CLQOPThVQdP8q7XuYd2ZVFpy/u05fgyZJYMHtZ1+S3Uotso/kQ6GxdGOc7O0XltADBJiCCVay9IZno8YdS+jWUfXqJB148Cs88ecJNC+AGfwXOqMM0XDPPiXt0FuEypEI0I5hylTRc0kIb4tBNJc+iycU7h5ZpHZkzeToucnlQ12gUDU+zuiwc0PIBOQOncrpbKagf0i7YTqaxblCrUVEihOKkv1QWRtcAyn/fnWz0DvVE58FgsfB1I4r+W6uRn8RslFxurxwzKjzt0hxyOkTbUJzwMwFBnd2LkgNLqeKiPAkedJWYaNaUNxu6IXLqwRllPqmUMScXqMMm5t/IO5mggId4Ld9cdxRbugIq+bwFd/RLX99dKzZqXdUom8U6ogB2tPiZxg6KnLalmYIbPvVI3Ymc+o7zRsaGpHFNmYfaceyymmNvrR9LSymq3UXUhZYOSlq2kMzdWggGbDZek3+E5KBSq8kbw+SrdEvTLlhhb0MglxTuGTvMOQlVDagbpixzUTC2X8YOQbC2Zo0ZBmSBFl3hJpZ0fUj9frq1VAdIrtEpVDCUZVEuCCzx
+x-microsoft-antispam-message-info: r1B7AvaZgyTM7TZYiZhBUP7qXo78tDQkw554U2zRi6IVJ34Hyne5iDA5x08HA4BEcMN4Zp9Dke2k4JX7xQwqmihxxDWgaQlbb02Q1zwoEMF8Y7Ff27GbBujs3ohuPaUnxYkhn/wNGof4urJTKsRlgKMnTz6g3zmAsbYZm1PPLGkNyS9vfvNdIpw1HaNA/PMR8ufaGcKbeQ6of91kbydqNvSJYI/vga1pm2H9QLJJ3zCkH82Z01VoiYEG6XMFXpR9/gWgal5woDgJZfijmXmAxK9Kr/jQHVYCPvZ4dpHVczpvsx0deNDB1eIwFZM20v1D59vtx/F9K3ExNzThKBZJ1jz++9i/bxXn/WlO+eydecb4stJeretkEnAfADDmGZcC2isXZpMc4SizX5q1odtqIOWwEZXLYIw9Ant6W1NcNvv152URBArxUhQg2FAD2eSkZ2yV3XH8ZxcvA6Wn5qii9oO3EnqipU4KiRZjiRIvTjtdX9NSMLbiTEO6bgx2b9VjXYoevoM+u+ncfwGfa9pKQpGJkTpvLWbpG7KXcuVPYqcUs4L8IY5n8OKTIQFFBMxy+nEA6EW1Sd4qjor4h/8Lcw5t1Wma93JyeEQkhEhvGzxPKwGiXvR7tHjvBEjps0dG
 x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(39860400002)(346002)(376002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(55016003)(83380400001)(26005)(64756008)(66476007)(66556008)(110136005)(66446008)(54906003)(76116006)(316002)(66946007)(7416002)(8936002)(8676002)(4326008)(5660300002)(41300700001)(7696005)(52536014)(53546011)(6506007)(71200400001)(2906002)(9686003)(478600001)(33656002)(38070700005)(38100700002)(122000001)(86362001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Fi8stiYHLSET4sUcvCn3xCeyNjEpMHK3I3SWFesblX9zv/gJ4Fj1KQ7DW7Se?=
- =?us-ascii?Q?IgOQkAT72wa70Vuq5tGmJCSd8eB8ZIpqD/kzs7gScQgiC+OCxn7RzcIaI4WX?=
- =?us-ascii?Q?tnL+lcCYAiz0Sj8VLTS50JCwjqps0GhR4wmvqTvdOgF1+Y9Jt2vssKmtGUrx?=
- =?us-ascii?Q?WOPONPDQ88+w1z6S5pfZT4VdK77nGdwNBwFZ2YvtLcyjZBimN53SdMfPWPjS?=
- =?us-ascii?Q?FP4cl18hJBUfU0c/9ivaJWT4boiLWpG0R36H5y8XOtondLi8wJlG+n7J15iX?=
- =?us-ascii?Q?sOJp1485I8GkFK/W17gLgp0peLcM0PaiC1ov8mEB8NOrnbZeSvznlbiH6WND?=
- =?us-ascii?Q?dzCLRL05npl02DjO+s5o25LYxipE0fG3KMwlX9WW9lMzn8GWJ/6ePk61UV5o?=
- =?us-ascii?Q?woLjE16CLacyit1KYbgZBW1tiy80YtX60VZIuyYE0P1Yvkfn6rpkH2fCfuJV?=
- =?us-ascii?Q?luoK4Fu+12tHTc6s1v73q32GLF4ywdpCdog8Gw08isLsQqzUhzY2jzVh5ZLS?=
- =?us-ascii?Q?iR2ajSgBn0grvX5ugSYxiE58tWD4UqMN9f5KgwM62HGCB2jj4m24iIQ7l2KK?=
- =?us-ascii?Q?dvi4r0mV/cFG7qOb+Y+d19hSlJXjONoQuDjJRDw8danTTkA6jlsbrGsR273g?=
- =?us-ascii?Q?muC70QCGq8Bg4GWWVqssDBEllwIzHZogSWIshuIzmflUwpYmERRHY3UHId6f?=
- =?us-ascii?Q?wYpbuA41uskpfmWKPt+VVfUf9rZ5lvYFJQTWXo3cSszWOgGZsPr7FNQ7wABJ?=
- =?us-ascii?Q?HbOqXK/Dyc1CEEad6t+HBvlgUit3KnXZ6Oyi64ZYfkfmjpXi1KqFL/ubz3z5?=
- =?us-ascii?Q?Io3lAYniXOmCZ7RoL8WF5F6EHl+SUz98FAfmRCQYYAs4TnrQENpZXQUjVR9Q?=
- =?us-ascii?Q?s3t4gMhanTcef8L2hI1UHBwT86gVo5G6LEZ65Yai+wSg+hovJcs9wVYenF+/?=
- =?us-ascii?Q?B+yY9sv8B0ApjK9vVUYkbt/sS7SNnlm/vV4VWeB3f8QQzf9QKI3FaSmE/nKI?=
- =?us-ascii?Q?PH5wG1EmpFP/ivIGSPNsxVl2/6/7JAXNQ5p8qDVW82bb01NMZHzk7SnmpNJm?=
- =?us-ascii?Q?pR45vDCQt10Hh1uoHeP1bZwl9ntYXIge3Et7WpzDuu0YEhndJ5SBINAnugEb?=
- =?us-ascii?Q?M/5sdNzgdebYOrXs47LzJY1lAvM3yO4ujHq1vww9bypQvJ0lY4dbe4qVoh8s?=
- =?us-ascii?Q?X3rahiNjrRkBjApe++z09+53/Yer6ZaCfNtU7UbB4cXshtNDt/6gL/vYSEqy?=
- =?us-ascii?Q?DyZvUeCt1P80TgMzEi8Su4ErA1LXoVhRLAsxtSvFPMxEJm2I0ioDe0cxgWWc?=
- =?us-ascii?Q?XYqEmFTFSaM2FLAFI7gPt+kBbxBlseE1jeTnvU62a/Riui9zOrOWraqKOuPY?=
- =?us-ascii?Q?dkHvaGHE3kkRD9Im3nc27cr8HlltXLpLuRxFXfG7p3XGDtJH5qzsCPNFBryL?=
- =?us-ascii?Q?DFPirHeSL8td/7D5qt1/G50YE3pOfX2fmyzGywptSopQL5We6w+FruAGd5xC?=
- =?us-ascii?Q?QXWzGTGtR3FoX1T+DatMx9L7/wAKIduktRcbo1DqlhuJbSCwatfoA2HX7h3o?=
- =?us-ascii?Q?opX7PfR60S8zU39cx4V5RC2fyL/Xl1eBiVd9ViGSVA8qfTO+KRechVaRrDEl?=
- =?us-ascii?Q?PA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?u3s8GXAE2MblQ68hTmi4/i0b0xMoR5s+2jWozUiQ3IeUaxh3NyyCMGAY3P?=
+ =?iso-8859-1?Q?mlaQPYJSzge0ANMkyVwEJUFpiC82DjTh4q7p1Z0AMmBvaz9KYqPqEi2dlz?=
+ =?iso-8859-1?Q?9F3S2AVb61L4Z/PPQFB1GP8eHUvNbgHleDZ7kbxA2kbCsm0DfcbgKPOXvF?=
+ =?iso-8859-1?Q?Td8rym0bwJFZGP6j5jA3PCLJxE1i9I6TGgV6COvMhLCa2/oMQKzUFoyA4o?=
+ =?iso-8859-1?Q?RbOJhvorXlDu3hedy+4aYtb34ubx014EHgsUTYGWCJahD6hOA+ahnnW6Mx?=
+ =?iso-8859-1?Q?UsxEDRLNnKtsPrIxhcK9bty0S5Bh7mhL+Zd8wsZVf6gNkD2ihd6zIuBHiN?=
+ =?iso-8859-1?Q?g3jtEGFlKtbTglMl/n6coORa4Df9CKi1roixQM1m/a48Lc5APK4lO2OPiu?=
+ =?iso-8859-1?Q?xyxpg49Q1j3alGmLnSORhcddsn/JDuGCog9DGwdxCZtN/Zk+rTOaOMBWMt?=
+ =?iso-8859-1?Q?LtBUtvsXWAJAqIzGrpyN7fGPxfJKfFGQ4K0SnPV1AFJqGkuCxSlTcgvK5a?=
+ =?iso-8859-1?Q?JSyyzt9Hs/Lkjor0TIvuE+OIjh+jixyBu9n3NPlN8iowh7pF7ErqOlXVfX?=
+ =?iso-8859-1?Q?lN+SGc2AIOJjTvCVsMc4IbrmICbo7RxUosEdsSMKOvSaABCTmBZxZUI2x9?=
+ =?iso-8859-1?Q?I80Lf75Hzit9V9InL0W5FT+3vtv0cpGsYfyyLXvUIiZOCyg5DCoxe2BCs/?=
+ =?iso-8859-1?Q?bjUa8pDNwKT3Y4CnIhLOdGmWQMaL9TWfREm3BDvVV+ZVI4SCfthmRY9wSX?=
+ =?iso-8859-1?Q?OjRw2TkwaYe8yO5Nn17FRKId+Sig2yz54fb1gPyfPShii9XTvQJNekXIdM?=
+ =?iso-8859-1?Q?MhFdSsmfrFUcU1ENhPXUVmds7U4o9pU3XPdHVBRG90s5fDWRKpTsRuu7or?=
+ =?iso-8859-1?Q?1gZ9df1dOaeTNB6rS4ZiqiZNVTExfXc1X9MtTbyCuPkwXZ1oV8BGg5CeCL?=
+ =?iso-8859-1?Q?LoIYBwGHpH6X0lr91kTZl4kRErKsYwLKeNbRMBOjWscB3rfp9wJsntrSM5?=
+ =?iso-8859-1?Q?0OrFAbAP1RLmKqGDnkTF3RyidGjbrtWfL0Fg3l/HVd9aIeTuwjPRDXhKlf?=
+ =?iso-8859-1?Q?hPMxO8zsvUO4/dKLP7VjKGGT5oBEOrqLkjEbJCGpuWzjOZQ9mYBWP1nsNy?=
+ =?iso-8859-1?Q?bAmPKLG8HyFS+X4MWRzoSA/6D3uD9ltSiH0Jl3mnmteBjYzOAMwVq6ibC2?=
+ =?iso-8859-1?Q?2sXRhm+bkdJyg1SDYJDhES/oioCycFWYBB6pNd92yayVUKGgnzJNMycajE?=
+ =?iso-8859-1?Q?qKM0FU702tvF1he+TNSi3rIM8H7NJeFnrHCJXQyzaTTTtzI/pI2EnyixlA?=
+ =?iso-8859-1?Q?kkEiy4S75yiZoV6C2YFdwEQdE3UcteyHjZwBLLtwwbamTaevswQh9qLakw?=
+ =?iso-8859-1?Q?gCt6XaisEwjEn3wvtrbrXC+z+MqNDXaLaN7nsJWOZ8OHYs+LzeHP/tl1Zb?=
+ =?iso-8859-1?Q?yenIqN0Gn31CnmulpPQ2wW+TEoxzQ+SgIsruc3hR28x463jjie0rtIRttZ?=
+ =?iso-8859-1?Q?qvjgIvZg2HISjTxz8BIAcsMZFsaSfDnUTSNho8hXy4f87q+khc/4gnSnVy?=
+ =?iso-8859-1?Q?LnM3DP3MFhvgvQkW+RMDFIrHVP0qRTiLQqj0qmGX3XJ3he9aUoXPXcW7hw?=
+ =?iso-8859-1?Q?vhCiMk+gHTHzKJ6SAeQtxARJ+8l8iQL0F3adE5mG/HSMm9WqjhlmSBIA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce7685c9-1c46-42f6-0653-08dbc8956f2a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 07:00:34.3174
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04e664ac-20bf-44f3-41f5-08dbc8960454
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2023 07:04:44.5969
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JL77YYJI7JSW96MzAX1wBMC61It1oAywuLfokFn1eo0j1qpv7lKEC/XeoBkfbDcayr8R6/aulpdHmzqbkoUiJfUnS62pz38+mLbZAiXnnl0=
+X-MS-Exchange-CrossTenant-userprincipalname: jXsUjUtuwmx62chV8gWaEGfwLvem/WTTuq8IunqW0tzFDmioZQx8yieYgmkwxgp/6vZ93lDAiI4bG9vGz4WvYUa38fBV8IgwDc3M8djVTTg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5502
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
@@ -124,93 +136,78 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi all,
+Hi All,
 
-Gentle ping. Are we happy with this patch as it fixes re-bind failure on RT=
-C subsystem?
+Gentle ping. Are we happy with this patch series?
+Is anything to be improved? Please let me know.
 
 Cheers,
 Biju
 
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Friday, September 22, 2023 9:12 AM
-> Subject: [PATCH v2] alarmtimer: Fix rebind failure
->=20
-> The resources allocated in alarmtimer_rtc_add_device() are not freed
-> leading to re-bind failure for the endpoint driver. Fix this issue by
-> adding alarmtimer_rtc_remove_device().
->=20
-> Fixes: c79108bd19a8 ("alarmtimer: Make alarmtimer platform device child o=
-f
-> RTC device")
-> Fixes: 7c94caca877b ("alarmtimer: Use wakeup source from alarmtimer
-> platform device")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Add fixes tag.
->  * Replaced the variable rtc_pdev->alarmtimer_pdev
->  * Added the check rtcdev =3D=3D rtc before unregistering the real alarmt=
-imer.
-> Note:
->  This issue is found while adding irq support for built in RTC  found on
-> Renesas PMIC RAA215300 device. This issue should present  on all RTC
-> drivers which calls device_init_wakeup() in probe().
-> ---
->  kernel/time/alarmtimer.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->=20
-> diff --git a/kernel/time/alarmtimer.c b/kernel/time/alarmtimer.c index
-> 8d9f13d847f0..04d67de8b1fe 100644
-> --- a/kernel/time/alarmtimer.c
-> +++ b/kernel/time/alarmtimer.c
-> @@ -61,6 +61,7 @@ static DEFINE_SPINLOCK(freezer_delta_lock);
->  /* rtc timer and device for setting alarm wakeups at suspend */
->  static struct rtc_timer		rtctimer;
->  static struct rtc_device	*rtcdev;
-> +static struct platform_device	*alarmtimer_pdev;
->  static DEFINE_SPINLOCK(rtcdev_lock);
->=20
->  /**
-> @@ -109,6 +110,7 @@ static int alarmtimer_rtc_add_device(struct device
-> *dev)
->  		}
->=20
->  		rtcdev =3D rtc;
-> +		alarmtimer_pdev =3D pdev;
->  		/* hold a reference so it doesn't go away */
->  		get_device(dev);
->  		pdev =3D NULL;
-> @@ -123,6 +125,22 @@ static int alarmtimer_rtc_add_device(struct device
-> *dev)
->  	return ret;
->  }
->=20
-> +static void alarmtimer_rtc_remove_device(struct device *dev) {
-> +	struct rtc_device *rtc =3D to_rtc_device(dev);
-> +
-> +	if (rtcdev =3D=3D rtc) {
-> +		module_put(rtc->owner);
-> +		if (device_may_wakeup(rtc->dev.parent))
-> +			device_init_wakeup(&alarmtimer_pdev->dev, false);
-> +
-> +		platform_device_unregister(alarmtimer_pdev);
-> +		put_device(dev);
-> +		alarmtimer_pdev =3D NULL;
-> +		rtcdev =3D NULL;
-> +	}
-> +}
-> +
->  static inline void alarmtimer_rtc_timer_init(void)  {
->  	rtc_timer_init(&rtctimer, NULL, NULL); @@ -130,6 +148,7 @@ static
-> inline void alarmtimer_rtc_timer_init(void)
->=20
->  static struct class_interface alarmtimer_rtc_interface =3D {
->  	.add_dev =3D &alarmtimer_rtc_add_device,
-> +	.remove_dev =3D &alarmtimer_rtc_remove_device,
->  };
->=20
->  static int alarmtimer_rtc_interface_setup(void)
-> --
-> 2.25.1
+> -----Original Message-----
+> From: Biju Das
+> Sent: Monday, October 2, 2023 8:15 AM
+> Subject: RE: [PATCH v2 0/8] ADV7511 driver enhancements
+
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Wednesday, August 30, 2023 3:24 PM
+> > Subject: [PATCH v2 0/8] ADV7511 driver enhancements
+> >
+> > This patch series aims to improve ADV7511 driver by adding feature
+> > bits and data instead of comparing enum adv7511_type for various
+> > hardware differences between ADV7511, ADV7533 and ADV7535.
+> >
+> > This patch series tested with[1] on RZ/G2L SMARC EVK which embeds
+> ADV7535.
+> >
+> > [1]
+> >
+> > v1->v2:
+> >  * Added Rb tag from Adam and Laurent.
+> >  * Added tested by tag from Adam and Fabio.
+> >  * Updated commit description with reason *why* the change is needed.
+> >  * Dropped the local info variable and instead started using
+> >    adv7511->info->type in probe().
+> >  * Replaced max_mode_clock->max_mode_clock_khz in struct
+> > adv7511_chip_info
+> >  * Replaced variable type for max_mode_clock_khz from
+> >    unsigned int->unsigned long.
+> >  * Replaced max_lane_freq->max_lane_freq_khz in struct adv7511_chip_inf=
+o.
+> >  * Replaced max_lane_freq_khz variable type from
+> >    unsigned long->unsigned int.
+> >  * Added trailing commas for num_supplies in adv753{3,5}_chip_info.
+> >  * Added patch#5 for adding the reg_cec_offset variable to struct
+> >    adv7511_chip_info.
+> >  * Replaced has_dsi variable type from unsigned->bool.
+> >  * Restored check using type for low_refresh_rate and
+> >    regmap_register_patch().
+> >  * Replaced link_config variable type from unsigned->bool.
+> >  * Restored enum adv7511_type as there are users.
+> >  * Replaced hpd_override_enable variable type from unsigned->bool.
+> >
+> > Biju Das (8):
+> >   drm: adv7511: Add struct adv7511_chip_info and use
+> >     i2c_get_match_data()
+> >   drm: adv7511: Add max_mode_clock_khz variable to struct
+> >     adv7511_chip_info
+> >   drm: adv7511: Add max_lane_freq_khz variable to struct
+> >     adv7511_chip_info
+> >   drm: adv7511: Add supply_names and num_supplies variables to struct
+> >     adv7511_chip_info
+> >   drm: adv7511: Add reg_cec_offset variable to struct adv7511_chip_info
+> >   drm: adv7511: Add has_dsi variable to struct adv7511_chip_info
+> >   drm: adv7511: Add link_config variable to struct adv7511_chip_info
+> >   drm: adv7511: Add hpd_override_enable variable to struct
+> >     adv7511_chip_info
+> >
+> >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  16 ++-
+> >  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c |  14 +--
+> > drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 104 +++++++++++--------
+> >  drivers/gpu/drm/bridge/adv7511/adv7533.c     |   7 +-
+> >  4 files changed, 81 insertions(+), 60 deletions(-)
+> >
+> > --
+> > 2.25.1
 
