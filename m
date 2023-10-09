@@ -2,64 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 042EA7BE61B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 18:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE317BE61F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Oct 2023 18:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377115AbjJIQQJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 12:16:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49912 "EHLO
+        id S1377121AbjJIQRm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Oct 2023 12:17:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377177AbjJIQQI (ORCPT
+        with ESMTP id S1377094AbjJIQRl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 12:16:08 -0400
+        Mon, 9 Oct 2023 12:17:41 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B33A9C
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Oct 2023 09:16:07 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEAB7C433C8;
-        Mon,  9 Oct 2023 16:16:02 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F5C92;
+        Mon,  9 Oct 2023 09:17:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272BFC433C8;
+        Mon,  9 Oct 2023 16:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696868167;
-        bh=TUuYHkOnACwqBBmD9bJNqds06LCxmeRiTfbnAwarBgE=;
+        s=k20201202; t=1696868259;
+        bh=1I9Mf0P70RDfN2bWDORGQ7rejIEzlWu8nj21FaxunAg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eU2EVyLZvP0ynT/R9wgeiq9r9+GUMtVerH0hdEET3jzhYlaDfeI/DmNIjffFhYsRs
-         c29FAKVXTo9TBjOwydx+byNRi0CpoqNqEQBstZC0fL+OdsHQ0VTJ5+MPxrU6yvvTVy
-         DoND44aejrDEG2pU1yl/Z8ziE5sQ5aEiecoNKpfebw63j/PKR8Q33OqJvLqSCn4z4I
-         MVZTLvStj7UDzGDV1NwogxSnxHTBdZdxjx3QRb8z6zO/qAPz5CpvamzCPE4jCwqI5O
-         0T0H0pFkF0YY7YDPpzIkOnLI+5ng5KYYqjwsziP55JOvz2EWx2Z8cZ0IbcWdtHuk+T
-         TDEGHZ/bTsriQ==
-Date:   Mon, 9 Oct 2023 17:16:00 +0100
+        b=ueG4FvCWARpNVmDgXA7EKEoHYkK543c6nnLJkJyo1VXbTfAzaCxx5Aoua/yEHbol3
+         o4sr5OFut3T87VxzmRx+WXRKdyVLf/xZhv8183TPX6B1vkvQv9/uTTqD6XimoP9Ih/
+         D2HQK+a0ZGa8qetpGmHe1ibvwWiZqjCA+FOn6OjJR695v+oPEDf2AHM1jJXvgD8FZb
+         aWHGDcYi0Qi/Ty4+fKTd3ty51g9VtP5mOFbsKCAt9dnm4nyWbDe6mbVzHJ/2vWtCeR
+         7KkaSaIYYATYR+AExbXJo5js5rjpkB008YqkEJpQPi2y5pt2wjCSZwRs44oKPSfivQ
+         xIACtvNeuJffw==
+Date:   Mon, 9 Oct 2023 17:17:34 +0100
 From:   Conor Dooley <conor@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
-        Chen Wang <unicorn_wang@outlook.com>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new
- properties
-Message-ID: <20231009-underpass-decorator-12e153d8f8e7@spud>
-References: <20231009-approve-verbalize-ce9324858e76@wendy>
- <20231009-smog-gag-3ba67e68126b@wendy>
- <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 0/5] Add RZ/G2UL MTU3a support
+Message-ID: <20231009-elderly-squad-a739461e5e64@spud>
+References: <20230727081848.100834-1-biju.das.jz@bp.renesas.com>
+ <20230831-iphone-muscular-7442cda2c39e@spud>
+ <TYCPR01MB5933370B7660B8504B2D8D7386FBA@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+ <TYCPR01MB112697D67514D2E6FC690B9F886CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <576809c2-b7bc-4342-9c63-0662bfcecebf@linaro.org>
+ <20231009-lure-overcome-f33ee1fd6480@wendy>
+ <42ed1a41-a59c-478b-8ef2-4000f0509150@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qLX05ACkobQ/OGT+"
+        protocol="application/pgp-signature"; boundary="aAbF7L5PVlLbwYHe"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVc7VOvB86A7-TShhoqut6Y1ZvY0WSC8XpOEv8Bb2bA-Q@mail.gmail.com>
+In-Reply-To: <42ed1a41-a59c-478b-8ef2-4000f0509150@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,79 +69,45 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---qLX05ACkobQ/OGT+
-Content-Type: text/plain; charset=utf-8
+--aAbF7L5PVlLbwYHe
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 09, 2023 at 02:15:47PM +0200, Geert Uytterhoeven wrote:
-> Hi Conor,
+On Mon, Oct 09, 2023 at 04:18:13PM +0200, Daniel Lezcano wrote:
+> On 09/10/2023 15:59, Conor Dooley wrote:
+> > On Mon, Oct 09, 2023 at 11:52:13AM +0200, Daniel Lezcano wrote:
+> > > On 09/10/2023 08:54, Biju Das wrote:
+> > > > Hi all,
+> > > >=20
+> > > > Gentle ping. This patch is in the patch work for a while.
+> > > > It is acked/reviewed by Conor Dooley and Geert Uytterhoeven.
+> > > >=20
+> > > > Can we apply to mainline if you are happy? Or do you want me
+> > > > to RESEND the patches? Please let me know.
+> > >=20
+> > > Krzysztof ?
+> >=20
+> > Daniel ?
+> >=20
+> > (Or for the non-telepathic, what is "Krzysztof ?" supposed to mean?)
 >=20
-> On Mon, Oct 9, 2023 at 11:44=E2=80=AFAM Conor Dooley <conor.dooley@microc=
-hip.com> wrote:
-> > Convert the RZ/Five devicetrees to use the new properties
-> > "riscv,isa-base" & "riscv,isa-extensions".
-> > For compatibility with other projects, "riscv,isa" remains.
-> >
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> Thanks for your patch!
->=20
-> > --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > @@ -24,6 +24,9 @@ cpu0: cpu@0 {
-> >                         reg =3D <0x0>;
-> >                         status =3D "okay";
-> >                         riscv,isa =3D "rv64imafdc";
-> > +                       riscv,isa-base =3D "rv64i";
-> > +                       riscv,isa-extensions =3D "i", "m", "a", "f", "d=
-", "c", "zicntr", "zicsr",
-> > +                                              "zifencei", "zihpm";
->=20
-> LGMT, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> I could not review the "zi*" parts, as the documentation that I have
-> does not mention these.
+> Sorry I missed you were in the DT bindings maintainer list. I was expecti=
+ng
+> Krzysztof tag.
 
-These are effectively the assumptions that the kernel already makes, for
-things that used to be part of the base isa (or were assumed to be) that
-are now extensions in their own right.
+Heh, I figured that that is what was going on, but my telepathy skills
+were a bit lacking and I was not 100% sure... NW!
 
-The Zihpm it'd be good if someone from the Renesas or Andes sides could
-confirm though.
-
-Cheers,
-Conor.
-
->=20
-> >                         mmu-type =3D "riscv,sv39";
-> >                         i-cache-size =3D <0x8000>;
-> >                         i-cache-line-size =3D <0x40>;
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
-
---qLX05ACkobQ/OGT+
+--aAbF7L5PVlLbwYHe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSQnQAAKCRB4tDGHoIJi
-0pk+AQCDTGDR196WU+S3VHp6GoZyYrKV0pxVwcmVbOTky5SKxAD/bz6cONYAr9SE
-2ryKqLVowNyGAA93Sr/qimPdZABBYgc=
-=nGga
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSQnngAKCRB4tDGHoIJi
+0l8PAP9T0L4kqeS6/ASmu3yIS50Za7MyLA0Jb8xkzTKiqMKSFQEA/j8oMP+ApNPf
+I85BeVxW73nPy5pB8htbvqQXubCK2AA=
+=ObgY
 -----END PGP SIGNATURE-----
 
---qLX05ACkobQ/OGT+--
+--aAbF7L5PVlLbwYHe--
