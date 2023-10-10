@@ -2,54 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4817C7BF0DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 04:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C563B7BF139
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 05:07:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379405AbjJJCZd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 22:25:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47576 "EHLO
+        id S1441862AbjJJDH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Oct 2023 23:07:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378796AbjJJCZc (ORCPT
+        with ESMTP id S1379409AbjJJDH2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 22:25:32 -0400
+        Mon, 9 Oct 2023 23:07:28 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687B89C;
-        Mon,  9 Oct 2023 19:25:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26845C433C7;
-        Tue, 10 Oct 2023 02:25:23 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A23C93;
+        Mon,  9 Oct 2023 20:07:26 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE737C433C7;
+        Tue, 10 Oct 2023 03:07:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696904731;
-        bh=qDFAIZJBZaNLR6S/I5Pe62KY//2o+PXQuDVr5YqKROg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TdATxuCPTumxA4f6U0UOWfIcKsCH+Y+whTQgEUoHmZhwWOiMxA3BMYU2UMiZ21nWh
-         zRvp4SzjZvdpjIUlfYiLUMwd4l6k0lTT/PmjkN+JSytmxp7dUec6a1XAWqPQOOeIIi
-         Vn5+XxqY8jjPThmH74TDBYJQBGIxG6ZSULAAztmHXLraLY4sdNgUrc9NYJJVDROpir
-         +y7ogVkffDbX3YhD9+EjGZi21Z2AK52/KDnYZs2OvvLemqfS3BfdAdDrK6PIt86L5s
-         JJRmMkM4+OX2bqj44KV3f0uUaha766VvTyhHb1iAQF+omNadOsf2fdj62BkC1AfOM1
-         fFxGrkAWh2rSA==
-Date:   Tue, 10 Oct 2023 10:25:17 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, aford@beaconembedded.com,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V3] arm64: dts: imx8mp-beacon: Configure 100MHz PCIe Ref
- Clk
-Message-ID: <20231010022517.GJ819755@dragon>
-References: <20231004235148.45562-1-aford173@gmail.com>
+        s=k20201202; t=1696907245;
+        bh=ShI5v88r+6uLa8HgLKlpe/Nm7sSNlAVHWw6lOSglagM=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=GEhYpjc8o6DZKmpiLMT0gcpZ5pwn5mHQiAeoqqYomKTyCDy/Orpzt/bhBanFw1/Z8
+         b3+HM/lDlInfN4Pq3DAROqvq9yByed0W+J6vtR+aJeNtzvhkSa16zJAmeBNYWIRHVl
+         hFINtjreOZhdOnnu7/yRITT9Dd+1YX6bl4Y92/Nx+pn3qlh6vkeb1Hya2JtzekAbG8
+         Sk9jTcOE19UMUvmLPpNLnIBSItFSLwaxLAn9T54DJ60X4m/UD5Ck7y5AWByYp4WKGz
+         J7fiUnOeA7Kqo7IdX80g7mU+n1jcToSTCvbbCdzsSdrEOOTs0EToJ0a+QuNw4OIr3H
+         vKE3NbFISkFZQ==
+Message-ID: <81048d31c880485752bdce90a04e5aef.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231004235148.45562-1-aford173@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1695985912.git.geert+renesas@glider.be>
+References: <cover.1695985912.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v6.7
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Mon, 09 Oct 2023 20:07:23 -0700
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -60,12 +51,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 04, 2023 at 06:51:47PM -0500, Adam Ford wrote:
-> There is a I2C controlled 100MHz Reference clock used by the PCIe
-> controller. Configure this clock's DIF1 output to be used by
-> the PCIe.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Quoting Geert Uytterhoeven (2023-09-29 04:17:57)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d=
+1d:
+>=20
+>   Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v6.7-tag1
+>=20
+> for you to fetch changes up to 87882525e5ddae7ef6f1b1df5e1eda9bcbcd7720:
+>=20
+>   clk: renesas: r8a7795: Constify r8a7795_*_clks (2023-09-26 09:38:00 +02=
+00)
+>=20
+> ----------------------------------------------------------------
 
-Applied, thanks!
+Thanks. Pulled into clk-next
