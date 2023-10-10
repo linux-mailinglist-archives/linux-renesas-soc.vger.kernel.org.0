@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1C87C42BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 23:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC2437C42C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 23:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344118AbjJJVjv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Oct 2023 17:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56166 "EHLO
+        id S1344178AbjJJVkD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Oct 2023 17:40:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343946AbjJJVju (ORCPT
+        with ESMTP id S1344168AbjJJVkA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Oct 2023 17:39:50 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076169D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 14:39:49 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-41b2bf4e9edso2660001cf.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 14:39:48 -0700 (PDT)
+        Tue, 10 Oct 2023 17:40:00 -0400
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63861B0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 14:39:54 -0700 (PDT)
+Received: by mail-vk1-xa31.google.com with SMTP id 71dfb90a1353d-49d0a704ac7so2311698e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 14:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1696973988; x=1697578788; darn=vger.kernel.org;
-        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kiW95JpAAA0bRXv2UI8r9acdmO7Ajxh1U2X+TWD3FMs=;
-        b=HU0gkVp7eQ0b1sC7at0lnzBbgpo/fjQbDRTORtWvwRg1zNO3PIRs97u2nzz8clF1z4
-         dzf6Q2SZKZvoVVSWXffFxNIHIMerNQA3BZAYMKQGNNbMGZDUcDb52jkrBrB/6EfQTvYv
-         r+CQvt4YpPPoi9xlpMyGDtN7XFPJL8Q/6xOd8=
+        d=broadcom.com; s=google; t=1696973993; x=1697578793; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FZw92D7fDPcae6t0GcEcha4pk7lkHLzt4HiQQtE/AUY=;
+        b=GwEK4xvImAsxx/b/fsNLjYd0AZhjyCBJ4mMVd9fdqQIojX8wQQnKUTbwMKyGTpXqwH
+         XQ0bFPOmsikMf+SPyxwGBOZ8hfJg/iVVd5poDB+UqsG7goViX5YQ+D2e78nO2RmsPj72
+         mrlnTp9jTm8DaYUsyKTLbCOOvrfrb6TeBfs44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696973988; x=1697578788;
-        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kiW95JpAAA0bRXv2UI8r9acdmO7Ajxh1U2X+TWD3FMs=;
-        b=K5At4BvVsRLnzwo0waq5BJI/Cn2aFOZhvqF9jNTLj9M7JyVfu4VIIZKex+wQWCu2/5
-         RhVLWJ9CCzsrCl/0ZXUwih5vZwJprBYV+Gpe6QVDgUuyTaUKBnEJe9UjJ6qvWCaNGyjQ
-         udbaDVdVqn1HczV51EXDG6S/4oG5cIU6NoVwx/v9bZ5G0vVMWL/rt4SeqQ+5VHc1QXyX
-         HEXfLofMrYWEjIAok40dX08vGLpJLq3mmaswom3H0iqzUMRufOSDx59OKx+oisGhyvMc
-         kbWftTQv6Y71CZlHY/kW0SwfC8mYRSSMAH0SodGRvSEDLl1vnZ9k2IVLRQ2VinwatVLT
-         B3rw==
-X-Gm-Message-State: AOJu0YwTVZhC2UNwC084ANEfiGiodLkwCjOKxqrUiavuc7apb3OeKNFd
-        vTZHRwSxKTE3hWUVOnhOI0zActVIa5Eo3FcacCU=
-X-Google-Smtp-Source: AGHT+IGsKV075x99LP82wEXfoCU9G0DMUXJOol2hhdUduMGdrSdgI4Jjef7JIEzPkb6LIlDbEsn+Cg==
-X-Received: by 2002:a05:622a:1314:b0:417:f666:b780 with SMTP id v20-20020a05622a131400b00417f666b780mr22357478qtk.19.1696973988085;
-        Tue, 10 Oct 2023 14:39:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696973993; x=1697578793;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FZw92D7fDPcae6t0GcEcha4pk7lkHLzt4HiQQtE/AUY=;
+        b=ZY/Rv1xC21cNmqwaOcO9aixJUYCo1I14Aa+iJa64AMkcJf+dOWJ1DTInoiNm8V811P
+         Aa3kI6gl5l06ZudoBDzGb7wGzSelUlykoL+ON0SozXs6FVvSF7dlk3mwfuaIkOjoiKyQ
+         qI+Fsepzxz82RctySupoxdEn9+3+gplY/LUqx12MdQopb/kpuhe/ebQCXTnebNvPLSU/
+         ckEuduldXuUBHKP7OkEatLaLv9rywPhp7STLM/OiU0g1qBu6GhEB1Bbc9ZqlCb9ogGTK
+         Mf8JY+Ov/I0LWicKODMToEYJ9GkxqkG0j3vt8zfUXA8Hlx2/LjRqeJAAaKg1JzvnCBnf
+         uf/g==
+X-Gm-Message-State: AOJu0YzlEpEc2HYomz5KUE7Jrndj+Z9yKvOpElGzYIuAEqRLhAWw44zE
+        h/AlNrL/ij08EmII2ZlXFiLzbg==
+X-Google-Smtp-Source: AGHT+IFy2yBDp4KDYLQIIoAlwTEPfwN9FrBF5N55wJwFsmLmyZgigmGBt1x70L1JQ1G+aRQR7I9lxA==
+X-Received: by 2002:a05:6122:1d47:b0:49d:eeed:3ed5 with SMTP id gd7-20020a0561221d4700b0049deeed3ed5mr14513658vkb.14.1696973993395;
+        Tue, 10 Oct 2023 14:39:53 -0700 (PDT)
 Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id bb36-20020a05622a1b2400b00403ad6ec2e8sm4804797qtb.26.2023.10.10.14.39.45
+        by smtp.gmail.com with ESMTPSA id bb36-20020a05622a1b2400b00403ad6ec2e8sm4804797qtb.26.2023.10.10.14.39.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 14:39:47 -0700 (PDT)
+        Tue, 10 Oct 2023 14:39:52 -0700 (PDT)
 From:   Florian Fainelli <florian.fainelli@broadcom.com>
 To:     netdev@vger.kernel.org
 Cc:     Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -64,121 +64,121 @@ Cc:     Florian Fainelli <florian.fainelli@broadcom.com>,
         support), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-renesas-soc@vger.kernel.org (open list:RENESAS RZ/N1 A5PSW SWITCH
         DRIVER)
-Subject: [PATCH net-next 0/2] Switch DSA to inclusive terminology
-Date:   Tue, 10 Oct 2023 14:39:40 -0700
-Message-Id: <20231010213942.3633407-1-florian.fainelli@broadcom.com>
+Subject: [PATCH net-next 2/2] net: dsa: Rename IFLA_DSA_MASTER to IFLA_DSA_CONDUIT
+Date:   Tue, 10 Oct 2023 14:39:42 -0700
+Message-Id: <20231010213942.3633407-3-florian.fainelli@broadcom.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231010213942.3633407-1-florian.fainelli@broadcom.com>
+References: <20231010213942.3633407-1-florian.fainelli@broadcom.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000c548780607638b68"
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MIME_NO_TEXT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+        boundary="00000000000016cfb40607638c42"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---000000000000c548780607638b68
+--00000000000016cfb40607638c42
 Content-Transfer-Encoding: 8bit
 
-One of the action items following Netconf'23 is to switch subsystems to
-use inclusive terminology. DSA has been making extensive use of the
-"master" and "slave" words which are now replaced by "conduit" and
-"user" respectively.
+This preserves the existing IFLA_DSA_MASTER which is part of the uAPI
+and creates an alias named IFLA_DSA_CONDUIT.
 
-Florian Fainelli (2):
-  net: dsa: Use conduit and user terms
-  net: dsa: Rename IFLA_DSA_MASTER to IFLA_DSA_CONDUIT
+Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+---
+ Documentation/networking/dsa/configuration.rst |  4 ++--
+ include/uapi/linux/if_link.h                   |  3 ++-
+ net/dsa/netlink.c                              | 10 +++++-----
+ 3 files changed, 9 insertions(+), 8 deletions(-)
 
- .../bindings/net/dsa/mediatek,mt7530.yaml     |    2 +-
- Documentation/networking/dsa/b53.rst          |   14 +-
- Documentation/networking/dsa/bcm_sf2.rst      |    2 +-
- .../networking/dsa/configuration.rst          |  106 +-
- Documentation/networking/dsa/dsa.rst          |  150 +-
- Documentation/networking/dsa/lan9303.rst      |    2 +-
- Documentation/networking/dsa/sja1105.rst      |    8 +-
- .../dts/marvell/armada-3720-espressobin.dtsi  |    2 +-
- drivers/net/dsa/b53/b53_common.c              |    4 +-
- drivers/net/dsa/b53/b53_mdio.c                |    2 +-
- drivers/net/dsa/bcm_sf2.c                     |   36 +-
- drivers/net/dsa/bcm_sf2.h                     |    2 +-
- drivers/net/dsa/bcm_sf2_cfp.c                 |    4 +-
- drivers/net/dsa/lan9303-core.c                |    4 +-
- drivers/net/dsa/lantiq_gswip.c                |   34 +-
- drivers/net/dsa/microchip/ksz9477.c           |    6 +-
- drivers/net/dsa/microchip/ksz_common.c        |   20 +-
- drivers/net/dsa/microchip/ksz_ptp.c           |    2 +-
- drivers/net/dsa/mt7530.c                      |   16 +-
- drivers/net/dsa/mv88e6xxx/chip.c              |    2 +-
- drivers/net/dsa/ocelot/felix.c                |   62 +-
- drivers/net/dsa/ocelot/felix.h                |    4 +-
- drivers/net/dsa/qca/qca8k-8xxx.c              |   48 +-
- drivers/net/dsa/qca/qca8k-common.c            |    2 +-
- drivers/net/dsa/qca/qca8k-leds.c              |    6 +-
- drivers/net/dsa/qca/qca8k.h                   |    2 +-
- drivers/net/dsa/realtek/realtek-smi.c         |   28 +-
- drivers/net/dsa/realtek/realtek.h             |    2 +-
- drivers/net/dsa/sja1105/sja1105_main.c        |    4 +-
- drivers/net/dsa/xrs700x/xrs700x.c             |   12 +-
- drivers/net/ethernet/broadcom/bcmsysport.c    |    2 +-
- drivers/net/ethernet/mediatek/mtk_eth_soc.c   |    2 +-
- include/linux/dsa/sja1105.h                   |    2 +-
- include/net/dsa.h                             |   54 +-
- include/net/dsa_stubs.h                       |   10 +-
- include/uapi/linux/if_link.h                  |    3 +-
- net/core/dev_ioctl.c                          |    2 +-
- net/dsa/Makefile                              |    4 +-
- net/dsa/{master.c => conduit.c}               |   96 +-
- net/dsa/conduit.h                             |   22 +
- net/dsa/dsa.c                                 |  218 +--
- net/dsa/dsa.h                                 |   10 +-
- net/dsa/master.h                              |   22 -
- net/dsa/netlink.c                             |   22 +-
- net/dsa/port.c                                |  114 +-
- net/dsa/port.h                                |    2 +-
- net/dsa/slave.h                               |   69 -
- net/dsa/switch.c                              |   18 +-
- net/dsa/switch.h                              |    4 +-
- net/dsa/tag.c                                 |   10 +-
- net/dsa/tag.h                                 |   26 +-
- net/dsa/tag_8021q.c                           |   22 +-
- net/dsa/tag_8021q.h                           |    2 +-
- net/dsa/tag_ar9331.c                          |    4 +-
- net/dsa/tag_brcm.c                            |   14 +-
- net/dsa/tag_dsa.c                             |    6 +-
- net/dsa/tag_gswip.c                           |    4 +-
- net/dsa/tag_hellcreek.c                       |    4 +-
- net/dsa/tag_ksz.c                             |   12 +-
- net/dsa/tag_lan9303.c                         |    4 +-
- net/dsa/tag_mtk.c                             |    4 +-
- net/dsa/tag_none.c                            |    4 +-
- net/dsa/tag_ocelot.c                          |   22 +-
- net/dsa/tag_ocelot_8021q.c                    |   12 +-
- net/dsa/tag_qca.c                             |    6 +-
- net/dsa/tag_rtl4_a.c                          |    6 +-
- net/dsa/tag_rtl8_4.c                          |    6 +-
- net/dsa/tag_rzn1_a5psw.c                      |    4 +-
- net/dsa/tag_sja1105.c                         |   30 +-
- net/dsa/tag_trailer.c                         |    4 +-
- net/dsa/tag_xrs700x.c                         |    4 +-
- net/dsa/{slave.c => user.c}                   | 1240 ++++++++---------
- net/dsa/user.h                                |   69 +
- 73 files changed, 1392 insertions(+), 1391 deletions(-)
- rename net/dsa/{master.c => conduit.c} (79%)
- create mode 100644 net/dsa/conduit.h
- delete mode 100644 net/dsa/master.h
- delete mode 100644 net/dsa/slave.h
- rename net/dsa/{slave.c => user.c} (67%)
- create mode 100644 net/dsa/user.h
-
+diff --git a/Documentation/networking/dsa/configuration.rst b/Documentation/networking/dsa/configuration.rst
+index a5a38c31736d..7148fb7c7fe1 100644
+--- a/Documentation/networking/dsa/configuration.rst
++++ b/Documentation/networking/dsa/configuration.rst
+@@ -393,7 +393,7 @@ description which has an ``ethernet`` property. It is up to the user to
+ configure the system for the switch to use other conduits.
+ 
+ DSA uses the ``rtnl_link_ops`` mechanism (with a "dsa" ``kind``) to allow
+-changing the DSA conduit of a user port. The ``IFLA_DSA_MASTER`` u32 netlink
++changing the DSA conduit of a user port. The ``IFLA_DSA_CONDUIT`` u32 netlink
+ attribute contains the ifindex of the conduit device that handles each user
+ device. The DSA conduit must be a valid candidate based on firmware node
+ information, or a LAG interface which contains only users which are valid
+@@ -435,7 +435,7 @@ Using iproute2, the following manipulations are possible:
+         dsa master bond0
+ 
+ Notice that in the case of CPU ports under a LAG, the use of the
+-``IFLA_DSA_MASTER`` netlink attribute is not strictly needed, but rather, DSA
++``IFLA_DSA_CONDUIT`` netlink attribute is not strictly needed, but rather, DSA
+ reacts to the ``IFLA_MASTER`` attribute change of its present conduit (``eth0``)
+ and migrates all user ports to the new upper of ``eth0``, ``bond0``. Similarly,
+ when ``bond0`` is destroyed using ``RTM_DELLINK``, DSA migrates the user ports
+diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
+index fac351a93aed..16f0669e8bdc 100644
+--- a/include/uapi/linux/if_link.h
++++ b/include/uapi/linux/if_link.h
+@@ -1392,7 +1392,8 @@ enum {
+ 
+ enum {
+ 	IFLA_DSA_UNSPEC,
+-	IFLA_DSA_MASTER,
++	IFLA_DSA_MASTER,	/* Deprecated, use IFLA_DSA_CONDUIT instead */
++	IFLA_DSA_CONDUIT = IFLA_DSA_MASTER,
+ 	__IFLA_DSA_MAX,
+ };
+ 
+diff --git a/net/dsa/netlink.c b/net/dsa/netlink.c
+index f56f90a25b99..1332e56349e5 100644
+--- a/net/dsa/netlink.c
++++ b/net/dsa/netlink.c
+@@ -8,7 +8,7 @@
+ #include "user.h"
+ 
+ static const struct nla_policy dsa_policy[IFLA_DSA_MAX + 1] = {
+-	[IFLA_DSA_MASTER]	= { .type = NLA_U32 },
++	[IFLA_DSA_CONDUIT]	= { .type = NLA_U32 },
+ };
+ 
+ static int dsa_changelink(struct net_device *dev, struct nlattr *tb[],
+@@ -20,8 +20,8 @@ static int dsa_changelink(struct net_device *dev, struct nlattr *tb[],
+ 	if (!data)
+ 		return 0;
+ 
+-	if (data[IFLA_DSA_MASTER]) {
+-		u32 ifindex = nla_get_u32(data[IFLA_DSA_MASTER]);
++	if (data[IFLA_DSA_CONDUIT]) {
++		u32 ifindex = nla_get_u32(data[IFLA_DSA_CONDUIT]);
+ 		struct net_device *conduit;
+ 
+ 		conduit = __dev_get_by_index(dev_net(dev), ifindex);
+@@ -38,7 +38,7 @@ static int dsa_changelink(struct net_device *dev, struct nlattr *tb[],
+ 
+ static size_t dsa_get_size(const struct net_device *dev)
+ {
+-	return nla_total_size(sizeof(u32)) +	/* IFLA_DSA_MASTER  */
++	return nla_total_size(sizeof(u32)) +	/* IFLA_DSA_CONDUIT  */
+ 	       0;
+ }
+ 
+@@ -46,7 +46,7 @@ static int dsa_fill_info(struct sk_buff *skb, const struct net_device *dev)
+ {
+ 	struct net_device *conduit = dsa_user_to_conduit(dev);
+ 
+-	if (nla_put_u32(skb, IFLA_DSA_MASTER, conduit->ifindex))
++	if (nla_put_u32(skb, IFLA_DSA_CONDUIT, conduit->ifindex))
+ 		return -EMSGSIZE;
+ 
+ 	return 0;
 -- 
 2.34.1
 
 
---000000000000c548780607638b68
+--00000000000016cfb40607638c42
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -249,14 +249,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIX1jABTr3R5SEbR
-CLKPZ1YLAYC3ssmzsz1k0KQARd/EMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTIzMTAxMDIxMzk0OFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIuy9hbAU4OdqTeI
+cZay8UzQBtd0hSWX2Op2jDk+1I4BMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMTAxMDIxMzk1M1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCNeTht2AbkIOreE29G83d2gOVH0eSWKD7E
-DqGmUkpc2YLfZJWr79LrZNZ7zpxCthK3M8A1JucBM9Kb+47es3nFdWMgUiANM4ZjMEVjeyXSW91Z
-hv2Tw5QyLDfzE9p56F7PxtKgi8vek/RNtBsxT3YLdLlM61MTT3tc9Q4bVBjYbzJrEpng0jAREgpv
-RQCrh33x0INGCoNVt7bA5KGJO6g7lYU+17lFxiDxFH6A4szwy+SIKBY+nPgUBF5kJ9O8RnnF0N6R
-IClJhtr5Z4y2AfeARKK+92Xm7/GwLSzwnZzVqSlrfeFn0gmSmsTH37DZrAqx+tl5otlqxeox4N7A
-CLny
---000000000000c548780607638b68--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDeUm2zeaJIb0ymD0EF3GTmbzW8ReWPaXdd
+p7yAUGJyjqjdSPJ9rwaV66ELpS1rO6HqoRSA0NykV4DovtKGTPjnQeOMoLinBcfn5CZuxzqU8sHX
+qBz94QL/3QkkeqoemgJxPum284K4z57e4L//y7f2ES0lI5kJbl3ZTtC0cXSXYgFHspcXNRQIGg21
+IBt7jOitNRtTCVaDhCY0VluUR1KiodUbWR46i++yasbOhMr2z0KeXXdx8ChVs+uTDO+FYT/xkNwA
++Qywq8fj6XmmdJkOelQAdWlG+FxajREIz+wJEtjMIsQdp+Fd6eDIarvCC0UkBLiaUtN/tKCMdUDe
+8WuY
+--00000000000016cfb40607638c42--
