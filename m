@@ -2,103 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E15147BFE60
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 15:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69AF17BFFB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 16:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232487AbjJJNsp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Oct 2023 09:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
+        id S233145AbjJJOw4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Oct 2023 10:52:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232460AbjJJNsp (ORCPT
+        with ESMTP id S233175AbjJJOww (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Oct 2023 09:48:45 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26D7DAC;
-        Tue, 10 Oct 2023 06:48:43 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a1ec43870cso70087097b3.0;
-        Tue, 10 Oct 2023 06:48:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696945722; x=1697550522;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        Tue, 10 Oct 2023 10:52:52 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8664B6;
+        Tue, 10 Oct 2023 07:52:49 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50336768615so7554274e87.0;
+        Tue, 10 Oct 2023 07:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696949568; x=1697554368; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D4RE3zX1nkr5k1ALXTAQSYqGBtL+qOQGbxBra5+ezTA=;
-        b=YnZ7rQ5vCbXtzGoyI+SAXEdLdTIap61X0oaMsnIdsBaIWQQ3gulAbXJt+fHe12c7cB
-         OfQxRzW0VfyOFEVn6zUEAUXBJYNmLxwlyGq+Bap7yFVW3rBGOOawm15zTC5uWxVR6lZw
-         o6IePEyPDN0WMsJurr6mn3tYtEKGXw0MChpMaHCLWcH0rwuoQRCxmHv8aOI0pwfx2NCi
-         JdKO8oELQtIMQnX3EWS6Ye2M8lexNgZ9YgcM37SbLIn75DLlOKQmfOzVCn3wn7zddlir
-         A+vo2eZTYRy19VV3G7o8+cUAJKJVWocUfTe0JuFpHNDy0JbMGxTMu5muhw9SIHO7/7Tz
-         CO5Q==
-X-Gm-Message-State: AOJu0Yxz769j9F78baQj6zouiBML2zK0YXKpyCAuiU7+QhCGim7XPNha
-        OSwCwpBNF6u5pIMFr9yqAV7PWjIradpkBQ==
-X-Google-Smtp-Source: AGHT+IE4IxpnqT3awjxIJbYukaZ5668yaGzS2c3xjIpV5AnAE9LLsRsgvdyvYue1DeSJQCS+A43Gtg==
-X-Received: by 2002:a81:ac20:0:b0:5a7:b900:a373 with SMTP id k32-20020a81ac20000000b005a7b900a373mr2819171ywh.0.1696945722130;
-        Tue, 10 Oct 2023 06:48:42 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id w129-20020a817b87000000b00589c103d00asm4425863ywc.79.2023.10.10.06.48.41
+        bh=NUkVmCPpadfaQWhNaIF6MgMWdRIKYVJjqWjOHwXj0+M=;
+        b=Pvcp2L4H/n5MrjMlX+4ChK8D4NfrneG5m4ht+I+7Qa4NUwdnR6c32KXd78/j1Y0kch
+         HLBqOIBRuXJeLbzVaE2j5uCV1w+uVhxzGAFay5nCUHsDzk+vFIv5SPY9wOftgkEJxFuH
+         c6HA+QIYAifmlG7iTQhn4bZQpC+xAyK2Ql03E/P+0VObUPczL7oLWdusdgRvI/rkMAC1
+         fV9W2HC8mgOG7/2gkADTHxQyt9KJxHrZYB8oyEOXmsLrqT9P7LaAxkA4Vao/102aXSln
+         NuvPEqkKfas+pxFsdPkYdA9rfK3hJ8mX4Gg5JTpVTdC/NFHRkFuwRJH+a1UG1K+n/+VS
+         6ktg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696949568; x=1697554368;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NUkVmCPpadfaQWhNaIF6MgMWdRIKYVJjqWjOHwXj0+M=;
+        b=BCC3wWGAKnXYnJJ29bFVcGc/glqjWQZos/o3tu5do/TO49Wg6VJXvo+QZzxNvZchbf
+         uMqmZvmEMmyhEQLHSuOHUTwl76NDFWwrI0slClDWef57CbK5eqr/MWXi8mlYmos1R3mp
+         17T/gHV943kqgtx0mFu/ljMiw8CRkGXM6+4zRVCbBifHUS6SYIXbdzLkCx/9/+sVrb7C
+         lfWoxXGwHxNJBLcd/zuqyFDjSCFVQNg+DqvnQYI2sR652OnXPaCFfJQuJ3pCaBo3tUo4
+         PnEjSQggpXKu50IUbANNOhgBfrW5oLxlTnxdwxtuv+McO00BPiTU125HOKnvwU05eg9u
+         LEIA==
+X-Gm-Message-State: AOJu0YyjSRdeod04VuWljAXpnCh6ZtsQqgUfmSYbDdrGJkoRIG4V3+9+
+        9WCU6oXlXrwlxagWm4CWxLI=
+X-Google-Smtp-Source: AGHT+IHO5E5YV/KKLewCzVIm1cEGcf6Poaf/0tI/To+Cb4NOLcjUdSdP7uCOnzJ52UrXqYpIrAKptg==
+X-Received: by 2002:a05:6512:3608:b0:4ff:9a75:211e with SMTP id f8-20020a056512360800b004ff9a75211emr13113617lfs.42.1696949567369;
+        Tue, 10 Oct 2023 07:52:47 -0700 (PDT)
+Received: from [192.168.1.103] ([178.176.74.144])
+        by smtp.gmail.com with ESMTPSA id o9-20020a05651238a900b00501c8959f6asm1840709lft.98.2023.10.10.07.52.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Oct 2023 06:48:41 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f6441215dso69882367b3.2;
-        Tue, 10 Oct 2023 06:48:41 -0700 (PDT)
-X-Received: by 2002:a25:870e:0:b0:d78:2967:93ea with SMTP id
- a14-20020a25870e000000b00d78296793eamr16105733ybl.1.1696945721710; Tue, 10
- Oct 2023 06:48:41 -0700 (PDT)
+        Tue, 10 Oct 2023 07:52:46 -0700 (PDT)
+Subject: Re: [PATCH 1/6] clk: renesas: rzg2l: Use %x format specifier to print
+ CLK_ON_R()
+To:     Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be,
+        magnus.damm@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        mturquette@baylibre.com, sboyd@kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231010132701.1658737-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231010132701.1658737-2-claudiu.beznea.uj@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <8226bd48-4297-0b32-c733-2e569114a934@gmail.com>
+Date:   Tue, 10 Oct 2023 17:52:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20231009083856.222030-1-u.kleine-koenig@pengutronix.de>
- <20231009083856.222030-20-u.kleine-koenig@pengutronix.de> <CAMuHMdX=pESX1PefCXBSHgu8wRMsEiNO02q1-sjsxqysKb1znA@mail.gmail.com>
- <CACRpkdZ0xhgEA733XNOehBL0G5u1P=1FGVTf9tcToLhEj5vQCg@mail.gmail.com>
-In-Reply-To: <CACRpkdZ0xhgEA733XNOehBL0G5u1P=1FGVTf9tcToLhEj5vQCg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Oct 2023 15:48:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdURHdnFviekOmm1AVFKDWmabr_jUjVvU51b+-iHUgYNOg@mail.gmail.com>
-Message-ID: <CAMuHMdURHdnFviekOmm1AVFKDWmabr_jUjVvU51b+-iHUgYNOg@mail.gmail.com>
-Subject: Re: [PATCH 19/20] pinctrl: renesas: rzn1: Convert to platform remove
- callback returning void
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20231010132701.1658737-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hello!
 
-On Tue, Oct 10, 2023 at 3:45 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Mon, Oct 9, 2023 at 11:39 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > Linus: do you plan to take this whole series directly?
-> > If yes:
-> > Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Otherwise, I can queue it in renesas-pinctrl-for-v6.7 for my
-> > second PR for v6.7 this Friday.
->
-> You pick it! Andy is already picking the Intel changes, so it
-> is better to refer to submaintainers where we have them!
+On 10/10/23 4:26 PM, Claudiu wrote:
 
-OK.
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Use %x format specifier to print CLK_ON_R(). This is easier when
+> debugging as the value printed will be hexadecimal like in the hardware
+> manual. Along with it "0x" has been added in front of the printed value.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index d62f1bc1f60e..764bd72cf059 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -1213,7 +1213,7 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
+>  		return 0;
+>  	}
+>  
+> -	dev_dbg(dev, "CLK_ON %u/%pC %s\n", CLK_ON_R(reg), hw->clk,
+> +	dev_dbg(dev, "CLK_ON 0x%x/%pC %s\n", CLK_ON_R(reg), hw->clk,
 
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+   Perhaps "%#x" instead of "0x%x"?
 
-Thanks!
+[...]
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergey
