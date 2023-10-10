@@ -2,232 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4A737BF192
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 05:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 649EA7BF2D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 08:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379411AbjJJDeo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Oct 2023 23:34:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S1442214AbjJJGSU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Oct 2023 02:18:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378482AbjJJDen (ORCPT
+        with ESMTP id S1442183AbjJJGST (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Oct 2023 23:34:43 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2239D
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Oct 2023 20:34:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696908881; x=1728444881;
-  h=date:from:to:cc:subject:message-id;
-  bh=R4m6TL3/i8Fo2aDzXwdcCGGc3aMWiEmqvozsJ9uiBZc=;
-  b=iydo9IY1Oa/nN9MaqubFCjtIgGfBnzxHeUrXe0z5EGjLvfazoT0iYBud
-   Rip1EUu4mIAgrCcm9upNvdYVl9w+/jgaectwLGxEJ895tyGU+Kt7ijhsY
-   nNwXY1xd6JVblA2pVtAd6KT64wzpHf8zo3zpQzli6WgsiYT4jVbZzxKt8
-   pMSJ8u5ePwQR/br+aUz82jf1LZWWLqIstuh5131wxp/VOAPbwp649Zxbg
-   LAGcNRqoimqSa4nfYnd8XyI/embHEzmCP4FINpfuaZ4YcE7VQoSZjorkU
-   LNGjGdmSFP01fjAN0lROaCaRi3ewJvJt9+3ulDEfdqm6aQKjZmUwnx2YJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="448494477"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="448494477"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 20:34:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000506879"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="1000506879"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Oct 2023 20:33:33 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qq3Uv-00012S-1T;
-        Tue, 10 Oct 2023 03:33:29 +0000
-Date:   Tue, 10 Oct 2023 11:32:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- aad8de96fed63d50d0112ec406ffd2a39ed4080b
-Message-ID: <202310101129.SEQ1XPcP-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 10 Oct 2023 02:18:19 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2096.outbound.protection.outlook.com [40.107.114.96])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2B997;
+        Mon,  9 Oct 2023 23:18:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cEtN8goVohXwwFXx81la/f7/4p1cf+CbG6fV/MVZDeLNXdN7v7/wxLiKHYlwObeg+rWEHJmp5QqO52jDiKf9pxafcR86W/DLFUFJvmYRjEPhimjiCHMA2DBuLeBJXFZZst9/DVZQcXERjudix2aMCybQsibCzLUiHWX99CDfMWBhP4XykCuJdWLB+4jut4vPpbH4B41Fbg2YkLx9Lqgd9d94/P8mBRjkBith/v3zonZ6TxwT08lqplEu207VQRNVb4ueFVLd1b5dEONTELv9ST0mzh1QiGkyotR6C9Nap0aQazc/6pyWTTJYZcafBeGyx/C8x84pOVGQgs9LXqMZ4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R2gXvniBxRNGTphR47n6qwz3eQFx8UQu1I8oFBAET2I=;
+ b=etiOCe8y41VVlH45jEZqffruFK9bFEXpzKG8pac6nmH3yy/Yn2bD02qXY0mgvY5uA03tcNwaVKiujlUb9U1uhgYA6eHbQ6DxA6iFszDzb1STQ23fK2YZLkHEkt7I6aPBwkgzxHS0uFFgVqZQaGc1EZ6dvplxj1IjtDoCT50eH6xzGAB8F2LDgPStZojksDBgYnLPcep2CeqBOjcwQtoJkNTDLrmKMUhushmdzcXu5wn3igBOGZd9JYl232ga/yk6KQ1uVF4YXqIhZFmvwAQpHcI3gpcRL4XwyHGJUGJBGxUW2ujjdHweY97dwPpjuEpbB/sapohXrNYvs4okmgulUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R2gXvniBxRNGTphR47n6qwz3eQFx8UQu1I8oFBAET2I=;
+ b=Iuk0+fRjkO3jKMl7FmQWVFOFdxI0BXdmwB5ZRWLypj8wqRzC+mm7N0oiai5DcVYCrxhnvD83ohA1RIY6/TFD8UqlfOgHDH3U8fbojLfmrapyWrFaTM7R83wMVC9aGZ/xjPRghkNDbzsuXHw0dVuKuyWks/EcRNNik3h/9EJVqbw=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OSRPR01MB11458.jpnprd01.prod.outlook.com
+ (2603:1096:604:22c::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
+ 2023 06:18:14 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::db75:e192:bbfa:78a2]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::db75:e192:bbfa:78a2%3]) with mapi id 15.20.6838.040; Tue, 10 Oct 2023
+ 06:18:09 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC:     John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.au@gmail.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] alarmtimer: Fix rebind failure
+Thread-Topic: [PATCH v2] alarmtimer: Fix rebind failure
+Thread-Index: AQHZ7SyA4lmrPv0tQ0OIkUBZ8XwsyrBBqzEAgAAC0jCAAAcKAIAAFRaggABTdwCAAIkS4A==
+Date:   Tue, 10 Oct 2023 06:18:09 +0000
+Message-ID: <TYCPR01MB11269FF2DBFDC96B9C12D2E5E86CDA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
+ <87il7fq1al.ffs@tglx>
+ <TYCPR01MB112697A5D4B57101CDE27C88D86CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <87fs2jpznr.ffs@tglx>
+ <TYCPR01MB11269C6BF3934F9AAC44F855186CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <87bkd7pic3.ffs@tglx>
+In-Reply-To: <87bkd7pic3.ffs@tglx>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSRPR01MB11458:EE_
+x-ms-office365-filtering-correlation-id: 4a3cfba8-1827-4783-24f8-08dbc958acc0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SK25jV0ptRsvXfM89z5xXisftjKIW5p+wJmyRcTdqSRxBkZdSgWxmrWC0AQkg9x0kZs93BNuaS+prVVRIDH/fS92BKSz2XPsJ5xfyl/3J2Outg3y3sEPTfKvfM4KMI2sPzTQJhqQJJUGAcnJPXDIl5m86hzpc57z7oTEjWawBFGJeC2J/Rc+gduPNA4w/OSa6KKxlmLmk5XIrPIyOYFx6o6KAdAb/LSBfGL+8EIyEQxeK9wnRX6ruZGp+icZowZ6+95qjSejjC2d4S3y8qUrAkZFurdyWyWCSy9Fwz4pq/ujhkFttbyJ0hdFxod/TsEYj423lhdJGJRurhY+RltKcs9GvXWCDyJGcHNLtFfPA8/qfjX3Huo2h8UKRspabnTgmnoFP4kQkh9+uTmh65cgzVz9bniacEYyIpqefTBfnuJ/d69YFBM/AncjGPmj6Its1WEryGOo6M0SY7Z2weTxXCrzSNOcH6HcACY3ZlAFzJ+sX9YAnH/oVzHSkAMb2F+g6hRhptUa5HLv4ZJAjtOmdDtYVhlv0xGrGFTDBrSlNTIIHD9bDknwEsDOLPNbPlM/1Okp51PNNPZzAK/DVNy2bLZfytyxKAX44/lM5S9/ZkDtE5MiPyHvZOLWGEUIWZYD
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(39860400002)(376002)(396003)(366004)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(5660300002)(8936002)(52536014)(33656002)(8676002)(4326008)(110136005)(54906003)(316002)(122000001)(38100700002)(64756008)(66556008)(76116006)(66946007)(86362001)(38070700005)(66476007)(41300700001)(7416002)(66446008)(83380400001)(2906002)(26005)(71200400001)(478600001)(55016003)(7696005)(6506007)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TzM7dPAT/OhqEKGbMsRFw8vNVEuvjv1Z5DLo33AIClViAfYgkFCs+2chOWAf?=
+ =?us-ascii?Q?ZQKTxBgcvn53YD4pfmPksAWy4jbn+xkpTBDccYIFQI3zzZXueunjOy+2MV1U?=
+ =?us-ascii?Q?JAFkCkVJpuSM6cxDErwww0LgOoCMnLK+f8GxAh4Cn6gY/poHui6CRXCN3B04?=
+ =?us-ascii?Q?tCC/se/jUIRwgbdV128oR/83hf7OoDqajGNuIDR2okhw5DYueu9h2NPSaIvH?=
+ =?us-ascii?Q?Tmg11nRLTF7iTiiN6tXii5tRFtW3c1xl2QmcS1VGxOhQlpB7LT/BoYWV1tyY?=
+ =?us-ascii?Q?QGMPo7j+GIga5NNfs4X1JikDkKL3P8DLxPFBWTMRGIUAJGF3wslx9powzZ80?=
+ =?us-ascii?Q?5khdIRZWXDD3DlkfbbC3k3NpYbmQ2/WSiPEWMdwYAPWNevMvOnL+U/PzDLoi?=
+ =?us-ascii?Q?zrwnytamBftpuh6ea6bVXwbmFO2R5G97hiQtg5FEJNrAep5XNpMMKvaGl2VB?=
+ =?us-ascii?Q?r/mubePY0c6Pmwy2sxT2+hfAvr+sWTM0N26pg7gxrbRGDVZGKh1Jn48Dvgcv?=
+ =?us-ascii?Q?gF0YmLAfYaO/gKTp/RFkK1tUDs4C7F79KsArus7in9oNylzAILqHBDQIS/36?=
+ =?us-ascii?Q?6R5h8PIoDj7XO4LP1I6A/jBMqKohpYTgLuCMAXKJnEOPvDr3xgUvqt8dRVc4?=
+ =?us-ascii?Q?6kmEYv8fA578/YGbTZHuMk251daea0opXkrF1BWWBmi9Tbbmxb1pWEFHk/w/?=
+ =?us-ascii?Q?nFoILoMRh5SjyoF25yfGmrfN1BGLg3ag5hkZEk+GymQ0Y21zi3R20IaxdKln?=
+ =?us-ascii?Q?w9jNRdcsUoMx+mOyiy7dIKgjUNRpAYSiw7ocUKPBd0jwfYw7wSALyzcbcln7?=
+ =?us-ascii?Q?KHLgjeTN7vTxjE26vPAZfkjuu55ReG7qlIjRorfxU2PgRr6W3KiTy52Y6BSp?=
+ =?us-ascii?Q?o0H8PcxPdOl3EwWMUCZAgiIn9aiDAQceasFWvek59QNJNrUJHRXFcRlJd4j4?=
+ =?us-ascii?Q?V31nVz6zZIBoLiqQG7XMuURYsmrHFQ9y7kT+Sj95uBHyvOcuhWzo8Cn7np/T?=
+ =?us-ascii?Q?QqDgo/uJSQI9xRYdwPneu2eapjmk0wKoHI4iIqFqWSAS4ObqfG3CE178+Se4?=
+ =?us-ascii?Q?ya1Xi3YcY5LOhVOnV63CCOsqiPA6ojfDdfL+WSZdN2915nns8b+k9vrAMLtZ?=
+ =?us-ascii?Q?+vR0vXEpCzQ9RPshNsne/9ej+t+APQHWPpp8aU/PQHN79/BJwsTrLe1T8KZX?=
+ =?us-ascii?Q?Q52MNMVG9HMfMYuR5le31+f4F3KRoQFeexnpHEkXQE/6cBbcYMy5FbxiyUAi?=
+ =?us-ascii?Q?X14BvM7RJwYlpT37HW4pzYleZs4Hkj2KM+EotnbJismM5GQpBNUWY1EyWKXX?=
+ =?us-ascii?Q?ARPYjeHiZRonlCo2bTwFIcFbhiXJmZvwdqXdwi6iCOs9ylJLpCgXrabRCFJ3?=
+ =?us-ascii?Q?Gif+yqRvfEQyj8I52PGwivqM6PMVm/Gte9KptYsLYhcxKEe9Du2aAkDAhcUn?=
+ =?us-ascii?Q?sEIjtU6Xe15uvSlKR9KJ4zfBRd/+VCOUwShyPztNDMrbbeTmRwhMKEjz1EG2?=
+ =?us-ascii?Q?FquVLogAJ/6O462XAD+Qw9mW/q3txKcNcQw6q95XSM116hPVJwHLlOjurvio?=
+ =?us-ascii?Q?HCfzcAjAy/wrdBzhAF6V2T5h+UKyCYz0mnJPZcMKLUnFq+nGHwGG46W+S8Y2?=
+ =?us-ascii?Q?1A=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a3cfba8-1827-4783-24f8-08dbc958acc0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2023 06:18:09.5191
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MKb7BYjb8akUmKOrN/hOFdWsBnj3iMKL9Wi4wpOfgG3380R3w5L/b5muo2jfufBzspuM7cCTQlEHcSrVpprARyP6m6BW9L2jcRqfaBY36o0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11458
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: aad8de96fed63d50d0112ec406ffd2a39ed4080b  Merge tag 'v6.6-rc5' into renesas-devel
+Hi Thomas Gleixner,
 
-elapsed time: 1016m
+> Subject: RE: [PATCH v2] alarmtimer: Fix rebind failure
+>=20
+> On Mon, Oct 09 2023 at 17:02, Biju Das wrote:
+> >> On Mon, Oct 09 2023 at 15:30, Biju Das wrote:
+> >> > You mean we should update[1] (charger-manager driver)as it is the
+> >> > one using alarmtimer_get_rtcdev()??
+> >>
+> >> # git grep -c alarmtimer_get_rtcdev
+> >> drivers/power/supply/charger-manager.c:1
+> >> include/linux/alarmtimer.h:2
+> >> kernel/time/alarmtimer.c:10
+> >
+> > kernel/time/alarmtimer.c has alarmtimer_get_rtcdev()check everywhere,
+> > that is missing in charger-manager.c. I will add the same, is it ok?
+>=20
+> The code does in the init function:
+>=20
+>       if (alarmtimer_get_rtcdev()) {
+>          ....
+>       }
+>=20
+> IOW, charger-manager.c expects that alarm is working when
+> alarmtimer_get_rtcdev() returns non NULL at init. So ripping the RTC devi=
+ce
+> out under it is going to result in a disfunctional driver. I'm not
+> convinced that you can fix this by sprinkling a ton of checks around the
+> code.
+>=20
+> But that's not the worst of it. The alarmtimer infrastructure is generall=
+y
+> not designed for device/module removal. Why?
+>=20
+> The posix timer interface is fundamentally expecting that an armed alarm
+> timer is actually functional. The fact that the class interface does not
+> have a remove_dev callback is not an oversight and holding a reference on
+> the module and a reference on the device is intended to ensure that the
+> device cannot vanish.
 
-configs tested: 154
-configs skipped: 2
+Thanks for the explanation, I am not aware we should not remove RTC device.=
+=20
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>=20
+> The changelog lacks any form of explanation why this is required and how
+> removal of the registered RTC device is actually possible. Neither does i=
+t
+> provide any analysis why this cannot result in malfunction.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231009   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                        mvebu_v5_defconfig   clang
-arm                          pxa3xx_defconfig   gcc  
-arm                   randconfig-001-20231009   gcc  
-arm                    vt8500_v6_v7_defconfig   clang
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231009   gcc  
-i386         buildonly-randconfig-002-20231009   gcc  
-i386         buildonly-randconfig-003-20231009   gcc  
-i386         buildonly-randconfig-004-20231009   gcc  
-i386         buildonly-randconfig-005-20231009   gcc  
-i386         buildonly-randconfig-006-20231009   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231009   gcc  
-i386                  randconfig-002-20231009   gcc  
-i386                  randconfig-003-20231009   gcc  
-i386                  randconfig-004-20231009   gcc  
-i386                  randconfig-005-20231009   gcc  
-i386                  randconfig-006-20231009   gcc  
-i386                  randconfig-011-20231009   gcc  
-i386                  randconfig-012-20231009   gcc  
-i386                  randconfig-013-20231009   gcc  
-i386                  randconfig-014-20231009   gcc  
-i386                  randconfig-015-20231009   gcc  
-i386                  randconfig-016-20231009   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231009   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5208evb_defconfig   gcc  
-m68k                          multi_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           jazz_defconfig   gcc  
-mips                        qi_lb60_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                          allyesconfig   gcc  
-powerpc                        fsp2_defconfig   clang
-powerpc                     mpc512x_defconfig   clang
-powerpc               mpc834x_itxgp_defconfig   clang
-powerpc                      tqm8xx_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231009   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231009   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231009   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231009   gcc  
-x86_64       buildonly-randconfig-002-20231009   gcc  
-x86_64       buildonly-randconfig-003-20231009   gcc  
-x86_64       buildonly-randconfig-004-20231009   gcc  
-x86_64       buildonly-randconfig-005-20231009   gcc  
-x86_64       buildonly-randconfig-006-20231009   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231009   gcc  
-x86_64                randconfig-002-20231009   gcc  
-x86_64                randconfig-003-20231009   gcc  
-x86_64                randconfig-004-20231009   gcc  
-x86_64                randconfig-005-20231009   gcc  
-x86_64                randconfig-006-20231009   gcc  
-x86_64                randconfig-011-20231009   gcc  
-x86_64                randconfig-012-20231009   gcc  
-x86_64                randconfig-013-20231009   gcc  
-x86_64                randconfig-014-20231009   gcc  
-x86_64                randconfig-015-20231009   gcc  
-x86_64                randconfig-016-20231009   gcc  
-x86_64                randconfig-071-20231009   gcc  
-x86_64                randconfig-072-20231009   gcc  
-x86_64                randconfig-073-20231009   gcc  
-x86_64                randconfig-074-20231009   gcc  
-x86_64                randconfig-075-20231009   gcc  
-x86_64                randconfig-076-20231009   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
-xtensa                          iss_defconfig   gcc  
-xtensa                    smp_lx200_defconfig   gcc  
+RTC driver is defined as a module, so I was testing
+remove/unbind followed by install/bind on RTC driver to check
+any resource leakage and found that device is not working properly.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+As you mentioned above, we should not remove RTC driver. So I would like to=
+ drop this patch.
+
+Is there any place we can document this to avoid another person doing same =
+mistake?
+
+Cheers,
+Biju
