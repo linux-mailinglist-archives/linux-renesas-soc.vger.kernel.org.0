@@ -2,38 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A3C7BFD1B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 15:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E7A7BFD26
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 15:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbjJJNR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Oct 2023 09:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37980 "EHLO
+        id S231681AbjJJNSX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Oct 2023 09:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjJJNR1 (ORCPT
+        with ESMTP id S231580AbjJJNSW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Oct 2023 09:17:27 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A39DA4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 06:17:23 -0700 (PDT)
+        Tue, 10 Oct 2023 09:18:22 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9E891
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 06:18:20 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a251:6312:1f1a:2a48])
-        by xavier.telenet-ops.be with bizsmtp
-        id wDHM2A00e3RY9Je01DHMmJ; Tue, 10 Oct 2023 15:17:22 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id wDJH2A00Z3RY9Je01DJHoi; Tue, 10 Oct 2023 15:18:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qqCbw-005sTC-37;
-        Tue, 10 Oct 2023 15:17:21 +0200
+        id 1qqCcq-005sTH-6p;
+        Tue, 10 Oct 2023 15:18:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1qqCbx-00GveY-L2;
-        Tue, 10 Oct 2023 15:17:21 +0200
+        id 1qqCcr-00GvfW-Ph;
+        Tue, 10 Oct 2023 15:18:17 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.6-rc3
-Date:   Tue, 10 Oct 2023 15:17:20 +0200
-Message-Id: <527f23d5290c5d62984093e78b4b20ffc212a0c4.1696943815.git.geert+renesas@glider.be>
+Subject: [PATCH/LOCAL] arm64: renesas: defconfig: Enable RZ/G3S SoC
+Date:   Tue, 10 Oct 2023 15:18:16 +0200
+Message-Id: <667fefa37e69a4b022a4a17fdc8e3a391839b904.1696943850.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,8 +47,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Refresh the defconfig for Renesas ARM64 systems:
-  - Disable CONFIG_ARM64_ERRATUM_2966298 (No Cortex-A520).
+Enable support for the RZ/G3S (R9A08G045) SoC in the defconfig for
+Renesas ARM64 systems.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
@@ -58,17 +59,17 @@ To be applied to the topic/renesas-defconfig branch.
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 46af31ce514c404a..4df57545923a8ac0 100644
+index 4df57545923a8ac0..a947a43f97e89cb4 100644
 --- a/arch/arm64/configs/renesas_defconfig
 +++ b/arch/arm64/configs/renesas_defconfig
-@@ -37,6 +37,7 @@ CONFIG_ARCH_RENESAS=y
- # CONFIG_ARM64_ERRATUM_2067961 is not set
- # CONFIG_ARM64_ERRATUM_2441009 is not set
- # CONFIG_ARM64_ERRATUM_2645198 is not set
-+# CONFIG_ARM64_ERRATUM_2966298 is not set
- # CONFIG_CAVIUM_ERRATUM_22375 is not set
- # CONFIG_CAVIUM_ERRATUM_23154 is not set
- # CONFIG_CAVIUM_ERRATUM_27456 is not set
+@@ -380,6 +380,7 @@ CONFIG_ARCH_R8A774B1=y
+ CONFIG_ARCH_R9A07G043=y
+ CONFIG_ARCH_R9A07G044=y
+ CONFIG_ARCH_R9A07G054=y
++CONFIG_ARCH_R9A08G045=y
+ CONFIG_ARCH_R9A09G011=y
+ CONFIG_EXTCON_USB_GPIO=y
+ CONFIG_MEMORY=y
 -- 
 2.34.1
 
