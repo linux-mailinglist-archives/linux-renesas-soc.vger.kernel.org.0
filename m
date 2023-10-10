@@ -2,188 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C667BF925
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 13:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 832E37BF962
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Oct 2023 13:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjJJLFA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Oct 2023 07:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54430 "EHLO
+        id S231283AbjJJLM3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Oct 2023 07:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjJJLE7 (ORCPT
+        with ESMTP id S231315AbjJJLM1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Oct 2023 07:04:59 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7EEA4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Oct 2023 04:04:57 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qqAXj-00011h-83; Tue, 10 Oct 2023 13:04:51 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qqAXh-000drE-Vt; Tue, 10 Oct 2023 13:04:49 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qqAXh-00D468-MO; Tue, 10 Oct 2023 13:04:49 +0200
-Date:   Tue, 10 Oct 2023 13:04:49 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 2/4] pwm: Add support for RZ/V2M PWM driver
-Message-ID: <20231010110449.7nxb6p675qkujg3q@pengutronix.de>
-References: <20230630114003.320641-1-biju.das.jz@bp.renesas.com>
- <20230630114003.320641-3-biju.das.jz@bp.renesas.com>
- <20230916153248.27k7erg7i7ruf76w@pengutronix.de>
- <TYWPR01MB8775150932FD1F0A346029B7C2C4A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
- <20231004141521.rgm74pepirnvzrwm@pengutronix.de>
- <TYWPR01MB8775EBB5A3A6D446D3B6F811C2CDA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
+        Tue, 10 Oct 2023 07:12:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F86FB6;
+        Tue, 10 Oct 2023 04:12:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D91C433C9;
+        Tue, 10 Oct 2023 11:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696936345;
+        bh=nRLR7fnt3ED4eUmYaB6FkjbQ6pAUD6/4JWgUld8rUGw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QQkJUWzp0lnc046Kg3UE+dGpuhyexg7I4qLnpnD9GyzgjI/B9iFfVjBA5k49NEiRG
+         ZXl6m3xG/bLvpHlmuUw3c0LdblgJaAg+Yp94BLGq4s6X0L0eydQak4VtY49W/ncV57
+         QMI8H1Df4l6qoKvvGihpw+XIcq+9qrKvmHPQ8nwW7Yzuxpned4RT33z0TZRwuzruvR
+         2Ap1wceWPRbOKXgAIskglxH5jXtzu4FoE1l8TpKGTWFuBzQu0V6oFuJl+HYkFUbAnD
+         tAF2+M5cUj7duMfhjcnu5kFrFuEIpsZkXfWLlSksVBuFFYBRodBfK6HIIg6liiWFHw
+         Nk+Wi8Ue5TXsA==
+Date:   Tue, 10 Oct 2023 16:42:10 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, mani@kernel.org,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v21 01/16] PCI: dwc: endpoint: Add multiple PFs support
+ for dbi2
+Message-ID: <20231010111210.GA4884@thinkpad>
+References: <20230922065331.3806925-1-yoshihiro.shimoda.uh@renesas.com>
+ <20230922065331.3806925-2-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="r3y576m5r4tbur5m"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <TYWPR01MB8775EBB5A3A6D446D3B6F811C2CDA@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230922065331.3806925-2-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Sep 22, 2023 at 03:53:16PM +0900, Yoshihiro Shimoda wrote:
+> The commit 24ede430fa49 ("PCI: designware-ep: Add multiple PFs support
+> for DWC") added .func_conf_select() to get the configuration space of
+> different PFs and assumed that the offsets between dbi and dbi2 would
+> be the same.
+> 
+> However, Renesas R-Car Gen4 PCIe controllers have different offsets of
+> function 1: dbi (+0x1000) and dbi2 (+0x800). To get the offset for dbi2,
+> add .get_dbi2_offset() and dw_pcie_ep_get_dbi2_offset().
+> 
+> Note:
+>  - .func_conf_select() should be renamed later.
+>  - dw_pcie_ep_get_dbi2_offset() will call .func_conf_select()
+>    if .get_dbi2_offset() doesn't exist for backward compatibility.
+>  - dw_pcie_writeX_{dbi/dbi2} APIs accepted the func_no argument,
+>    so that these offset calculations are contained in the API
+>    definitions itself as it should.
+> 
+> [kwilczynski: commit log]
+> Link: https://lore.kernel.org/linux-pci/20230825093219.2685912-6-yoshihiro.shimoda.uh@renesas.com
 
---r3y576m5r4tbur5m
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No need of the "Link". It will be added by the maintainer while applying this
+patch.
 
-On Tue, Oct 10, 2023 at 10:48:19AM +0000, Fabrizio Castro wrote:
-> Hi Uwe,
->=20
-> Thanks for your reply!
->=20
-> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > Sent: Wednesday, October 4, 2023 3:15 PM
-> > Subject: Re: [PATCH v5 2/4] pwm: Add support for RZ/V2M PWM driver
-> >=20
-> > Hello Fabrizio,
-> >=20
-> > On Tue, Oct 03, 2023 at 09:19:41PM +0000, Fabrizio Castro wrote:
-> > > > > +	if (period)
-> > > > > +		period +=3D 1;
-> > > >
-> > > > This looks bogus, why don't you add 1 if RZV2M_PWMCYC is 0?
-> > >
-> > > Agreed. We should always add 1.
-> > >
-> > > > Also it suggests that the hardware cannot do a 100% relative duty
-> > > > cycle?
-> > >
-> > > It does support 100% duty cycle.
-> > > PWMCYC =3D 0 actually means 1 clock cycle, that's why the faff with
-> > > increment and decrement operations, and that's why the confusion.
-> >=20
-> > So it doesn't support a 0% relative duty cycle?
->=20
-> It does support 0% duty cycle.
->=20
-> >=20
-> > > > If I didn't miss anything here, please add that to the list of
-> > > > Limitations above.
-> > >
-> > > Thankfully not a limitation.
-> > >
-> > > >
-> > > > > +	state->period =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC * (u64)period
-> > << (4
-> > > > * prescale),
-> > > > > +					 rzv2m_pwm->rate);
-> > > >
-> > > > The multiplication can overflow. I see no easy way to prevent this
-> > > > without introducing a mul_u64_u64_div_roundup helper. Maybe I miss
-> > > > something?
-> > >
-> > > It does overflow, good catch!
-> > > I think we could split this in three operations for now, and maybe
-> > > improve it later on:
-> > > period =3D NSEC_PER_SEC * (cyc + 1);
-> > > period =3D DIV64_U64_ROUND_UP(period, rzv2m_pwm->rate);
-> > > period <<=3D rzv2m_pwm_prescale_to_shift(prescale);
-> >=20
-> > You're loosing precision here though. With /^ =3D div_round_up:
-> >=20
-> > 	1000000000 * 5 /^ 3 << 2 =3D=3D 6666666668
-> > 	1000000000 * 5 << 2 /^ 3 =3D=3D 6666666667
->=20
-> Yep.
->=20
-> >=20
-> > So I correct my statement to: I see no easy and exact way to prevent
-> > an
-> > overflow without introducing a mul_u64_u64_div_roundup helper. :-)
->=20
-> Indeed. In my mind, the best way to tackle this problem is for such an
-> API to use an internal representation of 128-bit, so that it can calculate
-> (a*b + c - 1)/c accurately, and return both the high and low part of the
-> 128-bit result (and maybe keeping the high part result optional?).
-> Something like
-> u64 mul_u64_u64_div_u64_roundup(u64 a, u64 b, u64 c, u64 *res_high);
-> or
-> void mul_u64_u64_div_u64_roundup(u64 a, u64 b, u64 c, u64 *res_high, u64 =
-*res_low);
->=20
-> Needless to say, the API may take quite some time to perform the calculat=
-ions,
-> but if precision/accuracy is what we need, there is probably no better
-> way of addressing this, unless you have a better idea?
->=20
-> Looking around, my understanding is that other drivers may benefit from
-> this sort of accurate rounded up result when a, b, and c are 64-bit, is t=
-hat
-> why you think it has come the time to address this, or do you think this
-> is the first instance of such need?
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-The assumption of mul_u64_u64_div_u64 is that the result won't overflow
-a u64. Iff your hardware doesn't support a period > U64_MAX I think
-there is no need for an overflow-checking variant of
-mul_u64_u64_div_u64(). I didn't recheck, but this would be the first
-driver I'm aware of that can support a period > U64_MAX ns. But maybe it
-depends on the clkrate and if that's small enough it can happen?!
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Best regards
-Uwe
+Your s-o-b tag should come last indicating that you are sending the patch.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+- Mani
 
---r3y576m5r4tbur5m
-Content-Type: application/pgp-signature; name="signature.asc"
+> Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
+> ---
+>  .../pci/controller/dwc/pcie-designware-ep.c   | 32 ++++++++++++++-----
+>  drivers/pci/controller/dwc/pcie-designware.h  |  1 +
+>  2 files changed, 25 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index f9182f8d552f..851538ddec0a 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -52,21 +52,35 @@ static unsigned int dw_pcie_ep_func_select(struct dw_pcie_ep *ep, u8 func_no)
+>  	return func_offset;
+>  }
+>  
+> +static unsigned int dw_pcie_ep_get_dbi2_offset(struct dw_pcie_ep *ep, u8 func_no)
+> +{
+> +	unsigned int dbi2_offset = 0;
+> +
+> +	if (ep->ops->get_dbi2_offset)
+> +		dbi2_offset = ep->ops->get_dbi2_offset(ep, func_no);
+> +	else if (ep->ops->func_conf_select)     /* for backward compatibility */
+> +		dbi2_offset = ep->ops->func_conf_select(ep, func_no);
+> +
+> +	return dbi2_offset;
+> +}
+> +
+>  static void __dw_pcie_ep_reset_bar(struct dw_pcie *pci, u8 func_no,
+>  				   enum pci_barno bar, int flags)
+>  {
+> -	u32 reg;
+> -	unsigned int func_offset = 0;
+> +	unsigned int func_offset, dbi2_offset;
+>  	struct dw_pcie_ep *ep = &pci->ep;
+> +	u32 reg, reg_dbi2;
+>  
+>  	func_offset = dw_pcie_ep_func_select(ep, func_no);
+> +	dbi2_offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+>  
+>  	reg = func_offset + PCI_BASE_ADDRESS_0 + (4 * bar);
+> +	reg_dbi2 = dbi2_offset + PCI_BASE_ADDRESS_0 + (4 * bar);
+>  	dw_pcie_dbi_ro_wr_en(pci);
+> -	dw_pcie_writel_dbi2(pci, reg, 0x0);
+> +	dw_pcie_writel_dbi2(pci, reg_dbi2, 0x0);
+>  	dw_pcie_writel_dbi(pci, reg, 0x0);
+>  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> -		dw_pcie_writel_dbi2(pci, reg + 4, 0x0);
+> +		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, 0x0);
+>  		dw_pcie_writel_dbi(pci, reg + 4, 0x0);
+>  	}
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+> @@ -228,16 +242,18 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	unsigned int func_offset, dbi2_offset;
+>  	enum pci_barno bar = epf_bar->barno;
+>  	size_t size = epf_bar->size;
+>  	int flags = epf_bar->flags;
+> -	unsigned int func_offset = 0;
+> +	u32 reg, reg_dbi2;
+>  	int ret, type;
+> -	u32 reg;
+>  
+>  	func_offset = dw_pcie_ep_func_select(ep, func_no);
+> +	dbi2_offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+>  
+>  	reg = PCI_BASE_ADDRESS_0 + (4 * bar) + func_offset;
+> +	reg_dbi2 = PCI_BASE_ADDRESS_0 + (4 * bar) + dbi2_offset;
+>  
+>  	if (!(flags & PCI_BASE_ADDRESS_SPACE))
+>  		type = PCIE_ATU_TYPE_MEM;
+> @@ -253,11 +269,11 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  
+>  	dw_pcie_dbi_ro_wr_en(pci);
+>  
+> -	dw_pcie_writel_dbi2(pci, reg, lower_32_bits(size - 1));
+> +	dw_pcie_writel_dbi2(pci, reg_dbi2, lower_32_bits(size - 1));
+>  	dw_pcie_writel_dbi(pci, reg, flags);
+>  
+>  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> -		dw_pcie_writel_dbi2(pci, reg + 4, upper_32_bits(size - 1));
+> +		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, upper_32_bits(size - 1));
+>  		dw_pcie_writel_dbi(pci, reg + 4, 0);
+>  	}
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index ef0b2efa9f93..6189884b4efa 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -341,6 +341,7 @@ struct dw_pcie_ep_ops {
+>  	 * driver.
+>  	 */
+>  	unsigned int (*func_conf_select)(struct dw_pcie_ep *ep, u8 func_no);
+> +	unsigned int (*get_dbi2_offset)(struct dw_pcie_ep *ep, u8 func_no);
+>  };
+>  
+>  struct dw_pcie_ep_func {
+> -- 
+> 2.25.1
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUlL9AACgkQj4D7WH0S
-/k4hOwgArpbEpps7do0LD1XAMcXUIrCZgaYdU/7sSfynsoohmT37nNQkGoXmBu87
-MeRaxdE53FJxdgLc+x/SNbF2EGWQfvIR/1d4DyHtsrS6AJ4jxqYLOM0d6dPsaCxy
-4avIk8H1y3wURoX3ejJhqb7+8lpFOam7lNYCB5kBEHXxvTD6W1/wC9yzKLoRcPCz
-Pg0M1XBuuUZWvgiu6ErDNQlyTCoYFVDMwgThIC2rI0zt8GhH3zVu5iZF1bOunm44
-HZmGT/hmg2O+wWd+PqXeGhiv9bgUWNbWWJE44Ps3QtUTVfercmT3y7q9+90FCyT7
-LcuS7e1CrDLqEqSgVAndn/pzepvzGQ==
-=1N5r
------END PGP SIGNATURE-----
-
---r3y576m5r4tbur5m--
+-- 
+மணிவண்ணன் சதாசிவம்
